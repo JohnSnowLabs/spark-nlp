@@ -8,11 +8,15 @@ import org.apache.spark.ml.param.Param
 class RegexTokenizer() extends Annotator {
   override val aType: String = "token"
 
+  override val requiredAnnotationTypes: Seq[String] = Seq()
+
   val pattern: Param[String] = new Param(this, "pattern", "this is the token pattern")
 
   def setPattern(value: String) = set(pattern, value)
 
   def getPattern: String = $(pattern)
+
+  setDefault(pattern, "\\w+")
 
   lazy val regex = $(pattern).r
 

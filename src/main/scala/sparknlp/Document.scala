@@ -14,7 +14,7 @@ object Document {
     Document(row.getString(0), row.getString(1), row.getMap[String, String](2))
   }
 
-  val DocumentDataType = StructType(Array(
+  val DocumentDataType: StructType = StructType(Array(
     StructField("id",StringType,nullable = true),
     StructField("text",StringType,nullable = true),
     StructField("metadata",MapType(StringType,StringType,valueContainsNull = true),nullable = true)

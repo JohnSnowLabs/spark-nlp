@@ -15,10 +15,10 @@
         <plugin.scala-maven.version>3.2.2</plugin.scala-maven.version>
         <plugin.shade.version>2.3</plugin.shade.version>
 
-        <scala.tools.version>2.11</scala.tools.version>
-        <scala.version>2.11.7</scala.version>
+        <scala.tools.version>2.10</scala.tools.version>
+        <scala.version>2.10.5</scala.version>
 
-        <spark.version>2.0.0</spark.version>
+        <spark.version>1.6.1</spark.version>
 
         <scalatest.version>3.0.0</scalatest.version>
         <junit.version>4.12</junit.version>
@@ -31,11 +31,12 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-mllib_2.11</artifactId>
+            <artifactId>spark-mllib_2.10</artifactId>
             <version>${spark.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -50,11 +51,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.11</artifactId>
+            <artifactId>scalatest_2.10</artifactId>
             <version>${scalatest.version}</version>
             <scope>test</scope>
         </dependency>
@@ -94,6 +96,21 @@
                         <jvmArg>-Xmx4G</jvmArg>
                     </jvmArgs>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration/>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

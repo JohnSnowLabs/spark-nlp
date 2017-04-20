@@ -1,22 +1,25 @@
 package sparknlp
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
 trait SparkTest extends FunSuite with BeforeAndAfterAll {
 
-  var spark: SparkSession = _
+  var sc: SparkContext = _
+  var sqlc: SQLContext = _
 
   override def beforeAll: Unit = {
-    spark = SparkSession.builder()
-      .master("local[2]")
-      .appName("test")
-      .getOrCreate()
+    sc = new SparkContext(new SparkConf()
+      .setMaster("local[2]")
+      .setAppName("test"))
+    sqlc = new SQLContext(sc)
   }
 
   override def afterAll: Unit = {
-    spark.stop()
-    spark = null
+    sc.stop()
+    sc = null
+    sqlc = null
   }
 }
 

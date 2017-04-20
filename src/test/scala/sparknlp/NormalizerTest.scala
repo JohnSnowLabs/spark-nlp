@@ -17,7 +17,7 @@ class NormalizerTest extends SparkTest {
           "officia deserunt mollit anim id est laborum."
       ))
     )
-    val dataset = spark.createDataFrame(docs)
+    val dataset = sqlc.createDataFrame(docs)
     println(dataset.schema)
     val tokenizer = new RegexTokenizer()
       .setDocumentCol("document")

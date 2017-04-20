@@ -66,7 +66,7 @@ object EntityExtractor {
         val tokens = tokenizer.annotate(doc, Seq())
         val stems = stemmer.annotate(doc, tokens)
         val ntokens = normalizer.annotate(doc, stems)
-        ntokens.map(_.metadata("ntoken"))
+        ntokens.map(_.metadata("ntoken")).toList
     }.toSet
     src.close()
     phrases

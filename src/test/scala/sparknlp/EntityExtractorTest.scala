@@ -19,7 +19,7 @@ class EntityExtractorTest extends SparkTest {
     )
     val tokenPattern = "[a-zA-Z]+|[0-9]+|\\p{Punct}"
     val entities = EntityExtractor.loadEntities(getClass.getResourceAsStream("/test-phrases.txt"), tokenPattern)
-    val dataset = spark.createDataFrame(docs)
+    val dataset = sqlc.createDataFrame(docs)
     println(dataset.schema)
     val tokenizer = new RegexTokenizer()
       .setDocumentCol("document")
