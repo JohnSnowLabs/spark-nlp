@@ -106,3 +106,6 @@ javastyle-output.xml
 
 ## Minicluster folders
 minicluster_*
+classes/
+project/project/
+python/lib/
