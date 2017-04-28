@@ -1,6 +1,8 @@
-package sparknlp
+package com.jsl.nlp.annotators
 
 import org.apache.spark.ml.param.Param
+
+import com.jsl.nlp.{Document, Annotation, Annotator}
 
 /**
   * Created by alext on 10/23/16.

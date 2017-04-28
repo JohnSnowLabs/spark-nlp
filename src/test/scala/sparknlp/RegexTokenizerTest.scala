@@ -1,5 +1,7 @@
 package sparknlp
 
+import com.jsl.nlp.Annotation
+import com.jsl.nlp.annotators.RegexTokenizer
 import org.apache.spark.sql.Row
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

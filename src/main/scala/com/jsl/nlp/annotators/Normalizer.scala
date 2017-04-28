@@ -1,9 +1,11 @@
-package sparknlp
+package com.jsl.nlp.annotators
+
+import com.jsl.nlp.{Annotation, Annotator, Document}
 
 /**
   * Created by alext on 10/23/16.
   */
-class Normalizer() extends Annotator {
+class Normalizer extends Annotator {
   override val aType: String = "ntoken"
 
   override def annotate(

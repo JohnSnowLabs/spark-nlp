@@ -1,4 +1,4 @@
-package sparknlp
+package com.jsl.nlp
 
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}

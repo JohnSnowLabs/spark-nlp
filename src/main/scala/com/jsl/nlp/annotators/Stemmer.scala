@@ -1,5 +1,6 @@
-package sparknlp
+package com.jsl.nlp.annotators
 
+import com.jsl.nlp.{Annotation, Annotator, Document}
 import opennlp.tools.stemmer.PorterStemmer
 
 /**

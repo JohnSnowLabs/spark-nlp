@@ -1,7 +1,8 @@
-package sparknlp
+package com.jsl.nlp.annotators
 
 import java.io.{FileInputStream, InputStream}
 
+import com.jsl.nlp.{Document, Annotation, Annotator}
 import org.apache.spark.ml.param.Param
 
 /**
@@ -52,6 +53,7 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
   def setMaxLen(value: Int): this.type = set(maxLen, value)
 
   def getMaxLen: Int = $(maxLen)
+
 }
 
 object EntityExtractor {
