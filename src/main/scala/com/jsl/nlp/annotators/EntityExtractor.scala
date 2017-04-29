@@ -10,18 +10,20 @@ import org.apache.spark.ml.param.Param
   */
 class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
 
+  val maxLen: Param[Int] = new Param(this, "maxLen", "maximum phrase length")
+
   override val aType: String = "entity"
 
   override def annotate(
-    document: Document, annos: Seq[Annotation]
+                         document: Document, annotations: Seq[Annotation]
   ): Seq[Annotation] =
     if (fromSentences) {
-      annos.filter {
-        case token: Annotation => token.aType == "sentence"
+      annotations.filter {
+        token: Annotation => token.aType == "sentence"
       }.flatMap {
         sentence =>
-          val ntokens = annos.filter {
-            case token: Annotation =>
+          val ntokens = annotations.filter {
+            token: Annotation =>
               token.aType == "ntoken" &&
                 token.begin >= sentence.begin &&
                 token.end <= sentence.end
@@ -29,10 +31,10 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
           EntityExtractor.phraseMatch(ntokens, $(maxLen), $(entities))
       }
     } else {
-      val ntokens = annos.filter {
-        case token: Annotation => token.aType == "ntoken"
+      val nTokens = annotations.filter {
+        token: Annotation => token.aType == "ntoken"
       }
-      EntityExtractor.phraseMatch(ntokens, $(maxLen), $(entities))
+      EntityExtractor.phraseMatch(nTokens, $(maxLen), $(entities))
     }
 
   override val requiredAnnotationTypes: Seq[String] =
@@ -48,8 +50,6 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
 
   def getEntities: Set[Seq[String]] = $(entities)
 
-  val maxLen: Param[Int] = new Param(this, "maxLen", "maximum phrase length")
-
   def setMaxLen(value: Int): this.type = set(maxLen, value)
 
   def getMaxLen: Int = $(maxLen)
@@ -62,13 +62,15 @@ object EntityExtractor {
     val tokenizer = new RegexTokenizer().setPattern(tokenPattern)
     val stemmer = new Stemmer()
     val normalizer = new Normalizer()
+    val lemmatizer = new Lemmatizer()
     val phrases: Set[Seq[String]] = src.getLines.map {
       line =>
         val doc = Document("", line)
         val tokens = tokenizer.annotate(doc, Seq())
         val stems = stemmer.annotate(doc, tokens)
-        val ntokens = normalizer.annotate(doc, stems)
-        ntokens.map(_.metadata("ntoken")).toList
+        val nTokens = normalizer.annotate(doc, stems)
+        val lemmas = lemmatizer.annotate(doc, nTokens)
+        nTokens.map(_.metadata("ntoken")).toList
     }.toSet
     src.close()
     phrases
@@ -78,8 +80,8 @@ object EntityExtractor {
     loadEntities(new FileInputStream(path), tokenPattern)
   }
 
-  def phraseMatch(ntokens: Seq[Annotation], maxLen: Int, entities: Set[Seq[String]]): Seq[Annotation] = {
-    ntokens.padTo(ntokens.length + maxLen - (ntokens.length % maxLen), null).sliding(maxLen).flatMap {
+  def phraseMatch(nTokens: Seq[Annotation], maxLen: Int, entities: Set[Seq[String]]): Seq[Annotation] = {
+    nTokens.padTo(nTokens.length + maxLen - (nTokens.length % maxLen), null).sliding(maxLen).flatMap {
       window =>
         window.filter(_ != null).inits.filter {
           phraseCandidate =>

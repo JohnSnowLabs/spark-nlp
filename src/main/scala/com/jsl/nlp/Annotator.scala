@@ -66,7 +66,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * This takes a document and annotations and produces new annotations of this annotator's annotation type
     * @return
     */
-  def annotate(documentProperties: Document, annotationsProperties: Seq[Annotation]): Seq[Annotation]
+  def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation]
 
   /**
     * Wraps annotate to happen inside SparkSQL user defined functions

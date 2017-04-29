@@ -9,13 +9,15 @@ class Normalizer extends Annotator {
   override val aType: String = "ntoken"
 
   override def annotate(
-    document: Document, annos: Seq[Annotation]
+                         document: Document, annotations: Seq[Annotation]
   ): Seq[Annotation] =
-    annos.collect {
+    annotations.collect {
       case token: Annotation if token.aType == "stem" =>
-        val ntoken = document.text.substring(token.begin, token.end).toLowerCase
-          .replaceAll("[^a-zA-Z]", " ").trim
-        Annotation(aType, token.begin, token.end, Map(aType -> ntoken))
+        val nToken = document.text.substring(token.begin, token.end)
+          .toLowerCase
+          .replaceAll("[^a-zA-Z]", " ")
+          .trim
+        Annotation(aType, token.begin, token.end, Map(aType -> nToken))
     }.filter(_.metadata("ntoken").nonEmpty)
 
   override val requiredAnnotationTypes = Seq("stem")
