@@ -7,7 +7,7 @@ import org.apache.spark.sql.Row
   * Created by saif on 01/05/17.
   */
 class LemmatizerTest extends SparkTest {
-  test("simple normalization test") {
+  test("simple lemma test") {
     val docs = Seq(
       TestRow(Document(
         "id",
