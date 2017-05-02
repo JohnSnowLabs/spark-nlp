@@ -1,25 +1,28 @@
 package com.jsl.nlp
 
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.SparkSession
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
 trait SparkTest extends FunSuite with BeforeAndAfterAll {
 
-  var sc: SparkContext = _
-  var sqlc: SQLContext = _
+  var spark: SparkSession = _
+
+  val testContent: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et " +
+    "dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
+    "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
+    "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui " +
+    "officia deserunt mollit anim id est laborum."
 
   override def beforeAll: Unit = {
-    sc = new SparkContext(new SparkConf()
-      .setMaster("local[2]")
-      .setAppName("test"))
-    sqlc = new SQLContext(sc)
+    spark = SparkSession
+      .builder()
+      .appName("test")
+      .getOrCreate()
   }
 
   override def afterAll: Unit = {
-    sc.stop()
-    sc = null
-    sqlc = null
+    spark.stop()
+    spark = null
   }
 }
 

@@ -1,7 +1,6 @@
-package sparknlp
+package com.jsl.nlp.annotators
 
 import com.jsl.nlp._
-import com.jsl.nlp.annotators.{EntityExtractor, Normalizer, RegexTokenizer, Stemmer}
 import org.apache.spark.sql.Row
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -12,16 +11,12 @@ class EntityExtractorTest extends SparkTest {
     val docs = Seq(
       TestRow(Document(
         "id",
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et " +
-          "dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-          "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
-          "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui " +
-          "officia deserunt mollit anim id est laborum."
+        testContent
       ))
     )
     val tokenPattern = "[a-zA-Z]+|[0-9]+|\\p{Punct}"
     val entities = EntityExtractor.loadEntities(getClass.getResourceAsStream("/test-phrases.txt"), tokenPattern)
-    val dataset = sqlc.createDataFrame(docs)
+    val dataset = spark.createDataFrame(docs)
     println(dataset.schema)
     val tokenizer = new RegexTokenizer()
       .setDocumentCol("document")

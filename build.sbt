@@ -17,6 +17,10 @@ lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion
 )
 
+lazy val utilDependencies = Seq(
+  "com.typesafe" % "config" % "1.3.0"
+)
+
 scalacOptions ++= Seq(
   // See other posts in the series for other helpful options
   "-feature",
@@ -33,7 +37,10 @@ lazy val root = (project in file("."))
     version := "1.0.0",
     organization := "com.jsl.nlp",
     scalaVersion := scalaLangVersion,
-    libraryDependencies ++= analyticsDependencies
+    libraryDependencies ++=
+      analyticsDependencies ++
+      testDependencies ++
+      utilDependencies
   )
 
 
