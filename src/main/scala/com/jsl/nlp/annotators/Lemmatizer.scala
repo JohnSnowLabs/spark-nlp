@@ -15,10 +15,9 @@ import scala.util.matching.Regex
   */
 class Lemmatizer extends Annotator {
 
-  override val aType: String = "lemma"
+  override val aType: String = Lemmatizer.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq("lemma")
-
+  override val requiredAnnotationTypes: Seq[String] = Seq(Normalizer.aType)
 
   /**
     * Would need to verify this implementation, as I am flattening multiple to one annotations
@@ -28,8 +27,13 @@ class Lemmatizer extends Annotator {
     */
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.collect {
-      case token: Annotation if token.aType == "ntoken" =>
-        val subtext = document.text.substring(token.begin, token.end)
+      case token: Annotation if token.aType == Normalizer.aType =>
+        val subtext = token.metadata.getOrElse(
+          Normalizer.token,
+          throw new IllegalArgumentException(
+            s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
+          )
+        )
         val targetWords: Array[TargetWord] = Lemmatizer.getWords(subtext)
         targetWords.map(target => Annotation(
           aType,
@@ -58,6 +62,8 @@ object Lemmatizer {
     * POTENTIAL candidate for sc.broadcast
     */
   private lazy val lemmaDict: LemmaDictionary = loadLemmaDict
+
+  val aType = "lemma"
 
   /**
     * Probably could use a ConfigHelper object

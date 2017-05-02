@@ -53,7 +53,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @param dataFrame The dataframe to be validated
     * @return True if all the required types are present, else false
     */
-  def validate(dataFrame: DataFrame): Boolean = requiredAnnotationTypes.forall{
+  def validate(dataFrame: Dataset[_]): Boolean = requiredAnnotationTypes.forall {
     requiredAnnotationType =>
       dataFrame.schema.exists {
         field =>
@@ -91,6 +91,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @return
     */
   override def transform(dataFrame: Dataset[_]): DataFrame = {
+    require(validate(dataFrame), s"DataFrame has unmet requirements: ${requiredAnnotationTypes.mkString(", ")}")
     dataFrame.withColumn(
       $(documentCol),
       dfAnnotate(
@@ -111,9 +112,10 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     if (schema.fieldNames.contains(aType)) {
       throw new IllegalArgumentException(s"Output column $aType already exists.")
     }
-
+    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+    requiredAnnotationTypes.foreach{requiredType => metadataBuilder.putString("annotationType", requiredType)}
     val outputFields = schema.fields :+
-      StructField(aType, outputDataType, nullable = false)
+      StructField(aType, outputDataType, nullable = false, metadataBuilder.build)
     StructType(outputFields)
   }
 
