@@ -6,6 +6,11 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 object PragmaticSymbols {
 
   /**
+    * Basic sentence separator
+    */
+  val BASIC_DOT = "\\."
+
+  /**
     * Separation symbols for list items and numbers
     * alt 197
     */
@@ -53,7 +58,7 @@ object PragmaticSymbols {
     */
   val FINAL_NON_BREAK = "Æ"
 
-  def getSentenceBreakers = Seq(LIST_INDICATOR, PUNCT_INDICATOR)
+  def getSentenceBreakers = Seq(BASIC_DOT, LIST_INDICATOR, PUNCT_INDICATOR)
 
   def getSentenceNonBreakers = Seq(ABBREVIATOR, NUM_INDICATOR, MULT_PERIOD, SPECIAL_PERIOD)
 
