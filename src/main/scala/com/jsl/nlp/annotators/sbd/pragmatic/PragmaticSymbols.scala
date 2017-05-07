@@ -40,4 +40,21 @@ object PragmaticSymbols {
     * alt 202
     */
   val SPECIAL_PERIOD = "╩"
+
+  /**
+    * Final sentence breaking symbol
+    * alt 401
+    */
+  val FINAL_BREAK = "æ"
+
+  /**
+    * Final sentence non-breaking symbol
+    * alt 402
+    */
+  val FINAL_NON_BREAK = "Æ"
+
+  def getSentenceBreakers = Seq(LIST_INDICATOR, PUNCT_INDICATOR)
+
+  def getSentenceNonBreakers = Seq(ABBREVIATOR, NUM_INDICATOR, MULT_PERIOD, SPECIAL_PERIOD)
+
 }
