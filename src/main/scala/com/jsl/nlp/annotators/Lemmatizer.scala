@@ -40,7 +40,7 @@ class Lemmatizer extends Annotator {
           token.end,
           Map(aType -> Lemmatizer.lemmatize(targetToken))
         )
-    }.flatten
+    }
   }
 
 }
