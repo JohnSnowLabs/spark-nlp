@@ -24,11 +24,11 @@ class RegexMatcher extends Annotator {
   override def annotate(
                        document: Document, annotations: Seq[Annotation]
                        ): Seq[Annotation] = {
-    annotations.map(annotation => {
+    Seq(
       Annotation(
         RegexMatcher.aType,
-        annotation.begin,
-        annotation.end,
+        0,
+        document.text.length + 1,
         getPatterns.map(pattern => {(
           pattern.value,
           pattern.strategy match {
@@ -43,7 +43,7 @@ class RegexMatcher extends Annotator {
             }
           }
           )}).toMap.filterNot(_._2.isEmpty)
-      )}
+      )
     )
   }
 
