@@ -16,7 +16,7 @@ class SentenceDetector(detectionApproach: SBDApproach) extends Annotator {
       detectionApproach
         .prepare
         .extract
-    sentences.map(s => Annotation(this.aType, s.begin, s.end, Map()))
+    sentences.map(sentence => Annotation(this.aType, sentence.begin, sentence.end, Map()))
   }
 
 }

@@ -6,27 +6,46 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 object PragmaticSymbols {
 
   /**
-    * Basic sentence separator
+    * ====================
+    * BREAKING SYMBOLS
+    * ====================
     */
-  val BASIC_DOT = "\\."
+
+  /**
+    * looks up .
+    * alt 401
+    */
+  val DOT = "æ"
+
+  /**
+    * looks up ,
+    * alt 402
+    */
+  val COMMA = "Æ"
+
+  /**
+    * looks up ;
+    * alt 403
+    */
+  val SEMICOLON = "ô"
+
+  /**
+    * looks up ?
+    * alt 404
+    */
+  val QUESTION = "ö"
+
+  /**
+    * looks up !
+    * alt 405
+    */
+  val EXCLAMATION = "ò"
 
   /**
     * Separation symbols for list items and numbers
     * alt 197
     */
-  val LIST_INDICATOR = "┼"
-
-  /**
-    * Non separation dots for abbreviations
-    * alt 198
-    */
-  val ABBREVIATOR = "╞"
-
-  /**
-    * Non separation dots for numbers
-    * alt 199
-    */
-  val NUM_INDICATOR = "╟"
+  val BREAK_INDICATOR = "┼"
 
   /**
     * Punctuation line breaker
@@ -35,7 +54,44 @@ object PragmaticSymbols {
   val PUNCT_INDICATOR = "╚"
 
   /**
+    * Ellipsis breaker
+    * looks up -> "..."
+    * alt 203
+    */
+  val ELLIPSIS_INDICATOR = "╦"
+
+  /**
+    * Double punctuations marker
+    * alt 205-208
+    */
+  val DP_FIRST = "═" // ?!
+  val DP_SECOND = "╬" // !?
+  val DP_THIRD = "╧" // ??
+  val DP_FOURTH = "╨" // !!
+
+  /**
+    * =====================
+    * NON BREAKING SYMBOLS
+    * =====================
+    */
+
+  /**
+    * Non separation dots for abbreviations
+    * looks up -> .
+    * alt 198
+    */
+  val ABBREVIATOR = "╞"
+
+  /**
+    * Non separation dots for numbers
+    * looks up -> .
+    * alt 199
+    */
+  val NUM_INDICATOR = "╟"
+
+  /**
     * Period container non breaker
+    * looks up -> .
     * alt 201
     */
   val MULT_PERIOD = "╔"
@@ -47,19 +103,47 @@ object PragmaticSymbols {
   val SPECIAL_PERIOD = "╩"
 
   /**
-    * Final sentence breaking symbol
-    * alt 401
+    * Question in quotes
+    * alt 209
     */
-  val FINAL_BREAK = "æ"
+  val QUESTION_IN_QUOTE = "╤" // ?
 
   /**
-    * Final sentence non-breaking symbol
-    * alt 402
+    * Exclamation mark in rules
+    * alt 210
     */
-  val FINAL_NON_BREAK = "Æ"
+  val EXCLAMATION_INDICATOR = "╥" // !
 
-  def getSentenceBreakers = Seq(BASIC_DOT, LIST_INDICATOR, PUNCT_INDICATOR)
+  /**
+    * ====================
+    * PROTECTION SYMBOL
+    * ====================
+    */
 
-  def getSentenceNonBreakers = Seq(ABBREVIATOR, NUM_INDICATOR, MULT_PERIOD, SPECIAL_PERIOD)
+  /**
+    * Between punctuations marker
+    * alt 204
+    */
+  val PROTECTION_MARKER = "╠"
+
+  val sentenceRecovery = Map(
+    DOT -> ".",
+    COMMA -> ",",
+    SEMICOLON -> ";",
+    QUESTION -> "?",
+    EXCLAMATION -> "!",
+    ABBREVIATOR -> ".",
+    NUM_INDICATOR -> ".",
+    MULT_PERIOD -> ".",
+    QUESTION_IN_QUOTE -> "?",
+    EXCLAMATION_INDICATOR -> "!",
+    ELLIPSIS_INDICATOR -> "...",
+    DP_FIRST -> "?!",
+    DP_SECOND-> "!?",
+    DP_THIRD -> "??",
+    DP_FOURTH -> "!!"
+  )
+
+  def getSentenceProtectors = Seq(PROTECTION_MARKER)
 
 }

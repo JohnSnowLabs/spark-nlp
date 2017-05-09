@@ -8,12 +8,13 @@ import org.scalatest.FlatSpec
   */
 trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
 
-  def isolatedPDRead(input: => String, correctAnswer: Array[String]): Unit = {
-    "an input string" should "successfully parse sentence boundaries" in {
+  def isolatedPDRead(input: String, correctAnswer: Array[String]): Unit = {
+    s"text: ${input}" should s"successfully identify the following sentences:${correctAnswer.mkString("@@")}" in {
       val result = new PragmaticDetection(input)
         .prepare
         .extract
-      assert(result.map(_.content).sameElements(correctAnswer))
+        .map(_.content)
+      assert(result.sameElements(correctAnswer), s"\nRESULT: ${result.mkString("@@")} IS NOT: ${correctAnswer.mkString("@@")}")
     }
   }
 

@@ -11,6 +11,8 @@ trait SparkBasedTest extends BeforeAndAfterAll { this: Suite =>
     spark = SparkSession
       .builder()
       .appName("test")
+      .master("local[2]")
+      .config("spark.driver.memory","512M")
       .getOrCreate()
   }
 
