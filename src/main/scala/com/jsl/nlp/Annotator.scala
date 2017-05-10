@@ -17,7 +17,8 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * This is an internal type to show Rows as a relevant StructType
     * Should be deleted once Spark releases UserDefinedTypes to @developerAPI
     */
-  type DataContent = Row
+  type DocumentContent = Row
+  type AnnotationContent = Seq[Row]
 
   /**
     * This is the annotation type
@@ -73,8 +74,8 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @return
     */
   def dfAnnotate: UserDefinedFunction = udf {
-    (docProperties: DataContent, aProperties: Seq[DataContent]) =>
-      annotate(Document(docProperties), aProperties.map(Annotation(_)))
+    (docProperties: DocumentContent, aProperties: Seq[AnnotationContent]) =>
+      annotate(Document(docProperties), aProperties.flatMap(_.map(Annotation(_))))
   }
 
   def setDocumentCol(value: String): this.type = set(documentCol, value)
@@ -92,12 +93,14 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     */
   override def transform(dataFrame: Dataset[_]): DataFrame = {
     require(validate(dataFrame), s"DataFrame has unmet requirements: ${requiredAnnotationTypes.mkString(", ")}")
+    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+    metadataBuilder.putString("annotationType", aType)
     dataFrame.withColumn(
-      $(documentCol),
+      aType,
       dfAnnotate(
         dataFrame.col($(documentCol)),
         array($(inputAnnotationCols).map(c => dataFrame.col(c)):_*)
-      )
+      ).as(aType, metadataBuilder.build)
     )
   }
 

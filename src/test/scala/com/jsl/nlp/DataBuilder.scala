@@ -7,15 +7,18 @@ import org.scalatest.{FlatSpec, Suite}
   * Created by saif on 02/05/17.
   */
 object DataBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
-
+  import spark.implicits._
+  case class StructContainer(document: Document)
   def basicDataBuild(content: String): Dataset[Row] = {
     val docs = Seq(
-      TestRow(Document(
-        "id",
-        content
-      ))
+      StructContainer(
+        Document(
+          "id",
+          content
+        )
+      )
     )
-    spark.createDataFrame(docs)
+    docs.toDS().toDF("document")
   }
 
 }
