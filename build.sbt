@@ -1,6 +1,6 @@
 
 // Dependency settings
-val scalaLangVersion = "2.11.10"
+val scalaLangVersion = "2.11.11"
 val sparkVersion = "2.1.0"
 val scalaTestVersion = "3.0.0"
 val opennlpVersion = "1.6.0"
