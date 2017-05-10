@@ -23,12 +23,11 @@ trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
         .prepare
         .extract
         .map(_.content)
-      assert(result.sameElements(correctAnswer), s"\nRESULT: ${result.mkString("@@")} IS NOT: ${correctAnswer.mkString("@@")}")
       if (computeF1Score) {
         val f1 = f1Score(result, correctAnswer)
-        println(s"F1 Score: $f1")
         assert(f1 > 0.5, "F1 Score is below 50%")
       }
+      assert(result.sameElements(correctAnswer), s"\nRESULT: ${result.mkString("@@")} IS NOT: ${correctAnswer.mkString("@@")}")
     }
   }
 
