@@ -8,7 +8,7 @@ import org.scalatest.FlatSpec
   */
 trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
 
-  def isolatedPDRead(input: String, correctAnswer: Array[String]): Unit = {
+  def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String], computeF1Score: Boolean = false): Unit = {
     s"text: ${input}" should s"successfully identify the following sentences:${correctAnswer.mkString("@@")}" in {
       val result = new PragmaticDetection(input)
         .prepare
