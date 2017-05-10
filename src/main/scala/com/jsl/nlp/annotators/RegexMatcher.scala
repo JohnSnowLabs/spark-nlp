@@ -24,27 +24,24 @@ class RegexMatcher extends Annotator {
   override def annotate(
                        document: Document, annotations: Seq[Annotation]
                        ): Seq[Annotation] = {
-    Seq(
-      Annotation(
-        RegexMatcher.aType,
-        0,
-        document.text.length + 1,
-        getPatterns.map(pattern => {(
-          pattern.value,
-          pattern.strategy match {
-              // MatchAll => puts all matches in the same value separated by comma. May need to change separator.
-            case RegexStrategy.MatchAll => (pattern.regex findAllMatchIn document.text).map(m => m.matched).mkString(",")
-              // MatchFirst => puts first match
-            case RegexStrategy.MatchFirst => (pattern.regex findFirstMatchIn document.text).map(_.matched).getOrElse("")
-              // MatchComplete => puts match only if all match equals the target. may use true or false instead of text.
-            case RegexStrategy.MatchComplete => {
-              if ((pattern.regex findFirstMatchIn document.text).map(_.matched).getOrElse("") == document.text)
-                document.text else ""
-            }
-          }
-          )}).toMap.filterNot(_._2.isEmpty)
-      )
-    )
+    getPatterns.flatMap(pattern => {
+      pattern.strategy match {
+        // MatchAll => puts all matches in the same value separated by comma. May need to change separator.
+        case RegexStrategy.MatchAll => (pattern.regex findAllMatchIn document.text).map(m =>
+          Some(Annotation(RegexMatcher.aType, m.start, m.end, Map(pattern.value -> m.matched)))
+        )
+        // MatchFirst => puts first match
+        case RegexStrategy.MatchFirst => Seq((pattern.regex findFirstMatchIn document.text).map(m =>
+          Annotation(RegexMatcher.aType, m.start, m.end, Map(pattern.value -> m.matched))
+        ))
+        // MatchComplete => puts match only if all match equals the target. may use true or false instead of text.
+        case RegexStrategy.MatchComplete => {
+          Seq((pattern.regex findFirstMatchIn document.text).map(m =>
+            Annotation(RegexMatcher.aType, m.start, m.end, Map(pattern.value -> m.matched))
+          ).filter(_.metadata(pattern.value) == document.text))
+        }
+      }
+    }).flatten
   }
 
 }

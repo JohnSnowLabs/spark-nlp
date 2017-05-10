@@ -10,8 +10,8 @@ import org.scalatest._
   */
 trait RegexMatcherBehaviors extends SparkBasedTest { this: FlatSpec =>
 
-  def PredefinedRulesRegexMatcher(dataset: => Dataset[Row], rules: Seq[RegexRule]): Unit = {
-    "A RegexMatcher Annotator" should "successfuly match submitted rules in text" in {
+  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], rules: Seq[RegexRule]): Unit = {
+    "A RegexMatcher Annotator" should s"successfuly match ${rules.map(_.value).mkString(",")}" in {
       println(dataset.schema)
       AnnotatorBuilder.withRegexMatcher(dataset, rules)
         .collect().foreach {
