@@ -18,11 +18,10 @@ class Normalizer extends Annotator {
           .replaceAll("[^a-zA-Z]", " ")
           .trim
         Annotation(aType, token.begin, token.end, Map(aType -> nToken))
-    }.filter(_.metadata(Normalizer.token).nonEmpty)
+    }.filter(_.metadata(Normalizer.aType).nonEmpty)
 
   override val requiredAnnotationTypes = Seq(Stemmer.aType)
 }
 object Normalizer {
   val aType: String = "ntoken"
-  val token = "ntoken"
 }

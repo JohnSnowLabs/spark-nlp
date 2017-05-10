@@ -1,6 +1,7 @@
 package com.jsl.nlp
 
 import com.jsl.nlp.annotators._
+import com.jsl.nlp.util.RegexRule
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.{FlatSpec, Suite}
 
@@ -51,6 +52,12 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
       .setMaxLen(4)
       .setEntities(entities)
     entityExtractor.transform(withFullLemmatizer(dataset))
+  }
+
+  def withRegexMatcher(dataset: Dataset[Row], rules: Seq[RegexRule]): Dataset[Row] = {
+    val regexMatcher = new RegexMatcher()
+      .setPatterns(rules)
+    regexMatcher.transform(dataset)
   }
 
 }

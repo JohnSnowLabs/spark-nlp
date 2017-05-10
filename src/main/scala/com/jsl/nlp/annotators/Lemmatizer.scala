@@ -28,20 +28,19 @@ class Lemmatizer extends Annotator {
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.collect {
       case token: Annotation if token.aType == Normalizer.aType =>
-        val subtext = token.metadata.getOrElse(
+        val targetToken = token.metadata.getOrElse(
           Normalizer.token,
           throw new IllegalArgumentException(
             s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
           )
         )
-        val targetWords: Array[TargetWord] = Lemmatizer.getWords(subtext)
-        targetWords.map(target => Annotation(
+        Annotation(
           aType,
-          target.begin,
-          target.end,
-          Map(aType -> Lemmatizer.lemmatize(target.text))
-        ))
-    }.flatten
+          token.begin,
+          token.end,
+          Map(aType -> Lemmatizer.lemmatize(targetToken))
+        )
+    }
   }
 
 }
@@ -69,13 +68,6 @@ object Lemmatizer {
     * Probably could use a ConfigHelper object
     */
   private val config: Config = ConfigFactory.load
-
-  private def getWords(text: String): Array[TargetWord] = {
-    val regex: Regex = "\\w+".r
-    regex.findAllMatchIn(text).map(word => {
-      TargetWord(word.matched, word.start, word.end)
-    }).toArray
-  }
 
   private def loadLemmaDict: Map[String, String] = {
     val lemmaFilePath = config.getString("nlp.lemmaDict.file")

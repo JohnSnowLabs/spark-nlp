@@ -9,6 +9,7 @@ trait SparkBasedTest extends BeforeAndAfterAll { this: Suite =>
     .builder()
     .appName("test")
     .master("local[4]")
+    .config("spark.driver.memory","512M")
     .getOrCreate()
 
 }
