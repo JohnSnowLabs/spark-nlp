@@ -29,7 +29,7 @@ class Lemmatizer extends Annotator {
     annotations.collect {
       case token: Annotation if token.aType == Normalizer.aType =>
         val targetToken = token.metadata.getOrElse(
-          Normalizer.token,
+          Normalizer.aType,
           throw new IllegalArgumentException(
             s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
           )
