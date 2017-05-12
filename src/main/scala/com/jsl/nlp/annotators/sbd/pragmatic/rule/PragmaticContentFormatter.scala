@@ -313,7 +313,6 @@ class PragmaticContentFormatter(text: String) {
   def formatBasicBreakers: this.type = {
     val factory = new RuleFactory(REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       .addSymbolicRule(DOT, "\\.".r)
-      //.addSymbolicRule(COMMA, ",".r)
       .addSymbolicRule(SEMICOLON, ";".r)
       .addSymbolicRule(QUESTION, "\\?".r)
       .addSymbolicRule(EXCLAMATION, "!".r)

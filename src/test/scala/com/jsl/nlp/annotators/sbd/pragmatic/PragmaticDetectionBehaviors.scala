@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.SparkBasedTest
-import org.scalatest.FlatSpec
+import org.scalatest._
 
 /**
   * Created by Saif Addin on 5/7/2017.
@@ -35,6 +35,7 @@ trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
         .map(_.content)
       val f1 = f1Score(result, correctAnswer)
       val unmatched = result.zip(correctAnswer).toMap.mapValues("\n"+_)
+      info(s"F1 Score is: $f1")
       assert(f1 > 0.5, s"F1 Score is below 50%.\nMatch sentences:\n${unmatched.mkString("\n")}")
     }
   }

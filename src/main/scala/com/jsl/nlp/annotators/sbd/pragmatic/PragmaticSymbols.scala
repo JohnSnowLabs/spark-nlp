@@ -135,7 +135,6 @@ object PragmaticSymbols {
 
   val sentenceRecovery = Map(
     DOT -> ".",
-    //COMMA -> ",",
     SEMICOLON -> ";",
     QUESTION -> "?",
     EXCLAMATION -> "!",
