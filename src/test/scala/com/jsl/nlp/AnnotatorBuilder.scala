@@ -35,6 +35,8 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
 
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
+      .setDocumentCol("document")
+      .setInputAnnotationCols(Array("ntoken"))
     lemmatizer.transform(withFullNormalizer(dataset))
   }
 
@@ -54,6 +56,7 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Seq[RegexRule]): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
+      .setDocumentCol("document")
       .setPatterns(rules)
     regexMatcher.transform(dataset)
   }

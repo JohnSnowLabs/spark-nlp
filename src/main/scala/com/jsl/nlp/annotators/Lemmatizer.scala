@@ -29,7 +29,7 @@ class Lemmatizer extends Annotator {
     annotations.collect {
       case token: Annotation if token.aType == Normalizer.aType =>
         val targetToken = token.metadata.getOrElse(
-          Normalizer.token,
+          Normalizer.aType,
           throw new IllegalArgumentException(
             s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
           )
@@ -71,17 +71,10 @@ object Lemmatizer {
 
   private def loadLemmaDict: Map[String, String] = {
     val lemmaFilePath = config.getString("nlp.lemmaDict.file")
-    val lemmaSource: Source = try {
-      Source.fromFile(lemmaFilePath)
-    } catch {
-      case ex: FileNotFoundException =>
-        throw new FileNotFoundException(s"Lemma dictionary $lemmaFilePath not found")
-    }
     val lemmaFormat = config.getString("nlp.lemmaDict.format")
     val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
     val lemmaValSep = config.getString("nlp.lemmaDict.vSeparator")
-    val lemmaDict = ResourceHelper.flattenValuesAsKeys(lemmaSource, lemmaFormat, lemmaKeySep, lemmaValSep)
-    lemmaSource.close()
+    val lemmaDict = ResourceHelper.flattenValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
     lemmaDict
   }
 

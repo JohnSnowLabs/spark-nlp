@@ -5,21 +5,11 @@ import org.scalatest.{BeforeAndAfterAll, Suite}
 
 trait SparkBasedTest extends BeforeAndAfterAll { this: Suite =>
 
-  var spark: SparkSession = _
+  val spark: SparkSession = SparkSession
+    .builder()
+    .appName("test")
+    .master("local[4]")
+    .config("spark.driver.memory","512M")
+    .getOrCreate()
 
-  override def beforeAll: Unit = {
-    spark = SparkSession
-      .builder()
-      .appName("test")
-      .master("local[2]")
-      .config("spark.driver.memory","512M")
-      .getOrCreate()
-  }
-
-  override def afterAll: Unit = {
-    spark.stop()
-    spark = null
-  }
 }
-
-case class TestRow(document: Document)
