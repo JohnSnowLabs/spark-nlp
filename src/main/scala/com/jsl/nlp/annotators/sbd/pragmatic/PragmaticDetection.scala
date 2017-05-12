@@ -16,6 +16,7 @@ class PragmaticDetection(target: String) extends SBDApproach {
   override def prepare: SBDApproach = {
     wip = new PragmaticContentFormatter(target)
       .formatLists
+      .formatAbbreviations
       .formatNumbers
       .formatPunctuations
       .formatMultiplePeriods
