@@ -34,7 +34,13 @@ class PragmaticSentenceExtractor(text: String) {
 
 
   def pull: Array[Sentence] = {
-    val splitSentences: Array[String] = text.split(PragmaticSymbols.BREAK_INDICATOR).map(_.trim).filterNot(_ == "")
+    val splitSentences: Array[String] = text
+      // Split by breakers ignoring breaks within protection
+      .split(PragmaticSymbols.PROTECTED_BREAKER)
+      // clean ignored breakers
+      .map(_.replaceAll(PragmaticSymbols.BREAK_INDICATOR, ""))
+      // leave only useful content
+      .map(_.trim).filterNot(_ == "")
     val rawSentences: Array[String] = splitSentences.map(s => recoverySymbols.replaceAllIn(
       s, m => PragmaticSymbols.sentenceRecovery
         .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))))

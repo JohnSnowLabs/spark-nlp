@@ -17,17 +17,25 @@ trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
     (2 * precision * recall) / (precision + recall)
   }
 
-  def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String], computeF1Score: Boolean = false): Unit = {
+  def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String]): Unit = {
     s"text: $input" should s"successfully identify the following sentences:${correctAnswer.mkString("@@")}" in {
       val result = new PragmaticDetection(input)
         .prepare
         .extract
         .map(_.content)
-      if (computeF1Score) {
-        val f1 = f1Score(result, correctAnswer)
-        assert(f1 > 0.5, "F1 Score is below 50%")
-      }
       assert(result.sameElements(correctAnswer), s"\nRESULT: ${result.mkString("@@")} IS NOT: ${correctAnswer.mkString("@@")}")
+    }
+  }
+
+  def isolatedPDReadScore(input: String, correctAnswer: Array[String]): Unit = {
+    s"text: $input" should s"have an F1 score higher than 50%" in {
+      val result = new PragmaticDetection(input)
+        .prepare
+        .extract
+        .map(_.content)
+      val f1 = f1Score(result, correctAnswer)
+      val unmatched = result.zip(correctAnswer).toMap.mapValues("\n"+_)
+      assert(f1 > 0.5, s"F1 Score is below 50%.\nMatch sentences:\n${unmatched.mkString("\n")}")
     }
   }
 

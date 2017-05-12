@@ -22,7 +22,8 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(PREPEND_WITH_SYMBOL)
     // http://rubular.com/r/XcpaJKH0sz
       //lower case dots
-      .addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
+      // ToDo: This rule requires more complex logic than just itself
+      //.addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
     // http://rubular.com/r/Gu5rQapywf
       //lower case parens
       .addRule("(\\()[a-z]+\\)|^[a-z]+\\)|\\s[a-z]+\\)".r)
@@ -59,21 +60,21 @@ class PragmaticContentFormatter(text: String) {
       //single upper case letter abbreviation
       .addRule("(?<=\\s[A-Z])\\.(?=\\s)".r)
       //prepositive
-      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => s"(?<=\\s$abbr)\\.(?=\\s)|(?<=^$abbr)\\.(?=\\s)".r))
+      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => s"(?<=\\s(?i)$abbr)\\.(?=\\s)|(?<=^(?i)$abbr)\\.(?=\\s)".r))
       //tagged prepositive
-      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => s"(?<=\\s$abbr)\\.(?=:\\d+)|(?<=^$abbr)\\.(?=:\\d+)".r))
+      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => s"(?<=\\s(?i)$abbr)\\.(?=:\\d+)|(?<=^(?i)$abbr)\\.(?=:\\d+)".r))
       //number abbreviation
-      .addRules(NUMBER_ABBREVIATIONS.map(abbr => s"(?<=\\s$abbr)\\.(?=\\s\\d)|(?<=^$abbr)\\.(?=\\s\\d)".r))
+      .addRules(NUMBER_ABBREVIATIONS.map(abbr => s"(?<=\\s(?i)$abbr)\\.(?=\\s\\d)|(?<=^(?i)$abbr)\\.(?=\\s\\d)".r))
       //tagged number abbreviation
-      .addRules(NUMBER_ABBREVIATIONS.map(abbr => s"(?<=\\s$abbr)\\.(?=\\s+\\()|(?<=^$abbr)\\.(?=\\s+\\()".r))
+      .addRules(NUMBER_ABBREVIATIONS.map(abbr => s"(?<=\\s(?i)$abbr)\\.(?=\\s+\\()|(?<=^(?i)$abbr)\\.(?=\\s+\\()".r))
       //general abbreviation
       .addRules(ABBREVIATIONS.map(abbr => (
-      s"(?<=\\s$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
-      s"|\\d))))|(?<=^$abbr)\\.(?=((\\.|\\:|\\?)" +
+      s"(?<=\\s(?i)$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
+      s"|\\d))))|(?<=^(?i)$abbr)\\.(?=((\\.|\\:|\\?)" +
       s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))"
       ).r))
       //general comma abbreviation
-      .addRules(ABBREVIATIONS.map(abbr => s"(?<=\\s$abbr)\\.(?=,)|(?<=^$abbr)\\.(?=,)".r))
+      .addRules(ABBREVIATIONS.map(abbr => s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)".r))
     /*
     ** ToDo: requires a special treatment to protect a word such as U.S.A. and P.M.
     // http://rubular.com/r/xDkpFZ0EgH
@@ -134,7 +135,7 @@ class PragmaticContentFormatter(text: String) {
       //continuous punctuations
       .addRule("(?<=\\S)(!|\\?){3,}(?=(\\s|\\z|$))".r)
 
-    wip = factory.applyWith(PROTECTION_MARKER, wip)
+    wip = factory.applyStrategy(wip)
 
     this
   }
@@ -243,7 +244,7 @@ class PragmaticContentFormatter(text: String) {
       //between leading apostrophes
       .addRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r)
 
-    wip = factory.applyWith(PROTECTION_MARKER, wip)
+    wip = factory.applyStrategy(wip)
 
     this
   }
@@ -312,7 +313,7 @@ class PragmaticContentFormatter(text: String) {
   def formatBasicBreakers: this.type = {
     val factory = new RuleFactory(REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       .addSymbolicRule(DOT, "\\.".r)
-      .addSymbolicRule(COMMA, ",".r)
+      //.addSymbolicRule(COMMA, ",".r)
       .addSymbolicRule(SEMICOLON, ";".r)
       .addSymbolicRule(QUESTION, "\\?".r)
       .addSymbolicRule(EXCLAMATION, "!".r)

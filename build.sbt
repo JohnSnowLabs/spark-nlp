@@ -20,6 +20,10 @@ lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0"
 )
 
+lazy val logDependencies = Seq(
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
+)
+
 scalacOptions ++= Seq(
   // See other posts in the series for other helpful options
   "-feature",
@@ -40,7 +44,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++=
       analyticsDependencies ++
       testDependencies ++
-      utilDependencies
+      utilDependencies ++
+      logDependencies
   )
 
 
