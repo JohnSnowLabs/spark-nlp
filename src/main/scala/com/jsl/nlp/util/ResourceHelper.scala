@@ -1,13 +1,23 @@
 package com.jsl.nlp.util
 
-import java.io.FileNotFoundException
+import java.io.{FileNotFoundException, InputStream}
 
 import scala.io.Source
 import scala.collection.mutable.{Map => MMap}
+
 /**
   * Created by saif on 28/04/17.
   */
 object ResourceHelper {
+
+  def getResourceStream(source: String): InputStream = {
+    try {
+      getClass.getResourceAsStream("/" + source)
+    } catch {
+      case _: FileNotFoundException =>
+        throw new FileNotFoundException(s"Source $source not found")
+    }
+  }
 
   /**
     * Standard key value parser from source
