@@ -12,26 +12,26 @@ class AveragedPerceptron {
   val classes: MSet[String] = MSet()
 
   private var nIteration: Int = 0
-  private val totals: MMap[(String, String), Int] = MMap()
+  private val totals: MMap[(String, String), Double] = MMap()
   private val timestamps: MMap[(String, String), Int] = MMap()
 
   def predict(features: Map[String, Int]): String = {
     val scores: MMap[String, Double] = MMap().withDefault(_ => 0.0)
     features
       .filter{case (feature, value) => featureWeights.contains(feature) && value != 0}
-      .map{case (feature, value ) => (featureWeights.get(feature), value)}
+      .map{case (feature, value ) => (featureWeights(feature), value)}
       .foreach{case (categoryWeights, value) => {
         categoryWeights.foreach{case (category, weight) => {
-          scores(category) += value * weight
+          scores(category) += (value * weight)
         }}
       }}
-    classes.maxBy((category) => scores(category))
+    classes.maxBy((category) => (scores(category),category))
   }
 
   def averageWeights = {
-    featureWeights.foreach{case (feature, featureWeights) => {
+    featureWeights.foreach{case (feature, weights) => {
       val newWeights: MMap[String, Double] = MMap()
-      featureWeights.foreach{case (category, weight) => {
+      weights.foreach{case (category, weight) => {
         val param = (feature, category)
         val total = totals(param) + ((nIteration - timestamps(param)) * weight)
         newWeights(category) = total / nIteration.toDouble
@@ -40,7 +40,7 @@ class AveragedPerceptron {
     }}
   }
 
-  def update(truth: String, guess: String, features: Array[String]): Unit = {
+  def update(truth: String, guess: String, features: Map[String, Int]): Unit = {
     def updateFeature(feature: String, category: String, weight: Double, value: Double) = {
       val param = (feature, category)
       totals(param) += ((nIteration - timestamps(param)) * weight)
@@ -49,30 +49,27 @@ class AveragedPerceptron {
     }
     nIteration += 1
     if (truth != guess) {
-      features.foreach(feature => {
-        val featureWeights = featureWeights.getOrElseUpdate(feature, MMap())
-        updateFeature(truth, feature, featureWeights.getOrElse(truth, 0.0), 1.0)
-        updateFeature(guess, feature, featureWeights.getOrElse(guess, 0.0), -1.0)
-      })
+      features.foreach{case (category, feature) => {
+        val weights = featureWeights.getOrElseUpdate(category, MMap())
+        updateFeature(truth, category, weights.getOrElse(truth, 0.0), 1.0)
+        updateFeature(guess, category, weights.getOrElse(guess, 0.0), -1.0)
+      }}
     }
   }
 
 }
 object AveragedPerceptron {
-  def train(nIterations: Int, examples: Array[(Array[String], String)]): AveragedPerceptron = {
+  def train(nIterations: Int, examples: Map[Map[String, Int], String]): AveragedPerceptron = {
     val model = new AveragedPerceptron()
-    val shuffleExamples = Random.shuffle(examples)
     (1 to nIterations).foreach { _ =>
-      shuffleExamples.foreach{case (features, answer) => {
+      Random.shuffle(examples).foreach{case (features, answer) => {
         val guess = model.predict(features)
         if (guess != answer) {
-          features.foreach(feature => {
-            model.featureWeights(feature)(answer) += 1
-            model.featureWeights(feature)(guess) += -1
-          })
+          model.update(answer, guess, features)
         }
       }}
     }
+    model.averageWeights
     model
   }
 }
