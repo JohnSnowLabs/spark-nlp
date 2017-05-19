@@ -2,7 +2,8 @@ package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.pos.{POSApproach, TaggedWord}
 
-import scala.collection.mutable.{ArrayBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap, Set => MSet}
+import scala.util.Random
 
 /**
   * Created by Saif Addin on 5/17/2017.
@@ -15,6 +16,7 @@ class PerceptronApproach extends POSApproach {
 
   private val tokenRegex = "\\w".r
 
+  private val classes: MSet[String] = MSet()
   private val tagdict: MMap[String, String] = MMap()
 
   private val START = Array("-START-", "-START2-")
@@ -49,7 +51,7 @@ class PerceptronApproach extends POSApproach {
                            prev: String,
                            prev2: String
                          ): MMap[String, Int] = {
-    val features = MMap[String, Int]().withDefault(_ => 0)
+    val features = MMap[String, Int]().withDefaultValue(0)
     def add(name: String, args: Array[String] = Array()): Unit = {
       features((name +: args).mkString(" ")) += 1
     }
@@ -76,7 +78,7 @@ class PerceptronApproach extends POSApproach {
     var prev2 = START(1)
     val tokens = ArrayBuffer[(String, String)]()
     tokenize(sentences).foreach{words => {
-      val context = START ++: words.map(w => dataPreProcess(w)) ++: END
+      val context = START ++: words.map(dataPreProcess) ++: END
       words.zipWithIndex.foreach{case (word, i) => {
         val tag = tagdict.getOrElse(
           word,
@@ -92,6 +94,52 @@ class PerceptronApproach extends POSApproach {
       }}
     }}
     tokens.toArray.map(t => TaggedWord(t._1, t._2))
+  }
+
+  private def makeTagDict(sentences: List[(List[String], List[String])]): Unit = {
+    val counts: MMap[String, MMap[String, Int]] = MMap().withDefaultValue(MMap().withDefaultValue(0))
+    sentences.foreach{case (words, tags) => {
+      words.zip(tags).foreach{case (word, tag) => {
+        counts(word)(tag) += 1
+        classes.add(tag)
+      }}
+    }}
+    val freqThreshold = 20
+    val ambiguityThreshold = 0.97
+    counts.foreach{case (word, tagFreqs) => {
+      val (tag, mode) = tagFreqs.maxBy(_._2)
+      val n = tagFreqs.values.sum
+      if (n >= freqThreshold && (mode / n.toDouble) >= ambiguityThreshold) {
+        tagdict(word) = tag
+      }
+    }}
+  }
+
+  def train(sentences: List[(List[String], List[String])], nIterations: Int = 5): Unit = {
+    makeTagDict(sentences)
+    model.classes = classes.toSet
+    var prev = START(0)
+    var prev2 = START(1)
+    (1 to nIterations).foreach{_ => {
+      var c = 0
+      var n = 0
+      Random.shuffle(sentences).foreach{case (words, tags) => {
+        val context = START ++: words.map(dataPreProcess) ++: END
+        words.zipWithIndex.foreach{case (word, i) => {
+          val guess = tagdict.getOrElseUpdate(word, {
+            val features = getFeatures(i, word, context, prev, prev2)
+            val guess = model.predict(features.toMap)
+            model.update(tags(i), guess, features.toMap)
+            guess
+          })
+          prev2 = prev
+          prev = guess
+          c = if (guess == tags(i)) c + 1 else c
+          n += 1
+        }}
+      }}
+    }}
+    model.averageWeights
   }
 
 }

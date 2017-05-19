@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import scala.collection.mutable.{Map => MMap, Set => MSet}
+import scala.collection.mutable.{Map => MMap}
 import scala.util.Random
 
 /**
@@ -9,14 +9,14 @@ import scala.util.Random
 class AveragedPerceptron {
 
   val featureWeights: MMap[String, MMap[String, Double]] = MMap()
-  val classes: MSet[String] = MSet()
+  var classes: Set[String] = Set()
 
   private var nIteration: Int = 0
   private val totals: MMap[(String, String), Double] = MMap()
   private val timestamps: MMap[(String, String), Int] = MMap()
 
   def predict(features: Map[String, Int]): String = {
-    val scores: MMap[String, Double] = MMap().withDefault(_ => 0.0)
+    val scores: MMap[String, Double] = MMap().withDefaultValue(0.0)
     features
       .filter{case (feature, value) => featureWeights.contains(feature) && value != 0}
       .map{case (feature, value ) => (featureWeights(feature), value)}
