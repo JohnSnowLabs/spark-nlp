@@ -14,7 +14,7 @@ class PerceptronApproach extends POSApproach {
 
   override val description: String = "Averaged Perceptron tagger, iterative average weights upon training"
 
-  private val tokenRegex = "\\w".r
+  private val tokenRegex = "\\W+"
 
   private val classes: MSet[String] = MSet()
   private val tagdict: MMap[String, String] = MMap()
@@ -29,7 +29,7 @@ class PerceptronApproach extends POSApproach {
     * @return
     */
   private def tokenize(sentences: Array[String]): Array[Array[String]] = {
-    sentences.map(sentence => tokenRegex.findAllMatchIn(sentence).map(_.matched).toArray)
+    sentences.map(sentence => sentence.split(tokenRegex))
   }
 
   private def dataPreProcess(word: String): String = {
@@ -97,9 +97,10 @@ class PerceptronApproach extends POSApproach {
   }
 
   private def makeTagDict(sentences: List[(List[String], List[String])]): Unit = {
-    val counts: MMap[String, MMap[String, Int]] = MMap().withDefaultValue(MMap().withDefaultValue(0))
+    val counts: MMap[String, MMap[String, Int]] = MMap()
     sentences.foreach{case (words, tags) =>
       words.zip(tags).foreach{case (word, tag) =>
+        counts.getOrElseUpdate(word, MMap().withDefaultValue(0))
         counts(word)(tag) += 1
         classes.add(tag)
       }
@@ -114,7 +115,6 @@ class PerceptronApproach extends POSApproach {
       }
     }
   }
-
   def train(sentences: List[(List[String], List[String])], nIterations: Int = 5): Unit = {
     makeTagDict(sentences)
     model.classes = classes.toSet
@@ -126,7 +126,7 @@ class PerceptronApproach extends POSApproach {
       Random.shuffle(sentences).foreach{case (words, tags) =>
         val context = START ++: words.map(dataPreProcess) ++: END
         words.zipWithIndex.foreach{case (word, i) =>
-          val guess = tagdict.getOrElseUpdate(word, {
+          val guess = tagdict.getOrElse(word, {
             val features = getFeatures(i, word, context, prev, prev2)
             val guess = model.predict(features.toMap)
             model.update(tags(i), guess, features.toMap)
