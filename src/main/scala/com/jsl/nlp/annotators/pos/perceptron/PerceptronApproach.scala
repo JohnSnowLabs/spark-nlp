@@ -16,7 +16,13 @@ class PerceptronApproach extends POSApproach {
 
   private val tokenRegex = "\\W+"
 
+  /**
+    * Very important object that holds the list of all tags
+    */
   private val classes: MSet[String] = MSet()
+  /**
+    * Very important object for certain word-tag
+    */
   private val tagdict: MMap[String, String] = MMap()
 
   private val START = Array("-START-", "-START2-")
@@ -44,6 +50,15 @@ class PerceptronApproach extends POSApproach {
     }
   }
 
+  /**
+    * Method used when a word tag is not  certain. the word context is explored and features collected
+    * @param init
+    * @param word
+    * @param context
+    * @param prev holds previous tag
+    * @param prev2 holds previous tag
+    * @return
+    */
   private def getFeatures(
                            init: Int,
                            word: String,
@@ -73,6 +88,11 @@ class PerceptronApproach extends POSApproach {
     features
   }
 
+  /**
+    * Bundles a sentence within context and then finds unambiguous word or predict it
+    * @param sentences
+    * @return
+    */
   override def tag(sentences: Array[String]): Array[TaggedWord] = {
     var prev = START(0)
     var prev2 = START(1)
@@ -84,7 +104,6 @@ class PerceptronApproach extends POSApproach {
           word,
           {
             val features = getFeatures(i, word, context, prev, prev2)
-            //ToDo: Careful with Mutable to Immutable
             model.predict(features.toMap)
           }
         )
@@ -96,7 +115,17 @@ class PerceptronApproach extends POSApproach {
     tokens.toArray.map(t => TaggedWord(t._1, t._2))
   }
 
+  /**
+    * Supposed to find very frequent tags and record them
+    * @param sentences
+    */
   private def makeTagDict(sentences: List[(List[String], List[String])]): Unit = {
+    /**
+      * This creates counts, a map of words that refer to all possible tags and how many times they appear
+      * It holds how many times a word-tag combination appears in the training corpus
+      * It is also used in the rest of the tagging process to hold tags
+      * It also stores the tag in classes which holds tags
+      */
     val counts: MMap[String, MMap[String, Int]] = MMap()
     sentences.foreach{case (words, tags) =>
       words.zip(tags).foreach{case (word, tag) =>
@@ -105,6 +134,10 @@ class PerceptronApproach extends POSApproach {
         classes.add(tag)
       }
     }
+    /**
+      * This part Find the most frequent tag and its count
+      * If there is a very frequent tag, map the word to such tag to disambiguate
+      */
     val freqThreshold = 20
     val ambiguityThreshold = 0.97
     counts.foreach{case (word, tagFreqs) =>
@@ -116,29 +149,53 @@ class PerceptronApproach extends POSApproach {
     }
   }
   def train(sentences: List[(List[String], List[String])], nIterations: Int = 5): Unit = {
+    /**
+      * Generates tagdict, which holds all the word to tags mapping
+      * Adds the found tags to the tags available in the model
+      */
     makeTagDict(sentences)
     model.classes = classes.toSet
+    /**
+      * Defines a sentence context, with room to for lookback
+      */
     var prev = START(0)
     var prev2 = START(1)
+    /**
+      * Iterates for training
+      */
     (1 to nIterations).foreach{_ => {
-      var c = 0
-      var n = 0
+      /**
+        * In a shuffled sentences list, try to find tag of the word, hold the correct answer
+        */
       Random.shuffle(sentences).foreach{case (words, tags) =>
         val context = START ++: words.map(dataPreProcess) ++: END
         words.zipWithIndex.foreach{case (word, i) =>
           val guess = tagdict.getOrElse(word, {
+            /**
+              * if word is not found, collect its features which are used for prediction and predict
+              */
             val features = getFeatures(i, word, context, prev, prev2)
             val guess = model.predict(features.toMap)
+            /**
+              * Update the model based on the prediction results
+              */
             model.update(tags(i), guess, features.toMap)
+            /**
+              * return the guess
+              */
             guess
           })
+          /**
+            * shift the context
+            */
           prev2 = prev
           prev = guess
-          c = if (guess == tags(i)) c + 1 else c
-          n += 1
         }
       }
     }}
+    /**
+      *
+      */
     model.averageWeights()
   }
 

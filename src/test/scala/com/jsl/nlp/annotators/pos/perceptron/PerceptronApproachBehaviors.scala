@@ -35,6 +35,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     s"Average Perceptron tagger" should "successfully tag all word sentences after training" in {
       val result = trainedTagger.tag(targetSentences)
       assert(result.length == targetSentences.head.split("\\W+").length, "because tagger returned less than the amount of appropriate tagged words")
+      info(s"tagged words are ${result.map(t => (t.word, t.tag)).mkString("<>")}")
       val verbsFound = result.filter(_.tag == "VBN").map(_.word)
       val correctVerbs = Array("used", "caused", "exposed")
       assert(verbsFound.length == correctVerbs.length && verbsFound.forall(correctVerbs.contains), "because verbs are not properly tagged")
