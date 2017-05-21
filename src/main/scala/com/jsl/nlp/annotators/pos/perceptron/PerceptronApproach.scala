@@ -1,8 +1,8 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.{POSApproach, TaggedWord}
+import com.jsl.nlp.annotators.pos.POSApproach
 
-import scala.collection.mutable.{ArrayBuffer, Map => MMap, Set => MSet}
+import scala.collection.mutable.{Map => MMap}
 import scala.util.Random
 
 /**
@@ -12,43 +12,49 @@ import scala.util.Random
   */
 class PerceptronApproach extends POSApproach {
 
+  import PerceptronApproach._
+
   override val description: String = "Averaged Perceptron tagger, iterative average weights upon training"
 
-  private val tokenRegex = "\\W+"
+  /**
+    * Bundles a sentence within context and then finds unambiguous word or predict it
+    * @param rawSentences
+    * @return
+    */
 
-  /**
-    * Very important object that holds the list of all tags
-    */
-  private val classes: MSet[String] = MSet()
-  /**
-    * Very important object for certain word-tag
-    */
-  private val tagdict: MMap[String, String] = MMap()
+  override def tag(rawSentences: Array[String]): Array[TaggedWord] = {
+    require(POSApproach.model.isDefined, "POS Approach is defined")
+    require(POSApproach.isTrained, "POS Approach has not been trained")
+    require(POSApproach.model.get.getClass == classOf[AveragedPerceptron], s"POS Model is not an Averaged Perceptron. It is a: ${POSApproach.model.getClass}")
+    val model = POSApproach.model.get.asInstanceOf[AveragedPerceptron]
+    val sentences = rawSentences.map(Sentence)
+    var prev = START(0)
+    var prev2 = START(1)
+    sentences.map(_.tokenize).flatMap{words => {
+      val context: Array[String] = START ++: words.map(_.normalized) ++: END
+      words.zipWithIndex.map{case (word, i) =>
+        val tag = model.taggedWordBook.find(_.word == word).map(_.tag).getOrElse(
+          {
+            val features = getFeatures(i, word, context, prev, prev2)
+            model.predict(features.toMap)
+          }
+        )
+        prev2 = prev
+        prev = tag
+        (word, tag)
+      }
+    }}.map(t => TaggedWord(t._1, t._2))
+  }
+
+}
+object PerceptronApproach {
 
   private val START = Array("-START-", "-START2-")
   private val END = Array("-END-", "-END2-")
 
-  val model = new AveragedPerceptron()
+  implicit def word2str(word: Word): String = word.word
+  implicit def sentence2str(sentence: Sentence): Array[Word] = sentence.tokenize
 
-  /**
-    * ToDo: Analyze whether we can re-use any tokenizer from annotators
-    * @return
-    */
-  private def tokenize(sentences: Array[String]): Array[Array[String]] = {
-    sentences.map(sentence => sentence.split(tokenRegex))
-  }
-
-  private def dataPreProcess(word: String): String = {
-    if (word.contains("-") && word.head != '-') {
-      "!HYPEN"
-    } else if (word.forall(_.isDigit) && word.length == 4) {
-      "!YEAR"
-    } else if (word.head.isDigit) {
-      "!DIGITS"
-    } else {
-      word.toLowerCase
-    }
-  }
 
   /**
     * Method used when a word tag is not  certain. the word context is explored and features collected
@@ -89,88 +95,63 @@ class PerceptronApproach extends POSApproach {
   }
 
   /**
-    * Bundles a sentence within context and then finds unambiguous word or predict it
-    * @param sentences
-    * @return
-    */
-  override def tag(sentences: Array[String]): Array[TaggedWord] = {
-    var prev = START(0)
-    var prev2 = START(1)
-    val tokens = ArrayBuffer[(String, String)]()
-    tokenize(sentences).foreach{words => {
-      val context = START ++: words.map(dataPreProcess) ++: END
-      words.zipWithIndex.foreach{case (word, i) =>
-        val tag = tagdict.getOrElse(
-          word,
-          {
-            val features = getFeatures(i, word, context, prev, prev2)
-            model.predict(features.toMap)
-          }
-        )
-        tokens.append((word, tag))
-        prev2 = prev
-        prev = tag
-      }
-    }}
-    tokens.toArray.map(t => TaggedWord(t._1, t._2))
-  }
-
-  /**
     * Supposed to find very frequent tags and record them
-    * @param sentences
+    * @param taggedSentences
     */
-  private def makeTagDict(sentences: List[(List[String], List[String])]): Unit = {
+  private def buildTagBook(
+                            taggedSentences: List[TaggedSentence],
+                            frequencyThreshold: Int = 20,
+                            ambiguityThreshold: Double = 0.97
+                          ): List[TaggedWord] = {
     /**
       * This creates counts, a map of words that refer to all possible tags and how many times they appear
       * It holds how many times a word-tag combination appears in the training corpus
       * It is also used in the rest of the tagging process to hold tags
       * It also stores the tag in classes which holds tags
-      */
-    val counts: MMap[String, MMap[String, Int]] = MMap()
-    sentences.foreach{case (words, tags) =>
-      words.zip(tags).foreach{case (word, tag) =>
-        counts.getOrElseUpdate(word, MMap().withDefaultValue(0))
-        counts(word)(tag) += 1
-        classes.add(tag)
-      }
-    }
-    /**
-      * This part Find the most frequent tag and its count
+      * Then Find the most frequent tag and its count
       * If there is a very frequent tag, map the word to such tag to disambiguate
       */
-    val freqThreshold = 20
-    val ambiguityThreshold = 0.97
-    counts.foreach{case (word, tagFreqs) =>
-      val (tag, mode) = tagFreqs.maxBy(_._2)
-      val n = tagFreqs.values.sum
-      if (n >= freqThreshold && (mode / n.toDouble) >= ambiguityThreshold) {
-        tagdict(word) = tag
-      }
-    }
+
+    val tagFrequenciesByWord = taggedSentences
+      .flatMap(_.tagged)
+      .groupBy(_.word)
+      .mapValues(_.groupBy(_.tag).mapValues(_.length))
+
+    tagFrequenciesByWord.filter{case (_, tagFrequencies) =>
+        val (_, mode) = tagFrequencies.maxBy(_._2)
+        val n = tagFrequencies.values.sum
+        n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
+      }.map{case (word, tagFrequencies) =>
+        val (tag, _) = tagFrequencies.maxBy(_._2)
+        TaggedWord(word, tag)
+      }.toList
   }
-  def train(sentences: List[(List[String], List[String])], nIterations: Int = 5): Unit = {
+
+  def train(taggedSentences: List[TaggedSentence], nIterations: Int = 5): Unit = {
     /**
       * Generates tagdict, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model
       */
-    makeTagDict(sentences)
-    model.classes = classes.toSet
-    /**
-      * Defines a sentence context, with room to for lookback
-      */
-    var prev = START(0)
-    var prev2 = START(1)
+    val taggedWordBook = buildTagBook(taggedSentences)
+    val classes = taggedSentences.flatMap(_.tags).distinct
+    val initialModel = new AveragedPerceptron(taggedWordBook, classes, MMap())
     /**
       * Iterates for training
       */
-    (1 to nIterations).foreach{_ => {
+    val trainedModel = (1 to nIterations).foldRight(initialModel){(_, iteratedModel) => {
+      /**
+        * Defines a sentence context, with room to for look back
+        */
+      var prev = START(0)
+      var prev2 = START(1)
       /**
         * In a shuffled sentences list, try to find tag of the word, hold the correct answer
         */
-      Random.shuffle(sentences).foreach{case (words, tags) =>
-        val context = START ++: words.map(dataPreProcess) ++: END
-        words.zipWithIndex.foreach{case (word, i) =>
-          val guess = tagdict.getOrElse(word, {
+      Random.shuffle(taggedSentences).foldRight(iteratedModel)
+      {(taggedSentence, model) =>
+        val context = START ++: taggedSentence.words.map(_.normalized) ++: END
+        taggedSentence.words.zipWithIndex.foreach{case (word, i) =>
+          val guess = model.taggedWordBook.find(_.word == word).map(_.tag).getOrElse({
             /**
               * if word is not found, collect its features which are used for prediction and predict
               */
@@ -179,7 +160,7 @@ class PerceptronApproach extends POSApproach {
             /**
               * Update the model based on the prediction results
               */
-            model.update(tags(i), guess, features.toMap)
+            model.update(taggedSentence.tags(i), guess, features.toMap)
             /**
               * return the guess
               */
@@ -191,12 +172,9 @@ class PerceptronApproach extends POSApproach {
           prev2 = prev
           prev = guess
         }
-      }
+        model
+      }.averagedModel
     }}
-    /**
-      *
-      */
-    model.averageWeights()
+    POSApproach.model = Some(trainedModel)
   }
-
 }

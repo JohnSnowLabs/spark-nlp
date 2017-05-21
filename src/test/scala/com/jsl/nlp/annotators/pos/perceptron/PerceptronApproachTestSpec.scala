@@ -47,7 +47,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(
     tagger,
-    trainingSentences
+    trainingSentences.map(s => TaggedSentence(s._1.map(Word), s._2))
   )
 
   val targetSentencesFromWsj = Array("A form of asbestos once used to make " +
