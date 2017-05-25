@@ -3,20 +3,37 @@ package com.jsl.nlp.util
 import java.io.{FileNotFoundException, InputStream}
 
 import scala.io.Source
-import scala.collection.mutable.{Map => MMap}
+import scala.collection.mutable.{ListBuffer, Map => MMap}
 
 /**
   * Created by saif on 28/04/17.
   */
 object ResourceHelper {
 
-  def getResourceStream(source: String): InputStream = {
-    try {
-      getClass.getResourceAsStream("/" + source)
+  private type TaggedSentences = List[(List[String], List[String])]
+
+  private case class SourceStream(resource: String) {
+    val pipe: InputStream = try {
+      getClass.getResourceAsStream("/" + resource)
     } catch {
       case _: FileNotFoundException =>
-        throw new FileNotFoundException(s"Source $source not found")
+        throw new FileNotFoundException(s"Lemma dictionary $resource not found")
     }
+    val content: Source = Source.fromInputStream(pipe)
+  }
+
+  private def wordTagSplitter(sentence: String, tagSeparator: String):
+  (List[String], List[String]) = {
+    val tokens: ListBuffer[String] = ListBuffer()
+    val tags: ListBuffer[String] = ListBuffer()
+    sentence.split("\\s+").foreach{token => {
+      val tagSplit: Array[String] = token.split(tagSeparator)
+      val word = tagSplit(0)
+      val pos = tagSplit(1)
+      tokens.append(word)
+      tags.append(pos)
+    }}
+    (tokens.toList, tags.toList)
   }
 
   /**
@@ -24,30 +41,25 @@ object ResourceHelper {
     *
     * @param source File input to streamline
     * @param format format, for now only txt
-    * @param keySep separator cha
+    * @param keySep separator character
     * @param valueSep values separator in dictionary
     * @return
     */
-  def parseKeyValueText(
+  def parseKeyValuesText(
                          source: String,
                          format: String,
                          keySep: String,
                          valueSep: String): Map[String, Array[String]] = {
     format match {
       case "txt" =>
-        val stream = try {
-          getClass.getResourceAsStream("/" + source)
-        } catch {
-          case _: FileNotFoundException =>
-            throw new FileNotFoundException(s"Lemma dictionary $source not found")
-        }
-        val res = Source.fromInputStream (stream).getLines.map (line => {
+        val sourceStream = SourceStream(source)
+        val res = sourceStream.content.getLines.map (line => {
           val kv = line.split (keySep).map (_.trim)
           val key = kv (0)
           val values = kv (1).split (valueSep).map (_.trim)
           (key, values)
         }).toMap
-        stream.close()
+        sourceStream.pipe.close()
         res
     }
   }
@@ -61,7 +73,7 @@ object ResourceHelper {
     * @param valueSep values separator in dictionary
     * @return
     */
-  def flattenValuesAsKeys(
+  def flattenRevertValuesAsKeys(
                                  source: String,
                                  format: String,
                                  keySep: String,
@@ -69,23 +81,44 @@ object ResourceHelper {
     format match {
       case "txt" => {
         val m: MMap[String, String] = MMap()
-        val stream = try {
-          getClass.getResourceAsStream("/" + source)
-        } catch {
-          case _: FileNotFoundException =>
-            throw new FileNotFoundException(s"Lemma dictionary $source not found")
-        }
-        Source.fromInputStream(stream).getLines.foreach( line => {
+        val sourceStream = SourceStream(source)
+        sourceStream.content.getLines.foreach(line => {
           val kv = line.split(keySep).map(_.trim)
           val key = kv(0)
           val values = kv(1).split(valueSep).map(_.trim)
           values.foreach(m(_) = key)
         })
-        stream.close()
+        sourceStream.pipe.close()
         m.toMap
       }
       case _ => throw new IllegalArgumentException("Only txt supported as a file format")
     }
+  }
+
+  def parsePOSCorpusFromText(
+                              text: String,
+                              tagSeparator: String
+                            ): TaggedSentences = {
+    val sentences: ListBuffer[(List[String], List[String])] = ListBuffer()
+    text.split("\n").foreach{sentence =>
+      sentences.append(wordTagSplitter(sentence, tagSeparator))
+    }
+    sentences.toList
+  }
+
+  def parsePOSCorpusFromSource(
+                  source: String,
+                  tagSeparator: String
+                ): TaggedSentences = {
+    val sourceStream = SourceStream(source)
+    sourceStream.content.getLines()
+      .filter(_.nonEmpty)
+      .map(sentence => wordTagSplitter(sentence, tagSeparator))
+      .toList
+  }
+
+  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: String): TaggedSentences = {
+    sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator))
   }
 
 }

@@ -1,30 +1,12 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.util.ResourceHelper
 import org.scalatest._
-
-import scala.collection.mutable.ListBuffer
 
 /**
   * Created by Saif Addin on 5/18/2017.
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
-
-  private def readTagged(text: String, sep: Char = '|'): List[(List[String], List[String])] = {
-    val sentences: ListBuffer[(List[String], List[String])] = ListBuffer()
-    text.split("\n").foreach{sentence => {
-      val tokens: ListBuffer[String] = ListBuffer()
-      val tags: ListBuffer[String] = ListBuffer()
-      sentence.split("\\s+").foreach{token => {
-        val tagSplit: Array[String] = token.split(sep)
-        val word = tagSplit(0)
-        val pos = tagSplit(1)
-        tokens.append(word)
-        tags.append(pos)
-      }}
-      sentences.append((tokens.toList, tags.toList))
-    }}
-    sentences.toList
-  }
 
   val wsjTrainingCorpus: String = "Pierre|NNP Vinken|NNP ,|, 61|CD years|NNS old|JJ ,|, will|MD " +
     "join|VB the|DT board|NN as|IN a|DT nonexecutive|JJ director|NN " +
@@ -40,7 +22,8 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     "of|IN workers|NNS exposed|VBN to|TO it|PRP more|RBR than|IN " +
     "30|CD years|NNS ago|IN ,|, researchers|NNS reported|VBD .|."
 
-  val trainingSentences: List[(List[String], List[String])] = readTagged(wsjTrainingCorpus)
+  val trainingSentences: List[(List[String], List[String])] = ResourceHelper
+    .parsePOSCorpusFromText(wsjTrainingCorpus, "|")
 
   val text = "Simple is better than complex. Complex is better than complicated"
   val tagger = new PerceptronApproach
@@ -53,7 +36,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   val targetSentencesFromWsj = Array("A form of asbestos once used to make " +
     "Kent cigarette filters has caused a high percentage of cancer deaths among a group " +
     "of workers exposed to it more than 30 years ago, researchers reported")
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
+    "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
     tagger,
     targetSentencesFromWsj
   )
