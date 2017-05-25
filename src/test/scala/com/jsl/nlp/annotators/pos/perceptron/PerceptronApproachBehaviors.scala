@@ -1,6 +1,5 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.POSApproach
 import org.scalatest._
 
 import scala.collection.mutable.{Set => MSet}
@@ -10,14 +9,12 @@ import scala.collection.mutable.{Set => MSet}
   */
 trait PerceptronApproachBehaviors { this: FlatSpec =>
 
-  def isolatedPerceptronTraining(tagger: PerceptronApproach, trainingSentences: List[TaggedSentence]): Unit = {
+  def isolatedPerceptronTraining(trainingSentences: List[TaggedSentence]): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val nIterations = 5
       PerceptronApproach.train(trainingSentences, nIterations)
-      assert(POSApproach.model.isDefined, "Model was not successfully set")
-      assert(POSApproach.model.get.isInstanceOf[AveragedPerceptron], "Mode is not an Averaged Perceptron")
-      assert(POSApproach.isTrained, "Model is not marked as trained")
-      val model = POSApproach.model.get.asInstanceOf[AveragedPerceptron]
+      val tagger = PerceptronApproach.train(trainingSentences)
+      val model = tagger.model
       val nWords = trainingSentences.map(_.words.length).sum
       assert(
         nWords * nIterations == model.getUpdateIterations,

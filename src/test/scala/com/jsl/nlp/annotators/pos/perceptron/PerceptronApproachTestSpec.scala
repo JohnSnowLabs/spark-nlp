@@ -40,21 +40,20 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     "of|IN workers|NNS exposed|VBN to|TO it|PRP more|RBR than|IN " +
     "30|CD years|NNS ago|IN ,|, researchers|NNS reported|VBD .|."
 
-  val trainingSentences: List[(List[String], List[String])] = readTagged(wsjTrainingCorpus)
+  val trainingSentences: List[TaggedSentence] = readTagged(wsjTrainingCorpus)
+    .map(s => TaggedSentence(s._1.map(Word), s._2))
 
   val text = "Simple is better than complex. Complex is better than complicated"
-  val tagger = new PerceptronApproach
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(
-    tagger,
-    trainingSentences.map(s => TaggedSentence(s._1.map(Word), s._2))
+    trainingSentences
   )
 
   val targetSentencesFromWsj = Array("A form of asbestos once used to make " +
     "Kent cigarette filters has caused a high percentage of cancer deaths among a group " +
     "of workers exposed to it more than 30 years ago, researchers reported")
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
-    tagger,
+    PerceptronApproach.train(trainingSentences),
     targetSentencesFromWsj
   )
 
