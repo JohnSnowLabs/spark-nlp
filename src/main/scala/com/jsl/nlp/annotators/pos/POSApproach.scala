@@ -7,9 +7,6 @@ import com.jsl.nlp.annotators.pos.perceptron.TaggedWord
   */
 abstract class POSApproach {
   val description: String
+  val model: POSModel
   def tag(sentences: Array[String]): Array[TaggedWord]
-}
-object POSApproach {
-  var model: Option[POSModel] = None
-  def isTrained: Boolean = model.isDefined
 }

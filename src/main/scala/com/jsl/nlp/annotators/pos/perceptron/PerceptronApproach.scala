@@ -10,7 +10,7 @@ import scala.util.Random
   * Inspired on Averaged Perceptron by Matthew Honnibal
   * https://explosion.ai/blog/part-of-speech-pos-tagger-in-python
   */
-class PerceptronApproach extends POSApproach {
+class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   import PerceptronApproach._
 
@@ -18,15 +18,12 @@ class PerceptronApproach extends POSApproach {
 
   /**
     * Bundles a sentence within context and then finds unambiguous word or predict it
-    * @param rawSentences
     * @return
     */
 
+  override val model: AveragedPerceptron = trainedModel
+
   override def tag(rawSentences: Array[String]): Array[TaggedWord] = {
-    require(POSApproach.model.isDefined, "POS Approach is defined")
-    require(POSApproach.isTrained, "POS Approach has not been trained")
-    require(POSApproach.model.get.getClass == classOf[AveragedPerceptron], s"POS Model is not an Averaged Perceptron. It is a: ${POSApproach.model.getClass}")
-    val model = POSApproach.model.get.asInstanceOf[AveragedPerceptron]
     val sentences = rawSentences.map(Sentence)
     var prev = START(0)
     var prev2 = START(1)
@@ -127,7 +124,7 @@ object PerceptronApproach {
       }.toList
   }
 
-  def train(taggedSentences: List[TaggedSentence], nIterations: Int = 5): Unit = {
+  def train(taggedSentences: List[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
     /**
       * Generates tagdict, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model
@@ -175,6 +172,6 @@ object PerceptronApproach {
         model
       }.averagedModel
     }}
-    POSApproach.model = Some(trainedModel)
+    new PerceptronApproach(trainedModel)
   }
 }

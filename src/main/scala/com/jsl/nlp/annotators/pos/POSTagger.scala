@@ -16,7 +16,6 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
   override val requiredAnnotationTypes: Seq[String] = Seq(SentenceDetector.aType)
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
-    require(POSApproach.isTrained, "Provided tagging approach has not been trained")
     val tokens: Array[ToBeTagged] = annotations.collect {
       case token: Annotation if token.aType == Normalizer.aType =>
         ToBeTagged(
