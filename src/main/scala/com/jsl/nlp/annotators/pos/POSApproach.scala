@@ -8,5 +8,5 @@ import com.jsl.nlp.annotators.pos.perceptron.TaggedWord
 abstract class POSApproach {
   val description: String
   val model: POSModel
-  def tag(sentences: Array[String]): Array[TaggedWord]
+  def tag(sentences: Array[String]): Array[Array[TaggedWord]]
 }

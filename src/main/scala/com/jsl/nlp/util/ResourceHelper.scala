@@ -16,23 +16,25 @@ object ResourceHelper {
     val pipe: InputStream = try {
       getClass.getResourceAsStream("/" + resource)
     } catch {
-      case _: FileNotFoundException =>
+      case _: Throwable =>
         throw new FileNotFoundException(s"Lemma dictionary $resource not found")
     }
-    val content: Source = Source.fromInputStream(pipe)
+    val content: Source = Source.fromInputStream(pipe)("UTF-8")
   }
 
-  private def wordTagSplitter(sentence: String, tagSeparator: String):
+  private def wordTagSplitter(sentence: String, tagSeparator: Char):
   (List[String], List[String]) = {
     val tokens: ListBuffer[String] = ListBuffer()
     val tags: ListBuffer[String] = ListBuffer()
-    sentence.split("\\s+").foreach{token => {
-      val tagSplit: Array[String] = token.split(tagSeparator)
-      val word = tagSplit(0)
-      val pos = tagSplit(1)
-      tokens.append(word)
-      tags.append(pos)
-    }}
+      sentence.split("\\s+").foreach { token => {
+        val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
+        if (tagSplit.length == 2) {
+          val word = tagSplit(0)
+          val pos = tagSplit(1)
+          tokens.append(word)
+          tags.append(pos)
+        }
+      }}
     (tokens.toList, tags.toList)
   }
 
@@ -97,10 +99,10 @@ object ResourceHelper {
 
   def parsePOSCorpusFromText(
                               text: String,
-                              tagSeparator: String
+                              tagSeparator: Char
                             ): TaggedSentences = {
     val sentences: ListBuffer[(List[String], List[String])] = ListBuffer()
-    text.split("\n").foreach{sentence =>
+    text.split("\n").filter(_.nonEmpty).foreach{sentence =>
       sentences.append(wordTagSplitter(sentence, tagSeparator))
     }
     sentences.toList
@@ -108,16 +110,24 @@ object ResourceHelper {
 
   def parsePOSCorpusFromSource(
                   source: String,
-                  tagSeparator: String
+                  tagSeparator: Char
                 ): TaggedSentences = {
     val sourceStream = SourceStream(source)
-    sourceStream.content.getLines()
-      .filter(_.nonEmpty)
-      .map(sentence => wordTagSplitter(sentence, tagSeparator))
-      .toList
+    val lines = try {
+      sourceStream.content.getLines()
+        .filter(_.nonEmpty)
+        .map(sentence => wordTagSplitter(sentence, tagSeparator))
+        .toList
+    } catch {
+      case _: java.nio.charset.UnmappableCharacterException => {
+        throw new Exception(s"file $source contains dirty characters")
+      }
+    }
+    sourceStream.pipe.close()
+    lines
   }
 
-  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: String): TaggedSentences = {
+  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): TaggedSentences = {
     sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator))
   }
 

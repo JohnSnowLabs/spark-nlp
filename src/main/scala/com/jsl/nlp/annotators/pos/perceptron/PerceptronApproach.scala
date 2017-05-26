@@ -1,6 +1,8 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.pos.POSApproach
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable.{Map => MMap}
 import scala.util.Random
@@ -23,14 +25,14 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   override val model: AveragedPerceptron = trainedModel
 
-  override def tag(rawSentences: Array[String]): Array[TaggedWord] = {
+  override def tag(rawSentences: Array[String]): Array[Array[TaggedWord]] = {
     val sentences = rawSentences.map(Sentence)
     var prev = START(0)
     var prev2 = START(1)
-    sentences.map(_.tokenize).flatMap{words => {
-      val context: Array[String] = START ++: words.map(_.normalized) ++: END
+    sentences.map(_.tokenize).map{words => {
+      val context: Array[String] = START ++: words.map(normalized) ++: END
       words.zipWithIndex.map{case (word, i) =>
-        val tag = model.taggedWordBook.find(_.word == word).map(_.tag).getOrElse(
+        val tag = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
           {
             val features = getFeatures(i, word, context, prev, prev2)
             model.predict(features.toMap)
@@ -40,18 +42,30 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
         prev = tag
         (word, tag)
       }
-    }}.map(t => TaggedWord(t._1, t._2))
+    }}.map(_.map(taggedWord => TaggedWord(taggedWord._1, taggedWord._2)))
   }
 
 }
 object PerceptronApproach {
 
+  private type TaggedSentences = List[(List[String], List[String])]
+
   private val START = Array("-START-", "-START2-")
   private val END = Array("-END-", "-END2-")
 
-  implicit def word2str(word: Word): String = word.word
-  implicit def sentence2str(sentence: Sentence): Array[Word] = sentence.tokenize
+  val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
 
+  private def normalized(word: String): String = {
+    if (word.contains("-") && word.head != '-') {
+      "!HYPEN"
+    } else if (word.forall(_.isDigit) && word.length == 4) {
+      "!YEAR"
+    } else if (word.head.isDigit) {
+      "!DIGITS"
+    } else {
+      word.toLowerCase
+    }
+  }
 
   /**
     * Method used when a word tag is not  certain. the word context is explored and features collected
@@ -111,7 +125,7 @@ object PerceptronApproach {
 
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.tagged)
-      .groupBy(_.word)
+      .groupBy(_.word.toLowerCase)
       .mapValues(_.groupBy(_.tag).mapValues(_.length))
 
     tagFrequenciesByWord.filter{case (_, tagFrequencies) =>
@@ -120,22 +134,25 @@ object PerceptronApproach {
         n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
       }.map{case (word, tagFrequencies) =>
         val (tag, _) = tagFrequencies.maxBy(_._2)
+        logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
         TaggedWord(word, tag)
       }.toList
   }
 
-  def train(taggedSentences: List[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
+  def train(rawTaggedSentences: TaggedSentences, nIterations: Int = 5): PerceptronApproach = {
     /**
-      * Generates tagdict, which holds all the word to tags mapping
+      * Generates TagBook, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model
       */
-    val taggedWordBook = buildTagBook(taggedSentences)
-    val classes = taggedSentences.flatMap(_.tags).distinct
+    val taggedSentence = rawTaggedSentences.map(s => TaggedSentence(s._1, s._2))
+    val taggedWordBook = buildTagBook(taggedSentence)
+    val classes = taggedSentence.flatMap(_.tags).distinct
     val initialModel = new AveragedPerceptron(taggedWordBook, classes, MMap())
     /**
       * Iterates for training
       */
-    val trainedModel = (1 to nIterations).foldRight(initialModel){(_, iteratedModel) => {
+    val trainedModel = (1 to nIterations).foldRight(initialModel){(iteration, iteratedModel) => {
+      logger.debug(s"TRAINING: Iteration n: $iteration")
       /**
         * Defines a sentence context, with room to for look back
         */
@@ -144,11 +161,11 @@ object PerceptronApproach {
       /**
         * In a shuffled sentences list, try to find tag of the word, hold the correct answer
         */
-      Random.shuffle(taggedSentences).foldRight(iteratedModel)
+      Random.shuffle(taggedSentence).foldRight(iteratedModel)
       {(taggedSentence, model) =>
-        val context = START ++: taggedSentence.words.map(_.normalized) ++: END
+        val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach{case (word, i) =>
-          val guess = model.taggedWordBook.find(_.word == word).map(_.tag).getOrElse({
+          val guess = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse({
             /**
               * if word is not found, collect its features which are used for prediction and predict
               */
@@ -172,6 +189,7 @@ object PerceptronApproach {
         model
       }.averagedModel
     }}
+    logger.debug("TRAINING: Finished all iterations")
     new PerceptronApproach(trainedModel)
   }
 }

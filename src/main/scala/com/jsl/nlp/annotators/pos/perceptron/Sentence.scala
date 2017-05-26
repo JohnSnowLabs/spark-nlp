@@ -9,7 +9,7 @@ case class Sentence(sentence: String) {
     * @return
     */
   private val tokenRegex = "\\W+"
-  def tokenize: Array[Word] = {
-    sentence.split(tokenRegex).map(Word)
+  def tokenize: Array[String] = {
+    sentence.split(tokenRegex)
   }
 }
