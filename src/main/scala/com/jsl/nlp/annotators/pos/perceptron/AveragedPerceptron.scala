@@ -1,6 +1,8 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.pos.POSModel
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable.{Map => MMap}
 
@@ -14,12 +16,14 @@ class AveragedPerceptron(
                           lastIteration: Int = 0
                         ) extends POSModel {
 
+  val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
+
   private var updateIteration: Int = lastIteration
   private val featuresWeight: MMap[String, MMap[String, Double]] = initialWeights
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
 
-  override def predict(features: Map[String, Int]): String = {
+  override def predict(features: List[(String, Int)]): String = {
     /**
       * scores are used for feature scores, which are all by default 0
       * if a feature has a relevant score, look for all its possible tags and their scores
@@ -29,13 +33,23 @@ class AveragedPerceptron(
       */
     val scoresByTag = features
       .filter{case (feature, value) => featuresWeight.contains(feature) && value != 0}
-      .map{case (feature, value ) => (featuresWeight(feature), value)}
-      .flatMap{case (tagsWeight, value) => tagsWeight.map{ case (tag, weight) => (tag, value * weight)}
+      .map{case (feature, value ) =>
+        (featuresWeight(feature), value)
       }
+      .map{case (tagsWeight, value) =>
+        tagsWeight.map{ case (tag, weight) =>
+          (tag, value * weight)
+        }
+      }.aggregate(MMap[String, Double]())(
+      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+    )
     /**
       * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
+      * Secondary sort by tag simply made to match original python behavior
       */
-    tags.maxBy{ tag => scoresByTag.withDefaultValue(0.0)(tag)}
+    val res = tags.maxBy{ tag => (scoresByTag.withDefaultValue(0.0)(tag), tag)}
+    res
   }
 
   /**
@@ -50,15 +64,15 @@ class AveragedPerceptron(
         (feature,
           weights.map { case (tag, weight) =>
             val param = (feature, tag)
-            val total = (totals(param) + (updateIteration - timestamps(param))) * weight
+            val total = totals(param) + ((updateIteration - timestamps(param)) * weight)
             (tag, total / updateIteration.toDouble)
-          }
+          }.filter{case (_, total) => total > 0.0}
         )
       },
       updateIteration
     )
   }
-
+  def getWeights = featuresWeight
   def getUpdateIterations: Int = updateIteration
   def getTags: List[String] = tags
   /**

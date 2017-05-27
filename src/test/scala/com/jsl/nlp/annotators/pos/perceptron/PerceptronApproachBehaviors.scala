@@ -12,8 +12,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   def isolatedPerceptronTraining(trainingSentences: List[(List[String], List[String])]): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val nIterations = 5
-      PerceptronApproach.train(trainingSentences, nIterations)
-      val tagger = PerceptronApproach.train(trainingSentences)
+      val tagger = PerceptronApproach.train(trainingSentences, nIterations)
       val model = tagger.model
       val nWords = trainingSentences.map(_._1.length).sum
       assert(

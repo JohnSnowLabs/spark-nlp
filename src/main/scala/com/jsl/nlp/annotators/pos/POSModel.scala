@@ -5,6 +5,6 @@ package com.jsl.nlp.annotators.pos
   */
 abstract class POSModel {
 
-  def predict(features: Map[String, Int]): String
+  def predict(features: List[(String, Int)]): String
 
 }

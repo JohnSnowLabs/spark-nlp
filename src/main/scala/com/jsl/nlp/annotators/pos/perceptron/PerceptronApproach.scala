@@ -26,6 +26,8 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
   override val model: AveragedPerceptron = trainedModel
 
   override def tag(rawSentences: Array[String]): Array[Array[TaggedWord]] = {
+    logger.debug(s"PREDICTION: Tagging with model weight properties in 'bias' " +
+      s"feature:\nPREDICTION: ${model.getWeights("bias").mkString("\nPREDICTION: ")}")
     val sentences = rawSentences.map(Sentence)
     var prev = START(0)
     var prev2 = START(1)
@@ -35,7 +37,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
         val tag = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
           {
             val features = getFeatures(i, word, context, prev, prev2)
-            model.predict(features.toMap)
+            model.predict(features)
           }
         )
         prev2 = prev
@@ -82,7 +84,7 @@ object PerceptronApproach {
                            context: Array[String],
                            prev: String,
                            prev2: String
-                         ): MMap[String, Int] = {
+                         ): List[(String, Int)] = {
     val features = MMap[String, Int]().withDefaultValue(0)
     def add(name: String, args: Array[String] = Array()): Unit = {
       features((name +: args).mkString(" ")) += 1
@@ -102,7 +104,7 @@ object PerceptronApproach {
     add("i+1 word", Array(context(i+1)))
     add("i+1 suffix", Array(context(i+1).takeRight(3)))
     add("i+2 word", Array(context(i+2)))
-    features
+    features.toList
   }
 
   /**
@@ -151,18 +153,18 @@ object PerceptronApproach {
     /**
       * Iterates for training
       */
-    val trainedModel = (1 to nIterations).foldRight(initialModel){(iteration, iteratedModel) => {
+    val trainedModel = (1 to nIterations).foldLeft(initialModel){(iteratedModel, iteration) => {
       logger.debug(s"TRAINING: Iteration n: $iteration")
-      /**
-        * Defines a sentence context, with room to for look back
-        */
-      var prev = START(0)
-      var prev2 = START(1)
       /**
         * In a shuffled sentences list, try to find tag of the word, hold the correct answer
         */
-      Random.shuffle(taggedSentence).foldRight(iteratedModel)
-      {(taggedSentence, model) =>
+      Random.shuffle(taggedSentence).foldLeft(iteratedModel)
+      {(model, taggedSentence) =>
+        /**
+          * Defines a sentence context, with room to for look back
+          */
+        var prev = START(0)
+        var prev2 = START(1)
         val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach{case (word, i) =>
           val guess = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse({
@@ -170,7 +172,7 @@ object PerceptronApproach {
               * if word is not found, collect its features which are used for prediction and predict
               */
             val features = getFeatures(i, word, context, prev, prev2)
-            val guess = model.predict(features.toMap)
+            val guess = model.predict(features)
             /**
               * Update the model based on the prediction results
               */
@@ -187,8 +189,8 @@ object PerceptronApproach {
           prev = guess
         }
         model
-      }.averagedModel
-    }}
+      }
+    }}.averagedModel
     logger.debug("TRAINING: Finished all iterations")
     new PerceptronApproach(trainedModel)
   }

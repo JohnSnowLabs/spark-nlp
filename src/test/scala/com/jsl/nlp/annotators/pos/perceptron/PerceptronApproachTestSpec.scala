@@ -31,7 +31,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   val trainedTagger: PerceptronApproach =
-    PerceptronApproach.train(ResourceHelper.parsePOSCorpusFromSources(trainingCorpusSources, '|'), 5)
+    PerceptronApproach.train(ResourceHelper.parsePOSCorpusFromSources(trainingCorpusSources, '|'), 2)
 
 
   val targetSentencesFromWsj = Array("A form of asbestos once used to make " +
@@ -46,7 +46,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   val targetSentencesFromWsjResult = Array("DT","NN","IN","NN","RB","VBN","TO","VB","NNP","NN","NNS","VBZ","VBN",
     "DT","JJ","NN","IN","NN","NNS","IN","DT","NN","IN","NNS","VBN","TO","PRP","RBR","IN","CD","NNS","IN","NNS","VBD")
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
-    trainedTagger,
+    PerceptronApproach.train(trainingSentences, 5),
     targetSentencesFromWsj,
     targetSentencesFromWsjResult
   )
@@ -451,6 +451,6 @@ object PerceptronApproachTestSpec {
     "anc-pos-corpus/wsj_1640.mrg-NEW.txt",
     "anc-pos-corpus/wsj_2465.txt",
     "anc-pos-corpus/wwf12.txt"
-  )
+  ).take(5)
 
 }
