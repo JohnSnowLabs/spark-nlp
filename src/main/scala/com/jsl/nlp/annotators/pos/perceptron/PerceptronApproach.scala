@@ -34,7 +34,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
     sentences.map(_.tokenize).map{words => {
       val context: Array[String] = START ++: words.map(normalized) ++: END
       words.zipWithIndex.map{case (word, i) =>
-        val tag = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
+        val tag = model.getTagBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
           {
             val features = getFeatures(i, word, context, prev, prev2)
             model.predict(features)
@@ -149,7 +149,7 @@ object PerceptronApproach {
     val taggedSentence = rawTaggedSentences.map(s => TaggedSentence(s._1, s._2))
     val taggedWordBook = buildTagBook(taggedSentence)
     val classes = taggedSentence.flatMap(_.tags).distinct
-    val initialModel = new AveragedPerceptron(taggedWordBook, classes, MMap())
+    val initialModel = new AveragedPerceptron(classes, taggedWordBook, MMap())
     /**
       * Iterates for training
       */
@@ -167,7 +167,7 @@ object PerceptronApproach {
         var prev2 = START(1)
         val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach{case (word, i) =>
-          val guess = model.taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse({
+          val guess = taggedWordBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse({
             /**
               * if word is not found, collect its features which are used for prediction and predict
               */

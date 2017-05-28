@@ -10,16 +10,15 @@ import scala.collection.mutable.{Map => MMap}
   * Created by Saif Addin on 5/16/2017.
   */
 class AveragedPerceptron(
-                          val taggedWordBook: List[TaggedWord],
                           tags: List[String],
-                          initialWeights: MMap[String, MMap[String, Double]],
+                          taggedWordBook: List[TaggedWord],
+                          featuresWeight: MMap[String, MMap[String, Double]],
                           lastIteration: Int = 0
                         ) extends POSModel {
 
   val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
 
   private var updateIteration: Int = lastIteration
-  private val featuresWeight: MMap[String, MMap[String, Double]] = initialWeights
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
 
@@ -58,8 +57,8 @@ class AveragedPerceptron(
     */
   def averagedModel: AveragedPerceptron = {
     new AveragedPerceptron(
-      taggedWordBook,
       tags,
+      taggedWordBook,
       featuresWeight.map { case (feature, weights) =>
         (feature,
           weights.map { case (tag, weight) =>
@@ -72,8 +71,9 @@ class AveragedPerceptron(
       updateIteration
     )
   }
-  def getWeights = featuresWeight
   def getUpdateIterations: Int = updateIteration
+  def getTagBook: List[TaggedWord] = taggedWordBook
+  def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
   def getTags: List[String] = tags
   /**
     * This is model learning tweaking during training, in-place
