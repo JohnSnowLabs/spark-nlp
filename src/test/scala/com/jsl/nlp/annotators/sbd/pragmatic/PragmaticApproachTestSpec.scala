@@ -196,12 +196,12 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val ellipsisSquareBr = "\"Bohr [...] used the analogy of parallel stairways [...]\" (Smith 55)."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ellipsisSquareBr, ellipsisSquareBrAns)
 
-  /*
   //Multi-period abbreviations in the middle of a sentence
   val multiperAns = Array("I visited the U.S.A. last year.")
   val multiper = "I visited the U.S.A. last year."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(multiper, multiperAns)
 
+  /*
   //Multi-period abbreviations at the end of a sentence
   val multiperEndAns = Array("I live in the E.U.", "How about you?")
   val multiperEnd = "I live in the E.U. How about you?"
@@ -211,6 +211,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val USBoundAns = Array("I live in the U.S.", "How about you?")
   val USBound = "I live in the U.S. How about you?"
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USBound, USBoundAns)
+  */
 
   //U.S. as non sentence boundary with next word capitalized
   val USBoundNextCapAns = Array("I work for the U.S. Government in Virginia.")
@@ -222,14 +223,13 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val USNonSentence = "I have lived in the U.S. for 20 years."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USNonSentence, USNonSentenceAns)
 
+  /*
   //A.M. / P.M. as non sentence boundary and sentence boundary
   val AMPMAns = Array("At 5 a.m. Mr. Smith went to the bank.", "He left the bank at 6 P.M.", "Mr. Smith " +
     "then went to the store.")
   val AMPM = "At 5 a.m. Mr. Smith went to the bank. He left the bank at 6 P.M. Mr. Smith then went to the store."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(AMPM, AMPMAns)
-  */
 
-  /*
   //Email addresses
   val emailAns = Array("Her email is Jane.Doe@example.com.", "I sent her an email.")
   val email = "Her email is Jane.Doe@example.com. I sent her an email."

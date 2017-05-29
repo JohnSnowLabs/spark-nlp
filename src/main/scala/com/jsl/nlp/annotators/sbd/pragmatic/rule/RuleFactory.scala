@@ -15,7 +15,7 @@ object RuleStrategy extends Enumeration {
       PREPEND_WITH_SYMBOL,
       REPLACE_ALL_WITH_SYMBOL,
       REPLACE_WITH_SYMBOL_AND_BREAK,
-      PROTECT_WITH_SYMBOL,
+      PROTECT_FROM_BREAK,
       REPLACE_EACH_WITH_SYMBOL,
       REPLACE_EACH_WITH_SYMBOL_AND_BREAK = Value
 }
@@ -49,12 +49,12 @@ class RuleFactory(ruleStrategy: RuleStrategy.Strategy) {
 
   def applyStrategy(text: String): String = {
     ruleStrategy match {
-      case PROTECT_WITH_SYMBOL => rules.foldRight(text)((rule, w) => rule.regex replaceAllIn(w, m => {
+      case PROTECT_FROM_BREAK => rules.foldRight(text)((rule, w) => rule.regex replaceAllIn(w, m => {
         logger.debug(s"Matched: '${m.matched}' from: " +
           s"'${m.source.subSequence(
             logSubStartHelper(m.start),
             logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.description}' with strategy $PROTECT_WITH_SYMBOL")
+          )}' using rule: '${rule.description}' with strategy $PROTECT_FROM_BREAK")
         PragmaticSymbols.PROTECTION_MARKER_OPEN + m.matched + PragmaticSymbols.PROTECTION_MARKER_CLOSE
       }))
       case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
