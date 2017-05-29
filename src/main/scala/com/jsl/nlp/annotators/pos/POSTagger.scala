@@ -1,6 +1,5 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.Normalizer
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, Annotator, Document}
 
@@ -17,7 +16,7 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Array[SentenceToBeTagged] = annotations.collect {
-      case sentence: Annotation if sentence.aType == SentenceDetector.aType =>
+      case sentence: Annotation =>
         SentenceToBeTagged(
           sentence.metadata.getOrElse(
             SentenceDetector.aType,

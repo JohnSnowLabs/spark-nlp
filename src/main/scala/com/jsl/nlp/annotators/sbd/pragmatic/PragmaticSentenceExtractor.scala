@@ -40,7 +40,7 @@ class PragmaticSentenceExtractor(text: String) {
       // clean ignored breakers
       .map(_.replaceAll(PragmaticSymbols.BREAK_INDICATOR, ""))
       // leave only useful content
-      .map(_.trim).filterNot(_ == "")
+      .map(_.trim).filter(_.nonEmpty)
     val rawSentences: Array[String] = splitSentences.map(s => recoverySymbols.replaceAllIn(
       s, m => PragmaticSymbols.sentenceRecovery
         .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))))

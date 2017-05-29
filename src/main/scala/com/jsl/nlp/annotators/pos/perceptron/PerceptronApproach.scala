@@ -26,7 +26,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
   override val model: AveragedPerceptron = trainedModel
 
   override def tag(rawSentences: Array[String]): Array[Array[TaggedWord]] = {
-    logger.debug(s"PREDICTION: Tagging with model weight properties in 'bias' " +
+    logger.debug(s"PREDICTION: Tagging:\nSENT: <<${rawSentences.mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
       s"feature:\nPREDICTION: ${model.getWeights("bias").mkString("\nPREDICTION: ")}")
     val sentences = rawSentences.map(Sentence)
     var prev = START(0)
