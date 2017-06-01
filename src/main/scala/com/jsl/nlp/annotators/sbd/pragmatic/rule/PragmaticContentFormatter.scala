@@ -80,12 +80,13 @@ class PragmaticContentFormatter(text: String) {
 
     val specialAbbrFactory = new RuleFactory(PROTECT_FROM_BREAK)
     // http://rubular.com/r/xDkpFZ0EgH
+    // http://rubular.com/r/ezFi9y2Q1t
       //multiple period words
-      .addRule(RegexRule("(?i)\\b[a-z](?:\\.[a-z])+[.]".r, "protectAbbreviations-multiplePeriod"))
+      .addRule(RegexRule("\\b[a-zA-Z](?:\\.[a-zA-Z])+(?:\\.(?!\\s[A-Z]))*".r, "protectAbbreviations-multiplePeriod"))
     // http://rubular.com/r/Vnx3m4Spc8
       //AM PM Rules
       .addRule(RegexRule("(?i)p\\.m\\.*".r, "protectAbbreviations-pm"))
-      .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-pm"))
+      .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-am"))
 
     wip = specialAbbrFactory.applyStrategy(wip)
     wip = stdAbbrFactory.applyWith(ABBREVIATOR, wip)
@@ -153,8 +154,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/EUbZCNfgei
       //periods
-      .addRule(RegexRule("\\w(\\.)\\w*(?=@)".r, "formatMultiplePeriodsAdAfter"))
-      .addRule(RegexRule("@\\w*(\\.)\\w.".r, "formatMultiplePeriodsAdBefore"))
+      .addRule(RegexRule("(?<=\\w)\\.(?=\\w)".r, "formatMultiplePeriods"))
 
     wip = factory.applyWith(MULT_PERIOD, wip)
 
