@@ -9,15 +9,10 @@ import org.scalatest._
   */
 class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
-  /**
-    * General Normalizer tests here ...
-    */
-
-  // ....
-
-  /**
-    * Behavior tests here ...
-    */
+  "A normalizer" should s"be of type ${Normalizer.aType}" in {
+    val normalizer = new Normalizer
+    assert(normalizer.aType == Normalizer.aType)
+  }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 

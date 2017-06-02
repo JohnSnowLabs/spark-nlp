@@ -11,6 +11,8 @@ class RegexMatcher extends Annotator {
 
   override val aType: String = RegexMatcher.aType
 
+  override val requiredAnnotationTypes: Array[String] = Array()
+
   val patterns: Param[Seq[RegexRule]] = new Param(this, "patterns", "regex patterns to match")
 
   def setPatterns(value: Seq[RegexRule]): RegexMatcher = set(patterns, value)

@@ -10,9 +10,10 @@ import scala.util.matching.Regex
   * Created by alext on 10/23/16.
   */
 class RegexTokenizer() extends Annotator {
+
   override val aType: String = RegexTokenizer.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq()
+  override val requiredAnnotationTypes: Array[String] = Array()
 
   lazy val regex: Regex = $(pattern).r
 

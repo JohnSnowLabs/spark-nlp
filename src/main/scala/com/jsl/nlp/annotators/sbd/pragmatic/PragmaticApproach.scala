@@ -39,6 +39,3 @@ class PragmaticApproach extends SBDApproach {
   }
 
 }
-
-
-

@@ -1,9 +1,8 @@
 package com.jsl.nlp
 
 import org.apache.spark.sql.SparkSession
-import org.scalatest.{BeforeAndAfterAll, Suite}
 
-trait SparkBasedTest extends BeforeAndAfterAll { this: Suite =>
+object SparkAccessor {
 
   val spark: SparkSession = SparkSession
     .builder()

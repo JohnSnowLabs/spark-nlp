@@ -34,6 +34,4 @@ object Annotation extends ExtractsFromRow {
     Annotation(row.getString(0), row.getInt(1), row.getInt(2), row.getMap[String, String](3))
   }
 
-  override def validate(row: Row): Unit = ???
-
 }

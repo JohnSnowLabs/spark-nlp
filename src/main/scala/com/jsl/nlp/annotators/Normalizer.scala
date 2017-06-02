@@ -20,7 +20,7 @@ class Normalizer extends Annotator {
         Annotation(aType, token.begin, token.end, Map(aType -> nToken))
     }.filter(_.metadata(Normalizer.aType).nonEmpty)
 
-  override val requiredAnnotationTypes = Seq(Stemmer.aType)
+  override val requiredAnnotationTypes = Array(Stemmer.aType)
 }
 object Normalizer {
   val aType: String = "ntoken"
