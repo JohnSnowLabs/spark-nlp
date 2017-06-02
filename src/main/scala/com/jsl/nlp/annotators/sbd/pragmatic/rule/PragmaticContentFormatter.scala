@@ -48,7 +48,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatAbbreviations: this.type = {
 
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val stdAbbrFactory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/yqa4Rit8EY
       //possessive
       .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
@@ -77,18 +77,19 @@ class PragmaticContentFormatter(text: String) {
       ).r, "formatAbbreviations-generalAbbr")))
       //general comma abbreviation
       .addRules(ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)".r, "formatAbbreviations-otherAbbr")))
-    /*
-    ** ToDo: requires a special treatment to protect a word such as U.S.A. and P.M.
-    // http://rubular.com/r/xDkpFZ0EgH
-    val multiPeriod = "\\b[a-z](?:\\.[a-z])+[.]".r
-    http://rubular.com/r/Vnx3m4Spc8
-    val upperAm = "(?<=P∯M)∯(?=\\s[A-Z])".r
-    val upperPm = "(?<=A∯M)∯(?=\s[A-Z])".r
-    val lowerAm = "(?<=p∯m)∯(?=\s[A-Z])".r
-    val lowerPm = "(?<=a∯m)∯(?=\s[A-Z])".r
-    */
 
-    wip = factory.applyWith(ABBREVIATOR, wip)
+    val specialAbbrFactory = new RuleFactory(PROTECT_FROM_BREAK)
+    // http://rubular.com/r/xDkpFZ0EgH
+    // http://rubular.com/r/ezFi9y2Q1t
+      //multiple period words
+      .addRule(RegexRule("\\b[a-zA-Z](?:\\.[a-zA-Z])+(?:\\.(?!\\s[A-Z]))*".r, "protectAbbreviations-multiplePeriod"))
+    // http://rubular.com/r/Vnx3m4Spc8
+      //AM PM Rules
+      .addRule(RegexRule("(?i)p\\.m\\.*".r, "protectAbbreviations-pm"))
+      .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-am"))
+
+    wip = specialAbbrFactory.applyStrategy(wip)
+    wip = stdAbbrFactory.applyWith(ABBREVIATOR, wip)
 
     this
   }
@@ -132,7 +133,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatPunctuations: this.type = {
 
-    val factory = new RuleFactory(PROTECT_WITH_SYMBOL)
+    val factory = new RuleFactory(PROTECT_FROM_BREAK)
     // http://rubular.com/r/mQ8Es9bxtk
       //continuous punctuations
       .addRule(RegexRule("(?<=\\S)(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
@@ -153,8 +154,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/EUbZCNfgei
       //periods
-      .addRule(RegexRule("\\w(\\.)\\w*(?=@)".r, "formatMultiplePeriodsAdAfter"))
-      .addRule(RegexRule("@\\w*(\\.)\\w.".r, "formatMultiplePeriodsAdBefore"))
+      .addRule(RegexRule("(?<=\\w)\\.(?=\\w)".r, "formatMultiplePeriods"))
 
     wip = factory.applyWith(MULT_PERIOD, wip)
 
@@ -221,7 +221,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatBetweenPunctuations: this.type = {
 
-    val factory = new RuleFactory(PROTECT_WITH_SYMBOL)
+    val factory = new RuleFactory(PROTECT_FROM_BREAK)
     // ToDo: NOT ADDING EXCLAMATION WORDS,
     // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 

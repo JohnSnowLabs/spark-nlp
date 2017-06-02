@@ -36,7 +36,7 @@ class PragmaticSentenceExtractor(text: String) {
   def pull: Array[Sentence] = {
     val splitSentences: Array[String] = text
       // Split by breakers ignoring breaks within protection
-      .split(PragmaticSymbols.PROTECTED_BREAKER)
+      .split(PragmaticSymbols.UNPROTECTED_BREAK_INDICATOR)
       // clean ignored breakers
       .map(_.replaceAll(PragmaticSymbols.BREAK_INDICATOR, ""))
       // leave only useful content

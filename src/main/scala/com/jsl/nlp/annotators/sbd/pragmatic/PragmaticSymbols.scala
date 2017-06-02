@@ -131,7 +131,8 @@ object PragmaticSymbols {
   /**
     * Magic regex ensures no breaking within protection
     */
-  val PROTECTED_BREAKER = s"$BREAK_INDICATOR+(?![^$PROTECTION_MARKER_OPEN]+$PROTECTION_MARKER_CLOSE)"
+    // http://rubular.com/r/Tq7lWxGkQl
+  val UNPROTECTED_BREAK_INDICATOR = s"$BREAK_INDICATOR+(?![^$PROTECTION_MARKER_OPEN]*$PROTECTION_MARKER_CLOSE)"
 
   val sentenceRecovery = Map(
     DOT -> ".",
