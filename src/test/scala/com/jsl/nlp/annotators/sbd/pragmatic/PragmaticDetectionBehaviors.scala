@@ -1,12 +1,11 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
-import com.jsl.nlp.SparkBasedTest
 import org.scalatest._
 
 /**
   * Created by Saif Addin on 5/7/2017.
   */
-trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
+trait PragmaticDetectionBehaviors { this: FlatSpec =>
 
   private def f1Score(result: Array[String], expected: Array[String]): Double = {
     val nMatches = result.count(expected.contains(_))

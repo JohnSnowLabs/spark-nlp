@@ -74,7 +74,7 @@ object Lemmatizer {
     val lemmaFormat = config.getString("nlp.lemmaDict.format")
     val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
     val lemmaValSep = config.getString("nlp.lemmaDict.vSeparator")
-    val lemmaDict = ResourceHelper.flattenValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
+    val lemmaDict = ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
     lemmaDict
   }
 

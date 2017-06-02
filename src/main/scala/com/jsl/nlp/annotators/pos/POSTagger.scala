@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.pos
 
 import com.jsl.nlp.annotators.Normalizer
+import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, Annotator, Document}
 
 /**
@@ -8,32 +9,32 @@ import com.jsl.nlp.{Annotation, Annotator, Document}
   */
 class POSTagger(taggingApproach: POSApproach) extends Annotator {
 
-  private case class ToBeTagged(token: String, start: Int, end: Int)
+  private case class SentenceToBeTagged(sentence: String, start: Int, end: Int)
 
   override val aType: String = POSTagger.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq(Normalizer.aType)
+  override val requiredAnnotationTypes: Seq[String] = Seq(SentenceDetector.aType)
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokens: Array[ToBeTagged] = annotations.collect {
-      case token: Annotation if token.aType == Normalizer.aType =>
-        ToBeTagged(
-          token.metadata.getOrElse(
-            Normalizer.aType,
+    val sentences: Array[SentenceToBeTagged] = annotations.collect {
+      case sentence: Annotation if sentence.aType == SentenceDetector.aType =>
+        SentenceToBeTagged(
+          sentence.metadata.getOrElse(
+            SentenceDetector.aType,
             throw new IllegalArgumentException(
-              s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
+              s"Annotation of type ${SentenceDetector.aType} does not provide proper token in metadata"
             )
           ),
-          token.begin,
-          token.end
+          sentence.begin,
+          sentence.end
         )
     }.toArray
-    taggingApproach.tag(tokens.map(_.token)).zip(tokens).map{case (tagged, token) => {
+    taggingApproach.tag(sentences.map(_.sentence)).zip(sentences).map{case (taggedWords, sentence) => {
       Annotation(
         POSTagger.aType,
-        token.start,
-        token.end,
-        Map("word" -> tagged.word, "tag" -> tagged.tag)
+        sentence.start,
+        sentence.end,
+        taggedWords.map(taggedWord => (taggedWord.word, taggedWord.tag)).toMap
       )
     }}
   }
