@@ -14,9 +14,15 @@ class SentenceDetector(detectionApproach: SBDApproach) extends Annotator {
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Seq[Sentence] =
       detectionApproach
+        .setContent(document.text)
         .prepare
         .extract
-    sentences.map(sentence => Annotation(this.aType, sentence.begin, sentence.end, Map()))
+    sentences.map(sentence => Annotation(
+      this.aType,
+      sentence.begin,
+      sentence.end,
+      Map[String, String](this.aType -> sentence.content)
+    ))
   }
 
 }

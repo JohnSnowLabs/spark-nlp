@@ -10,6 +10,6 @@ case class Sentence(sentence: String) {
     */
   private val tokenRegex = "\\W+"
   def tokenize: Array[String] = {
-    sentence.split(tokenRegex)
+    sentence.split(tokenRegex).filter(_.nonEmpty)
   }
 }

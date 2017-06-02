@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.{ContentProvider, DataBuilder}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproachTestSpec.trainingCorpusSources
 import com.jsl.nlp.util.ResourceHelper
 import org.scalatest._
@@ -9,22 +10,8 @@ import org.scalatest._
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
-  val wsjTrainingCorpus: String = "Pierre|NNP Vinken|NNP ,|, 61|CD years|NNS old|JJ ,|, will|MD " +
-    "join|VB the|DT board|NN as|IN a|DT nonexecutive|JJ director|NN " +
-    "Nov.|NNP 29|CD .|.\nMr.|NNP Vinken|NNP is|VBZ chairman|NN of|IN " +
-    "Elsevier|NNP N.V.|NNP ,|, the|DT Dutch|NNP publishing|VBG " +
-    "group|NN .|. Rudolph|NNP Agnew|NNP ,|, 55|CD years|NNS old|JJ " +
-    "and|CC former|JJ chairman|NN of|IN Consolidated|NNP Gold|NNP " +
-    "Fields|NNP PLC|NNP ,|, was|VBD named|VBN a|DT nonexecutive|JJ " +
-    "director|NN of|IN this|DT British|JJ industrial|JJ conglomerate|NN " +
-    ".|.\nA|DT form|NN of|IN asbestos|NN once|RB used|VBN to|TO make|VB " +
-    "Kent|NNP cigarette|NN filters|NNS has|VBZ caused|VBN a|DT high|JJ " +
-    "percentage|NN of|IN cancer|NN deaths|NNS among|IN a|DT group|NN " +
-    "of|IN workers|NNS exposed|VBN to|TO it|PRP more|RBR than|IN " +
-    "30|CD years|NNS ago|IN ,|, researchers|NNS reported|VBD .|."
-
   val trainingSentences: List[(List[String], List[String])] = ResourceHelper
-    .parsePOSCorpusFromText(wsjTrainingCorpus, '|')
+    .parsePOSCorpusFromText(ContentProvider.wsjTrainingCorpus, '|')
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(
     trainingSentences
@@ -33,22 +20,21 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   val trainedTagger: PerceptronApproach =
     PerceptronApproach.train(ResourceHelper.parsePOSCorpusFromSources(trainingCorpusSources, '|'), 2)
 
-
-  val targetSentencesFromWsj = Array("A form of asbestos once used to make " +
-    "Kent cigarette filters has caused a high percentage of cancer deaths among a group " +
-    "of workers exposed to it more than 30 years ago, researchers reported")
-
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
     trainedTagger,
-    targetSentencesFromWsj
+    ContentProvider.targetSentencesFromWsj
   )
 
   val targetSentencesFromWsjResult = Array("DT","NN","IN","NN","RB","VBN","TO","VB","NNP","NN","NNS","VBZ","VBN",
     "DT","JJ","NN","IN","NN","NNS","IN","DT","NN","IN","NNS","VBN","TO","PRP","RBR","IN","CD","NNS","IN","NNS","VBD")
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
     PerceptronApproach.train(trainingSentences, 5),
-    targetSentencesFromWsj,
+    ContentProvider.targetSentencesFromWsj,
     targetSentencesFromWsjResult
+  )
+
+  "a spark based pragmatic detector" should behave like sparkBasedPOSTagger(
+    DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
   )
 
 }
@@ -58,7 +44,7 @@ object PerceptronApproachTestSpec {
     * ANC Corpus. Some files are commented due to dirty characters
     * Taking only 10
     */
-  val trainingCorpusSources = List(
+  val trainingCorpusSources: List[String] = List(
     "anc-pos-corpus/Postal_Rate_Comm-ReportToCongress2002WEB.txt",
     "anc-pos-corpus/2nd_Gore-Bush.txt",
     "anc-pos-corpus/3rd_Bush-Kerry.txt",

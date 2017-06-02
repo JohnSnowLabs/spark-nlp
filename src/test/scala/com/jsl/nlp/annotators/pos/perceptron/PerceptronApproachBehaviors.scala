@@ -1,5 +1,7 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 import scala.collection.mutable.{Set => MSet}
@@ -54,6 +56,22 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
         s" expected ${expectedTags.length}")
       assert(resultTags.zip(expectedTags).forall(t => t._1.tag == t._2), s"because expected tags do not match returned" +
         s" tags.\n------------------------\n(word,(result,expected))\n-----------------------\n${resultContent.mkString("\n")}")
+    }
+  }
+
+  def sparkBasedPOSTagger(dataset: => Dataset[Row]): Unit = {
+    "a Perceptron POS tagger Annotator" should s"successfully tag sentences " in {
+      println(dataset.schema)
+      AnnotatorBuilder.withFullPOSTagger(dataset)
+        .collect().foreach {
+        row =>
+          val document = Document(row.getAs[Row](0))
+          println(document)
+          row.getSeq[Row](2).map(Annotation(_)).foreach {
+            matchedAnnotation =>
+              println(matchedAnnotation)
+          }
+      }
     }
   }
 

@@ -1,11 +1,13 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
+import com.jsl.nlp.{AnnotatorBuilder, SparkBasedTest, Document, Annotation}
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 /**
   * Created by Saif Addin on 5/7/2017.
   */
-trait PragmaticDetectionBehaviors { this: FlatSpec =>
+trait PragmaticDetectionBehaviors extends SparkBasedTest { this: FlatSpec =>
 
   private def f1Score(result: Array[String], expected: Array[String]): Double = {
     val nMatches = result.count(expected.contains(_))
@@ -17,18 +19,26 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   }
 
   def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String]): Unit = {
-    s"text: $input" should s"successfully identify the following sentences:${correctAnswer.mkString("@@")}" in {
-      val result = new PragmaticDetection(input)
+    s"pragmatic boundaries detector with ${input.take(10)}...:" should
+      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
+      val pragmaticApproach = new PragmaticApproach
+      pragmaticApproach.overrideContent(input)
+      val result = pragmaticApproach
         .prepare
         .extract
         .map(_.content)
-      assert(result.sameElements(correctAnswer), s"\nRESULT: ${result.mkString("@@")} IS NOT: ${correctAnswer.mkString("@@")}")
+      assert(
+        result.sameElements(correctAnswer),
+        s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${result.mkString("\n@@")}" +
+          s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${correctAnswer.mkString("\n@@")}")
     }
   }
 
   def isolatedPDReadScore(input: String, correctAnswer: Array[String]): Unit = {
-    s"text: $input" should s"have an F1 score higher than 50%" in {
-      val result = new PragmaticDetection(input)
+    s"boundaries prediction" should s"have an F1 score higher than 50%" in {
+      val pragmaticApproach= new PragmaticApproach
+      pragmaticApproach.overrideContent(input)
+      val result = pragmaticApproach
         .prepare
         .extract
         .map(_.content)
@@ -36,6 +46,22 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
       val unmatched = result.zip(correctAnswer).toMap.mapValues("\n"+_)
       info(s"F1 Score is: $f1")
       assert(f1 > 0.5, s"F1 Score is below 50%.\nMatch sentences:\n${unmatched.mkString("\n")}")
+    }
+  }
+
+  def sparkBasedSentenceDetector(dataset: => Dataset[Row]): Unit = {
+    "a Pragmatic Sentence Detection Annotator" should s"successfully split sentences " in {
+      println(dataset.schema)
+      AnnotatorBuilder.withFullPragmaticSentenceDetector(dataset)
+        .collect().foreach {
+        row =>
+          val document = Document(row.getAs[Row](0))
+          println(document)
+          row.getSeq[Row](1).map(Annotation(_)).foreach {
+            matchedAnnotation =>
+              println(matchedAnnotation, matchedAnnotation.metadata.mkString(","))
+          }
+      }
     }
   }
 

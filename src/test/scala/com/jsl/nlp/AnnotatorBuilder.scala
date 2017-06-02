@@ -1,7 +1,11 @@
 package com.jsl.nlp
 
 import com.jsl.nlp.annotators._
-import com.jsl.nlp.util.RegexRule
+import com.jsl.nlp.annotators.pos.POSTagger
+import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.jsl.nlp.annotators.sbd.SentenceDetector
+import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
+import com.jsl.nlp.util.{RegexRule, ResourceHelper}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.{FlatSpec, Suite}
 
@@ -52,6 +56,23 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
       .setMaxLen(4)
       .setEntities(entities)
     entityExtractor.transform(withFullLemmatizer(dataset))
+  }
+
+  def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
+    val pragmaticDetection = new PragmaticApproach
+    val sentenceDetector = new SentenceDetector(pragmaticDetection)
+      .setDocumentCol("document")
+    sentenceDetector.transform(dataset)
+  }
+
+  def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val perceptronApproach = PerceptronApproach.train(
+      ResourceHelper.parsePOSCorpusFromText(ContentProvider.wsjTrainingCorpus, '|')
+    )
+    val posTagger = new POSTagger(perceptronApproach)
+      .setDocumentCol("document")
+      .setInputAnnotationCols(Array("sbd"))
+    posTagger.transform(withFullPragmaticSentenceDetector(dataset))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Seq[RegexRule]): Dataset[Row] = {

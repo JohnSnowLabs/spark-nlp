@@ -7,6 +7,29 @@ trait SBDApproach {
 
   val description: String
 
+  private var initialized: Boolean = false
+  private var content: Option[String] = None
+
+  private[sbd] def overrideContent(target: String): this.type = {
+    content = Some(target)
+    this
+  }
+
+  def setContent(target: String): this.type = {
+    if (!initialized) {
+      content = Some(target)
+      initialized = true
+    }
+    this
+  }
+
+  protected def updateContent(target: String): this.type = {
+    content = Some(target)
+    this
+  }
+
+  protected def getContent: Option[String] = content
+
   def prepare: SBDApproach
 
   def extract: Array[Sentence]
