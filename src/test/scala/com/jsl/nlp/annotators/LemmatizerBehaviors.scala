@@ -1,13 +1,13 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document, SparkBasedTest}
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 /**
   * Created by saif on 01/05/17.
   */
-trait LemmatizerBehaviors extends SparkBasedTest { this: FlatSpec =>
+trait LemmatizerBehaviors { this: FlatSpec =>
 
   def fullLemmatizerPipeline(dataset: => Dataset[Row]) {
     "a Lemmatizer Annotator" should "succesfully transform data" in {

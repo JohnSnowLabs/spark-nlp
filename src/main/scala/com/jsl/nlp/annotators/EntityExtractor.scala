@@ -12,7 +12,7 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
 
   val maxLen: Param[Int] = new Param(this, "maxLen", "maximum phrase length")
 
-  override val aType: String = "entity"
+  override val aType: String = EntityExtractor.aType
 
   override def annotate(
                          document: Document, annotations: Seq[Annotation]
@@ -37,11 +37,11 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
       EntityExtractor.phraseMatch(nTokens, $(maxLen), $(entities))
     }
 
-  override val requiredAnnotationTypes: Seq[String] =
+  override val requiredAnnotationTypes: Array[String] =
     if (fromSentences) {
-      Seq("sentence")
+      Array("sentence")
     } else {
-      Seq()
+      Array()
     }
 
   val entities: Param[Set[Seq[String]]] = new Param(this, "entities", "set of entities (phrases)")
@@ -57,6 +57,9 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
 }
 
 object EntityExtractor {
+
+  val aType = "entity"
+
   def loadEntities(inputStream: InputStream, tokenPattern: String): Set[Seq[String]] = {
     val src = scala.io.Source.fromInputStream(inputStream)
     val tokenizer = new RegexTokenizer().setPattern(tokenPattern)

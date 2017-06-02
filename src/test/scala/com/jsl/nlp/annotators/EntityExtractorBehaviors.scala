@@ -1,10 +1,10 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document, SparkBasedTest}
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-trait EntityExtractorBehaviors extends SparkBasedTest { this: FlatSpec =>
+trait EntityExtractorBehaviors { this: FlatSpec =>
 
   def fullEntityExtractorPipeline(dataset: => Dataset[Row]) {
     "An EntityExtractor Annotator" should "successfully transform data" in {

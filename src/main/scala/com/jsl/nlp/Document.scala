@@ -24,6 +24,4 @@ object Document extends ExtractsFromRow {
     StructField("metadata",MapType(StringType,StringType,valueContainsNull = true),nullable = true)
   ))
 
-  override def validate(row: Row): Unit = ???
-
 }

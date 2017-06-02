@@ -9,15 +9,10 @@ import org.scalatest._
   */
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
-  /**
-    * General Lemmatizer tests here ...
-    */
-
-  // ....
-
-  /**
-    * Behavior tests here ...
-    */
+  val lemmatizer = new Lemmatizer
+  "a lemmatizer" should s"be of type ${Lemmatizer.aType}" in {
+    assert(lemmatizer.aType == Lemmatizer.aType)
+  }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 

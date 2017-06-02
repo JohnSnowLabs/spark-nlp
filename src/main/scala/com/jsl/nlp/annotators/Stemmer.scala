@@ -7,6 +7,7 @@ import opennlp.tools.stemmer.PorterStemmer
   * Created by alext on 10/23/16.
   */
 class Stemmer extends Annotator {
+
   override val aType: String = Stemmer.aType
 
   override def annotate(
@@ -18,7 +19,7 @@ class Stemmer extends Annotator {
         Annotation(aType, token.begin, token.end, Map(aType -> stem))
     }
 
-  override val requiredAnnotationTypes = Seq(RegexTokenizer.aType)
+  override val requiredAnnotationTypes = Array(RegexTokenizer.aType)
 }
 
 object Stemmer {

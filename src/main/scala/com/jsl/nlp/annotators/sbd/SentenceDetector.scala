@@ -9,7 +9,7 @@ class SentenceDetector(detectionApproach: SBDApproach) extends Annotator {
 
   override val aType: String = SentenceDetector.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq()
+  override val requiredAnnotationTypes: Array[String] = Array()
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Seq[Sentence] =

@@ -1,14 +1,8 @@
 package com.jsl.nlp.annotators
 
-import java.io.FileNotFoundException
-
-import com.jsl.nlp.annotators.Lemmatizer.TargetWord
 import com.jsl.nlp.util.ResourceHelper
 import com.jsl.nlp.{Annotation, Annotator, Document}
 import com.typesafe.config.{Config, ConfigFactory}
-
-import scala.io.Source
-import scala.util.matching.Regex
 
 /**
   * Created by saif on 28/04/17.
@@ -17,7 +11,7 @@ class Lemmatizer extends Annotator {
 
   override val aType: String = Lemmatizer.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq(Normalizer.aType)
+  override val requiredAnnotationTypes: Array[String] = Array(Normalizer.aType)
 
   /**
     * Would need to verify this implementation, as I am flattening multiple to one annotations

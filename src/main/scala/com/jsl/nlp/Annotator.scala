@@ -23,38 +23,43 @@ trait Annotator extends Transformer with DefaultParamsWritable {
   /**
     * This is the annotation type
     */
-  val aType: String
+  protected val aType: String
+
+  /**
+    * This is the annotation types that this annotator expects to be present
+    */
+  protected val requiredAnnotationTypes: Array[String]
 
   /**
     * This parameter tells the annotator the column that contains the document
     */
-  val documentCol: Param[String] =
-    new Param(this, "documentCol", "the input document column")
+  private val documentCol: Param[String] =
+    new Param(this, "document column", "the input document column")
 
   /**
     * This parameter tells the annotator the columns that contain the annotations necessary to run this annotator
     * (empty by default)
     */
-  val inputAnnotationCols: Param[Array[String]] =
+  private val inputAnnotationCols: Param[Array[String]] =
     new Param(this, "inputAnnotationCols", "the input annotation columns")
-  setDefault(inputAnnotationCols, Array[String]())
 
-  /**
-    * This is the annotation types that this annotator expects to be present
-    */
-  val requiredAnnotationTypes: Seq[String] = Seq()
-
-  val outputAnnotationCol: Param[String] =
+  private val outputAnnotationCol: Param[String] =
     new Param(this, "outputAnnotationCol", "the output annotation column")
 
   override val uid: String = aType
+
+  /**
+    * This takes a document and annotations and produces new annotations of this annotator's annotation type
+    * @return
+    */
+  protected def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation]
 
   /**
     * This takes a [[DataFrame]] and checks to see if all the required annotation types are present.
     * @param dataFrame The dataframe to be validated
     * @return True if all the required types are present, else false
     */
-  def validate(dataFrame: Dataset[_]): Boolean = requiredAnnotationTypes.forall {
+  private def validate(dataFrame: Dataset[_]): Boolean = requiredAnnotationTypes.forall {
     requiredAnnotationType =>
       dataFrame.schema.exists {
         field =>
@@ -64,19 +69,15 @@ trait Annotator extends Transformer with DefaultParamsWritable {
   }
 
   /**
-    * This takes a document and annotations and produces new annotations of this annotator's annotation type
-    * @return
-    */
-  def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation]
-
-  /**
     * Wraps annotate to happen inside SparkSQL user defined functions
     * @return
     */
-  def dfAnnotate: UserDefinedFunction = udf {
+  private def dfAnnotate: UserDefinedFunction = udf {
     (docProperties: DocumentContent, aProperties: Seq[AnnotationContent]) =>
       annotate(Document(docProperties), aProperties.flatMap(_.map(Annotation(_))))
   }
+
+  private def outputDataType: DataType = ArrayType(Annotation.AnnotationDataType)
 
   def setDocumentCol(value: String): this.type = set(documentCol, value)
 
@@ -84,7 +85,11 @@ trait Annotator extends Transformer with DefaultParamsWritable {
 
   def setInputAnnotationCols(value: Array[String]): this.type = set(inputAnnotationCols, value)
 
-  def getInputAnnotationCols: Array[String] = $(inputAnnotationCols)
+  def getInputAnnotationCols: Array[String] = get(inputAnnotationCols).getOrElse(requiredAnnotationTypes)
+
+  def setOutputAnnotationCol(value: String): this.type = set(outputAnnotationCol, value)
+
+  def getOutputAnnotationCol: String = get(outputAnnotationCol).getOrElse(aType)
 
   /**
     * Dummy code --> Mimic transform in dataframe api layer
@@ -96,11 +101,11 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotationType", aType)
     dataFrame.withColumn(
-      aType,
+      getOutputAnnotationCol,
       dfAnnotate(
         dataFrame.col($(documentCol)),
-        array($(inputAnnotationCols).map(c => dataFrame.col(c)):_*)
-      ).as(aType, metadataBuilder.build)
+        array(getInputAnnotationCols.map(c => dataFrame.col(c)):_*)
+      ).as(getOutputAnnotationCol, metadataBuilder.build)
     )
   }
 
@@ -124,5 +129,4 @@ trait Annotator extends Transformer with DefaultParamsWritable {
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
-  protected def outputDataType: DataType = ArrayType(Annotation.AnnotationDataType)
 }

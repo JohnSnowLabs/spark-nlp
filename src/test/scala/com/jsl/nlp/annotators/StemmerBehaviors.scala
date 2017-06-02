@@ -1,10 +1,10 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document, SparkBasedTest}
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-trait StemmerBehaviors extends SparkBasedTest { this: FlatSpec =>
+trait StemmerBehaviors { this: FlatSpec =>
 
   def fullStemmerPipeline(dataset: => Dataset[Row]) {
     "A Stemmer Annotator" should "successfully transform data" in {

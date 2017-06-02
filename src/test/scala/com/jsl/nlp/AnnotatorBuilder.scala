@@ -7,14 +7,14 @@ import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
 import com.jsl.nlp.util.{RegexRule, ResourceHelper}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.{FlatSpec, Suite}
+import org.scalatest._
 
 /**
   * Created by saif on 02/05/17.
   * Generates different Annotator pipeline paths
   * Place to add different annotator constructions
   */
-object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
+object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withTokenizer(dataset: Dataset[Row]): Dataset[Row] = {
     val regexTokenizer = new RegexTokenizer()
@@ -26,21 +26,18 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
   def withFullStemmer(dataset: Dataset[Row]): Dataset[Row] = {
     val stemmer = new Stemmer()
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("token"))
     stemmer.transform(withTokenizer(dataset))
   }
 
   def withFullNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
     val normalizer = new Normalizer()
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("stem"))
     normalizer.transform(withFullStemmer(dataset))
   }
 
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("ntoken"))
     lemmatizer.transform(withFullNormalizer(dataset))
   }
 
@@ -52,7 +49,6 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
         tokenPattern)
     val entityExtractor = new EntityExtractor()
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("ntoken"))
       .setMaxLen(4)
       .setEntities(entities)
     entityExtractor.transform(withFullLemmatizer(dataset))
@@ -71,7 +67,6 @@ object AnnotatorBuilder extends FlatSpec with SparkBasedTest { this: Suite =>
     )
     val posTagger = new POSTagger(perceptronApproach)
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("sbd"))
     posTagger.transform(withFullPragmaticSentenceDetector(dataset))
   }
 

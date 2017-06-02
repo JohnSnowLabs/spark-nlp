@@ -12,7 +12,7 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
 
   override val aType: String = POSTagger.aType
 
-  override val requiredAnnotationTypes: Seq[String] = Seq(SentenceDetector.aType)
+  override val requiredAnnotationTypes: Array[String] = Array(SentenceDetector.aType)
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Array[SentenceToBeTagged] = annotations.collect {

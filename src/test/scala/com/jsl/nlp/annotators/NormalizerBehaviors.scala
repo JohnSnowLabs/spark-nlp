@@ -1,10 +1,10 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document, SparkBasedTest}
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-trait NormalizerBehaviors extends SparkBasedTest { this: FlatSpec =>
+trait NormalizerBehaviors { this: FlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
     "A Normalizer Annotator" should "successfully transform data" in {
