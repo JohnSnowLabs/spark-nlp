@@ -1,51 +1,15 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
 /**
-  * Created by Saif Addin on 5/6/2017.
+  * Created by Saif Addin on 6/3/2017.
   */
-object PragmaticSymbols {
+object PragmaticSymbols extends RuleSymbols {
 
   /**
     * ====================
     * BREAKING SYMBOLS
     * ====================
     */
-
-  /**
-    * looks up .
-    * alt 401
-    */
-  val DOT = "æ"
-
-  /**
-    * looks up ,
-    * alt 402
-    */
-  val COMMA = "Æ"
-
-  /**
-    * looks up ;
-    * alt 403
-    */
-  val SEMICOLON = "ô"
-
-  /**
-    * looks up ?
-    * alt 404
-    */
-  val QUESTION = "ö"
-
-  /**
-    * looks up !
-    * alt 405
-    */
-  val EXCLAMATION = "ò"
-
-  /**
-    * Separation symbols for list items and numbers
-    * alt 197
-    */
-  val BREAK_INDICATOR = "┼"
 
   /**
     * Punctuation line breaker
@@ -114,31 +78,8 @@ object PragmaticSymbols {
     */
   val EXCLAMATION_INDICATOR = "╥" // !
 
-  /**
-    * ====================
-    * PROTECTION SYMBOL
-    * ====================
-    */
 
-  /**
-    * Between punctuations marker
-    * alt 505
-    * alt 506
-    */
-  val PROTECTION_MARKER_OPEN = "∙"
-  val PROTECTION_MARKER_CLOSE = "·"
-
-  /**
-    * Magic regex ensures no breaking within protection
-    */
-    // http://rubular.com/r/Tq7lWxGkQl
-  val UNPROTECTED_BREAK_INDICATOR = s"$BREAK_INDICATOR+(?![^$PROTECTION_MARKER_OPEN]*$PROTECTION_MARKER_CLOSE)"
-
-  val sentenceRecovery = Map(
-    DOT -> ".",
-    SEMICOLON -> ";",
-    QUESTION -> "?",
-    EXCLAMATION -> "!",
+  val pragmaticSymbolRecovery: Map[String, String] = PragmaticSymbols.symbolRecovery ++ Map(
     ABBREVIATOR -> ".",
     NUM_INDICATOR -> ".",
     MULT_PERIOD -> ".",
@@ -148,9 +89,7 @@ object PragmaticSymbols {
     DP_FIRST -> "?!",
     DP_SECOND-> "!?",
     DP_THIRD -> "??",
-    DP_FOURTH -> "!!",
-    PROTECTION_MARKER_OPEN -> "",
-    PROTECTION_MARKER_CLOSE -> ""
+    DP_FOURTH -> "!!"
   )
 
 }

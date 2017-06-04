@@ -5,7 +5,8 @@ import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
-import com.jsl.nlp.util.{RegexRule, ResourceHelper}
+import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.regex.RegexRule
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 

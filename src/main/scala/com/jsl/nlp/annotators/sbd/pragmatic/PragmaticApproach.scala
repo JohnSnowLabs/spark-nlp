@@ -1,6 +1,5 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
-import com.jsl.nlp.annotators.sbd.pragmatic.rule.PragmaticContentFormatter
 import com.jsl.nlp.annotators.sbd.{SBDApproach, Sentence}
 
 /**

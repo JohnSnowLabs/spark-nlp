@@ -1,12 +1,16 @@
-package com.jsl.nlp.annotators.sbd.pragmatic.rule
+package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticDictionaries.{ABBREVIATIONS, NUMBER_ABBREVIATIONS, PREPOSITIVE_ABBREVIATIONS}
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticSymbols._
+import com.jsl.nlp.util.regex.{RegexRule, RuleFactory, RuleStrategy}
 
 /**
   * Created by Saif Addin on 5/6/2017.
   */
 class PragmaticContentFormatter(text: String) {
+
+
+
   import RuleStrategy._
 
   private var wip: String = text
@@ -35,7 +39,7 @@ class PragmaticContentFormatter(text: String) {
         "formatLists-numerical"
     ))
 
-    wip = factory.applyWith(BREAK_INDICATOR, wip)
+    wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
 
     this
   }
@@ -88,8 +92,8 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("(?i)p\\.m\\.*".r, "protectAbbreviations-pm"))
       .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-am"))
 
-    wip = specialAbbrFactory.applyStrategy(wip)
-    wip = stdAbbrFactory.applyWith(ABBREVIATOR, wip)
+    wip = specialAbbrFactory.transform(wip)
+    wip = stdAbbrFactory.transformWithSymbol(ABBREVIATOR, wip)
 
     this
   }
@@ -120,7 +124,7 @@ class PragmaticContentFormatter(text: String) {
       //start line with two digits
       .addRule(RegexRule("(?<=^\\d\\d)\\.(?=(\\s\\S)|\\))".r, "formatNumbers-startLineTwoDigits"))
 
-    wip = factory.applyWith(NUM_INDICATOR, wip)
+    wip = factory.transformWithSymbol(NUM_INDICATOR, wip)
 
     this
   }
@@ -138,7 +142,7 @@ class PragmaticContentFormatter(text: String) {
       //continuous punctuations
       .addRule(RegexRule("(?<=\\S)(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
 
-    wip = factory.applyStrategy(wip)
+    wip = factory.transform(wip)
 
     this
   }
@@ -156,7 +160,7 @@ class PragmaticContentFormatter(text: String) {
       //periods
       .addRule(RegexRule("(?<=\\w)\\.(?=\\w)".r, "formatMultiplePeriods"))
 
-    wip = factory.applyWith(MULT_PERIOD, wip)
+    wip = factory.transformWithSymbol(MULT_PERIOD, wip)
 
     this
   }
@@ -173,7 +177,7 @@ class PragmaticContentFormatter(text: String) {
       //special periods
       .addRule(RegexRule("http://rubular.com/r/G2opjedIm9".r, "formatGeo"))
 
-    wip = factory.applyWith(MULT_PERIOD, wip)
+    wip = factory.transformWithSymbol(MULT_PERIOD, wip)
 
     this
   }
@@ -208,7 +212,7 @@ class PragmaticContentFormatter(text: String) {
       //three other rule
       .addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
 
-    wip = factory.applyWith(ELLIPSIS_INDICATOR, wip)
+    wip = factory.transformWithSymbol(ELLIPSIS_INDICATOR, wip)
 
     this
   }
@@ -247,7 +251,7 @@ class PragmaticContentFormatter(text: String) {
       //between leading apostrophes
       .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r, "betweenPunctuations-leadApostroph"))
 
-    wip = factory.applyStrategy(wip)
+    wip = factory.transform(wip)
 
     this
   }
@@ -266,7 +270,7 @@ class PragmaticContentFormatter(text: String) {
       .addSymbolicRule(DP_THIRD,RegexRule("\\?\\?".r, "doublePunctuations-dpfirst"))
       .addSymbolicRule(DP_FOURTH,RegexRule("!!".r, "doublePunctuations-dpfirst"))
 
-    wip = factory.applySymbolicRules(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }
@@ -284,7 +288,7 @@ class PragmaticContentFormatter(text: String) {
       //question mark in quotes
       .addRule(RegexRule("\\?(?=(\\'|\\\"))".r, "quotationMarkInQuot"))
 
-    wip = factory.applyWith(QUESTION_IN_QUOTE, wip)
+    wip = factory.transformWithSymbol(QUESTION_IN_QUOTE, wip)
 
     this
   }
@@ -308,7 +312,7 @@ class PragmaticContentFormatter(text: String) {
       //mid sentence
       .addRule(RegexRule("\\!(?=\\s[a-z])".r, "exclamationPoint-midSentence"))
 
-    wip = factory.applyWith(EXCLAMATION_INDICATOR, wip)
+    wip = factory.transformWithSymbol(EXCLAMATION_INDICATOR, wip)
 
     this
   }
@@ -320,7 +324,7 @@ class PragmaticContentFormatter(text: String) {
       .addSymbolicRule(QUESTION, RegexRule("\\?".r, "basicBreakers-question"))
       .addSymbolicRule(EXCLAMATION, RegexRule("!".r, "basicBreakers-exclamation"))
 
-    wip = factory.applySymbolicRules(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }

@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.util.{RegexRule, RegexStrategy}
+import com.jsl.nlp.util.RegexStrategy
+import com.jsl.nlp.util.regex.{RegexRule, RegexStrategy}
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._

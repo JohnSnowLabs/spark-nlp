@@ -2,6 +2,8 @@ package com.jsl.nlp.util
 
 import java.io.{FileNotFoundException, InputStream}
 
+import com.jsl.nlp.util.regex.RegexRule
+
 import scala.io.Source
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 
@@ -36,6 +38,10 @@ object ResourceHelper {
         }
       }}
     (tokens.toList, tags.toList)
+  }
+
+  def loadRules: Array[RegexRule] = {
+    ???
   }
 
   /**

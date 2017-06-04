@@ -7,7 +7,7 @@ import com.jsl.nlp.annotators.sbd.Sentence
   */
 class PragmaticSentenceExtractor(text: String) {
 
-  private val recoverySymbols = ("([" + PragmaticSymbols.sentenceRecovery.keys.mkString + "])").r
+  private val recoverySymbols = ("([" + PragmaticSymbols.symbolRecovery.keys.mkString + "])").r
 
   /**
     * Goes through all sentences and records substring beginning and end
@@ -42,7 +42,7 @@ class PragmaticSentenceExtractor(text: String) {
       // leave only useful content
       .map(_.trim).filter(_.nonEmpty)
     val rawSentences: Array[String] = splitSentences.map(s => recoverySymbols.replaceAllIn(
-      s, m => PragmaticSymbols.sentenceRecovery
+      s, m => PragmaticSymbols.symbolRecovery
         .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))))
     buildSentenceProperties(rawSentences)
   }
