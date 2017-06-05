@@ -14,8 +14,8 @@ class StemmerTestSpec extends FlatSpec with StemmerBehaviors {
     assert(stemmer.aType == Stemmer.aType)
   }
 
-  val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
+  val englishPhraseData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.englishPhrase)
 
-  "A full Stemmer pipeline with latin content" should behave like fullStemmerPipeline(latinBodyData)
+  "A full Stemmer pipeline with English content" should behave like fullStemmerPipeline(englishPhraseData)
 
 }
