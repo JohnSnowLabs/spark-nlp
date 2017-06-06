@@ -1,7 +1,5 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.util.RegexStrategy
-import com.jsl.nlp.util.regex.{RegexRule, RegexStrategy}
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -19,10 +17,12 @@ class RegexMatcherTestSpec extends FlatSpec with RegexMatcherBehaviors {
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
   val rules = Seq(
-    RegexRule("the\\s\\w+".r, "followed by the", RegexStrategy.MatchAll),
-    RegexRule("ceremonies".r, "ceremony", RegexStrategy.MatchFirst)
+    ("the\\s\\w+", "followed by 'the'"),
+    ("ceremonies", "ceremony")
   )
 
-  "A full RegexMatcher pipeline with latin content" should behave like predefinedRulesRegexMatcher(latinBodyData, rules)
+  val strategy = "MATCH_ALL"
+
+  "A full RegexMatcher pipeline with latin content" should behave like predefinedRulesRegexMatcher(latinBodyData, rules, strategy)
 
 }

@@ -1,6 +1,5 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.util.regex.RegexRule
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -10,10 +9,10 @@ import org.scalatest._
   */
 trait RegexMatcherBehaviors { this: FlatSpec =>
 
-  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], rules: Seq[RegexRule]): Unit = {
-    "A RegexMatcher Annotator" should s"successfuly match ${rules.map(_.value).mkString(",")}" in {
+  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], rules: Seq[(String, String)], strategy: String): Unit = {
+    "A RegexMatcher Annotator" should s"successfuly match ${rules.map(_._1).mkString(",")}" in {
       println(dataset.schema)
-      AnnotatorBuilder.withRegexMatcher(dataset, rules)
+      AnnotatorBuilder.withRegexMatcher(dataset, rules, strategy)
         .collect().foreach {
         row =>
           val document = Document(row.getAs[Row](0))

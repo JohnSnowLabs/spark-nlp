@@ -3,6 +3,7 @@ package com.jsl.nlp.util.regex
 import com.jsl.nlp.annotators.sbd.pragmatic.RuleSymbols
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
+
 import scala.util.matching.Regex
 
 case class RegexMatch(content: String, start: Int, end: Int, description: String)
@@ -10,8 +11,7 @@ case class RegexMatch(content: String, start: Int, end: Int, description: String
 /**
   * Created by Saif Addin on 5/8/2017.
   */
-object RuleStrategy extends Enumeration {
-
+object TransformStrategy extends Enumeration {
   type TransformStrategy = Value
   val NO_TRANSFORM,
       APPEND_WITH_SYMBOL,
@@ -21,18 +21,20 @@ object RuleStrategy extends Enumeration {
       PROTECT_FROM_BREAK,
       REPLACE_EACH_WITH_SYMBOL,
       REPLACE_EACH_WITH_SYMBOL_AND_BREAK = Value
-
-  type MatchStrategy = Value
-    val MATCH_ALL,
-        MATCH_FIRST,
-        MATCH_COMPLETE = Value
-
 }
 
-class RuleFactory(matchStrategy: RuleStrategy.MatchStrategy)
-                 (transformStrategy: RuleStrategy.TransformStrategy) extends RuleSymbols {
+object MatchStrategy extends Enumeration {
+  type MatchStrategy = Value
+  val MATCH_ALL,
+      MATCH_FIRST,
+      MATCH_COMPLETE = Value
+}
 
-  import RuleStrategy._
+class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy)
+                 (transformStrategy: TransformStrategy.TransformStrategy) extends RuleSymbols {
+
+  import TransformStrategy._
+  import MatchStrategy._
 
   val logger = Logger(LoggerFactory.getLogger("RuleFactory"))
 
@@ -76,9 +78,9 @@ class RuleFactory(matchStrategy: RuleStrategy.MatchStrategy)
   private def transformMatch(text: String, regex: Regex)(transform: Regex.Match => String): String = {
     matchStrategy match {
       case MATCH_ALL => regex.replaceAllIn(text, transform)
-      case MATCH_FIRST => regex.replaceFirstIn(text, transform())
-      case MATCH_COMPLETE => regex.findFirstMatchIn(text).filter(_.matched == text).map(_ =>
-        regex.replaceFirstIn(text, String)).getOrElse(text)
+      case MATCH_FIRST => regex.findFirstMatchIn(text).map(m => regex.replaceFirstIn(text, transform(m))).getOrElse(text)
+      case MATCH_COMPLETE => regex.findFirstMatchIn(text).filter(_.matched == text).map(m =>
+        regex.replaceFirstIn(text, transform(m))).getOrElse(text)
       case _ => throw new IllegalArgumentException("Invalid match strategy")
     }
   }
@@ -151,5 +153,10 @@ class RuleFactory(matchStrategy: RuleStrategy.MatchStrategy)
       case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
     }
   }
-
+}
+object RuleFactory {
+  //Constructor that is curriable. Otherwise we could switch original constructor parameters but matchStrategy came first
+  def lateMatching(transformStrategy: TransformStrategy.TransformStrategy)
+                  (matchStrategy: MatchStrategy.MatchStrategy): RuleFactory =
+    new RuleFactory(matchStrategy)(transformStrategy)
 }

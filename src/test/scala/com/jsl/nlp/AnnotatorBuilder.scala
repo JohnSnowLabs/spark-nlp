@@ -71,10 +71,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     posTagger.transform(withFullPragmaticSentenceDetector(dataset))
   }
 
-  def withRegexMatcher(dataset: Dataset[Row], rules: Seq[RegexRule]): Dataset[Row] = {
+  def withRegexMatcher(dataset: Dataset[Row], rules: Seq[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
       .setDocumentCol("document")
       .setPatterns(rules)
+      .setStrategy(strategy)
     regexMatcher.transform(dataset)
   }
 

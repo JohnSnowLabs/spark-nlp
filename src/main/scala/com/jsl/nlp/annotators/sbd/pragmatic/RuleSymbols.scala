@@ -61,7 +61,7 @@ trait RuleSymbols {
     // http://rubular.com/r/Tq7lWxGkQl
   val UNPROTECTED_BREAK_INDICATOR = s"$BREAK_INDICATOR+(?![^$PROTECTION_MARKER_OPEN]*$PROTECTION_MARKER_CLOSE)"
 
-  val symbolRecovery: Map[String, String] = Map(
+  def symbolRecovery: Map[String, String] = Map(
     DOT -> ".",
     SEMICOLON -> ";",
     QUESTION -> "?",

@@ -79,7 +79,7 @@ object PragmaticSymbols extends RuleSymbols {
   val EXCLAMATION_INDICATOR = "╥" // !
 
 
-  val pragmaticSymbolRecovery: Map[String, String] = PragmaticSymbols.symbolRecovery ++ Map(
+  override def symbolRecovery: Map[String, String] = super.symbolRecovery ++ Map(
     ABBREVIATOR -> ".",
     NUM_INDICATOR -> ".",
     MULT_PERIOD -> ".",
