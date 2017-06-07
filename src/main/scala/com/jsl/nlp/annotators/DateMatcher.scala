@@ -3,6 +3,8 @@ package com.jsl.nlp.annotators
 import java.text.SimpleDateFormat
 
 import com.jsl.nlp.{Annotation, Annotator, Document}
+
+import scala.util.matching.Regex
 import java.util.Calendar
 
 import org.apache.spark.ml.param.Param
@@ -12,12 +14,13 @@ import org.apache.spark.ml.param.Param
   */
 class DateMatcher extends Annotator {
 
-  case class MatchedDate(calendar: Calendar, start: Int, end: Int)
+  private[annotators] case class MatchedDate(calendar: Calendar, start: Int, end: Int)
 
   /**
     * Formal date
     */
-  private val formalDate = "(\\b\\d{1,4})[-/](\\d{2})[-/](\\d{4}\\b|\\d{2}\\b)".r
+  private val formalDate = new Regex("(\\b\\d{2,4})[-/](\\d{1,2})[-/](\\d{1,2}\\b)", "year", "month", "day")
+  private val formalDateAlt = new Regex("(\\b\\d{1,2})[-/](\\d{1,2})[-/](\\d{2,4}\\b)", "month", "day", "year")
 
   /**
     * Relaxed date
@@ -25,19 +28,19 @@ class DateMatcher extends Annotator {
   private val months = Seq("january","february","march","april","may","june","july","august","september","october","november","december")
   private val shortMonths = Seq("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec")
 
-  private val relaxedDayNumbered = "\\b\\d{1,2}(?=>st|rd|nd|th|\\b)".r
-  private val relaxedMonths = ("(?i)" +: months).mkString("|")
-  private val relaxedShortMonths = ("(?i)" +: shortMonths).mkString("|")
-  private val relaxedYear = "\\d{4}\\b|\\d{2}\\b".r
+  private val relaxedDayNumbered = "\\b(\\d{1,2})(?:st|rd|nd|th)*\\b".r
+  private val relaxedMonths = "(?i)" + months.mkString("|")
+  private val relaxedShortMonths = "(?i)" + shortMonths.mkString("|")
+  private val relaxedYear = "\\d{4}\\b|\\B'\\d{2}\\b".r
 
   /**
     * Relative dates
     */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
-  private val relativeDay = "(?i)(tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow)".r
+  private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before|day after|day before yesterday|day after tomorrow)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
-  private val dateFormat: Param[SimpleDateFormat] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
+  protected val dateFormat: Param[SimpleDateFormat] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
 
   override val aType: String = DateMatcher.aType
 
@@ -58,7 +61,7 @@ class DateMatcher extends Annotator {
     )).flatten
   }
 
-  private def extractDate(text: String): Option[MatchedDate] = {
+  private[annotators] def extractDate(text: String): Option[MatchedDate] = {
     extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
       .orElse(extractRelativeDate(text))
@@ -67,10 +70,14 @@ class DateMatcher extends Annotator {
   }
 
   private def extractFormalDate(text: String): Option[MatchedDate] = {
-    formalDate.findFirstMatchIn(text).map {m =>
+    formalDate.findFirstMatchIn(text).orElse(formalDateAlt.findFirstMatchIn(text)).map{m =>
       val calendar = new Calendar.Builder()
       MatchedDate(
-        calendar.setDate(m.group(1).toInt, m.group(2).toInt, m.group(3).toInt).build(),
+        calendar.setDate(
+          if (m.group("year").toInt > 999) m.group("year").toInt else m.group("year").toInt + 1900,
+          m.group("month").toInt - 1,
+          m.group("day").toInt
+        ).build(),
         m.start,
         m.end
       )
@@ -79,13 +86,15 @@ class DateMatcher extends Annotator {
 
   private def extractRelaxedDate(text: String): Option[MatchedDate] = {
     val calendar = new Calendar.Builder()
-    val d = relaxedDayNumbered.findFirstMatchIn(text).map(m => (m.start, m.end, m.matched.toInt))
+    val d = relaxedDayNumbered.findFirstMatchIn(text).map(m => (m.start, m.end, m.group(1).toInt))
     val m = relaxedMonths.r.findFirstMatchIn(text)
-      .orElse(relaxedShortMonths.r.findFirstMatchIn(text))
-      .map(m => (m.start, m.end, relaxedMonths.indexOf(m.matched) + 1))
-    val y = relaxedYear.findFirstMatchIn(text).map(m => (m.start, m.end, m.matched.toInt))
+      .map(m => (m.start, m.end, months.indexOf(m.matched.toLowerCase)))
+      .orElse(relaxedShortMonths.r.findFirstMatchIn(text)
+      .map(m => (m.start, m.end, shortMonths.indexOf(m.matched.toLowerCase))))
+    val y = relaxedYear.findFirstMatchIn(text).map(m => (m.start, m.end, m.matched.filter(_.isDigit).toInt))
     if (y.isDefined && m.isDefined && d.isDefined ) {
-      calendar.setDate(y.get._3, m.get._3, d.get._3)
+      println(y.get._3, m.get._3, d.get._3)
+      calendar.setDate(if (y.get._3 > 999) y.get._3 else y.get._3 + 1900, m.get._3, d.get._3)
       Some(MatchedDate(
         calendar.build(),
         Seq(y.get._1, m.get._1, d.get._1).min,
@@ -116,6 +125,9 @@ class DateMatcher extends Annotator {
 
   private def extractTomorrowYesterday(text: String): Option[MatchedDate] = {
     relativeDay.findFirstMatchIn(text).map (m => { m.matched match {
+      case "today" =>
+        val calendar = Calendar.getInstance()
+        MatchedDate(calendar, m.start, m.end)
       case "tomorrow" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -125,6 +137,14 @@ class DateMatcher extends Annotator {
         calendar.add(Calendar.DAY_OF_MONTH, 2)
         MatchedDate(calendar, m.start, m.end)
       case "yesterday" =>
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        MatchedDate(calendar, m.start, m.end)
+      case "day after" =>
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        MatchedDate(calendar, m.start, m.end)
+      case "day before" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -1)
         MatchedDate(calendar, m.start, m.end)
@@ -143,27 +163,27 @@ class DateMatcher extends Annotator {
     relativeExactDay.findFirstMatchIn(text).map(m => {
         val calendar = Calendar.getInstance()
         val amount = if (m.group(1) == "next") 1 else -1
-        calendar.add(Calendar.WEEK_OF_MONTH, amount)
+        calendar.add(Calendar.DAY_OF_MONTH, amount)
         m.group(2) match {
-          case "monday" =>
+          case "mon" =>
             while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-              calendar.add(Calendar.DAY_OF_MONTH, 1)
+              calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
-          case "tuesday" =>
+          case "tue" =>
             while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.TUESDAY) {
-              calendar.add(Calendar.DAY_OF_MONTH, 1)
+              calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
-          case "wednesday" =>
+          case "wed" =>
             while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY) {
-              calendar.add(Calendar.DAY_OF_MONTH, 1)
+              calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
-          case "thursday" =>
+          case "thu" =>
             while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY) {
-              calendar.add(Calendar.DAY_OF_MONTH, 1)
+              calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
-          case "friday" =>
+          case "fri" =>
             while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY) {
-              calendar.add(Calendar.DAY_OF_MONTH, 1)
+              calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
         }
       MatchedDate(calendar, m.start, m.end)

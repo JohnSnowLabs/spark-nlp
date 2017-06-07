@@ -79,4 +79,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     regexMatcher.transform(dataset)
   }
 
+  def withDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
+    val dateMatcher = new DateMatcher()
+      .setDocumentCol("document")
+    dateMatcher.transform(dataset)
+  }
+
 }
