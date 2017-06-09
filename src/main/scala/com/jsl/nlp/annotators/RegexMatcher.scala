@@ -55,12 +55,12 @@ class RegexMatcher extends Annotator {
                        ): Seq[Annotation] = {
     matchFactory(getFactoryStrategy)
       .setRules(getPatterns)
-      .find(document.text).map(m => {
+      .findMatch(document.text).map(m => {
       Annotation(
         RegexMatcher.aType,
-        m.start,
-        m.end,
-        Map(m.description -> m.content)
+        m.content.start,
+        m.content.end,
+        Map(m.description -> m.content.matched)
       )
     })
   }

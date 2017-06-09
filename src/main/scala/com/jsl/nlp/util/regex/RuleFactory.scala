@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 
 import scala.util.matching.Regex
 
-case class RegexMatch(content: String, start: Int, end: Int, description: String)
+case class RuleMatch(content: Regex.Match, description: String)
 
 /**
   * Created by Saif Addin on 5/8/2017.
@@ -30,8 +30,9 @@ object MatchStrategy extends Enumeration {
       MATCH_COMPLETE = Value
 }
 
-class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy)
-                 (transformStrategy: TransformStrategy.TransformStrategy) extends RuleSymbols {
+class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
+                  transformStrategy: TransformStrategy.TransformStrategy = TransformStrategy.NO_TRANSFORM)
+  extends RuleSymbols {
 
   import TransformStrategy._
   import MatchStrategy._
@@ -46,6 +47,11 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy)
 
   def addRule(rule: RegexRule): this.type = {
     rules = rules :+ rule
+    this
+  }
+
+  def addRule(rule: Regex, description: String): this.type = {
+    rules = rules :+ RegexRule(rule, description)
     this
   }
 
@@ -64,15 +70,16 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy)
     this
   }
 
-  def find(text: String): Seq[RegexMatch] = {
+  def findMatch(text: String): Seq[RuleMatch] = {
     matchStrategy match {
-      case MATCH_ALL => rules.flatMap(rule => rule.regex.findAllMatchIn(text).map(m =>
-        RegexMatch(m.matched, m.start, m.end, rule.description)))
-      case MATCH_FIRST => rules.flatMap(rule => rule.regex.findFirstMatchIn(text).map(m =>
-        RegexMatch(m.matched, m.start, m.end, rule.description)))
-      case MATCH_COMPLETE => rules.flatMap(rule => rule.regex.findFirstMatchIn(text).filter(_.matched == text).map(m =>
-        RegexMatch(m.matched, m.start, m.end, rule.description)))
+      case MATCH_ALL => rules.flatMap(rule => rule.regex.findAllMatchIn(text).map(m => RuleMatch(m, rule.description)))
+      case MATCH_FIRST => rules.flatMap(rule => rule.regex.findFirstMatchIn(text).map(m => RuleMatch(m, rule.description)))
+      case MATCH_COMPLETE => rules.flatMap(rule => rule.regex.findFirstMatchIn(text).filter(_.matched == text).map(m => RuleMatch(m, rule.description)))
     }
+  }
+
+  def findMatchFirstOnly(text: String): Option[RuleMatch] = {
+    findMatch(text).headOption
   }
 
   private def transformMatch(text: String, regex: Regex)(transform: Regex.Match => String): String = {
@@ -158,5 +165,5 @@ object RuleFactory {
   //Constructor that is curriable. Otherwise we could switch original constructor parameters but matchStrategy came first
   def lateMatching(transformStrategy: TransformStrategy.TransformStrategy)
                   (matchStrategy: MatchStrategy.MatchStrategy): RuleFactory =
-    new RuleFactory(matchStrategy)(transformStrategy)
+    new RuleFactory(matchStrategy, transformStrategy)
 }
