@@ -48,6 +48,16 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     calendar.add(which, 1)
     calendar
   }
+  def setTimeTo(calendar: Calendar, hour: Int, minutes: Int, seconds: Int) = {
+    val calendarBuild = new Calendar.Builder
+    calendarBuild.setDate(
+      calendar.get(Calendar.YEAR),
+      calendar.get(Calendar.MONTH),
+      calendar.get(Calendar.DAY_OF_MONTH)
+    )
+    calendarBuild.setTimeOfDay(hour, minutes, seconds)
+    calendarBuild.build
+  }
 
   val dateSentences = Array(
     ("1978-01-28", new Calendar.Builder().setDate(1978, 1-1, 28).build),
@@ -71,11 +81,21 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     //NS: "3 days from now",
     //NS: "three weeks ago",
     ("day after", tomorrowCalendar),
-    ("the day before", yesterdayCalendar)
+    ("the day before", yesterdayCalendar),
     //"the monday after",
     //"the monday before"
     //NS: "2 fridays before",
     //NS: "4 tuesdays after"
+    ("0600h", setTimeTo(Calendar.getInstance, 6,0,0)),
+    ("06:00 hours", setTimeTo(Calendar.getInstance, 6,0,0)),
+    ("6pm", setTimeTo(Calendar.getInstance, 18,0,0)),
+    ("5:30 a.m.", setTimeTo(Calendar.getInstance, 5,30,0)),
+    ("at 5", setTimeTo(Calendar.getInstance, 17,0,0)),
+    ("12:59", setTimeTo(Calendar.getInstance, 12,59,0)),
+    ("23:59", setTimeTo(Calendar.getInstance, 23,59,0)),
+    ("1988/11/23 6pm", setTimeTo(new Calendar.Builder().setDate(1988, 11-1, 23).build, 18, 0, 0)),
+    ("next week at 7.30", setTimeTo(nextCalendar(Calendar.WEEK_OF_MONTH), 19, 0, 0)),
+    ("5 am tomorrow", setTimeTo(tomorrowCalendar, 5, 0, 0))
   )
 
   dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {

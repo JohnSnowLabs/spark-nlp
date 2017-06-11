@@ -7,7 +7,7 @@ import com.jsl.nlp.{Annotation, Annotator, Document}
 import scala.util.matching.Regex
 import java.util.Calendar
 
-import com.jsl.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
+import com.jsl.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.Param
 
 /**
@@ -15,7 +15,7 @@ import org.apache.spark.ml.param.Param
   */
 class DateMatcher extends Annotator {
 
-  private[annotators] case class MatchedDate(calendar: Calendar, start: Int, end: Int)
+  private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
   /**
     * Formal date
@@ -41,6 +41,14 @@ class DateMatcher extends Annotator {
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before|day after|day before yesterday|day after tomorrow)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
+  /**
+    * time catch
+    */
+  private val clockTime = new Regex("(?i)([0-2][0-9]):([0-5][0-9])(?::([0-5][0-9]))?", "hour", "minutes", "seconds")
+  private val altTime = new Regex("([0-2]?[0-9])\\.([0-5][0-9])\\.?([0-5][0-9])?", "hour", "minutes", "seconds")
+  private val coordTIme = new Regex("([0-2]?[0-9])([0-5][0-9])?\\.?([0-5][0-9])?\\s*(?:h|a\\.?m|p\\.?m)", "hour", "minutes", "seconds")
+  private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
+
   protected val dateFormat: Param[SimpleDateFormat] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
 
   override val aType: String = DateMatcher.aType
@@ -62,22 +70,24 @@ class DateMatcher extends Annotator {
     )).flatten
   }
 
-  private[annotators] def extractDate(text: String): Option[MatchedDate] = {
-    extractFormalDate(text)
+  private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
+    val possibleDate = extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
       .orElse(extractRelativeDate(text))
       .orElse(extractTomorrowYesterday(text))
       .orElse(extractRelativeExactDay(text))
+
+    possibleDate.orElse(setTimeIfAny(possibleDate, text))
   }
 
-  private def extractFormalDate(text: String): Option[MatchedDate] = {
+  private def extractFormalDate(text: String): Option[MatchedDateTime] = {
     val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     formalFactory.addRule(formalDate, "formal date matcher with year at first")
     formalFactory.addRule(formalDateAlt, "formal date with year at end")
     formalFactory.findMatchFirstOnly(text).map{ possibleDate =>
       val formalDate = possibleDate.content
       val calendar = new Calendar.Builder()
-      MatchedDate(
+      MatchedDateTime(
         calendar.setDate(
           if (formalDate.group("year").toInt > 999) formalDate.group("year").toInt else formalDate.group("year").toInt + 1900,
           formalDate.group("month").toInt - 1,
@@ -89,7 +99,7 @@ class DateMatcher extends Annotator {
     }
   }
 
-  private def extractRelaxedDate(text: String): Option[MatchedDate] = {
+  private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
     val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relaxedFactory.addRule(relaxedDayNumbered, "relaxed days")
     relaxedFactory.addRule(relaxedMonths.r, "relaxed months exclusive")
@@ -112,7 +122,7 @@ class DateMatcher extends Annotator {
       }
       val calendar = new Calendar.Builder()
       calendar.setDate(year, month, day)
-      Some(MatchedDate(
+      Some(MatchedDateTime(
         calendar.build(),
         Seq(yearMatch, monthMatch, dayMatch).map(_.start).min,
         Seq(yearMatch, monthMatch, dayMatch).map(_.end).max
@@ -120,7 +130,7 @@ class DateMatcher extends Annotator {
     } else None
   }
 
-  private def extractRelativeDate(text: String): Option[MatchedDate] = {
+  private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
     val relativeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relativeFactory.addRule(relativeDate, "relative dates")
     relativeFactory.findMatchFirstOnly(text).map(possibleDate => {
@@ -132,11 +142,11 @@ class DateMatcher extends Annotator {
         case "month" => calendar.add(Calendar.MONTH, amount)
         case "year" => calendar.add(Calendar.YEAR, amount)
       }
-      MatchedDate(calendar, relativeDate.start, relativeDate.end)
+      MatchedDateTime(calendar, relativeDate.start, relativeDate.end)
     })
   }
 
-  private def extractTomorrowYesterday(text: String): Option[MatchedDate] = {
+  private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
     val tyFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     tyFactory.addRule(relativeDay, "relative days")
     tyFactory.findMatchFirstOnly(text).map (possibleDate => {
@@ -144,39 +154,39 @@ class DateMatcher extends Annotator {
       tyDate.matched match {
       case "today" =>
         val calendar = Calendar.getInstance()
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "tomorrow" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "past tomorrow" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 2)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "yesterday" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -1)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day after" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day before" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -1)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day after tomorrow" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 2)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day before yesterday" =>
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -2)
-        MatchedDate(calendar, tyDate.start, tyDate.end)
+        MatchedDateTime(calendar, tyDate.start, tyDate.end)
     }})
   }
 
-  private def extractRelativeExactDay(text: String): Option[MatchedDate] = {
+  private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
     val relativeExactFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relativeExactFactory.addRule(relativeExactDay, "relative precise dates")
     relativeExactFactory.findMatchFirstOnly(text).map(possibleDate => {
@@ -206,9 +216,50 @@ class DateMatcher extends Annotator {
               calendar.add(Calendar.DAY_OF_MONTH, amount)
             }
         }
-      MatchedDate(calendar, relativeDate.start, relativeDate.end)
+      MatchedDateTime(calendar, relativeDate.start, relativeDate.end)
     })
   }
+
+  private def setTimeIfAny(dateTime: Option[MatchedDateTime], text: String): Option[MatchedDateTime] = {
+    val timeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    timeFactory.addRule(clockTime, "standard time extraction")
+    timeFactory.addRule(altTime, "alternative time format")
+    timeFactory.addRule(coordTIme, "coordinate like time")
+    timeFactory.addRule(refTime, "referred time")
+    timeFactory.findMatchFirstOnly(text).map { possibleTime => {
+      val calendarBuild = new Calendar.Builder
+      calendarBuild.setDate(
+        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.YEAR),
+        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.MONTH),
+        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.DAY_OF_MONTH)
+      )
+      val times = possibleTime.content.subgroups
+      val hour = {
+        /**
+          * we can assume time is pm if ->
+          */
+        if (
+          times.head != null && // hour is defined
+            times.head.toInt < 12 && // hour is within smaller than 12
+            times(1) == null && // minutes are not defined
+            !(text.contains("am") || text.contains("a.m")) // no explicit am
+        ) times.head.toInt + 12
+        else if (times.head.toInt < 25) times.head.toInt
+        else 0
+      }
+      val minutes = {
+        if (times(1) != null && times(1).toInt < 60) times(1).toInt
+        else 0
+      }
+      val seconds = {
+        if (times(2) != null && times(2).toInt < 60) times(2).toInt
+        else 0
+      }
+      calendarBuild.setTimeOfDay(hour, minutes, seconds)
+      MatchedDateTime(calendarBuild.build, possibleTime.content.start, possibleTime.content.end)
+    }}
+  }
+
 }
 object DateMatcher {
   val aType: String = "date"

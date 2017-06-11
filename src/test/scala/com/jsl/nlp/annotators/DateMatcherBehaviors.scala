@@ -1,7 +1,5 @@
 package com.jsl.nlp.annotators
 
-import java.util.Calendar
-
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
