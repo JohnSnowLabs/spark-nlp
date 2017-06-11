@@ -48,6 +48,7 @@ class DateMatcher extends Annotator {
   private val altTime = new Regex("([0-2]?[0-9])\\.([0-5][0-9])\\.?([0-5][0-9])?", "hour", "minutes", "seconds")
   private val coordTIme = new Regex("([0-2]?[0-9])([0-5][0-9])?\\.?([0-5][0-9])?\\s*(?:h|a\\.?m|p\\.?m)", "hour", "minutes", "seconds")
   private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
+  private val amDefinition = "(?i)(a\\.?m)".r
 
   protected val dateFormat: Param[SimpleDateFormat] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
 
@@ -240,9 +241,8 @@ class DateMatcher extends Annotator {
           */
         if (
           times.head != null && // hour is defined
-            times.head.toInt < 12 && // hour is within smaller than 12
-            times(1) == null && // minutes are not defined
-            !(text.contains("am") || text.contains("a.m")) // no explicit am
+            amDefinition.findFirstIn(text).isDefined && // no explicit am
+            times.head.toInt < 12 // hour is within smaller than 12
         ) times.head.toInt + 12
         else if (times.head.toInt < 25) times.head.toInt
         else 0
