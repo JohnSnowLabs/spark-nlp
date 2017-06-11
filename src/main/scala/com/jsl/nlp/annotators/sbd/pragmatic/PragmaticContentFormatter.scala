@@ -141,7 +141,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/mQ8Es9bxtk
       //continuous punctuations
-      .addRule(RegexRule("(?<=\\S, !|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
+      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
 
     wip = factory.transform(wip)
 
