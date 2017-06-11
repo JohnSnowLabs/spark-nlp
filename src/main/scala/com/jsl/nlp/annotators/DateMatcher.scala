@@ -229,10 +229,11 @@ class DateMatcher extends Annotator {
     timeFactory.addRule(refTime, "referred time")
     timeFactory.findMatchFirstOnly(text).map { possibleTime => {
       val calendarBuild = new Calendar.Builder
+      val currentCalendar = dateTime.map(_.calendar).getOrElse(Calendar.getInstance)
       calendarBuild.setDate(
-        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.YEAR),
-        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.MONTH),
-        dateTime.map(_.calendar).getOrElse(Calendar.getInstance).get(Calendar.DAY_OF_MONTH)
+        currentCalendar.get(Calendar.YEAR),
+        currentCalendar.get(Calendar.MONTH),
+        currentCalendar.get(Calendar.DAY_OF_MONTH)
       )
       val times = possibleTime.content.subgroups
       val hour = {
