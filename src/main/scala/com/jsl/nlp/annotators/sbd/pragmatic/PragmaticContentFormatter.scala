@@ -1,13 +1,18 @@
-package com.jsl.nlp.annotators.sbd.pragmatic.rule
+package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticDictionaries.{ABBREVIATIONS, NUMBER_ABBREVIATIONS, PREPOSITIVE_ABBREVIATIONS}
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticSymbols._
+import com.jsl.nlp.util.regex.{RegexRule, RuleFactory, TransformStrategy, MatchStrategy}
 
 /**
   * Created by Saif Addin on 5/6/2017.
   */
 class PragmaticContentFormatter(text: String) {
-  import RuleStrategy._
+
+
+
+  import TransformStrategy._
+  import MatchStrategy._
 
   private var wip: String = text
 
@@ -19,7 +24,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatLists: this.type = {
 
-    val factory = new RuleFactory(PREPEND_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, PREPEND_WITH_SYMBOL)
     // http://rubular.com/r/XcpaJKH0sz
       //lower case dots
       // ToDo: This rule requires more complex logic than just itself
@@ -35,7 +40,7 @@ class PragmaticContentFormatter(text: String) {
         "formatLists-numerical"
     ))
 
-    wip = factory.applyWith(BREAK_INDICATOR, wip)
+    wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
 
     this
   }
@@ -48,7 +53,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatAbbreviations: this.type = {
 
-    val stdAbbrFactory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val stdAbbrFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/yqa4Rit8EY
       //possessive
       .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
@@ -78,7 +83,7 @@ class PragmaticContentFormatter(text: String) {
       //general comma abbreviation
       .addRules(ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)".r, "formatAbbreviations-otherAbbr")))
 
-    val specialAbbrFactory = new RuleFactory(PROTECT_FROM_BREAK)
+    val specialAbbrFactory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/xDkpFZ0EgH
     // http://rubular.com/r/ezFi9y2Q1t
       //multiple period words
@@ -88,8 +93,8 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("(?i)p\\.m\\.*".r, "protectAbbreviations-pm"))
       .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-am"))
 
-    wip = specialAbbrFactory.applyStrategy(wip)
-    wip = stdAbbrFactory.applyWith(ABBREVIATOR, wip)
+    wip = specialAbbrFactory.transform(wip)
+    wip = stdAbbrFactory.transformWithSymbol(ABBREVIATOR, wip)
 
     this
   }
@@ -102,7 +107,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatNumbers: this.type = {
 
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/oNyxBOqbyy
       //period before
       .addRule(RegexRule("\\.(?=\\d)".r, "formatNumbers-periodBefore"))
@@ -120,7 +125,7 @@ class PragmaticContentFormatter(text: String) {
       //start line with two digits
       .addRule(RegexRule("(?<=^\\d\\d)\\.(?=(\\s\\S)|\\))".r, "formatNumbers-startLineTwoDigits"))
 
-    wip = factory.applyWith(NUM_INDICATOR, wip)
+    wip = factory.transformWithSymbol(NUM_INDICATOR, wip)
 
     this
   }
@@ -133,12 +138,12 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatPunctuations: this.type = {
 
-    val factory = new RuleFactory(PROTECT_FROM_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/mQ8Es9bxtk
       //continuous punctuations
-      .addRule(RegexRule("(?<=\\S)(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
+      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
 
-    wip = factory.applyStrategy(wip)
+    wip = factory.transform(wip)
 
     this
   }
@@ -151,12 +156,12 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatMultiplePeriods: this.type = {
 
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/EUbZCNfgei
       //periods
       .addRule(RegexRule("(?<=\\w)\\.(?=\\w)".r, "formatMultiplePeriods"))
 
-    wip = factory.applyWith(MULT_PERIOD, wip)
+    wip = factory.transformWithSymbol(MULT_PERIOD, wip)
 
     this
   }
@@ -168,12 +173,12 @@ class PragmaticContentFormatter(text: String) {
     * @return
     */
   def formatGeoLocations: this.type = {
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/G2opjedIm9
       //special periods
       .addRule(RegexRule("http://rubular.com/r/G2opjedIm9".r, "formatGeo"))
 
-    wip = factory.applyWith(MULT_PERIOD, wip)
+    wip = factory.transformWithSymbol(MULT_PERIOD, wip)
 
     this
   }
@@ -195,7 +200,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatEllipsisRules: this.type = {
 
-    val factory = new RuleFactory(REPLACE_WITH_SYMBOL_AND_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_WITH_SYMBOL_AND_BREAK)
     // http://rubular.com/r/i60hCK81fz
       //three consecutive
       .addRule(RegexRule("\\.\\.\\.(?=\\s+[A-Z])".r, "formatEllipsis-threeConsec"))
@@ -208,7 +213,7 @@ class PragmaticContentFormatter(text: String) {
       //three other rule
       .addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
 
-    wip = factory.applyWith(ELLIPSIS_INDICATOR, wip)
+    wip = factory.transformWithSymbol(ELLIPSIS_INDICATOR, wip)
 
     this
   }
@@ -221,7 +226,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatBetweenPunctuations: this.type = {
 
-    val factory = new RuleFactory(PROTECT_FROM_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // ToDo: NOT ADDING EXCLAMATION WORDS,
     // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 
@@ -247,7 +252,7 @@ class PragmaticContentFormatter(text: String) {
       //between leading apostrophes
       .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r, "betweenPunctuations-leadApostroph"))
 
-    wip = factory.applyStrategy(wip)
+    wip = factory.transform(wip)
 
     this
   }
@@ -260,13 +265,13 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatDoublePunctuations: this.type = {
 
-    val factory = new RuleFactory(REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       .addSymbolicRule(DP_FIRST,RegexRule("\\?!".r, "doublePunctuations-dpfirst"))
       .addSymbolicRule(DP_SECOND,RegexRule("!\\?".r, "doublePunctuations-dpfirst"))
       .addSymbolicRule(DP_THIRD,RegexRule("\\?\\?".r, "doublePunctuations-dpfirst"))
       .addSymbolicRule(DP_FOURTH,RegexRule("!!".r, "doublePunctuations-dpfirst"))
 
-    wip = factory.applySymbolicRules(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }
@@ -279,12 +284,12 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatQuotationMarkInQuotation: this.type = {
 
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     //http://rubular.com/r/aXPUGm6fQh
       //question mark in quotes
       .addRule(RegexRule("\\?(?=(\\'|\\\"))".r, "quotationMarkInQuot"))
 
-    wip = factory.applyWith(QUESTION_IN_QUOTE, wip)
+    wip = factory.transformWithSymbol(QUESTION_IN_QUOTE, wip)
 
     this
   }
@@ -297,7 +302,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatExclamationPoint: this.type = {
 
-    val factory = new RuleFactory(REPLACE_ALL_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/XS1XXFRfM2
       //in quote
       .addRule(RegexRule("\\!(?=(\\'|\\\"))".r, "exclamationPoint-inQuot"))
@@ -308,19 +313,19 @@ class PragmaticContentFormatter(text: String) {
       //mid sentence
       .addRule(RegexRule("\\!(?=\\s[a-z])".r, "exclamationPoint-midSentence"))
 
-    wip = factory.applyWith(EXCLAMATION_INDICATOR, wip)
+    wip = factory.transformWithSymbol(EXCLAMATION_INDICATOR, wip)
 
     this
   }
 
   def formatBasicBreakers: this.type = {
-    val factory = new RuleFactory(REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       .addSymbolicRule(DOT, RegexRule("\\.".r, "basicBreakers-dot"))
       .addSymbolicRule(SEMICOLON, RegexRule(";".r, "basicBreakers-semicolon"))
       .addSymbolicRule(QUESTION, RegexRule("\\?".r, "basicBreakers-question"))
       .addSymbolicRule(EXCLAMATION, RegexRule("!".r, "basicBreakers-exclamation"))
 
-    wip = factory.applySymbolicRules(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }

@@ -5,14 +5,14 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 /**
-  * Created by Saif Addin on 5/7/2017.
+  * Created by Saif Addin on 6/6/2017.
   */
-trait RegexMatcherBehaviors { this: FlatSpec =>
+trait DateMatcherBehaviors extends FlatSpec {
 
-  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], rules: Seq[(String, String)], strategy: String): Unit = {
-    "A RegexMatcher Annotator" should s"successfuly match ${rules.map(_._1).mkString(",")}" in {
+  def sparkBasedDateMatcher(dataset: => Dataset[Row]): Unit = {
+    "A DateMatcher Annotator" should s"successfuly parse dates}" in {
       println(dataset.schema)
-      AnnotatorBuilder.withRegexMatcher(dataset, rules, strategy)
+      AnnotatorBuilder.withDateMatcher(dataset)
         .collect().foreach {
         row =>
           val document = Document(row.getAs[Row](0))
