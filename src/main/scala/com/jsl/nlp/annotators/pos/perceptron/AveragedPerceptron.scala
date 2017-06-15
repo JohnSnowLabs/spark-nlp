@@ -1,7 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.pos.POSModel
-import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable.{Map => MMap}
@@ -16,7 +15,7 @@ class AveragedPerceptron(
                           lastIteration: Int = 0
                         ) extends POSModel {
 
-  val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
+  val logger = LoggerFactory.getLogger("PerceptronTraining")
 
   private var updateIteration: Int = lastIteration
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)

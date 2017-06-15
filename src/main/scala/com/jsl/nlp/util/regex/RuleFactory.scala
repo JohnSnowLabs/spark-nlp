@@ -37,7 +37,7 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   import TransformStrategy._
   import MatchStrategy._
 
-  val logger = Logger(LoggerFactory.getLogger("RuleFactory"))
+  val logger = LoggerFactory.getLogger("RuleFactory")
 
   private var rules: Seq[RegexRule] = Seq()
   private var symbolRules: Seq[(String, RegexRule)] = Seq()

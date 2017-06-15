@@ -1,14 +1,15 @@
 package com.jsl.nlp.annotators
 
 import com.jsl.nlp.{Annotation, Annotator, Document}
+import org.apache.spark.ml.param.Param
 import org.tartarus.snowball.SnowballStemmer
 
 /**
   * Created by alext on 10/23/16.
   */
-class Stemmer(algorithm: String = "english") extends Annotator {
+class Stemmer() extends Annotator {
 
-  private val stemmer: (String => String) = Stemmer.getStemmer(algorithm)
+  private val stemmer: (String => String) = Stemmer.getStemmer($(algorithm))
 
   override val aType: String = Stemmer.aType
 
@@ -22,6 +23,14 @@ class Stemmer(algorithm: String = "english") extends Annotator {
     }
 
   override val requiredAnnotationTypes = Array(RegexTokenizer.aType)
+
+  val algorithm: Param[String] = new Param(this, "language", "this is the language of the text")
+
+  def setPattern(value: String): Stemmer = set(algorithm, value)
+
+  def getPattern: String = $(algorithm)
+
+  setDefault(algorithm, "english")
 }
 
 object Stemmer {

@@ -55,7 +55,7 @@ object PerceptronApproach {
   private val START = Array("-START-", "-START2-")
   private val END = Array("-END-", "-END2-")
 
-  val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
+  val logger = LoggerFactory.getLogger("PerceptronTraining")
 
   private def normalized(word: String): String = {
     if (word.contains("-") && word.head != '-') {
