@@ -11,7 +11,7 @@ class Lemmatizer extends Annotator {
 
   override val aType: String = Lemmatizer.aType
 
-  override val requiredAnnotationTypes: Array[String] = Array(Normalizer.aType)
+  override val requiredAnnotationTypes: Array[String] = Array(RegexTokenizer.aType)
 
   /**
     * Would need to verify this implementation, as I am flattening multiple to one annotations
@@ -21,18 +21,13 @@ class Lemmatizer extends Annotator {
     */
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.collect {
-      case token: Annotation if token.aType == Normalizer.aType =>
-        val targetToken = token.metadata.getOrElse(
-          Normalizer.aType,
-          throw new IllegalArgumentException(
-            s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
-          )
-        )
+      case tokenAnnotation: Annotation if tokenAnnotation.aType == RegexTokenizer.aType =>
+        val token = document.text.substring(tokenAnnotation.begin, tokenAnnotation.end)
         Annotation(
           aType,
-          token.begin,
-          token.end,
-          Map(aType -> Lemmatizer.lemmatize(targetToken))
+          tokenAnnotation.begin,
+          tokenAnnotation.end,
+          Map(token -> Lemmatizer.lemmatize(token))
         )
     }
   }

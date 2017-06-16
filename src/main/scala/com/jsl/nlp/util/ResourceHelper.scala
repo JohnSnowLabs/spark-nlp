@@ -2,6 +2,7 @@ package com.jsl.nlp.util
 
 import java.io.{FileNotFoundException, InputStream}
 
+import com.jsl.nlp.annotators.pos.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
 
 import scala.io.Source
@@ -11,8 +12,6 @@ import scala.collection.mutable.{ListBuffer, Map => MMap}
   * Created by saif on 28/04/17.
   */
 object ResourceHelper {
-
-  private type TaggedSentences = List[(List[String], List[String])]
 
   private case class SourceStream(resource: String) {
     val pipe: InputStream = try {
@@ -25,19 +24,17 @@ object ResourceHelper {
   }
 
   private def wordTagSplitter(sentence: String, tagSeparator: Char):
-  (List[String], List[String]) = {
-    val tokens: ListBuffer[String] = ListBuffer()
-    val tags: ListBuffer[String] = ListBuffer()
+  List[TaggedWord] = {
+    val taggedWords: ListBuffer[TaggedWord] = ListBuffer()
       sentence.split("\\s+").foreach { token => {
         val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
         if (tagSplit.length == 2) {
           val word = tagSplit(0)
-          val pos = tagSplit(1)
-          tokens.append(word)
-          tags.append(pos)
+          val tag = tagSplit(1)
+          taggedWords.append(TaggedWord(word, tag))
         }
       }}
-    (tokens.toList, tags.toList)
+    taggedWords.toList
   }
 
   def loadRules: Array[RegexRule] = {
@@ -106,18 +103,18 @@ object ResourceHelper {
   def parsePOSCorpusFromText(
                               text: String,
                               tagSeparator: Char
-                            ): TaggedSentences = {
-    val sentences: ListBuffer[(List[String], List[String])] = ListBuffer()
+                            ): List[TaggedSentence] = {
+    val sentences: ListBuffer[List[TaggedWord]] = ListBuffer()
     text.split("\n").filter(_.nonEmpty).foreach{sentence =>
       sentences.append(wordTagSplitter(sentence, tagSeparator))
     }
-    sentences.toList
+    sentences.toList.map(TaggedSentence)
   }
 
   def parsePOSCorpusFromSource(
                   source: String,
                   tagSeparator: Char
-                ): TaggedSentences = {
+                ): List[TaggedSentence] = {
     val sourceStream = SourceStream(source)
     val lines = try {
       sourceStream.content.getLines()
@@ -130,10 +127,10 @@ object ResourceHelper {
       }
     }
     sourceStream.pipe.close()
-    lines
+    lines.map(TaggedSentence)
   }
 
-  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): TaggedSentences = {
+  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): List[TaggedSentence] = {
     sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator))
   }
 

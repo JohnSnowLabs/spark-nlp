@@ -1,6 +1,5 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.pos.perceptron.TaggedWord
 import org.scalatest._
 
 /**

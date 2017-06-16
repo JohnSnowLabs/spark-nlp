@@ -39,7 +39,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setDocumentCol("document")
-    lemmatizer.transform(withFullNormalizer(dataset))
+    lemmatizer.transform(withTokenizer(dataset))
   }
 
   def withFullEntityExtractor(dataset: Dataset[Row]): Dataset[Row] = {
@@ -83,6 +83,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val dateMatcher = new DateMatcher()
       .setDocumentCol("document")
     dateMatcher.transform(dataset)
+  }
+
+  def withLemmaTaggedSentences(dataset: Dataset[Row]): Dataset[Row] = {
+    withFullLemmatizer(withFullPOSTagger(dataset))
   }
 
 }

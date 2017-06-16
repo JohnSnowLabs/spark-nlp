@@ -14,7 +14,7 @@ trait EntityExtractorBehaviors { this: FlatSpec =>
         row =>
           val document = Document(row.getAs[Row](0))
           println(document)
-          row.getSeq[Row](4)
+          row.getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
               case entity: Annotation if entity.aType == "entity" =>

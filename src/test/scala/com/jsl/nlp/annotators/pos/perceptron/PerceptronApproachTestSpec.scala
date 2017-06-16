@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.annotators.pos.TaggedSentence
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproachTestSpec.trainingCorpusSources
 import com.jsl.nlp.util.ResourceHelper
@@ -10,7 +11,7 @@ import org.scalatest._
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
-  val trainingSentences: List[(List[String], List[String])] = ResourceHelper
+  val trainingSentences: List[TaggedSentence] = ResourceHelper
     .parsePOSCorpusFromText(ContentProvider.wsjTrainingCorpus, '|')
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(

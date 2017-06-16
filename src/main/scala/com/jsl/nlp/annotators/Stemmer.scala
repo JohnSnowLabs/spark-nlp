@@ -10,16 +10,18 @@ class Stemmer extends Annotator {
 
   override val aType: String = Stemmer.aType
 
+  override val requiredAnnotationTypes = Array(RegexTokenizer.aType)
+
   override def annotate(
                          document: Document, annotations: Seq[Annotation]
   ): Seq[Annotation] =
     annotations.collect {
-      case token: Annotation if token.aType == RegexTokenizer.aType =>
-        val stem = Stemmer.stemmer.stem(document.text.substring(token.begin, token.end))
-        Annotation(aType, token.begin, token.end, Map(aType -> stem))
+      case tokenAnnotation: Annotation if tokenAnnotation.aType == RegexTokenizer.aType =>
+        val token = document.text.substring(tokenAnnotation.begin, tokenAnnotation.end)
+        val stem = Stemmer.stemmer.stem(token)
+        Annotation(aType, tokenAnnotation.begin, tokenAnnotation.end, Map(token -> stem))
     }
 
-  override val requiredAnnotationTypes = Array(RegexTokenizer.aType)
 }
 
 object Stemmer {

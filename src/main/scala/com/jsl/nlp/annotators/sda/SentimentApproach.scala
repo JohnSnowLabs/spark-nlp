@@ -5,4 +5,6 @@ package com.jsl.nlp.annotators.sda
   */
 abstract class SentimentApproach {
 
+  def score
+
 }

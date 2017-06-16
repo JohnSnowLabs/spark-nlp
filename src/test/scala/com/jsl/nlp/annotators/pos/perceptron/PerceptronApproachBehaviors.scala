@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.annotators.pos.TaggedSentence
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -11,12 +12,12 @@ import scala.collection.mutable.{Set => MSet}
   */
 trait PerceptronApproachBehaviors { this: FlatSpec =>
 
-  def isolatedPerceptronTraining(trainingSentences: List[(List[String], List[String])]): Unit = {
+  def isolatedPerceptronTraining(trainingSentences: List[TaggedSentence]): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val nIterations = 5
       val tagger = PerceptronApproach.train(trainingSentences, nIterations)
       val model = tagger.model
-      val nWords = trainingSentences.map(_._1.length).sum
+      val nWords = trainingSentences.map(_.words.length).sum
       assert(
         nWords * nIterations == model.getUpdateIterations,
         s"because Words: $nWords -- nIterations: $nIterations -- multip: ${nWords * nIterations}" +
@@ -24,7 +25,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       )
       val tagSet: MSet[String] = MSet()
       trainingSentences.foreach{s => {
-        s._2.foreach(tagSet.add)
+        s.tags.foreach(tagSet.add)
       }}
       assert(tagSet.size == model.getTags.length)
       tagSet.foreach(tag => assert(model.getTags.contains(tag)))

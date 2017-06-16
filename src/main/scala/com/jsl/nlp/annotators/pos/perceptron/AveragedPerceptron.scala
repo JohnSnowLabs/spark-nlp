@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.POSModel
+import com.jsl.nlp.annotators.pos.{POSModel, TaggedWord}
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 

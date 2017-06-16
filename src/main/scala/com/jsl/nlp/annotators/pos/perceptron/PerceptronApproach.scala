@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.POSApproach
+import com.jsl.nlp.annotators.pos.{POSApproach, TaggedSentence, TaggedWord}
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
@@ -42,15 +42,13 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
         )
         prev2 = prev
         prev = tag
-        (word, tag)
+        TaggedWord(word, tag)
       }
-    }}.map(_.map(taggedWord => TaggedWord(taggedWord._1, taggedWord._2)))
+    }}
   }
 
 }
 object PerceptronApproach {
-
-  private type TaggedSentences = List[(List[String], List[String])]
 
   private val START = Array("-START-", "-START2-")
   private val END = Array("-END-", "-END2-")
@@ -126,7 +124,7 @@ object PerceptronApproach {
       */
 
     val tagFrequenciesByWord = taggedSentences
-      .flatMap(_.tagged)
+      .flatMap(_.taggedWords)
       .groupBy(_.word.toLowerCase)
       .mapValues(_.groupBy(_.tag).mapValues(_.length))
 
@@ -141,12 +139,11 @@ object PerceptronApproach {
       }.toList
   }
 
-  def train(rawTaggedSentences: TaggedSentences, nIterations: Int = 5): PerceptronApproach = {
+  def train(taggedSentence: List[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
     /**
       * Generates TagBook, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model
       */
-    val taggedSentence = rawTaggedSentences.map(s => TaggedSentence(s._1, s._2))
     val taggedWordBook = buildTagBook(taggedSentence)
     val classes = taggedSentence.flatMap(_.tags).distinct
     val initialModel = new AveragedPerceptron(classes, taggedWordBook, MMap())

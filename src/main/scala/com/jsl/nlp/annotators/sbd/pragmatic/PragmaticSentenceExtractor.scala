@@ -20,13 +20,13 @@ class PragmaticSentenceExtractor(text: String) {
     var i = 0
     while (i < sentences.length) {
       val sentenceContent = rawSentences(i)
-      val sentenceLastCharPos = sentenceContent.length - 1
+      val sentenceLastCharPos = sentenceContent.length
       sentences(i) = Sentence(
         sentenceContent,
         lastCharPosition,
         sentenceLastCharPos
       )
-      lastCharPosition = sentenceLastCharPos
+      lastCharPosition = sentenceLastCharPos + 1
       i = i + 1
     }
     sentences
