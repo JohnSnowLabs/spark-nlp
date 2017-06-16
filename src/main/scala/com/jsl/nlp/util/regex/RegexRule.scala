@@ -1,4 +1,4 @@
-package com.jsl.nlp.annotators.sbd.pragmatic.rule
+package com.jsl.nlp.util.regex
 
 import scala.util.matching.Regex
 
