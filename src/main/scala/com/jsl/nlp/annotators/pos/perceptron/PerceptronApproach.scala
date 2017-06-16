@@ -25,7 +25,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   override val model: AveragedPerceptron = trainedModel
 
-  override def tag(rawSentences: Array[String]): Array[Array[TaggedWord]] = {
+  override def tag(rawSentences: Array[String]): Array[TaggedSentence] = {
     logger.debug(s"PREDICTION: Tagging:\nSENT: <<${rawSentences.mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
       s"feature:\nPREDICTION: ${model.getWeights("bias").mkString("\nPREDICTION: ")}")
     val sentences = rawSentences.map(Sentence)
@@ -44,7 +44,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
         prev = tag
         TaggedWord(word, tag)
       }
-    }}
+    }}.map(TaggedSentence)
   }
 
 }
@@ -110,10 +110,10 @@ object PerceptronApproach {
     * @param taggedSentences
     */
   private def buildTagBook(
-                            taggedSentences: List[TaggedSentence],
+                            taggedSentences: Array[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
-                          ): List[TaggedWord] = {
+                          ): Array[TaggedWord] = {
     /**
       * This creates counts, a map of words that refer to all possible tags and how many times they appear
       * It holds how many times a word-tag combination appears in the training corpus
@@ -136,10 +136,10 @@ object PerceptronApproach {
         val (tag, _) = tagFrequencies.maxBy(_._2)
         logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
         TaggedWord(word, tag)
-      }.toList
+      }.toArray
   }
 
-  def train(taggedSentence: List[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
+  def train(taggedSentence: Array[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
     /**
       * Generates TagBook, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model
@@ -155,7 +155,7 @@ object PerceptronApproach {
       /**
         * In a shuffled sentences list, try to find tag of the word, hold the correct answer
         */
-      Random.shuffle(taggedSentence).foldLeft(iteratedModel)
+      Random.shuffle(taggedSentence.toList).foldLeft(iteratedModel)
       {(model, taggedSentence) =>
         /**
           * Defines a sentence context, with room to for look back

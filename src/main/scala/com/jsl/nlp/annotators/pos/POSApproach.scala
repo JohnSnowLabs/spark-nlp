@@ -6,5 +6,5 @@ package com.jsl.nlp.annotators.pos
 abstract class POSApproach {
   val description: String
   val model: POSModel
-  def tag(sentences: Array[String]): Array[Array[TaggedWord]]
+  def tag(sentences: Array[String]): Array[TaggedSentence]
 }

@@ -30,7 +30,7 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
           POSTagger.aType,
           sentence.start,
           sentence.end,
-          taggedWords.map(taggedWord => taggedWord.word -> taggedWord.tag).toMap
+          taggedWords.mapWords
         )
       }
   }

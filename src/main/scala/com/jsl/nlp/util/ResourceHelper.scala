@@ -6,7 +6,7 @@ import com.jsl.nlp.annotators.pos.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
 
 import scala.io.Source
-import scala.collection.mutable.{ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
 
 /**
   * Created by saif on 28/04/17.
@@ -24,8 +24,8 @@ object ResourceHelper {
   }
 
   private def wordTagSplitter(sentence: String, tagSeparator: Char):
-  List[TaggedWord] = {
-    val taggedWords: ListBuffer[TaggedWord] = ListBuffer()
+  Array[TaggedWord] = {
+    val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
       sentence.split("\\s+").foreach { token => {
         val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
         if (tagSplit.length == 2) {
@@ -34,7 +34,7 @@ object ResourceHelper {
           taggedWords.append(TaggedWord(word, tag))
         }
       }}
-    taggedWords.toList
+    taggedWords.toArray
   }
 
   def loadRules: Array[RegexRule] = {
@@ -103,35 +103,34 @@ object ResourceHelper {
   def parsePOSCorpusFromText(
                               text: String,
                               tagSeparator: Char
-                            ): List[TaggedSentence] = {
-    val sentences: ListBuffer[List[TaggedWord]] = ListBuffer()
+                            ): Array[TaggedSentence] = {
+    val sentences: ArrayBuffer[Array[TaggedWord]] = ArrayBuffer()
     text.split("\n").filter(_.nonEmpty).foreach{sentence =>
       sentences.append(wordTagSplitter(sentence, tagSeparator))
     }
-    sentences.toList.map(TaggedSentence)
+    sentences.map(TaggedSentence).toArray
   }
 
   def parsePOSCorpusFromSource(
                   source: String,
                   tagSeparator: Char
-                ): List[TaggedSentence] = {
+                ): Array[TaggedSentence] = {
     val sourceStream = SourceStream(source)
     val lines = try {
       sourceStream.content.getLines()
         .filter(_.nonEmpty)
         .map(sentence => wordTagSplitter(sentence, tagSeparator))
-        .toList
+        .toArray
     } catch {
-      case _: java.nio.charset.UnmappableCharacterException => {
+      case _: java.nio.charset.UnmappableCharacterException =>
         throw new Exception(s"file $source contains dirty characters")
-      }
     }
     sourceStream.pipe.close()
     lines.map(TaggedSentence)
   }
 
-  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): List[TaggedSentence] = {
-    sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator))
+  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): Array[TaggedSentence] = {
+    sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator)).toArray
   }
 
 }

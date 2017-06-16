@@ -11,7 +11,7 @@ import org.scalatest._
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
-  val trainingSentences: List[TaggedSentence] = ResourceHelper
+  val trainingSentences: Array[TaggedSentence] = ResourceHelper
     .parsePOSCorpusFromText(ContentProvider.wsjTrainingCorpus, '|')
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(

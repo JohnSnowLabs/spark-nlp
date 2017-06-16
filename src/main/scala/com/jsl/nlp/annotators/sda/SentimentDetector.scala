@@ -26,7 +26,7 @@ class SentimentDetector(sentimentApproach: SentimentApproach) extends Annotator 
     sentences.map(sentence => {
       val taggedWords = tags.find(tag => tag.end == sentence.end)
         .getOrElse(throw new Exception("Got a sentence but there were no tags within its range")).metadata
-        .map{case (word, tag) => TaggedWord(lemmas.getOrElse(word, word), tag)}.toList
+        .map{case (word, tag) => TaggedWord(lemmas.getOrElse(word, word), tag)}.toArray
       TaggedSentence(taggedWords)
     })
     Seq()

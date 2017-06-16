@@ -13,7 +13,7 @@ class POSTaggerTestSpec extends FlatSpec {
     }
     override val description = "dummy description"
     override val model = new DummyModel
-    override def tag(sentences: Array[String]): Array[Array[TaggedWord]] = Array()
+    override def tag(sentences: Array[String]): Array[TaggedSentence] = Array()
   }
 
   val posTagger = new POSTagger(new DummyApproach)

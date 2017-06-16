@@ -12,7 +12,7 @@ import scala.collection.mutable.{Set => MSet}
   */
 trait PerceptronApproachBehaviors { this: FlatSpec =>
 
-  def isolatedPerceptronTraining(trainingSentences: List[TaggedSentence]): Unit = {
+  def isolatedPerceptronTraining(trainingSentences: Array[TaggedSentence]): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val nIterations = 5
       val tagger = PerceptronApproach.train(trainingSentences, nIterations)
@@ -38,7 +38,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                ): Unit = {
     s"Average Perceptron tagger" should "successfully tag all word sentences after training" in {
       val result = trainedTagger.tag(targetSentences)
-      assert(result.head.length == targetSentences.head.split("\\s+").length, "because tagger returned less than" +
+      assert(result.head.words.length == targetSentences.head.split("\\s+").length, "because tagger returned less than" +
         " the amount of appropriate tagged words")
     }
   }
@@ -50,12 +50,12 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                 ): Unit = {
     s"Average Perceptron tagger" should "successfully return expected tags" in {
       val resultTags = trainedTagger.tag(targetSentence).head
-      val resultContent = resultTags.zip(expectedTags)
+      val resultContent = resultTags.taggedWords.zip(expectedTags)
         .filter(rte => rte._1.tag != rte._2)
         .map(rte => (rte._1.word, (rte._1.tag, rte._2)))
-      assert(resultTags.length == expectedTags.length, s"because tag amount ${resultTags.length} differs from" +
+      assert(resultTags.words.length == expectedTags.length, s"because tag amount ${resultTags.words.length} differs from" +
         s" expected ${expectedTags.length}")
-      assert(resultTags.zip(expectedTags).forall(t => t._1.tag == t._2), s"because expected tags do not match returned" +
+      assert(resultTags.taggedWords.zip(expectedTags).forall(t => t._1.tag == t._2), s"because expected tags do not match returned" +
         s" tags.\n------------------------\n(word,(result,expected))\n-----------------------\n${resultContent.mkString("\n")}")
     }
   }
