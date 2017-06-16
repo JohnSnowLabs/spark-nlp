@@ -16,26 +16,23 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Array[SentenceToBeTagged] = annotations.collect {
-      case sentence: Annotation =>
+      case sentence: Annotation if sentence.aType == SentenceDetector.aType =>
         SentenceToBeTagged(
-          sentence.metadata.getOrElse(
-            SentenceDetector.aType,
-            throw new IllegalArgumentException(
-              s"Annotation of type ${SentenceDetector.aType} does not provide proper token in metadata"
-            )
-          ),
+          sentence.metadata(SentenceDetector.aType),
           sentence.begin,
           sentence.end
         )
     }.toArray
-    taggingApproach.tag(sentences.map(_.sentence)).zip(sentences).map{case (taggedWords, sentence) => {
-      Annotation(
-        POSTagger.aType,
-        sentence.start,
-        sentence.end,
-        taggedWords.map(taggedWord => (taggedWord.word, taggedWord.tag)).toMap
-      )
-    }}
+    taggingApproach.tag(sentences.map(_.sentence))
+      .zip(sentences)
+      .map{case (taggedWords, sentence) =>
+        Annotation(
+          POSTagger.aType,
+          sentence.start,
+          sentence.end,
+          taggedWords.map(taggedWord => taggedWord.word -> taggedWord.tag).toMap
+        )
+      }
   }
 
 }
