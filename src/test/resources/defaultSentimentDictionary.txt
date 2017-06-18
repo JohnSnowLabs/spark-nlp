@@ -1,3 +1,4 @@
+good,positive
 nice,positive
 awesome,positive
 cool,positive

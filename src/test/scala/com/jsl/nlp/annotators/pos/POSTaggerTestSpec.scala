@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
 import org.scalatest._
 
 /**
@@ -14,7 +14,7 @@ class POSTaggerTestSpec extends FlatSpec {
     }
     override val description = "dummy description"
     override val model = new DummyModel
-    override def tag(sentences: Array[String]): Array[TaggedSentence] = Array()
+    override def tag(sentences: Array[TokenizedSentence]): Array[TaggedSentence] = Array()
   }
 
   val posTagger = new POSTagger(new DummyApproach)

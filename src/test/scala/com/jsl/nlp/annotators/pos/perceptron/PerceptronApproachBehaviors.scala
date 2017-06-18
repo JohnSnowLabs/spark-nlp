@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -34,18 +34,18 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTagging(
                                  trainedTagger: PerceptronApproach,
-                                 targetSentences: Array[String]
+                                 targetSentences: Array[TokenizedSentence]
                                ): Unit = {
     s"Average Perceptron tagger" should "successfully tag all word sentences after training" in {
       val result = trainedTagger.tag(targetSentences)
-      assert(result.head.words.length == targetSentences.head.split("\\s+").length, "because tagger returned less than" +
+      assert(result.head.words.length == targetSentences.head.tokens.length, "because tagger returned less than" +
         " the amount of appropriate tagged words")
     }
   }
 
   def isolatedPerceptronTagCheck(
                                 trainedTagger: PerceptronApproach,
-                                targetSentence: Array[String],
+                                targetSentence: Array[TokenizedSentence],
                                 expectedTags: Array[String]
                                 ): Unit = {
     s"Average Perceptron tagger" should "successfully return expected tags" in {

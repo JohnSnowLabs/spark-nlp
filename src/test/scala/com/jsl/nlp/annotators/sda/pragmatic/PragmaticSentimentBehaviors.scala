@@ -14,7 +14,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
     s"tagged sentences" should s"have an expected score of $expectedScore" in {
       val pragmaticScorer = new PragmaticScorer
       val result = pragmaticScorer.score(taggedSentences)
-      assert(result == expectedScore, s"because result: $result didt not match expected: $expectedScore")
+      assert(result == expectedScore, s"because result: $result did not match expected: $expectedScore")
     }
   }
 

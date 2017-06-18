@@ -70,7 +70,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     )
     val posTagger = new POSTagger(perceptronApproach)
       .setDocumentCol("document")
-    posTagger.transform(withFullPragmaticSentenceDetector(dataset))
+    posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Seq[(String, String)], strategy: String): Dataset[Row] = {

@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproachTestSpec.trainingCorpusSources
 import com.jsl.nlp.util.ResourceHelper
@@ -23,14 +23,14 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
     trainedTagger,
-    ContentProvider.targetSentencesFromWsj
+    ContentProvider.targetSentencesFromWsj.map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim)))
   )
 
   val targetSentencesFromWsjResult = Array("DT","NN","IN","NN","RB","VBN","TO","VB","NNP","NN","NNS","VBZ","VBN",
     "DT","JJ","NN","IN","NN","NNS","IN","DT","NN","IN","NNS","VBN","TO","PRP","RBR","IN","CD","NNS","IN","NNS","VBD")
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
     PerceptronApproach.train(trainingSentences, 5),
-    ContentProvider.targetSentencesFromWsj,
+    ContentProvider.targetSentencesFromWsj.map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim))),
     targetSentencesFromWsjResult
   )
 

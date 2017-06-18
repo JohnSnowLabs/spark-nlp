@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
 import com.jsl.nlp.annotators.pos.POSApproach
 import com.jsl.nlp.util.ResourceHelper
 import com.typesafe.scalalogging.Logger
@@ -27,15 +27,14 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   override val model: AveragedPerceptron = trainedModel
 
-  override def tag(rawSentences: Array[String]): Array[TaggedSentence] = {
-    logger.debug(s"PREDICTION: Tagging:\nSENT: <<${rawSentences.mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
+  override def tag(tokenizedSentences: Array[TokenizedSentence]): Array[TaggedSentence] = {
+    logger.debug(s"PREDICTION: Tagging:\nSENT: <<${tokenizedSentences.map(_.condense).mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
       s"feature:\nPREDICTION: ${model.getWeights("bias").mkString("\nPREDICTION: ")}")
-    val sentences = rawSentences.map(Sentence)
     var prev = START(0)
     var prev2 = START(1)
-    sentences.map(_.tokenize).map{words => {
-      val context: Array[String] = START ++: words.map(normalized) ++: END
-      words.zipWithIndex.map{case (word, i) =>
+    tokenizedSentences.map{ sentence => {
+      val context: Array[String] = START ++: sentence.tokens.map(normalized) ++: END
+      sentence.tokens.zipWithIndex.map{case (word, i) =>
         val tag = model.getTagBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
           {
             val features = getFeatures(i, word, context, prev, prev2)

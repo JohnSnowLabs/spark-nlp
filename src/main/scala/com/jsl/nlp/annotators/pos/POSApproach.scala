@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
 
 /**
   * Created by Saif Addin on 5/13/2017.
@@ -8,5 +8,5 @@ import com.jsl.nlp.annotators.common.TaggedSentence
 abstract class POSApproach {
   val description: String
   val model: POSModel
-  def tag(sentences: Array[String]): Array[TaggedSentence]
+  def tag(sentences: Array[TokenizedSentence]): Array[TaggedSentence]
 }

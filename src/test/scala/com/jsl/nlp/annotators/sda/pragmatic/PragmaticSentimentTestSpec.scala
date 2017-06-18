@@ -10,7 +10,7 @@ import org.scalatest._
 class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehaviors {
 
   val sentimentSentence1 = "The staff of the restaurant is nice and the eggplant is bad".split(" ")
-  val sentimentSentence2 = "I recommend others to avoid".split(" ")
+  val sentimentSentence2 = "I recommend others to avoid because it is too expensive".split(" ")
   val sentimentSentences = Array(
     TaggedSentence(
       sentimentSentence1.map(TaggedWord(_, "?NOTAG?"))
@@ -20,7 +20,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
     )
   )
 
-  "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, 1.0)
+  "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)
 
   "a spark based sentiment detector" should behave like sparkBasedSentimentDetector(
     DataBuilder.basicDataBuild("The staff of the restaurant is nice and the eggplant is bad." +
