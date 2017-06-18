@@ -1,6 +1,6 @@
 package com.jsl.nlp.util
 
-import java.io.{FileNotFoundException, InputStream}
+import java.io.{File, FileNotFoundException, InputStream}
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
@@ -17,12 +17,8 @@ object ResourceHelper {
   private val config: Config = ConfigFactory.load
 
   private case class SourceStream(resource: String) {
-    val pipe: InputStream = try {
-      getClass.getResourceAsStream("/" + resource)
-    } catch {
-      case _: Throwable =>
-        throw new FileNotFoundException(s"Lemma dictionary $resource not found")
-    }
+    val pipe: InputStream =
+      getClass.getResourceAsStream(resource)
     val content: Source = Source.fromInputStream(pipe)("UTF-8")
   }
 
@@ -104,7 +100,7 @@ object ResourceHelper {
                                  keySep: String,
                                  valueSep: String): Map[String, String] = {
     format match {
-      case "txt" => {
+      case "txt" =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(source)
         sourceStream.content.getLines.foreach(line => {
@@ -115,7 +111,6 @@ object ResourceHelper {
         })
         sourceStream.pipe.close()
         m.toMap
-      }
       case _ => throw new IllegalArgumentException("Only txt supported as a file format")
     }
   }
@@ -143,22 +138,29 @@ object ResourceHelper {
         .toArray
     } catch {
       case _: java.nio.charset.UnmappableCharacterException =>
-        throw new Exception(s"file $source contains dirty characters")
+        throw new Exception(s"file $source contains dirty characters or is not UTF-8")
     }
     sourceStream.pipe.close()
     lines.map(TaggedSentence)
   }
 
-  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): Array[TaggedSentence] = {
-    sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator)).toArray
+  def parsePOSCorpusFromDir(
+                           source: String,
+                           tagSeparator: Char,
+                           fileLimit: Int
+                           ): Array[TaggedSentence] = {
+    Source.fromInputStream(getClass.getResourceAsStream(source))
+      .getLines.take(fileLimit)
+      .flatMap(fileName => parsePOSCorpusFromSource(source + "/" + fileName, tagSeparator))
+      .toArray
   }
 
-  def defaultPOSCorpus: Array[TaggedSentence] = {
-    val posFilePath = config.getString("nlp.posDict.file")
+  def defaultPOSCorpus(fileLimit: Int = 50): Array[TaggedSentence] = {
+    val posDirPath = config.getString("nlp.posDict.dir")
     //ToDo support multiple formats in corpus source
     val posFormat = config.getString("nlp.posDict.format")
     val posSeparator = config.getString("nlp.posDict.separator")
-    parsePOSCorpusFromSource(posFilePath, posSeparator.head)
+    parsePOSCorpusFromDir(posDirPath, posSeparator.head, fileLimit)
   }
 
   def defaultLemmaDict: Map[String, String] = {

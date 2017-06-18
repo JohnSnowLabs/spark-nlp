@@ -141,7 +141,7 @@ object PerceptronApproach {
   }
 
   def train(
-             taggedSentence: Array[TaggedSentence] = ResourceHelper.defaultPOSCorpus,
+             taggedSentence: Array[TaggedSentence] = ResourceHelper.defaultPOSCorpus(),
              nIterations: Int = 5
            ): PerceptronApproach = {
     /**
