@@ -2,16 +2,19 @@ package com.jsl.nlp.util
 
 import java.io.{FileNotFoundException, InputStream}
 
-import com.jsl.nlp.annotators.pos.{TaggedSentence, TaggedWord}
+import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
+import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.io.Source
-import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 
 /**
   * Created by saif on 28/04/17.
   */
 object ResourceHelper {
+
+  private val config: Config = ConfigFactory.load
 
   private case class SourceStream(resource: String) {
     val pipe: InputStream = try {
@@ -63,6 +66,23 @@ object ResourceHelper {
           val key = kv (0)
           val values = kv (1).split (valueSep).map (_.trim)
           (key, values)
+        }).toMap
+        sourceStream.pipe.close()
+        res
+    }
+  }
+
+  def parseKeyValueText(
+                          source: String,
+                          format: String,
+                          keySep: String
+                        ): Map[String, String] = {
+    format match {
+      case "txt" =>
+        val sourceStream = SourceStream(source)
+        val res = sourceStream.content.getLines.map (line => {
+          val kv = line.split (keySep).map (_.trim)
+          (kv.head, kv.last)
         }).toMap
         sourceStream.pipe.close()
         res
@@ -131,6 +151,30 @@ object ResourceHelper {
 
   def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): Array[TaggedSentence] = {
     sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator)).toArray
+  }
+
+  def defaultPOSCorpus: Array[TaggedSentence] = {
+    val posFilePath = config.getString("nlp.posDict.file")
+    //ToDo support multiple formats in corpus source
+    val posFormat = config.getString("nlp.posDict.format")
+    val posSeparator = config.getString("nlp.posDict.separator")
+    parsePOSCorpusFromSource(posFilePath, posSeparator.head)
+  }
+
+  def defaultLemmaDict: Map[String, String] = {
+    val lemmaFilePath = config.getString("nlp.lemmaDict.file")
+    val lemmaFormat = config.getString("nlp.lemmaDict.format")
+    val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
+    val lemmaValSep = config.getString("nlp.lemmaDict.vSeparator")
+    val lemmaDict = ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
+    lemmaDict
+  }
+
+  def defaultSentDict: Map[String, String] = {
+    val sentFilePath = config.getString("nlp.sentimentDict.file")
+    val sentFormat = config.getString("nlp.sentimentDict.format")
+    val sentSeparator = config.getString("nlp.sentimentDict.separator")
+    ResourceHelper.parseKeyValueText(sentFilePath, sentFormat, sentSeparator)
   }
 
 }

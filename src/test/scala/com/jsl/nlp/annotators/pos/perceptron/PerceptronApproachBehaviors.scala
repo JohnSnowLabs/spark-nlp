@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.TaggedSentence
+import com.jsl.nlp.annotators.common.TaggedSentence
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._

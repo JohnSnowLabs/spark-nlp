@@ -5,6 +5,8 @@ import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
+import com.jsl.nlp.annotators.sda.SentimentDetector
+import com.jsl.nlp.annotators.sda.pragmatic.PragmaticScorer
 import com.jsl.nlp.util.ResourceHelper
 import com.jsl.nlp.util.regex.RegexRule
 import org.apache.spark.sql.{Dataset, Row}
@@ -87,6 +89,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withLemmaTaggedSentences(dataset: Dataset[Row]): Dataset[Row] = {
     withFullLemmatizer(withFullPOSTagger(dataset))
+  }
+
+  def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
+    val sentimentDetector = new SentimentDetector(new PragmaticScorer)
+      .setDocumentCol("document")
+    sentimentDetector.transform(withFullPOSTagger(withFullLemmatizer(dataset)))
   }
 
 }

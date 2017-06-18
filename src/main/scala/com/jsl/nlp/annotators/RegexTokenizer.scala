@@ -28,7 +28,7 @@ class RegexTokenizer() extends Annotator {
                          document: Document, annotations: Seq[Annotation]
   ): Seq[Annotation] = regex.findAllMatchIn(document.text).map {
     m =>
-      Annotation(aType, m.start, m.end)
+      Annotation(aType, m.start, m.end, Map(RegexTokenizer.aType -> m.matched))
   }.toSeq
 }
 object RegexTokenizer{

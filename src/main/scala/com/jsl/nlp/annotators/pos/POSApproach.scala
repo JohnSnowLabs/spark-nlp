@@ -1,5 +1,7 @@
 package com.jsl.nlp.annotators.pos
 
+import com.jsl.nlp.annotators.common.TaggedSentence
+
 /**
   * Created by Saif Addin on 5/13/2017.
   */

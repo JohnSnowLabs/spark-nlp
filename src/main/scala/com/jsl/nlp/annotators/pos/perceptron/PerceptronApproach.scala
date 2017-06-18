@@ -1,6 +1,8 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.{POSApproach, TaggedSentence, TaggedWord}
+import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.jsl.nlp.annotators.pos.POSApproach
+import com.jsl.nlp.util.ResourceHelper
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
@@ -139,7 +141,10 @@ object PerceptronApproach {
       }.toArray
   }
 
-  def train(taggedSentence: Array[TaggedSentence], nIterations: Int = 5): PerceptronApproach = {
+  def train(
+             taggedSentence: Array[TaggedSentence] = ResourceHelper.defaultPOSCorpus,
+             nIterations: Int = 5
+           ): PerceptronApproach = {
     /**
       * Generates TagBook, which holds all the word to tags mapping
       * Adds the found tags to the tags available in the model

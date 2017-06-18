@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
-import com.jsl.nlp.annotators.pos.TaggedSentence
+import com.jsl.nlp.annotators.common.TaggedSentence
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproachTestSpec.trainingCorpusSources
 import com.jsl.nlp.util.ResourceHelper
