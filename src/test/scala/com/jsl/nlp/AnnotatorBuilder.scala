@@ -5,6 +5,7 @@ import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
+import com.jsl.nlp.clinical.negex.NegexTagger
 import com.jsl.nlp.util.ResourceHelper
 import com.jsl.nlp.util.regex.RegexRule
 import org.apache.spark.sql.{Dataset, Row}
@@ -83,6 +84,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val dateMatcher = new DateMatcher()
       .setDocumentCol("document")
     dateMatcher.transform(dataset)
+  }
+
+  def withNegexTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val negexTagger = new NegexTagger()
+      .setDocumentCol("document")
+    negexTagger.transform(withFullPragmaticSentenceDetector(dataset))
   }
 
 }

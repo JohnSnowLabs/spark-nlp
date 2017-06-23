@@ -1,8 +1,7 @@
-package com.jsl.nlp.clinical.negex;
+package com.jsl.nlp.annotators.clinical.negex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.*;
@@ -39,18 +38,23 @@ limitations under the License.
 
 public class GenNegEx {
 
-    public String negCheck(String sentenceString, String phraseString, ArrayList ruleStrings,
-                           boolean negatePossible) throws Exception {
+    private static final boolean NEGATE_POSSIBLE = true;
+    private static final List<String> rules = new ArrayList<>();
 
-        Sorter s			= new Sorter();
-        String sToReturn		= "";
-        String sScope			= "";
-        String sentencePortion		= "";
-        ArrayList sortedRules 		= new ArrayList();
+    static {
+        Scanner ruleScanner = new Scanner(GenNegEx.class.getClass().getResourceAsStream("/negex.rules.txt"));
+        while (ruleScanner.hasNextLine()) {
+            rules.add(ruleScanner.nextLine());
+        }
+        ruleScanner.close();
+        // There is efficiency issue here. It is better if rules are sorted by the
+        // calling program once and used without sorting in GennegEx.
+        Sorter.sortRules(rules);
+    }
 
-        String filler			= "_";
-        boolean negPoss			= negatePossible;
-        boolean negationScope		= true;
+    public static String negCheck(String sentenceString) {
+
+        String filler = "_";
 
         // Sort the rules by length in descending order.
         // Rules need to be sorted so the longest rule is always tried to match
@@ -59,16 +63,8 @@ public class GenNegEx {
         // would match before longer legitimate negation rules.
         //
 
-        // There is efficiency issue here. It is better if rules are sorted by the
-        // calling program once and used without sorting in GennegEx.
-        sortedRules = s.sortRules(ruleStrings);
-
         // Process the sentence and tag each matched negation
         // rule with correct negation rule tag.
-        //
-        // At the same time check for the phrase that we want to decide
-        // the negation status for and
-        // tag the phrase with [PHRASE] ... [PHRASE]
         // In both the negation rules and in the  phrase replace white space
         // with "filler" string. (This could cause problems if the sentences
         // we study has "filler" on their own.)
@@ -77,32 +73,18 @@ public class GenNegEx {
         // We remove the extra characters after processing.
         String sentence = "." + sentenceString + ".";
 
-        // Tag the phrases we want to detect for negation.
-        // Should happen before rule detection.
-        String phrase 		= phraseString;
-        Pattern pph             = Pattern.compile(phrase.trim(), Pattern.CASE_INSENSITIVE);
-        Matcher mph             = pph.matcher(sentence);
-
-        while (mph.find() == true ) {
-            sentence  = mph.replaceAll(" [PHRASE]" + mph.group().trim().replaceAll(" ", filler)
-                    + "[PHRASE]");
-        }
-
-        Iterator iRule = sortedRules.iterator();
-        while (iRule.hasNext()){
-            String rule 		= (String) iRule.next();
-            Pattern p 		= Pattern.compile("[\\t]+"); 	// Working.
-            String[] ruleTokens 	= p.split(rule.trim());
+        for (String rule : rules) {
+            Pattern p = Pattern.compile("[\\t]+");    // Working.
+            String[] ruleTokens = p.split(rule.trim());
             // Add the regular expression characters to tokens and asemble the rule again.
-            String[] ruleMembers	= ruleTokens[0].trim().split(" ");
-            String rule2		= "";
-            for (int i=0; i<=ruleMembers.length-1; i++) {
+            String[] ruleMembers = ruleTokens[0].trim().split(" ");
+            String rule2 = "";
+            for (int i = 0; i <= ruleMembers.length - 1; i++) {
                 if (!ruleMembers[i].equals("")) {
                     if (ruleMembers.length == 1) {
                         rule2 = ruleMembers[i];
-                    }
-                    else {
-                        rule2 = rule2 + ruleMembers[i].trim() + "\\s+";
+                    } else {
+                        rule2 += ruleMembers[i].trim() + "\\s+";
                     }
                 }
             }
@@ -111,22 +93,17 @@ public class GenNegEx {
                 rule2 = rule2.substring(0, rule2.lastIndexOf("\\s+"));
             }
 
-            rule2 = "(?m)(?i)[[\\p{Punct}&&[^\\]\\[]]|\\s+](" + rule2 +")[[\\p{Punct}&&[^_]]|\\s+]" ;
+            rule2 = "(?m)(?i)[[\\p{Punct}&&[^\\]\\[]]|\\s+](" + rule2 + ")[[\\p{Punct}&&[^_]]|\\s+]";
 
-            Pattern p2 		= Pattern.compile(rule2.trim());
-            Matcher m		= p2.matcher(sentence);
+            Pattern p2 = Pattern.compile(rule2.trim());
+            Matcher m = p2.matcher(sentence);
 
-            while (m.find() == true ) {
-                sentence  = m.replaceAll(" " + ruleTokens[1].trim()
+            while (m.find()) {
+                sentence = m.replaceAll(" " + ruleTokens[1].trim()
                         + m.group().trim().replaceAll(" ", filler)
-                        +   ruleTokens[1].trim() + " ");
+                        + ruleTokens[1].trim() + " ");
             }
         }
-
-
-        // Exchange the [PHRASE] ... [PHRASE] tags for [NEGATED] ... [NEGATED]
-        // based of PREN, POST rules and if flag is set to true
-        // then based on PREP and POSP, as well.
 
         // Because PRENEGATION [PREN} is checked first it takes precedent over
         // POSTNEGATION [POST].
@@ -140,7 +117,7 @@ public class GenNegEx {
 
         // Check for [PREN]
         for (int i = 0; i<sentenceTokens.length; i++) {
-            sb.append(" " + sentenceTokens[i].trim());
+            sb.append(" ").append(sentenceTokens[i].trim());
             if (sentenceTokens[i].trim().startsWith("[PREN]")) {
 
                 for (int j = i+1; j<sentenceTokens.length; j++) {
@@ -150,10 +127,6 @@ public class GenNegEx {
                             sentenceTokens[j].trim().startsWith("[PREP]") ||
                             sentenceTokens[j].trim().startsWith("[POSP]") ) {
                         break;
-                    }
-
-                    if (sentenceTokens[j].trim().startsWith("[PHRASE]") ) {
-                        sentenceTokens[j] = sentenceTokens[j].trim().replaceAll("\\[PHRASE\\]", "[NEGATED]");
                     }
                 }
             }
@@ -176,10 +149,6 @@ public class GenNegEx {
                             sentenceTokens[j].trim().startsWith("[POSP]") ) {
                         break;
                     }
-
-                    if (sentenceTokens[j].trim().startsWith("[PHRASE]") ) {
-                        sentenceTokens[j] = sentenceTokens[j].trim().replaceAll("\\[PHRASE\\]", "[NEGATED]");
-                    }
                 }
             }
         }
@@ -188,7 +157,7 @@ public class GenNegEx {
 
         // If POSSIBLE negation is detected as negation.
         // negatePossible being set to "true" then check for [PREP] and [POSP].
-        if (negPoss == true) {
+        if (NEGATE_POSSIBLE) {
             pSpace = Pattern.compile("[\\s+]");
             sentenceTokens = pSpace.split(sentence);
 
@@ -196,7 +165,7 @@ public class GenNegEx {
 
             // Check for [PREP]
             for (int i = 0; i<sentenceTokens.length; i++) {
-                sb3.append(" " + sentenceTokens[i].trim());
+                sb3.append(" ").append(sentenceTokens[i].trim());
                 if (sentenceTokens[i].trim().startsWith("[PREP]")) {
 
                     for (int j = i+1; j<sentenceTokens.length; j++) {
@@ -206,10 +175,6 @@ public class GenNegEx {
                                 sentenceTokens[j].trim().startsWith("[PREN]") ||
                                 sentenceTokens[j].trim().startsWith("[POSP]") ) {
                             break;
-                        }
-
-                        if (sentenceTokens[j].trim().startsWith("[PHRASE]") ) {
-                            sentenceTokens[j] = sentenceTokens[j].trim().replaceAll("\\[PHRASE\\]", "[POSSIBLE]");
                         }
                     }
                 }
@@ -232,10 +197,6 @@ public class GenNegEx {
                                 sentenceTokens[j].trim().startsWith("[POST]") ) {
                             break;
                         }
-
-                        if (sentenceTokens[j].trim().startsWith("[PHRASE]") ) {
-                            sentenceTokens[j] = sentenceTokens[j].trim().replaceAll("\\[PHRASE\\]", "[POSSIBLE]");
-                        }
                     }
                 }
             }
@@ -251,65 +212,6 @@ public class GenNegEx {
         sentence = sentence.substring(0, sentence.trim().lastIndexOf('.'));
         sentence = sentence.replaceFirst(".", "");
 
-        // Get the scope of the negation for PREN and PREP
-        if (sentence.contains("[PREN]") || sentence.contains("[PREP]")) {
-            int startOffset = sentence.indexOf("[PREN]");
-            if (startOffset == -1) {
-                startOffset = sentence.indexOf("[PREP]");
-            }
-
-            int endOffset = sentence.indexOf("[CONJ]");
-            if (endOffset == -1) {
-                endOffset = sentence.indexOf("[PSEU]");
-            }
-            if (endOffset == -1) {
-                endOffset = sentence.indexOf("[POST]");
-            }
-            if (endOffset == -1) {
-                endOffset = sentence.indexOf("[POSP]");
-            }
-            if (endOffset == -1 || endOffset < startOffset) {
-                endOffset = sentence.length() - 1;
-            }
-            sScope = sentence.substring(startOffset, endOffset+1);
-        }
-
-        // Get the scope of the negation for POST and POSP
-        if (sentence.contains("[POST]") || sentence.contains("[POSP]")) {
-            int endOffset = sentence.lastIndexOf("[POST]");
-            if (endOffset == -1) {
-                endOffset = sentence.lastIndexOf("[POSP]");
-            }
-
-            int startOffset = sentence.lastIndexOf("[CONJ]");
-            if (startOffset == -1) {
-                startOffset = sentence.lastIndexOf("[PSEU]");
-            }
-            if (startOffset == -1) {
-                startOffset = sentence.lastIndexOf("[PREN]");
-            }
-            if (startOffset == -1) {
-                startOffset = sentence.lastIndexOf("[PREP]");
-            }
-            if (startOffset == -1 ) {
-                startOffset = 0;
-            }
-            sScope = sentence.substring(startOffset, endOffset);
-        }
-
-        // Classify to: negated/possible/affirmed
-        if (sentence.contains("[NEGATED]")) {
-            sentence = sentence + "\t" + "negated" + "\t" + sScope;
-        }
-        else if (sentence.contains("[POSSIBLE]")) {
-            sentence = sentence + "\t" + "possible" + "\t" + sScope;
-        }
-        else {
-            sentence = sentence + "\t" + "affirmed" + "\t" + sScope;
-        }
-
-        sToReturn = sentence;
-
-        return sToReturn;
+        return sentence;
     }
 }

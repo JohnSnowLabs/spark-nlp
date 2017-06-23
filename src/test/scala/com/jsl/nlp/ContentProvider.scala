@@ -49,4 +49,7 @@ object ContentProvider {
     "Kent cigarette filters has caused a high percentage of cancer deaths among a group " +
     "of workers exposed to it more than 30 years ago, researchers reported")
 
+  val negatedSentences = Array("The patient denies chest pain but affirms discomfort.",
+    "Allergy found but hives are ruled out")
+
 }
