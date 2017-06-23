@@ -49,4 +49,5 @@ object ContentProvider {
     "Kent cigarette filters has caused a high percentage of cancer deaths among a group " +
     "of workers exposed to it more than 30 years ago, researchers reported")
 
+  val nerSentence = "John Smith was in Germany on Christmas."
 }

@@ -5,7 +5,6 @@ import java.util.function.{Function => JFunction}
 
 import epic.models.NerSelector
 import epic.sequences.SemiCRF
-import epic.trees.Span
 
 
 /**
@@ -25,9 +24,13 @@ object ScalaNLPNERWrapper {
     })
   }
 
-  def ner(sentence: IndexedSeq[String], language: String = "en"): IndexedSeq[(String, Span)] = {
+  def ner(sentence: IndexedSeq[String], language: String = "en"): IndexedSeq[(String, SimpleSpan)] = {
     val model = getModel(language)
     val segments = model.bestSequence(sentence)
-    segments.segments.asInstanceOf[IndexedSeq[(String, Span)]]
+    segments.segments.map {
+      case (tag, span) => (tag.toString, SimpleSpan(span.begin, span.end))
+    }
   }
 }
+
+case class SimpleSpan(begin: Int, end: Int)

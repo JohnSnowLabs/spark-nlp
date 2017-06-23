@@ -4,13 +4,15 @@ val scalaLangVersion = "2.11.11"
 val sparkVersion = "2.1.0"
 val scalaTestVersion = "3.0.0"
 val snowballVersion = "1.0"
+val opennlpVersion = "1.6.0"
 val scalanlpNERVersion = "2015.2.19"
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVersion % "provided",
   "org.tartarus" % "snowball" % snowballVersion,
-  "org.scalanlp" %% "epic-ner-en-conll" % scalanlpNERVersion exclude("com.typesafe.scala-logging", "scala-logging")
+  "org.scalanlp" %% "epic-ner-en-conll" % scalanlpNERVersion exclude("com.typesafe.scala-logging", "scala-logging"),
+  "org.apache.opennlp" % "opennlp-tools" % opennlpVersion
 )
 
 lazy val testDependencies = Seq(

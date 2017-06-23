@@ -9,8 +9,6 @@ import org.tartarus.snowball.SnowballStemmer
   */
 class Stemmer() extends Annotator {
 
-  private val stemmer: (String => String) = Stemmer.getStemmer($(algorithm))
-
   override val aType: String = Stemmer.aType
 
   override def annotate(
@@ -31,6 +29,8 @@ class Stemmer() extends Annotator {
   def getPattern: String = $(algorithm)
 
   setDefault(algorithm, "english")
+
+  private val stemmer: (String => String) = Stemmer.getStemmer($(algorithm))
 }
 
 object Stemmer {

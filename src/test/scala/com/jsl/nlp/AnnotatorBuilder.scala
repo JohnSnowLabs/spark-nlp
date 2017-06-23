@@ -1,6 +1,7 @@
 package com.jsl.nlp
 
 import com.jsl.nlp.annotators._
+import com.jsl.nlp.annotators.ner.NERTagger
 import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.SentenceDetector
@@ -83,6 +84,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val dateMatcher = new DateMatcher()
       .setDocumentCol("document")
     dateMatcher.transform(dataset)
+  }
+
+  def withNERTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val nerTagger = new NERTagger().setDocumentCol("document").setLanguage("person")
+    nerTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
 }

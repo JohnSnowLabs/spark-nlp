@@ -1,10 +1,9 @@
 package com.jsl.nlp.annotators.ner
 
 import com.jsl.nlp.annotators.RegexTokenizer
-import com.jsl.nlp.annotators.ner.scalanlp_ner.ScalaNLPNERWrapper.ner
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, Annotator, Document}
-import epic.trees.Span
+import opennlp.tools.util
 import org.apache.spark.ml.param.Param
 
 /**
@@ -36,23 +35,23 @@ class NERTagger() extends Annotator {
               token.end <= sentence.end
         }.toIndexedSeq
         val tokenText = tokens.map(t => document.text.substring(t.begin, t.end))
-        val tags: IndexedSeq[(String, Span)] = ner(tokenText, $(language))
+        val tags: IndexedSeq[(String, util.Span)] = OpenNLPNERWrapper.ner(tokenText, $(language))
         tags.map {
           case (tag, span) =>
-            Annotation(aType, tokens(span.begin).begin, tokens(span.end - 1).end, Map(aType -> tag)  )
+            Annotation(aType, tokens(span.getStart).begin, tokens(span.getEnd - 1).end, Map(aType -> tag)  )
         }
     }
   }
 
   val language: Param[String] = new Param(this, "language", "this is the language of the text")
 
-  def setPattern(value: String): NERTagger = set(language, value)
+  def setLanguage(value: String): NERTagger = set(language, value)
 
-  def getPattern: String = $(language)
+  def getLanguage: String = $(language)
 
-  setDefault(language, "en")
+  setDefault(language, "person")
 }
 
 object NERTagger {
-  val aType = "named-entity"
+  val aType = "named_entity"
 }
