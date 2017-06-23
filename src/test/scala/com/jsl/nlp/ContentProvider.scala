@@ -50,4 +50,8 @@ object ContentProvider {
     "of workers exposed to it more than 30 years ago, researchers reported")
 
   val nerSentence = "John Smith was in Germany on Christmas."
+
+  val negatedSentences = Array("The patient denies chest pain but affirms discomfort.",
+    "Allergy found but hives are ruled out")
+
 }

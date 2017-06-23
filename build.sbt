@@ -8,8 +8,8 @@ val opennlpVersion = "1.6.0"
 val scalanlpNERVersion = "2015.2.19"
 
 lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVersion % "provided",
+  "org.apache.spark" %% "spark-core" % sparkVersion,
+  "org.apache.spark" %% "spark-mllib" % sparkVersion,
   "org.tartarus" % "snowball" % snowballVersion,
   "org.scalanlp" %% "epic-ner-en-conll" % scalanlpNERVersion exclude("com.typesafe.scala-logging", "scala-logging"),
   "org.apache.opennlp" % "opennlp-tools" % opennlpVersion
