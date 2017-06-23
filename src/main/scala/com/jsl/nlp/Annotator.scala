@@ -28,7 +28,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
   /**
     * This is the annotation types that this annotator expects to be present
     */
-  protected val requiredAnnotationTypes: Array[String]
+  protected var requiredAnnotationTypes: Array[String]
 
   /**
     * This parameter tells the annotator the column that contains the document
@@ -45,8 +45,6 @@ trait Annotator extends Transformer with DefaultParamsWritable {
 
   private val outputAnnotationCol: Param[String] =
     new Param(this, "outputAnnotationCol", "the output annotation column")
-
-  override val uid: String = aType
 
   /**
     * This takes a document and annotations and produces new annotations of this annotator's annotation type

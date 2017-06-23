@@ -110,4 +110,12 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     }
   })
 
+  "a DateMatcher" should "be writable and readable" in {
+    val dateMatcher = new DateMatcher().setFormat("YYYY")
+    val path = "./test-output-tmp/datematcher"
+    dateMatcher.write.overwrite().save(path)
+    val dateMatcherRead = DateMatcher.read.load(path)
+    assert(dateMatcher.getFormat == dateMatcher.getFormat)
+  }
+
 }

@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory
 /**
   * Created by saif1_000 on 16/06/2017.
   */
-class PragmaticScorer(
-                       sentimentDict: Map[String, String] = ResourceHelper.defaultSentDict
-                     ) extends SentimentApproach {
+class PragmaticScorer(sentimentDict: Map[String, String]) extends SentimentApproach {
 
   private val logger = Logger(LoggerFactory.getLogger("PragmaticScorer"))
 

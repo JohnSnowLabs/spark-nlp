@@ -4,20 +4,30 @@ import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.common.TokenizedSentence
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, Annotator, Document}
+import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by Saif Addin on 5/13/2017.
   */
-class POSTagger(taggingApproach: POSApproach) extends Annotator {
+class POSTagger(override val uid: String) extends Annotator {
 
   private case class SentenceToBeTagged(tokenizedSentence: TokenizedSentence, start: Int, end: Int)
 
+  val model: Param[POSApproach] = new Param(this, "POS Model", "Approach for part-of-speech tagging")
+
   override val aType: String = POSTagger.aType
 
-  override val requiredAnnotationTypes: Array[String] = Array(
+  override var requiredAnnotationTypes: Array[String] = Array(
     SentenceDetector.aType,
     RegexTokenizer.aType
   )
+
+  def this() = this(Identifiable.randomUID(POSTagger.aType))
+
+  def getModel: POSApproach = $(model)
+
+  def setModel(targetModel: POSApproach): this.type = set(model, targetModel)
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Array[SentenceToBeTagged] = annotations.collect {
@@ -34,7 +44,7 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
           sentence.end
         )
     }.toArray
-    taggingApproach.tag(sentences.map(_.tokenizedSentence))
+    getModel.tag(sentences.map(_.tokenizedSentence))
       .zip(sentences)
       .map{case (taggedWords, sentence) =>
         Annotation(
@@ -47,6 +57,6 @@ class POSTagger(taggingApproach: POSApproach) extends Annotator {
   }
 
 }
-object POSTagger {
+object POSTagger extends DefaultParamsReadable[POSTagger] {
   val aType = "pos"
 }

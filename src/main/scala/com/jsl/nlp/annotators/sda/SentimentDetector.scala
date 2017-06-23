@@ -5,27 +5,32 @@ import com.jsl.nlp.annotators.{Lemmatizer, RegexTokenizer}
 import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, Annotator, Document}
+import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
-  * Created by saif1_000 on 12/06/2017.
+  * Created by saif on 12/06/2017.
   */
-class SentimentDetector(
-                        sentimentApproach: SentimentApproach
-                       ) extends Annotator {
+class SentimentDetector(override val uid: String) extends Annotator {
 
-  override val aType = SentimentDetector.aType
+  val model: Param[SentimentApproach] = new Param(this, "Sentiment detection model", "Approach to translate into expressed sentiment")
+
+  override val aType: String = SentimentDetector.aType
 
   //ToDo: Verify. In this case, order matters. i.e. pos tags must be before lemmatization
-  override val requiredAnnotationTypes: Array[String] = {
-    var requiredAnnotations = Array(
-      RegexTokenizer.aType,
-      SentenceDetector.aType
-    )
-    if (sentimentApproach.requiresPOS)
-      requiredAnnotations = requiredAnnotations :+ POSTagger.aType
-    if (sentimentApproach.requiresLemmas)
-      requiredAnnotations = requiredAnnotations :+ Lemmatizer.aType
-    requiredAnnotations
+  override var requiredAnnotationTypes: Array[String] = Array(
+    RegexTokenizer.aType,
+    SentenceDetector.aType
+  )
+
+  def this() = this(Identifiable.randomUID(SentimentDetector.aType))
+
+  def getModel: SentimentApproach = $(model)
+
+  def setModel(targetModel: SentimentApproach): this.type = {
+    if (targetModel.requiresPOS) requiredAnnotationTypes = requiredAnnotationTypes :+ POSTagger.aType
+    if (targetModel.requiresLemmas) requiredAnnotationTypes = requiredAnnotationTypes :+ Lemmatizer.aType
+    set(model, targetModel)
   }
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
@@ -42,7 +47,7 @@ class SentimentDetector(
         }.toArray
       TaggedSentence(taggedWords)
     }).toArray
-    val score = sentimentApproach.score(taggedSentences)
+    val score = getModel.score(taggedSentences)
     Seq(Annotation(
       SentimentDetector.aType,
       0,
@@ -52,6 +57,6 @@ class SentimentDetector(
   }
 
 }
-object SentimentDetector {
+object SentimentDetector extends DefaultParamsReadable[SentimentDetector] {
   val aType = "sda"
 }

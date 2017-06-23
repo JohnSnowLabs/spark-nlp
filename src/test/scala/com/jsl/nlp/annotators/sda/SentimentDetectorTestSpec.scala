@@ -14,9 +14,11 @@ class SentimentDetectorTestSpec extends FlatSpec {
     override def score(taggedSentences: Array[TaggedSentence]): Double = 1.0
   }
 
-  val sentimentDetector = new SentimentDetector(new DummyApproach)
+  val sentimentDetector = new SentimentDetector()
+  sentimentDetector.setModel(new DummyApproach)
 
   "a SentimentDetector" should s"be of type ${sentimentDetector.aType}" in {
     assert(sentimentDetector.aType == SentimentDetector.aType, "because types are not properly set up")
   }
+
 }

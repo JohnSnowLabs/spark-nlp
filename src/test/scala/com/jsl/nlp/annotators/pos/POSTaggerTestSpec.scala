@@ -17,7 +17,8 @@ class POSTaggerTestSpec extends FlatSpec {
     override def tag(sentences: Array[TokenizedSentence]): Array[TaggedSentence] = Array()
   }
 
-  val posTagger = new POSTagger(new DummyApproach)
+  val posTagger = new POSTagger
+  posTagger.setModel(new DummyApproach)
 
   "a SentenceDetector" should s"be of type ${POSTagger.aType}" in {
     assert(posTagger.aType == POSTagger.aType, "because types are not properly set up")
