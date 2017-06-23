@@ -1,0 +1,206 @@
+WeServeEveryone Clinic
+1111 First Street California
+111-111-11111   Fax: 111-111-1111	Chart Summary
+Monica Latte
+
+Home: 444-444-4444
+Female  DOB: 04/04/1950	0000-44444	Ins: Commercial xxxxx
+
+
+Patient Information
+
+Name: Monica Latte	Home Phone: 444-444-4444
+Address: 4444 Coffee Ave
+                Chocolate, California	Office Phone:
+Patient ID: 0000-44444	Fax:
+Birth Date: 04/04/1950	Status: Active
+Gender: Female	Marital Status: Divorced
+Contact By: Phone	Race: Black
+Soc Sec No: 444-444-4444	Language: English
+Resp Prov: Carl Savem	MRN: MR-111-1111
+Referred by:	Emp. Status: Full-time
+Email:	Sens Chart: No
+Home LOC:WeServeEveryone	External ID: MR-111-1111
+Problems
+
+DIABETES MELLITUS (ICD-250.)
+HYPERTENSION, BENIGN ESSENTIAL (ICD-401.1)
+
+Medications
+
+PRINIVIL TABS 20 MG (LISINOPRIL) 1 po qd
+Last Refill: #30 x 2 : Carl Savem MD (08/27/2010)
+HUMULIN INJ 70/30 (INSULIN REG & ISOPHANE (HUMAN)) 20 units ac breakfast
+Last Refill: #600 u x 0 : Carl Savem MD (08/27/2010)
+
+Directives
+
+Allergies and Adverse Reactions (! = critical)
+
+Services Due
+
+FLU VAX, PNEUMOVAX, MICROALB URN
+
+3/18/2011 - Office Visit: F/u Diabetes
+Provider: Carl Savem MD
+Location of Care: WeServeEveryone Clinic
+
+OFFICE VISIT
+
+History of Present Illness
+Reason for visit: Routine follow up
+Chief Complaint: No complaints
+
+History
+
+Diabetes Management
+Hyperglycemic Symptoms
+Polyuria: no
+Polydipsia: no
+Blurred vision: no
+
+Sympathomimetic Symptoms
+Diaphoresis: no
+Agitation: no
+Tremor: no
+Palpitations: no
+Insomnia: no
+
+Neuroglycopenic Symptoms
+Confusion: no
+Lethargy: no
+Somnolence: no
+Amnesia: no
+Stupor: no
+Seizures: no
+
+Review of Systems
+
+General: denies fatigue, malaise, fever, weight loss
+Eyes: denies blurring, diplopia, irritation, discharge
+Ear/Nose/Throat: denies ear pain or discharge, nasal obstruction or discharge, sore throat
+Cardiovascular: denies chest pain, palpitations, paroxysmal nocturnal dyspnea, orthopnea, edema Respiratory: denies coughing, wheezing, dyspnea, hemoptysis
+Gastrointestinal: denies abdominal pain, dysphagia, nausea, vomiting, diarrhea, constipation
+Genitourinary: denies hematuria, frequency, urgency, dysuria, discharge, impotence, incontinence
+Musculoskeletal: denies back pain, joint swelling, joint stiffness, joint pain
+Skin: denies rashes, itching, lumps, sores, lesions, color change
+Neurologic: denies syncope, seizures, transient paralysis, weakness, paresthesias
+Psychiatric: denies depression, anxiety, mental disturbance, difficulty sleeping, suicidal ideation, hallucinations, paranoia
+Endocrine: denies polyuria, polydipsia, polyphagia, weight change, heat or cold intolerance
+Heme/Lymphatic: denies easy or excessive bruising, history of blood transfusions, anemia, bleeding disorders, adenopathy, chills, sweats
+Allergic/Immunologic: denies urticaria, hay fever, frequent UTIs; denies HIV high risk behaviors
+
+Vital Signs
+
+WeServeEveryone Clinic	March 24, 2011
+1111 First Street California
+111-111-11111   Fax: 111-111-1111	Page 2
+Chart Summary
+Ht: 64 in. Wt: 140 lbs.T: 98.0 degF. T site: oral P: 72 Rhythm: regular R: 16 BP: 158/90
+
+Physical Exam
+
+General Appearance: well developed, well nourished, no acute distress
+Eyes: conjunctiva and lids normal, PERRLA, EOMI, fundi WNL
+Ears, Nose, Mouth, Throat: TM clear, nares clear, oral exam WNL
+Respiratory: clear to auscultation and percussion, respiratory effort normal
+Cardiovascular: regular rate and rhythm, S1-S2, no murmur, rub or gallop, no bruits, peripheral pulses normal and symmetric, no cyanosis, clubbing, edema or varicosities
+Skin: clear, good turgor, color WNL, no rashes, lesions, or ulcerations
+
+Problems (including changes): Blood pressure is lower. Feet are inspected and there are no callouses, no compromised skin. Sees after image.
+
+Impression: Sub optimal sugar, control with retinopathy and neuropathy, high glucometer readings. Will work harder on diet. Will increase insulin by 2 units.
+
+Home Glucose Monitoring:
+AC breakfast 110 to 220
+AC breakfast mean 142
+AC dinner 100 to 250
+AC dinner mean 120
+
+Plan
+
+Medications:
+HUMULIN INJ 70/30 20 u ac breakfast
+
+PRINIVIL TABS 20 MG 1 qd
+
+Treatment: Will have annual foot exam at next visit.
+
+Orders:
+
+UA
+Metabolic Panel
+
+Education/Counseling (time): 5 minutes
+
+Coordination of Care (time): 20 minutes
+
+Follow-up/Return Visit: 3 months
+
+Disposition: return to clinic
+
+WeServeEveryone Clinic	March 24, 2011
+1111 First Street California
+111-111-11111   Fax: 111-111-1111	Page 2
+Chart Summary
+03/18/2011 - Lab Report: Metabolic Panel Provider: Carl Savem MD
+
+Tests:
+
+(1) Metabolic Panel(ML-03CHEM)
+
+ALK PHOS	72	35-100
+BG  RANDOM	125  mg/dl	70-125
+BUN	16  mg/dl	7-25
+CALCIUM 	9.6  mg/dl	8.2-10.2
+CHLORIDE  	101  mmol/l 	96-109
+CO2	27  mmol/l 	23-29
+CREATININE 	0.7  mg/dl   	0.6-1.2
+PO4 	2.9  mg/dl 	2.5-4.5
+POTASSIUM 	4.5  mmol/l 	3.5-5.3
+SGOT  (AST) 	31  U/L  	0-40
+BILI  TOTAL	0.7  mg/dl	0.0-1.3
+URIC  ACID  	4.8  mg/dl	3.4-7.0
+LDH,  TOTAL    	136  IU/L  	0-200
+SODIUM	135  mmol/l	135-145
+
+
+(2) HbA1c Test
+HbA1c level 6.0%
+(3) Lipid Profile
+Cholesterol, Total   210 mg/dl
+Triglycerides           236 mg/dl
+HDL Cholesterol    36
+LDL Cholesterol     107
+
+WeServeEveryone Clinic	March 24, 2011
+1111 First Street California
+111-111-11111   Fax: 111-111-1111	Page 2
+Chart Summary
+Female  DOB: 04/04/1950                      0000-44444                          Ins: Commercial xxxxx
+
+ 	Date 03/18/2011
+HEIGHT (in)	64
+WEIGHT (lb)	140
+TEMPERATURE (deg F)	98
+TEMP SITE	oral
+PULSE RATE (/min)	72
+PULSE RHYTHM
+RESP RATE (/min)	16
+BP SYSTOLIC (mm Hg)	158
+BP DIASTOLIC (mm Hg)	90
+CHOLESTEROL (mg/dL)
+HDL (mg/dL)
+LDL (mg/dL)
+BG RANDOM (mg/dL)	125
+CXR
+EKG
+PAP SMEAR
+BREAST EXAM
+MAMMOGRAM
+HEMOCCULT	neg
+FLU VAX
+PNEUMOVAX
+TD BOOSTER	0.5 ml g
+Foot Exam
+Eye Exam	Complete
