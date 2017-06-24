@@ -1,13 +1,13 @@
-package com.jsl.nlp.util
+package com.jsl.nlp.util.io
 
-import java.io.{File, FileNotFoundException, InputStream}
+import java.io.InputStream
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
 import com.typesafe.config.{Config, ConfigFactory}
 
-import scala.io.Source
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
+import scala.io.Source
 
 /**
   * Created by saif on 28/04/17.

@@ -2,8 +2,8 @@ package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
 import com.jsl.nlp.annotators.pos.POSTagger
+import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{ContentProvider, DataBuilder}
-import com.jsl.nlp.util.ResourceHelper
 import org.scalatest._
 
 /**
@@ -48,7 +48,8 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     perceptronTagger.write.overwrite.save(path)
     val perceptronTaggerRead = POSTagger.read.load(path)
     assert(perceptronTagger.getModel.description == perceptronTaggerRead.getModel.description)
-    assert(perceptronTagger.getModel.tag(tokenizedSentenceFromWsj).head == perceptronTaggerRead.getModel.tag(tokenizedSentenceFromWsj).head)
+    assert(perceptronTagger.getModel.tag(tokenizedSentenceFromWsj).head.tags.head ==
+      perceptronTaggerRead.getModel.tag(tokenizedSentenceFromWsj).head.tags.head)
   }
 
 }

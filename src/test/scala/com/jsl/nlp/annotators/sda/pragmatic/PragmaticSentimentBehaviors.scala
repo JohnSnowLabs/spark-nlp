@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.TaggedSentence
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._

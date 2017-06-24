@@ -2,7 +2,8 @@ package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
 import com.jsl.nlp.annotators.pos.POSApproach
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper
+import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
@@ -18,7 +19,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   import PerceptronApproach._
 
-  override val description: String = "Averaged Perceptron tagger, iterative average weights upon training"
+  override val description = "Perceptron POS Tagger"
 
   /**
     * Bundles a sentence within context and then finds unambiguous word or predict it
@@ -26,6 +27,15 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
     */
 
   override val model: AveragedPerceptron = trainedModel
+
+  override def serialize: SerializedAnnotatorApproach[PerceptronApproach] =
+    SerializedPerceptronApproach(
+      SerializedPerceptronApproach.id,
+      model.getTags.toList,
+      model.getTagBook.flatMap(TaggedWord.unapply).toList,
+      model.getWeights,
+      model.getUpdateIterations
+    )
 
   override def tag(tokenizedSentences: Array[TokenizedSentence]): Array[TaggedSentence] = {
     logger.debug(s"PREDICTION: Tagging:\nSENT: <<${tokenizedSentences.map(_.condense).mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
@@ -191,7 +201,8 @@ object PerceptronApproach {
         }
         model
       }
-    }}.averagedModel
+    }}
+    trainedModel.averageWeights()
     logger.debug("TRAINING: Finished all iterations")
     new PerceptronApproach(trainedModel)
   }

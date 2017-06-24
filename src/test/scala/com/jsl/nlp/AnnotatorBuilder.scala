@@ -7,7 +7,7 @@ import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
 import com.jsl.nlp.annotators.sda.SentimentDetector
 import com.jsl.nlp.annotators.sda.pragmatic.PragmaticScorer
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 

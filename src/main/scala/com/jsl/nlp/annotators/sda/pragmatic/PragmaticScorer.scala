@@ -1,8 +1,8 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
-import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.common.{AnnotatorApproach, TaggedSentence}
+import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
 import com.jsl.nlp.annotators.sda.SentimentApproach
-import com.jsl.nlp.util.ResourceHelper
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
@@ -38,6 +38,13 @@ class PragmaticScorer(sentimentDict: Map[String, String]) extends SentimentAppro
     val keySplits = key.split(" ").map(_.trim)
     ProcessedKey(key, keySplits.head, keySplits.length, sentiment)
   }.toArray
+
+  override def serialize: SerializedAnnotatorApproach[_ <: AnnotatorApproach] = {
+    new SerializedScorerApproach(
+      SerializedScorerApproach.id,
+      sentimentDict
+    )
+  }
 
   override def score(taggedSentences: Array[TaggedSentence]): Double = {
     val sentenceSentiments: Array[Array[String]] = taggedSentences.map(taggedSentence => {

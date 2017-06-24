@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.sbd
 
+import com.jsl.nlp.annotators.param.AnnotatorApproachParam
 import com.jsl.nlp.{Annotation, Annotator, Document}
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -9,7 +9,8 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   */
 class SentenceDetector(override val uid: String) extends Annotator {
 
-  val model: Param[SBDApproach] = new Param(this, "Sentence Detection model", "Approach to detect sentence boundaries")
+  val model: AnnotatorApproachParam[SBDApproach] =
+    new AnnotatorApproachParam[SBDApproach](this, "Sentence Detection model", "Approach to detect sentence boundaries")
 
   override val aType: String = SentenceDetector.aType
 

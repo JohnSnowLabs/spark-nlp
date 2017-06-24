@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._

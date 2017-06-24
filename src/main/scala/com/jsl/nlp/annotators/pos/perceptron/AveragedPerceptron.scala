@@ -17,7 +17,7 @@ class AveragedPerceptron(
                           lastIteration: Int = 0
                         ) extends POSModel {
 
-  val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
+  private val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
 
   private var updateIteration: Int = lastIteration
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
@@ -56,26 +56,21 @@ class AveragedPerceptron(
     * Training level operation
     * once a model was trained, average its weights more in the first iterations
     */
-  def averagedModel: AveragedPerceptron = {
-    new AveragedPerceptron(
-      tags,
-      taggedWordBook,
-      featuresWeight.map { case (feature, weights) =>
-        (feature,
-          weights.map { case (tag, weight) =>
-            val param = (feature, tag)
-            val total = totals(param) + ((updateIteration - timestamps(param)) * weight)
-            (tag, total / updateIteration.toDouble)
-          }.filter{case (_, total) => total > 0.0}
-        )
-      },
-      updateIteration
-    )
+  private[pos] def averageWeights(): Unit = {
+    featuresWeight.foreach { case (feature, weights) =>
+      featuresWeight.update(feature,
+        weights.map { case (tag, weight) =>
+          val param = (feature, tag)
+          val total = totals(param) + ((updateIteration - timestamps(param)) * weight)
+          (tag, total / updateIteration.toDouble)
+        }.filter { case (_, total) => total > 0.0 }
+      )
+    }
   }
-  def getUpdateIterations: Int = updateIteration
-  def getTagBook: Array[TaggedWord] = taggedWordBook
+  private[nlp] def getUpdateIterations: Int = updateIteration
+  private[nlp] def getTagBook: Array[TaggedWord] = taggedWordBook
+  private[nlp] def getTags: Array[String] = tags
   def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
-  def getTags: Array[String] = tags
   /**
     * This is model learning tweaking during training, in-place
     * Uses mutable collections since this runs per word, not per iteration

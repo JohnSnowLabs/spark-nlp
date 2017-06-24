@@ -3,7 +3,7 @@ package com.jsl.nlp.annotators.sda.pragmatic
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.DataBuilder
 import com.jsl.nlp.annotators.sda.SentimentDetector
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper
 import org.scalatest._
 
 /**

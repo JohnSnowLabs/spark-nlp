@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
+import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
 import com.jsl.nlp.annotators.sbd.{SBDApproach, Sentence}
 
 /**
@@ -32,9 +33,13 @@ class PragmaticApproach extends SBDApproach {
     this
   }
 
+  override def serialize: SerializedAnnotatorApproach[PragmaticApproach] =
+    SerializedSBDApproach(SerializedSBDApproach.id)
+
   override def extract: Array[Sentence] = {
-    new PragmaticSentenceExtractor(getContent.getOrElse(throw new NoSuchElementException("setInput not called before prepare")))
-      .pull
+    new PragmaticSentenceExtractor(getContent
+      .getOrElse(throw new NoSuchElementException("setInput not called before prepare"))
+    ).pull
   }
 
 }
