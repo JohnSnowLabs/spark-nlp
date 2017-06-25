@@ -1,1 +1,1 @@
-{"class":"com.jsl.nlp.annotators.DateMatcher","timestamp":1498194161564,"sparkVersion":"2.1.1","uid":"date_684c2d74ffcb","paramMap":{"Date Format":"YYYY"}}
+{"class":"com.jsl.nlp.annotators.DateMatcher","timestamp":1498434348909,"sparkVersion":"2.1.1","uid":"date_a67d20f0cd2a","paramMap":{"Date Format":"YYYY"}}

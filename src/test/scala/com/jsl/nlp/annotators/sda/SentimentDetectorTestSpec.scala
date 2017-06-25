@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.sda
-import com.jsl.nlp.annotators.common.{AnnotatorApproach, TaggedSentence}
-import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
+import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence}
+import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
 import org.scalatest._
 
 /**
@@ -12,7 +12,7 @@ class SentimentDetectorTestSpec extends FlatSpec {
     override val requiresLemmas: Boolean = false
     override val requiresPOS: Boolean = false
 
-    override def serialize: SerializedAnnotatorApproach[_ <: AnnotatorApproach] = ???
+    override def serialize: SerializedAnnotatorComponent[_ <: WritableAnnotatorComponent] = ???
     override def score(taggedSentences: Array[TaggedSentence]): Double = 1.0
   }
 

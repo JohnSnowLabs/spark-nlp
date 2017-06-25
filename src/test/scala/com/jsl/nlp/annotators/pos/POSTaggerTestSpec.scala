@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.common.{AnnotatorApproach, TaggedSentence, TokenizedSentence}
-import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
+import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence, TokenizedSentence}
+import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
 import org.scalatest._
 
 /**
@@ -17,7 +17,7 @@ class POSTaggerTestSpec extends FlatSpec {
     override val description = "dummy description"
     override val model = new DummyModel
 
-    override def serialize: SerializedAnnotatorApproach[_ <: AnnotatorApproach] = ???
+    override def serialize: SerializedAnnotatorComponent[_ <: WritableAnnotatorComponent] = ???
     override def tag(sentences: Array[TokenizedSentence]): Array[TaggedSentence] = Array()
   }
 

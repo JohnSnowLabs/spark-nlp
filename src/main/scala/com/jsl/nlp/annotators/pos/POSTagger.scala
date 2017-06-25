@@ -3,7 +3,8 @@ package com.jsl.nlp.annotators.pos
 import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.common.TokenizedSentence
 import com.jsl.nlp.annotators.sbd.SentenceDetector
-import com.jsl.nlp.annotators.param.AnnotatorApproachParam
+import com.jsl.nlp.annotators.param.AnnotatorParam
+import com.jsl.nlp.annotators.pos.perceptron.SerializedPerceptronApproach
 import com.jsl.nlp.{Annotation, Annotator, Document}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -14,7 +15,8 @@ class POSTagger(override val uid: String) extends Annotator {
 
   private case class SentenceToBeTagged(tokenizedSentence: TokenizedSentence, start: Int, end: Int)
 
-  val model: AnnotatorApproachParam[POSApproach] = new AnnotatorApproachParam(this, "POS Model", "POS Tagging approach")
+  val model: AnnotatorParam[POSApproach, SerializedPerceptronApproach] =
+    new AnnotatorParam[POSApproach, SerializedPerceptronApproach](this, "POS Model", "POS Tagging approach")
 
   override val aType: String = POSTagger.aType
 

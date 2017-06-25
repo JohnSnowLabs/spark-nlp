@@ -3,7 +3,7 @@ package com.jsl.nlp.annotators.pos.perceptron
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
 import com.jsl.nlp.annotators.pos.POSApproach
 import com.jsl.nlp.util.io.ResourceHelper
-import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
+import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
@@ -28,9 +28,8 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   override val model: AveragedPerceptron = trainedModel
 
-  override def serialize: SerializedAnnotatorApproach[PerceptronApproach] =
+  override def serialize: SerializedAnnotatorComponent[PerceptronApproach] =
     SerializedPerceptronApproach(
-      SerializedPerceptronApproach.id,
       model.getTags.toList,
       model.getTagBook.flatMap(TaggedWord.unapply).toList,
       model.getWeights,

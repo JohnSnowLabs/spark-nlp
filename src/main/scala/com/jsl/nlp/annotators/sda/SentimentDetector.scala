@@ -1,10 +1,11 @@
 package com.jsl.nlp.annotators.sda
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.jsl.nlp.annotators.param.AnnotatorApproachParam
+import com.jsl.nlp.annotators.param.AnnotatorParam
 import com.jsl.nlp.annotators.{Lemmatizer, RegexTokenizer}
 import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.sbd.SentenceDetector
+import com.jsl.nlp.annotators.sda.pragmatic.SerializedScorerApproach
 import com.jsl.nlp.{Annotation, Annotator, Document}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -13,8 +14,12 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   */
 class SentimentDetector(override val uid: String) extends Annotator {
 
-  val model: AnnotatorApproachParam[SentimentApproach] =
-    new AnnotatorApproachParam[SentimentApproach](this, "Sentiment detection model", "Approach to translate into expressed sentiment")
+  val model: AnnotatorParam[SentimentApproach, SerializedScorerApproach] =
+    new AnnotatorParam[SentimentApproach, SerializedScorerApproach](
+      this,
+      "Sentiment detection model",
+      "Approach to translate into expressed sentiment"
+    )
 
   override val aType: String = SentimentDetector.aType
 

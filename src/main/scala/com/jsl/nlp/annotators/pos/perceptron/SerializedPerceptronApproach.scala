@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.common.TaggedWord
-import com.jsl.nlp.annotators.param.SerializedAnnotatorApproach
+import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
 
 import scala.collection.mutable.{Map => MMap}
 
@@ -9,12 +9,11 @@ import scala.collection.mutable.{Map => MMap}
   * Created by saif on 24/06/17.
   */
 case class SerializedPerceptronApproach(
-                                       id: String,
                                        tags: List[String],
                                        wordBook: List[(String, String)],
                                        featuresWeight: Map[String, Map[String, Double]],
                                        lastIteration: Int
-                                     ) extends SerializedAnnotatorApproach[PerceptronApproach] {
+                                     ) extends SerializedAnnotatorComponent[PerceptronApproach] {
   override def deserialize: PerceptronApproach = {
     new PerceptronApproach(new AveragedPerceptron(
       tags.toArray,
@@ -24,7 +23,4 @@ case class SerializedPerceptronApproach(
       lastIteration
     ))
   }
-}
-object SerializedPerceptronApproach {
-  val id: String = "perceptron"
 }
