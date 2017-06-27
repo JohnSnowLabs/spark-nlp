@@ -20,7 +20,7 @@ class SentimentDetectorTestSpec extends FlatSpec {
   sentimentDetector.setModel(new DummyApproach)
 
   "a SentimentDetector" should s"be of type ${sentimentDetector.annotatorType}" taggedAs Tag("LinuxOnly") in {
-    assert(sentimentDetector.annotatorType == SentimentDetector.aType, "because types are not properly set up")
+    assert(sentimentDetector.annotatorType == SentimentDetector.annotatorType, "because types are not properly set up")
   }
 
 }

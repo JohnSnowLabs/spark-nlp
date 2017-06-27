@@ -3,6 +3,10 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 /**
   * Created by Saif Addin on 5/6/2017.
   */
+
+/**
+  * Base Symbols that may be extended later on. For now kept in the pragmatic scope.
+  */
 trait RuleSymbols {
 
   /**

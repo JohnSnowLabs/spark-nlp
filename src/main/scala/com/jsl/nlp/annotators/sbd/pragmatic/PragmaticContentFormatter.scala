@@ -7,9 +7,13 @@ import com.jsl.nlp.util.regex.{RegexRule, RuleFactory, TransformStrategy, MatchS
 /**
   * Created by Saif Addin on 5/6/2017.
   */
+
+/**
+  * rule-based formatter that adds regex rules to different marking steps
+  * Symbols protect from ambiguous bounds to be considered splitters
+  * @param text text to tag, which is modified in place with Symbols
+  */
 class PragmaticContentFormatter(text: String) {
-
-
 
   import TransformStrategy._
   import MatchStrategy._

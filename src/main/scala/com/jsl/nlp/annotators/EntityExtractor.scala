@@ -36,7 +36,7 @@ class EntityExtractor(override val uid: String) extends Annotator {
   def getRequireSentences: Boolean = get(requireSentences).getOrElse(false)
 
   def setRequireSentences(value: Boolean): this.type = {
-    if (value) requiredAnnotatorTypes = Array(SentenceDetector.aType)
+    if (value) requiredAnnotatorTypes = Array(SentenceDetector.annotatorType)
     set(requireSentences, value)
   }
 
@@ -54,7 +54,7 @@ class EntityExtractor(override val uid: String) extends Annotator {
                        ): Seq[Annotation] =
     if (getRequireSentences) {
       annotations.filter {
-        token: Annotation => token.annotatorType == SentenceDetector.aType
+        token: Annotation => token.annotatorType == SentenceDetector.annotatorType
       }.flatMap {
         sentence =>
           val ntokens = annotations.filter {

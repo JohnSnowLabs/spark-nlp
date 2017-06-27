@@ -3,6 +3,10 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 /**
   * Created by Saif Addin on 5/6/2017.
   */
+
+/**
+  * This is a dictionary that contains common english abbreviations that should be considered sentence bounds
+  */
 object PragmaticDictionaries {
 
   val ABBREVIATIONS = Seq(

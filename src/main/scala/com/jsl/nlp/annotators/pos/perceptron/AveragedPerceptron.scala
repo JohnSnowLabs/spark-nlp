@@ -10,17 +10,29 @@ import scala.collection.mutable.{Map => MMap}
 /**
   * Created by Saif Addin on 5/16/2017.
   */
+
+/**
+  * Specific model for [[PerceptronApproach]]
+  * @param tags Holds all unique tags based on training
+  * @param taggedWordBook Contains non ambiguous words and their tags
+  * @param featuresWeight Contains prediction information based on context frequencies
+  * @param lastIteration Contains information on how many iterations have run for weighting
+  */
 class AveragedPerceptron(
                           tags: Array[String],
                           taggedWordBook: Array[TaggedWord],
                           featuresWeight: MMap[String, MMap[String, Double]],
                           lastIteration: Int = 0
-                        ) extends POSModel {
+                        ) extends POSModel[List[(String, Int)]] {
 
+  /**Used for debugging*/
   private val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
 
+  /**How many training iterations ran*/
   private var updateIteration: Int = lastIteration
+  /**totals contains scores for words and their possible tags*/
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
+  /**weighting parameter for words and their tags based on how many times passed through*/
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
 
   override def predict(features: List[(String, Int)]): String = {
