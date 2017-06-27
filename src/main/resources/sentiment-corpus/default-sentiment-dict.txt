@@ -1,0 +1,17 @@
+good,positive
+nice,positive
+awesome,positive
+cool,positive
+superb,positive
+bad,negative
+uninspired,negative
+expensive,negative
+disappointed,negative
+recommend others to avoid,negative
+lack of,revert
+not,revert
+too,increment
+very,increment
+sorely,increment
+barely,decrement
+little,decrement

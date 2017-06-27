@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.annotators.common.TaggedWord
 import com.jsl.nlp.annotators.pos.POSModel
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
@@ -10,8 +11,8 @@ import scala.collection.mutable.{Map => MMap}
   * Created by Saif Addin on 5/16/2017.
   */
 class AveragedPerceptron(
-                          tags: List[String],
-                          taggedWordBook: List[TaggedWord],
+                          tags: Array[String],
+                          taggedWordBook: Array[TaggedWord],
                           featuresWeight: MMap[String, MMap[String, Double]],
                           lastIteration: Int = 0
                         ) extends POSModel {
@@ -72,9 +73,9 @@ class AveragedPerceptron(
     )
   }
   def getUpdateIterations: Int = updateIteration
-  def getTagBook: List[TaggedWord] = taggedWordBook
+  def getTagBook: Array[TaggedWord] = taggedWordBook
   def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
-  def getTags: List[String] = tags
+  def getTags: Array[String] = tags
   /**
     * This is model learning tweaking during training, in-place
     * Uses mutable collections since this runs per word, not per iteration

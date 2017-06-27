@@ -1,43 +1,39 @@
 package com.jsl.nlp.util
 
-import java.io.{FileNotFoundException, InputStream}
+import java.io.{File, FileNotFoundException, InputStream}
 
+import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
+import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.io.Source
-import scala.collection.mutable.{ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 
 /**
   * Created by saif on 28/04/17.
   */
 object ResourceHelper {
 
-  private type TaggedSentences = List[(List[String], List[String])]
+  private val config: Config = ConfigFactory.load
 
   private case class SourceStream(resource: String) {
-    val pipe: InputStream = try {
-      getClass.getResourceAsStream("/" + resource)
-    } catch {
-      case _: Throwable =>
-        throw new FileNotFoundException(s"Lemma dictionary $resource not found")
-    }
+    val pipe: InputStream =
+      getClass.getResourceAsStream(resource)
     val content: Source = Source.fromInputStream(pipe)("UTF-8")
   }
 
   private def wordTagSplitter(sentence: String, tagSeparator: Char):
-  (List[String], List[String]) = {
-    val tokens: ListBuffer[String] = ListBuffer()
-    val tags: ListBuffer[String] = ListBuffer()
+  Array[TaggedWord] = {
+    val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
       sentence.split("\\s+").foreach { token => {
         val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
         if (tagSplit.length == 2) {
           val word = tagSplit(0)
-          val pos = tagSplit(1)
-          tokens.append(word)
-          tags.append(pos)
+          val tag = tagSplit(1)
+          taggedWords.append(TaggedWord(word, tag))
         }
       }}
-    (tokens.toList, tags.toList)
+    taggedWords.toArray
   }
 
   def loadRules: Array[RegexRule] = {
@@ -72,6 +68,23 @@ object ResourceHelper {
     }
   }
 
+  def parseKeyValueText(
+                          source: String,
+                          format: String,
+                          keySep: String
+                        ): Map[String, String] = {
+    format match {
+      case "txt" =>
+        val sourceStream = SourceStream(source)
+        val res = sourceStream.content.getLines.map (line => {
+          val kv = line.split (keySep).map (_.trim)
+          (kv.head, kv.last)
+        }).toMap
+        sourceStream.pipe.close()
+        res
+    }
+  }
+
   /**
     * Specific approach chosen is to generate quick reads of Lemma Dictionary
     *
@@ -87,7 +100,7 @@ object ResourceHelper {
                                  keySep: String,
                                  valueSep: String): Map[String, String] = {
     format match {
-      case "txt" => {
+      case "txt" =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(source)
         sourceStream.content.getLines.foreach(line => {
@@ -98,7 +111,6 @@ object ResourceHelper {
         })
         sourceStream.pipe.close()
         m.toMap
-      }
       case _ => throw new IllegalArgumentException("Only txt supported as a file format")
     }
   }
@@ -106,35 +118,65 @@ object ResourceHelper {
   def parsePOSCorpusFromText(
                               text: String,
                               tagSeparator: Char
-                            ): TaggedSentences = {
-    val sentences: ListBuffer[(List[String], List[String])] = ListBuffer()
+                            ): Array[TaggedSentence] = {
+    val sentences: ArrayBuffer[Array[TaggedWord]] = ArrayBuffer()
     text.split("\n").filter(_.nonEmpty).foreach{sentence =>
       sentences.append(wordTagSplitter(sentence, tagSeparator))
     }
-    sentences.toList
+    sentences.map(TaggedSentence).toArray
   }
 
   def parsePOSCorpusFromSource(
                   source: String,
                   tagSeparator: Char
-                ): TaggedSentences = {
+                ): Array[TaggedSentence] = {
     val sourceStream = SourceStream(source)
     val lines = try {
       sourceStream.content.getLines()
         .filter(_.nonEmpty)
         .map(sentence => wordTagSplitter(sentence, tagSeparator))
-        .toList
+        .toArray
     } catch {
-      case _: java.nio.charset.UnmappableCharacterException => {
-        throw new Exception(s"file $source contains dirty characters")
-      }
+      case _: java.nio.charset.UnmappableCharacterException =>
+        throw new Exception(s"file $source contains dirty characters or is not UTF-8")
     }
     sourceStream.pipe.close()
-    lines
+    lines.map(TaggedSentence)
   }
 
-  def parsePOSCorpusFromSources(sources: List[String], tagSeparator: Char): TaggedSentences = {
-    sources.flatMap(parsePOSCorpusFromSource(_, tagSeparator))
+  def parsePOSCorpusFromDir(
+                           source: String,
+                           tagSeparator: Char,
+                           fileLimit: Int
+                           ): Array[TaggedSentence] = {
+    Source.fromInputStream(getClass.getResourceAsStream(source))
+      .getLines.take(fileLimit)
+      .flatMap(fileName => parsePOSCorpusFromSource(source + "/" + fileName, tagSeparator))
+      .toArray
+  }
+
+  def defaultPOSCorpus(fileLimit: Int = 50): Array[TaggedSentence] = {
+    val posDirPath = config.getString("nlp.posDict.dir")
+    //ToDo support multiple formats in corpus source
+    val posFormat = config.getString("nlp.posDict.format")
+    val posSeparator = config.getString("nlp.posDict.separator")
+    parsePOSCorpusFromDir(posDirPath, posSeparator.head, fileLimit)
+  }
+
+  def defaultLemmaDict: Map[String, String] = {
+    val lemmaFilePath = config.getString("nlp.lemmaDict.file")
+    val lemmaFormat = config.getString("nlp.lemmaDict.format")
+    val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
+    val lemmaValSep = config.getString("nlp.lemmaDict.vSeparator")
+    val lemmaDict = ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
+    lemmaDict
+  }
+
+  def defaultSentDict: Map[String, String] = {
+    val sentFilePath = config.getString("nlp.sentimentDict.file")
+    val sentFormat = config.getString("nlp.sentimentDict.format")
+    val sentSeparator = config.getString("nlp.sentimentDict.separator")
+    ResourceHelper.parseKeyValueText(sentFilePath, sentFormat, sentSeparator)
   }
 
 }

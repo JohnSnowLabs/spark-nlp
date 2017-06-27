@@ -5,6 +5,8 @@ import com.jsl.nlp.annotators.pos.POSTagger
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
+import com.jsl.nlp.annotators.sda.SentimentDetector
+import com.jsl.nlp.annotators.sda.pragmatic.PragmaticScorer
 import com.jsl.nlp.util.ResourceHelper
 import com.jsl.nlp.util.regex.RegexRule
 import org.apache.spark.sql.{Dataset, Row}
@@ -39,7 +41,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setDocumentCol("document")
-    lemmatizer.transform(withFullNormalizer(dataset))
+    lemmatizer.transform(withTokenizer(dataset))
   }
 
   def withFullEntityExtractor(dataset: Dataset[Row]): Dataset[Row] = {
@@ -68,7 +70,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     )
     val posTagger = new POSTagger(perceptronApproach)
       .setDocumentCol("document")
-    posTagger.transform(withFullPragmaticSentenceDetector(dataset))
+    posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Seq[(String, String)], strategy: String): Dataset[Row] = {
@@ -83,6 +85,16 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val dateMatcher = new DateMatcher()
       .setDocumentCol("document")
     dateMatcher.transform(dataset)
+  }
+
+  def withLemmaTaggedSentences(dataset: Dataset[Row]): Dataset[Row] = {
+    withFullLemmatizer(withFullPOSTagger(dataset))
+  }
+
+  def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
+    val sentimentDetector = new SentimentDetector(new PragmaticScorer)
+      .setDocumentCol("document")
+    sentimentDetector.transform(withFullPOSTagger(withFullLemmatizer(dataset)))
   }
 
 }

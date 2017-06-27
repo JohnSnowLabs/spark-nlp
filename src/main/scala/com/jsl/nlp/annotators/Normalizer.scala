@@ -8,6 +8,8 @@ import com.jsl.nlp.{Annotation, Annotator, Document}
 class Normalizer extends Annotator {
   override val aType: String = Normalizer.aType
 
+  override val requiredAnnotationTypes = Array(Stemmer.aType)
+
   override def annotate(
                          document: Document, annotations: Seq[Annotation]
   ): Seq[Annotation] =
@@ -20,7 +22,6 @@ class Normalizer extends Annotator {
         Annotation(aType, token.begin, token.end, Map(aType -> nToken))
     }.filter(_.metadata(Normalizer.aType).nonEmpty)
 
-  override val requiredAnnotationTypes = Array(Stemmer.aType)
 }
 object Normalizer {
   val aType: String = "ntoken"

@@ -1,4 +1,4 @@
-package com.jsl.nlp.annotators.pos.perceptron
+package com.jsl.nlp.annotators.common
 
 /**
   * Created by Saif Addin on 5/20/2017.
