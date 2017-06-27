@@ -1,13 +1,13 @@
-package com.jsl.nlp.util
+package com.jsl.nlp.util.io
 
-import java.io.{File, FileNotFoundException, InputStream}
+import java.io.InputStream
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.util.regex.RegexRule
 import com.typesafe.config.{Config, ConfigFactory}
 
-import scala.io.Source
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
+import scala.io.Source
 
 /**
   * Created by saif on 28/04/17.
@@ -155,7 +155,7 @@ object ResourceHelper {
       .toArray
   }
 
-  def defaultPOSCorpus(fileLimit: Int = 50): Array[TaggedSentence] = {
+  def retrievePOSCorpus(fileLimit: Int = 50): Array[TaggedSentence] = {
     val posDirPath = config.getString("nlp.posDict.dir")
     //ToDo support multiple formats in corpus source
     val posFormat = config.getString("nlp.posDict.format")
@@ -163,7 +163,7 @@ object ResourceHelper {
     parsePOSCorpusFromDir(posDirPath, posSeparator.head, fileLimit)
   }
 
-  def defaultLemmaDict: Map[String, String] = {
+  def retrieveLemmaDict: Map[String, String] = {
     val lemmaFilePath = config.getString("nlp.lemmaDict.file")
     val lemmaFormat = config.getString("nlp.lemmaDict.format")
     val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
@@ -172,7 +172,7 @@ object ResourceHelper {
     lemmaDict
   }
 
-  def defaultSentDict: Map[String, String] = {
+  def retrieveSentimentDict: Map[String, String] = {
     val sentFilePath = config.getString("nlp.sentimentDict.file")
     val sentFormat = config.getString("nlp.sentimentDict.format")
     val sentSeparator = config.getString("nlp.sentimentDict.separator")

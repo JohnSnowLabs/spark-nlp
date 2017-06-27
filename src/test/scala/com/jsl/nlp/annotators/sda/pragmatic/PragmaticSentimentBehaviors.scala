@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, Document}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -12,7 +13,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
 
   def isolatedSentimentDetector(taggedSentences: Array[TaggedSentence], expectedScore: Double): Unit = {
     s"tagged sentences" should s"have an expected score of $expectedScore" in {
-      val pragmaticScorer = new PragmaticScorer
+      val pragmaticScorer = new PragmaticScorer(ResourceHelper.retrieveSentimentDict)
       val result = pragmaticScorer.score(taggedSentences)
       assert(result == expectedScore, s"because result: $result did not match expected: $expectedScore")
     }

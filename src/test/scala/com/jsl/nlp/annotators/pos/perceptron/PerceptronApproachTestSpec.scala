@@ -1,8 +1,9 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
+import com.jsl.nlp.annotators.pos.POSTagger
+import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{ContentProvider, DataBuilder}
-import com.jsl.nlp.util.ResourceHelper
 import org.scalatest._
 
 /**
@@ -27,14 +28,28 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   val targetSentencesFromWsjResult = Array("DT","NN","IN","NN","RB","VBN","TO","VB","NNP","NN","NNS","VBZ","VBN",
     "DT","JJ","NN","IN","NN","NNS","IN","DT","NN","IN","NNS","VBN","TO","PRP","RBR","IN","CD","NNS","IN","NNS","VBD")
+
+  val tokenizedSentenceFromWsj = ContentProvider.targetSentencesFromWsj
+    .map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim)))
+
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
     PerceptronApproach.train(trainingSentences, 5),
-    ContentProvider.targetSentencesFromWsj.map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim))),
+    tokenizedSentenceFromWsj,
     targetSentencesFromWsjResult
   )
 
   "a spark based pragmatic detector" should behave like sparkBasedPOSTagger(
     DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
   )
+
+  "A Perceptron Tagger" should "be readable and writable" in {
+    val perceptronTagger = new POSTagger().setModel(PerceptronApproach.train(nIterations = 1))
+    val path = "./test-output-tmp/perceptrontagger"
+    perceptronTagger.write.overwrite.save(path)
+    val perceptronTaggerRead = POSTagger.read.load(path)
+    assert(perceptronTagger.getModel.description == perceptronTaggerRead.getModel.description)
+    assert(perceptronTagger.getModel.tag(tokenizedSentenceFromWsj).head.tags.head ==
+      perceptronTaggerRead.getModel.tag(tokenizedSentenceFromWsj).head.tags.head)
+  }
 
 }

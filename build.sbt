@@ -1,7 +1,7 @@
 
 // Dependency settings
 val scalaLangVersion = "2.11.11"
-val sparkVersion = "2.1.0"
+val sparkVersion = "2.1.1"
 val scalaTestVersion = "3.0.0"
 val opennlpVersion = "1.6.0"
 
@@ -30,8 +30,6 @@ scalacOptions ++= Seq(
   "-language:implicitConversions"
 )
 
-javaOptions in test += "-Xmx4G"
-javaOptions in run += "-Xmx4G"
 logBuffered in Test := false
 
 // Module setup
@@ -47,6 +45,3 @@ lazy val root = (project in file("."))
       utilDependencies ++
       logDependencies
   )
-
-
-

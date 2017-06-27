@@ -2,15 +2,18 @@ package com.jsl.nlp.annotators
 
 import com.jsl.nlp.{Annotation, Annotator, Document}
 import opennlp.tools.stemmer.PorterStemmer
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by alext on 10/23/16.
   */
-class Stemmer extends Annotator {
+class Stemmer(override val uid: String) extends Annotator {
 
   override val aType: String = Stemmer.aType
 
-  override val requiredAnnotationTypes = Array(RegexTokenizer.aType)
+  override var requiredAnnotationTypes = Array(RegexTokenizer.aType)
+
+  def this() = this(Identifiable.randomUID(Stemmer.aType))
 
   override def annotate(
                          document: Document, annotations: Seq[Annotation]
@@ -24,7 +27,7 @@ class Stemmer extends Annotator {
 
 }
 
-object Stemmer {
+object Stemmer extends DefaultParamsReadable[Stemmer] {
   val aType = "stem"
   private val stemmer = new PorterStemmer()
 }

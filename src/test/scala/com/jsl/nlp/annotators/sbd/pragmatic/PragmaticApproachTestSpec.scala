@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
+import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{ContentProvider, DataBuilder}
 import org.scalatest._
 
@@ -47,6 +48,14 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   "a spark based pragmatic detector" should behave like sparkBasedSentenceDetector(
     DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
   )
+
+  "A Pragmatic SBD" should "be readable and writable" in {
+    val pragmaticDetector = new SentenceDetector().setModel(new PragmaticApproach)
+    val path = "./test-output-tmp/pragmaticdetector"
+    pragmaticDetector.write.overwrite.save(path)
+    val pragmaticDetectorRead = SentenceDetector.read.load(path)
+    assert(pragmaticDetector.getModel.description == pragmaticDetectorRead.getModel.description)
+  }
 
   /**
     * Golden Rules from Pragmatic Sentence Detector

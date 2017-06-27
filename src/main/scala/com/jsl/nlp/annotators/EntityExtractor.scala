@@ -2,49 +2,34 @@ package com.jsl.nlp.annotators
 
 import java.io.{FileInputStream, InputStream}
 
-import com.jsl.nlp.{Document, Annotation, Annotator}
+import com.jsl.nlp.annotators.sbd.SentenceDetector
+import com.jsl.nlp.{Annotation, Annotator, Document}
 import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by alext on 10/23/16.
   */
-class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
+class EntityExtractor(override val uid: String) extends Annotator {
 
   val maxLen: Param[Int] = new Param(this, "maxLen", "maximum phrase length")
 
-  override val aType: String = EntityExtractor.aType
-
-  override def annotate(
-                         document: Document, annotations: Seq[Annotation]
-  ): Seq[Annotation] =
-    if (fromSentences) {
-      annotations.filter {
-        token: Annotation => token.aType == "sentence"
-      }.flatMap {
-        sentence =>
-          val ntokens = annotations.filter {
-            token: Annotation =>
-              token.aType == "ntoken" &&
-                token.begin >= sentence.begin &&
-                token.end <= sentence.end
-          }
-          EntityExtractor.phraseMatch(ntokens, $(maxLen), $(entities))
-      }
-    } else {
-      val nTokens = annotations.filter {
-        token: Annotation => token.aType == "ntoken"
-      }
-      EntityExtractor.phraseMatch(nTokens, $(maxLen), $(entities))
-    }
-
-  override val requiredAnnotationTypes: Array[String] =
-    if (fromSentences) {
-      Array("sentence")
-    } else {
-      Array()
-    }
+  val requireSentences: Param[Boolean] = new Param(this, "require sentences", "whether to require sentence boundaries or simple tokens")
 
   val entities: Param[Set[Seq[String]]] = new Param(this, "entities", "set of entities (phrases)")
+
+  override val aType: String = EntityExtractor.aType
+
+  override var requiredAnnotationTypes: Array[String] = Array()
+
+  def this() = this(Identifiable.randomUID(EntityExtractor.aType))
+
+  def getRequireSentences: Boolean = get(requireSentences).getOrElse(false)
+
+  def setRequireSentences(value: Boolean): this.type = {
+    if (value) requiredAnnotationTypes = Array(SentenceDetector.aType)
+    set(requireSentences, value)
+  }
 
   def setEntities(value: Set[Seq[String]]): this.type = set(entities, value)
 
@@ -54,9 +39,32 @@ class EntityExtractor(fromSentences: Boolean = false) extends Annotator {
 
   def getMaxLen: Int = $(maxLen)
 
+  override def annotate(
+                         document: Document, annotations: Seq[Annotation]
+                       ): Seq[Annotation] =
+    if (getRequireSentences) {
+      annotations.filter {
+        token: Annotation => token.aType == SentenceDetector.aType
+      }.flatMap {
+        sentence =>
+          val ntokens = annotations.filter {
+            token: Annotation =>
+              token.aType == Normalizer.aType &&
+                token.begin >= sentence.begin &&
+                token.end <= sentence.end
+          }
+          EntityExtractor.phraseMatch(ntokens, $(maxLen), $(entities))
+      }
+    } else {
+      val nTokens = annotations.filter {
+        token: Annotation => token.aType == Normalizer.aType
+      }
+      EntityExtractor.phraseMatch(nTokens, $(maxLen), $(entities))
+    }
+
 }
 
-object EntityExtractor {
+object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
 
   val aType = "entity"
 
@@ -73,7 +81,7 @@ object EntityExtractor {
         val stems = stemmer.annotate(doc, tokens)
         val nTokens = normalizer.annotate(doc, stems)
         val lemmas = lemmatizer.annotate(doc, nTokens)
-        nTokens.map(_.metadata("ntoken")).toList
+        nTokens.map(_.metadata(Normalizer.aType)).toList
     }.toSet
     src.close()
     phrases
@@ -88,14 +96,14 @@ object EntityExtractor {
       window =>
         window.filter(_ != null).inits.filter {
           phraseCandidate =>
-            entities.contains(phraseCandidate.map(_.metadata("ntoken")))
+            entities.contains(phraseCandidate.map(_.metadata(Normalizer.aType)))
         }.map {
           phrase =>
             Annotation(
               "entity",
               phrase.head.begin,
               phrase.last.end,
-              Map("entity" -> phrase.map(_.metadata("ntoken")).mkString(" "))
+              Map("entity" -> phrase.map(_.metadata(Normalizer.aType)).mkString(" "))
             )
         }
     }.toSeq

@@ -2,6 +2,8 @@ package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.jsl.nlp.DataBuilder
+import com.jsl.nlp.annotators.sda.SentimentDetector
+import com.jsl.nlp.util.io.ResourceHelper
 import org.scalatest._
 
 /**
@@ -26,5 +28,14 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
     DataBuilder.basicDataBuild("The staff of the restaurant is nice and the eggplant is bad." +
       " I recommend others to avoid.")
   )
+
+  "A SentimentDetector" should "be readable and writable" in {
+    val sentimentDetector = new SentimentDetector().setModel(new PragmaticScorer(ResourceHelper.retrieveSentimentDict))
+    val path = "./test-output-tmp/sentimentdetector"
+    sentimentDetector.write.overwrite.save(path)
+    val sentimentDetectorRead = SentimentDetector.read.load(path)
+    assert(sentimentDetector.getModel.description == sentimentDetectorRead.getModel.description)
+    assert(sentimentDetector.getModel.score(sentimentSentences) == sentimentDetectorRead.getModel.score(sentimentSentences))
+  }
 
 }

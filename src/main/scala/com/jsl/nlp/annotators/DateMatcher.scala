@@ -9,11 +9,12 @@ import java.util.Calendar
 
 import com.jsl.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by Saif Addin on 6/3/2017.
   */
-class DateMatcher extends Annotator {
+class DateMatcher(override val uid: String) extends Annotator {
 
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
@@ -50,26 +51,17 @@ class DateMatcher extends Annotator {
   private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
   private val amDefinition = "(?i)(a\\.?m)".r
 
-  protected val dateFormat: Param[SimpleDateFormat] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
+  protected val dateFormat: Param[String] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
 
   override val aType: String = DateMatcher.aType
 
-  override val requiredAnnotationTypes: Array[String] = Array()
+  override var requiredAnnotationTypes: Array[String] = Array()
 
-  def getFormat: String = get(dateFormat).map(_.toPattern).getOrElse("yyyy/MM/dd")
+  def this() = this(Identifiable.randomUID(DateMatcher.aType))
 
-  private def getSDFormat: SimpleDateFormat = get(dateFormat).getOrElse(new SimpleDateFormat(getFormat))
+  def getFormat: String = get(dateFormat).getOrElse("yyyy/MM/dd")
 
-  def setFormat(value: String): Unit = set(dateFormat, new SimpleDateFormat(value))
-
-  override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
-    Seq(extractDate(document.text).map(matchedDate => Annotation(
-      DateMatcher.aType,
-      matchedDate.start,
-      matchedDate.end,
-      Map(DateMatcher.aType -> getSDFormat.format(matchedDate.calendar.getTime)))
-    )).flatten
-  }
+  def setFormat(value: String): this.type = set(dateFormat, value)
 
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
     val possibleDate = extractFormalDate(text)
@@ -261,7 +253,17 @@ class DateMatcher extends Annotator {
     }}
   }
 
+  override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
+    val simpleDateFormat = new SimpleDateFormat(getFormat)
+    Seq(extractDate(document.text).map(matchedDate => Annotation(
+      DateMatcher.aType,
+      matchedDate.start,
+      matchedDate.end,
+      Map(DateMatcher.aType -> simpleDateFormat.format(matchedDate.calendar.getTime)))
+    )).flatten
+  }
+
 }
-object DateMatcher {
+object DateMatcher extends DefaultParamsReadable[DateMatcher] {
   val aType: String = "date"
 }

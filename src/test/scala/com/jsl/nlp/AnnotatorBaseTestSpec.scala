@@ -1,5 +1,6 @@
 package com.jsl.nlp
 
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.AnalysisException
 import org.scalatest._
 
@@ -8,9 +9,10 @@ import org.scalatest._
   */
 class AnnotatorBaseTestSpec extends FlatSpec {
 
-  class DummyAnnotator extends Annotator {
+  class DummyAnnotator(override val uid: String) extends Annotator {
     override val aType: String = DummyAnnotator.aType
-    override val requiredAnnotationTypes: Array[String] = Array()
+    override var requiredAnnotationTypes: Array[String] = Array()
+    def this() = this(Identifiable.randomUID(DummyAnnotator.aType))
     override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] =
       Seq(Annotation(
         DummyAnnotator.aType,
@@ -19,13 +21,14 @@ class AnnotatorBaseTestSpec extends FlatSpec {
         Map("a" -> "b", "c" -> "d")
       ))
   }
-  object DummyAnnotator {
+  object DummyAnnotator extends DefaultParamsReadable[DummyAnnotator] {
     val aType = "dummyType"
   }
 
-  class DemandingDummyAnnotator extends Annotator {
+  class DemandingDummyAnnotator(override val uid: String) extends Annotator {
     override val aType: String = DemandingDummyAnnotator.aType
-    override val requiredAnnotationTypes: Array[String] = Array(DummyAnnotator.aType)
+    override var requiredAnnotationTypes: Array[String] = Array(DummyAnnotator.aType)
+    def this() = this(Identifiable.randomUID(DemandingDummyAnnotator.aType))
     override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] =
       Seq(Annotation(
         DemandingDummyAnnotator.aType,
@@ -34,7 +37,7 @@ class AnnotatorBaseTestSpec extends FlatSpec {
         Map("aa" -> "bb", "cc" -> "dd")
       ))
   }
-  object DemandingDummyAnnotator {
+  object DemandingDummyAnnotator extends DefaultParamsReadable[DemandingDummyAnnotator] {
     val aType = "demandingDummyType"
   }
 

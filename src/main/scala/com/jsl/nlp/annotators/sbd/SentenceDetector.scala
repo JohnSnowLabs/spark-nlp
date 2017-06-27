@@ -1,19 +1,31 @@
 package com.jsl.nlp.annotators.sbd
 
+import com.jsl.nlp.annotators.param.AnnotatorParam
+import com.jsl.nlp.annotators.sbd.pragmatic.SerializedSBDApproach
 import com.jsl.nlp.{Annotation, Annotator, Document}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by Saif Addin on 5/5/2017.
   */
-class SentenceDetector(detectionApproach: SBDApproach) extends Annotator {
+class SentenceDetector(override val uid: String) extends Annotator {
+
+  val model: AnnotatorParam[SBDApproach, SerializedSBDApproach] =
+    new AnnotatorParam[SBDApproach, SerializedSBDApproach](this, "Sentence Detection model", "Approach to detect sentence boundaries")
 
   override val aType: String = SentenceDetector.aType
 
-  override val requiredAnnotationTypes: Array[String] = Array()
+  override var requiredAnnotationTypes: Array[String] = Array()
+
+  def this() = this(Identifiable.randomUID(SentenceDetector.aType))
+
+  def getModel: SBDApproach = $(model)
+
+  def setModel(targetModel: SBDApproach): this.type = set(model, targetModel)
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Seq[Sentence] =
-      detectionApproach
+      getModel
         .setContent(document.text)
         .prepare
         .extract
@@ -26,6 +38,6 @@ class SentenceDetector(detectionApproach: SBDApproach) extends Annotator {
   }
 
 }
-object SentenceDetector {
+object SentenceDetector extends DefaultParamsReadable[SentenceDetector] {
   val aType = "sbd"
 }

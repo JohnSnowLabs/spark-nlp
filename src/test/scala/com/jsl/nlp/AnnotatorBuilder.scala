@@ -7,8 +7,7 @@ import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticApproach
 import com.jsl.nlp.annotators.sda.SentimentDetector
 import com.jsl.nlp.annotators.sda.pragmatic.PragmaticScorer
-import com.jsl.nlp.util.ResourceHelper
-import com.jsl.nlp.util.regex.RegexRule
+import com.jsl.nlp.util.io.ResourceHelper
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -41,6 +40,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setDocumentCol("document")
+      .setLemmaDict(ResourceHelper.retrieveLemmaDict)
     lemmatizer.transform(withTokenizer(dataset))
   }
 
@@ -59,7 +59,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
     val pragmaticDetection = new PragmaticApproach
-    val sentenceDetector = new SentenceDetector(pragmaticDetection)
+    val sentenceDetector = new SentenceDetector
+    sentenceDetector
+      .setModel(pragmaticDetection)
       .setDocumentCol("document")
     sentenceDetector.transform(dataset)
   }
@@ -68,7 +70,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val perceptronApproach = PerceptronApproach.train(
       ResourceHelper.parsePOSCorpusFromText(ContentProvider.wsjTrainingCorpus, '|')
     )
-    val posTagger = new POSTagger(perceptronApproach)
+    val posTagger = new POSTagger()
+      .setModel(perceptronApproach)
       .setDocumentCol("document")
     posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
@@ -92,7 +95,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
-    val sentimentDetector = new SentimentDetector(new PragmaticScorer)
+    val sentimentDetector = new SentimentDetector
+    sentimentDetector
+      .setModel(new PragmaticScorer(ResourceHelper.retrieveSentimentDict))
       .setDocumentCol("document")
     sentimentDetector.transform(withFullPOSTagger(withFullLemmatizer(dataset)))
   }

@@ -1,9 +1,11 @@
 package com.jsl.nlp.annotators.sbd
 
+import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
+
 /**
   * Created by Saif Addin on 5/5/2017.
   */
-trait SBDApproach {
+trait SBDApproach extends WritableAnnotatorComponent {
 
   val description: String
 
