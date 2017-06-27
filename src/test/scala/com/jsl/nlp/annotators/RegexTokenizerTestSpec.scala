@@ -10,8 +10,8 @@ import org.scalatest._
 class RegexTokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
   val regexTokenizer = new RegexTokenizer
-  "a RegexTokenizer" should s"be of type ${RegexTokenizer.aType}" in {
-    assert(regexTokenizer.aType == RegexTokenizer.aType)
+  "a RegexTokenizer" should s"be of type ${RegexTokenizer.annotatorType}" in {
+    assert(regexTokenizer.annotatorType == RegexTokenizer.annotatorType)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

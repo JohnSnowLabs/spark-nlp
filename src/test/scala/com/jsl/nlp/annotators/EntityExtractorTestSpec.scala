@@ -9,9 +9,9 @@ import org.scalatest._
   */
 class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
-  "An EntityExtractor" should s"be of type ${EntityExtractor.aType}" in {
+  "An EntityExtractor" should s"be of type ${EntityExtractor.annotatorType}" in {
     val entityExtractor = new EntityExtractor
-    assert(entityExtractor.aType == EntityExtractor.aType)
+    assert(entityExtractor.annotatorType == EntityExtractor.annotatorType)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

@@ -13,9 +13,9 @@ class SentenceDetector(override val uid: String) extends Annotator {
   val model: AnnotatorParam[SBDApproach, SerializedSBDApproach] =
     new AnnotatorParam[SBDApproach, SerializedSBDApproach](this, "Sentence Detection model", "Approach to detect sentence boundaries")
 
-  override val aType: String = SentenceDetector.aType
+  override val annotatorType: String = SentenceDetector.aType
 
-  override var requiredAnnotationTypes: Array[String] = Array()
+  override var requiredAnnotatorTypes: Array[String] = Array()
 
   def this() = this(Identifiable.randomUID(SentenceDetector.aType))
 
@@ -30,10 +30,10 @@ class SentenceDetector(override val uid: String) extends Annotator {
         .prepare
         .extract
     sentences.map(sentence => Annotation(
-      this.aType,
+      this.annotatorType,
       sentence.begin,
       sentence.end,
-      Map[String, String](this.aType -> sentence.content)
+      Map[String, String](this.annotatorType -> sentence.content)
     ))
   }
 

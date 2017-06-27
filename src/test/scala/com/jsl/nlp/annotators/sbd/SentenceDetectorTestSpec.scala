@@ -19,8 +19,8 @@ class SentenceDetectorTestSpec extends FlatSpec {
   val sentenceDetector = new SentenceDetector
   sentenceDetector.setModel(new DummyApproach)
 
-  "a SentenceDetector" should s"be of type ${SentenceDetector.aType}" in {
-    assert(sentenceDetector.aType == SentenceDetector.aType, "because types are not properly set up")
+  "a SentenceDetector" should s"be of type ${SentenceDetector.aType}" taggedAs Tag("LinuxOnly") in {
+    assert(sentenceDetector.annotatorType == SentenceDetector.aType, "because types are not properly set up")
   }
 
 }

@@ -48,7 +48,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val tokenPattern = "[a-zA-Z]+|[0-9]+|\\p{Punct}"
     val entities = EntityExtractor
       .loadEntities(
-        getClass.getResourceAsStream("/test-phrases.txt"),
+        getClass.getResourceAsStream("/entity-extractor/test-phrases.txt"),
         tokenPattern)
     val entityExtractor = new EntityExtractor()
       .setDocumentCol("document")

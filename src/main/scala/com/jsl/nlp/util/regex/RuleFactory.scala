@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 
 import scala.util.matching.Regex
 
-case class RuleMatch(content: Regex.Match, description: String)
+case class RuleMatch(content: Regex.Match, identifier: String)
 
 /**
   * Created by Saif Addin on 5/8/2017.

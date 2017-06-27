@@ -2,20 +2,21 @@ package com.jsl.nlp
 
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types._
+import scala.collection.Map
 
 /**
-  * This class represents the pieces of text created identified by an annotator
-  * @param aType the type of annotation
+  * represents annotator's output parts and their details
+  * @param annotatorType the type of annotation
   * @param begin the index of the first character under this annotation
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(aType: String, begin: Int, end: Int, metadata: scala.collection.Map[String, String] = Map())
+case class Annotation(annotatorType: String, begin: Int, end: Int, metadata: Map[String, String])
 
-object Annotation extends ExtractsFromRow {
+object Annotation {
 
   /**
-    * This is spark type of an annotation
+    * This is spark type of an annotation representing its metadata shape
     */
   val AnnotationDataType = new StructType(Array(
     StructField("aType", StringType, nullable = true),
@@ -27,8 +28,8 @@ object Annotation extends ExtractsFromRow {
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
-    * @param row the row to be converted
-    * @return the annotation
+    * @param row spark row to be converted
+    * @return annotation
     */
   def apply(row: Row): Annotation = {
     Annotation(row.getString(0), row.getInt(1), row.getInt(2), row.getMap[String, String](3))

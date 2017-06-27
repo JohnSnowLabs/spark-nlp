@@ -11,15 +11,15 @@ import org.scalatest._
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
   val lemmatizer = new Lemmatizer
-  "a lemmatizer" should s"be of type ${Lemmatizer.aType}" in {
-    assert(lemmatizer.aType == Lemmatizer.aType)
+  "a lemmatizer" should s"be of type ${Lemmatizer.annotatorType}" in {
+    assert(lemmatizer.annotatorType == Lemmatizer.annotatorType)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
   "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(latinBodyData)
 
-  "A lemmatizer" should "be readable and writable" in {
+  "A lemmatizer" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
     val lemmatizer = new Lemmatizer().setLemmaDict(ResourceHelper.retrieveLemmaDict)
     val path = "./test-output-tmp/lemmatizer"
     lemmatizer.write.overwrite.save(path)

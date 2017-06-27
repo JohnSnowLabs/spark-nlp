@@ -13,11 +13,7 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
   def basicDataBuild(content: String): Dataset[Row] = {
     val docs = Seq(
       StructContainer(
-        Document(
-          "id",
-          content,
-          Map[String, String]()
-        )
+        Document(content)
       )
     )
     docs.toDS().toDF("document")
@@ -26,11 +22,7 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
   def multipleDataBuild(content: Seq[String]): Dataset[Row] = {
     val docs = for (row <- content) yield {
       StructContainer(
-        Document(
-          "id",
-          row,
-          Map[String, String]()
-        )
+        Document(row)
       )
     }
     docs.toDS().toDF("document")

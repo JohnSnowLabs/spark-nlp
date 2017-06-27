@@ -18,11 +18,11 @@ class POSTagger(override val uid: String) extends Annotator {
   val model: AnnotatorParam[POSApproach, SerializedPerceptronApproach] =
     new AnnotatorParam[POSApproach, SerializedPerceptronApproach](this, "POS Model", "POS Tagging approach")
 
-  override val aType: String = POSTagger.aType
+  override val annotatorType: String = POSTagger.aType
 
-  override var requiredAnnotationTypes: Array[String] = Array(
+  override var requiredAnnotatorTypes: Array[String] = Array(
     SentenceDetector.aType,
-    RegexTokenizer.aType
+    RegexTokenizer.annotatorType
   )
 
   def this() = this(Identifiable.randomUID(POSTagger.aType))
@@ -33,12 +33,12 @@ class POSTagger(override val uid: String) extends Annotator {
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences: Array[SentenceToBeTagged] = annotations.collect {
-      case sentence: Annotation if sentence.aType == SentenceDetector.aType =>
+      case sentence: Annotation if sentence.annotatorType == SentenceDetector.aType =>
         val tokenizedSentence = TokenizedSentence(
           annotations.filter(annotation =>
-            annotation.aType == RegexTokenizer.aType &&
+            annotation.annotatorType == RegexTokenizer.annotatorType &&
             annotation.end <= sentence.end
-          ).map(_.metadata(RegexTokenizer.aType)).toArray
+          ).map(_.metadata(RegexTokenizer.annotatorType)).toArray
         )
         SentenceToBeTagged(
           tokenizedSentence,

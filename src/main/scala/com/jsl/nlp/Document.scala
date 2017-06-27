@@ -3,13 +3,19 @@ package com.jsl.nlp
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
 
+/**
+  * Represents raw text container
+  * @param text Raw text to be a target of processing
+  * @param id May be used as an identifier for any specific needs
+  * @param metadata May be used to provide additional useful information
+  */
 case class Document(
-  id: String,
-  text: String,
-  metadata: scala.collection.Map[String, String] = Map()
+                     text: String,
+                     id: String = "",
+                     metadata: scala.collection.Map[String, String] = Map()
 )
-
-object Document extends ExtractsFromRow {
+object Document {
+  /** Creates a document out of a [[Row]] or column [[StructType]]*/
   def apply(row: Row): Document = {
     Document(
       row.getString(0),
@@ -18,9 +24,10 @@ object Document extends ExtractsFromRow {
     )
   }
 
+  /** Spark type representation shape of Document*/
   val DocumentDataType: StructType = StructType(Array(
-    StructField("id",StringType,nullable = true),
     StructField("text",StringType,nullable = true),
+    StructField("id",StringType,nullable = true),
     StructField("metadata",MapType(StringType,StringType,valueContainsNull = true),nullable = true)
   ))
 

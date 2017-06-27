@@ -20,7 +20,7 @@ trait LemmatizerBehaviors { this: FlatSpec =>
           row.getSeq[Row](2)
             .map(Annotation(_))
             .foreach {
-              case lemma: Annotation if lemma.aType == Lemmatizer.aType =>
+              case lemma: Annotation if lemma.annotatorType == Lemmatizer.annotatorType =>
                 println(lemma, document.text.substring(lemma.begin, lemma.end), lemma.metadata.mkString(", "))
               case _ => ()
             }

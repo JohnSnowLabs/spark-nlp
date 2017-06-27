@@ -21,11 +21,11 @@ class SentimentDetector(override val uid: String) extends Annotator {
       "Approach to translate into expressed sentiment"
     )
 
-  override val aType: String = SentimentDetector.aType
+  override val annotatorType: String = SentimentDetector.aType
 
   //ToDo: Verify. In this case, order matters. i.e. pos tags must be before lemmatization
-  override var requiredAnnotationTypes: Array[String] = Array(
-    RegexTokenizer.aType,
+  override var requiredAnnotatorTypes: Array[String] = Array(
+    RegexTokenizer.annotatorType,
     SentenceDetector.aType
   )
 
@@ -34,16 +34,16 @@ class SentimentDetector(override val uid: String) extends Annotator {
   def getModel: SentimentApproach = $(model)
 
   def setModel(targetModel: SentimentApproach): this.type = {
-    if (targetModel.requiresPOS) requiredAnnotationTypes = requiredAnnotationTypes :+ POSTagger.aType
-    if (targetModel.requiresLemmas) requiredAnnotationTypes = requiredAnnotationTypes :+ Lemmatizer.aType
+    if (targetModel.requiresPOS) requiredAnnotatorTypes = requiredAnnotatorTypes :+ POSTagger.aType
+    if (targetModel.requiresLemmas) requiredAnnotatorTypes = requiredAnnotatorTypes :+ Lemmatizer.annotatorType
     set(model, targetModel)
   }
 
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokens = annotations.filter(_.aType == RegexTokenizer.aType)
-    val sentences = annotations.filter(_.aType == SentenceDetector.aType)
-    val tags = annotations.filter(_.aType == POSTagger.aType)
-    val lemmas = annotations.filter(_.aType == Lemmatizer.aType).flatMap(_.metadata).toMap
+    val tokens = annotations.filter(_.annotatorType == RegexTokenizer.annotatorType)
+    val sentences = annotations.filter(_.annotatorType == SentenceDetector.aType)
+    val tags = annotations.filter(_.annotatorType == POSTagger.aType)
+    val lemmas = annotations.filter(_.annotatorType == Lemmatizer.annotatorType).flatMap(_.metadata).toMap
     val taggedSentences = sentences.map(sentence => {
       val taggedWords = tags.find(tag => tag.end == sentence.end).map(_.metadata)
         .getOrElse(tokens.filter(_.end <= sentence.end).flatMap(_.metadata.values))

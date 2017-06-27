@@ -24,8 +24,8 @@ class POSTaggerTestSpec extends FlatSpec {
   val posTagger = new POSTagger
   posTagger.setModel(new DummyApproach)
 
-  "a SentenceDetector" should s"be of type ${POSTagger.aType}" in {
-    assert(posTagger.aType == POSTagger.aType, "because types are not properly set up")
+  "a SentenceDetector" should s"be of type ${POSTagger.aType}" taggedAs Tag("LinuxOnly") in {
+    assert(posTagger.annotatorType == POSTagger.aType, "because types are not properly set up")
   }
 
 }

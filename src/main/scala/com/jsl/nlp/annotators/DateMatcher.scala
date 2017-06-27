@@ -14,55 +14,66 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 /**
   * Created by Saif Addin on 6/3/2017.
   */
+
+/**
+  * Matches standard date formats into a provided format
+  * @param uid internal uid required to generate writable annotators
+  * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
+  */
 class DateMatcher(override val uid: String) extends Annotator {
 
+  /**
+    * Container of a parsed date with identified bounds
+    * @param calendar [[Calendar]] holding parsed date
+    * @param start start bound of detected match
+    * @param end end bound of detected match
+    */
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
-  /**
-    * Formal date
-    */
+  /** Standard formal dates, e.g. 2014/05/17 */
   private val formalDate = new Regex("(\\b\\d{2,4})[-/](\\d{1,2})[-/](\\d{1,2}\\b)", "year", "month", "day")
   private val formalDateAlt = new Regex("(\\b\\d{1,2})[-/](\\d{1,2})[-/](\\d{2,4}\\b)", "month", "day", "year")
 
-  /**
-    * Relaxed date
-    */
   private val months = Seq("january","february","march","april","may","june","july","august","september","october","november","december")
   private val shortMonths = Seq("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec")
 
+  /** Relaxed dates, e.g. March 2nd */
   private val relaxedDayNumbered = "\\b(\\d{1,2})(?:st|rd|nd|th)*\\b".r
   private val relaxedMonths = "(?i)" + months.mkString("|")
   private val relaxedShortMonths = "(?i)" + shortMonths.mkString("|")
   private val relaxedYear = "\\d{4}\\b|\\B'\\d{2}\\b".r
 
-  /**
-    * Relative dates
-    */
+  /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before|day after|day before yesterday|day after tomorrow)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
-  /**
-    * time catch
-    */
+ /** standard time representations e.g. 05:42:16 or 5am*/
   private val clockTime = new Regex("(?i)([0-2][0-9]):([0-5][0-9])(?::([0-5][0-9]))?", "hour", "minutes", "seconds")
   private val altTime = new Regex("([0-2]?[0-9])\\.([0-5][0-9])\\.?([0-5][0-9])?", "hour", "minutes", "seconds")
   private val coordTIme = new Regex("([0-2]?[0-9])([0-5][0-9])?\\.?([0-5][0-9])?\\s*(?:h|a\\.?m|p\\.?m)", "hour", "minutes", "seconds")
   private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
   private val amDefinition = "(?i)(a\\.?m)".r
 
+  /** Annotator param containing expected output format of parsed date*/
   protected val dateFormat: Param[String] = new Param(this, "Date Format", "SimpleDateFormat standard criteria")
 
-  override val aType: String = DateMatcher.aType
+  override val annotatorType: String = DateMatcher.annotatorType
 
-  override var requiredAnnotationTypes: Array[String] = Array()
+  override var requiredAnnotatorTypes: Array[String] = Array()
 
-  def this() = this(Identifiable.randomUID(DateMatcher.aType))
+  /** Internal constructor to submit a random UID */
+  def this() = this(Identifiable.randomUID(DateMatcher.annotatorType))
 
   def getFormat: String = get(dateFormat).getOrElse("yyyy/MM/dd")
 
   def setFormat(value: String): this.type = set(dateFormat, value)
 
+  /**
+    * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
+    * @param text input text coming from target document
+    * @return a possible date-time match
+    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
     val possibleDate = extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
@@ -73,6 +84,11 @@ class DateMatcher(override val uid: String) extends Annotator {
     possibleDate.orElse(setTimeIfAny(possibleDate, text))
   }
 
+  /**
+    * Searches formal date by ordered rules
+    * Matching strategy is to find first match only, ignore additional matches from then
+    * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
+    */
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
     val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     formalFactory.addRule(formalDate, "formal date matcher with year at first")
@@ -92,6 +108,11 @@ class DateMatcher(override val uid: String) extends Annotator {
     }
   }
 
+  /**
+    * Searches relaxed dates by ordered rules by more exhaustive to less
+    * Strategy used is to match first only. any other matches discarded
+    * Auto completes short versions of months. Any two digit year is considered to be XX century
+    */
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
     val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relaxedFactory.addRule(relaxedDayNumbered, "relaxed days")
@@ -123,6 +144,11 @@ class DateMatcher(override val uid: String) extends Annotator {
     } else None
   }
 
+  /**
+    * extracts relative dates. Strategy is to get only first match.
+    * Will always assume relative day from current time at processing
+    * ToDo: Support relative dates from input date
+    */
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
     val relativeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relativeFactory.addRule(relativeDate, "relative dates")
@@ -139,6 +165,7 @@ class DateMatcher(override val uid: String) extends Annotator {
     })
   }
 
+  /** Searches for relative informal dates such as today or the day after tomorrow */
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
     val tyFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     tyFactory.addRule(relativeDay, "relative days")
@@ -179,6 +206,7 @@ class DateMatcher(override val uid: String) extends Annotator {
     }})
   }
 
+  /** Searches for exactly provided days of the week. Always relative from current time at processing */
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
     val relativeExactFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     relativeExactFactory.addRule(relativeExactDay, "relative precise dates")
@@ -213,6 +241,12 @@ class DateMatcher(override val uid: String) extends Annotator {
     })
   }
 
+  /**
+    * Searches for times of the day
+    * @param dateTime If any dates found previously, keep it as part of the final result
+    * @param text target document
+    * @return a final possible date if any found
+    */
   private def setTimeIfAny(dateTime: Option[MatchedDateTime], text: String): Option[MatchedDateTime] = {
     val timeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     timeFactory.addRule(clockTime, "standard time extraction")
@@ -229,9 +263,7 @@ class DateMatcher(override val uid: String) extends Annotator {
       )
       val times = possibleTime.content.subgroups
       val hour = {
-        /**
-          * we can assume time is pm if ->
-          */
+        /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5*/
         if (
           times.head != null && // hour is defined
             amDefinition.findFirstIn(text).isDefined && // no explicit am
@@ -240,10 +272,12 @@ class DateMatcher(override val uid: String) extends Annotator {
         else if (times.head.toInt < 25) times.head.toInt
         else 0
       }
+      /** Minutes are valid if regex-subgroup matched and less than number 60*/
       val minutes = {
         if (times(1) != null && times(1).toInt < 60) times(1).toInt
         else 0
       }
+      /** Seconds are valid if regex-subgroup matched and less than number 60*/
       val seconds = {
         if (times(2) != null && times(2).toInt < 60) times(2).toInt
         else 0
@@ -253,17 +287,20 @@ class DateMatcher(override val uid: String) extends Annotator {
     }}
   }
 
+  /** One to one relationship between content document and output annotation
+    * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+    */
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getFormat)
     Seq(extractDate(document.text).map(matchedDate => Annotation(
-      DateMatcher.aType,
+      DateMatcher.annotatorType,
       matchedDate.start,
       matchedDate.end,
-      Map(DateMatcher.aType -> simpleDateFormat.format(matchedDate.calendar.getTime)))
+      Map(DateMatcher.annotatorType -> simpleDateFormat.format(matchedDate.calendar.getTime)))
     )).flatten
   }
 
 }
 object DateMatcher extends DefaultParamsReadable[DateMatcher] {
-  val aType: String = "date"
+  val annotatorType: String = "date"
 }
