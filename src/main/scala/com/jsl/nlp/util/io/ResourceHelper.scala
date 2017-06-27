@@ -12,16 +12,23 @@ import scala.io.Source
 /**
   * Created by saif on 28/04/17.
   */
+
+/**
+  * Helper one-place for IO management. Streams, source and external input should be handled from here
+  */
 object ResourceHelper {
 
+  /** uses config tunning parameters */
   private val config: Config = ConfigFactory.load
 
+  /** Structure for a SourceStream coming from compiled content */
   private case class SourceStream(resource: String) {
     val pipe: InputStream =
       getClass.getResourceAsStream(resource)
     val content: Source = Source.fromInputStream(pipe)("UTF-8")
   }
 
+  /**Standard splitter for general purpose sentences*/
   private def wordTagSplitter(sentence: String, tagSeparator: Char):
   Array[TaggedWord] = {
     val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
@@ -36,18 +43,19 @@ object ResourceHelper {
     taggedWords.toArray
   }
 
+  /** ToDo: Place holder for defining a set of input rules for RegexMatcher */
   def loadRules: Array[RegexRule] = {
     ???
   }
 
   /**
-    * Standard key value parser from source
-    *
+    * General purpose key values parser from source
+    * Currently only text files
     * @param source File input to streamline
     * @param format format, for now only txt
     * @param keySep separator character
     * @param valueSep values separator in dictionary
-    * @return
+    * @return Dictionary of all values per key
     */
   def parseKeyValuesText(
                          source: String,
@@ -68,6 +76,14 @@ object ResourceHelper {
     }
   }
 
+  /**
+    * General purpose key value parser from source
+    * Currently read only text files
+    * @param source File input to streamline
+    * @param format format
+    * @param keySep separator of keys, values taken as single
+    * @return
+    */
   def parseKeyValueText(
                           source: String,
                           format: String,
@@ -86,8 +102,7 @@ object ResourceHelper {
   }
 
   /**
-    * Specific approach chosen is to generate quick reads of Lemma Dictionary
-    *
+    * For multiple values per keys, this optimizer flattens all values for keys to have constant access
     * @param source File input to streamline
     * @param format format, for now only txt
     * @param keySep separator cha
@@ -115,6 +130,12 @@ object ResourceHelper {
     }
   }
 
+  /**
+    * Parses CORPUS for tagged sentences
+    * @param text String to process
+    * @param tagSeparator Separator for provided String
+    * @return A list of [[TaggedSentence]]
+    */
   def parsePOSCorpusFromText(
                               text: String,
                               tagSeparator: Char
@@ -126,6 +147,12 @@ object ResourceHelper {
     sentences.map(TaggedSentence).toArray
   }
 
+  /**
+    * Parses CORPUS for tagged sentence from any compiled source
+    * @param source for compiled corpuses, if any
+    * @param tagSeparator Tag separator for processing
+    * @return
+    */
   def parsePOSCorpusFromSource(
                   source: String,
                   tagSeparator: Char
@@ -144,6 +171,13 @@ object ResourceHelper {
     lines.map(TaggedSentence)
   }
 
+  /**
+    * Reads POS Corpus from an entire directory of compiled sources
+    * @param source compiled content only
+    * @param tagSeparator tag separator for all corpuses
+    * @param fileLimit limit of files to read. Can help clutter, overfitting
+    * @return
+    */
   def parsePOSCorpusFromDir(
                            source: String,
                            tagSeparator: Char,
@@ -155,6 +189,11 @@ object ResourceHelper {
       .toArray
   }
 
+  /**
+    * Retrieves Corpuses from configured compiled directory set in configuration
+    * @param fileLimit files limit to read
+    * @return TaggedSentences for POS training
+    */
   def retrievePOSCorpus(fileLimit: Int = 50): Array[TaggedSentence] = {
     val posDirPath = config.getString("nlp.posDict.dir")
     //ToDo support multiple formats in corpus source
@@ -163,6 +202,10 @@ object ResourceHelper {
     parsePOSCorpusFromDir(posDirPath, posSeparator.head, fileLimit)
   }
 
+  /**
+    * Retrieves Lemma dictionary from configured compiled source set in configuration
+    * @return a Dictionary for lemmas
+    */
   def retrieveLemmaDict: Map[String, String] = {
     val lemmaFilePath = config.getString("nlp.lemmaDict.file")
     val lemmaFormat = config.getString("nlp.lemmaDict.format")
@@ -172,6 +215,10 @@ object ResourceHelper {
     lemmaDict
   }
 
+  /**
+    * Sentiment dictionaries from compiled sources set in configuration
+    * @return Sentiment dictionary
+    */
   def retrieveSentimentDict: Map[String, String] = {
     val sentFilePath = config.getString("nlp.sentimentDict.file")
     val sentFormat = config.getString("nlp.sentimentDict.format")
