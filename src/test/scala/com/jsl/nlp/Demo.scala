@@ -64,7 +64,7 @@ object Demo {
     val extractStems = spark.udf.register("extract_ntokens", (annos: Seq[Row]) => {
       annos.map {
         anno =>
-          anno.getMap[String, String](anno.fieldIndex("metadata"))(Normalizer.aType)
+          anno.getMap[String, String](anno.fieldIndex("metadata"))(Normalizer.annotatorType)
       }
     })
 
