@@ -17,7 +17,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
         row.getSeq[Row](3)
           .map(Annotation(_))
           .foreach {
-            case stem: Annotation if stem.aType == Normalizer.aType =>
+            case stem: Annotation if stem.annotatorType == Normalizer.annotatorType =>
               println(stem, document.text.substring(stem.begin, stem.end), stem.metadata.mkString(", "))
             case _ => ()
           }

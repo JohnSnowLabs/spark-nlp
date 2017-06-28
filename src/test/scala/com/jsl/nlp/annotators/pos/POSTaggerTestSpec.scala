@@ -11,7 +11,7 @@ import org.scalatest._
 class POSTaggerTestSpec extends FlatSpec {
 
   class DummyApproach extends POSApproach {
-    class DummyModel extends POSModel {
+    class DummyModel extends POSModel[List[(String, Int)]] {
       override def predict(features: List[(String, Int)]): String = "dummyPrediction"
     }
     override val description = "dummy description"
@@ -24,8 +24,8 @@ class POSTaggerTestSpec extends FlatSpec {
   val posTagger = new POSTagger
   posTagger.setModel(new DummyApproach)
 
-  "a SentenceDetector" should s"be of type ${POSTagger.aType}" in {
-    assert(posTagger.aType == POSTagger.aType, "because types are not properly set up")
+  "a SentenceDetector" should s"be of type ${POSTagger.annotatorType}" taggedAs Tag("LinuxOnly") in {
+    assert(posTagger.annotatorType == POSTagger.annotatorType, "because types are not properly set up")
   }
 
 }

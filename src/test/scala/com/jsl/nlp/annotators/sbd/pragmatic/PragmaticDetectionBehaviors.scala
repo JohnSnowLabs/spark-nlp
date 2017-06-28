@@ -22,11 +22,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
       s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
       val pragmaticApproach = new PragmaticApproach
-      pragmaticApproach.overrideContent(input)
-      val result = pragmaticApproach
-        .prepare
-        .extract
-        .map(_.content)
+      val result = pragmaticApproach.extractBounds(input).map(_.content)
       assert(
         result.sameElements(correctAnswer),
         s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${result.mkString("\n@@")}" +
@@ -37,11 +33,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   def isolatedPDReadScore(input: String, correctAnswer: Array[String]): Unit = {
     s"boundaries prediction" should s"have an F1 score higher than 95%" in {
       val pragmaticApproach= new PragmaticApproach
-      pragmaticApproach.overrideContent(input)
-      val result = pragmaticApproach
-        .prepare
-        .extract
-        .map(_.content)
+      val result = pragmaticApproach.extractBounds(input).map(_.content)
       val f1 = f1Score(result, correctAnswer)
       val unmatched = result.zip(correctAnswer).toMap.mapValues("\n"+_)
       info(s"F1 Score is: $f1")

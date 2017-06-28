@@ -17,7 +17,7 @@ trait EntityExtractorBehaviors { this: FlatSpec =>
           row.getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
-              case entity: Annotation if entity.aType == "entity" =>
+              case entity: Annotation if entity.annotatorType == "entity" =>
                 println(entity, document.text.substring(entity.begin, entity.end))
               case _ => ()
             }

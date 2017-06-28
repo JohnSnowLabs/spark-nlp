@@ -3,6 +3,10 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 /**
   * Created by Saif Addin on 6/3/2017.
   */
+
+/**
+  * Extends RuleSymbols with specific symbols used for the pragmatic approach. Right now, the only one.
+  */
 object PragmaticSymbols extends RuleSymbols {
 
   /**

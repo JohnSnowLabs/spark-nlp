@@ -17,6 +17,7 @@ import scala.util.Random
   */
 class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
+  /** Includes some static functionality into the scope for convience */
   import PerceptronApproach._
 
   override val description = "Perceptron POS Tagger"
@@ -28,6 +29,7 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
 
   override val model: AveragedPerceptron = trainedModel
 
+  /** serializes this approach to be writable into disk */
   override def serialize: SerializedAnnotatorComponent[PerceptronApproach] =
     SerializedPerceptronApproach(
       model.getTags.toList,
@@ -36,6 +38,14 @@ class PerceptronApproach(trainedModel: AveragedPerceptron) extends POSApproach {
       model.getUpdateIterations
     )
 
+  /**
+    * Tags a group of sentences into POS tagged sentences
+    * The logic here is to create a sentence context, run through every word and evaluate its context
+    * Based on how frequent a context appears around a word, such context is given a score which is used to predict
+    * Some words are marked as non ambiguous from the beginning
+    * @param tokenizedSentences Sentence in the form of single word tokens
+    * @return A list of sentences which have every word tagged
+    */
   override def tag(tokenizedSentences: Array[TokenizedSentence]): Array[TaggedSentence] = {
     logger.debug(s"PREDICTION: Tagging:\nSENT: <<${tokenizedSentences.map(_.condense).mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
       s"feature:\nPREDICTION: ${model.getWeights("bias").mkString("\nPREDICTION: ")}")
@@ -65,6 +75,10 @@ object PerceptronApproach {
 
   val logger = Logger(LoggerFactory.getLogger("PerceptronTraining"))
 
+  /**
+    * Specific normalization rules for this POS Tagger to avoid unnecessary tagging
+    * @return
+    */
   private def normalized(word: String): String = {
     if (word.contains("-") && word.head != '-') {
       "!HYPEN"
@@ -79,12 +93,12 @@ object PerceptronApproach {
 
   /**
     * Method used when a word tag is not  certain. the word context is explored and features collected
-    * @param init
-    * @param word
-    * @param context
-    * @param prev holds previous tag
-    * @param prev2 holds previous tag
-    * @return
+    * @param init word position in a sentence
+    * @param word word itself
+    * @param context surrounding words of positions -2 and +2
+    * @param prev holds previous tag result
+    * @param prev2 holds pre previous tag result
+    * @return A list of scored features based on how frequently they appear in a context
     */
   private def getFeatures(
                            init: Int,
@@ -116,22 +130,17 @@ object PerceptronApproach {
   }
 
   /**
-    * Supposed to find very frequent tags and record them
-    * @param taggedSentences
+    * Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
+    * ToDo: Move such parameters to configuration
+    * @param taggedSentences Takes entire tagged sentences to find frequent tags
+    * @param frequencyThreshold How many times at least a tag on a word to be marked as frequent
+    * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
     */
   private def buildTagBook(
                             taggedSentences: Array[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
                           ): Array[TaggedWord] = {
-    /**
-      * This creates counts, a map of words that refer to all possible tags and how many times they appear
-      * It holds how many times a word-tag combination appears in the training corpus
-      * It is also used in the rest of the tagging process to hold tags
-      * It also stores the tag in classes which holds tags
-      * Then Find the most frequent tag and its count
-      * If there is a very frequent tag, map the word to such tag to disambiguate
-      */
 
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
@@ -149,15 +158,23 @@ object PerceptronApproach {
       }.toArray
   }
 
+  /**
+    * Trains a model based on a provided CORPUS
+    * @param taggedSentence TaggedSentences with correct answers
+    * @param nIterations How many iterations for training.
+    *                    The higer, the longer it takes to train, and in some cases more unstable.
+    *                    Iterations randomize sentences to unbias training
+    * @return A trained averaged model
+    */
   def train(
              taggedSentence: Array[TaggedSentence] = ResourceHelper.retrievePOSCorpus(),
              nIterations: Int = 5
            ): PerceptronApproach = {
     /**
-      * Generates TagBook, which holds all the word to tags mapping
-      * Adds the found tags to the tags available in the model
+      * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
     val taggedWordBook = buildTagBook(taggedSentence)
+    /** finds all distinct tags and stores them */
     val classes = taggedSentence.flatMap(_.tags).distinct
     val initialModel = new AveragedPerceptron(classes, taggedWordBook, MMap())
     /**

@@ -7,9 +7,13 @@ import com.jsl.nlp.util.regex.{RegexRule, RuleFactory, TransformStrategy, MatchS
 /**
   * Created by Saif Addin on 5/6/2017.
   */
+
+/**
+  * rule-based formatter that adds regex rules to different marking steps
+  * Symbols protect from ambiguous bounds to be considered splitters
+  * @param text text to tag, which is modified in place with Symbols
+  */
 class PragmaticContentFormatter(text: String) {
-
-
 
   import TransformStrategy._
   import MatchStrategy._
@@ -93,7 +97,7 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("(?i)p\\.m\\.*".r, "protectAbbreviations-pm"))
       .addRule(RegexRule("(?i)a\\.m\\.*".r, "protectAbbreviations-am"))
 
-    wip = specialAbbrFactory.transform(wip)
+    wip = specialAbbrFactory.transformWithSymbolicRules(wip)
     wip = stdAbbrFactory.transformWithSymbol(ABBREVIATOR, wip)
 
     this
@@ -143,7 +147,7 @@ class PragmaticContentFormatter(text: String) {
       //continuous punctuations
       .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
 
-    wip = factory.transform(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }
@@ -252,7 +256,7 @@ class PragmaticContentFormatter(text: String) {
       //between leading apostrophes
       .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r, "betweenPunctuations-leadApostroph"))
 
-    wip = factory.transform(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }

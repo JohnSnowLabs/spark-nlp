@@ -10,8 +10,8 @@ import org.scalatest._
 class StemmerTestSpec extends FlatSpec with StemmerBehaviors {
 
   val stemmer = new Stemmer
-  "a Stemmer" should s"be of type ${Stemmer.aType}" in {
-    assert(stemmer.aType == Stemmer.aType)
+  "a Stemmer" should s"be of type ${Stemmer.annotatorType}" in {
+    assert(stemmer.annotatorType == Stemmer.annotatorType)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

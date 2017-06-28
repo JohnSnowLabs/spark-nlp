@@ -17,7 +17,7 @@ trait StemmerBehaviors { this: FlatSpec =>
           row.getSeq[Row](2)
             .map(Annotation(_))
             .foreach {
-              case stem: Annotation if stem.aType == Stemmer.aType =>
+              case stem: Annotation if stem.annotatorType == Stemmer.annotatorType =>
                 println(stem, document.text.substring(stem.begin, stem.end))
               case _ => ()
             }
