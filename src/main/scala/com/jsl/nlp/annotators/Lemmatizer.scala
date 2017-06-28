@@ -1,79 +1,66 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.util.ResourceHelper
+import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
+import com.jsl.nlp.annotators.param.{AnnotatorParam, SerializedAnnotatorComponent}
 import com.jsl.nlp.{Annotation, Annotator, Document}
-import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Created by saif on 28/04/17.
   */
-class Lemmatizer extends Annotator {
 
-  override val aType: String = Lemmatizer.aType
+/**
+  * Class to find standarized lemmas from words. Uses a user-provided or default dictionary.
+  * @param uid required internal uid provided by constructor
+  * @@ lemmaDict: A dictionary of predefined lemmas must be provided
+  */
+class Lemmatizer(override val uid: String) extends Annotator {
 
-  override val requiredAnnotationTypes: Array[String] = Array(Normalizer.aType)
+  /** Internal serialized type of a dictionary so the lemmatizer can be loaded from disk */
+  protected case class SerializedDictionary(dict: Map[String, String]) extends SerializedAnnotatorComponent[LemmatizerDictionary] {
+    override def deserialize: LemmatizerDictionary = {
+      LemmatizerDictionary(dict)
+    }
+  }
+
+  /** Internal representation of the dictionary to allow serialization of the dictionary to be saved on disk */
+  protected case class LemmatizerDictionary(dict: Map[String, String]) extends WritableAnnotatorComponent {
+    override def serialize: SerializedAnnotatorComponent[LemmatizerDictionary] =
+      SerializedDictionary(dict)
+  }
+
+  val lemmaDict: AnnotatorParam[LemmatizerDictionary, SerializedDictionary] =
+    new AnnotatorParam[LemmatizerDictionary, SerializedDictionary](this, "lemma dictionary", "provide a lemma dictionary")
+
+  override val annotatorType: String = Lemmatizer.annotatorType
+
+  /** Requires a tokenizer since words need to be split up in tokens */
+  override var requiredAnnotatorTypes: Array[String] = Array(RegexTokenizer.annotatorType)
+
+  def this() = this(Identifiable.randomUID(Lemmatizer.annotatorType))
+
+  def getLemmaDict: Map[String, String] = $(lemmaDict).dict
+
+  def setLemmaDict(dictionary: Map[String, String]): this.type = set(lemmaDict, LemmatizerDictionary(dictionary))
 
   /**
-    * Would need to verify this implementation, as I am flattening multiple to one annotations
-    * @param document
-    * @param annotations
-    * @return
+    * @return one to one annotation from token to a lemmatized word, if found on dictionary or leave the word as is
     */
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.collect {
-      case token: Annotation if token.aType == Normalizer.aType =>
-        val targetToken = token.metadata.getOrElse(
-          Normalizer.aType,
-          throw new IllegalArgumentException(
-            s"Annotation of type ${Normalizer.aType} does not provide proper token in metadata"
-          )
-        )
+      case tokenAnnotation: Annotation if tokenAnnotation.annotatorType == RegexTokenizer.annotatorType =>
+        val token = document.text.substring(tokenAnnotation.begin, tokenAnnotation.end)
         Annotation(
-          aType,
-          token.begin,
-          token.end,
-          Map(aType -> Lemmatizer.lemmatize(targetToken))
+          annotatorType,
+          tokenAnnotation.begin,
+          tokenAnnotation.end,
+          Map(token -> getLemmaDict.getOrElse(token, token))
         )
     }
   }
 
 }
 
-object Lemmatizer {
-
-  private case class TargetWord(text: String, begin: Int, end: Int)
-
-  /**
-    * Lemma Dictionary Structure
-    * No really need for a wrapper class yet
-    */
-  private type LemmaDictionary = Map[String, String]
-
-  /**
-    * Lemma dictionary in memory
-    * Execution pushed to the first time it is needed
-    * POTENTIAL candidate for sc.broadcast
-    */
-  private lazy val lemmaDict: LemmaDictionary = loadLemmaDict
-
-  val aType = "lemma"
-
-  /**
-    * Probably could use a ConfigHelper object
-    */
-  private val config: Config = ConfigFactory.load
-
-  private def loadLemmaDict: Map[String, String] = {
-    val lemmaFilePath = config.getString("nlp.lemmaDict.file")
-    val lemmaFormat = config.getString("nlp.lemmaDict.format")
-    val lemmaKeySep = config.getString("nlp.lemmaDict.kvSeparator")
-    val lemmaValSep = config.getString("nlp.lemmaDict.vSeparator")
-    val lemmaDict = ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat, lemmaKeySep, lemmaValSep)
-    lemmaDict
-  }
-
-  private def lemmatize(target: String): String = {
-    lemmaDict.getOrElse(target, target)
-  }
-
+object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
+  val annotatorType = "lemma"
 }

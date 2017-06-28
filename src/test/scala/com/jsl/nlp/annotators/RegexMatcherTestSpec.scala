@@ -10,8 +10,8 @@ import org.scalatest._
 class RegexMatcherTestSpec extends FlatSpec with RegexMatcherBehaviors {
 
   val regexMatcher = new RegexMatcher
-  "a RegexMatcher" should s"be of type ${RegexMatcher.aType}" in {
-    assert(regexMatcher.aType == RegexMatcher.aType)
+  "a RegexMatcher" should s"be of type ${RegexMatcher.annotationType}" in {
+    assert(regexMatcher.annotatorType == RegexMatcher.annotationType)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

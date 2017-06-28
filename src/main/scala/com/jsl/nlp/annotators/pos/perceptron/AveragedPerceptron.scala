@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import com.jsl.nlp.annotators.common.TaggedWord
 import com.jsl.nlp.annotators.pos.POSModel
 import org.slf4j.LoggerFactory
 
@@ -8,17 +9,29 @@ import scala.collection.mutable.{Map => MMap}
 /**
   * Created by Saif Addin on 5/16/2017.
   */
+
+/**
+  * Specific model for [[PerceptronApproach]]
+  * @param tags Holds all unique tags based on training
+  * @param taggedWordBook Contains non ambiguous words and their tags
+  * @param featuresWeight Contains prediction information based on context frequencies
+  * @param lastIteration Contains information on how many iterations have run for weighting
+  */
 class AveragedPerceptron(
-                          tags: List[String],
-                          taggedWordBook: List[TaggedWord],
+                          tags: Array[String],
+                          taggedWordBook: Array[TaggedWord],
                           featuresWeight: MMap[String, MMap[String, Double]],
                           lastIteration: Int = 0
-                        ) extends POSModel {
+                        ) extends POSModel[List[(String, Int)]] {
 
-  val logger = LoggerFactory.getLogger("PerceptronTraining")
+  /**Used for debugging*/
+  private val logger = LoggerFactory.getLogger("PerceptronTraining")
 
+  /**How many training iterations ran*/
   private var updateIteration: Int = lastIteration
+  /**totals contains scores for words and their possible tags*/
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
+  /**weighting parameter for words and their tags based on how many times passed through*/
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
 
   override def predict(features: List[(String, Int)]): String = {
@@ -54,26 +67,21 @@ class AveragedPerceptron(
     * Training level operation
     * once a model was trained, average its weights more in the first iterations
     */
-  def averagedModel: AveragedPerceptron = {
-    new AveragedPerceptron(
-      tags,
-      taggedWordBook,
-      featuresWeight.map { case (feature, weights) =>
-        (feature,
-          weights.map { case (tag, weight) =>
-            val param = (feature, tag)
-            val total = totals(param) + ((updateIteration - timestamps(param)) * weight)
-            (tag, total / updateIteration.toDouble)
-          }.filter{case (_, total) => total > 0.0}
-        )
-      },
-      updateIteration
-    )
+  private[pos] def averageWeights(): Unit = {
+    featuresWeight.foreach { case (feature, weights) =>
+      featuresWeight.update(feature,
+        weights.map { case (tag, weight) =>
+          val param = (feature, tag)
+          val total = totals(param) + ((updateIteration - timestamps(param)) * weight)
+          (tag, total / updateIteration.toDouble)
+        }.filter { case (_, total) => total > 0.0 }
+      )
+    }
   }
-  def getUpdateIterations: Int = updateIteration
-  def getTagBook: List[TaggedWord] = taggedWordBook
+  private[nlp] def getUpdateIterations: Int = updateIteration
+  private[nlp] def getTagBook: Array[TaggedWord] = taggedWordBook
+  private[nlp] def getTags: Array[String] = tags
   def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
-  def getTags: List[String] = tags
   /**
     * This is model learning tweaking during training, in-place
     * Uses mutable collections since this runs per word, not per iteration

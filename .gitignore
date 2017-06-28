@@ -109,3 +109,5 @@ minicluster_*
 classes/
 project/project/
 python/lib/
+spark-warehouse/
+/test-output-tmp/

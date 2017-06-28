@@ -12,8 +12,8 @@ import org.scalatest._
 class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new DateMatcher
-  "a DateMatcher" should s"be of type ${DateMatcher.aType}" in {
-    assert(dateMatcher.aType == DateMatcher.aType)
+  "a DateMatcher" should s"be of type ${DateMatcher.annotatorType}" in {
+    assert(dateMatcher.annotatorType == DateMatcher.annotatorType)
   }
 
   val dateData: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
@@ -109,5 +109,13 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
         s"because result ${result.calendar.getTime} is not expected ${dateAnswer._2._2.getTime}")
     }
   })
+
+  "a DateMatcher" should "be writable and readable" in {
+    val dateMatcher = new DateMatcher().setFormat("YYYY")
+    val path = "./test-output-tmp/datematcher"
+    dateMatcher.write.overwrite().save(path)
+    val dateMatcherRead = DateMatcher.read.load(path)
+    assert(dateMatcher.getFormat == dateMatcher.getFormat)
+  }
 
 }

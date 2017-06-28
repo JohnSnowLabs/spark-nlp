@@ -1,4 +1,4 @@
-aaah	->	aaahed	aaah
+h	->	aaahed	aaah
 aac	->	aac	aacs
 aah	->	aah	aahs	aahing	aahed	aahhing
 aam	->	aams	aam
