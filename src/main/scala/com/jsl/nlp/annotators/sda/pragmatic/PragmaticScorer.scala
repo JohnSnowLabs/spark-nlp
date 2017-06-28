@@ -4,7 +4,6 @@ import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence
 import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
 import com.jsl.nlp.annotators.sda.SentimentApproach
 import com.typesafe.config.{Config, ConfigFactory}
-import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -18,7 +17,7 @@ import org.slf4j.LoggerFactory
   */
 class PragmaticScorer(sentimentDict: Map[String, String]) extends SentimentApproach {
 
-  private val logger = Logger(LoggerFactory.getLogger("PragmaticScorer"))
+  private val logger = LoggerFactory.getLogger("PragmaticScorer")
 
   /**
     * Internal class to summarize dictionary key information

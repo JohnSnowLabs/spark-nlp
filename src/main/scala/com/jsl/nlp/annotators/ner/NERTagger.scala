@@ -18,7 +18,7 @@ class NERTagger(override val uid: String) extends Annotator {
   /**
     * This is the annotation types that this annotator expects to be present
     */
-  override protected val requiredAnnotatorTypes: Array[String] = Array(SentenceDetector.annotatorType, RegexTokenizer.annotatorType)
+  override protected var requiredAnnotatorTypes: Array[String] = Array(SentenceDetector.annotatorType, RegexTokenizer.annotatorType)
 
   val language: Param[String] = new Param(this, "language", "this is the language of the text")
 

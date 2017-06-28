@@ -19,7 +19,7 @@ class NegexTagger(override val uid: String) extends Annotator {
   /**
     * This is the annotation types that this annotator expects to be present
     */
-  override val requiredAnnotatorTypes: Array[String] = Array("sbd")
+  override protected var requiredAnnotatorTypes: Array[String] = Array(SentenceDetector.annotatorType)
 
   def this() = this(Identifiable.randomUID(NegexTagger.annotatorType))
 

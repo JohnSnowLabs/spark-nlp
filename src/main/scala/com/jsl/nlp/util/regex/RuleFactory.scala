@@ -1,7 +1,6 @@
 package com.jsl.nlp.util.regex
 
 import com.jsl.nlp.annotators.sbd.pragmatic.RuleSymbols
-import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
 import scala.util.matching.Regex
@@ -29,7 +28,7 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   import TransformStrategy._
   import MatchStrategy._
 
-  private val logger = Logger(LoggerFactory.getLogger("RuleFactory"))
+  private val logger = LoggerFactory.getLogger("RuleFactory")
 
   /** Rules and SymbolRules are key pieces of regex transformation */
   private var rules: Seq[RegexRule] = Seq()

@@ -17,8 +17,8 @@ trait NERTaggerBehaviors { this: FlatSpec =>
           row.getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
-              case nertag: Annotation if nertag.aType == NERTagger.aType =>
-                println(nertag, nertag.metadata(NERTagger.aType), document.text.substring(nertag.begin, nertag.end))
+              case nertag: Annotation if nertag.annotatorType == NERTagger.annotatorType =>
+                println(nertag, nertag.metadata(NERTagger.annotatorType), document.text.substring(nertag.begin, nertag.end))
               case _ => ()
             }
       }

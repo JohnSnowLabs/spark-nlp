@@ -3,7 +3,6 @@ package com.jsl.nlp
 import java.io.File
 
 import com.jsl.nlp.annotators.{EntityExtractor, Normalizer, RegexTokenizer, Stemmer}
-import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.functions._
 
@@ -78,7 +77,7 @@ object Demo {
 
     val entityExtractor = new EntityExtractor()
       .setDocumentCol("document")
-      .setInputAnnotationCols(Array("ntokens"))
+      //.setInputAnnotationCols(Array("ntokens"))
       .setOutputAnnotationCol("entities")
       .setEntities(localConcepts)
       .setMaxLen(3)

@@ -15,14 +15,14 @@ import org.tartarus.snowball.SnowballStemmer
   */
 class Stemmer(override val uid: String) extends Annotator {
 
+  val algorithm: Param[String] = new Param(this, "language", "this is the language of the text")
+  setDefault(algorithm, "english")
+
   override val annotatorType: String = Stemmer.annotatorType
 
   override var requiredAnnotatorTypes = Array(RegexTokenizer.annotatorType)
 
   private val stemmer: (String => String) = Stemmer.getStemmer($(algorithm))
-
-  val algorithm: Param[String] = new Param(this, "language", "this is the language of the text")
-  setDefault(algorithm, "english")
 
   def setPattern(value: String): Stemmer = set(algorithm, value)
 
