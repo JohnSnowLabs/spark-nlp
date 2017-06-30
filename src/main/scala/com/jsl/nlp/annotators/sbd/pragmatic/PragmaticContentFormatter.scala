@@ -60,7 +60,7 @@ class PragmaticContentFormatter(text: String) {
     val stdAbbrFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/yqa4Rit8EY
       //possessive
-      .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
+      .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s\\$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
     // http://rubular.com/r/NEv265G2X2
       //kommandit
       .addRule(RegexRule("(?<=Co)\\.(?=\\sKG)".r, "formatAbbreviations-kommandit"))
@@ -145,7 +145,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/mQ8Es9bxtk
       //continuous punctuations
-      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
+      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|\\$))".r, "formatPunctuations-continuous"))
 
     wip = factory.transformWithSymbolicRules(wip)
 
@@ -229,14 +229,14 @@ class PragmaticContentFormatter(text: String) {
     * @return
     */
   def formatBetweenPunctuations: this.type = {
-
-    val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
+    // ToDo: This one fails in dirty text if using MATCH_ALL since it matches illegal groups
+    val factory = new RuleFactory(MATCH_FIRST, PROTECT_FROM_BREAK)
     // ToDo: NOT ADDING EXCLAMATION WORDS,
     // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 
     // http://rubular.com/r/2YFrKWQUYi
       //between single quotes
-      .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'".r, "betweenPunctuations-singleQuot"))
+      .addRule(RegexRule("\\B'[^']+'\\B".r, "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
       //between double quotes
       .addRule(RegexRule("\"(?>[^\"\\\\]+|\\\\{2}|\\\\.)*\"".r, "betweenPunctuations-doubleQuot"))
@@ -254,7 +254,7 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("\\((?>[^\\(\\)\\\\]+|\\\\{2}|\\\\.)*\\)".r, "betweenPunctuations-parens"))
     // http://rubular.com/r/mXf8cW025o
       //between leading apostrophes
-      .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r, "betweenPunctuations-leadApostroph"))
+      .addRule(RegexRule("\\B'(?:[^']|'[a-zA-Z])*'\\S.*'\\B".r, "betweenPunctuations-leadApostroph"))
 
     wip = factory.transformWithSymbolicRules(wip)
 
