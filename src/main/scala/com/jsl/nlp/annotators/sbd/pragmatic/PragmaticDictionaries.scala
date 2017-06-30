@@ -9,7 +9,7 @@ package com.jsl.nlp.annotators.sbd.pragmatic
   */
 object PragmaticDictionaries {
 
-  val ABBREVIATIONS = Seq(
+  val ABBREVIATIONS_LONG = Seq(
     "adj", "adm", "adv", "al", "ala", "alta", "apr", "arc", "ariz", "ark", "art", "assn", "asst", "attys", "aug",
     "ave", "bart", "bld", "bldg", "blvd", "brig", "bros", "btw", "cal", "calif", "capt", "cl", "cmdr", "co", "col",
     "colo", "comdr", "con", "conn", "corp", "cpl", "cres", "ct", "d.phil", "dak", "dec", "del", "dept", "det", "dist",
@@ -24,13 +24,29 @@ object PragmaticDictionaries {
     "u.s", "ut", "va", "v", "ver", "vs", "vt", "wash", "wis", "wisc", "wy", "wyo", "yuk"
   )
 
-  val PREPOSITIVE_ABBREVIATIONS = Seq(
+  val ABBREVIATIONS = Seq(
+    "adj", "bros", "btw", "co", "col", "corp", "cpl", "dec", "aug", "del", "dept", "dist",
+    "dr", "e.g", "etc", "exp", "feb", "fy", "hr", "i.e", "id", "inc",
+    "jan", "jr", "jul", "jun", "lt", "ltd", "mar", "may", "min", "mr", "mrs", "ms", "no", "nov",
+    "oct", "ok", "p", "px", "plz", "prof", "rep", "sec",
+    "sep", "sept", "sr", "st", "u.s", "ver", "vs"
+  )
+
+  val PREPOSITIVE_ABBREVIATIONS_LONG = Seq(
     "adm", "attys", "brig", "capt", "cmdr", "col", "cpl", "det", "dr", "gen", "gov", "ing", "lt", "maj", "mr", "mrs",
     "ms", "mt", "messrs", "mssrs", "prof", "ph", "rep", "reps", "rev", "sen", "sens", "sgt", "st", "supt", "v", "vs"
   )
 
-  val NUMBER_ABBREVIATIONS = Seq(
+  val PREPOSITIVE_ABBREVIATIONS = Seq(
+    "dr", "mr", "ms", "prof"
+  )
+
+  val NUMBER_ABBREVIATIONS_LONG = Seq(
     "art", "ext", "no", "nos", "p", "pp"
+  )
+
+  val NUMBER_ABBREVIATIONS = Seq(
+    "no", "p", "px"
   )
 
 }

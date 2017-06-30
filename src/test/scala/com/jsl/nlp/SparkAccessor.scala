@@ -7,8 +7,8 @@ object SparkAccessor {
   val spark: SparkSession = SparkSession
     .builder()
     .appName("test")
-    .master("local[4]")
-    .config("spark.driver.memory","512M")
+    .master("local[8]")
+    .config("spark.driver.memory","4G")
     .getOrCreate()
 
 }
