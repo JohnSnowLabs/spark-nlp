@@ -229,14 +229,13 @@ class PragmaticContentFormatter(text: String) {
     * @return
     */
   def formatBetweenPunctuations: this.type = {
-    // ToDo: This one fails in dirty text if using MATCH_ALL since it matches illegal groups
-    val factory = new RuleFactory(MATCH_FIRST, PROTECT_FROM_BREAK)
+    val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // ToDo: NOT ADDING EXCLAMATION WORDS,
     // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 
     // http://rubular.com/r/2YFrKWQUYi
       //between single quotes
-      .addRule(RegexRule("\\B'[^']+'\\B".r, "betweenPunctuations-singleQuot"))
+      .addRule(RegexRule("'[\\w\\s?!]+'".r, "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
       //between double quotes
       .addRule(RegexRule("\"(?>[^\"\\\\]+|\\\\{2}|\\\\.)*\"".r, "betweenPunctuations-doubleQuot"))
@@ -245,7 +244,7 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("«(?>[^»\\\\]+|\\\\{2}|\\\\.)*»".r, "betweenPunctuations-arrowQuot"))
     // http://rubular.com/r/JbAIpKdlSq
       //between slant quotes
-      .addRule(RegexRule("“(?>[^”\\\\]+|\\\\{2}|\\\\.)*”".r, "betweenPunctuations-slantQuot"))
+      //.addRule(RegexRule("“(?>[^”\\\\]+|\\\\{2}|\\\\.)*”".r, "betweenPunctuations-slantQuot"))
     // http://rubular.com/r/WX4AvnZvlX
       //between square brackets
       .addRule(RegexRule("\\[(?>[^\\]\\\\]+|\\\\{2}|\\\\.)*\\]".r, "betweenPunctuations-squareBrack"))
@@ -254,9 +253,8 @@ class PragmaticContentFormatter(text: String) {
       .addRule(RegexRule("\\((?>[^\\(\\)\\\\]+|\\\\{2}|\\\\.)*\\)".r, "betweenPunctuations-parens"))
     // http://rubular.com/r/mXf8cW025o
       //between leading apostrophes
-      .addRule(RegexRule("\\B'(?:[^']|'[a-zA-Z])*'\\S.*'\\B".r, "betweenPunctuations-leadApostroph"))
-
-    wip = factory.transformWithSymbolicRules(wip)
+      .addRule(RegexRule("'[\\w\\s,'?!]+'(?=\\s)".r, "betweenPunctuations-leadApostroph"))
+    factory.transformWithSymbolicRules(wip)
 
     this
   }
