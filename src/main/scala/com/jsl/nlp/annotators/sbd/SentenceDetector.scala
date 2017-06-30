@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.sbd
 
+import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.param.AnnotatorParam
 import com.jsl.nlp.annotators.sbd.pragmatic.SerializedSBDApproach
 import com.jsl.nlp.{Annotation, Annotator, Document}
@@ -17,11 +18,15 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 class SentenceDetector(override val uid: String) extends Annotator {
 
   val model: AnnotatorParam[SBDApproach, SerializedSBDApproach] =
-    new AnnotatorParam[SBDApproach, SerializedSBDApproach](this, "Sentence Detection model", "Approach to detect sentence boundaries")
+    new AnnotatorParam[SBDApproach, SerializedSBDApproach](
+      this,
+      "Sentence Detection model",
+      "Approach to detect sentence boundaries"
+    )
 
   override val annotatorType: String = SentenceDetector.annotatorType
 
-  override var requiredAnnotatorTypes: Array[String] = Array()
+  override var requiredAnnotatorTypes: Array[String] = Array(RegexTokenizer.annotatorType)
 
   def this() = this(Identifiable.randomUID(SentenceDetector.annotatorType))
 
@@ -36,8 +41,12 @@ class SentenceDetector(override val uid: String) extends Annotator {
     * @return One to many annotation relationship depending on how many sentences there are in the document
     */
   override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
+    val sentence = annotations
+      .filter(_.annotatorType == RegexTokenizer.annotatorType)
+      .flatMap(_.metadata.values.toList)
+      .mkString(" ")
     val sentences: Seq[Sentence] =
-      getModel.extractBounds(document.text)
+      getModel.extractBounds(sentence)
     sentences.map(sentence => Annotation(
       this.annotatorType,
       sentence.begin,

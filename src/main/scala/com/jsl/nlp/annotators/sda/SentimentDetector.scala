@@ -70,7 +70,7 @@ class SentimentDetector(override val uid: String) extends Annotator {
     val lemmas = annotations.filter(_.annotatorType == Lemmatizer.annotatorType).flatMap(_.metadata).toMap
     val taggedSentences = sentences.map(sentence => {
       val taggedWords = tags.find(tag => tag.end == sentence.end).map(_.metadata)
-        .getOrElse(tokens.filter(_.end <= sentence.end).flatMap(_.metadata.values))
+        .getOrElse(tokens.filter(_.end <= sentence.end).flatMap(_.metadata.values.toList))
         .map {
           case (word: String, tag: String) => TaggedWord(lemmas.getOrElse(word, word), tag)
           case word: String => TaggedWord(word, "?NOTAG?")

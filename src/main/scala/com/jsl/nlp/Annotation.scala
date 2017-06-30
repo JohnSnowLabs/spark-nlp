@@ -1,7 +1,8 @@
 package com.jsl.nlp
 
-import org.apache.spark.sql.Row
+import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
+
 import scala.collection.Map
 
 /**
@@ -15,6 +16,30 @@ case class Annotation(annotatorType: String, begin: Int, end: Int, metadata: Map
 
 object Annotation {
 
+  object extractors extends Serializable {
+
+    private case class AnnotationContainer(__annotation: Array[Annotation]) extends Serializable
+
+    /** annotation container ready for extraction */
+    protected class AnnotationData(dataset: Dataset[Row]) extends Serializable {
+      def extract(column: String): Array[Array[Annotation]] = {
+        require(dataset.columns.contains(column), s"column $column not present in data")
+        import dataset.sparkSession.implicits._
+        dataset
+          .withColumnRenamed(column, ANNOTATION_NAME)
+          .select(ANNOTATION_NAME)
+          .as[AnnotationContainer]
+          .map(_.__annotation)
+          .collect
+      }
+    }
+
+    private val ANNOTATION_NAME = "__annotation"
+
+    implicit def data2andata(dataset: Dataset[Row]): AnnotationData = new AnnotationData(dataset)
+
+  }
+
   /**
     * This is spark type of an annotation representing its metadata shape
     */
@@ -24,7 +49,6 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("metadata", MapType(StringType, StringType, valueContainsNull = true), nullable = true)
   ))
-
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]

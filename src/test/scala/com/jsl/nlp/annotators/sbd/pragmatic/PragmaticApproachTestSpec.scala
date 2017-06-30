@@ -1,12 +1,56 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.annotators.sbd.SentenceDetector
-import com.jsl.nlp.{ContentProvider, DataBuilder}
+import com.jsl.nlp.{Document, Annotation, AnnotatorBuilder, ContentProvider, DataBuilder, SparkAccessor}
 import org.scalatest._
+import org.scalatest.tagobjects.Slow
 
 /**
   * Created by Saif Addin on 5/7/2017.
   */
+
+class PragmaticApproachBigTestSpec extends FlatSpec {
+
+  "Parquet based data" should "be sentence bounded properly" taggedAs Slow in {
+    import org.apache.spark.sql.functions._
+    import SparkAccessor.spark.implicits._
+
+    val data = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")
+    info(s"loading data into memory. Amount of rows: ${data.cache.count}")
+
+    info("loading aggregation into memory")
+    val mergedSentences = data
+      .withColumn("gid", bround(rand(), 6))
+      .groupBy("gid")
+      .agg(concat_ws(". ", collect_list($"text")).as("text"))
+      .withColumn("document", Document.construct($"text"))
+
+    mergedSentences.show
+
+    mergedSentences.cache.count
+
+    info(s"Processing sentence data, rows collected: ${mergedSentences.count}")
+    mergedSentences.show
+
+    info(s"Normalizing content")
+
+    val tokenized = AnnotatorBuilder.withTokenizer(mergedSentences)
+    tokenized.show
+
+    val totalAnnotations = AnnotatorBuilder.withFullPragmaticSentenceDetector(tokenized)
+    totalAnnotations.show
+
+    import Annotation.extractors._
+    val collectedAnnotations = totalAnnotations.extract(SentenceDetector.annotatorType)
+    val sampleAnnotations: List[String] = collectedAnnotations
+      .take(10).map(_.map(_.metadata.values.toList.mkString("--")).mkString(" ")).toList
+
+    info(s"Found ${collectedAnnotations.length} Annotations such as ${sampleAnnotations.mkString("\n")}")
+
+  }
+
+}
+
 class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehaviors {
 
   val generalParagraphAns = Array(

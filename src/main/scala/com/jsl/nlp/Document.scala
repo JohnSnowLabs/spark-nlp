@@ -1,7 +1,8 @@
 package com.jsl.nlp
 
+import org.apache.spark.sql.functions.{expr, map, struct}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.Row
+import org.apache.spark.sql.{Column, Row}
 
 /**
   * Represents raw text container
@@ -15,6 +16,7 @@ case class Document(
                      metadata: scala.collection.Map[String, String] = Map()
 )
 object Document {
+
   /** Creates a document out of a [[Row]] or column [[StructType]]*/
   def apply(row: Row): Document = {
     Document(
@@ -22,6 +24,10 @@ object Document {
       row.getString(1),
       row.getMap[String, String](2)
     )
+  }
+
+  def construct(text: Column)(implicit idColumn: Column = expr(text.toString()), metadata: Column = map()): Column = {
+    struct(text, idColumn, metadata)
   }
 
   /** Spark type representation shape of Document*/

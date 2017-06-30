@@ -121,7 +121,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @return
     */
   override def transform(dataset: Dataset[_]): DataFrame = {
-    require(validate(dataset), s"DataFrame has unmet requirements: ${requiredAnnotatorTypes.mkString(", ")}")
+    require(validate(dataset), s"The following transformations are missing in the pipeline2: ${requiredAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotationType", annotatorType)
     dataset.withColumn(
