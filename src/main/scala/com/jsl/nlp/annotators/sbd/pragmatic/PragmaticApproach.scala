@@ -41,6 +41,4 @@ class PragmaticApproach(useAbbreviations: Boolean = false) extends SBDApproach {
   /** Serializable representation of this model. Doesn't really have any special parts */
   override def serialize: SerializedAnnotatorComponent[PragmaticApproach] = SerializedSBDApproach()
 
-
-
 }

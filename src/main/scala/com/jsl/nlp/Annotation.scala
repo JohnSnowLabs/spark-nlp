@@ -16,39 +16,52 @@ case class Annotation(annotatorType: String, begin: Int, end: Int, metadata: Map
 
 object Annotation {
 
+  private case class AnnotationContainer(__annotation: Array[Annotation]) extends Serializable
+
   object extractors extends Serializable {
-
-    private case class AnnotationContainer(__annotation: Array[Annotation]) extends Serializable
-
     /** annotation container ready for extraction */
     protected class AnnotationData(dataset: Dataset[Row]) extends Serializable {
-      def extract(column: String): Array[Array[Annotation]] = {
-        require(dataset.columns.contains(column), s"column $column not present in data")
-        import dataset.sparkSession.implicits._
-        dataset
-          .withColumnRenamed(column, ANNOTATION_NAME)
-          .select(ANNOTATION_NAME)
-          .as[AnnotationContainer]
-          .map(_.__annotation)
-          .collect
+      def collect(column: String): Array[Array[Annotation]] = {
+        Annotation.collect(dataset, column)
+      }
+      def take(column: String, howMany: Int): Array[Array[Annotation]] = {
+        Annotation.take(dataset, column, howMany)
       }
     }
-
-    private val ANNOTATION_NAME = "__annotation"
-
     implicit def data2andata(dataset: Dataset[Row]): AnnotationData = new AnnotationData(dataset)
-
   }
 
-  /**
-    * This is spark type of an annotation representing its metadata shape
-    */
+  private val ANNOTATION_NAME = "__annotation"
+
+  /** This is spark type of an annotation representing its metadata shape */
   val AnnotationDataType = new StructType(Array(
     StructField("aType", StringType, nullable = true),
     StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("metadata", MapType(StringType, StringType, valueContainsNull = true), nullable = true)
   ))
+
+  def collect(dataset: Dataset[Row], column: String): Array[Array[Annotation]] = {
+    require(dataset.columns.contains(column), s"column $column not present in data")
+    import dataset.sparkSession.implicits._
+    dataset
+      .withColumnRenamed(column, ANNOTATION_NAME)
+      .select(ANNOTATION_NAME)
+      .as[AnnotationContainer]
+      .map(_.__annotation)
+      .collect
+  }
+
+  def take(dataset: Dataset[Row], column: String, howMany: Int): Array[Array[Annotation]] = {
+    require(dataset.columns.contains(column), s"column $column not present in data")
+    import dataset.sparkSession.implicits._
+    dataset
+      .withColumnRenamed(column, ANNOTATION_NAME)
+      .select(ANNOTATION_NAME)
+      .as[AnnotationContainer]
+      .map(_.__annotation)
+      .take(howMany)
+  }
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]

@@ -4,6 +4,9 @@ package com.jsl.nlp
   * Created by saif on 02/05/17.
   */
 object ContentProvider {
+
+  val parquetData = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")
+
   val latinBody: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
     "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
     "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +

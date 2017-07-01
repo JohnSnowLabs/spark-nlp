@@ -1,5 +1,4 @@
 
-// Dependency settings
 val scalaLangVersion = "2.11.11"
 val sparkVersion = "2.1.1"
 val scalaTestVersion = "3.0.0"
@@ -17,7 +16,8 @@ lazy val analyticsDependencies = Seq(
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion,
-  "org.scalactic" %% "scalactic" % scalaTestVersion
+  "org.scalactic" %% "scalactic" % scalaTestVersion,
+  "com.storm-enroute" %% "scalameter" % "0.8.2"
 )
 
 lazy val utilDependencies = Seq(
@@ -29,16 +29,18 @@ lazy val logDependencies = Seq(
 )
 
 resolvers += "Collide repo" at "http://mvn.collide.info/content/repositories/releases/"
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases"
+
+testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
+
+parallelExecution in Test := false
+logBuffered in Test := false
 
 scalacOptions ++= Seq(
-  // See other posts in the series for other helpful options
   "-feature",
   "-language:implicitConversions"
 )
 
-logBuffered in Test := false
-
-// Module setup
 lazy val root = (project in file("."))
   .settings(
     name := "sparknlp",

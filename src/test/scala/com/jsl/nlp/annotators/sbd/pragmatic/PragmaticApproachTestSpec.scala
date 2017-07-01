@@ -15,8 +15,9 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
   "Parquet based data" should "be sentence bounded properly" taggedAs Slow in {
     import org.apache.spark.sql.functions._
     import SparkAccessor.spark.implicits._
+    import java.util.Date
 
-    val data = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")
+    val data = ContentProvider.parquetData
     info(s"loading data into memory. Amount of rows: ${data.count}")
 
     info("loading aggregation into memory")
@@ -25,30 +26,28 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
       .withColumn("document", Document.construct($"text"))
-      .repartition(16)
-      .cache
 
     info(s"Processing sentence data, rows collected: ${mergedSentences.count}")
-    mergedSentences.show
 
     info(s"Normalizing content")
 
     val tokenized = AnnotatorBuilder
       .withTokenizer(mergedSentences)
+      .repartition(16)
       .persist(StorageLevel.MEMORY_AND_DISK)
-    tokenized.show
 
     info(s"loading tokenized data into memory. Amount of rows: ${tokenized.count}")
+    tokenized.show
 
+    val date1 = new Date().getTime
     val totalAnnotations = AnnotatorBuilder.withFullPragmaticSentenceDetector(tokenized)
     totalAnnotations.show
+    info(s"20 Show sample of SBD took: ${(new Date().getTime - date1)/1000} seconds")
 
     import Annotation.extractors._
-    val collectedAnnotations = totalAnnotations.extract(SentenceDetector.annotatorType)
-    val sampleAnnotations: List[String] = collectedAnnotations
-      .take(10).map(_.map(_.metadata.values.toList.mkString("--")).mkString(" ")).toList
-
-    info(s"Found ${collectedAnnotations.length} Annotations such as ${sampleAnnotations.mkString("\n")}")
+    val date2 = new Date().getTime
+    totalAnnotations.take(SentenceDetector.annotatorType, 5000)
+    info(s"collect 5000 SBD sentences took: ${(new Date().getTime - date2)/1000} seconds")
 
   }
 
