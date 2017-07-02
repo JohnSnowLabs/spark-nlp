@@ -83,7 +83,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
   /**
     * @return [[DataType]] providing metadata shape of [[outputAnnotationCol]]
     */
-  private def outputDataType: DataType = ArrayType(Annotation.AnnotationDataType)
+  private def outputDataType: DataType = ArrayType(Annotation.annotationDataType)
 
   /** Overrides document column to be used*/
   def setDocumentCol(value: String): this.type = set(documentCol, value)
@@ -127,7 +127,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     dataset.withColumn(
       getOutputAnnotationCol,
       dfAnnotate(
-        dataset.col($(documentCol)),
+          dataset.col($(documentCol)),
         array(getInputAnnotationCols.map(c => dataset.col(c)):_*)
       ).as(getOutputAnnotationCol, metadataBuilder.build)
     )
@@ -139,7 +139,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
       s"documentCol [${$(documentCol)}] must be a document column")
     $(inputAnnotationCols).foreach {
       annotationColumn =>
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.AnnotationDataType),
+        require(schema(annotationColumn).dataType == ArrayType(Annotation.annotationDataType),
           s"annotation column [$annotationColumn] must be an annotation column, found [${schema(annotationColumn).dataType}]")
     }
     if (schema.fieldNames.contains(annotatorType)) {

@@ -17,8 +17,8 @@ class RegexTokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
   "a spark based tokenizer" should "resolve big data" in {
     import SparkAccessor.spark.implicits._
-    val data = ContentProvider.parquetData.limit(50000)
-      .withColumn("document", Document.construct($"text"))
+    val data = ContentProvider.parquetData.limit(500000)
+      .withColumn("document", Document.column($"text"))
         .repartition(16)
 
     val tokenizer = new RegexTokenizer().setDocumentCol("document")

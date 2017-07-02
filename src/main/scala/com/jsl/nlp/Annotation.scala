@@ -1,6 +1,6 @@
 package com.jsl.nlp
 
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.types._
 
 import scala.collection.Map
@@ -34,13 +34,14 @@ object Annotation {
   private val ANNOTATION_NAME = "__annotation"
 
   /** This is spark type of an annotation representing its metadata shape */
-  val AnnotationDataType = new StructType(Array(
+  val annotationDataType = new StructType(Array(
     StructField("aType", StringType, nullable = true),
     StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("metadata", MapType(StringType, StringType, valueContainsNull = true), nullable = true)
   ))
 
+  /** dataframe collect of a specific annotation column*/
   def collect(dataset: Dataset[Row], column: String): Array[Array[Annotation]] = {
     require(dataset.columns.contains(column), s"column $column not present in data")
     import dataset.sparkSession.implicits._
@@ -52,6 +53,7 @@ object Annotation {
       .collect
   }
 
+  /** dataframe take of a specific annotation column */
   def take(dataset: Dataset[Row], column: String, howMany: Int): Array[Array[Annotation]] = {
     require(dataset.columns.contains(column), s"column $column not present in data")
     import dataset.sparkSession.implicits._
@@ -61,6 +63,18 @@ object Annotation {
       .as[AnnotationContainer]
       .map(_.__annotation)
       .take(howMany)
+  }
+
+  /** dataframe annotation flatmap of metadata values */
+  def flatten(dataset: Dataset[Row], column: String): Column = {
+    require(dataset.columns.contains(column), s"column $column not present in data")
+    require(dataset.select(column).schema.head == StructField("column", annotationDataType))
+    import dataset.sparkSession.implicits._
+    dataset
+      .select(column)
+      .as[AnnotationContainer]
+      .map(_.__annotation.flatMap(_.metadata.values.toList))
+      .col(column)
   }
 
   /**

@@ -25,7 +25,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
       .withColumn("gid", bround(rand(5), 6))
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
-      .withColumn("document", Document.construct($"text"))
+      .withColumn("document", Document.column($"text"))
 
     info(s"Processing sentence data, rows collected: ${mergedSentences.count}")
 

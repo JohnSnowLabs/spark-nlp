@@ -26,8 +26,8 @@ object Document {
     )
   }
 
-  def construct(text: Column)(implicit idColumn: Column = expr(text.toString()), metadata: Column = map()): Column = {
-    struct(text, idColumn, metadata)
+  def column(column: Column)(implicit idColumn: Column = expr(column.toString()), metadata: Column = map()): Column = {
+    struct(column, idColumn, metadata)
   }
 
   /** Spark type representation shape of Document*/
