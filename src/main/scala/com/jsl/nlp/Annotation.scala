@@ -16,11 +16,11 @@ case class Annotation(annotatorType: String, begin: Int, end: Int, metadata: Map
 
 object Annotation {
 
-  private case class AnnotationContainer(__annotation: Array[Annotation]) extends Serializable
+  private case class AnnotationContainer(__annotation: Array[Annotation])
 
-  object extractors extends Serializable {
+  object extractors {
     /** annotation container ready for extraction */
-    protected class AnnotationData(dataset: Dataset[Row]) extends Serializable {
+    protected class AnnotationData(dataset: Dataset[Row]){
       def collect(column: String): Array[Array[Annotation]] = {
         Annotation.collect(dataset, column)
       }
