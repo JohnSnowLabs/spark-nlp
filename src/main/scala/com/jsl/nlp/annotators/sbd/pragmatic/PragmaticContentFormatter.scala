@@ -35,7 +35,7 @@ class PragmaticContentFormatter(text: String) {
       //.addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
     // http://rubular.com/r/Gu5rQapywf
       //lower case parens
-      .addRule(RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)|\\s[a-z]+\\)".r, "formatLists"))
+      .addRule(RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)".r, "formatLists"))
       //numeric dots
       .addRule(RegexRule(
         ("\\s\\d{1,2}\\.\\s|^\\d{1,2}\\.\\s|\\s\\d{1,2}\\.\\)|" +
@@ -220,7 +220,7 @@ class PragmaticContentFormatter(text: String) {
     // ToDo: NOT ADDING THIS ONE FOR NOW...
     // http://rubular.com/r/2VvZ8wRbd8
       //three other rule
-      .addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
+      //.addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
 
     wip = factory.transformWithSymbol(ELLIPSIS_INDICATOR, wip)
 
@@ -240,17 +240,17 @@ class PragmaticContentFormatter(text: String) {
 
     // http://rubular.com/r/2YFrKWQUYi
       //between single quotes
-      .addRule(RegexRule("'[\\w\\s?!\\.']+'".r, "betweenPunctuations-singleQuot"))
+      .addRule(RegexRule("'[\\w\\s?!\\.,']+'".r, "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
       //between double quotes
-      .addRule(RegexRule("\"[\\w\\s?!\\.]+\"".r, "betweenPunctuations-doubleQuot"))
+      .addRule(RegexRule("\"[\\w\\s?!\\.,]+\"".r, "betweenPunctuations-doubleQuot"))
     // http://rubular.com/r/WX4AvnZvlX
       //between square brackets
-      .addRule(RegexRule("\\[[\\w\\s?!,\\.]+\\]".r, "betweenPunctuations-squareBrack"))
+      .addRule(RegexRule("\\[[\\w\\s?!\\.,]+\\]".r, "betweenPunctuations-squareBrack"))
     // http://rubular.com/r/6tTityPflI
       //between parens
       .addRule(RegexRule("\\([\\w\\s?!\\.,]+\\)".r, "betweenPunctuations-parens"))
-    factory.transformWithSymbolicRules(wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }

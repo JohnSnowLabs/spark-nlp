@@ -12,7 +12,7 @@ import com.jsl.nlp.annotators.sbd.{SBDApproach, Sentence}
   * This approach extracts sentence bounds by first formatting the data with [[RuleSymbols]] and then extracting bounds
   * with a strong RegexBased rule application
   */
-class PragmaticApproach(useAbbreviations: Boolean = false) extends SBDApproach {
+class PragmaticApproach(useAbbreviations: Boolean = true) extends SBDApproach {
 
   override val description: String = "rule-based sentence detector. based off pragmatic sentence detector."
 

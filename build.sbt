@@ -10,7 +10,7 @@ lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion,
   "org.apache.spark" %% "spark-mllib" % sparkVersion,
   "org.tartarus" % "snowball" % snowballVersion,
-  "org.scalanlp" %% "epic-ner-en-conll" % scalanlpNERVersion exclude("com.typesafe.scala-logging", "scala-logging"),
+  "org.scalanlp" %% "epic-ner-en-conll" % scalanlpNERVersion,
   "org.apache.opennlp" % "opennlp-tools" % opennlpVersion
 )
 
@@ -22,10 +22,6 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0"
-)
-
-lazy val logDependencies = Seq(
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
 )
 
 resolvers += "Collide repo" at "http://mvn.collide.info/content/repositories/releases/"
@@ -50,6 +46,5 @@ lazy val root = (project in file("."))
     libraryDependencies ++=
       analyticsDependencies ++
       testDependencies ++
-      utilDependencies ++
-      logDependencies
+      utilDependencies
   )

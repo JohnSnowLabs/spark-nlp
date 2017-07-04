@@ -38,7 +38,7 @@ object PragmaticDictionaries {
   )
 
   val PREPOSITIVE_ABBREVIATIONS = Seq(
-    "dr", "mr", "ms", "prof"
+    "dr", "mr", "ms", "prof", "mt", "st"
   )
 
   val NUMBER_ABBREVIATIONS_LONG = Seq(
