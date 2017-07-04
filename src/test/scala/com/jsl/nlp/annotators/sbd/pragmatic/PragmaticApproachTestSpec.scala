@@ -2,7 +2,7 @@ package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.sbd.SentenceDetector
-import com.jsl.nlp.{Annotation, AnnotatorBuilder, ContentProvider, DataBuilder, Document, SparkAccessor}
+import com.jsl.nlp.{Annotation, ContentProvider, DataBuilder, Document, SparkAccessor}
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -47,22 +47,22 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     val tokenizedDisk = SparkAccessor.spark.read.parquet("./__tmpwrite.parquet")
     */
 
-    import Annotation.extractors._
-
     val pragmaticDetection = new PragmaticApproach
     val sentenceDetector = new SentenceDetector
 
     val totalAnnotations = sentenceDetector
       .setModel(pragmaticDetection)
       .setDocumentCol("document")
+      .setOutputAnnotationCol("my_sbd_sentences")
       .transform(tokenized)
 
     val date1 = new Date().getTime
     totalAnnotations.show
     info(s"20 Show sample of SBD took: ${(new Date().getTime - date1)/1000} seconds")
 
+    import Annotation.extractors._
     val date2 = new Date().getTime
-    totalAnnotations.take(SentenceDetector.annotatorType, 5000)
+    totalAnnotations.take("my_sbd_sentences", 5000)
     info(s"collect 5000 SBD sentences took: ${(new Date().getTime - date2)/1000} seconds")
 
     /*
