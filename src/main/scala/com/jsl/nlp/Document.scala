@@ -1,6 +1,6 @@
 package com.jsl.nlp
 
-import org.apache.spark.sql.functions.{expr, map, struct}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, Row}
 
@@ -26,7 +26,8 @@ object Document {
     )
   }
 
-  def column(column: Column)(implicit idColumn: Column = expr(column.toString()), metadata: Column = map()): Column = {
+  /** */
+  def column(column: Column)(implicit idColumn: Column = expr(column.toString()), metadata: Column = map(lit("a"), lit("b"))): Column = {
     struct(column, idColumn, metadata)
   }
 

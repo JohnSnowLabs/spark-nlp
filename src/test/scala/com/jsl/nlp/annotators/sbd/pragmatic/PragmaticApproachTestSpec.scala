@@ -1,5 +1,6 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
+import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.sbd.SentenceDetector
 import com.jsl.nlp.{Annotation, AnnotatorBuilder, ContentProvider, DataBuilder, Document, SparkAccessor}
 import org.apache.spark.storage.StorageLevel
@@ -31,24 +32,49 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
     info(s"Normalizing content")
 
-    val tokenized = AnnotatorBuilder
-      .withTokenizer(mergedSentences)
+    val tokenized = new RegexTokenizer()
+      .setDocumentCol("document")
+      .setPattern("[a-zA-Z]+|[0-9]+|\\p{Punct}")
+      .transform(mergedSentences)
       .repartition(16)
       .persist(StorageLevel.MEMORY_AND_DISK)
 
     info(s"loading tokenized data into memory. Amount of rows: ${tokenized.count}")
     tokenized.show
 
+    /*
+    tokenized.write.mode("overwrite").parquet("./__tmpwrite.parquet")
+    val tokenizedDisk = SparkAccessor.spark.read.parquet("./__tmpwrite.parquet")
+    */
+
+    import Annotation.extractors._
+
+    val pragmaticDetection = new PragmaticApproach
+    val sentenceDetector = new SentenceDetector
+
+    val totalAnnotations = sentenceDetector
+      .setModel(pragmaticDetection)
+      .setDocumentCol("document")
+      .transform(tokenized)
+
     val date1 = new Date().getTime
-    val totalAnnotations = AnnotatorBuilder.withFullPragmaticSentenceDetector(tokenized)
     totalAnnotations.show
     info(s"20 Show sample of SBD took: ${(new Date().getTime - date1)/1000} seconds")
 
-    import Annotation.extractors._
     val date2 = new Date().getTime
     totalAnnotations.take(SentenceDetector.annotatorType, 5000)
     info(s"collect 5000 SBD sentences took: ${(new Date().getTime - date2)/1000} seconds")
 
+    /*
+    val date3 = new Date().getTime
+    val totalAnnotationsFromDisk = AnnotatorBuilder.withFullPragmaticSentenceDetector(tokenizedDisk)
+    totalAnnotations.show
+    info(s"20 Show sample of Disk based SBD took: ${(new Date().getTime - date3)/1000} seconds")
+
+    val date4 = new Date().getTime
+    totalAnnotationsFromDisk.take(SentenceDetector.annotatorType, 5000)
+    info(s"collect 5000 SBD sentences from Disk took: ${(new Date().getTime - date4)/1000} seconds")
+    */
   }
 
 }
