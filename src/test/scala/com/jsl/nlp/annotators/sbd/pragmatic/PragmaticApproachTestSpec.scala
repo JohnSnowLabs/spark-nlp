@@ -21,7 +21,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     info(s"loading data into memory. Amount of rows: ${data.count}")
 
     info("loading aggregation into memory")
-    val mergedSentences = data
+    val mergedSentences = data.limit(100000)
       .withColumn("gid", bround(rand(5), 6))
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
