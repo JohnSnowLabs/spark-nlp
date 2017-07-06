@@ -1,7 +1,6 @@
 package com.jsl.nlp.annotators
 
-import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
-import com.jsl.nlp.annotators.param.{AnnotatorParam, SerializedAnnotatorComponent}
+import com.jsl.nlp.annotators.param.{AnnotatorParam, SerializedAnnotatorComponent, WritableAnnotatorComponent}
 import com.jsl.nlp.{Annotation, Annotator, Document}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 

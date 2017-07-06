@@ -28,7 +28,7 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   import TransformStrategy._
   import MatchStrategy._
 
-  private val logger = LoggerFactory.getLogger("RuleFactory")
+  val logger = LoggerFactory.getLogger("RuleFactory")
 
   /** Rules and SymbolRules are key pieces of regex transformation */
   private var rules: Seq[RegexRule] = Seq()
@@ -111,31 +111,35 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   def transformWithSymbol(symbol: String, text: String): String = {
     transformStrategy match {
       case APPEND_WITH_SYMBOL => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
-        logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.identifier}' with strategy $APPEND_WITH_SYMBOL")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start),logSubEndHelper(m.source.length, m.end)),
+          () => rule.identifier,
+          () => APPEND_WITH_SYMBOL)
         "$0" + symbol
       }))
       case PREPEND_WITH_SYMBOL => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
-        logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.identifier}' with strategy $PREPEND_WITH_SYMBOL")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start),logSubEndHelper(m.source.length, m.end)),
+          () => rule.identifier,
+          () => PREPEND_WITH_SYMBOL)
         symbol + "$0"
       }))
       case REPLACE_ALL_WITH_SYMBOL => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
-        logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.identifier}' with strategy $REPLACE_ALL_WITH_SYMBOL")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
+          () => rule.identifier,
+          () => REPLACE_ALL_WITH_SYMBOL)
         symbol
       }))
       case REPLACE_WITH_SYMBOL_AND_BREAK => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
-          logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.identifier}' with strategy $REPLACE_WITH_SYMBOL_AND_BREAK")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
+          () => rule.identifier,
+          () => REPLACE_WITH_SYMBOL_AND_BREAK)
           symbol + BREAK_INDICATOR
         }))
       case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
@@ -150,26 +154,28 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   def transformWithSymbolicRules(text: String): String = {
     transformStrategy match {
       case REPLACE_EACH_WITH_SYMBOL => symbolRules.foldRight(text)((rule, target) => transformMatch(target, rule._2.regex)({ m =>
-        logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule._2.identifier}' with strategy $REPLACE_EACH_WITH_SYMBOL")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
+          () => rule._2.identifier,
+          () => REPLACE_EACH_WITH_SYMBOL)
         rule._1
       }))
       case REPLACE_EACH_WITH_SYMBOL_AND_BREAK => symbolRules.foldRight(text)((rule, target) => rule._2.regex replaceAllIn(
         target, m => {
-        logger.debug(s"Matched: '${m.matched}' from: '${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule._2.identifier}' with strategy $REPLACE_EACH_WITH_SYMBOL_AND_BREAK")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
+          () => rule._2.identifier,
+          () => REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
         rule._1 + BREAK_INDICATOR
       }))
       case PROTECT_FROM_BREAK => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
-        logger.debug(s"Matched: '${m.matched}' from: " +
-          s"'${m.source.subSequence(
-            logSubStartHelper(m.start),
-            logSubEndHelper(m.source.length, m.end)
-          )}' using rule: '${rule.identifier}' with strategy $PROTECT_FROM_BREAK")
+        logger.debug("Matched: {} from: {} using rule {} with strategy {}",
+          () => m.matched,
+          () => m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
+          () => rule.identifier,
+          () => PROTECT_FROM_BREAK)
         PROTECTION_MARKER_OPEN + m.matched + PROTECTION_MARKER_CLOSE
       }))
       case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")

@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.sda
 
-import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence}
+import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.param.WritableAnnotatorComponent
 
 /**
   * Created by saif on 12/06/2017.

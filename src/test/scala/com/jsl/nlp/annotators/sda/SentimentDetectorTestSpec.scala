@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.sda
-import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence}
-import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
+import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
 import org.scalatest._
 
 /**

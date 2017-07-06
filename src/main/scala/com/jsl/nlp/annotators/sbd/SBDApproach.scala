@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.sbd
 
-import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
+import com.jsl.nlp.annotators.param.WritableAnnotatorComponent
 
 /**
   * Created by Saif Addin on 5/5/2017.

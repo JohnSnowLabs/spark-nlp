@@ -1,7 +1,6 @@
 package com.jsl.nlp.annotators.sbd
 
-import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
-import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
+import com.jsl.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
 import org.scalatest._
 
 /**

@@ -65,7 +65,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentenceDetector
       .setModel(pragmaticDetection)
       .setDocumentCol("document")
-    sentenceDetector.transform(dataset)
+    sentenceDetector.transform(withTokenizer(dataset))
   }
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {

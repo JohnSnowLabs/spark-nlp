@@ -1,7 +1,7 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
-import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence}
-import com.jsl.nlp.annotators.param.SerializedAnnotatorComponent
+import com.jsl.nlp.annotators.common.TaggedSentence
+import com.jsl.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
 import com.jsl.nlp.annotators.sda.SentimentApproach
 import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.LoggerFactory

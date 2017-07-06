@@ -19,14 +19,18 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   }
 
   def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String]): Unit = {
+    require(input == correctAnswer.mkString(" "),
+      s"provided bad test input\ninput:\n$input\nand correct answer:\n${correctAnswer.mkString(" ")}\ndo not match?")
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
       s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
       val pragmaticApproach = new PragmaticApproach
       val result = pragmaticApproach.extractBounds(input).map(_.content)
+      val diffInResult = result.diff(correctAnswer)
+      val diffInCorrect = correctAnswer.diff(result)
       assert(
         result.sameElements(correctAnswer),
-        s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${result.mkString("\n@@")}" +
-          s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${correctAnswer.mkString("\n@@")}")
+        s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${diffInResult.mkString("\n@@")}" +
+          s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${diffInCorrect.mkString("\n@@")}")
     }
   }
 

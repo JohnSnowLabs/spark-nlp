@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.pos
 
-import com.jsl.nlp.annotators.common.{WritableAnnotatorComponent, TaggedSentence, TokenizedSentence}
+import com.jsl.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
+import com.jsl.nlp.annotators.param.WritableAnnotatorComponent
 
 /**
   * Created by Saif Addin on 5/13/2017.

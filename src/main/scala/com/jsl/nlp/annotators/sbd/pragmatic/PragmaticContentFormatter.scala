@@ -1,6 +1,6 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
-import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticDictionaries.{ABBREVIATIONS, NUMBER_ABBREVIATIONS, PREPOSITIVE_ABBREVIATIONS}
+import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticDictionaries._
 import com.jsl.nlp.annotators.sbd.pragmatic.PragmaticSymbols._
 import com.jsl.nlp.util.regex.{RegexRule, RuleFactory, TransformStrategy, MatchStrategy}
 
@@ -35,7 +35,7 @@ class PragmaticContentFormatter(text: String) {
       //.addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
     // http://rubular.com/r/Gu5rQapywf
       //lower case parens
-      .addRule(RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)|\\s[a-z]+\\)".r, "formatLists"))
+      .addRule(RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)".r, "formatLists"))
       //numeric dots
       .addRule(RegexRule(
         ("\\s\\d{1,2}\\.\\s|^\\d{1,2}\\.\\s|\\s\\d{1,2}\\.\\)|" +
@@ -55,12 +55,12 @@ class PragmaticContentFormatter(text: String) {
     * replace with non separation symbol
     * @return
     */
-  def formatAbbreviations: this.type = {
+  def formatAbbreviations(useDictAbbreviations: Boolean): this.type = {
 
     val stdAbbrFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/yqa4Rit8EY
       //possessive
-      .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
+      .addRule(RegexRule("\\.(?='s\\s)|\\.(?='s\\$)|\\.(?='s\\z)".r, "formatAbbreviations-possessive"))
     // http://rubular.com/r/NEv265G2X2
       //kommandit
       .addRule(RegexRule("(?<=Co)\\.(?=\\sKG)".r, "formatAbbreviations-kommandit"))
@@ -70,22 +70,6 @@ class PragmaticContentFormatter(text: String) {
     // http://rubular.com/r/gitvf0YWH4
       //single upper case letter abbreviation
       .addRule(RegexRule("(?<=\\s[A-Z])\\.(?=\\s)".r, "formatAbbreviations-uppercaseAbb"))
-      //prepositive
-      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s)|(?<=^(?i)$abbr)\\.(?=\\s)".r, "formatAbbreviations-preposAbbr")))
-      //tagged prepositive
-      .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=:\\d+)|(?<=^(?i)$abbr)\\.(?=:\\d+)".r, "formatAbbreviations-preposAbbr")))
-      //number abbreviation
-      .addRules(NUMBER_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s\\d)|(?<=^(?i)$abbr)\\.(?=\\s\\d)".r, "formatAbbreviations-numberAbbr")))
-      //tagged number abbreviation
-      .addRules(NUMBER_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s+\\()|(?<=^(?i)$abbr)\\.(?=\\s+\\()".r, "formatAbbreviations-numberAbbr")))
-      //general abbreviation
-      .addRules(ABBREVIATIONS.map(abbr => RegexRule((
-      s"(?<=\\s(?i)$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
-      s"|\\d))))|(?<=^(?i)$abbr)\\.(?=((\\.|\\:|\\?)" +
-      s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))"
-      ).r, "formatAbbreviations-generalAbbr")))
-      //general comma abbreviation
-      .addRules(ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)".r, "formatAbbreviations-otherAbbr")))
 
     val specialAbbrFactory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/xDkpFZ0EgH
@@ -99,6 +83,27 @@ class PragmaticContentFormatter(text: String) {
 
     wip = specialAbbrFactory.transformWithSymbolicRules(wip)
     wip = stdAbbrFactory.transformWithSymbol(ABBREVIATOR, wip)
+
+    if (useDictAbbreviations) {
+      val dictAbbrFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+        //prepositive
+        .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s)|(?<=^(?i)$abbr)\\.(?=\\s)".r, "formatAbbreviations-preposAbbr")))
+        //tagged prepositive
+        .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=:\\d+)|(?<=^(?i)$abbr)\\.(?=:\\d+)".r, "formatAbbreviations-preposAbbr")))
+        //number abbreviation
+        .addRules(NUMBER_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s\\d)|(?<=^(?i)$abbr)\\.(?=\\s\\d)".r, "formatAbbreviations-numberAbbr")))
+        //tagged number abbreviation
+        .addRules(NUMBER_ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s+\\()|(?<=^(?i)$abbr)\\.(?=\\s+\\()".r, "formatAbbreviations-numberAbbr")))
+        //general abbreviation
+        .addRules(ABBREVIATIONS.map(abbr => RegexRule((
+        s"(?<=\\s(?i)$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
+          s"|\\d))))|(?<=^(?i)$abbr)\\.(?=((\\.|\\:|\\?)" +
+          s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))"
+        ).r, "formatAbbreviations-generalAbbr")))
+        //general comma abbreviation
+        .addRules(ABBREVIATIONS.map(abbr => RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)".r, "formatAbbreviations-otherAbbr")))
+      wip = dictAbbrFactory.transformWithSymbol(ABBREVIATOR, wip)
+    }
 
     this
   }
@@ -145,7 +150,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // http://rubular.com/r/mQ8Es9bxtk
       //continuous punctuations
-      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|$))".r, "formatPunctuations-continuous"))
+      .addRule(RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|\\$))".r, "formatPunctuations-continuous"))
 
     wip = factory.transformWithSymbolicRules(wip)
 
@@ -215,7 +220,7 @@ class PragmaticContentFormatter(text: String) {
     // ToDo: NOT ADDING THIS ONE FOR NOW...
     // http://rubular.com/r/2VvZ8wRbd8
       //three other rule
-      .addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
+      //.addRule(RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
 
     wip = factory.transformWithSymbol(ELLIPSIS_INDICATOR, wip)
 
@@ -229,33 +234,22 @@ class PragmaticContentFormatter(text: String) {
     * @return
     */
   def formatBetweenPunctuations: this.type = {
-
     val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
     // ToDo: NOT ADDING EXCLAMATION WORDS,
     // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 
     // http://rubular.com/r/2YFrKWQUYi
       //between single quotes
-      .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'".r, "betweenPunctuations-singleQuot"))
+      .addRule(RegexRule("'[\\w\\s?!\\.,']+'".r, "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
       //between double quotes
-      .addRule(RegexRule("\"(?>[^\"\\\\]+|\\\\{2}|\\\\.)*\"".r, "betweenPunctuations-doubleQuot"))
-    // http://rubular.com/r/x6s4PZK8jc
-      //between arrow quotes
-      .addRule(RegexRule("«(?>[^»\\\\]+|\\\\{2}|\\\\.)*»".r, "betweenPunctuations-arrowQuot"))
-    // http://rubular.com/r/JbAIpKdlSq
-      //between slant quotes
-      .addRule(RegexRule("“(?>[^”\\\\]+|\\\\{2}|\\\\.)*”".r, "betweenPunctuations-slantQuot"))
+      .addRule(RegexRule("\"[\\w\\s?!\\.,]+\"".r, "betweenPunctuations-doubleQuot"))
     // http://rubular.com/r/WX4AvnZvlX
       //between square brackets
-      .addRule(RegexRule("\\[(?>[^\\]\\\\]+|\\\\{2}|\\\\.)*\\]".r, "betweenPunctuations-squareBrack"))
+      .addRule(RegexRule("\\[[\\w\\s?!\\.,]+\\]".r, "betweenPunctuations-squareBrack"))
     // http://rubular.com/r/6tTityPflI
       //between parens
-      .addRule(RegexRule("\\((?>[^\\(\\)\\\\]+|\\\\{2}|\\\\.)*\\)".r, "betweenPunctuations-parens"))
-    // http://rubular.com/r/mXf8cW025o
-      //between leading apostrophes
-      .addRule(RegexRule("(?<=\\s)'(?:[^']|'[a-zA-Z])*'\\S".r, "betweenPunctuations-leadApostroph"))
-
+      .addRule(RegexRule("\\([\\w\\s?!\\.,]+\\)".r, "betweenPunctuations-parens"))
     wip = factory.transformWithSymbolicRules(wip)
 
     this

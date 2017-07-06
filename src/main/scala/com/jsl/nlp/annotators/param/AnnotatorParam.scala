@@ -1,11 +1,11 @@
 package com.jsl.nlp.annotators.param
 
-import com.jsl.nlp.annotators.common.WritableAnnotatorComponent
+import java.util.{Date, TimeZone}
+
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.write
 
 /**
@@ -30,7 +30,17 @@ class AnnotatorParam[
       description: String)
     (implicit m: Manifest[B]) extends Param[A](identifiable, name, description) {
 
-  implicit val formats = Serialization.formats(NoTypeHints)
+  /** Workaround json4s issue of DefaultFormats not being Serializable in provided release*/
+  object SerializableFormat extends Formats with Serializable {
+    class SerializableDateFormat extends DateFormat {
+      def timezone: TimeZone = throw new Exception("SerializableFormat does not implement dateformat")
+      override def format(d: Date): String = throw new Exception("SerializableFormat does not implement dateformat")
+      override def parse(s: String): Option[Date] = throw new Exception("SerializableFormat does not implement dateformat")
+    }
+    override def dateFormat: DateFormat = new SerializableDateFormat
+  }
+
+  implicit val formats = SerializableFormat
 
   override def jsonEncode(value: A): String = write(value.serialize)
 
