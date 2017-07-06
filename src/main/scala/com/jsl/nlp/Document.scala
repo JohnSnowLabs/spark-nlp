@@ -28,7 +28,7 @@ object Document {
 
   /**Waiting for empty map fix by Spark team*/
   def column(column: Column)(implicit idColumn: Column = expr(column.toString()).as("id"),
-                             metadata: Column = map(lit("a"), lit("b")).as("metadata")): Column = {
+                             metadata: Column = lit(null).cast(MapType(StringType, StringType)).as("metadata")): Column = {
     struct(column, idColumn, metadata)
   }
 
@@ -36,7 +36,7 @@ object Document {
   val DocumentDataType: StructType = StructType(Array(
     StructField("text", StringType),
     StructField("id", StringType),
-    StructField("metadata", MapType(StringType, StringType, valueContainsNull = false), nullable = false)
+    StructField("metadata", MapType(StringType, StringType))
   ))
 
 }
