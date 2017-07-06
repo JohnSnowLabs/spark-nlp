@@ -19,9 +19,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     import java.util.Date
 
     val data = ContentProvider.parquetData
-    info(s"loading data into memory. Amount of rows: ${data.count}")
 
-    info("loading aggregation into memory")
     val mergedSentences = data.limit(100000)
       .withColumn("gid", bround(rand(5), 6))
       .groupBy("gid")
@@ -68,6 +66,8 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     val date4 = new Date().getTime
     annotator.transform(tokenizedFromMemory).take("my_sbd_sentences", 5000)
     info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4)/1000} seconds")
+
+    succeed
 
   }
 

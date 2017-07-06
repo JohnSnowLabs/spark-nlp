@@ -26,16 +26,17 @@ object Document {
     )
   }
 
-  /** */
-  def column(column: Column)(implicit idColumn: Column = expr(column.toString()), metadata: Column = map(lit("a"), lit("b"))): Column = {
+  /**Waiting for empty map fix by Spark team*/
+  def column(column: Column)(implicit idColumn: Column = expr(column.toString()).as("id"),
+                             metadata: Column = map(lit("a"), lit("b")).as("metadata")): Column = {
     struct(column, idColumn, metadata)
   }
 
   /** Spark type representation shape of Document*/
   val DocumentDataType: StructType = StructType(Array(
-    StructField("text",StringType,nullable = true),
-    StructField("id",StringType,nullable = true),
-    StructField("metadata",MapType(StringType,StringType,valueContainsNull = true),nullable = true)
+    StructField("text", StringType),
+    StructField("id", StringType),
+    StructField("metadata", MapType(StringType, StringType, valueContainsNull = false), nullable = false)
   ))
 
 }

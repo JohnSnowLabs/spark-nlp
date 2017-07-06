@@ -8,7 +8,7 @@ package com.jsl.nlp.annotators.pos
   * Representation for a POS model. For now, having a predict operation is the only needed interface
   * Features required for prediction are of any type
   */
-abstract class POSModel[A] {
+abstract class POSModel[A] extends Serializable {
 
   def predict(features: A): String
 

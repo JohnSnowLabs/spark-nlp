@@ -34,11 +34,11 @@ object Annotation {
   private val ANNOTATION_NAME = "__annotation"
 
   /** This is spark type of an annotation representing its metadata shape */
-  val annotationDataType = new StructType(Array(
-    StructField("aType", StringType, nullable = true),
-    StructField("begin", IntegerType, nullable = false),
-    StructField("end", IntegerType, nullable = false),
-    StructField("metadata", MapType(StringType, StringType, valueContainsNull = true), nullable = true)
+  val dataType = new StructType(Array(
+    StructField("aType", StringType),
+    StructField("begin", IntegerType),
+    StructField("end", IntegerType),
+    StructField("metadata", MapType(StringType, StringType))
   ))
 
   /** dataframe collect of a specific annotation column*/
@@ -68,7 +68,7 @@ object Annotation {
   /** dataframe annotation flatmap of metadata values */
   def flatten(dataset: Dataset[Row], column: String): Column = {
     require(dataset.columns.contains(column), s"column $column not present in data")
-    require(dataset.select(column).schema.head == StructField("column", annotationDataType))
+    require(dataset.select(column).schema.head == StructField("column", dataType))
     import dataset.sparkSession.implicits._
     dataset
       .select(column)

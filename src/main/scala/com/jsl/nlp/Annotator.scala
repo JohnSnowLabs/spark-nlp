@@ -83,7 +83,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
   /**
     * @return [[DataType]] providing metadata shape of [[outputAnnotationCol]]
     */
-  private def outputDataType: DataType = ArrayType(Annotation.annotationDataType)
+  private def outputDataType: DataType = ArrayType(Annotation.dataType)
 
   /** Overrides document column to be used*/
   def setDocumentCol(value: String): this.type = set(documentCol, value)
@@ -121,7 +121,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @return
     */
   override def transform(dataset: Dataset[_]): DataFrame = {
-    require(validate(dataset), s"The following transformations are missing in the pipeline2: ${requiredAnnotatorTypes.mkString(", ")}")
+    require(validate(dataset), s"The following transformations are missing in the pipeline: ${requiredAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotationType", annotatorType)
     dataset.withColumn(
@@ -133,14 +133,19 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     )
   }
 
-  /** requirement for pipeline transformation validation */
+  /** requirement for pipeline transformation validation. It is called on fit() */
   override def transformSchema(schema: StructType): StructType = {
+    require(schema.fieldNames.contains($(documentCol)), "Document column not found. Please use setDocumentCol")
     require(schema($(documentCol)).dataType == Document.DocumentDataType,
-      s"documentCol [${$(documentCol)}] must be a document column")
-    $(inputAnnotationCols).foreach {
+      s"column [${$(documentCol)}] must be an NLP Document column.")
+    getInputAnnotationCols.foreach {
       annotationColumn =>
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.annotationDataType),
-          s"annotation column [$annotationColumn] must be an annotation column, found [${schema(annotationColumn).dataType}]")
+        require(schema.fieldNames.sameElements(getInputAnnotationCols),
+          s"pipeline annotator stages incomplete. " +
+            s"expected: ${getInputAnnotationCols.mkString(", ")}, " +
+            s"found: ${schema.fields.filter(_.dataType == Annotation.dataType).mkString(", ")}")
+        require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
+          s"column [$annotationColumn] must be an NLP Annotation column")
     }
     if (schema.fieldNames.contains(annotatorType)) {
       throw new IllegalArgumentException(s"Output column $annotatorType already exists.")
