@@ -37,6 +37,9 @@ scalacOptions ++= Seq(
   "-language:implicitConversions"
 )
 
+/** Enable for debugging */
+testOptions in Test += Tests.Argument("-oF")
+
 lazy val root = (project in file("."))
   .settings(
     name := "sparknlp",

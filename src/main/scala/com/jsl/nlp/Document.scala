@@ -27,13 +27,17 @@ object Document {
   }
 
   /**Waiting for empty map fix by Spark team*/
-  def column(column: Column)(implicit idColumn: Column = expr(column.toString()).as("id"),
-                             metadata: Column = lit(null).cast(MapType(StringType, StringType)).as("metadata")): Column = {
-    struct(column, idColumn, metadata)
+  def column(column: Column)(implicit idColumn: Option[Column] = None,
+                             metadata: Option[Column] = None): Column = {
+    struct(
+      column,
+      idColumn.getOrElse(expr(column.toString()).as("id")),
+      metadata.getOrElse(lit(null).cast(MapType(StringType, StringType)).as("metadata"))
+    )
   }
 
   /** Spark type representation shape of Document*/
-  val DocumentDataType: StructType = StructType(Array(
+  val dataType: StructType = StructType(Array(
     StructField("text", StringType),
     StructField("id", StringType),
     StructField("metadata", MapType(StringType, StringType))

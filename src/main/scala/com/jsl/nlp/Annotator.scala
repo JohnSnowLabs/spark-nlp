@@ -135,20 +135,21 @@ trait Annotator extends Transformer with DefaultParamsWritable {
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override def transformSchema(schema: StructType): StructType = {
+    println(s"this is schema $schema")
     require(schema.fieldNames.contains($(documentCol)), "Document column not found. Please use setDocumentCol")
-    require(schema($(documentCol)).dataType == Document.DocumentDataType,
+    require(schema($(documentCol)).dataType == Document.dataType,
       s"column [${$(documentCol)}] must be an NLP Document column.")
     getInputAnnotationCols.foreach {
       annotationColumn =>
-        require(schema.fieldNames.sameElements(getInputAnnotationCols),
+        require(getInputAnnotationCols.forall(schema.fieldNames.contains),
           s"pipeline annotator stages incomplete. " +
             s"expected: ${getInputAnnotationCols.mkString(", ")}, " +
-            s"found: ${schema.fields.filter(_.dataType == Annotation.dataType).mkString(", ")}")
+            s"found: ${schema.fields.filter(_.dataType == Annotation.dataType).map(_.name).mkString(", ")}")
         require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
           s"column [$annotationColumn] must be an NLP Annotation column")
     }
     if (schema.fieldNames.contains(annotatorType)) {
-      throw new IllegalArgumentException(s"Output column $annotatorType already exists.")
+      throw new IllegalArgumentException(s"Schema already has an annotator of type: $annotatorType.")
     }
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     requiredAnnotatorTypes.foreach{ requiredType => metadataBuilder.putString("annotationType", requiredType)}

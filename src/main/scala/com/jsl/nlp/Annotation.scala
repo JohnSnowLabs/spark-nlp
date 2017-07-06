@@ -35,7 +35,7 @@ object Annotation {
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
-    StructField("aType", StringType),
+    StructField("annotatorType", StringType),
     StructField("begin", IntegerType),
     StructField("end", IntegerType),
     StructField("metadata", MapType(StringType, StringType))

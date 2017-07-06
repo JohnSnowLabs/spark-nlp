@@ -35,10 +35,11 @@ class RegexTokenizer(override val uid: String) extends Annotator {
   /** one to many annotation */
   override def annotate(
                          document: Document, annotations: Seq[Annotation]
-  ): Seq[Annotation] = regex.findAllMatchIn(document.text).map {
-    m =>
-      Annotation(annotatorType, m.start, m.end, Map(RegexTokenizer.annotatorType -> m.matched))
-  }.toSeq
+  ): Seq[Annotation] = {
+    regex.findAllMatchIn(document.text).map { m =>
+        Annotation(annotatorType, m.start, m.end, Map(RegexTokenizer.annotatorType -> m.matched))
+    }.toSeq
+  }
 }
 object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]{
   val annotatorType = "token"
