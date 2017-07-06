@@ -26,55 +26,49 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
       .withColumn("gid", bround(rand(5), 6))
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
-      .withColumn("document", Document.column($"text"))
 
     info(s"Processing sentence data, rows collected: ${mergedSentences.count}")
-
-    info(s"Normalizing content")
-
-    val tokenized = new RegexTokenizer()
-      .setDocumentCol("document")
-      .setPattern("[a-zA-Z]+|[0-9]+|\\p{Punct}")
-      .transform(mergedSentences)
-      .repartition(16)
-      .persist(StorageLevel.MEMORY_AND_DISK)
-
-    info(s"loading tokenized data into memory. Amount of rows: ${tokenized.count}")
-    tokenized.show
-
-    /*
-    tokenized.write.mode("overwrite").parquet("./__tmpwrite.parquet")
-    val tokenizedDisk = SparkAccessor.spark.read.parquet("./__tmpwrite.parquet")
-    */
 
     val pragmaticDetection = new PragmaticApproach
     val sentenceDetector = new SentenceDetector
 
-    val totalAnnotations = sentenceDetector
+    val tokenizedFromDisk = new RegexTokenizer()
+      .setDocumentCol("document")
+      .setPattern("[a-zA-Z]+|[0-9]+|\\p{Punct}")
+      .transform(mergedSentences.withColumn("document", Document.column($"text")))
+
+    val annotator = sentenceDetector
       .setModel(pragmaticDetection)
       .setDocumentCol("document")
       .setOutputAnnotationCol("my_sbd_sentences")
-      .transform(tokenized)
-
-    val date1 = new Date().getTime
-    totalAnnotations.show
-    info(s"20 Show sample of SBD took: ${(new Date().getTime - date1)/1000} seconds")
 
     import Annotation.extractors._
-    val date2 = new Date().getTime
-    totalAnnotations.take("my_sbd_sentences", 5000)
-    info(s"collect 5000 SBD sentences took: ${(new Date().getTime - date2)/1000} seconds")
 
-    /*
+    /** Process from disk */
+
+    val date1 = new Date().getTime
+    annotator.transform(tokenizedFromDisk).show
+    info(s"20 Show sample of disk based SBD took: ${(new Date().getTime - date1)/1000} seconds")
+
+    val date2 = new Date().getTime
+    annotator.transform(tokenizedFromDisk).take("my_sbd_sentences", 5000)
+    info(s"collect 5000 SBD sentences from disk took: ${(new Date().getTime - date2)/1000} seconds")
+
+    /** Process from memory */
+
+    val tokenizedFromMemory = tokenizedFromDisk
+      .persist(StorageLevel.MEMORY_AND_DISK)
+
+    info(s"loading tokenized data into memory. Amount of rows: ${tokenizedFromMemory.count}")
+
     val date3 = new Date().getTime
-    val totalAnnotationsFromDisk = AnnotatorBuilder.withFullPragmaticSentenceDetector(tokenizedDisk)
-    totalAnnotations.show
-    info(s"20 Show sample of Disk based SBD took: ${(new Date().getTime - date3)/1000} seconds")
+    annotator.transform(tokenizedFromMemory).show
+    info(s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3)/1000} seconds")
 
     val date4 = new Date().getTime
-    totalAnnotationsFromDisk.take(SentenceDetector.annotatorType, 5000)
-    info(s"collect 5000 SBD sentences from Disk took: ${(new Date().getTime - date4)/1000} seconds")
-    */
+    annotator.transform(tokenizedFromMemory).take("my_sbd_sentences", 5000)
+    info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4)/1000} seconds")
+
   }
 
 }
