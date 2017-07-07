@@ -1,8 +1,8 @@
 package com.jsl.nlp.annotators
 
 import com.jsl.nlp.util.io.ResourceHelper
-import com.jsl.nlp.{ContentProvider, DataBuilder, DocumentAssembler, SparkAccessor}
-import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
+import com.jsl.nlp.{ContentProvider, DataBuilder, DocumentAssembler}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 

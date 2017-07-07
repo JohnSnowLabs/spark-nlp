@@ -33,9 +33,7 @@ class RegexTokenizer(override val uid: String) extends Annotator {
   setDefault(pattern, "\\w+")
 
   /** one to many annotation */
-  override def annotate(
-                         document: Document, annotations: Seq[Annotation]
-  ): Seq[Annotation] = {
+  override def annotate(document: Document, annotations: Seq[Annotation]): Seq[Annotation] = {
     regex.findAllMatchIn(document.text).map { m =>
         Annotation(annotatorType, m.start, m.end, Map(RegexTokenizer.annotatorType -> m.matched))
     }.toSeq
