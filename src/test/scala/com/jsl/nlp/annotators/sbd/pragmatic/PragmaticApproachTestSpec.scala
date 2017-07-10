@@ -20,8 +20,8 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
     val data = ContentProvider.parquetData
 
-    val mergedSentences = data.limit(100000)
-      .withColumn("gid", bround(rand(5), 6))
+    val mergedSentences = data.limit(1000)
+      .withColumn("gid", bround(rand(5), 7))
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
 
@@ -66,6 +66,12 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     val date4 = new Date().getTime
     annotator.transform(tokenizedFromMemory).take("my_sbd_sentences", 5000)
     info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4)/1000} seconds")
+
+    /** Flatten test */
+    annotator
+      .transform(tokenizedFromMemory)
+      .withColumn("flattened", Annotation.flatten($"my_sbd_sentences"))
+      .show
 
     succeed
 

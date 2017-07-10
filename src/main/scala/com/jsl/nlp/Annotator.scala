@@ -76,8 +76,8 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     * @return udf function to be applied to [[inputAnnotationCols]] using this annotator's annotate function as part of ML transformation
     */
   private def dfAnnotate: UserDefinedFunction = udf {
-    (docProperties: DocumentContent, aProperties: Seq[AnnotationContent]) =>
-      annotate(Document(docProperties), aProperties.flatMap(_.map(Annotation(_))))
+    (docProperties: Document, aProperties: Seq[Annotation]) =>
+      annotate(docProperties, aProperties)
   }
 
   /**
