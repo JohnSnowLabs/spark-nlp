@@ -1,5 +1,6 @@
 package com.jsl.nlp
 
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.types._
 
@@ -66,15 +67,11 @@ object Annotation {
   }
 
   /** dataframe annotation flatmap of metadata values */
-  def flatten(dataset: Dataset[Row], column: String): Column = {
-    require(dataset.columns.contains(column), s"column $column not present in data")
-    require(dataset.select(column).schema.head == StructField("column", dataType))
-    import dataset.sparkSession.implicits._
-    dataset
-      .select(column)
-      .as[AnnotationContainer]
-      .map(_.__annotation.flatMap(_.metadata.values.toList))
-      .col(column)
+  def flatten: UserDefinedFunction = {
+    import org.apache.spark.sql.functions.udf
+    udf {
+      (annotations: Seq[Row]) => annotations.map(Annotation(_).metadata.values.toList.mkString(",")).mkString(",")
+    }
   }
 
   /**

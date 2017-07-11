@@ -127,7 +127,7 @@ trait Annotator extends Transformer with DefaultParamsWritable {
     dataset.withColumn(
       getOutputAnnotationCol,
       dfAnnotate(
-          dataset.col($(documentCol)),
+        dataset.col($(documentCol)),
         array(getInputAnnotationCols.map(c => dataset.col(c)):_*)
       ).as(getOutputAnnotationCol, metadataBuilder.build)
     )
