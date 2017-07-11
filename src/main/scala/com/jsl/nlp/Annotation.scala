@@ -70,7 +70,7 @@ object Annotation {
   def flatten: UserDefinedFunction = {
     import org.apache.spark.sql.functions.udf
     udf {
-      (annotations: Seq[Annotation]) => "asd"
+      (annotations: Seq[Row]) => annotations.map(Annotation(_).metadata.values.toList.mkString(",")).mkString(",")
     }
   }
 
