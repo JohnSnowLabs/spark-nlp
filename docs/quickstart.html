@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en"> <!--<![endif]-->
+<head>
+    <title>Spark NLP</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="fav.ico">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="body-green">
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <a href="index.html">
+                        <img src="https://ui.datalabs.johnsnowlabs.com/public/assets/images/logo.png" width="180"
+                             height="50">
+                     </a>
+                    <a class="btn btn-primary btn-cta" style="float: right;margin-top: 10px;" href="javascript:void(0)"
+                       target="_blank"> Contact US</a>
+                </h1>
+            </div>
+            <ol class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Quick Start</li>
+            </ol>
+        </div>
+    </header>
+    <div style="border:1px solid #e7e7e7;"></div>
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> SparkNLP - Quick Start</h1>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 13th, 2017</div>
+            </div>
+            <div class="doc-body">
+                <div class="doc-content">
+                    <div class="content-inner">
+                        <section id="concepts-section" class="doc-section">
+                            <h2 class="section-title">Concepts</h2>
+                            <div class="section-block">
+                                <p>Since SparkNLP runs on top of Spark, make sure you achieve a working spark-shell or
+                                    pyspark setup, and you understand how to include a library dependency into your
+                                    project. Please refer to the spark documentation to get started.
+                                </p>
+                            </div>
+                        </section>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                      role="tab" data-toggle="tab">Python</a>
+                            </li>
+                            <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                       data-toggle="tab">Scala</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="python">
+                                <div class="code-block">
+                                    <p>Run <b>spark-shell --jars /path/to/spark-nlp.jar</b> along with any spark options you
+                                        might want to use.</p>
+
+                                </div><!--//code-block-->
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="scala">
+                                <div class="code-block">
+                                    <div class="section-block">
+                                        <p>run <b>pyspark --jars /path/to/spark-nlp.jar</b> along with desired spark launcher
+                                            options.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--<section id="scala-section" class="doc-section">
+                            <h2 class="section-title">Scala</h2>
+                            <div class="section-block">
+                                <p>Run <b>spark-shell &#45;&#45;jars /path/to/spark-nlp.jar</b> along with any spark options you
+                                    might want to use.</p>
+                            </div>
+                        </section>
+                        <section id="python-section" class="doc-section">
+                            <h2 class="section-title">Python</h2>
+                            <div class="section-block">
+                                <p>run <b>pyspark &#45;&#45;jars /path/to/spark-nlp.jar</b> along with desired spark launcher
+                                    options.</p>
+                            </div>
+                        </section>-->
+                        <section id="concepts-2-section" class="doc-section">
+                            <h2 class="section-title">Concepts</h2>
+                            <div class="section-block">
+                                <p>One of Spark modules, called ML, provides a set of Machine Learning applications, and
+                                    it's logic consists of two main components: <b>Estimators</b> and
+                                    <b>Transformers</b>. The first, have a method called fit() which secures and trains
+                                    a piece of data to such application, and a <b>Transformer</b>, applies changes to
+                                    the result of an estimators plan. These components have been embedded to be
+                                    applicable to Spark NLP. <b>Pipelines</b> are a mechanism that allows multiple
+                                    transforms within a single process workflow of transformers, allowing multiple
+                                    chained transformations along a Machine Learning task.
+                                    Refer to Spark ML docs for further information and features.</p>
+                            </div>
+                        </section>
+                        <section id="document-section" class="doc-section">
+                            <h2 class="section-title">Document (Getting data into)</h2>
+
+                            <div id="step1" class="section-block">
+                                <p>
+                                    In SparkNLP, a <b>Document</b> is a raw-data container, which comes along with
+                                    related information of such entry. Every line of text, or piece of raw data, shall
+                                    be contained within a document <b>in order to be used by SparkNLP tasks.</b>
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <h6>A document is made of:</h6>
+                                        <ul class="list">
+                                            <li>text: raw-data.</li>
+                                            <li> id: an optional reference value.</li>
+                                            <li>metadata: optional information in the shape of a string dictionary.
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p>
+                                    A <b>Document</b> can be created by utilizing a <b>transformer</b> called <b>DocumentAssembler</b>.
+                                    This will take the elements of a Document in the shape of Dataset columns.
+                                </p>
+                                <div id="functions" class="section-block">
+                                    <h3 class="block-title">Functions</h3>
+                                    <ul class="list">
+                                        <li>setInputCol(col_name)</li>
+                                        <li>setIdColName(col_name)</li>
+                                        <li>setMetadataColName(col_name)</li>
+                                        <li>setOutputCol(col_name)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="doc-example" class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Example</h3>
+                                    <pre><code class="language-python">from sparknlp.base import DocumentAssembler
+data = spark. \
+  read. \
+  parquet("some_data.parquet")
+document_assembler = DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+document_assembler.transform(data).show()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="annotation-section" class="doc-section">
+                            <h2 class="section-title">Annotation (NLP Content)</h2>
+                            <div class="section-block">
+                                <p>An annotation is the basic form of the result of an NLP operation. It is made of:</p>
+                                <ul class="list">
+                                    <li><b>annotatorType:</b> which annotator generated this annotation</li>
+                                    <li><b>begin:</b> the begin of the matched content relative to raw-text</li>
+                                    <li><b>end:</b> the end of the matched content relative to raw-text</li>
+                                    <li><b>metadata:</b> content of matched result and additional information</li>
+                                </ul>
+                                <p>
+                                    This object is <b>automatically generated</b> by annotators. No manual work is
+                                    required. But it must be understood in order to extract information out of it. API
+                                    functions are provided in order to interact with annotations.
+                                </p>
+                            </div>
+                        </section>
+                        <section id="annotators-section" class="doc-section">
+                            <h2 class="section-title">Annotators</h2>
+                            <div class="section-block">
+                                <p>Annotators are the spearhead of NLP functionalities in SparkNLP. There are two types
+                                    of annotators:</p>
+                                <ul class="list">
+                                    <li><b>Annotator Approach:</b> Are those who represent a Spark ML Estimator and
+                                        require a training stage. They have a function called fit(data) which trains a
+                                        model based on some data. They produce the second type of annotator which is an
+                                        annotator model
+                                    </li>
+                                    <li><b>Annotator Model:</b> They are spark models or transformers, meaning they have
+                                        a <b>transform(data)</b> function which take a dataframe and add to it a column
+                                        with the result of this annotation.
+                                    </li>
+                                </ul>
+                                <p>
+                                    Both annotator types can be included in a Pipeline and will automatically go through
+                                    all stages in the provided order and transform the data accordingly. </p>
+                                <div id="anno-functions" class="section-block">
+                                    <h3 class="block-title">Functions</h3>
+                                    <ul class="list">
+                                        <li>setDocumentCol(column_name): Takes the column name that refers to the
+                                            Document column generated before
+                                        </li>
+                                        <li>setInputCols(column_names): Takes a list of column names of annotator
+                                            outputs required by this annotator
+                                        </li>
+                                        <li>setOutputCol(column_name): Defines the name of the column containing the
+                                            result of this annotator. Use this name as an input for other annotators
+                                            requiring this one.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="anno-doc-example" class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Example</h3>
+                                    <pre><code class="language-python">document_assembler = DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+tokenizer = RegexTokenizer()\
+  .setInputCols(["document"]) \
+  .setOutputCol("token")
+assembled = document_assembler.transform(data)
+tokenized = tokenizer.transform(assembled)
+tokenized.transform(data).show()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="annotators-type-section" class="doc-section">
+                            <h2 class="section-title">Annotator types</h2>
+                            <div class="section-block">
+                                <p>Every annotator has a type. Those annotators that share a type, can be used
+                                    interchangeably, meaning you could you use any of them when needed. For example,
+                                    when a token type annotator is required by another annotator, such as a sentiment
+                                    analysis annotator, you can either provide a normalized token or a lemma, as both
+                                    are of type token.
+                                <p>
+                            </div>
+                            <div id="using-pipelines" class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Using Pipelines</h3>
+                                    <pre><code class="language-python">document_assembler = DocumentAssembler() \
+            .setInputCol("text")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = RegexTokenizer() \
+            .setOutputCol("token")
+
+spell_checker = SpellChecker() \
+            .setInputCols(["token"]) \
+            .setOutputCol("spell")
+
+sentiment_detector = ViveknSentimentDetector() \
+    .setInputCols(["spell", "sentence"]) \
+    .setOutputCol("sentiment") \
+    .setPositiveSource("vivekn/positive") \
+    .setNegativeSource("vivekn/negative") \
+    .setPruneCorpus(False)
+
+pipeline = Pipeline(stages=[
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    spell_checker,
+    sentiment_detector
+])
+
+sentiment_data = pipeline.fit(data).transform(data)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="doc-sidebar hidden-xs">
+                    <nav id="doc-nav">
+                        <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                            <li><a class="scrollto" href="#concepts-section">Concepts</a></li>
+                            <li><a class="scrollto" href="#scala-section">Scala</a></li>
+                            <li><a class="scrollto" href="#python-section">Python</a></li>
+                            <li><a class="scrollto" href="#concepts-2-section">Concepts</a></li>
+                            <li>
+                                <a class="scrollto" href="#document-section">Document</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#functions">Functions</a></li>
+                                    <li><a class="scrollto" href="#doc-example">Example</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="scrollto" href="#annotation-section">Annotation</a></li>
+                            <li>
+                                <a class="scrollto" href="#annotators-section">Annotators</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#anno-functions">Functions</a></li>
+                                    <li><a class="scrollto" href="#anno-doc-example">Example</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="scrollto" href="#annotators-type-section">Annotator types</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#using-pipelines">Using Pipelines</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="footer" class="footer text-center">
+    <div class="container">
+        <p>© 2017 <a href="#">Privacy Policy</a> | <a href="#">Terms of Services</a> <a href=""> <i class="fa fa-github" style="float: right;" aria-hidden="true">Github</i></a></p>
+    </div>
+</footer>
+
+<!-- Main Javascript -->
+<script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
+
+</body>
+</html> 
+

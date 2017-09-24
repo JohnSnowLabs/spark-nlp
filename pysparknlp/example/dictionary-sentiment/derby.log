@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Sep 24 02:49:01 ART 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015e-b26e-855b-00000ef0cf10 
+on database directory /home/saif/IdeaProjects/spark-nlp/pysparknlp/example/dictionary-sentiment/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@220025b0 
+Loaded from file:/home/saif/apps/spark-2.1.1-bin-hadoop2.7/jars/derby-10.12.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_144-8u144-b01-1-b01
+user.dir=/home/saif/IdeaProjects/spark-nlp/pysparknlp/example/dictionary-sentiment
+os.name=Linux
+os.arch=amd64
+os.version=4.12.0-1-amd64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

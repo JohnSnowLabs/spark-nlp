@@ -1,0 +1,153 @@
+Patient ID: Mr. H
+
+History and Physical conducted by: MD
+
+History and Physical conducted on: October 1, 2007
+
+Source: The patient gives his own history and appears to be a reliable source.
+
+Chief Complaint: Abdominal pain
+History of Present Illness
+
+Mr. H is a 65 year old white male with a past medical history significant for an MI and depression who presents today complaining of sharp, epigastric abdominal pain of 3-4 months duration. The abdominal pain has been gradually worsening over the past 3-4 months. The pain has not changed or worsened acutely; Mr. H seeks care for the pain at this time because he is now covered by Medicare. The pain is located in the epigastric region and left upper quadrant of the abdomen. It does not radiate. The pain is relatively constant throughout the day and night but does vary in severity. Mr. H rates the pain as 6/10 at its worst. Mr. H describes the pain as a “sharp, burning” pain. He has not tried taking any medicines to relieve the pain. The pain is not alleviated with rest. Mr. H thinks the pain may be aggravated by throwing the football, but he has also experienced the pain independent of playing football or exerting himself. The pain is not associated with food or eating, although Mr. H does endorse occasional heartburn. Mr. H thinks the pain may at times be worse on laying down, and it does wake him up at night. Mr. H denies any abdominal trauma or injury. He endorses a 5lb weight loss over the past 3-4 months, decreased appetite, and fatigue. He has experienced some drenching night sweats, requiring him to change his shirt but not his sheets. He describes a “lump in his throat” with associated dysphagia. He has experienced some nausea with the abdominal pain but has not vomited. He endorses constipation. He endorses bloody stools with some bowel movements. The blood is dark red in color and is not bright red. There is a sufficient amount of blood to turn the toilet water red. Mr. H does not know how many times per week he experiences this bleeding. He has not seen a bloody bowel movement in the past week.
+Past Medical History
+
+Other active problems:
+
+    Hypertension, diagnosed “years ago,” well-controlled with Metoprolol
+    Depression, poorly controlled; started Prozac 6 months ago but still feels depressed
+
+Hospitalizations: MI, 2004
+
+Surgeries/procedures: Cardiac catheterization, post-MI, 2004
+Medications
+
+Aspirin 81mg po qd since his MI 3 years ago
+
+Metoprolol 100mg po qd “for years”
+
+Prozac 20mg po qd; Started 6 months ago
+
+Protonix discontinued 12-18 months ago
+
+Allergies: No Known Drug Allergies, no food or insect allergies
+FH
+
+Mother died at age 74 of “natural causes”; mother had HTN “for many years”
+
+Father’s medical history not known
+
+No known family history of colon cancer.
+SH
+
+Mr. H is a retired factory worker. He is divorced and has six children and one grandchild, whom he sees almost daily. Despite this, Mr. H says he still often feels alone, isolated, and depressed. He denies past or present tobacco and illicit drug use. He denies alcohol use. Mr. H does not have health insurance but is now covered by Medicare.
+ROS
+
+General – As indicated in the HPI, denies fevers or chills; endorses decreased appetite and a 5lb weight loss over the past 3-4 months; endorses fatigue
+
+HEENT:
+
+    Head – denies headache, dizziness, syncope
+    Ears – denies difficulty or changes in his hearing, denies tinnitis
+    Eyes – denies problems or changes in his vision; denies blurred vision; denies seeing spots
+    Nose – Not assessed
+    Throat – complains of a “lump in his throat;” endorses dysphagia
+
+Cardiovascular – denies chest pain; denies palpitations
+
+Pulmonary – denies shortness of breath, denies cough
+
+Gastrointestinal – As indicated in the HPI, complains of sharp, epigastric abdominal pain; endorses constipation, denies diarrhea; endorses bloody stools
+
+Genitourinary – denies dysuria; denies increased frequency or urgency of urination
+
+Neurologic – denies numbness and tingling; denies paresthesias
+
+Muskuloskeletal – endorses abdominal pain occasionally after throwing the football; denies any muscle or joint pain
+
+Endocrine – not assessed
+
+Hematopoietic – denies easy bruising
+Physical Exam
+
+Vital signs: Ht 5’10” Wt 160lbs HR 72 RR 16 BP 126/78 Temp Not measured
+
+General: Mr. H is a depressed-appearing white male in no acute distress.
+
+HEENT: Not examined
+
+Lymph nodes: Non-tender, no palpable masses
+
+Neck: No masses
+
+Cardiovascular: Regular rate and rhythm; normal S1, S2; no murmurs, rubs, or gallops
+
+Lungs: Lungs clear to auscultation bilaterally; No wheezes or crackles
+
+Abdominal:
+
+    Abdomen soft and non-distended with no scars or striations
+
+    No pulsatile masses, no abdominal bruits ascultated
+    Spleen not palpable, liver not palpable
+    Tender to palpation in epigastric region and left upper quadrant; No reflex tenderness; No guarding; Murphy’s sign negative
+
+Rectal: Hemoccult positive
+
+Genito-urinary: Not examined
+
+Neurologic: Not examined
+
+Muskuloskeletal: Not examined
+
+Laboratory Data: None collected
+
+Diagnostic Tests: Hemoccult positive stool
+Problem List
+
+    Abdominal pain, bloody stools
+    Depression
+    Hypertension
+
+Problem #1: Abdominal pain, bloody stools
+
+Differential diagnosis: colorectal adenocarcinoma, gastric ulcer, duodenal ulcer, GERD, intestinal obstruction, anxiety or depression related, abdominal aortic aneurysm, pancreatitis, pancreatic cancer
+
+Discussion:
+
+Given Mr. H’s age, history of bloody stools, hemoccult positive stools on exam today, and the gravity of missing a cancer diagnosis, colorectal adenocarcinoma should be considered first in the differential. “Increasing age is probably the single most important risk factor for colorectal cancer in the general population. [Risk] increases steadily to age 50, after which it doubles with each decade” (Ruben, 608). Colon cancer is usually initially clinically silent and most commonly presents as hemoccult positive stools. However, large tumors can cause intestinal obstruction and associated constipation and abdominal pain. “A positive test result for fecal occult blood predicts the presence of a cancer or an adenoma in 50% of cases” (Ruben, 609). “Colon cancer is the second leading cause of cancer-related death in the United States” (American Cancer Society). However, if detected early and at a low stage, surgery can be curative.
+
+Thus, at age 65, Mr. H is at risk for colorectal cancer. Furthermore, Mr. H’s bloody stools, hemoccult positive stool, weight loss, constipation, and abdominal pain are worrisome for cancer and possible intestinal obstruction by tumor. Therefore, based on this clinical presentation and the life-saving importance of early detection, Mr. H should first be evaluated for colon cancer by colonoscopy.
+Gastric and duodenal ulcers can also cause epigastric abdominal pain and bloody stools, secondary to gastric bleeding. “The symptoms of gastric and duodenal ulcers are similar…[both are] characterized by epigastric pain 1 to 3 hours after a meal, or that awakens the patient at night” (Ruben, 567). Heartburn, nausea, and weight loss can also occur with gastric and duodenal ulcers. Although Mr. H does not associate his abdominal pain with food or meals, his pain does wake him up at night. Furthermore, Mr. H’s abdominal pain onset 2 months after discontinuing Protonix, and he has experienced heartburn, nausea, bloody stools, and weight loss, all of which can be associated with gastric and duodenal ulcers. Therefore, gastric and duodenal ulcers should be considered next in the differential (Ruben, 567-568)
+
+Gastroesophageal reflux disease (GERD) can also cause epigastric abdominal pain. Based on the onset of Mr. H’s abdominal pain 2 months after discontinuing Protonix, and his symptoms of a lump in his throat, dysphagia, heartburn, and nausea, GERD should be considered next in the differential (Ruben, 553-555).
+
+Restarting Protonix therapy will decrease the amount of acid produced in Mr. H’s stomach and should alleviate symptoms resulting from gastric and duodenal ulcers and GERD. Therefore, if Mr. H’s abdominal pain is relieved with Protonix therapy, it can be attributed to one of these gastric-acid based conditions.
+
+Finally, intestinal obstruction secondary to chronic constipation should be considered as a possible contributing factor to Mr. H’s abdominal pain. While such an obstruction could explain Mr. H’s pain, it does not explain his worrisome symptoms of bloody stools or the finding of hemoccult positive stool and should therefore be considered in addition to another, more complete, explanation.
+
+Similarly, anxiety or depression related abdominal pain, abdominal aortic aneurysm, pancreatitis, and pancreatic cancer would not explain Mr. H’s bleeding and, like intestinal obstruction, should only be considered in addition to another, more complete, explanation.
+
+Diagnostic plan: Colonoscopy to evaluate the colon for presence of polyps or tumors
+
+Therapeutic plan:
+
+    If colon cancer is detected on colonoscopy, refer Mr. H to a GI oncologist.
+    Restart Protonix therapy
+    Treat constipation with laxative as needed or daily Metamucil
+
+Patient Education: The importance of colonoscopy screening for colon cancer was discussed with the patient.
+
+ 
+
+Problem #2: Depression
+
+Therapeutic plan: Continue Prozac 20mg po qd for now. Consider switching to a different anti-depressant. Discuss counseling and therapy options.
+
+ 
+
+Problem #3: Hypertension
+
+Therapeutic plan: Continue metoprolol 100mg po qd
+
+Patient education: The importance of dietary salt and fat restriction and exercise were discussed with the patient.

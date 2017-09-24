@@ -1,0 +1,267 @@
+CR 
+Name
+: Ms. X 
+Reporter
+: Ms. X, who was very reliable 
+ID
+: This is a 42 year old woman 
+Chief Complaint
+: Pain and swelling in
+ the lower right leg. 
+HPI:
+ This is a 42 year old lady who travels 
+frequently, has a history of melanoma, and 
+h/o traumatic splenectomy who comes in today with a 4 day history of intermittent, 
+stabbing pain in the right leg near the calf. On
+ Friday she returned from a business trip in 
+Ireland. On Saturday morning she was running 
+when she fell and abra
+ded her right lower 
+leg. She thinks that she tri
+pped, as this was early in th
+e morning and it was dark. She 
+cleaned the wound and applied Neosporin. The pain
+ developed that day 
+in her calf, in an 
+area of the leg close to but not within the ab
+raded area. She describes the pain as stabbing 
+and sometimes throbbing, with a 3-5 pain rating on a scale of 1-10. It seems to be 
+ameliorated by elevation, ice and Ibuprofe
+n. The pain comes more frequently with 
+walking, and has interfered with both her exer
+cise and her work. It is also worse when 
+she presses on the area. The pain is getting wo
+rse. She says the scraped area appears to be 
+healing.  She denies any feeling of tiredness, 
+fever, chills, paresthesia, numbness and is 
+able to walk on the leg. She also denies any ch
+est pain or shortness of breath. swelling in 
+the leg  She has never been previously diagnos
+ed with a blood clot. 
+She is a smoker, 20 
+pack years. She is not on birth control. Sh
+e has no history of hypertension. 12 years ago 
+she had a splenectomy following an accident, and says she has had the vaccinations her 
+doctor recommended. 10 years ago she had 
+a melanoma of unknown stage removed from 
+her left arm, and continues to 
+follow up with her dermatologist.  
+PMH:
+1.
+Splenectomy following a ruptured spleen from a car accident 
+2.
+Melanoma of unknown stage, removed 10 years ago 
+3.
+High cholesterol, under control 
+4.
+She has never been pregnant, and con
+tinues to have her period regularly 
+5.
+She is up to date on her pap smears, mammograms and colonoscopies.  
+6.
+Pneumonia at 7 years old 
+Current Medications:
+Lipitor, for high cholesterol 
+Multivitamin 
+Baby aspirin every day 
+Allergies
+:   None known 
+Social History
+: The patient is a single, never married, woman who lives alone. She is the 
+vice president of a small pharmaceutical comp
+any, a job that has involved travel to 
+Europe, Africa and Asia within the last year
+. She smokes 1 pack of cigarettes a day, 20-
+pack year, and drinks al
+cohol 2-3 times a week.  
+Family History
+: 
+Father: MI at 72, hypertension, still living 
+Mother: Colon cancer, hyperten
+sion, diabetes, still living 
+Physical Exam:
+Vital Signs
+: BP 124/66, HR 88, RR 12, Temp. 37.3 C 
+General
+: Pleasant and intelligent 42 year 
+old female in no immediate distress 
+Skin
+: There is an area of abrasion on the right
+ lower leg, no erythema over painful area 
+Lymph Nodes
+: There is no inguinal lymphadenopathy 
+Musculoskeletal
+: The right leg is swollen about 1 cm
+ more than the left leg. Positive 
+Homans’sign. 
+Problem List:
+1.
+Painful lower right leg 
+2.
+Abraded lower right leg 
+3.
+Melanoma 
+4.
+ High cholesterol, c
+ontrolled with Lipitor 
+5.
+Smoking 
+6.
+Splenectomy 
+7.
+History of melanoma 
+8.
+Familial History of Colon Cancer 
+Differential Diagnosis
+:  
+1.
+Deep Vein Thrombosis
+: This patient’s history of smoking, recent stasis with 
+travel and a possibility of cancer recu
+rrence make DVT a possible diagnosis. 
+DVT is also the most immediately fatal pos
+sibility, and so it must be considered 
+first. It is not the DVT itself that 
+is dangerous, for there is usually enough 
+compensating veins to retu
+rn the blood eventually, 
+but rather the pulmonary 
+embolism that can result when a DVT move
+s from its original position. 5-20% of 
+Calf DVTs progress to pulmonary embolis
+m, and 20-30% progress to the thigh, 
+which increases the chances of pulmonary embolism to 50%
+1
+. According to 
+Harrison’s Principle of Internal Medici
+ne, a DVT in the calf is difficult to 
+diagnosis from physical examination alone
+. Symptoms may include “calf pain... 
+posterior calf tenderness, warmth, incr
+eased tissue turgor or modest swelling... 
+Homans’ sign is an unreliable diagnostic sign.”
+2
+ By Wells' Pretest Probability 
+criteria of suspected Deep Vein Thrombos
+is, this patient has 
+a score of -2, giving 
+her a Low pretest probability. Even if
+ she does have an undiagnosed active 
+cancer, her score would be in the same proba
+bility with a score of -1. Therefore, a 
+negative ultrasound of the ar
+ea is enough to rule out a DVT. In addition, a D-
+Dimer result of less than 200 to 500 ng/mL
+ with a Low Wells score has a 99% 
+negative predictive value for ruling out
+ DVT. However, these scores were 
+developed in secondary care 
+centers, and patients presenting to primary care have 
+a higher rate of missed DVT.
+ 3
+ Therefore, an ultrasound should be done, 
+regardless of the D-Dimer score. 
+2.
+Stress Fracture of the Tibia
+: Many of the patient’s symptoms are suggestive of a 
+stress fracture: she has a sharp, locali
+zed pain and tenderness, some swelling 
+without erythema, and the pain is exacerba
+ted with walking. Stress fractures often 
+occur in athletes such as runners from 
+overuse, but other causes can include poor 
+footwear, running on uneven terrain, and nutrition problems such as anorexia and 
+osteoporosis. An x-ray could confirm a st
+ress fracture, but confirmation occurs 
+less than 50% of the time in the first two weeks following the injury. Mild stress 
+fractures are treated with elevation and i
+ce, and switching or a
+voiding the exercise 
+that caused the fracture for 6 weeks. 
+4
+3.
+Muscle Strain
+: It is possible that this lady 
+has pulled a muscle in her leg. 
+Diagnosis of a muscle injury when there is
+ no restriction in movement is difficult, 
+and the treatment is the same as for a stress fracture.  
+4.
+Cellulitis
+: Cellulitis in a lower limb is alwa
+ys a differential diagnosis for DVT. I 
+think an infection of the skin is unlikel
+y in this patient because there is no 
+erythema, local lymphadenopathy, abscesses 
+or lesions. Also the pain is coming 
+from deep in the leg, not th
+e upper skin and fat layer. 
+Her history of splenectomy 
+makes the possibility of infection by encap
+sulated bacteria worrisome, but at this 
+point her symptoms suggest
+ a different diagnosis.
+5
+5.
+Ruptured Baker’s Cyst
+: A Baker’s cyst is a popliteal
+ bursitis that results from 
+overuse of the knee. This patient has 
+no history suggestive of a Baker’s Cyst, 
+since there was no pain, swelling, or moveme
+nt restriction of the knee prior to her 
+fall. A ruptured Baker’s Cyst can result in
+ pain in the posterior calf muscles, and 
+treatment is directed to the underlying cause or disease.  
+6
+Plan:
+Diagnostic:  I recommend immediate duplex 
+venous ultrasonography 
+of her right lower 
+leg. The sensitivity of this test for calf DVT 
+is 75%. I would not do 
+a D-Dimer test, since 
+both a positive and a negative D-Dimer will lead
+ to an ultrasound as the next step. Her 
+pre-test probability of DVT is low, so pr
+ovided the D-Dimer test 
+is negative, I would 
+Therapeutic plan:  advise this 
+patient to continue to let the 
+leg rest as she has been doing, 
+with elevation and ice. An x-ray for a stress fr
+acture of the tibia is positive less than 50% 
+of the time in the first two weeks following an
+ injury, so I would get an x-ray but treat 
+even if negative. If a stress 
+fracture is diagnosed, we would 
+need to talk about footwear, 
+proper running technique, nutr
+ition, etc. Crutches might be helpful if walking continues 
+to be a problem. She may return to work
+ provided she not doing any strenuous activity 
+while there. If she noted any changes in the 
+pain or in the wound, I 
+would advise her to 
+come back in for further 
+examination. If she has any shortness of 
+breath, she should go immediately to the 
+emergency room. 
+Patient Education:  Move around more when flying to avoid DVT 
+1
+ Harrison’s Manual of Medicine, 16
+th
+ Ed. p. 1492 
+2
+ Ibid 
+3
+ UpToDate "Diagnosis of suspected deep 
+vein thrombosis of the lower extremity" 
+4
+ UpToDate "Stress fractures of the tibia and fibula" 
+5
+ UpToDate "Epidemiology, clinical feat
+ures, and the diagnosis of cellulitis" 
+6
+ UpToDate "Evaluation of the 
+Adult patient with knee pain" 

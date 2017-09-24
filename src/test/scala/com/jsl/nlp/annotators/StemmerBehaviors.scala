@@ -1,0 +1,24 @@
+package com.jsl.nlp.annotators
+
+import com.jsl.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
+import org.apache.spark.sql.{Dataset, Row}
+import org.scalatest._
+
+trait StemmerBehaviors { this: FlatSpec =>
+
+  def fullStemmerPipeline(dataset: => Dataset[Row]) {
+    "A Stemmer Annotator" should "successfully transform data" in {
+      AnnotatorBuilder.withFullStemmer(dataset)
+        .collect.foreach {
+        row =>
+          row.getSeq[Row](2)
+            .map(Annotation(_))
+            .foreach {
+              case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
+                println(stem, stem.metadata.mkString(", "))
+              case _ => ()
+            }
+      }
+    }
+  }
+}
