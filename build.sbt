@@ -59,7 +59,7 @@ copyAssembledJar := {
 
 // sbt-spark-package settings
 
-spName := "jhonsnowlabs/spark-nlp"
+spName := "johnsnowlabs/spark-nlp"
 
 sparkComponents ++= Seq("mllib")
 
