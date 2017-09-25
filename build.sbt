@@ -1,6 +1,6 @@
 name := "spark-nlp"
 
-organization := "jhonsnowlabs"
+organization := "johnsnowlabs"
 
 version := "1.0.0"
 
