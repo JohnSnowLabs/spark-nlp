@@ -81,13 +81,22 @@ data = spark. \
 data.cache()
 data.count()
 data.show()
-                                                                                                         In [ ]:
+
+### Define the dataframe                                                               In [ ]:
 document_assembler = DocumentAssembler() \
             .setInputCol("text")
+### Transform input to appropriate schema
+#assembled = document_assembler.transform(data)
 
+### Sentence detector
+sentence_detector = SentenceDetectorModel() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+#sentence_data = sentence_detector.transform(checked)
                                                                                                          In [ ]:
 ### Tokenizer
 tokenizer = RegexTokenizer() \
+            .setInputCols(["sentence"]) \
             .setOutputCol("token")
 #tokenized = tokenizer.transform(assembled)
                                                                                                          In [ ]:
@@ -97,49 +106,29 @@ spell_checker = NorvigSweetingApproach() \
             .setOutputCol("spell")
 #checked = spell_checker.fit(tokenized).transform(tokenized)
                                                                                                          In [ ]:
-### Sentence detector
-sentence_detector = SentenceDetectorModel() \
-    .setInputCols(["spell"]) \
-    .setOutputCol("sentence")
-#sentence_data = sentence_detector.transform(checked)
-                                                                                                         In [ ]:
 sentiment_detector = ViveknSentimentApproach() \
     .setInputCols(["spell", "sentence"]) \
     .setOutputCol("sentiment") \
     .setPositiveSource("../positive") \
     .setNegativeSource("../negative") \
     .setPruneCorpus(False)
+
+finisher = Finisher() \
+    .setInputCols(["sentiment"]) \
+    .setIncludeKeys(True) \
+    .setCleanAnnotations(False)
                                                                                                          In [ ]:
 pipeline = Pipeline(stages=[
     document_assembler,
+    sentence_detector,
     tokenizer,
     spell_checker,
-    sentence_detector,
-    sentiment_detector
+    sentiment_detector,
+    finisher
 ])
 
-def _extract_metadata(rows):
-    r = []
-    for row in rows:
-        row_dict = row.asDict()
-        r.append(list(row_dict["metadata"].values()))
-    return r
-extract_metadata = udf(_extract_metadata, returnType=ArrayType(ArrayType(StringType())))
-
-sentiment_data = pipeline.fit(data).transform(data).withColumn("sent", extract_metadata("sentiment")).select("sent")
-                                                                                                        In [ ]:
-
-for r in sentiment_data.take(5):
-    print(r)
-                                                                                                        In [ ]:
-pipeline.write().overwrite().save("./ps")
-pipeline.fit(data).write().overwrite().save("./ms")
-                                                                                                        In [ ]:
-from pyspark.ml import Pipeline,PipelineModel
-                                                                                                        In [ ]:
-Pipeline.read().load("./ps")
-PipelineModel.read().load("./ms")
-                                                                                                        In [ ]:
+sentiment_data = pipeline.fit(data).transform(data)
+sentiment_data.show()
  </code></pre>
 
                                 </div><!--//section-block-->
