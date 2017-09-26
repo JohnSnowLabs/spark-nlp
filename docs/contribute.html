@@ -68,7 +68,13 @@
                                     <div class="answer">
                                         <p>Refer to <b>our GitHub</b> page to take a look at the issues page, as the project is yet small. You can create in there your own issues to either work on them yourself or simply propose them.<br><br>
                                             Feel free to clone the repository locally and submit pull requests so we can review them and work together.<br>
-                                            Help is always welcome, for any further questions, contact <a href="mailto:nlp@johnsnowlabs.com" target="_blank">john@johnsnowlabs.com</a>.</p>
+                                            <ul>
+                                        <li>feedback, ideas and bug reports</li>
+                                        <li>testing and development</li>
+                                        <li>training and testing nlp corpora</li>
+                                        <li>documentation and research</li>
+                                    </ul>
+                                            Help is always welcome, for any further questions, contact <a href="mailto:nlp@johnsnowlabs.com" target="_blank">nlp@johnsnowlabs.com</a>.</p>
 
                                     </div><!--//anwser-->
                                     
@@ -76,7 +82,69 @@
                                     
                                 </div><!--//section-block-->
                             </section><!--//doc-section-->
-                            
+                            <section id="create-annotator-section" class="doc-section">
+                                <h2 class="section-title">Your own annotator model</h2>
+                                <div class="section-block">
+                                    <p>
+                                    Creating your first annotator transformer should not be hard,
+                                    here are a few guidelines to get you started.
+                                    Lets assume we want a wrapper annotator, which puts a character
+                                    surrounding tokens provided by a Tokenizer
+                                    <p>
+                                </div>
+                                <div id="anno-create-example" class="section-block">
+                                    <div class="code-block">
+                                        <h3 class="block-title">WordWrapper</h3>
+                                        <p>
+                                            uid is utilized for transformer serialization,
+                                            AnnotatorModel[MyAnnotator] will contain the common annotator logic
+                                            We need to use standard constructor for java and python compatibility
+                                        </p>
+                                        <pre><code class="language-python">class WordWrapper(override val uid: String) extends AnnotatorModel[WordWrapper] {
+                                            def this() = this(Identifiable.randomUID("WORD_WRAPPER"))
+                                        }</code></pre>
+                                    </div>
+                                    <div class="code-block">
+                                        <h3 class="block-title">Annotator attributes</h3>
+                                        <p>
+                                            We need to establish the type of our annotator, which means its identifier when used by another annotator
+                                            And also  need to define which other annotators we require, for this example,
+                                            we will work with tokens
+                                        </p>
+                                        <pre><code class="language-python">import com.jsl.nlp.AnnotatorType._
+                                            override val annotatorType: AnnotatorType = TOKEN
+                                            override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](TOKEN)</code></pre>
+                                    </div>
+                                    <div class="code-block">
+                                        <h3 class="block-title">Annotator parameters</h3>
+                                        <p>
+                                            This annotator is not flexible if we don't provide parameters
+                                        </p>
+                                        <pre><code class="language-python">protected val character: Param[String] = new Param(this, "character", "this is the character used to wrap a token")
+                                            def setCharacter(value: String): this.type = set(pattern, value)
+                                            def getCharacter: String = $(pattern)
+                                            setDefault(character, "@")
+                                        </code></pre>
+
+                                    </div>
+                                    <div class="code-block">
+                                        <h3 class="block-title">Annotator logic</h3>
+                                        <p>
+                                            Here is how we act, annotations will automatically provide our required annotations
+                                            We generally use annotatorType for metadata keys
+                                        </p>
+                                        <pre><code class="language-python">override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+                                            annotations.map(annotation => {
+                                              Annotation(
+                                                annotatorType,
+                                                annotation.begin,
+                                                annotation.end,
+                                                Map(annotatorType -> $(character) + annotation.metadata(DOCUMENT) + $(character))
+                                            })
+                                          }</code></pre>
+                                    </div>
+                                </div>
+                            </section>
 
                         </div><!--//content-inner-->
                     </div><!--//doc-content-->

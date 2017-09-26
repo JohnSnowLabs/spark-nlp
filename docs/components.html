@@ -87,19 +87,18 @@
                                                 Creates tokens starting up from a regular expression. Defaults to
                                                 "\w+"<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
-                                                <b>Functions:</b> --<br>
-                                                <b>Example:</b><br>
+                                                <b>Requires:</b> Document<br>
+                                                <b>Functions:</b>
+                                          <ul>
+                                            <li>
+                                              setPattern(pattern): Regular expression for tokenization
+                                            </li>
+                                          </ul><br>
+                                          <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">document_assembler = DocumentAssembler() \
-  .setInputCol("text") \
-  .setOutputCol("document")
-tokenizer = RegexTokenizer()\
-  .setDocumentCol("document") \
-  .setOutputCol("token")
-assembled = document_assembler.transform(data)
-tokenized = tokenizer.transform(assembled)
-tokenized.transform(data).show()</code></pre>
+                                            <pre><code class="language-python">tokenizer = RegexTokenizer() \
+  .setInputCols(["sentences"]) \
+  .setOutputCol("token")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -108,12 +107,17 @@ tokenized.transform(data).show()</code></pre>
                                                 Creates tokens starting up from a regular expression. Defaults to
                                                 "\w+"<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
-                                                <b>Functions:</b> --<br>
-                                                <b>Example:</b><br>
+                                                <b>Requires:</b> Document<br>
+                                                <b>Functions:</b>
+                                          <ul>
+                                            <li>
+                                              setPattern(pattern): Regular expression for tokenization
+                                            </li>
+                                          </ul><br>
+                                          <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val regexTokenizer = new RegexTokenizer()
-  .setInputCols(Array("sentence"))
+  .setInputCols("sentence")
   .setOutputCol("token")</code></pre>
                                         </div><!--//code-block-->
 
@@ -135,13 +139,11 @@ tokenized.transform(data).show()</code></pre>
                                             <p>
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
-                                                <b>Functions:</b> --<br>
+                                                <b>Requires:</b> Token<br>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">document_anormalizer = Normalizer() \
-  .setDocumentCol("document") \
-  .setInputAnnotationsCols(["tokens"]) \
+                                            <pre><code class="language-python">normalizer = Normalizer() \
+  .setInputCols(["token"]) \
   .setOutputCol("normalized")</code></pre>
                                         </div><!--//code-block-->
 
@@ -152,12 +154,11 @@ tokenized.transform(data).show()</code></pre>
                                             <p>
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
-                                                <b>Functions:</b> --<br>
+                                                <b>Requires:</b> Token<br>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val normalizer = new Normalizer()
-  .setInputCols(Array("stem"))
+  .setInputCols(Array("token"))
   .setOutputCol("normalized")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -167,8 +168,8 @@ tokenized.transform(data).show()</code></pre>
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
                                     </li>
-                                    <!--     <li role="presentation"><a href="#scala" aria-controls="profile" role="tab" data-toggle="tab">Scala</a></li>
-                                    --> </ul>
+                                         <li role="presentation"><a href="#scala" aria-controls="profile" role="tab" data-toggle="tab">Scala</a></li>
+                                     </ul>
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
@@ -177,17 +178,29 @@ tokenized.transform(data).show()</code></pre>
                                                 meaningful
                                                 part of the word<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
-                                                <b>Functions:</b> --<br>
+                                                <b>Requires:</b> Token<br>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">document_astemmer = Stemmer() \
-  .setDocumentCol("document") \
-  .setInputAnnotationsCols(["tokens"]) \
-  .setOutputCol("stems")</code></pre>
+                                            <pre><code class="language-python">stemmer = Stemmer() \
+  .setInputCols(["token"]) \
+  .setOutputCol("stem")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
-                                    <!--<div role="tabpanel" class="tab-pane" id="scala">Scala</div>-->
+                                  <div role="tabpanel" class="tab-pane active" id="scala">
+                                    <div class="code-block">
+                                      <p>
+                                        Returns hard-stems out of words with the objective of retrieving the
+                                        meaningful
+                                        part of the word<br>
+                                        <b>Type:</b> Token<br>
+                                        <b>Requires:</b> Token<br>
+                                        <b>Example:</b><br>
+                                      </p>
+                                      <pre><code class="language-python">val stemmer = new Stemmer()
+  .setInputCols(Array("token"))
+  .setOutputCol("stem")</code></pre>
+                                    </div><!--//code-block-->
+                                  </div>
                                 </div>
 
                                 <h4 id="Lemmatizer" class="section-block"> 4. Lemmatizer: Lemmas</h4>
@@ -206,7 +219,7 @@ tokenized.transform(data).show()</code></pre>
                                                 dictionary
                                                 word<br>
                                                 <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
+                                                <b>Requires:</b> Token<br>
                                                 <b>Input:</b> abduct -> abducted abducting abduct abducts<br>
                                                 <b>Functions:</b> --<br>
                                             <ul>
@@ -221,7 +234,7 @@ tokenized.transform(data).show()</code></pre>
   .setDocumentCol("document") \
   .setInputCols(["token"]) \
   .setOutputCol("lemma") \
-  .setDictionary("../src/test/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")</code></pre>
+  .setDictionary("./lemmas001.txt")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -245,15 +258,7 @@ tokenized.transform(data).show()</code></pre>
                                             <pre><code class="language-python">val lemmatizer = new Lemmatizer()
   .setInputCols(Array("token"))
   .setOutputCol("lemma")
-  .setLemmaDict("/lemmas001.txt")
-val tokenized = withTokenizer(dataset)
-
-val lemmatizer = new Lemmatizer()
-  .setInputCols(Array("token"))
-  .setOutputCol("lemma")
-  .setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
-val tokenized = withTokenizer(dataset)
-lemmatizer.transform(tokenized)</code></pre>
+  .setLemmaDict("./lemmas001.txt")</code></pre>
                                         </div>
                                     </div>
                                 </div>
@@ -273,8 +278,8 @@ lemmatizer.transform(tokenized)</code></pre>
                                                 Uses a reference file to match a set of regular expressions and put them
                                                 inside
                                                 a provided key. File must be comma separated.<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
+                                                <b>Type:</b> Regex<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Input:</b> "the\s\w+", "followed by 'the'"<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
@@ -291,7 +296,6 @@ lemmatizer.transform(tokenized)</code></pre>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">regex_matcher = RegexMatcher() \
-  .setDocumentCol("document") \
   .setStrategy("MATCH_ALL") \
   .setOutputCol("regex")</code></pre>
                                         </div><!--//code-block-->
@@ -302,8 +306,8 @@ lemmatizer.transform(tokenized)</code></pre>
                                                 Uses a reference file to match a set of regular expressions and put them
                                                 inside
                                                 a provided key. File must be comma separated.<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Requires:</b> None<br>
+                                                <b>Type:</b> Regex<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Input:</b> "the\s\w+", "followed by 'the'"<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
@@ -341,10 +345,10 @@ lemmatizer.transform(tokenized)</code></pre>
                                             <p>
                                                 Annotator to match entire phrases provided in a file against a
                                                 Document<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Input:</b> hello world, I am looking for you<br>
-                                                <b>Requires:</b> None. Optionally takes sbd<br>
-                                                <b>Functions:</b> <br>
+                                                <b>Type:</b> Entity<br>
+                                                <b>Requires:</b> Document<br>
+                                              <b>Input:</b> hello world, I am looking for you<br>
+                                              <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
                                                     setMaxLen(number): Maximum amount of words to look from relative
@@ -362,10 +366,9 @@ lemmatizer.transform(tokenized)</code></pre>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import *
-entity_extractor = EntityExtractor() \
-  .setDocumentCol("document") \
-  .setMaxLen(4)</code></pre>
+                                            <pre><code class="language-python">entity_extractor = EntityExtractor() \
+  .setMaxLen(4) \
+  .setOutputCol("entity")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -373,10 +376,10 @@ entity_extractor = EntityExtractor() \
                                             <p>
                                                 Annotator to match entire phrases provided in a file against a
                                                 Document<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Input:</b> hello world, I am looking for you<br>
-                                                <b>Requires:</b> None. Optionally takes sbd<br>
-                                                <b>Functions:</b> <br>
+                                                <b>Type:</b> Entity<br>
+                                                <b>Requires:</b> Document<br>
+                                              <b>Input:</b> hello world, I am looking for you<br>
+                                              <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
                                                     setMaxLen(number): Maximum amount of words to look from relative
@@ -396,8 +399,7 @@ entity_extractor = EntityExtractor() \
                                             </p>
                                             <pre><code class="language-python">val entityExtractor = new EntityExtractor()
   .setMaxLen(4)
-  .setOutputCol("entity")
-entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
+  .setOutputCol("entity")</code></pre>
                                         </div>
                                     </div>
                                 </div>
@@ -417,8 +419,8 @@ entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
                                                 Reads from different forms of date and time expressions and converts
                                                 them to a
                                                 provided date format<br>
-                                                <b>Type:</b> date<br>
-                                                <b>Requires:</b> None<br>
+                                                <b>Type:</b> Date<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -430,7 +432,6 @@ entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">date_matcher = DateMatcher() \
-  .setDocumentCol("document") \
   .setOutputCol("date") \
   .setDateFormat("yyyyMM")</code></pre>
                                         </div><!--//code-block-->
@@ -441,8 +442,8 @@ entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
                                                 Reads from different forms of date and time expressions and converts
                                                 them to a
                                                 provided date format<br>
-                                                <b>Type:</b> date<br>
-                                                <b>Requires:</b> None<br>
+                                                <b>Type:</b> Date<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -473,26 +474,25 @@ entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 Finds sentence bounds in raw text.<br>
-                                                <b>Type:</b> sbd<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Type:</b> Document<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentence_detector = SentenceDetector() \
-  .setDocumentCol("document") \
-  .setInputCols(["token"]) \
-  .setOutputCol("sentence")</code></pre>
+                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
                                                 Finds sentence bounds in raw text.<br>
-                                                <b>Type:</b> sbd<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Type:</b> Document<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
-  .setInputCols(Array("document"))
+  .setInputCols("document")
   .setOutputCol("sentence")</code></pre>
                                         </div>
                                     </div>
@@ -511,55 +511,10 @@ entityExtractor.transform(withFullLemmatizer(dataset))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 Sets a POS tag to each word within a sentence<br>
-                                                <b>Type:</b> pos<br>
+                                                <b>Type:</b> POS<br>
                                                 <b>Input:</b> A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT
                                                 letter|NN<br>
-                                                <b>Requires:</b> SentenceDetector, RegexTokenizer<br>
-                                                <b>Functions:</b> <br>
-                                            <ul>
-                                                <li>
-                                                    setCorpusPath: Path to a pipe separated file or directory with
-                                                    correct
-                                                    word|tag in sentence per line
-                                                </li>
-                                                <li>
-                                                    setIterations: Number of iterations for training. May improve
-                                                    accuracy but
-                                                    takes longer. Default 5.
-                                                </li>
-                                            </ul>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">document_assembler = DocumentAssembler() \
-  .setInputCol("text") \
-  .setOutputCol("document")
-tokenizer = RegexTokenizer() \
-  .setDocumentCol("document") \
-  .setOutputCol("token")
-sentence_detector = SentenceDetector() \
-  .setDocumentCol("document") \
-  .setInputCols(["token"]) \
-  .setOutputCol("sentence")
-pos_tagger = POSTagger() \
-  .setDocumentCol("document") \
-  .setInputCols(["token", "sentence"]) \
-  .setOutputCol("pos") \
-  .setCorpusPath("../src/test/resources/anc-pos-corpus")) \
-  .setIterations(3)
-assembled = document_assembler.transform(data)
-tokenized = tokenizer.transform(assembled)
-sentenced = sentence_detector.transform(tokenized)
-pos_tagger.fit(sentenced).transform(sentenced).show()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Sets a POS tag to each word within a sentence<br>
-                                                <b>Type:</b> pos<br>
-                                                <b>Input:</b> A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT
-                                                letter|NN<br>
-                                                <b>Requires:</b> SentenceDetector, RegexTokenizer<br>
+                                                <b>Requires:</b> Document, Token<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -577,10 +532,35 @@ pos_tagger.fit(sentenced).transform(sentenced).show()</code></pre>
                                             </p>
                                             <pre><code class="language-python">val posTagger = new PerceptronApproach()
   .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")
-posTagger
-  .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
-  .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))</code></pre>
+  .setOutputCol("pos")</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Sets a POS tag to each word within a sentence<br>
+                                                <b>Type:</b> POS<br>
+                                                <b>Input:</b> A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT
+                                                letter|NN<br>
+                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Functions:</b> <br>
+                                            <ul>
+                                                <li>
+                                                    setCorpusPath: Path to a pipe separated file or directory with
+                                                    correct
+                                                    word|tag in sentence per line
+                                                </li>
+                                                <li>
+                                                    setIterations: Number of iterations for training. May improve
+                                                    accuracy but
+                                                    takes longer. Default 5.
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">val posTagger = new PerceptronApproach()
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("pos")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
@@ -598,41 +578,46 @@ posTagger
                                         <div class="code-block">
                                             <p>
                                                 Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sda<br>
-                                                <b>Requires:</b> SentenceDetector, Tokens<br>
-                                                <b>Functions:</b> --<br>
-                                                <b>Input:</b> superb,positive,bad,negative<br>
+                                                <b>Type:</b> sentiment<br>
+                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Functions:</b> <ul>
+                                          <li>
+                                            setDictPath(path)
+                                          </li>
+                                        </ul><br>
+                                                <b>Input:</b> <ul><li>superb,positive</li>
+                                          <li>bad,negative</li>
+                                          <li>lack of,revert</li>
+                                          <li>very,increment</li>
+                                          <li>barely,decrement</li></ul><br>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetector() \
-  .setDocumentCol("document") \
+                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
   .setInputCols(["lemma", "sentence"]) \
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
-                                            <p>
-                                                Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sda<br>
-                                                <b>Requires:</b> SentenceDetector, Tokens<br>
-                                                <b>Functions:</b> --<br>
-                                                <b>Input:</b> superb,positive,bad,negative<br>
-                                                <b>Example:</b><br>
-                                            </p>
+                                          <p>
+                                            Scores a sentence for a sentiment<br>
+                                            <b>Type:</b> sentiment<br>
+                                            <b>Requires:</b> Document, Token<br>
+                                            <b>Functions:</b> <ul>
+                                          <li>
+                                            setDictPath(path)
+                                          </li>
+                                        </ul><br>
+                                          <b>Input:</b> <ul><li>superb,positive</li>
+                                          <li>bad,negative</li>
+                                          <li>lack of,revert</li>
+                                          <li>very,increment</li>
+                                          <li>barely,decrement</li></ul><br>
+                                          <b>Example:</b><br>
+                                          </p>
                                             <pre><code class="language-python">val sentimentDetector = new SentimentDetectorModel
-sentimentDetector
   .setInputCols(Array("token", "sentence"))
-  .setOutputCol("sentiment")
-
-   new ViveknSentimentApproach()
-  .setInputCols(Array("token", "sentence"))
-  .setOutputCol("vivekn")
-  .setPositiveSourcePath("/vivekn/positive/1.txt")
-  .setNegativeSourcePath("/vivekn/negative/1.txt")
-  .setCorpusPrune(false)
-  .fit(dataset)
-  .transform(withTokenizer(dataset))</code></pre>
+  .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
@@ -652,7 +637,7 @@ sentimentDetector
                                                 The NER annotator extracts entities like Proper noun from the
                                                 document.<br>
                                                 <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> sbd<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -661,10 +646,9 @@ sentimentDetector
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">dictionary_approach = RegexNERApproach()
-ner_tagger = NERTagger() \
-  .setDocumentCol("document") \
-  .setCorpusPath("/ner-corpus/dict.txt")</code></pre>
+                                            <pre><code class="language-python">ner_tagger = NERRegexApproach() \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("NER")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -673,7 +657,7 @@ ner_tagger = NERTagger() \
                                                 The NER annotator extracts entities like Proper noun from the
                                                 document.<br>
                                                 <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> sbd<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -685,16 +669,7 @@ ner_tagger = NERTagger() \
                                             <pre><code class="language-python">val nerTagger = new NERRegexApproach()
   .setInputCols(Array("sentence"))
   .setOutputCol("ner")
-  .setCorpusPath("/ner-corpus/dict.txt")
-nerTagger
-  .fit(withFullPragmaticSentenceDetector(dataset))
-  .transform(withFullPragmaticSentenceDetector(dataset))
-
-def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
-  val df = withFullPOSTagger(withTokenizer(dataset))
-  new DependencyParser()
-    .setInputCols(Array("sentence", "pos", "token"))
-    .setOutputCol("dependency")</code></pre>
+  .setCorpusPath("/ner-corpus/dict.txt")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
@@ -744,10 +719,10 @@ def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">norvig_checker = NorvigSweetingApproach()
-spell_checker = SpellChecker() \
-  .setDocumentCol("document") \
-  .setSlangPath("../path/to/some/folder")</code></pre>
+                                            <pre><code class="language-python">spell_checker = NorvigSweetingApproach() \
+  .setInputCols(["token"]) \
+  .setOutputCol("spell") \
+  .setCorpusPath("./sherlockholmes.txt")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -788,9 +763,77 @@ spell_checker = SpellChecker() \
                                             </p>
                                             <pre><code class="language-python">val spellChecker = new NorvigSweetingApproach()
   .setInputCols(Array("normalized"))
-  .setOutputCol("spell")</code></pre>
+  .setOutputCol("spell")
+  .setCorpusPath("./sherlockholmes.txt")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
+
+                                <h4 id="ViveknSentimentDetector" class="section-block"> 13. ViveknSentimentDetector: Sentiment
+                                  analysis</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                  <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                            role="tab" data-toggle="tab">Python</a>
+                                  </li>
+                                  <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                             data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                  <div role="tabpanel" class="tab-pane active" id="python">
+                                    <div class="code-block">
+                                      <p>
+                                        Scores a sentence for a sentiment<br>
+                                        <b>Type:</b> sentiment<br>
+                                        <b>Requires:</b> Document, Token<br>
+                                        <b>Functions:</b> <ul>
+                                      <li>
+                                        setPositiveSource(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSource(path)
+                                      </li>
+                                      <li>
+                                        setPruneCorpus(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul><br>
+                                      <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                      <b>Example:</b><br>
+                                      </p>
+                                      <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
+    .setInputCols(["lemma", "sentence"]) \
+    .setOutputCol("sentiment")</code></pre>
+                                    </div><!--//code-block-->
+                                  </div>
+                                  <div role="tabpanel" class="tab-pane" id="scala">
+                                    <div class="code-block">
+                                      <p>
+                                        Scores a sentence for a sentiment<br>
+                                        <b>Type:</b> sentiment<br>
+                                        <b>Requires:</b> Document, Token<br>
+                                        <b>Functions:</b> <ul>
+                                      <li>
+                                        setPositiveSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setCorpusPrune(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul><br>
+                                      <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                      <b>Example:</b><br>
+                                      </p>
+                                      <pre><code class="language-python">new ViveknSentimentApproach()
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+      .setPositiveSourcePath("./positive/1.txt")
+      .setNegativeSourcePath("./negative/1.txt")
+      .setCorpusPrune(false)</code></pre>
+                                    </div><!--//code-block--></div>
+                                </div>
+
                             </div>
                         </section><!--//doc-section-->
 
@@ -815,6 +858,7 @@ spell_checker = SpellChecker() \
                                     <li><a class="scrollto" href="#SentimentDetector">Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#NERTagger">NERTagger</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
+                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
                                 </ul><!--//nav-->
                             </li>
                         </ul><!--//doc-menu-->

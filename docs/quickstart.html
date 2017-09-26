@@ -65,11 +65,13 @@
                 <div class="doc-content">
                     <div class="content-inner">
                         <section id="concepts-section" class="doc-section">
-                            <h2 class="section-title">Concepts</h2>
+                            <h2 class="section-title">Requirements</h2>
                             <div class="section-block">
-                                <p>Since SparkNLP runs on top of Spark, make sure you achieve a working spark-shell or
-                                    pyspark setup, and you understand how to include a library dependency into your
-                                    project. Please refer to the spark documentation to get started.
+                                <p>Since SparkNLP runs on top of Apache Spark 2.1.1,
+                                    it is needed to have basic knowledge and a working environment.
+                                    Refer to its
+                                    <a href="http://spark.apache.org/docs/2.1.1/index.html">documentation</a> to
+                                    get started with Spark.
                                 </p>
                             </div>
                         </section>
@@ -116,68 +118,23 @@
                         <section id="concepts-2-section" class="doc-section">
                             <h2 class="section-title">Concepts</h2>
                             <div class="section-block">
-                                <p>One of Spark modules, called ML, provides a set of Machine Learning applications, and
+                                <p>Spark ML provides a set of Machine Learning applications, and
                                     it's logic consists of two main components: <b>Estimators</b> and
                                     <b>Transformers</b>. The first, have a method called fit() which secures and trains
-                                    a piece of data to such application, and a <b>Transformer</b>, applies changes to
-                                    the result of an estimators plan. These components have been embedded to be
-                                    applicable to Spark NLP. <b>Pipelines</b> are a mechanism that allows multiple
-                                    transforms within a single process workflow of transformers, allowing multiple
+                                    a piece of data to such application, and a <b>Transformer</b>, which is generally
+                                    the result of a fitting process, applies changes to the the target dataset.
+                                    These components have been embedded to be applicable to Spark NLP.
+                                    <b>Pipelines</b> are a mechanism that allow multiple
+                                    estimators and transformers within a single workflow, allowing multiple
                                     chained transformations along a Machine Learning task.
-                                    Refer to Spark ML docs for further information and features.</p>
-                            </div>
-                        </section>
-                        <section id="document-section" class="doc-section">
-                            <h2 class="section-title">Document (Getting data into)</h2>
-
-                            <div id="step1" class="section-block">
-                                <p>
-                                    In SparkNLP, a <b>Document</b> is a raw-data container, which comes along with
-                                    related information of such entry. Every line of text, or piece of raw data, shall
-                                    be contained within a document <b>in order to be used by SparkNLP tasks.</b>
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <h6>A document is made of:</h6>
-                                        <ul class="list">
-                                            <li>text: raw-data.</li>
-                                            <li> id: an optional reference value.</li>
-                                            <li>metadata: optional information in the shape of a string dictionary.
-                                        </ul>
-                                    </div>
-                                </div>
-                                <p>
-                                    A <b>Document</b> can be created by utilizing a <b>transformer</b> called <b>DocumentAssembler</b>.
-                                    This will take the elements of a Document in the shape of Dataset columns.
-                                </p>
-                                <div id="functions" class="section-block">
-                                    <h3 class="block-title">Functions</h3>
-                                    <ul class="list">
-                                        <li>setInputCol(col_name)</li>
-                                        <li>setIdColName(col_name)</li>
-                                        <li>setMetadataColName(col_name)</li>
-                                        <li>setOutputCol(col_name)</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div id="doc-example" class="section-block">
-                                <div class="code-block">
-                                    <h3 class="block-title">Example</h3>
-                                    <pre><code class="language-python">from sparknlp.base import DocumentAssembler
-data = spark. \
-  read. \
-  parquet("some_data.parquet")
-document_assembler = DocumentAssembler() \
-  .setInputCol("text") \
-  .setOutputCol("document")
-document_assembler.transform(data).show()</code></pre>
-                                </div>
+                                    Refer to <a href="https://spark.apache.org/docs/2.1.1/ml-guide.html">SparkML</a>
+                                    library for more information.</p>
                             </div>
                         </section>
                         <section id="annotation-section" class="doc-section">
-                            <h2 class="section-title">Annotation (NLP Content)</h2>
+                            <h2 class="section-title">Annotation</h2>
                             <div class="section-block">
-                                <p>An annotation is the basic form of the result of an NLP operation. It is made of:</p>
+                                <p>An annotation is the basic form of the result of a Spark-NLP operation. It's structure is made of:</p>
                                 <ul class="list">
                                     <li><b>annotatorType:</b> which annotator generated this annotation</li>
                                     <li><b>begin:</b> the begin of the matched content relative to raw-text</li>
@@ -185,105 +142,119 @@ document_assembler.transform(data).show()</code></pre>
                                     <li><b>metadata:</b> content of matched result and additional information</li>
                                 </ul>
                                 <p>
-                                    This object is <b>automatically generated</b> by annotators. No manual work is
-                                    required. But it must be understood in order to extract information out of it. API
-                                    functions are provided in order to interact with annotations.
+                                    This object is <b>automatically generated</b> by annotators after a transform process. No manual work is
+                                    required. But it must be understood in order to use it efficiently.
                                 </p>
                             </div>
                         </section>
                         <section id="annotators-section" class="doc-section">
                             <h2 class="section-title">Annotators</h2>
                             <div class="section-block">
-                                <p>Annotators are the spearhead of NLP functionalities in SparkNLP. There are two types
+                                <p>Annotators are the spearhead of NLP functionalities in SparkNLP. There are two forms
                                     of annotators:</p>
                                 <ul class="list">
-                                    <li><b>Annotator Approach:</b> Are those who represent a Spark ML Estimator and
+                                    <li><b>Annotator Approaches:</b> Are those who represent a Spark ML Estimator and
                                         require a training stage. They have a function called fit(data) which trains a
                                         model based on some data. They produce the second type of annotator which is an
-                                        annotator model
+                                        annotator model or transformer.
                                     </li>
                                     <li><b>Annotator Model:</b> They are spark models or transformers, meaning they have
-                                        a <b>transform(data)</b> function which take a dataframe and add to it a column
-                                        with the result of this annotation.
+                                        a <b>transform(data)</b> function which take a dataset and add to it a column
+                                        with the result of this annotation. All transformers are additive, meaning they
+                                        append to current data, never replace or delete previous information.
                                     </li>
                                 </ul>
                                 <p>
-                                    Both annotator types can be included in a Pipeline and will automatically go through
-                                    all stages in the provided order and transform the data accordingly. </p>
+                                    Both forms of annotators can be included in a Pipeline and will automatically go through
+                                    all stages in the provided order and transform the data accordingly. A Pipeline is
+                                    turned into a PipelineModel after the fit() stage. Either before or after can be saved
+                                    and re-loaded to disk at any time.
+                                </p>
                                 <div id="anno-functions" class="section-block">
-                                    <h3 class="block-title">Functions</h3>
+                                    <h3 class="block-title">Common Functions</h3>
                                     <ul class="list">
-                                        <li>setDocumentCol(column_name): Takes the column name that refers to the
-                                            Document column generated before
+                                        <li><b>setInputCols</b>(column_names): Takes a list of column names of annotations
+                                            required by this annotator
                                         </li>
-                                        <li>setInputCols(column_names): Takes a list of column names of annotator
-                                            outputs required by this annotator
-                                        </li>
-                                        <li>setOutputCol(column_name): Defines the name of the column containing the
+                                        <li><b>setOutputCol(</b>column_name): Defines the name of the column containing the
                                             result of this annotator. Use this name as an input for other annotators
-                                            requiring this one.
+                                            requiring the annotations of this one.
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <div id="anno-doc-example" class="section-block">
-                                <div class="code-block">
-                                    <h3 class="block-title">Example</h3>
-                                    <pre><code class="language-python">document_assembler = DocumentAssembler() \
-  .setInputCol("text") \
-  .setOutputCol("document")
-tokenizer = RegexTokenizer()\
-  .setInputCols(["document"]) \
-  .setOutputCol("token")
-assembled = document_assembler.transform(data)
-tokenized = tokenizer.transform(assembled)
-tokenized.transform(data).show()</code></pre>
-                                </div>
-                            </div>
                         </section>
-                        <section id="annotators-type-section" class="doc-section">
-                            <h2 class="section-title">Annotator types</h2>
+                        <section id="example-section" class="doc-section">
+                            <h2 class="section-title">First Example</h2>
                             <div class="section-block">
-                                <p>Every annotator has a type. Those annotators that share a type, can be used
+                                <h3 class="block-title">Annotator types</h3>
+                                <p>
+                                    Every annotator has a type. Those annotators that share a type, can be used
                                     interchangeably, meaning you could you use any of them when needed. For example,
                                     when a token type annotator is required by another annotator, such as a sentiment
                                     analysis annotator, you can either provide a normalized token or a lemma, as both
                                     are of type token.
                                 <p>
                             </div>
+                            <div id="anno-doc-example" class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">DocumentAssembler: Getting data in</h3>
+                                    <p>
+                                        In order to get through the NLP process, we need to get raw data annotated.
+                                        There is a special <b>transformer</b> that does this for us: the <b>DocumentAssembler</b>,
+                                        it creates the first annotation of type <b>Document</b> which may be used by annotators down the road
+                                    </p>
+                                    <pre><code class="language-python">import com.jsl.nlp._
+import com.jsl.nlp.annotators._
+import org.apache.spark.ml.Pipeline
+
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")</code></pre>
+                                </div>
+                            </div>
+                            <div id="anno-token-example" class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Sentence detection and tokenization</h3>
+                                    <p>
+                                        In this quick example, we now proceed to identify the sentences in each of our document lines.
+                                        SentenceDetectorModel requires a Document annotation, which is provided by the DocumentAssembler
+                                        output, and it's itself a Document type token.
+                                        The RegexTokenizer requires a Document annotation type, meaning it works both with DocumentAssembler
+                                        or SentenceDetector output, in here, we use the sentence output.
+                                    </p>
+                                    <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence")
+
+val regexTokenizer = new RegexTokenizer()
+    .setInputCols(Array("sentence"))
+    .setOutputCol("token")</code></pre>
+                                </div>
+                            </div>
                             <div id="using-pipelines" class="section-block">
                                 <div class="code-block">
                                     <h3 class="block-title">Using Pipelines</h3>
-                                    <pre><code class="language-python">document_assembler = DocumentAssembler() \
-            .setInputCol("text")
+                                    <p>
+                                        Now we want to put all this together and retrieve the results,
+                                        we use a Pipeline for this. We also include another special transformer,
+                                        called <b>Finisher</b> to show tokens in a human language
+                                    </p>
+                                    <pre><code class="language-python">val finisher = new Finisher()
+    .setInputCols("token")
 
-sentence_detector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+val pipeline = new Pipeline()
+    .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer
+        finisher
+    ))
 
-tokenizer = RegexTokenizer() \
-            .setOutputCol("token")
-
-spell_checker = SpellChecker() \
-            .setInputCols(["token"]) \
-            .setOutputCol("spell")
-
-sentiment_detector = ViveknSentimentDetector() \
-    .setInputCols(["spell", "sentence"]) \
-    .setOutputCol("sentiment") \
-    .setPositiveSource("vivekn/positive") \
-    .setNegativeSource("vivekn/negative") \
-    .setPruneCorpus(False)
-
-pipeline = Pipeline(stages=[
-    document_assembler,
-    sentence_detector,
-    tokenizer,
-    spell_checker,
-    sentiment_detector
-])
-
-sentiment_data = pipeline.fit(data).transform(data)</code></pre>
+pipeline
+    .fit(data)
+    .transform(data)
+    .show()</code></pre>
                                 </div>
                             </div>
                         </section>
