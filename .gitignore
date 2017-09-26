@@ -301,3 +301,5 @@ project/plugins/project/
 ### Local ###
 tmp_pipeline/
 test-output-tmp/
+spark-warehouse/
+/python/python.iml
