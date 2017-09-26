@@ -242,6 +242,7 @@ val regexTokenizer = new RegexTokenizer()
                                     </p>
                                     <pre><code class="language-python">val finisher = new Finisher()
     .setInputCols("token")
+    .setCleanAnnotations(false)
 
 val pipeline = new Pipeline()
     .setStages(Array(
