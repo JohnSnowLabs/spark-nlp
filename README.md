@@ -5,7 +5,7 @@ John Snow Labs Spark-NLP is a natural language processing library built on top o
 take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for user documentation and examples
 
 # Use
-as of now, the only way to use the library is by including the jar in spark classpath, which can be downloaded from here: **link**
+as of now, the only way to use the library is either building it yourself or by including the downloadable jar in spark classpath, which can be downloaded here: https://github.com/JohnSnowLabs/spark-nlp/raw/master/docs/releases/spark-nlp-snapshot.jar
 
 run spark-shell or spark-submit with **--jars /path/to/spark-nlp-snapshot.jar** to use the library in scala
 
