@@ -6,41 +6,41 @@ import org.scalatest.FlatSpec
 class DatasetSpec extends FlatSpec {
 
   "DatasetReader" should "correct calculate transit freaquences" in {
-    val dataset = DatasetReader.encodeDataset(TestDatasets.small)
+    val dataset = DatasetReader.encodeDataset(TestDatasets.smallText)
     val metadata = dataset.metadata
 
     assert(metadata.label2Id.size == 3)
     assert(metadata.transitions.size == 3)
 
-    val features = metadata.transitions
-    assert(features.toSet == Seq(Transition(0, 1), Transition(1, 2), Transition(2, 1)).toSet)
+    val transitions = Seq(Transition(0, 1), Transition(1, 2), Transition(2, 1))
+    assert(metadata.transitions.toSet == transitions.toSet)
 
-    val featureFreqs = metadata.transFeaturesFreq
+    val frequencies = transitions.map(transition => {
+      val id = metadata.transFeature2Id(transition)
+      metadata.featuresStat(id).frequency
+    })
 
-    assert(featureFreqs(Transition(0, 1)) ==  1)
-    assert(featureFreqs(Transition(1, 2)) ==  2)
-    assert(featureFreqs(Transition(2, 1)) ==  1)
+    assert(frequencies == Seq(1, 2, 1))
   }
 
 
   "DatasetReader" should "correct read fill attrs metadata" in {
-    val dataset = DatasetReader.encodeDataset(TestDatasets.double)
+    val dataset = DatasetReader.encodeDataset(TestDatasets.doubleText)
     val metadata = dataset.metadata
 
     assert(metadata.attr2Id.size == 4)
 
-    val attrFeatures = metadata.attributes
-    assert(attrFeatures.size == 4)
+    assert(metadata.attrs.size == 4)
 
-    assert(attrFeatures(0) == new Attr(0, "attr1=", false))
-    assert(metadata.attr2Features(0) == Seq(AttrFeature(0, 0, 1)))
-    assert(metadata.attr2Features(1) == Seq(AttrFeature(1, 1, 2)))
-    assert(metadata.attr2Features(3).toSet == Seq(AttrFeature(3, 3, 2), AttrFeature(4, 3, 1)).toSet)
+    assert(metadata.attrs(0) == new Attr(0, "attr1=", false))
+    assert(metadata.attr2Features(0).toSet == Set(AttrFeature(0, 0, 1)))
+    assert(metadata.attr2Features(1).toSet == Set(AttrFeature(1, 1, 2)))
+    assert(metadata.attr2Features(3).toSet == Set(AttrFeature(3, 3, 2), AttrFeature(4, 3, 1)))
   }
 
 
   "DatasetReader" should "correct fill Dataset features" in {
-    val dataset = DatasetReader.encodeDataset(TestDatasets.double)
+    val dataset = DatasetReader.encodeDataset(TestDatasets.doubleText)
     val instances = dataset.instances
 
     assert(instances.size == 2)
