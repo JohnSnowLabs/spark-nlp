@@ -1,44 +1,49 @@
 package com.jsl.ml.crf
 
-import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
-
-// ToDo redesign splitting Mutable and Immutable
-class DatasetMetadata(val startLabel: String = "@#Start") {
-
-  // Attr Name -> AttrId
-  val attr2Id = mutable.Map[String, Int]()
-
-  // Label Name -> labelId
-  val label2Id = mutable.Map[String, Int](startLabel -> 0)
-
-  // AttrId -> Attr
-  val attributes = mutable.ArrayBuffer[Attr]()
-
-  // (attrId, labelId) -> featureId
-  val attrFeatures2Id = mutable.Map[(Int, Int), Int]()
-
-  // featureId -> AttrFeature
-  val attrFeatures = ArrayBuffer[AttrFeature]()
-
-  // featureId -> freq
-  val attrFeaturesFreq = ArrayBuffer[Int]()
-
-  // featureId -> Sum
-  val attrFeaturesSum = ArrayBuffer[Float]()
-
-  // Map attrId -> List of AttrFeatures
-  val attr2Features = ArrayBuffer[ArrayBuffer[AttrFeature]]()
+import com.jsl.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
 
 
-  // transition -> freq
-  val transFeaturesFreq = mutable.Map[Transition, Int]()
+case class AttrStat(val frequency: Int, val sum: Float)
 
-  // All transitions
-  def transitions = transFeaturesFreq.keys
 
-  // ToDo Redisign
-  // transition -> featureId
+class DatasetMetadata
+(
+  // labelId -> Label Name
+  val labels: Array[String],
+
+  // AttrId -> Attr Metadata
+  val attrs: Array[Attr],
+
+  // FeatureId -> AttrFeature
+  val attrFeatures: Array[AttrFeature],
+
+  // All possible transitions according to train dataset
+  val transitions: Array[Transition],
+
+  // FeatureId -> (attr, label) statistics
+  val featuresStat: Array[AttrStat]
+) extends WritableAnnotatorComponent {
+
+  require(attrFeatures.length + transitions.length == featuresStat.length,
+    s"Number of features ${featuresStat.length} should be equal to number of attr features ${attrFeatures.length}" +
+      s" plus number of transition features ${transitions.length}")
+
+  for (i <- 0 until attrs.length)
+    require(attrs(i).id == i, s"Attribute ${attrs(i)} stored at index $i that does not equal to id")
+
+  for (i <- 0 until attrFeatures.length)
+    require(attrFeatures(i).id == i, s"Feature ${attrFeatures(i)} stored at index $i that does not equal to id")
+
+  // Label Name -> Label Id
+  lazy val label2Id = labels.zipWithIndex.toMap
+
+  // Attr Name -> Attr Id
+  lazy val attr2Id = attrs.map(attr => (attr.name, attr.id)).toMap
+
+  // (Attr Id, Label Id) -> Feature Id
+  lazy val attrFeatures2Id = attrFeatures.map(f => ((f.attrId, f.label), f.id)).toMap
+
+  // Transition -> Feature Id
   lazy val transFeature2Id = {
     transitions
       .zipWithIndex
@@ -46,66 +51,44 @@ class DatasetMetadata(val startLabel: String = "@#Start") {
       .toMap
   }
 
-  private def addAttrFeature(label: Int, attr: Int, value: Float): Unit = {
-    val featureId = attrFeatures2Id.getOrElseUpdate((attr, label), attrFeatures2Id.size)
-
-    if (featureId >= attrFeatures.size) {
-      val feature = new AttrFeature(featureId, attr, label)
-      attrFeatures.append(feature)
-      attrFeaturesFreq.append(0)
-      attrFeaturesSum.append(0f)
-      attr2Features(attr).append(feature)
-    }
-
-    attrFeaturesFreq(featureId) += 1
-    attrFeaturesSum(featureId) += value
+  // Attr Id -> List of AttrFeatures
+  lazy val attr2Features = {
+    attrFeatures
+      .groupBy(f => f.attrId)
+      .toSeq
+      .sortBy(p => p._1)
+      .map(p => p._2)
+      .toIndexedSeq
   }
 
-  private def addTransFeature(fromId: Int, toId: Int): Unit = {
-    val meta = new Transition(fromId, toId)
-    transFeaturesFreq(meta) = transFeaturesFreq.getOrElse(meta, 0) + 1
+  override def serialize: SerializedAnnotatorComponent[_ <: WritableAnnotatorComponent] = {
+    new SerializedDatasetMetadata(
+      labels.toList,
+      attrs.toList,
+      attrFeatures.toList,
+      transitions.toList,
+      featuresStat.toList
+    )
   }
 
-  private def getLabel(label: String): Int = {
-    label2Id.getOrElseUpdate(label, label2Id.size)
-  }
+}
 
-  private def getAttr(attr: String, isNumerical: Boolean): Int = {
-    val attrId = attr2Id.getOrElseUpdate(attr, attr2Id.size)
-    if (attrId >= attributes.size) {
-      attributes.append(new Attr(attrId, attr, isNumerical))
-      attr2Features.append(ArrayBuffer.empty)
-    }
-
-    attrId
-  }
-
-  def getFeatures(prevLabel: String = startLabel,
-                  label: String,
-                  binaryAttrs: Seq[String],
-                  numAttrs: Seq[(String, Float)]): (Int, SparseArray) = {
-    val labelId = getLabel(label)
-
-    val binFeature = binaryAttrs.map{attr =>
-      val attrId = getAttr(attr, false)
-      addAttrFeature(labelId, attrId, 1f)
-      (attrId, 1f)
-    }
-
-    val numFeatures = numAttrs.map{case(attr, value) => {
-      val attrId = getAttr(attr, true)
-      addAttrFeature(labelId, attrId, value)
-      (attrId, value)
-    }}
-
-    val fromId = getLabel(prevLabel)
-    addTransFeature(fromId, labelId)
-
-    val features = (binFeature ++ numFeatures)
-      .sortBy(_._1)
-      .distinct
-      .toArray
-
-    (labelId, new SparseArray(features))
+case class SerializedDatasetMetadata
+(
+  val labels: List[String],
+  val attrs: List[Attr],
+  val attrFeatures: List[AttrFeature],
+  val transitions: List[Transition],
+  val featuresStat: List[AttrStat]
+)  extends SerializedAnnotatorComponent[DatasetMetadata]
+{
+  override def deserialize: DatasetMetadata = {
+    new DatasetMetadata(
+      labels.toArray,
+      attrs.toArray,
+      attrFeatures.toArray,
+      transitions.toArray,
+      featuresStat.toArray
+    )
   }
 }
