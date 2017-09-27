@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 class PredictionSpec extends FlatSpec {
 
   "CrfModel" should "return correct prediction" in {
-    val dataset = TestGradientSets.small
+    val dataset = TestDatasets.small
     val weights = Array.fill(8)(0.1f)
 
     val model = new LinearChainCrfModel(weights, dataset.metadata)
@@ -16,7 +16,7 @@ class PredictionSpec extends FlatSpec {
   }
 
   "CrfModel" should "return correct prediction with negative sums" in {
-    val dataset = TestGradientSets.small
+    val dataset = TestDatasets.small
     val weights = Array.fill(8)(-0.1f)
 
     val model = new LinearChainCrfModel(weights, dataset.metadata)

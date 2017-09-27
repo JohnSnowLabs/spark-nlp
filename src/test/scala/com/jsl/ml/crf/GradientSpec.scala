@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import VectorMath._
 
 class GradientSpec extends FlatSpec {
-  val dataset = TestGradientSets.small
+  val dataset = TestDatasets.small
   val instance = dataset.instances.head._2
   val metadata = dataset.metadata
   val features = metadata.attrFeatures.size + metadata.transitions.size

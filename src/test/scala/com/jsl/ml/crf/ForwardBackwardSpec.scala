@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 
 class ForwardBackwardSpec extends FlatSpec {
 
-  val dataset = TestGradientSets.small
+  val dataset = TestDatasets.small
   val instance = dataset.instances.head._2
   val metadata = dataset.metadata
   val labels = metadata.label2Id.size
@@ -17,12 +17,10 @@ class ForwardBackwardSpec extends FlatSpec {
   fb.calculate(instance, weights, 1f)
 
   "EdgeCalculator" should "fill matrix correctly for first word" in {
-    val calc = new EdgeCalculator(dataset.metadata)
-
     val firstWordFeatures = dataset.instances(0)._2.items(0).values
     val logEdge = Matrix(3, 3)
 
-    calc.fillLogEdges(firstWordFeatures, weights, 1f, logEdge)
+    EdgeCalculator.fillLogEdges(firstWordFeatures, weights, 1f, metadata, logEdge)
 
     assert(logEdge(0).toSeq == Seq(0f, 0.5f, 0.3f))
     assert(logEdge(1).toSeq == Seq(0f, 0.4f, 0.4f))
@@ -31,12 +29,10 @@ class ForwardBackwardSpec extends FlatSpec {
 
 
   "EdgeCalculate" should "fill matrix correctly for second word" in {
-    val calc = new EdgeCalculator(dataset.metadata)
-
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
     val logEdge = Matrix(3, 3)
 
-    calc.fillLogEdges(secondWordFeatures, weights, 1f, logEdge)
+    EdgeCalculator.fillLogEdges(secondWordFeatures, weights, 1f, metadata, logEdge)
     FloatAssert.seqEquals(logEdge(0), Seq(0f, 0.6f, 0.6f))
     FloatAssert.seqEquals(logEdge(1), Seq(0f, 0.5f, 0.7f))
     FloatAssert.seqEquals(logEdge(2), Seq(0f, 0.5f, 0.6f))
@@ -44,14 +40,12 @@ class ForwardBackwardSpec extends FlatSpec {
 
 
   "EdgeCalculator" should "fill matrix correctly according to scale param" in {
-    val calc = new EdgeCalculator(dataset.metadata)
-
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
     val logEdge = Matrix(3, 3)
 
     val weights = Vector(features, 1f)
 
-    calc.fillLogEdges(secondWordFeatures, weights, 0.1f, logEdge)
+    EdgeCalculator.fillLogEdges(secondWordFeatures, weights, 0.1f, metadata, logEdge)
     FloatAssert.seqEquals(logEdge(0), Seq(0f, 0.6f, 0.6f))
     FloatAssert.seqEquals(logEdge(1), Seq(0f, 0.5f, 0.7f))
     FloatAssert.seqEquals(logEdge(2), Seq(0f, 0.5f, 0.6f))

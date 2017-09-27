@@ -1,6 +1,5 @@
 package com.jsl.ml.crf
 
-
 /*
   Before running:
   1. Download CoNLLL2003 datasets
@@ -8,15 +7,19 @@ package com.jsl.ml.crf
 
   Then script could be run
  */
-object CoNLL2003Test extends App{
-  val trainFile = "./src/test/resources/ner-corpus/CoNLL2003/eng.train.crfsuite.gz"
-  val testFileA = "./src/test/resources/ner-corpus/CoNLL2003/eng.testa.crfsuite.gz"
-  val testFileB = "./src/test/resources/ner-corpus/CoNLL2003/eng.testb.crfsuite.gz"
+object CoNLL2003Test extends App {
+  val folder = "./"
+
+  val trainFile = folder + "eng.train.crfsuite"
+  val testFileA = folder + "eng.testa.crfsuite"
+  val testFileB = folder + "eng.testb.crfsuite"
 
 
   def trainModel(file: String, linesToSkip: Int): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
+    val time = System.nanoTime()
     val dataset = DatasetReader.readAndEncode(trainFile, linesToSkip)
+    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
 
@@ -35,7 +38,6 @@ object CoNLL2003Test extends App{
   def testDataset(file: String, linesToSkip: Int, model: LinearChainCrfModel, metadata: DatasetMetadata): Unit = {
     // prec = predicted * correct / predicted
     // rec = predicted * correct / correct
-
     val started = System.nanoTime()
 
     val labels = metadata.label2Id.size
