@@ -77,11 +77,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
-  def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)], strategy: String): Dataset[Row] = {
+  def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
+    if (rules.nonEmpty) regexMatcher.setRules(rules)
     regexMatcher.transform(dataset)
   }
 
