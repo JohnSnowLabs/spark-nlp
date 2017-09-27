@@ -75,7 +75,7 @@ object DatasetReader {
   }
 
   def encodeDataset(source: Iterator[(TextSentenceLabels, TextSentence)]): Dataset = {
-    val metadata = new DatasetMetadata()
+    val metadata = new DatasetEncoder()
 
     val instances = source.map{case (textLabels, textSentence) => {
       var prevLabel = metadata.startLabel
@@ -90,7 +90,7 @@ object DatasetReader {
       (new InstanceLabels(labels), new Instance(features))
     }}.toList
 
-    new Dataset(instances, metadata)
+    new Dataset(instances, metadata.getMetadata)
   }
 
 

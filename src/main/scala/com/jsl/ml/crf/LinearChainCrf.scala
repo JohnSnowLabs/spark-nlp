@@ -6,10 +6,6 @@ import scala.util.Random
 // ToDo Make c0 estimation before training
 class LinearChainCrf(val params: TrainParams) {
 
-  var weights: Array[Float] = Array.empty
-  var labels: Int = 0
-  var metadata: DatasetMetadata = new DatasetMetadata()
-
   def print(value: => String, minLevel: Verbose.Level): Unit = {
     if (minLevel >= params.verbose) {
       System.out.println(value)
@@ -17,8 +13,9 @@ class LinearChainCrf(val params: TrainParams) {
   }
 
   def trainSGD(dataset: Dataset): LinearChainCrfModel = {
-    metadata = dataset.metadata
-    weights = Vector(dataset.metadata.attrFeatures.size + dataset.metadata.transitions.size)
+    val metadata = dataset.metadata
+    val weights = Vector(dataset.metadata.attrFeatures.size + dataset.metadata.transitions.size)
+    val labels = dataset.metadata.labels.size
 
     if (params.randomSeed.isDefined)
       Random.setSeed(params.randomSeed.get)
@@ -59,7 +56,7 @@ class LinearChainCrf(val params: TrainParams) {
         context.calculate(sentence, weights, decayStrategy.getScale)
 
         // 2. Make one gradient step
-        sgdStep(sentence, labels, decayStrategy.alpha, context)
+        doSgdStep(sentence, labels, decayStrategy.alpha, weights, context)
 
         // 3. Calculate loss
         loss += getLoss(sentence, labels, context)
@@ -113,8 +110,12 @@ class LinearChainCrf(val params: TrainParams) {
     result
   }
 
-  // Step for minimizing model Log Likelihoood
-  def sgdStep(sentence: Instance, labels: InstanceLabels, a: Float, context: FbCalculator): Unit = {
+  // Step for minimizing model Log Likelihood
+  def doSgdStep(sentence: Instance,
+                labels: InstanceLabels,
+                a: Float,
+                weights: Array[Float],
+                context: FbCalculator): Unit = {
 
     // Make Gradient Step
     // Minimizing -log likelihood

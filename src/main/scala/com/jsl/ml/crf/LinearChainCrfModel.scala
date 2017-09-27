@@ -1,10 +1,12 @@
 package com.jsl.ml.crf
 
 import VectorMath._
+import com.jsl.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
 
-// ToDo make serializable
-class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetadata) {
-  val edgeCalculator = new EdgeCalculator(metadata)
+
+class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetadata)
+  extends WritableAnnotatorComponent {
+
   val labels = metadata.label2Id.size
 
   def predict(instance: Instance): InstanceLabels = {
@@ -14,7 +16,7 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
     var bestPath = Vector(labels)
 
     val matrix = Matrix(labels, labels)
-    edgeCalculator.fillLogEdges(instance.items.head.values, weights, 1f, matrix)
+    EdgeCalculator.fillLogEdges(instance.items.head.values, weights, 1f, metadata, matrix)
     copy(matrix(0), bestPath)
 
     val length = instance.items.length
@@ -24,7 +26,7 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
     // Calculate best path
     for (i <- 1 until length) {
       val features = instance.items(i).values
-      edgeCalculator.fillLogEdges(features, weights, 1f, matrix)
+      EdgeCalculator.fillLogEdges(features, weights, 1f, metadata, matrix)
       fillVector(newBestPath, Float.MinValue)
 
       for (from <- 0 until labels) {
@@ -59,4 +61,27 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
 
     new InstanceLabels(result)
   }
+
+  override def serialize: SerializedLinearChainCrfModel = {
+    new SerializedLinearChainCrfModel(
+      weights.toList,
+      metadata.serialize.asInstanceOf[SerializedDatasetMetadata]
+    )
+  }
 }
+
+case class SerializedLinearChainCrfModel
+(
+  val weights: List[Float],
+  val metadata: SerializedDatasetMetadata
+)
+  extends SerializedAnnotatorComponent[LinearChainCrfModel]
+{
+  override def deserialize: LinearChainCrfModel = {
+    new LinearChainCrfModel(
+      weights.toArray,
+      metadata.deserialize
+    )
+  }
+}
+

@@ -12,7 +12,6 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
   val beta = Array.fill(maxLength)(Vector(labels))
   val c = Array.fill(maxLength)(1f)
 
-  val edgeCalculator = new EdgeCalculator(metadata)
 
   def calculate(sentence: Instance, weights: Array[Float], scale: Float): Unit = {
     require(sentence.items.length <= maxLength)
@@ -27,7 +26,7 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
 
     for (i <- 0 until length) {
       // 1. Calculate log Phi for each edge
-      edgeCalculator.fillLogEdges(sentence.items(i).values, weights, scale, logPhi(i))
+      EdgeCalculator.fillLogEdges(sentence.items(i).values, weights, scale, metadata, logPhi(i))
 
       // 2. Calc exp for each matrix value
       copy(logPhi(i), phi(i))
@@ -35,7 +34,7 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
     }
   }
 
-  // ToDo Think operators or MecMath Matrix and Vectors
+  // ToDo Try Linear Algebra operations on top of Matrises and Vectors
   private def calcAlpha(sentence: Instance): Unit = {
     val length = sentence.items.length
     require(length <= phi.length)
@@ -145,11 +144,16 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
   }
 }
 
-class EdgeCalculator(val metadata: DatasetMetadata) {
+object EdgeCalculator
+{
+  def fillLogEdges(values: Seq[(Int, Float)],
+                   weights: Array[Float],
+                   scale: Float,
+                   metadata: DatasetMetadata,
+                   matrix: Matrix): Unit = {
 
-  val labels = metadata.label2Id.size
+    val labels = metadata.labels.size
 
-  def fillLogEdges(values: Seq[(Int, Float)], weights: Array[Float], scale: Float, matrix: Matrix): Unit = {
     fillMatrix(matrix, 0f)
 
     for ((attrId, value) <- values) {
