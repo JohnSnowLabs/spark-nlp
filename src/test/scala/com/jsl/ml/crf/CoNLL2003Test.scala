@@ -1,6 +1,18 @@
 package com.jsl.ml.crf
 
+
+/*
+  Before running:
+  1. Download CoNLLL2003 datasets
+  2. Set trainFile, testFileA, testFileB to corresponding paths
+
+  Then script could be run
+ */
 object CoNLL2003Test extends App{
+  val trainFile = "./src/test/resources/ner-corpus/CoNLL2003/eng.train.crfsuite.gz"
+  val testFileA = "./src/test/resources/ner-corpus/CoNLL2003/eng.testa.crfsuite.gz"
+  val testFileB = "./src/test/resources/ner-corpus/CoNLL2003/eng.testb.crfsuite.gz"
+
 
   def trainModel(file: String, linesToSkip: Int): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
@@ -58,10 +70,6 @@ object CoNLL2003Test extends App{
       System.out.println(s"$label\t$prec\t$rec\t$f1")
     }
   }
-
-  val trainFile = "./src/test/resources/ner-corpus/CoNLL2003/eng.train.crfsuite.gz"
-  val testFileA = "./src/test/resources/ner-corpus/CoNLL2003/eng.testa.crfsuite.gz"
-  val testFileB = "./src/test/resources/ner-corpus/CoNLL2003/eng.testb.crfsuite.gz"
 
   val model = trainModel(trainFile, 2)
 
