@@ -8,7 +8,7 @@ package com.jsl.ml.crf
   Then script could be run
  */
 object CoNLL2003Test extends App {
-  val folder = "./"
+  val folder = "/home/aleksei/work/nlp/libs/crfsuite_exp/conll2003/"
 
   val trainFile = folder + "eng.train.crfsuite"
   val testFileA = folder + "eng.testa.crfsuite"
@@ -23,7 +23,7 @@ object CoNLL2003Test extends App {
 
     System.out.println("Start fitting")
 
-    val params = new TrainParams(
+    val params = TrainParams(
       minEpochs = 100,
       l2 = 1f,
       verbose = Verbose.Epochs,
@@ -49,8 +49,7 @@ object CoNLL2003Test extends App {
     for ((labels, instance) <- testInstances) {
       val predictedLabels = model.predict(instance)
       for ((lCorrect, lPredicted) <- labels.labels.zip(predictedLabels.labels)
-           if (lCorrect >= 0)
-      ) {
+           if lCorrect >= 0) {
 
         correct(lCorrect) += 1
         predicted(lPredicted) += 1
@@ -64,7 +63,7 @@ object CoNLL2003Test extends App {
     System.out.println("label\tprec\trec\tf1")
 
     for (i <- 1 until labels) {
-      val label = metadata.label2Id.filter(p => p._2 == i).map(p => p._1).head
+      val label = metadata.label2Id.filter(p => p._2 == i).keys.head
       val rec = predictedCorrect(i).toFloat / correct(i)
       val prec = predictedCorrect(i).toFloat / predicted(i)
       val f1 = 2 * prec * rec / (prec + rec)

@@ -63,7 +63,7 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
   }
 
   override def serialize: SerializedLinearChainCrfModel = {
-    new SerializedLinearChainCrfModel(
+    SerializedLinearChainCrfModel(
       weights.toList,
       metadata.serialize.asInstanceOf[SerializedDatasetMetadata]
     )
@@ -72,8 +72,8 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
 
 case class SerializedLinearChainCrfModel
 (
-  val weights: List[Float],
-  val metadata: SerializedDatasetMetadata
+  weights: List[Float],
+  metadata: SerializedDatasetMetadata
 )
   extends SerializedAnnotatorComponent[LinearChainCrfModel]
 {

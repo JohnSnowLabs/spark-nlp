@@ -1,18 +1,22 @@
 package com.jsl.ml.crf
 
 import VectorMath._
+import org.slf4j.{Logger, LoggerFactory}
+
 import scala.util.Random
 
 // ToDo Make c0 estimation before training
 class LinearChainCrf(val params: TrainParams) {
 
-  def print(value: => String, minLevel: Verbose.Level): Unit = {
+  private val logger = LoggerFactory.getLogger("CRF")
+
+  def log(value: => String, minLevel: Verbose.Level): Unit = {
     if (minLevel >= params.verbose) {
-      System.out.println(value)
+      logger.info(value)
     }
   }
 
-  def trainSGD(dataset: Dataset): LinearChainCrfModel = {
+  def trainSGD(dataset: CrfDataset): LinearChainCrfModel = {
     val metadata = dataset.metadata
     val weights = Vector(dataset.metadata.attrFeatures.size + dataset.metadata.transitions.size)
     val labels = dataset.metadata.labels.size
@@ -23,10 +27,10 @@ class LinearChainCrf(val params: TrainParams) {
     // 1. Calc max sentence Length
     val maxLength = dataset.instances.map(w => w._2.items.size).max
 
-    print(s"labels: $labels", Verbose.TrainingStat)
-    print(s"instances: ${dataset.instances.size}", Verbose.TrainingStat)
-    print(s"features: ${weights.size}", Verbose.TrainingStat)
-    print(s"maxLength: $maxLength", Verbose.TrainingStat)
+    log(s"labels: $labels", Verbose.TrainingStat)
+    log(s"instances: ${dataset.instances.size}", Verbose.TrainingStat)
+    log(s"features: ${weights.size}", Verbose.TrainingStat)
+    log(s"maxLength: $maxLength", Verbose.TrainingStat)
 
 
     // 2. Allocate reusable space
@@ -45,7 +49,7 @@ class LinearChainCrf(val params: TrainParams) {
 
       var loss = 0f
 
-      print(s"\nEpoch: $epoch, eta: ${decayStrategy.eta}", Verbose.Epochs)
+      log(s"\nEpoch: $epoch, eta: ${decayStrategy.eta}", Verbose.Epochs)
       val started = System.nanoTime()
 
       val shuffled = Random.shuffle(dataset.instances)
@@ -69,8 +73,8 @@ class LinearChainCrf(val params: TrainParams) {
 
       val totalLoss = loss + l2Loss
 
-      print(s"finished, time: ${(System.nanoTime() - started)/1e9}", Verbose.Epochs)
-      print(s"Loss = $totalLoss, logLoss = $loss, l2Loss = $l2Loss", Verbose.Epochs)
+      log(s"finished, time: ${(System.nanoTime() - started)/1e9}", Verbose.Epochs)
+      log(s"Loss = $totalLoss, logLoss = $loss, l2Loss = $l2Loss", Verbose.Epochs)
 
       // Update best solution if loss is lower
       if (totalLoss < bestLoss) {
@@ -175,11 +179,13 @@ object Verbose extends Enumeration {
   val Silent = Value(4)
 }
 
-class TrainParams (val minEpochs: Int = 10,
-                   val maxEpochs: Int = 1000,
-                   val l2: Float = 1f,
-                   val verbose: Verbose.Level = Verbose.Silent,
-                   val randomSeed: Option[Int] = None,
-                   val lossEps: Float = 1e-4f,
-                   val c0: Int = 1500000
-                  )
+case class TrainParams
+(
+  minEpochs: Int = 10,
+  maxEpochs: Int = 1000,
+  l2: Float = 1f,
+  verbose: Verbose.Level = Verbose.Silent,
+  randomSeed: Option[Int] = None,
+  lossEps: Float = 1e-4f,
+  c0: Int = 1500000
+)

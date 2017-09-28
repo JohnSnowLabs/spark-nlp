@@ -6,17 +6,9 @@ import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
 
-class Dataset (
-                val instances: Seq[(InstanceLabels, Instance)],
-                val metadata: DatasetMetadata
-              )
-
-class InstanceLabels(val labels: Seq[Int])
-class Instance(val items: Seq[SparseArray])
-
 class TextSentenceLabels(val labels: Seq[String])
-class TextSentence (val words: Seq[TextToken])
-class TextToken(val attrs: Seq[(String, String)])
+class TextSentenceAttrs(val words: Seq[TextAttr])
+class TextAttr(val attrs: Seq[(String, String)])
 
 
 object DatasetReader {
@@ -31,20 +23,20 @@ object DatasetReader {
     }
   }
 
-  def readWithLabels(file: String, skipLines: Int = 0): Iterator[(TextSentenceLabels, TextSentence)] = {
+  def readWithLabels(file: String, skipLines: Int = 0): Iterator[(TextSentenceLabels, TextSentenceAttrs)] = {
     val lines = getSource(file)
       .getLines()
       .drop(skipLines)
 
     var labels = new ArrayBuffer[String]()
-    var tokens = new ArrayBuffer[TextToken]()
+    var tokens = new ArrayBuffer[TextAttr]()
 
-    def addToResultIfExists(): Option[(TextSentenceLabels, TextSentence)] = {
+    def addToResultIfExists(): Option[(TextSentenceLabels, TextSentenceAttrs)] = {
       if (tokens.nonEmpty) {
-        val result = (new TextSentenceLabels(labels), new TextSentence(tokens))
+        val result = (new TextSentenceLabels(labels), new TextSentenceAttrs(tokens))
 
         labels = new ArrayBuffer[String]()
-        tokens = new ArrayBuffer[TextToken]()
+        tokens = new ArrayBuffer[TextAttr]()
         Some(result)
       }
       else {
@@ -67,14 +59,14 @@ object DatasetReader {
             (attr, value)
           })
 
-        tokens.append(new TextToken(attrValues))
+        tokens.append(new TextAttr(attrValues))
         labels.append(words.head)
         None
       }
     }
   }
 
-  def encodeDataset(source: Iterator[(TextSentenceLabels, TextSentence)]): Dataset = {
+  def encodeDataset(source: Iterator[(TextSentenceLabels, TextSentenceAttrs)]): CrfDataset = {
     val metadata = new DatasetEncoder()
 
     val instances = source.map{case (textLabels, textSentence) => {
@@ -90,11 +82,11 @@ object DatasetReader {
       (new InstanceLabels(labels), new Instance(features))
     }}.toList
 
-    new Dataset(instances, metadata.getMetadata)
+    new CrfDataset(instances, metadata.getMetadata)
   }
 
 
-  def readAndEncode(file: String, skipLines: Int): Dataset = {
+  def readAndEncode(file: String, skipLines: Int): CrfDataset = {
     val textDataset = readWithLabels(file, skipLines)
 
     encodeDataset(textDataset)
@@ -119,4 +111,5 @@ object DatasetReader {
     }}
   }
 }
+
 
