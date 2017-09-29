@@ -4,14 +4,14 @@ val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
 name := "spark-nlp"
-organization := "johnsnowlabs"
+organization := "com.jsl.nlp"
 version := "1.1.0"
 scalaVersion := scalaVer
 sparkVersion := sparkVer
 
 
 /** Spark-Package attributes */
-spName := "johnsnowlabs/spark-nlp"
+spName := "com.jsl.nlp/spark-nlp"
 sparkComponents ++= Seq("mllib")
 licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 spIncludeMaven := false
