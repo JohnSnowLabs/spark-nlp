@@ -4,25 +4,46 @@ val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
 name := "spark-nlp"
+
 organization := "com.jsl.nlp"
+
 version := "1.1.0"
+
 scalaVersion := scalaVer
+
 sparkVersion := sparkVer
 
-
 /** Spark-Package attributes */
-spName := "com.jsl.nlp/spark-nlp"
+spName := "johnsnowlabs/spark-nlp"
+
 sparkComponents ++= Seq("mllib")
+
 licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+
 spIncludeMaven := false
+
 spAppendScalaVersion := false
+
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
+
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
+
 ivyScala := ivyScala.value map {
   _.copy(overrideScalaVersion = true)
 }
+
+/** Bintray settings */
+bintrayPackageLabels := Seq("nlp", "nlu",
+  "natural-language-processing", "natural-language-understanding",
+  "spark", "spark-ml", "pyspark", "machine-learning",
+  "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
+  "tokenizer", "stemmer", "part-of-speech-tagger", "annotation-framework")
+
+bintrayRepository := "johnsnowlabs"
+
+bintrayOrganization := Some("johnsnowlabs")
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
@@ -46,6 +67,7 @@ lazy val root = (project in file("."))
   )
 
 parallelExecution in Test := false
+
 logBuffered in Test := false
 
 scalacOptions ++= Seq(
