@@ -6,16 +6,17 @@
 <!--[if !IE]><!-->
 <html lang="en"> <!--<![endif]-->
 <head>
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+        ;
+        gtag('js', new Date());
 
-  gtag('config', 'UA-70312582-1');
-</script>
-
+        gtag('config', 'UA-70312582-1');
+    </script>
     <title>Spark NLP</title>
     <!-- Meta -->
     <meta charset="utf-8">
@@ -45,22 +46,21 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    -->
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
 </head>
 
 <body class="body-pink">
+<script>
+    $(function () {
+        $("#includedHeader").load("header.html");
+        $("#includedFooter").load("footer.html");
+    });
+</script>
 <div class="page-wrapper">
     <!-- ******Header****** -->
     <header id="header" class="header">
         <div class="container">
-            <div class="branding">
-                <h1 class="logo">
-                    <a href="http://johnsnowlabs.com" target="_blank">
-                        <img src="https://ui.datalabs.johnsnowlabs.com/public/assets/images/logo.png" width="180"
-                             height="50">
-                    </a>
-                    <a class="btn btn-primary btn-cta" style="float: right;margin-top: 10px;" href="contribute.html"> Contact US</a>
-                </h1>
-            </div>
+            <div id="includedHeader"></div>
             <ol class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
                 <li class="active">Annotators</li>
@@ -98,12 +98,13 @@
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
-                                          <ul>
-                                            <li>
-                                              setPattern(pattern): Regular expression for tokenization
-                                            </li>
-                                          </ul><br>
-                                          <b>Example:</b><br>
+                                            <ul>
+                                                <li>
+                                                    setPattern(pattern): Regular expression for tokenization
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">tokenizer = RegexTokenizer() \
   .setInputCols(["sentences"]) \
@@ -118,21 +119,20 @@
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
-                                          <ul>
-                                            <li>
-                                              setPattern(pattern): Regular expression for tokenization
-                                            </li>
-                                          </ul><br>
-                                          <b>Example:</b><br>
+                                            <ul>
+                                                <li>
+                                                    setPattern(pattern): Regular expression for tokenization
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val regexTokenizer = new RegexTokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")</code></pre>
                                         </div><!--//code-block-->
-
                                     </div>
                                 </div>
-
                                 <h4 id="Normalizer" class="section-block">2. Normalizer: Text cleaning</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -144,7 +144,6 @@
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
-
                                             <p>
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
@@ -159,7 +158,6 @@
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
-
                                             <p>
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
@@ -171,14 +169,14 @@
   .setOutputCol("normalized")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-
                                 <h4 id="Stemmer" class="section-block"> 3. Stemmer: Hard stems</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
                                     </li>
-                                         <li role="presentation"><a href="#scala" aria-controls="profile" role="tab" data-toggle="tab">Scala</a></li>
-                                     </ul>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
@@ -193,25 +191,24 @@
                                             <pre><code class="language-python">stemmer = Stemmer() \
   .setInputCols(["token"]) \
   .setOutputCol("stem")</code></pre>
-                                        </div><!--//code-block-->
+                                        </div>
                                     </div>
-                                  <div role="tabpanel" class="tab-pane active" id="scala">
-                                    <div class="code-block">
-                                      <p>
-                                        Returns hard-stems out of words with the objective of retrieving the
-                                        meaningful
-                                        part of the word<br>
-                                        <b>Type:</b> Token<br>
-                                        <b>Requires:</b> Token<br>
-                                        <b>Example:</b><br>
-                                      </p>
-                                      <pre><code class="language-python">val stemmer = new Stemmer()
+                                    <div role="tabpanel" class="tab-pane active" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Returns hard-stems out of words with the objective of retrieving the
+                                                meaningful
+                                                part of the word<br>
+                                                <b>Type:</b> Token<br>
+                                                <b>Requires:</b> Token<br>
+                                                <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">val stemmer = new Stemmer()
   .setInputCols(Array("token"))
   .setOutputCol("stem")</code></pre>
-                                    </div><!--//code-block-->
-                                  </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <h4 id="Lemmatizer" class="section-block"> 4. Lemmatizer: Lemmas</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -244,7 +241,7 @@
   .setInputCols(["token"]) \
   .setOutputCol("lemma") \
   .setDictionary("./lemmas001.txt")</code></pre>
-                                        </div><!--//code-block-->
+                                        </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
@@ -271,7 +268,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <h4 id="RegexMatcher" class="section-block"> 5. RegexMatcher: Rule matching</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -356,8 +352,8 @@
                                                 Document<br>
                                                 <b>Type:</b> Entity<br>
                                                 <b>Requires:</b> Document<br>
-                                              <b>Input:</b> hello world, I am looking for you<br>
-                                              <b>Functions:</b> <br>
+                                                <b>Input:</b> hello world, I am looking for you<br>
+                                                <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
                                                     setMaxLen(number): Maximum amount of words to look from relative
@@ -387,8 +383,8 @@
                                                 Document<br>
                                                 <b>Type:</b> Entity<br>
                                                 <b>Requires:</b> Document<br>
-                                              <b>Input:</b> hello world, I am looking for you<br>
-                                              <b>Functions:</b> <br>
+                                                <b>Input:</b> hello world, I am looking for you<br>
+                                                <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
                                                     setMaxLen(number): Maximum amount of words to look from relative
@@ -589,17 +585,23 @@
                                                 Scores a sentence for a sentiment<br>
                                                 <b>Type:</b> sentiment<br>
                                                 <b>Requires:</b> Document, Token<br>
-                                                <b>Functions:</b> <ul>
-                                          <li>
-                                            setDictPath(path)
-                                          </li>
-                                        </ul><br>
-                                                <b>Input:</b> <ul><li>superb,positive</li>
-                                          <li>bad,negative</li>
-                                          <li>lack of,revert</li>
-                                          <li>very,increment</li>
-                                          <li>barely,decrement</li></ul><br>
-                                                <b>Example:</b><br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setDictPath(path)
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Input:</b>
+                                            <ul>
+                                                <li>superb,positive</li>
+                                                <li>bad,negative</li>
+                                                <li>lack of,revert</li>
+                                                <li>very,increment</li>
+                                                <li>barely,decrement</li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
   .setInputCols(["lemma", "sentence"]) \
@@ -608,22 +610,28 @@
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
-                                          <p>
-                                            Scores a sentence for a sentiment<br>
-                                            <b>Type:</b> sentiment<br>
-                                            <b>Requires:</b> Document, Token<br>
-                                            <b>Functions:</b> <ul>
-                                          <li>
-                                            setDictPath(path)
-                                          </li>
-                                        </ul><br>
-                                          <b>Input:</b> <ul><li>superb,positive</li>
-                                          <li>bad,negative</li>
-                                          <li>lack of,revert</li>
-                                          <li>very,increment</li>
-                                          <li>barely,decrement</li></ul><br>
-                                          <b>Example:</b><br>
-                                          </p>
+                                            <p>
+                                                Scores a sentence for a sentiment<br>
+                                                <b>Type:</b> sentiment<br>
+                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setDictPath(path)
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Input:</b>
+                                            <ul>
+                                                <li>superb,positive</li>
+                                                <li>bad,negative</li>
+                                                <li>lack of,revert</li>
+                                                <li>very,increment</li>
+                                                <li>barely,decrement</li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
+                                            </p>
                                             <pre><code class="language-python">val sentimentDetector = new SentimentDetectorModel
   .setInputCols(Array("token", "sentence"))
   .setOutputCol("sentiment")</code></pre>
@@ -681,7 +689,6 @@
   .setCorpusPath("/ner-corpus/dict.txt")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-
                                 <h4 id="SpellChecker" class="section-block"> 12. SpellChecker: Token spell
                                     corrector</h4>
                                 <ul class="nav nav-tabs" role="tablist">
@@ -777,81 +784,84 @@
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="ViveknSentimentDetector" class="section-block"> 13. ViveknSentimentDetector: Sentiment
-                                  analysis</h4>
+                                <h4 id="ViveknSentimentDetector" class="section-block"> 13. ViveknSentimentDetector:
+                                    Sentiment
+                                    analysis</h4>
                                 <ul class="nav nav-tabs" role="tablist">
-                                  <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                            role="tab" data-toggle="tab">Python</a>
-                                  </li>
-                                  <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                             data-toggle="tab">Scala</a></li>
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                  <div role="tabpanel" class="tab-pane active" id="python">
-                                    <div class="code-block">
-                                      <p>
-                                        Scores a sentence for a sentiment<br>
-                                        <b>Type:</b> sentiment<br>
-                                        <b>Requires:</b> Document, Token<br>
-                                        <b>Functions:</b> <ul>
-                                      <li>
-                                        setPositiveSource(path)
-                                      </li>
-                                      <li>
-                                        setNegativeSource(path)
-                                      </li>
-                                      <li>
-                                        setPruneCorpus(true): when training on small data you may want
-                                        to disable this to not cut off unfrequent words
-                                      </li>
-                                    </ul><br>
-                                      <b>Input:</b> File or folder of text files of positive and negative data<br>
-                                      <b>Example:</b><br>
-                                      </p>
-                                      <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Scores a sentence for a sentiment<br>
+                                                <b>Type:</b> sentiment<br>
+                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setPositiveSource(path)
+                                                </li>
+                                                <li>
+                                                    setNegativeSource(path)
+                                                </li>
+                                                <li>
+                                                    setPruneCorpus(true): when training on small data you may want
+                                                    to disable this to not cut off unfrequent words
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
     .setInputCols(["lemma", "sentence"]) \
     .setOutputCol("sentiment")</code></pre>
-                                    </div><!--//code-block-->
-                                  </div>
-                                  <div role="tabpanel" class="tab-pane" id="scala">
-                                    <div class="code-block">
-                                      <p>
-                                        Scores a sentence for a sentiment<br>
-                                        <b>Type:</b> sentiment<br>
-                                        <b>Requires:</b> Document, Token<br>
-                                        <b>Functions:</b> <ul>
-                                      <li>
-                                        setPositiveSourcePath(path)
-                                      </li>
-                                      <li>
-                                        setNegativeSourcePath(path)
-                                      </li>
-                                      <li>
-                                        setCorpusPrune(true): when training on small data you may want
-                                        to disable this to not cut off unfrequent words
-                                      </li>
-                                    </ul><br>
-                                      <b>Input:</b> File or folder of text files of positive and negative data<br>
-                                      <b>Example:</b><br>
-                                      </p>
-                                      <pre><code class="language-python">new ViveknSentimentApproach()
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Scores a sentence for a sentiment<br>
+                                                <b>Type:</b> sentiment<br>
+                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setPositiveSourcePath(path)
+                                                </li>
+                                                <li>
+                                                    setNegativeSourcePath(path)
+                                                </li>
+                                                <li>
+                                                    setCorpusPrune(true): when training on small data you may want
+                                                    to disable this to not cut off unfrequent words
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
       .setPositiveSourcePath("./positive/1.txt")
       .setNegativeSourcePath("./negative/1.txt")
       .setCorpusPrune(false)</code></pre>
-                                    </div><!--//code-block--></div>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
-                        </section><!--//doc-section-->
-
-                    </div><!--//content-inner-->
-                </div><!--//doc-content-->
+                        </section>
+                    </div>
+                </div>
                 <div class="doc-sidebar hidden-xs">
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
-
                             <li>
                                 <a class="scrollto" href="#code-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
@@ -867,32 +877,27 @@
                                     <li><a class="scrollto" href="#SentimentDetector">Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#NERTagger">NERTagger</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
-                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
-                                </ul><!--//nav-->
+                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment
+                                        Detector</a></li>
+                                </ul>
                             </li>
-                        </ul><!--//doc-menu-->
+                        </ul>
                     </nav>
-                </div><!--//doc-sidebar-->
-            </div><!--//doc-body-->
-        </div><!--//container-->
-    </div><!--//doc-wrapper-->
-</div><!--//page-wrapper-->
-
-<footer id="footer" class="footer text-center">
-    <div class="container">
-        <p>© 2017 <a href="#">Privacy Policy</a> | <a href="#">Terms of Services</a><a href="//www.github.com/johnsnowlabs/spark-nlp" target="_blank"> <i class="fa fa-github" style="float: right;" aria-hidden="true">Github</i></a></p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+<footer id="footer" class="footer text-center">
+    <div id="includedFooter"></div>
 </footer>
-
 <!-- Main Javascript -->
-<script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
 <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
 <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
 <script type="text/javascript" src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script>
 <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
 <script type="text/javascript" src="assets/js/main.js"></script>
-
 <script>
 
     $('.nav-tabs li a').click(function (e) {
@@ -911,7 +916,6 @@
     })
 
 </script>
-
 </body>
-</html> 
+</html>
 

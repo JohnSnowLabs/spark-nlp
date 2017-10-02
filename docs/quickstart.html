@@ -6,15 +6,15 @@
 <!--[if !IE]><!-->
 <html lang="en"> <!--<![endif]-->
 <head>
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
-  gtag('js', new Date());
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
 
-  gtag('config', 'UA-70312582-1');
-</script>
+        gtag('config', 'UA-70312582-1');
+    </script>
     <title>Spark NLP</title>
     <!-- Meta -->
     <meta charset="utf-8">
@@ -39,23 +39,21 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
 </head>
 
 <body class="body-green">
+<script>
+    $(function () {
+        $("#includedHeader").load("header.html");
+        $("#includedFooter").load("footer.html");
+    });
+</script>
 <div class="page-wrapper">
     <!-- ******Header****** -->
     <header id="header" class="header">
         <div class="container">
-            <div class="branding">
-                <h1 class="logo">
-                    <a href="http://johnsnowlabs.com" target="_blank">
-                        <img src="https://ui.datalabs.johnsnowlabs.com/public/assets/images/logo.png" width="180"
-                             height="50">
-                     </a>
-                    <a class="btn btn-primary btn-cta" style="float: right;margin-top: 10px;" href="contribute.html"> Contact US</a>
-                </h1>
-            </div>
+            <div id="includedHeader"></div>
             <ol class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
                 <li class="active">Quick Start</li>
@@ -97,48 +95,6 @@
                                 </p>
                             </div>
                         </section>
-                        <!--ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                      role="tab" data-toggle="tab">Python</a>
-                            </li>
-                            <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                       data-toggle="tab">Scala</a></li>
-                        </ul-->
-                        <!--
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="python">
-                                <div class="code-block">
-                                    <p>Run <b>spark-shell --jars /path/to/spark-nlp.jar</b> along with any spark options you
-                                        might want to use.</p>
-
-                                </div><!--//code-block>
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="scala">
-                                <div class="code-block">
-                                    <div class="section-block">
-                                        <p>run <b>pyspark --jars /path/to/spark-nlp.jar</b> along with desired spark launcher
-                                            options.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-
-
-                        <!--<section id="scala-section" class="doc-section">
-                            <h2 class="section-title">Scala</h2>
-                            <div class="section-block">
-                                <p>Run <b>spark-shell &#45;&#45;jars /path/to/spark-nlp.jar</b> along with any spark options you
-                                    might want to use.</p>
-                            </div>
-                        </section>
-                        <section id="python-section" class="doc-section">
-                            <h2 class="section-title">Python</h2>
-                            <div class="section-block">
-                                <p>run <b>pyspark &#45;&#45;jars /path/to/spark-nlp.jar</b> along with desired spark launcher
-                                    options.</p>
-                            </div>
-                        </section>-->
                         <section id="concepts-2-section" class="doc-section">
                             <h2 class="section-title">Concepts</h2>
                             <div class="section-block">
@@ -210,7 +166,7 @@
                         </section>
                         <section id="example-section" class="doc-section">
                             <h2 class="section-title">First Example</h2>
-                            <div class="section-block">
+                            <div id="annotators-type-section" class="section-block">
                                 <h3 class="block-title">Annotator types</h3>
                                 <p>
                                     Every annotator has a type. Those annotators that share a type, can be used
@@ -288,17 +244,8 @@ pipeline
                 <div class="doc-sidebar hidden-xs">
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
-                            <li><a class="scrollto" href="#concepts-section">Concepts</a></li>
-                            <li><a class="scrollto" href="#scala-section">Scala</a></li>
-                            <li><a class="scrollto" href="#python-section">Python</a></li>
+                            <li><a class="scrollto" href="#concepts-section">Requirements</a></li>
                             <li><a class="scrollto" href="#concepts-2-section">Concepts</a></li>
-                            <li>
-                                <a class="scrollto" href="#document-section">Document</a>
-                                <ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#functions">Functions</a></li>
-                                    <li><a class="scrollto" href="#doc-example">Example</a></li>
-                                </ul>
-                            </li>
                             <li><a class="scrollto" href="#annotation-section">Annotation</a></li>
                             <li>
                                 <a class="scrollto" href="#annotators-section">Annotators</a>
@@ -313,28 +260,22 @@ pipeline
                                     <li><a class="scrollto" href="#using-pipelines">Using Pipelines</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
 <footer id="footer" class="footer text-center">
-    <div class="container">
-        <p>© 2017 <a href="#">Privacy Policy</a> | <a href="#">Terms of Services</a> <a href="//www.github.com/johnsnowlabs/spark-nlp" target="_blank"> <i class="fa fa-github" style="float: right;" aria-hidden="true">Github</i></a></p>
-    </div>
+    <div id="includedFooter"></div>
 </footer>
 
 <!-- Main Javascript -->
-<script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
 <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
 <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
 <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
 <script type="text/javascript" src="assets/js/main.js"></script>
-
 </body>
-</html> 
-
+</html>
