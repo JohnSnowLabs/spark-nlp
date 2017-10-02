@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
 <head>
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
-  gtag('js', new Date());
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
 
-  gtag('config', 'UA-70312582-1');
-</script>
+        gtag('config', 'UA-70312582-1');
+    </script>
 
     <title>Spark NLP</title>
     <!-- Meta -->
@@ -19,12 +19,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">    
+    <meta name="author" content="">
     <link rel="shortcut icon" href="fav.ico">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!-- Global CSS -->
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-    <!-- Plugins CSS -->    
+    <!-- Plugins CSS -->
     <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="assets/plugins/prism/prism.css">
     <link rel="stylesheet" href="assets/plugins/lightbox/dist/ekko-lightbox.min.css">
@@ -34,95 +34,81 @@
     <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-</head> 
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+</head>
 
 <body class="body-orange">
-    <div class="page-wrapper">
-        <!-- ******Header****** -->
-        <header id="header" class="header">
-            <div class="container">
-               <div class="branding">
-                    <h1 class="logo">
-                        <a href="http://johnsnowlabs.com" target="_blank">
-                           <img src="https://ui.datalabs.johnsnowlabs.com/public/assets/images/logo.png" width="180"
-                                height="50">
-                       </a>
-                       <a class="btn btn-primary btn-cta" style="float: right;margin-top: 10px;" href="contribute.html"
-                          target="_blank"> Contact US</a>
-                    </h1>
-                </div>
-                <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"> License &amp; Credits</li>
-                </ol>
-            </div>
-        </header>
-        <div style="border:1px solid #e7e7e7;"></div>
-        <div class="doc-wrapper">
-            <div class="container">
-                <div id="doc-header" class="doc-header text-center">
-                    <h1 class="doc-title"><span aria-hidden="true" class="icon icon_gift"></span> SparkNLP - License &amp; Credits</h1>
-                    <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 21th, 2017</div>
-                </div><!--//doc-header-->
-                <div class="doc-body">
-                    <div class="doc-content">
-                        <div class="content-inner">
-                            <section id="license" class="doc-section">
-                                <h2 class="section-title">License</h2>
-                                <div class="section-block">
-                                  <p>  The library is under Apache 2.0 license, written in Scala with no dependencies on other NLP or ML libraries, and designed to natively extend the Spark ML <a href="http://blog.insightdatalabs.com/spark-pipelines-elegant-yet-powerful/" target="_blank">Pipeline API</a>.</p>
-
-                                    <p><a href="http://www.johnsnowlabs.com/" target="_blank">John Snow Labs</a> is the company leading and sponsoring the development of the Spark NLP library. The company provides commercial support, indemnification and consulting for it. This provides the library with long-term financial backing, a funded active development team, and a growing stream of real-world projects that drives robustness and roadmap prioritization.</p>
-                                </div><!--//section-block-->
-                                
-                            </section><!--//doc-section-->
-                            <section id="credits" class="doc-section">
-                                <h2 class="section-title">Acknowledgements</h2>
-                                <div class="section-block">
-                                    <p>Alex Thomas from Indeed and David Talby from Pacific AI, for the initial design and code of this library.</p>
-                                    <p>Saif Addin Ellafi from John Snow Labs for building the first client-ready version of the library.</p>
-                                    <p>Eduardo Munoz, Navneet Behl and Anju Aggarwal from John Snow Labs for expanding the production grade codebase and functionality, and for managing the project.</p>
-                                    <p>Joseph Bradley and Xiangrui Meng from Databricks, for guidance on the Spark ML API extension guidelines.</p>
-                                    <p>Claudiu Branzan from G2 Web Services, for design contributions and review.</p>
-                                    <p>Ben Lorica from O’Reilly, for driving us to move this from idea to reality.</p>
-                                </div><!--//section-block-->
-                            </section><!--//doc-section-->
-                        </div><!--//content-inner-->
-                    </div><!--//doc-content-->
-                    <div class="doc-sidebar">
-                        <nav id="doc-nav">
-                            <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
-                                <li><a class="scrollto" href="#license">License</a></li>
-                                <li><a class="scrollto" href="#credits">Acknowledgements</a></li>
-                            </ul><!--//doc-menu-->
-                        </nav>
-                    </div><!--//doc-sidebar-->
-                </div><!--//doc-body-->              
-            </div><!--//container-->
-        </div><!--//doc-wrapper-->
-
-    </div><!--//page-wrapper-->
- 
-    <footer id="footer" class="footer text-center">
+<script>
+    $(function () {
+        $("#includedHeader").load("header.html");
+        $("#includedFooter").load("footer.html");
+    });
+</script>
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+    <header id="header" class="header">
         <div class="container">
-            <p>© 2017 <a href="#">Privacy Policy</a> | <a href="#">Terms of Services</a><a href="//www.github.com/johnsnowlabs/spark-nlp" target="_blank"> <i class="fa fa-github" style="float: right;" aria-hidden="true">Github</i></a></p>
+            <div id="includedHeader"></div>
+            <ol class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li class="active"> License &amp; Credits</li>
+            </ol>
         </div>
-    </footer>
+    </header>
+    <div style="border:1px solid #e7e7e7;"></div>
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_gift"></span> SparkNLP - License &amp; Credits</h1>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 21th, 2017</div>
+            </div>
+            <div class="doc-body">
+                <div class="doc-content">
+                    <div class="content-inner">
+                        <section id="license" class="doc-section">
+                            <h2 class="section-title">License</h2><p>  The library is under Apache 2.0 license, written in Scala with no dependencies on other NLP or ML libraries, and designed to natively extend the Spark ML <a href="http://blog.insightdatalabs.com/spark-pipelines-elegant-yet-powerful/" target="_blank">Pipeline API</a>.</p>
+                            <p><a href="http://www.johnsnowlabs.com/" target="_blank">John Snow Labs</a> is the company leading and sponsoring the development of the Spark NLP library. The company provides commercial support, indemnification and consulting for it. This provides the library with long-term financial backing, a funded active development team, and a growing stream of real-world projects that drives robustness and roadmap prioritization.</p>
+                    </div>
+                    <div class="section-block">
+                        </section>
+                        <section id="credits" class="doc-section">
+                            <h2 class="section-title">Acknowledgements</h2>
+                            <div class="section-block">
+                                <p>Alex Thomas from Indeed and David Talby from Pacific AI, for the initial design and code of this library.</p>
+                                <p>Saif Addin Ellafi from John Snow Labs for building the first client-ready version of the library.</p>
+                                <p>Eduardo Munoz, Navneet Behl and Anju Aggarwal from John Snow Labs for expanding the production grade codebase and functionality, and for managing the project.</p>
+                                <p>Joseph Bradley and Xiangrui Meng from Databricks, for guidance on the Spark ML API extension guidelines.</p>
+                                <p>Claudiu Branzan from G2 Web Services, for design contributions and review.</p>
+                                <p>Ben Lorica from O’Reilly, for driving us to move this from idea to reality.</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="doc-sidebar">
+                    <nav id="doc-nav">
+                        <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
+                            <li><a class="scrollto" href="#license">License</a></li>
+                            <li><a class="scrollto" href="#credits">Acknowledgements</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="footer" class="footer text-center">
+    <div id="includedFooter"></div>
+</footer>
+<!-- Main Javascript -->
 
-
-    <!-- Main Javascript -->          
-    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
-    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>  
-    <script type="text/javascript" src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script>                                                                 
-    <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="assets/js/main.js"></script>
-    
+<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
 </body>
-</html> 
-
+</html>
