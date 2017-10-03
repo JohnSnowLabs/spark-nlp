@@ -7,8 +7,8 @@ package com.jsl.ml.crf
 
   Then script could be run
  */
-object CoNLL2003Test extends App {
-  val folder = "/home/aleksei/work/nlp/libs/crfsuite_exp/conll2003/"
+object CoNLL2003CrfTest extends App {
+  val folder = "./"
 
   val trainFile = folder + "eng.train.crfsuite"
   val testFileA = folder + "eng.testa.crfsuite"
