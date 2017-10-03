@@ -102,8 +102,8 @@ class RegexMatcher(AnnotatorTransformer):
                      "strategy",
                      "MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE",
                      typeConverter=TypeConverters.toString)
-    rules = Param(Params._dummy(),
-                  "rules",
+    rulesPath = Param(Params._dummy(),
+                  "rulesPath",
                   "rules file path, must be a tuple of regex and identifier. replace config with this",
                   typeConverter=TypeConverters.toString)
 
@@ -115,8 +115,8 @@ class RegexMatcher(AnnotatorTransformer):
     def setStrategy(self, value):
         return self._set(strategy=value)
 
-    def setRules(self, value):
-        return self._set(rules=value)
+    def setRulesPath(self, value):
+        return self._set(rulesPath=value)
 
 
 class Lemmatizer(AnnotatorTransformer):

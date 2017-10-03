@@ -22,21 +22,21 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
   lazy val defaultRules: Array[(String, String)] = ResourceHelper.retrieveRegexMatchRules()
 
-  // ToDo: Check wether this annotator can be stored to disk as is. otherwise turn regex into string
+  // ToDo: Check whether this annotator can be stored to disk as is. otherwise turn regex into string
 
   val rulesPath: Param[String] = new Param(this, "rulesPath", "File containing rules separated by commas")
+
+  val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
+
+  val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
   def setRulesPath(path: String): this.type = set(rulesPath, path)
 
   def getRulesPath: String = $(rulesPath)
 
-  val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
-
   def setRules(value: Array[(String, String)]): this.type = set(rules, value)
 
   def getRules: Array[(String, String)] = $(rules)
-
-  val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
   private val matchFactory = RuleFactory.lateMatching(TransformStrategy.NO_TRANSFORM)(_)
 
@@ -45,6 +45,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   setDefault(inputCols, Array(DOCUMENT))
+
+  setDefault(rulesPath, "__default")
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
