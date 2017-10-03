@@ -8,16 +8,16 @@ import scala.language.reflectiveCalls
 
 trait RegexMatcherBehaviors { this: FlatSpec =>
   def fixture(dataset: Dataset[Row], rules: Array[(String, String)], strategy: String) = new {
-    val df = AnnotatorBuilder.withRegexMatcher(dataset, rules, strategy)
-    val regexAnnotations = df.select("regex")
+    val annotationDataset: Dataset[_] = AnnotatorBuilder.withRegexMatcher(dataset, rules, strategy)
+    val regexAnnotations: Array[Annotation] = annotationDataset.select("regex")
       .collect
       .flatMap { _.getSeq[Row](0) }
       .map { Annotation(_) }
 
-    df.show()
+    annotationDataset.show()
   }
 
-  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], strategy: String) = {
+  def predefinedRulesRegexMatcher(dataset: => Dataset[Row], strategy: String): Unit = {
     val rules = Array.empty[(String, String)]
     "A RegexMatcher Annotator with predefined rules" should s"successfuly match" in {
       val f = fixture(dataset, rules, strategy)
@@ -28,7 +28,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
 
     it should "create annotations" in {
       val f = fixture(dataset, rules, strategy)
-      assert(f.regexAnnotations.size > 0)
+      assert(f.regexAnnotations.nonEmpty)
     }
 
     it should "create annotations with the correct tag" in {
@@ -49,7 +49,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
 
     it should "create annotations" in {
       val f = fixture(dataset, rules, strategy)
-      assert(f.regexAnnotations.size > 0)
+      assert(f.regexAnnotations.nonEmpty)
     }
 
     it should "create annotations with the correct tag" in {

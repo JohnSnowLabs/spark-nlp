@@ -83,6 +83,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCols(Array("document"))
       .setOutputCol("regex")
     if (rules.nonEmpty) regexMatcher.setRules(rules)
+    else regexMatcher.setRules(Array.empty[(String, String)])
     regexMatcher.transform(dataset)
   }
 
