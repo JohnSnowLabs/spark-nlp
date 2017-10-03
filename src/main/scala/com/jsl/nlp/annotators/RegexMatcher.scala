@@ -24,21 +24,17 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
   // ToDo: Check wether this annotator can be stored to disk as is. otherwise turn regex into string
 
-  val rulesFile: Param[String] = new Param(this, "rulesFile", "File containing rules separated by commas")
+  val rulesPath: Param[String] = new Param(this, "rulesPath", "File containing rules separated by commas")
 
-  def setRulesFile(path: String): this.type = set(rulesFile, path)
+  def setRulesPath(path: String): this.type = set(rulesPath, path)
 
-  def getRulesFile: String = $(rulesFile)
-
-  setDefault(rulesFile, "")
+  def getRulesPath: String = $(rulesPath)
 
   val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
 
-  def setRules(r: Array[(String, String)]) = set(rules, r)
+  def setRules(value: Array[(String, String)]): this.type = set(rules, value)
 
-  def getRules(): Array[(String, String)] = $(rules)
-
-  setDefault(rules, Array.empty[(String, String)])
+  def getRules: Array[(String, String)] = $(rules)
 
   val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
@@ -56,11 +52,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
   def getStrategy: String = $(strategy).toString
 
-  def resolveRules(): Array[(String, String)] = {
-    if (getRules.nonEmpty) getRules
-    else if (getRulesFile.nonEmpty) ResourceHelper.retrieveRegexMatchRules(getRulesFile)
-    else defaultRules
-  }
+  private def resolveRulesFromPath(): Array[(String, String)] =
+    ResourceHelper.retrieveRegexMatchRules($(rulesPath))
 
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
@@ -73,7 +66,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.flatMap { annotation =>
       matchFactory(getFactoryStrategy)
-        .setRules(resolveRules.map(r => new RegexRule(r._1, r._2)))
+        .setRules(get(rules).getOrElse(resolveRulesFromPath()).map(r => new RegexRule(r._1, r._2)))
         .findMatch(annotation.metadata(AnnotatorType.DOCUMENT)).map { m =>
           Annotation(
             annotatorType,
