@@ -18,15 +18,25 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *   -- MATCH_COMPLETE returns only if match is entire target.
   */
 class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher] {
-
   import com.jsl.nlp.AnnotatorType._
 
-  // ToDo: Check wether this annotator can be stored to disk as is. otherwise turn regex into string
-  val rules: Param[String] = new Param(this, "rules", "regex patterns to match")
+  lazy val defaultRules: Array[(String, String)] = ResourceHelper.retrieveRegexMatchRules()
 
-  private var loadedRules: Array[(String, String)] = ResourceHelper.retrieveRegexMatchRules()
+  // ToDo: Check whether this annotator can be stored to disk as is. otherwise turn regex into string
+
+  val rulesPath: Param[String] = new Param(this, "rulesPath", "File containing rules separated by commas")
+
+  val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
 
   val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+
+  def setRulesPath(path: String): this.type = set(rulesPath, path)
+
+  def getRulesPath: String = $(rulesPath)
+
+  def setRules(value: Array[(String, String)]): this.type = set(rules, value)
+
+  def getRules: Array[(String, String)] = $(rules)
 
   private val matchFactory = RuleFactory.lateMatching(TransformStrategy.NO_TRANSFORM)(_)
 
@@ -36,18 +46,16 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
   setDefault(inputCols, Array(DOCUMENT))
 
+  setDefault(rulesPath, "__default")
+
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
-
-  def getRules: Array[(String, String)] = loadedRules
-
-  def setRules(path: String): this.type = {
-    loadedRules = ResourceHelper.retrieveRegexMatchRules(path)
-    set(rules, path)
-  }
 
   def setStrategy(value: String): this.type = set(strategy, value)
 
   def getStrategy: String = $(strategy).toString
+
+  private def resolveRulesFromPath(): Array[(String, String)] =
+    ResourceHelper.retrieveRegexMatchRules($(rulesPath))
 
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
@@ -60,7 +68,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.flatMap { annotation =>
       matchFactory(getFactoryStrategy)
-        .setRules(loadedRules.map(r => new RegexRule(r._1, r._2)))
+        .setRules(get(rules).getOrElse(resolveRulesFromPath()).map(r => new RegexRule(r._1, r._2)))
         .findMatch(annotation.metadata(AnnotatorType.DOCUMENT)).map { m =>
           Annotation(
             annotatorType,
@@ -72,4 +80,5 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
     }
   }
 }
+
 object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
