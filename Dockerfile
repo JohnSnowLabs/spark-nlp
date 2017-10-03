@@ -1,15 +1,11 @@
 FROM openjdk:8-alpine
 
-RUN apk add --no-cache --virtual=.dependencies tar wget bash
+RUN apk add --no-cache --virtual=.dependencies tar wget bash rsync
 
-ARG SCALA_VERSION=2.11.11
-ARG SBT_VERSION=0.13.13
+ARG SBT_VERSION=0.13.16
 
-RUN wget -qO- "http://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz" \
-    | tar xzf - -C /usr/local --strip-components=1
-
-RUN wget -qO- "http://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" \
-    |  tar xzf - -C /usr/local --strip-components=1 \
+RUN wget -qO- "https://cocl.us/sbt-$SBT_VERSION.tgz" \
+    | tar xzf - -C /usr/local --strip-components=1 \
     && sbt exit
 
 COPY . /app/spark-nlp
