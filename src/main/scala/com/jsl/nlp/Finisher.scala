@@ -35,7 +35,7 @@ class Finisher(override val uid: String)
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
   def getInputCols: Array[String] = $(inputCols)
   def getValueSplitSymbol: String = $(valueSplitSymbol)
-  def getAnnotationSpltSymbol: String = $(annotationSplitSymbol)
+  def getAnnotationSplitSymbol: String = $(annotationSplitSymbol)
   def getCleanAnnotations: Boolean = $(cleanAnnotations)
   def getIncludeKeys: Boolean = $(includeKeys)
 
