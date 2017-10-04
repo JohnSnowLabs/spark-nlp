@@ -2,7 +2,7 @@ package com.jsl.ml.crf
 
 import com.jsl.nlp._
 import com.jsl.nlp.annotators.RegexTokenizer
-import com.jsl.nlp.annotators.ner.linearcrf.{CrfBasedNer, NerTagged}
+import com.jsl.nlp.annotators.ner.crf.{CrfBasedNer, NerTagged}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -60,8 +60,8 @@ object CoNLL
   }
 }
 
-object NewCoNLL2003Test extends App {
-  val folder = "/home/aleksei/work/nlp/libs/crfsuite_exp/conll2003/"
+object CoNLL2003PipelineTest extends App {
+  val folder = "./"
 
   val trainFile = folder + "eng.train"
   val testFileA = folder + "eng.testa"
@@ -69,6 +69,7 @@ object NewCoNLL2003Test extends App {
 
   def readDataset(file: String, textColumn: String = "text", labelColumn: String = "label"): Dataset[_] = {
     val seq = CoNLL.readDocs(file).toSeq
+
     import SparkAccessor.spark.implicits._
 
     val metadataBuilder = new MetadataBuilder()

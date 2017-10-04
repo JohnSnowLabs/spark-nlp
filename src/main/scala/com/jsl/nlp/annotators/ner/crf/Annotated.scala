@@ -1,4 +1,4 @@
-package com.jsl.nlp.annotators.ner.linearcrf
+package com.jsl.nlp.annotators.ner.crf
 
 import com.jsl.ml.crf.TextSentenceLabels
 import com.jsl.nlp.{Annotation, AnnotatorType}

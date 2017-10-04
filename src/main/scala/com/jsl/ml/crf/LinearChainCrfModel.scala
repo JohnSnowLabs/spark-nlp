@@ -10,7 +10,8 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
   val labels = metadata.label2Id.size
 
   def predict(instance: Instance): InstanceLabels = {
-    require(instance.items.size > 0)
+    if (instance.items.isEmpty)
+      return InstanceLabels(Seq.empty)
 
     var newBestPath = Vector(labels)
     var bestPath = Vector(labels)
@@ -59,7 +60,7 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
       result(i) = prevIdx(i + 1)(result(i + 1))
     }
 
-    new InstanceLabels(result)
+    InstanceLabels(result)
   }
 
   override def serialize: SerializedLinearChainCrfModel = {
