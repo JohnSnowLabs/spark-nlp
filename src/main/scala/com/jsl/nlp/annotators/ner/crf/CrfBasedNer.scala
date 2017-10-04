@@ -1,4 +1,4 @@
-package com.jsl.nlp.annotators.ner.linearcrf
+package com.jsl.nlp.annotators.ner.crf
 
 import com.jsl.ml.crf.{LinearChainCrf, TrainParams, Verbose}
 import com.jsl.nlp.AnnotatorApproach
