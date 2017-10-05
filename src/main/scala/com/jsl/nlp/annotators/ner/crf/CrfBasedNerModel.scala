@@ -12,13 +12,13 @@ class CrfBasedNerModel (override val uid: String) extends AnnotatorModel[CrfBase
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  val entities = new Param[Set[String]](this, "entities", "Set of Entities to recognize")
+  val entities = new Param[Array[String]](this, "entities", "Set of Entities to recognize")
 
   val model = new AnnotatorParam[LinearChainCrfModel, SerializedLinearChainCrfModel](
     this, "CRF Model", "Trained CRF model ")
 
   def setModel(crf: LinearChainCrfModel): CrfBasedNerModel = set(model, crf)
-  def setEntities(toExtract: Set[String]): CrfBasedNerModel = set(entities, toExtract)
+  def setEntities(toExtract: Array[String]): CrfBasedNerModel = set(entities, toExtract)
 
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sourceSentences = PosTagged.unpack(annotations)
@@ -33,7 +33,7 @@ class CrfBasedNerModel (override val uid: String) extends AnnotatorModel[CrfBase
           val label = crf.metadata.labels(labelId)
 
           if (!isDefined(entities) || $(entities).contains(label) || $(entities).isEmpty)
-            Some(new Annotation(annotatorType, word.begin, word.end, Map("tag" -> label)))
+            Some(Annotation(annotatorType, word.begin, word.end, Map("tag" -> label)))
           else
             None.asInstanceOf[Some[Annotation]]
         }
