@@ -1,12 +1,13 @@
 package com.jsl.ml.crf
 
 import VectorMath._
+import org.apache.spark.ml.util.Identifiable
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.util.Random
 
 // ToDo Make c0 estimation before training
-class LinearChainCrf(val params: TrainParams) {
+class LinearChainCrf(val params: CrfParams) {
 
   private val logger = LoggerFactory.getLogger("CRF")
 
@@ -179,13 +180,29 @@ object Verbose extends Enumeration {
   val Silent = Value(4)
 }
 
-case class TrainParams
+case class CrfParams
 (
   minEpochs: Int = 10,
   maxEpochs: Int = 1000,
   l2: Float = 1f,
-  verbose: Verbose.Level = Verbose.Silent,
+  verbose: Verbose.Value = Verbose.Silent,
   randomSeed: Option[Int] = None,
   lossEps: Float = 1e-4f,
   c0: Int = 1500000
-)
+) extends Identifiable
+{
+  def this(
+            minEpochs: Int,
+            maxEpochs: Int,
+            l2: Double,
+            verbose: Int,
+            randomSeed: Integer,
+            lossEps: Double,
+            c0: Int) {
+    this(
+      minEpochs, maxEpochs, l2.toFloat, Verbose(verbose), Some(randomSeed).map(v => v.toInt), lossEps.toFloat, c0)
+
+  }
+
+  override val uid: String = Identifiable.randomUID("CrfParams")
+}

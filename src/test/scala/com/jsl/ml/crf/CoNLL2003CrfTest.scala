@@ -23,7 +23,7 @@ object CoNLL2003CrfTest extends App {
 
     System.out.println("Start fitting")
 
-    val params = TrainParams(
+    val params = CrfParams(
       minEpochs = 100,
       l2 = 1f,
       verbose = Verbose.Epochs,

@@ -35,3 +35,5 @@ class TokenizedSentence(ExtendedJavaWrapper):
 
     def __call__(self):
         return self._java_obj
+
+

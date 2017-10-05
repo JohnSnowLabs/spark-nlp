@@ -2,6 +2,7 @@ package com.jsl.nlp.annotators.ner.crf
 
 import com.jsl.ml.crf._
 import com.jsl.nlp.annotators.common.TaggedSentence
+
 import scala.collection.mutable
 
 

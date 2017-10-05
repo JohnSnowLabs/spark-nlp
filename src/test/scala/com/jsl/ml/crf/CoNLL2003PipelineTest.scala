@@ -7,8 +7,6 @@ import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.types.MetadataBuilder
-
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -71,9 +69,6 @@ object CoNLL2003PipelineTest extends App {
     val seq = CoNLL.readDocs(file).toSeq
 
     import SparkAccessor.spark.implicits._
-
-    val metadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", AnnotatorType.NAMED_ENTITY)
 
     seq.toDF(textColumn, labelColumn)
   }

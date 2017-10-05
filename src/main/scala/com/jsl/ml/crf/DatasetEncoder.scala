@@ -39,7 +39,7 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
     val featureId = attrFeatures2Id.getOrElseUpdate((attr, label), attrFeatures2Id.size)
 
     if (featureId >= attrFeatures.size) {
-      val feature = new AttrFeature(featureId, attr, label)
+      val feature = AttrFeature(featureId, attr, label)
       attrFeatures.append(feature)
       attrFeaturesFreq.append(0)
       attrFeaturesSum.append(0f)
@@ -50,7 +50,7 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
   }
 
   private def addTransFeature(fromId: Int, toId: Int): Unit = {
-    val meta = new Transition(fromId, toId)
+    val meta = Transition(fromId, toId)
     transFeaturesFreq(meta) = transFeaturesFreq.getOrElse(meta, 0) + 1
   }
 
@@ -61,7 +61,8 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
   private def getAttr(attr: String, isNumerical: Boolean): Int = {
     val attrId = attr2Id.getOrElseUpdate(attr, attr2Id.size)
     if (attrId >= attributes.size) {
-      attributes.append(new Attr(attrId, attr, isNumerical))
+      attributes.append(
+        Attr(attrId, attr, isNumerical))
     }
 
     attrId
