@@ -7,6 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
+from sparknlp.util import ExtendedJavaWrapper
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -437,3 +438,46 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
 
 class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     name = "NorvigSweetingModel"
+
+
+class CrfParams(ExtendedJavaWrapper):
+    def __init__(self, minEpochs=10, maxEpochs=1000, l2=1.0, verbose=3, randomSeed=None, lossEps=1e-3, c0=2250000):
+        super(CrfParams, self).__init__("com.jsl.ml.crf.CrfParams")
+        self._java_obj = self._new_java_obj(self._java_obj, minEpochs, maxEpochs, l2, verbose, randomSeed, lossEps, c0)
+
+    def __call__(self):
+        return self._java_obj
+
+    def _get_object_id(self):
+        return str(self._java_obj.toString())
+
+class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    labelColumn = Param(Params._dummy(),
+                     "labelColumn",
+                     "Column with label per each token",
+                     typeConverter=TypeConverters.toString)
+
+
+    def setLabelColumn(self, value):
+      self._set(labelColumn=value)
+      return self
+
+    def setCrfParams(self, value):
+      self._java_obj.setCrfParams(value._java_obj)
+      return self
+
+    def setEntities(self, value):
+        self._java_obj.setEntites(value)
+        return self
+
+    def _create_model(self, java_model):
+      return CrfBasedNerModel(java_model)
+
+    @keyword_only
+    def __init__(self):
+        super(CrfBasedNer, self).__init__()
+        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
+
+
+class CrfBasedNerModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    name = "CrfBasedNerModel"
