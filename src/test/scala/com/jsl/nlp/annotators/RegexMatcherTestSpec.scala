@@ -11,5 +11,6 @@ class RegexMatcherTestSpec extends FlatSpec with RegexMatcherBehaviors {
     ("the\\s\\w+", "followed by 'the'"),
     ("ceremonies", "ceremony")
   )
-  "A full RegexMatcher pipeline with content" should behave like predefinedRulesRegexMatcher(df, rules, strategy)
+  "A full RegexMatcher pipeline with content" should behave like customizedRulesRegexMatcher(df, rules, strategy)
+  it should behave like predefinedRulesRegexMatcher(df, strategy)
 }

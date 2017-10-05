@@ -42,6 +42,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
+            .setRulesPath("../src/test/resources/regex-matcher/rules.txt") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.transform(assembled).show()
