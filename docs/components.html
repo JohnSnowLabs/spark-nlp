@@ -46,6 +46,16 @@
        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    -->
     <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script>
+        function getTasks() {
+            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/components.html",
+                    function (data) {
+                        var dateObject = new Date(data[0].commit.author.date);
+                        $(".wrapper").html(dateObject.toDateString());
+                    });
+        }
+        getTasks();
+    </script>
 </head>
 
 <body class="body-pink">
@@ -72,7 +82,7 @@
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><span aria-hidden="true" class="icon icon_puzzle_alt"></span> SparkNLP- Annotators
                 </h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 14th, 2017</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -80,7 +90,8 @@
                         <section id="code-section" class="doc-section">
                             <h2 class="section-title">Annotators</h2>
                             <div>
-                                <h4 id="DocumentAssembler" class="section-block"> 1. DocumentAssembler: Getting data in</h4>
+                                <h4 id="DocumentAssembler" class="section-block"> 1. DocumentAssembler: Getting data
+                                    in</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -93,7 +104,10 @@
                                         <div class="code-block">
                                             <p>
 
-                                                In order to get through the NLP process, we need to get raw data annotated. There is a special transformer that does this for us: the DocumentAssembler, it creates the first annotation of type Document which may be used by annotators down the road
+                                                In order to get through the NLP process, we need to get raw data
+                                                annotated. There is a special transformer that does this for us: the
+                                                DocumentAssembler, it creates the first annotation of type Document
+                                                which may be used by annotators down the road
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">import
@@ -116,7 +130,8 @@ documentAssembler = new DocumentAssembler() \
                                                     setIdCol() -> OPTIONAL: Sring type column with id information
                                                 </li>
                                                 <li>
-                                                    setMetadataCol() -> OPTIONAL: Map type column with metadata information
+                                                    setMetadataCol() -> OPTIONAL: Map type column with metadata
+                                                    information
                                                 </li>
                                             </ul>
                                         </div><!--//code-block-->
@@ -125,7 +140,10 @@ documentAssembler = new DocumentAssembler() \
                                         <div class="code-block">
                                             <p>
 
-                                                In order to get through the NLP process, we need to get raw data annotated. There is a special transformer that does this for us: the DocumentAssembler, it creates the first annotation of type Document which may be used by annotators down the road
+                                                In order to get through the NLP process, we need to get raw data
+                                                annotated. There is a special transformer that does this for us: the
+                                                DocumentAssembler, it creates the first annotation of type Document
+                                                which may be used by annotators down the road
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">import
@@ -148,7 +166,8 @@ documentAssembler = new DocumentAssembler()
                                                     setIdCol() -> OPTIONAL: Sring type column with id information
                                                 </li>
                                                 <li>
-                                                    setMetadataCol() -> OPTIONAL: Map type column with metadata information
+                                                    setMetadataCol() -> OPTIONAL: Map type column with metadata
+                                                    information
                                                 </li>
                                             </ul>
                                         </div><!--//code-block--></div>
@@ -828,16 +847,16 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b><br>
                                             <ul>
                                                 <li>
-                                                   setDictPath: path to english words dictionary
+                                                    setDictPath: path to english words dictionary
                                                 </li>
                                                 <li>
-                                                   setCorpusPath: path to training corpus. Can be any good text.
+                                                    setCorpusPath: path to training corpus. Can be any good text.
                                                 </li>
                                                 <li>
-                                                   setSlangPath: path to custom dictionares, separated by comma
+                                                    setSlangPath: path to custom dictionares, separated by comma
                                                 </li>
                                                 <li>
-                                                   setCaseSensitive: defaults to false. Might affect accuracy
+                                                    setCaseSensitive: defaults to false. Might affect accuracy
                                                 </li>
                                                 <li>
                                                     setDoubleVariants: enables extra check for word combinations, more
@@ -943,7 +962,9 @@ documentAssembler = new DocumentAssembler()
                                             <p>
 
 
-                                                Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
+                                                Once we have our NLP pipeline ready to go, we might want to use our
+                                                annotation results somewhere else where it is easy to use. The Finisher
+                                                outputs annotation(s) values into string.
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val finisher = new Finisher()
@@ -952,24 +973,28 @@ documentAssembler = new DocumentAssembler()
 
                                             <b>Settable parameters are:</b>
                                             <ul>
-                                            <li>
-                                               setInputCol()
-                                            </li>
-                                            <li>
-                                               setOutputCol()
-                                            </li>
-                                            <li>
-                                               setCleanAnnotations(True) -> Whether to remove intermediate annotations
-                                            </li>
-                                            <li>
-                                               setValueSplitSymbol("#") -> split values within an annotation character
-                                            </li>
-                                            <li>
-                                                setAnnotationSplitSymbol("@") -> split values between annotations character
-                                            </li>
-                                            <li>
-                                                setIncludeKeys(False) -> Whether to include metadata keys. Sometimes useful in some annotations
-                                            </li>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                                <li>
+                                                    setCleanAnnotations(True) -> Whether to remove intermediate
+                                                    annotations
+                                                </li>
+                                                <li>
+                                                    setValueSplitSymbol("#") -> split values within an annotation
+                                                    character
+                                                </li>
+                                                <li>
+                                                    setAnnotationSplitSymbol("@") -> split values between annotations
+                                                    character
+                                                </li>
+                                                <li>
+                                                    setIncludeKeys(False) -> Whether to include metadata keys. Sometimes
+                                                    useful in some annotations
+                                                </li>
                                             </ul>
                                         </div><!--//code-block-->
                                     </div>
@@ -978,7 +1003,9 @@ documentAssembler = new DocumentAssembler()
                                             <p>
 
 
-                                                Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
+                                                Once we have our NLP pipeline ready to go, we might want to use our
+                                                annotation results somewhere else where it is easy to use. The Finisher
+                                                outputs annotation(s) values into string.
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val finisher = new Finisher()
@@ -987,24 +1014,28 @@ documentAssembler = new DocumentAssembler()
 
                                             <b>Settable parameters are:</b>
                                             <ul>
-                                            <li>
-                                               setInputCol()
-                                            </li>
-                                            <li>
-                                               setOutputCol()
-                                            </li>
-                                            <li>
-                                               setCleanAnnotations(True) -> Whether to remove intermediate annotations
-                                            </li>
-                                            <li>
-                                               setValueSplitSymbol("#") -> split values within an annotation character
-                                            </li>
-                                            <li>
-                                               setAnnotationSplitSymbol("@") -> split values between annotations character
-                                            </li>
-                                            <li>
-                                               setIncludeKeys(False) -> Whether to include metadata keys. Sometimes useful in some annotations
-                                            </li>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                                <li>
+                                                    setCleanAnnotations(True) -> Whether to remove intermediate
+                                                    annotations
+                                                </li>
+                                                <li>
+                                                    setValueSplitSymbol("#") -> split values within an annotation
+                                                    character
+                                                </li>
+                                                <li>
+                                                    setAnnotationSplitSymbol("@") -> split values between annotations
+                                                    character
+                                                </li>
+                                                <li>
+                                                    setIncludeKeys(False) -> Whether to include metadata keys. Sometimes
+                                                    useful in some annotations
+                                                </li>
                                             </ul>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -1031,7 +1062,8 @@ documentAssembler = new DocumentAssembler()
                                     <li><a class="scrollto" href="#SentimentDetector">Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#NERTagger">NERTagger</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
-                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
+                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment
+                                        Detector</a></li>
                                     <li><a class="scrollto" href="#Finisher">Finisher</a></li>
 
                                 </ul><!--//nav-->
