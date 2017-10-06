@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en"> <!--<![endif]-->
 <head>
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)};
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+        ;
         gtag('js', new Date());
 
         gtag('config', 'UA-70312582-1');
@@ -20,7 +26,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="fav.ico">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
     <!-- Global CSS -->
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Plugins CSS -->
@@ -36,6 +43,16 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script>
+        function getTasks() {
+            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/faqs.html",
+                    function (data) {
+                        var dateObject = new Date(data[0].commit.author.date);
+                        $(".wrapper").html(dateObject.toDateString());
+                    });
+        }
+        getTasks();
+    </script>
 </head>
 
 <body class="body-purple">
@@ -60,7 +77,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><span aria-hidden="true" class="icon icon_lifesaver"></span> SparkNLP - FAQs</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 21th, 2017</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div>
             <div class="doc-body">
                 <div class="doc-content">
@@ -68,28 +85,52 @@
                         <section id="general" class="doc-section">
                             <h2 class="section-title">General</h2>
                             <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What are the requirements of SparkNLP?</h3>
-                                <div class="answer">The library works on top of Spark, and nothing else. Make sure you have a <b>working Spark environment</b> and supply SparkNLP as a jar to the Spark JVM <b>classpath</b>.</div>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> What are the requirements of
+                                    SparkNLP?</h3>
+                                <div class="answer">The library works on top of Spark, and nothing else. Make sure you
+                                    have a <b>working Spark environment</b> and supply SparkNLP as a jar to the Spark
+                                    JVM <b>classpath</b>.
+                                </div>
                             </div>
                             <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> Does SparkNLP rely on any NLP library? <span class="label label-success">New</span></h3>
-                                <div class="answer">No, SparkNLP is self contained and all algorithms are developed within the code base.</div>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> Does SparkNLP rely on any NLP
+                                    library? <span class="label label-success">New</span></h3>
+                                <div class="answer">No, SparkNLP is self contained and all algorithms are developed
+                                    within the code base.
+                                </div>
                             </div>
                             <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What do I need to learn in order to use the library?</h3>
-                                <div class="answer">Either <b>Scala</b> or <b>Python</b>, and then, mostly <b>Spark</b> and <b>SparkML</b>. SparkNLP uses the same logic and syntax than any other machine learning transformer in Spark, and can be included within the same pipelines. So only some review on the examples and you can get going.</div>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> What do I need to learn in
+                                    order to use the library?</h3>
+                                <div class="answer">Either <b>Scala</b> or <b>Python</b>, and then, mostly <b>Spark</b>
+                                    and <b>SparkML</b>. SparkNLP uses the same logic and syntax than any other machine
+                                    learning transformer in Spark, and can be included within the same pipelines. So
+                                    only some review on the examples and you can get going.
+                                </div>
                             </div>
                             <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What are annotator types? <span class="label label-warning">Updated</span></h3>
-                                <div class="answer">Each annotator has a <b>type</b> that may be shared with other annotators. Whenever an annotator requires another annotator by a type, it means you can provide in <b>inputCols</b> any annotator’s output column that has such type, for instance Normalizer or SpellChecker are both <b>token</b> type annotators and either or both may be used for a Sentiment Analysis model.</div>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> What are annotator types?
+                                    <span class="label label-warning">Updated</span></h3>
+                                <div class="answer">Each annotator has a <b>type</b> that may be shared with other
+                                    annotators. Whenever an annotator requires another annotator by a type, it means you
+                                    can provide in <b>inputCols</b> any annotator’s output column that has such type,
+                                    for instance Normalizer or SpellChecker are both <b>token</b> type annotators and
+                                    either or both may be used for a Sentiment Analysis model.
+                                </div>
                             </div>
                             <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> Can I save trained models or pipelines?</h3>
-                                <div class="answer">Yes, the same way you would do it for any other Spark ML component. </div>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> Can I save trained models or
+                                    pipelines?</h3>
+                                <div class="answer">Yes, the same way you would do it for any other Spark ML
+                                    component.
+                                </div>
                             </div>
                             <div class="section-block">
                                 <h3 class="question"><i class="fa fa-question-circle"></i> Can I contribute?</h3>
-                                <div class="answer">Yes! Any kind of contribution is welcome, feedback, ideas, management, documentation, testing, corpus for training and testing, development or even code review. Refer to the contribute page for more information.</div>
+                                <div class="answer">Yes! Any kind of contribution is welcome, feedback, ideas,
+                                    management, documentation, testing, corpus for training and testing, development or
+                                    even code review. Refer to the contribute page for more information.
+                                </div>
                             </div>
                         </section>
                     </div>

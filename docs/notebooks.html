@@ -42,6 +42,16 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script>
+        function getTasks() {
+            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/notebooks.html",
+                    function (data) {
+                        var dateObject = new Date(data[0].commit.author.date);
+                        $(".wrapper").html(dateObject.toDateString());
+                    });
+        }
+        getTasks();
+    </script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -65,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><span aria-hidden="true" class="icon icon_genius"></span> SparkNLP - Notebook</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Sep 22th, 2017</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div><!--//doc-header-->
             <div id="showcase" class="doc-body">
                 <div class="doc-content">
