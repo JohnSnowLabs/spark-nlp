@@ -113,6 +113,11 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
     * https://github.com/diasks2/pragmatic_segmenter
     */
 
+  //Custom bounds test
+  val simpleCustomBoundsAns = Array("Here now", "This is Jimmy", "Stop me here.", "And here", "Goodbye")
+  val simpleCustomBounds = "Here now%%This is Jimmy%%Stop me here. And here%%Goodbye"
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(simpleCustomBounds, simpleCustomBoundsAns, Array("%%"))
+
   //Simple period to end sentence
   val simplePeriodAns = Array("Hello World.", "My name is Jonas.")
   val simplePeriod = "Hello World. My name is Jonas."
