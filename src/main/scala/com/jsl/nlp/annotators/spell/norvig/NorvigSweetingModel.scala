@@ -232,13 +232,12 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.collect {
-      case token: Annotation if token.annotatorType == annotatorType =>
+    annotations.map { token =>
         Annotation(
           annotatorType,
           token.begin,
           token.end,
-          Map(annotatorType -> check(token.metadata(TOKEN)))
+          Map(annotatorType -> check(token.metadata(TOKEN)), "sentence" -> token.metadata("sentence"))
         )
     }
   }

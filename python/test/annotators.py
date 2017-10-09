@@ -24,10 +24,18 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         normalizer = Normalizer() \
             .setInputCols(["stem"]) \
             .setOutputCol("normalize")
+        token_assembler = TokenAssembler() \
+            .setInputCols(["normalize"]) \
+            .setOutputCol("assembled")
+        finisher = Finisher() \
+            .setInputCols(["assembled"]) \
+            .setOutputCols(["reassembled_view"])
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         stemmed = stemmer.transform(tokenized)
-        normalizer.transform(stemmed).show()
+        normalized = normalizer.transform(stemmed)
+        reassembled = token_assembler.transform(normalized)
+        finisher.transform(reassembled).show()
 
 
 class RegexMatcherTestSpec(unittest.TestCase):
