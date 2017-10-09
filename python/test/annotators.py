@@ -164,7 +164,8 @@ class PragmaticSBDTestSpec(unittest.TestCase):
             .setOutputCol("document")
         sentence_detector = SentenceDetectorModel() \
             .setInputCols(["document"]) \
-            .setOutputCol("sentence")
+            .setOutputCol("sentence") \
+            .setCustomBounds(["%%"])
         assembled = document_assembler.transform(self.data)
         sentence_detector.transform(assembled).show()
 

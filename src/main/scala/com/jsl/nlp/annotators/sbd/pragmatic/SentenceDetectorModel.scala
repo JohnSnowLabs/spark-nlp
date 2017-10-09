@@ -1,7 +1,8 @@
 package com.jsl.nlp.annotators.sbd.pragmatic
 
 import com.jsl.nlp.annotators.sbd.Sentence
-import com.jsl.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
+import com.jsl.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -15,7 +16,15 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
 
   val model = new PragmaticMethod()
 
+  val customBounds: StringArrayParam = new StringArrayParam(
+    this,
+    "customBounds",
+    "characters used to explicitly mark sentence bounds"
+  )
+
   def this() = this(Identifiable.randomUID("SENTENCE"))
+
+  def setCustomBoundChars(value: Array[String]): this.type = set(customBounds, value)
 
   override val annotatorType: AnnotatorType = DOCUMENT
 
@@ -30,7 +39,10 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.flatMap(annotation => {
-      val sentences: Seq[Sentence] = model.extractBounds(annotation.metadata(DOCUMENT))
+      val sentences: Seq[Sentence] = model.extractBounds(
+        annotation.metadata(DOCUMENT),
+        get(customBounds).getOrElse(Array.empty[String])
+      )
       sentences.map(sentence => Annotation(
         this.annotatorType,
         sentence.begin,

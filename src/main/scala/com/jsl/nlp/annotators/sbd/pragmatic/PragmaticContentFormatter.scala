@@ -21,6 +21,20 @@ class PragmaticContentFormatter(text: String) {
   private var wip: String = text
 
   /**
+    * Arbitrarely mark bounds with user provided characters
+    * @return
+    */
+  def formatCustomBounds(chars: Array[String]): this.type = {
+
+    val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+    chars.foreach(char => factory.addRule(char.r, s"split character: $char"))
+
+    wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
+
+    this
+  }
+
+  /**
     * Find simple lists
     * regex should match entire enumeration
     * prepend separation symbol

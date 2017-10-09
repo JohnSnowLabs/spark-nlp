@@ -13,12 +13,13 @@ import com.jsl.nlp.annotators.sbd.Sentence
   */
 class PragmaticMethod(useAbbreviations: Boolean = true) extends Serializable {
 
-  def extractBounds(content: String): Array[Sentence] = {
+  def extractBounds(content: String, customBounds: Array[String]): Array[Sentence] = {
     /** this is a hardcoded order of operations
       * considered to go from those most specific non-ambiguous cases
       * down to those that are more general and can easily be ambiguous
       */
     val symbolyzedData = new PragmaticContentFormatter(content)
+      .formatCustomBounds(customBounds)
       .formatLists
       .formatAbbreviations(useAbbreviations)
       .formatNumbers
