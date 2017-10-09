@@ -19,13 +19,12 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
 
   /** ToDo: Review imeplementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
-    annotations.collect {
-      case token: Annotation if token.annotatorType == TOKEN =>
-        val nToken = token.metadata(TOKEN)
-          .toLowerCase
-          .replaceAll("[^a-zA-Z]", "")
-          .trim
-        Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> nToken))
+    annotations.map { token =>
+      val nToken = token.metadata(TOKEN)
+        .toLowerCase
+        .replaceAll("[^a-zA-Z]", "")
+        .trim
+      Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> nToken, "sentence" -> token.metadata("sentence")))
     }.filter(_.metadata(annotatorType).nonEmpty)
 
 }
