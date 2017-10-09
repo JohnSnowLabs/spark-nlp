@@ -86,7 +86,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
               "entity",
               phrase.head.begin,
               phrase.last.end,
-              Map("entity" -> phrase.map(_.metadata(TOKEN)).mkString(" "))
+              Map(annotatorType -> phrase.map(_.metadata(TOKEN)).mkString(" "))
             )
         }
     }.toSeq
