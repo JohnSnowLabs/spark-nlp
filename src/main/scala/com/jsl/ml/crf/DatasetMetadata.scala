@@ -70,15 +70,33 @@ class DatasetMetadata
       featuresStat.toList
     )
   }
+
+  /**
+    * Leaves only features that in featureIds list
+    * @param featureIds - feature ids to leave
+   */
+  def filterFeatures(featureIds: Seq[Int]): DatasetMetadata = {
+    val (attrFeaturesIds, transFeaturesIds) = featureIds.partition(id => id < attrFeatures.length)
+    val filteredAttrFeatures = attrFeaturesIds
+      .map(id => attrFeatures(id))
+      .zipWithIndex
+      .map{case(oldAttr, idx) => AttrFeature(idx, oldAttr.attrId, oldAttr.label)}
+      .toArray
+
+    val filteredTransFeatures = transFeaturesIds.map(id => transitions(id - attrFeatures.length)).toArray
+    val filteredStat = featureIds.map(id => featuresStat(id)).toArray
+
+    new DatasetMetadata(labels, attrs, filteredAttrFeatures, filteredTransFeatures, filteredStat)
+  }
 }
 
 case class SerializedDatasetMetadata
 (
-  labels: List[String],
-  attrs: List[Attr],
-  attrFeatures: List[AttrFeature],
-  transitions: List[Transition],
-  featuresStat: List[AttrStat]
+  labels: Seq[String],
+  attrs: Seq[Attr],
+  attrFeatures: Seq[AttrFeature],
+  transitions: Seq[Transition],
+  featuresStat: Seq[AttrStat]
 )
   extends SerializedAnnotatorComponent[DatasetMetadata]
 {

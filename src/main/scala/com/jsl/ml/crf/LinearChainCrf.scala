@@ -1,8 +1,7 @@
 package com.jsl.ml.crf
 
 import VectorMath._
-import org.apache.spark.ml.util.Identifiable
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.LoggerFactory
 
 import scala.util.Random
 
@@ -19,8 +18,8 @@ class LinearChainCrf(val params: CrfParams) {
 
   def trainSGD(dataset: CrfDataset): LinearChainCrfModel = {
     val metadata = dataset.metadata
-    val weights = Vector(dataset.metadata.attrFeatures.size + dataset.metadata.transitions.size)
-    val labels = dataset.metadata.labels.size
+    val weights = Vector(dataset.metadata.attrFeatures.length + dataset.metadata.transitions.length)
+    val labels = dataset.metadata.labels.length
 
     if (params.randomSeed.isDefined)
       Random.setSeed(params.randomSeed.get)
@@ -30,14 +29,14 @@ class LinearChainCrf(val params: CrfParams) {
 
     log(s"labels: $labels", Verbose.TrainingStat)
     log(s"instances: ${dataset.instances.size}", Verbose.TrainingStat)
-    log(s"features: ${weights.size}", Verbose.TrainingStat)
+    log(s"features: ${weights.length}", Verbose.TrainingStat)
     log(s"maxLength: $maxLength", Verbose.TrainingStat)
 
 
     // 2. Allocate reusable space
     val context = new FbCalculator(maxLength, metadata)
 
-    var bestW = Vector(weights.size, 0f)
+    val bestW = Vector(weights.length)
     var bestLoss = Float.MaxValue
     var lastLoss = Float.MaxValue
 
@@ -54,6 +53,8 @@ class LinearChainCrf(val params: CrfParams) {
       val started = System.nanoTime()
 
       val shuffled = Random.shuffle(dataset.instances)
+
+      var instancesCount = 0
       for ((labels, sentence) <- shuffled) {
         decayStrategy.nextStep()
 
@@ -65,6 +66,11 @@ class LinearChainCrf(val params: CrfParams) {
 
         // 3. Calculate loss
         loss += getLoss(sentence, labels, context)
+
+        // 4. Track Weights
+        instancesCount += 1
+        if (instancesCount % 1000 == 0)
+          decayStrategy.reset(weights)
       }
 
       // Return weights to normal values
@@ -166,7 +172,6 @@ class L2DecayStrategy(val instances: Int,
     VectorMath.multiply(weights, scale)
     scale = 1f
   }
-
 }
 
 
@@ -180,29 +185,25 @@ object Verbose extends Enumeration {
   val Silent = Value(4)
 }
 
+/**
+  * Hyper Parameters and Setting for LinearChainCrf training
+  * @param minEpochs - Minimum number of epochs to train
+  * @param maxEpochs - Maximum number of epochs to train
+  * @param l2 - l2 regularization coefficient
+  * @param c0 - Initial number of steps in decay strategy
+  * @param lossEps - If loss after a SGD epochs haven't improved (absolutely) more than lossEps, then training is stopped
+  *
+  * @param randomSeed - Seed for random
+  * @param verbose - Level of verbosity during training procedure
+ */
 case class CrfParams
 (
   minEpochs: Int = 10,
   maxEpochs: Int = 1000,
   l2: Float = 1f,
-  verbose: Verbose.Value = Verbose.Silent,
-  randomSeed: Option[Int] = None,
+  c0: Int = 1500000,
   lossEps: Float = 1e-4f,
-  c0: Int = 1500000
-) extends Identifiable
-{
-  def this(
-            minEpochs: Int,
-            maxEpochs: Int,
-            l2: Double,
-            verbose: Int,
-            randomSeed: Integer,
-            lossEps: Double,
-            c0: Int) {
-    this(
-      minEpochs, maxEpochs, l2.toFloat, Verbose(verbose), Some(randomSeed).map(v => v.toInt), lossEps.toFloat, c0)
 
-  }
-
-  override val uid: String = Identifiable.randomUID("CrfParams")
-}
+  randomSeed: Option[Int] = None,
+  verbose: Verbose.Value = Verbose.Silent
+)

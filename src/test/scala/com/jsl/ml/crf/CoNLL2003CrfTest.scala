@@ -1,5 +1,7 @@
 package com.jsl.ml.crf
 
+import org.apache.spark.ml.regression.LinearRegression
+
 /*
   Before running:
   1. Download CoNLLL2003 datasets
@@ -30,7 +32,6 @@ object CoNLL2003CrfTest extends App {
       randomSeed = Some(0),
       c0 = 2250000
     )
-
     val crf = new LinearChainCrf(params)
     crf.trainSGD(dataset)
   }

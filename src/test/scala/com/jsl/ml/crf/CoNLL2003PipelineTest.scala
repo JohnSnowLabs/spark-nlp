@@ -7,6 +7,7 @@ import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Dataset
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -59,16 +60,16 @@ object CoNLL
 }
 
 object CoNLL2003PipelineTest extends App {
-  val folder = "./"
+  val folder = "/home/aleksei/work/nlp/datatsets/conll2003-ner/"
 
   val trainFile = folder + "eng.train"
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
+  import SparkAccessor.spark.implicits._
+
   def readDataset(file: String, textColumn: String = "text", labelColumn: String = "label"): Dataset[_] = {
     val seq = CoNLL.readDocs(file).toSeq
-
-    import SparkAccessor.spark.implicits._
 
     seq.toDF(textColumn, labelColumn)
   }
@@ -102,6 +103,7 @@ object CoNLL2003PipelineTest extends App {
     val nerTagger = new CrfBasedNer()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
+      .setC0(1250000)
       .setOutputCol("ner")
 
     val pipeline = new Pipeline()
@@ -181,6 +183,7 @@ object CoNLL2003PipelineTest extends App {
   }
 
   val model = trainModel(trainFile)
+  model.write.overwrite().save("crf_model")
 
   System.out.println("\n\nQuality on train data")
   testDataset(trainFile, model)
@@ -190,4 +193,6 @@ object CoNLL2003PipelineTest extends App {
 
   System.out.println("\n\nQuality on test B data")
   testDataset(testFileB, model)
+
+  val sameModel = PipelineModel.read.load("crf_model")
 }
