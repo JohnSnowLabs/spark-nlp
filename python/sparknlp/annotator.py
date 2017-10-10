@@ -253,9 +253,15 @@ class NERRegexModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperti
 
 
 class SentenceDetectorModel(AnnotatorTransformer):
-    model = Param(Params._dummy(),
-                  "model",
-                  "which SBD Approach to use")
+
+    customBounds = Param(Params._dummy(),
+                         "customBounds",
+                         "characters used to explicitly mark sentence bounds",
+                         typeConverter=TypeConverters.toListString)
+
+    def setCustomBounds(self, value):
+        self._set(customBounds=value)
+        return self
 
     @keyword_only
     def __init__(self):
