@@ -1,9 +1,9 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.TokenizedSentence
-import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -24,7 +24,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   lazy val model: PragmaticScorer = {
     if (get(dictPath).isDefined)
-      new PragmaticScorer(ResourceHelper.retrieveSentimentDict($(dictPath)))
+      new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict($(dictPath)))
     else
       new PragmaticScorer()
   }
@@ -70,4 +70,20 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   }
 
 }
-object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel]
+object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel] {
+
+  private val config: Config = ConfigFactory.load
+
+  /**
+    * Sentiment dictionaries from compiled sources set in configuration
+    * @return Sentiment dictionary
+    */
+  private[pragmatic] def retrieveSentimentDict(sentFilePath: String = "__default"): Map[String, String] = {
+    val filePath = if (sentFilePath == "__default") config.getString("nlp.sentimentDict.file") else sentFilePath
+    val sentFormat = config.getString("nlp.sentimentDict.format")
+    val sentSeparator = config.getString("nlp.sentimentDict.separator")
+    ResourceHelper.parseKeyValueText(filePath, sentFormat, sentSeparator)
+  }
+
+
+}

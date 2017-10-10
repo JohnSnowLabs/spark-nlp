@@ -1,7 +1,9 @@
 package com.jsl.nlp.annotators
 
+import com.jsl.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.param.Param
 import com.jsl.nlp.{Annotation, AnnotatorModel, AnnotatorType, DocumentAssembler}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.util.matching.Regex
