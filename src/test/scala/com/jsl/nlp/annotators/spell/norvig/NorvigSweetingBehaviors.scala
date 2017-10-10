@@ -48,7 +48,8 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
       val spell = new NorvigSweetingApproach()
         .setInputCols(Array("normal"))
         .setOutputCol("spell")
-        .setCorpusCol("text")
+        .setCorpusPath("/spell/sherlockholmes.txt")
+        .setCorpusFormat("txt")
 
       val finisher = new Finisher()
         .setInputCols("spell")

@@ -235,8 +235,8 @@ class PipelineTestSpec(unittest.TestCase):
         token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
         lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
         print(token_before_save)
-        assert token_before_save == "sad#0"
-        assert lemma_before_save == "unsad#0"
+        assert token_before_save == "sad"
+        assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save
         assert lemma_after_save == lemma_before_save
         loaded_pipeline.fit(self.data).transform(self.data).show()

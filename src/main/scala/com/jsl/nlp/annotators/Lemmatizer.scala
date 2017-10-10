@@ -3,6 +3,7 @@ package com.jsl.nlp.annotators
 import com.jsl.nlp.annotators.common.StringMapParam
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.JavaConverters._
@@ -31,7 +32,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
   def getLemmaDict: Map[String, String] = $(lemmaDict)
 
   def setLemmaDict(dictionary: String): this.type = {
-    set(lemmaDict, ResourceHelper.retrieveLemmaDict(dictionary))
+    set(lemmaDict, Lemmatizer.retrieveLemmaDict(dictionary))
   }
 
   def setLemmaDictHMap(dictionary: java.util.HashMap[String, String]): this.type = {
@@ -56,4 +57,21 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
 }
 
-object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
+object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
+
+  private val config: Config = ConfigFactory.load
+
+  /**
+    * Retrieves Lemma dictionary from configured compiled source set in configuration
+    * @return a Dictionary for lemmas
+    */
+  protected def retrieveLemmaDict(
+                         lemmaFilePath: String = "__default",
+                         lemmaFormat: String = config.getString("nlp.lemmaDict.format"),
+                         lemmaKeySep: String = config.getString("nlp.lemmaDict.kvSeparator"),
+                         lemmaValSep: String = config.getString("nlp.lemmaDict.vSeparator")
+                       ): Map[String, String] = {
+    val filePath = if (lemmaFilePath == "__default") config.getString("nlp.lemmaDict.file") else lemmaFilePath
+    ResourceHelper.flattenRevertValuesAsKeys(filePath, lemmaFormat, lemmaKeySep, lemmaValSep)
+  }
+}
