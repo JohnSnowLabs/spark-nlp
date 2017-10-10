@@ -1,16 +1,17 @@
 package com.jsl.nlp.annotators.pos.perceptron
 
+import java.io.File
+
 import com.jsl.nlp.AnnotatorApproach
-import com.jsl.nlp.annotators.RegexTokenizer
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.jsl.nlp.util.io.ResourceHelper
+import com.jsl.nlp.util.io.ResourceHelper.{SourceStream, pathIsDirectory}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.slf4j.{Logger, LoggerFactory}
 
-import scala.collection.mutable.{Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.util.Random
 
 /**
@@ -80,7 +81,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = ResourceHelper.retrievePOSCorpus($(corpusPath))
+    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath))
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -139,10 +140,117 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 }
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
 
+  private val config: Config = ConfigFactory.load
+
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
+
+  /**Standard splitter for general purpose sentences*/
+  private def wordTagSplitter(sentence: String, tagSeparator: Char):
+  Array[TaggedWord] = {
+    val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
+    sentence.split("\\s+").foreach { token => {
+      val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
+      if (tagSplit.length == 2) {
+        val word = tagSplit(0)
+        val tag = tagSplit(1)
+        taggedWords.append(TaggedWord(word, tag))
+      }
+    }}
+    taggedWords.toArray
+  }
+
+  /**
+    * Parses CORPUS for tagged sentences
+    * @param text String to process
+    * @param tagSeparator Separator for provided String
+    * @return A list of [[TaggedSentence]]
+    */
+  private def parsePOSCorpusFromText(
+                              text: String,
+                              tagSeparator: Char
+                            ): Array[TaggedSentence] = {
+    val sentences: ArrayBuffer[Array[TaggedWord]] = ArrayBuffer()
+    text.split("\n").filter(_.nonEmpty).foreach{sentence =>
+      sentences.append(wordTagSplitter(sentence, tagSeparator))
+    }
+    sentences.map(TaggedSentence(_)).toArray
+  }
+
+
+  /**
+    * Parses CORPUS for tagged sentence from any compiled source
+    * @param source for compiled corpuses, if any
+    * @param tagSeparator Tag separator for processing
+    * @return
+    */
+  private def parsePOSCorpusFromSource(
+                                        source: String,
+                                        tagSeparator: Char
+                                      ): Array[TaggedSentence] = {
+    val sourceStream = SourceStream(source)
+    val lines =
+      sourceStream.content.getLines()
+        .filter(_.nonEmpty)
+        .map(sentence => wordTagSplitter(sentence, tagSeparator))
+        .toArray
+    sourceStream.close()
+    lines.map(TaggedSentence(_))
+  }
+
+  /**
+    * Reads POS Corpus from an entire directory of compiled sources
+    * @param dirName compiled content only
+    * @param tagSeparator tag separator for all corpuses
+    * @param fileLimit limit of files to read. Can help clutter, overfitting
+    * @return
+    */
+  private def parsePOSCorpusFromDir(
+                                     dirName: String,
+                                     tagSeparator: Char,
+                                     fileLimit: Int
+                                   ): Array[TaggedSentence] = {
+    try {
+      new File(dirName).listFiles()
+        .take(fileLimit)
+        .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator))
+    } catch {
+      case _: NullPointerException =>
+        val sourceStream = SourceStream(dirName)
+        val res = sourceStream
+          .content
+          .getLines()
+          .take(fileLimit)
+          .flatMap(fileName => parsePOSCorpusFromSource(dirName + "/" + fileName, tagSeparator))
+          .toArray
+        sourceStream.close()
+        res
+    }
+  }
+
+  /**
+    * Retrieves Corpuses from configured compiled directory set in configuration
+    * @param fileLimit files limit to read
+    * @return TaggedSentences for POS training
+    */
+  private[perceptron] def retrievePOSCorpus(
+                                   posDirOrFilePath: String = "__default",
+                                   fileLimit: Int = 50
+                                 ): Array[TaggedSentence] = {
+    val dirOrFilePath = if (posDirOrFilePath == "__default") config.getString("nlp.posDict.dir") else posDirOrFilePath
+    val posFormat = config.getString("nlp.posDict.format")
+    val posSeparator = config.getString("nlp.posDict.separator").head
+    val result = {
+      if (pathIsDirectory(dirOrFilePath)) parsePOSCorpusFromDir(dirOrFilePath, posSeparator, fileLimit)
+      else parsePOSCorpusFromSource(dirOrFilePath, posSeparator)
+    }
+    if (result.isEmpty) throw new Exception("Empty corpus for POS")
+    result
+  }
+
+
 
   /**
     * Specific normalization rules for this POS Tagger to avoid unnecessary tagging

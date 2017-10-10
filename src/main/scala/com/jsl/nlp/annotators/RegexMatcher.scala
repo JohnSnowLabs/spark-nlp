@@ -4,6 +4,7 @@ import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.util.regex.MatchStrategy.MatchStrategy
 import com.jsl.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
 import com.jsl.nlp.{Annotation, AnnotatorModel, AnnotatorType, DocumentAssembler}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -20,7 +21,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher] {
   import com.jsl.nlp.AnnotatorType._
 
-  lazy val defaultRules: Array[(String, String)] = ResourceHelper.retrieveRegexMatchRules()
+  lazy val defaultRules: Array[(String, String)] = RegexMatcher.retrieveRegexMatchRules()
 
   // ToDo: Check whether this annotator can be stored to disk as is. otherwise turn regex into string
 
@@ -55,7 +56,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   def getStrategy: String = $(strategy).toString
 
   private def resolveRulesFromPath(): Array[(String, String)] =
-    ResourceHelper.retrieveRegexMatchRules($(rulesPath))
+    RegexMatcher.retrieveRegexMatchRules($(rulesPath))
 
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
@@ -81,4 +82,23 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   }
 }
 
-object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
+object RegexMatcher extends DefaultParamsReadable[RegexMatcher] {
+
+  private val config: Config = ConfigFactory.load
+  /**
+    * Regex matcher rules
+    * @param rulesFilePath
+    * @param rulesFormat
+    * @param rulesSeparator
+    * @return
+    */
+  protected def retrieveRegexMatchRules(
+                               rulesFilePath: String = "__default",
+                               rulesFormat: String = config.getString("nlp.regexMatcher.format"),
+                               rulesSeparator: String = config.getString("nlp.regexMatcher.separator")
+                             ): Array[(String, String)] = {
+    val filePath = if (rulesFilePath == "__default") config.getString("nlp.regexMatcher.file") else rulesFilePath
+    ResourceHelper.parseTupleText(filePath, rulesFormat, rulesSeparator)
+  }
+
+}

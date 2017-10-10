@@ -77,7 +77,12 @@ object Annotation {
   /** dataframe annotation flatmap of metadata values */
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(_.getMap[String, String](3).values.toList.mkString(vSep)).mkString(aSep)
+      (annotations: Seq[Row]) => annotations.map(r =>
+        r.getMap[String, String](3)
+          .getOrElse(
+            r.getString(0),
+            r.getMap[String, String](3).values.toList.mkString(vSep))
+      ).mkString(aSep)
     }
   }
 
