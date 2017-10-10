@@ -60,7 +60,7 @@ object CoNLL
 }
 
 object CoNLL2003PipelineTest extends App {
-  val folder = "/home/aleksei/work/nlp/datatsets/conll2003-ner/"
+  val folder = "./"
 
   val trainFile = folder + "eng.train"
   val testFileA = folder + "eng.testa"
