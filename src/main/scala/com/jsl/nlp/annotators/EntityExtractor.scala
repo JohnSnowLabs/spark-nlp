@@ -3,6 +3,7 @@ package com.jsl.nlp.annotators
 import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp._
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -51,8 +52,8 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
     * Loads entities from a provided source.
     */
   private def loadEntities: Array[Array[String]] = {
-    val src = get(entities).map(path => ResourceHelper.retrieveEntityExtractorPhrases(path))
-      .getOrElse(ResourceHelper.retrieveEntityExtractorPhrases())
+    val src = get(entities).map(path => EntityExtractor.retrieveEntityExtractorPhrases(path))
+      .getOrElse(EntityExtractor.retrieveEntityExtractorPhrases())
     val tokenizer = new RegexTokenizer().setPattern("\\w+")
     val stemmer = new Stemmer()
     val normalizer = new Normalizer()
@@ -110,4 +111,17 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
 }
 
-object EntityExtractor extends DefaultParamsReadable[EntityExtractor]
+object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
+
+  private val config: Config = ConfigFactory.load
+
+  protected def retrieveEntityExtractorPhrases(
+                                      entitiesPath: String = "__default",
+                                      fileFormat: String = config.getString("nlp.entityExtractor.format")
+                                    ): Array[String] = {
+    val filePath = if (entitiesPath == "__default") config.getString("nlp.entityExtractor.file") else entitiesPath
+    ResourceHelper.parseLinesText(filePath, fileFormat)
+  }
+
+
+}

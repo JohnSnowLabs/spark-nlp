@@ -354,9 +354,9 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                      "training corpus path",
                      typeConverter=TypeConverters.toString)
 
-    corpusCol = Param(Params._dummy(),
-                       "corpusCol",
-                       "dataset col with text",
+    corpusFormat = Param(Params._dummy(),
+                       "corpusFormat",
+                       "dataset corpus format. txt or txtds allowed only",
                        typeConverter=TypeConverters.toString)
 
     slangPath = Param(Params._dummy(),
@@ -404,8 +404,8 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
         self._set(corpusPath=value)
         return self
 
-    def setCorpusCol(self, value):
-        self._set(corpusCol=value)
+    def setCorpusFormat(self, value):
+        self._set(corpusFormat=value)
         return self
 
     def setDictPath(self, value):
