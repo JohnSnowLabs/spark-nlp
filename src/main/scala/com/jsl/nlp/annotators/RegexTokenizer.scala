@@ -36,9 +36,20 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
 
   /** one to many annotation */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val sentenceLength = annotations.length
+    var sentenceIndex = if (sentenceLength <= 1) -1 else 0
     annotations.flatMap(text => {
+      sentenceIndex += 1
       regex.findAllMatchIn(text.metadata(AnnotatorType.DOCUMENT)).map { m =>
-        Annotation(annotatorType, text.begin + m.start, text.begin + m.end - 1, Map(annotatorType -> m.matched))
+        Annotation(
+          annotatorType,
+          text.begin + m.start,
+          text.begin + m.end - 1,
+          Map(
+            annotatorType -> m.matched,
+            "sentence" -> sentenceIndex.toString
+          )
+        )
       }
     })
   }

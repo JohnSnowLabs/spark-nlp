@@ -24,10 +24,18 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         normalizer = Normalizer() \
             .setInputCols(["stem"]) \
             .setOutputCol("normalize")
+        token_assembler = TokenAssembler() \
+            .setInputCols(["normalize"]) \
+            .setOutputCol("assembled")
+        finisher = Finisher() \
+            .setInputCols(["assembled"]) \
+            .setOutputCols(["reassembled_view"])
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         stemmed = stemmer.transform(tokenized)
-        normalizer.transform(stemmed).show()
+        normalized = normalizer.transform(stemmed)
+        reassembled = token_assembler.transform(normalized)
+        finisher.transform(reassembled).show()
 
 
 class RegexMatcherTestSpec(unittest.TestCase):
@@ -219,15 +227,16 @@ class PipelineTestSpec(unittest.TestCase):
             .setOutputCols(["token_views", "lemma_views"])
         pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer, finisher])
         model = pipeline.fit(self.data)
-        token_before_save = model.transform(self.data).select("token_views").take(1)[0].asDict()["token_views"].split("@")[2]
-        lemma_before_save = model.transform(self.data).select("lemma_views").take(1)[0].asDict()["lemma_views"].split("@")[2]
+        token_before_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
+        lemma_before_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
         pipe_path = "./tmp_pipeline"
         pipeline.write().overwrite().save(pipe_path)
         loaded_pipeline = Pipeline.read().load(pipe_path)
-        token_after_save = model.transform(self.data).select("token_views").take(1)[0].asDict()["token_views"].split("@")[2]
-        lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].asDict()["lemma_views"].split("@")[2]
-        assert token_before_save == "sad"
-        assert lemma_before_save == "unsad"
+        token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
+        lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
+        print(token_before_save)
+        assert token_before_save == "sad#0"
+        assert lemma_before_save == "unsad#0"
         assert token_after_save == token_before_save
         assert lemma_after_save == lemma_before_save
         loaded_pipeline.fit(self.data).transform(self.data).show()

@@ -42,15 +42,15 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
     * @return one to one annotation from token to a lemmatized word, if found on dictionary or leave the word as is
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.collect {
-      case tokenAnnotation: Annotation if tokenAnnotation.annotatorType == annotatorType =>
-        val token = tokenAnnotation.metadata(annotatorType)
-        Annotation(
-          annotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          Map[String, String](annotatorType -> $(lemmaDict).getOrElse(token, token))
-        )
+    annotations.map { tokenAnnotation =>
+      val token = tokenAnnotation.metadata(annotatorType)
+      val sentence = tokenAnnotation.metadata("sentence")
+      Annotation(
+        annotatorType,
+        tokenAnnotation.begin,
+        tokenAnnotation.end,
+        Map[String, String](annotatorType -> $(lemmaDict).getOrElse(token, token), "sentence" -> sentence)
+      )
     }
   }
 

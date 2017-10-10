@@ -36,6 +36,30 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
         return self._set(metadataCol=value)
 
 
+class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
+
+    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(TokenAssembler, self).__init__()
+        self._java_obj = self._new_java_obj("com.jsl.nlp.TokenAssembler", self.uid)
+        kwargs = self._input_kwargs
+        self.setParams(**kwargs)
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, value):
+        return self._set(inputCols=value)
+
+    def setOutputCol(self, value):
+        return self._set(outputCol=value)
+
+
 class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
