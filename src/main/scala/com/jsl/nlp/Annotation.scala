@@ -77,14 +77,14 @@ object Annotation {
   /** dataframe annotation flatmap of metadata values */
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(Annotation(_).metadata.values.toList.mkString(vSep)).mkString(aSep)
+      (annotations: Seq[Row]) => annotations.map(_.getMap[String, String](3).values.toList.mkString(vSep)).mkString(aSep)
     }
   }
 
   /** dataframe annotation flatmap of metadata key values */
   def flattenKV(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(Annotation(_).metadata.mkString(vSep)).mkString(aSep)
+      (annotations: Seq[Row]) => annotations.map(_.getMap[String, String](3).mkString(vSep)).mkString(aSep)
     }
   }
 
