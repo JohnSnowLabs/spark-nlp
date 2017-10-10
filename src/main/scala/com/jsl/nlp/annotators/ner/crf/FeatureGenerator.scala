@@ -2,10 +2,11 @@ package com.jsl.nlp.annotators.ner.crf
 
 import com.jsl.ml.crf._
 import com.jsl.nlp.annotators.common.TaggedSentence
-
 import scala.collection.mutable
 
-
+/**
+  * Generates features for CrfBasedNer
+  */
 object FeatureGenerator {
 
   val shapeEncoding = Map(
@@ -106,10 +107,6 @@ object FeatureGenerator {
     result.getOrElse(0)
   }
 
-  def is2d(token: String) = token.length == 2 && token.forall(c => c.isDigit)
-
-  def is4d(token: String) = token.length == 4 && token.forall(c => c.isDigit)
-
   def isDigitOrPredicate(token: String, predicate: Function[Char, Boolean]) = {
     var hasDigits = false
     var hasPredicate = false
@@ -169,9 +166,9 @@ object FeatureGenerator {
     f("w") = token
     f("wl") = token.toLowerCase
 
-    f("shape") = getShape(token)
-    f("sShape") = shrink(f("shape"))
-    f("type") = getType(token).toString
+    f("s") = getShape(token)
+    f("h") = shrink(f("s"))
+    f("t") = getType(token).toString
 
     f("p1") = getPrefix(token, 1)
     f("p2") = getPrefix(token, 2)
@@ -183,8 +180,6 @@ object FeatureGenerator {
     f("s3") = getSuffix(token, 3)
     f("s4") = getSuffix(token, 4)
 
-    f("2d") = is2d(token).toString
-    f("4d") = is4d(token).toString
 
     f("dl") = isDigitOrPredicate(token, c => c.isLetter).toString
     f("d-") = isDigitOrPredicate(token, c => c == '-').toString
@@ -194,10 +189,6 @@ object FeatureGenerator {
 
     f("u.") = isShort(token).toString
     f("iu") = (token.nonEmpty && token(0).isUpper).toString
-    f("au") = token.forall(_.isUpper).toString
-    f("al") = token.forall(_.isLower).toString
-    f("ad") = token.forall(_.isDigit).toString
-    f("ao") = isAllSymbols(token).toString
 
     f("cu") = containsUpper(token).toString
     f("cl") = containsLower(token).toString
@@ -208,13 +199,13 @@ object FeatureGenerator {
     f
   }
 
-  val pairs = Array("w", "pos", "sShape", "type")
+  val pairs = Array("w", "pos", "h", "t")
   val window = 2
 
   def isInRange(idx: Int, size: Int) = idx >= 0 && idx < size
 
   def getName(source: String, idx: Int): String = {
-    source + "[" + idx + "]"
+    source + "~" + idx
   }
 
   def getName(source: String, idx1: Int, idx2: Int): String = {

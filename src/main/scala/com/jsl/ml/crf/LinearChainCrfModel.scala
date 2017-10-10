@@ -69,11 +69,23 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
       metadata.serialize.asInstanceOf[SerializedDatasetMetadata]
     )
   }
+
+  /**
+    * Removes features with weights less then minW
+    * @param minW Minimum weight to keep features
+    * @return Shrinked model
+    */
+  def shrink(minW: Float): LinearChainCrfModel = {
+    val (filteredWeights, featureIds) = weights.zipWithIndex.filter(p => Math.abs(p._1) >= minW).unzip
+    val filteredMeta = metadata.filterFeatures(featureIds)
+    new LinearChainCrfModel(filteredWeights, filteredMeta)
+  }
+
 }
 
 case class SerializedLinearChainCrfModel
 (
-  weights: List[Float],
+  weights: Seq[Float],
   metadata: SerializedDatasetMetadata
 )
   extends SerializedAnnotatorComponent[LinearChainCrfModel]
