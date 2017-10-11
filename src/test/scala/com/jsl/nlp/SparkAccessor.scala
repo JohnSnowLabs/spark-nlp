@@ -9,6 +9,6 @@ object SparkAccessor {
     .appName("test")
     .master("local[*]")
     .config("spark.driver.memory","4G")
+    .config("spark.kryoserializer.buffer.max","200M")
     .getOrCreate()
-
 }
