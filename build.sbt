@@ -14,7 +14,7 @@ scalaVersion := scalaVer
 sparkVersion := sparkVer
 
 /** Spark-Package attributes */
-spName := "johnsnowlabs/spark-nlp"
+spName := "JohnSnowLabs/spark-nlp"
 
 sparkComponents ++= Seq("mllib")
 
