@@ -16,6 +16,7 @@ annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
 perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
+crf = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
 sda = sys.modules[__name__]
@@ -443,3 +444,85 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
 
 class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     name = "NorvigSweetingModel"
+
+
+
+class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    labelColumn = Param(Params._dummy(),
+                     "labelColumn",
+                     "Column with label per each token",
+                     typeConverter=TypeConverters.toString)
+
+    entities = Param(Params._dummy(), "entities", "Entities to recognize", TypeConverters.toListString)
+
+    minEpochs = Param(Params._dummy(), "minEpochs", "Minimum number of epochs to train", TypeConverters.toInt)
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
+    l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
+    c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
+    lossEps = Param(Params._dummy(), "lossEps", "If Epoch relative improvement less than eps then training is stopped", TypeConverters.toFloat)
+    minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered", TypeConverters.toFloat)
+
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+
+    def setLabelColumn(self, value):
+        self._set(labelColumn=value)
+        return self
+
+    def setEntities(self, tags):
+        self._set(entities = tags)
+        return self
+
+    def setMinEpochs(self, epochs):
+        self._set(minEpochs=epochs)
+        return self
+
+    def setMaxEpochs(self, epochs):
+        self._set(maxEpochs=epochs)
+        return self
+
+    def setL2(self, l2value):
+        self._set(l2=l2value)
+        return self
+
+    def setC0(self, c0value):
+        self._set(c0=c0value)
+        return self
+
+    def setLossEps(self, eps):
+        self._set(lossEps=eps)
+        return self
+
+    def setMinW(self, w):
+        self._set(minW=w)
+        return self
+
+    def setVerbose(self, verboseValue):
+        self._set(verbose=verboseValue)
+        return self
+
+    def setRandomSeed(self, seed):
+        self._set(randomSeed=seed)
+        return self
+
+
+    def _create_model(self, java_model):
+      return CrfBasedNerModel(java_model)
+
+    @keyword_only
+    def __init__(self):
+        super(CrfBasedNer, self).__init__()
+        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
+
+        self._setDefault(
+            minEpochs = 0,
+            maxEpochs = 1000,
+            l2 = 1,
+            c0 = 2250000,
+            lossEps = 1e-3,
+            verbose = 1
+        )
+
+
+class CrfBasedNerModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    name = "CrfBasedNerModel"
