@@ -103,7 +103,7 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
 
       // Transition Features
       val fromLabel = if (i > 0) instanceLabels.labels(i - 1) else 0
-      val meta = new Transition(fromLabel, label)
+      val meta = Transition(fromLabel, label)
       metadata.transFeature2Id.get(meta).foreach { fid =>
         weights(fid) += c
       }

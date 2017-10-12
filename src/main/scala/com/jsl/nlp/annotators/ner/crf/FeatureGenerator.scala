@@ -7,7 +7,7 @@ import scala.collection.mutable
 /**
   * Generates features for CrfBasedNer
   */
-object FeatureGenerator {
+case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   val shapeEncoding = Map(
       '.' -> '.', ',' -> '.',
@@ -213,8 +213,8 @@ object FeatureGenerator {
   }
 
   def generate(taggedSentence: TaggedSentence): TextSentenceAttrs = {
-    val wordFeatures = taggedSentence
-      .words.zip(taggedSentence.tags)
+    val wordFeatures = taggedSentence.words
+      .zip(taggedSentence.tags)
       .map{case (word, tag) =>
         val f = fillFeatures(word)
         f("pos") = tag
@@ -222,6 +222,8 @@ object FeatureGenerator {
     }
 
     val words = wordFeatures.length
+
+    var wordsList = taggedSentence.words.toList
 
     val attrs = (0 until words).map { i =>
       val pairAttrs = (-window until window)
@@ -243,21 +245,26 @@ object FeatureGenerator {
           }
         }.toArray
 
+      val dictAttrs = dictFeatures.get(wordsList).map((getName("dt", i), _))
+      wordsList = wordsList.tail
+
       val addition =
         if (i == 0) Array(("_BOS_", ""))
         else if (i == words - 1) Array(("_EOS_", ""))
         else Array.empty[(String, String)]
 
-      TextAttr(pairAttrs ++ unoAttrs ++ addition)
+      WordAttrs(pairAttrs ++ unoAttrs ++ dictAttrs ++ addition)
     }
+
     TextSentenceAttrs(attrs)
   }
 
-  def generateDataset(sentences: Iterator[(TextSentenceLabels, TaggedSentence)]): CrfDataset = {
+  def generateDataset(sentences: Iterator[(TextSentenceLabels, TaggedSentence)],
+                      dictFeatures: DictionaryFeatures): CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
       .map{case (labels, sentence) => {
-      val textSentence = FeatureGenerator.generate(sentence)
+      val textSentence = generate(sentence)
       (labels, textSentence)
     }}
 
@@ -265,7 +272,7 @@ object FeatureGenerator {
   }
 
   def generate(sentence: TaggedSentence, metadata: DatasetMetadata): Instance = {
-    val attrSentence = FeatureGenerator.generate(sentence)
+    val attrSentence = generate(sentence)
 
     DatasetReader.encodeSentence(attrSentence, metadata)
   }

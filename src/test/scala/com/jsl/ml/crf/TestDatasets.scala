@@ -6,10 +6,10 @@ object TestDatasets {
     val labels = new TextSentenceLabels(Seq("One", "Two", "One", "Two"))
 
     val sentence = new TextSentenceAttrs(Seq(
-      new TextAttr(Seq("attr1" -> "")),
-      new TextAttr(Seq("attr1" -> "value1", "attr2" ->"value1", "attr3" -> "")),
-      new TextAttr(Seq("attr1" -> "", "attr3" -> "")),
-      new TextAttr(Seq("attr1" -> "value1"))
+      new WordAttrs(Seq("attr1" -> "")),
+      new WordAttrs(Seq("attr1" -> "value1", "attr2" ->"value1", "attr3" -> "")),
+      new WordAttrs(Seq("attr1" -> "", "attr3" -> "")),
+      new WordAttrs(Seq("attr1" -> "value1"))
     ))
     Seq(labels -> sentence).toIterator
   }

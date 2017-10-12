@@ -53,12 +53,15 @@ class DatasetMetadata
 
   // Attr Id -> List of AttrFeatures
   lazy val attr2Features: IndexedSeq[Array[AttrFeature]] = {
-    attrFeatures
+    val attr2FeaturesMap = attrFeatures
       .groupBy(f => f.attrId)
       .toSeq
       .sortBy(p => p._1)
-      .map(p => p._2)
-      .toIndexedSeq
+      .toMap
+
+    (0 until attrs.length).map{ aId =>
+      attr2FeaturesMap.getOrElse(aId, Array.empty)
+    }
   }
 
   override def serialize: SerializedAnnotatorComponent[_ <: WritableAnnotatorComponent] = {

@@ -465,6 +465,8 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
+    dicts = Param(Params._dummy(), "dicts", "Additional dictionaries paths to use as a features", TypeConverters.toListString)
+
     def setLabelColumn(self, value):
         self._set(labelColumn=value)
         return self
@@ -505,6 +507,9 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
         self._set(randomSeed=seed)
         return self
 
+    def setDicts(self, dictionaries):
+        self._set(dicts = dictionaries)
+        return self
 
     def _create_model(self, java_model):
       return CrfBasedNerModel(java_model)

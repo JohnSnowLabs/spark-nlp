@@ -13,7 +13,7 @@ import org.apache.spark.sql.Dataset
 class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNerModel]{
   def this() = this(Identifiable.randomUID("NER"))
 
-  override val description: String = "CRF based Named Entity Recognition tagger"
+  override val description = "CRF based Named Entity Recognition Tagger"
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS)
   override val annotatorType = NAMED_ENTITY
 
@@ -27,6 +27,8 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
 
+  val dicts = new StringArrayParam(this, "dicts", "Additional dictionary paths to use as a features")
+
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
 
@@ -39,6 +41,8 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   def setC0(c0: Int) = set(this.c0, c0)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
   def setMinW(w: Double) = set(this.minW, w)
+
+  def setDicts(paths: Seq[String]) = set(dicts, paths.toArray)
 
   def setVerbose(verbose: Int) = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
@@ -58,7 +62,10 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
     val rows = dataset.toDF()
 
     val trainDataset = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
-    val crfDataset = FeatureGenerator.generateDataset(trainDataset.toIterator)
+
+    val dictPaths = get(dicts).getOrElse(Array.empty[String])
+    val dictFeatures = DictionaryFeatures.read(dictPaths.toSeq)
+    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset.toIterator, dictFeatures)
 
     val params = CrfParams(
       minEpochs = getOrDefault(minEpochs),
@@ -77,6 +84,7 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
 
     var model = new CrfBasedNerModel()
       .setModel(crfModel)
+      .setDictionaryFeatures(dictFeatures)
 
     if (isDefined(entities))
       model.setEntities($(entities))
