@@ -2,32 +2,37 @@ package com.jsl.ml.crf
 
 import com.jsl.nlp._
 import com.jsl.nlp.annotators.RegexTokenizer
-import com.jsl.nlp.annotators.ner.crf.{CrfBasedNer, NerTagged}
+import com.jsl.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel, NerTagged}
 import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
-object CoNLL
-{
+
+class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spark) {
+  import spark.implicits._
+
   /*
     Reads Dataset in CoNLL format and pack it into docs
    */
-  def readDocs(file: String): Iterator[(String, Seq[Annotation])] = {
+  def readDocs(file: String): Seq[(String, Seq[Annotation])] = {
+    val lines = Source.fromFile(file).getLines().toSeq
+
+    readLines(lines)
+  }
+
+  def readLines(lines: Seq[String]): Seq[(String, Seq[Annotation])] = {
     val doc = new StringBuilder()
     val labels = new ArrayBuffer[Annotation]()
-
-    val lines = Source.fromFile(file).getLines()
 
     val docs = lines
       .flatMap{line =>
         val items = line.split(" ")
-        val word = items(0)
-        if (word == "-DOCSTART-") {
+        if (items.nonEmpty && items(0) == "-DOCSTART-") {
           val result = (doc.toString, labels.toList)
           doc.clear()
           labels.clear()
@@ -36,8 +41,9 @@ object CoNLL
             Some(result)
           else
             None
-        } else if (items.length == 1) {
-          doc.append("\n\n")
+        } else if (items.length <= 1) {
+          if (doc.nonEmpty && doc.last != '\n')
+            doc.append("\n")
           None
         } else
         {
@@ -45,9 +51,9 @@ object CoNLL
             doc.append(" ")
 
           val begin = doc.length
-          doc.append(word)
+          doc.append(items(0))
           val end = doc.length - 1
-          val ner = items(3)
+          val ner = items(nerColumn)
           labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, Map("tag" -> ner)))
           None
         }
@@ -56,6 +62,19 @@ object CoNLL
     val last = if (doc.nonEmpty) Seq((doc.toString, labels.toList)) else Seq.empty
 
     docs ++ last
+  }
+
+  def readDataset(file: String,
+                  textColumn: String = "text",
+                  labelColumn: String = "label"): Dataset[_] = {
+    readDocs(file).toDF(textColumn, labelColumn)
+  }
+
+  def readDatasetFromLines(lines: Seq[String],
+                           textColumn: String = "text",
+                           labelColumn: String = "label"): Dataset[_] = {
+    val seq = readLines(lines)
+    seq.toDF(textColumn, labelColumn)
   }
 }
 
@@ -66,18 +85,12 @@ object CoNLL2003PipelineTest extends App {
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
-  import SparkAccessor.spark.implicits._
-
-  def readDataset(file: String, textColumn: String = "text", labelColumn: String = "label"): Dataset[_] = {
-    val seq = CoNLL.readDocs(file).toSeq
-
-    seq.toDF(textColumn, labelColumn)
-  }
+  val reader = new CoNLL()
 
   def trainModel(file: String): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = readDataset(file)
+    val dataset = reader.readDataset(file)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -104,7 +117,7 @@ object CoNLL2003PipelineTest extends App {
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setC0(1250000)
-      .setMaxEpochs(1)
+      .setRandomSeed(100)
       .setDicts(Seq("src/main/resources/ner-corpus/dict.txt"))
       .setOutputCol("ner")
 
@@ -137,7 +150,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = readDataset(file)
+    val dataset = reader.readDataset(file)
 
     val transformed = model.transform(dataset)
 
@@ -186,7 +199,6 @@ object CoNLL2003PipelineTest extends App {
 
   val model = trainModel(trainFile)
 
-  System.out.println("Model saving")
   model.write.overwrite().save("crf_model")
 
   System.out.println("\n\nQuality on train data")
@@ -197,6 +209,4 @@ object CoNLL2003PipelineTest extends App {
 
   System.out.println("\n\nQuality on test B data")
   testDataset(testFileB, model)
-
-  val sameModel = PipelineModel.read.load("crf_model")
 }

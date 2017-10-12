@@ -157,8 +157,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
     sentences.map{sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>
         val tag = position2Tag.get((w.begin, w.end))
-        require(tag.nonEmpty, w)
-        tag.get
+        tag.getOrElse("")
       }
       TextSentenceLabels(labels)
     }

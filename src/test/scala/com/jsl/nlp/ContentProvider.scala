@@ -54,5 +54,18 @@ object ContentProvider {
 
   val nerSentence = "John Smith works at Airbus in Germany."
 
+  val nerCorpus = """
+                   |-DOCSTART- O
+                   |
+                   |John PER
+                   |Smith PER
+                   |works O
+                   |at O
+                   |Airbus ORG
+                   |Germany LOC
+                   |. O
+                   |
+                  """.stripMargin
+
   val depSentence = "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know."
 }
