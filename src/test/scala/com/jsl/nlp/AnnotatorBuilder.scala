@@ -1,13 +1,14 @@
 package com.jsl.nlp
 
 import com.jsl.nlp.annotators._
-import com.jsl.nlp.annotators.ner.regex.{NERRegexApproach}
+import com.jsl.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel}
+import com.jsl.nlp.annotators.ner.regex.NERRegexApproach
 import com.jsl.nlp.annotators.parser.dep.DependencyParser
-import com.jsl.nlp.annotators.pos.perceptron.{PerceptronApproach}
-import com.jsl.nlp.annotators.sbd.pragmatic.{SentenceDetectorModel}
+import com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.jsl.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.jsl.nlp.annotators.sda.vivekn.ViveknSentimentApproach
-import com.jsl.nlp.annotators.spell.norvig.{NorvigSweetingApproach}
+import com.jsl.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -140,6 +141,26 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("dependency")
       .fit(df)
       .transform(df)
+  }
+
+  def withCrfBasedNerTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withFullPOSTagger(withTokenizer(dataset))
+
+    getCrfBasedNerModel(dataset).transform(df)
+  }
+
+  def getCrfBasedNerModel(dataset: Dataset[Row]): CrfBasedNerModel = {
+    val df = withFullPOSTagger(withTokenizer(dataset))
+
+    new CrfBasedNer()
+      .setInputCols("sentence", "token", "pos")
+      .setLabelColumn("label")
+      .setMinEpochs(1)
+      .setMaxEpochs(3)
+      .setC0(34)
+      .setL2(3.0)
+      .setOutputCol("ner")
+      .fit(df)
   }
 }
 
