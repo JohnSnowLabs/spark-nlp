@@ -7,13 +7,13 @@ import scala.io.Source
 
 
 case class TextSentenceLabels(labels: Seq[String])
-case class TextSentenceAttrs(words: Seq[TextAttr])
-case class TextAttr(attrs: Seq[(String, String)])
+case class TextSentenceAttrs(words: Seq[WordAttrs])
+case class WordAttrs(attrs: Seq[(String, String)])
 
 
 object DatasetReader {
 
-  def getSource(file: String): Source = {
+  private def getSource(file: String): Source = {
     if (file.endsWith(".gz")) {
       val fis = new FileInputStream(file)
       val zis = new GzipCompressorInputStream(fis)
@@ -23,20 +23,20 @@ object DatasetReader {
     }
   }
 
-  def readWithLabels(file: String, skipLines: Int = 0): Iterator[(TextSentenceLabels, TextSentenceAttrs)] = {
+  private def readWithLabels(file: String, skipLines: Int = 0): Iterator[(TextSentenceLabels, TextSentenceAttrs)] = {
     val lines = getSource(file)
       .getLines()
       .drop(skipLines)
 
     var labels = new ArrayBuffer[String]()
-    var tokens = new ArrayBuffer[TextAttr]()
+    var tokens = new ArrayBuffer[WordAttrs]()
 
     def addToResultIfExists(): Option[(TextSentenceLabels, TextSentenceAttrs)] = {
       if (tokens.nonEmpty) {
-        val result = (new TextSentenceLabels(labels), new TextSentenceAttrs(tokens))
+        val result = (TextSentenceLabels(labels), TextSentenceAttrs(tokens))
 
         labels = new ArrayBuffer[String]()
-        tokens = new ArrayBuffer[TextAttr]()
+        tokens = new ArrayBuffer[WordAttrs]()
         Some(result)
       }
       else {
@@ -59,7 +59,7 @@ object DatasetReader {
             (attr, value)
           })
 
-        tokens.append(new TextAttr(attrValues))
+        tokens.append(WordAttrs(attrValues))
         labels.append(words.head)
         None
       }
@@ -86,14 +86,7 @@ object DatasetReader {
     CrfDataset(instances, metadata.getMetadata)
   }
 
-
-  def readAndEncode(file: String, skipLines: Int): CrfDataset = {
-    val textDataset = readWithLabels(file, skipLines)
-
-    encodeDataset(textDataset)
-  }
-
-  def encodeLabels(labels: TextSentenceLabels, metadata: DatasetMetadata): InstanceLabels = {
+  private def encodeLabels(labels: TextSentenceLabels, metadata: DatasetMetadata): InstanceLabels = {
     val labelIds = labels.labels.map(text => metadata.label2Id.getOrElse(text, -1))
     InstanceLabels(labelIds)
   }
@@ -110,6 +103,12 @@ object DatasetReader {
     }
 
     Instance(items)
+  }
+
+  def readAndEncode(file: String, skipLines: Int): CrfDataset = {
+    val textDataset = readWithLabels(file, skipLines)
+
+    encodeDataset(textDataset)
   }
 
   def readAndEncode(file: String, skipLines: Int, metadata: DatasetMetadata): Iterator[(InstanceLabels, Instance)] = {

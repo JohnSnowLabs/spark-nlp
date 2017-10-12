@@ -37,7 +37,7 @@ object CoNLL
           else
             None
         } else if (items.length == 1) {
-          doc.append("\n")
+          doc.append("\n\n")
           None
         } else
         {
@@ -104,6 +104,8 @@ object CoNLL2003PipelineTest extends App {
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setC0(1250000)
+      .setMaxEpochs(1)
+      .setDicts(Seq("src/main/resources/ner-corpus/dict.txt"))
       .setOutputCol("ner")
 
     val pipeline = new Pipeline()
@@ -183,6 +185,8 @@ object CoNLL2003PipelineTest extends App {
   }
 
   val model = trainModel(trainFile)
+
+  System.out.println("Model saving")
   model.write.overwrite().save("crf_model")
 
   System.out.println("\n\nQuality on train data")
