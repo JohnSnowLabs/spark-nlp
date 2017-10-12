@@ -6,14 +6,16 @@
 <!--[if !IE]><!-->
 <html lang="en"> <!--<![endif]-->
 <head>
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-1"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70312582-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)};
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
-        gtag('config', 'UA-70312582-1');
+        gtag('config', 'UA-70312582-2');
     </script>
     <title>Spark NLP</title>
     <!-- Meta -->
@@ -90,17 +92,22 @@
                                     get started with Spark.
                                 </p>
                                 <p>
-                                    As of now, the only way to use the library is either build it yourself or by including downloadable snapshot jar in spark classpath,
+                                    As of now, the only way to use the library is either build it yourself or by
+                                    including downloadable snapshot jar in spark classpath,
                                     which can be downloaded
                                     <a href="https://github.com/JohnSnowLabs/spark-nlp/raw/master/docs/releases/spark-nlp-snapshot.jar">here</a>
-                                    then, run spark-shell or spark-submit with <b>--jars /path/to/spark-nlp-snapshot.jar</b> to use the library in scala spark.
+                                    then, run spark-shell or spark-submit with <b>--jars
+                                    /path/to/spark-nlp-snapshot.jar</b> to use the library in scala spark.
                                 </p>
                                 <p>
-                                    We are working on publishing the library on public repos to make it easier to use and enable
+                                    We are working on publishing the library on public repos to make it easier to use
+                                    and enable
                                     spark packages. This will allow to use pyspark library as well.
                                 </p>
                                 <p>
-                                    To use pyspark now, you may have to clone the repo, and stand inside the python folder to make sparknlp module avaiable, while also adding the jar to pyspark with --jars as above
+                                    To use pyspark now, you may have to clone the repo, and stand inside the python
+                                    folder to make sparknlp module avaiable, while also adding the jar to pyspark with
+                                    --jars as above
                                     Stay tuned for this section to be updated.
                                 </p>
                             </div>
@@ -124,7 +131,8 @@
                         <section id="annotation-section" class="doc-section">
                             <h2 class="section-title">Annotation</h2>
                             <div class="section-block">
-                                <p>An annotation is the basic form of the result of a Spark-NLP operation. It's structure is made of:</p>
+                                <p>An annotation is the basic form of the result of a Spark-NLP operation. It's
+                                    structure is made of:</p>
                                 <ul class="list">
                                     <li><b>annotatorType:</b> which annotator generated this annotation</li>
                                     <li><b>begin:</b> the begin of the matched content relative to raw-text</li>
@@ -132,7 +140,8 @@
                                     <li><b>metadata:</b> content of matched result and additional information</li>
                                 </ul>
                                 <p>
-                                    This object is <b>automatically generated</b> by annotators after a transform process. No manual work is
+                                    This object is <b>automatically generated</b> by annotators after a transform
+                                    process. No manual work is
                                     required. But it must be understood in order to use it efficiently.
                                 </p>
                             </div>
@@ -155,18 +164,22 @@
                                     </li>
                                 </ul>
                                 <p>
-                                    Both forms of annotators can be included in a Pipeline and will automatically go through
+                                    Both forms of annotators can be included in a Pipeline and will automatically go
+                                    through
                                     all stages in the provided order and transform the data accordingly. A Pipeline is
-                                    turned into a PipelineModel after the fit() stage. Either before or after can be saved
+                                    turned into a PipelineModel after the fit() stage. Either before or after can be
+                                    saved
                                     and re-loaded to disk at any time.
                                 </p>
                                 <div id="anno-functions" class="section-block">
                                     <h3 class="block-title">Common Functions</h3>
                                     <ul class="list">
-                                        <li><b>setInputCols</b>(column_names): Takes a list of column names of annotations
+                                        <li><b>setInputCols</b>(column_names): Takes a list of column names of
+                                            annotations
                                             required by this annotator
                                         </li>
-                                        <li><b>setOutputCol(</b>column_name): Defines the name of the column containing the
+                                        <li><b>setOutputCol(</b>column_name): Defines the name of the column containing
+                                            the
                                             result of this annotator. Use this name as an input for other annotators
                                             requiring the annotations of this one.
                                         </li>
@@ -192,7 +205,8 @@
                                     <p>
                                         In order to get through the NLP process, we need to get raw data annotated.
                                         There is a special <b>transformer</b> that does this for us: the <b>DocumentAssembler</b>,
-                                        it creates the first annotation of type <b>Document</b> which may be used by annotators down the road
+                                        it creates the first annotation of type <b>Document</b> which may be used by
+                                        annotators down the road
                                     </p>
                                     <pre><code class="language-python">import com.jsl.nlp._
 import com.jsl.nlp.annotators._
@@ -207,10 +221,13 @@ val documentAssembler = new DocumentAssembler()
                                 <div class="code-block">
                                     <h3 class="block-title">Sentence detection and tokenization</h3>
                                     <p>
-                                        In this quick example, we now proceed to identify the sentences in each of our document lines.
-                                        SentenceDetectorModel requires a Document annotation, which is provided by the DocumentAssembler
+                                        In this quick example, we now proceed to identify the sentences in each of our
+                                        document lines.
+                                        SentenceDetectorModel requires a Document annotation, which is provided by the
+                                        DocumentAssembler
                                         output, and it's itself a Document type token.
-                                        The RegexTokenizer requires a Document annotation type, meaning it works both with DocumentAssembler
+                                        The RegexTokenizer requires a Document annotation type, meaning it works both
+                                        with DocumentAssembler
                                         or SentenceDetector output, in here, we use the sentence output.
                                     </p>
                                     <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
