@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.TokenizedSentence
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper
 
 import scala.collection.JavaConverters._
@@ -36,7 +37,7 @@ class PragmaticScorer(sentimentDict: Map[String, String] = SentimentDetectorMode
   private val REVERT = "revert"
 
   /** config is used for tunning values for tags */
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   private val POSITIVE_VALUE = config.getDouble("nlp.sentimentParams.positive")
   private val NEGATIVE_VALUE = config.getDouble("nlp.sentimentParams.negative")

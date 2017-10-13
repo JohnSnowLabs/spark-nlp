@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators
 
 import com.jsl.nlp.annotators.common.StringMapParam
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
@@ -59,7 +60,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
 object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   /**
     * Retrieves Lemma dictionary from configured compiled source set in configuration
