@@ -3,7 +3,8 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.annotators.common.StringMapParam
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.Config
+import com.johnsnowlabs.nlp.util.ConfigHelper
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.JavaConverters._
@@ -59,7 +60,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
 object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   /**
     * Retrieves Lemma dictionary from configured compiled source set in configuration
