@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 
 class SparkContextForTest:
     spark = SparkSession.builder \
-        .master("local[4]") \
+        .master("local[*]") \
         .config("spark.jars", 'lib/sparknlp.jar') \
         .getOrCreate()
     data = spark. \
@@ -16,7 +16,7 @@ class SparkContextForTest:
 
 class SparkContextForNER:
     spark = SparkSession.builder \
-        .master("local[4]") \
+        .master("local[*]") \
         .config("spark.jars", 'lib/sparknlp.jar') \
         .getOrCreate()
     data = spark. \

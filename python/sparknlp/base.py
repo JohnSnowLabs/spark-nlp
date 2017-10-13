@@ -14,7 +14,7 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
     @keyword_only
     def __init__(self):
         super(DocumentAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.DocumentAssembler", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.DocumentAssembler", self.uid)
         kwargs = self._input_kwargs
         self.setParams(**kwargs)
 
@@ -44,7 +44,7 @@ class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
     @keyword_only
     def __init__(self):
         super(TokenAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.TokenAssembler", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.TokenAssembler", self.uid)
         kwargs = self._input_kwargs
         self.setParams(**kwargs)
 
@@ -72,7 +72,7 @@ class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
     @keyword_only
     def __init__(self):
         super(Finisher, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.Finisher", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.Finisher", self.uid)
         kwargs = self._input_kwargs
         self.setParams(**kwargs)
 
