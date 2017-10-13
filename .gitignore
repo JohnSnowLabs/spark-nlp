@@ -303,3 +303,4 @@ tmp_pipeline/
 test-output-tmp/
 spark-warehouse/
 /python/python.iml
+test_crf_pipeline/
