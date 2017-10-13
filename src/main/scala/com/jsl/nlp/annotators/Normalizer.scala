@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators
 
 import com.jsl.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -15,6 +16,14 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
+  val pattern = new Param[String](this, "pattern", "normalization regex pattern which match will be replaced with a space")
+
+  setDefault(pattern, "[^a-zA-Z]")
+
+  def getPattern: String = $(pattern)
+
+  def setPattern(value: String): this.type = set(pattern, value)
+
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
   /** ToDo: Review imeplementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
@@ -22,7 +31,7 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
     annotations.map { token =>
       val nToken = token.metadata(TOKEN)
         .toLowerCase
-        .replaceAll("[^a-zA-Z]", "")
+        .replaceAll($(pattern), "")
         .trim
       Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> nToken, "sentence" -> token.metadata("sentence")))
     }.filter(_.metadata(annotatorType).nonEmpty)
