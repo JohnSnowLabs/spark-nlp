@@ -1,8 +1,9 @@
 package com.jsl.nlp.annotators.sda.vivekn
 
 import com.jsl.nlp.annotators.common.IntStringMapParam
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.Config
 import org.apache.spark.ml.param.{IntParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -10,7 +11,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   import com.jsl.nlp.AnnotatorType._
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
   private val importantFeatureRatio = config.getDouble("nlp.viveknSentiment.importantFeaturesRatio")
   private val unimportantFeatureStep = config.getDouble("nlp.viveknSentiment.unimportantFeaturesStepRatio")
   private val featureLimit = config.getInt("nlp.viveknSentiment.featuresLimit")

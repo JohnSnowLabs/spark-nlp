@@ -4,6 +4,7 @@ import java.io.File
 
 import com.jsl.nlp.AnnotatorApproach
 import com.jsl.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper.{SourceStream, pathIsDirectory}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{IntParam, Param}
@@ -140,7 +141,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 }
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")

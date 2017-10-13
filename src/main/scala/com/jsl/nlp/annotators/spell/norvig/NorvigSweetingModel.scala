@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.spell.norvig
 
 import com.jsl.nlp.annotators.common.{IntStringMapParam, StringMapParam}
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -26,7 +27,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   protected val customDict: StringMapParam = new StringMapParam(this, "custom_dict", "custom dict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   /** params */
   private val wordSizeIgnore = config.getInt("nlp.norvigChecker.wordSizeIgnore")

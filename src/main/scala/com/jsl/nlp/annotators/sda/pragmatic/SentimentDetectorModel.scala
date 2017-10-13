@@ -1,6 +1,7 @@
 package com.jsl.nlp.annotators.sda.pragmatic
 
 import com.jsl.nlp.annotators.common.TokenizedSentence
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
@@ -72,7 +73,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 }
 object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   /**
     * Sentiment dictionaries from compiled sources set in configuration

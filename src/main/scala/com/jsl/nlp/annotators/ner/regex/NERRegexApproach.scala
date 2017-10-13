@@ -1,8 +1,9 @@
 package com.jsl.nlp.annotators.ner.regex
 
 import com.jsl.nlp.AnnotatorApproach
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.Config
 import org.apache.spark.ml.param.{Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -36,7 +37,7 @@ class NERRegexApproach(override val uid: String) extends AnnotatorApproach[NERRe
 
 object NERRegexApproach extends DefaultParamsReadable[NERRegexApproach] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   /**
     *
