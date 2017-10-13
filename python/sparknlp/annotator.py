@@ -70,13 +70,16 @@ class RegexTokenizer(AnnotatorTransformer):
 
     pattern = Param(Params._dummy(),
                     "pattern",
-                    "regular expression pattern for tokenization.",
+                    "regular expression pattern for tokenization",
                     typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
         super(RegexTokenizer, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.RegexTokenizer", self.uid)
+
+    def setPattern(self, value):
+        return self._set(pattern=value)
 
 
 class Stemmer(AnnotatorTransformer):
@@ -91,10 +94,18 @@ class Stemmer(AnnotatorTransformer):
 
 class Normalizer(AnnotatorTransformer):
 
+    pattern = Param(Params._dummy(),
+                    "pattern",
+                    "normalization regex pattern which match will be replaced with a space",
+                    typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Normalizer", self.uid)
+
+    def setPattern(self, value):
+        return self._set(pattern=value)
 
 
 class RegexMatcher(AnnotatorTransformer):
