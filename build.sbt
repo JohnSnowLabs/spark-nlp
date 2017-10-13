@@ -5,7 +5,7 @@ val scalaTestVersion = "3.0.0"
 /** Package attributes */
 name := "spark-nlp"
 
-organization := "com.jsl.nlp"
+organization := "com.johnsnowlabs.nlp"
 
 version := "1.1.0"
 
