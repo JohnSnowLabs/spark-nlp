@@ -1,10 +1,11 @@
 package com.jsl.nlp.annotators
 
+import com.jsl.nlp.util.ConfigHelper
 import com.jsl.nlp.util.io.ResourceHelper
 import com.jsl.nlp.util.regex.MatchStrategy.MatchStrategy
 import com.jsl.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
-import com.jsl.nlp.{Annotation, AnnotatorModel, AnnotatorType, DocumentAssembler}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.jsl.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.typesafe.config.Config
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -84,7 +85,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
 object RegexMatcher extends DefaultParamsReadable[RegexMatcher] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
   /**
     * Regex matcher rules
     * @param rulesFilePath
