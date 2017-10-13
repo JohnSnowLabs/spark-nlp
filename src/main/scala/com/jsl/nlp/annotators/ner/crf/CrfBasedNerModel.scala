@@ -6,9 +6,9 @@ import com.jsl.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
 import com.jsl.nlp.annotators.ner.crf.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.jsl.nlp.{Annotation, AnnotatorModel}
 import org.apache.hadoop.fs.Path
-import org.apache.spark.ml.param.{Param, StringArrayParam}
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
-import org.apache.spark.sql.{Dataset, Encoders, Row, SQLContext}
+import org.apache.spark.sql.{Encoders, Row}
 
 
 /*
