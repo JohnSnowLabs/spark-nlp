@@ -1,4 +1,4 @@
-package com.jsl.nlp.util
+package com.johnsnowlabs.nlp.util
 
 import java.io.File
 

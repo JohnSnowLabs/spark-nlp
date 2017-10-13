@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.jsl.nlp.util.ConfigHelper
+import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp._
 import com.typesafe.config.Config
