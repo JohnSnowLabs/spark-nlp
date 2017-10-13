@@ -32,7 +32,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   /** params */
   private val wordSizeIgnore = config.getInt("nlp.norvigChecker.wordSizeIgnore")
   private val dupsLimit = config.getInt("nlp.norvigChecker.dupsLimit")
-  private val reductLimit = config.getInt("nlp.norvigChecker.reductLimitx")
+  private val reductLimit = config.getInt("nlp.norvigChecker.reductLimit")
   private val intersections = config.getInt("nlp.norvigChecker.intersections")
   private val vowelSwapLimit = config.getInt("nlp.norvigChecker.vowelSwapLimit")
 
