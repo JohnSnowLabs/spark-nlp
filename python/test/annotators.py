@@ -126,7 +126,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setCorpusPath("../src/test/resources/anc-pos-corpus") \
+            .setCorpusPath("../src/main/resources/anc-pos-corpus") \
             .setIterations(2) \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
