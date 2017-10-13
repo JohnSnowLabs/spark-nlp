@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.jsl.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp._
-import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
+import com.typesafe.config.Config
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -113,7 +113,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
 object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
 
-  private val config: Config = ConfigFactory.load
+  private val config: Config = ConfigHelper.retrieve
 
   protected def retrieveEntityExtractorPhrases(
                                       entitiesPath: String = "__default",
