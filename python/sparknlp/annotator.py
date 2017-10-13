@@ -76,7 +76,7 @@ class RegexTokenizer(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(RegexTokenizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.RegexTokenizer", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.RegexTokenizer", self.uid)
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -89,7 +89,7 @@ class Stemmer(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(Stemmer, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.Stemmer", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Stemmer", self.uid)
 
 
 class Normalizer(AnnotatorTransformer):
@@ -102,7 +102,7 @@ class Normalizer(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.Normalizer", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Normalizer", self.uid)
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -122,7 +122,7 @@ class RegexMatcher(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(RegexMatcher, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.RegexMatcher", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.RegexMatcher", self.uid)
 
     def setStrategy(self, value):
         return self._set(strategy=value)
@@ -141,7 +141,7 @@ class Lemmatizer(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(Lemmatizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.Lemmatizer", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Lemmatizer", self.uid)
 
     def setDictionary(self, value):
         if type(value) == dict:
@@ -160,7 +160,7 @@ class DateMatcher(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(DateMatcher, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.DateMatcher", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.DateMatcher", self.uid)
 
     def setDateFormat(self, value):
         return self._set(dateFormat=value)
@@ -183,7 +183,7 @@ class EntityExtractor(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.EntityExtractor", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.EntityExtractor", self.uid)
 
     def setMaxLen(self, value):
         return self._set(maxLen=value)
@@ -209,7 +209,7 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
     @keyword_only
     def __init__(self):
         super(PerceptronApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
         kwargs = self._input_kwargs
         self._setDefault(corpusPath="__default", nIterations=5)
         self.setParams(**kwargs)
@@ -243,7 +243,7 @@ class NERRegexApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorP
     @keyword_only
     def __init__(self):
         super(NERRegexApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.ner.regex.NERRegexApproach", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach", self.uid)
         kwargs = self._input_kwargs
         self._setDefault(corpusPath="__default")
         self.setParams(**kwargs)
@@ -278,7 +278,7 @@ class SentenceDetectorModel(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(SentenceDetectorModel, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.sbd.pragmatic.SentenceDetectorModel", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel", self.uid)
 
 
 class SentimentDetectorModel(AnnotatorTransformer):
@@ -289,7 +289,7 @@ class SentimentDetectorModel(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(SentimentDetectorModel, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.sda.pragmatic.SentimentDetectorModel", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel", self.uid)
 
     def setDictPath(self, value):
         self._set(dictPath=value)
@@ -319,7 +319,7 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
                  pruneCorpus=False
                  ):
         super(ViveknSentimentApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.sda.vivekn.ViveknSentimentApproach", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach", self.uid)
         kwargs = self._input_kwargs
         self._setDefault(
             positiveSource="",
@@ -401,7 +401,7 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                  shortCircuit=False
                  ):
         super(NorvigSweetingApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.spell.norvig.NorvigSweetingApproach", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach", self.uid)
         kwargs = self._input_kwargs
         self._setDefault(
             dictPath="/spell/words.txt",
@@ -528,7 +528,7 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
     @keyword_only
     def __init__(self):
         super(CrfBasedNer, self).__init__()
-        self._java_obj = self._new_java_obj("com.jsl.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
 
         self._setDefault(
             minEpochs = 0,
