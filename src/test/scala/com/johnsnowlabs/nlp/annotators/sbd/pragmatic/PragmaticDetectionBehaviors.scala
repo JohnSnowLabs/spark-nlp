@@ -15,7 +15,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
     val sentencesAnnotations = sentences
       .collect
       .flatMap { r => r.getSeq[Row](0) }
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
+      .map { a => Annotation(a.getString(0), a.getString(1), a.getMap[String, String](2)) }
     val corpus = sentencesAnnotations
       .flatMap { a => a.result }
       .mkString("")

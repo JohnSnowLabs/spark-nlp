@@ -13,14 +13,14 @@ class DependencyParserTest extends FlatSpec {
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(r.getString(0), r.getString(1), r.getMap[String, String](2))
       }
     val tokens = df.select("token")
     val tokenAnnotations = tokens
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(r.getString(0), r.getString(1), r.getMap[String, String](2))
       }
   }
 
@@ -52,6 +52,7 @@ class DependencyParserTest extends FlatSpec {
     val f = fixture
     f.depAnnotations
       .zip(f.tokenAnnotations)
-      .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
+      .foreach { case (dep, token) => assert(dep.metadata(Annotation.BEGIN).toInt == token.metadata(Annotation.BEGIN).toInt &&
+        dep.metadata(Annotation.END).toInt == token.metadata(Annotation.END).toInt, s"Token and word should have equal indixes") }
   }
 }

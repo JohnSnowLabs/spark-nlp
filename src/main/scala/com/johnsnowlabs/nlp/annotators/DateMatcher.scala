@@ -297,10 +297,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     annotations.flatMap( annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(
         annotatorType,
-        matchedDate.start,
-        matchedDate.end - 1,
         simpleDateFormat.format(matchedDate.calendar.getTime),
-        Map.empty[String, String]
+        Map(Annotation.BEGIN -> matchedDate.start.toString,
+          Annotation.END -> (matchedDate.end - 1).toString)
       ))
     )
   }

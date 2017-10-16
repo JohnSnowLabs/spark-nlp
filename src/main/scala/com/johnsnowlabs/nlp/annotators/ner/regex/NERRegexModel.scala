@@ -46,10 +46,9 @@ class NERRegexModel(override val uid: String) extends AnnotatorModel[NERRegexMod
             tag(Array(sentence)).flatMap { tag =>
               Some(Annotation(
                 annotatorType,
-                tag("start").toInt + annotation.begin,
-                tag("end").toInt + annotation.begin,
                 tag("entity"),
-                Map(tag("word") -> tag("entity"))
+                Map(tag("word") -> tag("entity"), Annotation.BEGIN -> (tag("start").toInt + annotation.metadata(Annotation.BEGIN).toInt).toString,
+                  Annotation.END -> (tag("end").toInt + annotation.metadata(Annotation.BEGIN)).toString)
               ))
             }
           case _ => None

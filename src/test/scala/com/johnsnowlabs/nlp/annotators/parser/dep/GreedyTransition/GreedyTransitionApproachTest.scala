@@ -15,17 +15,17 @@ class GreedyTransitionApproachTest extends FlatSpec {
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(r.getString(0), r.getString(1), r.getMap[String, String](2))
       }
-      .sortBy { _.begin }
+      .sortBy { _.metadata(Annotation.BEGIN).toInt }
     val posTags = df.select("pos")
     val posTagAnnotations = posTags
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(r.getString(0), r.getString(1), r.getMap[String, String](2))
       }
-      .sortBy { _.begin }
+      .sortBy { _.metadata(Annotation.BEGIN).toInt }
   }
 
   "A GreedyTransitionApproach" should "return an array of dependencies" in {

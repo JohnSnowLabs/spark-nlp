@@ -35,8 +35,8 @@ class CrfBasedNerPipelineSpec extends FlatSpec {
 
     assert(annotations.length == labels.length)
     for ((annotation, label) <- annotations.zip(labels)) {
-      assert(annotation.begin == label.begin)
-      assert(annotation.end == label.end)
+      assert(annotation.metadata(Annotation.BEGIN).toInt == label.metadata(Annotation.BEGIN).toInt)
+      assert(annotation.metadata(Annotation.END).toInt == label.metadata(Annotation.END).toInt)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
       assert(annotation.metadata("tag") == label.metadata("tag"))
       assert(annotation.metadata.contains("word"))

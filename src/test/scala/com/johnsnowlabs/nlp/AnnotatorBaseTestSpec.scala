@@ -17,10 +17,8 @@ class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[Dummy
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     Seq(Annotation(
       annotatorType,
-      0,
-      25,
       "dummy result",
-      Map("a" -> "b", "c" -> "d")
+      Map("a" -> "b", "c" -> "d", Annotation.BEGIN -> "0", Annotation.END -> "25")
     ))
 }
 object DummyAnnotatorModel extends DefaultParamsReadable[DummyAnnotatorModel]
@@ -34,10 +32,8 @@ class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorMo
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     Seq(Annotation(
       DUMMY,
-      11,
-      18,
       "dummy result",
-      Map("aa" -> "bb", "cc" -> "dd")
+      Map("aa" -> "bb", "cc" -> "dd", Annotation.BEGIN -> "11", Annotation.END -> "18")
     ))
 }
 object DemandingDummyAnnotatorModel extends DefaultParamsReadable[DemandingDummyAnnotatorModel]
@@ -103,14 +99,14 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     val contentMeta = result.select("demand", "result").take(1).head.getSeq[Row](0)
     val contentAnnotation = contentMeta.map(Annotation(_)).head
     assert(contentAnnotation.annotatorType == dummyAnnotator.annotatorType)
-    assert(contentAnnotation.begin == 0)
-    assert(contentAnnotation.end == 25)
+    assert(contentAnnotation.metadata(Annotation.BEGIN).toInt == 0)
+    assert(contentAnnotation.metadata(Annotation.END).toInt == 25)
     assert(contentAnnotation.metadata.contains("a") && contentAnnotation.metadata("a") == "b")
     val demandContentMeta = result.select("demand", "result").take(1).head.getSeq[Row](1)
     val demandContentAnnotation = demandContentMeta.map(Annotation(_)).head
     assert(demandContentAnnotation.annotatorType == demandingDummyAnnotator.annotatorType)
-    assert(demandContentAnnotation.begin == 11)
-    assert(demandContentAnnotation.end == 18)
+    assert(demandContentAnnotation.metadata(Annotation.BEGIN).toInt == 11)
+    assert(demandContentAnnotation.metadata(Annotation.END).toInt == 18)
     assert(demandContentAnnotation.metadata.contains("aa") && demandContentAnnotation.metadata("aa") == "bb")
   }
 

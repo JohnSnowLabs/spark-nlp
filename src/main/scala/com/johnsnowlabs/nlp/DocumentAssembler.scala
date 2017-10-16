@@ -49,27 +49,31 @@ class DocumentAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
-    Seq(Annotation(annotatorType, 0, text.length - 1, text, metadata))
+    Seq(Annotation(
+      annotatorType,
+      text,
+      metadata ++ Map(Annotation.BEGIN -> "0", Annotation.END -> (text.length - 1).toString))
+    )
   }
 
   private def dfAssemble: UserDefinedFunction = udf {
     (text: String, id: String, metadata: Map[String, String]) =>
-      assemble(text, metadata ++ Map("id" -> id))
+      assemble(text, metadata ++ Map(Annotation.BEGIN -> "0", Annotation.END -> (text.length - 1).toString, "id" -> id))
   }
 
   private def dfAssembleOnlyId: UserDefinedFunction = udf {
     (text: String, id: String) =>
-      assemble(text, Map("id" -> id))
+      assemble(text, Map(Annotation.BEGIN -> "0", Annotation.END -> (text.length - 1).toString, "id" -> id))
   }
 
   private def dfAssembleNoId: UserDefinedFunction = udf {
     (text: String, metadata: Map[String, String]) =>
-      assemble(text, metadata)
+      assemble(text, metadata ++ Map(Annotation.BEGIN -> "0", Annotation.END -> (text.length - 1).toString))
   }
 
   private def dfAssembleNoExtras: UserDefinedFunction = udf {
     (text: String) =>
-      assemble(text, Map.empty[String, String])
+      assemble(text, Map(Annotation.BEGIN -> "0", Annotation.END -> (text.length - 1).toString))
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */

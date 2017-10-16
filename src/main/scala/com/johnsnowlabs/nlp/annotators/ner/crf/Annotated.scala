@@ -28,17 +28,15 @@ object SentenceSplit extends Annotated[TextSentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[TextSentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .map(annotation =>
-        TextSentence(annotation.result, annotation.begin, annotation.end)
+        TextSentence(annotation.result, annotation.metadata(Annotation.BEGIN).toInt, annotation.metadata(Annotation.END).toInt)
       )
   }
 
   override def pack(items: Seq[TextSentence]): Seq[Annotation] = {
     items.map(item => Annotation(
       annotatorType,
-      item.begin,
-      item.end,
       item.text,
-      Map(annotatorType -> item.text))
+      Map(annotatorType -> item.text, Annotation.BEGIN -> item.begin.toString, Annotation.END -> item.end.toString))
     )
   }
 }
@@ -52,10 +50,10 @@ object Tokenized extends Annotated[TokenizedSentence] {
     val tokens = annotations
       .filter(_.annotatorType == annotatorType)
       .toArray
-      .sortBy(a => a.begin)
+      .sortBy(a => a.metadata(Annotation.BEGIN).toInt)
 
-    val tokenBegin = tokens.map(t => t.begin)
-    val tokenEnd = tokens.map(t => t.end)
+    val tokenBegin = tokens.map(t => t.metadata(Annotation.BEGIN).toInt)
+    val tokenEnd = tokens.map(t => t.metadata(Annotation.END).toInt)
 
     def find(begin: Int, end: Int): Array[IndexedToken] = {
       import scala.collection.Searching._
@@ -65,7 +63,7 @@ object Tokenized extends Annotated[TokenizedSentence] {
       val result = Array.fill[IndexedToken](endIdx - beginIdx)(null)
       for (i <- beginIdx until endIdx) {
         val token = tokens(i)
-        result(i - beginIdx) = IndexedToken(token.result, token.begin, token.end)
+        result(i - beginIdx) = IndexedToken(token.result, token.metadata(Annotation.BEGIN).toInt, token.metadata(Annotation.END).toInt)
       }
 
       result
@@ -79,10 +77,8 @@ object Tokenized extends Annotated[TokenizedSentence] {
     items.flatMap(sentence => sentence.indexedTokens.map(token =>
       new Annotation(
         annotatorType,
-        token.begin,
-        token.end,
         token.token,
-        Map(annotatorType -> token.token))))
+        Map(annotatorType -> token.token, Annotation.BEGIN -> token.begin.toString, Annotation.END -> token.end.toString))))
   }
 }
 
@@ -94,17 +90,17 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     val tokenized = Tokenized.unpack(annotations)
     val tagAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
-      .sortBy(a => a.begin)
+      .sortBy(a => a.metadata(Annotation.BEGIN).toInt)
       .toIterator
 
     var annotation: Option[Annotation] = None
 
     tokenized.map { sentence =>
       val tokens = sentence.indexedTokens.map { token =>
-        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.begin < token.begin))
+        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.metadata(Annotation.BEGIN).toInt < token.begin))
           annotation = Some(tagAnnotations.next)
 
-        val tag = if (annotation.isDefined && annotation.get.begin == token.begin)
+        val tag = if (annotation.isDefined && annotation.get.metadata(Annotation.BEGIN).toInt == token.begin)
           annotation.get.metadata("tag")
         else
           emptyTag
@@ -120,10 +116,8 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     items.flatMap(item => item.indexedTaggedWords.map(tag =>
       new Annotation(
         annotatorType,
-        tag.begin,
-        tag.end,
         tag.tag,
-        Map("tag" -> tag.tag, "word" -> tag.word))
+        Map("tag" -> tag.tag, "word" -> tag.word, Annotation.BEGIN -> tag.begin.toString, Annotation.END -> tag.end.toString))
     ))
   }
 }
@@ -168,7 +162,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
   }
 
   private def getLabels(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val position2Tag = labelAnnotations.map(a => (a.begin, a.end) -> a.metadata("tag")).toMap
+    val position2Tag = labelAnnotations.map(a => (a.metadata(Annotation.BEGIN).toInt, a.metadata(Annotation.END).toInt) -> a.metadata("tag")).toMap
 
     sentences.map{sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>

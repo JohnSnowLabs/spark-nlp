@@ -19,19 +19,19 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
       .flatMap { a: Annotation =>
         val tokensAndPosTags: Map[String, Seq[Annotation]] = annotations
           .filter { a1 =>
-            (a1.annotatorType == POS || a1.annotatorType == TOKEN) && a.begin <= a1.begin && a.end >= a1.end
+            (a1.annotatorType == POS || a1.annotatorType == TOKEN) &&
+              a.metadata(Annotation.BEGIN).toInt <= a1.metadata(Annotation.BEGIN).toInt &&
+              a.metadata(Annotation.END).toInt >= a1.metadata(Annotation.END).toInt
           }.groupBy( _.annotatorType )
-        val tokens = tokensAndPosTags(TOKEN).sortBy { _.begin }
-        val posTags = tokensAndPosTags(POS).sortBy { _.begin }
+        val tokens = tokensAndPosTags(TOKEN).sortBy { _.metadata(Annotation.BEGIN).toInt }
+        val posTags = tokensAndPosTags(POS).sortBy { _.metadata(Annotation.BEGIN).toInt }
         val dependencies = model.parse(tokens, posTags)
         tokens
           .zip(dependencies)
           .map { case (token, index) => Annotation(
             DEPENDENCY,
-            token.begin,
-            token.end,
             index.toString,
-            Map.empty[String, String]) }
+            token.metadata) }
       }
   }
 }
