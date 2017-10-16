@@ -1,23 +1,29 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
-import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-
+import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import scala.collection.mutable
-import com.johnsnowlabs.nlp.AnnotatorType._
 
 /**
   * Parser based on the code of Matthew Honnibal and Martin Andrews
   */
 class GreedyTransitionApproach {
-  def parse(tokens: Seq[Annotation], posTags: Seq[Annotation]): List[Int] = {
+
+  def parse(posTagged: PosTaggedSentence): DependencyParsedSentence = {
     val parser = new Parser
     parser.perceptron.load(ResourceHelper.parseLinesText("/dependency_parser/models/dep-model.txt", "txt").toIterator)
-    val tags = posTags.flatMap { a => a.metadata.get("tag") }
-    val sentence: Sentence = tokens
-      .zip(tags)
-      .map { t => WordData(t._1.metadata(TOKEN), t._2) }.toList
-    parser.parse(sentence, tags)
+    val sentence: Sentence = posTagged.indexedTaggedWords
+      .map { item => WordData(item.word, item.tag) }.toList
+    val dependencies = parser.parse(sentence)
+    val words = posTagged.indexedTaggedWords
+      .zip(dependencies)
+      .map{
+        case (word, dependency) =>
+          WordWithDependency(word.word, word.begin, word.end, dependency)
+      }
+
+    DependencyParsedSentence(words)
   }
 
   type ClassNum  = Int
@@ -295,9 +301,9 @@ class GreedyTransitionApproach {
 
     }
 
-    def parse(sentence: Sentence, posTags: Seq[String] ): List[Int] = {
+    def parse(sentence: Sentence): List[Int] = {
       val words = sentence.map( _.norm ).toVector
-      val tags = posTags.toVector
+      val tags = sentence.map(s => s.pos).toVector
       val goldHeads = sentence.map( _.dep ).toVector
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {

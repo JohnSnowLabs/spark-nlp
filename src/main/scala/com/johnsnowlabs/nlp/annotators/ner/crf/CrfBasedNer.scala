@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, Verbose}
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
+import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset

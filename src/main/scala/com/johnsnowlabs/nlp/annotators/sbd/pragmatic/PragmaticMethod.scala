@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.sbd.Sentence
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 
 /**
   * Created by Saif Addin on 5/5/2017.

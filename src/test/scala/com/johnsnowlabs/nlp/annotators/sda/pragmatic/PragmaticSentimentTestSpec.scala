@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -57,12 +57,12 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
 class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehaviors {
 
-  val sentimentSentence1 = "The staff of the restaurant is nice and the eggplant is bad".split(" ")
-  val sentimentSentence2 = "I recommend others to avoid because it is too expensive".split(" ")
-  val sentimentSentences = Array(
-    TokenizedSentence(sentimentSentence1),
-    TokenizedSentence(sentimentSentence2)
-  )
+  val sentimentSentenceTexts = "The staff of the restaurant is nice and the eggplant is bad " +
+    "I recommend others to avoid because it is too expensive"
+
+  val sentimentSentences = {
+    new RegexTokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
+  }
 
   "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)
 

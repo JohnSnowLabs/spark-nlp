@@ -55,7 +55,6 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
       )
     }
   }
-
 }
 
 object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {

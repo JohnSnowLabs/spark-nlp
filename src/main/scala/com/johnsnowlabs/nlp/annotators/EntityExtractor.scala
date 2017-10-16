@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common.{Tokenized, TokenizedSentence}
 import com.typesafe.config.Config
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -70,24 +71,25 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
   /**
     * matches entities depending on utilized annotators and stores them in the annotation
-    * @param nTokens pads annotation content to phrase limits
+    * @param sentence pads annotation content to phrase limits
     * @param maxLen applies limit not to exceed results
     * @param entities entities to find within annotators results
     * @return
     */
-  private def phraseMatch(nTokens: Seq[Annotation], maxLen: Int, entities: Array[Array[String]]): Seq[Annotation] = {
-    nTokens.padTo(nTokens.length + maxLen - (nTokens.length % maxLen), null).sliding(maxLen).flatMap {
+  private def phraseMatch(sentence: TokenizedSentence, maxLen: Int, entities: Array[Array[String]]): Seq[Annotation] = {
+    val tokens = sentence.indexedTokens
+    tokens.padTo(tokens.length + maxLen - (tokens.length % maxLen), null).sliding(maxLen).flatMap {
       window =>
         window.filter(_ != null).inits.filter {
           phraseCandidate =>
-            entities.contains(phraseCandidate.map(_.metadata(TOKEN)).toArray)
+            entities.contains(phraseCandidate.map(_.token))
         }.map {
           phrase =>
             Annotation(
-              "entity",
+              AnnotatorType.ENTITY,
               phrase.head.begin,
               phrase.last.end,
-              Map(annotatorType -> phrase.map(_.metadata(TOKEN)).mkString(" "))
+              Map(annotatorType -> phrase.map(_.token).mkString(" "))
             )
         }
     }.toSeq
@@ -95,18 +97,10 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
   /** Defines annotator phrase matching depending on whether we are using SBD or not */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.filter {
-      token: Annotation => token.annotatorType == DOCUMENT
-    }.flatMap {
-      sentence =>
-        val ntokens = annotations.filter {
-          token: Annotation =>
-            token.annotatorType == TOKEN &&
-              token.begin >= sentence.begin &&
-              token.end <= sentence.end
-        }
-        phraseMatch(ntokens, $(maxLen), loadedEntities)
-    }
+    val sentences = Tokenized.unpack(annotations)
+    sentences.flatMap{ sentence =>
+        phraseMatch(sentence, $(maxLen), loadedEntities)
+      }
   }
 
 }

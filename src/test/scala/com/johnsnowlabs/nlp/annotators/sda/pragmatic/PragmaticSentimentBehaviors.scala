@@ -11,10 +11,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
 
   def fixture(dataset: Dataset[Row]) = new {
     val df = AnnotatorBuilder.withPragmaticSentimentDetector(dataset)
-    val sdAnnotations = df.select("sentiment")
-      .collect
-      .flatMap { _.getSeq[Row](0) }
-      .map { Annotation(_) }
+    val sdAnnotations = Annotation.collect(df, "sentiment").flatten
   }
 
   def isolatedSentimentDetector(tokenizedSentences: Array[TokenizedSentence], expectedScore: Double): Unit = {

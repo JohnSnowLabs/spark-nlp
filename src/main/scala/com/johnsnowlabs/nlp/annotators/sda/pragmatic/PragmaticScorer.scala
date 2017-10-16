@@ -96,8 +96,8 @@ class PragmaticScorer(sentimentDict: Map[String, String] = SentimentDetectorMode
       }
     })}.sum
   }
-
 }
+
 object PragmaticScorer {
   def py4jHelper(javaSentimentDict: java.util.HashMap[String, String]): PragmaticScorer = {
     new PragmaticScorer(javaSentimentDict.asScala.toMap)
