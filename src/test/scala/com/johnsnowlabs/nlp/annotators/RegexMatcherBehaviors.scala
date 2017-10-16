@@ -22,7 +22,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
     "A RegexMatcher Annotator with predefined rules" should s"successfuly match" in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
-        assert(a.metadata.toArray.nonEmpty)
+        assert(a.metadata.toArray.isEmpty)
       }
     }
 
@@ -43,7 +43,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
     "A RegexMatcher Annotator with custom rules" should s"successfuly match ${rules.map(_._1).mkString(",")}" in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
-        assert(a.metadata.toArray.nonEmpty)
+        assert(a.metadata.toArray.isEmpty)
       }
     }
 

@@ -34,12 +34,13 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
   /** one-to-one stem annotation that returns single hard-stem per token */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { tokenAnnotation =>
-        val stem = Stemmer.stem(tokenAnnotation.metadata(annotatorType))
+        val stem = Stemmer.stem(tokenAnnotation.result)
         Annotation(
           annotatorType,
           tokenAnnotation.begin,
           tokenAnnotation.end,
-          Map(annotatorType -> stem, "sentence" -> tokenAnnotation.metadata("sentence"))
+          stem,
+          tokenAnnotation.metadata
         )
     }
 

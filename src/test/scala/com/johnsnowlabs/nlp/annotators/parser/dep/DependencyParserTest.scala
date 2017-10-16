@@ -13,14 +13,14 @@ class DependencyParserTest extends FlatSpec {
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getMap[String, String](3))
+        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
     val tokens = df.select("token")
     val tokenAnnotations = tokens
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getMap[String, String](3))
+        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
   }
 
@@ -44,7 +44,7 @@ class DependencyParserTest extends FlatSpec {
   it should "annotate each word with a head" in {
     val f = fixture
     f.depAnnotations.foreach { a =>
-      assert(a.metadata.contains("head"), s"Metadata should have a head key")
+      assert(a.result.nonEmpty, s"Result should have a head")
     }
   }
 
