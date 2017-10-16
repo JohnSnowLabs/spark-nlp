@@ -73,10 +73,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
         .findMatch(annotation.result).map { m =>
           Annotation(
             annotatorType,
-            m.content.start,
-            m.content.end - 1,
             m.content.matched,
-            Map.empty[String, String]
+            Map(Annotation.BEGIN -> m.content.start.toString, Annotation.END -> (m.content.end - 1).toString)
           )
         }
     }

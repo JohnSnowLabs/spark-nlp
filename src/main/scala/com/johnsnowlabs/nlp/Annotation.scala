@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.Annotation.RESULT
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
@@ -11,11 +10,10 @@ import scala.collection.Map
 /**
   * represents annotator's output parts and their details
   * @param annotatorType the type of annotation
-  * @param begin the index of the first character under this annotation
-  * @param end the index after the last character under this annotation
+  * @param result summary of annotations output
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, result: String, metadata: Map[String, String])
 
 object Annotation {
 
@@ -35,6 +33,8 @@ object Annotation {
   }
 
   private val ANNOTATION_NAME = "__annotation"
+  val BEGIN = "begin"
+  val END = "end"
   val RESULT = "result"
 
   /** This is spark type of an annotation representing its metadata shape */
@@ -55,18 +55,14 @@ object Annotation {
   def apply(row: Row): Annotation = {
     Annotation(
       row.getString(0),
-      row.getInt(1),
-      row.getInt(2),
-      row.getString(3),
-      row.getMap[String, String](4)
+      row.getString(1),
+      row.getMap[String, String](2)
     )
   }
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
-    0,
-    rawText.length,
     rawText,
-    Map.empty[String, String]
+    Map(Annotation.BEGIN -> "0", Annotation.END -> (rawText.length - 1).toString)
   )
 
   /** dataframe collect of a specific annotation column*/
@@ -97,7 +93,7 @@ object Annotation {
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       (annotations: Seq[Row]) => annotations.map(r =>
-        r.getString(3)
+        r.getString(1)
       ).mkString(aSep)
     }
   }
@@ -106,7 +102,7 @@ object Annotation {
   def flattenKV(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       (annotations: Seq[Row]) => annotations.map(r =>
-        (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(1))).mkString(vSep).replace(" -> ", "->")
+        (r.getMap[String, String](2) ++ Map(RESULT -> r.getString(1))).mkString(vSep).replace(" -> ", "->")
       ).mkString(aSep)
     }
   }

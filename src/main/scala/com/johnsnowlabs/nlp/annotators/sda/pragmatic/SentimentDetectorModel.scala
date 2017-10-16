@@ -56,15 +56,14 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
     val sentences = annotations.filter(_.annotatorType == DOCUMENT)
     val taggedSentences = sentences.map(sentence => {
       val sentenceTokens = tokens
-        .filter(token => token.begin >= sentence.begin && token.end <= sentence.end)
+        .filter(token => token.metadata(Annotation.BEGIN).toInt >= sentence.metadata(Annotation.BEGIN).toInt &&
+          token.metadata(Annotation.END).toInt <= sentence.metadata(Annotation.END).toInt)
         .map(_.result).toArray
       TokenizedSentence(sentenceTokens)
     }).toArray
     val score = model.score(taggedSentences)
     Seq(Annotation(
       annotatorType,
-      0,
-      0,
       { if (score >= 0) "positive" else "negative"},
       Map.empty[String, String]
     ))

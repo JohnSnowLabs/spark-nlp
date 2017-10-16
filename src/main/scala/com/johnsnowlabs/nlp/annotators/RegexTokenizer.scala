@@ -43,10 +43,12 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
       regex.findAllMatchIn(text.result).map { m =>
         Annotation(
           annotatorType,
-          text.begin + m.start,
-          text.begin + m.end - 1,
           m.matched,
-          Map("sentence" -> sentenceIndex.toString)
+          Map(
+            "sentence" -> sentenceIndex.toString,
+            Annotation.BEGIN -> (text.metadata(Annotation.BEGIN).toInt + m.start).toString,
+            Annotation.END -> (text.metadata(Annotation.BEGIN).toInt + m.end - 1).toString
+          )
         )
       }
     })

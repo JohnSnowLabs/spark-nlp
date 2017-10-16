@@ -45,10 +45,8 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
       )
       sentences.map(sentence => Annotation(
         this.annotatorType,
-        sentence.begin,
-        sentence.end,
         sentence.content,
-        Map.empty[String, String]
+        Map(Annotation.BEGIN -> sentence.begin.toString, Annotation.END -> sentence.end.toString)
       ))
     })
   }

@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.sql.Row
 import scala.language.reflectiveCalls
@@ -19,7 +18,7 @@ class DocumentAssemblerTestSpec extends FlatSpec {
 
   "A DocumentAssembler" should "annotate with the correct indexes" in {
     val f = fixture
-    f.text.head should equal (f.text(f.assembledDoc.head.begin))
-    f.text.last should equal (f.text(f.assembledDoc.head.end))
+    f.text.head should equal (f.text(f.assembledDoc.head.metadata(Annotation.BEGIN).toInt))
+    f.text.last should equal (f.text(f.assembledDoc.head.metadata(Annotation.END).toInt))
   }
 }

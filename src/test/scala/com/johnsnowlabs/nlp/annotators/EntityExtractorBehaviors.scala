@@ -15,7 +15,7 @@ trait EntityExtractorBehaviors { this: FlatSpec =>
             .map(Annotation(_))
             .foreach {
               case entity: Annotation if entity.annotatorType == "entity" =>
-                println(entity, entity.end)
+                println(entity, entity.metadata(Annotation.END).toInt)
               case _ => ()
             }
       }

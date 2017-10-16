@@ -85,10 +85,8 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
           phrase =>
             Annotation(
               ENTITY,
-              phrase.head.begin,
-              phrase.last.end,
               phrase.map(_.result).mkString(" "),
-              Map.empty[String, String]
+              Map(Annotation.BEGIN -> phrase.head.metadata(Annotation.BEGIN), Annotation.END -> phrase.last.metadata(Annotation.END))
             )
         }
     }.toSeq
@@ -103,8 +101,8 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
         val ntokens = annotations.filter {
           token: Annotation =>
             token.annotatorType == TOKEN &&
-              token.begin >= sentence.begin &&
-              token.end <= sentence.end
+              token.metadata(Annotation.BEGIN).toInt >= sentence.metadata(Annotation.BEGIN).toInt &&
+              token.metadata(Annotation.END).toInt <= sentence.metadata(Annotation.END).toInt
         }
         phraseMatch(ntokens, $(maxLen), loadedEntities)
     }
