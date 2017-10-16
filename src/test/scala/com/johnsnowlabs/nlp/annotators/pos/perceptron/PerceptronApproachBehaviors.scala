@@ -88,8 +88,8 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       val df = AnnotatorBuilder.withFullPOSTagger(dataset)
       val posCol = df.select("pos")
       val tokensCol = df.select("token")
-      val tokens: Seq[IndexedWord] = tokensCol.collect.flatMap(r => r.getSeq[Row](0)).map(a => IndexedWord(a.getMap[String, Any](4).get("token").get.toString, a.getInt(1), a.getInt(2)))
-      val taggedWords: Seq[IndexedWord] = posCol.collect.flatMap(r => r.getSeq[Row](0)).map(a => IndexedWord(a.getMap[String, Any](4).get("word").get.toString, a.getInt(1), a.getInt(2)))
+      val tokens: Seq[IndexedWord] = tokensCol.collect.flatMap(r => r.getSeq[Row](0)).map(a => IndexedWord(a.getString(3), a.getInt(1), a.getInt(2)))
+      val taggedWords: Seq[IndexedWord] = posCol.collect.flatMap(r => r.getSeq[Row](0)).map(a => IndexedWord(a.getMap[String, String](4)("word"), a.getInt(1), a.getInt(2)))
       taggedWords.foreach { word: IndexedWord =>
         assert(tokens.exists { token => token.equals(word) }, s"Indexed word ${word} should be included in ${tokens.filter(t => t.word == word.word)}")
       }
