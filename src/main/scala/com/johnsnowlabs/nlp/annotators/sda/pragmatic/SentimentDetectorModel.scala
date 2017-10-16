@@ -57,7 +57,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
     val taggedSentences = sentences.map(sentence => {
       val sentenceTokens = tokens
         .filter(token => token.begin >= sentence.begin && token.end <= sentence.end)
-        .flatMap(_.metadata.values.toList).toArray
+        .map(_.result).toArray
       TokenizedSentence(sentenceTokens)
     }).toArray
     val score = model.score(taggedSentences)
