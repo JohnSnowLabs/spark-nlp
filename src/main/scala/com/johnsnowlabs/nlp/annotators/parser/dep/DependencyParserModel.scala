@@ -26,7 +26,12 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
         val dependencies = model.parse(tokens, posTags)
         tokens
           .zip(dependencies)
-          .map { case (token, index) => Annotation(DEPENDENCY, token.begin, token.end, Map("head" -> index.toString )) }
+          .map { case (token, index) => Annotation(
+            DEPENDENCY,
+            token.begin,
+            token.end,
+            index.toString,
+            Map.empty[String, String]) }
       }
   }
 }

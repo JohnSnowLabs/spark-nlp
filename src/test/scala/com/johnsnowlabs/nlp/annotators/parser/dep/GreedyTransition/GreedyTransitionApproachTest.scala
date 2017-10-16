@@ -15,7 +15,7 @@ class GreedyTransitionApproachTest extends FlatSpec {
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getMap[String, String](3))
+        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
       .sortBy { _.begin }
     val posTags = df.select("pos")
@@ -23,7 +23,7 @@ class GreedyTransitionApproachTest extends FlatSpec {
       .collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getMap[String, String](3))
+        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
       .sortBy { _.begin }
   }

@@ -15,7 +15,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
           .map(Annotation(_))
           .foreach {
             case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-              assert(stem.metadata.contains(AnnotatorType.TOKEN), "Annotations should exists")
+              assert(stem.result.nonEmpty, "Annotation result exists")
             case _ =>
           }
       }

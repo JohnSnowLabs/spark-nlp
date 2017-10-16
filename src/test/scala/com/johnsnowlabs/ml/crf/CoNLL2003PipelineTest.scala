@@ -54,7 +54,7 @@ class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spar
           doc.append(items(0))
           val end = doc.length - 1
           val ner = items(nerColumn)
-          labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, Map("tag" -> ner)))
+          labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, ner, Map("tag" -> ner)))
           None
         }
       }

@@ -69,7 +69,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
           annotations.filter(annotation =>
             annotation.annotatorType == TOKEN.toString &&
             annotation.begin >= sentence.begin && annotation.end <= sentence.end
-          ).map { a => IndexedToken(a.metadata(TOKEN), a.begin, a.end) }.toArray
+          ).map { a => IndexedToken(a.result, a.begin, a.end) }.toArray
         )
         /** Tags the sentence in a token manner while holding sentence bounds. We also hold the original sentence to look for word indexes */
         SentenceToBeTagged(
@@ -86,6 +86,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
             annotatorType,
             begin,
             end,
+            tag,
             Map[String, String]("word" -> word, "tag" -> tag)
           )
         }

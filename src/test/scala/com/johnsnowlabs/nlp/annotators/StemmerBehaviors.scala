@@ -15,7 +15,7 @@ trait StemmerBehaviors { this: FlatSpec =>
             .map(Annotation(_))
             .foreach {
               case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-                println(stem, stem.metadata.mkString(", "))
+                println(stem, stem.result)
               case _ => ()
             }
       }

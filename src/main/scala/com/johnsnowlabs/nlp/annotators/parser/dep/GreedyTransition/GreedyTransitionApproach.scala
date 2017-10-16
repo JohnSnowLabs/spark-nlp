@@ -16,7 +16,7 @@ class GreedyTransitionApproach {
     val tags = posTags.flatMap { a => a.metadata.get("tag") }
     val sentence: Sentence = tokens
       .zip(tags)
-      .map { t => WordData(t._1.metadata(TOKEN), t._2) }.toList
+      .map { t => WordData(t._1.result, t._2) }.toList
     parser.parse(sentence, tags)
   }
 
