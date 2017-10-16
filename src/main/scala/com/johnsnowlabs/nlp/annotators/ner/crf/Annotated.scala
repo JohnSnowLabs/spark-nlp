@@ -28,12 +28,18 @@ object SentenceSplit extends Annotated[TextSentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[TextSentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .map(annotation =>
-        TextSentence(annotation.metadata(annotatorType), annotation.begin, annotation.end)
+        TextSentence(annotation.result, annotation.begin, annotation.end)
       )
   }
 
   override def pack(items: Seq[TextSentence]): Seq[Annotation] = {
-    items.map(item => Annotation(annotatorType, item.begin, item.end, Map(annotatorType -> item.text)))
+    items.map(item => Annotation(
+      annotatorType,
+      item.begin,
+      item.end,
+      item.text,
+      Map(annotatorType -> item.text))
+    )
   }
 }
 
@@ -59,7 +65,7 @@ object Tokenized extends Annotated[TokenizedSentence] {
       val result = Array.fill[IndexedToken](endIdx - beginIdx)(null)
       for (i <- beginIdx until endIdx) {
         val token = tokens(i)
-        result(i - beginIdx) = IndexedToken(token.metadata(annotatorType), token.begin, token.end)
+        result(i - beginIdx) = IndexedToken(token.result, token.begin, token.end)
       }
 
       result
@@ -71,7 +77,12 @@ object Tokenized extends Annotated[TokenizedSentence] {
 
   override def pack(items: Seq[TokenizedSentence]): Seq[Annotation] = {
     items.flatMap(sentence => sentence.indexedTokens.map(token =>
-      new Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> token.token))))
+      new Annotation(
+        annotatorType,
+        token.begin,
+        token.end,
+        token.token,
+        Map(annotatorType -> token.token))))
   }
 }
 
@@ -107,7 +118,12 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
     items.flatMap(item => item.indexedTaggedWords.map(tag =>
-      new Annotation(annotatorType, tag.begin, tag.end, Map("tag" -> tag.tag, "word" -> tag.word))
+      new Annotation(
+        annotatorType,
+        tag.begin,
+        tag.end,
+        tag.tag,
+        Map("tag" -> tag.tag, "word" -> tag.word))
     ))
   }
 }

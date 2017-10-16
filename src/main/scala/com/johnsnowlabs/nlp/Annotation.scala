@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.Annotation.RESULT
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
@@ -14,7 +15,7 @@ import scala.collection.Map
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, metadata: Map[String, String])
+case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
 
 object Annotation {
 
@@ -34,20 +35,38 @@ object Annotation {
   }
 
   private val ANNOTATION_NAME = "__annotation"
+  val RESULT = "result"
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
-    StructField("annotatorType", StringType),
+    StructField("annotatorType", StringType, nullable = false),
     StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
-    StructField("metadata", MapType(StringType, StringType))
+    StructField("result", StringType, nullable = false),
+    StructField("metadata", MapType(StringType, StringType), nullable = false)
   ))
 
+
+  /**
+    * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
+    * @param row spark row to be converted
+    * @return annotation
+    */
+  def apply(row: Row): Annotation = {
+    Annotation(
+      row.getString(0),
+      row.getInt(1),
+      row.getInt(2),
+      row.getString(3),
+      row.getMap[String, String](4)
+    )
+  }
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
     rawText.length,
-    Map(AnnotatorType.DOCUMENT -> rawText)
+    rawText,
+    Map.empty[String, String]
   )
 
   /** dataframe collect of a specific annotation column*/
@@ -78,10 +97,7 @@ object Annotation {
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       (annotations: Seq[Row]) => annotations.map(r =>
-        r.getMap[String, String](3)
-          .getOrElse(
-            r.getString(0),
-            r.getMap[String, String](3).values.toList.mkString(vSep))
+        r.getString(3)
       ).mkString(aSep)
     }
   }
@@ -89,18 +105,11 @@ object Annotation {
   /** dataframe annotation flatmap of metadata key values */
   def flattenKV(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(_.getMap[String, String](3).mkString(vSep)).mkString(aSep)
+      (annotations: Seq[Row]) => annotations.map(r =>
+        (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(1))).mkString(vSep).replace(" -> ", "->")
+      ).mkString(aSep)
     }
   }
 
-
-  /**
-    * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
-    * @param row spark row to be converted
-    * @return annotation
-    */
-  def apply(row: Row): Annotation = {
-    Annotation(row.getString(0), row.getInt(1), row.getInt(2), row.getMap[String, String](3))
-  }
 
 }

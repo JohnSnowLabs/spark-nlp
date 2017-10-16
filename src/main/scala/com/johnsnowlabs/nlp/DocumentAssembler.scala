@@ -49,7 +49,7 @@ class DocumentAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
-    Seq(Annotation(annotatorType, 0, text.length - 1, metadata ++ Map(annotatorType -> text)))
+    Seq(Annotation(annotatorType, 0, text.length - 1, text, metadata))
   }
 
   private def dfAssemble: UserDefinedFunction = udf {

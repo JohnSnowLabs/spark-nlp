@@ -70,12 +70,13 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
     annotations.flatMap { annotation =>
       matchFactory(getFactoryStrategy)
         .setRules(get(rules).getOrElse(resolveRulesFromPath()).map(r => new RegexRule(r._1, r._2)))
-        .findMatch(annotation.metadata(AnnotatorType.DOCUMENT)).map { m =>
+        .findMatch(annotation.result).map { m =>
           Annotation(
             annotatorType,
             m.content.start,
             m.content.end - 1,
-            Map(m.identifier -> m.content.matched)
+            m.content.matched,
+            Map.empty[String, String]
           )
         }
     }
