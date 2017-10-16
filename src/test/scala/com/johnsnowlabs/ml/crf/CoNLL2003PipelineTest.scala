@@ -43,7 +43,7 @@ class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spar
             None
         } else if (items.length <= 1) {
           if (doc.nonEmpty && doc.last != '\n')
-            doc.append("\n")
+            doc.append("\n\n")
           None
         } else
         {
@@ -100,6 +100,7 @@ object CoNLL2003PipelineTest extends App {
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetectorModel()
+      .setCustomBoundChars(Array("\n\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
