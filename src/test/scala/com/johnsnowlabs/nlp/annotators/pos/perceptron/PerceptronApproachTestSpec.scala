@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenizedSentence}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.scalatest._
 
@@ -15,19 +15,26 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   val trainedTagger: PerceptronModel =
     new PerceptronApproach().fit(DataBuilder.basicDataBuild("dummy"))
 
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
-    trainedTagger,
-    ContentProvider.targetSentencesFromWsj.map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim)))
-  )
-
-
   // Works with high iterations only
   val targetSentencesFromWsjResult = Array("NNP", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD",
   "IN", "DT", "IN", ".", "NN", ".", "NN", ".", "DT", "JJ", "NNP", "CD", "JJ", "NNP", "CD", "NNP", ",", "CD", ".",
   "JJ", "NNP", ".")
 
-  val tokenizedSentenceFromWsj = ContentProvider.targetSentencesFromWsj
-    .map(sentence => TokenizedSentence(sentence.split(" ").map(_.trim)))
+  val tokenizedSentenceFromWsj = {
+    var length = 0
+    val sentences = ContentProvider.targetSentencesFromWsj.map { text =>
+      val sentence = Sentence(text, length, length + text.length - 1)
+      length += text.length + 1
+      sentence
+    }
+
+    new RegexTokenizer().tag(sentences).toArray
+  }
+
+  "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
+    trainedTagger,
+    tokenizedSentenceFromWsj
+  )
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
     new PerceptronApproach()

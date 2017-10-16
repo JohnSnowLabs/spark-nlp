@@ -26,7 +26,7 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  /** ToDo: Review imeplementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
+  /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { token =>
       val nToken = token.metadata(TOKEN)
@@ -35,6 +35,6 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
         .trim
       Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> nToken, "sentence" -> token.metadata("sentence")))
     }.filter(_.metadata(annotatorType).nonEmpty)
-
 }
+
 object Normalizer extends DefaultParamsReadable[Normalizer]

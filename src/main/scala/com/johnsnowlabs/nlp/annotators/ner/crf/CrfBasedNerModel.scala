@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{LinearChainCrfModel, SerializedLinearChainCrfModel}
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.ner.crf.Annotated.{NerTaggedSentence, PosTaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.StringArrayParam

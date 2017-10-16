@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.common._
 import org.apache.spark.ml.param.Param
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, DocumentAssembler}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.util.matching.Regex
@@ -36,25 +35,21 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
 
   setDefault(pattern, "\\S+")
 
-  /** one to many annotation */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentenceLength = annotations.length
-    var sentenceIndex = if (sentenceLength <= 1) -1 else 0
-    annotations.flatMap(text => {
-      sentenceIndex += 1
-      regex.findAllMatchIn(text.metadata(AnnotatorType.DOCUMENT)).map { m =>
-        Annotation(
-          annotatorType,
-          text.begin + m.start,
-          text.begin + m.end - 1,
-          Map(
-            annotatorType -> m.matched,
-            "sentence" -> sentenceIndex.toString
-          )
-        )
-      }
-    })
+  def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+    sentences.map{text =>
+      val tokens = regex.findAllMatchIn(text.content).map { m =>
+        IndexedToken(m.matched, text.begin + m.start, text.begin + m.end - 1)
+      }.toArray
+      TokenizedSentence(tokens)
+    }
   }
 
+  /** one to many annotation */
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val sentences = SentenceSplit.unpack(annotations)
+    val tokenized = tag(sentences)
+    Tokenized.pack(tokenized)
+  }
 }
+
 object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]
