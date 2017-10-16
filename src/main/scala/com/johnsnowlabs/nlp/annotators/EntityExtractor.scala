@@ -63,7 +63,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
         val tokens = tokenizer.annotate(annotation)
         val stems = stemmer.annotate(tokens)
         val nTokens = normalizer.annotate(stems)
-        nTokens.map(_.metadata(TOKEN)).toArray
+        nTokens.map(_.result).toArray
     }
     phrases
   }
@@ -80,14 +80,15 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
       window =>
         window.filter(_ != null).inits.filter {
           phraseCandidate =>
-            entities.contains(phraseCandidate.map(_.metadata(TOKEN)).toArray)
+            entities.contains(phraseCandidate.map(_.result).toArray)
         }.map {
           phrase =>
             Annotation(
-              "entity",
+              ENTITY,
               phrase.head.begin,
               phrase.last.end,
-              Map(annotatorType -> phrase.map(_.metadata(TOKEN)).mkString(" "))
+              phrase.map(_.result).mkString(" "),
+              Map.empty[String, String]
             )
         }
     }.toSeq

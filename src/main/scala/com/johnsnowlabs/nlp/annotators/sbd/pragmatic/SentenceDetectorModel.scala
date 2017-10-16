@@ -40,14 +40,15 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.flatMap(annotation => {
       val sentences: Seq[Sentence] = model.extractBounds(
-        annotation.metadata(DOCUMENT),
+        annotation.result,
         get(customBounds).getOrElse(Array.empty[String])
       )
       sentences.map(sentence => Annotation(
         this.annotatorType,
         sentence.begin,
         sentence.end,
-        Map[String, String](annotatorType -> sentence.content)
+        sentence.content,
+        Map.empty[String, String]
       ))
     })
   }

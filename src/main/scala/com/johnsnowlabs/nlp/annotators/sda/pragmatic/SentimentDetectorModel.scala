@@ -65,7 +65,8 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
       annotatorType,
       0,
       0,
-      Map(annotatorType -> { if (score >= 0) "positive" else "negative"})
+      { if (score >= 0) "positive" else "negative"},
+      Map.empty[String, String]
     ))
   }
 

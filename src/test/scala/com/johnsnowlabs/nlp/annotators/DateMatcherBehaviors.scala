@@ -22,7 +22,7 @@ trait DateMatcherBehaviors extends FlatSpec {
     "A DateMatcher Annotator" should s"successfuly parse dates" in {
       val f = fixture(dataset)
       f.dateAnnotations.foreach { a =>
-        val d: String = a.metadata(DATE)
+        val d: String = a.result
         d should fullyMatch regex """\d+/\d+/\d+"""
       }
     }

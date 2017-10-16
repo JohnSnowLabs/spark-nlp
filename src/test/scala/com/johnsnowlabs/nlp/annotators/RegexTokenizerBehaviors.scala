@@ -17,13 +17,13 @@ trait RegexTokenizerBehaviors { this: FlatSpec =>
     val sentencesAnnotations = sentences
       .collect
       .flatMap { r => r.getSeq[Row](0) }
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getMap[String, String](3)) }
+      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
     val tokensAnnotations = tokens
       .collect
       .flatMap { r => r.getSeq[Row](0)}
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getMap[String, String](3)) }
+      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
     val corpus = sentencesAnnotations
-      .flatMap { a => a.metadata.get(AnnotatorType.DOCUMENT) }
+      .map { a => a.result }
       .mkString("")
   }
 
@@ -44,7 +44,7 @@ trait RegexTokenizerBehaviors { this: FlatSpec =>
     it should "annotate with the correct word indexes" in {
       val f = fixture(dataset)
       f.tokensAnnotations.foreach { a =>
-        val token = a.metadata(AnnotatorType.TOKEN)
+        val token = a.result
         val sentenceToken = f.corpus.slice(a.begin, a.end + 1)
         assert(sentenceToken == token, s"Word ($sentenceToken) from sentence at (${a.begin},${a.end}) should be equal to token ($token) inside the corpus ${f.corpus}")
       }
