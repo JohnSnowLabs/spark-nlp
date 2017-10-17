@@ -41,13 +41,14 @@ class NERRegexModel(override val uid: String) extends AnnotatorModel[NERRegexMod
     annotations
       .filter(_.annotatorType == DOCUMENT)
       .flatMap( annotation => {
-        annotation.metadata.get(DOCUMENT) match {
-          case Some(sentence) =>
+        annotation.result match {
+          case sentence: String =>
             tag(Array(sentence)).flatMap { tag =>
               Some(Annotation(
                 annotatorType,
                 tag("start").toInt + annotation.begin,
                 tag("end").toInt + annotation.begin,
+                tag("entity"),
                 Map(tag("word") -> tag("entity"))
               ))
             }

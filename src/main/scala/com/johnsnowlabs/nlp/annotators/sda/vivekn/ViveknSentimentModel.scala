@@ -71,9 +71,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
         annotatorType,
         sentence.indexedTokens.map(t => t.begin).min,
         sentence.indexedTokens.map(t => t.end).max,
-        Map(annotatorType -> {
-          if (classify(sentence)) "positive" else "negative"
-        })
+        if (classify(sentence)) "positive" else "negative",
+        Map.empty[String, String]
       )
     })
   }

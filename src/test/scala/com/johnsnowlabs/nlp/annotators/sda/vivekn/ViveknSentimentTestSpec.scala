@@ -26,7 +26,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .select("text", "vivekn")
       .collect().foreach { row => {
       val content = row.getString(0)
-      val sentiments = row.getSeq[Row](1).map(Annotation(_).metadata(AnnotatorType.SENTIMENT))
+      val sentiments = row.getSeq[Row](1).map(Annotation(_).result)
       assert(sentiments.length == 1, "because sentiments per sentence returned more or less than one result?")
       assert(sentiments.head == results(content), s"because text $content returned ${sentiments.head} when it was ${results(content)}")
     }

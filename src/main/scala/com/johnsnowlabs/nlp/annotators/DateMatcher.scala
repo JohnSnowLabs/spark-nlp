@@ -295,12 +295,13 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getFormat)
     annotations.flatMap( annotation =>
-      extractDate(annotation.metadata(AnnotatorType.DOCUMENT)).map(matchedDate => Annotation(
+      extractDate(annotation.result).map(matchedDate => Annotation(
         annotatorType,
         matchedDate.start,
         matchedDate.end - 1,
-        Map(annotatorType -> simpleDateFormat.format(matchedDate.calendar.getTime)))
-      )
+        simpleDateFormat.format(matchedDate.calendar.getTime),
+        Map.empty[String, String]
+      ))
     )
   }
 
