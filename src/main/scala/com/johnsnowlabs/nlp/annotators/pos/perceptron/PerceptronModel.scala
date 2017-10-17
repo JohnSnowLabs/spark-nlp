@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, IndexedToken, TaggedSentence, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.param.AnnotatorParam
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -62,35 +62,10 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 
   /** One to one annotation standing from the Tokens perspective, to give each word a corresponding Tag */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences: Array[SentenceToBeTagged] = annotations.collect {
-      case sentence: Annotation if sentence.annotatorType == DOCUMENT =>
-        /** Creates a sentence bounded by tokens in a sentence */
-        val tokenizedSentence = TokenizedSentence(
-          annotations.filter(annotation =>
-            annotation.annotatorType == TOKEN.toString &&
-            annotation.begin >= sentence.begin && annotation.end <= sentence.end
-          ).map { a => IndexedToken(a.result, a.begin, a.end) }.toArray
-        )
-        /** Tags the sentence in a token manner while holding sentence bounds. We also hold the original sentence to look for word indexes */
-        SentenceToBeTagged(
-          tokenizedSentence,
-          sentence.begin,
-          sentence.end
-        )
-    }.toArray
-    /** Creates an annotation for each word sentence*/
-    tag(sentences.map(_.tokenizedSentence))
-      .flatMap { case TaggedSentence(_, indexedTaggedWords) =>
-        indexedTaggedWords.map { case IndexedTaggedWord(word, tag, begin, end) =>
-          Annotation(
-            annotatorType,
-            begin,
-            end,
-            tag,
-            Map[String, String]("word" -> word, "tag" -> tag)
-          )
-        }
-      }
+    val tokenizedSentences = Tokenized.unpack(annotations)
+    val tagged = tag(tokenizedSentences.toArray)
+    PosTagged.pack(tagged)
   }
 }
+
 object PerceptronModel extends DefaultParamsReadable[PerceptronModel]

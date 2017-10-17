@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized, TokenizedSentence}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
@@ -52,15 +52,10 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokens = annotations.filter(_.annotatorType == TOKEN)
-    val sentences = annotations.filter(_.annotatorType == DOCUMENT)
-    val taggedSentences = sentences.map(sentence => {
-      val sentenceTokens = tokens
-        .filter(token => token.begin >= sentence.begin && token.end <= sentence.end)
-        .map(_.result).toArray
-      TokenizedSentence(sentenceTokens)
-    }).toArray
-    val score = model.score(taggedSentences)
+    val tokenizedSentences = Tokenized.unpack(annotations)
+
+    val score = model.score(tokenizedSentences.toArray)
+
     Seq(Annotation(
       annotatorType,
       0,

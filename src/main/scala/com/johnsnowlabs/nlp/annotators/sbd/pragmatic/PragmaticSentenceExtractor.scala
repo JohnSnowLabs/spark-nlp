@@ -1,9 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.sbd.Sentence
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 
 /**
   * Reads through symbolized data, and computes the bounds based on regex rules following symbol meaning
+ *
   * @param text symbolized text
   */
 class PragmaticSentenceExtractor(text: String) {

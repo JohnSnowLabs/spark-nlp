@@ -1,90 +1,11 @@
-package com.johnsnowlabs.nlp.annotators.ner.crf
+package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, IndexedToken, TaggedSentence, TokenizedSentence}
+import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.AnnotatorType.{NAMED_ENTITY, POS}
+import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import org.apache.spark.sql.{Dataset, Row}
-import Annotated._
 
-trait Annotated[TResult] {
-  def annotatorType: String
-
-  def unpack(annotations: Seq[Annotation]): Seq[TResult]
-
-  def pack(items: Seq[TResult]): Seq[Annotation]
-}
-
-object Annotated {
-  type PosTaggedSentence = TaggedSentence
-  type NerTaggedSentence = TaggedSentence
-}
-
-case class TextSentence(text: String, begin: Int, end: Int)
-
-object SentenceSplit extends Annotated[TextSentence] {
-  override def annotatorType: String = AnnotatorType.DOCUMENT
-
-  override def unpack(annotations: Seq[Annotation]): Seq[TextSentence] = {
-    annotations.filter(_.annotatorType == annotatorType)
-      .map(annotation =>
-        TextSentence(annotation.result, annotation.begin, annotation.end)
-      )
-  }
-
-  override def pack(items: Seq[TextSentence]): Seq[Annotation] = {
-    items.map(item => Annotation(
-      annotatorType,
-      item.begin,
-      item.end,
-      item.text,
-      Map(annotatorType -> item.text))
-    )
-  }
-}
-
-
-object Tokenized extends Annotated[TokenizedSentence] {
-
-  override def annotatorType = AnnotatorType.TOKEN
-
-  override def unpack(annotations: Seq[Annotation]): Seq[TokenizedSentence] = {
-    val tokens = annotations
-      .filter(_.annotatorType == annotatorType)
-      .toArray
-      .sortBy(a => a.begin)
-
-    val tokenBegin = tokens.map(t => t.begin)
-    val tokenEnd = tokens.map(t => t.end)
-
-    def find(begin: Int, end: Int): Array[IndexedToken] = {
-      import scala.collection.Searching._
-      val beginIdx = tokenBegin.search(begin).insertionPoint
-      val endIdx = tokenEnd.search(end + 1).insertionPoint
-
-      val result = Array.fill[IndexedToken](endIdx - beginIdx)(null)
-      for (i <- beginIdx until endIdx) {
-        val token = tokens(i)
-        result(i - beginIdx) = IndexedToken(token.result, token.begin, token.end)
-      }
-
-      result
-    }
-
-    SentenceSplit.unpack(annotations).map(sentence =>
-        new TokenizedSentence(find(sentence.begin, sentence.end)))
-  }
-
-  override def pack(items: Seq[TokenizedSentence]): Seq[Annotation] = {
-    items.flatMap(sentence => sentence.indexedTokens.map(token =>
-      new Annotation(
-        annotatorType,
-        token.begin,
-        token.end,
-        token.token,
-        Map(annotatorType -> token.token))))
-  }
-}
 
 trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   val emptyTag = ""
