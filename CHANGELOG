@@ -1,0 +1,36 @@
+========
+1.2.0
+========
+--------------
+New features
+--------------
+* New annotator: CRF NER
+* New transformer: Token Assembler
+* Added custom bounds parameter in sentence detector
+* Added custom pattern parameter in Normalizer
+* SpellChecker able to train from text files as dataset
+* Typesafe configuration may now be read from disk at runtime
+
+-------------------------
+Performance improvements
+-------------------------
+* Enabled and suggested KRYO Serializer for better pipeline write-read
+
+--------------------
+Code improvements
+--------------------
+* Pack/Unpack in annotators leads to better code reutilization
+* ResourceHelper reduced io responsibility
+* Annotations centralized main result and Finisher improvements
+
+---------------
+Bugfixes
+---------------
+* RegexMatcher fixed to read from input files properly
+* DocumentAssembler fixed relative positioning
+
+------------------
+Release framework
+------------------
+* Better package release readiness for different repositories
+* Organization package name change due to central's standards
