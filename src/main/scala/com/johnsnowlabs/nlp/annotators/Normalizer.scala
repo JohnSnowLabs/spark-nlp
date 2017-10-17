@@ -29,12 +29,19 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { token =>
-      val nToken = token.metadata(TOKEN)
+      val nToken = token.result
         .toLowerCase
         .replaceAll($(pattern), "")
         .trim
-      Annotation(annotatorType, token.begin, token.end, Map(annotatorType -> nToken, "sentence" -> token.metadata("sentence")))
-    }.filter(_.metadata(annotatorType).nonEmpty)
+      Annotation(
+        annotatorType,
+        token.begin,
+        token.end,
+        nToken,
+        token.metadata
+      )
+    }.filter(_.result.nonEmpty)
+
 }
 
 object Normalizer extends DefaultParamsReadable[Normalizer]

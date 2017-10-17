@@ -19,7 +19,7 @@ trait LemmatizerBehaviors { this: FlatSpec =>
             .map(Annotation(_))
             .foreach {
               case lemma: Annotation if lemma.annotatorType == AnnotatorType.TOKEN =>
-                println(lemma, lemma.metadata.mkString(", "))
+                println(lemma, lemma.result)
               case _ => ()
             }
       }

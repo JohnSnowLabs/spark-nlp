@@ -17,13 +17,14 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.groupBy(token => token.metadata("sentence"))
+    annotations.groupBy(token => token.result)
       .map{case (_, sentenceAnnotations) =>
           Annotation(
             DOCUMENT,
             sentenceAnnotations.minBy(_.begin).begin,
             sentenceAnnotations.maxBy(_.end).end,
-            Map(DOCUMENT -> sentenceAnnotations.map(_.metadata(TOKEN)).mkString(" "))
+            sentenceAnnotations.map(_.result).mkString(" "),
+            Map.empty[String, String]
           )
       }.toSeq
   }

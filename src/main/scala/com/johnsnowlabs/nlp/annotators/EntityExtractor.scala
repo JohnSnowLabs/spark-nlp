@@ -64,7 +64,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
         val tokens = tokenizer.annotate(annotation)
         val stems = stemmer.annotate(tokens)
         val nTokens = normalizer.annotate(stems)
-        nTokens.map(_.metadata(TOKEN)).toArray
+        nTokens.map(_.result).toArray
     }
     phrases
   }
@@ -86,10 +86,11 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
         }.map {
           phrase =>
             Annotation(
-              AnnotatorType.ENTITY,
+              ENTITY,
               phrase.head.begin,
               phrase.last.end,
-              Map(annotatorType -> phrase.map(_.token).mkString(" "))
+              phrase.map(_.token).mkString(" "),
+              Map.empty[String, String]
             )
         }
     }.toSeq

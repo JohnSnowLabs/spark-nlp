@@ -19,6 +19,7 @@ class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[Dummy
       annotatorType,
       0,
       25,
+      "dummy result",
       Map("a" -> "b", "c" -> "d")
     ))
 }
@@ -35,6 +36,7 @@ class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorMo
       DUMMY,
       11,
       18,
+      "dummy result",
       Map("aa" -> "bb", "cc" -> "dd")
     ))
 }

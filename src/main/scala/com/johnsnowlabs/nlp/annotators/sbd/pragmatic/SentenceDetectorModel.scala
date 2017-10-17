@@ -44,7 +44,7 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
     * @return One to many annotation relationship depending on how many sentences there are in the document
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val docs = annotations.map(_.metadata(DOCUMENT))
+    val docs = annotations.map(_.result)
     val sentences = docs.flatMap(doc => tag(doc))
     SentenceSplit.pack(sentences)
   }

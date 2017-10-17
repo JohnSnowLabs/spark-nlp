@@ -44,7 +44,7 @@ class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spar
             None
         } else if (items.length <= 1) {
           if (doc.nonEmpty && doc.last != '\n')
-            doc.append("\n")
+            doc.append("\n\n")
           None
         } else
         {
@@ -55,7 +55,7 @@ class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spar
           doc.append(items(0))
           val end = doc.length - 1
           val ner = items(nerColumn)
-          labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, Map("tag" -> ner)))
+          labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, ner, Map("tag" -> ner)))
           None
         }
       }
@@ -101,6 +101,7 @@ object CoNLL2003PipelineTest extends App {
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetectorModel()
+      .setCustomBoundChars(Array("\n\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 

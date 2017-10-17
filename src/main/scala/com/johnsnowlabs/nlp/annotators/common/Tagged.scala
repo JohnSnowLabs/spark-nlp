@@ -39,7 +39,12 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
     items.flatMap(item => item.indexedTaggedWords.map(tag =>
-      new Annotation(annotatorType, tag.begin, tag.end, Map("tag" -> tag.tag, "word" -> tag.word))
+      new Annotation(
+        annotatorType,
+        tag.begin,
+        tag.end,
+        tag.tag,
+        Map("tag" -> tag.tag, "word" -> tag.word))
     ))
   }
 }

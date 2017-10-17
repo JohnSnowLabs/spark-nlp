@@ -39,7 +39,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
     it should "successfully score sentences" in {
       val f = fixture(dataset)
       f.sdAnnotations.foreach { a =>
-        assert(List("positive", "negative").contains(a.metadata(SENTIMENT)))
+        assert(List("positive", "negative").contains(a.result))
       }
     }
   }

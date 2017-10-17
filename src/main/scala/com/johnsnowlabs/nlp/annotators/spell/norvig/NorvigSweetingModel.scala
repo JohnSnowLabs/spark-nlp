@@ -237,7 +237,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
           annotatorType,
           token.begin,
           token.end,
-          Map(annotatorType -> check(token.metadata(TOKEN)), "sentence" -> token.metadata("sentence"))
+          check(token.result),
+          token.metadata
         )
     }
   }
