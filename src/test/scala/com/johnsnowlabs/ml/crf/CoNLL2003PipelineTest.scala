@@ -2,7 +2,8 @@ package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
-import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel, NerTagged}
+import com.johnsnowlabs.nlp.annotators.common.NerTagged
+import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import org.apache.spark.ml.{Pipeline, PipelineModel}

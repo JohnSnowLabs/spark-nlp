@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import com.johnsnowlabs.nlp.annotators.common.IntStringMapParam
+import com.johnsnowlabs.nlp.annotators.common.{IntStringMapParam, Tokenized, TokenizedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{IntParam, StringArrayParam}
@@ -47,8 +47,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     set(features, currentFeatures.toArray)
   }
 
-  def classify(sentence: List[String]): Boolean = {
-    val words = ViveknSentimentApproach.negateSequence(sentence).intersect($(features)).distinct
+  def classify(sentence: TokenizedSentence): Boolean = {
+    val words = ViveknSentimentApproach.negateSequence(sentence.tokens.toList).intersect($(features)).distinct
     if (words.isEmpty) return true
     val positiveProbability = words.map(word => scala.math.log(($(positive).getOrElse(word, 0) + 1.0) / (2.0 * $(positiveTotals)))).sum
     val negativeProbability = words.map(word => scala.math.log(($(negative).getOrElse(word, 0) + 1.0) / (2.0 * $(negativeTotals)))).sum
@@ -64,26 +64,18 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = annotations
-      .filter(_.annotatorType == DOCUMENT)
-    val tokens = annotations
-      .filter(_.annotatorType == TOKEN)
+    val sentences = Tokenized.unpack(annotations)
+
     sentences.map(sentence => {
       Annotation(
         annotatorType,
-        sentence.begin,
-        sentence.end,
-        {
-          val targetTokens = tokens
-            .filter(token => token.begin >= sentence.begin && token.end <= sentence.end)
-            .map(_.result)
-            .toList
-          if (classify(targetTokens)) "positive" else "negative"
-        },
+        sentence.indexedTokens.map(t => t.begin).min,
+        sentence.indexedTokens.map(t => t.end).max,
+        if (classify(sentence)) "positive" else "negative",
         Map.empty[String, String]
       )
     })
   }
-
 }
+
 object ViveknSentimentModel extends DefaultParamsReadable[ViveknSentimentModel]

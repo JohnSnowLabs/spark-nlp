@@ -242,6 +242,6 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
         )
     }
   }
-
 }
+
 object NorvigSweetingModel extends DefaultParamsReadable[NorvigSweetingModel]
