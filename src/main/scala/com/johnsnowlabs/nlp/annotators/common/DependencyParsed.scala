@@ -38,7 +38,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
     items.flatMap{sentence =>
       sentence.tokens.map(t =>
-        Annotation(annotatorType, t.begin, t.end, Map("head" -> t.dependency.toString)))
+        Annotation(annotatorType, t.begin, t.end, t.dependency.toString, Map.empty[String, String]))
     }
   }
 }

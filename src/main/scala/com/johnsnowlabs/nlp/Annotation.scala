@@ -106,7 +106,7 @@ object Annotation {
   def flattenKV(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       (annotations: Seq[Row]) => annotations.map(r =>
-        (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(1))).mkString(vSep).replace(" -> ", "->")
+        (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
       ).mkString(aSep)
     }
   }

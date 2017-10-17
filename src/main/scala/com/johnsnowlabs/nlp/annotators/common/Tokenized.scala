@@ -21,9 +21,9 @@ object Tokenized extends Annotated[TokenizedSentence] {
       val endIdx = tokenEnd.search(end + 1).insertionPoint
 
       val result = Array.fill[IndexedToken](endIdx - beginIdx)(null)
-      for (i <- beginIdx until endIdx) {
+      for (i <- beginIdx until endIdx) {  
         val token = tokens(i)
-        result(i - beginIdx) = IndexedToken(token.metadata(annotatorType), token.begin, token.end)
+        result(i - beginIdx) = IndexedToken(token.result, token.begin, token.end)
       }
 
       result
@@ -39,8 +39,8 @@ object Tokenized extends Annotated[TokenizedSentence] {
     sentences.flatMap{sentence =>
       sentenceIndex += 1
         sentence.indexedTokens.map{token =>
-        Annotation(annotatorType, token.begin, token.end,
-          Map(annotatorType -> token.token, "sentence" -> sentenceIndex.toString))
+        Annotation(annotatorType, token.begin, token.end, token.token,
+          Map("sentence" -> sentenceIndex.toString))
     }}
   }
 }
