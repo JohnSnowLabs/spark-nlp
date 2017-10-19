@@ -47,48 +47,28 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         Map("tag" -> tag.tag, "word" -> tag.word))
     ))
   }
-}
 
-object PosTagged extends Tagged[PosTaggedSentence]{
-  override def annotatorType: String = POS
-}
-
-object NerTagged extends Tagged[NerTaggedSentence]{
-  override def annotatorType: String = NAMED_ENTITY
-
-  def collectNerInstances(dataset: Dataset[Row],
-                          nerTaggedCols: Seq[String],
+  def collectLabeledInstances(dataset: Dataset[Row],
+                          taggedCols: Seq[String],
                           labelColumn: String): Array[(TextSentenceLabels, NerTaggedSentence)] = {
 
     dataset
-      .select(labelColumn, nerTaggedCols:_*)
+      .select(labelColumn, taggedCols:_*)
       .collect()
       .flatMap{row =>
         val labelAnnotations = getAnnotations(row, 0)
-        val sentenceAnnotations = (1 to nerTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentenceAnnotations = (1 to taggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = unpack(sentenceAnnotations)
         val labels = getLabels(sentences, labelAnnotations)
         labels.zip(sentences)
       }
   }
 
-  def collectTrainingInstances(dataset: Dataset[Row],
-                               posTaggedCols: Seq[String],
-                               labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
-
-    dataset
-      .select(labelColumn, posTaggedCols:_*)
-      .collect()
-      .flatMap{row =>
-        val labelAnnotations = getAnnotations(row, 0)
-        val sentenceAnnotations = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
-        val sentences = PosTagged.unpack(sentenceAnnotations)
-        val labels = getLabels(sentences, labelAnnotations)
-        labels.zip(sentences)
-      }
+  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
-  private def getLabels(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+  protected def getLabels(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val position2Tag = labelAnnotations.map(a => (a.begin, a.end) -> a.metadata("tag")).toMap
 
     sentences.map{sentence =>
@@ -100,7 +80,29 @@ object NerTagged extends Tagged[NerTaggedSentence]{
     }
   }
 
-  private def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+
+}
+
+object PosTagged extends Tagged[PosTaggedSentence]{
+  override def annotatorType: String = POS
+}
+
+object NerTagged extends Tagged[NerTaggedSentence]{
+  override def annotatorType: String = NAMED_ENTITY
+
+  def collectTrainingInstances(dataset: Dataset[Row],
+                               posTaggedCols: Seq[String],
+                               labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
+
+    dataset
+      .select(labelColumn, posTaggedCols:_*)
+      .collect()
+      .flatMap{row =>
+        val labelAnnotations = this.getAnnotations(row, 0)
+        val sentenceAnnotations  = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentences = PosTagged.unpack(sentenceAnnotations)
+        val labels = getLabels(sentences, labelAnnotations)
+        labels.zip(sentences)
+      }
   }
 }

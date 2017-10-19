@@ -2,19 +2,20 @@ package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
-import com.johnsnowlabs.nlp.annotators.common.NerTagged
-import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel}
+import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
 
-class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spark) {
+class CoNLL(val targetColumn: Int = 3, val spark: SparkSession = SparkAccessor.spark) {
   import spark.implicits._
 
   /*
@@ -54,7 +55,7 @@ class CoNLL(val nerColumn: Int = 3, val spark: SparkSession = SparkAccessor.spar
           val begin = doc.length
           doc.append(items(0))
           val end = doc.length - 1
-          val ner = items(nerColumn)
+          val ner = items(targetColumn)
           labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, ner, Map("tag" -> ner)))
           None
         }
@@ -86,16 +87,10 @@ object CoNLL2003PipelineTest extends App {
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
-  val reader = new CoNLL()
+  val nerReader = new CoNLL()
+  val posReader = new CoNLL(targetColumn = 1)
 
-  def trainModel(file: String): PipelineModel = {
-    System.out.println("Dataset Reading")
-    val time = System.nanoTime()
-    val dataset = reader.readDataset(file)
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
-
-    System.out.println("Start fitting")
-
+  def getPosStages(): Array[_ <: PipelineStage] = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -111,9 +106,17 @@ object CoNLL2003PipelineTest extends App {
 
     val posTagger = new PerceptronApproach()
       .setCorpusPath("/anc-pos-corpus/")
-      .setNIterations(5)
+      .setNIterations(10)
       .setInputCols("token", "document")
       .setOutputCol("pos")
+
+    Array(documentAssembler,
+      sentenceDetector,
+      tokenizer,
+      posTagger)
+  }
+
+  def getNerStages(): Array[_ <: PipelineStage] = {
 
     val nerTagger = new CrfBasedNer()
       .setInputCols("sentence", "token", "pos")
@@ -123,14 +126,37 @@ object CoNLL2003PipelineTest extends App {
       .setDicts(Seq("src/main/resources/ner-corpus/dict.txt"))
       .setOutputCol("ner")
 
+    getPosStages() :+ nerTagger
+  }
+
+  def trainPosModel(file: String): PipelineModel = {
+    System.out.println("Dataset Reading")
+    val time = System.nanoTime()
+    val dataset = posReader.readDataset(file)
+    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+
+    System.out.println("Start fitting")
+
+    val stages = getPosStages()
+
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        nerTagger
-      ))
+      .setStages(stages)
+
+    pipeline.fit(dataset)
+  }
+
+  def trainNerModel(file: String): PipelineModel = {
+    System.out.println("Dataset Reading")
+    val time = System.nanoTime()
+    val dataset = nerReader.readDataset(file)
+    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+
+    System.out.println("Start fitting")
+
+    val stages = getNerStages()
+
+    val pipeline = new Pipeline()
+      .setStages(stages)
 
     pipeline.fit(dataset)
   }
@@ -145,7 +171,28 @@ object CoNLL2003PipelineTest extends App {
     (prec, rec, f1)
   }
 
-  def testDataset(file: String, model: PipelineModel): Unit = {
+  def collectNerLabeled(df: DataFrame): Seq[(TextSentenceLabels, NerTaggedSentence)] = {
+    NerTagged.collectLabeledInstances(
+      df,
+      Seq("sentence", "token", "ner"),
+      "label"
+    )
+  }
+
+  def collectPosLabeled(df: DataFrame): Seq[(TextSentenceLabels, PosTaggedSentence)] = {
+    PosTagged.collectLabeledInstances(
+      df,
+      Seq("sentence", "token", "pos"),
+      "label"
+    )
+  }
+
+  def testDataset(file: String,
+                  model: PipelineModel,
+                  predictedColumn: String = "ner",
+                  reader: CoNLL,
+                  collect: DataFrame => Seq[(TextSentenceLabels, TaggedSentence)]
+                 ): Unit = {
     val started = System.nanoTime()
 
     val predictedCorrect = mutable.Map[String, Int]()
@@ -153,14 +200,9 @@ object CoNLL2003PipelineTest extends App {
     val correct = mutable.Map[String, Int]()
 
     val dataset = reader.readDataset(file)
-
     val transformed = model.transform(dataset)
 
-    val sentences = NerTagged.collectNerInstances(
-      transformed,
-      Seq("sentence", "token", "ner"),
-      "label"
-    )
+    val sentences = collect(transformed)
 
     sentences.foreach{
       case (labels, taggedSentence) =>
@@ -199,16 +241,39 @@ object CoNLL2003PipelineTest extends App {
     }
   }
 
-  val model = trainModel(trainFile)
+  def measurePos(): PipelineModel = {
+    val model = trainPosModel(trainFile)
 
-  model.write.overwrite().save("crf_model")
+    System.out.println("\n\nQuality on train data")
+    testDataset(trainFile, model, "pos", posReader, collectPosLabeled)
 
-  System.out.println("\n\nQuality on train data")
-  testDataset(trainFile, model)
+    System.out.println("\n\nQuality on test A data")
+    testDataset(testFileA, model, "pos", posReader, collectPosLabeled)
 
-  System.out.println("\n\nQuality on test A data")
-  testDataset(testFileA, model)
+    System.out.println("\n\nQuality on test B data")
+    testDataset(testFileB, model, "pos", posReader, collectPosLabeled)
 
-  System.out.println("\n\nQuality on test B data")
-  testDataset(testFileB, model)
+    model
+  }
+
+  def measureNer(): PipelineModel = {
+    val model = trainNerModel(trainFile)
+
+    System.out.println("\n\nQuality on train data")
+    testDataset(trainFile, model, "ner", nerReader, collectNerLabeled)
+
+    System.out.println("\n\nQuality on test A data")
+    testDataset(testFileA, model, "ner", nerReader, collectNerLabeled)
+
+    System.out.println("\n\nQuality on test B data")
+    testDataset(testFileB, model, "ner", nerReader, collectNerLabeled)
+
+    model
+  }
+
+  val posModel = measurePos()
+  posModel.write.overwrite().save("pos_model")
+
+  val nerModel = measureNer()
+  nerModel.write.overwrite().save("ner_model")
 }
