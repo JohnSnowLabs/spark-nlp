@@ -1,4 +1,12 @@
 ========
+1.2.1
+========
+---------------
+Bugfixes
+---------------
+* Finisher not properly deleting annotation columns even when set to true explicitly
+
+========
 1.2.0
 ========
 --------------

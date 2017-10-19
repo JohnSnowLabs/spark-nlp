@@ -30,7 +30,7 @@ class Finisher(override val uid: String)
   def setValueSplitSymbol(value: String): this.type = set(valueSplitSymbol, value)
   def setAnnotationSplitSymbol(value: String): this.type = set(annotationSplitSymbol, value)
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
-  def setMetadataFormat(value: Boolean): this.type = set(includeKeys, value)
+  def setIncludeKeys(value: Boolean): this.type = set(includeKeys, value)
 
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
   def getInputCols: Array[String] = $(inputCols)
