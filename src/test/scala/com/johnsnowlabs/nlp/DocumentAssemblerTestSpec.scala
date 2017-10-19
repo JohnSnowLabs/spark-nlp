@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.sql.Row
 import scala.language.reflectiveCalls

@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.Annotation.RESULT
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
@@ -39,11 +38,11 @@ object Annotation {
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
-    StructField("annotatorType", StringType, nullable = false),
+    StructField("annotatorType", StringType, nullable = true),
     StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
-    StructField("result", StringType, nullable = false),
-    StructField("metadata", MapType(StringType, StringType), nullable = false)
+    StructField("result", StringType, nullable = true),
+    StructField("metadata", MapType(StringType, StringType), nullable = true)
   ))
 
 
