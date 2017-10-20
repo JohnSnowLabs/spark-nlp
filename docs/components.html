@@ -192,7 +192,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
-                                                    setPattern(pattern): Regular expression for tokenization
+                                                    setPattern(pattern): Regular expression for tokenization, default \S+
                                                 </li>
                                             </ul>
                                             <br>
@@ -206,14 +206,14 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Creates tokens starting up from a regular expression. Defaults to
+                                                Creates tokens starting up from a regular expression.
                                                 "\w+"<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
-                                                    setPattern(pattern): Regular expression for tokenization
+                                                    setPattern(pattern): Regular expression for tokenization, default \S+
                                                 </li>
                                             </ul>
                                             <br>
@@ -240,6 +240,12 @@ documentAssembler = new DocumentAssembler()
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                              <li>
+                                                setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
+                                              </li>
+                                            </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">normalizer = Normalizer() \
@@ -254,6 +260,12 @@ documentAssembler = new DocumentAssembler()
                                                 Removes all dirty characters from text<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                              <li>
+                                                setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
+                                              </li>
+                                            </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val normalizer = new Normalizer()
@@ -573,6 +585,12 @@ documentAssembler = new DocumentAssembler()
                                                 Finds sentence bounds in raw text.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
+                                                <b>Functions:</b> <br>
+                                            <ul>
+                                              <li>
+                                                setCustomBounds(characters): Custom sentence separator text
+                                              </li>
+                                            </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
@@ -586,6 +604,12 @@ documentAssembler = new DocumentAssembler()
                                                 Finds sentence bounds in raw text.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
+                                              <b>Functions:</b> <br>
+                                          <ul>
+                                            <li>
+                                              setCustomBounds(characters): Custom sentence separator text
+                                            </li>
+                                          </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
@@ -811,6 +835,9 @@ documentAssembler = new DocumentAssembler()
                                                     setCorpusPath: path to training corpus. Can be any good text.
                                                 </li>
                                                 <li>
+                                                    setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
+                                                </li>
+                                                <li>
                                                     setSlangPath: path to custom dictionares, separated by comma
                                                 </li>
                                                 <li>
@@ -851,6 +878,9 @@ documentAssembler = new DocumentAssembler()
                                                 </li>
                                                 <li>
                                                     setCorpusPath: path to training corpus. Can be any good text.
+                                                </li>
+                                                <li>
+                                                  setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
                                                 </li>
                                                 <li>
                                                     setSlangPath: path to custom dictionares, separated by comma
@@ -974,10 +1004,10 @@ documentAssembler = new DocumentAssembler()
                                             <b>Settable parameters are:</b>
                                             <ul>
                                                 <li>
-                                                    setInputCol()
+                                                    setInputCols()
                                                 </li>
                                                 <li>
-                                                    setOutputCol()
+                                                    setOutputCols()
                                                 </li>
                                                 <li>
                                                     setCleanAnnotations(True) -> Whether to remove intermediate
@@ -1015,10 +1045,10 @@ documentAssembler = new DocumentAssembler()
                                             <b>Settable parameters are:</b>
                                             <ul>
                                                 <li>
-                                                    setInputCol()
+                                                    setInputCols()
                                                 </li>
                                                 <li>
-                                                    setOutputCol()
+                                                    setOutputCols()
                                                 </li>
                                                 <li>
                                                     setCleanAnnotations(True) -> Whether to remove intermediate
@@ -1039,6 +1069,67 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                         </div><!--//code-block--></div>
                                 </div>
+                              <h4 id="TokenAssembler" class="section-block"> 16. TokenAssembler: Getting data reshaped </h4>
+                              <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                          role="tab" data-toggle="tab">Python</a>
+                                </li>
+                                <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">Scala</a></li>
+                              </ul>
+                              <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="python">
+                                  <div class="code-block">
+                                    <p>
+
+
+                                      This transformer reconstructs a Document type annotation from tokens, usually after these
+                                      have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+                                      document annotation in further annotators.
+                                      <br><b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">token_assembler = TokenAssembler() \
+.setInputCols(["normalized"]) \
+.setOutputCol("assembled")
+</code></pre>
+
+                                    <b>Settable parameters are:</b>
+                                    <ul>
+                                      <li>
+                                        setInputCol()
+                                      </li>
+                                      <li>
+                                        setOutputCol()
+                                      </li>
+                                    </ul>
+                                  </div><!--//code-block-->
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="scala">
+                                  <div class="code-block">
+                                    <p>
+
+
+                                      This transformer reconstructs a Document type annotation from tokens, usually after these
+                                      have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+                                      document annotation in further annotators.
+                                      <br><b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">token_assembler = TokenAssembler()
+.setInputCols("normalized")
+.setOutputCol("assembled")
+</code></pre>
+
+                                    <b>Settable parameters are:</b>
+                                    <ul>
+                                      <li>
+                                        setInputCol()
+                                      </li>
+                                      <li>
+                                        setOutputCol()
+                                      </li>
+                                    </ul>
+                                  </div><!--//code-block--></div>
+                              </div>
                             </div>
                         </section>
                     </div>
