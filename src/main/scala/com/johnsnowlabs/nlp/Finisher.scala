@@ -22,6 +22,8 @@ class Finisher(override val uid: String)
     new BooleanParam(this, "cleanAnnotations", "whether to remove annotation columns")
   protected val includeKeys: BooleanParam =
     new BooleanParam(this, "includeKeys", "annotation metadata format")
+  protected val outputAsArray: BooleanParam =
+    new BooleanParam(this, "outputAsArray", "finisher generates an Array with the results instead of string")
 
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
@@ -31,6 +33,7 @@ class Finisher(override val uid: String)
   def setAnnotationSplitSymbol(value: String): this.type = set(annotationSplitSymbol, value)
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
   def setIncludeKeys(value: Boolean): this.type = set(includeKeys, value)
+  def setOutputAsArray(value: Boolean): this.type = set(outputAsArray, value)
 
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
   def getInputCols: Array[String] = $(inputCols)
@@ -38,11 +41,13 @@ class Finisher(override val uid: String)
   def getAnnotationSplitSymbol: String = $(annotationSplitSymbol)
   def getCleanAnnotations: Boolean = $(cleanAnnotations)
   def getIncludeKeys: Boolean = $(includeKeys)
+  def getOutputAsArray: Boolean = $(outputAsArray)
 
   setDefault(valueSplitSymbol, "#")
   setDefault(annotationSplitSymbol, "@")
   setDefault(cleanAnnotations, true)
   setDefault(includeKeys, false)
+  setDefault(outputAsArray, false)
 
   def this() = this(Identifiable.randomUID("document"))
 
@@ -61,7 +66,12 @@ class Finisher(override val uid: String)
           s"column [$annotationColumn] must be an NLP Annotation column")
     }
     val outputFields = schema.fields ++
-      getOutputCols.map(outputCol => StructField(outputCol, StringType, nullable = false))
+      getOutputCols.map(outputCol => {
+        if ($(outputAsArray))
+          StructField(outputCol, ArrayType(StringType), nullable = false)
+        else
+          StructField(outputCol, StringType, nullable = true)
+      })
     val cleanFields = if ($(cleanAnnotations)) outputFields.filterNot(f =>
       f.dataType == ArrayType(Annotation.dataType)
     ) else outputFields
@@ -81,7 +91,9 @@ class Finisher(override val uid: String)
       flattened = {
         flattened.withColumn(
           outputCol, {
-            if (!$(includeKeys))
+            if ($(outputAsArray))
+              Annotation.flattenArray(flattened.col(inputCol))
+            else if (!$(includeKeys))
               Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
             else
               Annotation.flattenKV($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
