@@ -110,5 +110,14 @@ object Annotation {
     }
   }
 
+  /** dataframe annotation flatmap of metadata values as ArrayType */
+  def flattenArray: UserDefinedFunction = {
+    udf {
+      (annotations: Seq[Row]) => annotations.map(r =>
+        r.getString(3)
+      )
+    }
+  }
+
 
 }
