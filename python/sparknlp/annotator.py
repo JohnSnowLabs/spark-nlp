@@ -477,6 +477,7 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     dicts = Param(Params._dummy(), "dicts", "Additional dictionaries paths to use as a features", TypeConverters.toListString)
+    datasetPath = Param(Params._dummy(), "datasetPath", "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage", TypeConverters.toString)
 
     def setLabelColumn(self, value):
         self._set(labelColumn=value)
@@ -520,6 +521,10 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
 
     def setDicts(self, dictionaries):
         self._set(dicts = dictionaries)
+        return self
+
+    def setDatasetPath(self, path):
+        self._set(datasetPath = path)
         return self
 
     def _create_model(self, java_model):
