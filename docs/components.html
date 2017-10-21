@@ -1025,6 +1025,9 @@ documentAssembler = new DocumentAssembler()
                                                     setIncludeKeys(False) -> Whether to include metadata keys. Sometimes
                                                     useful in some annotations
                                                 </li>
+                                                <li>
+                                                  setOutputAsArray(False) -> Whether to output as Array. Useful as input for other Spark transformers.
+                                                </li>
                                             </ul>
                                         </div><!--//code-block-->
                                     </div>
@@ -1051,7 +1054,7 @@ documentAssembler = new DocumentAssembler()
                                                     setOutputCols()
                                                 </li>
                                                 <li>
-                                                    setCleanAnnotations(True) -> Whether to remove intermediate
+                                                    setCleanAnnotations(true) -> Whether to remove intermediate
                                                     annotations
                                                 </li>
                                                 <li>
@@ -1063,8 +1066,11 @@ documentAssembler = new DocumentAssembler()
                                                     character
                                                 </li>
                                                 <li>
-                                                    setIncludeKeys(False) -> Whether to include metadata keys. Sometimes
+                                                    setIncludeKeys(false) -> Whether to include metadata keys. Sometimes
                                                     useful in some annotations
+                                                </li>
+                                                <li>
+                                                  setOutputAsArray(false) -> Whether to output as Array. Useful as input for other Spark transformers.
                                                 </li>
                                             </ul>
                                         </div><!--//code-block--></div>

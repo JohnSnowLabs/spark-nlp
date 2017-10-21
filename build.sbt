@@ -1,4 +1,4 @@
-val sparkVer = "2.1.1"
+val sparkVer = "2.1.2"
 val scalaVer = "2.11.11"
 val scalaTestVersion = "3.0.0"
 
@@ -7,7 +7,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.2.1"
+version := "1.2.2"
 
 scalaVersion := scalaVer
 

@@ -13,15 +13,15 @@ This library has been uploaded to the spark-packages repository https://spark-pa
 To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.0.0` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.2.1
+spark-shell --packages JohnSnowLabs:spark-nlp:1.2.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.2.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.2.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.2.1
+spark-submit --packages JohnSnowLabs:spark-nlp:1.2.2
 ```
 
 Check the package for the published versions if you want to use and old version.
