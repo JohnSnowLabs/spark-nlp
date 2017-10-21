@@ -68,6 +68,7 @@ class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
     annotationSplitSymbol = Param(Params._dummy(), "annotationSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeKeys = Param(Params._dummy(), "includeKeys", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
+    outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -98,3 +99,6 @@ class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
 
     def setIncludeKeys(self, value):
         return self._set(includeKeys=value)
+
+    def setOutputAsArray(self, value):
+        return self._set(outputAsArray=value)
