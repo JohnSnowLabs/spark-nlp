@@ -1,12 +1,17 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, Verbose}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.datasets.CoNLL
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 /*
   Algorithm for training Named Entity Recognition Model.
@@ -33,6 +38,9 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
 
+  val datasetPath = new Param[String](this, "datasetPath", "Path to dataset. " +
+    "If path is empty will use dataset passed to train as usual Spark Pipeline stage")
+
   def setLabelColumn(column: String) = set(labelColumn, column)
   def setEntities(tags: Array[String]) = set(entities, tags)
 
@@ -49,6 +57,8 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
+  def setDatsetPath(path: String) = set(datasetPath, path)
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 1000,
@@ -58,9 +68,48 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
     verbose -> Verbose.Silent.id
   )
 
+
+  private def getTrainDataframe(dataset: Dataset[_]): DataFrame = {
+
+    if (!isDefined(datasetPath))
+      return dataset.toDF()
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetectorModel()
+      .setCustomBoundChars(Array("\n\n"))
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new RegexTokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val posTagger = new PerceptronApproach()
+      .setCorpusPath("/anc-pos-corpus/")
+      .setNIterations(10)
+      .setInputCols("token", "document")
+      .setOutputCol("pos")
+
+    val pipeline = new Pipeline().setStages(
+      Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger)
+    )
+
+    val reader = CoNLL(3, dataset.sparkSession, AnnotatorType.NAMED_ENTITY)
+    val dataframe = reader.readDataset($(datasetPath)).toDF
+    pipeline.fit(dataframe).transform(dataframe)
+  }
+
+
   override def train(dataset: Dataset[_]): CrfBasedNerModel = {
 
-    val rows = dataset.toDF()
+    val rows = getTrainDataframe(dataset)
 
     val trainDataset = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
 

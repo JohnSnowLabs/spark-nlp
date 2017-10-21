@@ -4,81 +4,15 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer}
+import com.johnsnowlabs.nlp.annotators.ner.crf.CrfBasedNer
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.datasets.CoNLL
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.DataFrame
 
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
 
-
-class CoNLL(val targetColumn: Int = 3, val spark: SparkSession = SparkAccessor.spark) {
-  import spark.implicits._
-
-  /*
-    Reads Dataset in CoNLL format and pack it into docs
-   */
-  def readDocs(file: String): Seq[(String, Seq[Annotation])] = {
-    val lines = Source.fromFile(file).getLines().toSeq
-
-    readLines(lines)
-  }
-
-  def readLines(lines: Seq[String]): Seq[(String, Seq[Annotation])] = {
-    val doc = new StringBuilder()
-    val labels = new ArrayBuffer[Annotation]()
-
-    val docs = lines
-      .flatMap{line =>
-        val items = line.split(" ")
-        if (items.nonEmpty && items(0) == "-DOCSTART-") {
-          val result = (doc.toString, labels.toList)
-          doc.clear()
-          labels.clear()
-
-          if (result._1.nonEmpty)
-            Some(result)
-          else
-            None
-        } else if (items.length <= 1) {
-          if (doc.nonEmpty && doc.last != '\n')
-            doc.append("\n\n")
-          None
-        } else
-        {
-          if (doc.nonEmpty)
-            doc.append(" ")
-
-          val begin = doc.length
-          doc.append(items(0))
-          val end = doc.length - 1
-          val ner = items(targetColumn)
-          labels.append(new Annotation(AnnotatorType.NAMED_ENTITY, begin, end, ner, Map("tag" -> ner)))
-          None
-        }
-      }
-
-    val last = if (doc.nonEmpty) Seq((doc.toString, labels.toList)) else Seq.empty
-
-    docs ++ last
-  }
-
-  def readDataset(file: String,
-                  textColumn: String = "text",
-                  labelColumn: String = "label"): Dataset[_] = {
-    readDocs(file).toDF(textColumn, labelColumn)
-  }
-
-  def readDatasetFromLines(lines: Seq[String],
-                           textColumn: String = "text",
-                           labelColumn: String = "label"): Dataset[_] = {
-    val seq = readLines(lines)
-    seq.toDF(textColumn, labelColumn)
-  }
-}
 
 object CoNLL2003PipelineTest extends App {
   val folder = "./"
@@ -87,8 +21,8 @@ object CoNLL2003PipelineTest extends App {
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
-  val nerReader = new CoNLL()
-  val posReader = new CoNLL(targetColumn = 1)
+  val nerReader = CoNLL(spark = SparkAccessor.spark, annotatorType = AnnotatorType.NAMED_ENTITY)
+  val posReader = CoNLL(targetColumn = 1, spark = SparkAccessor.spark, annotatorType = AnnotatorType.POS)
 
   def getPosStages(): Array[_ <: PipelineStage] = {
     val documentAssembler = new DocumentAssembler()
@@ -123,6 +57,7 @@ object CoNLL2003PipelineTest extends App {
       .setLabelColumn("label")
       .setC0(1250000)
       .setRandomSeed(100)
+      .setMaxEpochs(30)
       .setDicts(Seq("src/main/resources/ner-corpus/dict.txt"))
       .setOutputCol("ner")
 
