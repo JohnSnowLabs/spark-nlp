@@ -64,11 +64,11 @@ object CoNLL2003CrfTest extends App {
     System.out.println("Start fitting")
 
     val params = CrfParams(
-      maxEpochs = 20,
+      maxEpochs = 10,
       l2 = 1f,
       verbose = Verbose.Epochs,
       randomSeed = Some(0),
-      c0 = 2250000
+      c0 = 1250000
     )
     val crf = new LinearChainCrf(params)
     crf.trainSGD(dataset)
