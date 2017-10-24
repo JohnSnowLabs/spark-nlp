@@ -1,9 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
-import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, Verbose}
+import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
@@ -101,8 +102,8 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
         posTagger)
     )
 
-    val reader = CoNLL(3, dataset.sparkSession, AnnotatorType.NAMED_ENTITY)
-    val dataframe = reader.readDataset($(datasetPath)).toDF
+    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
+    val dataframe = reader.readDataset($(datasetPath), dataset.sparkSession).toDF
     pipeline.fit(dataframe).transform(dataframe)
   }
 
@@ -111,11 +112,11 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
 
     val rows = getTrainDataframe(dataset)
 
-    val trainDataset = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
+    val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
 
     val dictPaths = get(dicts).getOrElse(Array.empty[String])
     val dictFeatures = DictionaryFeatures.read(dictPaths.toSeq)
-    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset.toIterator, dictFeatures)
+    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset)
 
     val params = CrfParams(
       minEpochs = getOrDefault(minEpochs),

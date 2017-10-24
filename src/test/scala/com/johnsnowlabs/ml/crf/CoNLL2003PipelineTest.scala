@@ -21,8 +21,8 @@ object CoNLL2003PipelineTest extends App {
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
-  val nerReader = CoNLL(spark = SparkAccessor.spark, annotatorType = AnnotatorType.NAMED_ENTITY)
-  val posReader = CoNLL(targetColumn = 1, spark = SparkAccessor.spark, annotatorType = AnnotatorType.POS)
+  val nerReader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
+  val posReader = CoNLL(targetColumn = 1, annotatorType = AnnotatorType.POS)
 
   def getPosStages(): Array[_ <: PipelineStage] = {
     val documentAssembler = new DocumentAssembler()
@@ -67,7 +67,7 @@ object CoNLL2003PipelineTest extends App {
   def trainPosModel(file: String): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = posReader.readDataset(file)
+    val dataset = posReader.readDataset(file, SparkAccessor.spark)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -83,7 +83,7 @@ object CoNLL2003PipelineTest extends App {
   def trainNerModel(file: String): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(file)
+    val dataset = nerReader.readDataset(file, SparkAccessor.spark)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -134,7 +134,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = reader.readDataset(file)
+    val dataset = reader.readDataset(file, SparkAccessor.spark)
     val transformed = model.transform(dataset)
 
     val sentences = collect(transformed)

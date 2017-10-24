@@ -7,9 +7,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
-case class CoNLL(targetColumn: Int = 3, spark: SparkSession, annotatorType: String) {
+case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
   require(annotatorType == AnnotatorType.NAMED_ENTITY || annotatorType == AnnotatorType.POS)
-  import spark.implicits._
 
   /*
     Reads Dataset in CoNLL format and pack it into docs
@@ -81,15 +80,22 @@ case class CoNLL(targetColumn: Int = 3, spark: SparkSession, annotatorType: Stri
   }
 
   def readDataset(file: String,
+                  spark: SparkSession,
                   textColumn: String = "text",
                   labelColumn: String = "label"): Dataset[_] = {
+
+    import spark.implicits._
 
     readDocs(file).map(p => (p._1, pack(p._2))).toDF(textColumn, labelColumn)
   }
 
   def readDatasetFromLines(lines: Seq[String],
+                           spark: SparkSession,
                            textColumn: String = "text",
                            labelColumn: String = "label"): Dataset[_] = {
+
+    import spark.implicits._
+
     val seq = readLines(lines).map(p => (p._1, pack(p._2)))
     seq.toDF(textColumn, labelColumn)
   }

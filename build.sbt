@@ -24,6 +24,8 @@ spIncludeMaven := false
 
 spAppendScalaVersion := false
 
+resolvers += "Maven Central" at "http://central.maven.org/maven2/"
+
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
@@ -55,7 +57,8 @@ lazy val testDependencies = Seq(
 )
 
 lazy val utilDependencies = Seq(
-  "com.typesafe" % "config" % "1.3.0"
+  "com.typesafe" % "config" % "1.3.0",
+  "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8"
 )
 
 lazy val root = (project in file("."))
