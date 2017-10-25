@@ -54,7 +54,7 @@ object WordEmbeddingsIndexer {
       db.write(batch)
       batch.close()
     } finally {
-      db.close
+      db.close()
     }
   }
 }

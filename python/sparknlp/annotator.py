@@ -458,7 +458,7 @@ class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorPr
 
 
 
-class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     labelColumn = Param(Params._dummy(),
                      "labelColumn",
                      "Column with label per each token",
@@ -528,12 +528,12 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
         return self
 
     def _create_model(self, java_model):
-      return CrfBasedNerModel(java_model)
+      return NerCrfModel(java_model)
 
     @keyword_only
     def __init__(self):
-        super(CrfBasedNer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
+        super(NerCrfApproach, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach", self.uid)
 
         self._setDefault(
             minEpochs = 0,
@@ -545,5 +545,5 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
         )
 
 
-class CrfBasedNerModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    name = "CrfBasedNerModel"
+class NerCrfModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    name = "NerCrfModel"
