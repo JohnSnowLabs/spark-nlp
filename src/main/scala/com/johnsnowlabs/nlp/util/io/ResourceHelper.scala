@@ -29,7 +29,8 @@ object ResourceHelper {
     val pipe: Option[InputStream] = try {
       val touchSource = getClass.getResourceAsStream(resource)
       Source.fromInputStream(touchSource)("UTF-8").getLines().take(1)
-      Some(touchSource)
+      touchSource.close()
+      Some(getClass.getResourceAsStream(resource))
     } catch {
       case _: NullPointerException => None
     }
