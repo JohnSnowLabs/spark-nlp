@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.ner.crf.CrfBasedNer
+import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
@@ -52,13 +52,12 @@ object CoNLL2003PipelineTest extends App {
 
   def getNerStages(): Array[_ <: PipelineStage] = {
 
-    val nerTagger = new CrfBasedNer()
+    val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setC0(1250000)
       .setRandomSeed(100)
-      .setMaxEpochs(30)
-      .setDicts(Seq("src/main/resources/ner-corpus/dict.txt"))
+      .setMaxEpochs(10)
       .setOutputCol("ner")
 
     getPosStages() :+ nerTagger

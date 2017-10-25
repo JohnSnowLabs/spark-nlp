@@ -17,7 +17,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNerModel]{
+class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]{
   def this() = this(Identifiable.randomUID("NER"))
 
   override val description = "CRF based Named Entity Recognition Tagger"
@@ -108,7 +108,7 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   }
 
 
-  override def train(dataset: Dataset[_]): CrfBasedNerModel = {
+  override def train(dataset: Dataset[_]): NerCrfModel = {
 
     val rows = getTrainDataframe(dataset)
 
@@ -133,7 +133,7 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
     val crf = new LinearChainCrf(params)
     val crfModel = crf.trainSGD(crfDataset)
 
-    var model = new CrfBasedNerModel()
+    var model = new NerCrfModel()
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
 
@@ -147,4 +147,4 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   }
 }
 
-object CrfBasedNer extends DefaultParamsReadable[CrfBasedNer]
+object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
