@@ -12,6 +12,16 @@ import scala.collection.mutable
 case class FeatureGenerator(dictFeatures: DictionaryFeatures,
                             embeddings: Option[WordEmbeddings] = None) {
 
+  val emptyEmbedding = if (embeddings.isEmpty) Array.empty[Float] else Array.fill[Float](embeddings.get.nDims)(0f)
+
+  def getEmbeddings(token: String): Array[Float] = {
+    if (embeddings.isEmpty) {
+      emptyEmbedding
+    } else {
+      embeddings.get.getEmbeddings(token)
+    }
+  }
+
   val shapeEncoding = Map(
     '.' -> '.', ',' -> '.',
     ':' -> ':', ';' -> ':', '?' -> ':', '!' -> ':',
@@ -258,14 +268,7 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
 
       val binAttrs = pairAttrs ++ unoAttrs ++ dictAttrs ++ addition
 
-      val numAttrs =
-        if (embeddings.isDefined) {
-          val word = taggedSentence.words(i)
-          embeddings.get.getEmbeddings(word)
-        }
-        else {
-          Array.empty[Float]
-        }
+      val numAttrs = getEmbeddings(taggedSentence.words(i))
 
       WordAttrs(binAttrs, numAttrs)
     }

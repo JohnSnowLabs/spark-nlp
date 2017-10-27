@@ -25,18 +25,19 @@ object CoNLL2003CrfTest extends App {
   val testFileA = folder + "eng.testa"
   val testFileB = folder + "eng.testb"
 
-  val embeddingsFile = folder + "glove.6B.100d.txt"
-  val wordEmbeddingsDb = folder + "embeddings.100d.db"
+  val embeddingsDims = 100
+  val embeddingsFile = folder + s"glove.6B.${embeddingsDims}d.txt"
+  val wordEmbeddingsDb = folder + s"embeddings.${embeddingsDims}d.db"
 
   var wordEmbeddings: Option[WordEmbeddings] = None
 
-  if (new File(wordEmbeddingsDb).exists) {
-    wordEmbeddings = Some(WordEmbeddings(wordEmbeddingsDb, 100))
-  } else {
-    if (new File(embeddingsFile).exists) {
-      WordEmbeddingsIndexer.indexGloveToLevelDb(embeddingsFile, wordEmbeddingsDb)
-      wordEmbeddings = Some(WordEmbeddings(wordEmbeddingsDb, 100))
-    }
+  val time = System.nanoTime()
+  if (new File(embeddingsFile).exists() && !new File(wordEmbeddingsDb).exists()) {
+    WordEmbeddingsIndexer.indexGloveToLevelDb(embeddingsFile, wordEmbeddingsDb)
+  }
+
+  if (new File(wordEmbeddingsDb).exists()) {
+    wordEmbeddings = Some(WordEmbeddings(wordEmbeddingsDb, embeddingsDims))
   }
 
   val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)

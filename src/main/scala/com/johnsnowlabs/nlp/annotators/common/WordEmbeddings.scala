@@ -11,7 +11,7 @@ import scala.io.Source
 
 object WordEmbeddingsIndexer {
 
-  def toBytes(embeddings: Array[Float]): Array[Byte] = {
+  private[common] def toBytes(embeddings: Array[Float]): Array[Byte] = {
     val buffer = ByteBuffer.allocate(embeddings.length * 4)
     for (value <- embeddings) {
       buffer.putFloat(value)
@@ -19,7 +19,7 @@ object WordEmbeddingsIndexer {
     buffer.array()
   }
 
-  def fromBytes(source: Array[Byte]): Array[Float] = {
+  private[common] def fromBytes(source: Array[Byte]): Array[Float] = {
     val wrapper = ByteBuffer.wrap(source)
     val result = Array.fill[Float](source.length / 4)(0f)
 
@@ -28,7 +28,7 @@ object WordEmbeddingsIndexer {
     }
     result
   }
-
+  
   def indexGloveToLevelDb(source: String, dbFile: String): Unit = {
     val options = new Options()
     options.createIfMissing(true)
@@ -59,18 +59,28 @@ object WordEmbeddingsIndexer {
   }
 }
 
-case class WordEmbeddings(levelDbFile: String, nDims: Int) extends Closeable{
+case class WordEmbeddings(levelDbFile: String,
+                          nDims: Int,
+                          cacheSizeMB: Int = 100,
+                          lruCacheSize: Int = 100000) extends Closeable{
   val options = new Options()
-  options.cacheSize(100 * 1048576) // 100 Mb
+  options.cacheSize(cacheSizeMB * 1048576) // 100 Mb
   options.createIfMissing(true)
   val db = factory.open(new File(levelDbFile), options)
+  val zeroArray = Array.fill[Float](nDims)(0f)
 
-  def getEmbeddings(word: String): Array[Float] = {
+  val lru = new LruMap[String, Array[Float]](lruCacheSize)
+
+  private def getEmbeddingsFromDb(word: String): Array[Float] = {
     val result = db.get(bytes(word.toLowerCase.trim))
     if (result == null)
-      Array.fill[Float](nDims)(0f)
+      zeroArray
     else
       WordEmbeddingsIndexer.fromBytes(result)
+  }
+
+  def getEmbeddings(word: String): Array[Float] = {
+    lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
   }
 
   override def close(): Unit = {
