@@ -14,8 +14,8 @@ import org.apache.spark.sql.{Encoders, Row}
 /*
   Named Entity Recognition model
  */
-class CrfBasedNerModel (override val uid: String)
-  extends AnnotatorModel[CrfBasedNerModel] {
+class NerCrfModel(override val uid: String)
+  extends AnnotatorModel[NerCrfModel] {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -23,7 +23,7 @@ class CrfBasedNerModel (override val uid: String)
   var model: Option[LinearChainCrfModel] = None
   var dictionaryFeatures = DictionaryFeatures(Seq.empty)
 
-  def setModel(crf: LinearChainCrfModel): CrfBasedNerModel = {
+  def setModel(crf: LinearChainCrfModel): NerCrfModel = {
     model = Some(crf)
     this
   }
@@ -33,7 +33,7 @@ class CrfBasedNerModel (override val uid: String)
     this
   }
 
-  def setEntities(toExtract: Array[String]): CrfBasedNerModel = set(entities, toExtract)
+  def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
   /**
     Predicts Named Entities in input sentences
@@ -71,7 +71,7 @@ class CrfBasedNerModel (override val uid: String)
     NerTagged.pack(taggedSentences)
   }
 
-  def shrink(minW: Float): CrfBasedNerModel = {
+  def shrink(minW: Float): NerCrfModel = {
     model = model.map(m => m.shrink(minW))
     this
   }
@@ -80,16 +80,16 @@ class CrfBasedNerModel (override val uid: String)
 
   override val annotatorType: AnnotatorType = NAMED_ENTITY
 
-  override def write: MLWriter = new CrfBasedNerModel.CrfBasedNerModelWriter(this, super.write)
+  override def write: MLWriter = new NerCrfModel.NerCrfModelWriter(this, super.write)
 }
 
-object CrfBasedNerModel extends DefaultParamsReadable[CrfBasedNerModel] {
+object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
   implicit val crfEncoder = Encoders.kryo[SerializedLinearChainCrfModel]
 
-  override def read: MLReader[CrfBasedNerModel] = new CrfBasedNerModelReader(super.read)
+  override def read: MLReader[NerCrfModel] = new NerCrfModelReader(super.read)
 
-  class CrfBasedNerModelReader(baseReader: MLReader[CrfBasedNerModel]) extends MLReader[CrfBasedNerModel] {
-    override def load(path: String): CrfBasedNerModel = {
+  class NerCrfModelReader(baseReader: MLReader[NerCrfModel]) extends MLReader[NerCrfModel] {
+    override def load(path: String): NerCrfModel = {
       val instance = baseReader.load(path)
 
       val dataPath = new Path(path, "data").toString
@@ -119,7 +119,7 @@ object CrfBasedNerModel extends DefaultParamsReadable[CrfBasedNerModel] {
     }
   }
 
-  class CrfBasedNerModelWriter(model: CrfBasedNerModel, baseWriter: MLWriter) extends MLWriter {
+  class NerCrfModelWriter(model: NerCrfModel, baseWriter: MLWriter) extends MLWriter {
 
     override protected def saveImpl(path: String): Unit = {
       require(model.model.isDefined, "Crf Model must be defined before serialization")
