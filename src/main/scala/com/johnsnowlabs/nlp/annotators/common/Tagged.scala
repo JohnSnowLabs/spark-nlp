@@ -26,7 +26,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
           annotation = Some(tagAnnotations.next)
 
         val tag = if (annotation.isDefined && annotation.get.begin == token.begin)
-          annotation.get.metadata("tag")
+          annotation.get.result
         else
           emptyTag
 
@@ -44,7 +44,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.begin,
         tag.end,
         tag.tag,
-        Map("tag" -> tag.tag, "word" -> tag.word))
+        Map("word" -> tag.word))
     ))
   }
 
@@ -69,7 +69,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   protected def getLabels(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val position2Tag = labelAnnotations.map(a => (a.begin, a.end) -> a.metadata("tag")).toMap
+    val position2Tag = labelAnnotations.map(a => (a.begin, a.end) -> a.result).toMap
 
     sentences.map{sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>

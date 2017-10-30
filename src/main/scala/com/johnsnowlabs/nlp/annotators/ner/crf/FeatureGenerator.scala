@@ -1,20 +1,33 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf._
-import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordEmbeddings}
+
 import scala.collection.mutable
+
 
 /**
   * Generates features for CrfBasedNer
   */
-case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
+case class FeatureGenerator(dictFeatures: DictionaryFeatures,
+                            embeddings: Option[WordEmbeddings] = None) {
+
+  val emptyEmbedding = if (embeddings.isEmpty) Array.empty[Float] else Array.fill[Float](embeddings.get.nDims)(0f)
+
+  def getEmbeddings(token: String): Array[Float] = {
+    if (embeddings.isEmpty) {
+      emptyEmbedding
+    } else {
+      embeddings.get.getEmbeddings(token)
+    }
+  }
 
   val shapeEncoding = Map(
-      '.' -> '.', ',' -> '.',
-      ':' -> ':', ';' -> ':', '?' -> ':', '!' -> ':',
-      '-' -> '-', '+' -> '-', '*' -> '-', '/' -> '-', '=' -> '-', '|' -> '-', '_' -> '-', '%' -> '-',
-      '(' -> '(', '{' -> '(', '[' -> '(', '<' -> '(',
-      ')' -> ')', '}' -> ')', ']' -> ')', '>' -> ')'
+    '.' -> '.', ',' -> '.',
+    ':' -> ':', ';' -> ':', '?' -> ':', '!' -> ':',
+    '-' -> '-', '+' -> '-', '*' -> '-', '/' -> '-', '=' -> '-', '|' -> '-', '_' -> '-', '%' -> '-',
+    '(' -> '(', '{' -> '(', '[' -> '(', '<' -> '(',
+    ')' -> ')', '}' -> ')', ']' -> ')', '>' -> ')'
   )
 
   def getShape(token: String) = {
@@ -149,14 +162,14 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   def getSuffix(token: String, size: Int, default: String = "") = {
     if (token.length >= size)
-      token.substring(token.length - size)
+      token.substring(token.length - size).toLowerCase
     else
       default
   }
 
   def getPrefix(token: String, size: Int, default: String = "") = {
     if (token.length >= size)
-      token.substring(0, size)
+      token.substring(0, size).toLowerCase
     else
       default
   }
@@ -219,7 +232,7 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
         val f = fillFeatures(word)
         f("pos") = tag
         f
-    }
+      }
 
     val words = wordFeatures.length
 
@@ -229,12 +242,12 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
       val pairAttrs = (-window until window)
         .filter(j => isInRange(i + j, words) && isInRange(i + j + 1, words))
         .flatMap(j =>
-            pairs.map{name =>
-              val feature = getName(name, j, j + 1)
-              val value1 = wordFeatures(i + j).getOrElse(name, "")
-              val value2 = wordFeatures(i + j + 1).getOrElse(name, "")
-              (feature, value1 + "|" + value2)
-            }
+          pairs.map{name =>
+            val feature = getName(name, j, j + 1)
+            val value1 = wordFeatures(i + j).getOrElse(name, "")
+            val value2 = wordFeatures(i + j + 1).getOrElse(name, "")
+            (feature, value1 + "|" + value2)
+          }
         ).toArray
 
       val unoAttrs = (-window to window)
@@ -253,20 +266,23 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
         else if (i == words - 1) Array(("_EOS_", ""))
         else Array.empty[(String, String)]
 
-      WordAttrs(pairAttrs ++ unoAttrs ++ dictAttrs ++ addition)
+      val binAttrs = pairAttrs ++ unoAttrs ++ dictAttrs ++ addition
+
+      val numAttrs = getEmbeddings(taggedSentence.words(i))
+
+      WordAttrs(binAttrs, numAttrs)
     }
 
     TextSentenceAttrs(attrs)
   }
 
-  def generateDataset(sentences: Iterator[(TextSentenceLabels, TaggedSentence)],
-                      dictFeatures: DictionaryFeatures): CrfDataset = {
+  def generateDataset(sentences: TraversableOnce[(TextSentenceLabels, TaggedSentence)]): CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
       .map{case (labels, sentence) => {
-      val textSentence = generate(sentence)
-      (labels, textSentence)
-    }}
+        val textSentence = generate(sentence)
+        (labels, textSentence)
+      }}
 
     DatasetReader.encodeDataset(textDataset)
   }
@@ -277,5 +293,3 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     DatasetReader.encodeSentence(attrSentence, metadata)
   }
 }
-
-
