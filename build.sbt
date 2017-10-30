@@ -47,6 +47,30 @@ bintrayRepository := "johnsnowlabs"
 
 bintrayOrganization := Some("johnsnowlabs")
 
+sonatypeProfileName := "com.johnsnowlabs"
+
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
+homepage := Some(url("https://nlp.johnsnowlabs.com"))
+
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/JohnSnowLabs/spark-nlp"),
+    "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+  )
+)
+
+developers := List(
+  Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
+  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
+  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai"))
+)
+
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
