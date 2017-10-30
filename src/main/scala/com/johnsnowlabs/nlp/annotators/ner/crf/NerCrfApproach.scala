@@ -1,17 +1,23 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
-import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, Verbose}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.datasets.CoNLL
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNerModel]{
+class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]{
   def this() = this(Identifiable.randomUID("NER"))
 
   override val description = "CRF based Named Entity Recognition Tagger"
@@ -33,6 +39,9 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
 
+  val datasetPath = new Param[String](this, "datasetPath", "Path to dataset. " +
+    "If path is empty will use dataset passed to train as usual Spark Pipeline stage")
+
   def setLabelColumn(column: String) = set(labelColumn, column)
   def setEntities(tags: Array[String]) = set(entities, tags)
 
@@ -49,6 +58,8 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
+  def setDatsetPath(path: String) = set(datasetPath, path)
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 1000,
@@ -58,15 +69,54 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
     verbose -> Verbose.Silent.id
   )
 
-  override def train(dataset: Dataset[_]): CrfBasedNerModel = {
 
-    val rows = dataset.toDF()
+  private def getTrainDataframe(dataset: Dataset[_]): DataFrame = {
 
-    val trainDataset = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
+    if (!isDefined(datasetPath))
+      return dataset.toDF()
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetectorModel()
+      .setCustomBoundChars(Array("\n\n"))
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new RegexTokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val posTagger = new PerceptronApproach()
+      .setCorpusPath("/anc-pos-corpus/")
+      .setNIterations(10)
+      .setInputCols("token", "document")
+      .setOutputCol("pos")
+
+    val pipeline = new Pipeline().setStages(
+      Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger)
+    )
+
+    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
+    val dataframe = reader.readDataset($(datasetPath), dataset.sparkSession).toDF
+    pipeline.fit(dataframe).transform(dataframe)
+  }
+
+
+  override def train(dataset: Dataset[_]): NerCrfModel = {
+
+    val rows = getTrainDataframe(dataset)
+
+    val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
 
     val dictPaths = get(dicts).getOrElse(Array.empty[String])
     val dictFeatures = DictionaryFeatures.read(dictPaths.toSeq)
-    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset.toIterator, dictFeatures)
+    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset)
 
     val params = CrfParams(
       minEpochs = getOrDefault(minEpochs),
@@ -83,7 +133,7 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
     val crf = new LinearChainCrf(params)
     val crfModel = crf.trainSGD(crfDataset)
 
-    var model = new CrfBasedNerModel()
+    var model = new NerCrfModel()
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
 
@@ -97,4 +147,4 @@ class CrfBasedNer(override val uid: String) extends AnnotatorApproach[CrfBasedNe
   }
 }
 
-object CrfBasedNer extends DefaultParamsReadable[CrfBasedNer]
+object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]

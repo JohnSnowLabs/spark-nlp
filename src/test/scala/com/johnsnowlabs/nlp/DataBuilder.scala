@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.ml.crf.CoNLL
+import com.johnsnowlabs.nlp.datasets.CoNLL
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -23,7 +23,8 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
 
   def buildNerDataset(datasetContent: String): Dataset[Row] = {
     val lines = datasetContent.split("\n")
-    val data = new CoNLL(1, SparkAccessor.spark).readDatasetFromLines(lines).toDF
+    val data = CoNLL(1, AnnotatorType.NAMED_ENTITY)
+      .readDatasetFromLines(lines, SparkAccessor.spark).toDF
     AnnotatorBuilder.withDocumentAssembler(data)
   }
 }
