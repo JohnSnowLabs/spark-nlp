@@ -33,7 +33,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
       s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
-      val pragmaticApproach = new PragmaticMethod
+      val pragmaticApproach = new PragmaticMethod(true)
       val result = pragmaticApproach.extractBounds(input, customBounds).map(_.content)
       val diffInResult = result.diff(correctAnswer)
       val diffInCorrect = correctAnswer.diff(result)
