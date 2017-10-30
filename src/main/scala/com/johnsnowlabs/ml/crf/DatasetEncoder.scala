@@ -71,7 +71,7 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
   def getFeatures(prevLabel: String = startLabel,
                   label: String,
                   binaryAttrs: Seq[String],
-                  numAttrs: Seq[(String, Float)]): (Int, SparseArray) = {
+                  numAttrs: Seq[Float]): (Int, SparseArray) = {
     val labelId = getLabel(label)
 
     val binFeature = binaryAttrs.map{attr =>
@@ -80,8 +80,8 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
       (attrId, 1f)
     }
 
-    val numFeatures = numAttrs.map{case(attr, value) => {
-      val attrId = getAttr(attr, true)
+    val numFeatures = numAttrs.zipWithIndex.map{case(value, idx) => {
+      val attrId = getAttr("num" + idx, true)
       addAttrFeature(labelId, attrId, value)
       (attrId, value)
     }}
