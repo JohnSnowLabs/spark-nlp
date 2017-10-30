@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.param.StringArrayParam
+import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -14,7 +14,7 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val model = new PragmaticMethod()
+  val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
 
   val customBounds: StringArrayParam = new StringArrayParam(
     this,
@@ -26,11 +26,17 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
 
   def setCustomBoundChars(value: Array[String]): this.type = set(customBounds, value)
 
+  def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
+
   override val annotatorType: AnnotatorType = DOCUMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   setDefault(inputCols, Array(DOCUMENT))
+
+  setDefault(useAbbrevations, false)
+
+  lazy val model = new PragmaticMethod($(useAbbrevations))
 
   def tag(document: String): Seq[Sentence] = {
     model.extractBounds(

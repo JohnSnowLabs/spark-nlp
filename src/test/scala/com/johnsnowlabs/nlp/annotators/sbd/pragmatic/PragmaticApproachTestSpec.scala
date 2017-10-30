@@ -209,6 +209,11 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val doublePunct = "Hello!! Long time no see."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doublePunct, doublePunctAns)
 
+  //Triple punctuation (exclamation point)
+  val triplePunctAns = Array("ART!!!")
+  val triplePunct = "ART!!!"
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(triplePunct, triplePunctAns)
+
   //Double punctuation (question mark)
   val doublePunctQuestAns = Array("Hello??", "Who is there?")
   val doublePunctQuest = "Hello?? Who is there?"
@@ -245,7 +250,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(errantNewline, errantNewlineAns)
 
   //Named entities with an exclamation point
-  val namedEntitiesAns = Array("She works at Yahoo! in the accounting department.")
+  val namedEntitiesAns = Array("She works at Yahoo!", "in the accounting department.")
   val namedEntities = "She works at Yahoo! in the accounting department."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(namedEntities, namedEntitiesAns)
 

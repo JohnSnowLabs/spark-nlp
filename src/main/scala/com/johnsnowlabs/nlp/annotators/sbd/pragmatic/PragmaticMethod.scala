@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
   * This approach extracts sentence bounds by first formatting the data with [[RuleSymbols]] and then extracting bounds
   * with a strong RegexBased rule application
   */
-class PragmaticMethod(useAbbreviations: Boolean = true) extends Serializable {
+class PragmaticMethod(useAbbreviations: Boolean = false) extends Serializable {
 
   def extractBounds(content: String, customBounds: Array[String]): Array[Sentence] = {
     /** this is a hardcoded order of operations
@@ -28,7 +28,6 @@ class PragmaticMethod(useAbbreviations: Boolean = true) extends Serializable {
       .formatGeoLocations
       .formatEllipsisRules
       .formatBetweenPunctuations
-      .formatDoublePunctuations
       .formatQuotationMarkInQuotation
       .formatExclamationPoint
       .formatBasicBreakers
