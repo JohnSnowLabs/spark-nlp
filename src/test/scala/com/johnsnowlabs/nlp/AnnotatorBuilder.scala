@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.ner.crf.{CrfBasedNer, CrfBasedNerModel}
+import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
@@ -143,20 +143,21 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .transform(df)
   }
 
-  def withCrfBasedNerTagger(dataset: Dataset[Row]): Dataset[Row] = {
+  def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
 
-    getCrfBasedNerModel(dataset).transform(df)
+    getNerCrfModel(dataset).transform(df)
   }
 
-  def getCrfBasedNerModel(dataset: Dataset[Row]): CrfBasedNerModel = {
+  def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
     val df = withFullPOSTagger(withTokenizer(dataset))
 
-    new CrfBasedNer()
+    new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
+      .setDatsetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
