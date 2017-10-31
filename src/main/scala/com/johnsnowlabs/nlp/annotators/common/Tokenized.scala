@@ -10,27 +10,13 @@ object Tokenized extends Annotated[TokenizedSentence] {
     val tokens = annotations
       .filter(_.annotatorType == annotatorType)
       .toArray
-      .sortBy(a => a.begin)
 
-    val tokenBegin = tokens.map(t => t.begin)
-    val tokenEnd = tokens.map(t => t.end)
+    SentenceSplit.unpack(annotations).map(sentence => {
+      tokens.filter(token =>
+        token.begin >= sentence.begin & token.end <= sentence.end
+      ).map(token => IndexedToken(token.result, token.begin, token.end))
+    }).filter(_.nonEmpty).map(indexedTokens => TokenizedSentence(indexedTokens))
 
-    def find(begin: Int, end: Int): Array[IndexedToken] = {
-      import scala.collection.Searching._
-      val beginIdx = tokenBegin.search(begin).insertionPoint
-      val endIdx = tokenEnd.search(end + 1).insertionPoint
-
-      val result = Array.fill[IndexedToken](endIdx - beginIdx)(null)
-      for (i <- beginIdx until endIdx) {  
-        val token = tokens(i)
-        result(i - beginIdx) = IndexedToken(token.result, token.begin, token.end)
-      }
-
-      result
-    }
-
-    SentenceSplit.unpack(annotations)
-      .map(sentence => TokenizedSentence(find(sentence.begin, sentence.end)))
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {
