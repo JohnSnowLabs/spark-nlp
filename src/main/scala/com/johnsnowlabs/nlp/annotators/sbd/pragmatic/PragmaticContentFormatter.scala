@@ -162,9 +162,9 @@ class PragmaticContentFormatter(text: String) {
   def formatPunctuations: this.type = {
 
     val factory = new RuleFactory(MATCH_ALL, APPEND_WITH_SYMBOL)
-    // http://rubular.com/r/mQ8Es9bxtk
+    // http://rubular.com/r/iVOnFrGK6H
       //continuous punctuations
-      .addRule(new RegexRule("(?<=\\S)[!\\?]+(?=\\s|\\z|$)", "formatPunctuations-continuous"))
+      .addRule(new RegexRule("(?<=\\S)[!\\?]+(?=\\s|\\z|\\$)", "formatPunctuations-continuous"))
 
     wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
 
