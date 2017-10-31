@@ -1,4 +1,29 @@
 ========
+1.2.3
+========
+---------------
+Bugfixes
+---------------
+* Sentence detection not properly bounding punctuation marks
+* Sentence detection abbreviations feature disabled by default, since it is a slow feature and not necessary benefitial
+* Sentence detection punctuation bounds improved algorithm performance by removing redundant formatting
+* Fixed a bug causing sentiment analysis not to work when using normalized tokens that may cause tokens to be deleted from sentence
+* Fixed Resource Helper text reading missing first line from text stream. More improvements to come later.
+
+---------------
+Other
+---------------
+CRF NER progress, word embeddings support. Not yet officially released.
+
+========
+1.2.2
+========
+---------------
+New features
+---------------
+* Finisher parameter to export output as Array
+
+========
 1.2.1
 ========
 ---------------
