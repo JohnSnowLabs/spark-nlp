@@ -266,6 +266,11 @@ class NERRegexModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperti
 
 class SentenceDetectorModel(AnnotatorTransformer):
 
+    useAbbreviations = Param(Params._dummy(),
+                             "useAbbreviations",
+                             "whether to apply abbreviations at sentence detection",
+                             typeConverter=TypeConverters.toBoolean)
+
     customBounds = Param(Params._dummy(),
                          "customBounds",
                          "characters used to explicitly mark sentence bounds",
@@ -273,6 +278,10 @@ class SentenceDetectorModel(AnnotatorTransformer):
 
     def setCustomBounds(self, value):
         self._set(customBounds=value)
+        return self
+
+    def setUseAbbreviations(self, value):
+        self._set(useAbbreviations=value)
         return self
 
     @keyword_only
