@@ -229,7 +229,8 @@ val documentAssembler = new DocumentAssembler()
                                         with DocumentAssembler
                                         or SentenceDetector output, in here, we use the sentence output.
                                     </p>
-                                    <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
+                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+val sentenceDetector = new SentenceDetectorModel()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
@@ -254,7 +255,7 @@ val pipeline = new Pipeline()
     .setStages(Array(
         documentAssembler,
         sentenceDetector,
-        tokenizer
+        regexTokenizer,
         finisher
     ))
 
