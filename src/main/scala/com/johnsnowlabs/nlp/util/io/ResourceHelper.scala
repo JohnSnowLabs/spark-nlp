@@ -27,9 +27,8 @@ object ResourceHelper {
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val pipe: Option[InputStream] = try {
-      val touchSource = getClass.getResourceAsStream(resource)
-      Source.fromInputStream(touchSource)("UTF-8").getLines().take(1)
-      Some(touchSource)
+      getClass.getResourceAsStream(resource).close()
+      Some(getClass.getResourceAsStream(resource))
     } catch {
       case _: NullPointerException => None
     }
