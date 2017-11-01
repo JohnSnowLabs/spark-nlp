@@ -4,31 +4,31 @@ import com.johnsnowlabs.nlp._
 import org.scalatest.FlatSpec
 
 
-class CrfBasedNerPipelineSpec extends FlatSpec {
+class NerCrfApproachSpec extends FlatSpec {
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
-  val nerModel = AnnotatorBuilder.getCrfBasedNerModel(nerSentence)
+  val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
   // Dataset ready for NER tagger
   val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withTokenizer(nerSentence))
 
 
-  "CrfBasedNerModel" should "be serializable and deserializable correctly" in {
+  "NerCrfApproach" should "be serializable and deserializable correctly" in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
-    val loadedNer = CrfBasedNerModel.read.load("./test_crf_pipeline")
+    val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
     assert(nerModel.model.get.serialize == loadedNer.model.get.serialize)
     assert(nerModel.dictionaryFeatures == loadedNer.dictionaryFeatures)
   }
 
 
-  "CrfBasedNer" should "have correct set of labels" in {
+  "NerCrfApproach" should "have correct set of labels" in {
     assert(nerModel.model.isDefined)
     val metadata = nerModel.model.get.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
 
 
-  "CrfBasedNer" should "correctly store annotations" in {
+  "NerCrfApproach" should "correctly store annotations" in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten.toSeq
     val labels = Annotation.collect(tagged, "label").flatten.toSeq
@@ -38,22 +38,32 @@ class CrfBasedNerPipelineSpec extends FlatSpec {
       assert(annotation.begin == label.begin)
       assert(annotation.end == label.end)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
-      assert(annotation.metadata("tag") == label.metadata("tag"))
+      assert(annotation.result == label.result)
       assert(annotation.metadata.contains("word"))
     }
   }
 
-  "CrfBasedNer" should "correctly tag sentences" in {
+
+  "NerCrfApproach" should "correctly tag sentences" in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
-    val tags = annotations.map(a => a.metadata("tag")).toSeq
+    val tags = annotations.map(a => a.result).toSeq
     assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 
-  "CrfBasedNerModel" should "correctly handle entities param" in {
-    val restrictedModel = new CrfBasedNerModel()
+  "NerCrfModel" should "correctly train using dataset from file" in {
+    val tagged = AnnotatorBuilder.withNerCrfTagger(nerInputDataset)
+    val annotations = Annotation.collect(tagged, "ner").flatten
+
+    val tags = annotations.map(a => a.result).toSeq
+    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+  }
+
+
+  "NerCrfModel" should "correctly handle entities param" in {
+    val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
       .setModel(nerModel.model.get)
       .setOutputCol(nerModel.getOutputCol)
@@ -61,7 +71,7 @@ class CrfBasedNerPipelineSpec extends FlatSpec {
 
     val tagged = restrictedModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
-    val tags = annotations.map(a => a.metadata("tag")).toSeq
+    val tags = annotations.map(a => a.result).toSeq
 
     assert(tags == Seq("PER", "PER", "LOC"))
   }
