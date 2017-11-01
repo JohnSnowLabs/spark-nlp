@@ -4,6 +4,7 @@ import com.johnsnowlabs.ml.crf.{LinearChainCrfModel, SerializedLinearChainCrfMod
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.StringArrayParam
@@ -14,8 +15,8 @@ import org.apache.spark.sql.{Encoders, Row}
 /*
   Named Entity Recognition model
  */
-class CrfBasedNerModel (override val uid: String)
-  extends AnnotatorModel[CrfBasedNerModel] {
+class NerCrfModel(override val uid: String)
+  extends AnnotatorModel[NerCrfModel] with ModelWithWordEmbeddings{
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -23,7 +24,7 @@ class CrfBasedNerModel (override val uid: String)
   var model: Option[LinearChainCrfModel] = None
   var dictionaryFeatures = DictionaryFeatures(Seq.empty)
 
-  def setModel(crf: LinearChainCrfModel): CrfBasedNerModel = {
+  def setModel(crf: LinearChainCrfModel): NerCrfModel = {
     model = Some(crf)
     this
   }
@@ -33,10 +34,10 @@ class CrfBasedNerModel (override val uid: String)
     this
   }
 
-  def setEntities(toExtract: Array[String]): CrfBasedNerModel = set(entities, toExtract)
+  def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
   /**
-    Predicts Named Entities in input sentences
+  Predicts Named Entities in input sentences
     * @param sentences POS tagged sentences.
     * @return sentences with recognized Named Entities
     */
@@ -45,8 +46,9 @@ class CrfBasedNerModel (override val uid: String)
 
     val crf = model.get
 
+    val fg = FeatureGenerator(dictionaryFeatures, embeddings)
     sentences.map{sentence =>
-      val instance = FeatureGenerator(dictionaryFeatures).generate(sentence, crf.metadata)
+      val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)
       val words = sentence.indexedTaggedWords
         .zip(labelIds.labels)
@@ -71,7 +73,7 @@ class CrfBasedNerModel (override val uid: String)
     NerTagged.pack(taggedSentences)
   }
 
-  def shrink(minW: Float): CrfBasedNerModel = {
+  def shrink(minW: Float): NerCrfModel = {
     model = model.map(m => m.shrink(minW))
     this
   }
@@ -80,16 +82,16 @@ class CrfBasedNerModel (override val uid: String)
 
   override val annotatorType: AnnotatorType = NAMED_ENTITY
 
-  override def write: MLWriter = new CrfBasedNerModel.CrfBasedNerModelWriter(this, super.write)
+  override def write: MLWriter = new NerCrfModel.NerCrfModelWriter(this, super.write)
 }
 
-object CrfBasedNerModel extends DefaultParamsReadable[CrfBasedNerModel] {
+object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
   implicit val crfEncoder = Encoders.kryo[SerializedLinearChainCrfModel]
 
-  override def read: MLReader[CrfBasedNerModel] = new CrfBasedNerModelReader(super.read)
+  override def read: MLReader[NerCrfModel] = new NerCrfModelReader(super.read)
 
-  class CrfBasedNerModelReader(baseReader: MLReader[CrfBasedNerModel]) extends MLReader[CrfBasedNerModel] {
-    override def load(path: String): CrfBasedNerModel = {
+  class NerCrfModelReader(baseReader: MLReader[NerCrfModel]) extends MLReader[NerCrfModel] {
+    override def load(path: String): NerCrfModel = {
       val instance = baseReader.load(path)
 
       val dataPath = new Path(path, "data").toString
@@ -116,10 +118,13 @@ object CrfBasedNerModel extends DefaultParamsReadable[CrfBasedNerModel] {
       instance
         .setModel(crfModel.deserialize)
         .setDictionaryFeatures(dictFeatures)
+
+      instance.deserializeEmbeddings(path)
+      instance
     }
   }
 
-  class CrfBasedNerModelWriter(model: CrfBasedNerModel, baseWriter: MLWriter) extends MLWriter {
+  class NerCrfModelWriter(model: NerCrfModel, baseWriter: MLWriter) extends MLWriter {
 
     override protected def saveImpl(path: String): Unit = {
       require(model.model.isDefined, "Crf Model must be defined before serialization")
@@ -136,7 +141,8 @@ object CrfBasedNerModel extends DefaultParamsReadable[CrfBasedNerModel] {
       val dictPath = new Path(path, "dict").toString
       val dictLines = model.dictionaryFeatures.dict.toSeq.map(p => p._1 + ":" + p._2)
       Seq(dictLines).toDS.write.mode("overwrite").parquet(dictPath)
+
+      model.serializeEmbeddings(path)
     }
   }
 }
-

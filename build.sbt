@@ -55,7 +55,8 @@ lazy val testDependencies = Seq(
 )
 
 lazy val utilDependencies = Seq(
-  "com.typesafe" % "config" % "1.3.0"
+  "com.typesafe" % "config" % "1.3.0",
+  "org.rocksdb" % "rocksdbjni" % "5.8.0"
 )
 
 lazy val root = (project in file("."))
