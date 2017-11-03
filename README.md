@@ -2,7 +2,7 @@
 John Snow Labs Spark-NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
 
 # Project's website
-take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for user documentation and examples
+Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for user documentation and examples
 
 # Usage
 
@@ -24,24 +24,31 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.2.3
 spark-submit --packages JohnSnowLabs:spark-nlp:1.2.3
 ```
 
-Check the package for the published versions if you want to use and old version.
+If you want to use and old version check the spark-packages websites to see all the releases.
 
-## Bintray repository
+## Maven central
 
-If you have a scala project which has a dependency on spark-nlp you can resolve it using our **bintray** repository
+Our package is deployed to maven central. In order to add this package as a dependency in your application:
 
-Using sbt 0.13.6+
+#### Maven
 
-```scala
-resolvers += Resolver.bintrayRepo("johnsnowlabs", "johnsnowlabs")
+```xml
+<dependency>
+  <groupId>com.johnsnowlabs.nlp</groupId>
+  <artifactId>spark-nlp_2.11</artifactId>
+  <version>1.2.3</version>
+</dependency>
 ```
 
-For sbt versions before 0.13.6, you need to include the `sbt-bintray` plugin in your project: https://github.com/sbt/sbt-bintray.
+#### SBT
+```sbtshell
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.2.3"
+```
 
-After you can add the resolver as before
+If you are using `scala 2.11`
 
-```scala
-resolvers += Resolver.bintrayRepo("johnsnowlabs", "johnsnowlabs")
+```sbtshell
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.2.3"
 ```
 
 ## Using the jar manually 
