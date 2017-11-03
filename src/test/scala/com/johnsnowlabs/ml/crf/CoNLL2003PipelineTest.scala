@@ -57,7 +57,7 @@ object CoNLL2003PipelineTest extends App {
       .setLabelColumn("label")
       .setC0(1250000)
       .setRandomSeed(100)
-      .setMaxEpochs(10)
+      .setMaxEpochs(20)
       .setOutputCol("ner")
 
     getPosStages() :+ nerTagger

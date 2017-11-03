@@ -12,6 +12,14 @@ import org.apache.spark.sql.SparkSession
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
 
+import java.io.IOException
+import java.net.URISyntaxException
+import java.net.URL
+import java.net.URLDecoder
+import java.util
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
+
 
 /**
   * Created by saif on 28/04/17.
@@ -24,11 +32,57 @@ object ResourceHelper {
 
   private val spark: SparkSession = SparkSession.builder().getOrCreate()
 
+
+  def listDirectory(path: String): Seq[String] = {
+    var dirURL = getClass.getResource(path)
+
+    if (dirURL == null)
+      dirURL = getClass.getClassLoader.getResource(path)
+
+    if (dirURL != null && dirURL.getProtocol.equals("file")) {
+      /* A file path: easy enough */
+      return new File(dirURL.toURI).list()
+    }
+
+    if (dirURL.getProtocol().equals("jar")) {
+      /* A JAR path */
+      val jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")) //strip out only the JAR file
+      val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
+      val entries = jar.entries()
+      val result = new ArrayBuffer[String]()
+
+      val pathToCheck = path.replaceFirst("/", "")
+      while(entries.hasMoreElements()) {
+        val name = entries.nextElement().getName().replaceFirst("/", "")
+        if (name.startsWith(pathToCheck)) { //filter according to the path
+          var entry = name.substring(pathToCheck.length())
+          val checkSubdir = entry.indexOf("/")
+          if (checkSubdir >= 0) {
+            // if it is a subdirectory, we just return the directory name
+            entry = entry.substring(0, checkSubdir)
+          }
+          if (entry.nonEmpty)
+            result.append(entry)
+        }
+      }
+      return result.distinct
+    }
+
+    throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
+  }
+
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val pipe: Option[InputStream] = try {
-      getClass.getResourceAsStream(resource).close()
-      Some(getClass.getResourceAsStream(resource))
+      val stream = if (getClass.getResourceAsStream(resource) != null) {
+        getClass.getResourceAsStream(resource).close()
+        getClass.getResourceAsStream(resource)
+      } else {
+        getClass.getClassLoader.getResourceAsStream(resource).close()
+        getClass.getClassLoader.getResourceAsStream(resource)
+      }
+
+      Some(stream)
     } catch {
       case _: NullPointerException => None
     }
