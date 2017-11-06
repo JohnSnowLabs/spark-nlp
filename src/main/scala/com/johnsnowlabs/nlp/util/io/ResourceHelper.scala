@@ -77,7 +77,7 @@ object ResourceHelper {
       var stream = getClass.getResourceAsStream(resource)
       if (stream == null)
         stream = getClass.getClassLoader.getResourceAsStream(resource)
-      
+
       Some(stream)
     } catch {
       case _: NullPointerException => None
