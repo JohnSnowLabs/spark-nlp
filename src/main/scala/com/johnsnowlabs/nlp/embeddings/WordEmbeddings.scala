@@ -1,10 +1,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.{Closeable, File}
+import java.io.Closeable
 import java.nio.ByteBuffer
 
 import com.johnsnowlabs.nlp.util.LruMap
-import org.fusesource.leveldbjni.JniDBFactory.bytes
 import org.rocksdb._
 
 import scala.io.Source
@@ -46,7 +45,7 @@ object WordEmbeddingsIndexer {
         val items = line.split(" ")
         val word = items(0)
         val embeddings = items.drop(1).map(i => i.toFloat)
-        batch.put(bytes(word), toBytes(embeddings))
+        batch.put(word.getBytes, toBytes(embeddings))
 
         batchSize += 1
         if (batchSize % 1000 == 0) {
@@ -85,7 +84,7 @@ case class WordEmbeddings(dbFile: String,
   val lru = new LruMap[String, Array[Float]](lruCacheSize)
 
   private def getEmbeddingsFromDb(word: String): Array[Float] = {
-    val result = db.get(bytes(word.toLowerCase.trim))
+    val result = db.get(word.toLowerCase.trim.getBytes())
     if (result == null)
       zeroArray
     else
