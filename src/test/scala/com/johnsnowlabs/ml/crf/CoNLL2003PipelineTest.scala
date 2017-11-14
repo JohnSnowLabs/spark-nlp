@@ -58,7 +58,7 @@ object CoNLL2003PipelineTest extends App {
       .setDatsetPath("eng.train")
       .setC0(2250000)
       .setRandomSeed(100)
-      .setMaxEpochs(1)
+      .setMaxEpochs(20)
       .setOutputCol("ner")
 
     getPosStages() :+ nerTagger
