@@ -36,7 +36,7 @@ object ResourceHelper {
 
     if (dirURL != null && dirURL.getProtocol.equals("file")) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).list()
+      return new File(dirURL.toURI).list().sorted
     }
 
     if (dirURL.getProtocol().equals("jar")) {
@@ -60,7 +60,7 @@ object ResourceHelper {
             result.append(entry)
         }
       }
-      return result.distinct
+      return result.distinct.sorted
     }
 
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
@@ -69,13 +69,9 @@ object ResourceHelper {
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val pipe: Option[InputStream] = try {
-      val stream = if (getClass.getResourceAsStream(resource) != null) {
-        getClass.getResourceAsStream(resource).close()
-        getClass.getResourceAsStream(resource)
-      } else {
-        getClass.getClassLoader.getResourceAsStream(resource).close()
-        getClass.getClassLoader.getResourceAsStream(resource)
-      }
+      var stream = getClass.getResourceAsStream(resource)
+      if (stream == null)
+        stream = getClass.getClassLoader.getResourceAsStream(resource)
 
       Some(stream)
     } catch {
