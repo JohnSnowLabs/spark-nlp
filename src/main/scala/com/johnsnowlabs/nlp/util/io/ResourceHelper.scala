@@ -12,12 +12,7 @@ import org.apache.spark.sql.SparkSession
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
 
-import java.io.IOException
-import java.net.URISyntaxException
-import java.net.URL
 import java.net.URLDecoder
-import java.util
-import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 

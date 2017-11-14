@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+
 import scala.io.Source
 
 case class DictionaryFeatures(dict: Map[String, String])
@@ -31,8 +33,8 @@ object DictionaryFeatures {
   }
 
   private def read(path: String): Iterator[(String, String)] = {
-    Source.fromFile(path).getLines().map{
-      line =>
+    ResourceHelper.SourceStream(path)
+      .content.getLines().map{line =>
         val items = line.split(":")
         require(items.size == 2)
         (items(0), items(1))
