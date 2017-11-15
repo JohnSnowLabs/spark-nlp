@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import java.io.File
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.Paths
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
