@@ -89,7 +89,7 @@ class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfM
       .setOutputCol("token")
 
     val posTagger = new PerceptronApproach()
-      .setCorpusPath("/anc-pos-corpus/")
+      .setCorpusPath("anc-pos-corpus/")
       .setNIterations(10)
       .setInputCols("token", "document")
       .setOutputCol("pos")
