@@ -110,10 +110,10 @@
                                                 which may be used by annotators down the road
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">import
-com.johnsnowlabs.nlp._import
-com.johnsnowlabs.nlp.annotators._import
-org.apache.spark.ml.Pipelineval
+                                            <pre><code class="language-python">from sparknlp.annotator import *
+from sparknlp.common import *
+from sparknlp.base import *
+from pyspark.ml import Pipeline
 documentAssembler = new DocumentAssembler() \
 .setInputCol("text") \
 .setOutputCol("document")</code></pre>
@@ -146,10 +146,9 @@ documentAssembler = new DocumentAssembler() \
                                                 which may be used by annotators down the road
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">import
-com.johnsnowlabs.nlp._import
-com.johnsnowlabs.nlp.annotators._import
-org.apache.spark.ml.Pipelineval
+                                            <pre><code class="language-python">import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators._
+import org.apache.spark.ml.Pipeline
 documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")</code></pre>
