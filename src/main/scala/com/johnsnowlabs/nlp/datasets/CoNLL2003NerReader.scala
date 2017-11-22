@@ -6,13 +6,17 @@ import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, Tex
 import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsIndexer}
 
 /**
   * Helper class for to work with CoNLL 2003 dataset for NER task
   * Class is made for easy use from Java
   */
-class CoNLL2003NerReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int, dictionaryFile: String) {
+class CoNLL2003NerReader(wordEmbeddingsFile: String,
+                         wordEmbeddingsNDims: Int,
+                         embeddingsFormat: WordEmbeddingsFormat.Format,
+                         dictionaryFile: String) {
+
   private val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
   private val posReader = CoNLL(1, AnnotatorType.POS)
 
@@ -21,9 +25,18 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int, d
   if (wordEmbeddingsFile != null) {
     require(new File(wordEmbeddingsFile).exists())
 
-    val fileDb = wordEmbeddingsFile + ".db"
+    var fileDb = wordEmbeddingsFile + ".db"
+
     if (!new File(fileDb).exists()) {
-      WordEmbeddingsIndexer.indexGlove(wordEmbeddingsFile, fileDb)
+      embeddingsFormat match {
+        case WordEmbeddingsFormat.Text =>
+          WordEmbeddingsIndexer.indexText(wordEmbeddingsFile, fileDb)
+        case WordEmbeddingsFormat.Binary =>
+          WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
+        case WordEmbeddingsFormat.SparkNlp =>
+          fileDb = wordEmbeddingsFile
+      }
+
     }
 
     if (new File(fileDb).exists()) {
