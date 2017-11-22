@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLL2003NerReader}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 
 import scala.collection.mutable
 
@@ -23,7 +24,12 @@ object CoNLL2003CrfTest extends App {
   val embeddingsDims = 100
   val embeddingsFile = folder + s"glove.6B.${embeddingsDims}d.txt"
 
-  val reader = new CoNLL2003NerReader(embeddingsFile, embeddingsDims, "/ner-corpus/dict.txt")
+  val reader = new CoNLL2003NerReader(
+    embeddingsFile,
+    embeddingsDims,
+    WordEmbeddingsFormat.Text,
+    "/ner-corpus/dict.txt"
+  )
 
   def trainModel(file: String): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
@@ -34,7 +40,7 @@ object CoNLL2003CrfTest extends App {
     System.out.println("Start fitting")
 
     val params = CrfParams(
-      maxEpochs = 25,
+      maxEpochs = 10,
       l2 = 1f,
       verbose = Verbose.Epochs,
       randomSeed = Some(0),

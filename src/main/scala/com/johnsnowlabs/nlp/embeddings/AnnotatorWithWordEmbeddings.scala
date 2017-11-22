@@ -1,10 +1,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import java.io.DataInputStream
 import java.nio.file.Files
 import java.util.UUID
 
 import com.johnsnowlabs.nlp.util.SparkNlpConfigKeys
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.input.PortableDataStream
 import org.apache.spark.ml.Estimator
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
@@ -76,12 +78,22 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
   }
 
   private def indexEmbeddings(localFile: String): Unit = {
-    if ($(embeddingsFormat) == WordEmbeddingsFormat.GloVe.id) {
+    val formatId = $(embeddingsFormat)
+    if (formatId == WordEmbeddingsFormat.Text.id) {
       val lines = spark.sparkContext.textFile($(sourceEmbeddingsPath)).toLocalIterator
-      WordEmbeddingsIndexer.indexGlove(lines, localFile)
+      WordEmbeddingsIndexer.indexText(lines, localFile)
+    } else if (formatId == WordEmbeddingsFormat.Binary.id) {
+      val streamSource = spark.sparkContext.binaryFiles($(sourceEmbeddingsPath)).toLocalIterator.toList.head._2
+      val stream = streamSource.open()
+      try {
+        WordEmbeddingsIndexer.indexBinary(stream, localFile)
+      }
+      finally {
+        stream.close()
+      }
     }
-    else {
-      require(false, s"Unsupported word embeddings format ${$(embeddingsFormat)}")
+    else if (formatId == WordEmbeddingsFormat.SparkNlp.id) {
+        hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
     }
   }
 
