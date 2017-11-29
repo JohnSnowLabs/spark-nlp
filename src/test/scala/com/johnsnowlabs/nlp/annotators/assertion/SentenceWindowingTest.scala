@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.assertion
 
-import com.johnsnowlabs.nlp.AnnotatorType
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, Windowing}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
 import org.scalatest.{FlatSpec, Matchers}
 
 /**
@@ -20,7 +19,6 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val result = applyWindow(doc, target)
     val expected = Array("empty_marker", "empty_marker", "empty_marker", "empty_marker",
       "the", "cat", "eats", "fish", "empty_marker", "empty_marker", "empty_marker")
-
     assert(expected === result)
   }
 
@@ -56,5 +54,4 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val result = applyWindow(doc, target)
     assert(expected === result)
   }
-
 }

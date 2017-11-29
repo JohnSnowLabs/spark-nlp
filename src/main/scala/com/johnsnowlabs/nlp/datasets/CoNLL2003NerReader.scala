@@ -36,7 +36,6 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
         case WordEmbeddingsFormat.SparkNlp =>
           fileDb = wordEmbeddingsFile
       }
-
     }
 
     if (new File(fileDb).exists()) {
