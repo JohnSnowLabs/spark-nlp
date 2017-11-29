@@ -32,9 +32,12 @@ class AssertionLogRegApproach extends AnnotatorApproach[AssertionLogRegModel]
 
   override def train(dataset: Dataset[_]): AssertionLogRegModel = {
     import dataset.sqlContext.implicits._
-    val processed = dataset.toDF.select(applyWindowUdf($"documentColumn", $"targetColumn")
-      .as("features"), $"labelColumn".as("label"))
 
+    /* apply UDF to fix the length of each document */
+    val processed = dataset.toDF.select(applyWindowUdf($"documentColumn", $"targetColumn")
+      .as("window"), $"labelColumn".as("label"))
+
+    /* TODO: pick the parameters you want to expose*/
     val lr = new LogisticRegression()
       .setMaxIter(10)
       .setRegParam(0.3)
@@ -44,14 +47,5 @@ class AssertionLogRegApproach extends AnnotatorApproach[AssertionLogRegModel]
     AssertionLogRegModel(lr)
   }
 
-  private def applyWindowUdf =
-    udf {(doc:String, target:String)  => applyWindow(doc, target)}
-
-
-  private def getFeatureVector(doc:String, target:String) = {
-    val datapoint = applyWindow(doc, target)
-    datapoint.flatMap(embeddings.get.getEmbeddings)
-  }
-
-
+  override val embeddingsPath: String = ???
 }

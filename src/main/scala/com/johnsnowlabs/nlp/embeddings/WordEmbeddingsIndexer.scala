@@ -1,8 +1,10 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io._
-import java.nio.ByteBuffer
+import java.nio.{ByteBuffer, ByteOrder}
+
 import org.slf4j.LoggerFactory
+
 import scala.io.Source
 
 
@@ -10,6 +12,7 @@ object WordEmbeddingsIndexer {
 
   private[embeddings] def toBytes(embeddings: Array[Float]): Array[Byte] = {
     val buffer = ByteBuffer.allocate(embeddings.length * 4)
+    buffer.order(ByteOrder.LITTLE_ENDIAN)
     for (value <- embeddings) {
       buffer.putFloat(value)
     }
@@ -18,6 +21,7 @@ object WordEmbeddingsIndexer {
 
   private[embeddings] def fromBytes(source: Array[Byte]): Array[Float] = {
     val wrapper = ByteBuffer.wrap(source)
+    wrapper.order(ByteOrder.LITTLE_ENDIAN)
     val result = Array.fill[Float](source.length / 4)(0f)
 
     for (i <- 0 until result.length) {
