@@ -5,6 +5,7 @@ import java.io.File
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.sql._
+import org.apache.spark.sql.functions.udf
 
 /**
   * Reader for this dataset,
@@ -13,27 +14,18 @@ import org.apache.spark.sql._
 class NegexDatasetReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int) extends Serializable with Windowing{
 
   var fileDb = wordEmbeddingsFile + ".db"
-  WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
-
-  //private val mappings = Map("Affirmed" -> 0.0, "Negated" -> 1.0,"Historical" -> 2.0, "Family" -> 3.0)
-
+  private val mappings = Map("Affirmed" -> 0.0, "Negated" -> 1.0,"Historical" -> 2.0, "Family" -> 3.0)
   override val (before, after) = (5, 8)
 
   /* TODO duplicated logic, consider relocation to common place */
-  override lazy val wordVectors : Option[WordEmbeddings] =
-    if (wordEmbeddingsFile != null) {
-    require(new File(wordEmbeddingsFile).exists())
-    val fileDb = wordEmbeddingsFile + ".db"
-    if (!new File(fileDb).exists())
-      WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
-
-    if (new File(fileDb).exists())
-      Some(WordEmbeddings(fileDb, wordEmbeddingsNDims))
-      else
-      None
-  }
-    else
-      None
+  override lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
+    wordEmbeddingsFile =>
+      require(new File(wordEmbeddingsFile).exists())
+      val fileDb = wordEmbeddingsFile + ".db"
+      if (!new File(fileDb).exists())
+        WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
+  }.filter(_ => new File(fileDb).exists())
+    .map(_ => WordEmbeddings(fileDb, wordEmbeddingsNDims))
 
   def readNegexDataset(datasetPath: String)(implicit session:SparkSession) = {
     import session.implicits._
@@ -45,8 +37,9 @@ class NegexDatasetReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int) e
 
     /* apply UDF to fix the length of each document */
     dataset.select(applyWindowUdf($"sentence", $"target")
-      .as("features"), labelToNumber()($"label").as("label"))
+      .as("features"), labelToNumber($"label").as("label"))
   }
 
-  override val embeddingsPath: String = wordEmbeddingsFile
+  def labelToNumber = udf { label:String  => mappings.get(label)}
+
 }
