@@ -1,7 +1,5 @@
 package com.johnsnowlabs.ml.logreg
 
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
-import com.johnsnowlabs.nlp.embeddings.AnnotatorWithWordEmbeddings
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -9,7 +7,6 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * Created by jose on 24/11/17.
   */
 object NegexDatasetLogRegTest extends App {
-
 
   /* local Spark for test */
   implicit val spark = SparkSession.builder().appName("DataFrame-UDF").master("local[4]").getOrCreate()
@@ -28,7 +25,6 @@ object NegexDatasetLogRegTest extends App {
       .setRegParam(0.01)
       .setElasticNetParam(0.8)
     lr.fit(ds)
-
   }
 
   val model = train(datasetPath)
