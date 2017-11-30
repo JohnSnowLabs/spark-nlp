@@ -9,12 +9,10 @@ import org.apache.spark.ml.linalg.{Vector, Vectors}
   */
 trait Windowing {
 
-  val before : Int = 6
-  val after : Int = 18
-  val embeddingsPath: String = "override me"
+  val before : Int
+  val after : Int
 
-  // hard-coded stuff
-  lazy val wordVectors: Option[WordEmbeddings] = None //= Some(WordEmbeddings(embeddingsPath, 200))
+  lazy val wordVectors: Option[WordEmbeddings] = None
 
 
   /* apply window, pad/truncate sentence according to window */
@@ -49,21 +47,9 @@ trait Windowing {
   /* same as above, but convert the resulting text in a vector */
   def applyWindowUdf =
     udf {(doc:String, target:String)  =>
-      val tmp : Array[Double] = applyWindow(doc.toLowerCase, target.toLowerCase).flatMap(wordVectors.get.getEmbeddings).map(_.toDouble)
-
-      /* TODO tmp sanity check - remove */
-      if (tmp.length != (before + after + 1) * 200)
-        println(doc)
-
-      if (tmp.contains(Double.NaN))
-        println(doc)
-
+      val tmp = applyWindow(doc.toLowerCase, target.toLowerCase).
+        flatMap(wordVectors.get.getEmbeddings).map(_.toDouble)
       Vectors.dense(tmp)
-
     }
 
-  /* Column label must be of type NumericType but was actually of type StringType. */
-  def labelToNumber() = udf { label:String  =>
-    if (label.equals("Affirmed")) 1.0 else 0.0
-  }
 }

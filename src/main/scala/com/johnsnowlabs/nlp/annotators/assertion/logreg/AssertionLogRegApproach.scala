@@ -47,5 +47,4 @@ class AssertionLogRegApproach extends AnnotatorApproach[AssertionLogRegModel]
     AssertionLogRegModel(lr)
   }
 
-  override val embeddingsPath: String = ???
 }
