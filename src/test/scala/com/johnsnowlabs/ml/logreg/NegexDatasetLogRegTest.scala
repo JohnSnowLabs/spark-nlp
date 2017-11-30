@@ -16,22 +16,23 @@ object NegexDatasetLogRegTest extends App {
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
   val reader = new NegexDatasetReader(embeddingsFile, embeddingsDims)
 
-  def train(datasetPath: String) = {
+  def train(dataFrame: DataFrame) = {
     import spark.implicits._
-    val ds = reader.readNegexDataset(datasetPath)
-
     val lr = new LogisticRegression()
       .setMaxIter(8)
       .setRegParam(0.01)
       .setElasticNetParam(0.8)
-    lr.fit(ds)
+    lr.fit(dataFrame)
   }
-
-  val model = train(datasetPath)
 
   // test on train data, just as a 'smoke test'
   val ds = reader.readNegexDataset(datasetPath)
-  val result = model.transform(ds)
+
+  // Split the data into training and test sets (30% held out for testing).
+  val Array(trainingData, testData) = ds.randomSplit(Array(0.7, 0.3))
+  val model = train(trainingData)
+
+  val result = model.transform(testData)
   val total = result.count
   val correct = result.filter(r => r.getAs[Double]("prediction") == r.getAs[Double]("label")).count
 
