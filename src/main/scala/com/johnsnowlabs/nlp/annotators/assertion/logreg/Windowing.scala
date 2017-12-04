@@ -14,16 +14,16 @@ trait Windowing {
 
   lazy val wordVectors: Option[WordEmbeddings] = None
 
-
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, target:String) : Array[String] = {
+    println(target)
     val sentSplits = doc.split(target).map(_.trim)
     val targetPart = target.split(" ")
 
-    val leftPart = if (sentSplits.head.isEmpty) Array[String]()
+    val leftPart = if (sentSplits.headOption.isEmpty || sentSplits.head.isEmpty) Array[String]()
     else sentSplits.head.split(" ")
 
-    val rightPart = if (sentSplits.length == 1) Array[String]()
+    val rightPart = if (sentSplits.length == 1 || sentSplits.lastOption.isEmpty) Array[String]()
     else sentSplits.last.split(" ")
 
     val (start, leftPadding) =
