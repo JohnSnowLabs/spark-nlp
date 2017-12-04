@@ -54,4 +54,15 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val result = applyWindow(doc, target)
     assert(expected === result)
   }
+
+  "target occupies the whole text" should "be correctly chunked and padded" in new Scope {
+    val doc = "post-operative transient ischemic attack"
+    val target = "post-operative transient ischemic attack"
+    val expected = ("empty_marker empty_marker empty_marker empty_marker empty_marker " +
+      "post-operative transient ischemic attack empty_marker empty_marker").split(" ")
+
+    val result = applyWindow(doc, target)
+    assert(expected === result)
+  }
+
 }
