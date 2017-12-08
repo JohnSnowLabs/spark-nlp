@@ -21,7 +21,6 @@ class NegexDatasetReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int) e
   override lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(wordEmbeddingsFile).exists())
-      val fileDb = wordEmbeddingsFile + ".db"
       if (!new File(fileDb).exists())
         WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
   }.filter(_ => new File(fileDb).exists())
@@ -36,7 +35,7 @@ class NegexDatasetReader(wordEmbeddingsFile: String, wordEmbeddingsNDims: Int) e
       load(datasetPath)
 
     /* apply UDF to fix the length of each document */
-    dataset.select(applyWindowUdf($"sentence", $"target")
+    dataset.select(applyWindowUdf(null, null)($"sentence", $"target")
       .as("features"), labelToNumber($"label").as("label"))
   }
 

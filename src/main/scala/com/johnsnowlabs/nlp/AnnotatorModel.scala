@@ -61,7 +61,7 @@ abstract class AnnotatorModel[M <: Model[M]]
     * @param dataset [[Dataset[Row]]]
     * @return
     */
-  override final def transform(dataset: Dataset[_]): DataFrame = {
+  override def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()

@@ -52,6 +52,7 @@ trait ModelWithWordEmbeddings extends AutoCloseable {
     localFile
   }
 
+  @transient
   lazy val embeddings: Option[WordEmbeddings] = {
     get(indexPath).map { path =>
       WordEmbeddings(embeddingsFile, $(nDims))
