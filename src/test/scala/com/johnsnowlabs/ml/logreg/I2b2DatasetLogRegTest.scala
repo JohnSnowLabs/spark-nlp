@@ -5,6 +5,8 @@ import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+
+
 object I2b2DatasetLogRegTest extends App with Windowing {
 
   override val before = 10
@@ -62,6 +64,23 @@ object I2b2DatasetLogRegTest extends App with Windowing {
     val rec = predictedCorrect.toFloat / correct
     val f1 = 2 * prec * rec / (prec + rec)
     (prec, rec, f1)
+  }
+
+  def confusionMatrix[T](predicted: Seq[T], gold: Seq[T]) = {
+    val labels = gold.distinct
+    import scala.collection.mutable.{Map => MutableMap}
+    val matrix : Map[T, MutableMap[T, Int]] =
+      labels.map(label => (label, MutableMap(labels.zip(Array.fill(labels.size)(0)): _*))).toMap
+
+    predicted.zip(gold).foreach { case (p, g) =>
+        matrix.get(p).get(g) += 1
+    }
+
+    /* sanity check */
+    if(predicted.length ==matrix.map(map => map._2.values.sum).sum)
+      println("looks good")
+
+    matrix
   }
 
 

@@ -44,7 +44,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
       } yield {
         val record = I2b2Annotation(annotation)
         val text = sourceTxt(record.sourceLine - 1)
-        if(record.target.split(" ").length > 8){
+        if(record.target.split(" ").length > 10){
           tooLong += 1
           null
         }

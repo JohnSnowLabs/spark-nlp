@@ -66,10 +66,17 @@ trait Windowing extends Serializable{
       val previous = if (start < 3) empty ++ empty ++ empty
       else pos.toArray.slice(start - 3, start).map(_.getString(3)).toArray.flatMap(tag => codes.get(tag).getOrElse(empty))
 
-      val result = if (previous.length == 9) tmp ++ previous else tmp ++ empty ++ empty ++ empty
+      var result = if (previous.length == 9) tmp ++ previous else tmp ++ empty ++ empty ++ empty
+
+      val following = if (end + 3 > pos.size) empty ++ empty ++ empty
+      else pos.toArray.slice(end, end + 3).map(_.getString(3)).toArray.flatMap(tag => codes.get(tag).getOrElse(empty))
+
+      result = if (following.length == 9) result ++ following else result ++ empty ++ empty ++ empty
       //if(result.length != 4009)
         //println(tmp.length, previous.length)
       Vectors.dense(result)
+
+
     }
 
   /* same as above, but convert the resulting text in a vector */
