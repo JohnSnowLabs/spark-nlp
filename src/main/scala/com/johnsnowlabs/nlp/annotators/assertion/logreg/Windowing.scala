@@ -3,11 +3,15 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.sql.functions._
 import org.apache.spark.ml.linalg.{Vector, Vectors}
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+
+import scala.collection.mutable
+import scala.util.Try
 
 /**
   * Created by jose on 24/11/17.
   */
-trait Windowing {
+trait Windowing extends Serializable{
 
   val before : Int
   val after : Int
@@ -15,16 +19,17 @@ trait Windowing {
   lazy val wordVectors: Option[WordEmbeddings] = None
 
   /* apply window, pad/truncate sentence according to window */
-  def applyWindow(doc: String, target:String) : Array[String] = {
-    println(target)
-    val sentSplits = doc.split(target).map(_.trim)
-    val targetPart = target.split(" ")
+  def applyWindow(doc: String, s: Int, e: Int) : Array[String] = {
 
-    val leftPart = if (sentSplits.headOption.isEmpty || sentSplits.head.isEmpty) Array[String]()
-    else sentSplits.head.split(" ")
+    val target = doc.slice(s, e)
+    val targetPart = tokenize(target.trim)
+    //println(target)
 
-    val rightPart = if (sentSplits.length == 1 || sentSplits.lastOption.isEmpty) Array[String]()
-    else sentSplits.last.split(" ")
+    val leftPart = if (s == 0) Array[String]()
+    else tokenize(doc.slice(0, s).trim) //TODO add proper tokenizer here
+
+    val rightPart = if (e == doc.length) Array[String]()
+    else tokenize(doc.slice(e, doc.length).trim)
 
     val (start, leftPadding) =
       if(leftPart.size >= before)
@@ -44,12 +49,51 @@ trait Windowing {
     leftPadding ++ leftContext ++ targetPart ++ rightContext ++ rightPadding
   }
 
+  /* apply window, pad/truncate sentence according to window */
+  def applyWindow(doc: String, target: String) : Array[String] = {
+    val start = doc.indexOf(target)
+    val end = start + target.length
+    applyWindow(doc, start, end)
+  }
+
   /* same as above, but convert the resulting text in a vector */
-  def applyWindowUdf =
+  def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
+    udf {(doc:String, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, target:String)  =>
+      val tmp = applyWindow(doc.toLowerCase, target.toLowerCase).
+        flatMap(wvectors.getEmbeddings).map(_.toDouble)
+
+      val empty = Array.fill(3)(0.0)
+      val previous = if (start < 3) empty ++ empty ++ empty
+      else pos.toArray.slice(start - 3, start).map(_.getString(3)).toArray.flatMap(tag => codes.get(tag).getOrElse(empty))
+
+      val result = if (previous.length == 9) tmp ++ previous else tmp ++ empty ++ empty ++ empty
+      //if(result.length != 4009)
+        //println(tmp.length, previous.length)
+      Vectors.dense(result)
+    }
+
+  /* same as above, but convert the resulting text in a vector */
+  def applyWindowUdf(wvectors: WordEmbeddings) =
     udf {(doc:String, target:String)  =>
       val tmp = applyWindow(doc.toLowerCase, target.toLowerCase).
-        flatMap(wordVectors.get.getEmbeddings).map(_.toDouble)
+        flatMap(wvectors.getEmbeddings).map(_.toDouble)
       Vectors.dense(tmp)
     }
+
+  /* appends POS tags at the end of the vector */
+  def appendPos(codes: Map[String, Array[Double]]) =
+    udf {(vector:Vector, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, target:String)  =>
+        val empty = Array.fill(9)(0.0)
+        val previous = if (start < 3) empty
+        else pos.toArray.slice(start - 3, start).map(_.getString(3)).toArray.flatMap(tag => codes.get(tag).getOrElse(empty))
+
+      Vectors.dense(vector.toArray ++ empty)
+    }
+
+  val punctuation = Seq(".", ":", ";", ",", "?", "!", "+", "-", "_", "(", ")", "{",
+    "}", "#", "/", "\\", "\"", "\'", "[", "]", "%", "<", ">", "&", "=")
+
+  /* Tokenize a sentence taking care of punctuation */
+  def tokenize(sentence: String) : Array[String] = sentence.split(" ")
 
 }

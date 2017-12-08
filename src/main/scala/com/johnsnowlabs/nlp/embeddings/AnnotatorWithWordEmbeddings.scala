@@ -41,7 +41,7 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
 
     val file = "/" + new Path(localPath).getName
     val path = Path.mergePaths(new Path($(embeddingsFolder)), new Path(file))
-    hdfs.copyFromLocalFile(new Path(localPath), path)
+    //hdfs.copyFromLocalFile(new Path(localPath), path)
 
     model.setDims($(embeddingsNDims))
 
@@ -54,7 +54,7 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
     get(sourceEmbeddingsPath).map(_ => WordEmbeddings(localPath, $(embeddingsNDims)))
   }
 
-  private lazy val localPath: String = {
+  lazy val localPath: String = {
     val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
       .toAbsolutePath.toString
 

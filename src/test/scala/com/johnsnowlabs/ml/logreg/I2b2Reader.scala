@@ -17,7 +17,7 @@ import scala.io.Source
 
 class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Windowing {
 
-  override val (before, after) = (10, 10)
+  override val (before, after) = (8, 12)
   var fileDb = wordEmbeddingsFile + ".db"
 
 
@@ -35,25 +35,34 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
         List[String]()
     }
 
+    var tooLong = 0
+
     // extract datapoints from each file
-    for {name <- astFileNames
+    val datapoints = for {name <- astFileNames
            annotation <- Source.fromFile(s"$path/ast/$name.ast").getLines()
            sourceTxt = Source.fromFile(s"$path/txt/$name.txt").getLines().toList
       } yield {
         val record = I2b2Annotation(annotation)
         val text = sourceTxt(record.sourceLine - 1)
-        I2b2AnnotationAndText(text, record.target, record.label, record.start, record.end)
+        if(record.target.split(" ").length > 8){
+          tooLong += 1
+          null
+        }
+        else
+          I2b2AnnotationAndText(text, record.target, record.label, record.start, record.end)
       }
+    println("number of targets too long: " + tooLong)
+    datapoints
   }
 
-  /* reads the all the locations for all datasets (e.g. ['beth', 'partners']),
+  /* reads all the locations for all datasets (e.g. ['beth', 'partners']),
    * and returns a Spark DataFrame
    * */
   def readDataFrame(datasetPaths: Seq[String]) (implicit session: SparkSession): DataFrame= {
+    //TODO: should windowing be here?
     import session.implicits._
-    datasetPaths.flatMap(read).toDF
-    .select(applyWindowUdf($"text", $"target")
-      .as("features"), labelToNumber($"label").as("label"))
+    datasetPaths.flatMap(read).filter(_!=null).toDF.withColumn("label", labelToNumber($"label"))
+
   }
 
   private val mappings = Map("hypothetical" -> 0.0,
@@ -93,7 +102,6 @@ object I2b2Annotation {
   def extractLimits(text: String): (Int, Int) = {
     val startPattern = "\\d+:(\\d+)\\s\\d+:\\d+".r
     val endPattern = "\\d+:\\d+\\s\\d+:(\\d+)".r
-
 
     val start = startPattern.findAllMatchIn(text).map(_.group(1)).toList match {
       case s::Nil => s.toInt
