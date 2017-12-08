@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.logreg
 
-import com.johnsnowlabs.ml.logreg.I2b2DatasetLogRegTest.calcStat
+import com.johnsnowlabs.ml.logreg.I2b2DatasetLogRegTest.{calcStat, confusionMatrix}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
@@ -73,8 +73,6 @@ object I2b2DatasetPipelineTest extends App {
     model.transform(dataset)
   }
 
-
-
   val model = trainAssertionModel(trainPaths)
   val result = testAssertionModel(testPaths, model)
 
@@ -87,6 +85,17 @@ object I2b2DatasetPipelineTest extends App {
   }).collect().reduce((t1, t2) => TpFnFp(t1.tp + t2.tp, t1.fn + t2.fn, t1.fp + t2.fp))
 
   println(calcStat(tpFnFp.tp + tpFnFp.fn, tpFnFp.tp + tpFnFp.fp, tpFnFp.tp))
+
+  val pred = result.select($"prediction").collect.map{ r =>
+    r.getAs[Double]("prediction")
+  }
+
+  val gold = result.select($"label").collect.map{ r =>
+    r.getAs[Double]("label")
+  }
+
+
+  println(confusionMatrix(pred, gold))
 
 
 }

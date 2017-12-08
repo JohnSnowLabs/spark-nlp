@@ -15,7 +15,7 @@ class AssertionLogRegModel(model:LogisticRegressionModel, tag2Vec: Map[String, A
   extends AnnotatorModel[AssertionLogRegModel] with ModelWithWordEmbeddings with Windowing {
 
   // TODO this should come as a parameter
-  override val (before, after) = (10, 14)
+  override val (before, after) = (10, 16)
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -34,7 +34,7 @@ class AssertionLogRegModel(model:LogisticRegressionModel, tag2Vec: Map[String, A
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("features", applyWindowUdf(embeddings.get)($"text", $"target")).cache() //, $"pos", $"start", $"end"
+      withColumn("features", applyWindowUdf(embeddings.get, tag2Vec)($"text", $"pos", $"start", $"end", $"target")).cache() //, $"pos", $"start", $"end"
       //.select($"features", $"label")
 
     super.transform(model.transform(processed))

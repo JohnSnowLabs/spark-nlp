@@ -32,28 +32,28 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   // the target term, that must appear capitalized in the document, e.g., 'diabetes'
   //val targetColumn = new Param[String](this, "targetColumn", "Column with the target to analyze")
 
-  override val (before, after) = (10, 14)
+  override val (before, after) = (10, 16)
   var tag2Vec : Map[String, Array[Double]] = Map()
 
   override def train(dataset: Dataset[_]): AssertionLogRegModel = {
     import dataset.sqlContext.implicits._
 
     /* read the set of all tags */
-    //val tagSet = inferTagSet(dataset.toDF)
+    val tagSet = inferTagSet(dataset.toDF)
     //dataset.collect()
 
     /* assign each tag an array of 3 floats */
-    //tag2Vec = encode(tagSet)
+    tag2Vec = encode(tagSet)
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("features", applyWindowUdf(embeddings.get)($"text", $"target")).cache()
-      //.select($"features", $"label")
+      withColumn("features", applyWindowUdf(embeddings.get, tag2Vec)($"text", $"pos", $"start", $"end", $"target")).cache()
+
 
     /* TODO: pick the parameters you want to expose*/
     val lr = new LogisticRegression()
-      .setMaxIter(20)
-      .setRegParam(0.002)
+      .setMaxIter(26)
+      .setRegParam(0.001)
       .setElasticNetParam(0.8)
 
 
@@ -73,7 +73,11 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
     val values = Array(.25, .50, .75, 1)
     val codes = for (a <- values;
                      b <- values;
-                     c <- values) yield Array(a, b, c)
+                     c <- values) yield {
+      import math.sqrt
+      val norm = sqrt(a * a + b * b + c * c)
+      Array(a/norm, b/norm, c/norm)
+    }
     tagSet.sorted.zip(codes).toMap
   }
 }
