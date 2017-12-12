@@ -74,7 +74,7 @@ trait Windowing extends Serializable{
       result = if (following.length == 9) result ++ following else result ++ empty ++ empty ++ empty
       //if(result.length != 4009)
         //println(tmp.length, previous.length)
-      Vectors.dense(result)
+      Vectors.dense(tmp)
 
 
     }
@@ -97,10 +97,26 @@ trait Windowing extends Serializable{
       Vectors.dense(vector.toArray ++ empty)
     }
 
+  /* these match the behavior we had when tokenizing sentences for word embeddings */
   val punctuation = Seq(".", ":", ";", ",", "?", "!", "+", "-", "_", "(", ")", "{",
-    "}", "#", "/", "\\", "\"", "\'", "[", "]", "%", "<", ">", "&", "=")
+  "}", "#", "mg/kg", "ml", "m2", "cm", "/", "\\", "\"", "'", "[", "]", "%", "<", ">", "&", "=")
+
+  val percent_regex = """([0-9]{1,2}\.[0-9]{1,2}%|[0-9]{1,3}%)"""
+  val number_regex = """([0-9]{1,6})"""
+
 
   /* Tokenize a sentence taking care of punctuation */
-  def tokenize(sentence: String) : Array[String] = sentence.split(" ")
+  def tokenize(sent: String) : Array[String] = {
+    var tmp = sent
+
+    // replace percentage
+    tmp = tmp.replaceAll(percent_regex, " percentnum ")
+
+    // replace special characters
+    punctuation.foreach(c => tmp = tmp.replace(c, " " +  c + " "))
+
+    // replace any number
+    tmp.replaceAll(number_regex, " digitnum ").split(" ").filter(_ != "")
+  }
 
 }
