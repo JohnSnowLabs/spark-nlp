@@ -167,32 +167,27 @@ class DateMatcher(AnnotatorTransformer):
 
 
 class EntityExtractor(AnnotatorTransformer):
-    maxLen = Param(Params._dummy(),
-                   "maxLen",
-                   "max amounts of words in a phrase",
-                   typeConverter=TypeConverters.toInt)
-    requireSentences = Param(Params._dummy(),
-                             "requireSentences",
-                             "whether to require sbd in pipeline or not. Might improve performance on accuracy hit",
+
+    entitiesPath = Param(Params._dummy(),
+                         "entitiesPath",
+                         "Path to entities (phrases) to extract",
+                         typeConverter=TypeConverters.toString)
+
+    insideSentences = Param(Params._dummy(),
+                             "insideSentences",
+                             "Should extractor search only within sentences borders?",
                              typeConverter=TypeConverters.toBoolean)
-    entities = Param(Params._dummy(),
-                     "entities",
-                     "file path overrides config",
-                     typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.EntityExtractor", self.uid)
 
-    def setMaxLen(self, value):
-        return self._set(maxLen=value)
+    def setInsideSentences(self, value):
+        return self._set(insideSentences=value)
 
-    def setRequireSentences(self, value):
-        return self._set(requireSentences=value)
-
-    def setEntities(self, value):
-        return self._set(entities=value)
+    def setEntitiesPath(self, value):
+        return self._set(entitiesPath=value)
 
 
 class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
