@@ -1,0 +1,1 @@
+{"class":"com.johnsnowlabs.nlp.annotators.EntityExtractor","timestamp":1513268236038,"sparkVersion":"2.1.1","uid":"EntityExtractor_41ce96978797578b1f70","paramMap":{"insideSentences":true,"entitiesPath":"entities.txt","inputCols":["token","sentence"],"outputCol":"entites"}}
