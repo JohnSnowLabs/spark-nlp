@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
@@ -122,16 +121,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("spell")
       .setCorpusPath("/spell/sherlockholmes.txt")
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
-  }
-
-  def withNERTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val nerTagger = new NERRegexApproach()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("ner")
-      .setCorpusPath("/ner-corpus/dict.txt")
-    nerTagger
-      .fit(withFullPragmaticSentenceDetector(dataset))
-      .transform(withFullPragmaticSentenceDetector(dataset))
   }
 
   def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
