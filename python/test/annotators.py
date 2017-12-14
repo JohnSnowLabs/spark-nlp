@@ -135,32 +135,6 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger.transform(tokenized).show()
 
 
-class RegexNERApproachTestSpec(unittest.TestCase):
-
-    def setUp(self):
-        self.data = SparkContextForNER.data
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("_c0") \
-            .setOutputCol("document")
-        sentence_detector = SentenceDetectorModel() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-        tokenizer = RegexTokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-        ner_tagger = NERRegexApproach() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("NER") \
-            .fit(self.data)
-        assembled = document_assembler.transform(self.data)
-        sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
-        result = ner_tagger.transform(tokenized)
-        result.select("NER").take(10)
-
-
 class PragmaticSBDTestSpec(unittest.TestCase):
 
     def setUp(self):
