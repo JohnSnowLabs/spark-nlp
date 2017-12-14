@@ -55,11 +55,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     lemmatizer.transform(tokenized)
   }
 
-  def withFullEntityExtractor(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullEntityExtractor(dataset: Dataset[Row], insideSentences: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
-      .setMaxLen(4)
+      .setInputCols("sentence", "token")
+      .setInsideSentences(insideSentences)
+      .setEntitiesPath("/entity-extractor/test-phrases.txt")
       .setOutputCol("entity")
-    entityExtractor.transform(withFullLemmatizer(dataset))
+    entityExtractor.transform(withTokenizer(dataset))
   }
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
