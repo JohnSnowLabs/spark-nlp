@@ -44,7 +44,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
       } yield {
         val record = I2b2Annotation(annotation)
         val text = sourceTxt(record.sourceLine - 1)
-        if(record.target.split(" ").length > 10){
+        if(record.target.split(" ").length > 8){
           tooLong += 1
           null
         }
@@ -65,9 +65,14 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
 
   }
 
+  /*
   private val mappings = Map("hypothetical" -> 0.0,
     "present" -> 1.0, "absent" -> 2.0, "possible" -> 3.0,
-    "conditional"-> 4.0, "associated_with_someone_else" -> 5.0)
+    "conditional"-> 4.0, "associated_with_someone_else" -> 5.0)*/
+
+  private val mappings = Map("hypothetical" -> 0,
+    "present" -> 1, "absent" -> 2, "possible" -> 3,
+    "conditional"-> 4, "associated_with_someone_else" -> 5)
 
   /* TODO duplicated logic, consider relocation to common place */
   override lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
@@ -94,7 +99,7 @@ object I2b2Annotation {
   }
 
   private def extractSourceLine(text: String): Int = {
-    val pattern = "(\\d+):\\d+".r
+    val pattern = "c=\".*\" (\\d+):\\d+".r
     pattern.findFirstMatchIn(text).map(_.group(1)).
       getOrElse(throw new RuntimeException("Broken dataset - bad source line")).toInt
   }
