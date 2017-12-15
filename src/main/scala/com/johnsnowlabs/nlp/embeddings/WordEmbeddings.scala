@@ -28,6 +28,8 @@ case class WordEmbeddings(dbFile: String,
   }
 
   def getEmbeddings(word: String): Array[Float] = {
+    if(word.contains(" "))
+      println("ERROR")
     lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
   }
 
