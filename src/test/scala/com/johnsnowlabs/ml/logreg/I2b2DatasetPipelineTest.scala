@@ -39,14 +39,15 @@ object I2b2DatasetPipelineTest extends App {
       .setOutputCol("pos")
 
     val assertionStatus = new AssertionLogRegApproach()
-      .setInputCols("document", "pos")
+      .setInputCols("document") //, "pos"
+
       .setOutputCol("assertion")
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)
       .setEmbeddingsFolder("/home/jose/Downloads/bio_nlp_vec")
 
     Array(documentAssembler,
       tokenizer,
-      posTagger,
+      //posTagger,
       assertionStatus)
 
   }
