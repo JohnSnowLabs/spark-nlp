@@ -14,7 +14,7 @@ import org.apache.spark.ml.param.Param
 class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproach[AssertionLogRegModel]
   with AnnotatorWithWordEmbeddings with Windowing {
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, POS)
+  override val requiredAnnotatorTypes = Array(DOCUMENT) //, POS
   override val description: String = "Clinical Text Status Assertion"
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
@@ -29,7 +29,7 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   // the target term, that must appear capitalized in the document, e.g., 'diabetes'
   val targetColumn = new Param[String](this, "targetColumn", "Column with the target to analyze")
 
-  override val (before, after) = (10, 16)
+  override val (before, after) = (11, 13)
   var tag2Vec : Map[String, Array[Double]] = Map()
 
   override def train(dataset: Dataset[_]): AssertionLogRegModel = {
@@ -42,15 +42,15 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("features", applyWindowUdf(embeddings.get, tag2Vec)($"text", $"pos", $"start", $"end", $"target")).cache()
+      //withColumn("features", applyWindowUdf(embeddings.get, tag2Vec)($"text", $"pos", $"start", $"end", $"target")).cache()
+      withColumn("features", applyWindowUdf(embeddings.get)($"text", $"target", $"start", $"end")).cache()
 
 
     /* TODO: pick the parameters you want to expose*/
     val lr = new LogisticRegression()
       .setMaxIter(26)
-      .setRegParam(0.001)
-      .setElasticNetParam(0.8)
-
+      .setRegParam(0.00184)
+      .setElasticNetParam(0.9)
 
     fillModelEmbeddings(AssertionLogRegModel(lr.fit(processed), tag2Vec))
   }
