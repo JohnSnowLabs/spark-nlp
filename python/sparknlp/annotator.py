@@ -234,36 +234,6 @@ class PerceptronModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProper
     name = "PerceptronModel"
 
 
-class NERRegexApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    corpusPath = Param(Params._dummy(),
-                       "corpusPath",
-                       "corpus path",
-                       typeConverter=TypeConverters.toString)
-
-    @keyword_only
-    def __init__(self):
-        super(NERRegexApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach", self.uid)
-        kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default")
-        self.setParams(**kwargs)
-
-    def setParams(self, corpusPath="__default"):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
-    def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
-
-    def _create_model(self, java_model):
-        return NERRegexModel(java_model)
-
-
-class NERRegexModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    name = "NERRegexModel"
-
-
 class SentenceDetectorModel(AnnotatorTransformer):
 
     useAbbreviations = Param(Params._dummy(),
