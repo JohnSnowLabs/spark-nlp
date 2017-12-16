@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized}
 import com.typesafe.config.Config
 import org.apache.spark.ml.param.{BooleanParam, Param}
-import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import com.johnsnowlabs.nlp.AnnotatorType._
 
 import scala.collection.mutable.ArrayBuffer
@@ -37,21 +37,9 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-  def setEntitiesPath(value: String): this.type = {
-    set(entitiesPath, value)
-    this
-  }
+  def setEntitiesPath(value: String): this.type = set(entitiesPath, value)
 
-  def setInsideSentences(value: Boolean) = set(insideSentences, value)
-
-
-  lazy val stemmer = new Stemmer()
-  lazy val normalizer = new Normalizer()
-
-  private def convertTokens(tokens: Seq[Annotation]): Seq[Annotation] = {
-    val stems = stemmer.annotate(tokens)
-    normalizer.annotate(stems)
-  }
+  def setInsideSentences(value: Boolean): this.type = set(insideSentences, value)
 
   def getEntities: Array[Array[String]] = {
     if (loadedPath != get(entitiesPath))
@@ -74,18 +62,18 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
   /**
     * Loads entities from a provided source.
     */
-  private def loadEntities() = {
+  private def loadEntities(): Unit = {
     val src = get(entitiesPath)
       .map(path => EntityExtractor.retrieveEntityExtractorPhrases(path))
       .getOrElse(EntityExtractor.retrieveEntityExtractorPhrases())
 
     val tokenizer = new RegexTokenizer().setPattern("\\w+")
+    val normalizer = new Normalizer()
     val phrases: Array[Array[String]] = src.map {
       line =>
         val annotation = Seq(Annotation(line))
         val tokens = tokenizer.annotate(annotation)
-        val stems = stemmer.annotate(tokens)
-        val nTokens = normalizer.annotate(stems)
+        val nTokens = normalizer.annotate(tokens)
         nTokens.map(_.result).toArray
     }
 
@@ -122,13 +110,13 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
   /** Defines annotator phrase matching depending on whether we are using SBD or not */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val stemmed = annotations.flatMap {
-      case a@Annotation(AnnotatorType.TOKEN, result, _, _, _) =>
-        convertTokens(Seq(a))
+    val tokens = annotations.flatMap {
+      case a@Annotation(AnnotatorType.TOKEN, _, _, _, _) =>
+        Seq(a)
       case a => Some(a)
     }
 
-    val sentences = Tokenized.unpack(stemmed)
+    val sentences = Tokenized.unpack(tokens)
     if ($(insideSentences)) {
       sentences.flatMap(sentence => search(sentence.indexedTokens))
     } else {
@@ -144,9 +132,9 @@ object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
   private val config: Config = ConfigHelper.retrieve
 
   protected def retrieveEntityExtractorPhrases(
-                                      entitiesPath: String = "__default",
-                                      fileFormat: String = config.getString("nlp.entityExtractor.format")
-                                    ): Array[String] = {
+                                                entitiesPath: String = "__default",
+                                                fileFormat: String = config.getString("nlp.entityExtractor.format")
+                                              ): Array[String] = {
     val filePath = if (entitiesPath == "__default")
       config.getString("nlp.entityExtractor.file")
     else entitiesPath
