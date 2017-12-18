@@ -101,11 +101,13 @@ class EntityExtractorTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+        tokenizer = RegexTokenizer() \
+            .setOutputCol("token")
         entity_extractor = EntityExtractor() \
-            .setMaxLen(4) \
             .setOutputCol("entity")
         assembled = document_assembler.transform(self.data)
-        entity_extractor.transform(assembled).show()
+        tokenized = tokenizer.transform(assembled)
+        entity_extractor.transform(tokenized).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
