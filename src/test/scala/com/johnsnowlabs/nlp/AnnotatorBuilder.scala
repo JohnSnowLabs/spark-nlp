@@ -119,11 +119,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .transform(withTokenizer(dataset))
   }
 
-  def withFullSpellChecker(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullSpellChecker(dataset: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
-      .setCorpusPath("/spell/sherlockholmes.txt")
+      .setCorpusPath("./src/test/resources/spell/sherlockholmes.txt")
+      .setCorpusFormat(inputFormat)
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
   }
 
