@@ -1,20 +1,24 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-import org.apache.spark.sql.functions._
 import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import scala.util.Random
+
 import scala.collection.mutable
 
 /**
   * Created by jose on 24/11/17.
   */
-trait Windowing extends Serializable{
+trait Windowing extends Serializable {
 
+  /* */
   val before : Int
   val after : Int
 
   lazy val wordVectors: Option[WordEmbeddings] = None
+  val random = new Random()
 
   /* TODO: create a tokenizer class */
   /* these match the behavior we had when tokenizing sentences for word embeddings */
@@ -31,7 +35,7 @@ trait Windowing extends Serializable{
     val target = doc.slice(s, e)
     val targetPart = tokenize(target.trim)
     val leftPart = if (s == 0) Array[String]()
-    else tokenize(doc.slice(0, s).trim) //TODO add proper tokenizer here
+    else tokenize(doc.slice(0, s).trim)
 
     val rightPart = if (e == doc.length) Array[String]()
     else tokenize(doc.slice(e, doc.length).trim)
@@ -61,49 +65,40 @@ trait Windowing extends Serializable{
     applyWindow(doc, start, end)
   }
 
-  /* same as above, but convert the resulting text in a vector */
+
+  def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
+    val tokens = doc.split(" ").filter(_!="")
+
+    /* now start and end are indexes in the doc string */
+    val start = tokens.slice(0, s).map(_.length).sum +
+      tokens.slice(0, s).size // account for spaces
+    val end = start + tokens.slice(s, e + 1).map(_.length).sum +
+        tokens.slice(s, e + 1).size  // account for spaces
+
+    val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
+
+    l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
+      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
+      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+  }
+
   def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
     udf {(doc:String, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, targetTerm:String)  =>
-
       val (l, t, r) = applyWindow(doc.toLowerCase, targetTerm.toLowerCase)
       var target = Array(0.1, -0.1)
       var nonTarget = Array(-0.1, 0.1)
-      val tmp = l.flatMap(w => wvectors.getEmbeddings(w)).map(_.toDouble) ++
+      l.flatMap(w => wvectors.getEmbeddings(w)).map(_.toDouble) ++
         t.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble) ).map(_.toDouble) ++
         r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
-
-      Vectors.dense(tmp)
-
     }
-
-  import scala.util.Random
-  val random = new Random()
 
   var tt = Array(random.nextGaussian(), random.nextGaussian())
   var nt = Array(-random.nextGaussian(), -random.nextGaussian())
 
-
-  /* same as above, but convert the resulting text in a vector */
   def applyWindowUdf(wvectors: WordEmbeddings) =
     //here s and e are token number for start and end of target when split on " "
-    udf {(doc:String, targetTerm:String, s:Int, e:Int)  =>
-      val tokens = doc.split(" ").filter(_!="")
-
-      /* now start and end are indexes in the doc string */
-      val start = tokens.slice(0, s).map(_.length).sum +
-        tokens.slice(0, s).size // account for spaces
-      val end = start + tokens.slice(s, e + 1).map(_.length).sum +
-        tokens.slice(s, e + 1).size  // account for spaces
-
-      val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
-      val vector : Array[Double] = l.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)) ++
-      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
-
-
-
-
-      Vectors.dense(vector)
+    udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
+      Vectors.dense(applyWindow(wvectors)(doc, targetTerm, s, e))
     }
 
 
