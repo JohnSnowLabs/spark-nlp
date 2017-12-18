@@ -1,7 +1,7 @@
 package com.johnsnowlabs.ml.logreg
 
 
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
@@ -13,6 +13,7 @@ object I2b2DatasetLogRegTest extends App with Windowing {
 
   override val before = 11
   override val after = 13
+  override val tokenizer: Tokenizer = new SimpleTokenizer
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate()
   import spark.implicits._
@@ -69,9 +70,9 @@ object I2b2DatasetLogRegTest extends App with Windowing {
 
   def train(dataFrame: DataFrame) = {
     val lr = new LogisticRegression()
-      .setMaxIter(26) //20
-      .setRegParam(0.00192) //0.0012
-      .setElasticNetParam(0.9) //0.8
+      .setMaxIter(26)
+      .setRegParam(0.00192)
+      .setElasticNetParam(0.9)
 
     lr.fit(dataFrame)
   }
@@ -101,4 +102,6 @@ object I2b2DatasetLogRegTest extends App with Windowing {
       val tmp = Vectors.dense(array)
       tmp
   }
+
+
 }

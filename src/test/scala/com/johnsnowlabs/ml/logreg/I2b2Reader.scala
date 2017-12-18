@@ -1,19 +1,16 @@
 package com.johnsnowlabs.ml.logreg
 
-import java.io.File
-
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
+import java.io.File
 import scala.io.Source
 
-/*
-* datasetPath: a list of datasets, for example the 'beth' or 'partner' directories (each containing
-* an ast and txt folder).
-*
-* */
+/**
+  * Reader for the i2b2 dataset
+  *
+*/
 
 class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Windowing {
 
@@ -24,7 +21,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
   /* receives the location of a single dataset (e.g. 'beth'),
    * and returns a sequence of datapoins I2b2AnnotationAndText
    * */
-  def read(path: String): Seq[I2b2AnnotationAndText] = {
+  private def read(path: String): Seq[I2b2AnnotationAndText] = {
 
     // read list of ast files, without extension
     val astFileNames = {
