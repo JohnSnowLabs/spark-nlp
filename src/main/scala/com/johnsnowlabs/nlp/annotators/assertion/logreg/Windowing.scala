@@ -18,27 +18,20 @@ trait Windowing extends Serializable {
   val after : Int
 
   lazy val wordVectors: Option[WordEmbeddings] = None
+  val tokenizer : Tokenizer
+
   val random = new Random()
-
-  /* TODO: create a tokenizer class */
-  /* these match the behavior we had when tokenizing sentences for word embeddings */
-  val punctuation = Seq(".", ":", ";", ",", "?", "!", "+", "-", "_", "(", ")", "{",
-    "}", "#", "mg/kg", "ml", "m2", "cm", "/", "\\", "\"", "'", "[", "]", "%", "<", ">", "&", "=")
-
-  val percent_regex = """([0-9]{1,2}\.[0-9]{1,2}%|[0-9]{1,3}%)"""
-  val number_regex = """([0-9]{1,6})"""
-
 
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, s: Int, e: Int): (Array[String], Array[String], Array[String])  = {
 
     val target = doc.slice(s, e)
-    val targetPart = tokenize(target.trim)
+    val targetPart = tokenizer.tokenize(target.trim)
     val leftPart = if (s == 0) Array[String]()
-    else tokenize(doc.slice(0, s).trim)
+    else tokenizer.tokenize(doc.slice(0, s).trim)
 
     val rightPart = if (e == doc.length) Array[String]()
-    else tokenize(doc.slice(e, doc.length).trim)
+    else tokenizer.tokenize(doc.slice(e, doc.length).trim)
 
     val (start, leftPadding) =
       if(leftPart.size >= before)
@@ -92,15 +85,11 @@ trait Windowing extends Serializable {
         r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
     }
 
-  var tt = Array(random.nextGaussian(), random.nextGaussian())
-  var nt = Array(-random.nextGaussian(), -random.nextGaussian())
-
   def applyWindowUdf(wvectors: WordEmbeddings) =
     //here s and e are token number for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
       Vectors.dense(applyWindow(wvectors)(doc, targetTerm, s, e))
     }
-
 
   def l2norm(xs: Array[Double]):Double = {
     import math._
@@ -112,15 +101,5 @@ trait Windowing extends Serializable {
     vec.map(element => element / norm)
   }
 
-  /* Tokenize a sentence taking care of punctuation */
-  def tokenize(sent: String) : Array[String] = {
-    var tmp = sent
 
-    // replace special characters
-    punctuation.foreach(c => tmp = tmp.replace(c, " " + c + " "))
-    tmp = tmp.replace(",", " ")
-    tmp = tmp.replace("&quot;", "\"")
-    tmp = tmp.replace("&apos;", " ' ")
-    tmp.split(" ").map(_.trim).filter(_ != "")
-  }
 }
