@@ -1,12 +1,10 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.DataInputStream
 import java.nio.file.Files
 import java.util.UUID
 
 import com.johnsnowlabs.nlp.util.SparkNlpConfigKeys
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.input.PortableDataStream
 import org.apache.spark.ml.Estimator
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession

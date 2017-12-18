@@ -35,6 +35,7 @@ object CoNLL2003CrfTest extends App {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
     val dataset = reader.readNerDataset(file)
+
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -44,7 +45,7 @@ object CoNLL2003CrfTest extends App {
       l2 = 1f,
       verbose = Verbose.Epochs,
       randomSeed = Some(0),
-      c0 = 2250000
+      c0 = 1250000
     )
     val crf = new LinearChainCrf(params)
     crf.trainSGD(dataset)

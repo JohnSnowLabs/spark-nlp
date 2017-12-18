@@ -170,7 +170,7 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-target/*.jar
+*.jar
 *.war
 *.ear
 *.zip

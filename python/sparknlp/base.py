@@ -8,8 +8,8 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
-    idColName = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
-    metadataColName = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
+    idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
+    metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):

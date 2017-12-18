@@ -79,8 +79,16 @@
             <div id="showcase" class="doc-body">
                 <div class="doc-content">
                     <div class="content-inner">
-                        <section id="premium-themes" class="doc-section">
-                            <h2 id="theme-start" class="section-title">Notebook</h2>
+                        <section id="Notebook" class="doc-section">
+                            <h2 id="theme-start" class="section-title" style="margin-bottom: 10px;" >Notebook</h2>
+                          <div>
+                            <h4 id="Notebook1" class="section-block"> Sentiment Analysis using PySpark JSL NLP</h4>
+                            <p>
+                                The following code will produce an entire machine learning pipeline aiming to retrieve sentiment analysis from a target distributed dataframe (or dataset).
+                                This will utilize several annotators required for such analysis and even an optional one (the spell checker, which is of type Token anyways) which is injected in between the sentiment analysis and the tokens it requires.
+                                ViveknSentimentAnalysis is the annotator utilized and it is training with two corpus, one containing positive sentiment examples, and another one containing negative examples.
+                                Some additional parameters have been used to fine tune the pipeline, and the Finisher transformer makes sure our final result is exactly the sentiment result of every row.
+                            </p>
                             <div class="section-block">
 <pre><code class="language-python">#Imports
 import sys
@@ -149,16 +157,34 @@ sentiment_data = pipeline.fit(data).transform(data)
 sentiment_data.show()
  </code></pre>
                             </div>
+                          </div>
+                        </section>
+                        <section id="Notebook2" class="doc-section">
+                            <h4 id="Notebook12" class="section-block">Spark Summit Europe 2017</h4>
+                            <div>
+<pre>
+    <a href=" https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/6665730192733135/2604545365219192/7713747021737742/latest.html" target="_blank">Spark Summit Europe 2017 demo notebook</a>
+   </pre>
+                            </div>
                         </section>
                     </div>
                 </div>
                 <div class="doc-sidebar">
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
+
                             <li>
+                                <a class="scrollto" href="#Notebook">Notebook</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#Notebook1">Sentiment Analysis using <br/> &nbsp;&nbsp;&nbsp; PySpark JSL NLP</a></li>
+                                    <li><a class="scrollto" href="#Notebook2">Spark Summit Europe 2017</a></li>
+                                </ul>
+                            </li>
+
+                     <!--       <li>
                                 <a class="scrollto" href="#premium-themes">Notebook</a>
                             </li>
-                        </ul>
+                     -->   </ul>
                     </nav>
                 </div>
             </div>
