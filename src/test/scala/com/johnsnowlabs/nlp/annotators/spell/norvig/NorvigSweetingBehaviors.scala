@@ -10,6 +10,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
 
   val spellChecker = new NorvigSweetingApproach()
     .setCorpusPath("/spell")
+    .setSlangPath("/spell/slangs.txt")
     .fit(DataBuilder.basicDataBuild("dummy"))
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
