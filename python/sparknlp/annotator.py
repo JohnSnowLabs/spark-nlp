@@ -41,15 +41,11 @@ class AnnotatorProperties(Params):
                                    "required input annotations",
                                    typeConverter=TypeConverters.toListString)
 
-
     def setInputCols(self, value):
         return self._set(inputCols=value)
 
     def setOutputCol(self, value):
         return self._set(outputCol=value)
-
-    def setRequiredAnnotatorTypes(self, value):
-        return self._set(requiredAnnotatorTypes=value)
 
 
 class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties):
@@ -167,32 +163,27 @@ class DateMatcher(AnnotatorTransformer):
 
 
 class EntityExtractor(AnnotatorTransformer):
-    maxLen = Param(Params._dummy(),
-                   "maxLen",
-                   "max amounts of words in a phrase",
-                   typeConverter=TypeConverters.toInt)
-    requireSentences = Param(Params._dummy(),
-                             "requireSentences",
-                             "whether to require sbd in pipeline or not. Might improve performance on accuracy hit",
+
+    entitiesPath = Param(Params._dummy(),
+                         "entitiesPath",
+                         "Path to entities (phrases) to extract",
+                         typeConverter=TypeConverters.toString)
+
+    insideSentences = Param(Params._dummy(),
+                             "insideSentences",
+                             "Should extractor search only within sentences borders?",
                              typeConverter=TypeConverters.toBoolean)
-    entities = Param(Params._dummy(),
-                     "entities",
-                     "file path overrides config",
-                     typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.EntityExtractor", self.uid)
 
-    def setMaxLen(self, value):
-        return self._set(maxLen=value)
+    def setInsideSentences(self, value):
+        return self._set(insideSentences=value)
 
-    def setRequireSentences(self, value):
-        return self._set(requireSentences=value)
-
-    def setEntities(self, value):
-        return self._set(entities=value)
+    def setEntitiesPath(self, value):
+        return self._set(entitiesPath=value)
 
 
 class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
@@ -234,37 +225,12 @@ class PerceptronModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProper
     name = "PerceptronModel"
 
 
-class NERRegexApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    corpusPath = Param(Params._dummy(),
-                       "corpusPath",
-                       "corpus path",
-                       typeConverter=TypeConverters.toString)
-
-    @keyword_only
-    def __init__(self):
-        super(NERRegexApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach", self.uid)
-        kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default")
-        self.setParams(**kwargs)
-
-    def setParams(self, corpusPath="__default"):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
-    def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
-
-    def _create_model(self, java_model):
-        return NERRegexModel(java_model)
-
-
-class NERRegexModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    name = "NERRegexModel"
-
-
 class SentenceDetectorModel(AnnotatorTransformer):
+
+    useAbbreviations = Param(Params._dummy(),
+                             "useAbbreviations",
+                             "whether to apply abbreviations at sentence detection",
+                             typeConverter=TypeConverters.toBoolean)
 
     customBounds = Param(Params._dummy(),
                          "customBounds",
@@ -273,6 +239,10 @@ class SentenceDetectorModel(AnnotatorTransformer):
 
     def setCustomBounds(self, value):
         self._set(customBounds=value)
+        return self
+
+    def setUseAbbreviations(self, value):
+        self._set(useAbbreviations=value)
         return self
 
     @keyword_only
@@ -458,7 +428,7 @@ class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorPr
 
 
 
-class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     labelColumn = Param(Params._dummy(),
                      "labelColumn",
                      "Column with label per each token",
@@ -477,6 +447,7 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     dicts = Param(Params._dummy(), "dicts", "Additional dictionaries paths to use as a features", TypeConverters.toListString)
+    datasetPath = Param(Params._dummy(), "datasetPath", "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage", TypeConverters.toString)
 
     def setLabelColumn(self, value):
         self._set(labelColumn=value)
@@ -522,13 +493,17 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
         self._set(dicts = dictionaries)
         return self
 
+    def setDatasetPath(self, path):
+        self._set(datasetPath = path)
+        return self
+
     def _create_model(self, java_model):
-      return CrfBasedNerModel(java_model)
+      return NerCrfModel(java_model)
 
     @keyword_only
     def __init__(self):
-        super(CrfBasedNer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.CrfBasedNer", self.uid)
+        super(NerCrfApproach, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach", self.uid)
 
         self._setDefault(
             minEpochs = 0,
@@ -540,5 +515,5 @@ class CrfBasedNer(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProper
         )
 
 
-class CrfBasedNerModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    name = "CrfBasedNerModel"
+class NerCrfModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    name = "NerCrfModel"

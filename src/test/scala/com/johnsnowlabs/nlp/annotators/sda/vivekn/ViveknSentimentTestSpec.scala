@@ -54,7 +54,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .setOutputCol("normalized")
 
     val spellChecker = new NorvigSweetingApproach()
-      .setInputCols(Array("token"))
+      .setInputCols(Array("normalized"))
       .setOutputCol("spell")
 
     val sentimentDetector = new ViveknSentimentApproach()

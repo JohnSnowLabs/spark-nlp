@@ -161,12 +161,12 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatPunctuations: this.type = {
 
-    val factory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
-    // http://rubular.com/r/mQ8Es9bxtk
+    val factory = new RuleFactory(MATCH_ALL, APPEND_WITH_SYMBOL)
+    // http://rubular.com/r/iVOnFrGK6H
       //continuous punctuations
-      .addRule(new RegexRule("(?<=\\S),(!|\\?){3,}(?=(\\s|\\z|\\$))", "formatPunctuations-continuous"))
+      .addRule(new RegexRule("(?<=\\S)[!\\?]+(?=\\s|\\z|\\$)", "formatPunctuations-continuous"))
 
-    wip = factory.transformWithSymbolicRules(wip)
+    wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
 
     this
   }
@@ -270,25 +270,6 @@ class PragmaticContentFormatter(text: String) {
   }
 
   /**
-    * Find double punctuation BREAKING characters WITH REPLACEMENT
-    * regex should match punctuations
-    * replace with symbol
-    * @return
-    */
-  def formatDoublePunctuations: this.type = {
-
-    val factory = new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
-      .addSymbolicRule(DP_FIRST,new RegexRule("\\?!", "doublePunctuations-dpfirst"))
-      .addSymbolicRule(DP_SECOND,new RegexRule("!\\?", "doublePunctuations-dpfirst"))
-      .addSymbolicRule(DP_THIRD,new RegexRule("\\?\\?", "doublePunctuations-dpfirst"))
-      .addSymbolicRule(DP_FOURTH,new RegexRule("!!", "doublePunctuations-dpfirst"))
-
-    wip = factory.transformWithSymbolicRules(wip)
-
-    this
-  }
-
-  /**
     * Specific case for question mark in quotes
     * regex should match question mark
     * replace with symbol
@@ -334,8 +315,6 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       .addSymbolicRule(DOT, new RegexRule("\\.", "basicBreakers-dot"))
       .addSymbolicRule(SEMICOLON, new RegexRule(";", "basicBreakers-semicolon"))
-      .addSymbolicRule(QUESTION, new RegexRule("\\?", "basicBreakers-question"))
-      .addSymbolicRule(EXCLAMATION, new RegexRule("!", "basicBreakers-exclamation"))
 
     wip = factory.transformWithSymbolicRules(wip)
 

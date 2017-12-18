@@ -7,7 +7,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.2.2"
+version := "1.2.3"
 
 scalaVersion := scalaVer
 
@@ -23,6 +23,8 @@ licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 spIncludeMaven := false
 
 spAppendScalaVersion := false
+
+resolvers += "Maven Central" at "http://central.maven.org/maven2/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -44,6 +46,30 @@ bintrayPackageLabels := Seq("nlp", "nlu",
 bintrayRepository := "johnsnowlabs"
 
 bintrayOrganization := Some("johnsnowlabs")
+
+sonatypeProfileName := "com.johnsnowlabs"
+
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
+homepage := Some(url("https://nlp.johnsnowlabs.com"))
+
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/JohnSnowLabs/spark-nlp"),
+    "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+  )
+)
+
+developers := List(
+  Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
+  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
+  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai"))
+)
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",

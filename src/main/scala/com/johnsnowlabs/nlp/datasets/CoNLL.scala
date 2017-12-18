@@ -1,13 +1,7 @@
 package com.johnsnowlabs.nlp.datasets
 
-
-import java.io.File
-
-import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, TextSentenceLabels}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
