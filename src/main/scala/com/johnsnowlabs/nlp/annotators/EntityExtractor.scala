@@ -1,107 +1,128 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common.{Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized}
 import com.typesafe.config.Config
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import com.johnsnowlabs.nlp.AnnotatorType._
 
-/**
-  * Created by alext on 10/23/16.
-  */
+import scala.collection.mutable.ArrayBuffer
+
 
 /**
   * Extracts entities out of provided phrases
   * @param uid internally required UID to make it writable
-  * @@ entities: Unique set of phrases
-  * @@ requireSentences: May use sentence boundaries provided by a previous SBD annotator
-  * @@ maxLen: Auto limit for phrase lenght
+  * @@ entitiesPath: Path to file with phrases to search
+  * @@ insideSentences: Should Extractor search only within sentence borders?
   */
 class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExtractor] {
 
-  import com.johnsnowlabs.nlp.AnnotatorType._
-
-  val maxLen: IntParam = new IntParam(this, "maxLen", "maximum phrase length")
-
-  val entities: Param[String] = new Param(this, "entities", "set of entities (phrases)")
-  private var loadedEntities: Array[Array[String]] = loadEntities
+  val entitiesPath = new Param[String](this, "entitiesPath", "Path to entities (phrases) to extract")
+  val insideSentences = new BooleanParam(this, "insideSentences",
+    "Should extractor search only within sentences borders?")
 
   override val annotatorType: AnnotatorType = ENTITY
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
-  setDefault(inputCols, Array(DOCUMENT))
+  setDefault(
+    inputCols -> Array(DOCUMENT, TOKEN),
+    insideSentences -> true
+  )
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-  def setEntities(value: String): this.type = {
-    set(entities, value)
-    loadedEntities = loadEntities
-    this
+  def setEntitiesPath(value: String): this.type = set(entitiesPath, value)
+
+  def setInsideSentences(value: Boolean): this.type = set(insideSentences, value)
+
+  def getEntities: Array[Array[String]] = {
+    if (loadedPath != get(entitiesPath))
+      loadEntities()
+
+    loadedEntities
   }
 
-  def getEntities: Array[Array[String]] = loadedEntities
+  def getSearchTrie: SearchTrie = {
+    if (loadedPath != get(entitiesPath))
+      loadEntities()
 
-  def setMaxLen(value: Int): this.type = set(maxLen, value)
+    searchTrie
+  }
 
-  def getMaxLen: Int = $(maxLen)
+  private var loadedEntities = Array.empty[Array[String]]
+  private var loadedPath = get(entitiesPath)
+  private var searchTrie = SearchTrie(Array.empty)
 
   /**
     * Loads entities from a provided source.
     */
-  private def loadEntities: Array[Array[String]] = {
-    val src = get(entities).map(path => EntityExtractor.retrieveEntityExtractorPhrases(path))
+  private def loadEntities(): Unit = {
+    val src = get(entitiesPath)
+      .map(path => EntityExtractor.retrieveEntityExtractorPhrases(path))
       .getOrElse(EntityExtractor.retrieveEntityExtractorPhrases())
+
     val tokenizer = new RegexTokenizer().setPattern("\\w+")
-    val stemmer = new Stemmer()
     val normalizer = new Normalizer()
     val phrases: Array[Array[String]] = src.map {
       line =>
         val annotation = Seq(Annotation(line))
         val tokens = tokenizer.annotate(annotation)
-        val stems = stemmer.annotate(tokens)
-        val nTokens = normalizer.annotate(stems)
+        val nTokens = normalizer.annotate(tokens)
         nTokens.map(_.result).toArray
     }
-    phrases
+
+    loadedEntities = phrases
+    searchTrie = SearchTrie.apply(loadedEntities)
+    loadedPath = get(entitiesPath)
   }
 
   /**
-    * matches entities depending on utilized annotators and stores them in the annotation
-    * @param sentence pads annotation content to phrase limits
-    * @param maxLen applies limit not to exceed results
-    * @param entities entities to find within annotators results
-    * @return
+    * Searches entities and stores them in the annotation
+    * @param text Tokenized text to search
+    * @return Extracted Entities
     */
-  private def phraseMatch(sentence: TokenizedSentence, maxLen: Int, entities: Array[Array[String]]): Seq[Annotation] = {
-    val tokens = sentence.indexedTokens
-    tokens.padTo(tokens.length + maxLen - (tokens.length % maxLen), null).sliding(maxLen).flatMap {
-      window =>
-        window.filter(_ != null).inits.filter {
-          phraseCandidate =>
-            entities.contains(phraseCandidate.map(_.token))
-        }.map {
-          phrase =>
-            Annotation(
-              ENTITY,
-              phrase.head.begin,
-              phrase.last.end,
-              phrase.map(_.token).mkString(" "),
-              Map.empty[String, String]
-            )
-        }
-    }.toSeq
+  private def search(text: Array[IndexedToken]): Seq[Annotation] = {
+    val words = text.map(t => t.token)
+    val result = ArrayBuffer[Annotation]()
+
+    for ((begin, end) <- getSearchTrie.search(words)) {
+      val normalizedText = (begin to end).map(i => words(i)).mkString(" ")
+
+      val annotation = Annotation(
+        ENTITY,
+        text(begin).begin,
+        text(end).end,
+        normalizedText,
+        Map()
+      )
+
+      result.append(annotation)
+    }
+
+    result
   }
 
   /** Defines annotator phrase matching depending on whether we are using SBD or not */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = Tokenized.unpack(annotations)
-    sentences.flatMap{ sentence =>
-        phraseMatch(sentence, $(maxLen), loadedEntities)
-      }
+    val tokens = annotations.flatMap {
+      case a@Annotation(AnnotatorType.TOKEN, _, _, _, _) =>
+        Seq(a)
+      case a => Some(a)
+    }
+
+    val sentences = Tokenized.unpack(tokens)
+    if ($(insideSentences)) {
+      sentences.flatMap(sentence => search(sentence.indexedTokens))
+    } else {
+      val allTokens = sentences.flatMap(s => s.indexedTokens).toArray
+      search(allTokens)
+    }
   }
 
 }
@@ -111,12 +132,13 @@ object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
   private val config: Config = ConfigHelper.retrieve
 
   protected def retrieveEntityExtractorPhrases(
-                                      entitiesPath: String = "__default",
-                                      fileFormat: String = config.getString("nlp.entityExtractor.format")
-                                    ): Array[String] = {
-    val filePath = if (entitiesPath == "__default") config.getString("nlp.entityExtractor.file") else entitiesPath
+                                                entitiesPath: String = "__default",
+                                                fileFormat: String = config.getString("nlp.entityExtractor.format")
+                                              ): Array[String] = {
+    val filePath = if (entitiesPath == "__default")
+      config.getString("nlp.entityExtractor.file")
+    else entitiesPath
+
     ResourceHelper.parseLinesText(filePath, fileFormat)
   }
-
-
 }
