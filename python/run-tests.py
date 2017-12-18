@@ -3,7 +3,6 @@ from test.misc import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
-unittest.TextTestRunner().run(RegexNERApproachTestSpec())
 unittest.TextTestRunner().run(RegexMatcherTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
