@@ -41,15 +41,11 @@ class AnnotatorProperties(Params):
                                    "required input annotations",
                                    typeConverter=TypeConverters.toListString)
 
-
     def setInputCols(self, value):
         return self._set(inputCols=value)
 
     def setOutputCol(self, value):
         return self._set(outputCol=value)
-
-    def setRequiredAnnotatorTypes(self, value):
-        return self._set(requiredAnnotatorTypes=value)
 
 
 class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties):
