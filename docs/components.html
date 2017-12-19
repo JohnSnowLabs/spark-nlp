@@ -592,9 +592,10 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")</code></pre>
+                                            <pre><code class="language-python">sentence_detector = SentenceDetectorModel() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence") \
+  .setUseAbbreviations(True)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -650,9 +651,12 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val posTagger = new PerceptronApproach()
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+                                            <pre><code class="language-python">pos_tagger = PerceptronApproach() \
+  .setInputCols(["token", "sentence"]) \
+  .setOutputCol("pos") \
+  .setCorpusPath("./src/main/resources/anc-pos-corpus") \
+  .setIterations(2) \
+  .fit(data)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -680,7 +684,8 @@ documentAssembler = new DocumentAssembler()
                                             </p>
                                             <pre><code class="language-python">val posTagger = new PerceptronApproach()
   .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+  .setOutputCol("pos")
+  .fit(data)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
@@ -996,8 +1001,9 @@ documentAssembler = new DocumentAssembler()
                                                 outputs annotation(s) values into string.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val finisher = new Finisher()
-  .setInputCols("token")
+                                            <pre><code class="language-python">finisher = Finisher() \
+  .setInputCols(["sentiment"]) \
+  .setIncludeKeys(True)
 </code></pre>
 
                                             <b>Settable parameters are:</b>
