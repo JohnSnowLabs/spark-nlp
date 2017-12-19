@@ -1,6 +1,5 @@
 package com.johnsnowlabs.ml.logreg
 
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -12,9 +11,8 @@ import scala.io.Source
   *
 */
 
-class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Windowing {
+class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
 
-  override val (before, after) = (8, 12)
   var fileDb = wordEmbeddingsFile + ".db"
 
 
@@ -56,20 +54,16 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable with Wi
    * and returns a Spark DataFrame
    * */
   def readDataFrame(datasetPaths: Seq[String]) (implicit session: SparkSession): DataFrame= {
-    //TODO: should windowing be here?
     import session.implicits._
     datasetPaths.flatMap(read).filter(_!=null).toDF.withColumn("label", labelToNumber($"label"))
-
   }
-
 
   private val mappings = Map("hypothetical" -> 0.0,
     "present" -> 1.0, "absent" -> 2.0, "possible" -> 3.0,
     "conditional"-> 4.0, "associated_with_someone_else" -> 5.0)
 
-
   /* TODO duplicated logic, consider relocation to common place */
-  override lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
+  lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(wordEmbeddingsFile).exists())
       val fileDb = wordEmbeddingsFile + ".db"

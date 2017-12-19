@@ -2,12 +2,11 @@ package com.johnsnowlabs.ml.logreg
 
 
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{ColumnName, DataFrame, SparkSession}
-
-
 
 object I2b2DatasetLogRegTest extends App with Windowing {
 
@@ -31,17 +30,17 @@ object I2b2DatasetLogRegTest extends App with Windowing {
   val reader = new I2b2DatasetReader(embeddingsFile)
 
   val trainDataset = reader.readDataFrame(trainDatasetPath)
-    .withColumn("features", applyWindowUdf(reader.wordVectors.get)($"text", $"target", $"start", $"end"))
+    .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
     .select($"features", $"label")
 
   println("trainDsSize: " +  trainDataset.count)
   val testDataset = reader.readDataFrame(testDatasetPath)
-    .withColumn("features", applyWindowUdf(reader.wordVectors.get)($"text", $"target", $"start", $"end"))
+    .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
     .select($"features", $"label", $"text", $"target")
 
   println("testDsSize: " +  testDataset.count)
 
-  val model = train(trainDataset)
+  val model = train(trainDataset.cache())
   case class TpFnFp(tp: Int, fn: Int, fp: Int)
 
   // Compute raw scores on the test set.
@@ -103,5 +102,5 @@ object I2b2DatasetLogRegTest extends App with Windowing {
       tmp
   }
 
-
+  override val wordVectors: Option[WordEmbeddings] = reader.wordVectors
 }
