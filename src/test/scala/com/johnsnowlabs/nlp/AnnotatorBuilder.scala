@@ -73,10 +73,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val posTagger = new PerceptronApproach()
+    new PerceptronApproach()
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("pos")
-    posTagger
       .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
