@@ -4,7 +4,6 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import scala.util.Random
 
 import scala.collection.mutable
 
@@ -17,10 +16,9 @@ trait Windowing extends Serializable {
   val before : Int
   val after : Int
 
-  lazy val wordVectors: Option[WordEmbeddings] = None
   val tokenizer : Tokenizer
 
-  val random = new Random()
+  lazy val wordVectors: Option[WordEmbeddings] = None
 
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, s: Int, e: Int): (Array[String], Array[String], Array[String])  = {
@@ -85,10 +83,10 @@ trait Windowing extends Serializable {
         r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
     }
 
-  def applyWindowUdf(wvectors: WordEmbeddings) =
-    //here s and e are token number for start and end of target when split on " "
+  def applyWindowUdf =
+    //here 's' and 'e' are token number for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
-      Vectors.dense(applyWindow(wvectors)(doc, targetTerm, s, e))
+      Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
 
   def l2norm(xs: Array[Double]):Double = {

@@ -4,11 +4,10 @@ import com.johnsnowlabs.ml.logreg.I2b2DatasetLogRegTest.{calcStat, confusionMatr
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.storage.StorageLevel
 
 object I2b2DatasetPipelineTest extends App {
 
@@ -32,24 +31,17 @@ object I2b2DatasetPipelineTest extends App {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val posTagger = new PerceptronApproach()
-      .setCorpusPath("/anc-pos-corpus/")
-      .setNIterations(10)
-      .setInputCols("token", "document")
-      .setOutputCol("pos")
-
     val assertionStatus = new AssertionLogRegApproach()
-      .setInputCols("document") //, "pos"
-
+      .setInputCols("document")
       .setOutputCol("assertion")
+      .setBefore(11)
+      .setAfter(13)
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)
       .setEmbeddingsFolder("/home/jose/Downloads/bio_nlp_vec")
 
     Array(documentAssembler,
       tokenizer,
-      //posTagger,
       assertionStatus)
-
   }
 
   val reader = new I2b2DatasetReader(embeddingsFile)
@@ -65,13 +57,13 @@ object I2b2DatasetPipelineTest extends App {
     val pipeline = new Pipeline()
       .setStages(getAssertionStages)
 
-    pipeline.fit(dataset)
+    pipeline.fit(dataset.cache())
   }
 
   def testAssertionModel(path:Seq[String], model: PipelineModel) = {
     System.out.println("Test Dataset Reading")
     val dataset = reader.readDataFrame(path)
-    model.transform(dataset)
+    model.transform(dataset.cache())
   }
 
   val model = trainAssertionModel(trainPaths)
@@ -95,8 +87,5 @@ object I2b2DatasetPipelineTest extends App {
     r.getAs[Double]("label")
   }
 
-
   println(confusionMatrix(pred, gold))
-
-
 }
