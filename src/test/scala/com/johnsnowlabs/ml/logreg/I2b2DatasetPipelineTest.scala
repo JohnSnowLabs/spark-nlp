@@ -1,5 +1,6 @@
 package com.johnsnowlabs.ml.logreg
 
+import com.johnsnowlabs.ml.common.EvaluationMetrics
 import com.johnsnowlabs.ml.logreg.I2b2DatasetLogRegTest.{calcStat, confusionMatrix}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
@@ -9,7 +10,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.storage.StorageLevel
 
-object I2b2DatasetPipelineTest extends App {
+object I2b2DatasetPipelineTest extends App with EvaluationMetrics{
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[4]")
         .config("spark.executor.memory", "2g").getOrCreate
@@ -69,23 +70,9 @@ object I2b2DatasetPipelineTest extends App {
   val model = trainAssertionModel(trainPaths)
   val result = testAssertionModel(testPaths, model)
 
-  /* TODO all this to common place */
-  import spark.implicits._
-  case class TpFnFp(tp: Int, fn: Int, fp: Int)
-  val tpFnFp = result.map ({ r =>
-    if (r.getAs[Double]("prediction") == r.getAs[Double]("label")) TpFnFp(1, 0, 0)
-    else TpFnFp(0, 1, 1)
-  }).collect().reduce((t1, t2) => TpFnFp(t1.tp + t2.tp, t1.fn + t2.fn, t1.fp + t2.fp))
+  val pred = result.select($"prediction").collect.map(_.getAs[Double]("prediction"))
+  val gold = result.select($"label").collect.map(_.getAs[Double]("label"))
 
-  println(calcStat(tpFnFp.tp + tpFnFp.fn, tpFnFp.tp + tpFnFp.fp, tpFnFp.tp))
-
-  val pred = result.select($"prediction").collect.map{ r =>
-    r.getAs[Double]("prediction")
-  }
-
-  val gold = result.select($"label").collect.map{ r =>
-    r.getAs[Double]("label")
-  }
-
+  println(calcStat(pred, gold))
   println(confusionMatrix(pred, gold))
 }
