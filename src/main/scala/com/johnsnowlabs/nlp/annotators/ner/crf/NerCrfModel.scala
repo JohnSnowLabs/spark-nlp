@@ -15,8 +15,7 @@ import org.apache.spark.sql.{Encoders, Row}
 /*
   Named Entity Recognition model
  */
-class NerCrfModel(override val uid: String)
-  extends AnnotatorModel[NerCrfModel] with ModelWithWordEmbeddings{
+class NerCrfModel(override val uid: String) extends ModelWithWordEmbeddings[NerCrfModel]{
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -119,7 +118,7 @@ object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
         .setModel(crfModel.deserialize)
         .setDictionaryFeatures(dictFeatures)
 
-      instance.deserializeEmbeddings(path)
+      instance.deserializeEmbeddings(path, sparkSession.sparkContext)
       instance
     }
   }
@@ -142,7 +141,7 @@ object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
       val dictLines = model.dictionaryFeatures.dict.toSeq.map(p => p._1 + ":" + p._2)
       Seq(dictLines).toDS.write.mode("overwrite").parquet(dictPath)
 
-      model.serializeEmbeddings(path)
+      model.serializeEmbeddings(path, sparkSession.sparkContext)
     }
   }
 }

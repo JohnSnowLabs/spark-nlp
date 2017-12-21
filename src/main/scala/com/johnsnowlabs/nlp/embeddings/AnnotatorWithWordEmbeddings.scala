@@ -1,27 +1,31 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import java.io.File
 import java.nio.file.Files
 import java.util.UUID
 
-import com.johnsnowlabs.nlp.util.SparkNlpConfigKeys
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.ml.Estimator
+import org.apache.spark.SparkContext
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
 
-trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
+/**
+  * Base class for annotators that uses Word Embeddings.
+  * This implementation is based on RocksDB so it has a compact RAM usage
+  *
+  * 1. User configures Word Embeddings by method 'setWordEmbeddingsSource'.
+  * 2. During training Word Embeddings are indexed as RockDB index file.
+  * 3. Than this index file is spread across the cluster.
+  * 4. Every model 'ModelWithWordEmbeddings' uses local RocksDB as Word Embeddings lookup.
+ */
+abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
+  extends AnnotatorApproach[M] with AutoCloseable {
+
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")
   val embeddingsNDims = new IntParam(this, "embeddingsNDims", "Number of dimensions for word vectors")
-
-  val embeddingsFolder = new Param[String](this, "embeddingsFolder",
-    "Folder to store Embeddings Index")
-
-  private val defaultFolder = spark.sparkContext.getConf
-    .getOption(SparkNlpConfigKeys.embeddingsFolder).getOrElse("embeddings/")
-
-  setDefault(this.embeddingsFolder -> defaultFolder)
 
 
   def setEmbeddingsSource(path: String, nDims: Int, format: WordEmbeddingsFormat.Format) = {
@@ -30,22 +34,20 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
     set(this.embeddingsNDims, nDims)
   }
 
-  def setEmbeddingsFolder(path: String) = set(this.embeddingsFolder, path)
-
-  def fillModelEmbeddings[T <: ModelWithWordEmbeddings](model: T): T = {
-    if (!isDefined(sourceEmbeddingsPath)) {
-      return model
+  override def beforeTraining(spark: SparkSession): Unit = {
+    if (isDefined(sourceEmbeddingsPath)) {
+      indexEmbeddings(localPath, spark.sparkContext)
+      spark.sparkContext.addFile(localPath, true)
     }
+  }
 
-    val file = "/" + new Path(localPath).getName
-    val path = Path.mergePaths(new Path($(embeddingsFolder)), new Path(file))
-    hdfs.copyFromLocalFile(new Path(localPath), path)
+  override def onTrained(model: M, spark: SparkSession): Unit = {
+    if (isDefined(sourceEmbeddingsPath)) {
+      model.setDims($(embeddingsNDims))
 
-    model.setDims($(embeddingsNDims))
-
-    model.setIndexPath(path.toUri.toString)
-
-    model
+      val fileName = new File(localPath).getName
+      model.setIndexPath(fileName)
+    }
   }
 
   lazy val embeddings: Option[WordEmbeddings] = {
@@ -53,35 +55,18 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
   }
 
   private lazy val localPath: String = {
-    val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+    Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
       .toAbsolutePath.toString
-
-    if ($(embeddingsFormat) == WordEmbeddingsFormat.SparkNlp.id) {
-      hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(path))
-    } else {
-      indexEmbeddings(path)
-    }
-
-    path
   }
 
-  private lazy val spark: SparkSession = {
-    SparkSession
-      .builder()
-      .getOrCreate()
-  }
-
-  private lazy val hdfs: FileSystem = {
-    FileSystem.get(spark.sparkContext.hadoopConfiguration)
-  }
-
-  private def indexEmbeddings(localFile: String): Unit = {
+  private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
     val formatId = $(embeddingsFormat)
+
     if (formatId == WordEmbeddingsFormat.Text.id) {
-      val lines = spark.sparkContext.textFile($(sourceEmbeddingsPath)).toLocalIterator
+      val lines = spark.textFile($(sourceEmbeddingsPath)).toLocalIterator
       WordEmbeddingsIndexer.indexText(lines, localFile)
     } else if (formatId == WordEmbeddingsFormat.Binary.id) {
-      val streamSource = spark.sparkContext.binaryFiles($(sourceEmbeddingsPath)).toLocalIterator.toList.head._2
+      val streamSource = spark.binaryFiles($(sourceEmbeddingsPath)).toLocalIterator.toList.head._2
       val stream = streamSource.open()
       try {
         WordEmbeddingsIndexer.indexBinary(stream, localFile)
@@ -91,7 +76,8 @@ trait AnnotatorWithWordEmbeddings extends AutoCloseable { this: Estimator[_] =>
       }
     }
     else if (formatId == WordEmbeddingsFormat.SparkNlp.id) {
-        hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
+      val hdfs = FileSystem.get(spark.hadoopConfiguration)
+      hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
     }
   }
 
