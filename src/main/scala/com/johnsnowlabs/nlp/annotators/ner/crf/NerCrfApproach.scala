@@ -18,8 +18,9 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]
-  with AnnotatorWithWordEmbeddings {
+class NerCrfApproach(override val uid: String)
+  extends AnnotatorWithWordEmbeddings[NerCrfModel] {
+
   def this() = this(Identifiable.randomUID("NER"))
 
   override val description = "CRF based Named Entity Recognition Tagger"
@@ -146,7 +147,7 @@ class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfM
     if (isDefined(minW))
       model = model.shrink($(minW).toFloat)
 
-    fillModelEmbeddings(model)
+    model
   }
 }
 
