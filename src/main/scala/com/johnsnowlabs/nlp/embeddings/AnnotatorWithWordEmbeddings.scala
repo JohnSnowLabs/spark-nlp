@@ -7,7 +7,6 @@ import java.util.UUID
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
-import org.apache.spark.input.PortableDataStream
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
@@ -21,7 +20,7 @@ import org.apache.spark.sql.SparkSession
   * 3. Than this index file is spread across the cluster.
   * 4. Every model 'ModelWithWordEmbeddings' uses local RocksDB as Word Embeddings lookup.
  */
-abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
+abstract class AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M], M <: ModelWithWordEmbeddings[M]]
   extends AnnotatorApproach[M] with AutoCloseable {
 
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
@@ -29,10 +28,10 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   val embeddingsNDims = new IntParam(this, "embeddingsNDims", "Number of dimensions for word vectors")
 
 
-  def setEmbeddingsSource(path: String, nDims: Int, format: WordEmbeddingsFormat.Format) = {
+  def setEmbeddingsSource(path: String, nDims: Int, format: WordEmbeddingsFormat.Format): A = {
     set(this.sourceEmbeddingsPath, path)
     set(this.embeddingsFormat, format.id)
-    set(this.embeddingsNDims, nDims)
+    set(this.embeddingsNDims, nDims).asInstanceOf[A]
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
