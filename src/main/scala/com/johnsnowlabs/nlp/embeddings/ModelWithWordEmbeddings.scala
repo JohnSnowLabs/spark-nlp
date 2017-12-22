@@ -1,8 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-import java.nio.file.{CopyOption, Files, Paths, StandardCopyOption}
-import java.util.concurrent.Executor
+import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.AnnotatorModel
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -23,14 +22,15 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
 
-  def setDims(nDims: Int) = set(this.nDims, nDims)
-  def setIndexPath(path: String) = set(this.indexPath, path)
+  def setDims(nDims: Int) = set(this.nDims, nDims).asInstanceOf[M]
+  def setIndexPath(path: String) = set(this.indexPath, path).asInstanceOf[M]
 
   lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     // Have to copy file because RockDB changes it and Spark rises Exception
     val src = SparkFiles.get(path)
     val workPath = src + "_work"
-    FileUtil.deepCopy(new File(src), new File(workPath), null, true)
+    if (!new File(workPath).exists())
+      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
 
     WordEmbeddings(workPath, $(nDims))
   }
@@ -40,11 +40,33 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
       embeddings.get.close()
   }
 
-  def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
-    val src = getEmbeddingsSerializedPath(path).toString
+  def moveFolderFiles(folderSrc: String, folderDst: String): Unit = {
+    for (file <- new File(folderSrc).list()) {
+      Files.move(Paths.get(folderSrc, file), Paths.get(folderDst, file))
+    }
 
-    if (new java.io.File(src).exists()) {
-      WordEmbeddingsClusterHelper.copyIndexToCluster(src, spark)
+    Files.delete(Paths.get(folderSrc))
+  }
+
+  def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
+    val fs = FileSystem.get(spark.hadoopConfiguration)
+
+    val src = getEmbeddingsSerializedPath(path)
+
+    // 1. Copy to local file
+    val localPath = WordEmbeddingsClusterHelper.createLocalPath
+    if (fs.exists(src)) {
+      fs.copyToLocalFile(src, new Path(localPath))
+
+      // 2. Move files from localPath/embeddings to localPath
+      moveFolderFiles(localPath + "/embeddings", localPath)
+
+      // 2. Copy local file to cluster
+      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath, spark)
+
+      // 3. Set correct path
+      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath).toString
+      setIndexPath(fileName)
     }
   }
 
