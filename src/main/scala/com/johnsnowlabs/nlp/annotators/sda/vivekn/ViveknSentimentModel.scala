@@ -66,7 +66,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = Tokenized.unpack(annotations)
 
-    sentences.map(sentence => {
+    sentences.filter(s => s.indexedTokens.nonEmpty).map(sentence => {
       Annotation(
         annotatorType,
         sentence.indexedTokens.map(t => t.begin).min,
