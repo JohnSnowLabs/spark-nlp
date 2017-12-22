@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import java.io.File
+import java.nio.file.Paths
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, pathIsDirectory}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{IntParam, Param}
@@ -218,15 +220,12 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
         .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator))
     } catch {
       case _: NullPointerException =>
-        val sourceStream = SourceStream(dirName)
-        val res = sourceStream
-          .content
-          .getLines()
+        ResourceHelper.listDirectory(dirName)
           .take(fileLimit)
-          .flatMap(fileName => parsePOSCorpusFromSource(dirName + "/" + fileName, tagSeparator))
+          .flatMap{fileName =>
+            val path = Paths.get(dirName, fileName)
+            parsePOSCorpusFromSource(path.toString, tagSeparator)}
           .toArray
-        sourceStream.close()
-        res
     }
   }
 
@@ -246,7 +245,7 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
       if (pathIsDirectory(dirOrFilePath)) parsePOSCorpusFromDir(dirOrFilePath, posSeparator, fileLimit)
       else parsePOSCorpusFromSource(dirOrFilePath, posSeparator)
     }
-    if (result.isEmpty) throw new Exception("Empty corpus for POS")
+    if (result.isEmpty) throw new Exception(s"Empty corpus for POS in $posDirOrFilePath")
     result
   }
 

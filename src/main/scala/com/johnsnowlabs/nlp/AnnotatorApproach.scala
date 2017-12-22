@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.ml.{Estimator, Model}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 import org.apache.spark.ml.util.DefaultParamsWritable
 
@@ -24,8 +24,15 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   def train(dataset: Dataset[_]): M
 
+  def beforeTraining(spark: SparkSession): Unit = {}
+
+  def onTrained(model: M, spark: SparkSession): Unit = {}
+
   override final def fit(dataset: Dataset[_]): M = {
-    copyValues(train(dataset).setParent(this))
+    beforeTraining(dataset.sparkSession)
+    val model = copyValues(train(dataset).setParent(this))
+    onTrained(model, dataset.sparkSession)
+    model
   }
 
   override final def copy(extra: ParamMap): Estimator[M] = defaultCopy(extra)
@@ -50,5 +57,4 @@ abstract class AnnotatorApproach[M <: Model[M]]
       StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
     StructType(outputFields)
   }
-
 }

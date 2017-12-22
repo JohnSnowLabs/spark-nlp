@@ -12,7 +12,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   */
 
 class AssertionLogRegModel(model:LogisticRegressionModel, override val uid: String = Identifiable.randomUID("ASSERTION"))
-  extends AnnotatorModel[AssertionLogRegModel] with ModelWithWordEmbeddings with Windowing {
+  extends ModelWithWordEmbeddings[AssertionLogRegModel] with Windowing {
   override val (before, after) = (11, 13)
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = annotations
