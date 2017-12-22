@@ -4,7 +4,6 @@ import java.io.{File, FileNotFoundException, InputStream}
 
 import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ResourceFormat._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
@@ -27,6 +26,22 @@ object ResourceHelper {
 
   private val spark: SparkSession = SparkSession.builder().getOrCreate()
 
+  /** Structure for a SourceStream coming from compiled content */
+  case class SourceStream(resource: String) {
+    val pipe: Option[InputStream] = {
+      var stream = getClass.getResourceAsStream(resource)
+      if (stream == null)
+        stream = getClass.getClassLoader.getResourceAsStream(resource)
+      Option(stream)
+    }
+    val content: Source = pipe.map(p => {
+      Source.fromInputStream(p)("UTF-8")
+    }).getOrElse(Source.fromFile(resource, "UTF-8"))
+    def close(): Unit = {
+      content.close()
+      pipe.foreach(_.close())
+    }
+  }
 
   def listDirectory(path: String): Seq[String] = {
     var dirURL = getClass.getResource(path)
@@ -69,55 +84,10 @@ object ResourceHelper {
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
-  /** Structure for a SourceStream coming from compiled content */
-  case class SourceStream(resource: String) {
-    val pipe: Option[InputStream] = {
-      var stream = getClass.getResourceAsStream(resource)
-      if (stream == null)
-        stream = getClass.getClassLoader.getResourceAsStream(resource)
-      Option(stream)
-    }
-    val content: Source = pipe.map(p => {
-      Source.fromInputStream(p)("UTF-8")
-    }).getOrElse(Source.fromFile(resource, "UTF-8"))
-    def close(): Unit = {
-      content.close()
-      pipe.foreach(_.close())
-    }
-  }
-
   /** Checks whether a path points to directory */
   def pathIsDirectory(path: String): Boolean = {
     //ToDo: Improve me???
     if (path.contains(".txt")) false else true
-  }
-
-  /**
-    * General purpose key values parser from source
-    * Currently only text files
-    * @param source File input to streamline
-    * @param format format, for now only txt
-    * @param keySep separator character
-    * @param valueSep values separator in dictionary
-    * @return Dictionary of all values per key
-    */
-  def parseKeyValuesText(
-                         source: String,
-                         format: Format,
-                         keySep: String,
-                         valueSep: String): Map[String, Array[String]] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.map (line => {
-          val kv = line.split (keySep).map (_.trim)
-          val key = kv (0)
-          val values = kv (1).split (valueSep).map (_.trim)
-          (key, values)
-        }).toMap
-        sourceStream.close()
-        res
-    }
   }
 
   /**
@@ -142,6 +112,14 @@ object ResourceHelper {
         }).toMap
         sourceStream.close()
         res
+      case TXTDS =>
+        import spark.implicits._
+        val dataset = spark.read.option("delimiter", keySep).csv(source).toDF("key", "value")
+        val keyValueStore = MMap.empty[String, String]
+        dataset.as[(String, String)].foreach{kv => keyValueStore(kv._1) = kv._2}
+        keyValueStore.toMap
+      case _ =>
+        throw new Exception("Unsupported format. Must be TXT or TXTDS")
     }
   }
 
@@ -162,6 +140,16 @@ object ResourceHelper {
         val res = sourceStream.content.getLines.toArray
         sourceStream.close()
         res
+      case TXTDS =>
+        import spark.implicits._
+        val dataset = spark.read.text(source)
+        val lineStore = spark.sparkContext.collectionAccumulator[String]
+        dataset.as[String].foreach(l => lineStore.add(l))
+        val result = lineStore.value.toArray.map(_.toString)
+        lineStore.reset()
+        result
+      case _ =>
+        throw new Exception("Unsupported format. Must be TXT or TXTDS")
     }
   }
 
@@ -187,6 +175,19 @@ object ResourceHelper {
         }).toArray
         sourceStream.close()
         res
+      case TXTDS =>
+        import spark.implicits._
+        val dataset = spark.read.text(source)
+        val lineStore = spark.sparkContext.collectionAccumulator[String]
+        dataset.as[String].foreach(l => lineStore.add(l))
+        val result = lineStore.value.toArray.map(line => {
+          val kv = line.toString.split (keySep).map (_.trim)
+          (kv.head, kv.last)
+        })
+        lineStore.reset()
+        result
+      case _ =>
+        throw new Exception("Unsupported format. Must be TXT or TXTDS")
     }
   }
 
@@ -215,7 +216,19 @@ object ResourceHelper {
         })
         sourceStream.close()
         m.toMap
-      case _ => throw new IllegalArgumentException("Only txt supported as a file format")
+      case TXTDS =>
+        import spark.implicits._
+        val dataset = spark.read.text(source)
+        val valueAsKeys = MMap.empty[String, String]
+        dataset.as[String].foreach(line => {
+          val kv = line.split(keySep).map(_.trim)
+          val key = kv(0)
+          val values = kv(1).split(valueSep).map(_.trim)
+          values.foreach(v => valueAsKeys(v) = key)
+        })
+        valueAsKeys.toMap
+      case _ =>
+        throw new Exception("Unsupported format. Must be TXT or TXTDS")
     }
   }
 
@@ -273,7 +286,7 @@ object ResourceHelper {
       case TXTDS =>
         import spark.implicits._
         val dataset = spark.read.textFile(source)
-        val wordCount = spark.sparkContext.broadcast(MMap.empty[String, Int].withDefaultValue(0))
+        val wordCount = MMap.empty[String, Int].withDefaultValue(0)
         val documentAssembler = new DocumentAssembler()
           .setInputCol("value")
         val tokenizer = new RegexTokenizer()
@@ -292,11 +305,9 @@ object ResourceHelper {
           .transform(dataset)
           .select("finished").as[String]
           .foreach(text => text.split("--").foreach(t => {
-            wordCount.value(t) += 1
+            wordCount(t) += 1
           }))
-        val result = wordCount.value
-        wordCount.destroy()
-        result
+        wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
