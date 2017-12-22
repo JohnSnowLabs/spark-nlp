@@ -1,7 +1,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import java.io.File
+import java.nio.file.{CopyOption, Files, Paths, StandardCopyOption}
+import java.util.concurrent.Executor
+
 import com.johnsnowlabs.nlp.AnnotatorModel
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.ml.param.{IntParam, Param}
 
@@ -21,10 +26,13 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   def setDims(nDims: Int) = set(this.nDims, nDims)
   def setIndexPath(path: String) = set(this.indexPath, path)
 
-  lazy val embeddings: Option[WordEmbeddings] = {
-    get(indexPath).map { path =>
-      WordEmbeddings(SparkFiles.get(path), $(nDims))
-    }
+  lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
+    // Have to copy file because RockDB changes it and Spark rises Exception
+    val src = SparkFiles.get(path)
+    val workPath = src + "_work"
+    FileUtil.deepCopy(new File(src), new File(workPath), null, true)
+
+    WordEmbeddings(workPath, $(nDims))
   }
 
   override def close(): Unit = {
@@ -36,8 +44,7 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
     val src = getEmbeddingsSerializedPath(path).toString
 
     if (new java.io.File(src).exists()) {
-      spark.addFile(src)
-      set(indexPath, src)
+      WordEmbeddingsClusterHelper.copyIndexToCluster(src, spark)
     }
   }
 
@@ -47,7 +54,7 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
       val fs = FileSystem.get(spark.hadoopConfiguration)
 
       val dst = getEmbeddingsSerializedPath(path)
-      fs.copyFromLocalFile(index, dst)
+      fs.copyFromLocalFile(false, true, index, dst)
     }
   }
 

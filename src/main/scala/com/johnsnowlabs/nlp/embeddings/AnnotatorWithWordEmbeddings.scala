@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.util.UUID
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsClusterHelper.getClusterFileName
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.param.{IntParam, Param}
@@ -37,7 +38,7 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       indexEmbeddings(localPath, spark.sparkContext)
-      spark.sparkContext.addFile(localPath, true)
+      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath, spark.sparkContext)
     }
   }
 
@@ -45,7 +46,7 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
     if (isDefined(sourceEmbeddingsPath)) {
       model.setDims($(embeddingsNDims))
 
-      val fileName = new File(localPath).getName
+      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath).toString
       model.setIndexPath(fileName)
     }
   }
@@ -86,3 +87,26 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
       embeddings.get.close()
   }
 }
+
+object WordEmbeddingsClusterHelper {
+
+  def getClusterFileName(localFile: String): Path = {
+    val name = new File(localFile).getName
+    Path.mergePaths(new Path("embeddings/"), new Path(name))
+  }
+
+  def copyIndexToCluster(localFolder: String, spark: SparkContext): String = {
+    val fs = FileSystem.get(spark.hadoopConfiguration)
+
+    val src = new Path(localFolder)
+    val dst = getClusterFileName(localFolder)
+
+    fs.copyFromLocalFile(false, true, src, dst)
+    fs.deleteOnExit(dst)
+
+    spark.addFile(dst.toString, true)
+
+    dst.toString
+  }
+}
+
