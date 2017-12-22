@@ -365,7 +365,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
     @keyword_only
     def __init__(self,
                  dictPath="/spell/words.txt",
-                 slangPath="/spell/slangs.txt",
                  caseSensitive=False,
                  doubleVariants=False,
                  shortCircuit=False
@@ -375,7 +374,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
         kwargs = self._input_kwargs
         self._setDefault(
             dictPath="/spell/words.txt",
-            slangPath="/spell/slangs.txt",
             caseSensitive=False,
             doubleVariants=False,
             shortCircuit=False
@@ -412,7 +410,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
 
     def setParams(self,
                   dictPath="/spell/words.txt",
-                  slangPath="/spell/slangs.txt",
                   caseSensitive=False,
                   doubleVariants=False,
                   shortCircuit=False):
