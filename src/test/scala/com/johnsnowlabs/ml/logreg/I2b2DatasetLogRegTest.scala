@@ -24,9 +24,10 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   val trainDatasetPath = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners"
   , s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
 
-  val testDatasetPath = Seq("/home/jose/Downloads/i2b2/test_data")
+  val testDatasetPath = Seq(s"$i2b2Dir/test_data")
 
   val embeddingsDims = 200
+  // word embeddings location
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
   val reader = new I2b2DatasetReader(embeddingsFile)
 

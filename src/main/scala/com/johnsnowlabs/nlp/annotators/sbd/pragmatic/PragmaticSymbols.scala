@@ -29,15 +29,6 @@ object PragmaticSymbols extends RuleSymbols {
   val ELLIPSIS_INDICATOR = "╦"
 
   /**
-    * Double punctuations marker
-    * alt 205-208
-    */
-  val DP_FIRST = "═" // ?!
-  val DP_SECOND = "╬" // !?
-  val DP_THIRD = "╧" // ??
-  val DP_FOURTH = "╨" // !!
-
-  /**
     * =====================
     * NON BREAKING SYMBOLS
     * =====================
@@ -89,11 +80,7 @@ object PragmaticSymbols extends RuleSymbols {
     MULT_PERIOD -> ".",
     QUESTION_IN_QUOTE -> "?",
     EXCLAMATION_INDICATOR -> "!",
-    ELLIPSIS_INDICATOR -> "...",
-    DP_FIRST -> "?!",
-    DP_SECOND-> "!?",
-    DP_THIRD -> "??",
-    DP_FOURTH -> "!!"
+    ELLIPSIS_INDICATOR -> "..."
   )
 
 }

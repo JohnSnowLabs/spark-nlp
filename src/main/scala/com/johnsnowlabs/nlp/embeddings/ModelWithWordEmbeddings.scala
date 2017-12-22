@@ -1,62 +1,38 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-import java.nio.file.Files
-import java.util.UUID
+import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.util.SparkNlpConfigKeys
-import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
-import org.apache.spark.ml.Model
+import com.johnsnowlabs.nlp.AnnotatorModel
+import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.ivy.util.FileUtil
+import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.ml.param.{IntParam, Param}
-import org.apache.spark.sql.SparkSession
 
 
 /**
-  * Trait for models that want to use Word Embeddings
+  * Base class for models that uses Word Embeddings.
+  * This implementation is based on RocksDB so it has a compact RAM usage
   *
   * Corresponding Approach have to implement AnnotatorWithWordEmbeddings
    */
-trait ModelWithWordEmbeddings extends AutoCloseable {
-  this: Model[_] =>
+abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
+  extends AnnotatorModel[M] with AutoCloseable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
 
-  def setDims(nDims: Int) = set(this.nDims, nDims)
-  def setIndexPath(path: String) = set(this.indexPath, path)
+  def setDims(nDims: Int) = set(this.nDims, nDims).asInstanceOf[M]
+  def setIndexPath(path: String) = set(this.indexPath, path).asInstanceOf[M]
 
-  private lazy val spark = {
-    SparkSession.builder().getOrCreate()
-  }
+  lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
+    // Have to copy file because RockDB changes it and Spark rises Exception
+    val src = SparkFiles.get(path)
+    val workPath = src + "_work"
+    if (!new File(workPath).exists())
+      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
 
-  private lazy val hdfs = {
-    FileSystem.get(spark.sparkContext.hadoopConfiguration)
-  }
-
-  private lazy val embeddingsFile: String = {
-    val localFile = if (!new File($(indexPath)).exists()) {
-      val localPath = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "embedddings_idx")
-        .toAbsolutePath.toString
-
-      hdfs.copyToLocalFile(new Path($(indexPath)), new Path(localPath))
-      localPath
-    } else {
-      $(indexPath)
-    }
-
-    val crcFiles = new File(localFile).listFiles().filter(f => f.getName.endsWith(".crc"))
-    for (file <- crcFiles) {
-      file.delete()
-    }
-
-    localFile
-  }
-
-  @transient
-  lazy val embeddings: Option[WordEmbeddings] = {
-    get(indexPath).map { path =>
-      WordEmbeddings(embeddingsFile, $(nDims))
-    }
+    WordEmbeddings(workPath, $(nDims))
   }
 
   override def close(): Unit = {
@@ -64,37 +40,43 @@ trait ModelWithWordEmbeddings extends AutoCloseable {
       embeddings.get.close()
   }
 
-  def deserializeEmbeddings(path: String): Unit = {
-    if (isDefined(indexPath)) {
-      val embeddingsFolder = spark.conf.getOption(SparkNlpConfigKeys.embeddingsFolder)
-      if (embeddingsFolder.isDefined) {
-        val dst = new Path(embeddingsFolder.get)
-        val file = getEmbeddingsSerializedPath(path).getName
+  def moveFolderFiles(folderSrc: String, folderDst: String): Unit = {
+    for (file <- new File(folderSrc).list()) {
+      Files.move(Paths.get(folderSrc, file), Paths.get(folderDst, file))
+    }
 
-        val indexFile = new Path(dst.toString, file)
-        setIndexPath(indexFile.toString)
-      }
+    Files.delete(Paths.get(folderSrc))
+  }
 
-      try {
-        // ToDo make files comparision
-        if (!hdfs.exists(new Path($(indexPath))))
-          FileUtil.copy(hdfs, getEmbeddingsSerializedPath(path), hdfs, new Path($(indexPath)), false, spark.sparkContext.hadoopConfiguration)
-      }
-      catch {
-        case e: Exception =>
-          throw new Exception(s"Set spark option ${SparkNlpConfigKeys.embeddingsFolder} to store embeddings", e)
-      }
+
+  def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
+    val fs = FileSystem.get(spark.hadoopConfiguration)
+    val src = getEmbeddingsSerializedPath(path)
+
+    // 1. Copy to local file
+    val localPath = WordEmbeddingsClusterHelper.createLocalPath
+    if (fs.exists(src)) {
+      fs.copyToLocalFile(src, new Path(localPath))
+
+      // 2. Move files from localPath/embeddings to localPath
+      moveFolderFiles(localPath + "/embeddings", localPath)
+
+      // 2. Copy local file to cluster
+      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath, spark)
+
+      // 3. Set correct path
+      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath).toString
+      setIndexPath(fileName)
     }
   }
 
-  def serializeEmbeddings(path: String): Unit = {
+  def serializeEmbeddings(path: String, spark: SparkContext): Unit = {
     if (isDefined(indexPath)) {
-      val dst = getEmbeddingsSerializedPath(path)
-      if (hdfs.exists(dst)) {
-        hdfs.delete(dst, true)
-      }
+      val index = new Path(SparkFiles.get($(indexPath)))
+      val fs = FileSystem.get(spark.hadoopConfiguration)
 
-      hdfs.copyFromLocalFile(new Path(embeddingsFile), dst)
+      val dst = getEmbeddingsSerializedPath(path)
+      fs.copyFromLocalFile(false, true, index, dst)
     }
   }
 
