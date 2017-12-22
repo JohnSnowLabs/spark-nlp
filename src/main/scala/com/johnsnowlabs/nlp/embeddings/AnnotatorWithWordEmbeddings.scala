@@ -5,9 +5,9 @@ import java.nio.file.Files
 import java.util.UUID
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsClusterHelper.getClusterFileName
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
+import org.apache.spark.input.PortableDataStream
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
@@ -56,25 +56,22 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   }
 
   private lazy val localPath: String = {
-    Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-      .toAbsolutePath.toString
+    WordEmbeddingsClusterHelper.createLocalPath
   }
 
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
     val formatId = $(embeddingsFormat)
 
+    val fs = FileSystem.get(spark.hadoopConfiguration)
+
     if (formatId == WordEmbeddingsFormat.Text.id) {
-      val lines = spark.textFile($(sourceEmbeddingsPath)).toLocalIterator
-      WordEmbeddingsIndexer.indexText(lines, localFile)
+      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
+      fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
+      WordEmbeddingsIndexer.indexText(tmpFile, localFile)
     } else if (formatId == WordEmbeddingsFormat.Binary.id) {
-      val streamSource = spark.binaryFiles($(sourceEmbeddingsPath)).toLocalIterator.toList.head._2
-      val stream = streamSource.open()
-      try {
-        WordEmbeddingsIndexer.indexBinary(stream, localFile)
-      }
-      finally {
-        stream.close()
-      }
+      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
+      fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
+      WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
     }
     else if (formatId == WordEmbeddingsFormat.SparkNlp.id) {
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
@@ -90,16 +87,21 @@ abstract class AnnotatorWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
 
 object WordEmbeddingsClusterHelper {
 
+  def createLocalPath(): String = {
+    Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+      .toAbsolutePath.toString
+  }
+
   def getClusterFileName(localFile: String): Path = {
     val name = new File(localFile).getName
-    Path.mergePaths(new Path("embeddings/"), new Path(name))
+    Path.mergePaths(new Path("/embeddings"), new Path(name))
   }
 
   def copyIndexToCluster(localFolder: String, spark: SparkContext): String = {
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
     val src = new Path(localFolder)
-    val dst = getClusterFileName(localFolder)
+    val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
