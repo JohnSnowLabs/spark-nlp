@@ -15,7 +15,6 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
 
   var fileDb = wordEmbeddingsFile + ".db"
 
-
   /* receives the location of a single dataset (e.g. 'beth'),
    * and returns a sequence of datapoins I2b2AnnotationAndText
    * */

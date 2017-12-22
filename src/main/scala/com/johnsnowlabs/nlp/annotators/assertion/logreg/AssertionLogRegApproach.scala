@@ -14,7 +14,7 @@ import org.apache.spark.sql.Dataset
 class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproach[AssertionLogRegModel]
   with AnnotatorWithWordEmbeddings with Windowing {
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT) //, POS
+  override val requiredAnnotatorTypes = Array(DOCUMENT)
   override val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
 
@@ -22,7 +22,7 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
 
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
-  override lazy  val localPath = "/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin.db"
+  override lazy val localPath = getOrDefault(sourceEmbeddingsPath)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val labelColumn = new Param[String](this, "label", "Column with one label per document")

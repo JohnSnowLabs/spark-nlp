@@ -1,16 +1,14 @@
 package com.johnsnowlabs.ml.logreg
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.ml.logreg.I2b2DatasetLogRegTest.{calcStat, confusionMatrix}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.storage.StorageLevel
 
-object I2b2DatasetPipelineTest extends App with EvaluationMetrics{
+object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[4]")
         .config("spark.executor.memory", "2g").getOrCreate
@@ -20,7 +18,7 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics{
   ,"/home/jose/Downloads/i2b2/concept_assertion_relation_training_data/beth")
   val testPaths = Seq("/home/jose/Downloads/i2b2/test_data")
 
-  val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
+  val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin.db"
 
   def getAssertionStages(): Array[_ <: PipelineStage] = {
 

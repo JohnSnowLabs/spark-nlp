@@ -5,7 +5,6 @@ import com.johnsnowlabs.ml.common.EvaluationMetrics
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -14,6 +13,7 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   override val before = 11
   override val after = 13
   override val tokenizer: Tokenizer = new SimpleTokenizer
+  override lazy val wordVectors: Option[WordEmbeddings] = reader.wordVectors
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate()
   import spark.implicits._
@@ -46,8 +46,8 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   // Compute raw scores on the test set.
   val result = model.transform(testDataset.cache())
 
-  val badGuys = result.filter(r => r.getAs[Double]("prediction") != r.getAs[Double]("label")).collect()
-  println(badGuys)
+  val errors = result.filter(r => r.getAs[Double]("prediction") != r.getAs[Double]("label")).collect()
+  println(errors)
 
   val pred = result.select($"prediction").collect.map(_.getAs[Double]("prediction"))
   val gold = result.select($"label").collect.map(_.getAs[Double]("label"))
@@ -65,10 +65,4 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
     lr.fit(dataFrame)
   }
 
-  // produces a org.apache.spark.ml.linalg.Vector
-  def convertToVectorUdf = udf {(array: Array[Double]) =>
-      Vectors.dense(array)
-  }
-
-  override lazy val wordVectors: Option[WordEmbeddings] = reader.wordVectors
 }
