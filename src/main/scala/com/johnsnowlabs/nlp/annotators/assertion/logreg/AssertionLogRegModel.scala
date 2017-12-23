@@ -7,6 +7,7 @@ import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.hadoop.fs.Path
+import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.functions.udf
 
 import scala.collection.immutable.Map
@@ -19,7 +20,18 @@ import scala.collection.immutable.Map
 class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION"))
   extends ModelWithWordEmbeddings[AssertionLogRegModel] with Windowing {
 
-  override val (before, after) = (11, 13)
+  val beforeParam = new Param[Int](this, "before", "Length of the context before the target")
+  val afterParam = new Param[Int](this, "after", "Length of the context after the target")
+  override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
+
+  setDefault(
+    beforeParam -> 11,
+    afterParam -> 13
+  )
+
+  def setBefore(before: Int) = set(beforeParam, before)
+  def setAfter(after: Int) = set(afterParam, after)
+
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
   override val requiredAnnotatorTypes = Array(DOCUMENT)

@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.ml.param.Param
@@ -79,6 +78,8 @@ class AssertionLogRegApproach(override val uid: String) extends
     val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
     AssertionLogRegModel()
+      .setBefore(getOrDefault(beforeParam))
+      .setAfter(getOrDefault(afterParam))
       .setLabelMap(labelMappings)
       .setModel(lr.fit(processedWithLabel))
   }
