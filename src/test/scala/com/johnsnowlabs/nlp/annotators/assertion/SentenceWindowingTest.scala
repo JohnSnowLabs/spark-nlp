@@ -21,7 +21,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val result = applyWindow(doc, target)
     val expected = Array("empty_marker", "empty_marker", "empty_marker", "empty_marker",
       "the", "cat", "eats", "fish", "empty_marker", "empty_marker", "empty_marker")
-    assert(expected === result)
+    assert(expected === result.tupleToList)
   }
 
   "sentences" should "be correctly truncated" in new Scope {
@@ -29,7 +29,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val target = "cat"
     val expected = "has been said that the cat eats fish while listens to".split(" ")
     val result = applyWindow(doc, target)
-    assert(expected === result)
+    assert(expected === result.tupleToList)
   }
 
   "multi word targets" should "be correctly identified" in new Scope{
@@ -37,7 +37,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val target = "the cat"
     val expected = "it has been said that the cat eats fish while listens".split(" ")
     val result = applyWindow(doc, target)
-    assert(expected === result)
+    assert(expected === result.tupleToList)
   }
 
   "targets in the border" should "be correctly identified - left" in new Scope {
@@ -46,7 +46,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val expected = ("empty_marker empty_marker empty_marker empty_marker empty_marker " +
       "the cat eats fish while listens").split(" ")
     val result = applyWindow(doc, target)
-    assert(expected === result)
+    assert(expected === result.tupleToList)
   }
 
   "targets in the border" should "be correctly identified - right" in new Scope {
@@ -54,7 +54,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     val target = "the cat"
     val expected = "it has been said that the cat empty_marker empty_marker empty_marker empty_marker ".split(" ")
     val result = applyWindow(doc, target)
-    assert(expected === result)
+    assert(expected === result.tupleToList)
   }
 
   "target occupies the whole text" should "be correctly chunked and padded" in new Scope {
@@ -64,7 +64,11 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
       "post-operative transient ischemic attack empty_marker empty_marker").split(" ")
 
     val result = applyWindow(doc, target)
-    assert(expected === result)
+    assert(expected === result.tupleToList)
+  }
+
+  implicit class TupleOperations(t:Tuple3[Array[String], Array[String], Array[String]]) {
+         def tupleToList = t._1 ++ t._2 ++ t._3
   }
 
 }

@@ -11,7 +11,7 @@ import scala.io.Source
   *
 */
 
-class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
+class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) extends Serializable  {
 
   var fileDb = wordEmbeddingsFile + ".db"
 
@@ -38,7 +38,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
       } yield {
         val record = I2b2Annotation(annotation)
         val text = sourceTxt(record.sourceLine - 1)
-        if(record.target.split(" ").length > 8){
+        if(record.target.split(" ").length > targetLengthLimit){
           tooLong += 1
           null
         }
@@ -54,14 +54,10 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
    * */
   def readDataFrame(datasetPaths: Seq[String]) (implicit session: SparkSession): DataFrame= {
     import session.implicits._
-    datasetPaths.flatMap(read).filter(_!=null).toDF.withColumn("label", labelToNumber($"label"))
+    datasetPaths.flatMap(read).filter(_!=null).toDF //.withColumn("label", labelToNumber($"label"))
   }
 
-  private val mappings = Map("hypothetical" -> 0.0,
-    "present" -> 1.0, "absent" -> 2.0, "possible" -> 3.0,
-    "conditional"-> 4.0, "associated_with_someone_else" -> 5.0)
 
-  /* TODO duplicated logic, consider relocation to common place */
   lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(wordEmbeddingsFile).exists())
@@ -71,7 +67,6 @@ class I2b2DatasetReader(wordEmbeddingsFile: String) extends Serializable  {
   }.filter(_ => new File(fileDb).exists())
     .map(_ => WordEmbeddings(fileDb, 200))
 
-  def labelToNumber = udf { label:String  => mappings.get(label)}
 
 }
 case class I2b2Annotation(target: String, label: String, start:Int, end:Int, sourceLine:Int)

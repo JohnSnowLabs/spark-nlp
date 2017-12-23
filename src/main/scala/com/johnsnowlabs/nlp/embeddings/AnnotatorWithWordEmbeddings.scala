@@ -54,7 +54,6 @@ abstract class AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M
     get(sourceEmbeddingsPath).map(_ => WordEmbeddings(localPath, $(embeddingsNDims)))
   }
 
-
   private lazy val localPath: String = {
     WordEmbeddingsClusterHelper.createLocalPath
   }

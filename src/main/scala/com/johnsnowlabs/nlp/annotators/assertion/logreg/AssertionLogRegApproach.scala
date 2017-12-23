@@ -7,6 +7,7 @@ import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.functions._
 
 /**
   * Created by jose on 22/11/17.
@@ -17,12 +18,12 @@ class AssertionLogRegApproach(override val uid: String) extends
   override val requiredAnnotatorTypes = Array(DOCUMENT)
   override val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
+  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
 
   lazy override val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
-  //override lazy val localPath = getOrDefault(sourceEmbeddingsPath)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val labelColumn = new Param[String](this, "label", "Column with one label per document")
@@ -67,9 +68,20 @@ class AssertionLogRegApproach(override val uid: String) extends
       .setRegParam(getOrDefault(regParam))
       .setElasticNetParam(getOrDefault(eNetParam))
 
-    AssertionLogRegModel(lr.fit(processed))
+    val labelCol = getOrDefault(labelColumn)
+
+    /* infer labels and assign a number to each */
+    val labelMappings: Map[String, Double] = dataset.select(labelCol).distinct.collect
+        .map(row => row.getAs[String](labelCol)).zipWithIndex
+        .map{case (label, idx) => (label, idx.toDouble)}
+        .toMap
+
+    val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    AssertionLogRegModel()
+      .setLabelMap(labelMappings)
+      .setModel(lr.fit(processedWithLabel))
   }
 
-  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
-
+  private def labelToNumber(mappings: Map[String, Double]) = udf { label:String  => mappings.get(label)}
 }

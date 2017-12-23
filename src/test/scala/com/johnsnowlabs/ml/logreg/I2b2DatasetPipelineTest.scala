@@ -1,11 +1,11 @@
 package com.johnsnowlabs.ml.logreg
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, AssertionLogRegModel}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Row, SparkSession}
 
 object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
 
@@ -17,8 +17,8 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
   // word embeddings location
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
 
-  val trainPaths = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners"
-    , s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
+  val trainPaths = Seq(//s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
+    s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
 
   val testPaths = Seq(s"$i2b2Dir/test_data")
 
@@ -29,6 +29,7 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
       .setOutputCol("document")
 
     val assertionStatus = new AssertionLogRegApproach()
+      .setLabelCol("label")
       .setInputCols("document")
       .setOutputCol("assertion")
       .setBefore(11)
@@ -39,13 +40,11 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
       assertionStatus)
   }
 
-  val reader = new I2b2DatasetReader(embeddingsFile)
+  val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
 
   def trainAssertionModel(paths: Seq[String]): PipelineModel = {
     System.out.println("Train Dataset Reading")
-    val time = System.nanoTime()
     val dataset = reader.readDataFrame(paths)
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
     System.out.println("Start fitting")
 
     // train Assertion Status
@@ -64,9 +63,22 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
   val model = trainAssertionModel(trainPaths)
   val result = testAssertionModel(testPaths, model)
 
-  val pred = result.select($"prediction").collect.map(_.getAs[Double]("prediction"))
-  val gold = result.select($"label").collect.map(_.getAs[Double]("label"))
+  var pred = result.select($"assertion").collect.map(row => Annotation(row.getAs[Seq[Row]]("assertion").head).result)
+  var gold = result.select($"label").collect.map(_.getAs[String]("label"))
 
   println(calcStat(pred, gold))
   println(confusionMatrix(pred, gold))
+
+  /* test serialization */
+  val modelName = "assertion_model"
+  model.write.overwrite().save(modelName)
+  val readModel = PipelineModel.read.load(modelName)
+
+  val otherResult = testAssertionModel(testPaths, readModel)
+  pred = otherResult.select($"assertion").collect.map(row => Annotation(row.getAs[Seq[Row]]("assertion").head).result)
+  gold = otherResult.select($"label").collect.map(_.getAs[String]("label"))
+
+  println(calcStat(pred, gold))
+  println(confusionMatrix(pred, gold))
+
 }
