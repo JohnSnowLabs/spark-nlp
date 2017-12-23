@@ -17,7 +17,7 @@ object I2b2DatasetPipelineTest extends App with EvaluationMetrics {
   // word embeddings location
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
 
-  val trainPaths = Seq(//s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
+  val trainPaths = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
     s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
 
   val testPaths = Seq(s"$i2b2Dir/test_data")
