@@ -10,7 +10,7 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.0.0` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.2.4` to you spark command
 
 ```sh
 spark-shell --packages JohnSnowLabs:spark-nlp:1.2.4
