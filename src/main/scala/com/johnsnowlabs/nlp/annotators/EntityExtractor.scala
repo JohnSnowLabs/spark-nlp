@@ -21,7 +21,16 @@ import scala.collection.mutable.ArrayBuffer
   */
 class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExtractor] {
 
+  private val config: Config = ConfigHelper.retrieve
+
   val entitiesPath = new Param[String](this, "entitiesPath", "Path to entities (phrases) to extract")
+  val entitiesFormat = new Param[String](this, "entitiesFormat", "TXT or TXTDS for reading as dataset")
+
+  if (config.getString("nlp.entityExtractor.file").nonEmpty)
+    setDefault(entitiesPath, config.getString("nlp.entityExtractor.file"))
+
+  setDefault(entitiesFormat, config.getString("nlp.entityExtractor.format"))
+
   val insideSentences = new BooleanParam(this, "insideSentences",
     "Should extractor search only within sentences borders?")
 
@@ -39,12 +48,17 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
   def setEntitiesPath(value: String): this.type = set(entitiesPath, value)
 
+  def getEntitiesPath: String = $(entitiesPath)
+
+  def setEntitiesFormat(value: String): this.type = set(entitiesFormat, value)
+
+  def getEntitiesFormat: String = $(entitiesFormat)
+
   def setInsideSentences(value: Boolean): this.type = set(insideSentences, value)
 
   def getEntities: Array[Array[String]] = {
     if (loadedPath != get(entitiesPath))
       loadEntities()
-
     loadedEntities
   }
 
@@ -63,9 +77,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
     * Loads entities from a provided source.
     */
   private def loadEntities(): Unit = {
-    val src = get(entitiesPath)
-      .map(path => EntityExtractor.retrieveEntityExtractorPhrases(path))
-      .getOrElse(EntityExtractor.retrieveEntityExtractorPhrases())
+    val src = EntityExtractor.retrieveEntityExtractorPhrases($(entitiesPath), $(entitiesFormat))
 
     val tokenizer = new RegexTokenizer().setPattern("\\w+")
     val normalizer = new Normalizer()
@@ -129,16 +141,10 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
 
 object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
 
-  private val config: Config = ConfigHelper.retrieve
-
   protected def retrieveEntityExtractorPhrases(
-                                                entitiesPath: String = "__default",
-                                                fileFormat: String = config.getString("nlp.entityExtractor.format")
+                                                entitiesPath: String,
+                                                fileFormat: String
                                               ): Array[String] = {
-    val filePath = if (entitiesPath == "__default")
-      config.getString("nlp.entityExtractor.file")
-    else entitiesPath
-
-    ResourceHelper.parseLinesText(filePath, fileFormat)
+    ResourceHelper.parseLinesText(entitiesPath, fileFormat.toUpperCase())
   }
 }

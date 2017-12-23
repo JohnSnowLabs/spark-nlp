@@ -336,6 +336,21 @@ documentAssembler = new DocumentAssembler()
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
                                                 </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
@@ -360,6 +375,21 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
+                                                </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -396,9 +426,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -424,9 +464,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -467,9 +517,14 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                    setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -498,9 +553,14 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                  setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                  Default:
+                                                  TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -710,6 +770,12 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictPath(path)
                                                 </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
+                                                </li>
                                             </ul>
                                             <br>
                                             <b>Input:</b>
@@ -738,6 +804,12 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                                 <li>
                                                     setDictPath(path)
+                                                </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
                                                 </li>
                                             </ul>
                                             <br>
@@ -884,7 +956,7 @@ documentAssembler = new DocumentAssembler()
                                                     setCorpusPath: path to training corpus. Can be any good text.
                                                 </li>
                                                 <li>
-                                                  setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
+                                                    setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
                                                 </li>
                                                 <li>
                                                     setSlangPath: path to custom dictionares, separated by comma

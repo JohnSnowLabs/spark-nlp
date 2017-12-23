@@ -10,9 +10,9 @@ import scala.collection.mutable
   */
 class GreedyTransitionApproach {
 
-  def parse(posTagged: PosTaggedSentence): DependencyParsedSentence = {
+  def parse(posTagged: PosTaggedSentence, format: String = "TXT"): DependencyParsedSentence = {
     val parser = new Parser
-    parser.perceptron.load(ResourceHelper.parseLinesText("/dependency_parser/models/dep-model.txt", "txt").toIterator)
+    parser.perceptron.load(ResourceHelper.parseLinesText("/dependency_parser/models/dep-model.txt", format.toUpperCase).toIterator)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
     val dependencies = parser.parse(sentence)
