@@ -114,6 +114,14 @@ class RegexMatcher(AnnotatorTransformer):
                   "rulesPath",
                   "rules file path, must be a tuple of regex and identifier. replace config with this",
                   typeConverter=TypeConverters.toString)
+    rulesFormat = Param(Params._dummy(),
+                      "rulesFormat",
+                      "TXT or TXTDS for reading as dataset",
+                      typeConverter=TypeConverters.toString)
+    rulesSeparator = Param(Params._dummy(),
+                      "rulesSeparator",
+                      "Separator for regex rules and match",
+                      typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -126,13 +134,28 @@ class RegexMatcher(AnnotatorTransformer):
     def setRulesPath(self, value):
         return self._set(rulesPath=value)
 
+    def setRulesFormat(self, value):
+        return self._set(rulesFormat=value)
+
+    def setRulesSeparator(self, value):
+        return self._set(rulesSeparator=value)
+
 
 class Lemmatizer(AnnotatorTransformer):
-    #ToDo: Make TypeConverters allow custom types
-    #lemmaDict = Param(Params._dummy(),
-    #                  "lemmaDict",
-    #                  "lemma dictionary overrides config",
-    #                  typeConverter=TypeConverters.toString)
+    lemmaFormat = Param(Params._dummy(),
+                     "lemmaFormat",
+                     "TXT or TXTDS for reading dictionary as dataset",
+                     typeConverter=TypeConverters.toString)
+
+    lemmaKeySep = Param(Params._dummy(),
+                        "lemmaKeySep",
+                        "lemma dictionary key separator",
+                        typeConverter=TypeConverters.toString)
+
+    lemmaValSep = Param(Params._dummy(),
+                        "lemmaValSep",
+                        "lemma dictionary value separator",
+                        typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -145,6 +168,15 @@ class Lemmatizer(AnnotatorTransformer):
         else:
             self._java_obj.setLemmaDict(value)
         return self
+
+    def setLemmaFormat(self, value):
+        return self._set(lemmaFormat=value)
+
+    def setLemmaKeySep(self, value):
+        return self._set(lemmaKeySep=value)
+
+    def setLemmaValSep(self, value):
+        return self._set(lemmaValSep=value)
 
 
 class DateMatcher(AnnotatorTransformer):
@@ -169,6 +201,11 @@ class EntityExtractor(AnnotatorTransformer):
                          "Path to entities (phrases) to extract",
                          typeConverter=TypeConverters.toString)
 
+    entitiesFormat = Param(Params._dummy(),
+                         "entitiesFormat",
+                         "TXT or TXTDS for reading as dataset",
+                         typeConverter=TypeConverters.toString)
+
     insideSentences = Param(Params._dummy(),
                              "insideSentences",
                              "Should extractor search only within sentences borders?",
@@ -184,6 +221,9 @@ class EntityExtractor(AnnotatorTransformer):
 
     def setEntitiesPath(self, value):
         return self._set(entitiesPath=value)
+
+    def setEntitiesFormat(self, value):
+        return self._set(entitiesFormat=value)
 
 
 class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
@@ -256,14 +296,27 @@ class SentimentDetectorModel(AnnotatorTransformer):
                      "dictPath",
                      "path for dictionary to sentiment analysis")
 
+    dictFormat = Param(Params._dummy(),
+                     "dictFormat",
+                     "format of dictionary, can be TXT or TXTDS for read as dataset")
+
+    dictSeparator = Param(Params._dummy(),
+                     "dictSeparator",
+                     "key value separator for dictionary")
+
     @keyword_only
     def __init__(self):
         super(SentimentDetectorModel, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel", self.uid)
 
     def setDictPath(self, value):
-        self._set(dictPath=value)
-        return self
+        return self._set(dictPath=value)
+
+    def setDictFormat(self, value):
+        return self._set(dictFormat=value)
+
+    def setDictSeparator(self, value):
+        return self._set(dictSeparator=value)
 
 
 class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):

@@ -1,4 +1,57 @@
 ========
+1.2.4
+========
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/c17ddac7a5a9e775cddc18d672e80e60f0040e38
+ResourceHelper now allows input files to be read in the shape of Spark Dataset, implicitly enabling HDFS paths, allowing larger annotator input files. Needs to set 'TXTDS' as input format Param to let annotators read this way. Allowed in: Lemmatizer, EntityExtractor, RegexMatcher, Sentiment Analysis models, Spell Checker and Dependency Parser.
+
+---------------
+Enhancements and progress
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/4920e5ce394b25937969cc4cab1d81172be722a3
+CRF NER Benchmarking progress
+* https://github.com/JohnSnowLabs/spark-nlp/pull/64
+EntityExtractor refactored. This annotator uses an input file containing a list of entities to look for inside target text. This annotator has been refactored to be of better use and specifically faster, by using a Trie search algorithm. Proper examples included in python notebooks.
+
+---------------
+Bug fixes
+---------------
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/41 <> https://github.com/JohnSnowLabs/spark-nlp/commit/d3b9086e834233f3281621d7c82e32195479fc82
+Fixed default resources not being loaded properly when using the library through --spark-packages. Improved input reading from resources and folder resources, and falling back to disk, with better error handling.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/08405858c6186e6c3e8b668233e30df12fa50374
+Corrected param names in DocumentAssembler
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/58 <> https://github.com/JohnSnowLabs/spark-nlp/commit/5a533952cdacf67970c5a8042340c8a4c9416b13
+Deleted a left-over deprecated function which was misleading.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/c02591bd683db3f615150d7b1d121ffe5d9e4535
+Added a filtering to ensure no empty sentences arrive to unnormalized Vivekn Sentiment Analysis
+
+---------------
+Documentation and examples
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/b81e95ce37ed3c4bd7b05e9f9c7b63b31d57e660
+Added additional resources into FAQ page.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/0c3f43c0d3e210f3940f7266fe84426900a6294e
+Added Spark Summit example notebook with full Pipeline use case
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/53 <> https://github.com/JohnSnowLabs/spark-nlp/commit/20efe4a3a5ffbceedac7bf775466b7a8cde5044f
+Fixed scala python documentation mistakes
+* https://github.com/JohnSnowLabs/spark-nlp/commit/782eb8dce171b69a615887b3defaf8b729b735f2
+Typos fix
+
+---------------
+Other
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/91d8acb1f0f4840dad86db3319d0b062bd63b8c6
+Removed Regex NER due to slowness and little use. CRF NER to replace NER.
+
+---------------
+Other
+---------------
+https://github.com/JohnSnowLabs/spark-nlp/commit/91d8acb1f0f4840dad86db3319d0b062bd63b8c6
+Removed Regex NER due to slowness and little use. CRF NER to replace NER.
+
+========
 1.2.3
 ========
 ---------------

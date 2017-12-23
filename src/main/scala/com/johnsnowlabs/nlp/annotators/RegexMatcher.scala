@@ -21,11 +21,22 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher] {
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  lazy val defaultRules: Array[(String, String)] = RegexMatcher.retrieveRegexMatchRules()
+  private val config: Config = ConfigFactory.load
 
   // ToDo: Check whether this annotator can be stored to disk as is. otherwise turn regex into string
 
   val rulesPath: Param[String] = new Param(this, "rulesPath", "File containing rules separated by commas")
+
+  val rulesFormat: Param[String] = new Param(this, "rulesFormat", "TXT or TXTDS for reading as dataset")
+
+  val rulesSeparator: Param[String] = new Param(this, "rulesSeparator", "Separator for regex rules and match")
+
+  if (config.getString("nlp.regexMatcher.file").nonEmpty)
+    setDefault(rulesPath, config.getString("nlp.regexMatcher.file"))
+
+  setDefault(rulesFormat, config.getString("nlp.regexMatcher.format"))
+
+  setDefault(rulesSeparator, config.getString("nlp.regexMatcher.separator"))
 
   val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
 
@@ -34,6 +45,14 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   def setRulesPath(path: String): this.type = set(rulesPath, path)
 
   def getRulesPath: String = $(rulesPath)
+
+  def setRulesFormat(format: String): this.type = set(rulesFormat, format)
+
+  def getRulesFormat: String = $(rulesFormat)
+
+  def setRulesSeparator(separator: String): this.type = set(rulesSeparator, separator)
+
+  def getRulesSeparator: String = $(rulesSeparator)
 
   def setRules(value: Array[(String, String)]): this.type = set(rules, value)
 
@@ -47,8 +66,6 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
   setDefault(inputCols, Array(DOCUMENT))
 
-  setDefault(rulesPath, "__default")
-
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
   def setStrategy(value: String): this.type = set(strategy, value)
@@ -56,7 +73,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
   def getStrategy: String = $(strategy).toString
 
   private def resolveRulesFromPath(): Array[(String, String)] =
-    RegexMatcher.retrieveRegexMatchRules($(rulesPath))
+    RegexMatcher.retrieveRegexMatchRules($(rulesPath), $(rulesFormat), $(rulesSeparator))
 
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
@@ -85,21 +102,15 @@ class RegexMatcher(override val uid: String) extends AnnotatorModel[RegexMatcher
 
 object RegexMatcher extends DefaultParamsReadable[RegexMatcher] {
 
-  private val config: Config = ConfigFactory.load
   /**
     * Regex matcher rules
-    * @param rulesFilePath
-    * @param rulesFormat
-    * @param rulesSeparator
-    * @return
     */
   protected def retrieveRegexMatchRules(
-                               rulesFilePath: String = "__default",
-                               rulesFormat: String = config.getString("nlp.regexMatcher.format"),
-                               rulesSeparator: String = config.getString("nlp.regexMatcher.separator")
+                               rulesFilePath: String,
+                               rulesFormat: String,
+                               rulesSeparator: String
                              ): Array[(String, String)] = {
-    val filePath = if (rulesFilePath == "__default") config.getString("nlp.regexMatcher.file") else rulesFilePath
-    ResourceHelper.parseTupleText(filePath, rulesFormat, rulesSeparator)
+    ResourceHelper.parseTupleText(rulesFilePath, rulesFormat.toUpperCase, rulesSeparator)
   }
 
 }

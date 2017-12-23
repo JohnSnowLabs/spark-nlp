@@ -175,7 +175,8 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             .setDictionary({"missed": "miss"})
         sentiment_detector = SentimentDetectorModel() \
             .setInputCols(["lemma", "sentence"]) \
-            .setOutputCol("sentiment")
+            .setOutputCol("sentiment") \
+            .setDictPath("../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
