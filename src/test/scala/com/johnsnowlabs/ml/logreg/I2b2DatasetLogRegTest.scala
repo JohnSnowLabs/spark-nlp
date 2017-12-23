@@ -18,6 +18,10 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate()
   import spark.implicits._
 
+  val mappings = Map("hypothetical" -> 0.0,
+    "present" -> 1.0, "absent" -> 2.0, "possible" -> 3.0,
+    "conditional"-> 4.0, "associated_with_someone_else" -> 5.0)
+
   // directory of the i2b2 dataset
   val i2b2Dir = "/home/jose/Downloads/i2b2"
 
@@ -29,15 +33,17 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   val embeddingsDims = 200
   // word embeddings location
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
-  val reader = new I2b2DatasetReader(embeddingsFile)
+  val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
 
   val trainDataset = reader.readDataFrame(trainDatasetPath)
     .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+    .withColumn("label", labelToNumber($"label"))
     .select($"features", $"label")
 
   println("trainDsSize: " +  trainDataset.count)
   val testDataset = reader.readDataFrame(testDatasetPath)
     .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+    .withColumn("label", labelToNumber($"label"))
     .select($"features", $"label", $"text", $"target")
 
   println("testDsSize: " +  testDataset.count)
@@ -65,5 +71,7 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
 
     lr.fit(dataFrame)
   }
+
+  def labelToNumber = udf { label:String  => mappings.get(label)}
 
 }

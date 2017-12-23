@@ -64,7 +64,7 @@ trait Windowing extends Serializable {
     val start = tokens.slice(0, s).map(_.length).sum +
       tokens.slice(0, s).size // account for spaces
     val end = start + tokens.slice(s, e + 1).map(_.length).sum +
-        tokens.slice(s, e + 1).size  // account for spaces
+        tokens.slice(s, e + 1).size - 1 // account for spaces
 
     val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
 
