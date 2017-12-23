@@ -105,6 +105,4 @@ object NerTagged extends Tagged[NerTaggedSentence]{
         labels.zip(sentences)
       }
   }
-
-
 }
