@@ -75,5 +75,4 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(tags == Seq("PER", "PER", "LOC"))
   }
-
 }
