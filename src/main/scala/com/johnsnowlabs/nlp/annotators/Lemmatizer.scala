@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.Config
 import com.johnsnowlabs.nlp.util.ConfigHelper
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.JavaConverters._
@@ -22,7 +23,28 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  private val config: Config = ConfigHelper.retrieve
+
   val lemmaDict: StringMapParam = new StringMapParam(this, "lemmaDict", "provide a lemma dictionary")
+
+  val lemmaFormat: Param[String] = new Param[String](this, "lemmaFormat", "TXT or TXTDS for reading dictionary as dataset")
+
+  val lemmaKeySep: Param[String] = new Param[String](this, "lemmaKeySep", "lemma dictionary key separator")
+
+  val lemmaValSep: Param[String] = new Param[String](this, "lemmaValSep", "lemma dictionary value separator")
+
+  setDefault(lemmaFormat, config.getString("nlp.lemmaDict.format"))
+
+  setDefault(lemmaKeySep, config.getString("nlp.lemmaDict.kvSeparator"))
+
+  setDefault(lemmaValSep, config.getString("nlp.lemmaDict.vSeparator"))
+
+  if (config.getString("nlp.lemmaDict.file").nonEmpty)
+    setDefault(lemmaDict,  Lemmatizer.retrieveLemmaDict(
+      config.getString("nlp.lemmaDict.file"),
+      config.getString("nlp.lemmaDict.format"),
+      config.getString("nlp.lemmaDict.kvSeparator"),
+      config.getString("nlp.lemmaDict.vSeparator")))
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -33,7 +55,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
   def getLemmaDict: Map[String, String] = $(lemmaDict)
 
   def setLemmaDict(dictionary: String): this.type = {
-    set(lemmaDict, Lemmatizer.retrieveLemmaDict(dictionary))
+    set(lemmaDict, Lemmatizer.retrieveLemmaDict(dictionary, $(lemmaFormat), $(lemmaKeySep), $(lemmaValSep)))
   }
 
   def setLemmaDictHMap(dictionary: java.util.HashMap[String, String]): this.type = {
@@ -59,19 +81,16 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
 object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
 
-  private val config: Config = ConfigHelper.retrieve
-
   /**
     * Retrieves Lemma dictionary from configured compiled source set in configuration
     * @return a Dictionary for lemmas
     */
   protected def retrieveLemmaDict(
-                         lemmaFilePath: String = "__default",
-                         lemmaFormat: String = config.getString("nlp.lemmaDict.format"),
-                         lemmaKeySep: String = config.getString("nlp.lemmaDict.kvSeparator"),
-                         lemmaValSep: String = config.getString("nlp.lemmaDict.vSeparator")
+                         lemmaFilePath: String,
+                         lemmaFormat: String,
+                         lemmaKeySep: String,
+                         lemmaValSep: String
                        ): Map[String, String] = {
-    val filePath = if (lemmaFilePath == "__default") config.getString("nlp.lemmaDict.file") else lemmaFilePath
-    ResourceHelper.flattenRevertValuesAsKeys(filePath, lemmaFormat, lemmaKeySep, lemmaValSep)
+    ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat.toUpperCase, lemmaKeySep, lemmaValSep)
   }
 }

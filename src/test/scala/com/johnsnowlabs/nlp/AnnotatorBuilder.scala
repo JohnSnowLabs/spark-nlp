@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.ner.regex.NERRegexApproach
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
@@ -41,9 +40,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
     val normalizer = new Normalizer()
-      .setInputCols(Array("stem"))
+      .setInputCols(Array("token"))
       .setOutputCol("normalized")
-    normalizer.transform(withFullStemmer(dataset))
+    normalizer.transform(withTokenizer(dataset))
   }
 
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
@@ -55,11 +54,15 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     lemmatizer.transform(tokenized)
   }
 
-  def withFullEntityExtractor(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullEntityExtractor(dataset: Dataset[Row], insideSentences: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
-      .setMaxLen(4)
+      .setInputCols("sentence", "normalized")
+      .setInsideSentences(insideSentences)
+      .setEntitiesPath("/entity-extractor/test-phrases.txt")
       .setOutputCol("entity")
-    entityExtractor.transform(withFullLemmatizer(dataset))
+    entityExtractor.transform(
+      withFullNormalizer(
+        withTokenizer(dataset)))
   }
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
@@ -70,10 +73,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val posTagger = new PerceptronApproach()
+    new PerceptronApproach()
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("pos")
-    posTagger
       .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
@@ -116,22 +118,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .transform(withTokenizer(dataset))
   }
 
-  def withFullSpellChecker(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullSpellChecker(dataset: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
-      .setCorpusPath("/spell/sherlockholmes.txt")
+      .setDictPath("./src/main/resources/spell/words.txt")
+      .setCorpusPath("./src/test/resources/spell/sherlockholmes.txt")
+      .setCorpusFormat(inputFormat)
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
-  }
-
-  def withNERTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val nerTagger = new NERRegexApproach()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("ner")
-      .setCorpusPath("/ner-corpus/dict.txt")
-    nerTagger
-      .fit(withFullPragmaticSentenceDetector(dataset))
-      .transform(withFullPragmaticSentenceDetector(dataset))
   }
 
   def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
