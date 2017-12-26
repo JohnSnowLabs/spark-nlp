@@ -4,11 +4,10 @@ import com.johnsnowlabs.ml.crf.{LinearChainCrfModel, SerializedLinearChainCrfMod
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
+import com.johnsnowlabs.nlp.serialization.SerializationHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
-import org.apache.spark.sql.{Encoders, Row}
 
 
 /*
@@ -84,38 +83,21 @@ class NerCrfModel(override val uid: String)
 }
 
 object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
-  implicit val crfEncoder = Encoders.kryo[SerializedLinearChainCrfModel]
-
   override def read: MLReader[NerCrfModel] = new NerCrfModelReader(super.read)
+
+  private val crfModelKey = "crfModel"
+  private val dictionaryFeaturesKey = "dictionaryFeatures"
 
   class NerCrfModelReader(baseReader: MLReader[NerCrfModel]) extends MLReader[NerCrfModel] {
     override def load(path: String): NerCrfModel = {
+      val helper = SerializationHelper(sparkSession, path)
       val instance = baseReader.load(path)
 
-      val dataPath = new Path(path, "data").toString
-      val loaded = sparkSession.sqlContext.read.format("parquet").load(dataPath)
-      val crfModel = loaded.as[SerializedLinearChainCrfModel].head
+      val crfModel = helper.deserializeScalar[SerializedLinearChainCrfModel](crfModelKey)
+      instance.model = crfModel.map(m => m.deserialize)
 
-      val dictPath = new Path(path, "dict").toString
-      val dictLoaded = sparkSession.sqlContext.read.format("parquet")
-        .load(dictPath)
-        .collect
-        .head
-
-      val lines = dictLoaded.asInstanceOf[Row].getAs[Seq[String]](0)
-
-      val dict = lines
-        .map {line =>
-          val items = line.split(":")
-          (items(0), items(1))
-        }
-        .toMap
-
-      val dictFeatures = new DictionaryFeatures(dict)
-
-      instance
-        .setModel(crfModel.deserialize)
-        .setDictionaryFeatures(dictFeatures)
+      val map = helper.deserializeMap[String, String](dictionaryFeaturesKey)
+      instance.setDictionaryFeatures(new DictionaryFeatures(map))
     }
   }
 
@@ -125,17 +107,10 @@ object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
       require(model.model.isDefined, "Crf Model must be defined before serialization")
 
       baseWriter.save(path)
+      val helper = SerializationHelper(sparkSession, path)
 
-      val spark = sparkSession
-      import spark.sqlContext.implicits._
-
-      val toStore = model.model.get.serialize
-      val dataPath = new Path(path, "data").toString
-      Seq(toStore).toDS.write.mode("overwrite").parquet(dataPath)
-
-      val dictPath = new Path(path, "dict").toString
-      val dictLines = model.dictionaryFeatures.dict.toSeq.map(p => p._1 + ":" + p._2)
-      Seq(dictLines).toDS.write.mode("overwrite").parquet(dictPath)
+      helper.serializeScalar(crfModelKey, model.model.get.serialize)
+      helper.serializeMap(dictionaryFeaturesKey, model.dictionaryFeatures.dict)
     }
   }
 }

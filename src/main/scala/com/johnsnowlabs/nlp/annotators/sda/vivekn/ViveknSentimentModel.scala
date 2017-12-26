@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import com.johnsnowlabs.nlp.annotators.common.{IntStringMapParam, Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.serialization.SerializationHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.spark.ml.param.{IntParam, StringArrayParam}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.param.IntParam
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
 
 class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[ViveknSentimentModel] {
 
@@ -19,16 +20,17 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  protected val positive: IntStringMapParam = new IntStringMapParam(this, "positive_sentences", "positive sentences trained")
-  protected val negative: IntStringMapParam = new IntStringMapParam(this, "negative_sentences", "negative sentences trained")
-  protected val features: StringArrayParam = new StringArrayParam(this, "words", "unique words trained")
+  protected var positive = Map[String, Int]()
+  protected var negative = Map[String, Int]()
+  protected var features = Array[String]()
+
   protected val positiveTotals: IntParam = new IntParam(this, "positive_totals", "count of positive words")
   protected val negativeTotals: IntParam = new IntParam(this, "negative_totals", "count of negative words")
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
-  private[vivekn] def setPositive(value: Map[String, Int]) = set(positive, value)
-  private[vivekn] def setNegative(value: Map[String, Int]) = set(negative, value)
+  private[vivekn] def setPositive(value: Map[String, Int]) = {positive = value; this}
+  private[vivekn] def setNegative(value: Map[String, Int]) = {negative = value; this}
   private[vivekn] def setPositiveTotals(value: Int) = set(positiveTotals, value)
   private[vivekn] def setNegativeTotals(value: Int) = set(negativeTotals, value)
   private[vivekn] def setWords(value: Array[String]) = {
@@ -44,14 +46,16 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     Range(start, afterStart, step).foreach(k => {
       value.slice(k, k+step).foreach(currentFeatures.add)
     })
-    set(features, currentFeatures.toArray)
+
+    features = currentFeatures.toArray
+    this
   }
 
   def classify(sentence: TokenizedSentence): Boolean = {
-    val words = ViveknSentimentApproach.negateSequence(sentence.tokens.toList).intersect($(features)).distinct
+    val words = ViveknSentimentApproach.negateSequence(sentence.tokens.toList).intersect(features).distinct
     if (words.isEmpty) return true
-    val positiveProbability = words.map(word => scala.math.log(($(positive).getOrElse(word, 0) + 1.0) / (2.0 * $(positiveTotals)))).sum
-    val negativeProbability = words.map(word => scala.math.log(($(negative).getOrElse(word, 0) + 1.0) / (2.0 * $(negativeTotals)))).sum
+    val positiveProbability = words.map(word => scala.math.log((positive.getOrElse(word, 0) + 1.0) / (2.0 * $(positiveTotals)))).sum
+    val negativeProbability = words.map(word => scala.math.log((negative.getOrElse(word, 0) + 1.0) / (2.0 * $(negativeTotals)))).sum
     positiveProbability > negativeProbability
   }
 
@@ -76,6 +80,43 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
       )
     })
   }
+
+  override def write: MLWriter = new ViveknSentimentModel.Writer(this, super.write)
 }
 
-object ViveknSentimentModel extends DefaultParamsReadable[ViveknSentimentModel]
+object ViveknSentimentModel extends DefaultParamsReadable[ViveknSentimentModel] {
+  override def read = new Reader(super.read)
+
+  private val positiveKey = "positive"
+  private val negativeKey = "negative"
+  private val featuresKey = "features"
+
+  class Reader(baseReader: MLReader[ViveknSentimentModel]) extends MLReader[ViveknSentimentModel] {
+
+    override def load(path: String): ViveknSentimentModel = {
+      val helper = SerializationHelper(sparkSession, path)
+      val instance = baseReader.load(path)
+
+      val positive = helper.deserializeMap[String, Int](positiveKey)
+      val negative = helper.deserializeMap[String, Int](negativeKey)
+      val features = helper.deserializeArray[String](featuresKey)
+
+      instance.features = features
+      instance
+        .setNegative(negative)
+        .setPositive(positive)
+    }
+  }
+
+  class Writer(model: ViveknSentimentModel, baseWriter: MLWriter) extends MLWriter {
+
+    override protected def saveImpl(path: String): Unit = {
+      baseWriter.save(path)
+      val helper = SerializationHelper(sparkSession, path)
+
+      helper.serializeMap[String, Int](positiveKey, model.positive)
+      helper.serializeMap[String, Int](negativeKey, model.negative)
+      helper.serializeArray[String](featuresKey, model.features)
+    }
+  }
+}
