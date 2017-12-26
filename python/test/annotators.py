@@ -101,11 +101,13 @@ class EntityExtractorTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+        tokenizer = RegexTokenizer() \
+            .setOutputCol("token")
         entity_extractor = EntityExtractor() \
-            .setMaxLen(4) \
             .setOutputCol("entity")
         assembled = document_assembler.transform(self.data)
-        entity_extractor.transform(assembled).show()
+        tokenized = tokenizer.transform(assembled)
+        entity_extractor.transform(tokenized).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -133,32 +135,6 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
         pos_tagger.transform(tokenized).show()
-
-
-class RegexNERApproachTestSpec(unittest.TestCase):
-
-    def setUp(self):
-        self.data = SparkContextForNER.data
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("_c0") \
-            .setOutputCol("document")
-        sentence_detector = SentenceDetectorModel() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-        tokenizer = RegexTokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-        ner_tagger = NERRegexApproach() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("NER") \
-            .fit(self.data)
-        assembled = document_assembler.transform(self.data)
-        sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
-        result = ner_tagger.transform(tokenized)
-        result.select("NER").take(10)
 
 
 class PragmaticSBDTestSpec(unittest.TestCase):
@@ -199,7 +175,8 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             .setDictionary({"missed": "miss"})
         sentiment_detector = SentimentDetectorModel() \
             .setInputCols(["lemma", "sentence"]) \
-            .setOutputCol("sentiment")
+            .setOutputCol("sentiment") \
+            .setDictPath("../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)

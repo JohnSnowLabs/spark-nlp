@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.language.postfixOps
 
@@ -34,7 +34,7 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
   /** one-to-one stem annotation that returns single hard-stem per token */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { tokenAnnotation =>
-        val stem = Stemmer.stem(tokenAnnotation.result)
+        val stem = EnglishStemmer.stem(tokenAnnotation.result)
         Annotation(
           annotatorType,
           tokenAnnotation.begin,
@@ -46,7 +46,9 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
 }
 
-object Stemmer {
+object Stemmer extends DefaultParamsReadable[Stemmer]
+
+object EnglishStemmer {
 
   def stem(word: String): String = {
     // Deal with plurals and past participles

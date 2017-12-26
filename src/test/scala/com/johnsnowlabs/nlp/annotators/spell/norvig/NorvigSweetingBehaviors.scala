@@ -10,6 +10,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
 
   val spellChecker = new NorvigSweetingApproach()
     .setCorpusPath("/spell")
+    .setSlangPath("/spell/slangs.txt")
     .fit(DataBuilder.basicDataBuild("dummy"))
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
@@ -19,9 +20,9 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
-  def sparkBasedSpellChecker(dataset: => Dataset[Row]): Unit = {
-    s"a SpellChecker Annotator with ${dataset.count} rows" should s"successfully correct words" in {
-      val result = AnnotatorBuilder.withFullSpellChecker(dataset)
+  def sparkBasedSpellChecker(dataset: => Dataset[Row], inputFormat: String = "TXT"): Unit = {
+    s"a SpellChecker Annotator with ${dataset.count} rows and corpus format $inputFormat" should s"successfully correct words" in {
+      val result = AnnotatorBuilder.withFullSpellChecker(dataset, inputFormat)
         .select("document", "spell")
       result.show
       result.collect()

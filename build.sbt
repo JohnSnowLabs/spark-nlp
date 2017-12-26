@@ -7,7 +7,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.2.3"
+version := "1.2.4"
 
 scalaVersion := scalaVer
 
