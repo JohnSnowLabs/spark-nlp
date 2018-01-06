@@ -42,8 +42,10 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def this() = this(Identifiable.randomUID("SPELL"))
 
   def setWordCount(value: Map[String, Int]): this.type = set(wordCount, value)
-
   def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
+
+  protected def getWordCount: Map[String, Int] = $(wordCount)
+  protected def getCustomDict: Map[String, String] = $(customDict)
 
   /** Utilities */
   /** number of items duplicated in some text */

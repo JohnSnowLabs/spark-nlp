@@ -15,7 +15,7 @@ import org.apache.spark.sql.functions.{array, udf}
   */
 abstract class AnnotatorModel[M <: Model[M]]
   extends Model[M]
-    with DefaultParamsWritable
+    with ParamsAndFeaturesWritable
     with HasAnnotatorType
     with HasInputAnnotationCols
     with HasOutputAnnotationCol {
