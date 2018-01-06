@@ -18,7 +18,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
   with HasInputAnnotationCols
   with HasOutputAnnotationCol
   with HasAnnotatorType
-  with DefaultParamsWritable {
+  with ParamsAndFeaturesWritable {
 
   val description: String
 
