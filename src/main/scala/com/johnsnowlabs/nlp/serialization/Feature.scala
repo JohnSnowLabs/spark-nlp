@@ -32,7 +32,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete](model: HasFeatur
 
 }
 
-case class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val  description: String)
+class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val  description: String)
   extends Feature[TValue, TValue, TValue](model, name, description) {
 
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
@@ -60,7 +60,7 @@ case class StructFeature[TValue: ClassTag](model: HasFeatures, override val name
 
 }
 
-case class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
+class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
   extends Feature[TKey, TValue, Map[TKey, TValue]](model, name, description) {
 
   implicit val encoder: Encoder[Map[TKey, TValue]] = Encoders.kryo[Map[TKey, TValue]]
@@ -84,7 +84,7 @@ case class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, over
 
 }
 
-case class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
+class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
   extends Feature[TValue, TValue, Array[TValue]](model, name, description) {
 
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]

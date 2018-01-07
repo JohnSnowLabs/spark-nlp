@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.common.StringMapParam
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.typesafe.config.Config
 import com.johnsnowlabs.nlp.util.ConfigHelper
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 
 import scala.collection.JavaConverters._
 
@@ -25,7 +25,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   private val config: Config = ConfigHelper.retrieve
 
-  val lemmaDict: StringMapParam = new StringMapParam(this, "lemmaDict", "provide a lemma dictionary")
+  val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict", "provide a lemma dictionary")
 
   val lemmaFormat: Param[String] = new Param[String](this, "lemmaFormat", "TXT or TXTDS for reading dictionary as dataset")
 
@@ -52,7 +52,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))
 
-  def getLemmaDict: Map[String, String] = $(lemmaDict)
+  def getLemmaDict: Map[String, String] = $$(lemmaDict)
   protected def getLemmaFormat: String = $(lemmaFormat)
   protected def getLemmaKeySep: String = $(lemmaKeySep)
   protected def getLemmaValSep: String = $(lemmaValSep)
@@ -80,14 +80,14 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
         annotatorType,
         tokenAnnotation.begin,
         tokenAnnotation.end,
-        $(lemmaDict).getOrElse(token, token),
+        $$(lemmaDict).getOrElse(token, token),
         tokenAnnotation.metadata
       )
     }
   }
 }
 
-object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
+object Lemmatizer extends ParamsAndFeaturesReadable[Lemmatizer] {
   protected def retrieveLemmaDict(
                          lemmaFilePath: String,
                          lemmaFormat: String,
