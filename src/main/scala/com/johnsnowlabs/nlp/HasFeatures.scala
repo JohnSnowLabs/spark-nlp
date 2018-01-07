@@ -14,6 +14,12 @@ trait HasFeatures {
 
   protected def set[T](feature: StructFeature[T], value: T): this.type = {feature.setValue(Some(value)); this}
 
+  protected def setDefault[T](feature: ArrayFeature[T], value: Array[T]): this.type = {feature.setValue(Some(value)); this}
+
+  protected def setDefault[K, V](feature: MapFeature[K, V], value: Map[K, V]): this.type = {feature.setValue(Some(value)); this}
+
+  protected def setDefault[T](feature: StructFeature[T], value: T): this.type = {feature.setValue(Some(value)); this}
+
   protected def get[T](feature: ArrayFeature[T]): Option[Array[T]] = feature.get
 
   protected def get[K, V](feature: MapFeature[K, V]): Option[Map[K, V]] = feature.get
