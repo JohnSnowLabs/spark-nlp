@@ -25,7 +25,7 @@ class NerCrfModel(override val uid: String)
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
 
   def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
-  setDefault(dictionaryFeatures, Map.empty[String, String])
+  set(dictionaryFeatures, Map.empty[String, String])
 
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 

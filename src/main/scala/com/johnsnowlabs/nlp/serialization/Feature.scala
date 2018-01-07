@@ -2,16 +2,16 @@ package com.johnsnowlabs.nlp.serialization
 
 import com.johnsnowlabs.nlp.HasFeatures
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.types.{ArrayType, StringType}
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag
 
-abstract class Feature[Serializable1, Serializable2, TComplete](model: HasFeatures, val name: String, val description: String) extends Serializable {
+abstract class Feature[Serializable1, Serializable2, TComplete](model: HasFeatures, val name: String, val description: String)(implicit val sparkSession: SparkSession = SparkSession.builder().getOrCreate()) extends Serializable {
   model.features.append(this)
 
-  final protected var value: Option[TComplete] = None
-  final protected var defaultValue: Option[TComplete] = None
+  final protected var value: Broadcast[Option[TComplete]] = sparkSession.sparkContext.broadcast[Option[TComplete]](None)
 
   def serialize(spark: SparkSession, path: String, field: String, value: TComplete): Unit
 
@@ -23,12 +23,10 @@ abstract class Feature[Serializable1, Serializable2, TComplete](model: HasFeatur
   final protected def getFieldPath(path: String, field: String): Path =
     Path.mergePaths(new Path(path), new Path("/fields/" + field))
 
-  final def get: Option[TComplete] = value
-  final def getValue: TComplete = value.getOrElse(getDefault)
-  final def getDefault: TComplete = defaultValue.getOrElse(throw new Exception(s"Feature $name has no default value"))
-  final def setValue(v: Option[Any]): HasFeatures = {value = Some(v.get.asInstanceOf[TComplete]); model}
-  final def setDefault(v: Option[Any]): HasFeatures = {defaultValue = Some(v.get.asInstanceOf[TComplete]); model}
-  final def isSet: Boolean = value.isDefined
+  final def get: Option[TComplete] = value.value
+  final def getValue: TComplete = value.value.getOrElse(throw new Exception(s"feature $name is not set"))
+  final def setValue(v: Option[Any]): HasFeatures = {value.unpersist(false); value = sparkSession.sparkContext.broadcast(Some(v.get.asInstanceOf[TComplete])); model}
+  final def isSet: Boolean = value.value.isDefined
 
 }
 

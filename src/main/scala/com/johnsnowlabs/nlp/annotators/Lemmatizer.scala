@@ -40,7 +40,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
   setDefault(lemmaValSep, config.getString("nlp.lemmaDict.vSeparator"))
 
   if (config.getString("nlp.lemmaDict.file").nonEmpty)
-    setDefault(lemmaDict,  Lemmatizer.retrieveLemmaDict(
+    set(lemmaDict,  Lemmatizer.retrieveLemmaDict(
       config.getString("nlp.lemmaDict.file"),
       config.getString("nlp.lemmaDict.format"),
       config.getString("nlp.lemmaDict.kvSeparator"),
