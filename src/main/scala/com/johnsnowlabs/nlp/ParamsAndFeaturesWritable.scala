@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import org.apache.spark.ml.param.Params
 import org.apache.spark.ml.util.{DefaultParamsWritable, MLWriter}
+import org.apache.spark.sql.SparkSession
 
-class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter) extends MLWriter with HasFeatures {
+class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter, onWritten: (String, SparkSession) => Unit)
+  extends MLWriter with HasFeatures {
 
   override protected def saveImpl(path: String): Unit = {
     baseWriter.save(path)
@@ -13,16 +14,19 @@ class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter
       feature.serializeInfer(sparkSession, path, feature.name, feature.getValue)
     }
 
-    annotatorWithFeatures match {
-      case m: ModelWithWordEmbeddings[_] => m.serializeEmbeddings(path, sparkSession.sparkContext)
-      case _ =>
-    }
+    onWritten(path, sparkSession)
 
   }
 }
 
 trait ParamsAndFeaturesWritable extends DefaultParamsWritable with Params with HasFeatures {
 
-  override def write: MLWriter = new FeaturesWriter(this, super.write)
+  def onWritten(path: String, spark: SparkSession): Unit = {}
+
+  override def write: MLWriter = new FeaturesWriter(
+    this,
+    super.write,
+    (path: String, spark: SparkSession) => onWritten(path, spark)
+  )
 
 }
