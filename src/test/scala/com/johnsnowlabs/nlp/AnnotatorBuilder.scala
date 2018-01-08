@@ -151,7 +151,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setDatsetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+      .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
