@@ -15,7 +15,7 @@ for better performance in distributed environments. This enhancement is a breaki
 ----------------
 Bug fixes
 ----------------
-* https://github.com/JohnSnowLabs/spark-nlp/commit/c8e55a2527f4c41381a20d6ff3894c7afee8ed9c
+* https://github.com/JohnSnowLabs/spark-nlp/commit/cb9aa4366f3e2c9863482df39e07b7bacff13049
 Stemmer was not capable of being deserialized (Implements DefaultParamsReadable)
 * https://github.com/JohnSnowLabs/spark-nlp/pull/75
 Sentence Boundary detector was not properly setting bounds
