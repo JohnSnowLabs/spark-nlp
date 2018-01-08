@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.sql.SparkSession
 
 
 /**
@@ -81,5 +82,9 @@ abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
   }
 
   def getEmbeddingsSerializedPath(path: String): Path = Path.mergePaths(new Path(path), new Path("/embeddings"))
+
+  override def onWritten(path: String, spark: SparkSession): Unit = {
+    deserializeEmbeddings(path, spark.sparkContext)
+  }
 
 }
