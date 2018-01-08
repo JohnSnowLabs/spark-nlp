@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf._
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordEmbeddings}
+import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 
 import scala.collection.mutable
 
