@@ -2,8 +2,6 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
-import scala.io.Source
-
 case class DictionaryFeatures(dict: Map[String, String])
 {
  def get(tokens: Seq[String]): Seq[String] = {

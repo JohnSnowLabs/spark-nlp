@@ -6,6 +6,9 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, Pos
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
 
@@ -13,8 +16,7 @@ import org.apache.spark.ml.util._
 /*
   Named Entity Recognition model
  */
-class NerCrfModel(override val uid: String)
-  extends AnnotatorModel[NerCrfModel] {
+class NerCrfModel(override val uid: String) extends ModelWithWordEmbeddings[NerCrfModel]{
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -30,7 +32,7 @@ class NerCrfModel(override val uid: String)
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
   /**
-    Predicts Named Entities in input sentences
+  Predicts Named Entities in input sentences
     * @param sentences POS tagged sentences.
     * @return sentences with recognized Named Entities
     */
@@ -39,8 +41,9 @@ class NerCrfModel(override val uid: String)
 
     val crf = $$(model)
 
+    val fg = FeatureGenerator(dictionaryFeatures, embeddings)
     sentences.map{sentence =>
-      val instance = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures))).generate(sentence, crf.metadata)
+      val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)
       val words = sentence.indexedTaggedWords
         .zip(labelIds.labels)

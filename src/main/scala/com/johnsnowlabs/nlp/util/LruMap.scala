@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.common
+package com.johnsnowlabs.nlp.util
 
 import scala.collection.mutable
 
