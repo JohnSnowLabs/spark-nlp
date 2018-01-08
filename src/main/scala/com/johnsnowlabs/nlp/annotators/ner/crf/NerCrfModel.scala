@@ -4,6 +4,7 @@ import com.johnsnowlabs.ml.crf.{LinearChainCrfModel, SerializedLinearChainCrfMod
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.StringArrayParam
@@ -14,8 +15,7 @@ import org.apache.spark.sql.{Encoders, Row}
 /*
   Named Entity Recognition model
  */
-class NerCrfModel(override val uid: String)
-  extends AnnotatorModel[NerCrfModel] {
+class NerCrfModel(override val uid: String) extends ModelWithWordEmbeddings[NerCrfModel]{
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -36,7 +36,7 @@ class NerCrfModel(override val uid: String)
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
   /**
-    Predicts Named Entities in input sentences
+  Predicts Named Entities in input sentences
     * @param sentences POS tagged sentences.
     * @return sentences with recognized Named Entities
     */
@@ -45,8 +45,9 @@ class NerCrfModel(override val uid: String)
 
     val crf = model.get
 
+    val fg = FeatureGenerator(dictionaryFeatures, embeddings)
     sentences.map{sentence =>
-      val instance = FeatureGenerator(dictionaryFeatures).generate(sentence, crf.metadata)
+      val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)
       val words = sentence.indexedTaggedWords
         .zip(labelIds.labels)
@@ -116,6 +117,9 @@ object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
       instance
         .setModel(crfModel.deserialize)
         .setDictionaryFeatures(dictFeatures)
+
+      instance.deserializeEmbeddings(path, sparkSession.sparkContext)
+      instance
     }
   }
 
@@ -136,7 +140,8 @@ object NerCrfModel extends DefaultParamsReadable[NerCrfModel] {
       val dictPath = new Path(path, "dict").toString
       val dictLines = model.dictionaryFeatures.dict.toSeq.map(p => p._1 + ":" + p._2)
       Seq(dictLines).toDS.write.mode("overwrite").parquet(dictPath)
+
+      model.serializeEmbeddings(path, sparkSession.sparkContext)
     }
   }
 }
-

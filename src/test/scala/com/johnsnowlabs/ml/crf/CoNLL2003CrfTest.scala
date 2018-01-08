@@ -1,11 +1,7 @@
 package com.johnsnowlabs.ml.crf
 
-import java.io.File
-
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordEmbeddings, WordEmbeddingsIndexer}
-import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.AnnotatorType
-import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLL2003NerReader}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 
 import scala.collection.mutable
 
@@ -27,39 +23,19 @@ object CoNLL2003CrfTest extends App {
 
   val embeddingsDims = 100
   val embeddingsFile = folder + s"glove.6B.${embeddingsDims}d.txt"
-  val wordEmbeddingsDb = folder + s"embeddings.${embeddingsDims}d.db"
 
-  var wordEmbeddings: Option[WordEmbeddings] = None
-
-  val time = System.nanoTime()
-  if (new File(embeddingsFile).exists() && !new File(wordEmbeddingsDb).exists()) {
-    WordEmbeddingsIndexer.indexGloveToLevelDb(embeddingsFile, wordEmbeddingsDb)
-  }
-
-  if (new File(wordEmbeddingsDb).exists()) {
-    wordEmbeddings = Some(WordEmbeddings(wordEmbeddingsDb, embeddingsDims))
-  }
-
-  val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-  val posReader = CoNLL(1, AnnotatorType.POS)
-  val fg = FeatureGenerator(
-    DictionaryFeatures.read(Seq("src/main/resources/ner-corpus/dict.txt")),
-    wordEmbeddings
+  val reader = new CoNLL2003NerReader(
+    embeddingsFile,
+    embeddingsDims,
+    WordEmbeddingsFormat.Text,
+    "/ner-corpus/dict.txt"
   )
-
-  def readDataset(file: String): Seq[(TextSentenceLabels, TaggedSentence)] = {
-    val labels = nerReader.readDocs(file).flatMap(_._2)
-      .map(sentence => TextSentenceLabels(sentence.tags))
-
-    val posTaggedSentences = posReader.readDocs(file).flatMap(_._2)
-    labels.zip(posTaggedSentences)
-  }
 
   def trainModel(file: String): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val lines = readDataset(file)
-    val dataset = fg.generateDataset(lines)
+    val dataset = reader.readNerDataset(file)
+
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -81,19 +57,20 @@ object CoNLL2003CrfTest extends App {
     val started = System.nanoTime()
 
     val predictedCorrect = mutable.Map[String, Int]()
-    val predicted = mutable.Map[String, Int]()
+    val predicted = mutable.    Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val testInstances = readDataset(file)
+    val testDataset = reader.readNerDataset(file, Some(model.metadata))
 
-    for ((labels, sentence) <- testInstances) {
-      val instance = fg.generate(sentence, model.metadata)
+    for ((labels, sentence) <- testDataset.instances) {
 
-      val predictedLabels = model.predict(instance)
+      val predictedLabels = model.predict(sentence)
         .labels
         .map(l => model.metadata.labels(l))
+      val correctLabels =
+        labels.labels.map{l => if (l >= 0) model.metadata.labels(l) else "unknown"}
 
-      for ((lCorrect, lPredicted) <- labels.labels.zip(predictedLabels)) {
+      for ((lCorrect, lPredicted) <- correctLabels.zip(predictedLabels)) {
         correct(lCorrect) = correct.getOrElseUpdate(lCorrect, 0) + 1
         predicted(lPredicted) = predicted.getOrElse(lPredicted, 0) + 1
 
@@ -106,7 +83,7 @@ object CoNLL2003CrfTest extends App {
     System.out.println("label\tprec\trec\tf1")
 
     val totalCorrect = correct.filterKeys(label => label != "O").values.sum
-    val totalPredicted = correct.filterKeys(label => label != "O").values.sum
+    val totalPredicted = predicted.filterKeys(label => label != "O").values.sum
     val totalPredictedCorrect = predictedCorrect.filterKeys(label => label != "O").values.sum
 
     val rec = totalPredictedCorrect.toFloat / totalCorrect
@@ -137,4 +114,3 @@ object CoNLL2003CrfTest extends App {
   System.out.println("\n\nQuality on test B data")
   testDataset(testFileB, model)
 }
-
