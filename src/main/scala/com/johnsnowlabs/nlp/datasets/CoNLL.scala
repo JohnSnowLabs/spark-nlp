@@ -74,7 +74,7 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
 
   def pack(sentences: Seq[TaggedSentence]): Seq[Annotation] = {
     if (annotatorType == AnnotatorType.NAMED_ENTITY)
-        NerTagged.pack(sentences)
+      NerTagged.pack(sentences)
     else
       PosTagged.pack(sentences)
   }

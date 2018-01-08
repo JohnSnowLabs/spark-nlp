@@ -8,6 +8,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -152,6 +153,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setMinEpochs(1)
       .setMaxEpochs(3)
       .setDatsetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
