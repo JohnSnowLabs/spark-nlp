@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import org.apache.spark.ml.param.Params
 import org.apache.spark.ml.util.{DefaultParamsWritable, MLWriter}
 
@@ -11,6 +12,12 @@ class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter
     for (feature <- annotatorWithFeatures.features) {
       feature.serializeInfer(sparkSession, path, feature.name, feature.getValue)
     }
+
+    annotatorWithFeatures match {
+      case m: ModelWithWordEmbeddings[_] => m.serializeEmbeddings(path, sparkSession.sparkContext)
+      case _ =>
+    }
+
   }
 }
 
