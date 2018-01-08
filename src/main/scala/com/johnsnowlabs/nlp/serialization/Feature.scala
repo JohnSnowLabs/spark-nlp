@@ -40,21 +40,15 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serialize(spark: SparkSession, path: String, field: String, value: TValue): Unit = {
-    import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    Seq(value.asInstanceOf[TValue]).toDS.write.mode("overwrite").parquet(dataPath.toString)
+    spark.createDataset(Seq(value)).write.mode("overwrite").parquet(dataPath.toString)
   }
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[TValue] = {
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val loaded = spark.read.parquet(dataPath.toString)
-      import spark.implicits._
-      loaded.schema.head.dataType match {
-        case ArrayType(StringType, _) => loaded.as[String].collect.headOption.map(_.asInstanceOf[TValue])
-        case _ => loaded.as[TValue].collect.headOption
-      }
+      Some(spark.read.parquet(dataPath.toString).as[TValue].first)
     } else {
       None
     }
@@ -65,40 +59,25 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
 class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String)
   extends Feature[TKey, TValue, Map[TKey, TValue]](model, name) {
 
+  implicit val encoder: Encoder[(TKey, TValue)] = Encoders.kryo[(TKey, TValue)]
+
   override def serialize(spark: SparkSession, path: String, field: String, value: Map[TKey, TValue]): Unit = {
     import spark.implicits._
-    //implicit val encoder: Encoder[(TKey, TValue)] = Encoders.tuple(Encoders.kryo[TKey], Encoders.kryo[TValue])
     val dataPath = getFieldPath(path, field)
-    //value.toSeq.toDS.as[(TKey, TValue)].write.mode("overwrite").parquet(dataPath.toString)
-    spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
+    value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString)
   }
 
 
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
-    //implicit val encoder: Encoder[(TKey, TValue)] = Encoders.tuple(Encoders.kryo[TKey], Encoders.kryo[TValue])
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      //val loaded = spark.read.parquet(dataPath.toString)
-      //Some(loaded.as[(TKey, TValue)].collect.toMap)
-      Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
+      Some(spark.read.parquet(dataPath.toString).as[(TKey, TValue)].collect.toMap)
     } else {
       None
     }
   }
-
-
-
-  /*
-  override def deserialize(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
-    val k = new ArrayFeature[TKey](model, name+"_k")
-    val v = new ArrayFeature[TValue](model, name+"_v")
-    val ks = k.deserialize(spark, path+"_k", field+"_k")
-    val vs = v.deserialize(spark, path+"_v", field+"_v")
-    ks.map(kk => kk.zip(vs.get).toMap[TKey, TValue])
-  }
-  */
 
 }
 
@@ -108,17 +87,15 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serialize(spark: SparkSession, path: String, field: String, value: Array[TValue]): Unit = {
-    import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString)
+    spark.createDataset(value).write.mode("overwrite").parquet(dataPath.toString)
   }
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[Array[TValue]] = {
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val loaded = spark.read.parquet(dataPath.toString)
-      Some(loaded.as[TValue].collect)
+      Some(spark.read.parquet(dataPath.toString).as[TValue].collect)
     } else {
       None
     }
