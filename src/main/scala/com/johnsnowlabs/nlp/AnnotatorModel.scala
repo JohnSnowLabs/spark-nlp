@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.ml.util.DefaultParamsWritable
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.types._
@@ -15,7 +14,7 @@ import org.apache.spark.sql.functions.{array, udf}
   */
 abstract class AnnotatorModel[M <: Model[M]]
   extends Model[M]
-    with DefaultParamsWritable
+    with ParamsAndFeaturesWritable
     with HasAnnotatorType
     with HasInputAnnotationCols
     with HasOutputAnnotationCol {
