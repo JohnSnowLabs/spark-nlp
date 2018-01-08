@@ -8,6 +8,7 @@ import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
 
@@ -60,6 +61,7 @@ object CoNLL2003PipelineTest extends App {
       .setRandomSeed(100)
       .setMaxEpochs(20)
       .setOutputCol("ner")
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.Text)
 
     getPosStages() :+ nerTagger
   }

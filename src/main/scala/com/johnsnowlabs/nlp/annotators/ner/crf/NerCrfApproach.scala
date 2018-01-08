@@ -9,6 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.embeddings.AnnotatorWithWordEmbeddings
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -17,7 +18,9 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]{
+class NerCrfApproach(override val uid: String)
+  extends AnnotatorWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
+
   def this() = this(Identifiable.randomUID("NER"))
 
   override val description = "CRF based Named Entity Recognition Tagger"
@@ -116,7 +119,8 @@ class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfM
 
     val dictPaths = get(dicts).getOrElse(Array.empty[String])
     val dictFeatures = DictionaryFeatures.read(dictPaths.toSeq)
-    val crfDataset = FeatureGenerator(dictFeatures).generateDataset(trainDataset)
+    val crfDataset = FeatureGenerator(dictFeatures, embeddings)
+      .generateDataset(trainDataset)
 
     val params = CrfParams(
       minEpochs = getOrDefault(minEpochs),
