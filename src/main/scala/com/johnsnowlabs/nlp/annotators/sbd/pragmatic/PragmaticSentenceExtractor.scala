@@ -17,12 +17,15 @@ class PragmaticSentenceExtractor(text: String) {
     var lastCharPosition = 0
     var i = 0
     while (i < sentences.length) {
-      val sentenceContent = rawSentences(i)
-      val sentenceLastCharPos = lastCharPosition + sentenceContent.length - 1
+      val rawSentence = rawSentences(i)
+      val sentence = rawSentence.trim()
+      val startPad = rawSentence.indexOf(sentence)
+
+      val sentenceLastCharPos = lastCharPosition + rawSentence.length - 1
       sentences(i) = Sentence(
-        sentenceContent,
-        lastCharPosition,
-        sentenceLastCharPos
+        sentence,
+        lastCharPosition + startPad,
+        lastCharPosition + startPad + sentence.length() - 1
       )
       lastCharPosition = sentenceLastCharPos + 1
       i = i + 1
@@ -39,15 +42,15 @@ class PragmaticSentenceExtractor(text: String) {
     * @return final sentence structure
     */
   def pull: Array[Sentence] = {
-    val splitSentences: Array[String] = text
+    val splitSentences = text
       .split(PragmaticSymbols.UNPROTECTED_BREAK_INDICATOR)
       .map(_.replaceAll(PragmaticSymbols.BREAK_INDICATOR, ""))
-      .map(_.trim).filter(_.nonEmpty)
       .map(s => recoverySymbols.replaceAllIn(
         s, m => PragmaticSymbols.symbolRecovery
           .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))
       ))
-    buildSentenceProperties(splitSentences)
-  }
 
+    buildSentenceProperties(splitSentences)
+      .filter(_.content.trim.nonEmpty)
+  }
 }

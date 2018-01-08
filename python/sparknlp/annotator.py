@@ -48,6 +48,26 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
+class AnnotatorWithEmbeddings(Params):
+    sourceEmbeddingsPath = Param(Params._dummy(),
+                                 "sourceEmbeddingsPath",
+                                 "Word embeddings file",
+                                 typeConverter=TypeConverters.toString)
+    embeddingsFormat = Param(Params._dummy(),
+                             "embeddingsFormat",
+                             "Word vectors file format",
+                             typeConverter=TypeConverters.toInt)
+    embeddingsNDims = Param(Params._dummy(),
+                            "embeddingsNDims",
+                            "Number of dimensions for word vectors",
+                            typeConverter=TypeConverters.toInt)
+
+    def setEmbeddingsSource(self, path, nDims, format):
+        self._set(sourceEmbeddingsPath=path)
+        self._set(embeddingsFormat=format)
+        return self._set(embeddingsNDims=nDims)
+
+
 class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
@@ -478,7 +498,7 @@ class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorPr
 
 
 
-class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
     labelColumn = Param(Params._dummy(),
                      "labelColumn",
                      "Column with label per each token",
