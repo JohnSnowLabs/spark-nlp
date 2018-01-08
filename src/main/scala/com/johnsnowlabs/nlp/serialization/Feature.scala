@@ -8,7 +8,7 @@ import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag
 
-abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String, val description: String)(implicit val sparkSession: SparkSession = SparkSession.builder().getOrCreate()) extends Serializable {
+abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String)(implicit val sparkSession: SparkSession = SparkSession.builder().getOrCreate()) extends Serializable {
   model.features.append(this)
 
   final protected var value: Option[Broadcast[TComplete]] = None
@@ -34,13 +34,13 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
 
 }
 
-class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val  description: String)
-  extends Feature[TValue, TValue, TValue](model, name, description) {
+class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
+  extends Feature[TValue, TValue, TValue](model, name) {
 
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serialize(spark: SparkSession, path: String, field: String, value: TValue): Unit = {
-    import spark.sqlContext.implicits._
+    import spark.implicits._
     val dataPath = getFieldPath(path, field)
     Seq(value.asInstanceOf[TValue]).toDS.write.mode("overwrite").parquet(dataPath.toString)
   }
@@ -62,39 +62,55 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
 
 }
 
-class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
-  extends Feature[TKey, TValue, Map[TKey, TValue]](model, name, description) {
-
-  implicit val encoder: Encoder[Map[TKey, TValue]] = Encoders.kryo[Map[TKey, TValue]]
+class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String)
+  extends Feature[TKey, TValue, Map[TKey, TValue]](model, name) {
 
   override def serialize(spark: SparkSession, path: String, field: String, value: Map[TKey, TValue]): Unit = {
-    import spark.sqlContext.implicits._
+    import spark.implicits._
+    //implicit val encoder: Encoder[(TKey, TValue)] = Encoders.tuple(Encoders.kryo[TKey], Encoders.kryo[TValue])
     val dataPath = getFieldPath(path, field)
-    Seq(value).toDS.write.mode("overwrite").parquet(dataPath.toString)
+    //value.toSeq.toDS.as[(TKey, TValue)].write.mode("overwrite").parquet(dataPath.toString)
+    spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
   }
 
+
+
   override def deserialize(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
+    //implicit val encoder: Encoder[(TKey, TValue)] = Encoders.tuple(Encoders.kryo[TKey], Encoders.kryo[TValue])
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val loaded = spark.read.parquet(dataPath.toString)
-      loaded.as[Map[TKey, TValue]].collect.headOption
+      //val loaded = spark.read.parquet(dataPath.toString)
+      //Some(loaded.as[(TKey, TValue)].collect.toMap)
+      Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
     } else {
       None
     }
   }
 
+
+
+  /*
+  override def deserialize(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
+    val k = new ArrayFeature[TKey](model, name+"_k")
+    val v = new ArrayFeature[TValue](model, name+"_v")
+    val ks = k.deserialize(spark, path+"_k", field+"_k")
+    val vs = v.deserialize(spark, path+"_v", field+"_v")
+    ks.map(kk => kk.zip(vs.get).toMap[TKey, TValue])
+  }
+  */
+
 }
 
-class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: String, override val description: String)
-  extends Feature[TValue, TValue, Array[TValue]](model, name, description) {
+class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
+  extends Feature[TValue, TValue, Array[TValue]](model, name) {
 
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serialize(spark: SparkSession, path: String, field: String, value: Array[TValue]): Unit = {
-    import spark.sqlContext.implicits._
+    import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    Seq(value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString))
+    value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString)
   }
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[Array[TValue]] = {

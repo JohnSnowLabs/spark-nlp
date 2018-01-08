@@ -21,9 +21,9 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  protected val positive: MapFeature[String, Int] = new MapFeature(this, "positive_sentences", "positive sentences trained")
-  protected val negative: MapFeature[String, Int] = new MapFeature(this, "negative_sentences", "negative sentences trained")
-  protected val words: ArrayFeature[String] = new ArrayFeature(this, "words", "unique words trained")
+  protected val positive: MapFeature[String, Int] = new MapFeature(this, "positive_sentences")
+  protected val negative: MapFeature[String, Int] = new MapFeature(this, "negative_sentences")
+  protected val words: ArrayFeature[String] = new ArrayFeature(this, "words")
 
   protected val positiveTotals: IntParam = new IntParam(this, "positive_totals", "count of positive words")
   protected val negativeTotals: IntParam = new IntParam(this, "negative_totals", "count of negative words")
