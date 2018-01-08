@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import org.apache.spark.ml.util.{DefaultParamsReadable, MLReader}
 
 class FeaturesReader[T <: HasFeatures](baseReader: MLReader[T]) extends MLReader[T] {
@@ -12,6 +13,12 @@ class FeaturesReader[T <: HasFeatures](baseReader: MLReader[T]) extends MLReader
       val value = feature.deserialize(sparkSession, path, feature.name)
       feature.setValue(value)
     }
+
+    instance match {
+      case m: ModelWithWordEmbeddings[_] => m.deserializeEmbeddings(path, sparkSession.sparkContext)
+      case _ =>
+    }
+
     instance
   }
 }

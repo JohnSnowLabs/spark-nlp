@@ -1,9 +1,14 @@
 package com.johnsnowlabs.nlp.serialization
 
+import java.io.File
+import java.nio.file.{Files, Paths}
+
 import com.johnsnowlabs.nlp.HasFeatures
+import com.johnsnowlabs.nlp.embeddings.{ModelWithWordEmbeddings, WordEmbeddings, WordEmbeddingsClusterHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.sql.types.{ArrayType, StringType}
+import org.apache.spark.ml.param.{ParamMap, Params}
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag

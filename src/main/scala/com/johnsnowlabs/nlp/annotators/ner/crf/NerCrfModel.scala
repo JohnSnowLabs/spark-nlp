@@ -5,10 +5,9 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.ParamsAndFeaturesReadable
 import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.hadoop.fs.Path
+import com.johnsnowlabs.nlp.Annotation
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
 
@@ -41,7 +40,7 @@ class NerCrfModel(override val uid: String) extends ModelWithWordEmbeddings[NerC
 
     val crf = $$(model)
 
-    val fg = FeatureGenerator(dictionaryFeatures, embeddings)
+    val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)), embeddings)
     sentences.map{sentence =>
       val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)
