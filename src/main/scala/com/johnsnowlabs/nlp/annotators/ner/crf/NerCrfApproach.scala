@@ -61,7 +61,7 @@ class NerCrfApproach(override val uid: String)
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
-  def setDatsetPath(path: String) = set(datasetPath, path)
+  def setDatasetPath(path: String) = set(datasetPath, path)
 
   setDefault(
     minEpochs -> 0,
