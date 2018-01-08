@@ -22,8 +22,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
   private val vowels = "aeiouy".toCharArray
 
-  protected val wordCount: MapFeature[String, Int] = new MapFeature(this, "wordCount", "words frequency in training")
-  protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict", "custom words in dictionary")
+  protected val wordCount: MapFeature[String, Int] = new MapFeature(this, "wordCount")
+  protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
   private val config: Config = ConfigFactory.load

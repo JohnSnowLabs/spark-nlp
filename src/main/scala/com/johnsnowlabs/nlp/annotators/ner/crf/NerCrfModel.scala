@@ -19,8 +19,8 @@ class NerCrfModel(override val uid: String)
   def this() = this(Identifiable.randomUID("NER"))
 
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
-  val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel", "CRF Model")
-  val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures", "CRF Features dictionary")
+  val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
+  val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
 
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
 

@@ -19,7 +19,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   private case class SentenceToBeTagged(tokenizedSentence: TokenizedSentence, start: Int, end: Int)
 
   val model: StructFeature[AveragedPerceptron] =
-    new StructFeature[AveragedPerceptron](this, "POS Model", "POS Tagging approach")
+    new StructFeature[AveragedPerceptron](this, "POS Model")
 
   override val annotatorType: AnnotatorType = POS
 

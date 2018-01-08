@@ -25,7 +25,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   private val config: Config = ConfigHelper.retrieve
 
-  val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict", "provide a lemma dictionary")
+  val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")
 
   val lemmaFormat: Param[String] = new Param[String](this, "lemmaFormat", "TXT or TXTDS for reading dictionary as dataset")
 
