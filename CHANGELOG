@@ -1,4 +1,34 @@
 ========
+1.2.5
+========
+IMPORTANT: Pipelines from 1.2.4 or older cannot be loaded from 1.2.5
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/70
+Word embeddings parameter for CRF NER annotator
+* https://github.com/JohnSnowLabs/spark-nlp/pull/78
+Annotator features replace params and are now serialized using KRYO and partitioned files, increases performance and smaller
+memory consumption in Driver for saving and loading pipelines with large corpora. Such features are now also broadcasted
+for better performance in distributed environments. This enhancement is a breaking change, does not allow to load older pipelines
+
+----------------
+Bug fixes
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/cb9aa4366f3e2c9863482df39e07b7bacff13049
+Stemmer was not capable of being deserialized (Implements DefaultParamsReadable)
+* https://github.com/JohnSnowLabs/spark-nlp/pull/75
+Sentence Boundary detector was not properly setting bounds
+
+----------------
+Documentation (thanks @maziyarpanahi)
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/79
+Typo in code
+* https://github.com/JohnSnowLabs/spark-nlp/pull/74
+Bad description
+
+========
 1.2.4
 ========
 ---------------
