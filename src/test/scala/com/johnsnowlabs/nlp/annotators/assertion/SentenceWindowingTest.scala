@@ -32,7 +32,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     assert(expected === result.tupleToList)
   }
 
-  "multi word targets" should "be correctly identified" in new Scope{
+  "multi word targets" should "be correctly identified" in new Scope {
     val doc = "it has been said that the cat eats fish while listens to the rain"
     val target = "the cat"
     val expected = "it has been said that the cat eats fish while listens".split(" ")
