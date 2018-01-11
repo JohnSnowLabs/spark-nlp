@@ -46,14 +46,16 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
 
   override def serialize(spark: SparkSession, path: String, field: String, value: TValue): Unit = {
     val dataPath = getFieldPath(path, field)
-    spark.createDataset(Seq(value)).write.mode("overwrite").parquet(dataPath.toString)
+    //spark.createDataset(Seq(value)).write.mode("overwrite").parquet(dataPath.toString)
+    spark.sparkContext.parallelize(Seq(value)).saveAsObjectFile(dataPath.toString)
   }
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[TValue] = {
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.read.parquet(dataPath.toString).as[TValue].first)
+      //Some(spark.read.parquet(dataPath.toString).as[TValue].first)
+      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
     } else {
       None
     }
@@ -67,9 +69,10 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
   implicit val encoder: Encoder[(TKey, TValue)] = Encoders.kryo[(TKey, TValue)]
 
   override def serialize(spark: SparkSession, path: String, field: String, value: Map[TKey, TValue]): Unit = {
-    import spark.implicits._
+    //import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString)
+    //value.toSeq.toDS.write.mode("overwrite").parquet(dataPath.toString)
+    spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
   }
 
 
@@ -78,7 +81,8 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.read.parquet(dataPath.toString).as[(TKey, TValue)].collect.toMap)
+      //Some(spark.read.parquet(dataPath.toString).as[(TKey, TValue)].collect.toMap)
+      Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
     } else {
       None
     }
@@ -93,14 +97,16 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
 
   override def serialize(spark: SparkSession, path: String, field: String, value: Array[TValue]): Unit = {
     val dataPath = getFieldPath(path, field)
-    spark.createDataset(value).write.mode("overwrite").parquet(dataPath.toString)
+    //spark.createDataset(value).write.mode("overwrite").parquet(dataPath.toString)
+    spark.sparkContext.parallelize(value).saveAsObjectFile(dataPath.toString)
   }
 
   override def deserialize(spark: SparkSession, path: String, field: String): Option[Array[TValue]] = {
     val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.read.parquet(dataPath.toString).as[TValue].collect)
+      //Some(spark.read.parquet(dataPath.toString).as[TValue].collect)
+      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
     } else {
       None
     }
