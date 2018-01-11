@@ -2,17 +2,21 @@ package com.johnsnowlabs.ml.logreg
 
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{RegexTokenizer, SimpleTokenizer, Tokenizer, Windowing}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.mllib.vectors
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS
+import org.apache.spark.mllib.regression.LabeledPoint
+import org.apache.spark.mllib.linalg.Vector
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{Column, ColumnName, DataFrame, SparkSession}
 
 object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
 
   override val before = 11
   override val after = 13
-  override val tokenizer: Tokenizer = new SimpleTokenizer
+  override val tokenizer: Tokenizer = new RegexTokenizer
   override lazy val wordVectors: Option[WordEmbeddings] = reader.wordVectors
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate()
@@ -33,16 +37,19 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   val embeddingsDims = 200
   // word embeddings location
   val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
+  //val embeddingsFile = s"/home/jose/wordembeddings/pubmed_i2b2.bin"
   val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
 
+
+  val windowUDF = applyWindowUdf(vectors)
   val trainDataset = reader.readDataFrame(trainDatasetPath)
-    .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+    .withColumn("features", windowUDF($"text", $"target", $"start", $"end"))
     .withColumn("label", labelToNumber($"label"))
     .select($"features", $"label")
 
   println("trainDsSize: " +  trainDataset.count)
   val testDataset = reader.readDataFrame(testDatasetPath)
-    .withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+    .withColumn("features", windowUDF($"text", $"target", $"start", $"end"))
     .withColumn("label", labelToNumber($"label"))
     .select($"features", $"label", $"text", $"target")
 
@@ -51,27 +58,23 @@ object I2b2DatasetLogRegTest extends App with Windowing with EvaluationMetrics {
   val model = train(trainDataset.cache())
 
   // Compute raw scores on the test set.
-  val result = model.transform(testDataset.cache())
-
-  val errors = result.filter(r => r.getAs[Double]("prediction") != r.getAs[Double]("label")).collect()
-  println(errors)
-
-  val pred = result.select($"prediction").collect.map(_.getAs[Double]("prediction"))
-  val gold = result.select($"label").collect.map(_.getAs[Double]("label"))
-
+  val pred = model.predict(testDataset.rdd.cache().map(r => r.getAs[Vector]("features"))).collect
+  val gold = testDataset.select($"label").map(r => r.getAs[Double]("label")).collect
   println(calcStat(pred, gold))
-
   println(confusionMatrix(pred, gold))
 
   def train(dataFrame: DataFrame) = {
-    val lr = new LogisticRegression()
-      .setMaxIter(26)
-      .setRegParam(0.00192)
-      .setElasticNetParam(0.9)
-
-    lr.fit(dataFrame)
+    val lr = new LogisticRegressionWithLBFGS().setNumClasses(6)
+    lr.optimizer.setRegParam(0.00192)
+    val lblpt = toLabeledPoint(dataFrame.rdd.cache())
+    lr.run(lblpt)
   }
+
 
   def labelToNumber = udf { label:String  => mappings.get(label)}
 
+  /* TODO improve this */
+  import org.apache.spark.sql.Row
+  def toLabeledPoint(rdd: RDD[Row]) = rdd.map(r => LabeledPoint(r.getAs[Double]("label"),
+    r.getAs[Vector]("features")))
 }

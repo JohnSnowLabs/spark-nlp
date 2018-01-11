@@ -54,7 +54,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) exten
    * */
   def readDataFrame(datasetPaths: Seq[String]) (implicit session: SparkSession): DataFrame= {
     import session.implicits._
-    datasetPaths.flatMap(read).filter(_!=null).toDF //.withColumn("label", labelToNumber($"label"))
+    datasetPaths.flatMap(read).filter(_!=null).toDF
   }
 
 

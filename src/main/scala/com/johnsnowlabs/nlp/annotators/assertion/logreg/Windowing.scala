@@ -1,15 +1,40 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
+
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.expressions.UserDefinedFunction
 
 import scala.collection.mutable
+
 
 /**
   * Created by jose on 24/11/17.
   */
+
+/* Type class to handle multiple Vectors versions */
+trait VectorsType[T] {
+  /* create a vector from an array */
+  def dense(array:Array[Double]):T
+}
+
+object mllib {
+  import org.apache.spark.mllib.linalg.Vector
+  import org.apache.spark.mllib.linalg.Vectors
+  object vectors extends VectorsType[Vector] {
+    override def dense(array: Array[Double]) = Vectors.dense(array)
+  }
+}
+
+object ml {
+  import org.apache.spark.ml.linalg.Vector
+  import org.apache.spark.ml.linalg.Vectors
+  object vectors extends VectorsType[Vector] {
+    override def dense(array: Array[Double]) = Vectors.dense(array)
+  }
+}
+
 trait Windowing extends Serializable {
 
   /* */
@@ -83,10 +108,11 @@ trait Windowing extends Serializable {
         r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
     }
 
-  def applyWindowUdf =
+  import scala.reflect.runtime.universe._
+  def applyWindowUdf[T](vectors:VectorsType[T])(implicit tag: TypeTag[T]): UserDefinedFunction =
     //here 's' and 'e' are token number for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
-      Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
+      vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
 
   def l2norm(xs: Array[Double]):Double = {
@@ -98,6 +124,4 @@ trait Windowing extends Serializable {
     val norm = l2norm(vec) + 1.0
     vec.map(element => element / norm)
   }
-
-
 }

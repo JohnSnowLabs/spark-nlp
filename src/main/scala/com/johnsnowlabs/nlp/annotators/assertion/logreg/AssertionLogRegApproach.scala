@@ -2,11 +2,13 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
-import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS
+import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.mllib.vectors
+import org.apache.spark.sql.expressions.UserDefinedFunction
 
 /**
   * Created by jose on 22/11/17.
@@ -59,10 +61,11 @@ class AssertionLogRegApproach(override val uid: String) extends
     import dataset.sqlContext.implicits._
 
     /* apply UDF to fix the length of each document */
+    val theUdf : UserDefinedFunction= applyWindowUdf(vectors)
     val processed = dataset.toDF.
-      withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+      withColumn("features", theUdf($"text", $"target", $"start", $"end"))
 
-    val lr = new LogisticRegressionWithLBFGS
+    val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
       .setRegParam(getOrDefault(regParam))
       .setElasticNetParam(getOrDefault(eNetParam))

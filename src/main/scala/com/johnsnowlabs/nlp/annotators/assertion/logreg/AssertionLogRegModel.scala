@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.mllib.vectors
 import com.johnsnowlabs.nlp.embeddings.{ModelWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
@@ -44,8 +45,9 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
     require(model.isDefined, "model must be set before tagging")
 
     /* apply UDF to fix the length of each document */
+    val theUdf = applyWindowUdf(vectors)
     val processed = dataset.toDF.
-      withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+      withColumn("features", theUdf ($"text", $"target", $"start", $"end"))
 
     model.get.transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
   }
