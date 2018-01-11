@@ -46,6 +46,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     normalizer.transform(withTokenizer(dataset))
   }
 
+  def withCaseSensitiveNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+      .setLowercase(false)
+    normalizer.transform(withTokenizer(dataset))
+  }
+
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
