@@ -37,6 +37,9 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   override val requiredAnnotatorTypes = Array(DOCUMENT)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
+    require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
+      s"${requiredAnnotatorTypes.mkString(", ")}")
+
     import dataset.sqlContext.implicits._
     require(model.isDefined, "model must be set before tagging")
 
