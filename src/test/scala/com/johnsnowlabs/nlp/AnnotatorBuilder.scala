@@ -114,7 +114,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("vivekn")
       .setPositiveSourcePath("/vivekn/positive/1.txt")
       .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
   }
@@ -134,6 +134,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new DependencyParser()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
+      .setSourcePath("src/test/resources/models/dep-model.txt")
       .fit(df)
       .transform(df)
   }

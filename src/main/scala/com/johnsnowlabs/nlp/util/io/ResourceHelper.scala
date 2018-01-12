@@ -235,25 +235,23 @@ object ResourceHelper {
   def wordCount(
                  source: String,
                  format: Format,
-                 m: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0),
-                 clean: Boolean = true,
-                 prefix: Option[String] = None,
-                 f: Option[(List[String] => List[String])] = None
+                 tokenPattern: String,
+                 m: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0)
                ): MMap[String, Int] = {
     format match {
       case TXT =>
-        val regex = if (clean) "[a-zA-Z]+".r else "\\S+".r
+        val regex = tokenPattern.r
         if (pathIsDirectory(source)) {
           try {
             new File(source).listFiles()
-              .flatMap(fileName => wordCount(fileName.toString, format, m))
+              .flatMap(fileName => wordCount(fileName.toString, format, tokenPattern, m))
           } catch {
             case _: NullPointerException =>
               val sourceStream = SourceStream(source)
               sourceStream
                 .content
                 .getLines()
-                .flatMap(fileName => wordCount(source + "/" + fileName, format, m))
+                .flatMap(fileName => wordCount(source + "/" + fileName, format, tokenPattern, m))
                 .toArray
               sourceStream.close()
           }
@@ -261,23 +259,9 @@ object ResourceHelper {
           val sourceStream = SourceStream(source)
           sourceStream.content.getLines.foreach(line => {
             val words = regex.findAllMatchIn(line).map(_.matched).toList
-            if (f.isDefined) {
-              f.get.apply(words).foreach(w => {
-                if (prefix.isDefined) {
-                  m(prefix.get + w) += 1
-                } else {
-                  m(w) += 1
-                }
-              })
-            } else {
               words.foreach(w => {
-                if (prefix.isDefined) {
-                  m(prefix.get + w) += 1
-                } else {
-                  m(w) += 1
-                }
+                m(w) += 1
               })
-            }
           })
           sourceStream.close()
         }
@@ -292,6 +276,7 @@ object ResourceHelper {
         val tokenizer = new RegexTokenizer()
           .setInputCols("document")
           .setOutputCol("token")
+          .setPattern(tokenPattern)
         val normalizer = new Normalizer()
           .setInputCols("token")
           .setOutputCol("normal")
@@ -310,6 +295,48 @@ object ResourceHelper {
         wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
+  }
+
+  def ViveknWordCount(
+                       source: String,
+                       tokenPattern: String,
+                       prune: Int,
+                       f: (List[String] => List[String]),
+                       left: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0),
+                       right: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0)
+               ): (MMap[String, Int], MMap[String, Int]) = {
+    val regex = tokenPattern.r
+    val prefix = "not_"
+    if (pathIsDirectory(source)) {
+      try {
+        new File(source).listFiles()
+          .map(fileName => ViveknWordCount(fileName.toString, tokenPattern, prune, f, left, right))
+      } catch {
+        case _: NullPointerException =>
+          val sourceStream = SourceStream(source)
+          sourceStream
+            .content
+            .getLines()
+            .map(fileName => ViveknWordCount(source + "/" + fileName, tokenPattern, prune, f, left, right))
+            .toArray
+          sourceStream.close()
+      }
+    } else {
+      val sourceStream = SourceStream(source)
+      sourceStream.content.getLines.foreach(line => {
+        val words = regex.findAllMatchIn(line).map(_.matched).toList
+        f.apply(words).foreach(w => {
+          left(w) += 1
+          right(prefix + w) += 1
+        })
+      })
+      sourceStream.close()
+    }
+    if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
+    if (prune > 0)
+      (left.filter{case (_, v) => v > 1}, right.filter{case (_, v) => v > 1})
+    else
+      (left, right)
   }
 
 }
