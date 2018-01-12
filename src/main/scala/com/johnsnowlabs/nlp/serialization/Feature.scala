@@ -18,6 +18,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
 
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
   final protected var rawValue: Option[TComplete] = None
+  final protected var fallback: Option[() => TComplete] = None
 
   final def serialize(spark: SparkSession, path: String, field: String, value: TComplete): Unit = {
     serializationMode match {
@@ -32,7 +33,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
 
   final def deserialize(spark: SparkSession, path: String, field: String): Option[_] = {
     if (broadcastValue.isDefined || rawValue.isDefined)
-      throw new Exception(s"Trying de deserialize an already set value for ${this.name}")
+      throw new Exception(s"Trying de deserialize an already set value for ${this.name}. This should not happen.")
     serializationMode match {
       case "dataset" => deserializeDataset(spark, path, field)
       case "object" => deserializeObject(spark, path, field)
@@ -52,17 +53,11 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
     Path.mergePaths(new Path(path), new Path("/fields/" + field))
 
   final def get: Option[TComplete] = {
-    if (useBroadcast)
-      broadcastValue.map(_.value)
-    else
-      rawValue
+    broadcastValue.map(_.value).orElse(rawValue)
   }
 
   final def getValue: TComplete = {
-    if (useBroadcast)
-      broadcastValue.map(_.value).getOrElse(throw new Exception(s"feature $name is not set"))
-    else
-      rawValue.getOrElse(throw new Exception(s"feature $name is not set"))
+    broadcastValue.map(_.value).orElse(rawValue).orElse(fallback.map(_())).getOrElse(throw new Exception(s"feature $name is not set"))
   }
 
   final def setValue(v: Option[Any]): HasFeatures = {
@@ -74,11 +69,14 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
     }
     model
   }
+
+  def setFallback(v: Option[() => TComplete]): HasFeatures = {
+    fallback = v
+    model
+  }
+
   final def isSet: Boolean = {
-    if (useBroadcast)
-      broadcastValue.isDefined
-    else
-      rawValue.isDefined
+    broadcastValue.isDefined || rawValue.isDefined
   }
 
 }
