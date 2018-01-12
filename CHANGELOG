@@ -1,4 +1,20 @@
 ========
+1.2.6
+========
+---------------
+Enhancements
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/82
+Vivekn Sentiment Analysis improved memory consumption and training performance
+Parameter pruneCorpus is an adjustable value now, defaults to 1. Higher values lead to better performance
+but are meant on larger corpora. tokenPattern params are meant to allow different tokenization regex
+within the corpora provided on Vivekn and Norvig models.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/81
+Serialization improvements. New default format (parquet lasted little) is RDD objects. Proved to be lighter on
+heap memory. Also added lazier default values for Feature containers. New application.conf performance tunning
+settings allow to customize whether we want to Feature broadcast or not, and use parquet or objects in serialization.
+
+========
 1.2.5
 ========
 IMPORTANT: Pipelines from 1.2.4 or older cannot be loaded from 1.2.5
