@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -25,8 +25,10 @@ class ViveknSentimentApproach(override val uid: String)
     */
   val positiveSourcePath = new Param[String](this, "positiveSource", "source file for positive sentences")
   val negativeSourcePath = new Param[String](this, "negativeSource", "source file for negative sentences")
-  val pruneCorpus = new BooleanParam(this, "pruneCorpus", "set to false if training corpus is small")
-  setDefault(pruneCorpus, true)
+  val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
+  val tokenPattern = new Param[String](this, "tokenPattern", "Regex pattern to use in tokenization of corpus. Defaults \\S+")
+  setDefault(pruneCorpus, 1)
+  setDefault(tokenPattern, "\\S+")
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
@@ -38,46 +40,27 @@ class ViveknSentimentApproach(override val uid: String)
 
   def setNegativeSourcePath(value: String): this.type = set(negativeSourcePath, value)
 
-  def setCorpusPrune(value: Boolean): this.type = set(pruneCorpus, value)
+  def setCorpusPrune(value: Int): this.type = set(pruneCorpus, value)
+
+  def setTokenPattern(value: String): this.type = set(tokenPattern, value)
 
   override def train(dataset: Dataset[_]): ViveknSentimentModel = {
 
-    var positive: MMap[String, Int] = ResourceHelper.wordCount(
-      $(positiveSourcePath),
-      "txt",
-      clean=false,
-      f=Some(w => ViveknSentimentApproach.negateSequence(w))
-    )
-    var negative: MMap[String, Int] = ResourceHelper.wordCount(
-      $(negativeSourcePath),
-      "txt",
-      clean=false,
-      f=Some(w => ViveknSentimentApproach.negateSequence(w))
+    val fromPositive: (MMap[String, Int], MMap[String, Int]) = ResourceHelper.ViveknWordCount(
+      source=$(positiveSourcePath),
+      tokenPattern=$(tokenPattern),
+      prune=$(pruneCorpus),
+      f=w => ViveknSentimentApproach.negateSequence(w)
     )
 
-    /** add negated words */
-    negative = ResourceHelper.wordCount(
-      $(positiveSourcePath),
-      "txt",
-      m=negative,
-      clean=false,
-      prefix=Some("not_"),
-      f=Some(w => ViveknSentimentApproach.negateSequence(w))
+    val (negative, positive) = ResourceHelper.ViveknWordCount(
+      source=$(negativeSourcePath),
+      tokenPattern=$(tokenPattern),
+      prune=$(pruneCorpus),
+      f=w => ViveknSentimentApproach.negateSequence(w),
+      fromPositive._2,
+      fromPositive._1
     )
-    positive = ResourceHelper.wordCount(
-      $(negativeSourcePath),
-      "txt",
-      m=positive,
-      clean=false,
-      prefix=Some("not_"),
-      f=Some(w => ViveknSentimentApproach.negateSequence(w))
-    )
-
-    /** remove features that appear only once */
-    if ($(pruneCorpus)) {
-      positive = positive.filter { case (_, count) => count > 1 }
-      negative = negative.filter { case (_, count) => count > 1 }
-    }
 
     val positiveTotals = positive.values.sum
     val negativeTotals = negative.values.sum

@@ -352,14 +352,20 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
 
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
-                        "whether to prune low frequency words",
-                        typeConverter=TypeConverters.toBoolean)
+                        "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
+                        typeConverter=TypeConverters.toInt)
+
+    tokenPattern = Param(Params._dummy(),
+                         "negativeSource",
+                         "Regex pattern to use in tokenization of corpus. Defaults \\S+",
+                         typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self,
                  positiveSource="",
                  negativeSource="",
-                 pruneCorpus=False
+                 pruneCorpus=1,
+                 tokenPattern="\\S+"
                  ):
         super(ViveknSentimentApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach", self.uid)
@@ -367,26 +373,25 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
         self._setDefault(
             positiveSource="",
             negativeSource="",
-            pruneCorpus=False
+            pruneCorpus=1,
+            tokenPattern="\\S+"
         )
         self.setParams(**kwargs)
 
     def setPositiveSource(self, value):
-        self._set(positiveSource=value)
-        return self
+        return self._set(positiveSource=value)
 
     def setNegativeSource(self, value):
-        self._set(negativeSource=value)
-        return self
+        return self._set(negativeSource=value)
 
     def setPruneCorpus(self, value):
-        self._set(pruneCorpus=value)
-        return self
+        return self._set(pruneCorpus=value)
 
     def setParams(self,
                   positiveSource="",
                   negativeSource="",
-                  pruneCorpus=False):
+                  pruneCorpus=1,
+                  tokenPattern="\\S+"):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
@@ -413,6 +418,11 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                        "corpusFormat",
                        "dataset corpus format. txt or txtds allowed only",
                        typeConverter=TypeConverters.toString)
+
+    tokenPattern = Param(Params._dummy(),
+                         "tokenPattern",
+                         "Regex pattern to use in tokenization of corpus. Defaults [a-zA-Z]+",
+                         typeConverter=TypeConverters.toString)
 
     slangPath = Param(Params._dummy(),
                       "slangPath",
@@ -454,32 +464,28 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
         self.setParams(**kwargs)
 
     def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
+        return self._set(corpusPath=value)
 
     def setCorpusFormat(self, value):
-        self._set(corpusFormat=value)
-        return self
+        return self._set(corpusFormat=value)
+
+    def setTokenPattern(self, value):
+        return self._set(tokenPattern=value)
 
     def setDictPath(self, value):
-        self._set(dictPath=value)
-        return self
+        return self._set(dictPath=value)
 
     def setSlangPath(self, value):
-        self._set(slangPath=value)
-        return self
+        return self._set(slangPath=value)
 
     def setCaseSensitive(self, value):
-        self._set(caseSensitive=value)
-        return self
+        return self._set(caseSensitive=value)
 
     def setDoubleVariants(self, value):
-        self._set(doubleVariants=value)
-        return self
+        return self._set(doubleVariants=value)
 
     def setShortCircuit(self, value):
-        self._set(shortCircuit=value)
-        return self
+        return self._set(shortCircuit=value)
 
     def setParams(self,
                   dictPath="/spell/words.txt",
