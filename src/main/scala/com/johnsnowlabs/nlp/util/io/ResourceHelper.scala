@@ -209,16 +209,13 @@ object ResourceHelper {
       case TXT =>
         val sourceStream = SourceStream(source)
         val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
-          val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
-          line.split("\\s+").foreach { token => {
-            val tagSplit: Array[String] = token.split(keySep).filter(_.nonEmpty)
-            if (tagSplit.length == 2) {
-              val word = tagSplit(0)
-              val tag = tagSplit(1)
-              taggedWords.append(TaggedWord(word, tag))
-            }
-          }}
-          taggedWords.toArray
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(keySep)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(keySep)
+            TaggedWord(p(0), p(1))
+          })
         }).toArray
         sourceStream.close()
         res
