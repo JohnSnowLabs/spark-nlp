@@ -62,7 +62,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .setOutputCol("vivekn")
       .setPositiveSourcePath("/vivekn/positive/1.txt")
       .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setCorpusPrune(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(
