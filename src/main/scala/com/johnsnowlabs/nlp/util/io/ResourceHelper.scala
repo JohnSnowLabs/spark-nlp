@@ -10,9 +10,10 @@ import org.apache.spark.sql.SparkSession
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
-
 import java.net.URLDecoder
 import java.util.jar.JarFile
+
+import com.johnsnowlabs.nlp.annotators.common.TaggedWord
 
 
 /**
@@ -169,7 +170,7 @@ object ResourceHelper {
     format match {
       case TXT =>
         val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.map (line => {
+        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
           val kv = line.split (keySep).map (_.trim)
           (kv.head, kv.last)
         }).toArray
@@ -185,6 +186,54 @@ object ResourceHelper {
           (kv.head, kv.last)
         })
         lineStore.reset()
+        result
+      case _ =>
+        throw new Exception("Unsupported format. Must be TXT or TXTDS")
+    }
+  }
+
+  /**
+    * General purpose tuple parser from source
+    * Currently read only text files
+    * @param source File input to streamline
+    * @param format format
+    * @param keySep separator of tuples
+    * @return
+    */
+  def parseTupleSentences(
+                      source: String,
+                      format: Format,
+                      keySep: Char
+                    ): Array[Array[TaggedWord]] = {
+    format match {
+      case TXT =>
+        val sourceStream = SourceStream(source)
+        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
+          val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
+          line.split("\\s+").foreach { token => {
+            val tagSplit: Array[String] = token.split(keySep).filter(_.nonEmpty)
+            if (tagSplit.length == 2) {
+              val word = tagSplit(0)
+              val tag = tagSplit(1)
+              taggedWords.append(TaggedWord(word, tag))
+            }
+          }}
+          taggedWords.toArray
+        }).toArray
+        sourceStream.close()
+        res
+      case TXTDS =>
+        import spark.implicits._
+        val dataset = spark.read.text(source)
+        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(keySep)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(keySep)
+            TaggedWord(p(0), p(1))
+          })
+        }).collect
         result
       case _ =>
         throw new Exception("Unsupported format. Must be TXT or TXTDS")

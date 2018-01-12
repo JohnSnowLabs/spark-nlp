@@ -252,6 +252,11 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
                        "POS Corpus path",
                        typeConverter=TypeConverters.toString)
 
+    corpusFormat = Param(Params._dummy(),
+                         "corpusFormat",
+                         "TXT or TXTDS for reading as dataset",
+                         typeConverter=TypeConverters.toString)
+
     corpusLimit = Param(Params._dummy(),
                         "corpusLimit",
                         "Limit of files to read for training. Defaults to 50",
@@ -267,15 +272,18 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
         super(PerceptronApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
         kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default", corpusLimit=50, nIterations=5)
+        self._setDefault(corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5)
         self.setParams(**kwargs)
 
-    def setParams(self, corpusPath="__default", corpusLimit=50, nIterations=5):
+    def setParams(self, corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
     def setCorpusPath(self, value):
         return self._set(corpusPath=value)
+
+    def setCorpusFormat(self, value):
+        return self._set(corpusFormat=value)
 
     def setCorpusLimit(self, value):
         return self._set(corpusLimit=value)
