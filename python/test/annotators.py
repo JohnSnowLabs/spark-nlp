@@ -76,6 +76,26 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer.transform(tokenized).show()
 
 
+class NormalizerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = RegexTokenizer() \
+            .setOutputCol("token")
+        lemmatizer = Normalizer() \
+            .setInputCols(["token"]) \
+            .setOutputCol("normalized_token") \
+            .setLowercase(False)
+        assembled = document_assembler.transform(self.data)
+        tokenized = tokenizer.transform(assembled)
+        lemmatizer.transform(tokenized).show()
+
+
 class DateMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
