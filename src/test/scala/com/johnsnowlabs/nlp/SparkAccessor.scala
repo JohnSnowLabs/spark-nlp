@@ -10,5 +10,6 @@ object SparkAccessor {
     .master("local[*]")
     .config("spark.driver.memory","8G")
     .config("spark.kryoserializer.buffer.max","200M")
+    .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 }
