@@ -31,12 +31,18 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
   setDefault(corpusPath, "__default")
-  val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
-  setDefault(nIterations, 5)
+  val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
+  setDefault(corpusFormat, "TXT")
   val corpusLimit = new IntParam(this, "corpusLimit", "Limit of files to read for training. Defaults to 50")
   setDefault(corpusLimit, 50)
+  val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
+  setDefault(nIterations, 5)
 
   def setCorpusPath(value: String): this.type = set(corpusPath, value)
+
+  def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
+
+  def setCorpusLimit(value: Int): this.type = set(corpusLimit, value)
 
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
@@ -85,7 +91,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusLimit))
+    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusFormat), $(corpusLimit))
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -151,39 +157,6 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
 
-  /**Standard splitter for general purpose sentences*/
-  private def wordTagSplitter(sentence: String, tagSeparator: Char):
-  Array[TaggedWord] = {
-    val taggedWords: ArrayBuffer[TaggedWord] = ArrayBuffer()
-    sentence.split("\\s+").foreach { token => {
-      val tagSplit: Array[String] = token.split('|').filter(_.nonEmpty)
-      if (tagSplit.length == 2) {
-        val word = tagSplit(0)
-        val tag = tagSplit(1)
-        taggedWords.append(TaggedWord(word, tag))
-      }
-    }}
-    taggedWords.toArray
-  }
-
-  /**
-    * Parses CORPUS for tagged sentences
-    * @param text String to process
-    * @param tagSeparator Separator for provided String
-    * @return A list of [[TaggedSentence]]
-    */
-  private def parsePOSCorpusFromText(
-                              text: String,
-                              tagSeparator: Char
-                            ): Array[TaggedSentence] = {
-    val sentences: ArrayBuffer[Array[TaggedWord]] = ArrayBuffer()
-    text.split("\n").filter(_.nonEmpty).foreach{sentence =>
-      sentences.append(wordTagSplitter(sentence, tagSeparator))
-    }
-    sentences.map(TaggedSentence(_)).toArray
-  }
-
-
   /**
     * Parses CORPUS for tagged sentence from any compiled source
     * @param source for compiled corpuses, if any
@@ -192,15 +165,10 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
     */
   private def parsePOSCorpusFromSource(
                                         source: String,
-                                        tagSeparator: Char
+                                        tagSeparator: Char,
+                                        format: String
                                       ): Array[TaggedSentence] = {
-    val sourceStream = SourceStream(source)
-    val lines =
-      sourceStream.content.getLines()
-        .filter(_.nonEmpty)
-        .map(sentence => wordTagSplitter(sentence, tagSeparator))
-        .toArray
-    sourceStream.close()
+    val lines = ResourceHelper.parseTupleSentences(source, format.toUpperCase, '|')
     lines.map(TaggedSentence(_))
   }
 
@@ -219,7 +187,7 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
     try {
       Random.shuffle(new File(dirName).listFiles().toList)
         .take(fileLimit)
-        .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator))
+        .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator, "TXT"))
         .toArray
     } catch {
       case _: NullPointerException =>
@@ -227,7 +195,7 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
           .take(fileLimit)
           .flatMap{fileName =>
             val path = Paths.get(dirName, fileName)
-            parsePOSCorpusFromSource(path.toString, tagSeparator)}
+            parsePOSCorpusFromSource(path.toString, tagSeparator, "TXT")}
           .toArray
     }
   }
@@ -238,15 +206,15 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
     * @return TaggedSentences for POS training
     */
   private[perceptron] def retrievePOSCorpus(
-                                   posDirOrFilePath: String = "__default",
+                                   posDirOrFilePath: String,
+                                   corpusFormat: String,
                                    fileLimit: Int = 50
                                  ): Array[TaggedSentence] = {
     val dirOrFilePath = if (posDirOrFilePath == "__default") config.getString("nlp.posDict.dir") else posDirOrFilePath
-    val posFormat = config.getString("nlp.posDict.format")
     val posSeparator = config.getString("nlp.posDict.separator").head
     val result = {
-      if (pathIsDirectory(dirOrFilePath)) parsePOSCorpusFromDir(dirOrFilePath, posSeparator, fileLimit)
-      else parsePOSCorpusFromSource(dirOrFilePath, posSeparator)
+      if (corpusFormat.toUpperCase == "TXT" && pathIsDirectory(dirOrFilePath)) parsePOSCorpusFromDir(dirOrFilePath, posSeparator, fileLimit)
+      else parsePOSCorpusFromSource(dirOrFilePath, posSeparator, corpusFormat)
     }
     if (result.isEmpty) throw new Exception(s"Empty corpus for POS in $posDirOrFilePath")
     result
