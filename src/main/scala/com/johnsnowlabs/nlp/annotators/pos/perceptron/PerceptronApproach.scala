@@ -33,6 +33,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   setDefault(corpusPath, "__default")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
   setDefault(nIterations, 5)
+  val corpusLimit = new IntParam(this, "corpusLimit", "Limit of files to read for training. Defaults to 50")
+  setDefault(corpusLimit, 50)
 
   def setCorpusPath(value: String): this.type = set(corpusPath, value)
 
@@ -83,7 +85,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath))
+    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusLimit))
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -215,12 +217,13 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
                                      fileLimit: Int
                                    ): Array[TaggedSentence] = {
     try {
-      new File(dirName).listFiles()
+      Random.shuffle(new File(dirName).listFiles().toList)
         .take(fileLimit)
         .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator))
+        .toArray
     } catch {
       case _: NullPointerException =>
-        ResourceHelper.listDirectory(dirName)
+        Random.shuffle(ResourceHelper.listDirectory(dirName).toList)
           .take(fileLimit)
           .flatMap{fileName =>
             val path = Paths.get(dirName, fileName)
