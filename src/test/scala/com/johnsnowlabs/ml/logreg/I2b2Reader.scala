@@ -1,15 +1,19 @@
 package com.johnsnowlabs.ml.logreg
 
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
-import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import java.io.File
+
+import com.johnsnowlabs.nlp.annotators.datasets.I2b2AnnotationAndText
+
 import scala.io.Source
 
 /**
   * Reader for the i2b2 dataset
   *
 */
+
+case class I2b2Annotation(target: String, label: String, start:Int, end:Int, sourceLine:Int)
 
 class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) extends Serializable  {
 
@@ -58,6 +62,14 @@ class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) exten
   }
 
 
+  /* reads all the locations for all datasets (e.g. ['beth', 'partners']),
+ * and returns a Scala collection
+ * */
+  def read(datasetPaths: Seq[String]) (implicit session: SparkSession): Seq[I2b2AnnotationAndText]= {
+    import session.implicits._
+    datasetPaths.flatMap(read).filter(_!=null)
+  }
+
   lazy val wordVectors: Option[WordEmbeddings] = Option(wordEmbeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(wordEmbeddingsFile).exists())
@@ -66,11 +78,7 @@ class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) exten
         WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
   }.filter(_ => new File(fileDb).exists())
     .map(_ => WordEmbeddings(fileDb, 200))
-
-
 }
-case class I2b2Annotation(target: String, label: String, start:Int, end:Int, sourceLine:Int)
-case class I2b2AnnotationAndText(text: String, target: String, label: String, start:Int, end:Int)
 
 object I2b2Annotation {
 
