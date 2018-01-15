@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 
+import com.johnsnowlabs.nlp.annotators.datasets.I2b2AnnotationAndText
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -85,6 +86,9 @@ trait Windowing extends Serializable {
   def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
     val tokens = doc.split(" ").filter(_!="")
 
+    val target = Array.fill(5)(0.2)
+    val nonTarget = Array.fill(5)(0.0)
+
     /* now start and end are indexes in the doc string */
     val start = tokens.slice(0, s).map(_.length).sum +
       tokens.slice(0, s).size // account for spaces
@@ -94,15 +98,13 @@ trait Windowing extends Serializable {
     val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
 
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ target) ++
+      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ nonTarget)
   }
 
   def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
     udf {(doc:String, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, targetTerm:String)  =>
       val (l, t, r) = applyWindow(doc.toLowerCase, targetTerm.toLowerCase)
-      var target = Array(0.1, -0.1)
-      var nonTarget = Array(-0.1, 0.1)
       l.flatMap(w => wvectors.getEmbeddings(w)).map(_.toDouble) ++
         t.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble) ).map(_.toDouble) ++
         r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
@@ -114,6 +116,12 @@ trait Windowing extends Serializable {
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
       vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
+
+  /*take an annotation and return vector features for it */
+  def applyWindow(ann: I2b2AnnotationAndText) : Array[Double] =
+     applyWindow(wordVectors.get)(ann.text, ann.target, ann.start, ann.end)
+
+
 
   def l2norm(xs: Array[Double]):Double = {
     import math._
