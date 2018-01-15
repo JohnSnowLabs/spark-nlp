@@ -100,6 +100,7 @@ trait Windowing extends Serializable {
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
       t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ target) ++
       r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ nonTarget)
+      //computeLeftDistances(l.takeRight(2), wvectors) ++ computeRightDistances(r.take(2), wvectors)
   }
 
   def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
@@ -132,4 +133,76 @@ trait Windowing extends Serializable {
     val norm = l2norm(vec) + 1.0
     vec.map(element => element / norm)
   }
+
+  /* experimental stuff */
+
+  def distance(xs: Array[Float], ys: Array[Float]):Double = {
+    import math.{sqrt, pow}
+    sqrt((xs zip ys).map { case (x,y) => pow(y - x, 2) }.sum)
+  }
+
+  val preComplex = Map("suspicious" -> List("for"),
+    "could" -> List("be"), "suggestive" -> List("of", "that"),
+    "imaging" -> List("for"), "question" -> List("of"),
+    "rule" -> List("out"), "evaluation" -> List("for"),
+    "attributable" -> List("to"), "consistent" -> List("with"),
+    "possibility" -> List("to", "of"), "in" -> List("case"), "for" -> List("presumed"), "with" ->List("possible"))
+
+  val preSimple = Array("suggesting", "suggest", "possible", "presumed", "perhaps", "question", "investigate")
+
+  val posComplex = Map("was" -> List("considered"))
+
+  val posSimple = Array("vs", "or", "occurred")
+
+  def computeLeftDistances(context: Array[String], wvectors: WordEmbeddings):
+  Array[Double] = {
+    //add distances to single word cues
+    val single : Array[Double] = preSimple map { cue =>
+      if(context.size > 0)
+        distance(wvectors.getEmbeddings(cue), wvectors.getEmbeddings(context.takeRight(1).head))
+      else
+        -0.5 // we don't know
+    }
+
+    //add distances to complex word cues
+    val complex = for ((firstToken, secondTokens) <- preComplex;
+                       secondToken <- secondTokens) yield {
+      if(context.size > 1)
+        distance(wvectors.getEmbeddings(firstToken), wvectors.getEmbeddings(context.takeRight(2).head)) +
+          distance(wvectors.getEmbeddings(secondToken), wvectors.getEmbeddings(context.takeRight(1).head))
+      else
+        -1.0 // we don't know
+    }
+    val distances:Array[Double] = single ++ complex
+    normalize(distances)
+  }
+
+
+  def computeRightDistances(context: Array[String], wvectors: WordEmbeddings):
+  Array[Double] = {
+
+
+    //add distances to single word cues
+    val single : Array[Double] = posSimple map { cue =>
+      if(context.size > 0)
+        distance(wvectors.getEmbeddings(cue), wvectors.getEmbeddings(context.head))
+      else
+        -0.5 // we don't know
+    }
+
+    //add distances to complex word cues
+    val complex = for ((firstToken, secondTokens) <- posComplex;
+                       secondToken <- secondTokens) yield {
+      if(context.size > 1)
+        distance(wvectors.getEmbeddings(firstToken), wvectors.getEmbeddings(context.head)) +
+          distance(wvectors.getEmbeddings(secondToken), wvectors.getEmbeddings(context.tail.head))
+      else
+        -1.0 // we don't know
+    }
+
+
+    val distances = single  ++ complex
+    normalize(distances)
+  }
+
 }
