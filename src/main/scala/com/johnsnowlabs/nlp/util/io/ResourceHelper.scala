@@ -11,9 +11,12 @@ import org.apache.spark.sql.SparkSession
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
 import java.net.URLDecoder
+import java.nio.file.Paths
 import java.util.jar.JarFile
 
-import com.johnsnowlabs.nlp.annotators.common.TaggedWord
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+
+import scala.util.Random
 
 
 /**
@@ -203,37 +206,55 @@ object ResourceHelper {
   def parseTupleSentences(
                       source: String,
                       format: Format,
-                      keySep: Char
-                    ): Array[Array[TaggedWord]] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
-          line.split("\\s+").filter(kv => {
-            val s = kv.split(keySep)
-            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-          }).map(kv => {
-            val p = kv.split(keySep)
-            TaggedWord(p(0), p(1))
-          })
-        }).toArray
-        sourceStream.close()
-        res
-      case TXTDS =>
-        import spark.implicits._
-        val dataset = spark.read.text(source)
-        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
-          line.split("\\s+").filter(kv => {
-            val s = kv.split(keySep)
-            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-          }).map(kv => {
-            val p = kv.split(keySep)
-            TaggedWord(p(0), p(1))
-          })
-        }).collect
-        result
-      case _ =>
-        throw new Exception("Unsupported format. Must be TXT or TXTDS")
+                      keySep: Char,
+                      fileLimit: Int
+                    ): Array[TaggedSentence] = {
+    if (pathIsDirectory(source) && format == TXT) {
+      try {
+        Random.shuffle(new File(source).listFiles().toList)
+          .take(fileLimit)
+          .flatMap(fileName => parseTupleSentences(fileName.toString, format, keySep, fileLimit))
+          .toArray
+      } catch {
+        case _: NullPointerException =>
+          Random.shuffle(ResourceHelper.listDirectory(source).toList)
+            .take(fileLimit)
+            .flatMap{fileName =>
+              val path = Paths.get(source, fileName)
+              parseTupleSentences(path.toString, format, keySep, fileLimit)}
+            .toArray
+      }
+    } else {
+      format match {
+        case TXT =>
+          val sourceStream = SourceStream(source)
+          val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+            line.split("\\s+").filter(kv => {
+              val s = kv.split(keySep)
+              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+            }).map(kv => {
+              val p = kv.split(keySep)
+              TaggedWord(p.head, p.last)
+            })
+          }).toArray
+          sourceStream.close()
+          result.map(TaggedSentence(_))
+        case TXTDS =>
+          import spark.implicits._
+          val dataset = spark.read.text(source)
+          val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+            line.split("\\s+").filter(kv => {
+              val s = kv.split(keySep)
+              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+            }).map(kv => {
+              val p = kv.split(keySep)
+              TaggedWord(p(0), p(1))
+            })
+          }).collect
+          result.map(TaggedSentence(_))
+        case _ =>
+          throw new Exception("Unsupported format. Must be TXT or TXTDS")
+      }
     }
   }
 

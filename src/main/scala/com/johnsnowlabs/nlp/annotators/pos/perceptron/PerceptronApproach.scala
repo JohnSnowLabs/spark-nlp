@@ -1,19 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import java.io.File
-import java.nio.file.Paths
-
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, pathIsDirectory}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.slf4j.{Logger, LoggerFactory}
 
-import scala.collection.mutable.{ArrayBuffer, Map => MMap}
+import scala.collection.mutable.{Map => MMap}
 import scala.util.Random
 
 /**
@@ -27,10 +23,14 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   import PerceptronApproach._
 
+  private val config: Config = ConfigFactory.load
+
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
   setDefault(corpusPath, "__default")
+  val wordTagSeparator = new Param[String](this, "wordTagSeparator", "word tag separator")
+  setDefault(wordTagSeparator, config.getString("nlp.posDict.separator"))
   val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
   setDefault(corpusFormat, "TXT")
   val corpusLimit = new IntParam(this, "corpusLimit", "Limit of files to read for training. Defaults to 50")
@@ -39,6 +39,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   setDefault(nIterations, 5)
 
   def setCorpusPath(value: String): this.type = set(corpusPath, value)
+  setDefault(corpusPath, config.getString("nlp.posDict.dir"))
 
   def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
 
@@ -91,7 +92,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusFormat), $(corpusLimit))
+    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusFormat), $(wordTagSeparator).head, $(corpusLimit))
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -158,49 +159,6 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
 
   /**
-    * Parses CORPUS for tagged sentence from any compiled source
-    * @param source for compiled corpuses, if any
-    * @param tagSeparator Tag separator for processing
-    * @return
-    */
-  private def parsePOSCorpusFromSource(
-                                        source: String,
-                                        tagSeparator: Char,
-                                        format: String
-                                      ): Array[TaggedSentence] = {
-    val lines = ResourceHelper.parseTupleSentences(source, format.toUpperCase, '|')
-    lines.map(TaggedSentence(_))
-  }
-
-  /**
-    * Reads POS Corpus from an entire directory of compiled sources
-    * @param dirName compiled content only
-    * @param tagSeparator tag separator for all corpuses
-    * @param fileLimit limit of files to read. Can help clutter, overfitting
-    * @return
-    */
-  private def parsePOSCorpusFromDir(
-                                     dirName: String,
-                                     tagSeparator: Char,
-                                     fileLimit: Int
-                                   ): Array[TaggedSentence] = {
-    try {
-      Random.shuffle(new File(dirName).listFiles().toList)
-        .take(fileLimit)
-        .flatMap(fileName => parsePOSCorpusFromSource(fileName.toString, tagSeparator, "TXT"))
-        .toArray
-    } catch {
-      case _: NullPointerException =>
-        Random.shuffle(ResourceHelper.listDirectory(dirName).toList)
-          .take(fileLimit)
-          .flatMap{fileName =>
-            val path = Paths.get(dirName, fileName)
-            parsePOSCorpusFromSource(path.toString, tagSeparator, "TXT")}
-          .toArray
-    }
-  }
-
-  /**
     * Retrieves Corpuses from configured compiled directory set in configuration
     * @param fileLimit files limit to read
     * @return TaggedSentences for POS training
@@ -208,14 +166,10 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
   private[perceptron] def retrievePOSCorpus(
                                    posDirOrFilePath: String,
                                    corpusFormat: String,
+                                   separator: Char,
                                    fileLimit: Int = 50
                                  ): Array[TaggedSentence] = {
-    val dirOrFilePath = if (posDirOrFilePath == "__default") config.getString("nlp.posDict.dir") else posDirOrFilePath
-    val posSeparator = config.getString("nlp.posDict.separator").head
-    val result = {
-      if (corpusFormat.toUpperCase == "TXT" && pathIsDirectory(dirOrFilePath)) parsePOSCorpusFromDir(dirOrFilePath, posSeparator, fileLimit)
-      else parsePOSCorpusFromSource(dirOrFilePath, posSeparator, corpusFormat)
-    }
+    val result = ResourceHelper.parseTupleSentences(posDirOrFilePath, corpusFormat, separator, fileLimit)
     if (result.isEmpty) throw new Exception(s"Empty corpus for POS in $posDirOrFilePath")
     result
   }
