@@ -15,7 +15,8 @@ case class TaggedSentence(taggedWords: Array[TaggedWord], indexedTaggedWords: Ar
   /** Recurrently needed to access all tags */
   val tags: Array[String] = taggedWords.map(_.tag)
   /** ready function to return pairwise tagged words */
-  def mapWords: Map[String, String] = words.zip(tags).toMap
+  def tupleWords: Array[(String, String)] = words.zip(tags)
+  def mapWords: Map[String, String] = tupleWords.toMap
 }
 
 object TaggedSentence {
