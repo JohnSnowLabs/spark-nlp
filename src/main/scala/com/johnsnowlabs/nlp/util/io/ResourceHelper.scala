@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.nlp.util.io.ResourceFormat._
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
@@ -92,6 +92,33 @@ object ResourceHelper {
   def pathIsDirectory(path: String): Boolean = {
     //ToDo: Improve me???
     if (path.contains(".txt")) false else true
+  }
+
+  def createDatasetFromText(
+                             path: String, clean: Boolean = true,
+                             includeFilename: Boolean = false,
+                             includeRowNumber: Boolean = false,
+                             aggregateByFile: Boolean = false
+                           ): Dataset[_] = {
+    require((includeFilename && aggregateByFile) || (!includeFilename && !aggregateByFile), "AggregateByFile requires includeFileName")
+    import org.apache.spark.sql.functions._
+    import spark.implicits._
+    var data: Dataset[_] = spark.read.textFile(path)
+    if (clean) data = data.as[String].map(_.trim()).filter(_.nonEmpty)
+    if (includeFilename) data = data.withColumn("filename", input_file_name())
+    if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
+      .withColumn("text", concat_ws(" ", $"value"))
+      .drop("value")
+    if (includeRowNumber) {
+      if (includeFilename && !aggregateByFile) {
+        import org.apache.spark.sql.expressions.Window
+        val w = Window.partitionBy("filename").orderBy("filename")
+        data = data.withColumn("id", row_number().over(w))
+      } else {
+        data = data.withColumn("id", monotonically_increasing_id())
+      }
+    }
+    data.withColumnRenamed("value", "text")
   }
 
   /**
@@ -234,7 +261,7 @@ object ResourceHelper {
               s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
             }).map(kv => {
               val p = kv.split(keySep)
-              TaggedWord(p.head, p.last)
+              TaggedWord(p(0), p(1))
             })
           }).toArray
           sourceStream.close()
