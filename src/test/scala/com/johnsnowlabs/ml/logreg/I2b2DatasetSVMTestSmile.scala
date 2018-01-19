@@ -1,12 +1,8 @@
 package com.johnsnowlabs.ml.logreg
 
-
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{RegexTokenizer, SimpleTokenizer, Tokenizer, Windowing}
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.mllib.vectors
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS
-import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.Vector
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.functions._
@@ -17,9 +13,9 @@ import smile.math.kernel.GaussianKernel
 
 object I2b2DatasetSVMTestSmile extends App with Windowing with EvaluationMetrics {
 
-  override val before = 12
+  override val before = 11
   override val after = 13
-  override val tokenizer: Tokenizer = new RegexTokenizer
+  override val tokenizer: Tokenizer = new SimpleTokenizer
   override lazy val wordVectors: Option[WordEmbeddings] = reader.wordVectors
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate()
@@ -32,8 +28,8 @@ object I2b2DatasetSVMTestSmile extends App with Windowing with EvaluationMetrics
   // directory of the i2b2 dataset
   val i2b2Dir = "/home/jose/Downloads/i2b2"
 
-  val trainDatasetPath = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners"
-    , s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
+  val trainDatasetPath = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
+    s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
 
   val testDatasetPath = Seq(s"$i2b2Dir/test_data")
 
@@ -48,8 +44,8 @@ object I2b2DatasetSVMTestSmile extends App with Windowing with EvaluationMetrics
   println("trainDsSize: " +  trainDataset.size)
 
 
-  val granges:List[Double] = List(10.0)
-  val cranges:List[Double] = List(95.0, 95.1)
+  val granges:List[Double] = List(1.0, 10.0)
+  val cranges:List[Double] = List(1.0)
   for (gamma <- granges; c <-cranges) {
     val model = train(trainDataset.toArray, trainLabels.toArray, gamma, c)
     val testAnnotations = reader.read(testDatasetPath)
@@ -67,12 +63,12 @@ object I2b2DatasetSVMTestSmile extends App with Windowing with EvaluationMetrics
   def train(dataset: Array[Array[Double]], labels: Array[Int], gamma:Double, C:Double) = {
     println(gamma, C)
     val svm = new SVM(new GaussianKernel(gamma), C, 6, Multiclass.ONE_VS_ONE)
-    svm.learn(dataset, labels)
-    svm.learn(dataset, labels)
+    1 to 7 foreach{_ =>
+      svm.learn(dataset, labels)
+    }
     svm.finish()
     svm
   }
-
 
   def labelToNumber = udf { label:String  => mappings.get(label)}
 

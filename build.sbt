@@ -73,7 +73,8 @@ developers := List(
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
+  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided",
+  "com.github.haifengl" %% "smile-scala" % "1.5.0"
 )
 
 lazy val testDependencies = Seq(

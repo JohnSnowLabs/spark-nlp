@@ -1,13 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-
 import com.johnsnowlabs.nlp.annotators.datasets.I2b2AnnotationAndText
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.expressions.UserDefinedFunction
 
-import scala.collection.mutable
+import scala.collection.{GenTraversableOnce, mutable}
 
 
 /**
@@ -15,7 +14,7 @@ import scala.collection.mutable
   */
 
 /* Type class to handle multiple Vectors versions */
-trait VectorsType[T] {
+trait VectorsType[T] extends Serializable {
   /* create a vector from an array */
   def dense(array:Array[Double]):T
 }
@@ -82,11 +81,10 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
+  def applyWindow(wvectors: WordEmbeddings)(doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
+    val tokens = tokenizer.tokenize(doc.trim)
 
-  def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
-    val tokens = doc.split(" ").filter(_!="")
-
-    val target = Array.fill(5)(0.2)
+    val target = Array.fill(5)(0.4)
     val nonTarget = Array.fill(5)(0.0)
 
     /* now start and end are indexes in the doc string */
@@ -103,19 +101,56 @@ trait Windowing extends Serializable {
       //computeLeftDistances(l.takeRight(2), wvectors) ++ computeRightDistances(r.take(2), wvectors)
   }
 
-  def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
-    udf {(doc:String, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, targetTerm:String)  =>
-      val (l, t, r) = applyWindow(doc.toLowerCase, targetTerm.toLowerCase)
-      l.flatMap(w => wvectors.getEmbeddings(w)).map(_.toDouble) ++
-        t.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble) ).map(_.toDouble) ++
-        r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
-    }
-
   import scala.reflect.runtime.universe._
   def applyWindowUdf[T](vectors:VectorsType[T])(implicit tag: TypeTag[T]): UserDefinedFunction =
     //here 's' and 'e' are token number for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
       vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
+    }
+
+  def applyWindowAndPOSUdf[T](vectors:VectorsType[T], posVects:Map[String, Array[Double]])(implicit tag: TypeTag[T]): UserDefinedFunction =
+  //here 's' and 'e' are token number for start and end of target when split on " "
+    udf { (doc:String, targetTerm:String, s:Int, e:Int, pos:mutable.WrappedArray[GenericRowWithSchema]) =>
+
+      /* quick and dirty implementation */
+      val before = 7
+      val after = 8
+
+      val prevPos: Array[Double] = {
+        val (posSize,  padding:Array[Double]) = if(before - s < 0)
+          (before, Array.fill(0)(0.0))
+        else {
+          val paddingSize = before - s
+          (before - paddingSize, Array.fill(paddingSize * 3)(0.0))
+        }
+
+        val poss = ((s - posSize) to (s - 1)).map(idx => pos(idx)(3)).flatMap { tag =>
+            if (!posVects.contains(tag.toString))
+              println(s"tag not found $tag")
+            posVects.get(tag.toString).getOrElse(Array.fill(3)(0.0))
+          }.toArray
+        padding ++ poss
+      }
+
+      val postPos: Array[Double] = {
+
+        val (posSize,  padding:Array[Double]) =
+          if(s + after - 1 < pos.length)
+              (after, Array.fill(0)(0.0))
+          else {
+              val paddingSize = s + after - pos.length
+              (after - paddingSize, Array.fill(paddingSize * 3)(0.0))
+          }
+
+        val poss = (s to (s + posSize - 1)).map(idx => pos(idx)(3)).flatMap { tag =>
+            if (!posVects.contains(tag.toString))
+              println(s"tag not found $tag")
+            posVects.get(tag.toString).getOrElse(Array.fill(3)(0.0))
+          }.toArray
+
+        poss ++ padding
+      }
+      vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e) ++ prevPos ++ postPos)
     }
 
   /*take an annotation and return vector features for it */
@@ -201,7 +236,7 @@ trait Windowing extends Serializable {
     }
 
 
-    val distances = single  ++ complex
+    val distances = single ++ complex
     normalize(distances)
   }
 
