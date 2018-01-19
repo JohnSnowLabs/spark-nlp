@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -17,20 +17,29 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   val pattern = new Param[String](this, "pattern", "normalization regex pattern which match will be replaced with a space")
+  val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
   setDefault(pattern, "[^a-zA-Z]")
+  setDefault(lowercase, true)
 
   def getPattern: String = $(pattern)
 
   def setPattern(value: String): this.type = set(pattern, value)
+
+  def getLowercase: Boolean = $(lowercase)
+
+  def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { token =>
-      val nToken = token.result
-        .toLowerCase
+      val cased =
+        if ($(lowercase)) token.result.toLowerCase
+        else token.result
+
+      val nToken = cased
         .replaceAll($(pattern), "")
         .trim
       Annotation(

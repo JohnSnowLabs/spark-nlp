@@ -115,6 +115,10 @@ class Normalizer(AnnotatorTransformer):
                     "normalization regex pattern which match will be replaced with a space",
                     typeConverter=TypeConverters.toString)
 
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__()
@@ -123,6 +127,8 @@ class Normalizer(AnnotatorTransformer):
     def setPattern(self, value):
         return self._set(pattern=value)
 
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
 
 class RegexMatcher(AnnotatorTransformer):
 
