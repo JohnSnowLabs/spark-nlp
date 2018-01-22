@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegression
@@ -11,7 +12,7 @@ import org.apache.spark.sql.functions._
 /**
   * Created by jose on 22/11/17.
   */
-class AssertionLogRegApproach(override val uid: String) extends
+class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproach[AssertionLogRegModel] with
   AnnotatorWithWordEmbeddings[AssertionLogRegApproach, AssertionLogRegModel] with Windowing {
 
   override val requiredAnnotatorTypes = Array(DOCUMENT)

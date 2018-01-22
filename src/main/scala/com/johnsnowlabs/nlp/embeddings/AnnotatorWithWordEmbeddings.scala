@@ -4,9 +4,10 @@ import java.io.File
 import java.nio.file.Files
 import java.util.UUID
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, BaseAnnotatorModel}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
+import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
@@ -20,8 +21,9 @@ import org.apache.spark.sql.SparkSession
   * 3. Than this index file is spread across the cluster.
   * 4. Every model 'ModelWithWordEmbeddings' uses local RocksDB as Word Embeddings lookup.
  */
-abstract class AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M], M <: ModelWithWordEmbeddings[M]]
-  extends AnnotatorApproach[M] with AutoCloseable {
+trait AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M], M <: BaseAnnotatorModel[M]
+  with ModelWithWordEmbeddings[M]] extends AutoCloseable {
+  this:AnnotatorApproach[M] =>
 
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")

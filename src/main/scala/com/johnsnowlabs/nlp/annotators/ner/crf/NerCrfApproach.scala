@@ -18,8 +18,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class NerCrfApproach(override val uid: String)
-  extends AnnotatorWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
+class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]
+  with AnnotatorWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
 
   def this() = this(Identifiable.randomUID("NER"))
 

@@ -15,7 +15,8 @@ import org.apache.spark.sql.{Encoders, Row}
 /*
   Named Entity Recognition model
  */
-class NerCrfModel(override val uid: String) extends ModelWithWordEmbeddings[NerCrfModel]{
+class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel]
+with ModelWithWordEmbeddings[NerCrfModel]{
 
   def this() = this(Identifiable.randomUID("NER"))
 

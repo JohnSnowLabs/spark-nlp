@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
-import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.{Annotation, DatasetAnnotatorModel}
 import com.johnsnowlabs.nlp.embeddings.{ModelWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
@@ -18,8 +18,10 @@ import scala.collection.immutable.Map
   */
 
 class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION"))
-  extends ModelWithWordEmbeddings[AssertionLogRegModel] with Windowing {
+  extends DatasetAnnotatorModel[AssertionLogRegModel] with ModelWithWordEmbeddings[AssertionLogRegModel]
+    with Windowing {
 
+  /* remove these Params */
   val beforeParam = new Param[Int](this, "before", "Length of the context before the target")
   val afterParam = new Param[Int](this, "after", "Length of the context after the target")
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
