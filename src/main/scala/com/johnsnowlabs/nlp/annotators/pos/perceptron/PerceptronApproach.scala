@@ -28,7 +28,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
-  setDefault(corpusPath, "__default")
+  setDefault(corpusPath, config.getString("nlp.posDict.dir"))
   val wordTagSeparator = new Param[String](this, "wordTagSeparator", "word tag separator")
   setDefault(wordTagSeparator, config.getString("nlp.posDict.separator"))
   val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
@@ -39,7 +39,6 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   setDefault(nIterations, 5)
 
   def setCorpusPath(value: String): this.type = set(corpusPath, value)
-  setDefault(corpusPath, config.getString("nlp.posDict.dir"))
 
   def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
 
