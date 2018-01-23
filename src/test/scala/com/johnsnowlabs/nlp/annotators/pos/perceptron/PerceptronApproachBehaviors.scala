@@ -15,7 +15,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
-      val trainingSentences = PerceptronApproach.retrievePOSCorpus(trainingSentencesPath)
+      val trainingSentences = PerceptronApproach.retrievePOSCorpus(trainingSentencesPath, "TXT", '|')
       val nIterations = 5
       val tagger = new PerceptronApproach().setCorpusPath(trainingSentencesPath).fit(DataBuilder.basicDataBuild("dummy"))
       val model = tagger.getModel

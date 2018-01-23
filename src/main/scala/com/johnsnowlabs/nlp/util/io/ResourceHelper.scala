@@ -6,13 +6,17 @@ import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.nlp.util.io.ResourceFormat._
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.Source
-
 import java.net.URLDecoder
+import java.nio.file.Paths
 import java.util.jar.JarFile
+
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+
+import scala.util.Random
 
 
 /**
@@ -88,6 +92,33 @@ object ResourceHelper {
   def pathIsDirectory(path: String): Boolean = {
     //ToDo: Improve me???
     if (path.contains(".txt")) false else true
+  }
+
+  def createDatasetFromText(
+                             path: String, clean: Boolean = true,
+                             includeFilename: Boolean = false,
+                             includeRowNumber: Boolean = false,
+                             aggregateByFile: Boolean = false
+                           ): Dataset[_] = {
+    require((includeFilename && aggregateByFile) || (!includeFilename && !aggregateByFile), "AggregateByFile requires includeFileName")
+    import org.apache.spark.sql.functions._
+    import spark.implicits._
+    var data: Dataset[_] = spark.read.textFile(path)
+    if (clean) data = data.as[String].map(_.trim()).filter(_.nonEmpty)
+    if (includeFilename) data = data.withColumn("filename", input_file_name())
+    if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
+      .withColumn("text", concat_ws(" ", $"value"))
+      .drop("value")
+    if (includeRowNumber) {
+      if (includeFilename && !aggregateByFile) {
+        import org.apache.spark.sql.expressions.Window
+        val w = Window.partitionBy("filename").orderBy("filename")
+        data = data.withColumn("id", row_number().over(w))
+      } else {
+        data = data.withColumn("id", monotonically_increasing_id())
+      }
+    }
+    data.withColumnRenamed("value", "text")
   }
 
   /**
@@ -169,7 +200,7 @@ object ResourceHelper {
     format match {
       case TXT =>
         val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.map (line => {
+        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
           val kv = line.split (keySep).map (_.trim)
           (kv.head, kv.last)
         }).toArray
@@ -188,6 +219,69 @@ object ResourceHelper {
         result
       case _ =>
         throw new Exception("Unsupported format. Must be TXT or TXTDS")
+    }
+  }
+
+  /**
+    * General purpose tuple parser from source
+    * Currently read only text files
+    * @param source File input to streamline
+    * @param format format
+    * @param keySep separator of tuples
+    * @return
+    */
+  def parseTupleSentences(
+                      source: String,
+                      format: Format,
+                      keySep: Char,
+                      fileLimit: Int
+                    ): Array[TaggedSentence] = {
+    if (pathIsDirectory(source) && format == TXT) {
+      try {
+        Random.shuffle(new File(source).listFiles().toList)
+          .take(fileLimit)
+          .flatMap(fileName => parseTupleSentences(fileName.toString, format, keySep, fileLimit))
+          .toArray
+      } catch {
+        case _: NullPointerException =>
+          Random.shuffle(ResourceHelper.listDirectory(source).toList)
+            .take(fileLimit)
+            .flatMap{fileName =>
+              val path = Paths.get(source, fileName)
+              parseTupleSentences(path.toString, format, keySep, fileLimit)}
+            .toArray
+      }
+    } else {
+      format match {
+        case TXT =>
+          val sourceStream = SourceStream(source)
+          val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+            line.split("\\s+").filter(kv => {
+              val s = kv.split(keySep)
+              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+            }).map(kv => {
+              val p = kv.split(keySep)
+              TaggedWord(p(0), p(1))
+            })
+          }).toArray
+          sourceStream.close()
+          result.map(TaggedSentence(_))
+        case TXTDS =>
+          import spark.implicits._
+          val dataset = spark.read.text(source)
+          val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+            line.split("\\s+").filter(kv => {
+              val s = kv.split(keySep)
+              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+            }).map(kv => {
+              val p = kv.split(keySep)
+              TaggedWord(p(0), p(1))
+            })
+          }).collect
+          result.map(TaggedSentence(_))
+        case _ =>
+          throw new Exception("Unsupported format. Must be TXT or TXTDS")
+      }
     }
   }
 
