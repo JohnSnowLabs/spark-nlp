@@ -255,12 +255,22 @@ class EntityExtractor(AnnotatorTransformer):
 class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     corpusPath = Param(Params._dummy(),
                        "corpusPath",
-                       "corpus path",
+                       "POS Corpus path",
                        typeConverter=TypeConverters.toString)
+
+    corpusFormat = Param(Params._dummy(),
+                         "corpusFormat",
+                         "TXT or TXTDS for reading as dataset",
+                         typeConverter=TypeConverters.toString)
+
+    corpusLimit = Param(Params._dummy(),
+                        "corpusLimit",
+                        "Limit of files to read for training. Defaults to 50",
+                        typeConverter=TypeConverters.toInt)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
-                        "number of iterations in training",
+                        "Number of iterations in training, converges to better accuracy",
                         typeConverter=TypeConverters.toInt)
 
     @keyword_only
@@ -268,20 +278,24 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
         super(PerceptronApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
         kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default", nIterations=5)
+        self._setDefault(corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5)
         self.setParams(**kwargs)
 
-    def setParams(self, corpusPath="__default", nIterations=5):
+    def setParams(self, corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
     def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
+        return self._set(corpusPath=value)
+
+    def setCorpusFormat(self, value):
+        return self._set(corpusFormat=value)
+
+    def setCorpusLimit(self, value):
+        return self._set(corpusLimit=value)
 
     def setIterations(self, value):
-        self._set(nIterations=value)
-        return self
+        return self._set(nIterations=value)
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
