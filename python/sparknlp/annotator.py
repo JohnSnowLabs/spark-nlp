@@ -278,10 +278,10 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
         super(PerceptronApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
         kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5)
+        self._setDefault(corpusFormat="TXT", corpusLimit=50, nIterations=5)
         self.setParams(**kwargs)
 
-    def setParams(self, corpusPath="__default", corpusFormat="TXT", corpusLimit=50, nIterations=5):
+    def setParams(self, corpusFormat="TXT", corpusLimit=50, nIterations=5):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
