@@ -5,11 +5,11 @@ import com.johnsnowlabs.nlp.{Annotation, DatasetAnnotatorModel}
 import com.johnsnowlabs.nlp.embeddings.{ModelWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions._
 
 import scala.collection.immutable.Map
 import scala.collection.mutable
@@ -30,6 +30,15 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
 
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
+
+  // the document where we're extracting the assertion
+  val document = new Param[String](this, "document", "Column with the text to be analyzed")
+  // the target term, that must appear capitalized in the document, e.g., 'diabetes'
+  val target = new Param[String](this, "target", "Column with the target to analyze")
+  val startParam = new Param[String](this, "afterParam", "Column that contains the token number for the start of the target")
+  val endParam = new Param[String](this, "afterParam", "Column that contains the token number for the end of the target")
+
+
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   setDefault(
@@ -39,6 +48,9 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
 
   def setBefore(before: Int) = set(beforeParam, before)
   def setAfter(after: Int) = set(afterParam, after)
+  def setStart(start: String) = set(startParam, start)
+  def setEnd(end: String) = set(endParam, end)
+  def setTargetCol(target: String) = set(target, target)
 
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
@@ -50,8 +62,11 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("text", extractTextUdf($"document")).
-      withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+      withColumn("text", extractTextUdf(col(getOrDefault(document)))).
+      withColumn("features", applyWindowUdf($"text",
+        col(getOrDefault(target)),
+        col(getOrDefault(startParam)),
+        col(getOrDefault(endParam))))
 
     model.get.transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
   }
