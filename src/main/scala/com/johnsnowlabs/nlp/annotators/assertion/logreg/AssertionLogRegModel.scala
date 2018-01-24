@@ -35,9 +35,8 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   val document = new Param[String](this, "document", "Column with the text to be analyzed")
   // the target term, that must appear capitalized in the document, e.g., 'diabetes'
   val target = new Param[String](this, "target", "Column with the target to analyze")
-  val startParam = new Param[String](this, "afterParam", "Column that contains the token number for the start of the target")
-  val endParam = new Param[String](this, "afterParam", "Column that contains the token number for the end of the target")
-
+  val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
+  val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 

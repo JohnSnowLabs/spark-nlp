@@ -550,7 +550,8 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
     eNetParam = Param(Params._dummy(), "eNetParam", "Elastic net parameter", TypeConverters.toFloat)
     beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
     afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
-
+    startParam = Param(Params._dummy(), "startParam", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    endParam = Param(Params._dummy(), "endParam", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
 
     def setLabelCol(self, label):
         self._set(label = label)

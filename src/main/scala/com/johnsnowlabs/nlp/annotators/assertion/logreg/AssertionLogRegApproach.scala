@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
@@ -34,14 +34,14 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   val document = new Param[String](this, "document", "Column with the text to be analyzed")
   // the target term, that must appear capitalized in the document, e.g., 'diabetes'
   val target = new Param[String](this, "target", "Column with the target to analyze")
-  val maxIter = new Param[Int](this, "maxIter", "Max number of iterations for algorithm")
-  val regParam = new Param[Double](this, "regParam", "Regularization parameter")
-  val eNetParam = new Param[Double](this, "eNetParam", "Elastic net parameter")
+  val maxIter = new IntParam(this, "maxIter", "Max number of iterations for algorithm")
+  val regParam = new DoubleParam(this, "regParam", "Regularization parameter")
+  val eNetParam = new DoubleParam(this, "eNetParam", "Elastic net parameter")
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
-  val startParam = new Param[String](this, "afterParam", "Column that contains the token number for the start of the target")
-  val endParam = new Param[String](this, "afterParam", "Column that contains the token number for the end of the target")
+  val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
+  val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
 
   def setLabelCol(label: String) = set(label, label)
@@ -83,7 +83,6 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
         col(getOrDefault(startParam)),
         col(getOrDefault(endParam))))
 
-
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
       .setRegParam(getOrDefault(regParam))
@@ -102,6 +101,10 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
     AssertionLogRegModel()
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
+      .setInputCols(getOrDefault(inputCols))
+      .setTargetCol(getOrDefault(target))
+      .setStart(getOrDefault(startParam))
+      .setEnd(getOrDefault(endParam))
       .setLabelMap(labelMappings)
       .setModel(lr.fit(processedWithLabel))
   }

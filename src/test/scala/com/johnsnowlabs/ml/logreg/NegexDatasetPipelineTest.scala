@@ -24,13 +24,13 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
 
   val dataset = "rsAnnotations-1-120-random.txt"
 
-  val ds = reader.readDataframe(datasetPath).cache()
+  val ds = reader.readDataframe(datasetPath).cache
 
   // Split the data into training and test sets (30% held out for testing).
   val Array(trainingData, testData) = ds.randomSplit(Array(0.7, 0.3))
 
-  val model = trainAssertionModel(trainingData)
-  var result = testAssertionModel(testData, model)
+  val model = trainAssertionModel(trainingData.cache)
+  var result = testAssertionModel(testData.cache, model)
 
   var pred = result.select($"assertion").collect.map(row => Annotation(row.getAs[Seq[Row]]("assertion").head).result)
   var gold = result.select($"label").collect.map(_.getAs[String]("label"))
