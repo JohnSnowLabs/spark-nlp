@@ -17,6 +17,7 @@ pos = sys.modules[__name__]
 perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
 crf = sys.modules[__name__]
+assertion = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
 sda = sys.modules[__name__]
@@ -537,3 +538,72 @@ class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorPro
 
 class NerCrfModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     name = "NerCrfModel"
+
+class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
+
+    label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
+    # the document where we're extracting the assertion
+    document = Param(Params._dummy(), "document", "Column with the text to be analyzed", typeConverter=TypeConverters.toString)
+    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
+    maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
+    regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
+    eNetParam = Param(Params._dummy(), "eNetParam", "Elastic net parameter", TypeConverters.toFloat)
+    beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
+    afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
+
+
+    def setLabelCol(self, label):
+        self._set(label = label)
+        return self
+
+    def setDocumentCol(self, doc):
+        self._set(document = doc)
+        return self
+
+    def setTargetCol(self, t):
+        self._set(target = t)
+        return self
+
+    def setMaxIter(self, maxiter):
+        self._set(maxIter = maxiter)
+        return self
+
+    def setReg(self, lamda):
+        self._set(regParam = lamda)
+        return self
+
+    def setEnet(self, enet):
+        self._set(eNetParam = enet)
+        return self
+    
+    def setBefore(self, before):
+        self._set(beforeParam = before)
+        return self
+
+    def setAfter(self, after):
+        self._set(afterParam = after)
+        return self
+
+    def _create_model(self, java_model):
+        return AssertionLogRegModel(java_model)
+
+    @keyword_only
+    def __init__(self):
+        super(AssertionLogRegApproach, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach", self.uid)
+        self._setDefault(label = "label",
+            document = "document",
+            target = "target",
+            maxIter = 26,
+            regParam = 0.00192,
+            eNetParam = 0.9,
+            beforeParam = 10,
+            afterParam = 10)
+
+
+class AssertionLogRegModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    name = "AssertionLogRegModel"
+
+
+
+
