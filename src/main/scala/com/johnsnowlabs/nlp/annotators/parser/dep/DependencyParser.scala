@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType._
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -19,7 +20,7 @@ class DependencyParser(override val uid: String) extends AnnotatorApproach[Depen
 
   override val requiredAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
-  override def train(dataset: Dataset[_]): DependencyParserModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
     new DependencyParserModel()
       .setSourcePath($(sourcePath))
   }

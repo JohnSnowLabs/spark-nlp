@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -87,7 +88,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     *
     * @return A trained averaged model
     */
-  override def train(dataset: Dataset[_]): PerceptronModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): PerceptronModel = {
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */

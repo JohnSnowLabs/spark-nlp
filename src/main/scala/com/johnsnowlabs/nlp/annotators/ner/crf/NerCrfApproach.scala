@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
-import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler}
+import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit, RecursivePipeline}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -19,7 +19,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   Algorithm for training Named Entity Recognition Model.
    */
 class NerCrfApproach(override val uid: String)
-  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
+  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] with HasRecursiveFit[NerCrfModel] {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -73,10 +73,17 @@ class NerCrfApproach(override val uid: String)
   )
 
 
-  private def getTrainDataframe(dataset: Dataset[_]): DataFrame = {
+  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
 
     if (!isDefined(datasetPath))
       return dataset.toDF()
+
+    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
+    val dataframe = reader.readDataset($(datasetPath), dataset.sparkSession).toDF
+
+    if (recursivePipeline.isDefined) {
+      return recursivePipeline.get.transform(dataframe)
+    }
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -93,7 +100,7 @@ class NerCrfApproach(override val uid: String)
 
     val posTagger = new PerceptronApproach()
       .setCorpusPath("anc-pos-corpus/")
-      .setNIterations(10)
+      .setNIterations(5)
       .setInputCols("token", "document")
       .setOutputCol("pos")
 
@@ -105,15 +112,13 @@ class NerCrfApproach(override val uid: String)
         posTagger)
     )
 
-    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-    val dataframe = reader.readDataset($(datasetPath), dataset.sparkSession).toDF
     pipeline.fit(dataframe).transform(dataframe)
   }
 
 
-  override def train(dataset: Dataset[_]): NerCrfModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerCrfModel = {
 
-    val rows = getTrainDataframe(dataset)
+    val rows = getTrainDataframe(dataset, recursivePipeline)
 
     val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
 
