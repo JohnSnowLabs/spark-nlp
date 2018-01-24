@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -45,7 +46,7 @@ class NorvigSweetingApproach(override val uid: String)
 
   def setTokenPattern(value: String): this.type = set(tokenPattern, value)
 
-  override def train(dataset: Dataset[_]): NorvigSweetingModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
     val loadWords = ResourceHelper.wordCount($(dictPath), $(corpusFormat).toUpperCase, $(tokenPattern))
     val corpusWordCount =
       if (get(corpusPath).isDefined) {

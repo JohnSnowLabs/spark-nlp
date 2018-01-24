@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -44,7 +45,7 @@ class ViveknSentimentApproach(override val uid: String)
 
   def setTokenPattern(value: String): this.type = set(tokenPattern, value)
 
-  override def train(dataset: Dataset[_]): ViveknSentimentModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ViveknSentimentModel = {
 
     val fromPositive: (MMap[String, Int], MMap[String, Int]) = ResourceHelper.ViveknWordCount(
       source=$(positiveSourcePath),
