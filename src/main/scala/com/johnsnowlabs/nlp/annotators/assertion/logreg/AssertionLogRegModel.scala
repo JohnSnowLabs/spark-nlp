@@ -7,7 +7,7 @@ import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.hadoop.fs.Path
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.udf
 
@@ -23,22 +23,23 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   extends DatasetAnnotatorModel[AssertionLogRegModel] with ModelWithWordEmbeddings[AssertionLogRegModel]
     with Windowing {
 
-  /* remove these Params */
-  val beforeParam = new Param[Int](this, "beforeParam", "Length of the context before the target")
-  val afterParam = new Param[Int](this, "afterParam", "Length of the context after the target")
+  override val tokenizer: Tokenizer = new SimpleTokenizer
+  override val annotatorType: AnnotatorType = ASSERTION
+  override val requiredAnnotatorTypes = Array(DOCUMENT)
+  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
+
+  val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
+  val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   setDefault(
-    beforeParam -> 11,
-    afterParam -> 13
-  )
+     beforeParam -> 11,
+     afterParam -> 13
+    )
 
   def setBefore(before: Int) = set(beforeParam, before)
   def setAfter(after: Int) = set(afterParam, after)
 
-  override val tokenizer: Tokenizer = new SimpleTokenizer
-  override val annotatorType: AnnotatorType = ASSERTION
-  override val requiredAnnotatorTypes = Array(DOCUMENT)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -69,8 +70,6 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   }
 
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = annotations
-
-  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
 
   var model: Option[LogisticRegressionModel] = None
   var labelMap: Option[Map[Double, String]] = None
