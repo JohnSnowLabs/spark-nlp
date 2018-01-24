@@ -7,7 +7,6 @@ import java.util.UUID
 import com.johnsnowlabs.nlp.{AnnotatorApproach, BaseAnnotatorModel}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
-import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 

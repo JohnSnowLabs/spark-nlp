@@ -56,7 +56,7 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
-
+  /* TODO targetTerm never used */
   def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
     val tokens = doc.split(" ").filter(_!="")
 
@@ -84,7 +84,7 @@ trait Windowing extends Serializable {
     }
 
   def applyWindowUdf =
-    //here 's' and 'e' are token number for start and end of target when split on " "
+    //here 's' and 'e' are token numbers for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
       Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }

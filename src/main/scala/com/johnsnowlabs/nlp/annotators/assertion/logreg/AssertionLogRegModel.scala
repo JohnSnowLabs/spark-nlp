@@ -8,9 +8,11 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, 
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.Param
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.udf
 
 import scala.collection.immutable.Map
+import scala.collection.mutable
 
 
 /**
@@ -22,8 +24,8 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
     with Windowing {
 
   /* remove these Params */
-  val beforeParam = new Param[Int](this, "before", "Length of the context before the target")
-  val afterParam = new Param[Int](this, "after", "Length of the context after the target")
+  val beforeParam = new Param[Int](this, "beforeParam", "Length of the context before the target")
+  val afterParam = new Param[Int](this, "afterParam", "Length of the context after the target")
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   setDefault(
@@ -47,6 +49,7 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
+      withColumn("text", extractTextUdf($"document")).
       withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
 
     model.get.transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
@@ -83,6 +86,11 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   }
 
   override def write: MLWriter = new AssertionLogRegModel.AssertionModelWriter(this, super.write)
+
+  /* send this to common place */
+  def extractTextUdf = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
+    document.head.getString(3)
+  }
 }
 
 object AssertionLogRegModel extends DefaultParamsReadable[AssertionLogRegModel] {
