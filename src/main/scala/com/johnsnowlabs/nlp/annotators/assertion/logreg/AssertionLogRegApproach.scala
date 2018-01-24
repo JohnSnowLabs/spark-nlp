@@ -40,6 +40,10 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
+  val startParam = new Param[String](this, "afterParam", "Column that contains the token number for the start of the target")
+  val endParam = new Param[String](this, "afterParam", "Column that contains the token number for the end of the target")
+
+
   def setLabelCol(label: String) = set(label, label)
   def setDocumentCol(document: String) = set(document, document)
   def setTargetCol(target: String) = set(target, target)
@@ -48,6 +52,8 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   def setEnet(enet: Double) = set(eNetParam, enet)
   def setBefore(b: Int) = set(beforeParam, b)
   def setAfter(a: Int) = set(afterParam, a)
+  def setStart(start: String) = set(startParam, start)
+  def setEnd(end: String) = set(endParam, end)
 
   setDefault(label -> "label",
     document -> "document",
@@ -56,7 +62,9 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
     regParam -> 0.00192,
     eNetParam -> 0.9,
     beforeParam -> 10,
-    afterParam -> 10
+    afterParam -> 10,
+    startParam -> "start",
+    endParam -> "end"
   )
 
   /* send this to common place */
@@ -69,8 +77,12 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("text", extractTextUdf($"document")).
-      withColumn("features", applyWindowUdf($"text", $"target", $"start", $"end"))
+      withColumn("text", extractTextUdf(col(getInputCols.head))).
+      withColumn("features", applyWindowUdf($"text",
+        col(getOrDefault(target)),
+        col(getOrDefault(startParam)),
+        col(getOrDefault(endParam))))
+
 
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
