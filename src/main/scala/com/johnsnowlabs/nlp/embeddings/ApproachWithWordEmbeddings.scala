@@ -4,9 +4,10 @@ import java.io.File
 import java.nio.file.Files
 import java.util.UUID
 
-import com.johnsnowlabs.nlp.{AnnotatorApproach, BaseAnnotatorModel}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorModel, HasWordEmbeddings}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
+import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
@@ -20,9 +21,10 @@ import org.apache.spark.sql.SparkSession
   * 3. Than this index file is spread across the cluster.
   * 4. Every model 'ModelWithWordEmbeddings' uses local RocksDB as Word Embeddings lookup.
  */
-trait AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M], M <: BaseAnnotatorModel[M]
-  with ModelWithWordEmbeddings[M]] extends AutoCloseable {
-  this:AnnotatorApproach[M] =>
+
+// had to relax the requirement for type M here - check.
+abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M], M <: Model[M] with HasWordEmbeddings]
+  extends AnnotatorApproach[M] with AutoCloseable {
 
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")
@@ -37,27 +39,28 @@ trait AnnotatorWithWordEmbeddings[A <: AnnotatorWithWordEmbeddings[A, M], M <: B
 
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
-      indexEmbeddings(localPath, spark.sparkContext)
-      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath, spark.sparkContext)
+      // 1. Create tmp file for index
+      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath())
+      // 2. Index Word Embeddings
+      indexEmbeddings(localPath.get, spark.sparkContext)
+      // 3. Copy WordEmbeddings to cluster
+      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath.get, spark.sparkContext)
+      // 4. Create Embeddings for usage during train
+      embeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
     }
   }
 
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
+      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath.get).toString
       model.setDims($(embeddingsNDims))
-      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath).toString
       model.setIndexPath(fileName)
     }
   }
 
-  lazy val embeddings: Option[WordEmbeddings] = {
-    get(sourceEmbeddingsPath).map(_ => WordEmbeddings(localPath, $(embeddingsNDims)))
-  }
-
-  private lazy val localPath: String = {
-    WordEmbeddingsClusterHelper.createLocalPath
-  }
+  var embeddings: Option[WordEmbeddings] = None
+  private var localPath: Option[String] = None
 
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
     val formatId = $(embeddingsFormat)

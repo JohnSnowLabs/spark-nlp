@@ -116,6 +116,10 @@ class Normalizer(AnnotatorTransformer):
                     "normalization regex pattern which match will be replaced with a space",
                     typeConverter=TypeConverters.toString)
 
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__()
@@ -124,6 +128,8 @@ class Normalizer(AnnotatorTransformer):
     def setPattern(self, value):
         return self._set(pattern=value)
 
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
 
 class RegexMatcher(AnnotatorTransformer):
 
@@ -135,6 +141,14 @@ class RegexMatcher(AnnotatorTransformer):
                   "rulesPath",
                   "rules file path, must be a tuple of regex and identifier. replace config with this",
                   typeConverter=TypeConverters.toString)
+    rulesFormat = Param(Params._dummy(),
+                      "rulesFormat",
+                      "TXT or TXTDS for reading as dataset",
+                      typeConverter=TypeConverters.toString)
+    rulesSeparator = Param(Params._dummy(),
+                      "rulesSeparator",
+                      "Separator for regex rules and match",
+                      typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -147,13 +161,28 @@ class RegexMatcher(AnnotatorTransformer):
     def setRulesPath(self, value):
         return self._set(rulesPath=value)
 
+    def setRulesFormat(self, value):
+        return self._set(rulesFormat=value)
+
+    def setRulesSeparator(self, value):
+        return self._set(rulesSeparator=value)
+
 
 class Lemmatizer(AnnotatorTransformer):
-    #ToDo: Make TypeConverters allow custom types
-    #lemmaDict = Param(Params._dummy(),
-    #                  "lemmaDict",
-    #                  "lemma dictionary overrides config",
-    #                  typeConverter=TypeConverters.toString)
+    lemmaFormat = Param(Params._dummy(),
+                     "lemmaFormat",
+                     "TXT or TXTDS for reading dictionary as dataset",
+                     typeConverter=TypeConverters.toString)
+
+    lemmaKeySep = Param(Params._dummy(),
+                        "lemmaKeySep",
+                        "lemma dictionary key separator",
+                        typeConverter=TypeConverters.toString)
+
+    lemmaValSep = Param(Params._dummy(),
+                        "lemmaValSep",
+                        "lemma dictionary value separator",
+                        typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -166,6 +195,15 @@ class Lemmatizer(AnnotatorTransformer):
         else:
             self._java_obj.setLemmaDict(value)
         return self
+
+    def setLemmaFormat(self, value):
+        return self._set(lemmaFormat=value)
+
+    def setLemmaKeySep(self, value):
+        return self._set(lemmaKeySep=value)
+
+    def setLemmaValSep(self, value):
+        return self._set(lemmaValSep=value)
 
 
 class DateMatcher(AnnotatorTransformer):
@@ -190,6 +228,11 @@ class EntityExtractor(AnnotatorTransformer):
                          "Path to entities (phrases) to extract",
                          typeConverter=TypeConverters.toString)
 
+    entitiesFormat = Param(Params._dummy(),
+                         "entitiesFormat",
+                         "TXT or TXTDS for reading as dataset",
+                         typeConverter=TypeConverters.toString)
+
     insideSentences = Param(Params._dummy(),
                              "insideSentences",
                              "Should extractor search only within sentences borders?",
@@ -206,16 +249,29 @@ class EntityExtractor(AnnotatorTransformer):
     def setEntitiesPath(self, value):
         return self._set(entitiesPath=value)
 
+    def setEntitiesFormat(self, value):
+        return self._set(entitiesFormat=value)
+
 
 class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
     corpusPath = Param(Params._dummy(),
                        "corpusPath",
-                       "corpus path",
+                       "POS Corpus path",
                        typeConverter=TypeConverters.toString)
+
+    corpusFormat = Param(Params._dummy(),
+                         "corpusFormat",
+                         "TXT or TXTDS for reading as dataset",
+                         typeConverter=TypeConverters.toString)
+
+    corpusLimit = Param(Params._dummy(),
+                        "corpusLimit",
+                        "Limit of files to read for training. Defaults to 50",
+                        typeConverter=TypeConverters.toInt)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
-                        "number of iterations in training",
+                        "Number of iterations in training, converges to better accuracy",
                         typeConverter=TypeConverters.toInt)
 
     @keyword_only
@@ -223,20 +279,24 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
         super(PerceptronApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
         kwargs = self._input_kwargs
-        self._setDefault(corpusPath="__default", nIterations=5)
+        self._setDefault(corpusFormat="TXT", corpusLimit=50, nIterations=5)
         self.setParams(**kwargs)
 
-    def setParams(self, corpusPath="__default", nIterations=5):
+    def setParams(self, corpusFormat="TXT", corpusLimit=50, nIterations=5):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
     def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
+        return self._set(corpusPath=value)
+
+    def setCorpusFormat(self, value):
+        return self._set(corpusFormat=value)
+
+    def setCorpusLimit(self, value):
+        return self._set(corpusLimit=value)
 
     def setIterations(self, value):
-        self._set(nIterations=value)
-        return self
+        return self._set(nIterations=value)
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
@@ -277,14 +337,27 @@ class SentimentDetectorModel(AnnotatorTransformer):
                      "dictPath",
                      "path for dictionary to sentiment analysis")
 
+    dictFormat = Param(Params._dummy(),
+                     "dictFormat",
+                     "format of dictionary, can be TXT or TXTDS for read as dataset")
+
+    dictSeparator = Param(Params._dummy(),
+                     "dictSeparator",
+                     "key value separator for dictionary")
+
     @keyword_only
     def __init__(self):
         super(SentimentDetectorModel, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel", self.uid)
 
     def setDictPath(self, value):
-        self._set(dictPath=value)
-        return self
+        return self._set(dictPath=value)
+
+    def setDictFormat(self, value):
+        return self._set(dictFormat=value)
+
+    def setDictSeparator(self, value):
+        return self._set(dictSeparator=value)
 
 
 class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
@@ -300,14 +373,20 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
 
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
-                        "whether to prune low frequency words",
-                        typeConverter=TypeConverters.toBoolean)
+                        "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
+                        typeConverter=TypeConverters.toInt)
+
+    tokenPattern = Param(Params._dummy(),
+                         "negativeSource",
+                         "Regex pattern to use in tokenization of corpus. Defaults \\S+",
+                         typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self,
                  positiveSource="",
                  negativeSource="",
-                 pruneCorpus=False
+                 pruneCorpus=1,
+                 tokenPattern="\\S+"
                  ):
         super(ViveknSentimentApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach", self.uid)
@@ -315,26 +394,25 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
         self._setDefault(
             positiveSource="",
             negativeSource="",
-            pruneCorpus=False
+            pruneCorpus=1,
+            tokenPattern="\\S+"
         )
         self.setParams(**kwargs)
 
     def setPositiveSource(self, value):
-        self._set(positiveSource=value)
-        return self
+        return self._set(positiveSource=value)
 
     def setNegativeSource(self, value):
-        self._set(negativeSource=value)
-        return self
+        return self._set(negativeSource=value)
 
     def setPruneCorpus(self, value):
-        self._set(pruneCorpus=value)
-        return self
+        return self._set(pruneCorpus=value)
 
     def setParams(self,
                   positiveSource="",
                   negativeSource="",
-                  pruneCorpus=False):
+                  pruneCorpus=1,
+                  tokenPattern="\\S+"):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
@@ -362,6 +440,11 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                        "dataset corpus format. txt or txtds allowed only",
                        typeConverter=TypeConverters.toString)
 
+    tokenPattern = Param(Params._dummy(),
+                         "tokenPattern",
+                         "Regex pattern to use in tokenization of corpus. Defaults [a-zA-Z]+",
+                         typeConverter=TypeConverters.toString)
+
     slangPath = Param(Params._dummy(),
                       "slangPath",
                       "slangs dictionary path",
@@ -386,7 +469,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
     @keyword_only
     def __init__(self,
                  dictPath="/spell/words.txt",
-                 slangPath="/spell/slangs.txt",
                  caseSensitive=False,
                  doubleVariants=False,
                  shortCircuit=False
@@ -396,7 +478,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
         kwargs = self._input_kwargs
         self._setDefault(
             dictPath="/spell/words.txt",
-            slangPath="/spell/slangs.txt",
             caseSensitive=False,
             doubleVariants=False,
             shortCircuit=False
@@ -404,36 +485,31 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
         self.setParams(**kwargs)
 
     def setCorpusPath(self, value):
-        self._set(corpusPath=value)
-        return self
+        return self._set(corpusPath=value)
 
     def setCorpusFormat(self, value):
-        self._set(corpusFormat=value)
-        return self
+        return self._set(corpusFormat=value)
+
+    def setTokenPattern(self, value):
+        return self._set(tokenPattern=value)
 
     def setDictPath(self, value):
-        self._set(dictPath=value)
-        return self
+        return self._set(dictPath=value)
 
     def setSlangPath(self, value):
-        self._set(slangPath=value)
-        return self
+        return self._set(slangPath=value)
 
     def setCaseSensitive(self, value):
-        self._set(caseSensitive=value)
-        return self
+        return self._set(caseSensitive=value)
 
     def setDoubleVariants(self, value):
-        self._set(doubleVariants=value)
-        return self
+        return self._set(doubleVariants=value)
 
     def setShortCircuit(self, value):
-        self._set(shortCircuit=value)
-        return self
+        return self._set(shortCircuit=value)
 
     def setParams(self,
                   dictPath="/spell/words.txt",
-                  slangPath="/spell/slangs.txt",
                   caseSensitive=False,
                   doubleVariants=False,
                   shortCircuit=False):

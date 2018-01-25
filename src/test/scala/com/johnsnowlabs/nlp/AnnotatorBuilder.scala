@@ -46,6 +46,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     normalizer.transform(withTokenizer(dataset))
   }
 
+  def withCaseSensitiveNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+      .setLowercase(false)
+    normalizer.transform(withTokenizer(dataset))
+  }
+
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
@@ -74,10 +82,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val posTagger = new PerceptronApproach()
+    new PerceptronApproach()
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("pos")
-    posTagger
       .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
@@ -115,7 +122,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("vivekn")
       .setPositiveSourcePath("/vivekn/positive/1.txt")
       .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
   }
@@ -124,6 +131,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
+      .setDictPath("./src/main/resources/spell/words.txt")
       .setCorpusPath("./src/test/resources/spell/sherlockholmes.txt")
       .setCorpusFormat(inputFormat)
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
@@ -134,6 +142,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new DependencyParser()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
+      .setSourcePath("src/test/resources/models/dep-model.txt")
       .fit(df)
       .transform(df)
   }
@@ -152,7 +161,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setDatsetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+      .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
       .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
       .setC0(34)
       .setL2(3.0)

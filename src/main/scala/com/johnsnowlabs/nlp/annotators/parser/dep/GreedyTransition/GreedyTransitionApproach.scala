@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
+
 import scala.collection.mutable
 
 /**
@@ -10,9 +11,9 @@ import scala.collection.mutable
   */
 class GreedyTransitionApproach {
 
-  def parse(posTagged: PosTaggedSentence): DependencyParsedSentence = {
+  def parse(posTagged: PosTaggedSentence, source: String, format: String = "TXT"): DependencyParsedSentence = {
     val parser = new Parser
-    parser.perceptron.load(ResourceHelper.parseLinesText("/dependency_parser/models/dep-model.txt", "txt").toIterator)
+    parser.perceptron.load(ResourceHelper.parseLinesText(source, format.toUpperCase).toIterator)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
     val dependencies = parser.parse(sentence)

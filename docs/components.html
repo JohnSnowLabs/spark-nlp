@@ -243,6 +243,7 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                               <li>
                                                 setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
+                                                setLowercase(value): lowercase tokens, default true
                                               </li>
                                             </ul>
                                                 <b>Example:</b><br>
@@ -336,6 +337,21 @@ documentAssembler = new DocumentAssembler()
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
                                                 </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
@@ -360,6 +376,21 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
+                                                </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -396,9 +427,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -424,9 +465,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -467,9 +518,14 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                    setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -498,9 +554,14 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                  setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                  Default:
+                                                  TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -592,9 +653,10 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")</code></pre>
+                                            <pre><code class="language-python">sentence_detector = SentenceDetectorModel() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence") \
+  .setUseAbbreviations(True)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -650,9 +712,12 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val posTagger = new PerceptronApproach()
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+                                            <pre><code class="language-python">pos_tagger = PerceptronApproach() \
+  .setInputCols(["token", "sentence"]) \
+  .setOutputCol("pos") \
+  .setCorpusPath("./src/main/resources/anc-pos-corpus") \
+  .setIterations(2) \
+  .fit(data)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -680,7 +745,8 @@ documentAssembler = new DocumentAssembler()
                                             </p>
                                             <pre><code class="language-python">val posTagger = new PerceptronApproach()
   .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+  .setOutputCol("pos")
+  .fit(data)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
@@ -704,6 +770,12 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                                 <li>
                                                     setDictPath(path)
+                                                </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
                                                 </li>
                                             </ul>
                                             <br>
@@ -733,6 +805,12 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                                 <li>
                                                     setDictPath(path)
+                                                </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
                                                 </li>
                                             </ul>
                                             <br>
@@ -879,7 +957,7 @@ documentAssembler = new DocumentAssembler()
                                                     setCorpusPath: path to training corpus. Can be any good text.
                                                 </li>
                                                 <li>
-                                                  setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
+                                                    setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
                                                 </li>
                                                 <li>
                                                     setSlangPath: path to custom dictionares, separated by comma
@@ -1089,8 +1167,9 @@ val assertionStatus = new AssertionStatusApproach()
                                                 outputs annotation(s) values into string.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val finisher = new Finisher()
-  .setInputCols("token")
+                                            <pre><code class="language-python">finisher = Finisher() \
+  .setInputCols(["sentiment"]) \
+  .setIncludeKeys(True)
 </code></pre>
 
                                             <b>Settable parameters are:</b>
@@ -1208,7 +1287,7 @@ val assertionStatus = new AssertionStatusApproach()
 
 
                                       This transformer reconstructs a Document type annotation from tokens, usually after these
-                                      have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+                                      have been normalized, lemmatized, spell checked, etc, in order to use this
                                       document annotation in further annotators.
                                       <br><b>Example:</b><br>
                                     </p>

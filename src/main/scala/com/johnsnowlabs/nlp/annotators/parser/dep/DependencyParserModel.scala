@@ -2,9 +2,10 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
@@ -14,9 +15,13 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val requiredAnnotatorTypes =  Array[String](DOCUMENT, POS, TOKEN)
 
+  val sourcePath = new Param[String](this, "sourcePath", "source file for dependency model")
+
+  def setSourcePath(value: String): this.type = set(sourcePath, value)
+
   def tag(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    model.parse(sentence)
+    model.parse(sentence, $(sourcePath))
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

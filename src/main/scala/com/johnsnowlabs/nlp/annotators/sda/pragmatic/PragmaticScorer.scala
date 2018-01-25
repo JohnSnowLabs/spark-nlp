@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
   * Scorer is a rule based implementation inspired on http://fjavieralba.com/basic-sentiment-analysis-with-python.html
   * Its strategy is to tag words by a dictionary in a sentence context, and later identify such context to get amplifiers
   */
-class PragmaticScorer(sentimentDict: Map[String, String] = SentimentDetectorModel.retrieveSentimentDict()) extends Serializable {
+class PragmaticScorer(sentimentDict: Map[String, String]) extends Serializable {
 
   private val logger = LoggerFactory.getLogger("PragmaticScorer")
 
@@ -102,7 +102,7 @@ object PragmaticScorer {
   def py4jHelper(javaSentimentDict: java.util.HashMap[String, String]): PragmaticScorer = {
     new PragmaticScorer(javaSentimentDict.asScala.toMap)
   }
-  def fromPath(overridePath: String) {
-    new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict(overridePath))
+  def fromPath(overridePath: String, sentFormat: String, sentSeparator: String) {
+    new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict(overridePath, sentFormat.toUpperCase, sentSeparator))
   }
 }

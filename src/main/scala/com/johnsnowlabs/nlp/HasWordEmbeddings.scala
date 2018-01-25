@@ -1,14 +1,13 @@
-package com.johnsnowlabs.nlp.embeddings
+package com.johnsnowlabs.nlp
 
 import java.io.File
 import java.nio.file.{Files, Paths}
-
-import com.johnsnowlabs.nlp.BaseAnnotatorModel
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsClusterHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
-import org.apache.spark.ml.Model
-import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.{SparkContext, SparkFiles}
 
 
 /**
@@ -17,15 +16,14 @@ import org.apache.spark.ml.param.{IntParam, Param}
   *
   * Corresponding Approach have to implement AnnotatorWithWordEmbeddings
    */
-trait ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M] with Model[M]]
-  extends AutoCloseable {
-  this:BaseAnnotatorModel[M] =>
+
+trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
 
-  def setDims(nDims: Int) = set(this.nDims, nDims).asInstanceOf[M]
-  def setIndexPath(path: String) = set(this.indexPath, path).asInstanceOf[M]
+  def setDims(nDims: Int): this.type = set(this.nDims, nDims)
+  def setIndexPath(path: String): this.type = set(this.indexPath, path)
 
   lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     // Have to copy file because RockDB changes it and Spark rises Exception
@@ -56,7 +54,7 @@ trait ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M] with Model[M]]
     val src = getEmbeddingsSerializedPath(path)
 
     // 1. Copy to local file
-    val localPath = WordEmbeddingsClusterHelper.createLocalPath
+    val localPath = WordEmbeddingsClusterHelper.createLocalPath()
     if (fs.exists(src)) {
       fs.copyToLocalFile(src, new Path(localPath))
 
@@ -82,5 +80,10 @@ trait ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M] with Model[M]]
     }
   }
 
-  def getEmbeddingsSerializedPath(path: String) = Path.mergePaths(new Path(path), new Path("/embeddings"))
+  def getEmbeddingsSerializedPath(path: String): Path = Path.mergePaths(new Path(path), new Path("/embeddings"))
+
+  override def onWritten(path: String, spark: SparkSession): Unit = {
+    deserializeEmbeddings(path, spark.sparkContext)
+  }
+
 }

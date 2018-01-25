@@ -19,10 +19,11 @@ class NorvigSweetingApproach(override val uid: String)
   val corpusFormat = new Param[String](this, "corpusFormat", "dataset corpus format. txt or txtds allowed only")
   val dictPath = new Param[String](this, "dictPath", "path to dictionary of words")
   val slangPath = new Param[String](this, "slangPath", "path to custom dictionaries")
+  val tokenPattern = new Param[String](this, "tokenPattern", "Regex pattern to use in tokenization of corpus. Defaults [a-zA-Z]+")
 
   setDefault(dictPath, "/spell/words.txt")
-  setDefault(slangPath, "/spell/slangs.txt")
   setDefault(corpusFormat, "TXT")
+  setDefault(tokenPattern, "[a-zA-Z]+")
 
   setDefault(caseSensitive, false)
   setDefault(doubleVariants, false)
@@ -42,21 +43,20 @@ class NorvigSweetingApproach(override val uid: String)
 
   def setSlangPath(value: String): this.type = set(slangPath, value)
 
+  def setTokenPattern(value: String): this.type = set(tokenPattern, value)
+
   override def train(dataset: Dataset[_]): NorvigSweetingModel = {
-    val loadWords = ResourceHelper.wordCount($(dictPath), TXT)
+    val loadWords = ResourceHelper.wordCount($(dictPath), $(corpusFormat).toUpperCase, $(tokenPattern))
     val corpusWordCount =
       if (get(corpusPath).isDefined) {
-        if ($(corpusFormat).toLowerCase == "txt") {
-          ResourceHelper.wordCount($(corpusPath), TXT)
-        } else if ($(corpusFormat).toLowerCase == "txtds") {
-          ResourceHelper.wordCount($(corpusPath), TXTDS)
-        } else {
-          throw new Exception("Unsupported corpusFormat. Must be txt or txtds")
-        }
+        ResourceHelper.wordCount($(corpusPath), $(corpusFormat).toUpperCase, $(tokenPattern))
       } else {
       Map.empty[String, Int]
       }
-    val loadSlangs = ResourceHelper.parseKeyValueText($(slangPath), "txt", ",")
+    val loadSlangs = if (get(slangPath).isDefined)
+      ResourceHelper.parseKeyValueText($(slangPath), $(corpusFormat).toUpperCase, ",")
+    else
+      Map.empty[String, String]
     new NorvigSweetingModel()
       .setWordCount(loadWords.toMap ++ corpusWordCount)
       .setCustomDict(loadSlangs)
