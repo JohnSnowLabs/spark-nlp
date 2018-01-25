@@ -1,10 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.Dataset
@@ -114,3 +113,5 @@ class AssertionLogRegApproach(val uid: String)
 
 
 }
+
+object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]
