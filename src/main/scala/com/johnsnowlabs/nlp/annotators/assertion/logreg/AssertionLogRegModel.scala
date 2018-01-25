@@ -1,27 +1,34 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
-import com.johnsnowlabs.nlp.{Annotation, DatasetAnnotatorModel}
-import com.johnsnowlabs.nlp.embeddings.{ModelWithWordEmbeddings, WordEmbeddings}
+import com.johnsnowlabs.nlp.{HasOutputAnnotationCol, _}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.hadoop.fs.Path
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.Model
+import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
 
 import scala.collection.immutable.Map
 import scala.collection.mutable
-
 
 /**
   * Created by jose on 22/11/17.
   */
 
-class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION"))
-  extends DatasetAnnotatorModel[AssertionLogRegModel] with ModelWithWordEmbeddings[AssertionLogRegModel]
-    with Windowing {
+class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION")) extends Model[AssertionLogRegModel]
+    with ParamsAndFeaturesWritable
+    with HasAnnotatorType
+    with HasInputAnnotationCols
+    with HasOutputAnnotationCol
+    with HasWordEmbeddings
+    with Windowing
+    with Serializable
+    with TransformModelSchema {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
@@ -50,7 +57,6 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   def setStart(start: String) = set(startParam, start)
   def setEnd(end: String) = set(endParam, end)
   def setTargetCol(target: String) = set(target, target)
-
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -83,8 +89,6 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
     Seq(annotation)
   }
 
-  override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = annotations
-
   var model: Option[LogisticRegressionModel] = None
   var labelMap: Option[Map[Double, String]] = None
 
@@ -104,12 +108,14 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   def extractTextUdf = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
     document.head.getString(3)
   }
+
+  /** requirement for annotators copies */
+  override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
 object AssertionLogRegModel extends DefaultParamsReadable[AssertionLogRegModel] {
   def apply(): AssertionLogRegModel = new AssertionLogRegModel()
   override def read: MLReader[AssertionLogRegModel] = new AssertionModelReader(super.read)
-
 
   class AssertionModelReader(baseReader: MLReader[AssertionLogRegModel]) extends MLReader[AssertionLogRegModel] {
     override def load(path: String): AssertionLogRegModel = {
@@ -155,8 +161,4 @@ object AssertionLogRegModel extends DefaultParamsReadable[AssertionLogRegModel] 
       model.serializeEmbeddings(path, sparkSession.sparkContext)
     }
   }
-
 }
-
-
-

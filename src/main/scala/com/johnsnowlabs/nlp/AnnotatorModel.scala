@@ -16,7 +16,8 @@ abstract class AnnotatorModel[M <: Model[M]]
     with ParamsAndFeaturesWritable
     with HasAnnotatorType
     with HasInputAnnotationCols
-    with HasOutputAnnotationCol {
+    with HasOutputAnnotationCol
+    with TransformModelSchema {
 
   /**
     * internal types to show Rows as a relevant StructType
@@ -38,18 +39,6 @@ abstract class AnnotatorModel[M <: Model[M]]
   private def dfAnnotate: UserDefinedFunction = udf {
     annotatorProperties: Seq[AnnotationContent] =>
       annotate(annotatorProperties.flatMap(_.map(Annotation(_))))
-  }
-
-  /** Shape of annotations at output */
-  private def outputDataType: DataType = ArrayType(Annotation.dataType)
-
-  /** requirement for pipeline transformation validation. It is called on fit() */
-  override final def transformSchema(schema: StructType): StructType = {
-    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
-    val outputFields = schema.fields :+
-      StructField(getOutputCol, outputDataType, nullable = false, metadataBuilder.build)
-    StructType(outputFields)
   }
 
 

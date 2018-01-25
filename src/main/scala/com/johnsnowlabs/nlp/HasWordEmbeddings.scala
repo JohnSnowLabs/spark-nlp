@@ -25,14 +25,22 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
 
-  lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
-    // Have to copy file because RockDB changes it and Spark rises Exception
-    val src = SparkFiles.get(path)
-    val workPath = src + "_work"
-    if (!new File(workPath).exists())
-      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+  @transient
+  var wembeddings: Option[WordEmbeddings] = None
 
-    WordEmbeddings(workPath, $(nDims))
+  def embeddings(): Option[WordEmbeddings] = {
+    if (wembeddings == null || wembeddings.isEmpty) {
+      wembeddings = get(indexPath).map { path =>
+        // Have to copy file because RockDB changes it and Spark rises Exception
+        val src = SparkFiles.get(path)
+        val workPath = src + "_work"
+        if (!new File(workPath).exists())
+          FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+
+        WordEmbeddings(workPath, $(nDims))
+      }
+    }
+    wembeddings
   }
 
   override def close(): Unit = {
