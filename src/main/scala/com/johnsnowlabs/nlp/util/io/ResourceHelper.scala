@@ -28,7 +28,7 @@ import scala.util.Random
   */
 object ResourceHelper {
 
-  private val spark: SparkSession = SparkSession.builder().getOrCreate()
+  val spark: SparkSession = SparkSession.builder().getOrCreate()
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
