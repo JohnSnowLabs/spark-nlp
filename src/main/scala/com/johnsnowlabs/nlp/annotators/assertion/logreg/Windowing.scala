@@ -18,7 +18,7 @@ trait Windowing extends Serializable {
 
   val tokenizer : Tokenizer
 
-  lazy val wordVectors: Option[WordEmbeddings] = None
+  def wordVectors(): Option[WordEmbeddings] = None
 
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, s: Int, e: Int): (Array[String], Array[String], Array[String])  = {
@@ -86,7 +86,7 @@ trait Windowing extends Serializable {
   def applyWindowUdf =
     //here 's' and 'e' are token numbers for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
-      Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
+       Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
 
   def l2norm(xs: Array[Double]):Double = {

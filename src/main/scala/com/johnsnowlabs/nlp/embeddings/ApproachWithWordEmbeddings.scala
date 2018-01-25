@@ -46,7 +46,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
       // 3. Copy WordEmbeddings to cluster
       WordEmbeddingsClusterHelper.copyIndexToCluster(localPath.get, spark.sparkContext)
       // 4. Create Embeddings for usage during train
-      embeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
+      wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
     }
   }
 
@@ -59,7 +59,14 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
     }
   }
 
-  var embeddings: Option[WordEmbeddings] = None
+  @transient
+  var wembeddings: Option[WordEmbeddings] = None
+
+  def embeddings(): Option[WordEmbeddings] = {
+    if (wembeddings == null || wembeddings.isEmpty)
+      wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
+    wembeddings
+  }
   private var localPath: Option[String] = None
 
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {

@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.embeddings.{AnnotatorWithWordEmbeddings, WordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
+import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
@@ -15,13 +15,14 @@ import scala.collection.mutable
 /**
   * Created by jose on 22/11/17.
   */
-class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproach[AssertionLogRegModel] with
-  AnnotatorWithWordEmbeddings[AssertionLogRegApproach, AssertionLogRegModel] with Windowing {
+class AssertionLogRegApproach(val uid: String)
+  extends ApproachWithWordEmbeddings[AssertionLogRegApproach, AssertionLogRegModel] with Windowing {
 
+  //AnnotatorApproach[AssertionLogRegModel]
   override val requiredAnnotatorTypes = Array(DOCUMENT)
-  override val description: String = "Clinical Text Status Assertion"
+  val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
-  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
+  override def wordVectors: Option[WordEmbeddings] = embeddings
 
   lazy override val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
@@ -110,4 +111,6 @@ class AssertionLogRegApproach(override val uid: String) extends AnnotatorApproac
   }
 
   private def labelToNumber(mappings: Map[String, Double]) = udf { label:String  => mappings.get(label)}
+
+
 }
