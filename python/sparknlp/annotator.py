@@ -7,6 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
+from sparknlp.base import JavaRecursiveEstimator
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -129,6 +130,7 @@ class Normalizer(AnnotatorTransformer):
 
     def setLowercase(self, value):
         return self._set(lowercase=value)
+
 
 class RegexMatcher(AnnotatorTransformer):
 
@@ -523,8 +525,7 @@ class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorPr
     name = "NorvigSweetingModel"
 
 
-
-class NerCrfApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
+class NerCrfApproach(JavaRecursiveEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
     labelColumn = Param(Params._dummy(),
                      "labelColumn",
                      "Column with label per each token",
