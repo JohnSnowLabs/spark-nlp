@@ -3,11 +3,11 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
 import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit, RecursivePipeline}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -88,19 +88,19 @@ class NerCrfApproach(override val uid: String)
       return recursivePipeline.get.transform(dataframe)
     }
 
-    logger.warn("NER CRF not in a RecursivePipeline." +
-      "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for" +
+    logger.warn("NER CRF not in a RecursivePipeline. " +
+      "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
       "better performance during training")
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setCustomBoundChars(Array("\n\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
 

@@ -16,7 +16,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
 
   def isolatedSentimentDetector(tokenizedSentences: Array[TokenizedSentence], expectedScore: Double): Unit = {
     s"tagged sentences" should s"have an expected score of $expectedScore" in {
-      val pragmaticScorer = new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict("/sentiment-corpus/default-sentiment-dict.txt", "txt", ","))
+      val pragmaticScorer = new PragmaticScorer(SentimentDetector.retrieveSentimentDict("/sentiment-corpus/default-sentiment-dict.txt", "txt", ","))
       val result = pragmaticScorer.score(tokenizedSentences)
       assert(result == expectedScore, s"because result: $result did not match expected: $expectedScore")
     }

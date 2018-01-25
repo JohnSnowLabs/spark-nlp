@@ -1,12 +1,12 @@
 package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
@@ -30,12 +30,12 @@ object CoNLL2003PipelineTest extends App {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setCustomBoundChars(Array("\n\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
 

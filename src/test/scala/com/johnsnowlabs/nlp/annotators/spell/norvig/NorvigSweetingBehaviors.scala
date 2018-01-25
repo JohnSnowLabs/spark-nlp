@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -38,7 +38,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
         .setInputCol("text")
         .setOutputCol("document")
 
-      val tokenizer = new RegexTokenizer()
+      val tokenizer = new Tokenizer()
         .setInputCols(Array("document"))
         .setOutputCol("token")
 

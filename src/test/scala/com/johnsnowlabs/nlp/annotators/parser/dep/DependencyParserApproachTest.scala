@@ -5,7 +5,7 @@ import org.apache.spark.sql.Row
 import org.scalatest.FlatSpec
 import scala.language.reflectiveCalls
 
-class DependencyParserTest extends FlatSpec {
+class DependencyParserApproachTest extends FlatSpec {
   def fixture = new {
     val df = AnnotatorBuilder.withDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
     val dependencies = df.select("dependency")
