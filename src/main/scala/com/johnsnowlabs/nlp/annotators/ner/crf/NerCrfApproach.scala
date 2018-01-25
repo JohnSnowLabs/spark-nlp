@@ -14,6 +14,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
+import org.slf4j.LoggerFactory
 
 /*
   Algorithm for training Named Entity Recognition Model.
@@ -22,6 +23,8 @@ class NerCrfApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] with HasRecursiveFit[NerCrfModel] {
 
   def this() = this(Identifiable.randomUID("NER"))
+
+  private val logger = LoggerFactory.getLogger("NorvigApproach")
 
   override val description = "CRF based Named Entity Recognition Tagger"
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS)
@@ -85,6 +88,9 @@ class NerCrfApproach(override val uid: String)
       return recursivePipeline.get.transform(dataframe)
     }
 
+    logger.warn("NER CRF not in a RecursivePipeline." +
+      "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for" +
+      "better performance during training")
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
