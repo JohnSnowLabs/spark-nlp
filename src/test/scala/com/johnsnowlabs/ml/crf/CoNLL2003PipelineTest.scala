@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
-import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.mutable
@@ -76,7 +76,7 @@ object CoNLL2003PipelineTest extends App {
 
     val stages = getPosStages()
 
-    val pipeline = new Pipeline()
+    val pipeline = new RecursivePipeline()
       .setStages(stages)
 
     pipeline.fit(dataset)
@@ -92,7 +92,7 @@ object CoNLL2003PipelineTest extends App {
 
     val stages = getNerStages()
 
-    val pipeline = new Pipeline()
+    val pipeline = new RecursivePipeline()
       .setStages(stages)
 
     pipeline.fit(dataset)

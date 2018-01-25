@@ -12,6 +12,8 @@ import org.scalatest._
   */
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
+  SparkAccessor.spark
+
   val lemmatizer = new Lemmatizer
   "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     assert(lemmatizer.annotatorType == AnnotatorType.TOKEN)
@@ -66,13 +68,30 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
         finisher
       ))
 
+    val recursivePipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        lemmatizer,
+        finisher
+      ))
+
     val model = pipeline.fit(data)
     model.transform(data).show()
 
     val PIPE_PATH = "./tmp_pipeline"
+
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
     loadedPipeline.transform(data).show
+
+    val recursiveModel = recursivePipeline.fit(data)
+    recursiveModel.transform(data).show()
+
+    recursiveModel.write.overwrite().save(PIPE_PATH)
+    val loadedRecPipeline = PipelineModel.read.load(PIPE_PATH)
+    loadedRecPipeline.transform(data).show
 
     succeed
   }
