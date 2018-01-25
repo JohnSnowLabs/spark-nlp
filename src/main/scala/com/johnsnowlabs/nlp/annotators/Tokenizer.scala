@@ -12,7 +12,7 @@ import scala.util.matching.Regex
   * @param uid required uid for storing annotator to disk
   * @@ pattern: RegexPattern to split phrases into tokens
   */
-class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] {
+class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -26,19 +26,33 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
 
   def setPattern(value: String): this.type = set(pattern, value)
 
+  def addPattern(value: String)
+
+  def setPrefixPattern(value: String)
+
+  def setSuffixPattern(value: String)
+
+  def addPrefixPattern(value: String)
+
+  def addSuffixPattern(value: String)
+
   def getPattern: String = $(pattern)
+
+  def getPrefixPattern: String
+
+  def getSuffixPattern: String
 
   setDefault(inputCols, Array(DOCUMENT))
 
   /** A RegexTokenizer could require only for now a SentenceDetectorModel annotator */
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
-  setDefault(pattern, "\\S+")
+  setDefault(pattern, "([^\\s\\w]?)(\\w+(?:\\.\\w{1}\\.|(?:\\-\\w+)*)?)([^\\s\\w]?)")
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map{text =>
-      val tokens = regex.findAllMatchIn(text.content).map { m =>
-        IndexedToken(m.matched, text.begin + m.start, text.begin + m.end - 1)
+      val tokens = regex.findAllMatchIn(text.content).flatMap { m =>
+        (1 to m.groupCount).map (i => IndexedToken(m.group(i), text.begin + m.start, text.begin + m.end - 1))
       }.toArray
       TokenizedSentence(tokens)
     }
@@ -52,4 +66,4 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
   }
 }
 
-object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]
+object Tokenizer extends DefaultParamsReadable[Tokenizer]

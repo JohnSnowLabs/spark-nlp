@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
 import org.scalatest.FlatSpec
 
 
-class SentenceDetectorModelBoundsSpec extends FlatSpec {
+class SentenceDetectorBoundsSpec extends FlatSpec {
 
   val model = new PragmaticMethod(false)
 

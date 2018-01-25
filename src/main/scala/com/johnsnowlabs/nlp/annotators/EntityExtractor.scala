@@ -79,7 +79,7 @@ class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExt
   private def loadEntities(): Unit = {
     val src = EntityExtractor.retrieveEntityExtractorPhrases($(entitiesPath), $(entitiesFormat))
 
-    val tokenizer = new RegexTokenizer().setPattern("\\w+")
+    val tokenizer = new Tokenizer().setPattern("\\w+")
     val normalizer = new Normalizer()
     val phrases: Array[Array[String]] = src.map {
       line =>

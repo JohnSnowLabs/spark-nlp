@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp._
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
@@ -29,14 +29,14 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setOutputCol("my_sbd_sentences")
 
     val assembled = documentAssembler.transform(mergedSentences)
 
     val sentenced = sentenceDetector.transform(assembled)
 
-    val tokenizedFromDisk = new RegexTokenizer()
+    val tokenizedFromDisk = new Tokenizer()
       .setInputCols(Array("my_sbd_sentences"))
       .setOutputCol("token")
 
@@ -97,11 +97,11 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   )
 
   "A Pragmatic SBD" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
-    val pragmaticDetector = new SentenceDetectorModel()
+    val pragmaticDetector = new SentenceDetector()
     val path = "./test-output-tmp/pragmaticdetector"
     try {
       pragmaticDetector.write.overwrite.save(path)
-      val pragmaticDetectorRead = SentenceDetectorModel.read.load(path)
+      val pragmaticDetectorRead = SentenceDetector.read.load(path)
     } catch {
       case _: java.io.IOException => succeed
     }

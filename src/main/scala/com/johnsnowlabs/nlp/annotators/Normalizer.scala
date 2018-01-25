@@ -19,7 +19,7 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
   val pattern = new Param[String](this, "pattern", "normalization regex pattern which match will be replaced with a space")
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
-  setDefault(pattern, "[^a-zA-Z]")
+  setDefault(pattern, "[^\\pL+]")
   setDefault(lowercase, true)
 
   def getPattern: String = $(pattern)

@@ -83,7 +83,7 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
         super(JavaTransformer, self).__init__()
 
 
-class RegexTokenizer(AnnotatorTransformer):
+class Tokenizer(AnnotatorTransformer):
 
     pattern = Param(Params._dummy(),
                     "pattern",
@@ -92,8 +92,8 @@ class RegexTokenizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(RegexTokenizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.RegexTokenizer", self.uid)
+        super(Tokenizer, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Tokenizer", self.uid)
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -307,7 +307,7 @@ class PerceptronModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProper
     name = "PerceptronModel"
 
 
-class SentenceDetectorModel(AnnotatorTransformer):
+class SentenceDetector(AnnotatorTransformer):
 
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
@@ -329,8 +329,8 @@ class SentenceDetectorModel(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(SentenceDetectorModel, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel", self.uid)
+        super(SentenceDetector, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector", self.uid)
 
 
 class SentimentDetectorModel(AnnotatorTransformer):

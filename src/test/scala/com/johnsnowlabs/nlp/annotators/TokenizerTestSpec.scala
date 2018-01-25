@@ -8,9 +8,9 @@ import java.util.Date
 /**
   * Created by saif on 02/05/17.
   */
-class RegexTokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
+class TokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
-  val regexTokenizer = new RegexTokenizer
+  val regexTokenizer = new Tokenizer
 
   "a RegexTokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     assert(regexTokenizer.annotatorType == AnnotatorType.TOKEN)
@@ -25,7 +25,7 @@ class RegexTokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
     val assembled = documentAssembler.transform(data)
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setOutputCol("token")
     val tokenized = tokenizer.transform(assembled)
 
