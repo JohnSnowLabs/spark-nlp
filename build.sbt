@@ -7,7 +7,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.2.3"
+version := "1.2.6"
 
 scalaVersion := scalaVer
 
@@ -43,7 +43,7 @@ bintrayPackageLabels := Seq("nlp", "nlu",
   "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
   "tokenizer", "stemmer", "part-of-speech-tagger", "annotation-framework")
 
-bintrayRepository := "johnsnowlabs"
+bintrayRepository := "spark-nlp"
 
 bintrayOrganization := Some("johnsnowlabs")
 

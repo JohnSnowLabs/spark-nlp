@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.Tokenized
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
@@ -20,14 +20,23 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  private val config: Config = ConfigFactory.load
+
   val dictPath = new Param[String](this, "dictPath", "path to dictionary for pragmatic sentiment analysis")
 
-  lazy val model: PragmaticScorer = {
-    if (get(dictPath).isDefined)
-      new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict($(dictPath)))
-    else
-      new PragmaticScorer()
-  }
+  val dictFormat = new Param[String](this, "dictFormat", "format of dictionary, can be TXT or TXTDS for read as dataset")
+
+  val dictSeparator = new Param[String](this, "dictSeparator", "key value separator for dictionary")
+
+  if (config.getString("nlp.sentimentDict.file").nonEmpty)
+    setDefault(dictPath, config.getString("nlp.sentimentDict.file"))
+
+  setDefault(dictFormat, config.getString("nlp.sentimentDict.format"))
+
+  setDefault(dictSeparator, config.getString("nlp.sentimentDict.separator"))
+
+  lazy val model: PragmaticScorer =
+    new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict($(dictPath), $(dictFormat), $(dictSeparator)))
 
   override val annotatorType: AnnotatorType = SENTIMENT
 
@@ -41,6 +50,22 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   def getDictPath: String = {
     $(dictPath)
+  }
+
+  def setDictFormat(format: String): this.type = {
+    set(dictFormat, format)
+  }
+
+  def getDictFormat: String = {
+    $(dictFormat)
+  }
+
+  def setDictSeparator(separator: String): this.type = {
+    set(dictSeparator, separator)
+  }
+
+  def getDictSeparator: String = {
+    $(dictSeparator)
   }
 
   /**
@@ -68,17 +93,12 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 }
 object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel] {
 
-  private val config: Config = ConfigFactory.load
-
   /**
     * Sentiment dictionaries from compiled sources set in configuration
     * @return Sentiment dictionary
     */
-  private[pragmatic] def retrieveSentimentDict(sentFilePath: String = "__default"): Map[String, String] = {
-    val filePath = if (sentFilePath == "__default") config.getString("nlp.sentimentDict.file") else sentFilePath
-    val sentFormat = config.getString("nlp.sentimentDict.format")
-    val sentSeparator = config.getString("nlp.sentimentDict.separator")
-    ResourceHelper.parseKeyValueText(filePath, sentFormat, sentSeparator)
+  private[pragmatic] def retrieveSentimentDict(filePath: String, sentFormat: String, sentSeparator: String): Map[String, String] = {
+    ResourceHelper.parseKeyValueText(filePath, sentFormat.toUpperCase, sentSeparator)
   }
 
 

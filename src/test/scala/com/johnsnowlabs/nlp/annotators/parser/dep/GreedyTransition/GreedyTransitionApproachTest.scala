@@ -30,7 +30,7 @@ class GreedyTransitionApproachTest extends FlatSpec {
     val f = fixture
     val sentences = PosTagged.unpack(f.sentenceAnnotation ++ f.tokenAnnotations ++ f.posTagAnnotations)
     for (sentence <- sentences) {
-      assert(f.model.parse(sentence).tokens.length == sentence.indexedTaggedWords.length)
+      assert(f.model.parse(sentence, "src/test/resources/models/dep-model.txt").tokens.length == sentence.indexedTaggedWords.length)
     }
   }
 }

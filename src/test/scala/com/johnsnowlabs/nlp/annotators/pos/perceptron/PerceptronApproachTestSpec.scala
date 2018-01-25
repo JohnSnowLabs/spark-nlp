@@ -13,7 +13,10 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("/anc-pos-corpus/test-training.txt")
 
   val trainedTagger: PerceptronModel =
-    new PerceptronApproach().fit(DataBuilder.basicDataBuild("dummy"))
+    new PerceptronApproach()
+        .setNIterations(3)
+        .setCorpusLimit(5)
+        .fit(DataBuilder.basicDataBuild("dummy"))
 
   // Works with high iterations only
   val targetSentencesFromWsjResult = Array("NNP", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD",

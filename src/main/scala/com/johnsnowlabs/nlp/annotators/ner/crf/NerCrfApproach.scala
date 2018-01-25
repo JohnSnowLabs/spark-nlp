@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler}
+import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.AnnotatorWithWordEmbeddings
+import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -18,8 +18,9 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfModel]
-  with AnnotatorWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
+
+class NerCrfApproach(override val uid: String)
+  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -61,7 +62,7 @@ class NerCrfApproach(override val uid: String) extends AnnotatorApproach[NerCrfM
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
-  def setDatsetPath(path: String) = set(datasetPath, path)
+  def setDatasetPath(path: String) = set(datasetPath, path)
 
   setDefault(
     minEpochs -> 0,
