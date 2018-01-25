@@ -1,14 +1,14 @@
-package com.johnsnowlabs.nlp.embeddings
+package com.johnsnowlabs.nlp
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.AnnotatorModel
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsClusterHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
-import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.{SparkContext, SparkFiles}
 
 
 /**
@@ -17,8 +17,7 @@ import org.apache.spark.sql.SparkSession
   *
   * Corresponding Approach have to implement AnnotatorWithWordEmbeddings
    */
-abstract class ModelWithWordEmbeddings[M <: ModelWithWordEmbeddings[M]]
-  extends AnnotatorModel[M] with AutoCloseable {
+trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
