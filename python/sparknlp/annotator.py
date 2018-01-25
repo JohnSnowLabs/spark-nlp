@@ -661,6 +661,14 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
         self._set(afterParam = after)
         return self
 
+    def setStart(self, s):
+        self._set(startParam = s)
+        return self
+
+    def setEnd(self, e):
+        self._set(endParam = e)
+        return self
+
     def _create_model(self, java_model):
         return AssertionLogRegModel(java_model)
 
@@ -675,7 +683,9 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
             regParam = 0.00192,
             eNetParam = 0.9,
             beforeParam = 10,
-            afterParam = 10)
+            afterParam = 10,
+            startParam = "start",
+            endParam = "end")
 
 
 class AssertionLogRegModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
