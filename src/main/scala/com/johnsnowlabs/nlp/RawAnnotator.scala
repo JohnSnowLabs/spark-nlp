@@ -9,6 +9,5 @@ abstract class RawAnnotator[M<:Model[M]] extends Model[M]
     with ParamsAndFeaturesWritable
     with HasAnnotatorType
     with HasInputAnnotationCols
-    with HasOutputAnnotationCol
-    with HasWordEmbeddings {
+    with HasOutputAnnotationCol {
 }
