@@ -17,7 +17,6 @@ import scala.collection.mutable
 class AssertionLogRegApproach(val uid: String)
   extends ApproachWithWordEmbeddings[AssertionLogRegApproach, AssertionLogRegModel] with Windowing {
 
-  //AnnotatorApproach[AssertionLogRegModel]
   override val requiredAnnotatorTypes = Array(DOCUMENT)
   val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer

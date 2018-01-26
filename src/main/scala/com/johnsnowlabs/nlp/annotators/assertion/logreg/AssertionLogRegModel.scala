@@ -20,15 +20,8 @@ import scala.collection.mutable
   * Created by jose on 22/11/17.
   */
 
-class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION")) extends Model[AssertionLogRegModel]
-    with ParamsAndFeaturesWritable
-    with HasAnnotatorType
-    with HasInputAnnotationCols
-    with HasOutputAnnotationCol
-    with HasWordEmbeddings
-    with Windowing
-    with Serializable
-    with TransformModelSchema {
+class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION")) extends RawAnnotator[AssertionLogRegModel]
+    with Windowing with Serializable with TransformModelSchema {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
