@@ -7,7 +7,7 @@ import scala.util.matching.Regex
   * @param rx a java.matching.Regex object
   * @param identifier some description that might help link the regex to its meaning
   */
-class RegexRule(rx: Regex, val identifier: String) {
+class RegexRule(rx: Regex, val identifier: String) extends Serializable {
   def this(rx: String, identifier: String) {
     this(rx.r, identifier)
   }

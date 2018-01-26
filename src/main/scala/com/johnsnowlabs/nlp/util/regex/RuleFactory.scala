@@ -16,7 +16,7 @@ import scala.util.matching.Regex
   */
 class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
                   transformStrategy: TransformStrategy.TransformStrategy = TransformStrategy.NO_TRANSFORM)
-  extends RuleSymbols {
+  extends RuleSymbols with Serializable {
 
   /**
     * Internal representation of a regex match
@@ -46,6 +46,11 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   /** Adds a rule to this factory with native types */
   def addRule(rule: Regex, description: String): this.type = {
     rules = rules :+ new RegexRule(rule, description)
+    this
+  }
+
+  def clearRules(): this.type = {
+    rules = Seq.empty[RegexRule]
     this
   }
 

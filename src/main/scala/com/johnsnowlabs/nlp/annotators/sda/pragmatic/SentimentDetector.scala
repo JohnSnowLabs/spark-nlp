@@ -44,29 +44,17 @@ class SentimentDetector(override val uid: String) extends AnnotatorModel[Sentime
 
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
-  def setDictPath(path: String): this.type = {
-    set(dictPath, path)
-  }
+  def setDictPath(path: String): this.type = set(dictPath, path)
 
-  def getDictPath: String = {
-    $(dictPath)
-  }
+  def getDictPath: String = $(dictPath)
 
-  def setDictFormat(format: String): this.type = {
-    set(dictFormat, format)
-  }
+  def setDictFormat(format: String): this.type = set(dictFormat, format)
 
-  def getDictFormat: String = {
-    $(dictFormat)
-  }
+  def getDictFormat: String = $(dictFormat)
 
-  def setDictSeparator(separator: String): this.type = {
-    set(dictSeparator, separator)
-  }
+  def setDictSeparator(separator: String): this.type = set(dictSeparator, separator)
 
-  def getDictSeparator: String = {
-    $(dictSeparator)
-  }
+  def getDictSeparator: String = $(dictSeparator)
 
   /**
     * Tokens are needed to identify each word in a sentence boundary

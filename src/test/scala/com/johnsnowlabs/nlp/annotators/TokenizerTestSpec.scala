@@ -5,6 +5,9 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 import java.util.Date
 
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import org.apache.spark.ml.Pipeline
+
 /**
   * Created by saif on 02/05/17.
   */
@@ -12,8 +15,24 @@ class TokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
   val regexTokenizer = new Tokenizer
 
-  "a RegexTokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
+  "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     assert(regexTokenizer.annotatorType == AnnotatorType.TOKEN)
+  }
+
+  "a Tokenizer" should "correctly tokenize target text on its defaults parameters" in {
+    val data = DataBuilder.basicDataBuild("Hello, I am from the U.S.A. (and you know it). Give me my horse! 'He said', I'll defeat markus-crassus.")
+    import data.sparkSession.implicits._
+    val tokenizer = new Tokenizer().setInputCols("text").setOutputCol("token")
+    val sentence = new SentenceDetector().setInputCols("token").setOutputCol("sentence")
+    val finisher = new Finisher().setInputCols("sentence")//.setOutputAsArray(true)
+    val pipeline = new Pipeline().setStages(Array(tokenizer, sentence, finisher))
+    pipeline.fit(data).transform(data).select("finished_sentence").show
+    assert(pipeline.fit(data).transform(data).select("output").as[Array[String]]
+      .collect
+      .sameElements(Array(
+        "Hello", ",", "I", "am", "from", "the", "U.S.A.", "(", "and", "you", "know", "it", ")", ".",
+        "Give", "me", "my", "horse", "!", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus-crasus", ".")
+      ))
   }
 
   "a spark based tokenizer" should "resolve big data" in {
