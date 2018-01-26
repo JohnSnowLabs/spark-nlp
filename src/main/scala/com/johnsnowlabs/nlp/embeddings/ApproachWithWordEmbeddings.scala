@@ -3,8 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import java.io.File
 import java.nio.file.Files
 import java.util.UUID
-
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorModel, HasWordEmbeddings}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, HasWordEmbeddings}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.Model

@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, ParamMap}
+import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
@@ -29,8 +29,6 @@ class AssertionLogRegApproach(val uid: String)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val label = new Param[String](this, "label", "Column with one label per document")
-  // the document where we're extracting the assertion
-  val document = new Param[String](this, "document", "Column with the text to be analyzed")
   // the target term, that must appear capitalized in the document, e.g., 'diabetes'
   val target = new Param[String](this, "target", "Column with the target to analyze")
   val maxIter = new IntParam(this, "maxIter", "Max number of iterations for algorithm")
@@ -55,7 +53,6 @@ class AssertionLogRegApproach(val uid: String)
   def setEnd(end: String) = set(endParam, end)
 
   setDefault(label -> "label",
-    document -> "document",
     target   -> "target",
     maxIter -> 26,
     regParam -> 0.00192,
@@ -109,7 +106,6 @@ class AssertionLogRegApproach(val uid: String)
   }
 
   private def labelToNumber(mappings: Map[String, Double]) = udf { label:String  => mappings.get(label)}
-
 
 }
 

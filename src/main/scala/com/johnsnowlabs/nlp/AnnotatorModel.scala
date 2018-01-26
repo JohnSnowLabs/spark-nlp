@@ -9,7 +9,9 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.MetadataBuilder
 
 /**
-  * Created by jose on 21/01/18.
+ * This trait implements logic that applies nlp using Spark ML Pipeline transformers
+ * Should strongly change once UsedDefinedTypes are allowed
+ * https://issues.apache.org/jira/browse/SPARK-7768
   */
 abstract class AnnotatorModel[M <: Model[M]]
   extends Model[M]

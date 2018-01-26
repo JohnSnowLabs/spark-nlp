@@ -22,7 +22,7 @@ class NegexDatasetReader(targetLengthLimit: Int = 10) extends Serializable {
       indexOfSlice(targetTokens)
     val lastTargetIdx = firstTargetIdx + targetTokens.size - 1
 
-    if( lastTargetIdx < 0 || firstTargetIdx <0)
+    if( lastTargetIdx < 0 || firstTargetIdx < 0)
       print(sentence)
     (firstTargetIdx, lastTargetIdx)
   }
@@ -51,7 +51,7 @@ class NegexDatasetReader(targetLengthLimit: Int = 10) extends Serializable {
         }
         .map{ line =>
            val chunks = line.split("\t")
-           // keep single spaces
+           // keep single spaces only
            val doc = chunks(3).split(" ").map(_.trim).filter(_!="").mkString(" ")
            val (s, e) = getTargetIndices(doc, chunks(2))
            Datapoint(doc.map(_.toLower),
@@ -62,7 +62,6 @@ class NegexDatasetReader(targetLengthLimit: Int = 10) extends Serializable {
 
       dataframe
     }
-
 }
 
 case class Datapoint(sentence: String, target: String, label: String, start:Int, end:Int)

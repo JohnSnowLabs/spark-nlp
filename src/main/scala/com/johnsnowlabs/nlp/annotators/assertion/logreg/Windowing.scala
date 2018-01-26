@@ -56,7 +56,6 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
-  /* TODO targetTerm never used */
   def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
     val tokens = doc.split(" ").filter(_!="")
 
@@ -72,16 +71,6 @@ trait Windowing extends Serializable {
       t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
       r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
   }
-
-  def applyWindowUdf(wvectors: WordEmbeddings, codes: Map[String, Array[Double]]) =
-    udf {(doc:String, pos:mutable.WrappedArray[GenericRowWithSchema], start:Int, end:Int, targetTerm:String)  =>
-      val (l, t, r) = applyWindow(doc.toLowerCase, targetTerm.toLowerCase)
-      var target = Array(0.1, -0.1)
-      var nonTarget = Array(-0.1, 0.1)
-      l.flatMap(w => wvectors.getEmbeddings(w)).map(_.toDouble) ++
-        t.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble) ).map(_.toDouble) ++
-        r.flatMap(w => wvectors.getEmbeddings(w).map(_.toDouble)  ).map(_.toDouble)
-    }
 
   def applyWindowUdf =
     //here 's' and 'e' are token numbers for start and end of target when split on " "
