@@ -1,17 +1,16 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
-import com.johnsnowlabs.nlp.{HasOutputAnnotationCol, _}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.hadoop.fs.Path
-import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types._
+
 
 import scala.collection.immutable.Map
 import scala.collection.mutable

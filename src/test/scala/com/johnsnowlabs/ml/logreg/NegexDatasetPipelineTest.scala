@@ -7,6 +7,14 @@ import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
+/*
+* Test Assertion Status on the Pipeline
+* dataset from NegEx, can be obtained from,
+* https://raw.githubusercontent.com/mongoose54/negex/master/genConText/rsAnnotations-1-120-random.txt
+* Word Embeddings can be obtained from,
+* https://github.com/cambridgeltl/BioNLP-2016
+* */
+
 object NegexDatasetPipelineTest extends App with EvaluationMetrics {
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
@@ -16,7 +24,7 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
   val i2b2Dir = "/home/jose/Downloads/i2b2"
 
   // word embeddings location
-  val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
+  val embeddingsFile = s"PubMed-shuffle-win-2.bin"
   val datasetPath = "rsAnnotations-1-120-random.txt"
   val embeddingsDims = 200
 
@@ -69,7 +77,6 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
   }
 
   def trainAssertionModel(dataset: DataFrame): PipelineModel = {
-
     System.out.println("Start fitting")
 
     // train Assertion Status
@@ -83,5 +90,4 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
     System.out.println("Test Dataset Reading")
     model.transform(dataset)
   }
-
 }

@@ -10,8 +10,10 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
-  * Test on simple dataset from NegEx
-  * Created by jose on 22/01/18.
+  * Test on simple dataset from NegEx, can be obtained from,
+  * https://raw.githubusercontent.com/mongoose54/negex/master/genConText/rsAnnotations-1-120-random.txt
+  * Word Embeddings can be obtained from,
+  * https://github.com/cambridgeltl/BioNLP-2016
   */
 object NegexDatasetLogRegTest extends App with Windowing with EvaluationMetrics {
 
@@ -20,12 +22,15 @@ object NegexDatasetLogRegTest extends App with Windowing with EvaluationMetrics 
   override val tokenizer: Tokenizer = new SimpleTokenizer
 
   /* local Spark for test */
-  implicit val spark = SparkSession.builder().appName("DataFrame-UDF").master("local[4]").getOrCreate()
+  implicit val spark = SparkSession.builder().
+    appName("Simple Assertion Status text on Negex dataset").
+    master("local[4]").getOrCreate()
+
   import spark.implicits._
   val datasetPath = "rsAnnotations-1-120-random.txt"
 
   val embeddingsDims = 200
-  val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
+  val embeddingsFile = s"PubMed-shuffle-win-2.bin"
   val fileDb = embeddingsFile + ".db"
 
   override lazy val wordVectors: Option[WordEmbeddings] = Option(embeddingsFile).map {
