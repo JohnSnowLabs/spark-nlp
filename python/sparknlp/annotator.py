@@ -333,7 +333,7 @@ class SentenceDetector(AnnotatorTransformer):
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector", self.uid)
 
 
-class SentimentDetectorModel(AnnotatorTransformer):
+class SentimentDetector(AnnotatorTransformer):
     dictPath = Param(Params._dummy(),
                      "dictPath",
                      "path for dictionary to sentiment analysis")
@@ -348,8 +348,8 @@ class SentimentDetectorModel(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(SentimentDetectorModel, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel", self.uid)
+        super(SentimentDetector, self).__init__()
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector", self.uid)
 
     def setDictPath(self, value):
         return self._set(dictPath=value)

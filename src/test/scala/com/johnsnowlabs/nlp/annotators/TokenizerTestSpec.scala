@@ -11,7 +11,7 @@ import org.apache.spark.ml.Pipeline
 /**
   * Created by saif on 02/05/17.
   */
-class TokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
+class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   val regexTokenizer = new Tokenizer
 
@@ -22,17 +22,42 @@ class TokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters" in {
     val data = DataBuilder.basicDataBuild("Hello, I am from the U.S.A. (and you know it). Give me my horse! 'He said', I'll defeat markus-crassus.")
     import data.sparkSession.implicits._
-    val tokenizer = new Tokenizer().setInputCols("text").setOutputCol("token")
-    val sentence = new SentenceDetector().setInputCols("token").setOutputCol("sentence")
-    val finisher = new Finisher().setInputCols("sentence")//.setOutputAsArray(true)
-    val pipeline = new Pipeline().setStages(Array(tokenizer, sentence, finisher))
-    pipeline.fit(data).transform(data).select("finished_sentence").show
-    assert(pipeline.fit(data).transform(data).select("output").as[Array[String]]
-      .collect
-      .sameElements(Array(
-        "Hello", ",", "I", "am", "from", "the", "U.S.A.", "(", "and", "you", "know", "it", ")", ".",
-        "Give", "me", "my", "horse", "!", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus-crasus", ".")
-      ))
+    val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
+    val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setOutputCols("output")
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, finisher))
+    val expected = Array(
+      "Hello", ",", "I", "am", "from", "the", "U.S.A.", "(", "and", "you", "know", "it", ")", ".",
+      "Give", "me", "my", "horse", "!", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus-crassus", "."
+    )
+    val result = pipeline.fit(data).transform(data).select("output").as[Array[String]]
+      .collect.flatten
+    assert(
+      result.sameElements(expected),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected.mkString("|")}"
+    )
+  }
+
+  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters" in {
+    val data = DataBuilder.basicDataBuild("Hello, I am from the U.S.A. (and you know it). Give me my horse! 'He said', I'll defeat markus-crassus.")
+    import data.sparkSession.implicits._
+    val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token")
+    val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setOutputCols("output")
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, finisher))
+    val expected = Array(
+      "Hello", ",", "I", "am", "from", "the", "U.S.A.", "(", "and", "you", "know", "it", ")", ".",
+      "Give", "me", "my", "horse", "!", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus-crassus", "."
+    )
+    val result = pipeline.fit(data).transform(data).select("output").as[Array[String]]
+      .collect.flatten
+    assert(
+      result.sameElements(expected),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected.mkString("|")}"
+    )
   }
 
   "a spark based tokenizer" should "resolve big data" in {
@@ -55,6 +80,6 @@ class TokenizerTestSpec extends FlatSpec with RegexTokenizerBehaviors {
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
-  "A full RegexTokenizer pipeline with latin content" should behave like fullTokenizerPipeline(latinBodyData)
+  "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(latinBodyData)
 
 }

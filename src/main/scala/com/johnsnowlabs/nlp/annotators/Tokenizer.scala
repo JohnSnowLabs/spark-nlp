@@ -24,7 +24,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   override val annotatorType: AnnotatorType = TOKEN
 
-  /** A RegexTokenizer could require only for now a SentenceDetectorModel annotator */
+  /** A Tokenizer could require only for now a SentenceDetector annotator */
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
   def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
@@ -56,7 +56,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   setDefault(wordPattern, "\\w+")
   setDefault(extensionPattern, Array("\\.(?:\\w{1}\\.)+|(?:\\-\\w+)*"))
   setDefault(prefixPattern, Array("([^\\s\\w]?)"))
-  setDefault(suffixPattern, Array("([^\\s\\w]?)"))
+  setDefault(suffixPattern, Array("([^\\s\\w]?)([^\\s\\w]*)"))
 
   val ruleFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
 
@@ -64,7 +64,8 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
     /** Clears out rules and constructs a new rule for every combination of rules provided */
     /** The strategy is to catch one token per regex group */
     /** User may add its own groups if needs targets to be tokenized separately from the rest */
-    /** "([^\\s\\w]?)(\\w+(?:\\.(?:\\w{1}\\.)+|(?:\\-\\w+)*)?)([^\\s\\w]?)" */
+    /** "([^\s\w]?)(\w+(?:\.(?:\w{1}\.)+|(?:\-\w+)*)?)([^\s\w]?)([\s\w]*)" */
+    /** */
     ruleFactory
       .clearRules()
     $(prefixPattern).foreach(pp => $(suffixPattern).foreach (sp => $(extensionPattern).foreach(ep => {
@@ -81,7 +82,6 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
         (1 to m.content.groupCount)
           .map (i => IndexedToken(m.content.group(i), text.begin + m.content.start, text.begin + m.content.end - 1))
       }.filter(t => t.token.nonEmpty).toArray
-      tokens.foreach(t => println(t.token))
       TokenizedSentence(tokens)
     }
   }

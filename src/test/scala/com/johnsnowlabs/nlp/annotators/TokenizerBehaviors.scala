@@ -7,10 +7,10 @@ import org.scalatest._
 
 import scala.language.reflectiveCalls
 
-trait RegexTokenizerBehaviors { this: FlatSpec =>
+trait TokenizerBehaviors { this: FlatSpec =>
 
   def fixture(dataset: => Dataset[Row]) = new {
-    val df = AnnotatorBuilder.withTokenizer(AnnotatorBuilder.withFullPragmaticSentenceDetector(dataset))
+    val df = AnnotatorBuilder.withTokenizer(AnnotatorBuilder.withTokenizer(dataset))
     val documents = df.select("document")
     val sentences = df.select("sentence")
     val tokens = df.select("token")
@@ -34,16 +34,16 @@ trait RegexTokenizerBehaviors { this: FlatSpec =>
   }
 
   def fullTokenizerPipeline(dataset: => Dataset[Row]) {
-    "A RegexTokenizer Annotator" should "successfully transform data" in {
+    "A Tokenizer Annotator" should "successfully transform data" in {
       val f = fixture(dataset)
-      assert(f.tokensAnnotations.nonEmpty, "RegexTokenizer should add annotators")
+      assert(f.tokensAnnotations.nonEmpty, "Tokenizer should add annotators")
     }
 
     it should "annotate using the annotatorType of token" in {
       val f = fixture(dataset)
-      assert(f.tokensAnnotations.nonEmpty, "RegexTokenizer should add annotators")
+      assert(f.tokensAnnotations.nonEmpty, "Tokenizer should add annotators")
       f.tokensAnnotations.foreach { a =>
-        assert(a.annotatorType == AnnotatorType.TOKEN, "RegexTokenizer annotations type should be equal to 'token'")
+        assert(a.annotatorType == AnnotatorType.TOKEN, "Tokenizer annotations type should be equal to 'token'")
       }
     }
 

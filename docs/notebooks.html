@@ -115,13 +115,13 @@ document_assembler = DocumentAssembler() \
 #assembled = document_assembler.transform(data)
 
 ### Sentence detector
-sentence_detector = SentenceDetectorModel() \
+sentence_detector = SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence")
 #sentence_data = sentence_detector.transform(checked)
                                                                                                          In [ ]:
 ### Tokenizer
-tokenizer = RegexTokenizer() \
+tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 #tokenized = tokenizer.transform(assembled)
