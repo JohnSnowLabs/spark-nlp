@@ -53,6 +53,9 @@ abstract class AnnotatorModel[M <: Model[M]]
     StructType(outputFields)
   }
 
+  /** override this function if you need to reset or clear annotate variables just once before annotating */
+  def beforeAnnotate(): Unit = {}
+
   /**
     * Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
     * Output annotation will be generated as a new column, previous annotations are still available separately
@@ -65,6 +68,7 @@ abstract class AnnotatorModel[M <: Model[M]]
       s"${requiredAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
+    beforeAnnotate()
     dataset.withColumn(
       getOutputCol,
       dfAnnotate(

@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common._
-import org.apache.spark.ml.param.Param
+import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
+import org.apache.spark.ml.param.{Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -16,44 +17,71 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val pattern: Param[String] = new Param(this, "pattern", "this is the token pattern")
-
-  lazy val regex: Regex = $(pattern).r
+  val wordPattern: Param[String] = new Param(this, "wordPattern", "this is the base word pattern. Defaults \\w+")
+  val extensionPattern: StringArrayParam = new StringArrayParam(this, "infixPattern", "infix patterns allow for word exceptions that count as single token. E.g. U.S.A. Defaults ")
+  val prefixPattern: StringArrayParam = new StringArrayParam(this, "prefixPattern", "this is the token pattern")
+  val suffixPattern: StringArrayParam = new StringArrayParam(this, "suffixPattern", "this is the token pattern")
 
   override val annotatorType: AnnotatorType = TOKEN
-
-  def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
-
-  def setPattern(value: String): this.type = set(pattern, value)
-
-  def addPattern(value: String)
-
-  def setPrefixPattern(value: String)
-
-  def setSuffixPattern(value: String)
-
-  def addPrefixPattern(value: String)
-
-  def addSuffixPattern(value: String)
-
-  def getPattern: String = $(pattern)
-
-  def getPrefixPattern: String
-
-  def getSuffixPattern: String
-
-  setDefault(inputCols, Array(DOCUMENT))
 
   /** A RegexTokenizer could require only for now a SentenceDetectorModel annotator */
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
-  setDefault(pattern, "([^\\s\\w]?)(\\w+(?:\\.\\w{1}\\.|(?:\\-\\w+)*)?)([^\\s\\w]?)")
+  def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
+
+  def setWordPattern(value: String): this.type = set(wordPattern, value)
+
+  def setExtensionPattern(value: Array[String]): this.type = set(extensionPattern, value)
+
+  def addExtensionPattern(value: String): this.type = set(extensionPattern, $(extensionPattern) :+ value)
+
+  def setPrefixPattern(value: Array[String]): this.type = set(prefixPattern, value)
+
+  def addPrefixPattern(value: String): this.type = set(prefixPattern, $(prefixPattern) :+ value)
+
+  def setSuffixPattern(value: Array[String]): this.type = set(suffixPattern, value)
+
+  def addSuffixPattern(value: String): this.type = set(suffixPattern, $(suffixPattern) :+ value)
+
+  def getWordPattern: String = $(wordPattern)
+
+  def getInfixPattern: Array[String] = $(extensionPattern)
+
+  def getPrefixPattern: Array[String] = $(prefixPattern)
+
+  def getSuffixPattern: Array[String] = $(suffixPattern)
+
+  setDefault(inputCols, Array(DOCUMENT))
+
+  setDefault(wordPattern, "\\w+")
+  setDefault(extensionPattern, Array("\\.(?:\\w{1}\\.)+|(?:\\-\\w+)*"))
+  setDefault(prefixPattern, Array("([^\\s\\w]?)"))
+  setDefault(suffixPattern, Array("([^\\s\\w]?)"))
+
+  val ruleFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
+
+  override def beforeAnnotate(): Unit = {
+    /** Clears out rules and constructs a new rule for every combination of rules provided */
+    /** The strategy is to catch one token per regex group */
+    /** User may add its own groups if needs targets to be tokenized separately from the rest */
+    /** "([^\\s\\w]?)(\\w+(?:\\.(?:\\w{1}\\.)+|(?:\\-\\w+)*)?)([^\\s\\w]?)" */
+    ruleFactory
+      .clearRules()
+    $(prefixPattern).foreach(pp => $(suffixPattern).foreach (sp => $(extensionPattern).foreach(ep => {
+      ruleFactory.addRule(
+        (pp + "(" + $(wordPattern) + "(?:" + ep + ")?" + ")" + sp).r,
+        "tokenizer construction pattern"
+      )
+    })))
+  }
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map{text =>
-      val tokens = regex.findAllMatchIn(text.content).flatMap { m =>
-        (1 to m.groupCount).map (i => IndexedToken(m.group(i), text.begin + m.start, text.begin + m.end - 1))
-      }.toArray
+      val tokens = ruleFactory.findMatch(text.content).flatMap { m =>
+        (1 to m.content.groupCount)
+          .map (i => IndexedToken(m.content.group(i), text.begin + m.content.start, text.begin + m.content.end - 1))
+      }.filter(t => t.token.nonEmpty).toArray
+      tokens.foreach(t => println(t.token))
       TokenizedSentence(tokens)
     }
   }
