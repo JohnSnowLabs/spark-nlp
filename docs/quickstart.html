@@ -222,19 +222,19 @@ val documentAssembler = new DocumentAssembler()
                                     <p>
                                         In this quick example, we now proceed to identify the sentences in each of our
                                         document lines.
-                                        SentenceDetectorModel requires a Document annotation, which is provided by the
+                                        SentenceDetector requires a Document annotation, which is provided by the
                                         DocumentAssembler
                                         output, and it's itself a Document type token.
-                                        The RegexTokenizer requires a Document annotation type, meaning it works both
+                                        The Tokenizer requires a Document annotation type, meaning it works both
                                         with DocumentAssembler
                                         or SentenceDetector output, in here, we use the sentence output.
                                     </p>
-                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-val sentenceDetector = new SentenceDetectorModel()
+                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+val sentenceDetector = new SentenceDetector()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val regexTokenizer = new RegexTokenizer()
+val regexTokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
     .setOutputCol("token")</code></pre>
                                 </div>
