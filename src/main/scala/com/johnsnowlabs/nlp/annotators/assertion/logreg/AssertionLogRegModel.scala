@@ -9,7 +9,9 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
+
 import scala.collection.immutable.Map
 import scala.collection.mutable
 
@@ -45,11 +47,11 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
-  def setBefore(before: Int) = set(beforeParam, before)
-  def setAfter(after: Int) = set(afterParam, after)
-  def setStart(start: String) = set(startParam, start)
-  def setEnd(end: String) = set(endParam, end)
-  def setTargetCol(target: String) = set(target, target)
+  def setBefore(before: Int): this.type = set(beforeParam, before)
+  def setAfter(after: Int): this.type = set(afterParam, after)
+  def setStart(start: String): this.type = set(startParam, start)
+  def setEnd(end: String): this.type = set(endParam, end)
+  def setTargetCol(target: String): this.type = set(target, target)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -75,9 +77,9 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
     /* convert start and end are indexes in the doc string */
     val start = tokens.slice(0, s).map(_.length).sum +
-      tokens.slice(0, s).size // account for spaces
+      tokens.slice(0, s).length // account for spaces
     val end = start + tokens.slice(s, e + 1).map(_.length).sum +
-      tokens.slice(s, e + 1).size  - 2 // account for spaces
+      tokens.slice(s, e + 1).length - 2 // account for spaces
 
     val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
     Seq(annotation)
@@ -88,7 +90,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setLabelMap(labelMappings: Map[String, Double]): this.type = set(labelMap, labelMappings.map(_.swap))
 
   /* send this to common place */
-  def extractTextUdf = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
+  def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
     document.head.getString(3)
   }
 
