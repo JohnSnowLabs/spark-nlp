@@ -112,7 +112,7 @@ object WordEmbeddingsClusterHelper {
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
     val src = new Path(localFolder)
-    val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))
+    val dst = Path.mergePaths(new Path(Files.createTempDirectory("nlp").toString), getClusterFileName(localFolder))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
