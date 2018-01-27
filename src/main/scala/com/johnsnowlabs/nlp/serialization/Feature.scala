@@ -2,23 +2,29 @@ package com.johnsnowlabs.nlp.serialization
 
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.ConfigHelper
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag
 
-abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String)(implicit val sparkSession: SparkSession = SparkSession.builder().getOrCreate()) extends Serializable {
+abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String) extends Serializable {
   model.features.append(this)
 
   private val config = ConfigHelper.retrieve
+  private val spark = ResourceHelper.spark
 
   val serializationMode: String = config.getString("performance.serialization")
   val useBroadcast: Boolean = config.getBoolean("performance.useBroadcast")
 
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
+  final protected var fallbackBroadcastValue: Option[Broadcast[TComplete]] = None
+
   final protected var rawValue: Option[TComplete] = None
-  final protected var fallback: Option[() => TComplete] = None
+  final protected var fallbackRawValue: Option[TComplete] = None
+
+  final protected var fallbackLazyValue: Option[() => TComplete] = None
 
   final def serialize(spark: SparkSession, path: String, field: String, value: TComplete): Unit = {
     serializationMode match {
@@ -52,18 +58,38 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
   final protected def getFieldPath(path: String, field: String): Path =
     Path.mergePaths(new Path(path), new Path("/fields/" + field))
 
+  private def callAndSetFallback: Option[TComplete] = {
+    if (useBroadcast) {
+      fallbackBroadcastValue = Some(spark.sparkContext.broadcast[TComplete](fallbackLazyValue.get.asInstanceOf[TComplete]))
+      fallbackBroadcastValue.map(_.value)
+    } else {
+      fallbackRawValue = fallbackLazyValue.map(_())
+      fallbackRawValue
+    }
+  }
+
   final def get: Option[TComplete] = {
     broadcastValue.map(_.value).orElse(rawValue)
   }
 
-  final def getValue: TComplete = {
-    broadcastValue.map(_.value).orElse(rawValue).orElse(fallback.map(_())).getOrElse(throw new Exception(s"feature $name is not set"))
+  final def getOrDefault: TComplete = {
+    if (useBroadcast) {
+      broadcastValue.map(_.value)
+        .orElse(fallbackBroadcastValue.map(_.value))
+        .orElse(callAndSetFallback)
+        .getOrElse(throw new Exception(s"feature $name is not set"))
+    } else {
+      rawValue
+        .orElse(fallbackRawValue)
+        .orElse(callAndSetFallback)
+        .getOrElse(throw new Exception(s"feature $name is not set"))
+    }
   }
 
   final def setValue(v: Option[Any]): HasFeatures = {
     if (useBroadcast) {
       if (isSet) broadcastValue.get.destroy()
-      broadcastValue = Some(sparkSession.sparkContext.broadcast[TComplete](v.get.asInstanceOf[TComplete]))
+      broadcastValue = Some(spark.sparkContext.broadcast[TComplete](v.get.asInstanceOf[TComplete]))
     } else {
       rawValue = Some(v.get.asInstanceOf[TComplete])
     }
@@ -71,7 +97,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
   }
 
   def setFallback(v: Option[() => TComplete]): HasFeatures = {
-    fallback = v
+    fallbackLazyValue = v
     model
   }
 

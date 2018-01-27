@@ -54,14 +54,10 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   setDefault(inputCols, Array(DOCUMENT))
 
-  lazy private val ruleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-
   /** Clears out rules and constructs a new rule for every combination of rules provided */
   /** The strategy is to catch one token per regex group */
   /** User may add its own groups if needs targets to be tokenized separately from the rest */
-  protected def setFactoryRules(): Unit = {
-    ruleFactory
-      .clearRules()
+  lazy private val ruleFactory = {
     val rules = ArrayBuffer.empty[String]
     require($(infixPatterns).nonEmpty)
     require($(infixPatterns).forall(ip => ip.contains("(") && ip.contains(")")),
@@ -81,7 +77,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
       })
       rules.append(rule.toString)
     })
-    rules.foreach(rule => ruleFactory.addRule(rule.r, rule))
+    rules.foldLeft(new RuleFactory(MatchStrategy.MATCH_FIRST))((factory, rule) => factory.addRule(rule.r, rule))
   }
 
   /** Check here for explanation on this default pattern */
@@ -96,12 +92,6 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   setDefault(prefixPattern, "\\A([^\\s\\w\\$\\.]*)")
   setDefault(suffixPattern, "([^\\s\\w]?)([^\\s\\w]*)\\z")
   setDefault(targetPattern, "\\S+")
-
-  setFactoryRules()
-
-  override def beforeAnnotate(): Unit = {
-    setFactoryRules()
-  }
 
   private val PROTECT_STR = "ↈ"
 
