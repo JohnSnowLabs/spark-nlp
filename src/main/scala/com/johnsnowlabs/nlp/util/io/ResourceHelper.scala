@@ -370,7 +370,7 @@ object ResourceHelper {
         val tokenizer = new Tokenizer()
           .setInputCols("document")
           .setOutputCol("token")
-          .setWordPattern(tokenPattern)
+          .setTargetPattern(tokenPattern)
         val normalizer = new Normalizer()
           .setInputCols("token")
           .setOutputCol("normal")

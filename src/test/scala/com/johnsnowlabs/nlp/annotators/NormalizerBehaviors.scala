@@ -27,17 +27,16 @@ trait NormalizerBehaviors { this: FlatSpec =>
     AnnotatorBuilder.withCaseSensitiveNormalizer(dataset)
       .collect().foreach {
       row =>
-        val tokens = row.getSeq[Row](3).map(Annotation(_))
+        val tokens = row.getSeq[Row](3).map(Annotation(_)).filterNot(a => a.result == "." || a.result == ",")
         val normalizedAnnotations = row.getSeq[Row](4).map(Annotation(_))
         normalizedAnnotations.foreach {
-          case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-            assert(stem.result.nonEmpty, "Annotation result exists")
+          case nToken: Annotation if nToken.annotatorType == AnnotatorType.TOKEN =>
+            assert(nToken.result.nonEmpty, "Annotation result exists")
           case _ =>
         }
-
         normalizedAnnotations.zip(tokens).foreach {
-          case (stem: Annotation, token: Annotation) =>
-            assert(stem.result == token.result.replaceAll("[^a-zA-Z]", ""))
+          case (nToken: Annotation, token: Annotation) =>
+            assert(nToken.result == token.result.replaceAll("[^a-zA-Z]", ""))
         }
       }
     }
