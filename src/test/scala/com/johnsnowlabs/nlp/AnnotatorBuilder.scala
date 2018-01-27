@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, AssertionLogRegModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
@@ -9,6 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -167,6 +169,51 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setL2(3.0)
       .setOutputCol("ner")
       .fit(df)
+  }
+
+  /* generate a set of random embeddings from tokens in dataset
+  *  rowText is the column containing the text.
+  *  returns the path of the file
+  *
+  *  usage,
+  *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
+  * */
+  private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
+    import org.apache.spark.sql.functions._
+    import java.io.{PrintWriter, File}
+    val random = scala.util.Random
+    val filename = s"${rowText}_${dim}.txt"
+    val pw = new PrintWriter(new File(filename))
+
+    val tokens = dataset.toDF().select(col(rowText)).
+      collect().flatMap(row=> row.getString(0).split(" ")).
+      distinct
+
+    def randomDoubleArrayStr = (1 to dim).map{_ => random.nextDouble}.mkString(" ")
+
+    for (token <- tokens)
+      pw.println(s"$token $randomDoubleArrayStr")
+
+    filename
+  }
+
+  def getAssertionLogregModel(dataset: Dataset[Row]) = {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("sentence")
+      .setOutputCol("document")
+
+    val assertion = new AssertionLogRegApproach()
+      .setLabelCol("label")
+      .setInputCols("document")
+      .setOutputCol("assertion")
+      .setReg(0.01)
+      .setBefore(11)
+      .setAfter(13)
+      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.Text)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
+    pipeline
   }
 }
 

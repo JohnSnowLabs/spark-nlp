@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory
 /*
   Algorithm for training Named Entity Recognition Model.
    */
+
 class NerCrfApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] with HasRecursiveFit[NerCrfModel] {
 

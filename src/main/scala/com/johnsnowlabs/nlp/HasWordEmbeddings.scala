@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp
 
 import java.io.File
 import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsClusterHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
@@ -17,6 +16,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
   *
   * Corresponding Approach have to implement AnnotatorWithWordEmbeddings
    */
+
 trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
@@ -25,7 +25,7 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
 
-  lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
+  @transient lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     // Have to copy file because RockDB changes it and Spark rises Exception
     val src = SparkFiles.get(path)
     val workPath = src + "_work"
@@ -48,9 +48,9 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
     Files.delete(Paths.get(folderSrc))
   }
 
+
   def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
     val fs = FileSystem.get(spark.hadoopConfiguration)
-
     val src = getEmbeddingsSerializedPath(path)
 
     // 1. Copy to local file
@@ -82,8 +82,8 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   def getEmbeddingsSerializedPath(path: String): Path = Path.mergePaths(new Path(path), new Path("/embeddings"))
 
-  override def onWritten(path: String, spark: SparkSession): Unit = {
-    deserializeEmbeddings(path, spark.sparkContext)
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    serializeEmbeddings(path, spark.sparkContext)
   }
 
 }
