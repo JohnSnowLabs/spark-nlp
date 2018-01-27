@@ -19,7 +19,6 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
   val useBroadcast: Boolean = config.getBoolean("performance.useBroadcast")
 
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
-  final protected var fallbackBroadcastValue: Option[Broadcast[TComplete]] = None
 
   final protected var rawValue: Option[TComplete] = None
   final protected var fallbackRawValue: Option[TComplete] = None
@@ -59,13 +58,8 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
     Path.mergePaths(new Path(path), new Path("/fields/" + field))
 
   private def callAndSetFallback: Option[TComplete] = {
-    if (useBroadcast) {
-      fallbackBroadcastValue = fallbackLazyValue.map(v => spark.sparkContext.broadcast[TComplete](v()))
-      fallbackBroadcastValue.map(_.value)
-    } else {
-      fallbackRawValue = fallbackLazyValue.map(_())
-      fallbackRawValue
-    }
+    fallbackRawValue = fallbackLazyValue.map(_())
+    fallbackRawValue
   }
 
   final def get: Option[TComplete] = {
@@ -73,25 +67,19 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
   }
 
   final def getOrDefault: TComplete = {
-    if (useBroadcast) {
-      broadcastValue.map(_.value)
-        .orElse(fallbackBroadcastValue.map(_.value))
-        .orElse(callAndSetFallback)
-        .getOrElse(throw new Exception(s"feature $name is not set"))
-    } else {
-      rawValue
-        .orElse(fallbackRawValue)
-        .orElse(callAndSetFallback)
-        .getOrElse(throw new Exception(s"feature $name is not set"))
-    }
+    broadcastValue.map(_.value)
+      .orElse(rawValue)
+      .orElse(fallbackRawValue)
+      .orElse(callAndSetFallback)
+      .getOrElse(throw new Exception(s"feature $name is not set"))
   }
 
-  final def setValue(v: Option[Any]): HasFeatures = {
+  final def setValue(value: Option[Any]): HasFeatures = {
     if (useBroadcast) {
       if (isSet) broadcastValue.get.destroy()
-      broadcastValue = Some(spark.sparkContext.broadcast[TComplete](v.get.asInstanceOf[TComplete]))
+      broadcastValue = value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
     } else {
-      rawValue = Some(v.get.asInstanceOf[TComplete])
+      rawValue = Some(value.get.asInstanceOf[TComplete])
     }
     model
   }
