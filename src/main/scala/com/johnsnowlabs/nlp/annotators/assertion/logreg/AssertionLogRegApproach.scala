@@ -42,7 +42,6 @@ class AssertionLogRegApproach(val uid: String)
 
 
   def setLabelCol(label: String) = set(label, label)
-  def setDocumentCol(document: String) = set(document, document)
   def setTargetCol(target: String) = set(target, target)
   def setMaxIter(max: Int) = set(maxIter, max)
   def setReg(lambda: Double) = set(regParam, lambda)
