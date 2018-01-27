@@ -60,7 +60,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
 
   private def callAndSetFallback: Option[TComplete] = {
     if (useBroadcast) {
-      fallbackBroadcastValue = Some(spark.sparkContext.broadcast[TComplete](fallbackLazyValue.get.asInstanceOf[TComplete]))
+      fallbackBroadcastValue = fallbackLazyValue.map(v => spark.sparkContext.broadcast[TComplete](v()))
       fallbackBroadcastValue.map(_.value)
     } else {
       fallbackRawValue = fallbackLazyValue.map(_())
