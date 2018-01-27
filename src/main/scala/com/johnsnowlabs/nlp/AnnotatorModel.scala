@@ -2,22 +2,24 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.functions.{array, udf}
+import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.MetadataBuilder
 
 /**
-  * This trait implements logic that applies nlp using Spark ML Pipeline transformers
-  * Should strongly change once UsedDefinedTypes are allowed
-  * https://issues.apache.org/jira/browse/SPARK-7768
+ * This trait implements logic that applies nlp using Spark ML Pipeline transformers
+ * Should strongly change once UsedDefinedTypes are allowed
+ * https://issues.apache.org/jira/browse/SPARK-7768
   */
 abstract class AnnotatorModel[M <: Model[M]]
   extends Model[M]
     with ParamsAndFeaturesWritable
     with HasAnnotatorType
     with HasInputAnnotationCols
-    with HasOutputAnnotationCol {
+    with HasOutputAnnotationCol
+    with TransformModelSchema {
 
   /**
     * internal types to show Rows as a relevant StructType
@@ -41,22 +43,12 @@ abstract class AnnotatorModel[M <: Model[M]]
       annotate(annotatorProperties.flatMap(_.map(Annotation(_))))
   }
 
-  /** Shape of annotations at output */
-  private def outputDataType: DataType = ArrayType(Annotation.dataType)
-
-  /** requirement for pipeline transformation validation. It is called on fit() */
-  override final def transformSchema(schema: StructType): StructType = {
-    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
-    val outputFields = schema.fields :+
-      StructField(getOutputCol, outputDataType, nullable = false, metadataBuilder.build)
-    StructType(outputFields)
-  }
 
   /**
     * Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
     * Output annotation will be generated as a new column, previous annotations are still available separately
     * metadata is built at schema level to record annotations structural information outside its content
+    *
     * @param dataset [[Dataset[Row]]]
     * @return
     */
@@ -72,7 +64,6 @@ abstract class AnnotatorModel[M <: Model[M]]
       ).as(getOutputCol, metadataBuilder.build)
     )
   }
-
 
   /** requirement for annotators copies */
   override def copy(extra: ParamMap): M = defaultCopy(extra)

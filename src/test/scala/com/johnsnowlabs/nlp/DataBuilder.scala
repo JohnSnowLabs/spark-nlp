@@ -27,4 +27,8 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
       .readDatasetFromLines(lines, SparkAccessor.spark).toDF
     AnnotatorBuilder.withDocumentAssembler(data)
   }
+
+  def loadParquetDataset(path: String) =
+    SparkAccessor.spark.read.parquet(path)
+
 }
