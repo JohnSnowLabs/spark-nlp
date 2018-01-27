@@ -1,4 +1,74 @@
 ========
+1.3.0
+========
+IMPORTANT: Pipelines from 1.2.6 or older cannot be loaded from 1.3.0
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/94
+Tokenizer annotator has been revamped. It now follows standard NLP Rules, matching above 90% of StanfordNLP Tokens
+This annotator has now more complex rules allowing setting custom composite words as exceptions (e.g. to not break New York)
+and custom Prefix, Infix, Suffix and Breaking rules. It uses regular expression groups in order to match various tokens per target word
+Defaults have been updated to also be language agnostic and support foreign characters from Unicode charset
+* https://github.com/JohnSnowLabs/spark-nlp/pull/93
+Assertion Status. This annotator identifies negated sequences within target scope. Assertion status is a machine learning
+annotator and works throughout a set of Word Embeddings which a set of them is provided as a part of our Python notebook examples.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/90
+Recursive Pipelines. We have created our own Pipeline class which will take more advantages from Spark-NLP annotators.
+Although this Pipeline is completely optional and works well with default Apache Spark estimators and transforms, it allows
+training our annotators more efficiently by allowing annotator approaches access the previous state of the Pipeline,
+allowing them to use it to tokenize or transform their own external content. It is recommended to use such Pipelines.
+
+----------------
+Enhancements
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/83
+Part of Speech training has been improved in both performance and quality, and now better makes use of the input corpus provided.
+New params have been extended in order to have more control of its training, through corpusFormat and corpusLimit, allowing
+whether to read training data as Dataset or raw text files, and the number of limit files if a folder is provided
+* https://github.com/JohnSnowLabs/spark-nlp/pull/84
+Thanks to @lambdaofgod to allow Normalizer to optionally lower case tokens
+* Thanks to Lorenz Bernauer, Normalizer default pattern now becomes language agnostic by not breaking unicode characters such as Spanish or German letters
+* Features now have appropriate default values which are lazy by nature and executed only once upon request. This improves by side effect to the Lemmatizer performance.
+* RuleFactory (A regex rule factory) performance has been improved due to set to use a Factory pattern and not re-check it's strategy on every transformation in run-time.
+This might have positive side effects in SentenceDetector, DateMatcher and RegexMatcher which extensively use this class.
+
+----------------
+Class Renames
+----------------
+RegexTokenizer -> Tokenizer (it is not just regex anymore)
+SentenceDetectorModel -> SentenceDetector (it is not a model, it is a rule-based algorithm)
+SentimentDetectorModel -> SentimentDetector (it is not a model, it is a rule-based algorithm)
+
+----------------
+User Utilities
+----------------
+* ResourceHelper has a function createDatasetFromText which allows the user to more
+easily read one or multiple text files from path into a dataset with various options,
+including filename by row or by file aggregation. This class should be more widely
+used since it helps dealing with local files parsing. It shall be better documented.
+* com.johnsnowlabs.util now contains a Benchmark class which allows measuring the time of
+any function easily, by using it as Benchmark.time("Description of measured") {someFunction()}
+
+----------------
+Developer API
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/89/files
+Word embedding traits have been generalized. Now any annotator who might want to use them can easily access their properties
+* Recursive pipelines now allow injecting PipelineModel object into train() stage. It is an optional parameter. If the user
+utilizes RecursivePipeline, the annotator might use this pipeline for transforming secondary data inputs.
+* Annotator abstract class has been divided into a previous RawAnnotator class which contains all annotator properties
+and validations, but does not make use of the annotate() function. This allows annotators that need to work directly with
+the transform() call, but also participate between other annotators in the pipeline
+
+----------------
+Bugfixes
+----------------
+* Fixed a bug in annotators with word embeddings not correctly serializing into disk
+* Fixed a bug creating temporary folders in home folder
+* Fixed a broken geospatial pattern in sentence detection
+
+========
 1.2.6
 ========
 ---------------
