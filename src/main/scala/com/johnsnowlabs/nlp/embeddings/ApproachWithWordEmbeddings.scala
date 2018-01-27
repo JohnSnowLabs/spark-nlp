@@ -47,6 +47,8 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
       // 4. Create Embeddings for usage during train
       wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
     }
+
+
   }
 
 
