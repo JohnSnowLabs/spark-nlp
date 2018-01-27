@@ -23,11 +23,11 @@ class AssertionLogregApproachSpec extends FlatSpec {
   "AssertionLogregApproach" should "have correct set of labels" in {
     val model = logregPipelineModel.stages(1).asInstanceOf[AssertionLogRegModel]
 
-    assert(model.labelMap.get.size == 2)
-    assert(model.labelMap.get.contains(1.0))
-    assert(model.labelMap.get.contains(0.0))
-    assert(model.labelMap.get.values.toList.contains("Affirmed"))
-    assert(model.labelMap.get.values.toList.contains("Negated"))
+    assert(model.labelMap.get.get.size == 2)
+    assert(model.labelMap.get.get.contains(1.0))
+    assert(model.labelMap.get.get.contains(0.0))
+    assert(model.labelMap.get.get.values.toList.contains("Affirmed"))
+    assert(model.labelMap.get.get.values.toList.contains("Negated"))
   }
 
 

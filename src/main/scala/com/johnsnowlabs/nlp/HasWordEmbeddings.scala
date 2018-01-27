@@ -82,8 +82,8 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   def getEmbeddingsSerializedPath(path: String): Path = Path.mergePaths(new Path(path), new Path("/embeddings"))
 
-  override def onWritten(path: String, spark: SparkSession): Unit = {
-    deserializeEmbeddings(path, spark.sparkContext)
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    serializeEmbeddings(path, spark.sparkContext)
   }
 
 }

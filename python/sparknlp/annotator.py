@@ -620,7 +620,6 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
     # the document where we're extracting the assertion
-    document = Param(Params._dummy(), "document", "Column with the text to be analyzed", typeConverter=TypeConverters.toString)
     target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
     maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
     regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
@@ -632,10 +631,6 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
 
     def setLabelCol(self, label):
         self._set(label = label)
-        return self
-
-    def setDocumentCol(self, doc):
-        self._set(document = doc)
         return self
 
     def setTargetCol(self, t):
@@ -678,7 +673,6 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
         super(AssertionLogRegApproach, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach", self.uid)
         self._setDefault(label = "label",
-            document = "document",
             target = "target",
             maxIter = 26,
             regParam = 0.00192,

@@ -2,11 +2,11 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
+import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
+import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset}
-import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions._
@@ -17,7 +17,7 @@ import scala.collection.mutable
   * Created by jose on 22/11/17.
   */
 
-class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION")) extends RawAnnotator[AssertionLogRegModel]
+class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
     with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
@@ -33,12 +33,17 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
   val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
+  var model: StructFeature[LogisticRegressionModel] = new StructFeature[LogisticRegressionModel](this, "logistic regression")
+  var labelMap: MapFeature[Double, String] = new MapFeature[Double, String](this, "labels")
+
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   setDefault(
      beforeParam -> 11,
      afterParam -> 13
     )
+
+  def this() = this(Identifiable.randomUID("ASSERTION"))
 
   def setBefore(before: Int) = set(beforeParam, before)
   def setAfter(after: Int) = set(afterParam, after)
@@ -51,7 +56,6 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
       s"${requiredAnnotatorTypes.mkString(", ")}")
 
     import dataset.sqlContext.implicits._
-    require(model.isDefined, "model must be set before tagging")
 
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
@@ -61,10 +65,12 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
         col(getOrDefault(startParam)),
         col(getOrDefault(endParam))))
 
-    model.get.transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
+    $$(model).transform(processed).withColumn(getOutputCol,
+      packAnnotations($"text", col(getOrDefault(startParam)),
+        col(getOrDefault(endParam)), $"prediction"))
   }
 
-  private def packAnnotations = udf { (text: String, target: String, s: Int, e: Int, prediction: Double) =>
+  private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>
     val tokens = text.split(" ").filter(_!="")
 
     /* convert start and end are indexes in the doc string */
@@ -73,24 +79,13 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
     val end = start + tokens.slice(s, e + 1).map(_.length).sum +
       tokens.slice(s, e + 1).size  - 2 // account for spaces
 
-    val annotation = Annotation("assertion", start, end, labelMap.get(prediction), Map())
+    val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
     Seq(annotation)
   }
 
-  var model: Option[LogisticRegressionModel] = None
-  var labelMap: Option[Map[Double, String]] = None
+  def setModel(m: LogisticRegressionModel): this.type = set(model, m)
 
-  def setModel(m: LogisticRegressionModel): AssertionLogRegModel = {
-    model = Some(m)
-    this
-  }
-
-  def setLabelMap(labelMappings: Map[String, Double]) = {
-    labelMap = Some(labelMappings.map(_.swap))
-    this
-  }
-
-  override def write: MLWriter = new AssertionLogRegModel.AssertionModelWriter(this, super.write)
+  def setLabelMap(labelMappings: Map[String, Double]): this.type = set(labelMap, labelMappings.map(_.swap))
 
   /* send this to common place */
   def extractTextUdf = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
@@ -101,52 +96,4 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
-object AssertionLogRegModel extends DefaultParamsReadable[AssertionLogRegModel] {
-  def apply(): AssertionLogRegModel = new AssertionLogRegModel()
-  override def read: MLReader[AssertionLogRegModel] = new AssertionModelReader(super.read)
-
-  class AssertionModelReader(baseReader: MLReader[AssertionLogRegModel]) extends MLReader[AssertionLogRegModel] {
-    override def load(path: String): AssertionLogRegModel = {
-      val instance = baseReader.load(path)
-      val modelPath = new Path(path, "model").toString
-      val loaded = LogisticRegressionModel.read.load(modelPath)
-
-      val labelsPath = new Path(path, "labels").toString
-      val labelsLoaded = sparkSession.sqlContext.read.format("parquet")
-        .load(labelsPath)
-        .collect
-        .map(_.toString)
-
-      val dict = labelsLoaded
-        .map {line =>
-          val items = line.split(":")
-          (items(0).drop(1).toDouble, items(1).dropRight(1))
-        }
-        .toMap
-
-      instance
-        .setLabelMap(dict.map(_.swap))
-        .setModel(loaded)
-      instance.deserializeEmbeddings(path, sparkSession.sparkContext)
-      instance
-    }
-  }
-
-  class AssertionModelWriter(model: AssertionLogRegModel, baseWriter: MLWriter) extends MLWriter {
-
-    override protected def saveImpl(path: String): Unit = {
-      require(model.model.isDefined, "Assertion Model must be defined before serialization")
-      require(model.labelMap.isDefined, "Label Map must be defined before serialization")
-      baseWriter.save(path)
-      val modelPath = new Path(path, "model").toString
-      model.model.get.save(modelPath)
-
-      val spark = sparkSession
-      import spark.sqlContext.implicits._
-      val labelsPath = new Path(path, "labels").toString
-      model.labelMap.get.toSeq.map(p => p._1 + ":" + p._2).toDS.write.mode("overwrite").parquet(labelsPath)
-
-      model.serializeEmbeddings(path, sparkSession.sparkContext)
-    }
-  }
-}
+object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]
