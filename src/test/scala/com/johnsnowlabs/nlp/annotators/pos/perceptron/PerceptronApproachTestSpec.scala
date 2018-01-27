@@ -30,7 +30,6 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
       length += text.length + 1
       sentence
     }
-
     new Tokenizer().tag(sentences).toArray
   }
 

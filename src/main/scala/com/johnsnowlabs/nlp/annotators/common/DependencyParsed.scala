@@ -15,7 +15,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
     val sentences = Tokenized.unpack(annotations)
     val depAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
-      .sortBy(a => a.begin)
+      .sortBy(a => a.start)
 
     var last = 0
     sentences.map{sentence =>

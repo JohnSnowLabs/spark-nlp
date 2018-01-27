@@ -10,11 +10,11 @@ import scala.collection.Map
 /**
   * represents annotator's output parts and their details
   * @param annotatorType the type of annotation
-  * @param begin the index of the first character under this annotation
+  * @param start the index of the first character under this annotation
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String])
 
 object Annotation {
 

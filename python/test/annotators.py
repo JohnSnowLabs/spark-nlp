@@ -17,7 +17,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer()\
-            .setOutputCol("token")
+            .setOutputCol("token") \
+            .setCompositeTokens(["New York"])
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -29,7 +30,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("assembled")
         finisher = Finisher() \
             .setInputCols(["assembled"]) \
-            .setOutputCols(["reassembled_view"])
+            .setOutputCols(["reassembled_view"]) \
+            .setCleanAnnotations(True)
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         stemmed = stemmer.transform(tokenized)

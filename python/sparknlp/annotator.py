@@ -85,18 +85,50 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
 
 class Tokenizer(AnnotatorTransformer):
 
-    pattern = Param(Params._dummy(),
-                    "pattern",
-                    "regular expression pattern for tokenization",
+    targetPattern = Param(Params._dummy(),
+                    "targetPattern",
+                    "pattern to grab from text as token candidates. Defaults \S+",
                     typeConverter=TypeConverters.toString)
+
+    prefixPattern = Param(Params._dummy(),
+                          "prefixPattern",
+                          "regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)",
+                          typeConverter=TypeConverters.toString)
+
+    suffixPatern = Param(Params._dummy(),
+                          "suffixPatern",
+                          "regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
+                          typeConverter=TypeConverters.toString)
+
+    compositeTokens = Param(Params._dummy(),
+                         "compositeTokens",
+                         "Words that won't be split in two",
+                         typeConverter=TypeConverters.toListString)
+
+    infixPatterns = Param(Params._dummy(),
+                            "infixPatterns",
+                            "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
+                            typeConverter=TypeConverters.toListString)
 
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Tokenizer", self.uid)
 
-    def setPattern(self, value):
-        return self._set(pattern=value)
+    def setTargetPattern(self, value):
+        return self._set(targetPattern=value)
+
+    def setPrefixPattern(self, value):
+        return self._set(prefixPattern=value)
+
+    def setSuffixPattern(self, value):
+        return self._set(suffixPattern=value)
+
+    def setCompositeTokens(self, value):
+        return self._set(compositeTokens=value)
+
+    def setInfixPatterns(self, value):
+        return self._set(infixPatterns=value)
 
 
 class Stemmer(AnnotatorTransformer):

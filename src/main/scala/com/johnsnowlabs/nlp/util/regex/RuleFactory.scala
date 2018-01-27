@@ -69,7 +69,7 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
     case _ => throw new IllegalArgumentException("Invalid match strategy")
   }
 
-  private val transformWithSymbolFunc = (text: String, symbol: String) => transformStrategy match {
+  private val transformWithSymbolFunc = (symbol: String, text: String) => transformStrategy match {
     case APPEND_WITH_SYMBOL => rules.foldRight(text)((rule, target) => transformMatch(target, rule.regex)({ m =>
       logger.debug("Matched: {} from: {} using rule {} with strategy {}",
         () => m.matched,
