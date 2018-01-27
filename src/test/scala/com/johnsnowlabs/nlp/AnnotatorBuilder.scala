@@ -174,12 +174,15 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   /* generate a set of random embeddings from tokens in dataset
   *  rowText is the column containing the text.
   *  returns the path of the file
+  *
+  *  usage,
+  *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
   * */
   private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
     import org.apache.spark.sql.functions._
     import java.io.{PrintWriter, File}
     val random = scala.util.Random
-    val filename = s"${rowText}_${random.nextInt(4)}"
+    val filename = s"${rowText}_${dim}.txt"
     val pw = new PrintWriter(new File(filename))
 
     val tokens = dataset.toDF().select(col(rowText)).
@@ -196,8 +199,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def getAssertionLogregModel(dataset: Dataset[Row]) = {
 
-    val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("sentence")
       .setOutputCol("document")
@@ -206,10 +207,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLabelCol("label")
       .setInputCols("document")
       .setOutputCol("assertion")
-      .setReg(1.0)
+      .setReg(0.01)
       .setBefore(11)
       .setAfter(13)
-      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.Text)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
     pipeline
