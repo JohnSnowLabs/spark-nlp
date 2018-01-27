@@ -10,7 +10,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * @param uid internal constructor requirement for serialization of params
   * @@ model: Model to use for boundaries detection
   */
-class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[SentenceDetectorModel] {
+class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -56,4 +56,4 @@ class SentenceDetectorModel(override val uid: String) extends AnnotatorModel[Sen
   }
 }
 
-object SentenceDetectorModel extends DefaultParamsReadable[SentenceDetectorModel]
+object SentenceDetector extends DefaultParamsReadable[SentenceDetector]

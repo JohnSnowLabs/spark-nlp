@@ -7,7 +7,7 @@ import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-class DependencyParser(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
+class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
   override val description: String = "Dependency Parser Estimator used to train"
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
@@ -26,4 +26,4 @@ class DependencyParser(override val uid: String) extends AnnotatorApproach[Depen
   }
 }
 
-object DependencyParser extends DefaultParamsReadable[DependencyParser]
+object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]

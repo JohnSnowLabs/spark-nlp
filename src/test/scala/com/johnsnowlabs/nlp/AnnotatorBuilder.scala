@@ -3,10 +3,10 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, AssertionLogRegModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
+import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
@@ -28,7 +28,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withTokenizer(dataset: Dataset[Row]): Dataset[Row] = {
-    val regexTokenizer = new RegexTokenizer()
+    val regexTokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
     regexTokenizer.transform(withFullPragmaticSentenceDetector(dataset))
@@ -77,7 +77,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
     sentenceDetector.transform(dataset)
@@ -111,7 +111,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
-    val sentimentDetector = new SentimentDetectorModel
+    val sentimentDetector = new SentimentDetector
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
@@ -141,7 +141,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
-    new DependencyParser()
+    new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
       .setSourcePath("src/test/resources/models/dep-model.txt")

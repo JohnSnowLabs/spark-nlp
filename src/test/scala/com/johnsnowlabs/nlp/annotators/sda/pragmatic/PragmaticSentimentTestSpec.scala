@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -19,7 +19,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
     val assembled = documentAssembler.transform(data)
 
-    val sentimentDetector = new SentimentDetectorModel()
+    val sentimentDetector = new SentimentDetector()
 
     val readyData = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withFullLemmatizer(assembled))
     
@@ -61,7 +61,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
     "I recommend others to avoid because it is too expensive"
 
   val sentimentSentences = {
-    new RegexTokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
+    new Tokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
   }
 
   "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)
@@ -72,11 +72,11 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
   )
 
   "A SentimentDetector" should "be readable and writable" in {
-    val sentimentDetector = new SentimentDetectorModel()
+    val sentimentDetector = new SentimentDetector()
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)
-      val sentimentDetectorRead = SentimentDetectorModel.read.load(path)
+      val sentimentDetectorRead = SentimentDetector.read.load(path)
       assert(sentimentDetector.model.score(sentimentSentences) == sentimentDetectorRead.model.score(sentimentSentences))
     } catch {
       case _: java.io.IOException => succeed

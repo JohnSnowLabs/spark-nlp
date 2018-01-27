@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.io.{File, FileNotFoundException, InputStream}
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.nlp.util.io.ResourceFormat._
 import org.apache.spark.ml.Pipeline
@@ -367,10 +367,10 @@ object ResourceHelper {
         val wordCount = MMap.empty[String, Int].withDefaultValue(0)
         val documentAssembler = new DocumentAssembler()
           .setInputCol("value")
-        val tokenizer = new RegexTokenizer()
+        val tokenizer = new Tokenizer()
           .setInputCols("document")
           .setOutputCol("token")
-          .setPattern(tokenPattern)
+          .setTargetPattern(tokenPattern)
         val normalizer = new Normalizer()
           .setInputCols("token")
           .setOutputCol("normal")

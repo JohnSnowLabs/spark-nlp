@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.scalatest._
@@ -30,8 +30,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
       length += text.length + 1
       sentence
     }
-
-    new RegexTokenizer().tag(sentences).toArray
+    new Tokenizer().tag(sentences).toArray
   }
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(

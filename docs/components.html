@@ -172,7 +172,7 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="RegexTokenizer" class="section-block">2. RegexTokenizer: Word tokens</h4>
+                                <h4 id="Tokenizer" class="section-block">2. Tokenizer: Word tokens</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -197,7 +197,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">tokenizer = RegexTokenizer() \
+                                            <pre><code class="language-python">tokenizer = Tokenizer() \
   .setInputCols(["sentences"]) \
   .setOutputCol("token")</code></pre>
                                         </div><!--//code-block-->
@@ -218,7 +218,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val regexTokenizer = new RegexTokenizer()
+                                            <pre><code class="language-python">val regexTokenizer = new Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")</code></pre>
                                         </div><!--//code-block-->
@@ -653,7 +653,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentence_detector = SentenceDetectorModel() \
+                                            <pre><code class="language-python">sentence_detector = SentenceDetector() \
   .setInputCols(["document"]) \
   .setOutputCol("sentence") \
   .setUseAbbreviations(True)</code></pre>
@@ -673,7 +673,7 @@ documentAssembler = new DocumentAssembler()
                                           </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
+                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")</code></pre>
                                         </div>
@@ -790,7 +790,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
+                                            <pre><code class="language-python">sentiment_detector = SentimentDetector() \
   .setInputCols(["lemma", "sentence"]) \
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block-->
@@ -825,7 +825,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentimentDetector = new SentimentDetectorModel
+                                            <pre><code class="language-python">val sentimentDetector = new SentimentDetector
   .setInputCols(Array("token", "sentence"))
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block--></div>
@@ -902,7 +902,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary. A
                                                 comma
                                                 separated custom dictionary.<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Requires:</b> Tokenizer<br>
                                                 <b>Functions:</b><br>
                                             <ul>
                                                 <li>
@@ -947,7 +947,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary. A
                                                 comma
                                                 separated custom dictionary.<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Requires:</b> Tokenizer<br>
                                                 <b>Functions:</b><br>
                                             <ul>
                                                 <li>
@@ -1017,7 +1017,7 @@ documentAssembler = new DocumentAssembler()
                                             <b>Input:</b> File or folder of text files of positive and negative data<br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
+                                            <pre><code class="language-python">sentiment_detector = SentimentDetector() \
     .setInputCols(["lemma", "sentence"]) \
     .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block-->
@@ -1318,7 +1318,7 @@ val assertionStatus = new AssertionStatusApproach()
                                 <a class="scrollto" href="#code-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#DocumentAssembler">Document Assembler</a></li>
-                                    <li><a class="scrollto" href="#RegexTokenizer">Regex Tokenizer</a></li>
+                                    <li><a class="scrollto" href="#Tokenizer">Regex Tokenizer</a></li>
                                     <li><a class="scrollto" href="#Normalizer">Normalizer</a></li>
                                     <li><a class="scrollto" href="#Stemmer">Stemmer</a></li>
                                     <li><a class="scrollto" href="#Lemmatizer">Lemmatizer</a></li>

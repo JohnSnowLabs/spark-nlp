@@ -16,14 +16,14 @@ class NerCrfApproachSpec extends FlatSpec {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
-    assert(nerModel.model.getValue.serialize == loadedNer.model.getValue.serialize)
-    assert(nerModel.dictionaryFeatures.getValue == loadedNer.dictionaryFeatures.getValue)
+    assert(nerModel.model.getOrDefault.serialize == loadedNer.model.getOrDefault.serialize)
+    assert(nerModel.dictionaryFeatures.getOrDefault == loadedNer.dictionaryFeatures.getOrDefault)
   }
 
 
   "NerCrfApproach" should "have correct set of labels" in {
     assert(nerModel.model.isSet)
-    val metadata = nerModel.model.getValue.metadata
+    val metadata = nerModel.model.getOrDefault.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
 
@@ -35,7 +35,7 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(annotations.length == labels.length)
     for ((annotation, label) <- annotations.zip(labels)) {
-      assert(annotation.begin == label.begin)
+      assert(annotation.start == label.start)
       assert(annotation.end == label.end)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
       assert(annotation.result == label.result)
@@ -65,7 +65,7 @@ class NerCrfApproachSpec extends FlatSpec {
   "NerCrfModel" should "correctly handle entities param" in {
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
-      .setModel(nerModel.model.getValue)
+      .setModel(nerModel.model.getOrDefault)
       .setOutputCol(nerModel.getOutputCol)
       .setInputCols(nerModel.getInputCols)
 
