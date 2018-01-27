@@ -26,10 +26,10 @@ trait HasFeatures {
 
   protected def get[T](feature: StructFeature[T]): Option[T] = feature.get
 
-  protected def $$[T](feature: ArrayFeature[T]): Array[T] = feature.getValue
+  protected def $$[T](feature: ArrayFeature[T]): Array[T] = feature.getOrDefault
 
-  protected def $$[K, V](feature: MapFeature[K, V]): Map[K, V] = feature.getValue
+  protected def $$[K, V](feature: MapFeature[K, V]): Map[K, V] = feature.getOrDefault
 
-  protected def $$[T](feature: StructFeature[T]): T = feature.getValue
+  protected def $$[T](feature: StructFeature[T]): T = feature.getOrDefault
 
 }

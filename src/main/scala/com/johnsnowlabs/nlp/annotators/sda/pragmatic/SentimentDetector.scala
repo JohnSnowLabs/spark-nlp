@@ -16,7 +16,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * @param uid internal uid needed for saving annotator to disk
   * @@ model: Implementation to be applied for sentiment analysis
   */
-class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[SentimentDetectorModel] {
+class SentimentDetector(override val uid: String) extends AnnotatorModel[SentimentDetector] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -36,7 +36,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   setDefault(dictSeparator, config.getString("nlp.sentimentDict.separator"))
 
   lazy val model: PragmaticScorer =
-    new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict($(dictPath), $(dictFormat), $(dictSeparator)))
+    new PragmaticScorer(SentimentDetector.retrieveSentimentDict($(dictPath), $(dictFormat), $(dictSeparator)))
 
   override val annotatorType: AnnotatorType = SENTIMENT
 
@@ -44,29 +44,17 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
-  def setDictPath(path: String): this.type = {
-    set(dictPath, path)
-  }
+  def setDictPath(path: String): this.type = set(dictPath, path)
 
-  def getDictPath: String = {
-    $(dictPath)
-  }
+  def getDictPath: String = $(dictPath)
 
-  def setDictFormat(format: String): this.type = {
-    set(dictFormat, format)
-  }
+  def setDictFormat(format: String): this.type = set(dictFormat, format)
 
-  def getDictFormat: String = {
-    $(dictFormat)
-  }
+  def getDictFormat: String = $(dictFormat)
 
-  def setDictSeparator(separator: String): this.type = {
-    set(dictSeparator, separator)
-  }
+  def setDictSeparator(separator: String): this.type = set(dictSeparator, separator)
 
-  def getDictSeparator: String = {
-    $(dictSeparator)
-  }
+  def getDictSeparator: String = $(dictSeparator)
 
   /**
     * Tokens are needed to identify each word in a sentence boundary
@@ -91,7 +79,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   }
 
 }
-object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel] {
+object SentimentDetector extends DefaultParamsReadable[SentimentDetector] {
 
   /**
     * Sentiment dictionaries from compiled sources set in configuration

@@ -199,7 +199,7 @@ class PragmaticContentFormatter(text: String) {
     val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/G2opjedIm9
       //special periods
-      .addRule(new RegexRule("http://rubular.com/r/G2opjedIm9", "formatGeo"))
+      .addRule(new RegexRule("(?<=[a-zA-z]°)\\.(?=\\s*\\d+)", "formatGeo"))
 
     wip = factory.transformWithSymbol(MULT_PERIOD, wip)
 

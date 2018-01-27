@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
@@ -41,11 +41,11 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 

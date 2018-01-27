@@ -4,11 +4,11 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
 import org.scalatest.FlatSpec
 
 
-class SentenceDetectorModelBoundsSpec extends FlatSpec {
+class SentenceDetectorBoundsSpec extends FlatSpec {
 
   val model = new PragmaticMethod(false)
 
-  "SentenceDetectorModel" should "return correct sentence bounds" in {
+  "SentenceDetector" should "return correct sentence bounds" in {
     val bounds = model.extractBounds("Hello World!! New Sentence", Array.empty[String])
 
     assert(bounds.length == 2)
@@ -16,7 +16,7 @@ class SentenceDetectorModelBoundsSpec extends FlatSpec {
     assert(bounds(1) == Sentence("New Sentence", 14, 25))
   }
 
-  "SentenceDetectorModel" should "correct return sentence bounds with whitespaces" in {
+  "SentenceDetector" should "correct return sentence bounds with whitespaces" in {
     val bounds = model.extractBounds(" Hello World!! .  New Sentence  ", Array.empty[String])
 
     assert(bounds.length == 3)

@@ -10,11 +10,11 @@ import scala.collection.Map
 /**
   * represents annotator's output parts and their details
   * @param annotatorType the type of annotation
-  * @param begin the index of the first character under this annotation
+  * @param start the index of the first character under this annotation
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String])
 
 object Annotation {
 
@@ -39,7 +39,7 @@ object Annotation {
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
     StructField("annotatorType", StringType, nullable = true),
-    StructField("begin", IntegerType, nullable = false),
+    StructField("start", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true)

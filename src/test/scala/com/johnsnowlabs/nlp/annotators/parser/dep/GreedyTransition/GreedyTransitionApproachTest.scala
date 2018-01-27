@@ -14,15 +14,15 @@ class GreedyTransitionApproachTest extends FlatSpec {
 
     val tokenAnnotations = Annotation.collect(df, "token")
       .flatten
-      .sortBy { _.begin }
+      .sortBy { _.start }
 
     val posTagAnnotations = Annotation.collect(df, "pos")
       .flatten
-      .sortBy { _.begin }
+      .sortBy { _.start }
 
     val sentenceAnnotation = Annotation.collect(df, "sentence")
       .flatten
-      .sortBy { _.begin }
+      .sortBy { _.start }
 
   }
 

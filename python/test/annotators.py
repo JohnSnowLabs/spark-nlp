@@ -16,8 +16,9 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer()\
-            .setOutputCol("token")
+        tokenizer = Tokenizer()\
+            .setOutputCol("token") \
+            .setCompositeTokens(["New York"])
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -29,7 +30,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("assembled")
         finisher = Finisher() \
             .setInputCols(["assembled"]) \
-            .setOutputCols(["reassembled_view"])
+            .setOutputCols(["reassembled_view"]) \
+            .setCleanAnnotations(True)
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         stemmed = stemmer.transform(tokenized)
@@ -65,7 +67,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
@@ -85,7 +87,7 @@ class NormalizerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setOutputCol("token")
         lemmatizer = Normalizer() \
             .setInputCols(["token"]) \
@@ -121,7 +123,7 @@ class EntityExtractorTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setOutputCol("token")
         entity_extractor = EntityExtractor() \
             .setOutputCol("entity")
@@ -139,10 +141,10 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        sentence_detector = SentenceDetectorModel() \
+        sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
         pos_tagger = PerceptronApproach() \
@@ -166,7 +168,7 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        sentence_detector = SentenceDetectorModel() \
+        sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
@@ -183,17 +185,17 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        sentence_detector = SentenceDetectorModel() \
+        sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
             .setDictionary({"missed": "miss"})
-        sentiment_detector = SentimentDetectorModel() \
+        sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
             .setDictPath("../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
@@ -213,7 +215,7 @@ class PipelineTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
@@ -248,7 +250,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = RegexTokenizer() \
+        tokenizer = Tokenizer() \
             .setOutputCol("token")
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
