@@ -14,7 +14,9 @@ class AssertionLogregApproachSpec extends FlatSpec {
   "AssertionLogregApproach" should "be serializable and deserializable correctly" in {
     logregPipelineModel.write.overwrite.save("./test_assertion_pipeline")
     val loadedAssertionPipeline = PipelineModel.read.load("./test_assertion_pipeline")
-    loadedAssertionPipeline.transform(negexDataset)
+    val predicted = loadedAssertionPipeline.transform(negexDataset)
+
+    assert(negexDataset.count == predicted.count)
 
   }
 
