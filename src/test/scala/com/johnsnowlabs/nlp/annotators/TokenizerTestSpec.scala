@@ -22,9 +22,9 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   }
 
 
-  val targetText = "Hello, I won't be from New York in the U.S.A. (and you know it). Give me my horse! or $100 bucks 'He said', I'll defeat markus-crassus."
+  val targetText = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). Give me my horse! or $100 bucks 'He said', I'll defeat markus-crassus."
   val expected = Array(
-    "Hello", ",", "I", "wo", "n't", "be", "from", "New York", "in", "the", "U.S.A.", "(", "and", "you", "know", "it", ")", ".",
+    "Hello", ",", "I", "wo", "n't", "be", "from", "New York", "in", "the", "U.S.A.", "(", "and", "you", "know", "it", "héroe", ")", ".",
     "Give", "me", "my", "horse", "!", "or", "$100", "bucks", "'", "He", "said", "'", ",", "I", "'ll", "defeat", "markus-crassus", "."
   )
 

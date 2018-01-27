@@ -20,8 +20,8 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   val compositeTokens: StringArrayParam = new StringArrayParam(this, "compositeTokens", "Words that won't be split in two")
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
   val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPattern", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
-  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Defaults to \\A([^\\s\\w\\$\\.]*)")
-  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\w]?)([^\\s\\w]*)\\z")
+  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Defaults to \\A([^\\s\\p{L}$\\.]*)")
+  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -82,15 +82,15 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   /** Check here for explanation on this default pattern */
   setDefault(infixPatterns, Array(
-    "((?:\\w+\\.)+)", // http://rubular.com/r/cRBtGuLlF6
-    "(\\w+)(n't\\b)", // http://rubular.com/r/coeYJFt8eM
-    "(\\w+)('{1}\\w+)", // http://rubular.com/r/N84PYwYjQp
-    "((?:\\w+[^\\s\\w]{1})+\\w+)", // http://rubular.com/r/wOvQcey9e3
-    "(\\w+)" // basic word token
+    "((?:\\p{L}+\\.)+)", // http://rubular.com/r/cRBtGuLlF6
+    "(\\p{L}+)(n't\\b)", // http://rubular.com/r/coeYJFt8eM
+    "(\\p{L}+)('{1}\\p{L}+)", // http://rubular.com/r/N84PYwYjQp
+    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // http://rubular.com/r/wOvQcey9e3
+    "(\\p{L}+)" // basic word token
   ))
   /** These catch everything before and after a word, as a separate token*/
-  setDefault(prefixPattern, "\\A([^\\s\\w\\$\\.]*)")
-  setDefault(suffixPattern, "([^\\s\\w]?)([^\\s\\w]*)\\z")
+  setDefault(prefixPattern, "\\A([^\\s\\p{L}$\\.]*)")
+  setDefault(suffixPattern, "([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
   setDefault(targetPattern, "\\S+")
 
   private val PROTECT_STR = "ↈ"
