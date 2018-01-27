@@ -11,7 +11,7 @@ class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter
     baseWriter.save(path)
 
     for (feature <- annotatorWithFeatures.features) {
-      feature.serializeInfer(sparkSession, path, feature.name, feature.getValue)
+      feature.serializeInfer(sparkSession, path, feature.name, feature.getOrDefault)
     }
 
     onWritten(path, sparkSession)

@@ -31,7 +31,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters with exceptions" in {
     val data = DataBuilder.basicDataBuild(targetText)
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York", "won't"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
     val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setCleanAnnotations(false).setOutputCols("output")
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, finisher))
     val pip = pipeline.fit(data).transform(data)
