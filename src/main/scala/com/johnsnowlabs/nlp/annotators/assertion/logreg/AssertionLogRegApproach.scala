@@ -2,11 +2,13 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
 import scala.collection.mutable
@@ -20,7 +22,7 @@ class AssertionLogRegApproach(val uid: String)
   override val requiredAnnotatorTypes = Array(DOCUMENT)
   val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
-  override def wordVectors: Option[WordEmbeddings] = embeddings
+  override def wordVectors(): Option[WordEmbeddings] = embeddings()
 
   lazy override val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
@@ -41,15 +43,15 @@ class AssertionLogRegApproach(val uid: String)
   val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
 
-  def setLabelCol(label: String) = set(label, label)
-  def setTargetCol(target: String) = set(target, target)
-  def setMaxIter(max: Int) = set(maxIter, max)
-  def setReg(lambda: Double) = set(regParam, lambda)
-  def setEnet(enet: Double) = set(eNetParam, enet)
-  def setBefore(b: Int) = set(beforeParam, b)
-  def setAfter(a: Int) = set(afterParam, a)
-  def setStart(start: String) = set(startParam, start)
-  def setEnd(end: String) = set(endParam, end)
+  def setLabelCol(label: String): this.type = set(label, label)
+  def setTargetCol(target: String): this.type = set(target, target)
+  def setMaxIter(max: Int): this.type = set(maxIter, max)
+  def setReg(lambda: Double): this.type = set(regParam, lambda)
+  def setEnet(enet: Double): this.type = set(eNetParam, enet)
+  def setBefore(b: Int): this.type = set(beforeParam, b)
+  def setAfter(a: Int): this.type = set(afterParam, a)
+  def setStart(start: String): this.type = set(startParam, start)
+  def setEnd(end: String): this.type = set(endParam, end)
 
   setDefault(label -> "label",
     target   -> "target",
@@ -63,11 +65,11 @@ class AssertionLogRegApproach(val uid: String)
   )
 
   /* send this to common place */
-  def extractTextUdf = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
+  def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
       document.head.getString(3)
   }
 
-  override def train(dataset: Dataset[_]): AssertionLogRegModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
     import dataset.sqlContext.implicits._
 
     /* apply UDF to fix the length of each document */
@@ -88,7 +90,7 @@ class AssertionLogRegApproach(val uid: String)
     /* infer labels and assign a number to each */
     val labelMappings: Map[String, Double] = dataset.select(labelCol).distinct.collect
         .map(row => row.getAs[String](labelCol)).zipWithIndex
-        .map{case (label, idx) => (label, idx.toDouble)}
+        .map{case (labelK, idx) => (labelK, idx.toDouble)}
         .toMap
 
     val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
