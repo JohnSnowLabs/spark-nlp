@@ -2,12 +2,11 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
+import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable, MLReader, MLWriter}
+import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset}
-import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions._
@@ -19,7 +18,7 @@ import scala.collection.mutable
   * Created by jose on 22/11/17.
   */
 
-class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("ASSERTION")) extends RawAnnotator[AssertionLogRegModel]
+class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
     with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
@@ -37,7 +36,7 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
   val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
-  var model: Param[LogisticRegressionModel] = new Param[LogisticRegressionModel](this, "logistic regression", "trained lr for prediction")
+  var model: StructFeature[LogisticRegressionModel] = new StructFeature[LogisticRegressionModel](this, "logistic regression")
   var labelMap: MapFeature[Double, String] = new MapFeature[Double, String](this, "labels")
 
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
@@ -46,6 +45,8 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
      beforeParam -> 11,
      afterParam -> 13
     )
+
+  def this() = this(Identifiable.randomUID("ASSERTION"))
 
   def setBefore(before: Int) = set(beforeParam, before)
   def setAfter(after: Int) = set(afterParam, after)
@@ -67,7 +68,7 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
         col(getOrDefault(startParam)),
         col(getOrDefault(endParam))))
 
-    $(model).transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
+    $$(model).transform(processed).withColumn(getOutputCol, packAnnotations($"text", $"target", $"start", $"end", $"prediction"))
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>
@@ -96,42 +97,4 @@ class AssertionLogRegModel(override val uid: String = Identifiable.randomUID("AS
   override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
-object AssertionLogRegModel extends DefaultParamsReadable[AssertionLogRegModel] {
-  def apply(): AssertionLogRegModel = new AssertionLogRegModel()
-  override def read: MLReader[AssertionLogRegModel] = new AssertionModelReader(super.read)
-
-  class AssertionModelReader(baseReader: MLReader[AssertionLogRegModel]) extends MLReader[AssertionLogRegModel] {
-    override def load(path: String): AssertionLogRegModel = {
-      val instance = baseReader.load(path)
-      val modelPath = new Path(path, "model").toString
-      val loaded = LogisticRegressionModel.read.load(modelPath)
-
-      val labelsPath = new Path(path, "labels").toString
-      val labelsLoaded = sparkSession.sqlContext.read.format("parquet")
-        .load(labelsPath)
-        .collect
-        .map(_.toString)
-
-      val dict = labelsLoaded
-        .map {line =>
-          val items = line.split(":")
-          (items(0).drop(1).toDouble, items(1).dropRight(1))
-        }
-        .toMap
-
-      instance
-        .setLabelMap(dict.map(_.swap))
-        .setModel(loaded)
-      instance.deserializeEmbeddings(path, sparkSession.sparkContext)
-      instance
-    }
-  }
-
-  class AssertionModelWriter(model: AssertionLogRegModel, baseWriter: MLWriter) extends MLWriter {
-
-    override protected def saveImpl(path: String): Unit = {
-
-      model.serializeEmbeddings(path, sparkSession.sparkContext)
-    }
-  }
-}
+object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]

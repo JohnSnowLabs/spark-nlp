@@ -94,7 +94,7 @@ class AssertionLogRegApproach(val uid: String)
 
     val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
-    AssertionLogRegModel()
+    new AssertionLogRegModel()
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
