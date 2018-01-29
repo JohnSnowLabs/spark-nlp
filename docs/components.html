@@ -750,7 +750,79 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="SentimentDetector" class="section-block"> 11. SentimentDetector: Sentiment
+                              <h4 id="ViveknSentimentDetector" class="section-block"> 11. ViveknSentimentDetector:
+                                Sentiment
+                                analysis</h4>
+                              <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                          role="tab" data-toggle="tab">Python</a>
+                                </li>
+                                <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">Scala</a></li>
+                              </ul>
+                              <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="python">
+                                  <div class="code-block">
+                                    <p>
+                                      Scores a sentence for a sentiment<br>
+                                      <b>Type:</b> sentiment<br>
+                                      <b>Requires:</b> Document, Token<br>
+                                      <b>Functions:</b>
+                                    <ul>
+                                      <li>
+                                        setPositiveSource(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSource(path)
+                                      </li>
+                                      <li>
+                                        setPruneCorpus(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul>
+                                    <br>
+                                    <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                    <b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">sentiment_detector = SentimentDetector() \
+    .setInputCols(["lemma", "sentence"]) \
+    .setOutputCol("sentiment")</code></pre>
+                                  </div><!--//code-block-->
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="scala">
+                                  <div class="code-block">
+                                    <p>
+                                      Scores a sentence for a sentiment<br>
+                                      <b>Type:</b> sentiment<br>
+                                      <b>Requires:</b> Document, Token<br>
+                                      <b>Functions:</b>
+                                    <ul>
+                                      <li>
+                                        setPositiveSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setCorpusPrune(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul>
+                                    <br>
+                                    <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                    <b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">new ViveknSentimentApproach()
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+      .setPositiveSourcePath("./positive/1.txt")
+      .setNegativeSourcePath("./negative/1.txt")
+      .setCorpusPrune(false)</code></pre>
+                                  </div>
+                                </div>
+                              </div>
+
+                                <h4 id="SentimentDetector" class="section-block"> 12. SentimentDetector: Sentiment
                                     analysis</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -831,7 +903,7 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="NERTagger" class="section-block"> 12. NERTagger: Named Entity Recognition
+                                <h4 id="NERCRF" class="section-block"> 13. Named Entity Recognition CRF
                                     annotator</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -844,45 +916,149 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                The NER annotator extracts entities like Proper noun from the
-                                                document.<br>
+                                              This Named Entity recognition annotator allows for a generic model
+                                              to be trained by utilizing a CRF machine learning algorithm. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset, and optionally
+                                              the user can provide both an entities dictionary and a word embeddings file for better accuracy<br>
                                                 <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document<br>
+                                                <b>Requires:</b> Document, token, pos<br>
                                                 <b>Functions:</b> <br>
-                                            <ul>
-                                                <li>
-                                                    setCorpusPath: Path to text files containing training entities
-                                                </li>
-                                            </ul>
+                                          <ul>
+                                            <li>
+                                              setDatasetPath: Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed.
+                                            </li>
+                                            <li>
+                                              setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                            </li>
+                                            <li>
+                                              setMinEpochs: Minimum number of epochs to train
+                                            </li>
+                                            <li>
+                                              setMaxEpochs: Maximum number of epochs to train
+                                            </li>
+                                            <li>
+                                              setL2: L2 regularization coefficient for CRF
+                                            </li>
+                                            <li>
+                                              setC0: c0 defines decay speed for gradient
+                                            </li>
+                                            <li>
+                                              setLossEps: If epoch relative improvement lass than this vallue, training is stopped
+                                            </li>
+                                            <li>
+                                              setMinW: Features with less weights than this value will be filtered out
+                                            </li>
+                                            <li>
+                                              setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
+                                              path - word embeddings file
+                                              nDims - number of word embeddings dimentions
+                                              format - format of word embeddings files:
+                                              1 - spark-nlp format.
+                                              2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
+                                              3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                            </li>
+                                            <li>
+                                              setDicts: Array of additional dictionary paths to use as features. A dict .txt files is a line separated file that has something like this: Volvo:ORG
+                                            </li>
+                                            <li>
+                                              setEntities: Array of entities to recognize
+                                            </li>
+                                            <li>
+                                              setVerbose: Verbosity level
+                                            </li>
+                                            <li>
+                                              setRandomSeed: Random seed
+                                            </li>
+                                          </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">ner_tagger = NERRegexApproach() \
-  .setInputCols(["sentence"]) \
-  .setOutputCol("NER")</code></pre>
+                                            <pre><code class="language-python">nerTagger = NerCrfApproach()\
+  .setInputCols(["sentence", "token", "pos"])\
+  .setLabelColumn("label")\
+  .setOutputCol("ner")\
+  .setMinEpochs(1)\
+  .setMaxEpochs(20)\
+  .setLossEps(1e-3)\
+  .setDicts(["ner-corpus/dict.txt"])\
+  .setDatasetPath("eng.train")\
+  .setEmbeddingsSource("glove.6B.100d.txt", 100, 2)\
+  .setL2(1)\
+  .setC0(1250000)\
+  .setRandomSeed(0)\
+  .setVerbose(2)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                The NER annotator extracts entities like Proper noun from the
-                                                document.<br>
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document<br>
+                                              This Named Entity recognition annotator allows for a generic model
+                                              to be trained by utilizing a CRF machine learning algorithm. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset, and optionally
+                                              the user can provide both an entities dictionary and a word embeddings file for better accuracy<br>
+                                              <b>Type:</b> named_entity<br>
+                                              <b>Requires:</b> Document, token, pos<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
-                                                    setCorpusPath: Path to text files containing training entities
+                                                  setDatasetPath: Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed.
+                                                </li>
+                                                <li>
+                                                  setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                                </li>
+                                                <li>
+                                                  setMinEpochs: Minimum number of epochs to train
+                                                </li>
+                                                <li>
+                                                  setMaxEpochs: Maximum number of epochs to train
+                                                </li>
+                                                <li>
+                                                  setL2: L2 regularization coefficient for CRF
+                                                </li>
+                                                <li>
+                                                  setC0: c0 defines decay speed for gradient
+                                                </li>
+                                                <li>
+                                                  setLossEps: If epoch relative improvement lass than this vallue, training is stopped
+                                                </li>
+                                                <li>
+                                                  setMinW: Features with less weights than this value will be filtered out
+                                                </li>
+                                                <li>
+                                                  setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
+                                                  path - word embeddings file
+                                                  nDims - number of word embeddings dimentions
+                                                  format - format of word embeddings files:
+                                                  1 - spark-nlp format.
+                                                  2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
+                                                  3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                                </li>
+                                                <li>
+                                                  setDicts: Array of additional dictionary paths to use as features. A dict .txt files is a line separated file that has something like this: Volvo:ORG
+                                                </li>
+                                                <li>
+                                                  setEntities: Array of entities to recognize
+                                                </li>
+                                                <li>
+                                                  setVerbose: Verbosity level
+                                                </li>
+                                                <li>
+                                                  setRandomSeed: Random seed
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val nerTagger = new NERRegexApproach()
-  .setInputCols(Array("sentence"))
+                                            <pre><code class="language-python">new NerCrfApproach()
+  .setInputCols("sentence", "token", "pos")
+  .setLabelColumn("label")
+  .setMinEpochs(1)
+  .setMaxEpochs(3)
+  .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+  .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
+  .setC0(34)
+  .setL2(3.0)
   .setOutputCol("ner")
-  .setCorpusPath("/ner-corpus/dict.txt")</code></pre>
+  .fit(df)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-                                <h4 id="SpellChecker" class="section-block"> 13. SpellChecker: Token spell
+                                <h4 id="SpellChecker" class="section-block"> 14. SpellChecker: Token spell
                                     corrector</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -983,78 +1159,6 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="ViveknSentimentDetector" class="section-block"> 14. ViveknSentimentDetector:
-                                    Sentiment
-                                    analysis</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sentiment<br>
-                                                <b>Requires:</b> Document, Token<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setPositiveSource(path)
-                                                </li>
-                                                <li>
-                                                    setNegativeSource(path)
-                                                </li>
-                                                <li>
-                                                    setPruneCorpus(true): when training on small data you may want
-                                                    to disable this to not cut off unfrequent words
-                                                </li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetector() \
-    .setInputCols(["lemma", "sentence"]) \
-    .setOutputCol("sentiment")</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sentiment<br>
-                                                <b>Requires:</b> Document, Token<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setPositiveSourcePath(path)
-                                                </li>
-                                                <li>
-                                                    setNegativeSourcePath(path)
-                                                </li>
-                                                <li>
-                                                    setCorpusPrune(true): when training on small data you may want
-                                                    to disable this to not cut off unfrequent words
-                                                </li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">new ViveknSentimentApproach()
-      .setInputCols(Array("token", "sentence"))
-      .setOutputCol("vivekn")
-      .setPositiveSourcePath("./positive/1.txt")
-      .setNegativeSourcePath("./negative/1.txt")
-      .setCorpusPrune(false)</code></pre>
-                                        </div>
-                                    </div>
-                                </div>
-
 
                                 <h4 id="AssertionStatus" class="section-block"> 15. AssertionStatus: Assertion Status Classifier</h4>
                                 <ul class="nav nav-tabs" role="tablist">
@@ -1065,12 +1169,12 @@ documentAssembler = new DocumentAssembler()
                                                                data-toggle="tab">Scala</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                    <div role="tabpanel" class="tab-pane" id="python">
                                         <div class="code-block">
                                             <p>
                                                 Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
                                                 <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
@@ -1090,7 +1194,7 @@ documentAssembler = new DocumentAssembler()
                                                     setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp).
+                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
                                                 </li>
                                             </ul>
                                             <br>
@@ -1112,7 +1216,7 @@ assertion_status = AssertionStatusApproach() \
                                             <p>
                                                 Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
                                                 <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document, Token<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
@@ -1132,7 +1236,7 @@ assertion_status = AssertionStatusApproach() \
                                                     setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp).
+                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
                                                 </li>
                                             </ul>
                                             <br>
@@ -1149,6 +1253,7 @@ val assertionStatus = new AssertionStatusApproach()
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
+                                </div>
 
                                 <h4 id="Finisher" class="section-block"> 16. Finisher: Getting data out </h4>
                                 <ul class="nav nav-tabs" role="tablist">
@@ -1326,11 +1431,11 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#EntityExtractor">Entity Extractor</a></li>
                                     <li><a class="scrollto" href="#DateMatcher">Date Matcher</a></li>
                                     <li><a class="scrollto" href="#SentenceDetector">Sentence Detector</a></li>
-                                    <li><a class="scrollto" href="#POSTagger">POSTagger</a></li>
-                                    <li><a class="scrollto" href="#SentimentDetector">Sentiment Detector</a></li>
-                                    <li><a class="scrollto" href="#NERTagger">NERTagger</a></li>
-                                    <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
+                                    <li><a class="scrollto" href="#POSTagger">Part of Speech Tagger</a></li>
                                     <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
+                                    <li><a class="scrollto" href="#SentimentDetector">Rule based Sentiment Detector</a></li>
+                                    <li><a class="scrollto" href="#NERCRF">Named Entity Recognition CRF</a></li>
+                                    <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
                                     <li><a class="scrollto" href="#AssertionStatus">Assertion Status</a></li>
                                     <li><a class="scrollto" href="#Finisher">Finisher</a></li>
 
