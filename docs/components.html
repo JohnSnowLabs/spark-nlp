@@ -184,43 +184,73 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Creates tokens starting up from a regular expression. Defaults to
-                                                "\w+"<br>
+                                                Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
-                                                <li>
-                                                    setPattern(pattern): Regular expression for tokenization, default \S+
-                                                </li>
+                                          <li>
+                                            setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to \S+ which means anything not a space
+                                          </li>
+                                          <li>
+                                            setSuffixPattern: Regex to identify token characters that are in the end of the token. Regex has to end with \z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                          </li>
+                                          <li>
+                                            setPrefixPattern: Regex to identify token characters that come in the beggining of the token. Regex has to start with \A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                          </li>
+                                          <li>
+                                            setExtensionPatterns: Array of Regex with groups () to match tokens within the target pattern. Every group () will become its own separate token. Order matters (later rules will apply first). Its default rules should cover most cases, e.g. part-of-speech as single token
+                                          </li>
+                                          <li>
+                                            addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, then the others).
+                                          </li>
+                                          <li>
+                                            setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                          </li>
                                             </ul>
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">tokenizer = Tokenizer() \
   .setInputCols(["sentences"]) \
-  .setOutputCol("token")</code></pre>
+  .setOutputCol("token") \
+  .addInfixPattern("(\p{L}+)(n't\b)")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
-                                            <p>
-                                                Creates tokens starting up from a regular expression.
-                                                "\w+"<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setPattern(pattern): Regular expression for tokenization, default \S+
-                                                </li>
-                                            </ul>
+                                          <p>
+                                            Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.<br>
+                                            <b>Type:</b> Token<br>
+                                            <b>Requires:</b> Document<br>
+                                            <b>Functions:</b>
+                                          <ul>
+                                            <li>
+                                              setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to \S+ which means anything not a space
+                                            </li>
+                                            <li>
+                                              setSuffixPattern: Regex to identify token characters that are in the end of the token. Regex has to end with \z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                            </li>
+                                            <li>
+                                              setPrefixPattern: Regex to identify token characters that come in the beggining of the token. Regex has to start with \A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                            </li>
+                                            <li>
+                                              setExtensionPatterns: Array of Regex with groups () to match tokens within the target pattern. Every group () will become its own separate token. Order matters (later rules will apply first). Its default rules should cover most cases, e.g. part-of-speech as single token
+                                            </li>
+                                            <li>
+                                              addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, then the others).
+                                            </li>
+                                            <li>
+                                              setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                            </li>
+                                          </ul>
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val regexTokenizer = new Tokenizer()
+                                            <pre><code class="language-python">val tokenizer = new Tokenizer()
   .setInputCols("sentence")
-  .setOutputCol("token")</code></pre>
+  .setOutputCol("token")
+  .addInfixPattern("(\p{L}+)(n't\b)")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                 </div>
@@ -709,6 +739,12 @@ documentAssembler = new DocumentAssembler()
                                                     accuracy but
                                                     takes longer. Default 5.
                                                 </li>
+                                                <li>
+                                                  setCorpusFormat: TXT or TXTDS, the latter will read corpusPath as a Spark dataset, which should work better for bigger corpora.
+                                                </li>
+                                                <li>
+                                                  setCorpusLimit: When path is a folder, sets a limit for the amount of files being read.
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
@@ -739,6 +775,12 @@ documentAssembler = new DocumentAssembler()
                                                     setIterations: Number of iterations for training. May improve
                                                     accuracy but
                                                     takes longer. Default 5.
+                                                </li>
+                                                <li>
+                                                  setCorpusFormat: TXT or TXTDS, the latter will read corpusPath as a Spark dataset, which should work better for bigger corpora.
+                                                </li>
+                                                <li>
+                                                  setCorpusLimit: When path is a folder, sets a limit for the amount of files being read.
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -1423,7 +1465,7 @@ val assertionStatus = new AssertionStatusApproach()
                                 <a class="scrollto" href="#code-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#DocumentAssembler">Document Assembler</a></li>
-                                    <li><a class="scrollto" href="#Tokenizer">Regex Tokenizer</a></li>
+                                    <li><a class="scrollto" href="#Tokenizer">Tokenizer</a></li>
                                     <li><a class="scrollto" href="#Normalizer">Normalizer</a></li>
                                     <li><a class="scrollto" href="#Stemmer">Stemmer</a></li>
                                     <li><a class="scrollto" href="#Lemmatizer">Lemmatizer</a></li>
