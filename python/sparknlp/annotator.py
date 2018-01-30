@@ -97,8 +97,8 @@ class Tokenizer(AnnotatorTransformer):
                           "regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)",
                           typeConverter=TypeConverters.toString)
 
-    suffixPatern = Param(Params._dummy(),
-                          "suffixPatern",
+    suffixPattern = Param(Params._dummy(),
+                          "suffixPattern",
                           "regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
                           typeConverter=TypeConverters.toString)
 
