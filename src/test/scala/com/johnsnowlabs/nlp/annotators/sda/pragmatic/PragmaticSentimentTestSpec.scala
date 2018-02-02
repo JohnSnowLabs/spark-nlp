@@ -26,6 +26,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
+      .setDictPath("/entity-extractor/test-phrases.txt")
       .fit(readyData)
       .transform(readyData)
 
