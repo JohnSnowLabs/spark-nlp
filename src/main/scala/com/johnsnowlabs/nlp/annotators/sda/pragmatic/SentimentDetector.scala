@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.Tokenized
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.typesafe.config.{Config, ConfigFactory}
@@ -20,20 +20,16 @@ class SentimentDetector(override val uid: String) extends AnnotatorModel[Sentime
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  private val config: Config = ConfigFactory.load
-
   val dictPath = new Param[String](this, "dictPath", "path to dictionary for pragmatic sentiment analysis")
 
   val dictFormat = new Param[String](this, "dictFormat", "format of dictionary, can be TXT or TXTDS for read as dataset")
 
   val dictSeparator = new Param[String](this, "dictSeparator", "key value separator for dictionary")
 
-  if (config.getString("nlp.sentimentDict.file").nonEmpty)
-    setDefault(dictPath, config.getString("nlp.sentimentDict.file"))
-
-  setDefault(dictFormat, config.getString("nlp.sentimentDict.format"))
-
-  setDefault(dictSeparator, config.getString("nlp.sentimentDict.separator"))
+  setDefault(
+    dictFormat -> "TXT",
+    dictSeparator -> ","
+  )
 
   lazy val model: PragmaticScorer =
     new PragmaticScorer(SentimentDetector.retrieveSentimentDict($(dictPath), $(dictFormat), $(dictSeparator)))
@@ -65,7 +61,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorModel[Sentime
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokenizedSentences = Tokenized.unpack(annotations)
+    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
 
     val score = model.score(tokenizedSentences.toArray)
 

@@ -24,12 +24,12 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
   "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(latinBodyData)
 
   "A lemmatizer" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
-    val lemmatizer = new Lemmatizer().setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+    val lemmatizer = new Lemmatizer().setLemmaDictPath("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
     val path = "./test-output-tmp/lemmatizer"
     try {
       lemmatizer.write.overwrite.save(path)
       val lemmatizerRead = Lemmatizer.read.load(path)
-      assert(lemmatizer.getLemmaDict.head == lemmatizerRead.getLemmaDict.head)
+      assert(lemmatizer.getLemmaDictPath.head == lemmatizerRead.getLemmaDictPath.head)
     } catch {
       case _: java.io.IOException => succeed
     }
@@ -54,7 +54,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-      .setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+      .setLemmaDictPath("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
 
     val finisher = new Finisher()
       .setInputCols("lemma")

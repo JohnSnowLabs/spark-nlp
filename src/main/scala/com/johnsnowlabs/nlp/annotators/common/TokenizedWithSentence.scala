@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
-object Tokenized extends Annotated[TokenizedSentence] {
+object TokenizedWithSentence extends Annotated[TokenizedSentence] {
 
   override def annotatorType = AnnotatorType.TOKEN
 

@@ -27,11 +27,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     documentAssembler.transform(dataset)
   }
 
-  def withTokenizer(dataset: Dataset[Row]): Dataset[Row] = {
+  def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
     val regexTokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
       .setOutputCol("token")
-    regexTokenizer.transform(withFullPragmaticSentenceDetector(dataset))
+    if (sbd)
+      regexTokenizer.setInputCols(Array("sentence")).transform(withFullPragmaticSentenceDetector(dataset))
+    else
+      regexTokenizer.setInputCols(Array("document")).transform(dataset)
   }
 
   def withFullStemmer(dataset: Dataset[Row]): Dataset[Row] = {
@@ -41,10 +43,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     stemmer.transform(withTokenizer(dataset))
   }
 
-  def withFullNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullNormalizer(dataset: Dataset[Row], lowerCase: Boolean = true): Dataset[Row] = {
     val normalizer = new Normalizer()
       .setInputCols(Array("token"))
       .setOutputCol("normalized")
+      .setLowercase(lowerCase)
     normalizer.transform(withTokenizer(dataset))
   }
 
@@ -60,20 +63,19 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-      .setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+      .setLemmaDictPath("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
     val tokenized = withTokenizer(dataset)
-    lemmatizer.transform(tokenized)
+    lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullEntityExtractor(dataset: Dataset[Row], insideSentences: Boolean = true): Dataset[Row] = {
+  def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
-      .setInputCols("sentence", "normalized")
-      .setInsideSentences(insideSentences)
+      .setInputCols("normalized")
       .setEntitiesPath("/entity-extractor/test-phrases.txt")
       .setOutputCol("entity")
-    entityExtractor.transform(
-      withFullNormalizer(
-        withTokenizer(dataset)))
+    val data = withFullNormalizer(
+      withTokenizer(dataset, sbd), lowerCase)
+    entityExtractor.fit(data).transform(data)
   }
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
@@ -92,7 +94,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
-    val regexMatcher = new RegexMatcher()
+    val regexMatcher = new RegexMatcherModel()
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
