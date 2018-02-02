@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.io.{File, FileNotFoundException, InputStream}
+import java.io._
 
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
@@ -9,12 +9,13 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.Source
+import scala.io.BufferedSource
 import java.net.URLDecoder
 import java.nio.file.Paths
 import java.util.jar.JarFile
 
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import org.apache.hadoop.fs.{FileSystem, Path}
 
 import scala.util.Random
 
@@ -34,16 +35,18 @@ object ResourceHelper {
   case class SourceStream(resource: String) {
     val pipe: Option[InputStream] = {
       var stream = getClass.getResourceAsStream(resource)
-      if (stream == null)
-        stream = getClass.getClassLoader.getResourceAsStream(resource)
+      if (stream == null) {
+        val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+        stream = fs.open(new Path(resource))
+      }
       Option(stream)
     }
-    val content: Source = pipe.map(p => {
-      Source.fromInputStream(p)("UTF-8")
-    }).getOrElse(Source.fromFile(resource, "UTF-8"))
+    val content: BufferedSource = pipe.map(p => {
+      new BufferedSource(p)("UTF-8")
+    }).getOrElse(throw new FileNotFoundException(s"resource: $resource not found"))
     def close(): Unit = {
       content.close()
-      pipe.foreach(_.close())
+      pipe.foreach(_.close)
     }
   }
 
@@ -238,13 +241,13 @@ object ResourceHelper {
                     ): Array[TaggedSentence] = {
     if (pathIsDirectory(source) && format == TXT) {
       try {
-        Random.shuffle(new File(source).listFiles().toList)
+        Random.shuffle(listDirectory(source).toList)
           .take(fileLimit)
           .flatMap(fileName => parseTupleSentences(fileName.toString, format, keySep, fileLimit))
           .toArray
       } catch {
         case _: NullPointerException =>
-          Random.shuffle(ResourceHelper.listDirectory(source).toList)
+          Random.shuffle(listDirectory(source).toList)
             .take(fileLimit)
             .flatMap{fileName =>
               val path = Paths.get(source, fileName)
@@ -337,7 +340,7 @@ object ResourceHelper {
         val regex = tokenPattern.r
         if (pathIsDirectory(source)) {
           try {
-            new File(source).listFiles()
+            listDirectory(source)
               .flatMap(fileName => wordCount(fileName.toString, format, tokenPattern, m))
           } catch {
             case _: NullPointerException =>
@@ -403,7 +406,7 @@ object ResourceHelper {
     val prefix = "not_"
     if (pathIsDirectory(source)) {
       try {
-        new File(source).listFiles()
+        listDirectory(source)
           .map(fileName => ViveknWordCount(fileName.toString, tokenPattern, prune, f, left, right))
       } catch {
         case _: NullPointerException =>
