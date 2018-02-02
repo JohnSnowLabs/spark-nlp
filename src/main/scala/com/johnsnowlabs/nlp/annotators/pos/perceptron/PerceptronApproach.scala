@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -24,14 +23,12 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   import PerceptronApproach._
 
-  private val config: Config = ConfigFactory.load
-
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
-  setDefault(corpusPath, config.getString("nlp.posDict.dir"))
+  setDefault(corpusPath, "/anc-pos-corpus/")
   val wordTagSeparator = new Param[String](this, "wordTagSeparator", "word tag separator")
-  setDefault(wordTagSeparator, config.getString("nlp.posDict.separator"))
+  setDefault(wordTagSeparator, "|")
   val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
   setDefault(corpusFormat, "TXT")
   val corpusLimit = new IntParam(this, "corpusLimit", "Limit of files to read for training. Defaults to 50")
@@ -150,8 +147,6 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
 }
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
-
-  private val config: Config = ConfigFactory.load
 
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")

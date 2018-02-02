@@ -83,6 +83,17 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
     @keyword_only
     def __init__(self):
         super(JavaTransformer, self).__init__()
+        
+        
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    @keyword_only
+    def __init__(self, classname):
+        super(AnnotatorApproach, self).__init__()
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
+
+class AnnotatorModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+    pass
 
 
 class Tokenizer(AnnotatorTransformer):
@@ -166,7 +177,7 @@ class Normalizer(AnnotatorTransformer):
         return self._set(lowercase=value)
 
 
-class RegexMatcher(AnnotatorTransformer):
+class RegexMatcher(AnnotatorApproach):
 
     strategy = Param(Params._dummy(),
                      "strategy",
@@ -187,8 +198,7 @@ class RegexMatcher(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(RegexMatcher, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.RegexMatcher", self.uid)
+        super(RegexMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcher")
 
     def setStrategy(self, value):
         return self._set(strategy=value)
@@ -202,8 +212,20 @@ class RegexMatcher(AnnotatorTransformer):
     def setRulesSeparator(self, value):
         return self._set(rulesSeparator=value)
 
+    def _create_model(self, java_model):
+        return RegexMatcherModel(java_model)
 
-class Lemmatizer(AnnotatorTransformer):
+
+class RegexMatcherModel(AnnotatorModel):
+    name = "RegexMatcherModel"
+
+
+class Lemmatizer(AnnotatorApproach):
+    lemmaDictPath = Param(Params._dummy(),
+                        "lemmaDictPath",
+                        "Path to lemma dictionary",
+                        typeConverter=TypeConverters.toString)
+
     lemmaFormat = Param(Params._dummy(),
                      "lemmaFormat",
                      "TXT or TXTDS for reading dictionary as dataset",
@@ -221,15 +243,13 @@ class Lemmatizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Lemmatizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Lemmatizer", self.uid)
+        super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
 
-    def setDictionary(self, value):
-        if type(value) == dict:
-            self._java_obj.setLemmaDictHMap(value)
-        else:
-            self._java_obj.setLemmaDict(value)
-        return self
+    def _create_model(self, java_model):
+        return PerceptronModel(java_model)
+
+    def setLemmaDictPath(self, value):
+        return self._set(lemmaDictPath=value)
 
     def setLemmaFormat(self, value):
         return self._set(lemmaFormat=value)
@@ -239,6 +259,10 @@ class Lemmatizer(AnnotatorTransformer):
 
     def setLemmaValSep(self, value):
         return self._set(lemmaValSep=value)
+
+
+class LemmatizerModel(AnnotatorModel):
+    name = "LemmatizerModel"
 
 
 class DateMatcher(AnnotatorTransformer):
@@ -256,7 +280,7 @@ class DateMatcher(AnnotatorTransformer):
         return self._set(dateFormat=value)
 
 
-class EntityExtractor(AnnotatorTransformer):
+class EntityExtractor(AnnotatorApproach):
 
     entitiesPath = Param(Params._dummy(),
                          "entitiesPath",
@@ -275,8 +299,10 @@ class EntityExtractor(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(EntityExtractor, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.EntityExtractor", self.uid)
+        super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
+
+    def _create_model(self, java_model):
+        return PerceptronModel(java_model)
 
     def setInsideSentences(self, value):
         return self._set(insideSentences=value)
@@ -288,7 +314,11 @@ class EntityExtractor(AnnotatorTransformer):
         return self._set(entitiesFormat=value)
 
 
-class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class EntityExtractorModel(AnnotatorModel):
+    name = "EntityExtractorModel"
+
+
+class PerceptronApproach(AnnotatorApproach):
     corpusPath = Param(Params._dummy(),
                        "corpusPath",
                        "POS Corpus path",
@@ -311,15 +341,7 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
 
     @keyword_only
     def __init__(self):
-        super(PerceptronApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach", self.uid)
-        kwargs = self._input_kwargs
-        self._setDefault(corpusFormat="TXT", corpusLimit=50, nIterations=5)
-        self.setParams(**kwargs)
-
-    def setParams(self, corpusFormat="TXT", corpusLimit=50, nIterations=5):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
+        super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
 
     def setCorpusPath(self, value):
         return self._set(corpusPath=value)
@@ -337,7 +359,7 @@ class PerceptronApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Annotato
         return PerceptronModel(java_model)
 
 
-class PerceptronModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
 
 
@@ -395,7 +417,7 @@ class SentimentDetector(AnnotatorTransformer):
         return self._set(dictSeparator=value)
 
 
-class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class ViveknSentimentApproach(AnnotatorApproach):
     positiveSource = Param(Params._dummy(),
                      "positiveSource",
                      "path to positive corpus",
@@ -423,16 +445,7 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
                  pruneCorpus=1,
                  tokenPattern="\\S+"
                  ):
-        super(ViveknSentimentApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach", self.uid)
-        kwargs = self._input_kwargs
-        self._setDefault(
-            positiveSource="",
-            negativeSource="",
-            pruneCorpus=1,
-            tokenPattern="\\S+"
-        )
-        self.setParams(**kwargs)
+        super(ViveknSentimentApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach")
 
     def setPositiveSource(self, value):
         return self._set(positiveSource=value)
@@ -443,23 +456,15 @@ class ViveknSentimentApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
 
-    def setParams(self,
-                  positiveSource="",
-                  negativeSource="",
-                  pruneCorpus=1,
-                  tokenPattern="\\S+"):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
     def _create_model(self, java_model):
         return ViveknSentimentModel(java_model)
 
 
-class ViveknSentimentModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class ViveknSentimentModel(AnnotatorModel):
     name = "ViveknSentimentModel"
 
 
-class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NorvigSweetingApproach(AnnotatorApproach):
     dictPath = Param(Params._dummy(),
                      "dictPath",
                      "words dictionary path",
@@ -500,7 +505,6 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                          "whether to use faster mode",
                          typeConverter=TypeConverters.toBoolean)
 
-
     @keyword_only
     def __init__(self,
                  dictPath="/spell/words.txt",
@@ -508,16 +512,7 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
                  doubleVariants=False,
                  shortCircuit=False
                  ):
-        super(NorvigSweetingApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach", self.uid)
-        kwargs = self._input_kwargs
-        self._setDefault(
-            dictPath="/spell/words.txt",
-            caseSensitive=False,
-            doubleVariants=False,
-            shortCircuit=False
-        )
-        self.setParams(**kwargs)
+        super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
 
     def setCorpusPath(self, value):
         return self._set(corpusPath=value)
@@ -543,23 +538,15 @@ class NorvigSweetingApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Anno
     def setShortCircuit(self, value):
         return self._set(shortCircuit=value)
 
-    def setParams(self,
-                  dictPath="/spell/words.txt",
-                  caseSensitive=False,
-                  doubleVariants=False,
-                  shortCircuit=False):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model)
 
 
-class NorvigSweetingModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
 
 
-class NerCrfApproach(JavaRecursiveEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
+class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     labelColumn = Param(Params._dummy(),
                      "labelColumn",
                      "Column with label per each token",
@@ -629,27 +616,18 @@ class NerCrfApproach(JavaRecursiveEstimator, JavaMLWritable, JavaMLReadable, Ann
         return self
 
     def _create_model(self, java_model):
-      return NerCrfModel(java_model)
+        return NerCrfModel(java_model)
 
     @keyword_only
     def __init__(self):
-        super(NerCrfApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach", self.uid)
-
-        self._setDefault(
-            minEpochs = 0,
-            maxEpochs = 1000,
-            l2 = 1,
-            c0 = 2250000,
-            lossEps = 1e-3,
-            verbose = 1
-        )
+        super(NerCrfApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach")
 
 
-class NerCrfModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
 
-class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, AnnotatorWithEmbeddings):
+
+class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
     # the document where we're extracting the assertion
@@ -703,20 +681,9 @@ class AssertionLogRegApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, Ann
 
     @keyword_only
     def __init__(self):
-        super(AssertionLogRegApproach, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach", self.uid)
-        self._setDefault(label = "label",
-            target = "target",
-            maxIter = 26,
-            regParam = 0.00192,
-            eNetParam = 0.9,
-            beforeParam = 10,
-            afterParam = 10,
-            startParam = "start",
-            endParam = "end")
+        super(AssertionLogRegApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach")
 
-
-class AssertionLogRegModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
 
 

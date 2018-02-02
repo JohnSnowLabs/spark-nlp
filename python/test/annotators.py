@@ -55,7 +55,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setRulesPath("../src/test/resources/regex-matcher/rules.txt") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
-        regex_matcher.transform(assembled).show()
+        regex_matcher.fit(assembled).transform(assembled).show()
 
 
 class LemmatizerTestSpec(unittest.TestCase):
@@ -72,10 +72,10 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("../src/test/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setLemmaDictPath("../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        lemmatizer.fit(tokenized).transform(tokenized).show()
 
 
 class NormalizerTestSpec(unittest.TestCase):
@@ -126,10 +126,11 @@ class EntityExtractorTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setOutputCol("token")
         entity_extractor = EntityExtractor() \
-            .setOutputCol("entity")
+            .setOutputCol("entity") \
+            .setEntitiesPath("../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        entity_extractor.transform(tokenized).show()
+        entity_extractor.fit(tokenized).transform(tokenized).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -193,8 +194,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("lemma") \
-            .setDictionary({"missed": "miss"})
+            .setOutputCol("lemma")
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
@@ -202,7 +202,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        lemmatized = lemmatizer.transform(tokenized)
+        lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
         sentiment_detector.transform(lemmatized).show()
 
 
@@ -220,7 +220,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary({"sad": "unsad"})
+            .setLemmaDictPath("../src/test/resources/lemma-corpus/simple.txt")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -233,7 +233,6 @@ class PipelineTestSpec(unittest.TestCase):
         loaded_pipeline = Pipeline.read().load(pipe_path)
         token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
         lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        print(token_before_save)
         assert token_before_save == "sad"
         assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save

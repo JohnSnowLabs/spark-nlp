@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 
+
 class SparkContextForTest:
     spark = SparkSession.builder \
         .master("local[4]") \
