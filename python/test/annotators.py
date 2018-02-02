@@ -203,7 +203,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
         lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
-        sentiment_detector.transform(lemmatized).show()
+        sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
 
 class PipelineTestSpec(unittest.TestCase):

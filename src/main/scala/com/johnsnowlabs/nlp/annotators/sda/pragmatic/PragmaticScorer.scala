@@ -103,6 +103,6 @@ object PragmaticScorer {
     new PragmaticScorer(javaSentimentDict.asScala.toMap)
   }
   def fromPath(overridePath: String, sentFormat: String, sentSeparator: String) {
-    new PragmaticScorer(SentimentDetector.retrieveSentimentDict(overridePath, sentFormat.toUpperCase, sentSeparator))
+    new PragmaticScorer(ResourceHelper.parseKeyValueText(overridePath, sentFormat.toUpperCase, sentSeparator))
   }
 }
