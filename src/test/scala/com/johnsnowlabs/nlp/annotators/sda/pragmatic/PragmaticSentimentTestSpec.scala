@@ -26,6 +26,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
+      .fit(readyData)
       .transform(readyData)
 
     import Annotation.extractors._
@@ -40,7 +41,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
     val dataFromMemory = readyData.persist(StorageLevel.MEMORY_AND_DISK)
     info(s"data in memory is of size: ${dataFromMemory.count}")
-    val resultFromMemory = sentimentDetector.transform(dataFromMemory)
+    val resultFromMemory = sentimentDetector.fit(dataFromMemory).transform(dataFromMemory)
 
     val date3 = new Date().getTime
     resultFromMemory.show
@@ -72,11 +73,11 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
   )
 
   "A SentimentDetector" should "be readable and writable" in {
-    val sentimentDetector = new SentimentDetector()
+    val sentimentDetector = new SentimentDetector().setDictPath("/sentiment-corpus/default-sentiment-dict.txt").fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)
-      val sentimentDetectorRead = SentimentDetector.read.load(path)
+      val sentimentDetectorRead = SentimentDetectorModel.read.load(path)
       assert(sentimentDetector.model.score(sentimentSentences) == sentimentDetectorRead.model.score(sentimentSentences))
     } catch {
       case _: java.io.IOException => succeed

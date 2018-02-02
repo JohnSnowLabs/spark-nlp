@@ -94,12 +94,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
-    val regexMatcher = new RegexMatcherModel()
+    val regexMatcher = new RegexMatcher()
+      .setRulesPath("/regex-matcher/rules.txt")
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
     if (rules.nonEmpty) regexMatcher.setRules(rules)
-    regexMatcher.transform(dataset)
+    regexMatcher.fit(dataset).transform(dataset)
   }
 
   def withDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
@@ -113,11 +114,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
+    val data = withFullPOSTagger(withFullLemmatizer(dataset))
     val sentimentDetector = new SentimentDetector
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-    sentimentDetector.transform(withFullPOSTagger(withFullLemmatizer(dataset)))
+      .setDictPath("/sentiment-corpus/default-sentiment-dict.txt")
+    sentimentDetector.fit(data).transform(data)
   }
 
   def withViveknSentimentAnalysis(dataset: Dataset[Row]): Dataset[Row] = {

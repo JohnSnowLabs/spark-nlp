@@ -381,7 +381,7 @@ class SentenceDetector(AnnotatorTransformer):
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector", self.uid)
 
 
-class SentimentDetector(AnnotatorTransformer):
+class SentimentDetector(AnnotatorApproach):
     dictPath = Param(Params._dummy(),
                      "dictPath",
                      "path for dictionary to sentiment analysis")
@@ -396,8 +396,7 @@ class SentimentDetector(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(SentimentDetector, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector", self.uid)
+        super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
 
     def setDictPath(self, value):
         return self._set(dictPath=value)
@@ -407,6 +406,13 @@ class SentimentDetector(AnnotatorTransformer):
 
     def setDictSeparator(self, value):
         return self._set(dictSeparator=value)
+
+    def _create_model(self, java_model):
+        return SentimentDetectorModel(java_model)
+
+
+class SentimentDetectorModel(AnnotatorModel):
+    name = "SentimentDetectorModel"
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
@@ -674,6 +680,7 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     @keyword_only
     def __init__(self):
         super(AssertionLogRegApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach")
+
 
 class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
