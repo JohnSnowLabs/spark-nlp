@@ -292,20 +292,12 @@ class EntityExtractor(AnnotatorApproach):
                          "TXT or TXTDS for reading as dataset",
                          typeConverter=TypeConverters.toString)
 
-    insideSentences = Param(Params._dummy(),
-                             "insideSentences",
-                             "Should extractor search only within sentences borders?",
-                             typeConverter=TypeConverters.toBoolean)
-
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
-
-    def setInsideSentences(self, value):
-        return self._set(insideSentences=value)
 
     def setEntitiesPath(self, value):
         return self._set(entitiesPath=value)
