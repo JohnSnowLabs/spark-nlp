@@ -11,10 +11,12 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 import java.net.URLDecoder
+import java.nio.file.Paths
 import java.util.jar.JarFile
 
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import org.apache.hadoop.fs.{FileSystem, RemoteIterator, LocatedFileStatus, Path}
+import com.johnsnowlabs.util.Benchmark
+import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 
 import scala.util.Random
 
@@ -55,7 +57,8 @@ object ResourceHelper {
       }))
         /** Check whether it exists in file system */
       .orElse(Option {
-        val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+        val path = new Path(resource)
+        val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
         val files = fs.listFiles(new Path(resource), true)
         if (files.hasNext) inputStreamOrSequence(fs, files) else null
       })
@@ -73,28 +76,40 @@ object ResourceHelper {
 
     if (dirURL == null)
       dirURL = getClass.getClassLoader.getResource(path)
-    /* A JAR path */
-    val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
-    val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
-    val entries = jar.entries()
-    val result = new ArrayBuffer[String]()
 
-    val pathToCheck = path.replaceFirst("/", "")
-    while(entries.hasMoreElements) {
-      val name = entries.nextElement().getName
-      if (name.startsWith(pathToCheck)) { //filter according to the path
-        var entry = name.substring(pathToCheck.length())
-        val checkSubdir = entry.indexOf("/")
-        if (checkSubdir >= 0) {
-          // if it is a subdirectory, we just return the directory name
-          entry = entry.substring(0, checkSubdir)
-        }
-        if (entry.nonEmpty) {
-          result.append(pathToCheck + entry)
+    if (dirURL != null && dirURL.getProtocol.equals("file")) {
+      /* A file path: easy enough */
+      return new File(dirURL.toURI).list().sorted
+    } else if (dirURL == null) {
+      /* path not in resources and not in disk */
+      throw new FileNotFoundException(path)
+    }
+
+    if (dirURL.getProtocol.equals("jar")) {
+      /* A JAR path */
+      val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
+      val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
+      val entries = jar.entries()
+      val result = new ArrayBuffer[String]()
+
+      val pathToCheck = path.replaceFirst("/", "")
+      while(entries.hasMoreElements) {
+        val name = entries.nextElement().getName.replaceFirst("/", "")
+        if (name.startsWith(pathToCheck)) { //filter according to the path
+          var entry = name.substring(pathToCheck.length())
+          val checkSubdir = entry.indexOf("/")
+          if (checkSubdir >= 0) {
+            // if it is a subdirectory, we just return the directory name
+            entry = entry.substring(0, checkSubdir)
+          }
+          if (entry.nonEmpty)
+            result.append(entry)
         }
       }
+      return result.distinct.sorted
     }
-    result.distinct.sorted
+
+    throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
   def createDatasetFromText(
@@ -246,7 +261,8 @@ object ResourceHelper {
           Random.shuffle(listResourceDirectory(source).toList)
             .take(fileLimit)
             .flatMap { fileName =>
-              parseTupleSentences(fileName, format, keySep, fileLimit)
+              val path = Paths.get(source, fileName)
+              parseTupleSentences(path.toString, format, keySep, fileLimit)
             }
             .toArray
         } else {
