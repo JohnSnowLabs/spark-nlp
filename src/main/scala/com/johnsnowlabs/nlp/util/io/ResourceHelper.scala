@@ -79,7 +79,7 @@ object ResourceHelper {
 
     if (dirURL != null && dirURL.getProtocol.equals("file")) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).list().sorted
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath)
     } else if (dirURL == null) {
       /* path not in resources and not in disk */
       throw new FileNotFoundException(path)
@@ -94,7 +94,7 @@ object ResourceHelper {
 
       val pathToCheck = path.replaceFirst("/", "")
       while(entries.hasMoreElements) {
-        val name = entries.nextElement().getName.replaceFirst("/", "")
+        val name = entries.nextElement().getName//.replaceFirst("/", "")
         if (name.startsWith(pathToCheck)) { //filter according to the path
           var entry = name.substring(pathToCheck.length())
           val checkSubdir = entry.indexOf("/")
@@ -102,8 +102,9 @@ object ResourceHelper {
             // if it is a subdirectory, we just return the directory name
             entry = entry.substring(0, checkSubdir)
           }
-          if (entry.nonEmpty)
-            result.append(entry)
+          if (entry.nonEmpty) {
+            result.append(pathToCheck + entry)
+          }
         }
       }
       return result.distinct.sorted
@@ -251,18 +252,15 @@ object ResourceHelper {
   def parseTupleSentences(
                       source: String,
                       format: Format,
-                      keySep: Char,
-                      fileLimit: Int
+                      keySep: Char
                     ): Array[TaggedSentence] = {
     format match {
       case TXT =>
         val sourceStream = SourceStream(source)
         if (sourceStream.isResourceFolder) {
           Random.shuffle(listResourceDirectory(source).toList)
-            .take(fileLimit)
             .flatMap { fileName =>
-              val path = Paths.get(source, fileName)
-              parseTupleSentences(path.toString, format, keySep, fileLimit)
+              parseTupleSentences(fileName, format, keySep)
             }
             .toArray
         } else {

@@ -89,6 +89,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new PerceptronApproach()
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("pos")
+      .setCorpusPath("/anc-pos-corpus-small/")
       .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }

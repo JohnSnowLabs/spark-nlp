@@ -1,4 +1,5 @@
 import unittest
+import os
 
 from pyspark.ml import Pipeline
 from sparknlp.annotator import *
@@ -52,7 +53,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setRulesPath("../src/test/resources/regex-matcher/rules.txt") \
+            .setRulesPath("file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
@@ -72,7 +73,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setLemmaDictPath("../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setLemmaDictPath("file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -127,7 +128,7 @@ class EntityExtractorTestSpec(unittest.TestCase):
             .setOutputCol("token")
         entity_extractor = EntityExtractor() \
             .setOutputCol("entity") \
-            .setEntitiesPath("../src/test/resources/entity-extractor/test-phrases.txt")
+            .setEntitiesPath("file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         entity_extractor.fit(tokenized).transform(tokenized).show()
@@ -151,7 +152,6 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setCorpusPath("../src/main/resources/anc-pos-corpus") \
             .setIterations(2) \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
@@ -198,7 +198,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictPath("../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
+            .setDictPath("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -220,7 +220,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setLemmaDictPath("../src/test/resources/lemma-corpus/simple.txt")
+            .setLemmaDictPath("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -254,7 +254,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
             .setOutputCol("spell") \
-            .setCorpusPath("../src/test/resources/spell/sherlockholmes.txt") \
+            .setCorpusPath("file:///" + os.getcwd() + "/../src/test/resources/spell/sherlockholmes.txt") \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)

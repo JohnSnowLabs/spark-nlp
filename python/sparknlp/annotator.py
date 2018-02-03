@@ -321,11 +321,6 @@ class PerceptronApproach(AnnotatorApproach):
                          "TXT or TXTDS for reading as dataset",
                          typeConverter=TypeConverters.toString)
 
-    corpusLimit = Param(Params._dummy(),
-                        "corpusLimit",
-                        "Limit of files to read for training. Defaults to 50",
-                        typeConverter=TypeConverters.toInt)
-
     nIterations = Param(Params._dummy(),
                         "nIterations",
                         "Number of iterations in training, converges to better accuracy",
@@ -340,9 +335,6 @@ class PerceptronApproach(AnnotatorApproach):
 
     def setCorpusFormat(self, value):
         return self._set(corpusFormat=value)
-
-    def setCorpusLimit(self, value):
-        return self._set(corpusLimit=value)
 
     def setIterations(self, value):
         return self._set(nIterations=value)
