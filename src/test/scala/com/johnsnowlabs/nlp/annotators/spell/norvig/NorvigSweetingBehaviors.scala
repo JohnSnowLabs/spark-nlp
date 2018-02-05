@@ -9,7 +9,7 @@ import org.scalatest._
 trait NorvigSweetingBehaviors { this: FlatSpec =>
 
   val spellChecker = new NorvigSweetingApproach()
-    .setCorpusPath("/spell")
+    .setCorpusPath("/spell/")
     .setSlangPath("/spell/slangs.txt")
     .fit(DataBuilder.basicDataBuild("dummy"))
 
