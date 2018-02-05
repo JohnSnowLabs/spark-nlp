@@ -228,7 +228,7 @@ class PipelineTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         token_before_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
         lemma_before_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        pipe_path = "./tmp_pipeline"
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
         pipeline.write().overwrite().save(pipe_path)
         loaded_pipeline = Pipeline.read().load(pipe_path)
         token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
