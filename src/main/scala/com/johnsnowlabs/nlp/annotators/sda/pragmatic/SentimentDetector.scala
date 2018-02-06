@@ -21,7 +21,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
   def setDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "dictionary needs 'delimiter' in order to separate words from sentiment tags")
+    require(value.options.contains("delimiter"), "dictionary needs 'delimiter' in order to separate words from sentiment tags")
     set(dictionary, value)
   }
 
