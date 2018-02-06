@@ -2,6 +2,7 @@ package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLL2003NerReader}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 import scala.collection.mutable
 
@@ -17,9 +18,9 @@ import scala.collection.mutable
 object CoNLL2003CrfTest extends App {
   val folder = "./"
 
-  val trainFile = folder + "eng.train"
-  val testFileA = folder + "eng.testa"
-  val testFileB = folder + "eng.testb"
+  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
 
   val embeddingsDims = 100
   val embeddingsFile = folder + s"glove.6B.${embeddingsDims}d.txt"
@@ -28,13 +29,13 @@ object CoNLL2003CrfTest extends App {
     embeddingsFile,
     embeddingsDims,
     WordEmbeddingsFormat.Text,
-    "/ner-corpus/dict.txt"
+    Some(ExternalResource("/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
   )
 
-  def trainModel(file: String): LinearChainCrfModel = {
+  def trainModel(er: ExternalResource): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = reader.readNerDataset(file)
+    val dataset = reader.readNerDataset(er)
 
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
@@ -51,7 +52,7 @@ object CoNLL2003CrfTest extends App {
     crf.trainSGD(dataset)
   }
 
-  def testDataset(file: String, model: LinearChainCrfModel): Unit = {
+  def testDataset(er: ExternalResource, model: LinearChainCrfModel): Unit = {
     // prec = predicted * correct / predicted
     // rec = predicted * correct / correct
     val started = System.nanoTime()
@@ -60,7 +61,7 @@ object CoNLL2003CrfTest extends App {
     val predicted = mutable.    Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val testDataset = reader.readNerDataset(file, Some(model.metadata))
+    val testDataset = reader.readNerDataset(er, Some(model.metadata))
 
     for ((labels, sentence) <- testDataset.instances) {
 

@@ -2,7 +2,8 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, REGEX}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -16,11 +17,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  val rulesPath: Param[String] = new Param(this, "rulesPath", "File containing rules separated by commas")
-
-  val rulesFormat: Param[String] = new Param(this, "rulesFormat", "TXT or TXTDS for reading as dataset")
-
-  val rulesSeparator: Param[String] = new Param(this, "rulesSeparator", "Separator for regex rules and match")
+  val externalRules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
 
   val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
 
@@ -28,12 +25,15 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   setDefault(
     inputCols -> Array(DOCUMENT),
-    rulesFormat -> "TXT",
-    rulesSeparator -> ",",
     strategy -> "MATCH_ALL"
   )
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
+
+  def setExternalRules(value: ExternalResource): this.type = {
+    require(value.options.contains("delimiter"), "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
+    set(externalRules, value)
+  }
 
   def setRules(value: Array[(String, String)]): this.type = set(rules, value)
 
@@ -43,21 +43,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   def getStrategy: String = $(strategy).toString
 
-  def setRulesPath(path: String): this.type = set(rulesPath, path)
-
-  def getRulesPath: String = $(rulesPath)
-
-  def setRulesFormat(format: String): this.type = set(rulesFormat, format)
-
-  def getRulesFormat: String = $(rulesFormat)
-
-  def setRulesSeparator(separator: String): this.type = set(rulesSeparator, separator)
-
-  def getRulesSeparator: String = $(rulesSeparator)
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
-    require(get(rulesPath).isDefined || get(rules).isDefined)
-    val processedRules = get(rules) ++ get(rulesPath).map(path => ResourceHelper.parseTupleText(path, $(rulesFormat), $(rulesSeparator)))
+    require(get(externalRules).isDefined || get(rules).isDefined)
+    val processedRules = get(rules) ++ get(externalRules).map(path => ResourceHelper.parseTupleText($(externalRules)))
     new RegexMatcherModel()
       .setRules(processedRules.toArray.flatten)
       .setStrategy($(strategy))

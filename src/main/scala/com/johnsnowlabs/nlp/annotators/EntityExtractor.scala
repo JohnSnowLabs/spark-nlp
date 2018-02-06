@@ -6,8 +6,8 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 
 class EntityExtractor(override val uid: String) extends AnnotatorApproach[EntityExtractorModel] {
 
@@ -19,39 +19,29 @@ class EntityExtractor(override val uid: String) extends AnnotatorApproach[Entity
 
   override val description: String = "Extracts entities from target dataset given in a text file"
 
-  val entitiesPath = new Param[String](this, "entitiesPath", "Path to entities (phrases) to extract")
-  val entitiesFormat = new Param[String](this, "entitiesFormat", "TXT or TXTDS for reading as dataset")
+  val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
 
-  setDefault(
-    entitiesFormat -> "TXT",
-    inputCols -> Array(TOKEN)
-  )
+  setDefault(inputCols,Array(TOKEN))
 
-  def setEntitiesPath(value: String): this.type = set(entitiesPath, value)
-
-  def getEntitiesPath: String = $(entitiesPath)
-
-  def setEntitiesFormat(value: String): this.type = set(entitiesFormat, value)
-
-  def getEntitiesFormat: String = $(entitiesFormat)
+  def setEntities(value: ExternalResource): this.type = set(entities, value)
 
   /**
     * Loads entities from a provided source.
     */
   private def loadEntities(): Array[Array[String]] = {
-    val phrases: Array[String] = ResourceHelper.parseLinesText($(entitiesPath), $(entitiesFormat).toUpperCase())
+    val phrases: Array[String] = ResourceHelper.parseLines($(entities))
     val tokenizer = new Tokenizer()
-    val entities: Array[Array[String]] = phrases.map {
+    val parsedEntities: Array[Array[String]] = phrases.map {
       line =>
         val annotation = Seq(Annotation(line))
         val tokens = tokenizer.annotate(annotation)
         tokens.map(_.result).toArray
     }
-    entities
+    parsedEntities
   }
 
   private def loadEntities(pipelineModel: PipelineModel): Array[Array[String]] = {
-    val phrases: Seq[String] = ResourceHelper.parseLinesText($(entitiesPath), $(entitiesFormat).toUpperCase())
+    val phrases: Seq[String] = ResourceHelper.parseLines($(entities))
     import ResourceHelper.spark.implicits._
     val textColumn = pipelineModel.stages.find {
       case _: DocumentAssembler => true

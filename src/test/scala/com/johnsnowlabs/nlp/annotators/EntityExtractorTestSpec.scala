@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -56,7 +57,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
     val entityExtractor = new EntityExtractor()
       .setInputCols("token")
-      .setEntitiesPath("/entity-extractor/test-phrases.txt")
+      .setEntities(ExternalResource("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setOutputCol("entity")
 
     val finisher = new Finisher()

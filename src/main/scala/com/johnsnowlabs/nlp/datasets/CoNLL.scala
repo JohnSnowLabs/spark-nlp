@@ -2,10 +2,10 @@ package com.johnsnowlabs.nlp.datasets
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
 
 case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
   require(annotatorType == AnnotatorType.NAMED_ENTITY || annotatorType == AnnotatorType.POS)
@@ -13,13 +13,13 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
    */
-  def readDocs(file: String): Seq[(String, Seq[TaggedSentence])] = {
-    val lines = Source.fromFile(file).getLines().toSeq
+  def readDocs(er: ExternalResource): Seq[(String, Seq[TaggedSentence])] = {
+    val lines = ResourceHelper.parseLines(er)
 
     readLines(lines)
   }
 
-  def readLines(lines: Seq[String]): Seq[(String, Seq[TaggedSentence])] = {
+  def readLines(lines: Array[String]): Seq[(String, Seq[TaggedSentence])] = {
     val doc = new StringBuilder()
     val tokens = new ArrayBuffer[IndexedTaggedWord]()
     val labels = new ArrayBuffer[TaggedSentence]()
@@ -79,17 +79,17 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
       PosTagged.pack(sentences)
   }
 
-  def readDataset(file: String,
+  def readDataset(er: ExternalResource,
                   spark: SparkSession,
                   textColumn: String = "text",
                   labelColumn: String = "label"): Dataset[_] = {
 
     import spark.implicits._
 
-    readDocs(file).map(p => (p._1, pack(p._2))).toDF(textColumn, labelColumn)
+    readDocs(er).map(p => (p._1, pack(p._2))).toDF(textColumn, labelColumn)
   }
 
-  def readDatasetFromLines(lines: Seq[String],
+  def readDatasetFromLines(lines: Array[String],
                            spark: SparkSession,
                            textColumn: String = "text",
                            labelColumn: String = "label"): Dataset[_] = {
