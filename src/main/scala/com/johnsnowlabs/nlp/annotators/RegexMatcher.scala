@@ -17,9 +17,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  val externalRules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
-
-  val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
+  val rules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
 
   val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
@@ -30,24 +28,19 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
-  def setExternalRules(value: ExternalResource): this.type = {
+  def setRules(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
-    set(externalRules, value)
+    set(rules, value)
   }
-
-  def setRules(value: Array[(String, String)]): this.type = set(rules, value)
-
-  def getRules: Array[(String, String)] = $(rules)
 
   def setStrategy(value: String): this.type = set(strategy, value)
 
   def getStrategy: String = $(strategy).toString
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
-    require(get(externalRules).isDefined || get(rules).isDefined)
-    val processedRules = get(rules) ++ get(externalRules).map(path => ResourceHelper.parseTupleText($(externalRules)))
+    val processedRules = ResourceHelper.parseTupleText($(rules))
     new RegexMatcherModel()
-      .setRules(processedRules.toArray.flatten)
+      .setRules(processedRules)
       .setStrategy($(strategy))
   }
 

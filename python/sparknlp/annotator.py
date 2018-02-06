@@ -7,7 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.base import JavaRecursiveEstimator
+from sparknlp.common import ExternalResource
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -183,18 +183,10 @@ class RegexMatcher(AnnotatorApproach):
                      "strategy",
                      "MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE",
                      typeConverter=TypeConverters.toString)
-    rulesPath = Param(Params._dummy(),
-                  "rulesPath",
-                  "rules file path, must be a tuple of regex and identifier. replace config with this",
-                  typeConverter=TypeConverters.toString)
-    rulesFormat = Param(Params._dummy(),
-                      "rulesFormat",
-                      "TXT or TXTDS for reading as dataset",
-                      typeConverter=TypeConverters.toString)
-    rulesSeparator = Param(Params._dummy(),
-                      "rulesSeparator",
-                      "Separator for regex rules and match",
-                      typeConverter=TypeConverters.toString)
+    externalRules = Param(Params._dummy(),
+                  "externalRules",
+                  "external resource to rules, needs 'delimiter' in options",
+                  typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -203,14 +195,9 @@ class RegexMatcher(AnnotatorApproach):
     def setStrategy(self, value):
         return self._set(strategy=value)
 
-    def setRulesPath(self, value):
-        return self._set(rulesPath=value)
-
-    def setRulesFormat(self, value):
-        return self._set(rulesFormat=value)
-
-    def setRulesSeparator(self, value):
-        return self._set(rulesSeparator=value)
+    def setExternalRules(self, path=None, read_as="LINE_BY_LINE", options={
+        "format": "text", "delimiter": ","}.copy()):
+        return self._set(externalRules=ExternalResource(path, read_as, options))
 
     def _create_model(self, java_model):
         return RegexMatcherModel(java_model)
@@ -221,25 +208,11 @@ class RegexMatcherModel(AnnotatorModel):
 
 
 class Lemmatizer(AnnotatorApproach):
-    lemmaDictPath = Param(Params._dummy(),
-                        "lemmaDictPath",
-                        "Path to lemma dictionary",
-                        typeConverter=TypeConverters.toString)
-
-    lemmaFormat = Param(Params._dummy(),
-                     "lemmaFormat",
-                     "TXT or TXTDS for reading dictionary as dataset",
-                     typeConverter=TypeConverters.toString)
-
-    lemmaKeySep = Param(Params._dummy(),
-                        "lemmaKeySep",
-                        "lemma dictionary key separator",
-                        typeConverter=TypeConverters.toString)
-
-    lemmaValSep = Param(Params._dummy(),
-                        "lemmaValSep",
-                        "lemma dictionary value separator",
-                        typeConverter=TypeConverters.toString)
+    dictionary = Param(Params._dummy(),
+                        "dictionary",
+                        "lemmatizer external dictionary." +
+                       " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text",
+                        typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -248,17 +221,10 @@ class Lemmatizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
 
-    def setLemmaDictPath(self, value):
-        return self._set(lemmaDictPath=value)
-
-    def setLemmaFormat(self, value):
-        return self._set(lemmaFormat=value)
-
-    def setLemmaKeySep(self, value):
-        return self._set(lemmaKeySep=value)
-
-    def setLemmaValSep(self, value):
-        return self._set(lemmaValSep=value)
+    def setDictionary(self, path=None, read_as="LINE_BY_LINE", options={"format": "text",
+                                                                        "keyDelimiter": "->",
+                                                                        "valueDelimiter": "\t"}.copy()):
+        return self._set(dictionary=ExternalResource(path, read_as, options))
 
 
 class LemmatizerModel(AnnotatorModel):
@@ -282,28 +248,20 @@ class DateMatcher(AnnotatorTransformer):
 
 class EntityExtractor(AnnotatorApproach):
 
-    entitiesPath = Param(Params._dummy(),
-                         "entitiesPath",
-                         "Path to entities (phrases) to extract",
-                         typeConverter=TypeConverters.toString)
-
-    entitiesFormat = Param(Params._dummy(),
-                         "entitiesFormat",
-                         "TXT or TXTDS for reading as dataset",
-                         typeConverter=TypeConverters.toString)
+    entities = Param(Params._dummy(),
+                         "entities",
+                         "ExternalResource for entities",
+                         typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return EntityExtractorModel(java_model)
 
-    def setEntitiesPath(self, value):
-        return self._set(entitiesPath=value)
-
-    def setEntitiesFormat(self, value):
-        return self._set(entitiesFormat=value)
+    def setEntities(self, path=None, read_as="LINE_BY_LINE", options={"format": "text"}.copy()):
+        return self._set(entities=ExternalResource(path, read_as, options))
 
 
 class EntityExtractorModel(AnnotatorModel):
@@ -311,15 +269,10 @@ class EntityExtractorModel(AnnotatorModel):
 
 
 class PerceptronApproach(AnnotatorApproach):
-    corpusPath = Param(Params._dummy(),
-                       "corpusPath",
-                       "POS Corpus path",
-                       typeConverter=TypeConverters.toString)
-
-    corpusFormat = Param(Params._dummy(),
-                         "corpusFormat",
-                         "TXT or TXTDS for reading as dataset",
-                         typeConverter=TypeConverters.toString)
+    corpus = Param(Params._dummy(),
+                       "corpus",
+                       "POS tags delimited corpus. Needs 'delimiter' in options",
+                   typeConverter=TypeConverters.identity)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
@@ -330,11 +283,8 @@ class PerceptronApproach(AnnotatorApproach):
     def __init__(self):
         super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
 
-    def setCorpusPath(self, value):
-        return self._set(corpusPath=value)
-
-    def setCorpusFormat(self, value):
-        return self._set(corpusFormat=value)
+    def setCorpus(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "delimiter": "|"}.copy()):
+        return self._set(corpus=ExternalResource(path, read_as, options))
 
     def setIterations(self, value):
         return self._set(nIterations=value)
@@ -374,30 +324,16 @@ class SentenceDetector(AnnotatorTransformer):
 
 
 class SentimentDetector(AnnotatorApproach):
-    dictPath = Param(Params._dummy(),
-                     "dictPath",
+    dictionary = Param(Params._dummy(),
+                     "dictionary",
                      "path for dictionary to sentiment analysis")
-
-    dictFormat = Param(Params._dummy(),
-                     "dictFormat",
-                     "format of dictionary, can be TXT or TXTDS for read as dataset")
-
-    dictSeparator = Param(Params._dummy(),
-                     "dictSeparator",
-                     "key value separator for dictionary")
 
     @keyword_only
     def __init__(self):
         super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
 
-    def setDictPath(self, value):
-        return self._set(dictPath=value)
-
-    def setDictFormat(self, value):
-        return self._set(dictFormat=value)
-
-    def setDictSeparator(self, value):
-        return self._set(dictSeparator=value)
+    def setDictionary(self, path=None, read_as="LINE_BY_LINE", options={'format':'text', 'delimiter':','}.copy()):
+        return self._set(dictionary=ExternalResource(path, read_as, options))
 
     def _create_model(self, java_model):
         return SentimentDetectorModel(java_model)
@@ -410,38 +346,28 @@ class SentimentDetectorModel(AnnotatorModel):
 class ViveknSentimentApproach(AnnotatorApproach):
     positiveSource = Param(Params._dummy(),
                      "positiveSource",
-                     "path to positive corpus",
-                     typeConverter=TypeConverters.toString)
+                     "positive sentiment file or folder",
+                     typeConverter=TypeConverters.identity)
 
     negativeSource = Param(Params._dummy(),
                       "negativeSource",
-                      "path to negative corpus",
-                      typeConverter=TypeConverters.toString)
+                      "negative sentiment file or folder",
+                      typeConverter=TypeConverters.identity)
 
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
                         "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
                         typeConverter=TypeConverters.toInt)
 
-    tokenPattern = Param(Params._dummy(),
-                         "negativeSource",
-                         "Regex pattern to use in tokenization of corpus. Defaults \\S+",
-                         typeConverter=TypeConverters.toString)
-
     @keyword_only
-    def __init__(self,
-                 positiveSource="",
-                 negativeSource="",
-                 pruneCorpus=1,
-                 tokenPattern="\\S+"
-                 ):
+    def __init__(self):
         super(ViveknSentimentApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach")
 
-    def setPositiveSource(self, value):
-        return self._set(positiveSource=value)
+    def setPositiveSource(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
+        return self._set(positiveSource=ExternalResource(path, read_as, options))
 
-    def setNegativeSource(self, value):
-        return self._set(negativeSource=value)
+    def setNegativeSource(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
+        return self._set(negativeSource=ExternalResource(path, read_as, options))
 
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
@@ -455,30 +381,20 @@ class ViveknSentimentModel(AnnotatorModel):
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
-    dictPath = Param(Params._dummy(),
-                     "dictPath",
-                     "words dictionary path",
-                     typeConverter=TypeConverters.toString)
+    dictionary = Param(Params._dummy(),
+                        "dictionary",
+                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
+                        typeConverter=TypeConverters.identity)
 
-    corpusPath = Param(Params._dummy(),
-                     "corpusPath",
-                     "training corpus path",
-                     typeConverter=TypeConverters.toString)
+    corpus = Param(Params._dummy(),
+                        "corpus",
+                        "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
+                        typeConverter=TypeConverters.identity)
 
-    corpusFormat = Param(Params._dummy(),
-                       "corpusFormat",
-                       "dataset corpus format. txt or txtds allowed only",
-                       typeConverter=TypeConverters.toString)
-
-    tokenPattern = Param(Params._dummy(),
-                         "tokenPattern",
-                         "Regex pattern to use in tokenization of corpus. Defaults [a-zA-Z]+",
-                         typeConverter=TypeConverters.toString)
-
-    slangPath = Param(Params._dummy(),
-                      "slangPath",
-                      "slangs dictionary path",
-                      typeConverter=TypeConverters.toString)
+    slangDictionary = Param(Params._dummy(),
+                            "slangDictionary",
+                            "slang dictionary is a delimited text. needs 'delimiter' in options",
+                            typeConverter=TypeConverters.identity)
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -496,28 +412,17 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
-    def __init__(self,
-                 dictPath="/spell/words.txt",
-                 caseSensitive=False,
-                 doubleVariants=False,
-                 shortCircuit=False
-                 ):
+    def __init__(self):
         super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
 
-    def setCorpusPath(self, value):
-        return self._set(corpusPath=value)
+    def setCorpus(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
+        return self._set(corpus=ExternalResource(path, read_as, options))
 
-    def setCorpusFormat(self, value):
-        return self._set(corpusFormat=value)
+    def setDictionary(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
+        return self._set(dictionary=ExternalResource(path, read_as, options))
 
-    def setTokenPattern(self, value):
-        return self._set(tokenPattern=value)
-
-    def setDictPath(self, value):
-        return self._set(dictPath=value)
-
-    def setSlangPath(self, value):
-        return self._set(slangPath=value)
+    def setSlangDictionary(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
+        return self._set(slangDictionary=ExternalResource(path, read_as, options))
 
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
@@ -554,56 +459,44 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
-    dicts = Param(Params._dummy(), "dicts", "Additional dictionaries paths to use as a features", TypeConverters.toListString)
-    datasetPath = Param(Params._dummy(), "datasetPath", "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage", TypeConverters.toString)
+    externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features", TypeConverters.identity)
+    externalDataset = Param(Params._dummy(), "externalDataset", "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage", TypeConverters.identity)
 
     def setLabelColumn(self, value):
-        self._set(labelColumn=value)
-        return self
+        return self._set(labelColumn=value)
 
     def setEntities(self, tags):
-        self._set(entities = tags)
-        return self
+        return self._set(entities=tags)
 
     def setMinEpochs(self, epochs):
-        self._set(minEpochs=epochs)
-        return self
+        return self._set(minEpochs=epochs)
 
     def setMaxEpochs(self, epochs):
-        self._set(maxEpochs=epochs)
-        return self
+        return self._set(maxEpochs=epochs)
 
     def setL2(self, l2value):
-        self._set(l2=l2value)
-        return self
+        return self._set(l2=l2value)
 
     def setC0(self, c0value):
-        self._set(c0=c0value)
-        return self
+        return self._set(c0=c0value)
 
     def setLossEps(self, eps):
-        self._set(lossEps=eps)
-        return self
+        return self._set(lossEps=eps)
 
     def setMinW(self, w):
-        self._set(minW=w)
-        return self
+        return self._set(minW=w)
 
     def setVerbose(self, verboseValue):
-        self._set(verbose=verboseValue)
-        return self
+        return self._set(verbose=verboseValue)
 
     def setRandomSeed(self, seed):
-        self._set(randomSeed=seed)
-        return self
+        return self._set(randomSeed=seed)
 
-    def setDicts(self, dictionaries):
-        self._set(dicts = dictionaries)
-        return self
+    def setExternalFeatures(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "delimiter": ":"}.copy()):
+        return self._set(externalFeatures=ExternalResource(path, read_as, options))
 
-    def setDatasetPath(self, path):
-        self._set(datasetPath = path)
-        return self
+    def setExternalDataset(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "delimiter": ":"}.copy()):
+        return self._set(externalDataset=ExternalResource(path, read_as, options))
 
     def _create_model(self, java_model):
         return NerCrfModel(java_model)

@@ -43,7 +43,7 @@ class NerCrfApproach(override val uid: String)
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
 
-  val externalFeatures = new ExternalResourceParam(this, "dicts", "Additional dictionaries to use as a features")
+  val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")

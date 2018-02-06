@@ -1,13 +1,12 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, REGEX}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MatchStrategy
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, DocumentAssembler}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 
 /**
   * Matches regular expressions and maps them to specified values optionally provided
@@ -25,7 +24,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  val rules: Param[Array[(String, String)]] = new Param(this, "rules", "Array of rule strings separated by commas")
+  val rules: ArrayFeature[(String, String)] = new ArrayFeature[(String, String)](this, "rules")
 
   val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
@@ -37,7 +36,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   def setRules(value: Array[(String, String)]): this.type = set(rules, value)
 
-  def getRules: Array[(String, String)] = $(rules)
+  def getRules: Array[(String, String)] = $$(rules)
 
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
@@ -48,7 +47,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   lazy private val matchFactory = RuleFactory
     .lateMatching(TransformStrategy.NO_TRANSFORM)(getFactoryStrategy)
-    .setRules($(rules).map(r => new RegexRule(r._1, r._2)))
+    .setRules($$(rules).map(r => new RegexRule(r._1, r._2)))
 
   /** one-to-many annotation that returns matches as annotations*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
@@ -67,4 +66,4 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
   }
 }
 
-object RegexMatcherModel extends DefaultParamsReadable[RegexMatcherModel]
+object RegexMatcherModel extends ParamsAndFeaturesReadable[RegexMatcherModel]

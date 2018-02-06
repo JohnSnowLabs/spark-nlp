@@ -30,11 +30,11 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
 
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {
-        case WordEmbeddingsFormat.Text =>
+        case WordEmbeddingsFormat.TEXT =>
           WordEmbeddingsIndexer.indexText(wordEmbeddingsFile, fileDb)
-        case WordEmbeddingsFormat.Binary =>
+        case WordEmbeddingsFormat.BINARY =>
           WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
-        case WordEmbeddingsFormat.SparkNlp =>
+        case WordEmbeddingsFormat.SPARKNLP =>
           fileDb = wordEmbeddingsFile
       }
     }

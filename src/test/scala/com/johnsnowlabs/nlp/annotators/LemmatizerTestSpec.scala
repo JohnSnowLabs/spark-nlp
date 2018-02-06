@@ -12,7 +12,7 @@ import org.scalatest._
   */
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
-  SparkAccessor.spark
+  require(Some(SparkAccessor).isDefined)
 
   val lemmatizer = new Lemmatizer
   "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" in {

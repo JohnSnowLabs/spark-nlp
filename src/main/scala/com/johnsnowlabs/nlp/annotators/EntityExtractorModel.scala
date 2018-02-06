@@ -2,9 +2,9 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.serialization.ArrayFeature
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -20,11 +20,11 @@ class EntityExtractorModel(override val uid: String) extends AnnotatorModel[Enti
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  val parsedEntities = new Param[Array[Array[String]]](this, "parsedEntities", "list of phrases")
+  val parsedEntities = new ArrayFeature[Array[String]](this, "parsedEntities")
 
   def setEntities(value: Array[Array[String]]): this.type = set(parsedEntities, value)
 
-  lazy val searchTrie = SearchTrie.apply($(parsedEntities))
+  lazy val searchTrie = SearchTrie.apply($$(parsedEntities))
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
@@ -63,4 +63,4 @@ class EntityExtractorModel(override val uid: String) extends AnnotatorModel[Enti
 
 }
 
-object EntityExtractorModel extends DefaultParamsReadable[EntityExtractorModel]
+object EntityExtractorModel extends ParamsAndFeaturesReadable[EntityExtractorModel]

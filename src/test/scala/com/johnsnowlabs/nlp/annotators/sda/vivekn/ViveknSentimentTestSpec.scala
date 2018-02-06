@@ -61,8 +61,8 @@ class ViveknSentimentTestSpec extends FlatSpec {
     val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveCorpus(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeCorpus(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
 
     val pipeline = new Pipeline()
