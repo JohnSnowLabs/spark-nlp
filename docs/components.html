@@ -540,10 +540,6 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
-                                                    setMaxLen(number): Maximum amount of words to look from relative
-                                                    position
-                                                </li>
-                                                <li>
                                                     setRequireSentences(false): Enable require SBD and utilizes sentence
                                                     boundaries for better precision
                                                 </li>
@@ -575,10 +571,6 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Input:</b> hello world, I am looking for you<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
-                                                <li>
-                                                    setMaxLen(number): Maximum amount of words to look from relative
-                                                    position
-                                                </li>
                                                 <li>
                                                     setRequireSentences(false): Enable require SBD and utilizes sentence
                                                     boundaries for better precision
@@ -1067,10 +1059,10 @@ documentAssembler = new DocumentAssembler()
                                                   setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
                                                   path - word embeddings file
                                                   nDims - number of word embeddings dimentions
-                                                  format - format of word embeddings files:
-                                                  1 - spark-nlp format.
-                                                  2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
-                                                  3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                                  format - format of word embeddings files from com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat:
+                                                  SparkNlp -> For Spark-NLP own embeddings format file
+                                                  Text -> This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
+                                                  Binary -> This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
                                                 </li>
                                                 <li>
                                                   setDicts: Array of additional dictionary paths to use as features. A dict .txt files is a line separated file that has something like this: Volvo:ORG
