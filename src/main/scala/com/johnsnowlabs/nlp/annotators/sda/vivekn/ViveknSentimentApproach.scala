@@ -1,7 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
+import java.io.FileNotFoundException
+
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, listResourceDirectory}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -24,12 +28,10 @@ class ViveknSentimentApproach(override val uid: String)
     * Tokenization to make sure tokens are within bounds
     * Transitivity requirements are also required
     */
-  val positiveSourcePath = new Param[String](this, "positiveSource", "source file for positive sentences")
-  val negativeSourcePath = new Param[String](this, "negativeSource", "source file for negative sentences")
+  val positiveSource = new ExternalResourceParam(this, "positiveSource", "positive sentiment file or folder")
+  val negativeSource = new ExternalResourceParam(this, "negativeSource", "negative sentiment file or folder")
   val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
-  val tokenPattern = new Param[String](this, "tokenPattern", "Regex pattern to use in tokenization of corpus. Defaults \\S+")
   setDefault(pruneCorpus, 1)
-  setDefault(tokenPattern, "\\S+")
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
@@ -37,26 +39,28 @@ class ViveknSentimentApproach(override val uid: String)
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  def setPositiveSourcePath(value: String): this.type = set(positiveSourcePath, value)
+  def setPositiveCorpus(value: ExternalResource): this.type = {
+    require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
+    set(positiveSource, value)
+  }
 
-  def setNegativeSourcePath(value: String): this.type = set(negativeSourcePath, value)
+  def setNegativeCorpus(value: ExternalResource): this.type = {
+    require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
+    set(negativeSource, value)
+  }
 
   def setCorpusPrune(value: Int): this.type = set(pruneCorpus, value)
 
-  def setTokenPattern(value: String): this.type = set(tokenPattern, value)
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ViveknSentimentModel = {
 
-    val fromPositive: (MMap[String, Int], MMap[String, Int]) = ResourceHelper.ViveknWordCount(
-      source=$(positiveSourcePath),
-      tokenPattern=$(tokenPattern),
+    val fromPositive: (MMap[String, Int], MMap[String, Int]) = ViveknSentimentApproach.ViveknWordCount(
+      er=$(positiveSource),
       prune=$(pruneCorpus),
       f=w => ViveknSentimentApproach.negateSequence(w)
     )
 
-    val (negative, positive) = ResourceHelper.ViveknWordCount(
-      source=$(negativeSourcePath),
-      tokenPattern=$(tokenPattern),
+    val (negative, positive) = ViveknSentimentApproach.ViveknWordCount(
+      er=$(negativeSource),
       prune=$(pruneCorpus),
       f=w => ViveknSentimentApproach.negateSequence(w),
       fromPositive._2,
@@ -127,4 +131,45 @@ private object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSenti
     })
     result.toList
   }
+
+  private[vivekn] def ViveknWordCount(
+                       er: ExternalResource,
+                       prune: Int,
+                       f: (List[String] => List[String]),
+                       left: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0),
+                       right: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0)
+                     ): (MMap[String, Int], MMap[String, Int]) = {
+    val regex = er.options("tokenPattern").r
+    val prefix = "not_"
+    val sourceStream = SourceStream(er.path)
+    if (sourceStream.isResourceFolder) {
+      try {
+        listResourceDirectory(er.path)
+            .map(filename => ViveknWordCount(ExternalResource(filename.toString, er.readAs, er.options), prune, f, left, right))
+      } catch {
+        case _: NullPointerException =>
+          sourceStream
+            .content
+            .getLines()
+            .map(fileName => ViveknWordCount(ExternalResource(er.path + "/" + fileName, er.readAs, er.options), prune, f, left, right))
+            .toArray
+          sourceStream.close()
+      }
+    } else {
+      sourceStream.content.getLines.foreach(line => {
+        val words = regex.findAllMatchIn(line).map(_.matched).toList
+        f.apply(words).foreach(w => {
+          left(w) += 1
+          right(prefix + w) += 1
+        })
+      })
+      sourceStream.close()
+    }
+    if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
+    if (prune > 0)
+      (left.filter{case (_, v) => v > 1}, right.filter{case (_, v) => v > 1})
+    else
+      (left, right)
+  }
+
 }

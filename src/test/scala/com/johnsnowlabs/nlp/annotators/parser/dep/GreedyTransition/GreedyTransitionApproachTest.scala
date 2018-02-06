@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
 import com.johnsnowlabs.nlp.annotators.common.PosTagged
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, ContentProvider, DataBuilder}
 import org.scalatest.FlatSpec
 
@@ -30,7 +31,7 @@ class GreedyTransitionApproachTest extends FlatSpec {
     val f = fixture
     val sentences = PosTagged.unpack(f.sentenceAnnotation ++ f.tokenAnnotations ++ f.posTagAnnotations)
     for (sentence <- sentences) {
-      assert(f.model.parse(sentence, "src/test/resources/models/dep-model.txt").tokens.length == sentence.indexedTaggedWords.length)
+      assert(f.model.parse(sentence, ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String])).tokens.length == sentence.indexedTaggedWords.length)
     }
   }
 }

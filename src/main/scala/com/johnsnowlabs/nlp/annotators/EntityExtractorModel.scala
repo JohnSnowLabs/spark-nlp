@@ -10,7 +10,7 @@ import scala.collection.mutable.ArrayBuffer
 
 /**
   * Extracts entities out of provided phrases
-  * @param uid internally required UID to make it writable
+  * @param uid internally renquired UID to make it writable
   * @@ entitiesPath: Path to file with phrases to search
   * @@ insideSentences: Should Extractor search only within sentence borders?
   */
@@ -20,11 +20,11 @@ class EntityExtractorModel(override val uid: String) extends AnnotatorModel[Enti
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  val entities = new Param[Array[Array[String]]](this, "entities", "list of phrases")
+  val parsedEntities = new Param[Array[Array[String]]](this, "parsedEntities", "list of phrases")
 
-  def setEntities(value: Array[Array[String]]): this.type = set(entities, value)
+  def setEntities(value: Array[Array[String]]): this.type = set(parsedEntities, value)
 
-  lazy val searchTrie = SearchTrie.apply($(entities))
+  lazy val searchTrie = SearchTrie.apply($(parsedEntities))
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))

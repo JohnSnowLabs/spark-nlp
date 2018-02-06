@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
 import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -22,20 +22,14 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
 
   override val description: String = "Retrieves the significant part of a word"
 
-  val lemmaDictPath: Param[String] = new Param[String](this, "lemmaDictPath", "path to lemma dictionary")
+  val dictionary: ExternalResourceParam = new ExternalResourceParam(this, "dictionary", "lemmatizer external dictionary." +
+    " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text")
 
-  val lemmaFormat: Param[String] = new Param[String](this, "lemmaFormat", "TXT or TXTDS for reading dictionary as dataset")
-
-  val lemmaKeySep: Param[String] = new Param[String](this, "lemmaKeySep", "lemma dictionary key separator")
-
-  val lemmaValSep: Param[String] = new Param[String](this, "lemmaValSep", "lemma dictionary value separator")
-
-  setDefault(
-    lemmaDictPath -> "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
-    lemmaFormat -> "TXT",
-    lemmaKeySep -> "->",
-    lemmaValSep -> "\t"
-  )
+  setDefault(dictionary, ExternalResource(
+    "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
+    ReadAs.LINE_BY_LINE,
+    options = Map("keyDelimiter" -> "->", "valueDelimiter" -> "\t")
+  ))
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -43,24 +37,17 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))
 
-  def getLemmaDictPath: String = $(lemmaDictPath)
-  def getLemmaFormat: String = $(lemmaFormat)
-  def getLemmaKeySep: String = $(lemmaKeySep)
-  def getLemmaValSep: String = $(lemmaValSep)
+  def getDictionary: ExternalResource = $(dictionary)
 
-  def setLemmaDictPath(value: String): this.type = set(lemmaDictPath, value)
-  def setLemmaFormat(value: String): this.type = set(lemmaFormat, value)
-  def setLemmaKeySep(value: String): this.type = set(lemmaKeySep, value)
-  def setLemmaValSep(value: String): this.type = set(lemmaValSep, value)
+  def setDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("keyDelimiter") && value.options.contains("valueDelimiter"),
+      "Lemmatizer dictionary requires options with 'keyDelimiter' and 'valueDelimiter'")
+    set(dictionary, value)
+  }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
     new LemmatizerModel()
-      .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys(
-        $(lemmaDictPath),
-        $(lemmaFormat).toUpperCase,
-        $(lemmaKeySep),
-        $(lemmaValSep))
-      )
+      .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
   }
 
 }

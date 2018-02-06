@@ -2,8 +2,9 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.ExternalResource
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -12,9 +13,9 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
-  val sourcePath = new Param[String](this, "sourcePath", "source file for dependency model")
+  val source = new ExternalResourceParam(this, "source", "source file for dependency model")
 
-  def setSourcePath(value: String): this.type = set(sourcePath, value)
+  def setSource(value: ExternalResource): this.type = set(source, value)
 
   override val annotatorType = DEPENDENCY
 
@@ -22,7 +23,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
     new DependencyParserModel()
-      .setSourcePath($(sourcePath))
+      .setSourcePath($(source))
   }
 }
 

@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -15,10 +15,10 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
-      val trainingSentences = PerceptronApproach.retrievePOSCorpus(trainingSentencesPath, "TXT", '|')
+      val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       val nIterations = 5
       val tagger = new PerceptronApproach()
-        .setCorpusPath(trainingSentencesPath)
+        .setCorpus(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(DataBuilder.basicDataBuild("dummy"))
       val model = tagger.getModel
       val nWords = trainingSentences.map(_.words.length).sum

@@ -2,7 +2,8 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -25,18 +26,16 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
-  val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
-  setDefault(corpusPath, "/anc-pos-corpus/")
-  val wordTagSeparator = new Param[String](this, "wordTagSeparator", "word tag separator")
-  setDefault(wordTagSeparator, "|")
-  val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
-  setDefault(corpusFormat, "TXT")
+  val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
+
+  setDefault(corpus, ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, options=Map("delimiter" -> "|")))
   setDefault(nIterations, 5)
 
-  def setCorpusPath(value: String): this.type = set(corpusPath, value)
-
-  def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
+  def setCorpus(value: ExternalResource): this.type = {
+    require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
+    set(corpus, value)
+  }
 
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
@@ -85,7 +84,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusFormat), $(wordTagSeparator).head)
+    val taggedSentences: Array[TaggedSentence] = ResourceHelper.parseTupleSentences($(corpus))
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -148,22 +147,6 @@ object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
   private[perceptron] val END = Array("-END-", "-END2-")
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
-
-  /**
-    * Retrieves Corpuses from configured compiled directory set in configuration
-    * @return TaggedSentences for POS training
-    */
-  private[perceptron] def retrievePOSCorpus(
-                                   posDirOrFilePath: String,
-                                   corpusFormat: String,
-                                   separator: Char
-                                 ): Array[TaggedSentence] = {
-    val result = ResourceHelper.parseTupleSentences(posDirOrFilePath, corpusFormat, separator)
-    if (result.isEmpty) throw new Exception(s"Empty corpus for POS in $posDirOrFilePath")
-    result
-  }
-
-
 
   /**
     * Specific normalization rules for this POS Tagger to avoid unnecessary tagging

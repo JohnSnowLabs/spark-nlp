@@ -10,6 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -63,7 +64,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-      .setLemmaDictPath("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
     val tokenized = withTokenizer(dataset)
     lemmatizer.fit(dataset).transform(tokenized)
   }
@@ -71,7 +71,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
       .setInputCols("normalized")
-      .setEntitiesPath("/entity-extractor/test-phrases.txt")
+      .setEntities(ExternalResource("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setOutputCol("entity")
     val data = withFullNormalizer(
       withTokenizer(dataset, sbd), lowerCase)
@@ -89,14 +89,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new PerceptronApproach()
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("pos")
-      .setCorpusPath("/anc-pos-corpus-small/")
+      .setCorpus(ExternalResource("/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
       .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setRulesPath("/regex-matcher/rules.txt")
+      .setExternalRules(ExternalResource("/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
@@ -120,7 +120,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictPath("/sentiment-corpus/default-sentiment-dict.txt")
+      .setDictionary(ExternalResource("/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -128,8 +128,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSourcePath("/vivekn/positive/1.txt")
-      .setNegativeSourcePath("/vivekn/negative/1.txt")
+      .setPositiveCorpus(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeCorpus(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
@@ -139,9 +139,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
-      .setDictPath("./src/main/resources/spell/words.txt")
-      .setCorpusPath("./src/test/resources/spell/sherlockholmes.txt")
-      .setCorpusFormat(inputFormat)
+      .setCorpus(ExternalResource("./src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
   }
 
@@ -150,7 +148,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setSourcePath("src/test/resources/models/dep-model.txt")
+      .setSource(ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .fit(df)
       .transform(df)
   }
@@ -169,7 +167,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+      .setExternalDataset(ExternalResource("src/test/resources/ner-corpus/test_ner_dataset.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
       .setC0(34)
       .setL2(3.0)

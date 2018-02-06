@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 import com.johnsnowlabs.nlp.AnnotatorType.SENTIMENT
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 import scala.language.reflectiveCalls
 
@@ -18,7 +18,7 @@ trait PragmaticSentimentBehaviors { this: FlatSpec =>
 
   def isolatedSentimentDetector(tokenizedSentences: Array[TokenizedSentence], expectedScore: Double): Unit = {
     s"tagged sentences" should s"have an expected score of $expectedScore" in {
-      val pragmaticScorer = new PragmaticScorer(ResourceHelper.parseKeyValueText("/sentiment-corpus/default-sentiment-dict.txt", "txt", ","))
+      val pragmaticScorer = new PragmaticScorer(ResourceHelper.parseKeyValueText(ExternalResource("/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ","))))
       val result = pragmaticScorer.score(tokenizedSentences)
       assert(result == expectedScore, s"because result: $result did not match expected: $expectedScore")
     }

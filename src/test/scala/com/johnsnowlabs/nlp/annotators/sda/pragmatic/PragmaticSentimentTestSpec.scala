@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -26,7 +27,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
-      .setDictPath("/entity-extractor/test-phrases.txt")
+      .setDictionary(ExternalResource("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .fit(readyData)
       .transform(readyData)
 
@@ -74,7 +75,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
   )
 
   "A SentimentDetector" should "be readable and writable" in {
-    val sentimentDetector = new SentimentDetector().setDictPath("/sentiment-corpus/default-sentiment-dict.txt").fit(DataBuilder.basicDataBuild("dummy"))
+    val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)
