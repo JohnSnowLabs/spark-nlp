@@ -1,9 +1,8 @@
-from sparknlp.common import ConfigLoaderGetter, ConfigLoaderSetter
+import sparknlp.internal as _internal
 
 
 def get_config_path():
-    return ConfigLoaderGetter()()
-
+    return _internal._ConfigLoaderGetter().apply()
 
 def set_config_path(path):
-    ConfigLoaderSetter(path)()
+    _internal._ConfigLoaderSetter(path).apply()

@@ -39,12 +39,12 @@ class ViveknSentimentApproach(override val uid: String)
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  def setPositiveCorpus(value: ExternalResource): this.type = {
+  def setPositiveSource(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
     set(positiveSource, value)
   }
 
-  def setNegativeCorpus(value: ExternalResource): this.type = {
+  def setNegativeSource(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
     set(negativeSource, value)
   }

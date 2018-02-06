@@ -20,3 +20,9 @@ case class ExternalResource(
   }
 
 }
+object ExternalResource {
+  import scala.collection.JavaConverters._
+  def fromJava(path: String, readAs: String, options: java.util.HashMap[String, String]): ExternalResource = {
+    ExternalResource(path, readAs, options.asScala.toMap)
+  }
+}

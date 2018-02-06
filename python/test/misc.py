@@ -8,7 +8,7 @@ class UtilitiesTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
         regex_rule = RegexRule("\\w+", "word split")
-        print(regex_rule().rule())
+        print(regex_rule.rule())
 
 
 class ConfigPathTestSpec(unittest.TestCase):

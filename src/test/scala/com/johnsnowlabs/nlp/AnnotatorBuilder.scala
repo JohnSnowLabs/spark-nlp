@@ -96,11 +96,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setExternalRules(ExternalResource("/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setRules(ExternalResource("/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
-    if (rules.nonEmpty) regexMatcher.setRules(rules)
     regexMatcher.fit(dataset).transform(dataset)
   }
 
@@ -128,8 +127,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveCorpus(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeCorpus(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
@@ -168,7 +167,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setMinEpochs(1)
       .setMaxEpochs(3)
       .setExternalDataset(ExternalResource("src/test/resources/ner-corpus/test_ner_dataset.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
-      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
@@ -214,7 +213,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setReg(0.01)
       .setBefore(11)
       .setAfter(13)
-      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.TEXT)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
     pipeline

@@ -70,7 +70,7 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
       .setOutputCol("assertion")
       .setBefore(11)
       .setAfter(13)
-      .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)
+      .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.BINARY)
 
     Array(documentAssembler,
       assertionStatus)

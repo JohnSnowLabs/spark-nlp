@@ -61,7 +61,7 @@ object CoNLL2003PipelineTest extends App {
       .setRandomSeed(100)
       .setMaxEpochs(20)
       .setOutputCol("ner")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
     getPosStages() :+ nerTagger
   }

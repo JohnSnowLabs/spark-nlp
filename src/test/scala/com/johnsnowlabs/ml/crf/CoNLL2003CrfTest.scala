@@ -28,7 +28,7 @@ object CoNLL2003CrfTest extends App {
   val reader = new CoNLL2003NerReader(
     embeddingsFile,
     embeddingsDims,
-    WordEmbeddingsFormat.Text,
+    WordEmbeddingsFormat.TEXT,
     Some(ExternalResource("/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
   )
 
