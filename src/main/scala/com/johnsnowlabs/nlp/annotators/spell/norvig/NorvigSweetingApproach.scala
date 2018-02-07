@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -51,19 +51,24 @@ class NorvigSweetingApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("SPELL"))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
-    val loadWords = ResourceHelper.wordCount($(dictionary))
-    val corpusWordCount =
+    val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
+    val corpusWordCount: Map[String, Long] =
       if (get(corpus).isDefined) {
-        ResourceHelper.wordCount($(corpus))
+        ResourceHelper.wordCount($(corpus)).toMap
       } else {
-      Map.empty[String, Int]
+        import ResourceHelper.spark.implicits._
+        dataset.select($(inputCols).head).as[Array[Annotation]]
+          .flatMap(_.map(_.result))
+          .groupBy("value").count
+          .as[(String, Long)]
+          .collect.toMap
       }
     val loadSlangs = if (get(slangDictionary).isDefined)
       ResourceHelper.parseKeyValueText($(slangDictionary))
     else
       Map.empty[String, String]
     new NorvigSweetingModel()
-      .setWordCount(loadWords.toMap ++ corpusWordCount)
+      .setWordCount(loadWords ++ corpusWordCount)
       .setCustomDict(loadSlangs)
       .setDoubleVariants($(doubleVariants))
       .setCaseSensitive($(caseSensitive))

@@ -2,10 +2,11 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import java.io.FileNotFoundException
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, listResourceDirectory}
+import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -28,6 +29,7 @@ class ViveknSentimentApproach(override val uid: String)
     * Tokenization to make sure tokens are within bounds
     * Transitivity requirements are also required
     */
+  val sentimentCol = new Param[String](this, "sentimentCol", "column with the sentiment result of every row. Must be 'positive' or 'negative'")
   val positiveSource = new ExternalResourceParam(this, "positiveSource", "positive sentiment file or folder")
   val negativeSource = new ExternalResourceParam(this, "negativeSource", "negative sentiment file or folder")
   val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
@@ -38,6 +40,8 @@ class ViveknSentimentApproach(override val uid: String)
   override val annotatorType: AnnotatorType = SENTIMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+
+  def setSentimentCol(value: String): this.type = set(sentimentCol, value)
 
   def setPositiveSource(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
@@ -53,19 +57,45 @@ class ViveknSentimentApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ViveknSentimentModel = {
 
-    val fromPositive: (MMap[String, Int], MMap[String, Int]) = ViveknSentimentApproach.ViveknWordCount(
-      er=$(positiveSource),
-      prune=$(pruneCorpus),
-      f=w => ViveknSentimentApproach.negateSequence(w)
-    )
+    val (positive, negative): (Map[String, Long], Map[String, Long]) = {
+      if (get(sentimentCol).isDefined) {
+        import ResourceHelper.spark.implicits._
+        val positiveDS = new MapAccumulator()
+        val negativeDS = new MapAccumulator()
+        val prefix = "not_"
+        val tokenColumn = dataset.schema.fields
+          .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
+          .map(_.name).get
 
-    val (negative, positive) = ViveknSentimentApproach.ViveknWordCount(
-      er=$(negativeSource),
-      prune=$(pruneCorpus),
-      f=w => ViveknSentimentApproach.negateSequence(w),
-      fromPositive._2,
-      fromPositive._1
-    )
+        dataset.select(tokenColumn, $(sentimentCol)).as[(Array[Annotation], String)].foreach(tokenSentiment => {
+          ViveknSentimentApproach.negateSequence(tokenSentiment._1.map(_.result).toList).foreach(w => {
+            if (tokenSentiment._2 == "positive") {
+              positiveDS.add(w, 1)
+              negativeDS.add(prefix + w, 1)
+            } else if (tokenSentiment._2 == "negative") {
+              negativeDS.add(w, 1)
+              positiveDS.add(prefix + w, 1)
+            }
+          })
+        })
+        (positiveDS.value.withDefaultValue(0), negativeDS.value.withDefaultValue(0))
+      } else {
+        val fromNegative: (MMap[String, Long], MMap[String, Long]) = ViveknSentimentApproach.ViveknWordCount(
+          er=$(negativeSource),
+          prune=$(pruneCorpus),
+          f=w => ViveknSentimentApproach.negateSequence(w)
+        )
+
+        val (mpos, mneg) = ViveknSentimentApproach.ViveknWordCount(
+          er=$(positiveSource),
+          prune=$(pruneCorpus),
+          f=w => ViveknSentimentApproach.negateSequence(w),
+          fromNegative._2,
+          fromNegative._1
+        )
+        (mpos.toMap.withDefaultValue(0), mneg.toMap.withDefaultValue(0))
+      }
+    }
 
     val positiveTotals = positive.values.sum
     val negativeTotals = negative.values.sum
@@ -95,8 +125,8 @@ class ViveknSentimentApproach(override val uid: String)
     val words = (positive.keys ++ negative.keys).toArray.distinct.sortBy(- mutualInformation(_))
 
     new ViveknSentimentModel()
-      .setPositive(positive.toMap)
-      .setNegative(negative.toMap)
+      .setPositive(positive)
+      .setNegative(negative)
       .setPositiveTotals(positiveTotals)
       .setNegativeTotals(negativeTotals)
       .setWords(words)
@@ -133,19 +163,19 @@ private object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSenti
   }
 
   private[vivekn] def ViveknWordCount(
-                       er: ExternalResource,
-                       prune: Int,
-                       f: (List[String] => List[String]),
-                       left: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0),
-                       right: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0)
-                     ): (MMap[String, Int], MMap[String, Int]) = {
+                                       er: ExternalResource,
+                                       prune: Int,
+                                       f: (List[String] => List[String]),
+                                       left: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                                       right: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
+                                     ): (MMap[String, Long], MMap[String, Long]) = {
     val regex = er.options("tokenPattern").r
     val prefix = "not_"
     val sourceStream = SourceStream(er.path)
     if (sourceStream.isResourceFolder) {
       try {
         listResourceDirectory(er.path)
-            .map(filename => ViveknWordCount(ExternalResource(filename.toString, er.readAs, er.options), prune, f, left, right))
+          .map(filename => ViveknWordCount(ExternalResource(filename.toString, er.readAs, er.options), prune, f, left, right))
       } catch {
         case _: NullPointerException =>
           sourceStream

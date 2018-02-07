@@ -48,8 +48,19 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     targetSentencesFromWsjResult
   )
 
-  "a spark based pragmatic detector" should behave like sparkBasedPOSTagger(
+  "a spark based pos detector" should behave like sparkBasedPOSTagger(
     DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
+  )
+
+  "a spark trained pos detector" should behave like sparkBasedPOSTraining(
+    Array(
+      "first sentence example",
+      "second something going"
+    ),
+    Array(
+      Array("NNP", "VBZ", "IN"),
+      Array("NN", "MD", "NNP")
+    )
   )
 
   "A Perceptron Tagger" should "be readable and writable" in {
