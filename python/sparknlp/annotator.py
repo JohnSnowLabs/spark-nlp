@@ -269,6 +269,11 @@ class EntityExtractorModel(AnnotatorModel):
 
 
 class PerceptronApproach(AnnotatorApproach):
+    posCol = Param(Params._dummy(),
+                   "posCol",
+                   "column of Array of POS tags that match tokens",
+                   typeConverter=TypeConverters.toString)
+
     corpus = Param(Params._dummy(),
                        "corpus",
                        "POS tags delimited corpus. Needs 'delimiter' in options",
@@ -282,6 +287,9 @@ class PerceptronApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
+
+    def setPosCol(self, value):
+        return self._set(posCol=value)
 
     def setCorpus(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "delimiter": "|"}.copy()):
         return self._set(corpus=ExternalResource(path, read_as, options))
@@ -344,6 +352,11 @@ class SentimentDetectorModel(AnnotatorModel):
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
+    sentimentCol = Param(Params._dummy(),
+                           "sentimentCol",
+                           "column with the sentiment result of every row. Must be 'positive' or 'negative'",
+                           typeConverter=TypeConverters.toString)
+
     positiveSource = Param(Params._dummy(),
                      "positiveSource",
                      "positive sentiment file or folder",
@@ -362,6 +375,9 @@ class ViveknSentimentApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(ViveknSentimentApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach")
+
+    def setSentimentCol(self, value):
+        return self._set(sentimentCol=value)
 
     def setPositiveSource(self, path=None, read_as="LINE_BY_LINE", options={"format": "text", "tokenPattern": "\S+"}.copy()):
         return self._set(positiveSource=ExternalResource(path, read_as, options))

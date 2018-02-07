@@ -312,8 +312,8 @@ object ResourceHelper {
 
   def wordCount(
                  er: ExternalResource,
-                 m: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0)
-               ): MMap[String, Int] = {
+                 m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
+               ): MMap[String, Long] = {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -346,7 +346,7 @@ object ResourceHelper {
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val wordCount = MMap.empty[String, Int].withDefaultValue(0)
+        val wordCount = MMap.empty[String, Long].withDefaultValue(0)
         val documentAssembler = new DocumentAssembler()
           .setInputCol("value")
         val tokenizer = new Tokenizer()

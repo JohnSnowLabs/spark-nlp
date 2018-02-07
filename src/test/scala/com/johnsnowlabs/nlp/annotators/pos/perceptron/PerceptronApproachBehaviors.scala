@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -97,4 +97,21 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       }
     }
   }
+
+  def sparkBasedPOSTraining(rows: Array[String], tags: Array[Array[String]]): Unit = {
+    it should "successfully train from a POS Column" in {
+      import SparkAccessor.spark.implicits._
+      val data = AnnotatorBuilder.withDocumentAssembler(
+        SparkAccessor.spark.sparkContext.parallelize(rows.zip(tags)).toDF("text", "tags")
+      )
+      val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
+      val trainedPos = new PerceptronApproach()
+        .setInputCols("document", "token")
+        .setOutputCol("pos")
+        .setPosColumn("tags")
+        .fit(tokenized)
+      trainedPos.transform(tokenized).show
+    }
+  }
+
 }

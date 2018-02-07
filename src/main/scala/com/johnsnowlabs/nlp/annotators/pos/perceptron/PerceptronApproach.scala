@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.slf4j.{Logger, LoggerFactory}
@@ -26,11 +26,14 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
+  val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
   val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
 
   setDefault(corpus, ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, options=Map("delimiter" -> "|")))
   setDefault(nIterations, 5)
+
+  def setPosColumn(value: String): this.type = set(posCol, value)
 
   def setCorpus(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
@@ -84,7 +87,26 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = ResourceHelper.parseTupleSentences($(corpus))
+    val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
+      import ResourceHelper.spark.implicits._
+      val tokenColumn = dataset.schema.fields
+        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
+        .map(_.name).get
+      dataset.select(tokenColumn, $(posCol))
+        .as[(Array[Annotation], Array[String])]
+        .map{
+          case (annotations, posTags) =>
+            lazy val strTokens = annotations.map(_.result).mkString("#")
+            lazy val strPosTags = posTags.mkString("#")
+            require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
+              s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+            TaggedSentence(annotations.zip(posTags)
+              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.start, annotation.end)}
+            )
+        }.collect
+    } else {
+      ResourceHelper.parseTupleSentences($(corpus))
+    }
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
