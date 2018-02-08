@@ -72,7 +72,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
         finisher
       ))
 
-    assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == 'this weekend'").count == 3)
+    assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

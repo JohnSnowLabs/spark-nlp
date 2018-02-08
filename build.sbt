@@ -7,7 +7,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.3.0"
+version := "1.4.0"
 
 scalaVersion := scalaVer
 
@@ -109,6 +109,9 @@ testOptions in Test += Tests.Argument("-oF")
 
 /** Disables tests in assembly */
 test in assembly := {}
+
+/** Publish test artificat **/
+publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
