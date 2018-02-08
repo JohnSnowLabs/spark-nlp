@@ -102,7 +102,4 @@ object PragmaticScorer {
   def py4jHelper(javaSentimentDict: java.util.HashMap[String, String]): PragmaticScorer = {
     new PragmaticScorer(javaSentimentDict.asScala.toMap)
   }
-  def fromPath(overridePath: String, sentFormat: String, sentSeparator: String) {
-    new PragmaticScorer(SentimentDetector.retrieveSentimentDict(overridePath, sentFormat.toUpperCase, sentSeparator))
-  }
 }

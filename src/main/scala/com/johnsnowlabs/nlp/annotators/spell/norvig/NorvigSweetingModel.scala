@@ -22,7 +22,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
   private val vowels = "aeiouy".toCharArray
 
-  protected val wordCount: MapFeature[String, Int] = new MapFeature(this, "wordCount")
+  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
   protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
@@ -41,10 +41,10 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  def setWordCount(value: Map[String, Int]): this.type = set(wordCount, value)
+  def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
   def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
 
-  protected def getWordCount: Map[String, Int] = $$(wordCount)
+  protected def getWordCount: Map[String, Long] = $$(wordCount)
   protected def getCustomDict: Map[String, String] = $$(customDict)
 
   /** Utilities */
@@ -96,11 +96,11 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   /** retrieve frequency */
-  private def frequency(word: String, wordCount: Map[String, Int]): Int = {
+  private def frequency(word: String, wordCount: Map[String, Long]): Long = {
     wordCount.getOrElse(word, 0)
   }
 
-  private def compareFrequencies(value: String): Int = frequency(value, $$(wordCount))
+  private def compareFrequencies(value: String): Long = frequency(value, $$(wordCount))
   private def compareHammers(input: String)(value: String): Int = hammingDistance(input, value)
 
   /** Posibilities analysis */

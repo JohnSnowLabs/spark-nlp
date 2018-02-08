@@ -9,6 +9,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
 
@@ -18,9 +19,9 @@ import scala.collection.mutable
 object CoNLL2003PipelineTest extends App {
   val folder = "./"
 
-  val trainFile = folder + "eng.train"
-  val testFileA = folder + "eng.testa"
-  val testFileB = folder + "eng.testb"
+  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
 
   val nerReader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
   val posReader = CoNLL(targetColumn = 1, annotatorType = AnnotatorType.POS)
@@ -40,7 +41,6 @@ object CoNLL2003PipelineTest extends App {
       .setOutputCol("token")
 
     val posTagger = new PerceptronApproach()
-      .setCorpusPath("anc-pos-corpus/")
       .setNIterations(10)
       .setInputCols("token", "document")
       .setOutputCol("pos")
@@ -56,20 +56,20 @@ object CoNLL2003PipelineTest extends App {
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
-      .setDatasetPath("eng.train")
+      .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(20)
       .setOutputCol("ner")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
     getPosStages() :+ nerTagger
   }
 
-  def trainPosModel(file: String): PipelineModel = {
+  def trainPosModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = posReader.readDataset(file, SparkAccessor.spark)
+    val dataset = posReader.readDataset(er, SparkAccessor.spark)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -82,10 +82,10 @@ object CoNLL2003PipelineTest extends App {
     pipeline.fit(dataset)
   }
 
-  def trainNerModel(file: String): PipelineModel = {
+  def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(file, SparkAccessor.spark)
+    val dataset = nerReader.readDataset(er, SparkAccessor.spark)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -124,7 +124,7 @@ object CoNLL2003PipelineTest extends App {
     )
   }
 
-  def testDataset(file: String,
+  def testDataset(er: ExternalResource,
                   model: PipelineModel,
                   predictedColumn: String = "ner",
                   reader: CoNLL,
@@ -136,7 +136,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = reader.readDataset(file, SparkAccessor.spark)
+    val dataset = reader.readDataset(er, SparkAccessor.spark)
     val transformed = model.transform(dataset)
 
     val sentences = collect(transformed)

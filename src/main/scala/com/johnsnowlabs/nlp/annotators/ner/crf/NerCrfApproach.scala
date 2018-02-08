@@ -6,10 +6,12 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
+import com.johnsnowlabs.nlp.util.io.ExternalResource
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -41,13 +43,13 @@ class NerCrfApproach(override val uid: String)
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
 
-  val dicts = new StringArrayParam(this, "dicts", "Additional dictionary paths to use as a features")
+  val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
 
-  val datasetPath = new Param[String](this, "datasetPath", "Path to dataset. " +
-    "If path is empty will use dataset passed to train as usual Spark Pipeline stage")
+  val externalDataset = new ExternalResourceParam(this, "externalDataset", "Path to dataset. " +
+    "If not provided will use dataset passed to train as usual Spark Pipeline stage")
 
   def setLabelColumn(column: String) = set(labelColumn, column)
   def setEntities(tags: Array[String]) = set(entities, tags)
@@ -59,13 +61,13 @@ class NerCrfApproach(override val uid: String)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
   def setMinW(w: Double) = set(this.minW, w)
 
-  def setDicts(paths: Seq[String]) = set(dicts, paths.toArray)
+  def setExternalFeatures(value: ExternalResource) = set(externalFeatures, value)
 
   def setVerbose(verbose: Int) = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
-  def setDatasetPath(path: String) = set(datasetPath, path)
+  def setExternalDataset(path: ExternalResource) = set(externalDataset, path)
 
   setDefault(
     minEpochs -> 0,
@@ -79,11 +81,11 @@ class NerCrfApproach(override val uid: String)
 
   private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
 
-    if (!isDefined(datasetPath))
+    if (!isDefined(externalDataset))
       return dataset.toDF()
 
     val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-    val dataframe = reader.readDataset($(datasetPath), dataset.sparkSession).toDF
+    val dataframe = reader.readDataset($(externalDataset), dataset.sparkSession).toDF
 
     if (recursivePipeline.isDefined) {
       return recursivePipeline.get.transform(dataframe)
@@ -106,7 +108,6 @@ class NerCrfApproach(override val uid: String)
       .setOutputCol("token")
 
     val posTagger = new PerceptronApproach()
-      .setCorpusPath("anc-pos-corpus/")
       .setNIterations(5)
       .setInputCols("token", "document")
       .setOutputCol("pos")
@@ -129,9 +130,9 @@ class NerCrfApproach(override val uid: String)
 
     val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
 
-    val dictPaths = get(dicts).getOrElse(Array.empty[String])
-    val dictFeatures = DictionaryFeatures.read(dictPaths.toSeq)
-    val crfDataset = FeatureGenerator(dictFeatures, embeddings)
+    val extraFeatures = get(externalFeatures)
+    val dictFeatures = DictionaryFeatures.read(extraFeatures)
+    val crfDataset = FeatureGenerator(dictFeatures, embeddings())
       .generateDataset(trainDataset)
 
     val params = CrfParams(

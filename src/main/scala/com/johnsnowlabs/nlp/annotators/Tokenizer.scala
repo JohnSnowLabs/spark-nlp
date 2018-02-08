@@ -148,7 +148,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = tag(sentences)
-    Tokenized.pack(tokenized)
+    TokenizedWithSentence.pack(tokenized)
   }
 }
 

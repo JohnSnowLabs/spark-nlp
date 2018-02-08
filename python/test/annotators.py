@@ -1,9 +1,9 @@
 import unittest
+import os
 
-from pyspark.ml import Pipeline
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest, SparkContextForNER
+from test.util import SparkContextForTest
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -52,10 +52,10 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setRulesPath("../src/test/resources/regex-matcher/rules.txt") \
+            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
-        regex_matcher.transform(assembled).show()
+        regex_matcher.fit(assembled).transform(assembled).show()
 
 
 class LemmatizerTestSpec(unittest.TestCase):
@@ -72,10 +72,10 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("../src/test/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        lemmatizer.fit(tokenized).transform(tokenized).show()
 
 
 class NormalizerTestSpec(unittest.TestCase):
@@ -126,10 +126,11 @@ class EntityExtractorTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setOutputCol("token")
         entity_extractor = EntityExtractor() \
-            .setOutputCol("entity")
+            .setOutputCol("entity") \
+            .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        entity_extractor.transform(tokenized).show()
+        entity_extractor.fit(tokenized).transform(tokenized).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -150,7 +151,6 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setCorpusPath("../src/main/resources/anc-pos-corpus") \
             .setIterations(2) \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
@@ -193,17 +193,16 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("lemma") \
-            .setDictionary({"missed": "miss"})
+            .setOutputCol("lemma")
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictPath("../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        lemmatized = lemmatizer.transform(tokenized)
-        sentiment_detector.transform(lemmatized).show()
+        lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
+        sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
 
 class PipelineTestSpec(unittest.TestCase):
@@ -220,7 +219,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary({"sad": "unsad"})
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -228,12 +227,11 @@ class PipelineTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         token_before_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
         lemma_before_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        pipe_path = "./tmp_pipeline"
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
         pipeline.write().overwrite().save(pipe_path)
         loaded_pipeline = Pipeline.read().load(pipe_path)
         token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
         lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        print(token_before_save)
         assert token_before_save == "sad"
         assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save
@@ -255,7 +253,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
             .setOutputCol("spell") \
-            .setCorpusPath("../src/test/resources/spell/sherlockholmes.txt") \
+            .setCorpus("file:///" + os.getcwd() + "/../src/test/resources/spell/sherlockholmes.txt") \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
