@@ -65,7 +65,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
                             taggedSentences: Array[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
-                          ): Array[TaggedWord] = {
+                          ): Map[String, String] = {
 
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
@@ -79,8 +79,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     }.map { case (word, tagFrequencies) =>
       val (tag, _) = tagFrequencies.maxBy(_._2)
       logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
-      TaggedWord(word, tag)
-    }.toArray
+      (word, tag)
+    }
   }
 
   /**
@@ -118,8 +118,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         var prev2 = START(1)
         val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
-            val guess = taggedWordBook.find(_.word == word.toLowerCase).map(_.tag)
-              .getOrElse({
+            val guess = taggedWordBook.getOrElse(word.toLowerCase,{
                 /**
                   * if word is not found, collect its features which are used for prediction and predict
                   */
