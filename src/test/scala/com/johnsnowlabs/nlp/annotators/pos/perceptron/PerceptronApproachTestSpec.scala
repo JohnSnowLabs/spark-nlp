@@ -15,7 +15,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   val trainedTagger: PerceptronModel =
     new PerceptronApproach()
         .setNIterations(3)
-        .setCorpusLimit(5)
+        .setCorpusPath("/anc-pos-corpus-small/")
         .fit(DataBuilder.basicDataBuild("dummy"))
 
   // Works with high iterations only
@@ -52,7 +52,10 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   "A Perceptron Tagger" should "be readable and writable" in {
-    val perceptronTagger = new PerceptronApproach().setNIterations(1).fit(DataBuilder.basicDataBuild("dummy"))
+    val perceptronTagger = new PerceptronApproach()
+      .setNIterations(1)
+      .setCorpusPath("/anc-pos-corpus-small/")
+      .fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/perceptrontagger"
     try {
       perceptronTagger.write.overwrite.save(path)

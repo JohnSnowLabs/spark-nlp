@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import com.johnsnowlabs.nlp.annotators.common.{Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{TokenizedWithSentence, TokenizedSentence}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
-import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.util.ConfigLoader
 import com.typesafe.config.Config
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
@@ -12,7 +12,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  private val config: Config = ConfigHelper.retrieve
+  private val config: Config = ConfigLoader.retrieve
   private val importantFeatureRatio = config.getDouble("nlp.viveknSentiment.importantFeaturesRatio")
   private val unimportantFeatureStep = config.getDouble("nlp.viveknSentiment.unimportantFeaturesStepRatio")
   private val featureLimit = config.getInt("nlp.viveknSentiment.featuresLimit")
@@ -72,7 +72,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = Tokenized.unpack(annotations)
+    val sentences = TokenizedWithSentence.unpack(annotations)
 
     sentences.filter(s => s.indexedTokens.nonEmpty).map(sentence => {
       Annotation(
