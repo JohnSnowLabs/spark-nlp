@@ -43,25 +43,26 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-    var isResourceFolder: Boolean = false
+    def isResourceFolder = {
+      val r = Thread.currentThread.getContextClassLoader.getResource(resource.stripPrefix("/"))
+      if (r!= null) {
+        if (r.getProtocol == "file") new File(r.getPath).isDirectory
+        else false
+      } else false
+    }
+
     val pipe: Option[InputStream] =
       /** Check whether file exists within current jvm jar */
-      Option(getClass.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      })
+      Option(getClass.getResourceAsStream(resource))
         /** Check whether file exists within classLoader jar*/
-      .orElse(Option(getClass.getClassLoader.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      }))
+        .orElse(Option(getClass.getClassLoader.getResourceAsStream(resource)))
         /** Check whether it exists in file system */
-      .orElse(Option {
-        val path = new Path(resource)
-        val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-        val files = fs.listFiles(new Path(resource), true)
-        if (files.hasNext) inputStreamOrSequence(fs, files) else null
-      })
+        .orElse(Option {
+          val path = new Path(resource)
+          val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
+          val files = fs.listFiles(new Path(resource), true)
+          if (files.hasNext) inputStreamOrSequence(fs, files) else null
+        })
     val content: BufferedSource = pipe.map(p => {
       new BufferedSource(p)("UTF-8")
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
