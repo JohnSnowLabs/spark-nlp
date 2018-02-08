@@ -1,5 +1,7 @@
 val sparkVer = "2.1.2"
 val scalaVer = "2.11.11"
+val awsVer = "1.11.272"
+val json4sVer = "3.3.0"
 val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
@@ -84,7 +86,9 @@ lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.8.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",
-  "org.apache.commons" % "commons-compress" % "1.15"
+  "org.apache.commons" % "commons-compress" % "1.15",
+  "com.amazonaws" % "aws-java-sdk-bom" % awsVer,
+  "com.amazonaws" % "aws-java-sdk-s3" % awsVer
 )
 
 lazy val root = (project in file("."))
