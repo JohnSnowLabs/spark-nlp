@@ -12,7 +12,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
   override def unpack(annotations: Seq[Annotation]): Seq[T] = {
 
-    val tokenized = Tokenized.unpack(annotations)
+    val tokenized = TokenizedWithSentence.unpack(annotations)
     val tagAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
       .sortBy(a => a.start)

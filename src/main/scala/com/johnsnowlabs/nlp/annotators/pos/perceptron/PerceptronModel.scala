@@ -62,7 +62,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 
   /** One to one annotation standing from the Tokens perspective, to give each word a corresponding Tag */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokenizedSentences = Tokenized.unpack(annotations)
+    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
     val tagged = tag(tokenizedSentences.toArray)
     PosTagged.pack(tagged)
   }
