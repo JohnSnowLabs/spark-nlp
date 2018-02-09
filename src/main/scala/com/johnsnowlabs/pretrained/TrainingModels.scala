@@ -5,13 +5,13 @@ import java.nio.file.Paths
 import java.sql.Timestamp
 import java.util.Date
 
-import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
-import com.johnsnowlabs.util.{Build, PipelineModels, Version, ZipArchiveUtil}
+import com.johnsnowlabs.util.{PipelineModels, Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.util.DefaultParamsWritable
@@ -22,7 +22,8 @@ class EnModelsTraining(spark: SparkSession) {
 
   val language = Some("en")
   lazy val emptyDataset = PipelineModels.dummyDataset
-  lazy val libVersion = Some(Version.parse(Build.version))
+  // Train models for all spark-nlp versions 1.*
+  lazy val libVersion = Some(Version(1))
   lazy val sparkVersion = Some(Version.parse(spark.version).take(1))
 
   def trainAllAndSave(folder: String, clear: Boolean = true): Unit = {
@@ -92,8 +93,8 @@ class EnModelsTraining(spark: SparkSession) {
       .setDatasetPath("eng.train")
       .setC0(2250000)
       .setRandomSeed(100)
-      .setMaxEpochs(1)
-      .setMinW(0.001)
+      .setMaxEpochs(20)
+      .setMinW(0.01)
       .setOutputCol("ner")
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.Text)
 

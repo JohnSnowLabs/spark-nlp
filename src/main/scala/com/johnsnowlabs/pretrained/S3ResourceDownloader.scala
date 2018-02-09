@@ -7,15 +7,19 @@ import com.johnsnowlabs.util.{Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
 
-class S3ResourceDownloader(bucket: String = "dev.johnsnowlabs.com",
-                           s3Path: String = "spark-nlp-resolver-public",
-                           cacheFolder: String = "./models_cache",
+class S3ResourceDownloader(bucket: String,
+                           s3Path: String,
+                           cacheFolder: String,
                            region: String = "us-east-1")
   extends ResourceDownloader with AutoCloseable {
 
   var lastMetadataVersion: Option[String] = None
   var metadata = List.empty[ResourceMetadata]
   val metadataFile = Paths.get(s3Path, "metadata.json").toString
+
+   if (!new File(cacheFolder).exists()) {
+    FileUtils.forceMkdir(new File(cacheFolder))
+  }
 
   lazy val client = {
     val builder = AmazonS3ClientBuilder.standard()
@@ -27,6 +31,7 @@ class S3ResourceDownloader(bucket: String = "dev.johnsnowlabs.com",
     val obj = client.getObject(bucket, metadataFile)
     if (lastMetadataVersion.isEmpty || obj.getObjectMetadata.getVersionId != lastMetadataVersion.get) {
       metadata = ResourceMetadata.readResources(obj.getObjectContent)
+      lastMetadataVersion = Some(obj.getObjectMetadata.getVersionId)
     }
   }
 
@@ -58,21 +63,21 @@ class S3ResourceDownloader(bucket: String = "dev.johnsnowlabs.com",
       resource =>
         val s3FilePath = Paths.get(s3Path, resource.fileName).toString
         val dstFile = new File(cacheFolder, resource.fileName)
-        if (dstFile.exists()) {
-          Some(dstFile.getPath)
-        } else if (!client.doesObjectExist(bucket, s3FilePath)) {
+        if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
         } else {
-          val obj = client.getObject(bucket, s3FilePath)
-          // 1. Create tmp file
-          val tmpFileName = Files.createTempFile(resource.fileName, "").toString
-          val tmpFile = new File(tmpFileName)
+          if (!dstFile.exists()) {
+            val obj = client.getObject(bucket, s3FilePath)
+            // 1. Create tmp file
+            val tmpFileName = Files.createTempFile(resource.fileName, "").toString
+            val tmpFile = new File(tmpFileName)
 
-          // 2. Download content to tmp file
-          FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
+            // 2. Download content to tmp file
+            FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
 
-          // 3. Move tmp file to destination
-          FileUtils.moveFile(tmpFile, dstFile)
+            // 3. Move tmp file to destination
+            FileUtils.moveFile(tmpFile, dstFile)
+          }
 
           // 4. Unzip if needs
           val dstFileName = if (resource.isZipped)

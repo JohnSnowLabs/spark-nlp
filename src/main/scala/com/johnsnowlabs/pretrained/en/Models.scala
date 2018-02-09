@@ -2,6 +2,7 @@ package com.johnsnowlabs.pretrained.en.models
 
 import com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp
+import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.pretrained.ResourceDownloader
 
@@ -23,5 +24,5 @@ object Pos {
 }
 
 object Ner {
-  lazy val fast = ResourceDownloader.downloadModel(PerceptronModel, "ner_fast", Some("en"))
+  lazy val fast = ResourceDownloader.downloadModel(NerCrfModel, "ner_fast", Some("en"))
 }

@@ -1,10 +1,8 @@
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.pretrained.EnModelsTraining
 
-// ToDo 1. Test Loading
-// ToDo 2. Downlaod datasets before if needs
-// ToDo 3. Use Build.version in sbt ?
-// ToDo 4. Create Uploader
+// ToDo 1. Downlaad datasets before if needs
+// ToDo 2. Create Uploader that merges metadata
 
 object TrainingModelsScript extends App {
 
