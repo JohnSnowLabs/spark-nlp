@@ -1,7 +1,6 @@
 val sparkVer = "2.1.2"
 val scalaVer = "2.11.11"
 val awsVer = "1.11.272"
-val json4sVer = "3.3.0"
 val scalaTestVersion = "3.0.0"
 
 /** Package attributes */

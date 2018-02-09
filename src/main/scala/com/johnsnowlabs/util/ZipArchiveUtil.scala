@@ -6,8 +6,11 @@ import scala.io.Codec
 import java.io.{File, FileInputStream, FileOutputStream, IOException}
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 
+import org.apache.commons.io.FileUtils
+
 /**
   * Copied from https://github.com/dhbikoff/Scala-Zip-Archive-Util
+  * with small fixes
   */
 object ZipArchiveUtil {
 
@@ -89,27 +92,21 @@ object ZipArchiveUtil {
 
       // create output directory if it doesn't exist already
       val splitPath = entry.getName.split(File.separator).dropRight(1)
-      if (splitPath.size >= 1) {
-        // create intermediate directories if they don't exist
-        val dirBuilder = new StringBuilder(destDir.getName)
-        splitPath.foldLeft(dirBuilder)( (a: StringBuilder, b: String) => {
-          val path = a.append(File.separator + b)
-          val str = path.mkString
-          if (!(new File(str).exists)) {
-            new File(str).mkdir
-          }
-          path
-        })
+
+      val dirBuilder = new StringBuilder(destDir.getPath)
+      for (part <- splitPath) {
+        dirBuilder.append(File.separator)
+        dirBuilder.append(part)
+        val path = dirBuilder.toString
+
+        if (!(new File(path).exists)) {
+          new File(path).mkdir
+        }
       }
 
       // write file to dest
-      val inputSrc = new BufferedSource(
-        zip.getInputStream(entry))(Codec.ISO8859)
-      val ostream = new FileOutputStream(new File(destDir, entryPath))
-      inputSrc foreach { c: Char => ostream.write(c) }
-      inputSrc.close
-      ostream.close
-
+      FileUtils.copyInputStreamToFile(zip.getInputStream(entry),
+        new File(destDir, entryPath))
     }
 
     destDir.getPath

@@ -1,11 +1,11 @@
 package com.johnsnowlabs.pretrained
 
-import java.nio.file.Files
 import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, Version}
 import org.apache.spark.ml.PipelineStage
 import org.apache.spark.ml.util.DefaultParamsReadable
+
 import scala.collection.mutable
 
 
@@ -33,10 +33,9 @@ trait ResourceDownloader {
 
 object ResourceDownloader {
 
-  val s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "dev.johnsnowlabs.com")
-  val s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "spark-nlp-resolver-public")
-  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder,
-    Files.createTempDirectory("cache_pretrained").toString)
+  val s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "data.johnsnowlabs.com")
+  val s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "models/spark-nlp-public")
+  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, "cache_pretrained")
 
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
