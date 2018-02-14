@@ -1,8 +1,9 @@
 val sparkVer = "2.1.2"
 val scalaVer = "2.11.11"
 val scalaTestVersion = "3.0.0"
+val dl4jVersion = "0.8.0"
 
-/** Package attributes */
+  /** Package attributes */
 name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
@@ -24,7 +25,13 @@ spIncludeMaven := false
 
 spAppendScalaVersion := false
 
+
+
 resolvers += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
+
+resolvers ++= Seq(
+  Resolver.sonatypeRepo("public"))
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -74,7 +81,9 @@ developers := List(
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided",
-  "com.github.haifengl" %% "smile-scala" % "1.5.0"
+  "org.deeplearning4j" % "deeplearning4j-nlp" % dl4jVersion,
+  "com.github.haifengl" %% "smile-scala" % "1.5.0",
+  "org.nd4j" % "nd4j-native-platform" % dl4jVersion //classifier "" classifier "linux-x86_64-avx2"
 )
 
 lazy val testDependencies = Seq(

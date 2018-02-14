@@ -65,8 +65,8 @@ class I2b2DatasetReader(wordEmbeddingsFile: String, targetLengthLimit:Int) exten
   /* reads all the locations for all datasets (e.g. ['beth', 'partners']),
  * and returns a Scala collection
  * */
-  def read(datasetPaths: Seq[String]) (implicit session: SparkSession): Seq[I2b2AnnotationAndText]= {
-    import session.implicits._
+  def read(datasetPaths: Seq[String]) : Seq[I2b2AnnotationAndText]= {
+
     datasetPaths.flatMap(read).filter(_!=null)
   }
 
