@@ -263,6 +263,9 @@ class EntityExtractor(AnnotatorApproach):
     def setEntities(self, path=None, read_as="LINE_BY_LINE", options={"format": "text"}.copy()):
         return self._set(entities=ExternalResource(path, read_as, options))
 
+class ReadAs(object):
+    LINE_BY_LINE = "LINE_BY_LINE"
+    SPARK_DATASET = "SPARK_DATASET"
 
 class EntityExtractorModel(AnnotatorModel):
     name = "EntityExtractorModel"
