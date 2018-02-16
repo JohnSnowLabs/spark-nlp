@@ -19,7 +19,7 @@ class BiLSTM(lambda:Double) {
 
   /* hard coded stuff until we get any good result */
   val innerLayerSize = 94
-  val secondLayerSize = 47
+  val secondLayerSize = 94
 
   /* TODO hard coded parameters here! */
   val extraFeatSize = 10
