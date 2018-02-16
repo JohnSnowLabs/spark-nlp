@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 class EntityExtractor(override val uid: String) extends AnnotatorApproach[EntityExtractorModel] {
 
@@ -23,7 +23,8 @@ class EntityExtractor(override val uid: String) extends AnnotatorApproach[Entity
 
   setDefault(inputCols,Array(TOKEN))
 
-  def setEntities(value: ExternalResource): this.type = set(entities, value)
+  def setEntities(path: String, format:ReadAs.Format = ReadAs.LINE_BY_LINE, options:Map[String, String] = Map("format" -> "text")): this.type =
+    set(entities, ExternalResource(path, format, options))
 
   /**
     * Loads entities from a provided source.
