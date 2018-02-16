@@ -71,7 +71,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
       .setInputCols("normalized")
-      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE.toString, Map.empty[String, String])
+      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String])
       .setOutputCol("entity")
     val data = withFullNormalizer(
       withTokenizer(dataset, sbd), lowerCase)
