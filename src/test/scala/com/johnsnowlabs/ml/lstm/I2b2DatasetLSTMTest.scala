@@ -48,8 +48,8 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   println("trainDsSize: " +  trainDataset.size)
 
 
-  val granges:List[Double] = List(0.0000001, 0.000001, 0.00001, 0.001, 0.1, 1.0, 10.0)
-  val cranges:List[Double] = List(1.0)
+  val lranges:List[Double] = (5e-7 to 15e-7).by(1e-7).toList
+  val innerLayerSize:List[Int] = List(32, 48, 64, 96)
 
   val testAnnotations = reader.read(testDatasetPath)
   val testDataset = extractFeatures(testAnnotations).toArray
@@ -57,12 +57,12 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   val testDatasetIterator = new LSTMRecordIterator(testDataset, testLabels.toArray)
 
 
-  for (gamma <- granges; c <-cranges) {
+  for (lambda <- lranges; ils <-innerLayerSize) {
 
     trainDatasetIterator.reset
     testDatasetIterator.reset
 
-    val model = train(trainDatasetIterator, trainLabels.toArray, gamma, c)
+    val model = train(trainDatasetIterator, trainLabels.toArray, lambda, ils)
     println("testDsSize: " + testDataset.size)
 
     // Compute raw scores on the test set.
@@ -108,9 +108,9 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   }
 
 
-  def train(dataset: DataSetIterator, labels: Array[Int], lambda:Double, C:Double) = {
-    println(lambda, C)
-    val biLSTM = new BiLSTM(lambda)
+  def train(dataset: DataSetIterator, labels: Array[Int], lambda:Double, ils:Int) = {
+    println(lambda, ils)
+    val biLSTM = new BiLSTM(lambda, ils)
     biLSTM.model.fit(dataset)
     biLSTM.model.fit(dataset)
     biLSTM.model

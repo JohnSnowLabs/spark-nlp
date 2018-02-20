@@ -14,11 +14,11 @@ import org.nd4j.linalg.lossfunctions.LossFunctions
 /**
   * Created by jose on 12/02/18.
   */
-class BiLSTM(lambda:Double) {
+class BiLSTM(lambda:Double, ils:Int) {
 
 
   /* hard coded stuff until we get any good result */
-  val innerLayerSize = 94
+  val innerLayerSize = ils
   val secondLayerSize = 94
 
   /* TODO hard coded parameters here! */
@@ -57,9 +57,7 @@ class BiLSTM(lambda:Double) {
       .nIn(secondLayerSize).nOut(6).build())
     .pretrain(false).backprop(true).build()
 
-  val model = new MultiLayerNetwork(multiLayerConf)
+  val model = new MultiLayerNetwork(conf)
   model.init()
-  model.setListeners(new ScoreIterationListener(1))
-  model.setListeners(new CollectScoresIterationListener)
 
 }
