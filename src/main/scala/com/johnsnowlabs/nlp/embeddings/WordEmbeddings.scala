@@ -7,13 +7,10 @@ import org.rocksdb._
 
 case class WordEmbeddings(dbFile: String,
                           nDims: Int,
-                          cacheSizeMB: Int = 100,
                           lruCacheSize: Int = 100000) extends Closeable{
-  val options = new Options()
-  options.setRowCache(new LRUCache(cacheSizeMB * 1 << 20))
   RocksDB.loadLibrary()
 
-  val db = RocksDB.openReadOnly(options, dbFile)
+  val db = RocksDB.openReadOnly(dbFile)
 
   val zeroArray = Array.fill[Float](nDims)(0f)
 
