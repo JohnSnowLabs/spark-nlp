@@ -18,8 +18,8 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
 
   val extraFeatSize: Int = 10
-  val nonTargetMark = normalize(Array.fill(extraFeatSize)(0.1f))
-  val targetMark = normalize(Array.fill(extraFeatSize)(-0.1f))
+  val nonTargetMark = Array.fill(extraFeatSize)(0.1f)
+  val targetMark = Array.fill(extraFeatSize)(-0.1f)
 
 
   val mappings = Map("hypothetical" -> 0,
@@ -27,7 +27,7 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     "conditional"-> 4, "associated_with_someone_else" -> 5)
 
   // directory of the i2b2 dataset
-  val i2b2Dir = "/home/jose/Downloads/i2b2"
+  val i2b2Dir = "/home/ubuntu/i2b2"
 
   val trainDatasetPath = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
     s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
@@ -36,7 +36,7 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
   val embeddingsDims = 200
   // word embeddings location
-  val embeddingsFile = s"/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin"
+  val embeddingsFile = s"/home/ubuntu/PubMed-shuffle-win-2.bin"
   //val embeddingsFile = s"/home/jose/wordembeddings/pubmed_i2b2.bin"
 
   val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
