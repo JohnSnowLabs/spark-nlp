@@ -43,7 +43,6 @@ Documentation
 * Fixed EntityMatcher documentation obsolete params (Thanks @sofianeh)
 * Fixed NER CRF documentation in website
 
-
 ========
 1.3.0
 ========
