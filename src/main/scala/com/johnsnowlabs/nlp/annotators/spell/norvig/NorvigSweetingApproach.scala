@@ -34,14 +34,29 @@ class NorvigSweetingApproach(override val uid: String)
     set(corpus, value)
   }
 
+  def setCorpus(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
+    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+    set(corpus, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+  }
+
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
+  def setDictionary(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
+    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+    set(dictionary, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+  }
+
   def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
+  }
+
+  def setSlangDictionary(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
+    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+    set(slangDictionary, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
   }
 
   override val annotatorType: AnnotatorType = SPELL
@@ -51,10 +66,10 @@ class NorvigSweetingApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("SPELL"))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
-    val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
+    val loadWords = ResourceHelper.wordCountByPattern($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] =
       if (get(corpus).isDefined) {
-        ResourceHelper.wordCount($(corpus)).toMap
+        ResourceHelper.wordCountByPattern($(corpus), p = recursivePipeline).toMap
       } else {
         import ResourceHelper.spark.implicits._
         dataset.select($(inputCols).head).as[Array[Annotation]]
