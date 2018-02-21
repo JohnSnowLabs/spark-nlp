@@ -4,7 +4,6 @@
 ---------------
 New features
 ---------------
-
 * All annotator external sources have been unified through an ExternalResource component.
 This is used to represents external data information deals with content in HDFS or local just as spark deals with data.
 It also improves performance globally and allows customization
@@ -16,7 +15,6 @@ For ViveknSentiment and POS Perceptron, this strategy will be applied if sentime
 ---------------
 Enhancements
 ---------------
-
 * ResourceHelper now has an improved SourceStream class which allows for more consistent HDFS/Filesystem reading by using
 more of the Hadoop APIs.
 * application.conf is now a global setting and can be overridden in run-time through ConfigLoader.setConfigPath(). It may also be accessed from PySpar
