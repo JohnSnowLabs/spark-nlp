@@ -17,7 +17,7 @@ Enhancements
 ---------------
 * ResourceHelper now has an improved SourceStream class which allows for more consistent HDFS/Filesystem reading by using
 more of the Hadoop APIs.
-* application.conf is now a global setting and can be overridden in run-time through ConfigLoader.setConfigPath(). It may also be accessed from PySpar
+* application.conf is now a global setting and can be overridden in run-time through ConfigLoader.setConfigPath(). It may also be accessed from PySpark
 * PySpark API improved by creating AnnotatorApproach and AnnotatorModel  classes
 * EntityMatcher now uses recursive Pipelines
 * Part-of-Speech tagging performance has been improved throughout the prediction algorithm
