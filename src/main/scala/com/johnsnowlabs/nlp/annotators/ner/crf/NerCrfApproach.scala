@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -66,10 +66,8 @@ class NerCrfApproach(override val uid: String)
     set(externalFeatures, value)
   }
 
-  def setExternalFeatures(path: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setExternalFeatures(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(externalFeatures, ExternalResource(path, readAs, Map.empty[String, String]))
-  }
 
   def setVerbose(verbose: Int) = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
@@ -77,10 +75,8 @@ class NerCrfApproach(override val uid: String)
 
   def setExternalDataset(path: ExternalResource) = set(externalDataset, path)
 
-  def setExternalDataset(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setExternalDataset(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(externalDataset, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
-  }
 
   setDefault(
     minEpochs -> 0,
