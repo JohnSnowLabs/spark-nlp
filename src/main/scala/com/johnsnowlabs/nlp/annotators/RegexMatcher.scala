@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, REGEX}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -33,10 +33,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     set(rules, value)
   }
 
-  def setRules(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setRules(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(rules, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
-  }
 
   def setStrategy(value: String): this.type = set(strategy, value)
 
