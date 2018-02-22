@@ -40,10 +40,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     set(corpus, value)
   }
 
-  def setCorpus(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setCorpus(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(corpus, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
-  }
 
   def setNIterations(value: Int): this.type = set(nIterations, value)
 

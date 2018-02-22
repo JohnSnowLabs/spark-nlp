@@ -45,10 +45,8 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     set(dictionary, value)
   }
 
-  def setDictionary(path: String, keyDelimiter: String, valueDelimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setDictionary(path: String, keyDelimiter: String, valueDelimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(dictionary, ExternalResource(path, readAs, Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
-  }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
     new LemmatizerModel()
