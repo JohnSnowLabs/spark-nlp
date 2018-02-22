@@ -23,7 +23,11 @@ class EntityExtractor(override val uid: String) extends AnnotatorApproach[Entity
 
   setDefault(inputCols,Array(TOKEN))
 
-  def setEntities(value: ExternalResource): this.type = set(entities, value)
+  def setEntities(value: ExternalResource): this.type =
+    set(entities, value)
+
+  def setEntities(path: String, readAs: String = "LINE_BY_LINE"): this.type =
+    set(entities, ExternalResource(path, readAs, Map.empty[String, String]))
 
   /**
     * Loads entities from a provided source.
