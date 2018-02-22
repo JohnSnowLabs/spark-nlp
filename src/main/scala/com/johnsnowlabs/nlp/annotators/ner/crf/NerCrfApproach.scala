@@ -61,13 +61,26 @@ class NerCrfApproach(override val uid: String)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
   def setMinW(w: Double) = set(this.minW, w)
 
-  def setExternalFeatures(value: ExternalResource) = set(externalFeatures, value)
+  def setExternalFeatures(value: ExternalResource) = {
+    require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
+    set(externalFeatures, value)
+  }
+
+  def setExternalFeatures(path: String, readAs: String = "LINE_BY_LINE"): this.type = {
+    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+    set(externalFeatures, ExternalResource(path, readAs, Map.empty[String, String]))
+  }
 
   def setVerbose(verbose: Int) = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
   def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
   def setExternalDataset(path: ExternalResource) = set(externalDataset, path)
+
+  def setExternalDataset(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
+    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+    set(externalDataset, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
+  }
 
   setDefault(
     minEpochs -> 0,

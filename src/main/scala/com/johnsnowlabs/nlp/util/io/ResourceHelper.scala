@@ -5,7 +5,7 @@ import java.io._
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
@@ -310,9 +310,10 @@ object ResourceHelper {
     }
   }
 
-  def wordCount(
+  def wordCountByPattern(
                  er: ExternalResource,
-                 m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
+                 m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                 p: Option[PipelineModel] = None
                ): MMap[String, Long] = {
     er.readAs match {
       case LINE_BY_LINE =>
@@ -321,13 +322,13 @@ object ResourceHelper {
         if (sourceStream.isResourceFolder) {
           try {
             listResourceDirectory(er.path)
-              .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
+              .flatMap(fileName => wordCountByPattern(ExternalResource(fileName, er.readAs, er.options), m))
           } catch {
             case _: NullPointerException =>
               sourceStream
                 .content
                 .getLines()
-                .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
+                .flatMap(fileName => wordCountByPattern(ExternalResource(fileName, er.readAs, er.options), m))
                 .toArray
               sourceStream.close()
           }
@@ -346,24 +347,28 @@ object ResourceHelper {
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val transformation = {
+          if (p.isDefined) {
+            p.get.transform(dataset)
+          } else {
+            val documentAssembler = new DocumentAssembler()
+              .setInputCol("value")
+            val tokenizer = new Tokenizer()
+              .setInputCols("document")
+              .setOutputCol("token")
+              .setTargetPattern(er.options("tokenPattern"))
+            val finisher = new Finisher()
+              .setInputCols("token")
+              .setOutputCols("finished")
+              .setAnnotationSplitSymbol("--")
+            new Pipeline()
+              .setStages(Array(documentAssembler, tokenizer, finisher))
+              .fit(dataset)
+              .transform(dataset)
+          }
+        }
         val wordCount = MMap.empty[String, Long].withDefaultValue(0)
-        val documentAssembler = new DocumentAssembler()
-          .setInputCol("value")
-        val tokenizer = new Tokenizer()
-          .setInputCols("document")
-          .setOutputCol("token")
-          .setTargetPattern(er.options("tokenPattern"))
-        val normalizer = new Normalizer()
-          .setInputCols("token")
-          .setOutputCol("normal")
-        val finisher = new Finisher()
-          .setInputCols("normal")
-          .setOutputCols("finished")
-          .setAnnotationSplitSymbol("--")
-        new Pipeline()
-          .setStages(Array(documentAssembler, tokenizer, normalizer, finisher))
-          .fit(dataset)
-          .transform(dataset)
+        transformation
           .select("finished").as[String]
           .foreach(text => text.split("--").foreach(t => {
             wordCount(t) += 1

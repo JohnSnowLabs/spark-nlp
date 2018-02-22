@@ -4,21 +4,42 @@
 ---------------
 New features
 ---------------
-
-* ExternalResource helpers used to represents external data information. Such information includes the format,
-delimiters and how to read it.
-* SpellChecker, ViveknSentiment and POS Perceptron can now train from the dataset passed to fit().
-  This is more "spark"-like as it should always be. New params included as required.
+* All annotator external sources have been unified through an ExternalResource component.
+This is used to represents external data information deals with content in HDFS or local just as spark deals with data.
+It also improves performance globally and allows customization
+into how these sources are read (e.g. as RDD or Line by Line sequences)
+* NorvigSweeting SpellChecker, ViveknSentiment and POS Perceptron can now train from the dataset passed to fit().
+For Spell Checker, this will be applied if the user did not supply a corpus, forcing fit() to learn from words in the data column.
+For ViveknSentiment and POS Perceptron, this strategy will be applied if sentimentCol and posCol params have been set respectively.
 
 ---------------
 Enhancements
 ---------------
-
 * ResourceHelper now has an improved SourceStream class which allows for more consistent HDFS/Filesystem reading by using
 more of the Hadoop APIs.
-* application.conf is a global setting and be overriden.
+* application.conf is now a global setting and can be overridden in run-time through ConfigLoader.setConfigPath(). It may also be accessed from PySpark
 * PySpark API improved by creating AnnotatorApproach and AnnotatorModel  classes
 * EntityMatcher now uses recursive Pipelines
+* Part-of-Speech tagging performance has been improved throughout the prediction algorithm
+* EntityMatcher may now use RecursivePipeline in order to tokenize external data with the same pipeline provided by the user
+
+---------------
+Developer API
+---------------
+*PySpark API has been severly improved to make it easier to extend JVM classes
+*PySpark API improved for extending annotator approaches and models appropriately
+
+----------------
+Bugfixes
+----------------
+* Reverted a bug introduced causing NER not to read datasets properly from HDFS
+* Fixed EntityMatcher wrongly normalizing external content (thanks @sofianeh)
+
+----------------
+Documentation
+----------------
+* Fixed EntityMatcher documentation obsolete params (Thanks @sofianeh)
+* Fixed NER CRF documentation in website
 
 ========
 1.3.0
