@@ -4,7 +4,7 @@ import java.io.FileNotFoundException
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, listResourceDirectory}
 import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
@@ -48,20 +48,16 @@ class ViveknSentimentApproach(override val uid: String)
     set(positiveSource, value)
   }
 
-  def setPositiveSource(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setPositiveSource(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(positiveSource, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
-  }
 
   def setNegativeSource(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
     set(negativeSource, value)
   }
 
-  def setNegativeSource(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setNegativeSource(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(negativeSource, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
-  }
 
   def setCorpusPrune(value: Int): this.type = set(pruneCorpus, value)
 

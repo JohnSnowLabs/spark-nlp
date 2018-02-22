@@ -34,30 +34,24 @@ class NorvigSweetingApproach(override val uid: String)
     set(corpus, value)
   }
 
-  def setCorpus(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setCorpus(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(corpus, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
-  }
 
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
-  def setDictionary(path: String, tokenPattern: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setDictionary(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(dictionary, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
-  }
 
   def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
   }
 
-  def setSlangDictionary(path: String, delimiter: String, readAs: String = "LINE_BY_LINE"): this.type = {
-    require(Seq("LINE_BY_LINE", "SPARK_DATASET").contains(readAs.toUpperCase), "readAs needs to be 'LINE_BY_LINE' or 'SPARK_DATASET'")
+  def setSlangDictionary(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
     set(slangDictionary, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
-  }
 
   override val annotatorType: AnnotatorType = SPELL
 
