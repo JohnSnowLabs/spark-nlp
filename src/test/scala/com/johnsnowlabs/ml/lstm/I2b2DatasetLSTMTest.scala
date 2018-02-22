@@ -16,10 +16,9 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
   println(System.getenv().get("PATH"))
 
-
   val extraFeatSize: Int = 10
-  val nonTargetMark = Array.fill(extraFeatSize)(0.1f)
-  val targetMark = Array.fill(extraFeatSize)(-0.1f)
+  val nonTargetMark = normalize(Array.fill(extraFeatSize)(0.1f))
+  val targetMark = normalize(Array.fill(extraFeatSize)(-0.1f))
 
 
   val mappings = Map("hypothetical" -> 0,
@@ -48,8 +47,8 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   println("trainDsSize: " +  trainDataset.size)
 
 
-  val lranges:List[Double] = (5e-7 to 15e-7).by(1e-7).toList
-  val innerLayerSize:List[Int] = List(32, 48, 64, 96)
+  val lranges:List[Double] = (3.5e-7 to 3.5e-7).by(5e-8).toList
+  val innerLayerSize:List[Int] = List(30, 32)
 
   val testAnnotations = reader.read(testDatasetPath)
   val testDataset = extractFeatures(testAnnotations).toArray
@@ -111,8 +110,10 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   def train(dataset: DataSetIterator, labels: Array[Int], lambda:Double, ils:Int) = {
     println(lambda, ils)
     val biLSTM = new BiLSTM(lambda, ils)
-    biLSTM.model.fit(dataset)
-    biLSTM.model.fit(dataset)
+    (1 to 13).foreach {i =>
+       println(s"epoch: $i")
+       biLSTM.model.fit(dataset)
+    }
     biLSTM.model
 
   }

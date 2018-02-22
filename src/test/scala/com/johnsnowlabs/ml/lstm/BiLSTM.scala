@@ -19,10 +19,9 @@ class BiLSTM(lambda:Double, ils:Int) {
 
   /* hard coded stuff until we get any good result */
   val innerLayerSize = ils
-  val secondLayerSize = 94
-
+  val secondLayerSize = ils
   /* TODO hard coded parameters here! */
-  val extraFeatSize = 10
+  val extraFeatSize = 10 
   val vectorSize = 200 + extraFeatSize
 
   Nd4j.getMemoryManager().setAutoGcWindow(5000)
@@ -61,3 +60,4 @@ class BiLSTM(lambda:Double, ils:Int) {
   model.init()
 
 }
+

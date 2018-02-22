@@ -27,7 +27,7 @@ class LSTMRecordIterator(embeddings: Array[Array[Array[Float]]],
   var cursor = 0
 
   /* batch size, how many samples at the same time? */
-  val batchSize = 4
+  val batchSize = 64
   val datasetSize = embeddings.length
   val vectorSize = embeddings.head.head.size
 

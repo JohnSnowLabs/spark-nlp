@@ -14,6 +14,10 @@ scalaVersion := scalaVer
 
 sparkVersion := sparkVer
 
+fork in run := true
+
+javaOptions += "-Xmx10G"
+
 /** Spark-Package attributes */
 spName := "JohnSnowLabs/spark-nlp"
 
@@ -83,7 +87,7 @@ lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided",
   "org.deeplearning4j" % "deeplearning4j-nlp" % dl4jVersion,
   "com.github.haifengl" %% "smile-scala" % "1.5.0",
-  "org.nd4j" % "nd4j-native-platform" % dl4jVersion //classifier "" classifier "linux-x86_64-avx2"
+  "org.nd4j" % "nd4j-cuda-8.0-platform" % dl4jVersion //classifier "" classifier "linux-x86_64-avx2"
 )
 
 lazy val testDependencies = Seq(
