@@ -1,8 +1,7 @@
 package com.johnsnowlabs.pretrained
 
-import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, Version}
+import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
