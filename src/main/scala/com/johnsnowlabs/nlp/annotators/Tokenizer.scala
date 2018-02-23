@@ -94,23 +94,26 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   setDefault(suffixPattern, "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z")
   setDefault(targetPattern, "\\S+")
 
-  private val PROTECT_STR = "ↈ"
+  private val PROTECT_CHAR = "ↈ"
+  private val BREAK_CHAR = "ↇ"
+
+  private lazy val BREAK_PATTERN = "[^(?:" + $(targetPattern) + ")" + PROTECT_CHAR + "]"
+  private lazy val SPLIT_PATTERN = "[^" + BREAK_CHAR + "]+"
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map{text =>
-      /** Step 1, protect exception words from being broken*/
-      var protected_text = text.content
-      if (get(compositeTokens).isDefined) {
-        $(compositeTokens).foreach(tokenException =>
-          protected_text = protected_text.replaceAll(
-            tokenException,
-            tokenException.replaceAll("[^(?:" + $(targetPattern) + ")]", PROTECT_STR)
+      /** Step 1, define breaks from non breaks */
+      val protectedText = {
+        get(compositeTokens).map(_.foldRight(text.content)((compositeToken, currentText) => {
+          currentText.replaceAll(
+            compositeToken,
+            compositeToken.replaceAll(BREAK_PATTERN, PROTECT_CHAR)
           )
-        )
+        })).getOrElse(text.content).replaceAll(BREAK_PATTERN, BREAK_CHAR)
       }
-      /** Step 2, Return protected exception tokens back into text and move on*/
-      val tokens = $(targetPattern).r.findAllMatchIn(protected_text).flatMap { candidate =>
-        if (get(compositeTokens).isDefined && candidate.matched.contains(PROTECT_STR)) {
+      /** Step 2, Return protected tokens back into text and move on*/
+      val tokens = SPLIT_PATTERN.r.findAllMatchIn(protectedText).flatMap { candidate =>
+        if (get(compositeTokens).isDefined && candidate.matched.contains(PROTECT_CHAR)) {
           /** Put back character and move on */
           Seq(IndexedToken(
             text.content.slice(text.start + candidate.start, text.start + candidate.end),
