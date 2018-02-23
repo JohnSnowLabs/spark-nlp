@@ -72,7 +72,7 @@ class EnModelsTraining(spark: SparkSession) {
 
   def trainFastPos(): PerceptronModel = {
     val posTagger = new PerceptronApproach()
-      .setCorpusPath("anc-pos-corpus/")
+      .setCorpus("/anc-pos-corpus/", "|")
       .setNIterations(10)
       .setInputCols("token", "document")
       .setOutputCol("pos")
@@ -90,13 +90,13 @@ class EnModelsTraining(spark: SparkSession) {
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
-      .setDatasetPath("eng.train")
+      .setExternalDataset("eng.train")
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(20)
       .setMinW(0.01)
       .setOutputCol("ner")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
     val pipeline = new Pipeline().setStages(
       Array(documentAssembler,
