@@ -1,14 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import com.typesafe.config.Config
-import com.johnsnowlabs.nlp.util.ConfigHelper
-import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.Identifiable
-
-import scala.collection.JavaConverters._
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
+import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 
 /**
   * Created by saif on 28/04/17.
@@ -19,32 +16,20 @@ import scala.collection.JavaConverters._
   * @param uid required internal uid provided by constructor
   * @@ lemmaDict: A dictionary of predefined lemmas must be provided
   */
-class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
+class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  private val config: Config = ConfigHelper.retrieve
+  override val description: String = "Retrieves the significant part of a word"
 
-  val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")
+  val dictionary: ExternalResourceParam = new ExternalResourceParam(this, "dictionary", "lemmatizer external dictionary." +
+    " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text")
 
-  val lemmaFormat: Param[String] = new Param[String](this, "lemmaFormat", "TXT or TXTDS for reading dictionary as dataset")
-
-  val lemmaKeySep: Param[String] = new Param[String](this, "lemmaKeySep", "lemma dictionary key separator")
-
-  val lemmaValSep: Param[String] = new Param[String](this, "lemmaValSep", "lemma dictionary value separator")
-
-  setDefault(lemmaFormat, config.getString("nlp.lemmaDict.format"))
-
-  setDefault(lemmaKeySep, config.getString("nlp.lemmaDict.kvSeparator"))
-
-  setDefault(lemmaValSep, config.getString("nlp.lemmaDict.vSeparator"))
-
-  if (config.getString("nlp.lemmaDict.file").nonEmpty)
-    setDefault(lemmaDict,  () => Lemmatizer.retrieveLemmaDict(
-      config.getString("nlp.lemmaDict.file"),
-      config.getString("nlp.lemmaDict.format"),
-      config.getString("nlp.lemmaDict.kvSeparator"),
-      config.getString("nlp.lemmaDict.vSeparator")))
+  setDefault(dictionary, ExternalResource(
+    "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
+    ReadAs.LINE_BY_LINE,
+    options = Map("keyDelimiter" -> "->", "valueDelimiter" -> "\t")
+  ))
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -52,48 +37,22 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))
 
-  def getLemmaDict: Map[String, String] = $$(lemmaDict)
-  protected def getLemmaFormat: String = $(lemmaFormat)
-  protected def getLemmaKeySep: String = $(lemmaKeySep)
-  protected def getLemmaValSep: String = $(lemmaValSep)
+  def getDictionary: ExternalResource = $(dictionary)
 
-  def setLemmaDict(dictionary: String): this.type = {
-    set(lemmaDict, Lemmatizer.retrieveLemmaDict(dictionary, $(lemmaFormat), $(lemmaKeySep), $(lemmaValSep)))
+  def setDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("keyDelimiter") && value.options.contains("valueDelimiter"),
+      "Lemmatizer dictionary requires options with 'keyDelimiter' and 'valueDelimiter'")
+    set(dictionary, value)
   }
-  def setLemmaDictHMap(dictionary: java.util.HashMap[String, String]): this.type = {
-    set(lemmaDict, dictionary.asScala.toMap)
-  }
-  def setLemmaDictMap(dictionary: Map[String, String]): this.type = {
-    set(lemmaDict, dictionary)
-  }
-  def setLemmaFormat(value: String): this.type = set(lemmaFormat, value)
-  def setLemmaKeySep(value: String): this.type = set(lemmaKeySep, value)
-  def setLemmaValSep(value: String): this.type = set(lemmaValSep, value)
 
-  /**
-    * @return one to one annotation from token to a lemmatized word, if found on dictionary or leave the word as is
-    */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { tokenAnnotation =>
-      val token = tokenAnnotation.result
-      Annotation(
-        annotatorType,
-        tokenAnnotation.start,
-        tokenAnnotation.end,
-        $$(lemmaDict).getOrElse(token, token),
-        tokenAnnotation.metadata
-      )
-    }
+  def setDictionary(path: String, keyDelimiter: String, valueDelimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
+    set(dictionary, ExternalResource(path, readAs, Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
+    new LemmatizerModel()
+      .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
   }
+
 }
 
-object Lemmatizer extends ParamsAndFeaturesReadable[Lemmatizer] {
-  protected def retrieveLemmaDict(
-                         lemmaFilePath: String,
-                         lemmaFormat: String,
-                         lemmaKeySep: String,
-                         lemmaValSep: String
-                       ): Map[String, String] = {
-    ResourceHelper.flattenRevertValuesAsKeys(lemmaFilePath, lemmaFormat.toUpperCase, lemmaKeySep, lemmaValSep)
-  }
-}
+object Lemmatizer extends DefaultParamsReadable[Lemmatizer]

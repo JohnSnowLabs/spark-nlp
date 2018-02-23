@@ -1,18 +1,18 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import com.johnsnowlabs.nlp.annotators.common.{Tokenized, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
-import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.util.ConfigLoader
 import com.typesafe.config.Config
-import org.apache.spark.ml.param.IntParam
+import org.apache.spark.ml.param.{IntParam, LongParam}
 import org.apache.spark.ml.util.Identifiable
 
 class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[ViveknSentimentModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  private val config: Config = ConfigHelper.retrieve
+  private val config: Config = ConfigLoader.retrieve
   private val importantFeatureRatio = config.getDouble("nlp.viveknSentiment.importantFeaturesRatio")
   private val unimportantFeatureStep = config.getDouble("nlp.viveknSentiment.unimportantFeaturesStepRatio")
   private val featureLimit = config.getInt("nlp.viveknSentiment.featuresLimit")
@@ -21,23 +21,23 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  protected val positive: MapFeature[String, Int] = new MapFeature(this, "positive_sentences")
-  protected val negative: MapFeature[String, Int] = new MapFeature(this, "negative_sentences")
+  protected val positive: MapFeature[String, Long] = new MapFeature(this, "positive_sentences")
+  protected val negative: MapFeature[String, Long] = new MapFeature(this, "negative_sentences")
   protected val words: ArrayFeature[String] = new ArrayFeature(this, "words")
 
-  protected val positiveTotals: IntParam = new IntParam(this, "positive_totals", "count of positive words")
-  protected val negativeTotals: IntParam = new IntParam(this, "negative_totals", "count of negative words")
+  protected val positiveTotals: LongParam = new LongParam(this, "positive_totals", "count of positive words")
+  protected val negativeTotals: LongParam = new LongParam(this, "negative_totals", "count of negative words")
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
-  private[vivekn] def getPositive: Map[String, Int] = $$(positive)
-  private[vivekn] def getNegative: Map[String, Int] = $$(negative)
+  private[vivekn] def getPositive: Map[String, Long] = $$(positive)
+  private[vivekn] def getNegative: Map[String, Long] = $$(negative)
   private[vivekn] def getFeatures: Array[String] = $$(words)
 
-  private[vivekn] def setPositive(value: Map[String, Int]): this.type = set(positive, value)
-  private[vivekn] def setNegative(value: Map[String, Int]): this.type = set(negative, value)
-  private[vivekn] def setPositiveTotals(value: Int): this.type = set(positiveTotals, value)
-  private[vivekn] def setNegativeTotals(value: Int): this.type = set(negativeTotals, value)
+  private[vivekn] def setPositive(value: Map[String, Long]): this.type = set(positive, value)
+  private[vivekn] def setNegative(value: Map[String, Long]): this.type = set(negative, value)
+  private[vivekn] def setPositiveTotals(value: Long): this.type = set(positiveTotals, value)
+  private[vivekn] def setNegativeTotals(value: Long): this.type = set(negativeTotals, value)
   private[vivekn] def setWords(value: Array[String]): this.type = {
     require(value.nonEmpty, "Word analysis for features cannot be empty. Set prune to false if training is small")
     val currentFeatures = scala.collection.mutable.Set.empty[String]
@@ -58,8 +58,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
   def classify(sentence: TokenizedSentence): Boolean = {
     val wordFeatures = ViveknSentimentApproach.negateSequence(sentence.tokens.toList).intersect($$(words)).distinct
     if (wordFeatures.isEmpty) return true
-    val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0) + 1.0) / (2.0 * $(positiveTotals)))).sum
-    val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0) + 1.0) / (2.0 * $(negativeTotals)))).sum
+    val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
+    val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum
     positiveProbability > negativeProbability
   }
 
@@ -72,7 +72,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = Tokenized.unpack(annotations)
+    val sentences = TokenizedWithSentence.unpack(annotations)
 
     sentences.filter(s => s.indexedTokens.nonEmpty).map(sentence => {
       Annotation(

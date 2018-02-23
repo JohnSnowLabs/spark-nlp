@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.typesafe.config.{Config, ConfigFactory}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.slf4j.{Logger, LoggerFactory}
@@ -24,26 +24,24 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   import PerceptronApproach._
 
-  private val config: Config = ConfigFactory.load
-
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
-  val corpusPath = new Param[String](this, "corpusPath", "POS Corpus path")
-  setDefault(corpusPath, config.getString("nlp.posDict.dir"))
-  val wordTagSeparator = new Param[String](this, "wordTagSeparator", "word tag separator")
-  setDefault(wordTagSeparator, config.getString("nlp.posDict.separator"))
-  val corpusFormat = new Param[String](this, "corpusFormat", "TXT or TXTDS for dataset read. ")
-  setDefault(corpusFormat, "TXT")
-  val corpusLimit = new IntParam(this, "corpusLimit", "Limit of files to read for training. Defaults to 50")
-  setDefault(corpusLimit, 50)
+  val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
+  val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
+
+  setDefault(corpus, ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, options=Map("delimiter" -> "|")))
   setDefault(nIterations, 5)
 
-  def setCorpusPath(value: String): this.type = set(corpusPath, value)
+  def setPosColumn(value: String): this.type = set(posCol, value)
 
-  def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
+  def setCorpus(value: ExternalResource): this.type = {
+    require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
+    set(corpus, value)
+  }
 
-  def setCorpusLimit(value: Int): this.type = set(corpusLimit, value)
+  def setCorpus(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
+    set(corpus, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
 
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
@@ -65,7 +63,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
                             taggedSentences: Array[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
-                          ): Array[TaggedWord] = {
+                          ): Map[String, String] = {
 
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
@@ -79,8 +77,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     }.map { case (word, tagFrequencies) =>
       val (tag, _) = tagFrequencies.maxBy(_._2)
       logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
-      TaggedWord(word, tag)
-    }.toArray
+      (word, tag)
+    }
   }
 
   /**
@@ -92,7 +90,26 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = PerceptronApproach.retrievePOSCorpus($(corpusPath), $(corpusFormat), $(wordTagSeparator).head, $(corpusLimit))
+    val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
+      import ResourceHelper.spark.implicits._
+      val tokenColumn = dataset.schema.fields
+        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
+        .map(_.name).get
+      dataset.select(tokenColumn, $(posCol))
+        .as[(Array[Annotation], Array[String])]
+        .map{
+          case (annotations, posTags) =>
+            lazy val strTokens = annotations.map(_.result).mkString("#")
+            lazy val strPosTags = posTags.mkString("#")
+            require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
+              s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+            TaggedSentence(annotations.zip(posTags)
+              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.start, annotation.end)}
+            )
+        }.collect
+    } else {
+      ResourceHelper.parseTupleSentences($(corpus))
+    }
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
@@ -118,8 +135,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         var prev2 = START(1)
         val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
-            val guess = taggedWordBook.find(_.word == word.toLowerCase).map(_.tag)
-              .getOrElse({
+            val guess = taggedWordBook.getOrElse(word.toLowerCase,{
                 /**
                   * if word is not found, collect its features which are used for prediction and predict
                   */
@@ -151,30 +167,10 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 }
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach] {
 
-  private val config: Config = ConfigFactory.load
-
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
-
-  /**
-    * Retrieves Corpuses from configured compiled directory set in configuration
-    * @param fileLimit files limit to read
-    * @return TaggedSentences for POS training
-    */
-  private[perceptron] def retrievePOSCorpus(
-                                   posDirOrFilePath: String,
-                                   corpusFormat: String,
-                                   separator: Char,
-                                   fileLimit: Int = 50
-                                 ): Array[TaggedSentence] = {
-    val result = ResourceHelper.parseTupleSentences(posDirOrFilePath, corpusFormat, separator, fileLimit)
-    if (result.isEmpty) throw new Exception(s"Empty corpus for POS in $posDirOrFilePath")
-    result
-  }
-
-
 
   /**
     * Specific normalization rules for this POS Tagger to avoid unnecessary tagging

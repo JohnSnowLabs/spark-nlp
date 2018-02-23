@@ -18,7 +18,7 @@ case class Annotation(annotatorType: String, start: Int, end: Int, result: Strin
 
 object Annotation {
 
-  private case class AnnotationContainer(__annotation: Array[Annotation])
+  case class AnnotationContainer(__annotation: Array[Annotation])
 
   object extractors {
     /** annotation container ready for extraction */

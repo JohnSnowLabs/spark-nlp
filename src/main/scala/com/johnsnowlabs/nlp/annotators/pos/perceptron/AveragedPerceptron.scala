@@ -18,10 +18,10 @@ import scala.collection.mutable.{Map => MMap}
   */
 class AveragedPerceptron(
                           tags: Array[String],
-                          taggedWordBook: Array[TaggedWord],
+                          taggedWordBook: Map[String, String],
                           featuresWeight: MMap[String, MMap[String, Double]],
                           lastIteration: Int = 0
-                        ) extends WritableAnnotatorComponent {
+                        ) extends Serializable {
 
   /**How many training iterations ran*/
   private var updateIteration: Int = lastIteration
@@ -29,15 +29,6 @@ class AveragedPerceptron(
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
   /**weighting parameter for words and their tags based on how many times passed through*/
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
-
-  /** serializes this approach to be writable into disk */
-  override def serialize: SerializedAnnotatorComponent[AveragedPerceptron] =
-    SerializedPerceptronModel(
-      getTags.toList,
-      getTagBook.flatMap(TaggedWord.unapply).toList,
-      getWeights,
-      getUpdateIterations
-    )
 
   def predict(features: List[(String, Int)]): String = {
     /**
@@ -50,15 +41,13 @@ class AveragedPerceptron(
     val scoresByTag = features
       .filter{case (feature, value) => featuresWeight.contains(feature) && value != 0}
       .map{case (feature, value ) =>
-        (featuresWeight(feature), value)
-      }
-      .map{case (tagsWeight, value) =>
-        tagsWeight.map{ case (tag, weight) =>
-          (tag, value * weight)
+        featuresWeight(feature)
+          .map{ case (tag, weight) =>
+            (tag, value * weight)
         }
       }.aggregate(MMap[String, Double]())(
-      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
-      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+        (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+        (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
     )
     /**
       * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
@@ -83,7 +72,7 @@ class AveragedPerceptron(
     }
   }
   private[nlp] def getUpdateIterations: Int = updateIteration
-  private[nlp] def getTagBook: Array[TaggedWord] = taggedWordBook
+  private[nlp] def getTagBook: Map[String, String] = taggedWordBook
   private[nlp] def getTags: Array[String] = tags
   def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
   /**
