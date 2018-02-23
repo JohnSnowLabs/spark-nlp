@@ -83,10 +83,10 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   /** Check here for explanation on this default pattern */
   setDefault(infixPatterns, Array(
     "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)", // Money, Phone number and dates -> http://rubular.com/r/ihCCgJiX4e
-    "((?:\\p{L}+\\.)+)", // Abbreviations -> http://rubular.com/r/cRBtGuLlF6
+    "((?:\\p{L}\\.)+)", // Abbreviations -> http://rubular.com/r/nMf3n0axfQ
     "(\\p{L}+)(n't\\b)", // Weren't -> http://rubular.com/r/coeYJFt8eM
     "(\\p{L}+)('{1}\\p{L}+)", // I'll -> http://rubular.com/r/N84PYwYjQp
-    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // foo-bar -> http://rubular.com/r/wOvQcey9e3
+    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // foo-bar -> http://rubular.com/r/cjit4R6uWd
     "([\\p{L}\\w]+)" // basic word token
   ))
   /** These catch everything before and after a word, as a separate token*/
