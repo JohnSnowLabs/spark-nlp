@@ -22,13 +22,15 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   }
 
 
-  val targetText = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). Give me my horse! or $100 bucks 'He said', I'll defeat markus-crassus."
+  val targetText = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). Give me my horse! or $100" +
+    " bucks 'He said', I'll defeat markus-crassus. You understand. Goodbye George E. Bush. www.google.com."
   val expected = Array(
-    "Hello", ",", "I", "wo", "n't", "be", "from", "New York", "in", "the", "U.S.A.", "(", "and", "you", "know", "it", "héroe", ")", ".",
-    "Give", "me", "my", "horse", "!", "or", "$100", "bucks", "'", "He", "said", "'", ",", "I", "'ll", "defeat", "markus-crassus", "."
+    "Hello", ",", "I", "wo", "n't", "be", "from", "New York", "in", "the", "U.S.A.", "(", "and", "you", "know", "it",
+    "héroe", ")", ".", "Give", "me", "my", "horse", "!", "or", "$100", "bucks", "'", "He", "said", "'", ",", "I", "'ll",
+    "defeat", "markus-crassus", ".", "You", "understand", ".", "Goodbye", "George", "E.", "Bush", ".", "www.google.com", "."
   )
 
-  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with exceptions" in {
+  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" in {
     val data = DataBuilder.basicDataBuild(targetText)
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
@@ -52,7 +54,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     })
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with exceptions" in {
+  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite" in {
     val data = DataBuilder.basicDataBuild(targetText)
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
     val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
@@ -63,6 +65,22 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
       .collect.flatten
     assert(
       result.sameElements(expected),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected.mkString("|")}"
+    )
+  }
+
+  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" in {
+    val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
+    val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token").setTargetPattern("\\w+").setCompositeTokens(Array("New York"))
+    val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setOutputCols("output")
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, finisher))
+    val result = pipeline.fit(data).transform(data).select("output").as[Array[String]]
+      .collect.flatten
+    assert(
+      result.sameElements(Seq("Hello", "New York", "and", "Goodbye")),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected.mkString("|")}"
     )
@@ -83,7 +101,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
     val date1 = new Date().getTime
     Annotation.take(tokenized, "token", 5000)
-    info(s"Collected 5000 tokens took ${(new Date().getTime - date1) / 1000} seconds")
+    info(s"Collected 5000 tokens took ${(new Date().getTime - date1) / 1000.0} seconds")
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
