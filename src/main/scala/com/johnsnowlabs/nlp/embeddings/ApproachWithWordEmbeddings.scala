@@ -71,7 +71,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   var wembeddings: Option[WordEmbeddings] = None
 
   def embeddings(): Option[WordEmbeddings] = {
-    if (wembeddings == null || wembeddings.isEmpty)
+    if (wembeddings != null && wembeddings.nonEmpty)
       wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
     wembeddings
   }
