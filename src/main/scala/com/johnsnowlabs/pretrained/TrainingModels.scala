@@ -14,7 +14,7 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.util.{PipelineModels, Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.util.DefaultParamsWritable
+import org.apache.spark.ml.util.{DefaultParamsWritable, MLWriter}
 import org.apache.spark.sql.SparkSession
 
 
@@ -37,11 +37,11 @@ class EnModelsTraining(spark: SparkSession) {
       FileUtils.cleanDirectory(new File(folder))
     }
 
-    TrainingHelper.saveModel("document_std", language, libVersion, sparkVersion, documentAssembler, folder)
-    TrainingHelper.saveModel("sentence_std", language, libVersion, sparkVersion, stdSentenceDetector, folder)
-    TrainingHelper.saveModel("tokenizer_std", language, libVersion, sparkVersion, stdTokenizer, folder)
-    TrainingHelper.saveModel("pos_fast", language, libVersion, sparkVersion, fastPos, folder)
-    TrainingHelper.saveModel("ner_fast", language, libVersion, sparkVersion, fastNer, folder)
+    TrainingHelper.saveModel("document_std", language, libVersion, sparkVersion, documentAssembler.write, folder)
+    TrainingHelper.saveModel("sentence_std", language, libVersion, sparkVersion, stdSentenceDetector.write, folder)
+    TrainingHelper.saveModel("tokenizer_std", language, libVersion, sparkVersion, stdTokenizer.write, folder)
+    TrainingHelper.saveModel("pos_fast", language, libVersion, sparkVersion, fastPos.write, folder)
+    TrainingHelper.saveModel("ner_fast", language, libVersion, sparkVersion, fastNer.write, folder)
   }
 
   lazy val documentAssembler = getDocumentAssembler()
@@ -111,12 +111,14 @@ class EnModelsTraining(spark: SparkSession) {
 }
 
 object TrainingHelper {
+  def savePipeline(s: String, someString: Some[String], libVersion: Some[Version], sparkVersion: Some[Version], pipeline: Pipeline, folder: String) = ???
+
 
   def saveModel(name: String,
                 language: Option[String],
                 libVersion: Option[Version],
                 sparkVersion: Option[Version],
-                model: DefaultParamsWritable,
+                modelWriter: MLWriter,
                 folder: String
                ) = {
 
@@ -128,7 +130,7 @@ object TrainingHelper {
 
     // 3. Save model to file
     val file = Paths.get(folder, meta.key).toString
-    model.write.save(file)
+    modelWriter.save(file)
 
     // 4. Zip file
     val zipFile = Paths.get(folder, meta.fileName).toString
