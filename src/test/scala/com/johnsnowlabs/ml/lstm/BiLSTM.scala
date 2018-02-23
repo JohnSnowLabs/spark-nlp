@@ -56,7 +56,7 @@ class BiLSTM(lambda:Double, ils:Int) {
       .nIn(secondLayerSize).nOut(6).build())
     .pretrain(false).backprop(true).build()
 
-  val model = new MultiLayerNetwork(conf)
+  val model = new MultiLayerNetwork(multiLayerConf)
   model.init()
 
 }

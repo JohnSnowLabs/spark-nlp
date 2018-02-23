@@ -66,7 +66,15 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
     // Compute raw scores on the test set.
     import scala.collection.JavaConversions._
-    val pred: Array[Int] = testDatasetIterator.map { t =>
+    val pred: Array[Int] = predict(testDatasetIterator)
+
+    val gold = testLabels
+
+    println(calcStat(pred, gold))
+    println(confusionMatrix(pred, gold))
+  }
+
+  def predict(it:DatasetIterator) = it.map { t =>
       val features = t.getFeatureMatrix()
       val inMask = t.getFeaturesMaskArray()
       val outMask = t.getLabelsMaskArray()
@@ -76,12 +84,6 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
         predict(outMask.getRow(idx), predicted.getRow(idx))
       }.toArray
     }.toArray.flatten
-
-    val gold = testLabels
-
-    println(calcStat(pred, gold))
-    println(confusionMatrix(pred, gold))
-  }
 
   /* predict based on a single output mask */
   private def predict(outMask: INDArray, predicted:INDArray): Int = {
