@@ -3,7 +3,7 @@ package com.johnsnowlabs.pretrained
 import com.johnsnowlabs.nlp.util.ConfigHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, Version}
-import org.apache.spark.ml.PipelineStage
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 import scala.collection.mutable
@@ -75,6 +75,20 @@ object ResourceDownloader {
     }
     else {
       cache(key).asInstanceOf[TModel]
+    }
+  }
+
+  def downloadPipeline(name: String, language: Option[String]): PipelineModel = {
+    val key = ResourceRequest(name, language)
+
+    if (!cache.contains(key)) {
+      val path = downloadResource(name, language)
+      val model = PipelineModel.read.load(path)
+      cache(key) = model
+      model
+    }
+    else {
+      cache(key).asInstanceOf[PipelineModel]
     }
   }
 

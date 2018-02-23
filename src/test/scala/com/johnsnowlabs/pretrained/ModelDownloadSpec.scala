@@ -4,7 +4,7 @@ import com.johnsnowlabs.pretrained.en.models.Tokenizer
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 /**
-  * Combine a downloaded tokenizer with a local document assembler
+  * Combine a downloaded tokenizer with a locally created document assembler
   *
   * Created by jose on 22/02/18.
   */
