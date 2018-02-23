@@ -36,6 +36,13 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
     set(this.embeddingsNDims, nDims).asInstanceOf[A]
   }
 
+  def setEmbeddingsSource(path: String, nDims: Int, format: String): A = {
+    import WordEmbeddingsFormat._
+    set(this.sourceEmbeddingsPath, path)
+    set(this.embeddingsFormat, format.id)
+    set(this.embeddingsNDims, nDims).asInstanceOf[A]
+  }
+
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       // 1. Create tmp file for index
@@ -75,16 +82,16 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
 
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
-    if (formatId == WordEmbeddingsFormat.Text.id) {
+    if (formatId == WordEmbeddingsFormat.TEXT.id) {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
       fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
       WordEmbeddingsIndexer.indexText(tmpFile, localFile)
-    } else if (formatId == WordEmbeddingsFormat.Binary.id) {
+    } else if (formatId == WordEmbeddingsFormat.BINARY.id) {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
       fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
       WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
     }
-    else if (formatId == WordEmbeddingsFormat.SparkNlp.id) {
+    else if (formatId == WordEmbeddingsFormat.SPARKNLP.id) {
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
     }
@@ -112,7 +119,7 @@ object WordEmbeddingsClusterHelper {
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
     val src = new Path(localFolder)
-    val dst = Path.mergePaths(new Path(Files.createTempDirectory("nlp").toString), getClusterFileName(localFolder))
+    val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)

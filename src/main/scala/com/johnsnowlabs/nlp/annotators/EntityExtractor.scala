@@ -1,150 +1,71 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.collections.SearchTrie
-import com.johnsnowlabs.nlp.util.ConfigHelper
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized}
-import com.typesafe.config.Config
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, DocumentAssembler}
+import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
-import scala.collection.mutable.ArrayBuffer
+class EntityExtractor(override val uid: String) extends AnnotatorApproach[EntityExtractorModel] {
 
+  def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-/**
-  * Extracts entities out of provided phrases
-  * @param uid internally required UID to make it writable
-  * @@ entitiesPath: Path to file with phrases to search
-  * @@ insideSentences: Should Extractor search only within sentence borders?
-  */
-class EntityExtractor(override val uid: String) extends AnnotatorModel[EntityExtractor] {
-
-  private val config: Config = ConfigHelper.retrieve
-
-  val entitiesPath = new Param[String](this, "entitiesPath", "Path to entities (phrases) to extract")
-  val entitiesFormat = new Param[String](this, "entitiesFormat", "TXT or TXTDS for reading as dataset")
-
-  if (config.getString("nlp.entityExtractor.file").nonEmpty)
-    setDefault(entitiesPath, config.getString("nlp.entityExtractor.file"))
-
-  setDefault(entitiesFormat, config.getString("nlp.entityExtractor.format"))
-
-  val insideSentences = new BooleanParam(this, "insideSentences",
-    "Should extractor search only within sentences borders?")
+  override val requiredAnnotatorTypes = Array(TOKEN)
 
   override val annotatorType: AnnotatorType = ENTITY
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
+  override val description: String = "Extracts entities from target dataset given in a text file"
 
-  setDefault(
-    inputCols -> Array(DOCUMENT, TOKEN),
-    insideSentences -> true
-  )
+  val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
 
-  /** internal constructor for writabale annotator */
-  def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
+  setDefault(inputCols,Array(TOKEN))
 
-  def setEntitiesPath(value: String): this.type = set(entitiesPath, value)
+  def setEntities(value: ExternalResource): this.type =
+    set(entities, value)
 
-  def getEntitiesPath: String = $(entitiesPath)
-
-  def setEntitiesFormat(value: String): this.type = set(entitiesFormat, value)
-
-  def getEntitiesFormat: String = $(entitiesFormat)
-
-  def setInsideSentences(value: Boolean): this.type = set(insideSentences, value)
-
-  def getEntities: Array[Array[String]] = {
-    if (loadedPath != get(entitiesPath))
-      loadEntities()
-    loadedEntities
-  }
-
-  def getSearchTrie: SearchTrie = {
-    if (loadedPath != get(entitiesPath))
-      loadEntities()
-
-    searchTrie
-  }
-
-  private var loadedEntities = Array.empty[Array[String]]
-  private var loadedPath = get(entitiesPath)
-  private var searchTrie = SearchTrie(Array.empty)
+  def setEntities(path: String, readAs: ReadAs.Format): this.type =
+    set(entities, ExternalResource(path, readAs, Map.empty[String, String]))
 
   /**
     * Loads entities from a provided source.
     */
-  private def loadEntities(): Unit = {
-    val src = EntityExtractor.retrieveEntityExtractorPhrases($(entitiesPath), $(entitiesFormat))
-
+  private def loadEntities(): Array[Array[String]] = {
+    val phrases: Array[String] = ResourceHelper.parseLines($(entities))
     val tokenizer = new Tokenizer()
-    val normalizer = new Normalizer()
-    val phrases: Array[Array[String]] = src.map {
+    val parsedEntities: Array[Array[String]] = phrases.map {
       line =>
         val annotation = Seq(Annotation(line))
         val tokens = tokenizer.annotate(annotation)
-        val nTokens = normalizer.annotate(tokens)
-        nTokens.map(_.result).toArray
+        tokens.map(_.result).toArray
     }
-
-    loadedEntities = phrases
-    searchTrie = SearchTrie.apply(loadedEntities)
-    loadedPath = get(entitiesPath)
+    parsedEntities
   }
 
-  /**
-    * Searches entities and stores them in the annotation
-    * @param text Tokenized text to search
-    * @return Extracted Entities
-    */
-  private def search(text: Array[IndexedToken]): Seq[Annotation] = {
-    val words = text.map(t => t.token)
-    val result = ArrayBuffer[Annotation]()
-
-    for ((begin, end) <- getSearchTrie.search(words)) {
-      val normalizedText = (begin to end).map(i => words(i)).mkString(" ")
-
-      val annotation = Annotation(
-        ENTITY,
-        text(begin).begin,
-        text(end).end,
-        normalizedText,
-        Map()
-      )
-
-      result.append(annotation)
-    }
-
-    result
+  private def loadEntities(pipelineModel: PipelineModel): Array[Array[String]] = {
+    val phrases: Seq[String] = ResourceHelper.parseLines($(entities))
+    import ResourceHelper.spark.implicits._
+    val textColumn = pipelineModel.stages.find {
+      case _: DocumentAssembler => true
+      case _ => false
+    }.map(_.asInstanceOf[DocumentAssembler].getInputCol)
+      .getOrElse(throw new Exception("Could not retrieve DocumentAssembler from RecursivePipeline"))
+    val data = phrases.toDS.withColumnRenamed("value", textColumn)
+    pipelineModel.transform(data).select($(inputCols).head).as[Array[Annotation]].map(_.map(_.result)).collect
   }
 
-  /** Defines annotator phrase matching depending on whether we are using SBD or not */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokens = annotations.flatMap {
-      case a@Annotation(AnnotatorType.TOKEN, _, _, _, _) =>
-        Seq(a)
-      case a => Some(a)
-    }
-
-    val sentences = Tokenized.unpack(tokens)
-    if ($(insideSentences)) {
-      sentences.flatMap(sentence => search(sentence.indexedTokens))
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): EntityExtractorModel = {
+    if (recursivePipeline.isDefined) {
+      new EntityExtractorModel()
+        .setEntities(loadEntities(recursivePipeline.get))
     } else {
-      val allTokens = sentences.flatMap(s => s.indexedTokens).toArray
-      search(allTokens)
+      new EntityExtractorModel()
+        .setEntities(loadEntities())
     }
   }
 
 }
 
-object EntityExtractor extends DefaultParamsReadable[EntityExtractor] {
-
-  protected def retrieveEntityExtractorPhrases(
-                                                entitiesPath: String,
-                                                fileFormat: String
-                                              ): Array[String] = {
-    ResourceHelper.parseLinesText(entitiesPath, fileFormat.toUpperCase())
-  }
-}
+object EntityExtractor extends DefaultParamsReadable[EntityExtractor]

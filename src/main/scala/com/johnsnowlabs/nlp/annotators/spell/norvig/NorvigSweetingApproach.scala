@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -12,23 +12,46 @@ class NorvigSweetingApproach(override val uid: String)
     with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
-  import com.johnsnowlabs.nlp.util.io.ResourceFormat._
 
   override val description: String = "Spell checking algorithm inspired on Norvig model"
 
-  val corpusPath = new Param[String](this, "corpusPath", "path to text corpus for learning")
-  val corpusFormat = new Param[String](this, "corpusFormat", "dataset corpus format. txt or txtds allowed only")
-  val dictPath = new Param[String](this, "dictPath", "path to dictionary of words")
-  val slangPath = new Param[String](this, "slangPath", "path to custom dictionaries")
-  val tokenPattern = new Param[String](this, "tokenPattern", "Regex pattern to use in tokenization of corpus. Defaults [a-zA-Z]+")
+  val corpus = new ExternalResourceParam(this, "corpus", "folder or file with text that teaches about the language")
+  val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
+  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(dictPath, "/spell/words.txt")
-  setDefault(corpusFormat, "TXT")
-  setDefault(tokenPattern, "[a-zA-Z]+")
+  setDefault(dictionary, ExternalResource(
+    "/spell/words.txt",
+    ReadAs.LINE_BY_LINE,
+    options=Map("tokenPattern" -> "[a-zA-Z]+"))
+  )
 
   setDefault(caseSensitive, false)
   setDefault(doubleVariants, false)
   setDefault(shortCircuit, false)
+
+  def setCorpus(value: ExternalResource): this.type = {
+    require(value.options.contains("tokenPattern"), "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+")
+    set(corpus, value)
+  }
+
+  def setCorpus(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
+    set(corpus, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+
+  def setDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
+    set(dictionary, value)
+  }
+
+  def setDictionary(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
+    set(dictionary, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+
+  def setSlangDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
+    set(slangDictionary, value)
+  }
+
+  def setSlangDictionary(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
+    set(slangDictionary, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
 
   override val annotatorType: AnnotatorType = SPELL
 
@@ -36,30 +59,25 @@ class NorvigSweetingApproach(override val uid: String)
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  def setDictPath(value: String): this.type = set(dictPath, value)
-
-  def setCorpusFormat(value: String): this.type = set(corpusFormat, value)
-
-  def setCorpusPath(value: String): this.type = set(corpusPath, value)
-
-  def setSlangPath(value: String): this.type = set(slangPath, value)
-
-  def setTokenPattern(value: String): this.type = set(tokenPattern, value)
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
-    val loadWords = ResourceHelper.wordCount($(dictPath), $(corpusFormat).toUpperCase, $(tokenPattern))
-    val corpusWordCount =
-      if (get(corpusPath).isDefined) {
-        ResourceHelper.wordCount($(corpusPath), $(corpusFormat).toUpperCase, $(tokenPattern))
+    val loadWords = ResourceHelper.wordCountByPattern($(dictionary)).toMap
+    val corpusWordCount: Map[String, Long] =
+      if (get(corpus).isDefined) {
+        ResourceHelper.wordCountByPattern($(corpus), p = recursivePipeline).toMap
       } else {
-      Map.empty[String, Int]
+        import ResourceHelper.spark.implicits._
+        dataset.select($(inputCols).head).as[Array[Annotation]]
+          .flatMap(_.map(_.result))
+          .groupBy("value").count
+          .as[(String, Long)]
+          .collect.toMap
       }
-    val loadSlangs = if (get(slangPath).isDefined)
-      ResourceHelper.parseKeyValueText($(slangPath), $(corpusFormat).toUpperCase, ",")
+    val loadSlangs = if (get(slangDictionary).isDefined)
+      ResourceHelper.parseKeyValueText($(slangDictionary))
     else
       Map.empty[String, String]
     new NorvigSweetingModel()
-      .setWordCount(loadWords.toMap ++ corpusWordCount)
+      .setWordCount(loadWords ++ corpusWordCount)
       .setCustomDict(loadSlangs)
       .setDoubleVariants($(doubleVariants))
       .setCaseSensitive($(caseSensitive))

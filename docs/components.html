@@ -544,21 +544,19 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
-                                                    Looks up
-                                                    path in configuration
-                                                </li>
-                                                <li>
-                                                    setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
-                                                    Default:
-                                                    TXT or looks up path in configuration
+                                                    setEntities(path, format, options): Provides a file with phrases to match. Default: Looks up path in configuration.</br>
+                                                    path: a path to a file that contains the entities in the specified format.</br>
+                                                    format: the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.</br>
+                                                    options: a map of additional parameters. Defaults to {"format": "text"}.
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">entity_extractor = EntityExtractor() \
-  .setMaxLen(4) \
-  .setOutputCol("entity")</code></pre>
+ .setInputCols(["inputCol"])\
+ .setOutputCol("entity")\
+ .setEntities("/path/to/file/myentities.txt")
+</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -576,21 +574,19 @@ documentAssembler = new DocumentAssembler()
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
-                                                    Looks up
-                                                    path in configuration
-                                                </li>
-                                                <li>
-                                                  setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
-                                                  Default:
-                                                  TXT or looks up path in configuration
+                                                    setEntities(path, format, options): Provides a file with phrases to match. Default: Looks up path in configuration.</br>
+                                                    path: a path to a file that contains the entities in the specified format.</br>
+                                                    format: the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.</br>
+                                                    options: a map of additional parameters. Defaults to Map("format" -> "text").
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val entityExtractor = new EntityExtractor()
-  .setMaxLen(4)
-  .setOutputCol("entity")</code></pre>
+ .setInputCols("inputCol")
+ .setOutputCol("entity")
+ .setEntities("/path/to/file/myentities.txt")
+</code></pre>
                                         </div>
                                     </div>
                                 </div>

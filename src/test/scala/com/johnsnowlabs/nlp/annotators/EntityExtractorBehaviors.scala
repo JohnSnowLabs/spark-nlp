@@ -6,7 +6,7 @@ import org.scalatest._
 
 trait EntityExtractorBehaviors { this: FlatSpec =>
 
-  def fullEntityExtractorPipeline(dataset: => Dataset[Row]) {
+  def fullEntityExtractor(dataset: => Dataset[Row]) {
     "An EntityExtractor Annotator" should "successfully transform data" in {
       AnnotatorBuilder.withFullEntityExtractor(dataset)
         .collect().foreach {
