@@ -1,9 +1,11 @@
 package com.johnsnowlabs.pretrained
 
+import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.ml.util.DefaultParamsReadable
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 
 import scala.collection.mutable
 
@@ -97,4 +99,27 @@ object ResourceDownloader {
   }
 
   case class ResourceRequest(name: String, language: Option[String])
+
 }
+
+/* convenience accessor for Py4J calls */
+object PythonResourceDownloader {
+
+  //TODO: fill this!
+
+  val keyToReader : Map[String, DefaultParamsReadable[_]] = Map(
+    "documentAssembler" -> DocumentAssembler,
+    "sentenceDetector" -> SentenceDetector
+    )
+
+  def downloadModel(readerStr: String, name: String, language: String) = {
+    val reader = keyToReader.get(readerStr).getOrElse(throw new RuntimeException("Unsupported Model."))
+    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Some(language))
+  }
+
+
+  def downloadPipeline(name: String, language: String):PipelineModel =
+    ResourceDownloader.downloadPipeline(name, Some(language))
+
+}
+

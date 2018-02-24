@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.pretrained.ResourceDownloader
 
 
+
 object DocumentAssembler {
   def std = ResourceDownloader.downloadModel(nlp.DocumentAssembler, "document_std", Some("en"))
 }

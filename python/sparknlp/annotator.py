@@ -128,6 +128,8 @@ class Tokenizer(AnnotatorTransformer):
                             "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                             typeConverter=TypeConverters.toListString)
 
+    reader = 'tokenizer'
+
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__()
@@ -307,11 +309,11 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(AnnotatorModel):
+    reader = "perceptronModel"
     name = "PerceptronModel"
 
 
 class SentenceDetector(AnnotatorTransformer):
-
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
                              "whether to apply abbreviations at sentence detection",
@@ -321,6 +323,8 @@ class SentenceDetector(AnnotatorTransformer):
                          "customBounds",
                          "characters used to explicitly mark sentence bounds",
                          typeConverter=TypeConverters.toListString)
+
+    reader = 'sentenceDetector'
 
     def setCustomBounds(self, value):
         self._set(customBounds=value)
@@ -528,6 +532,7 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 
 class NerCrfModel(AnnotatorModel):
+    reader = "nerCrfModel"
     name = "NerCrfModel"
 
 
