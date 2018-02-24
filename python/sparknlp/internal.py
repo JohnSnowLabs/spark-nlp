@@ -46,3 +46,20 @@ class _ConfigLoaderSetter(ExtendedJavaWrapper):
     def __init__(self, path):
         super(_ConfigLoaderSetter, self).__init__("com.johnsnowlabs.util.ConfigLoader.setConfigPath")
         self._java_obj = self._new_java_obj(self._java_obj, path)
+
+class _DownloadModel(ExtendedJavaWrapper):
+    def __init__(self, reader, name, language):
+        super(_DownloadModel, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadModel")
+        self._java_obj = self._new_java_obj(self._java_obj, reader, name, language)
+
+class _DownloadPipeline(ExtendedJavaWrapper):
+    def __init__(self, name, language):
+        super(_DownloadPipeline, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadPipeline")
+        self._java_obj = self._new_java_obj(self._java_obj, name, language)
+
+# predefined pipelines
+class _DownloadSentenceDetector(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_DownloadSentenceDetector, self).__init__("com.johnsnowlabs.pretrained.en.pipelines.SentenceDetector.std")
+        self._java_obj = self._new_java_obj(self._java_obj)
+

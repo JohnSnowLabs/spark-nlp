@@ -98,6 +98,7 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
+    reader = 'documentAssembler'
 
     @keyword_only
     def __init__(self):

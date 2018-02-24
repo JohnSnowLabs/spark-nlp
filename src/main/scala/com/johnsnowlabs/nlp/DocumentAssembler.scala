@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.Transformer
+import org.apache.spark.ml.{PipelineStage, Transformer}
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -112,4 +112,6 @@ class DocumentAssembler(override val uid: String)
   }
 
 }
+
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
+
