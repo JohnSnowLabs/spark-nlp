@@ -7,7 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource
+from sparknlp.common import ExternalResource, ParamsGetters
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -71,7 +71,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties):
+class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -85,7 +85,7 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
         super(JavaTransformer, self).__init__()
         
         
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, ParamsGetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorApproach, self).__init__()
