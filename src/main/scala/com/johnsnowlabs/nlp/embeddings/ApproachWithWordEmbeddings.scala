@@ -71,10 +71,11 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   var wembeddings: Option[WordEmbeddings] = None
 
   def embeddings(): Option[WordEmbeddings] = {
-    if (wembeddings != null && wembeddings.nonEmpty)
+    if (isDefined(sourceEmbeddingsPath) && (wembeddings == null || wembeddings.isEmpty))
       wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
     wembeddings
   }
+
   private var localPath: Option[String] = None
 
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
