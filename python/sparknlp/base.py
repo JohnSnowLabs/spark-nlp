@@ -3,7 +3,7 @@ from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
-
+from sparknlp.common import ParamsGetters
 
 class JavaRecursiveEstimator(JavaEstimator):
 
@@ -92,7 +92,7 @@ class RecursivePipeline(Pipeline, JavaEstimator):
         return PipelineModel(transformers)
 
 
-class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
@@ -124,7 +124,7 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
         return self._set(metadataCol=value)
 
 
-class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
 
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
@@ -148,7 +148,7 @@ class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
         return self._set(outputCol=value)
 
 
-class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)

@@ -13,6 +13,7 @@ unittest.TextTestRunner().run(PragmaticSBDTestSpec())
 unittest.TextTestRunner().run(PragmaticScorerTestSpec())
 unittest.TextTestRunner().run(PipelineTestSpec())
 unittest.TextTestRunner().run(SpellCheckerTestSpec())
+unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(ParamsGettersTestSpec))
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
