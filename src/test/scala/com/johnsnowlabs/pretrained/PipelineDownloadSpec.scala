@@ -1,15 +1,15 @@
 package com.johnsnowlabs.pretrained
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.{DocumentAssembler, annotators}
-import com.johnsnowlabs.pretrained.en.models.Tokenizer
+import com.johnsnowlabs.nlp.DocumentAssembler
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import com.johnsnowlabs.util.Version
-import com.johnsnowlabs.pretrained.en.models._
 
 /**
   * Created by jose on 22/02/18.
+  *
+  * Sample script to exercise Pipeline download
   */
 object PipelineDownloadSpec extends App{
 
@@ -39,13 +39,13 @@ object PipelineDownloadSpec extends App{
   val sparkVersion = Some(Version.parse(spark.version).take(1))
   val folder = "pipeline"
 
-  //TrainingHelper.saveModel("pipeline_std", Some("en"), libVersion, sparkVersion, fittedPipeline.write, folder)
+  TrainingHelper.saveModel("pipeline_std", Some("en"), libVersion, sparkVersion, fittedPipeline.write, folder)
 
   // now some magic brings this to S3 bucket ... and we can download it
   val downloadedPipeline = ResourceDownloader.downloadPipeline("pipeline_std", Some("en"))
   val transformed2 = downloadedPipeline.transform(dataset)
 
-  assert(transformed1.collect == transformed2.collect)
-
+  transformed1.show()
+  transformed2.show()
 
 }
