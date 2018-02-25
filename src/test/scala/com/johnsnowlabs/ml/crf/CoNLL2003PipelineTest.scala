@@ -56,7 +56,7 @@ object CoNLL2003PipelineTest extends App {
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
-      .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+      .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")))
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(20)

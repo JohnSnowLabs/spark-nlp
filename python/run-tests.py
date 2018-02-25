@@ -18,3 +18,4 @@ unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(Params
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(ConfigPathTestSpec())
+unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(SerializersTestSpec))
