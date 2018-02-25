@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.crf
 
-import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLL2003NerReader}
+import com.johnsnowlabs.nlp.datasets.CoNLL2003NerReader
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
@@ -46,7 +46,7 @@ object CoNLL2003CrfTest extends App {
       l2 = 1f,
       verbose = Verbose.Epochs,
       randomSeed = Some(0),
-      c0 = 1250000
+      c0 = 2250000
     )
     val crf = new LinearChainCrf(params)
     crf.trainSGD(dataset)
@@ -104,7 +104,7 @@ object CoNLL2003CrfTest extends App {
     }
   }
 
-  val model = trainModel(trainFile)
+  var model = trainModel(trainFile)
 
   System.out.println("\n\nQuality on train data")
   testDataset(trainFile, model)
@@ -114,4 +114,18 @@ object CoNLL2003CrfTest extends App {
 
   System.out.println("\n\nQuality on test B data")
   testDataset(testFileB, model)
+
+  for (w <- Array(0.0001, 0.0003, 0.001, 0.003, 0.01, 0.03, 0.1)) {
+    System.out.println("w: " + w)
+    model = model.shrink(w.toFloat)
+
+    System.out.println("\n\nQuality on train data")
+    testDataset(trainFile, model)
+
+    System.out.println("\n\nQuality on test A data")
+    testDataset(testFileA, model)
+
+    System.out.println("\n\nQuality on test B data")
+    testDataset(testFileB, model)
+  }
 }
