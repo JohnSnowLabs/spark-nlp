@@ -8,6 +8,7 @@ from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource
+from sparknlp.util import AnnotatorJavaMLReadable
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -71,7 +72,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties):
+class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -83,12 +84,18 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
     @keyword_only
     def __init__(self):
         super(JavaTransformer, self).__init__()
-        
-        
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
+
+    @keyword_only
+    def __init__(self, classname):
+        super(JavaTransformer, self).__init__()
+        self.__class__._java_class_name = classname
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorApproach, self).__init__()
+        self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
 
 
@@ -130,8 +137,7 @@ class Tokenizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Tokenizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Tokenizer", self.uid)
+        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
     def setTargetPattern(self, value):
         return self._set(targetPattern=value)
@@ -155,8 +161,7 @@ class Stemmer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Stemmer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Stemmer", self.uid)
+        super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
 
 
 class Normalizer(AnnotatorTransformer):
@@ -172,8 +177,7 @@ class Normalizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Normalizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Normalizer", self.uid)
+        super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -249,8 +253,7 @@ class DateMatcher(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(DateMatcher, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.DateMatcher", self.uid)
+        super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
 
     def setDateFormat(self, value):
         return self._set(dateFormat=value)
@@ -340,8 +343,7 @@ class SentenceDetector(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(SentenceDetector, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector", self.uid)
+        super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -619,7 +621,3 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
-
-
-
-
