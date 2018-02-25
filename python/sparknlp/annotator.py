@@ -72,7 +72,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
+class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -91,6 +91,7 @@ class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, A
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
 
+
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
     @keyword_only
     def __init__(self, classname):
@@ -99,16 +100,12 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
         self._java_obj = self._new_java_obj(classname, self.uid)
 
 
-class AnnotatorModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    pass
-
-
 class ReadAs(object):
     LINE_BY_LINE = "LINE_BY_LINE"
     SPARK_DATASET = "SPARK_DATASET"
 
 
-class Tokenizer(AnnotatorTransformer):
+class Tokenizer(AnnotatorModel):
 
     targetPattern = Param(Params._dummy(),
                     "targetPattern",
@@ -155,7 +152,7 @@ class Tokenizer(AnnotatorTransformer):
         return self._set(infixPatterns=value)
 
 
-class Stemmer(AnnotatorTransformer):
+class Stemmer(AnnotatorModel):
 
     algorithm = Param(Params._dummy(), "algorithm", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
@@ -164,7 +161,7 @@ class Stemmer(AnnotatorTransformer):
         super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
 
 
-class Normalizer(AnnotatorTransformer):
+class Normalizer(AnnotatorModel):
 
     pattern = Param(Params._dummy(),
                     "pattern",
@@ -245,7 +242,7 @@ class LemmatizerModel(AnnotatorModel):
     name = "LemmatizerModel"
 
 
-class DateMatcher(AnnotatorTransformer):
+class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
@@ -321,7 +318,7 @@ class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
 
 
-class SentenceDetector(AnnotatorTransformer):
+class SentenceDetector(AnnotatorModel):
 
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
