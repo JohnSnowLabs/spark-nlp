@@ -132,6 +132,8 @@ class Tokenizer(AnnotatorModel):
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
+    reader = 'tokenizer'
+
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
@@ -315,6 +317,7 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(_AnnotatorModel):
+    reader = "perceptronModel"
     name = "PerceptronModel"
 
 
@@ -329,6 +332,8 @@ class SentenceDetector(AnnotatorModel):
                          "customBounds",
                          "characters used to explicitly mark sentence bounds",
                          typeConverter=TypeConverters.toListString)
+
+    reader = 'sentenceDetector'
 
     def setCustomBounds(self, value):
         self._set(customBounds=value)
@@ -556,6 +561,7 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 
 class NerCrfModel(_AnnotatorModel):
+    reader = "nerCrfModel"
     name = "NerCrfModel"
 
 
@@ -591,7 +597,7 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     def setEnet(self, enet):
         self._set(eNetParam = enet)
         return self
-
+    
     def setBefore(self, before):
         self._set(beforeParam = before)
         return self
