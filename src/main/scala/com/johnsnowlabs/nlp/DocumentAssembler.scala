@@ -112,4 +112,6 @@ class DocumentAssembler(override val uid: String)
   }
 
 }
+
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
+
