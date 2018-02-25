@@ -13,9 +13,9 @@ unittest.TextTestRunner().run(PragmaticSBDTestSpec())
 unittest.TextTestRunner().run(PragmaticScorerTestSpec())
 unittest.TextTestRunner().run(PipelineTestSpec())
 unittest.TextTestRunner().run(SpellCheckerTestSpec())
-unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(ParamsGettersTestSpec))
+unittest.TextTestRunner().run(ParamsGettersTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(ConfigPathTestSpec())
-unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(SerializersTestSpec))
+unittest.TextTestRunner().run(SerializersTestSpec())

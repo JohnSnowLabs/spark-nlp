@@ -262,7 +262,8 @@ class SpellCheckerTestSpec(unittest.TestCase):
 
 
 class ParamsGettersTestSpec(unittest.TestCase):
-    def test_multiple(self):
+    @staticmethod
+    def runTest():
         annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer]
         for annotator in annotators:
             a = annotator()

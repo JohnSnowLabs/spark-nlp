@@ -10,9 +10,9 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters
 from sparknlp.util import AnnotatorJavaMLReadable
 
+# Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
-    #Needed. Delete once DA becomes an annotator in 1.1.x
-    from sparknlp.base import DocumentAssembler, Finisher
+    from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
