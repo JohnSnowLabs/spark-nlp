@@ -4,10 +4,10 @@
 
 import sys
 from pyspark import keyword_only
-from pyspark.ml.util import JavaMLReadable, JavaMLWritable
+from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource
+from sparknlp.common import ExternalResource, ParamsGetters
 from sparknlp.util import AnnotatorJavaMLReadable
 
 if sys.version_info[0] == 2:
@@ -33,13 +33,13 @@ norvig = sys.modules[__name__]
 class AnnotatorProperties(Params):
 
     inputCols = Param(Params._dummy(),
-                                "inputCols",
-                                "previous annotations columns, if renamed",
-                                typeConverter=TypeConverters.toListString)
+                      "inputCols",
+                      "previous annotations columns, if renamed",
+                      typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(),
-                                "outputCol",
-                                "output annotation column. can be left default.",
-                                typeConverter=TypeConverters.toString)
+                      "outputCol",
+                      "output annotation column. can be left default.",
+                      typeConverter=TypeConverters.toString)
     requiredAnnotatorTypes = Param(Params._dummy(),
                                    "requiredAnnotatorTypes",
                                    "required input annotations",
@@ -72,7 +72,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties):
+class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -82,16 +82,17 @@ class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, A
         return self._set(**kwargs)
 
     @keyword_only
-    def __init__(self):
-        super(JavaTransformer, self).__init__()
-
-    @keyword_only
     def __init__(self, classname):
         super(JavaTransformer, self).__init__()
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
 
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties):
+
+class _AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
+    pass
+
+
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorApproach, self).__init__()
@@ -99,21 +100,17 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
         self._java_obj = self._new_java_obj(classname, self.uid)
 
 
-class AnnotatorModel(JavaModel, JavaMLWritable, JavaMLReadable, AnnotatorProperties):
-    pass
-
-
 class ReadAs(object):
     LINE_BY_LINE = "LINE_BY_LINE"
     SPARK_DATASET = "SPARK_DATASET"
 
 
-class Tokenizer(AnnotatorTransformer):
+class Tokenizer(AnnotatorModel):
 
     targetPattern = Param(Params._dummy(),
-                    "targetPattern",
-                    "pattern to grab from text as token candidates. Defaults \S+",
-                    typeConverter=TypeConverters.toString)
+                          "targetPattern",
+                          "pattern to grab from text as token candidates. Defaults \S+",
+                          typeConverter=TypeConverters.toString)
 
     prefixPattern = Param(Params._dummy(),
                           "prefixPattern",
@@ -126,14 +123,14 @@ class Tokenizer(AnnotatorTransformer):
                           typeConverter=TypeConverters.toString)
 
     compositeTokens = Param(Params._dummy(),
-                         "compositeTokens",
-                         "Words that won't be split in two",
-                         typeConverter=TypeConverters.toListString)
+                            "compositeTokens",
+                            "Words that won't be split in two",
+                            typeConverter=TypeConverters.toListString)
 
     infixPatterns = Param(Params._dummy(),
-                            "infixPatterns",
-                            "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
-                            typeConverter=TypeConverters.toListString)
+                          "infixPatterns",
+                          "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
+                          typeConverter=TypeConverters.toListString)
 
     @keyword_only
     def __init__(self):
@@ -155,7 +152,7 @@ class Tokenizer(AnnotatorTransformer):
         return self._set(infixPatterns=value)
 
 
-class Stemmer(AnnotatorTransformer):
+class Stemmer(AnnotatorModel):
 
     algorithm = Param(Params._dummy(), "algorithm", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
@@ -164,7 +161,7 @@ class Stemmer(AnnotatorTransformer):
         super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
 
 
-class Normalizer(AnnotatorTransformer):
+class Normalizer(AnnotatorModel):
 
     pattern = Param(Params._dummy(),
                     "pattern",
@@ -193,9 +190,9 @@ class RegexMatcher(AnnotatorApproach):
                      "MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE",
                      typeConverter=TypeConverters.toString)
     externalRules = Param(Params._dummy(),
-                  "externalRules",
-                  "external resource to rules, needs 'delimiter' in options",
-                  typeConverter=TypeConverters.identity)
+                          "externalRules",
+                          "external resource to rules, needs 'delimiter' in options",
+                          typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -214,16 +211,16 @@ class RegexMatcher(AnnotatorApproach):
         return RegexMatcherModel(java_model)
 
 
-class RegexMatcherModel(AnnotatorModel):
+class RegexMatcherModel(_AnnotatorModel):
     name = "RegexMatcherModel"
 
 
 class Lemmatizer(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
-                        "dictionary",
-                        "lemmatizer external dictionary." +
+                       "dictionary",
+                       "lemmatizer external dictionary." +
                        " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text",
-                        typeConverter=TypeConverters.identity)
+                       typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -241,11 +238,11 @@ class Lemmatizer(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
 
-class LemmatizerModel(AnnotatorModel):
+class LemmatizerModel(_AnnotatorModel):
     name = "LemmatizerModel"
 
 
-class DateMatcher(AnnotatorTransformer):
+class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
@@ -262,9 +259,9 @@ class DateMatcher(AnnotatorTransformer):
 class EntityExtractor(AnnotatorApproach):
 
     entities = Param(Params._dummy(),
-                         "entities",
-                         "ExternalResource for entities",
-                         typeConverter=TypeConverters.identity)
+                     "entities",
+                     "ExternalResource for entities",
+                     typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -277,7 +274,7 @@ class EntityExtractor(AnnotatorApproach):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
-class EntityExtractorModel(AnnotatorModel):
+class EntityExtractorModel(_AnnotatorModel):
     name = "EntityExtractorModel"
 
 
@@ -288,8 +285,8 @@ class PerceptronApproach(AnnotatorApproach):
                    typeConverter=TypeConverters.toString)
 
     corpus = Param(Params._dummy(),
-                       "corpus",
-                       "POS tags delimited corpus. Needs 'delimiter' in options",
+                   "corpus",
+                   "POS tags delimited corpus. Needs 'delimiter' in options",
                    typeConverter=TypeConverters.identity)
 
     nIterations = Param(Params._dummy(),
@@ -317,11 +314,11 @@ class PerceptronApproach(AnnotatorApproach):
         return PerceptronModel(java_model)
 
 
-class PerceptronModel(AnnotatorModel):
+class PerceptronModel(_AnnotatorModel):
     name = "PerceptronModel"
 
 
-class SentenceDetector(AnnotatorTransformer):
+class SentenceDetector(AnnotatorModel):
 
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
@@ -348,8 +345,8 @@ class SentenceDetector(AnnotatorTransformer):
 
 class SentimentDetector(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
-                     "dictionary",
-                     "path for dictionary to sentiment analysis")
+                       "dictionary",
+                       "path for dictionary to sentiment analysis")
 
     @keyword_only
     def __init__(self):
@@ -365,25 +362,25 @@ class SentimentDetector(AnnotatorApproach):
         return SentimentDetectorModel(java_model)
 
 
-class SentimentDetectorModel(AnnotatorModel):
+class SentimentDetectorModel(_AnnotatorModel):
     name = "SentimentDetectorModel"
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
     sentimentCol = Param(Params._dummy(),
-                           "sentimentCol",
-                           "column with the sentiment result of every row. Must be 'positive' or 'negative'",
-                           typeConverter=TypeConverters.toString)
+                         "sentimentCol",
+                         "column with the sentiment result of every row. Must be 'positive' or 'negative'",
+                         typeConverter=TypeConverters.toString)
 
     positiveSource = Param(Params._dummy(),
-                     "positiveSource",
-                     "positive sentiment file or folder",
-                     typeConverter=TypeConverters.identity)
+                           "positiveSource",
+                           "positive sentiment file or folder",
+                           typeConverter=TypeConverters.identity)
 
     negativeSource = Param(Params._dummy(),
-                      "negativeSource",
-                      "negative sentiment file or folder",
-                      typeConverter=TypeConverters.identity)
+                           "negativeSource",
+                           "negative sentiment file or folder",
+                           typeConverter=TypeConverters.identity)
 
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
@@ -416,20 +413,20 @@ class ViveknSentimentApproach(AnnotatorApproach):
         return ViveknSentimentModel(java_model)
 
 
-class ViveknSentimentModel(AnnotatorModel):
+class ViveknSentimentModel(_AnnotatorModel):
     name = "ViveknSentimentModel"
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
-                        "dictionary",
-                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
-                        typeConverter=TypeConverters.identity)
+                       "dictionary",
+                       "dictionary needs 'tokenPattern' regex in dictionary for separating words",
+                       typeConverter=TypeConverters.identity)
 
     corpus = Param(Params._dummy(),
-                        "corpus",
-                        "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
-                        typeConverter=TypeConverters.identity)
+                   "corpus",
+                   "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
+                   typeConverter=TypeConverters.identity)
 
     slangDictionary = Param(Params._dummy(),
                             "slangDictionary",
@@ -486,15 +483,15 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return NorvigSweetingModel(java_model)
 
 
-class NorvigSweetingModel(AnnotatorModel):
+class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
 
 class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     labelColumn = Param(Params._dummy(),
-                     "labelColumn",
-                     "Column with label per each token",
-                     typeConverter=TypeConverters.toString)
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
 
     entities = Param(Params._dummy(), "entities", "Entities to recognize", TypeConverters.toListString)
 
@@ -558,7 +555,7 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         super(NerCrfApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach")
 
 
-class NerCrfModel(AnnotatorModel):
+class NerCrfModel(_AnnotatorModel):
     name = "NerCrfModel"
 
 
@@ -594,7 +591,7 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     def setEnet(self, enet):
         self._set(eNetParam = enet)
         return self
-    
+
     def setBefore(self, before):
         self._set(beforeParam = before)
         return self
@@ -619,5 +616,5 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         super(AssertionLogRegApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach")
 
 
-class AssertionLogRegModel(AnnotatorModel):
+class AssertionLogRegModel(_AnnotatorModel):
     name = "AssertionLogRegModel"

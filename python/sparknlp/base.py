@@ -1,20 +1,19 @@
 from pyspark import keyword_only
-from pyspark.ml.util import JavaMLReadable, JavaMLWritable
+from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
+from sparknlp.common import ParamsGetters
 from sparknlp.util import AnnotatorJavaMLReadable
 
 
-class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable):
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorTransformer, self).__init__()
         kwargs = self._input_kwargs
-        try:
+        if 'classname' in kwargs:
             kwargs.pop('classname')
-        except:
-            pass
         self.setParams(**kwargs)
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
