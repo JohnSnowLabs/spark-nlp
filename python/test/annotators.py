@@ -52,7 +52,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt") \
+            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt", delimiter=",") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
@@ -72,7 +72,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt", key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -197,7 +197,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt", delimiter=",")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -219,7 +219,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt", key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
