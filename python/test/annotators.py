@@ -260,9 +260,10 @@ class SpellCheckerTestSpec(unittest.TestCase):
         checked = spell_checker.transform(tokenized)
         checked.show()
 
+
 class ParamsGettersTestSpec(unittest.TestCase):
     def test_multiple(self):
-        annotators = [ DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer ]
+        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer]
         for annotator in annotators:
             a = annotator()
             for param in a.params:
@@ -271,3 +272,10 @@ class ParamsGettersTestSpec(unittest.TestCase):
                 assert(hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
                 assert(param_value is None or param_value is not None)
+        # Try a random getter
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence") \
+            .setCustomBounds(["%%"])
+        assert(sentence_detector.getOutputCol() == "sentence")
+        assert(sentence_detector.getCustomBounds() == ["%%"])
