@@ -1,6 +1,9 @@
 package com.johnsnowlabs.pretrained
 
 import com.johnsnowlabs.nlp.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
@@ -105,11 +108,12 @@ object ResourceDownloader {
 /* convenience accessor for Py4J calls */
 object PythonResourceDownloader {
 
-  //TODO: fill this!
-
   val keyToReader : Map[String, DefaultParamsReadable[_]] = Map(
     "documentAssembler" -> DocumentAssembler,
-    "sentenceDetector" -> SentenceDetector
+    "sentenceDetector" -> SentenceDetector,
+    "tokenizer" -> Tokenizer,
+    "perceptronModel" -> PerceptronModel,
+    "nerCrfModel" -> NerCrfModel
     )
 
   def downloadModel(readerStr: String, name: String, language: String) = {
@@ -117,9 +121,7 @@ object PythonResourceDownloader {
     ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Some(language))
   }
 
-
   def downloadPipeline(name: String, language: String):PipelineModel =
     ResourceDownloader.downloadPipeline(name, Some(language))
-
 }
 
