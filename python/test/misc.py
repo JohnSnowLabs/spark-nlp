@@ -5,7 +5,7 @@ import tempfile
 from sparknlp.common import RegexRule
 from sparknlp.util import *
 
-from sparknlp.base import TokenAssembler
+from sparknlp.base import *
 from sparknlp.annotator import *
 
 
