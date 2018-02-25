@@ -48,16 +48,22 @@ class ViveknSentimentApproach(override val uid: String)
     set(positiveSource, value)
   }
 
-  def setPositiveSource(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
-    set(positiveSource, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+  def setPositiveSource(path: String,
+                        tokenPattern: String,
+                        readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                        options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(positiveSource, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
   def setNegativeSource(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "vivekn corpus needs 'tokenPattern' regex for tagging words. e.g. \\S+")
     set(negativeSource, value)
   }
 
-  def setNegativeSource(path: String, tokenPattern: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
-    set(negativeSource, ExternalResource(path, readAs, Map("tokenPattern" -> tokenPattern)))
+  def setNegativeSource(path: String,
+                        tokenPattern: String,
+                        readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                        options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(negativeSource, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
   def setCorpusPrune(value: Int): this.type = set(pruneCorpus, value)
 
