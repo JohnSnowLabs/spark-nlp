@@ -310,7 +310,7 @@ object ResourceHelper {
     }
   }
 
-  def wordCountByPattern(
+  def wordCount(
                  er: ExternalResource,
                  m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
                  p: Option[PipelineModel] = None
@@ -322,13 +322,13 @@ object ResourceHelper {
         if (sourceStream.isResourceFolder) {
           try {
             listResourceDirectory(er.path)
-              .flatMap(fileName => wordCountByPattern(ExternalResource(fileName, er.readAs, er.options), m))
+              .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
           } catch {
             case _: NullPointerException =>
               sourceStream
                 .content
                 .getLines()
-                .flatMap(fileName => wordCountByPattern(ExternalResource(fileName, er.readAs, er.options), m))
+                .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
                 .toArray
               sourceStream.close()
           }
