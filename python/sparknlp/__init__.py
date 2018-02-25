@@ -1,6 +1,6 @@
 import sys
-import sparknlp.annotator
-from sparknlp.base import DocumentAssembler, Finisher
+from sparknlp import annotator
+from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
