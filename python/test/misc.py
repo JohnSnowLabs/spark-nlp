@@ -1,17 +1,20 @@
 import unittest
+import shutil
+import tempfile
+
 from sparknlp.common import RegexRule
 from sparknlp.util import *
-import shutil, tempfile
 
-from sparknlp.base import DocumentAssembler, TokenAssembler, Finisher
+from sparknlp.base import TokenAssembler
 from sparknlp.annotator import *
+
 
 class UtilitiesTestSpec(unittest.TestCase):
 
     @staticmethod
     def runTest():
-        regex_rule = RegexRule("\\w+", "word split")
-        print(regex_rule.rule())
+        regex_rule = RegexRule("\w+", "word split")
+        assert(regex_rule.rule() == "\w+")
 
 
 class ConfigPathTestSpec(unittest.TestCase):
@@ -21,6 +24,7 @@ class ConfigPathTestSpec(unittest.TestCase):
         assert(get_config_path() == "./application.conf")
         set_config_path("./somewhere/application.conf")
         assert(get_config_path() == "./somewhere/application.conf")
+
 
 class SerializersTestSpec(unittest.TestCase):
     def setUp(self):
