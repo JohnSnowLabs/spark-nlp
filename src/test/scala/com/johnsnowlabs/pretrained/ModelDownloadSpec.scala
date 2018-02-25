@@ -10,7 +10,7 @@ import org.apache.spark.sql.SparkSession
   */
 object ModelDownloadSpec extends App {
 
-  implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("spark://172.18.0.2:7077").getOrCreate
+  implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate
   import spark.implicits._
 
   val dataset = Seq("Songs are to be sung", "Dances are to be danced").toDF("text")
@@ -23,11 +23,7 @@ object ModelDownloadSpec extends App {
     .setOutputCol("token")
 
   val pipeline = new Pipeline().setStages(
-    Array(
-      documentAssembler,
-      tokenizer)
+    Array(documentAssembler, tokenizer)
   )
-
   print(pipeline.fit(dataset).transform(dataset))
-
 }

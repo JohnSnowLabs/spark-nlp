@@ -70,7 +70,6 @@ object ResourceDownloader {
 
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel], name: String, language: Option[String]): TModel = {
     val key = ResourceRequest(name, language)
-
     if (!cache.contains(key)) {
       val path = downloadResource(name, language)
       val model = reader.read.load(path)
@@ -84,7 +83,6 @@ object ResourceDownloader {
 
   def downloadPipeline(name: String, language: Option[String]): PipelineModel = {
     val key = ResourceRequest(name, language)
-
     if (!cache.contains(key)) {
       val path = downloadResource(name, language)
       val model = PipelineModel.read.load(path)
