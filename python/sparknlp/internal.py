@@ -58,8 +58,8 @@ class _DownloadPipeline(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, name, language)
 
 # predefined pipelines
-class _DownloadSentenceDetector(ExtendedJavaWrapper):
-    def __init__(self):
-        super(_DownloadSentenceDetector, self).__init__("com.johnsnowlabs.pretrained.en.pipelines.SentenceDetector.std")
+class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
+    def __init__(self, java_path):
+        super(_DownloadPredefinedPipeline, self).__init__(java_path)
         self._java_obj = self._new_java_obj(self._java_obj)
 
