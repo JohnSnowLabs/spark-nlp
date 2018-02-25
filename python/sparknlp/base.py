@@ -4,6 +4,22 @@ from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGetters
+from sparknlp.util import AnnotatorJavaMLReadable
+
+
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable):
+    @keyword_only
+    def __init__(self, classname):
+        super(AnnotatorTransformer, self).__init__()
+        kwargs = self._input_kwargs
+        try:
+            kwargs.pop('classname')
+        except:
+            pass
+        self.setParams(**kwargs)
+        self.__class__._java_class_name = classname
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
 
 class JavaRecursiveEstimator(JavaEstimator):
 
@@ -92,7 +108,7 @@ class RecursivePipeline(Pipeline, JavaEstimator):
         return PipelineModel(transformers)
 
 
-class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
+class DocumentAssembler(AnnotatorTransformer, ParamsGetters):
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
@@ -101,10 +117,7 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsG
 
     @keyword_only
     def __init__(self):
-        super(DocumentAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.DocumentAssembler", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(DocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.DocumentAssembler")
 
     @keyword_only
     def setParams(self):
@@ -124,17 +137,14 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsG
         return self._set(metadataCol=value)
 
 
-class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
+class TokenAssembler(AnnotatorTransformer, ParamsGetters):
 
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
-        super(TokenAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.TokenAssembler", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(TokenAssembler, self).__init__(classname = "com.johnsnowlabs.nlp.TokenAssembler")
 
     @keyword_only
     def setParams(self):
@@ -148,7 +158,7 @@ class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGett
         return self._set(outputCol=value)
 
 
-class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
+class Finisher(AnnotatorTransformer, ParamsGetters):
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
@@ -160,10 +170,7 @@ class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable, ParamsGetters):
 
     @keyword_only
     def __init__(self):
-        super(Finisher, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.Finisher", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(Finisher, self).__init__(classname="com.johnsnowlabs.nlp.Finisher")
 
     @keyword_only
     def setParams(self):

@@ -8,6 +8,7 @@ from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters
+from sparknlp.util import AnnotatorJavaMLReadable
 
 if sys.version_info[0] == 2:
     #Needed. Delete once DA becomes an annotator in 1.1.x
@@ -71,7 +72,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
+class AnnotatorTransformer(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -83,12 +84,18 @@ class AnnotatorTransformer(JavaModel, JavaMLReadable, JavaMLWritable, AnnotatorP
     @keyword_only
     def __init__(self):
         super(JavaTransformer, self).__init__()
-        
-        
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, JavaMLReadable, AnnotatorProperties, ParamsGetters):
+
+    @keyword_only
+    def __init__(self, classname):
+        super(JavaTransformer, self).__init__()
+        self.__class__._java_class_name = classname
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorApproach, self).__init__()
+        self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
 
 
@@ -130,8 +137,7 @@ class Tokenizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Tokenizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Tokenizer", self.uid)
+        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
     def setTargetPattern(self, value):
         return self._set(targetPattern=value)
@@ -155,8 +161,7 @@ class Stemmer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Stemmer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Stemmer", self.uid)
+        super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
 
 
 class Normalizer(AnnotatorTransformer):
@@ -172,8 +177,7 @@ class Normalizer(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(Normalizer, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.Normalizer", self.uid)
+        super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -200,9 +204,11 @@ class RegexMatcher(AnnotatorApproach):
     def setStrategy(self, value):
         return self._set(strategy=value)
 
-    def setExternalRules(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={
-        "format": "text", "delimiter": ","}.copy()):
-        return self._set(externalRules=ExternalResource(path, read_as, options))
+    def setExternalRules(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(externalRules=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
         return RegexMatcherModel(java_model)
@@ -226,10 +232,13 @@ class Lemmatizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
 
-    def setDictionary(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text",
-                                                                        "keyDelimiter": "->",
-                                                                        "valueDelimiter": "\t"}.copy()):
-        return self._set(dictionary=ExternalResource(path, read_as, options))
+    def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "keyDelimiter" not in opts:
+            opts["keyDelimiter"] = key_delimiter
+        if "valueDelimiter" not in opts:
+            opts["valueDelimiter"] = value_delimiter
+        return self._set(dictionary=ExternalResource(path, read_as, opts))
 
 
 class LemmatizerModel(AnnotatorModel):
@@ -244,8 +253,7 @@ class DateMatcher(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(DateMatcher, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.DateMatcher", self.uid)
+        super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
 
     def setDateFormat(self, value):
         return self._set(dateFormat=value)
@@ -265,8 +273,8 @@ class EntityExtractor(AnnotatorApproach):
     def _create_model(self, java_model):
         return EntityExtractorModel(java_model)
 
-    def setEntities(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}.copy()):
-        return self._set(entities=ExternalResource(path, read_as, options))
+    def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
 class EntityExtractorModel(AnnotatorModel):
@@ -296,8 +304,11 @@ class PerceptronApproach(AnnotatorApproach):
     def setPosCol(self, value):
         return self._set(posCol=value)
 
-    def setCorpus(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "delimiter": "|"}.copy()):
-        return self._set(corpus=ExternalResource(path, read_as, options))
+    def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setIterations(self, value):
         return self._set(nIterations=value)
@@ -332,8 +343,7 @@ class SentenceDetector(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(SentenceDetector, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector", self.uid)
+        super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -345,8 +355,11 @@ class SentimentDetector(AnnotatorApproach):
     def __init__(self):
         super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
 
-    def setDictionary(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={'format':'text', 'delimiter':','}.copy()):
-        return self._set(dictionary=ExternalResource(path, read_as, options))
+    def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format':'text'}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
         return SentimentDetectorModel(java_model)
@@ -384,11 +397,17 @@ class ViveknSentimentApproach(AnnotatorApproach):
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
 
-    def setPositiveSource(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "tokenPattern": "\S+"}.copy()):
-        return self._set(positiveSource=ExternalResource(path, read_as, options))
+    def setPositiveSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(positiveSource=ExternalResource(path, read_as, opts))
 
-    def setNegativeSource(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "tokenPattern": "\S+"}.copy()):
-        return self._set(negativeSource=ExternalResource(path, read_as, options))
+    def setNegativeSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(negativeSource=ExternalResource(path, read_as, opts))
 
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
@@ -436,14 +455,23 @@ class NorvigSweetingApproach(AnnotatorApproach):
     def __init__(self):
         super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
 
-    def setCorpus(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "tokenPattern": "\S+"}.copy()):
-        return self._set(corpus=ExternalResource(path, read_as, options))
+    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(corpus=ExternalResource(path, read_as, opts))
 
-    def setDictionary(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "tokenPattern": "\S+"}.copy()):
-        return self._set(dictionary=ExternalResource(path, read_as, options))
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(dictionary=ExternalResource(path, read_as, opts))
 
-    def setSlangDictionary(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "tokenPattern": "\S+"}.copy()):
-        return self._set(slangDictionary=ExternalResource(path, read_as, options))
+    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
@@ -513,11 +541,14 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
 
-    def setExternalFeatures(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "delimiter": ":"}.copy()):
-        return self._set(externalFeatures=ExternalResource(path, read_as, options))
+    def setExternalFeatures(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
-    def setExternalDataset(self, path=None, read_as=ReadAs.LINE_BY_LINE, options={"format": "text", "delimiter": ":"}.copy()):
-        return self._set(externalDataset=ExternalResource(path, read_as, options))
+    def setExternalDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
     def _create_model(self, java_model):
         return NerCrfModel(java_model)
@@ -590,7 +621,3 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
-
-
-
-
