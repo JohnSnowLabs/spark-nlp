@@ -33,10 +33,16 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     set(rules, value)
   }
 
-  def setRules(path: String, delimiter: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE): this.type =
-    set(rules, ExternalResource(path, readAs, Map("delimiter" -> delimiter)))
+  def setRules(path: String,
+               delimiter: String,
+               readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+               options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(rules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  def setStrategy(value: String): this.type = set(strategy, value)
+  def setStrategy(value: String): this.type = {
+    require(Seq("MATCH_ALL", "MATCH_FIRST", "MATCH_COMPLETE").contains(value.toUpperCase), "Must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+    set(strategy, value.toUpperCase)
+  }
 
   def getStrategy: String = $(strategy).toString
 
