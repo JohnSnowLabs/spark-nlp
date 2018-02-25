@@ -1,4 +1,50 @@
 ========
+1.4.1
+========
+---------------
+New features
+---------------
+* Model and Pipeline Downloader
+We are glad to announce our first experimental model downloader, working both in Python and Scala.
+This allows to download pre-trained models from our public storage. This does not include any pre-trained models yet
+but just the logic to be able to do it.
+
+---------------
+Enhancements
+---------------
+* Improved ExternalResource API (introduced in 1.4.0) to make it easier to provide external corpus and resource information
+on annotators such as readAs (which allows setting how would you like SparkNLP to read your source), delimiters and parse settings among
+other options that might be passed to Spark Reader directly. Annotators using external sources now all share this functionality.
+WordEmbeddings are not yet supported on this format.
+* All python annotators now properly have getter functions to retrieve param values
+
+--------------
+Bugfixes
+--------------
+* Fixed some annotators in python not de-serializable on their own outside a Pipeline
+* Fixed CRF NER not working when not using word embeddings (thanks @crisliu for reporting)
+* Fixed Tokenizer not properly recognizing some stop words (thanks @easimadi)
+* Fixed Tokenizer not properly recognizing composite tokens when changing target pattern param (thanks @easimadi)
+* ReadAs parameter now properly read from string in all ExternalResource setters
+
+---------------
+Developer API
+---------------
+* PySpark API further improvements within AnnotatorApproach, AnnotatorModel and now private internal _AnnotatorModel for fit() result representation
+* Automated getter have been written in order not to have to write getter functions in all annotators manually
+
+-----------
+Other
+-----------
+* RocksDB dependency rolled back to 5.2.1 for better universal compatibility particularly to support databricks platform
+
+---------------
+Documentation
+---------------
+* Updated website components page to match 1.4.x
+* Replaced notebooks site to a placeholder linking to current python notebooks for lower maintenance
+
+========
 1.4.0
 ========
 ---------------
