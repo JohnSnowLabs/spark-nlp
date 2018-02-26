@@ -1,11 +1,12 @@
 package com.johnsnowlabs.ml.lstm
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.ml.logreg.{I2b2DatasetReader}
+import com.johnsnowlabs.ml.logreg.I2b2DatasetReader
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
 import com.johnsnowlabs.nlp.annotators.datasets.I2b2AnnotationAndText
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.sql.functions._
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
 
@@ -41,14 +42,14 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
   val trainAnnotations = reader.read(trainDatasetPath)
   val trainDataset = extractFeatures(trainAnnotations).toArray
-  val trainLabels = extractLabels(trainAnnotations)
+
   val trainDatasetIterator = new LSTMRecordIterator(trainDataset, trainLabels.toArray)
 
   println("trainDsSize: " +  trainDataset.size)
 
 
   val lranges:List[Double] = (3.5e-7 to 3.5e-7).by(5e-8).toList
-  val innerLayerSize:List[Int] = List(30, 32)
+  val innerLayerSize:List[Int] = List(30)
 
   val testAnnotations = reader.read(testDatasetPath)
   val testDataset = extractFeatures(testAnnotations).toArray
@@ -58,29 +59,23 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
   for (lambda <- lranges; ils <-innerLayerSize) {
 
-    trainDatasetIterator.reset
-    testDatasetIterator.reset
-
-    val model = train(trainDatasetIterator, trainLabels.toArray, lambda, ils)
+    println("trainDsSize: " + trainDataset.size)
     println("testDsSize: " + testDataset.size)
 
-    // Compute raw scores on the test set.
-    import scala.collection.JavaConversions._
-    val pred: Array[Int] = testDatasetIterator.map { t =>
-      val features = t.getFeatureMatrix()
-      val inMask = t.getFeaturesMaskArray()
-      val outMask = t.getLabelsMaskArray()
-      /* predicted probabilities for this batch */
-      val predicted = model.output(features, false, inMask, outMask)
-      (0 to predicted.size(0) - 1).map {idx =>
-        predict(outMask.getRow(idx), predicted.getRow(idx))
-      }.toArray
-    }.toArray.flatten
+    val model = train(trainDatasetIterator, lambda, ils)
 
-    val gold = testLabels
+    (1 to 15).foreach { epoch =>
+      trainDatasetIterator.reset
+      testDatasetIterator.reset
+      model.fit(trainDatasetIterator)
 
-    println(calcStat(pred, gold))
-    println(confusionMatrix(pred, gold))
+      // Compute raw scores on the test set.
+      val pred: Array[Int] = predict(testDatasetIterator, model)
+      val stat = calcStat(pred, testLabels)
+
+      println(s"epoch: ${epoch + 1}, score: ${stat}")
+      println(confusionMatrix(pred, testLabels))
+    }
   }
 
   /* predict based on a single output mask */
@@ -107,15 +102,11 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   }
 
 
-  def train(dataset: DataSetIterator, labels: Array[Int], lambda:Double, ils:Int) = {
+  def train(dataset: DataSetIterator, lambda:Double, ils:Int) = {
     println(lambda, ils)
     val biLSTM = new BiLSTM(lambda, ils)
-    (1 to 13).foreach {i =>
-       println(s"epoch: $i")
-       biLSTM.model.fit(dataset)
-    }
+    biLSTM.model.fit(dataset)
     biLSTM.model
-
   }
 
   def labelToNumber = udf { label:String  => mappings.get(label)}
@@ -142,4 +133,17 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     vec.map(element => element / norm)
   }
 
+  def predict(dataset: DataSetIterator, model: MultiLayerNetwork): Array[Int] = {
+    import scala.collection.JavaConversions._
+    dataset.map { t =>
+      val features = t.getFeatureMatrix()
+      val inMask = t.getFeaturesMaskArray()
+      val outMask = t.getLabelsMaskArray()
+      /* predicted probabilities for this batch */
+      val predicted = model.output(features, false, inMask, outMask)
+      (0 to predicted.size(0) - 1).map {idx =>
+        predict(outMask.getRow(idx), predicted.getRow(idx))
+      }.toArray
+    }.toArray.flatten
+  }
 }
