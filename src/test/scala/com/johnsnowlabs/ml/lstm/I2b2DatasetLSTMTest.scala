@@ -120,10 +120,11 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     leftC ++ target ++ rightC
   }
 
+  val chars = Seq('+', '-')
   def splitPlus(tokens: Seq[String]) : Array[String]= tokens.flatMap { token =>
-    if(token.contains("+")) {
+    if(token.exists(chars.contains)) {
       val processed :String = token.flatMap {
-        case '+' => Seq(' ', '+', ' ')
+        case c if(chars.contains(c)) => Seq(' ', c, ' ')
         case c => Seq(c)
       }
       processed.split(" ").map(_.trim).filter(_!="")
