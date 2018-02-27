@@ -112,7 +112,7 @@ class DocumentAssembler(AnnotatorTransformer):
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
-    reader = 'documentAssembler'
+    name = 'DocumentAssembler'
 
     @keyword_only
     def __init__(self):
@@ -140,6 +140,7 @@ class TokenAssembler(AnnotatorTransformer):
 
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
+    name = "TokenAssembler"
 
     @keyword_only
     def __init__(self):
@@ -166,6 +167,7 @@ class Finisher(AnnotatorTransformer):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeKeys = Param(Params._dummy(), "includeKeys", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
+    name = "Finisher"
 
     @keyword_only
     def __init__(self):
