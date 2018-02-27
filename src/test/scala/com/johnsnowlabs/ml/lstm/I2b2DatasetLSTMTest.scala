@@ -42,11 +42,9 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
   val trainAnnotations = reader.read(trainDatasetPath)
   val trainDataset = extractFeatures(trainAnnotations).toArray
+  val trainLabels = extractLabels(trainAnnotations)
 
   val trainDatasetIterator = new LSTMRecordIterator(trainDataset, trainLabels.toArray)
-
-  println("trainDsSize: " +  trainDataset.size)
-
 
   val lranges:List[Double] = (3.5e-7 to 3.5e-7).by(5e-8).toList
   val innerLayerSize:List[Int] = List(30)
@@ -117,8 +115,20 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     val leftC = textTokens.slice(0, annotation.start).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
     val rightC = textTokens.slice(annotation.end + 1, textTokens.length).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
     val target = textTokens.slice(annotation.start, annotation.end + 1).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ targetMark)
-    val ttokens = textTokens.slice(annotation.start, annotation.end + 1)
+    //val ttokens = textTokens.slice(annotation.start, annotation.end + 1)
     leftC ++ target ++ rightC
+  }
+
+  def splitPlus(tokens: Seq[String]) : Seq[String]= tokens.flatMap { token =>
+    if(token.contains("+")) {
+      val processed :String = token.flatMap {
+        case '+' => Seq(' ', '+', ' ')
+        case c => Seq(c)
+      }
+      processed.split(" ").map(_.trim).filter(_!="")
+    }
+    else
+      Seq(token)
   }
 
   def extractLabels(annotations: Seq[I2b2AnnotationAndText]) = annotations.map{_.label}.map{label => mappings.get(label).get}
