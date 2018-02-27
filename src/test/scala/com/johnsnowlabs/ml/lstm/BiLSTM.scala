@@ -19,7 +19,8 @@ class BiLSTM(lambda:Double, ils:Int) {
 
   /* hard coded stuff until we get any good result */
   val innerLayerSize = ils
-  val secondLayerSize = ils
+  val secondLayerSize = ils - 2
+  val thirdLayerSize = ils - 4
   /* TODO hard coded parameters here! */
   val extraFeatSize = 10 
   val vectorSize = 200 + extraFeatSize
@@ -51,12 +52,15 @@ class BiLSTM(lambda:Double, ils:Int) {
     .layer(1, new GravesBidirectionalLSTM.Builder()
       .activation(Activation.TANH).nIn(innerLayerSize).nOut(secondLayerSize).weightInit(WeightInit.DISTRIBUTION)
       .dist(new UniformDistribution(-0.05, 0.05)).build())
-    .layer(2, new RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT)
+    .layer(2, new GravesBidirectionalLSTM.Builder()
+      .activation(Activation.TANH).nIn(secondLayerSize).nOut(thirdLayerSize).weightInit(WeightInit.DISTRIBUTION)
+      .dist(new UniformDistribution(-0.05, 0.05)).build())
+    .layer(3, new RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT)
       .activation(Activation.SOFTMAX)
-      .nIn(secondLayerSize).nOut(6).build())
+      .nIn(thirdLayerSize).nOut(6).build())
     .pretrain(false).backprop(true).build()
 
-  val model = new MultiLayerNetwork(conf)
+  val model = new MultiLayerNetwork(multiLayerConf)
   model.init()
 
 }

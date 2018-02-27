@@ -39,10 +39,10 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   val embeddingsFile = s"/home/ubuntu/PubMed-shuffle-win-2.bin"
   //val embeddingsFile = s"/home/jose/wordembeddings/pubmed_i2b2.bin"
 
-  val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 8)
+  val reader = new I2b2DatasetReader(wordEmbeddingsFile = embeddingsFile, targetLengthLimit = 14)
   val trainAnnotations = reader.read(trainDatasetPath)
   val trainDataset = extractFeatures(trainAnnotations).toArray
-
+  val trainLabels = extractLabels(trainAnnotations)
   val trainDatasetIterator = new LSTMRecordIterator(trainDataset, trainLabels.toArray)
 
   println("trainDsSize: " +  trainDataset.size)
@@ -64,17 +64,19 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
     val model = train(trainDatasetIterator, lambda, ils)
 
-    (1 to 15).foreach { epoch =>
+    (1 to 25).foreach { epoch =>
       trainDatasetIterator.reset
       testDatasetIterator.reset
       model.fit(trainDatasetIterator)
 
       // Compute raw scores on the test set.
-      val pred: Array[Int] = predict(testDatasetIterator, model)
-      val stat = calcStat(pred, testLabels)
-
-      println(s"epoch: ${epoch + 1}, score: ${stat}")
-      println(confusionMatrix(pred, testLabels))
+      if(epoch > 10) {
+        val pred: Array[Int] = predict(testDatasetIterator, model)
+        val stat = calcStat(pred, testLabels)
+ 
+        println(s"epoch: ${epoch + 1}, score: ${stat}")
+        println(confusionMatrix(pred, testLabels))
+      }
     }
   }
 
@@ -114,12 +116,25 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   /* transform annotations into arrays of embeddings */
   def extractFeatures(annotations: Seq[I2b2AnnotationAndText]) = annotations.map { annotation =>
     val textTokens = annotation.text.split(" ")
-    val leftC = textTokens.slice(0, annotation.start).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
-    val rightC = textTokens.slice(annotation.end + 1, textTokens.length).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
-    val target = textTokens.slice(annotation.start, annotation.end + 1).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ targetMark)
+    val leftC = splitPlus(textTokens.slice(0, annotation.start)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
+    val rightC = splitPlus(textTokens.slice(annotation.end + 1, textTokens.length)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
+    val target = splitPlus(textTokens.slice(annotation.start, annotation.end + 1)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ targetMark)
     val ttokens = textTokens.slice(annotation.start, annotation.end + 1)
     leftC ++ target ++ rightC
   }
+
+  def splitPlus(tokens: Seq[String]) : Array[String]= tokens.flatMap { token =>
+    if(token.contains("+")) {
+      val processed :String = token.flatMap {
+        case '+' => Seq(' ', '+', ' ')
+        case c => Seq(c)
+      }
+      processed.split(" ").map(_.trim).filter(_!="")
+    }
+    else
+      Seq(token)
+  }.toArray
+
 
   def extractLabels(annotations: Seq[I2b2AnnotationAndText]) = annotations.map{_.label}.map{label => mappings.get(label).get}
 
