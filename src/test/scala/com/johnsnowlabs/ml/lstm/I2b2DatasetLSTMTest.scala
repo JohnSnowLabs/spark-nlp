@@ -45,9 +45,6 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
   val trainLabels = extractLabels(trainAnnotations)
   val trainDatasetIterator = new LSTMRecordIterator(trainDataset, trainLabels.toArray)
 
-  println("trainDsSize: " +  trainDataset.size)
-
-
   val lranges:List[Double] = (3.5e-7 to 3.5e-7).by(5e-8).toList
   val innerLayerSize:List[Int] = List(30)
 
@@ -134,7 +131,6 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     else
       Seq(token)
   }.toArray
-
 
   def extractLabels(annotations: Seq[I2b2AnnotationAndText]) = annotations.map{_.label}.map{label => mappings.get(label).get}
 
