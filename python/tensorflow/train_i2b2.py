@@ -39,15 +39,10 @@ class I2b2Dataset(object):
         else:
             return 200 * [0.0]
 
-    def __init__(self, i2b2_path):
-
-        spark = SparkSession.builder \
-            .appName("i2b2 tf bilstm") \
-            .master("local[2]") \
-            .getOrCreate()
+    def __init__(self, i2b2_path, spark):
 
         dataset = spark.read.option('header', True).csv(i2b2_path).collect()
-        embeddings_path = '/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin'
+        embeddings_path = '/home/ubuntu/PubMed-shuffle-win-2.bin'
         self.wvm = KeyedVectors.load_word2vec_format(embeddings_path, binary=True)
         wv = self.wv
 
@@ -104,11 +99,18 @@ class I2b2Dataset(object):
 #########
 # Data
 #########
+spark = SparkSession.builder \
+  .appName("i2b2 tf bilstm") \
+  .config("spark.driver.memory","4G") \
+  .master("local[2]") \
+  .getOrCreate()
 
-trainset = I2b2Dataset('../../i2b2_train.csv')
 
+trainset = I2b2Dataset('../../i2b2_train.csv', spark)
 # TODO add additional CSV for test dataset
-testset = I2b2Dataset('../../i2b2_test.csv')
+testset = I2b2Dataset('../../i2b2_test.csv', spark)
+spark.stop()
+print('datasets read')
 
 # ==========
 #   MODEL
@@ -201,7 +203,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 init = tf.global_variables_initializer()
 
 # Start training
-with tf.Session() as sess:
+with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
     # Run the initializer
     sess.run(init)
 
