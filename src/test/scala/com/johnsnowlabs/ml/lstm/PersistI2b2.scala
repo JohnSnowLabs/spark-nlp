@@ -18,8 +18,13 @@ object PersistI2b2 extends App {
 
   val trainDatasetPath = Seq(s"${i2b2Dir}/concept_assertion_relation_training_data/partners",
     s"${i2b2Dir}/concept_assertion_relation_training_data/beth")
-  val reader = new I2b2DatasetReader(wordEmbeddingsFile = null, targetLengthLimit = 12)
+  val reader = new I2b2DatasetReader(wordEmbeddingsFile = null, targetLengthLimit = 15)
   val trainAnnotations = reader.read(trainDatasetPath)
-  trainAnnotations.toDF.write.option("header", true).csv("i2b2.csv")
+  trainAnnotations.toDF.write.option("header", true).csv("i2b2_train.csv")
+
+  val testDatasetPath = Seq(s"$i2b2Dir/test_data")
+  val testAnnotations = reader.read(testDatasetPath)
+  testAnnotations.toDF.write.option("header", true).csv("i2b2_test.csv")
+
 
 }

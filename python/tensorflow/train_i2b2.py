@@ -24,17 +24,20 @@ class I2b2Dataset(object):
     'seqlen' attribute that records every actual sequence length.
     """
     def normalize(self, vect):
-        return vect / np.linalg.norm(vect)
+        norm = (float(np.linalg.norm(vect)) + 1.0)
+        return [v / norm for v in vect]
 
     mappings = {"hypothetical": 0, "present": 1,
                 "absent": 2, "possible": 3,
                 "conditional": 4, "associated_with_someone_else": 5}
 
+    max_seq_len = 250
+
     def wv(self, word):
-        if word in self.wvm.wv:
-            return self.wvm.wv[word]
+        if word in self.wvm:
+            return self.wvm[word]
         else:
-            return self.wvm.wv.vector_size * [0.0]
+            return 200 * [0.0]
 
     def __init__(self, i2b2_path):
 
@@ -52,6 +55,7 @@ class I2b2Dataset(object):
         normalize = self.normalize
         nonTargetMark = normalize(extraFeatSize * [0.1])
         targetMark = normalize(extraFeatSize * [-0.1])
+        zeros = 210 * [0.0]
 
         self.data = []
         self.labels = []
@@ -63,11 +67,16 @@ class I2b2Dataset(object):
             target = [normalize(wv(w)) for w in textTokens[int(row['start']):int(row['end']) + 1]]
 
             # add marks
-            leftC = [np.concatenate([w, nonTargetMark]) for w in leftC]
-            rightC = [np.concatenate([w, nonTargetMark]) for w in rightC]
-            target = [np.concatenate([w, targetMark]) for w in target]
+            leftC = [w + nonTargetMark for w in leftC]
+            rightC = [w + nonTargetMark for w in rightC]
+            target = [w + targetMark for w in target]
 
             sentence = leftC + target + rightC
+
+            # Pad sequence for dimension consistency
+            sentence += [zeros for i in range(self.max_seq_len - len(sentence))]
+
+
             self.seqlen.append(len(sentence))
             self.data.append(sentence)
             lbls = 6 * [0.0]
@@ -96,23 +105,23 @@ class I2b2Dataset(object):
 # Data
 #########
 
-trainset = I2b2Dataset('../../i2b2.csv')
+trainset = I2b2Dataset('../../i2b2_train.csv')
 
 # TODO add additional CSV for test dataset
-testset = I2b2Dataset('../../i2b2.csv')
+testset = I2b2Dataset('../../i2b2_test.csv')
 
 # ==========
 #   MODEL
 # ==========
 
 # Parameters
-learning_rate = 0.01
+learning_rate = 0.22
 training_steps = 10000
 batch_size = 128
 display_step = 200
 
 # Network Parameters
-seq_max_len = 20  # Sequence max length
+seq_max_len = I2b2Dataset.max_seq_len  # Sequence max length
 n_hidden = 32  # hidden layer num of features
 n_classes = 6
 
@@ -144,12 +153,16 @@ def dynamicRNN(x, seqlen, weights, biases):
     x = tf.unstack(x, seq_max_len, 1)
 
     # Define a lstm cell with tensorflow
-    lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden)
+    # Define lstm cells with tensorflow
+    # Forward direction cell
+    lstm_fw_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
+    # Backward direction cell
+    lstm_bw_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
 
     # Get lstm cell output, providing 'sequence_length' will perform dynamic
     # calculation.
-    outputs, states = tf.contrib.rnn.static_rnn(lstm_cell, x, dtype=tf.float32,
-                                                sequence_length=seqlen)
+    outputs, _, _ = tf.contrib.rnn.static_bidirectional_rnn(lstm_fw_cell, lstm_bw_cell, x,
+                                                 dtype=tf.float32)
 
     # When performing dynamic calculation, we must retrieve the last
     # dynamically computed output, i.e., if a sequence length is 10, we need
