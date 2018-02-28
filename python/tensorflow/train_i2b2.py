@@ -130,21 +130,6 @@ n_classes = 6
 # word embeddings + mark
 feat_size = 210
 
-# tf Graph input - None means that dimension can be any value
-x = tf.placeholder("float", [None, seq_max_len, feat_size])
-y = tf.placeholder("float", [None, n_classes])
-
-# A placeholder for indicating each sequence length
-seqlen = tf.placeholder(tf.int32, [None])
-
-# Define weights
-weights = {
-    'out': tf.Variable(tf.random_normal([n_hidden, n_classes]))
-}
-biases = {
-    'out': tf.Variable(tf.random_normal([n_classes]))
-}
-
 
 def dynamicRNN(x, seqlen, weights, biases):
     # Prepare data shape to match `rnn` function requirements
@@ -189,18 +174,35 @@ def dynamicRNN(x, seqlen, weights, biases):
     return tf.matmul(outputs, weights['out']) + biases['out']
 
 
-pred = dynamicRNN(x, seqlen, weights, biases)
 
-# Define loss and optimizer
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+with tf.device("/gpu:0"):
+    # tf Graph input - None means that dimension can be any value
+    x = tf.placeholder("float", [None, seq_max_len, feat_size])
+    y = tf.placeholder("float", [None, n_classes])
 
-# Evaluate model
-correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
-accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+    # A placeholder for indicating each sequence length
+    seqlen = tf.placeholder(tf.int32, [None])
 
-# Initialize the variables (i.e. assign their default value)
-init = tf.global_variables_initializer()
+    # Define weights
+    weights = {
+        'out': tf.Variable(tf.random_normal([n_hidden, n_classes]))
+    }
+    biases = {
+        'out': tf.Variable(tf.random_normal([n_classes]))
+    }
+
+    pred = dynamicRNN(x, seqlen, weights, biases)
+
+    # Define loss and optimizer
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+
+    # Evaluate model
+    correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+    # Initialize the variables (i.e. assign their default value)
+    init = tf.global_variables_initializer()
 
 # Start training
 with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
