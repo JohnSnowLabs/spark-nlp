@@ -42,7 +42,7 @@ class I2b2Dataset(object):
     def __init__(self, i2b2_path, spark):
 
         dataset = spark.read.option('header', True).csv(i2b2_path).collect()
-        embeddings_path = '/home/ubuntu/PubMed-shuffle-win-2.bin'
+        embeddings_path = '/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin'
         self.wvm = KeyedVectors.load_word2vec_format(embeddings_path, binary=True)
         wv = self.wv
 
@@ -118,7 +118,7 @@ print('datasets read')
 
 # Parameters
 learning_rate = 0.22
-training_steps = 10000
+training_steps = 100 #00
 batch_size = 128
 display_step = 200
 
@@ -175,7 +175,7 @@ def dynamicRNN(x, seqlen, weights, biases):
 
 
 
-with tf.device("/gpu:0"):
+with tf.device("/cpu:0"):
     # tf Graph input - None means that dimension can be any value
     x = tf.placeholder("float", [None, seq_max_len, feat_size])
     y = tf.placeholder("float", [None, n_classes])
@@ -205,7 +205,7 @@ with tf.device("/gpu:0"):
     init = tf.global_variables_initializer()
 
 # Start training
-with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
+with tf.Session() as sess: #config=tf.ConfigProto(log_device_placement=True)
     # Run the initializer
     sess.run(init)
 
@@ -218,7 +218,7 @@ with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
             # Calculate batch accuracy & loss
             acc, loss = sess.run([accuracy, cost], feed_dict={x: batch_x, y: batch_y,
                                                               seqlen: batch_seqlen})
-            print("Step " + str(step * batch_size) + ", Minibatch Loss= " + \
+            print("Step " + str(step * batch_size) + ", Minibatch Loss= " +\
                   "{:.6f}".format(loss) + ", Training Accuracy= " + \
                   "{:.5f}".format(acc))
 
@@ -226,8 +226,11 @@ with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
 
     # Calculate accuracy
     test_data = testset.data
-    test_label = testset.labels
-    test_seqlen = testset.seqlen
-    print("Testing Accuracy:", \
-          sess.run(accuracy, feed_dict={x: test_data, y: test_label,
-                                        seqlen: test_seqlen}))
+    n_test_batches = int(len(test_data) / batch_size)
+    global_matches = 0
+    for step in range(1, n_test_batches):
+        batch_x, batch_y, batch_seqlen = testset.next(batch_size)
+        batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
+        global_matches += sess.run(batch_matches, feed_dict={x: batch_x, y: batch_y, seqlen: batch_seqlen})
+
+    print("Testing Accuracy:", sum(global_matches) / float(len(global_matches)))
