@@ -14,6 +14,7 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
   val tokenizer: Tokenizer = new SimpleTokenizer
   lazy val wordVectors: Option[WordEmbeddings] = reader.wordVectors
+  val chars = Seq('+', '-', '/', '"')
 
   println(System.getenv().get("PATH"))
 
@@ -112,7 +113,7 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
 
   /* transform annotations into arrays of embeddings */
   def extractFeatures(annotations: Seq[I2b2AnnotationAndText]) = annotations.map { annotation =>
-    val textTokens = annotation.text.split(" ")
+    val textTokens = annotation.text.split(" ").map(_.toLowerCase)
     val leftC = splitPlus(textTokens.slice(0, annotation.start)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
     val rightC = splitPlus(textTokens.slice(annotation.end + 1, textTokens.length)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ nonTargetMark)
     val target = splitPlus(textTokens.slice(annotation.start, annotation.end + 1)).map(wordVectors.get.getEmbeddings).map(normalize).map(_ ++ targetMark)
@@ -120,7 +121,6 @@ object I2b2DatasetLSTMTest extends App with EvaluationMetrics {
     leftC ++ target ++ rightC
   }
 
-  val chars = Seq('+', '-')
   def splitPlus(tokens: Seq[String]) : Array[String]= tokens.flatMap { token =>
     if(token.exists(chars.contains)) {
       val processed :String = token.flatMap {
