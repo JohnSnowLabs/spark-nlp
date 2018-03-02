@@ -42,7 +42,7 @@ class I2b2Dataset(object):
     def __init__(self, i2b2_path, spark):
 
         dataset = spark.read.option('header', True).csv(i2b2_path).collect()
-        embeddings_path = '/home/jose/Downloads/bio_nlp_vec/PubMed-shuffle-win-2.bin'
+        embeddings_path = 'PubMed-shuffle-win-2.bin'
         self.wvm = KeyedVectors.load_word2vec_format(embeddings_path, binary=True)
         wv = self.wv
 
@@ -67,12 +67,11 @@ class I2b2Dataset(object):
             target = [w + targetMark for w in target]
 
             sentence = leftC + target + rightC
+            self.seqlen.append(len(sentence))
 
             # Pad sequence for dimension consistency
             sentence += [zeros for i in range(self.max_seq_len - len(sentence))]
 
-
-            self.seqlen.append(len(sentence))
             self.data.append(sentence)
             lbls = 6 * [0.0]
             lbls[self.mappings[row['label']]] = 1.
@@ -118,8 +117,8 @@ print('datasets read')
 
 # Parameters
 learning_rate = 0.22
-training_steps = 100 #00
-batch_size = 128
+training_steps = 10000
+batch_size = 64
 display_step = 200
 
 # Network Parameters
@@ -193,8 +192,13 @@ with tf.device("/cpu:0"):
 
     pred = dynamicRNN(x, seqlen, weights, biases)
 
+    # Regularization
+    tv = tf.trainable_variables()
+    regularization_cost = 3.5e-7 * tf.reduce_sum([tf.nn.l2_loss(v) for v in tv])
+    #regularization_cost = tf.scalar_mul(3.5e-7, regularization_cost)
+
     # Define loss and optimizer
-    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y)) + regularization_cost
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 
     # Evaluate model
@@ -233,4 +237,4 @@ with tf.Session() as sess: #config=tf.ConfigProto(log_device_placement=True)
         batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
         global_matches += sess.run(batch_matches, feed_dict={x: batch_x, y: batch_y, seqlen: batch_seqlen})
 
-    print("Testing Accuracy:", sum(global_matches) / float(len(global_matches)))
+    print("Testing Accuracy:", global_matches / float(len(test_data)))
