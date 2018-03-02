@@ -117,7 +117,7 @@ print('datasets read')
 
 # Parameters
 learning_rate = 0.22
-training_steps = 10000
+training_steps = 1800
 batch_size = 64
 display_step = 200
 
@@ -176,11 +176,11 @@ def dynamicRNN(x, seqlen, weights, biases):
 
 with tf.device("/cpu:0"):
     # tf Graph input - None means that dimension can be any value
-    x = tf.placeholder("float", [None, seq_max_len, feat_size])
-    y = tf.placeholder("float", [None, n_classes])
+    x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
+    y = tf.placeholder("float", [None, n_classes], 'y_output')
 
     # A placeholder for indicating each sequence length
-    seqlen = tf.placeholder(tf.int32, [None])
+    seqlen = tf.placeholder(tf.int32, [None], 'seq_len')
 
     # Define weights
     weights = {
@@ -193,8 +193,8 @@ with tf.device("/cpu:0"):
     pred = dynamicRNN(x, seqlen, weights, biases)
 
     # Regularization
-    tv = tf.trainable_variables()
-    regularization_cost = 3.5e-7 * tf.reduce_sum([tf.nn.l2_loss(v) for v in tv])
+    tv = [variable for variable in tf.trainable_variables() if not 'bias' in variable.name ]
+    regularization_cost = 3.5e-5 * tf.reduce_sum([tf.nn.l2_loss(v) for v in tv])
     #regularization_cost = tf.scalar_mul(3.5e-7, regularization_cost)
 
     # Define loss and optimizer
@@ -212,6 +212,12 @@ with tf.device("/cpu:0"):
 with tf.Session() as sess: #config=tf.ConfigProto(log_device_placement=True)
     # Run the initializer
     sess.run(init)
+
+    # some debugging
+    variable_names = [v.name for v in tf.trainable_variables()]
+    variable_shapes = [v.get_shape() for v in tf.trainable_variables()]
+    for name, shape in zip(variable_names, variable_shapes):
+        print('{}\nShape: {}'.format(name, shape))
 
     for step in range(1, training_steps + 1):
         batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
@@ -232,9 +238,9 @@ with tf.Session() as sess: #config=tf.ConfigProto(log_device_placement=True)
     test_data = testset.data
     n_test_batches = int(len(test_data) / batch_size)
     global_matches = 0
+    batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
     for step in range(1, n_test_batches):
         batch_x, batch_y, batch_seqlen = testset.next(batch_size)
-        batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
         global_matches += sess.run(batch_matches, feed_dict={x: batch_x, y: batch_y, seqlen: batch_seqlen})
 
     print("Testing Accuracy:", global_matches / float(len(test_data)))
