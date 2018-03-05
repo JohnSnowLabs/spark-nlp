@@ -4,7 +4,7 @@ import java.sql.Timestamp
 import com.johnsnowlabs.util.Version
 
 
-object S3TestResources {
+object CloudTestResources {
   val name_en_123_345_new = new ResourceMetadata(
     "name",
     Some("en"),

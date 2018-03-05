@@ -55,7 +55,7 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder)
+  var defaultDownloader: ResourceDownloader = new CloudResourceDownloader(s3Bucket, s3Path, cacheFolder)
 
   /**
     * Loads resource to path

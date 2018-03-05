@@ -3,21 +3,21 @@ package com.johnsnowlabs.pretrained.en.pipelines
 import com.johnsnowlabs.pretrained.en.models._
 import com.johnsnowlabs.util.PipelineModels
 
-object S3POSPipeline {
+object CloudPOSPipeline {
   def retrieveSmall = PipelineModels(
-    S3DocumentAssembler.retrieveStandard,
-    S3SentenceDetector.retrieveStandard,
-    S3Tokenizer.retrieveStandard,
-    S3PerceptronModel.retrieveSmall
+    CloudDocumentAssembler.retrieveStandard,
+    CloudSentenceDetector.retrieveStandard,
+    CloudTokenizer.retrieveStandard,
+    CloudPerceptronModel.retrieveSmall
   )
 }
 
-object S3NerCrfPipeline {
+object CloudNerCrfPipeline {
   def retrieveSmall = PipelineModels(
-    S3DocumentAssembler.retrieveStandard,
-    S3SentenceDetector.retrieveStandard,
-    S3Tokenizer.retrieveStandard,
-    S3PerceptronModel.retrieveSmall,
-    S3NerCrfModel.retrieveSmall
+    CloudDocumentAssembler.retrieveStandard,
+    CloudSentenceDetector.retrieveStandard,
+    CloudTokenizer.retrieveStandard,
+    CloudPerceptronModel.retrieveSmall,
+    CloudNerCrfModel.retrieveSmall
   )
 }
