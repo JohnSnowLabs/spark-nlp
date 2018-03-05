@@ -6,9 +6,9 @@ import org.scalatest.FlatSpec
 
 
 class ResourceDownloaderSpec extends FlatSpec {
-  val b = S3TestResources
+  val b = CloudTestResources
 
-  "S3ResourceMetadata" should "serialize and deserialize correctly" in {
+  "CloudResourceMetadata" should "serialize and deserialize correctly" in {
     val resource = new ResourceMetadata("name",
       Some("en"),
       Some(Version(1,2,3)),
@@ -22,20 +22,20 @@ class ResourceDownloaderSpec extends FlatSpec {
     assert(deserialized == resource)
   }
 
-  "S3ResourceDownloader" should "choose the newest versions" in {
+  "CloudResourceDownloader" should "choose the newest versions" in {
     val found = ResourceMetadata.resolveResource(b.all, "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
 
     assert(found.isDefined)
     assert(found.get == b.name_en_123_345_new)
   }
 
-  "S3ResourceDownloader" should "filter disabled resources" in {
+  "CloudResourceDownloader" should "filter disabled resources" in {
     val found = ResourceMetadata.resolveResource(List(b.name_en_new_disabled), "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
 
     assert(found.isEmpty)
   }
 
-  "S3ResourceDownloader" should "filter language and allow empty versions" in {
+  "CloudResourceDownloader" should "filter language and allow empty versions" in {
     val found = ResourceMetadata.resolveResource(List(b.name_en_old, b.name_de), "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
 
     assert(found.isDefined)
