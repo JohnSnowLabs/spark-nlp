@@ -103,6 +103,15 @@ class S3ResourceDownloader(bucket: String,
       if (file.exists()){
         file.delete()
       }
+
+      if (resource.isZipped) {
+        require(fileName.substring(fileName.length - 4) == ".zip")
+        val unzipped = fileName.substring(0, fileName.length - 4)
+        val unzippedFile = new File(unzipped)
+        if (unzippedFile.exists()) {
+          FileUtils.deleteDirectory(unzippedFile)
+        }
+      }
     }
   }
 }
