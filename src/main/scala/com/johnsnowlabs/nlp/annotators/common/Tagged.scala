@@ -48,6 +48,12 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     ))
   }
 
+  /**
+    * Method is usefull for testing.
+    * It's possible to collect:
+    * - correct labels TextSentenceLabels
+    * - and model prediction NerTaggedSentence
+    */
   def collectLabeledInstances(dataset: Dataset[Row],
                           taggedCols: Seq[String],
                           labelColumn: String): Array[(TextSentenceLabels, NerTaggedSentence)] = {
@@ -59,7 +65,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         val labelAnnotations = getAnnotations(row, 0)
         val sentenceAnnotations = (1 to taggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = unpack(sentenceAnnotations)
-        val labels = getLabels(sentences, labelAnnotations)
+        val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
         labels.zip(sentences)
       }
   }
@@ -68,19 +74,30 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
-  protected def getLabels(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+  protected def getLabelsFromSentences(sentences: Seq[TokenizedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val position2Tag = labelAnnotations.map(a => (a.start, a.end) -> a.result).toMap
 
     sentences.map{sentence =>
-      val labels = sentence.indexedTaggedWords.map { w =>
+      val labels = sentence.indexedTokens.map { w =>
         val tag = position2Tag.get((w.begin, w.end))
-        tag.getOrElse("")
+        tag.getOrElse("O")
       }
       TextSentenceLabels(labels)
     }
   }
 
 
+  protected def getLabelsFromTaggedSentences(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+    val position2Tag = labelAnnotations.map(a => (a.start, a.end) -> a.result).toMap
+
+    sentences.map{sentence =>
+      val labels = sentence.indexedTaggedWords.map { w =>
+        val tag = position2Tag.get((w.begin, w.end))
+        tag.getOrElse("O")
+      }
+      TextSentenceLabels(labels)
+    }
+  }
 }
 
 object PosTagged extends Tagged[PosTaggedSentence]{
@@ -90,9 +107,9 @@ object PosTagged extends Tagged[PosTaggedSentence]{
 object NerTagged extends Tagged[NerTaggedSentence]{
   override def annotatorType: String = NAMED_ENTITY
 
-  def collectTrainingInstances(dataset: Dataset[Row],
-                               posTaggedCols: Seq[String],
-                               labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
+  def collectTrainingInstancesWithPos(dataset: Dataset[Row],
+                                      posTaggedCols: Seq[String],
+                                      labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
 
     dataset
       .select(labelColumn, posTaggedCols:_*)
@@ -101,8 +118,25 @@ object NerTagged extends Tagged[NerTaggedSentence]{
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations  = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = PosTagged.unpack(sentenceAnnotations)
-        val labels = getLabels(sentences, labelAnnotations)
+        val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
         labels.zip(sentences)
       }
   }
+
+  def collectTrainingInstances(dataset: Dataset[Row],
+                               sentenceCols: Seq[String],
+                               labelColumn: String): Array[(TextSentenceLabels, TokenizedSentence)] = {
+
+    dataset
+      .select(labelColumn, sentenceCols:_*)
+      .collect()
+      .flatMap{row =>
+        val labelAnnotations = this.getAnnotations(row, 0)
+        val sentenceAnnotations  = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentences = TokenizedWithSentence.unpack(sentenceAnnotations)
+        val labels = getLabelsFromSentences(sentences, labelAnnotations)
+        labels.zip(sentences)
+      }
+  }
+
 }
