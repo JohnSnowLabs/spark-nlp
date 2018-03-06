@@ -2,9 +2,9 @@ package com.johnsnowlabs.nlp
 
 import java.io.File
 import java.nio.file.{Files, Paths}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsClusterHelper}
+
+import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddings, WordEmbeddingsFormat}
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.ivy.util.FileUtil
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -25,14 +25,14 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
 
-  @transient lazy val embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
-    // Have to copy file because RockDB changes it and Spark rises Exception
-    val src = SparkFiles.get(path)
-    val workPath = src + "_work"
-    if (!new File(workPath).exists())
-      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+  @transient
+  private var sparkEmbeddings: SparkWordEmbeddings = null
 
-    WordEmbeddings(workPath, $(nDims))
+  def embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
+    if (sparkEmbeddings == null)
+      sparkEmbeddings = new SparkWordEmbeddings(path, $(nDims))
+
+    sparkEmbeddings.wordEmbeddings
   }
 
   override def close(): Unit = {
@@ -53,20 +53,9 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
     val fs = FileSystem.get(spark.hadoopConfiguration)
     val src = getEmbeddingsSerializedPath(path)
 
-    // 1. Copy to local file
-    val localPath = WordEmbeddingsClusterHelper.createLocalPath()
     if (fs.exists(src)) {
-      fs.copyToLocalFile(src, new Path(localPath))
-
-      // 2. Move files from localPath/embeddings to localPath
-      moveFolderFiles(localPath + "/embeddings", localPath)
-
-      // 2. Copy local file to cluster
-      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath, spark)
-
-      // 3. Set correct path
-      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath).toString
-      setIndexPath(fileName)
+      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, WordEmbeddingsFormat.SPARKNLP)
+      setIndexPath(embeddings.clusterFilePath.toString)
     }
   }
 
@@ -85,5 +74,4 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   override def onWrite(path: String, spark: SparkSession): Unit = {
     serializeEmbeddings(path, spark.sparkContext)
   }
-
 }

@@ -21,13 +21,13 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
 
   def readLines(lines: Array[String]): Seq[(String, Seq[TaggedSentence])] = {
     val doc = new StringBuilder()
-    val tokens = new ArrayBuffer[IndexedTaggedWord]()
-    val labels = new ArrayBuffer[TaggedSentence]()
+    val lastSentence = new ArrayBuffer[IndexedTaggedWord]()
+    val sentences = new ArrayBuffer[TaggedSentence]()
 
     def addSentence(): Unit = {
-      if (tokens.nonEmpty) {
-        labels.append(TaggedSentence(tokens.toArray))
-        tokens.clear()
+      if (lastSentence.nonEmpty) {
+        sentences.append(TaggedSentence(lastSentence.toArray))
+        lastSentence.clear()
       }
     }
 
@@ -37,37 +37,39 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
           addSentence()
 
-          val result = (doc.toString, labels.toList)
+          val result = (doc.toString, sentences.toList)
           doc.clear()
-          labels.clear()
+          sentences.clear()
 
           if (result._1.nonEmpty)
             Some(result._1, result._2)
           else
             None
         } else if (items.length <= 1) {
-          if (doc.nonEmpty && doc.last != '\n') {
+          if (doc.nonEmpty && doc.last != '\n' && lastSentence.length > 0) {
             doc.append("\n\n")
             addSentence()
           }
           None
-        } else
-        {
-          if (doc.nonEmpty)
+        } else if (items.length == 4) {
+          if (doc.nonEmpty && doc.last != '\n')
             doc.append(" ")
 
           val begin = doc.length
           doc.append(items(0))
           val end = doc.length - 1
           val tag = items(targetColumn)
-          tokens.append(IndexedTaggedWord(items(0), tag, begin, end))
+          lastSentence.append(IndexedTaggedWord(items(0), tag, begin, end))
+          None
+        }
+        else {
           None
         }
       }
 
     addSentence()
 
-    val last = if (doc.nonEmpty) Seq((doc.toString, labels.toList)) else Seq.empty
+    val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
     docs ++ last
   }

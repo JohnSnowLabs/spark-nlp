@@ -5,6 +5,8 @@ import org.scalatest.FlatSpec
 
 
 class NerCrfApproachSpec extends FlatSpec {
+  val spark = SparkAccessor.spark
+
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
@@ -49,7 +51,7 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 
@@ -58,7 +60,7 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 

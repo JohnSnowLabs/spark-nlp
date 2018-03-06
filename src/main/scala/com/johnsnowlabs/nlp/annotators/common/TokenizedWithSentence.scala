@@ -12,9 +12,10 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
       .toArray
 
     SentenceSplit.unpack(annotations).map(sentence => {
-      tokens.filter(token =>
+      val sentenceTokens = tokens.filter(token =>
         token.start >= sentence.start & token.end <= sentence.end
       ).map(token => IndexedToken(token.result, token.start, token.end))
+      sentenceTokens
     }).filter(_.nonEmpty).map(indexedTokens => TokenizedSentence(indexedTokens))
 
   }

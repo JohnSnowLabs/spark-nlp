@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, AssertionLogRegModel}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -182,8 +182,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
   * */
   private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
+    import java.io.{File, PrintWriter}
+
     import org.apache.spark.sql.functions._
-    import java.io.{PrintWriter, File}
     val random = scala.util.Random
     val filename = s"${rowText}_${dim}.txt"
     val pw = new PrintWriter(new File(filename))

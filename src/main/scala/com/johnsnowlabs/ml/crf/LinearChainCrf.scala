@@ -1,9 +1,10 @@
 package com.johnsnowlabs.ml.crf
 
 import VectorMath._
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import org.slf4j.LoggerFactory
-
 import scala.util.Random
+
 
 // ToDo Make c0 estimation before training
 class LinearChainCrf(val params: CrfParams) {
@@ -174,16 +175,6 @@ class L2DecayStrategy(val instances: Int,
   }
 }
 
-
-object Verbose extends Enumeration {
-  type Level = Value
-
-  val All = Value(0)
-  val PerStep = Value(1)
-  val Epochs = Value(2)
-  val TrainingStat = Value(3)
-  val Silent = Value(4)
-}
 
 /**
   * Hyper Parameters and Setting for LinearChainCrf training
