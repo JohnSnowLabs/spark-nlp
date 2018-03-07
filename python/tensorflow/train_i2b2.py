@@ -116,14 +116,14 @@ print('datasets read')
 # ==========
 
 # Parameters
-learning_rate = 0.22
+learning_rate = 0.12
 training_steps = 1800
 batch_size = 64
-display_step = 200
+display_step = 1000
 
 # Network Parameters
 seq_max_len = I2b2Dataset.max_seq_len  # Sequence max length
-n_hidden = 32  # hidden layer num of features
+n_hidden = 30  # hidden layer num of features
 n_classes = 6
 
 # word embeddings + mark
@@ -174,7 +174,7 @@ def dynamicRNN(x, seqlen, weights, biases):
 
 
 
-with tf.device("/cpu:0"):
+with tf.device("/gpu:0"):
     # tf Graph input - None means that dimension can be any value
     x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
     y = tf.placeholder("float", [None, n_classes], 'y_output')
@@ -194,7 +194,7 @@ with tf.device("/cpu:0"):
 
     # Regularization
     tv = [variable for variable in tf.trainable_variables() if not 'bias' in variable.name ]
-    regularization_cost = 3.5e-5 * tf.reduce_sum([tf.nn.l2_loss(v) for v in tv])
+    regularization_cost = 3.5e-8 * tf.reduce_sum([tf.nn.l2_loss(v) for v in tv])
     #regularization_cost = tf.scalar_mul(3.5e-7, regularization_cost)
 
     # Define loss and optimizer
