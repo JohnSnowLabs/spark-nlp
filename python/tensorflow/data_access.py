@@ -72,7 +72,7 @@ class I2b2Dataset(object):
         """ Return a batch of data. When dataset end is reached, start over.
         """
         if self.batch_id == len(self.data):
-            random.shuffle(self.data)  # not the place for this
+            #random.shuffle(self.data)  # not the place for this
             self.batch_id = 0
 
         batch_data = (self.data[self.batch_id:min(self.batch_id +
