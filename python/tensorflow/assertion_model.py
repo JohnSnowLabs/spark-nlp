@@ -11,11 +11,12 @@ from math import ceil
 class AssertionModel:
 
     def __init__(self, seq_max_len, feat_size, n_classes):
-        self.x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
-        self.y = tf.placeholder("float", [None, n_classes], 'y_output')
-        # A placeholder for indicating each sentence length
-        self.seqlen = tf.placeholder(tf.int32, [None], 'seq_len')
-        self.n_classes = n_classes
+        with tf.device('/gpu:0'):
+            self.x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
+            self.y = tf.placeholder("float", [None, n_classes], 'y_output')
+            # A placeholder for indicating each sentence length
+            self.seqlen = tf.placeholder(tf.int32, [None], 'seq_len')
+            self.n_classes = n_classes
 
     @staticmethod
     def fully_connected_layer(input_data, output_dim, activation_func=None):
@@ -92,7 +93,7 @@ class AssertionModel:
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
-                if epoch % 8 or epoch is 1:
+                if epoch % 8 is 0 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
 
             print("Optimization Finished!")

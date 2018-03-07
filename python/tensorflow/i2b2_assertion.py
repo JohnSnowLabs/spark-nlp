@@ -33,4 +33,4 @@ model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6)
 
 # Network Parameters
 model.add_bidirectional_lstm(dropout=0.25, n_hidden=30)
-model.train(trainset=trainset, testset=testset, learning_rate=0.032, batch_size=batch_size, epochs=90, device='/cpu:0')
+model.train(trainset=trainset, testset=testset, learning_rate=0.062, batch_size=batch_size, epochs=90, device='/gpu:0')
