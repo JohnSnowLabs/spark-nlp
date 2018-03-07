@@ -34,6 +34,7 @@ class AssertionModel:
         seq_max_len = self.x.get_shape()[1]
 
         for layer_num in range(1, num_layers + 1):
+            print('layer num %d' % layer_num)
             # Define a lstm cell with tensorflow  -  Forward direction cell
             lstm_fw_cell = tf.nn.rnn_cell.BasicLSTMCell(n_hidden, forget_bias=1.0, name='fw' + str(layer_num))
             lstm_fw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_fw_cell, output_keep_prob=1.0 - dropout)
@@ -97,7 +98,7 @@ class AssertionModel:
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
-                if epoch % 8 is 0 or epoch is 1:
+                if epoch > 8 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
 
             print("Optimization Finished!")
