@@ -5,6 +5,7 @@
 """
 from __future__ import print_function
 import tensorflow as tf
+from math import ceil
 
 
 class AssertionModel:
@@ -85,13 +86,13 @@ class AssertionModel:
             for name, shape in zip(variable_names, variable_shapes):
                 print('{}\nShape: {}'.format(name, shape))
 
-            num_batches = int(trainset.size()[0] / batch_size)
+            num_batches = ceil(trainset.size()[0] / batch_size)
             for epoch in range(1, epochs + 1):
-                for batch in range(1, num_batches):
+                for batch in range(1, num_batches + 1):
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
-                if epoch > 8:
+                if epoch % 8 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
 
             print("Optimization Finished!")
@@ -104,10 +105,11 @@ class AssertionModel:
         correct_pred = tf.equal(tf.argmax(self.bi_lstm, 1), tf.argmax(self.y, 1))
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-        n_test_batches = int(dataset.size()[0] / batch_size)
+        n_test_batches = ceil(dataset.size()[0] / batch_size)
         global_matches = 0
+
         batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
-        for step in range(1, n_test_batches):
+        for batch in range(1, n_test_batches + 1):
             batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
             global_matches += sess.run(batch_matches, feed_dict={self.x: batch_x,
             self.y: batch_y, self.seqlen: batch_seqlen})

@@ -7,16 +7,16 @@ from data_access import I2b2Dataset
 
 
 spark = SparkSession.builder \
-   .appName("i2b2 tf bilstm") \
-   .config("spark.driver.memory","4G") \
-   .master("local[2]") \
-   .getOrCreate()
+    .appName("i2b2 tf bilstm") \
+    .config("spark.driver.memory","4G") \
+    .master("local[2]") \
+    .getOrCreate()
 
 trainset = I2b2Dataset('../../i2b2_train.csv', spark)
 testset = I2b2Dataset('../../i2b2_test.csv', spark)
 
-#trainset = MockDataset(3500)
-#testset = MockDataset(1000)
+#trainset = MockDataset(3072)
+#testset = MockDataset(1024)
 
 # don't need spark from now on
 spark.stop()
@@ -32,5 +32,5 @@ batch_size = 128
 model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6)
 
 # Network Parameters
-model.add_bidirectional_lstm(dropout=0.15, n_hidden=30)
-model.train(trainset=trainset, testset=testset, learning_rate= 0.082, batch_size=batch_size, epochs=18, device='/gpu:0')
+model.add_bidirectional_lstm(dropout=0.25, n_hidden=30)
+model.train(trainset=trainset, testset=testset, learning_rate=0.032, batch_size=batch_size, epochs=90, device='/cpu:0')
