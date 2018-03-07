@@ -1,10 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.SavedModelBundle
@@ -30,7 +32,7 @@ object NerDLModelPythonReader {
   }
 
   private def readEmbeddingsHead(folder: String, spark: SparkSession): Int = {
-    val metaFile = Paths.get(folder, embeddingsFile).toString
+    val metaFile = Paths.get(folder, embeddingsMetaFile).toString
     spark.sparkContext.textFile(metaFile).collect.apply(0).toInt
   }
 
@@ -49,10 +51,11 @@ object NerDLModelPythonReader {
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")
       .toAbsolutePath.toString
 
+    val file = new Path(folder).getName
     fs.copyToLocalFile(new Path(folder), new Path(tmpFolder))
 
-    val bundle = SavedModelBundle.load(tmpFolder)
-    Files.delete(Paths.get(tmpFolder))
+    val bundle = SavedModelBundle.load(Paths.get(tmpFolder, file).toString)
+    FileUtils.deleteDirectory(new File(tmpFolder))
 
     bundle
   }
