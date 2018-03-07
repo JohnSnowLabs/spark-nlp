@@ -90,15 +90,21 @@ class NerDLModel(override val uid: String)
       .toAbsolutePath.toString
 
     // 1. Save variables
-    session.runner.addTarget("save/SaveV2")
+    session.runner.addTarget("save/SaveV2").run()
+    val variablesFile = tmpFolder + "/variables"
     FileUtils.moveDirectory(new File(modelName), new File(tmpFolder + "/variables"))
 
     // 2. Save Graph
     val graphDef = graph.get.toGraphDef
-    FileUtils.writeByteArrayToFile(new File("saved_model.pb"), graphDef)
+    val graphFile = tmpFolder + "/saved_model.pb"
+    FileUtils.writeByteArrayToFile(new File(tmpFolder + "/saved_model.pb"), graphDef)
 
     // 3. Find save model and upload to path
-    fs.copyFromLocalFile(new Path(tmpFolder), new Path(path))
+    fs.copyFromLocalFile(new Path(variablesFile), new Path(path))
+    fs.copyFromLocalFile(new Path(graphFile), new Path(path))
+
+    // 4. Remove tmp folder
+    FileUtils.deleteDirectory(new File(tmpFolder))
   }
 }
 
