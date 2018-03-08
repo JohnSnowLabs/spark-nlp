@@ -12,11 +12,11 @@ spark = SparkSession.builder \
     .master("local[2]") \
     .getOrCreate()
 
-#trainset = I2b2Dataset('../../i2b2_train.csv', spark)
-#testset = I2b2Dataset('../../i2b2_test.csv', spark)
+trainset = I2b2Dataset('../../i2b2_train.csv', spark)
+testset = I2b2Dataset('../../i2b2_test.csv', spark)
 
-trainset = MockDataset(3072)
-testset = MockDataset(1024)
+#trainset = MockDataset(3072)
+#testset = MockDataset(1024)
 
 # don't need spark from now on
 spark.stop()
