@@ -28,9 +28,14 @@ learning_rate = 0.082
 dropout = 0.25
 batch_size = 128
 
-# instantiate model
-model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6)
 
-# Network Parameters
-model.add_bidirectional_lstm(dropout=0.25, n_hidden=30)
-model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=90, device='/gpu:0')
+for do in [0.05, 0.1, 0.15, 0.20, 0.25]:
+    print('do: %f' % do)
+    for nh in [15, 30, 45]:
+        print('nh: %d' % nh)
+        # instantiate model
+        model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6)
+
+        # Network Parameters
+        model.add_bidirectional_lstm(dropout=do, n_hidden=nh)
+        model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80, device='/gpu:0')

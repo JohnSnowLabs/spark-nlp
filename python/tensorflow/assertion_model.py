@@ -29,34 +29,33 @@ class AssertionModel:
             return tf.matmul(input_data, W) + b
 
     def add_bidirectional_lstm(self, dropout=0.25, n_hidden=30, num_layers=3):
-
         # TODO: check dimensions of 'x', (batch_size, n_steps, n_input)
         seq_max_len = self.x.get_shape()[1]
 
+        fw_cells = []
+        bw_cells = []
         for layer_num in range(1, num_layers + 1):
             print('layer num %d' % layer_num)
             # Define a lstm cell with tensorflow  -  Forward direction cell
             lstm_fw_cell = tf.nn.rnn_cell.BasicLSTMCell(n_hidden, forget_bias=1.0, name='fw' + str(layer_num))
             lstm_fw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_fw_cell, output_keep_prob=1.0 - dropout)
+            fw_cells.append(lstm_fw_cell)
 
             # Backward direction cell
             lstm_bw_cell = tf.nn.rnn_cell.BasicLSTMCell(n_hidden, forget_bias=1.0, name='bw' + str(layer_num))
             lstm_bw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_bw_cell, output_keep_prob=1.0 - dropout)
+            bw_cells.append(lstm_bw_cell)
 
-            # Get lstm cell output, providing 'sequence_length' will perform dynamic
-            # calculation.
-            if layer_num is 1:
-                input = self.x
-            else:
-                input = outputs
-            outputs, _ = \
-                tf.nn.bidirectional_dynamic_rnn(lstm_fw_cell, lstm_bw_cell,
-                                                input, dtype=tf.float32,
-                                                sequence_length=self.seqlen)
+        # Get lstm cell output, providing 'sequence_length' will perform dynamic
+        # calculation.
+        outputs, _, _ = \
+            tf.contrib.rnn.stack_bidirectional_dynamic_rnn(fw_cells, bw_cells,
+                                            self.x, dtype=tf.float32,
+                                            sequence_length=self.seqlen)
 
-            # As we have Bi-LSTM, we have two output, which are not connected. So merge them
-            # dim(outputs) == [batch_size, max_time, cell_fw.output_size] & [batch_size, max_time, cell_bw.output_size]
-            outputs = tf.concat(axis=2, values=outputs)
+        # As we have Bi-LSTM, we have two output, which are not connected. So merge them
+        # dim(outputs) == [batch_size, max_time, cell_fw.output_size] & [batch_size, max_time, cell_bw.output_size]
+        # outputs = tf.concat(axis=2, values=outputs)
 
         # Hack to build the indexing and retrieve the right output.
         batchSize = tf.shape(outputs)[0]
@@ -98,7 +97,7 @@ class AssertionModel:
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
-                if epoch > 8 or epoch is 1:
+                if epoch > 7 is 0 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
 
             print("Optimization Finished!")
