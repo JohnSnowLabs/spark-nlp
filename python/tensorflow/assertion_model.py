@@ -77,7 +77,7 @@ class AssertionModel:
 
             # Define loss and optimizer
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=self.y))
-            optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+            optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
             # Initialize the variables (i.e. assign their default value)
             init = tf.global_variables_initializer()

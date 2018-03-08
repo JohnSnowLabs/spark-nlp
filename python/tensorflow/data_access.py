@@ -88,7 +88,7 @@ class I2b2Dataset(object):
         return (len(self.data), 6)
 
     def shuffle(self):
-        indices = range(0, len(self.data))
+        indices = list(range(0, len(self.data)))
         random.shuffle(indices)
 
         self.data = [self.data[i] for i in indices]
