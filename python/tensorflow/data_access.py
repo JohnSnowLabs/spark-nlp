@@ -72,7 +72,7 @@ class I2b2Dataset(object):
         """ Return a batch of data. When dataset end is reached, start over.
         """
         if self.batch_id == len(self.data):
-            #random.shuffle(self.data)  # not the place for this
+            self.shuffle()
             self.batch_id = 0
 
         batch_data = (self.data[self.batch_id:min(self.batch_id +
@@ -86,6 +86,15 @@ class I2b2Dataset(object):
 
     def size(self):
         return (len(self.data), 6)
+
+    def shuffle(self):
+        indices = range(0, len(self.data))
+        random.shuffle(indices)
+
+        self.data = [self.data[i] for i in indices]
+        self.labels = [self.labels[i] for i in indices]
+        self.seqlen = [self.seqlen[i] for i in indices]
+
 
 
 class MockDataset(object):
