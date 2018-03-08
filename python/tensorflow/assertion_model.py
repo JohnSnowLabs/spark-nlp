@@ -10,8 +10,10 @@ from math import ceil
 
 class AssertionModel:
 
-    def __init__(self, seq_max_len, feat_size, n_classes):
-        with tf.device('/gpu:0'):
+    def __init__(self, seq_max_len, feat_size, n_classes, device='/cpu:0'):
+        tf.reset_default_graph()
+        self._device = device
+        with tf.device(device):
             self.x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
             self.y = tf.placeholder("float", [None, n_classes], 'y_output')
             # A placeholder for indicating each sentence length
@@ -69,8 +71,8 @@ class AssertionModel:
         # Linear activation, using outputs computed above
         self.bi_lstm = AssertionModel.fully_connected_layer(outputs, self.n_classes)
 
-    def train(self, trainset, testset, epochs, batch_size=64, learning_rate=0.01, device='/cpu:0'):
-        with tf.device(device):
+    def train(self, trainset, testset, epochs, batch_size=64, learning_rate=0.01):
+        with tf.device(self._device):
             pred = self.bi_lstm
 
             # Define loss and optimizer
@@ -97,7 +99,7 @@ class AssertionModel:
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
-                if epoch > 7 is 0 or epoch is 1:
+                if epoch > 7 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
 
             print("Optimization Finished!")

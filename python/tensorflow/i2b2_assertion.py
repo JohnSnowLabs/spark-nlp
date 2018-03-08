@@ -12,11 +12,11 @@ spark = SparkSession.builder \
     .master("local[2]") \
     .getOrCreate()
 
-trainset = I2b2Dataset('../../i2b2_train.csv', spark)
-testset = I2b2Dataset('../../i2b2_test.csv', spark)
+#trainset = I2b2Dataset('../../i2b2_train.csv', spark)
+#testset = I2b2Dataset('../../i2b2_test.csv', spark)
 
-#trainset = MockDataset(3072)
-#testset = MockDataset(1024)
+trainset = MockDataset(3072)
+testset = MockDataset(1024)
 
 # don't need spark from now on
 spark.stop()
@@ -34,8 +34,8 @@ for do in [0.05, 0.1, 0.15, 0.20, 0.25]:
     for nh in [15, 30, 45]:
         print('nh: %d' % nh)
         # instantiate model
-        model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6)
+        model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6, device='/gpu:0')
 
         # Network Parameters
         model.add_bidirectional_lstm(dropout=do, n_hidden=nh)
-        model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80, device='/gpu:0')
+        model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80)
