@@ -29,6 +29,8 @@ class I2b2Dataset(object):
 
         self.max_seq_len = max_seq_len
 
+        self.chars = ['+', '-', '/', '"']
+
         normalize = I2b2Dataset.normalize
         nonTargetMark = normalize(extra_feat_size * [0.1])
         targetMark = normalize(extra_feat_size * [-0.1])
@@ -39,9 +41,9 @@ class I2b2Dataset(object):
         self.seqlen = []
         for row in dataset:
             textTokens = row['text'].split()
-            leftC = [normalize(wv(w)) for w in textTokens[:int(row['start'])]]
-            rightC = [normalize(wv(w)) for w in textTokens[int(row['end']) + 1:]]
-            target = [normalize(wv(w)) for w in textTokens[int(row['start']):int(row['end']) + 1]]
+            leftC = [normalize(wv(w)) for w in self.clean(textTokens[:int(row['start'])])]
+            rightC = [normalize(wv(w)) for w in self.clean(textTokens[int(row['end']) + 1:])]
+            target = [normalize(wv(w)) for w in self.clean(textTokens[int(row['start']):int(row['end']) + 1])]
 
             # add marks
             leftC = [w + nonTargetMark for w in leftC]
@@ -60,7 +62,6 @@ class I2b2Dataset(object):
             self.labels.append(lbls)
 
         self.batch_id = 0
-
 
     def wv(self, word):
         if word in self.wvm:
@@ -96,6 +97,15 @@ class I2b2Dataset(object):
         self.seqlen = [self.seqlen[i] for i in indices]
 
 
+    def clean(self, tokens):
+        ''' handle special characters and some other garbage'''
+        chunk = ' '.join(tokens)
+        for c in self.chars:
+            chunk = chunk.replace(c, ' ' + c + ' ')
+        # handle &apos;s
+        chunk = chunk.replace('&apos;s', '\' s')
+        return chunk.split(' ')
+
 
 class MockDataset(object):
 
@@ -117,7 +127,5 @@ class MockDataset(object):
             self.state = True
             return bs * [12 * [self.second] + 238 * [self.zeros]], bs * [self.second_y], bs * [12]
 
-
     def size(self):
         return (self._size, 6)
-
