@@ -106,7 +106,8 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
   }
 
   override def deserializeObject(spark: SparkSession, path: String, field: String): Option[TValue] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
@@ -121,7 +122,8 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
   }
 
   override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[TValue] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.read.parquet(dataPath.toString).as[TValue].first)
@@ -145,7 +147,8 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
 
 
   override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
@@ -163,7 +166,8 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
 
 
   override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[Map[TKey, TValue]] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.read.parquet(dataPath.toString).as[(TKey, TValue)].collect.toMap)
@@ -185,7 +189,8 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
   }
 
   override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Array[TValue]] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
@@ -200,7 +205,8 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
   }
 
   override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[Array[TValue]] = {
-    val fs: FileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(path)
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.read.parquet(dataPath.toString).as[TValue].collect)
