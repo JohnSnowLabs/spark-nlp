@@ -19,9 +19,12 @@ class I2b2Dataset(object):
     reads the i2b2 dataset as a CSV saved with spark
     """
 
-    def __init__(self, i2b2_path, spark, extra_feat_size=10, max_seq_len=250, embeddings_path='PubMed-shuffle-win-2.bin'):
+    def __init__(self, i2b2_path, spark, extra_feat_size=10, max_seq_len=250, embeddings_path='PubMed-shuffle-win-2.bin', extra_path=None):
 
         dataset = spark.read.option('header', True).csv(i2b2_path).collect()
+        if extra_path:
+            dataset += spark.read.option('header', True).csv(extra_path).collect()
+
         if not self.wvm:
             self.wvm = KeyedVectors.load_word2vec_format(embeddings_path, binary=True)
 
@@ -104,7 +107,8 @@ class I2b2Dataset(object):
             chunk = chunk.replace(c, ' ' + c + ' ')
         # handle &apos;s
         chunk = chunk.replace('&apos;s', '\' s')
-        return chunk.split(' ')
+        result = [token for token in chunk.split(' ') if token is not '']
+        return result
 
 
 class MockDataset(object):

@@ -1,7 +1,6 @@
 # train assertion status on i2b2 dataset
 from __future__ import print_function
 from pyspark.sql import SparkSession
-from data_access import MockDataset
 from assertion_model import AssertionModel
 from data_access import I2b2Dataset
 
@@ -12,7 +11,7 @@ spark = SparkSession.builder \
     .master("local[2]") \
     .getOrCreate()
 
-trainset = I2b2Dataset('../../i2b2_train.csv', spark)
+trainset = I2b2Dataset('../../i2b2_train.csv', spark, extra_path='../../extra.csv')
 testset = I2b2Dataset('../../i2b2_test.csv', spark)
 
 #trainset = MockDataset(3072)
