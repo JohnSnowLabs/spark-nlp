@@ -15,7 +15,7 @@ class S3ResourceDownloader(bucket: String,
 
   var lastMetadataVersion: Option[String] = None
   var metadata = List.empty[ResourceMetadata]
-  val metadataFile = Paths.get(s3Path, "metadata.json").toString
+  val metadataFile = Paths.get(s3Path, "metadata.json").toString.replaceAllLiterally("\\", "/")
 
    if (!new File(cacheFolder).exists()) {
     FileUtils.forceMkdir(new File(cacheFolder))
@@ -61,7 +61,7 @@ class S3ResourceDownloader(bucket: String,
     val link = resolveLink(name, language, libVersion, sparkVersion)
     link.flatMap {
       resource =>
-        val s3FilePath = Paths.get(s3Path, resource.fileName).toString
+        val s3FilePath = Paths.get(s3Path, resource.fileName).toString.replaceAllLiterally("\\", "/")
         val dstFile = new File(cacheFolder, resource.fileName)
         if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
