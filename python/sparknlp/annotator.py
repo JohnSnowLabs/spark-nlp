@@ -137,6 +137,20 @@ class Tokenizer(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
+        self._setDefault(
+            inputCols=["document"],
+            infixPatterns=[
+                "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
+                "((?:\\p{L}\\.)+)",
+                "(\\p{L}+)(n't\\b)",
+                "(\\p{L}+)('{1}\\p{L}+)",
+                "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
+                "([\\p{L}\\w]+)"
+            ],
+            prefixPattern="\\A([^\\s\\p{L}\\d\\$\\.#]*)",
+            suffixPattern="([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z",
+            targetPattern="\\S+"
+        )
 
     def setTargetPattern(self, value):
         return self._set(targetPattern=value)
@@ -153,14 +167,22 @@ class Tokenizer(AnnotatorModel):
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
+    def addInfixPattern(self, value):
+        infix_patterns = self.getInfixPatterns()
+        infix_patterns.append(value)
+        return self._set(infixPatterns=infix_patterns)
+
 
 class Stemmer(AnnotatorModel):
 
-    algorithm = Param(Params._dummy(), "algorithm", "stemmer algorithm", typeConverter=TypeConverters.toString)
+    language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
         super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
+        self._setDefault(
+            language="english"
+        )
 
 
 class Normalizer(AnnotatorModel):
@@ -177,6 +199,10 @@ class Normalizer(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
+        self._setDefault(
+            pattern="[^\\pL+]",
+            lowercase=True
+        )
 
     def setPattern(self, value):
         return self._set(pattern=value)
@@ -199,6 +225,10 @@ class RegexMatcher(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(RegexMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcher")
+        self._setDefault(
+            inputCols=["document"],
+            strategy="MATCH_ALL"
+        )
 
     def setStrategy(self, value):
         return self._set(strategy=value)
@@ -227,6 +257,13 @@ class Lemmatizer(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
+        self._setDefault(
+            dictionary=ExternalResource(
+                "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
+                ReadAs.LINE_BY_LINE,
+                {"keyDelimiter": "->", "valueDelimiter": "\t"}
+            )
+        )
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
@@ -253,6 +290,10 @@ class DateMatcher(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
+        self._setDefault(
+            inputCols=["document"],
+            dateFormat="yyyy/MM/dd"
+        )
 
     def setDateFormat(self, value):
         return self._set(dateFormat=value)
@@ -268,6 +309,7 @@ class EntityExtractor(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
+        self._setDefault(inputCols=["token"])
 
     def _create_model(self, java_model):
         return EntityExtractorModel(java_model)
@@ -299,6 +341,10 @@ class PerceptronApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
+        self._setDefault(
+            corpus=ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, {"delimiter":"|", "format":"text"}),
+            nIterations=5
+        )
 
     def setPosCol(self, value):
         return self._set(posCol=value)
@@ -346,6 +392,7 @@ class SentenceDetector(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
+        self._setDefault(inputCols=["document"], useAbbreviations=False)
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -395,6 +442,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(ViveknSentimentApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach")
+        self._setDefault(pruneCorpus=1)
 
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
@@ -456,6 +504,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
+        self._setDefault(dictionary=ExternalResource(
+            "/spell/words.txt",
+            ReadAs.LINE_BY_LINE,
+            {"tokenPattern": "[a-zA-Z]+"}), caseSensitive=False, doubleVariants=False, shortCircuit=False)
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -558,6 +610,14 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     @keyword_only
     def __init__(self):
         super(NerCrfApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach")
+        self._setDefault(
+            minEpochs=0,
+            maxEpochs=1000,
+            l2=float(1),
+            c0=2250000,
+            lossEps=float(1e-3),
+            verbose=4
+        )
 
 
 class NerCrfModel(_AnnotatorModel):
@@ -620,6 +680,7 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     @keyword_only
     def __init__(self):
         super(AssertionLogRegApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach")
+        self._setDefault(label="label", beforeParam=11, afterParam=13)
 
 
 class AssertionLogRegModel(_AnnotatorModel):
