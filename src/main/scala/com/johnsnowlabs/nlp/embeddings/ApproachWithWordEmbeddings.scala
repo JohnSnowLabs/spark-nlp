@@ -81,8 +81,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
     val formatId = $(embeddingsFormat)
 
-    val uri = new java.net.URI(localFile)
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    val fs = FileSystem.get(spark.hadoopConfiguration)
 
     if (formatId == WordEmbeddingsFormat.TEXT.id) {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
@@ -94,8 +93,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
       WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
     }
     else if (formatId == WordEmbeddingsFormat.SPARKNLP.id) {
-      val uri = new java.net.URI(localFile)
-      val hdfs = FileSystem.get(uri, spark.hadoopConfiguration)
+      val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
     }
   }
@@ -119,8 +117,7 @@ object WordEmbeddingsClusterHelper {
   }
 
   def copyIndexToCluster(localFolder: String, spark: SparkContext): String = {
-    val uri = new java.net.URI(localFolder)
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    val fs = FileSystem.get(spark.hadoopConfiguration)
 
     val src = new Path(localFolder)
     val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))
