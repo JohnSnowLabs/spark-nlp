@@ -19,7 +19,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   val compositeTokens: StringArrayParam = new StringArrayParam(this, "compositeTokens", "Words that won't be split in two")
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
-  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPattern", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
+  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
   val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Defaults to \\A([^\\s\\p{L}$\\.]*)")
   val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
 

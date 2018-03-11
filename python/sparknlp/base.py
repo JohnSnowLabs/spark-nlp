@@ -117,6 +117,7 @@ class DocumentAssembler(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(DocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.DocumentAssembler")
+        self._setDefault(outputCol="document")
 
     @keyword_only
     def setParams(self):
@@ -170,6 +171,13 @@ class Finisher(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(Finisher, self).__init__(classname="com.johnsnowlabs.nlp.Finisher")
+        self._setDefault(
+            valueSplitSymbol="#",
+            annotationSplitSymbol="@",
+            cleanAnnotations=True,
+            includeKeys=False,
+            outputAsArray=False
+        )
 
     @keyword_only
     def setParams(self):
