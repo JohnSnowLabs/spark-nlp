@@ -1,6 +1,6 @@
 package com.johnsnowlabs.pretrained
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.pretrained.en.models.Tokenizer
+import com.johnsnowlabs.pretrained.en.models.CloudTokenizer
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 /**
@@ -19,7 +19,7 @@ object ModelDownloadSpec extends App {
     .setInputCol("text")
     .setOutputCol("document")
 
-  val tokenizer = Tokenizer.std.setInputCols(Array("document"))
+  val tokenizer = CloudTokenizer.retrieveStandard.setInputCols(Array("document"))
     .setOutputCol("token")
 
   val pipeline = new Pipeline().setStages(
