@@ -7,10 +7,10 @@ import com.johnsnowlabs.util.{Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
 
-class S3ResourceDownloader(bucket: String,
-                           s3Path: String,
-                           cacheFolder: String,
-                           region: String = "us-east-1")
+class CloudResourceDownloader(bucket: String,
+                              s3Path: String,
+                              cacheFolder: String,
+                              region: String = "us-east-1")
   extends ResourceDownloader with AutoCloseable {
 
   var lastMetadataVersion: Option[String] = None

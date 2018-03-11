@@ -132,7 +132,7 @@ class Tokenizer(AnnotatorModel):
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
-    reader = 'tokenizer'
+    name = 'Tokenizer'
 
     @keyword_only
     def __init__(self):
@@ -177,6 +177,8 @@ class Stemmer(AnnotatorModel):
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
+    name = "Stemmer"
+
     @keyword_only
     def __init__(self):
         super(Stemmer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Stemmer")
@@ -195,6 +197,8 @@ class Normalizer(AnnotatorModel):
     lowercase = Param(Params._dummy(),
                       "lowercase",
                       "whether to convert strings to lowercase")
+
+    name = "Normalizer"
 
     @keyword_only
     def __init__(self):
@@ -287,6 +291,8 @@ class DateMatcher(AnnotatorModel):
                        "desired format for dates extracted",
                        typeConverter=TypeConverters.toString)
 
+    name = "DateMatcher"
+
     @keyword_only
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
@@ -363,7 +369,6 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(_AnnotatorModel):
-    reader = "perceptronModel"
     name = "PerceptronModel"
 
 
@@ -379,7 +384,7 @@ class SentenceDetector(AnnotatorModel):
                          "characters used to explicitly mark sentence bounds",
                          typeConverter=TypeConverters.toListString)
 
-    reader = 'sentenceDetector'
+    name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
         self._set(customBounds=value)
@@ -621,7 +626,6 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 
 class NerCrfModel(_AnnotatorModel):
-    reader = "nerCrfModel"
     name = "NerCrfModel"
 
 

@@ -1,7 +1,8 @@
 package com.johnsnowlabs.pretrained
 
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -9,6 +10,9 @@ import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.ml.util.DefaultParamsReadable
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
+import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
+import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 
 import scala.collection.mutable
 
@@ -51,7 +55,7 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder)
+  var defaultDownloader: ResourceDownloader = new CloudResourceDownloader(s3Bucket, s3Path, cacheFolder)
 
   /**
     * Loads resource to path
@@ -107,19 +111,33 @@ object ResourceDownloader {
 object PythonResourceDownloader {
 
   val keyToReader : Map[String, DefaultParamsReadable[_]] = Map(
-    "documentAssembler" -> DocumentAssembler,
-    "sentenceDetector" -> SentenceDetector,
-    "tokenizer" -> Tokenizer,
-    "perceptronModel" -> PerceptronModel,
-    "nerCrfModel" -> NerCrfModel
+    "DocumentAssembler" -> DocumentAssembler,
+    "SentenceDetector" -> SentenceDetector,
+    "Tokenizer" -> Tokenizer,
+    "PerceptronModel" -> PerceptronModel,
+    "NerCrfModel" -> NerCrfModel,
+    "Stemmer" -> Stemmer,
+    "Normalizer" -> Normalizer,
+    "RegexMatcherModel" -> RegexMatcherModel,
+    "LemmatizerModel" -> LemmatizerModel,
+    "DateMatcher" -> DateMatcher,
+    "EntityExtractorModel" -> EntityExtractorModel,
+    "SentimentDetectorModel" -> SentimentDetectorModel,
+    "ViveknSentimentModel" -> ViveknSentimentModel,
+    "NorvigSweetingModel" -> NorvigSweetingModel,
+    "AssertionLogRegModel" -> AssertionLogRegModel
     )
 
-  def downloadModel(readerStr: String, name: String, language: String) = {
-    val reader = keyToReader.get(readerStr).getOrElse(throw new RuntimeException("Unsupported Model."))
+  def downloadModel(readerStr: String, name: String, language: String): PipelineStage = {
+    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException("Unsupported Model."))
     ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Some(language))
   }
 
-  def downloadPipeline(name: String, language: String):PipelineModel =
+  def downloadPipeline(name: String, language: String): PipelineModel =
     ResourceDownloader.downloadPipeline(name, Some(language))
+
+  def clearCache(name: String, language: String): Unit =
+    ResourceDownloader.clearCache(name, Some(language))
+
 }
 
