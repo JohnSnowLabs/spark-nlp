@@ -46,7 +46,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       // 1. Create tmp file for index
-      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath())
+      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath()).map(_.replaceAllLiterally("\\", "/"))
       // 2. Index Word Embeddings
       indexEmbeddings(localPath.get, spark.sparkContext)
       // 3. Copy WordEmbeddings to cluster
@@ -81,7 +81,8 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
     val formatId = $(embeddingsFormat)
 
-    val fs = FileSystem.get(spark.hadoopConfiguration)
+    val uri = new java.net.URI(localFile)
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (formatId == WordEmbeddingsFormat.TEXT.id) {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
@@ -93,7 +94,8 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
       WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
     }
     else if (formatId == WordEmbeddingsFormat.SPARKNLP.id) {
-      val hdfs = FileSystem.get(spark.hadoopConfiguration)
+      val uri = new java.net.URI(localFile)
+      val hdfs = FileSystem.get(uri, spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
     }
   }
@@ -117,7 +119,8 @@ object WordEmbeddingsClusterHelper {
   }
 
   def copyIndexToCluster(localFolder: String, spark: SparkContext): String = {
-    val fs = FileSystem.get(spark.hadoopConfiguration)
+    val uri = new java.net.URI(localFolder)
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     val src = new Path(localFolder)
     val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))

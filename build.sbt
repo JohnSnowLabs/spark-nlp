@@ -1,5 +1,5 @@
-val sparkVer = "2.1.2"
-val scalaVer = "2.11.11"
+val sparkVer = "2.3.0"
+val scalaVer = "2.11.12"
 val awsVer = "1.11.272"
 val scalaTestVersion = "3.0.0"
 
