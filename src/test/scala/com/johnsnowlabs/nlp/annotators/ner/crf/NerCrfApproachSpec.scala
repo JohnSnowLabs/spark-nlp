@@ -5,12 +5,13 @@ import org.scalatest.FlatSpec
 
 
 class NerCrfApproachSpec extends FlatSpec {
+  val spark = SparkAccessor.spark
+
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
   // Dataset ready for NER tagger
   val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withTokenizer(nerSentence))
-
 
   "NerCrfApproach" should "be serializable and deserializable correctly" in {
     nerModel.write.overwrite.save("./test_crf_pipeline")

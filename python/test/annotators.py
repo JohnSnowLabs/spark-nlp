@@ -18,7 +18,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer()\
             .setOutputCol("token") \
-            .setCompositeTokens(["New York"])
+            .setCompositeTokens(["New York"]) \
+            .addInfixPattern("(%\\d+)")
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -273,10 +274,13 @@ class ParamsGettersTestSpec(unittest.TestCase):
                 assert(hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
                 assert(param_value is None or param_value is not None)
-        # Try a random getter
+        # Try a getter
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
         assert(sentence_detector.getOutputCol() == "sentence")
         assert(sentence_detector.getCustomBounds() == ["%%"])
+        # Try a default getter
+        document_assembler = DocumentAssembler()
+        assert(document_assembler.getOutputCol() == "document")

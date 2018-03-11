@@ -1,17 +1,17 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegApproach, AssertionLogRegModel}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -85,13 +85,19 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentenceDetector.transform(dataset)
   }
 
+  var posTagger: PerceptronModel = null
+
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    new PerceptronApproach()
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("pos")
-      .setCorpus(ExternalResource("/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-      .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
-      .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    if (posTagger == null) {
+     posTagger = new PerceptronApproach()
+        .setInputCols(Array("sentence", "token"))
+        .setOutputCol("pos")
+         .setNIterations(1)
+        .setCorpus(ExternalResource("/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+        .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    }
+
+    posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
@@ -166,7 +172,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setExternalDataset(ExternalResource("src/test/resources/ner-corpus/test_ner_dataset.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
@@ -182,8 +187,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
   * */
   private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
+    import java.io.{File, PrintWriter}
+
     import org.apache.spark.sql.functions._
-    import java.io.{PrintWriter, File}
     val random = scala.util.Random
     val filename = s"${rowText}_${dim}.txt"
     val pw = new PrintWriter(new File(filename))
