@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import org.tensorflow.{Graph, Session, Tensor}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 
 class TensorflowNer
