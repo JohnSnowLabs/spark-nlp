@@ -1,4 +1,32 @@
 ========
+1.4.2
+========
+---------------
+Bugfixes
+---------------
+* Library now works properly in Windows environments
+* PySpark annotator param getters now work properly when retrieving default values
+* Fixed stemmer serialization due to misspelled param name
+* Fixed Tokenizer infixPattern param name to infixPatterns, leading to broken pyspark serialization of such param
+* Added missing addInfixPattern() function to PySpark, to allow adding patterns to current value
+* Model Downloader clearCache now properly removes both .zip files and extracted content
+* Model Downloader is now capable of reading all types of models properly
+* Added missing clearCache function into PySpark
+
+---------------
+Developer API
+---------------
+* Function names in model downloader code has been refactored consistenyl
+
+---------------
+Other
+---------------
+* RocksDB rolled back to previous version to support Windows
+* NerCRF unittest modified to reduce time to test
+* Removed training scripts from repository
+* Updated build spark and scala version
+
+========
 1.4.1
 ========
 ---------------
