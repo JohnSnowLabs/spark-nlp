@@ -119,5 +119,38 @@ object Annotation {
     }
   }
 
+  private def isInside(a: Annotation, begin: Int, end: Int): Boolean = {
+    a.start >= begin && a.end <= end
+  }
+
+  private def searchLabel(annotations: Array[Annotation], l: Int, r: Int, begin: Int, end: Int): Seq[Annotation] = {
+
+    def getAnswers(ind: Int) = {
+      val suitable = if (isInside(annotations(ind), begin, end))
+        annotations.toList.drop(ind)
+      else
+        annotations.toList.drop(ind + 1)
+
+      suitable.takeWhile(a => isInside(a, begin, end))
+    }
+
+    val k = (l + r) / 2
+
+    if (l  >= r)
+      getAnswers(l)
+    else if (begin < annotations(k).start)
+      searchLabel(annotations, l, k - 1, begin, end)
+    else if (begin > annotations(k).start)
+      searchLabel(annotations, k + 1, r, begin, end)
+    else
+     getAnswers(k)
+  }
+
+  /*
+    Returns Annotations that coverages text segment from begin till end (inclusive)
+   */
+  def searchCoverage(annotations: Array[Annotation], begin: Int, end: Int): Seq[Annotation] = {
+    searchLabel(annotations, 0, annotations.length - 1, begin, end)
+  }
 
 }

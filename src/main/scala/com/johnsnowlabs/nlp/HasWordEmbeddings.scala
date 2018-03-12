@@ -48,7 +48,6 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
     Files.delete(Paths.get(folderSrc))
   }
 
-
   def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
     val fs = FileSystem.get(spark.hadoopConfiguration)
     val src = getEmbeddingsSerializedPath(path)

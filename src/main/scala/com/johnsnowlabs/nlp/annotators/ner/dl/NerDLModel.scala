@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
-import java.nio.file.Files
+import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer}
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
@@ -14,7 +14,6 @@ import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import org.tensorflow.{Graph, Session}
 
 
 class NerDLModel(override val uid: String)
@@ -27,42 +26,34 @@ class NerDLModel(override val uid: String)
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
   override val annotatorType = NAMED_ENTITY
 
-  val settings: StructFeature[DatasetEncoderParams] = new StructFeature[DatasetEncoderParams](this, "encoderParams")
-  def setParams(params: DatasetEncoderParams): NerDLModel = set(settings, params)
+  val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
+  def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
 
-  @transient
-  var session: Option[Session] = None
-  @transient
-  var graph: Option[Graph] = None
-
-  def setSession(session: Session, graph: Graph): NerDLModel = {
-    this.session = Some(session)
-    this.graph = Some(graph)
-
+  var tensorflow: TensorflowWrapper = null
+  def setTensorflow(tf: TensorflowWrapper): NerDLModel = {
+    this.tensorflow = tf
     this
   }
 
   @transient
-  lazy val model = {
-    require(this.settings.isSet, "set settings before model usage")
-    require(this.session.isDefined, "set session before model usage")
+  private var _model: TensorflowNer = null
 
-    val settings = get(this.settings).get
-    val encoder = new DatasetEncoder(
-      embeddings.get.getEmbeddings,
-      settings
-    )
+  def model: TensorflowNer = {
+    if (_model == null) {
+      val encoder = new DatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
+      _model = new TensorflowNer(
+        tensorflow,
+        encoder,
+        10,
+        Verbose.Silent)
+    }
 
-    new TensorflowNer(
-      session.get,
-      encoder,
-      10,
-      Verbose.Silent
-    )
+    _model
   }
 
-
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    require(model != null, "call setModel before usage")
+
     // Parse
     val tokenized = TokenizedWithSentence.unpack(annotations).toArray
 
@@ -80,28 +71,21 @@ class NerDLModel(override val uid: String)
     }
   }
 
-
   override def onWrite(path: String, spark: SparkSession): Unit = {
-    val session = this.session.get
+    super.onWrite(path, spark)
+
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
-    val modelName = "model_temp_e08d7ffea7a143eeabde4444e8d81456"
+    // 1. Create tmp folder
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_nerdl")
       .toAbsolutePath.toString
+    val tfFile = Paths.get(tmpFolder, NerDLModel.tfFile).toString
 
-    // 1. Save variables
-    session.runner.addTarget("save/SaveV2").run()
-    val variablesFile = tmpFolder + "/variables"
-    FileUtils.moveDirectory(new File(modelName), new File(tmpFolder + "/variables"))
+    // 2. Save Tensorflow state
+    tensorflow.saveToFile(tfFile)
 
-    // 2. Save Graph
-    val graphDef = graph.get.toGraphDef
-    val graphFile = tmpFolder + "/saved_model.pb"
-    FileUtils.writeByteArrayToFile(new File(tmpFolder + "/saved_model.pb"), graphDef)
-
-    // 3. Find save model and upload to path
-    fs.copyFromLocalFile(new Path(variablesFile), new Path(path))
-    fs.copyFromLocalFile(new Path(graphFile), new Path(path))
+    // 3. Copy to dest folder
+    fs.copyFromLocalFile(new Path(tfFile), new Path(path))
 
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(tmpFolder))
@@ -110,10 +94,23 @@ class NerDLModel(override val uid: String)
 
 object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] {
 
-  override def onRead(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    val bundle = NerDLModelPythonReader.readBundle(path, spark)
+  val tfFile = "tensorflow"
 
-    instance
-      .setSession(bundle.session, bundle.graph)
+  override def onRead(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
+
+    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp directory
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_nerdl")
+      .toAbsolutePath.toString
+
+    // 2. Copy to local dir
+    fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
+
+    // 3. Read Tensorflow state
+    TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString)
+
+    // 4. Remove tmp folder
+    FileUtils.deleteDirectory(new File(tmpFolder))
   }
 }

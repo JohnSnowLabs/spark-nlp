@@ -25,8 +25,10 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int) extends Ser
 
   def wordEmbeddings: WordEmbeddings = {
     if (wordEmbeddingsValue == null) {
-      if (!new File(workPath).exists())
+      if (!new File(workPath).exists()) {
+        require(new File(src).exists(), s"file $src must be added to sparkContext")
         FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+      }
 
       wordEmbeddingsValue = WordEmbeddings(workPath, dim)
     }
@@ -48,12 +50,12 @@ object SparkWordEmbeddings {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
       fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
       WordEmbeddingsIndexer.indexText(tmpFile, localFile)
-    } else if (format == WordEmbeddingsFormat.BINARY.id) {
+    } else if (format == WordEmbeddingsFormat.BINARY) {
       val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
       fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
       WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
     }
-    else if (format == WordEmbeddingsFormat.SPARKNLP.id) {
+    else if (format == WordEmbeddingsFormat.SPARKNLP) {
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
     }

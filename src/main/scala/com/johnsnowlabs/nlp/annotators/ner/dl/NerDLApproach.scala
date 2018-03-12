@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer}
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -116,8 +116,10 @@ class NerDLApproach(override val uid: String)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(graphBytesDef)
 
+    val tf = new TensorflowWrapper(session, graph)
+
     val ner = try {
-      val model = new TensorflowNer(session, encoder, $(batchSize), Verbose($(verbose)))
+      val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
       model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs))
       model
     }
@@ -130,8 +132,8 @@ class NerDLApproach(override val uid: String)
     }
 
     new NerDLModel()
-      .setSession(session, graph)
-      .setParams(ner.encoder.params)
+      .setTensorflow(tf)
+      .setDatasetParams(ner.encoder.params)
   }
 }
 
