@@ -101,6 +101,7 @@ class AssertionModel:
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
                 if epoch > 7 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
+                    print(self.confusion_matrix(testset, sess, batch_size))
 
             print("Optimization Finished!")
 
@@ -123,3 +124,32 @@ class AssertionModel:
 
         return global_matches / float(dataset.size()[0])
 
+    def confusion_matrix(self, dataset, sess, batch_size):
+
+        n_test_batches = ceil(dataset.size()[0] / batch_size)
+        predicted = list()
+        for batch in range(1, n_test_batches + 1):
+            batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
+            batch_predictions = sess.run(self.bi_lstm, feed_dict={self.x: batch_x,
+            self.y: batch_y, self.seqlen: batch_seqlen})
+            predicted += [pred.argmax() for pred in batch_predictions]
+
+        # obtain index of largest
+        correct = [one_hot_label.index(max(one_hot_label)) for one_hot_label in dataset.labels]
+
+        # lengths should match
+        assert(len(predicted) == len(correct))
+
+        # infer all possible class labels
+        labels = set(correct)
+        from collections import defaultdict
+        matrix = {k: defaultdict(int) for k in labels}
+
+        for g, p in zip(correct, predicted):
+            matrix[g][p] += 1
+
+        # sanity check, confusion matrix contains as many elements as they were used during prediction
+        matrix_size = sum([element for idx in matrix for element in matrix[idx].values()])
+        assert(len(predicted) == matrix_size)
+
+        return matrix
