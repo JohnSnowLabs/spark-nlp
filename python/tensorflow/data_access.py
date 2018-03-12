@@ -75,9 +75,6 @@ class I2b2Dataset(object):
     def next(self, batch_size):
         """ Return a batch of data. When dataset end is reached, start over.
         """
-        if self.batch_id == len(self.data):
-            self.shuffle()
-            self.batch_id = 0
 
         batch_data = (self.data[self.batch_id:min(self.batch_id +
                                                   batch_size, len(self.data))])
@@ -86,6 +83,11 @@ class I2b2Dataset(object):
         batch_seqlen = (self.seqlen[self.batch_id:min(self.batch_id +
                                                       batch_size, len(self.data))])
         self.batch_id = min(self.batch_id + batch_size, len(self.data))
+
+        if self.batch_id == len(self.data):
+            self.shuffle()
+            self.batch_id = 0
+
         return batch_data, batch_labels, batch_seqlen
 
     def size(self):

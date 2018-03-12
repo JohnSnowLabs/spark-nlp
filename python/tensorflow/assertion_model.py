@@ -152,4 +152,7 @@ class AssertionModel:
         matrix_size = sum([element for idx in matrix for element in matrix[idx].values()])
         assert(len(predicted) == matrix_size)
 
+        from sklearn.metrics import f1_score
+        print(f1_score(correct, predicted, average='micro'))
+
         return matrix
