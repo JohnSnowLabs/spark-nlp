@@ -108,6 +108,7 @@ class I2b2Dataset(object):
         # handle &apos;s
         chunk = chunk.replace('&apos;s', '\' s')
         result = [token for token in chunk.split(' ') if token is not '']
+        result = [t.lower() for t in result]
         return result
 
 
