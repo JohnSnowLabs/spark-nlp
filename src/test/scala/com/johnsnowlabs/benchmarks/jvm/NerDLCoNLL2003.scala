@@ -5,7 +5,7 @@ import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.benchmarks.spark.NerDLPipeline
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer}
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedSentence}
@@ -48,8 +48,10 @@ object NerDLCoNLL2003 extends App {
 
   graph.importGraphDef(Files.readAllBytes(Paths.get("char_cnn_blstm_30_25_100_200.pb")))
 
+  val tf = new TensorflowWrapper(session, graph)
+
   val ner = try {
-    val model = new TensorflowNer(session, encoder, 9, Verbose.All)
+    val model = new TensorflowNer(tf, encoder, 9, Verbose.All)
     for (epoch <- 0 until 10) {
       model.train(trainDataset, 0.2f, 0.05f, 9, 0.5f, epoch, epoch + 1)
 
@@ -75,7 +77,6 @@ object NerDLCoNLL2003 extends App {
   def measure(ner: TensorflowNer, dataset: Array[(TextSentenceLabels, TokenizedSentence)]): Unit = {
 
     val started = System.nanoTime()
-
     val tokenized = dataset.map(l => l._2)
     val correctLabels = dataset.map(l => l._1)
     val predictedLabels = ner.predict(tokenized)

@@ -4,40 +4,42 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.SavedModelBundle
 
-/*
-  Reads Tensorflow Model stored in Python
- */
+import scala.io.Source
+
+
 object NerDLModelPythonReader {
-  val tagsFile = "tags.csv"
-  val charsFile = "chars.csv"
   val embeddingsMetaFile = "embeddings.meta"
   val embeddingsFile = "embeddings"
+  val tagsFile = "tags.csv"
+  val charsFile = "chars.csv"
 
-  private def readTags(folder: String, spark: SparkSession): List[String] = {
-    spark.sparkContext.textFile(Paths.get(folder, tagsFile).toString).collect.toList
+
+  private def readTags(folder: String): List[String] = {
+    Source.fromFile(Paths.get(folder, tagsFile).toString).getLines().toList
   }
 
-  private def readChars(folder: String, spark: SparkSession): List[Char] = {
-    val lines = spark.sparkContext.textFile(Paths.get(folder, charsFile).toString)
-      .collect
+  private def readChars(folder: String): List[Char] = {
+    val lines = Source.fromFile(Paths.get(folder, charsFile).toString).getLines()
+    lines.toList.head.toCharArray.toList
+  }
 
-    lines(0).toCharArray.toList
+  private def readBundle(folder: String): SavedModelBundle = {
+    SavedModelBundle.load(Paths.get(folder).toString)
   }
 
   private def readEmbeddingsHead(folder: String, spark: SparkSession): Int = {
     val metaFile = Paths.get(folder, embeddingsMetaFile).toString
-    spark.sparkContext.textFile(metaFile).collect.apply(0).toInt
+    Source.fromFile(metaFile).toList.head.toInt
   }
 
   private def readEmbeddings(folder: String, spark: SparkSession, embeddingsDim: Int): SparkWordEmbeddings = {
-
     SparkWordEmbeddings(
       spark.sparkContext,
       Paths.get(folder, embeddingsFile).toString,
@@ -45,35 +47,27 @@ object NerDLModelPythonReader {
       WordEmbeddingsFormat.BINARY)
   }
 
-  def readBundle(folder: String, spark: SparkSession): SavedModelBundle = {
+  def read(folder: String, spark: SparkSession): NerDLModel = {
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")
       .toAbsolutePath.toString
 
-    val file = new Path(folder).getName
     fs.copyToLocalFile(new Path(folder), new Path(tmpFolder))
 
-    val bundle = SavedModelBundle.load(Paths.get(tmpFolder, file).toString)
-    FileUtils.deleteDirectory(new File(tmpFolder))
-
-    bundle
-  }
-
-
-  def read(folder: String, spark: SparkSession): NerDLModel = {
-    val labels = readTags(folder, spark)
-    val chars = readChars(folder, spark)
     val embeddingsDim = readEmbeddingsHead(folder, spark)
     val embeddings = readEmbeddings(folder, spark, embeddingsDim)
-
+    val labels = readTags(folder)
+    val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
-    val bundle = readBundle(folder, spark)
+    val encoder = new DatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
+    val bundle = readBundle(folder)
+    val tf = new TensorflowWrapper(bundle.session, bundle.graph)
+
+    FileUtils.deleteDirectory(new File(tmpFolder))
 
     new NerDLModel()
-      .setDims(embeddingsDim)
-      .setIndexPath(embeddings.clusterFilePath.toString)
-      .setParams(settings)
-      .setSession(bundle.session, bundle.graph)
+      .setTensorflow(tf)
+      .setDatasetParams(encoder.params)
   }
 }

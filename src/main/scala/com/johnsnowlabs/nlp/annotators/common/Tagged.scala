@@ -8,7 +8,7 @@ import org.apache.spark.sql.{Dataset, Row}
 
 
 trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
-  val emptyTag = ""
+  val emptyTag = "O"
 
   override def unpack(annotations: Seq[Annotation]): Seq[T] = {
 
@@ -74,13 +74,18 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
+
   protected def getLabelsFromSentences(sentences: Seq[TokenizedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val position2Tag = labelAnnotations.map(a => (a.start, a.end) -> a.result).toMap
+    val sortedLabels = labelAnnotations.sortBy(a => a.start).toArray
 
     sentences.map{sentence =>
       val labels = sentence.indexedTokens.map { w =>
-        val tag = position2Tag.get((w.begin, w.end))
-        tag.getOrElse("O")
+        val tag = Annotation.searchCoverage(sortedLabels, w.begin, w.end)
+          .map(a => a.result)
+          .headOption
+          .getOrElse(emptyTag)
+
+        tag
       }
       TextSentenceLabels(labels)
     }
@@ -88,12 +93,16 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
 
   protected def getLabelsFromTaggedSentences(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val position2Tag = labelAnnotations.map(a => (a.start, a.end) -> a.result).toMap
+    val sortedLabels = labelAnnotations.sortBy(a => a.start).toArray
 
     sentences.map{sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>
-        val tag = position2Tag.get((w.begin, w.end))
-        tag.getOrElse("O")
+        val tag = Annotation.searchCoverage(sortedLabels, w.begin, w.end)
+          .map(a => a.result)
+          .headOption
+          .getOrElse(emptyTag)
+
+        tag
       }
       TextSentenceLabels(labels)
     }

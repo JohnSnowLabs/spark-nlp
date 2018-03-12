@@ -43,7 +43,7 @@ object NerDLPipeline extends App {
     val nerTagger = new NerDLApproach()
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
-      .setMaxEpochs(100)
+      .setMaxEpochs(10)
       .setRandomSeed(100)
       .setLr(0.2f)
       .setDropout(0.5f)
