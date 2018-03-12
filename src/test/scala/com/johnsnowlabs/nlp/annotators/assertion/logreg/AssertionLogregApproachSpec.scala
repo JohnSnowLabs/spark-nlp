@@ -1,8 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.PipelineModel
 import org.scalatest.FlatSpec
 
 
