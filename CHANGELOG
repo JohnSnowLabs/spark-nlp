@@ -4,6 +4,7 @@
 ---------------
 Bugfixes
 ---------------
+* Filesystem protocols now properly read across the library, fixed use case for S3:// protocol (thanks @avenka11)
 * Library now works properly in Windows environments
 * PySpark annotator param getters now work properly when retrieving default values
 * Fixed stemmer serialization due to misspelled param name
