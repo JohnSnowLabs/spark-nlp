@@ -45,11 +45,10 @@ class TensorflowWrapper
     val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
       .toAbsolutePath.toString
 
-    val modelFileName = findSavedFile("./")
-
     // 2. Save variables
     session.runner.addTarget("save/SaveV2").run()
     val variablesFile = Paths.get(folder, "variables").toString
+    val modelFileName = findSavedFile("./")
     FileUtils.moveDirectory(new File(modelFileName), new File(variablesFile))
 
     // 3. Save Graph
