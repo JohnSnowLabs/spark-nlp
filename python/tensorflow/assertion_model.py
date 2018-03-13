@@ -20,7 +20,9 @@ class AssertionModel:
             # A placeholder for indicating each sentence length
             self.seqlen = tf.placeholder(tf.int32, [None], 'seq_len')
             self.n_classes = n_classes
+
             self.output_keep_prob = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), ())
+            self.rate = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), ())
 
     @staticmethod
     def fully_connected_layer(input_data, output_dim, activation_func=None):
@@ -80,7 +82,7 @@ class AssertionModel:
 
             # Define loss and optimizer
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=self.y))
-            optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+            optimizer = tf.train.AdamOptimizer(learning_rate=self.rate).minimize(cost)
 
             # Initialize the variables (i.e. assign their default value)
             init = tf.global_variables_initializer()
@@ -97,12 +99,16 @@ class AssertionModel:
             #    print('{}\nShape: {}'.format(name, shape))
 
             num_batches = ceil(trainset.size()[0] / batch_size)
+            rate = learning_rate
             for epoch in range(1, epochs + 1):
                 for batch in range(1, num_batches + 1):
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
+                    if epoch > 7:
+                        rate /= 1.5
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y,
-                                                   self.seqlen: batch_seqlen, self.output_keep_prob: 1 - dropout})
+                                                   self.seqlen: batch_seqlen, self.output_keep_prob: 1 - dropout,
+                                                   self.rate: rate})
                 if epoch > 7 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
                     print(self.confusion_matrix(testset, sess, batch_size))
