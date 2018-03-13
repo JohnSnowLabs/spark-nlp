@@ -33,7 +33,8 @@ class TensorflowWrapper
 
     val fName = folderFile.listFiles.filter(f => f.isDirectory && f.getName.startsWith("model_temp_"))
           .sortBy(f => -getCreationTime(f)).headOption
-    require(fName.isDefined, s"File model_temp_* hasn't found in folder $folder. " +
+
+    require(fName.isDefined, s"File model_temp_* hasn't found in folder ${folderFile.getAbsolutePath}. " +
       s"Probably something changed in Tensorflow Save operation behaviour")
 
     fName.get.getAbsolutePath
