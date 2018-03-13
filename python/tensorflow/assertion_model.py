@@ -101,10 +101,11 @@ class AssertionModel:
             num_batches = ceil(trainset.size()[0] / batch_size)
             rate = learning_rate
             for epoch in range(1, epochs + 1):
+                if epoch > 7:
+                    rate /= 1.5
+
                 for batch in range(1, num_batches + 1):
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
-                    if epoch > 7:
-                        rate /= 1.5
                     # Run optimization op (backprop)
                     sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y,
                                                    self.seqlen: batch_seqlen, self.output_keep_prob: 1 - dropout,
