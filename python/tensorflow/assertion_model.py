@@ -16,9 +16,15 @@ class AssertionModel:
         with tf.device(device):
             self.x = tf.placeholder("float", [None, seq_max_len, feat_size], 'x_input')
             self.y = tf.placeholder("float", [None, n_classes], 'y_output')
+
             # A placeholder for indicating each sentence length
             self.seqlen = tf.placeholder(tf.int32, [None], 'seq_len')
             self.n_classes = n_classes
+            self.output_keep_prob = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), ())
+
+            # match_count reflects the number of matches in a batch
+            correct_pred = tf.equal(tf.argmax(self.bi_lstm, 1), tf.argmax(self.y, 1))
+            self.match_count = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
 
     @staticmethod
     def fully_connected_layer(input_data, output_dim, activation_func=None):
@@ -30,7 +36,7 @@ class AssertionModel:
         else:
             return tf.matmul(input_data, W) + b
 
-    def add_bidirectional_lstm(self, dropout=0.25, n_hidden=30, num_layers=3):
+    def add_bidirectional_lstm(self, n_hidden=30, num_layers=3):
         # TODO: check dimensions of 'x', (batch_size, n_steps, n_input)
         seq_max_len = self.x.get_shape()[1]
 
@@ -40,12 +46,12 @@ class AssertionModel:
             print('layer num %d' % layer_num)
             # Define a lstm cell with tensorflow  -  Forward direction cell
             lstm_fw_cell = tf.nn.rnn_cell.BasicLSTMCell(n_hidden, forget_bias=1.0, name='fw' + str(layer_num))
-            lstm_fw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_fw_cell, output_keep_prob=1.0 - dropout)
+            lstm_fw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_fw_cell, output_keep_prob=self.output_keep_prob)
             fw_cells.append(lstm_fw_cell)
 
             # Backward direction cell
             lstm_bw_cell = tf.nn.rnn_cell.BasicLSTMCell(n_hidden, forget_bias=1.0, name='bw' + str(layer_num))
-            lstm_bw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_bw_cell, output_keep_prob=1.0 - dropout)
+            lstm_bw_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_bw_cell, output_keep_prob=self.output_keep_prob)
             bw_cells.append(lstm_bw_cell)
 
         # Get lstm cell output, providing 'sequence_length' will perform dynamic
@@ -54,10 +60,6 @@ class AssertionModel:
             tf.contrib.rnn.stack_bidirectional_dynamic_rnn(fw_cells, bw_cells,
                                             self.x, dtype=tf.float32,
                                             sequence_length=self.seqlen)
-
-        # As we have Bi-LSTM, we have two output, which are not connected. So merge them
-        # dim(outputs) == [batch_size, max_time, cell_fw.output_size] & [batch_size, max_time, cell_bw.output_size]
-        # outputs = tf.concat(axis=2, values=outputs)
 
         # Hack to build the indexing and retrieve the right output.
         batchSize = tf.shape(outputs)[0]
@@ -71,7 +73,8 @@ class AssertionModel:
         # Linear activation, using outputs computed above
         self.bi_lstm = AssertionModel.fully_connected_layer(outputs, self.n_classes)
 
-    def train(self, trainset, testset, epochs, batch_size=64, learning_rate=0.01):
+
+    def train(self, trainset, testset, epochs, batch_size=64, learning_rate=0.01, dropout=0.15):
         with tf.device(self._device):
             pred = self.bi_lstm
 
@@ -88,17 +91,18 @@ class AssertionModel:
             sess.run(init)
 
             # some debugging
-            variable_names = [v.name for v in tf.trainable_variables()]
-            variable_shapes = [v.get_shape() for v in tf.trainable_variables()]
-            for name, shape in zip(variable_names, variable_shapes):
-                print('{}\nShape: {}'.format(name, shape))
+            # variable_names = [v.name for v in tf.trainable_variables()]
+            # variable_shapes = [v.get_shape() for v in tf.trainable_variables()]
+            # for name, shape in zip(variable_names, variable_shapes):
+            #    print('{}\nShape: {}'.format(name, shape))
 
             num_batches = ceil(trainset.size()[0] / batch_size)
             for epoch in range(1, epochs + 1):
                 for batch in range(1, num_batches + 1):
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
                     # Run optimization op (backprop)
-                    sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y, self.seqlen: batch_seqlen})
+                    sess.run(optimizer, feed_dict={self.x: batch_x, self.y: batch_y,
+                                                   self.seqlen: batch_seqlen, self.output_keep_prob: 1 - dropout})
                 if epoch > 7 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
                     print(self.confusion_matrix(testset, sess, batch_size))
@@ -109,33 +113,29 @@ class AssertionModel:
 
         ''' Calculate accuracy on dataset '''
 
-        # Evaluate model
-        correct_pred = tf.equal(tf.argmax(self.bi_lstm, 1), tf.argmax(self.y, 1))
-        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
-
+        assert (dataset.batch_id == 0)
         n_test_batches = ceil(dataset.size()[0] / batch_size)
         global_matches = 0
 
-        batch_matches = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
         for batch in range(1, n_test_batches + 1):
             batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
-            global_matches += sess.run(batch_matches, feed_dict={self.x: batch_x,
-            self.y: batch_y, self.seqlen: batch_seqlen})
+            global_matches += sess.run(self.match_count, feed_dict={self.x: batch_x, self.seqlen: batch_seqlen})
 
         return global_matches / float(dataset.size()[0])
 
     def confusion_matrix(self, dataset, sess, batch_size):
+        assert(dataset.batch_id == 0)
 
         n_test_batches = ceil(dataset.size()[0] / batch_size)
         predicted = list()
-        for batch in range(1, n_test_batches + 1):
-            batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
-            batch_predictions = sess.run(self.bi_lstm, feed_dict={self.x: batch_x,
-            self.y: batch_y, self.seqlen: batch_seqlen})
-            predicted += [pred.argmax() for pred in batch_predictions]
 
         # obtain index of largest
         correct = [one_hot_label.index(max(one_hot_label)) for one_hot_label in dataset.labels]
+
+        for batch in range(1, n_test_batches + 1):
+            batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
+            batch_predictions = sess.run(self.bi_lstm, feed_dict={self.x: batch_x, self.seqlen: batch_seqlen})
+            predicted += [pred.argmax() for pred in batch_predictions]
 
         # lengths should match
         assert(len(predicted) == len(correct))
@@ -152,6 +152,7 @@ class AssertionModel:
         matrix_size = sum([element for idx in matrix for element in matrix[idx].values()])
         assert(len(predicted) == matrix_size)
 
+        # TODO temp check, remove
         from sklearn.metrics import f1_score
         print(f1_score(correct, predicted, average='micro'))
 

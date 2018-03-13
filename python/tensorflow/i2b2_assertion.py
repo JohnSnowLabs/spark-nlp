@@ -28,13 +28,13 @@ dropout = 0.25
 batch_size = 128
 
 
-for do in [0.05, 0.1, 0.15, 0.20, 0.25]:
+for do in [0.005, 0.01, 0.02, 0.1, 0.15, 0.20, 0.25]:
     print('do: %f' % do)
-    for nh in [30, 45]:
+    for nh in [32]:
         print('nh: %d' % nh)
         # instantiate model
         model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6, device='/gpu:0')
 
         # Network Parameters
-        model.add_bidirectional_lstm(dropout=do, n_hidden=nh)
+        model.add_bidirectional_lstm(n_hidden=nh)
         model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80)
