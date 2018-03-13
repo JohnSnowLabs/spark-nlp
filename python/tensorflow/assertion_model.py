@@ -22,10 +22,6 @@ class AssertionModel:
             self.n_classes = n_classes
             self.output_keep_prob = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), ())
 
-            # match_count reflects the number of matches in a batch
-            correct_pred = tf.equal(tf.argmax(self.bi_lstm, 1), tf.argmax(self.y, 1))
-            self.match_count = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
-
     @staticmethod
     def fully_connected_layer(input_data, output_dim, activation_func=None):
         input_dim = int(input_data.get_shape()[1])
@@ -72,6 +68,10 @@ class AssertionModel:
 
         # Linear activation, using outputs computed above
         self.bi_lstm = AssertionModel.fully_connected_layer(outputs, self.n_classes)
+
+        # match_count reflects the number of matches in a batch
+        correct_pred = tf.equal(tf.argmax(self.bi_lstm, 1), tf.argmax(self.y, 1))
+        self.match_count = tf.reduce_sum(tf.cast(correct_pred, tf.float32))
 
 
     def train(self, trainset, testset, epochs, batch_size=64, learning_rate=0.01, dropout=0.15):
