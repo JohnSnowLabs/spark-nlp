@@ -145,8 +145,7 @@ object NerDLPipeline extends App {
     }
   }
 
-  def measureNer(): PipelineModel = {
-    val model = trainNerModel(trainFile)
+  def measureNer(model: PipelineModel): Unit = {
 
     System.out.println("\n\nQuality on train data")
     testDataset(trainFile, model, "ner", nerReader, collectNerLabeled)
@@ -156,11 +155,12 @@ object NerDLPipeline extends App {
 
     System.out.println("\n\nQuality on test B data")
     testDataset(testFileB, model, "ner", nerReader, collectNerLabeled)
-
-    model
   }
 
-  val nerModel = measureNer()
-  nerModel.write.overwrite().save("ner_model")
+  val model = trainNerModel(trainFile)
+  measureNer(model)
+
+  model.write.overwrite().save("ner_model")
+  PipelineModel.read.load("ner_model")
 }
 
