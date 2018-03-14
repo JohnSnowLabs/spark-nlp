@@ -3,10 +3,11 @@ package com.johnsnowlabs.ml.tensorflow
 import java.io.{File, IOException, ObjectOutputStream}
 import java.nio.file.attribute.{BasicFileAttributeView, FileTime}
 import java.nio.file.{Files, Paths}
+import java.util
 import java.util.UUID
 
 import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, SavedModelBundle, Session}
+import org.tensorflow.{Graph, Operation, SavedModelBundle, Session}
 
 
 class TensorflowWrapper
@@ -26,34 +27,23 @@ class TensorflowWrapper
     view.creationTime().toMillis
   }
 
-  private def findSavedFile(folder: String): String = {
-    val folderFile = new File(folder)
-    require(folderFile.exists, s"folder $folder should exists")
-    require(folderFile.isDirectory, s"folder $folder should be a directory")
-
-    val fName = folderFile.listFiles.filter(f => f.isDirectory && f.getName.startsWith("model_temp_"))
-          .sortBy(f => -getCreationTime(f)).headOption
-
-    require(fName.isDefined, s"File model_temp_* hasn't found in folder ${folderFile.getAbsolutePath}. " +
-      s"Probably something changed in Tensorflow Save operation behaviour")
-
-    fName.get.getAbsolutePath
-  }
-
   def saveToFile(file: String): Unit = {
+    val t = new TensorResources()
+
     // 1. Create tmp director
     val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
       .toAbsolutePath.toString
 
-    // 2. Save variables
-    session.runner.addTarget("save/SaveV2").run()
     val variablesFile = Paths.get(folder, "variables").toString
-    val modelFileName = findSavedFile("./")
-    FileUtils.moveDirectory(new File(modelFileName), new File(variablesFile))
+
+    // 2. Save variables
+    session.runner.addTarget("save/control_dependency:0")
+      .feed("save/Const:0", t.createTensor(variablesFile))
+      .run()
 
     // 3. Save Graph
     val graphDef = graph.toGraphDef
-    val graphFile = Paths.get(folder, "/saved_model.pb").toString
+    val graphFile = Paths.get(folder, "saved_model.pb").toString
     FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
 
     // 4. Zip folder
@@ -61,6 +51,7 @@ class TensorflowWrapper
 
     // 5. Remove tmp directory
     FileUtils.deleteDirectory(new File(folder))
+    t.clearTensors()
   }
 
   @throws(classOf[IOException])
@@ -85,6 +76,8 @@ class TensorflowWrapper
 
 object TensorflowWrapper {
   def read(file: String): TensorflowWrapper = {
+    val t = new TensorResources()
+
     // 1. Create tmp folder
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
       .toAbsolutePath.toString
@@ -93,11 +86,26 @@ object TensorflowWrapper {
     val folder = ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
 
     // 3. Read file as SavedModelBundle
-    val result = SavedModelBundle.load(folder)
+    val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
+    val graph = new Graph()
+    graph.importGraphDef(graphDef)
+    val session = new Session(graph)
+    session.runner.addTarget("save/restore_all:0")
+      .feed("save/Const:0", t.createTensor(Paths.get(folder, "variables")))
+      .run()
+
+    // ToDO Delete after is started working
+    System.out.println(s"Loaded model from folder ${folder}")
+    val operations: util.Iterator[Operation] = graph.operations()
+    while (operations.hasNext) {
+      val op = operations.next()
+      System.out.print(op.name())
+    }
 
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(folder))
+    t.clearTensors()
 
-    new TensorflowWrapper(result.session, result.graph)
+    new TensorflowWrapper(session, graph)
   }
 }

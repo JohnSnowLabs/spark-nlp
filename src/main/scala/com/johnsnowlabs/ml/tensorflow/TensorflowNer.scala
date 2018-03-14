@@ -237,7 +237,13 @@ object ZipArchiveUtil {
   }
 
   def unzip(file: File, destDirPath: Option[String] = None): String = {
-    val basename = file.getName.substring(0, file.getName.lastIndexOf("."))
+    val fileName = file.getName
+
+    val basename = if (fileName.indexOf('.') >= 0) {
+      fileName.substring(0, fileName.lastIndexOf("."))
+    } else {
+      fileName + "_unzipped"
+    }
 
     val destDir = if (destDirPath == None) {
       new File(file.getParentFile, basename)
