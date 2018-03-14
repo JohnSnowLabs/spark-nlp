@@ -7,8 +7,14 @@ import scala.collection.mutable.ArrayBuffer
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
 
-  def createTensor[T](obj: T): Tensor[_] =  {
-    val result = Tensor.create(obj)
+  def createTensor[T](obj: T): Tensor[_] = {
+    val result = if (obj.isInstanceOf[String]) {
+      Tensor.create(obj.asInstanceOf[String].getBytes("UTF-8"), classOf[String])
+    }
+    else {
+      Tensor.create(obj)
+    }
+
     tensors.append(result)
     result
   }

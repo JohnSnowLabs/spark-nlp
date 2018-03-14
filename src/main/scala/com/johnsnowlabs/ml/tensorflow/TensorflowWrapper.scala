@@ -37,8 +37,8 @@ class TensorflowWrapper
     val variablesFile = Paths.get(folder, "variables").toString
 
     // 2. Save variables
-    session.runner.addTarget("save/control_dependency:0")
-      .feed("save/Const:0", t.createTensor(variablesFile))
+    session.runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
     // 3. Save Graph
@@ -90,17 +90,9 @@ object TensorflowWrapper {
     val graph = new Graph()
     graph.importGraphDef(graphDef)
     val session = new Session(graph)
-    session.runner.addTarget("save/restore_all:0")
-      .feed("save/Const:0", t.createTensor(Paths.get(folder, "variables")))
+    session.runner.addTarget("save/restore_all")
+      .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
       .run()
-
-    // ToDO Delete after is started working
-    System.out.println(s"Loaded model from folder ${folder}")
-    val operations: util.Iterator[Operation] = graph.operations()
-    while (operations.hasNext) {
-      val op = operations.next()
-      System.out.print(op.name())
-    }
 
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(folder))
