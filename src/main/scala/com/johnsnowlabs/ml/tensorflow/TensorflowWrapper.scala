@@ -1,13 +1,11 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import java.io.{File, IOException, ObjectOutputStream}
-import java.nio.file.attribute.{BasicFileAttributeView, FileTime}
+import java.nio.file.attribute.BasicFileAttributeView
 import java.nio.file.{Files, Paths}
-import java.util
 import java.util.UUID
-
 import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, Operation, SavedModelBundle, Session}
+import org.tensorflow.{Graph, Session}
 
 
 class TensorflowWrapper
@@ -75,7 +73,8 @@ class TensorflowWrapper
 }
 
 object TensorflowWrapper {
-  def read(file: String): TensorflowWrapper = {
+
+  def read(file: String, zipped: Boolean = true): TensorflowWrapper = {
     val t = new TensorResources()
 
     // 1. Create tmp folder
@@ -83,7 +82,11 @@ object TensorflowWrapper {
       .toAbsolutePath.toString
 
     // 2. Unpack archive
-    val folder = ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+    val folder = if (zipped)
+      ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+    else
+      file
+
 
     // 3. Read file as SavedModelBundle
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
@@ -95,7 +98,7 @@ object TensorflowWrapper {
       .run()
 
     // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(folder))
+    FileUtils.deleteDirectory(new File(tmpFolder))
     t.clearTensors()
 
     new TensorflowWrapper(session, graph)
