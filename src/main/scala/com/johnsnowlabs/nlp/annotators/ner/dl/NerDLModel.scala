@@ -21,6 +21,7 @@ class NerDLModel(override val uid: String)
     with HasWordEmbeddings
     with ParamsAndFeaturesWritable {
 
+
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
@@ -30,6 +31,7 @@ class NerDLModel(override val uid: String)
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
 
   var tensorflow: TensorflowWrapper = null
+
   def setTensorflow(tf: TensorflowWrapper): NerDLModel = {
     this.tensorflow = tf
     this
@@ -40,6 +42,8 @@ class NerDLModel(override val uid: String)
 
   def model: TensorflowNer = {
     if (_model == null) {
+      require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
+
       val encoder = new DatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowNer(
         tensorflow,
@@ -108,7 +112,8 @@ object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] {
     fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
 
     // 3. Read Tensorflow state
-    TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString)
+    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString)
+    instance.setTensorflow(tf)
 
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(tmpFolder))
