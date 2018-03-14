@@ -5,6 +5,8 @@ import org.scalatest.FlatSpec
 
 
 class NerCrfApproachSpec extends FlatSpec {
+  val spark = SparkAccessor.spark
+
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
@@ -16,14 +18,14 @@ class NerCrfApproachSpec extends FlatSpec {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
-    assert(nerModel.model.get.serialize == loadedNer.model.get.serialize)
-    assert(nerModel.dictionaryFeatures == loadedNer.dictionaryFeatures)
+    assert(nerModel.model.getOrDefault.serialize == loadedNer.model.getOrDefault.serialize)
+    assert(nerModel.dictionaryFeatures.getOrDefault == loadedNer.dictionaryFeatures.getOrDefault)
   }
 
 
   "NerCrfApproach" should "have correct set of labels" in {
-    assert(nerModel.model.isDefined)
-    val metadata = nerModel.model.get.metadata
+    assert(nerModel.model.isSet)
+    val metadata = nerModel.model.getOrDefault.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
 
@@ -35,7 +37,7 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(annotations.length == labels.length)
     for ((annotation, label) <- annotations.zip(labels)) {
-      assert(annotation.begin == label.begin)
+      assert(annotation.start == label.start)
       assert(annotation.end == label.end)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
       assert(annotation.result == label.result)
@@ -49,7 +51,7 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 
@@ -58,14 +60,14 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 
   "NerCrfModel" should "correctly handle entities param" in {
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
-      .setModel(nerModel.model.get)
+      .setModel(nerModel.model.getOrDefault)
       .setOutputCol(nerModel.getOutputCol)
       .setInputCols(nerModel.getInputCols)
 

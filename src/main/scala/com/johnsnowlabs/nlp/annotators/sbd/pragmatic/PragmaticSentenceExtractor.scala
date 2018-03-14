@@ -7,24 +7,26 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
  *
   * @param text symbolized text
   */
-class PragmaticSentenceExtractor(text: String) {
+class PragmaticSentenceExtractor(text: String, sourceText: String) {
 
   private val recoverySymbols = ("([" + PragmaticSymbols.symbolRecovery.keys.mkString + "])").r
 
   /** Goes through all sentences to store length and bounds of sentences */
-  private def buildSentenceProperties(rawSentences: Array[String]) = {
+  private def buildSentenceProperties(rawSentences: Array[String], sourceText: String) = {
     val sentences: Array[Sentence] = Array.ofDim[Sentence](rawSentences.length)
     var lastCharPosition = 0
     var i = 0
     while (i < sentences.length) {
-      val sentenceContent = rawSentences(i)
-      val sentenceLastCharPos = lastCharPosition + sentenceContent.length - 1
+      val rawSentence = rawSentences(i)
+      val sentence = rawSentence.trim()
+      val startPad = sourceText.indexOf(sentence, lastCharPosition)
+
       sentences(i) = Sentence(
-        sentenceContent,
-        lastCharPosition,
-        sentenceLastCharPos
+        sentence,
+        startPad,
+        startPad + sentence.length() - 1
       )
-      lastCharPosition = sentenceLastCharPos + 1
+      lastCharPosition = sentences(i).end + 2
       i = i + 1
     }
     sentences
@@ -39,15 +41,15 @@ class PragmaticSentenceExtractor(text: String) {
     * @return final sentence structure
     */
   def pull: Array[Sentence] = {
-    val splitSentences: Array[String] = text
+    val splitSentences = text
       .split(PragmaticSymbols.UNPROTECTED_BREAK_INDICATOR)
       .map(_.replaceAll(PragmaticSymbols.BREAK_INDICATOR, ""))
-      .map(_.trim).filter(_.nonEmpty)
       .map(s => recoverySymbols.replaceAllIn(
         s, m => PragmaticSymbols.symbolRecovery
           .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))
       ))
-    buildSentenceProperties(splitSentences)
-  }
 
+    buildSentenceProperties(splitSentences, sourceText)
+      .filter(_.content.trim.nonEmpty)
+  }
 }

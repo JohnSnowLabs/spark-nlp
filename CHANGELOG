@@ -1,4 +1,216 @@
 ========
+1.4.0
+========
+---------------
+New features
+---------------
+* All annotator external sources have been unified through an ExternalResource component.
+This is used to represents external data information deals with content in HDFS or local just as spark deals with data.
+It also improves performance globally and allows customization
+into how these sources are read (e.g. as RDD or Line by Line sequences)
+* NorvigSweeting SpellChecker, ViveknSentiment and POS Perceptron can now train from the dataset passed to fit().
+For Spell Checker, this will be applied if the user did not supply a corpus, forcing fit() to learn from words in the data column.
+For ViveknSentiment and POS Perceptron, this strategy will be applied if sentimentCol and posCol params have been set respectively.
+
+---------------
+Enhancements
+---------------
+* ResourceHelper now has an improved SourceStream class which allows for more consistent HDFS/Filesystem reading by using
+more of the Hadoop APIs.
+* application.conf is now a global setting and can be overridden in run-time through ConfigLoader.setConfigPath(). It may also be accessed from PySpark
+* PySpark API improved by creating AnnotatorApproach and AnnotatorModel  classes
+* EntityMatcher now uses recursive Pipelines
+* Part-of-Speech tagging performance has been improved throughout the prediction algorithm
+* EntityMatcher may now use RecursivePipeline in order to tokenize external data with the same pipeline provided by the user
+
+---------------
+Developer API
+---------------
+*PySpark API has been severly improved to make it easier to extend JVM classes
+*PySpark API improved for extending annotator approaches and models appropriately
+
+----------------
+Bugfixes
+----------------
+* Reverted a bug introduced causing NER not to read datasets properly from HDFS
+* Fixed EntityMatcher wrongly normalizing external content (thanks @sofianeh)
+
+----------------
+Documentation
+----------------
+* Fixed EntityMatcher documentation obsolete params (Thanks @sofianeh)
+* Fixed NER CRF documentation in website
+
+========
+1.3.0
+========
+IMPORTANT: Pipelines from 1.2.6 or older cannot be loaded from 1.3.0
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/94
+Tokenizer annotator has been revamped. It now follows standard NLP Rules, matching above 90% of StanfordNLP Tokens
+This annotator has now more complex rules allowing setting custom composite words as exceptions (e.g. to not break New York)
+and custom Prefix, Infix, Suffix and Breaking rules. It uses regular expression groups in order to match various tokens per target word
+Defaults have been updated to also be language agnostic and support foreign characters from Unicode charset
+* https://github.com/JohnSnowLabs/spark-nlp/pull/93
+Assertion Status. This annotator identifies negated sequences within target scope. Assertion status is a machine learning
+annotator and works throughout a set of Word Embeddings which a set of them is provided as a part of our Python notebook examples.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/90
+Recursive Pipelines. We have created our own Pipeline class which will take more advantages from Spark-NLP annotators.
+Although this Pipeline is completely optional and works well with default Apache Spark estimators and transforms, it allows
+training our annotators more efficiently by allowing annotator approaches access the previous state of the Pipeline,
+allowing them to use it to tokenize or transform their own external content. It is recommended to use such Pipelines.
+
+----------------
+Enhancements
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/83
+Part of Speech training has been improved in both performance and quality, and now better makes use of the input corpus provided.
+New params have been extended in order to have more control of its training, through corpusFormat and corpusLimit, allowing
+whether to read training data as Dataset or raw text files, and the number of limit files if a folder is provided
+* https://github.com/JohnSnowLabs/spark-nlp/pull/84
+Thanks to @lambdaofgod to allow Normalizer to optionally lower case tokens
+* Thanks to Lorenz Bernauer, Normalizer default pattern now becomes language agnostic by not breaking unicode characters such as Spanish or German letters
+* Features now have appropriate default values which are lazy by nature and executed only once upon request. This improves by side effect to the Lemmatizer performance.
+* RuleFactory (A regex rule factory) performance has been improved due to set to use a Factory pattern and not re-check it's strategy on every transformation in run-time.
+This might have positive side effects in SentenceDetector, DateMatcher and RegexMatcher which extensively use this class.
+
+----------------
+Class Renames
+----------------
+RegexTokenizer -> Tokenizer (it is not just regex anymore)
+SentenceDetectorModel -> SentenceDetector (it is not a model, it is a rule-based algorithm)
+SentimentDetectorModel -> SentimentDetector (it is not a model, it is a rule-based algorithm)
+
+----------------
+User Utilities
+----------------
+* ResourceHelper has a function createDatasetFromText which allows the user to more
+easily read one or multiple text files from path into a dataset with various options,
+including filename by row or by file aggregation. This class should be more widely
+used since it helps dealing with local files parsing. It shall be better documented.
+* com.johnsnowlabs.util now contains a Benchmark class which allows measuring the time of
+any function easily, by using it as Benchmark.time("Description of measured") {someFunction()}
+
+----------------
+Developer API
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/89/files
+Word embedding traits have been generalized. Now any annotator who might want to use them can easily access their properties
+* Recursive pipelines now allow injecting PipelineModel object into train() stage. It is an optional parameter. If the user
+utilizes RecursivePipeline, the annotator might use this pipeline for transforming secondary data inputs.
+* Annotator abstract class has been divided into a previous RawAnnotator class which contains all annotator properties
+and validations, but does not make use of the annotate() function. This allows annotators that need to work directly with
+the transform() call, but also participate between other annotators in the pipeline
+
+----------------
+Bugfixes
+----------------
+* Fixed a bug in annotators with word embeddings not correctly serializing into disk
+* Fixed a bug creating temporary folders in home folder
+* Fixed a broken geospatial pattern in sentence detection
+
+========
+1.2.6
+========
+---------------
+Enhancements
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/82
+Vivekn Sentiment Analysis improved memory consumption and training performance
+Parameter pruneCorpus is an adjustable value now, defaults to 1. Higher values lead to better performance
+but are meant on larger corpora. tokenPattern params are meant to allow different tokenization regex
+within the corpora provided on Vivekn and Norvig models.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/81
+Serialization improvements. New default format (parquet lasted little) is RDD objects. Proved to be lighter on
+heap memory. Also added lazier default values for Feature containers. New application.conf performance tunning
+settings allow to customize whether we want to Feature broadcast or not, and use parquet or objects in serialization.
+
+========
+1.2.5
+========
+IMPORTANT: Pipelines from 1.2.4 or older cannot be loaded from 1.2.5
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/70
+Word embeddings parameter for CRF NER annotator
+* https://github.com/JohnSnowLabs/spark-nlp/pull/78
+Annotator features replace params and are now serialized using KRYO and partitioned files, increases performance and smaller
+memory consumption in Driver for saving and loading pipelines with large corpora. Such features are now also broadcasted
+for better performance in distributed environments. This enhancement is a breaking change, does not allow to load older pipelines
+
+----------------
+Bug fixes
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/cb9aa4366f3e2c9863482df39e07b7bacff13049
+Stemmer was not capable of being deserialized (Implements DefaultParamsReadable)
+* https://github.com/JohnSnowLabs/spark-nlp/pull/75
+Sentence Boundary detector was not properly setting bounds
+
+----------------
+Documentation (thanks @maziyarpanahi)
+----------------
+* https://github.com/JohnSnowLabs/spark-nlp/pull/79
+Typo in code
+* https://github.com/JohnSnowLabs/spark-nlp/pull/74
+Bad description
+
+========
+1.2.4
+========
+---------------
+New features
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/c17ddac7a5a9e775cddc18d672e80e60f0040e38
+ResourceHelper now allows input files to be read in the shape of Spark Dataset, implicitly enabling HDFS paths, allowing larger annotator input files. Needs to set 'TXTDS' as input format Param to let annotators read this way. Allowed in: Lemmatizer, EntityExtractor, RegexMatcher, Sentiment Analysis models, Spell Checker and Dependency Parser.
+
+---------------
+Enhancements and progress
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/4920e5ce394b25937969cc4cab1d81172be722a3
+CRF NER Benchmarking progress
+* https://github.com/JohnSnowLabs/spark-nlp/pull/64
+EntityExtractor refactored. This annotator uses an input file containing a list of entities to look for inside target text. This annotator has been refactored to be of better use and specifically faster, by using a Trie search algorithm. Proper examples included in python notebooks.
+
+---------------
+Bug fixes
+---------------
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/41 <> https://github.com/JohnSnowLabs/spark-nlp/commit/d3b9086e834233f3281621d7c82e32195479fc82
+Fixed default resources not being loaded properly when using the library through --spark-packages. Improved input reading from resources and folder resources, and falling back to disk, with better error handling.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/08405858c6186e6c3e8b668233e30df12fa50374
+Corrected param names in DocumentAssembler
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/58 <> https://github.com/JohnSnowLabs/spark-nlp/commit/5a533952cdacf67970c5a8042340c8a4c9416b13
+Deleted a left-over deprecated function which was misleading.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/c02591bd683db3f615150d7b1d121ffe5d9e4535
+Added a filtering to ensure no empty sentences arrive to unnormalized Vivekn Sentiment Analysis
+
+---------------
+Documentation and examples
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/b81e95ce37ed3c4bd7b05e9f9c7b63b31d57e660
+Added additional resources into FAQ page.
+* https://github.com/JohnSnowLabs/spark-nlp/commit/0c3f43c0d3e210f3940f7266fe84426900a6294e
+Added Spark Summit example notebook with full Pipeline use case
+* Issue https://github.com/JohnSnowLabs/spark-nlp/issues/53 <> https://github.com/JohnSnowLabs/spark-nlp/commit/20efe4a3a5ffbceedac7bf775466b7a8cde5044f
+Fixed scala python documentation mistakes
+* https://github.com/JohnSnowLabs/spark-nlp/commit/782eb8dce171b69a615887b3defaf8b729b735f2
+Typos fix
+
+---------------
+Other
+---------------
+* https://github.com/JohnSnowLabs/spark-nlp/commit/91d8acb1f0f4840dad86db3319d0b062bd63b8c6
+Removed Regex NER due to slowness and little use. CRF NER to replace NER.
+
+---------------
+Other
+---------------
+https://github.com/JohnSnowLabs/spark-nlp/commit/91d8acb1f0f4840dad86db3319d0b062bd63b8c6
+Removed Regex NER due to slowness and little use. CRF NER to replace NER.
+
+========
 1.2.3
 ========
 ---------------

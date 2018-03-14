@@ -10,15 +10,15 @@ import scala.collection.Map
 /**
   * represents annotator's output parts and their details
   * @param annotatorType the type of annotation
-  * @param begin the index of the first character under this annotation
+  * @param start the index of the first character under this annotation
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String])
 
 object Annotation {
 
-  private case class AnnotationContainer(__annotation: Array[Annotation])
+  case class AnnotationContainer(__annotation: Array[Annotation])
 
   object extractors {
     /** annotation container ready for extraction */
@@ -39,7 +39,7 @@ object Annotation {
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
     StructField("annotatorType", StringType, nullable = true),
-    StructField("begin", IntegerType, nullable = false),
+    StructField("start", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true)
@@ -119,5 +119,38 @@ object Annotation {
     }
   }
 
+  private def isInside(a: Annotation, begin: Int, end: Int): Boolean = {
+    a.start >= begin && a.end <= end
+  }
+
+  private def searchLabel(annotations: Array[Annotation], l: Int, r: Int, begin: Int, end: Int): Seq[Annotation] = {
+
+    def getAnswers(ind: Int) = {
+      val suitable = if (isInside(annotations(ind), begin, end))
+        annotations.toList.drop(ind)
+      else
+        annotations.toList.drop(ind + 1)
+
+      suitable.takeWhile(a => isInside(a, begin, end))
+    }
+
+    val k = (l + r) / 2
+
+    if (l  >= r)
+      getAnswers(l)
+    else if (begin < annotations(k).start)
+      searchLabel(annotations, l, k - 1, begin, end)
+    else if (begin > annotations(k).start)
+      searchLabel(annotations, k + 1, r, begin, end)
+    else
+     getAnswers(k)
+  }
+
+  /*
+    Returns Annotations that coverages text segment from begin till end (inclusive)
+   */
+  def searchCoverage(annotations: Array[Annotation], begin: Int, end: Int): Seq[Annotation] = {
+    searchLabel(annotations, 0, annotations.length - 1, begin, end)
+  }
 
 }

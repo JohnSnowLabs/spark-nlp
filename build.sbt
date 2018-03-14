@@ -8,7 +8,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.2.3"
+version := "1.4.0"
 
 scalaVersion := scalaVer
 
@@ -54,7 +54,7 @@ bintrayPackageLabels := Seq("nlp", "nlu",
   "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
   "tokenizer", "stemmer", "part-of-speech-tagger", "annotation-framework")
 
-bintrayRepository := "johnsnowlabs"
+bintrayRepository := "spark-nlp"
 
 bintrayOrganization := Some("johnsnowlabs")
 
@@ -98,7 +98,8 @@ lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.8.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",
-  "org.apache.commons" % "commons-compress" % "1.15"
+  "org.apache.commons" % "commons-compress" % "1.15",
+  "org.tensorflow" % "tensorflow" % "1.5.0"
 )
 
 lazy val root = (project in file("."))
@@ -123,6 +124,9 @@ testOptions in Test += Tests.Argument("-oF")
 
 /** Disables tests in assembly */
 test in assembly := {}
+
+/** Publish test artificat **/
+publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")

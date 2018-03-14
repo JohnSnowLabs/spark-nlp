@@ -1,9 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
 import org.scalatest._
@@ -41,11 +42,11 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
@@ -60,9 +61,9 @@ class ViveknSentimentTestSpec extends FlatSpec {
     val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSourcePath("/vivekn/positive/1.txt")
-      .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setCorpusPrune(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(

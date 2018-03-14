@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.param.AnnotatorParam
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.util.Identifiable
 
 /**
   * Part of speech tagger that might use different approaches
@@ -18,8 +18,8 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   /** Internal structure for target sentences holding their range information which is used for annotation */
   private case class SentenceToBeTagged(tokenizedSentence: TokenizedSentence, start: Int, end: Int)
 
-  val model: AnnotatorParam[AveragedPerceptron, SerializedPerceptronModel] =
-    new AnnotatorParam[AveragedPerceptron, SerializedPerceptronModel](this, "POS Model", "POS Tagging approach")
+  val model: StructFeature[AveragedPerceptron] =
+    new StructFeature[AveragedPerceptron](this, "POS Model")
 
   override val annotatorType: AnnotatorType = POS
 
@@ -34,17 +34,17 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
     * @return A list of sentences which have every word tagged
     */
   def tag(tokenizedSentences: Array[TokenizedSentence]): Array[TaggedSentence] = {
-    logger.debug(s"PREDICTION: Tagging:\nSENT: <<${tokenizedSentences.map(_.condense).mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
-      s"feature:\nPREDICTION: ${$(model).getWeights("bias").mkString("\nPREDICTION: ")}")
+    //logger.debug(s"PREDICTION: Tagging:\nSENT: <<${tokenizedSentences.map(_.condense).mkString(">>\nSENT<<")}>> model weight properties in 'bias' " +
+      //s"feature:\nPREDICTION: ${$$(model).getWeights("bias").mkString("\nPREDICTION: ")}")
     var prev = START(0)
     var prev2 = START(1)
     tokenizedSentences.map(sentence => {
       val context: Array[String] = START ++: sentence.tokens.map(normalized) ++: END
       sentence.indexedTokens.zipWithIndex.map { case (IndexedToken(word, begin, end), i) =>
-        val tag = $(model).getTagBook.find(_.word == word.toLowerCase).map(_.tag).getOrElse(
+        val tag = $$(model).getTagBook.getOrElse(word.toLowerCase,
           {
             val features = getFeatures(i, word, context, prev, prev2)
-            $(model).predict(features)
+            $$(model).predict(features)
           }
         )
         prev2 = prev
@@ -56,16 +56,16 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 
   def this() = this(Identifiable.randomUID("POS"))
 
-  def getModel: AveragedPerceptron = $(model)
+  def getModel: AveragedPerceptron = $$(model)
 
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
 
   /** One to one annotation standing from the Tokens perspective, to give each word a corresponding Tag */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokenizedSentences = Tokenized.unpack(annotations)
+    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
     val tagged = tag(tokenizedSentences.toArray)
     PosTagged.pack(tagged)
   }
 }
 
-object PerceptronModel extends DefaultParamsReadable[PerceptronModel]
+object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel]

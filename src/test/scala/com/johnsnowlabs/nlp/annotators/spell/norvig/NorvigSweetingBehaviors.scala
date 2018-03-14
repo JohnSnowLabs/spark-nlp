@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -9,7 +10,8 @@ import org.scalatest._
 trait NorvigSweetingBehaviors { this: FlatSpec =>
 
   val spellChecker = new NorvigSweetingApproach()
-    .setCorpusPath("/spell")
+    .setCorpus(ExternalResource("/spell/", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+    .setSlangDictionary(ExternalResource("/spell/slangs.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
     .fit(DataBuilder.basicDataBuild("dummy"))
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
@@ -37,7 +39,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
         .setInputCol("text")
         .setOutputCol("document")
 
-      val tokenizer = new RegexTokenizer()
+      val tokenizer = new Tokenizer()
         .setInputCols(Array("document"))
         .setOutputCol("token")
 
@@ -48,8 +50,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
       val spell = new NorvigSweetingApproach()
         .setInputCols(Array("normal"))
         .setOutputCol("spell")
-        .setCorpusPath("/spell/sherlockholmes.txt")
-        .setCorpusFormat("txt")
+        .setCorpus(ExternalResource("/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
 
       val finisher = new Finisher()
         .setInputCols("spell")

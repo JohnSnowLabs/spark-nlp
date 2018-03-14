@@ -172,7 +172,7 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="RegexTokenizer" class="section-block">2. RegexTokenizer: Word tokens</h4>
+                                <h4 id="Tokenizer" class="section-block">2. Tokenizer: Word tokens</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -184,43 +184,73 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Creates tokens starting up from a regular expression. Defaults to
-                                                "\w+"<br>
+                                                Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
-                                                <li>
-                                                    setPattern(pattern): Regular expression for tokenization, default \S+
-                                                </li>
+                                          <li>
+                                            setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to \S+ which means anything not a space
+                                          </li>
+                                          <li>
+                                            setSuffixPattern: Regex to identify token characters that are in the end of the token. Regex has to end with \z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                          </li>
+                                          <li>
+                                            setPrefixPattern: Regex to identify token characters that come in the beggining of the token. Regex has to start with \A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                          </li>
+                                          <li>
+                                            setExtensionPatterns: Array of Regex with groups () to match tokens within the target pattern. Every group () will become its own separate token. Order matters (later rules will apply first). Its default rules should cover most cases, e.g. part-of-speech as single token
+                                          </li>
+                                          <li>
+                                            addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, then the others).
+                                          </li>
+                                          <li>
+                                            setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                          </li>
                                             </ul>
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">tokenizer = RegexTokenizer() \
+                                            <pre><code class="language-python">tokenizer = Tokenizer() \
   .setInputCols(["sentences"]) \
-  .setOutputCol("token")</code></pre>
+  .setOutputCol("token") \
+  .addInfixPattern("(\p{L}+)(n't\b)")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
-                                            <p>
-                                                Creates tokens starting up from a regular expression.
-                                                "\w+"<br>
-                                                <b>Type:</b> Token<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setPattern(pattern): Regular expression for tokenization, default \S+
-                                                </li>
-                                            </ul>
+                                          <p>
+                                            Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.<br>
+                                            <b>Type:</b> Token<br>
+                                            <b>Requires:</b> Document<br>
+                                            <b>Functions:</b>
+                                          <ul>
+                                            <li>
+                                              setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to \S+ which means anything not a space
+                                            </li>
+                                            <li>
+                                              setSuffixPattern: Regex to identify token characters that are in the end of the token. Regex has to end with \z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                            </li>
+                                            <li>
+                                              setPrefixPattern: Regex to identify token characters that come in the beggining of the token. Regex has to start with \A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+                                            </li>
+                                            <li>
+                                              setExtensionPatterns: Array of Regex with groups () to match tokens within the target pattern. Every group () will become its own separate token. Order matters (later rules will apply first). Its default rules should cover most cases, e.g. part-of-speech as single token
+                                            </li>
+                                            <li>
+                                              addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, then the others).
+                                            </li>
+                                            <li>
+                                              setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                            </li>
+                                          </ul>
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val regexTokenizer = new RegexTokenizer()
+                                            <pre><code class="language-python">val tokenizer = new Tokenizer()
   .setInputCols("sentence")
-  .setOutputCol("token")</code></pre>
+  .setOutputCol("token")
+  .addInfixPattern("(\p{L}+)(n't\b)")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                 </div>
@@ -243,6 +273,7 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                               <li>
                                                 setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
+                                                setLowercase(value): lowercase tokens, default true
                                               </li>
                                             </ul>
                                                 <b>Example:</b><br>
@@ -336,6 +367,21 @@ documentAssembler = new DocumentAssembler()
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
                                                 </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
@@ -360,6 +406,21 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictionary(path): Path to file containing multiple key to value
                                                     dictionary, or key,value lemma dictionary. Default: Not provided
+                                                </li>
+                                                <li>
+                                                    setLemmaFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaKeySep(format): Separator for keys and multiple values
+                                                    Default:
+                                                    "->" or Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setLemmaValSep(format): Separator among values
+                                                    Default:
+                                                    "\t" or Looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -396,9 +457,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -424,9 +495,19 @@ documentAssembler = new DocumentAssembler()
                                                     MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
                                                 </li>
                                                 <li>
-                                                    setRules(path): Path to file containing a set of regex,key pair.
+                                                    setRulesPath(path): Path to file containing a set of regex,key pair.
                                                     Default:
                                                     Looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
+                                                </li>
+                                                <li>
+                                                    setRulesSeparator(sep): Separator for rules file
+                                                    Default:
+                                                    "," or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -459,17 +540,18 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
-                                                    setMaxLen(number): Maximum amount of words to look from relative
-                                                    position
-                                                </li>
-                                                <li>
                                                     setRequireSentences(false): Enable require SBD and utilizes sentence
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                    setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                    Default:
+                                                    TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -490,17 +572,18 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
-                                                    setMaxLen(number): Maximum amount of words to look from relative
-                                                    position
-                                                </li>
-                                                <li>
                                                     setRequireSentences(false): Enable require SBD and utilizes sentence
                                                     boundaries for better precision
                                                 </li>
                                                 <li>
-                                                    setEntities(path): Provides a file with phrases to match. Default:
+                                                    setEntitiesPath(path): Provides a file with phrases to match. Default:
                                                     Looks up
                                                     path in configuration
+                                                </li>
+                                                <li>
+                                                  setEntitiesFormat(format): TXT for txt files or TXTDS for text files read as dataset (allows hdfs)
+                                                  Default:
+                                                  TXT or looks up path in configuration
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -592,9 +675,10 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")</code></pre>
+                                            <pre><code class="language-python">sentence_detector = SentenceDetector() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence") \
+  .setUseAbbreviations(True)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -611,7 +695,7 @@ documentAssembler = new DocumentAssembler()
                                           </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetectorModel()
+                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")</code></pre>
                                         </div>
@@ -647,12 +731,21 @@ documentAssembler = new DocumentAssembler()
                                                     accuracy but
                                                     takes longer. Default 5.
                                                 </li>
+                                                <li>
+                                                  setCorpusFormat: TXT or TXTDS, the latter will read corpusPath as a Spark dataset, which should work better for bigger corpora.
+                                                </li>
+                                                <li>
+                                                  setCorpusLimit: When path is a folder, sets a limit for the amount of files being read.
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val posTagger = new PerceptronApproach()
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+                                            <pre><code class="language-python">pos_tagger = PerceptronApproach() \
+  .setInputCols(["token", "sentence"]) \
+  .setOutputCol("pos") \
+  .setCorpusPath("./src/main/resources/anc-pos-corpus") \
+  .setIterations(2) \
+  .fit(data)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -675,16 +768,95 @@ documentAssembler = new DocumentAssembler()
                                                     accuracy but
                                                     takes longer. Default 5.
                                                 </li>
+                                                <li>
+                                                  setCorpusFormat: TXT or TXTDS, the latter will read corpusPath as a Spark dataset, which should work better for bigger corpora.
+                                                </li>
+                                                <li>
+                                                  setCorpusLimit: When path is a folder, sets a limit for the amount of files being read.
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">val posTagger = new PerceptronApproach()
   .setInputCols(Array("sentence", "token"))
-  .setOutputCol("pos")</code></pre>
+  .setOutputCol("pos")
+  .fit(data)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="SentimentDetector" class="section-block"> 11. SentimentDetector: Sentiment
+                              <h4 id="ViveknSentimentDetector" class="section-block"> 11. ViveknSentimentDetector:
+                                Sentiment
+                                analysis</h4>
+                              <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                          role="tab" data-toggle="tab">Python</a>
+                                </li>
+                                <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">Scala</a></li>
+                              </ul>
+                              <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="python">
+                                  <div class="code-block">
+                                    <p>
+                                      Scores a sentence for a sentiment<br>
+                                      <b>Type:</b> sentiment<br>
+                                      <b>Requires:</b> Document, Token<br>
+                                      <b>Functions:</b>
+                                    <ul>
+                                      <li>
+                                        setPositiveSource(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSource(path)
+                                      </li>
+                                      <li>
+                                        setPruneCorpus(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul>
+                                    <br>
+                                    <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                    <b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">sentiment_detector = SentimentDetector() \
+    .setInputCols(["lemma", "sentence"]) \
+    .setOutputCol("sentiment")</code></pre>
+                                  </div><!--//code-block-->
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="scala">
+                                  <div class="code-block">
+                                    <p>
+                                      Scores a sentence for a sentiment<br>
+                                      <b>Type:</b> sentiment<br>
+                                      <b>Requires:</b> Document, Token<br>
+                                      <b>Functions:</b>
+                                    <ul>
+                                      <li>
+                                        setPositiveSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setNegativeSourcePath(path)
+                                      </li>
+                                      <li>
+                                        setCorpusPrune(true): when training on small data you may want
+                                        to disable this to not cut off unfrequent words
+                                      </li>
+                                    </ul>
+                                    <br>
+                                    <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                    <b>Example:</b><br>
+                                    </p>
+                                    <pre><code class="language-python">new ViveknSentimentApproach()
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+      .setPositiveSourcePath("./positive/1.txt")
+      .setNegativeSourcePath("./negative/1.txt")
+      .setCorpusPrune(false)</code></pre>
+                                  </div>
+                                </div>
+                              </div>
+
+                                <h4 id="SentimentDetector" class="section-block"> 12. SentimentDetector: Sentiment
                                     analysis</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -705,6 +877,12 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictPath(path)
                                                 </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
+                                                </li>
                                             </ul>
                                             <br>
                                             <b>Input:</b>
@@ -718,7 +896,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
+                                            <pre><code class="language-python">sentiment_detector = SentimentDetector() \
   .setInputCols(["lemma", "sentence"]) \
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block-->
@@ -734,6 +912,12 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDictPath(path)
                                                 </li>
+                                                <li>
+                                                    setDictFormat(path)
+                                                </li>
+                                                <li>
+                                                    setDictSeparator(path)
+                                                </li>
                                             </ul>
                                             <br>
                                             <b>Input:</b>
@@ -747,13 +931,13 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentimentDetector = new SentimentDetectorModel
+                                            <pre><code class="language-python">val sentimentDetector = new SentimentDetector
   .setInputCols(Array("token", "sentence"))
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="NERTagger" class="section-block"> 12. NERTagger: Named Entity Recognition
+                                <h4 id="NERCRF" class="section-block"> 13. Named Entity Recognition CRF
                                     annotator</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -766,45 +950,149 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                The NER annotator extracts entities like Proper noun from the
-                                                document.<br>
+                                              This Named Entity recognition annotator allows for a generic model
+                                              to be trained by utilizing a CRF machine learning algorithm. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset, and optionally
+                                              the user can provide both an entities dictionary and a word embeddings file for better accuracy<br>
                                                 <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document<br>
+                                                <b>Requires:</b> Document, token, pos<br>
                                                 <b>Functions:</b> <br>
-                                            <ul>
-                                                <li>
-                                                    setCorpusPath: Path to text files containing training entities
-                                                </li>
-                                            </ul>
+                                          <ul>
+                                            <li>
+                                              setDatasetPath: Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed.
+                                            </li>
+                                            <li>
+                                              setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                            </li>
+                                            <li>
+                                              setMinEpochs: Minimum number of epochs to train
+                                            </li>
+                                            <li>
+                                              setMaxEpochs: Maximum number of epochs to train
+                                            </li>
+                                            <li>
+                                              setL2: L2 regularization coefficient for CRF
+                                            </li>
+                                            <li>
+                                              setC0: c0 defines decay speed for gradient
+                                            </li>
+                                            <li>
+                                              setLossEps: If epoch relative improvement lass than this vallue, training is stopped
+                                            </li>
+                                            <li>
+                                              setMinW: Features with less weights than this value will be filtered out
+                                            </li>
+                                            <li>
+                                              setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
+                                              path - word embeddings file
+                                              nDims - number of word embeddings dimentions
+                                              format - format of word embeddings files:
+                                              1 - spark-nlp format.
+                                              2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
+                                              3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                            </li>
+                                            <li>
+                                              setDicts: Array of additional dictionary paths to use as features. A dict .txt files is a line separated file that has something like this: Volvo:ORG
+                                            </li>
+                                            <li>
+                                              setEntities: Array of entities to recognize
+                                            </li>
+                                            <li>
+                                              setVerbose: Verbosity level
+                                            </li>
+                                            <li>
+                                              setRandomSeed: Random seed
+                                            </li>
+                                          </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">ner_tagger = NERRegexApproach() \
-  .setInputCols(["sentence"]) \
-  .setOutputCol("NER")</code></pre>
+                                            <pre><code class="language-python">nerTagger = NerCrfApproach()\
+  .setInputCols(["sentence", "token", "pos"])\
+  .setLabelColumn("label")\
+  .setOutputCol("ner")\
+  .setMinEpochs(1)\
+  .setMaxEpochs(20)\
+  .setLossEps(1e-3)\
+  .setDicts(["ner-corpus/dict.txt"])\
+  .setDatasetPath("eng.train")\
+  .setEmbeddingsSource("glove.6B.100d.txt", 100, 2)\
+  .setL2(1)\
+  .setC0(1250000)\
+  .setRandomSeed(0)\
+  .setVerbose(2)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                The NER annotator extracts entities like Proper noun from the
-                                                document.<br>
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document<br>
+                                              This Named Entity recognition annotator allows for a generic model
+                                              to be trained by utilizing a CRF machine learning algorithm. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset, and optionally
+                                              the user can provide both an entities dictionary and a word embeddings file for better accuracy<br>
+                                              <b>Type:</b> named_entity<br>
+                                              <b>Requires:</b> Document, token, pos<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
-                                                    setCorpusPath: Path to text files containing training entities
+                                                  setDatasetPath: Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed.
+                                                </li>
+                                                <li>
+                                                  setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                                </li>
+                                                <li>
+                                                  setMinEpochs: Minimum number of epochs to train
+                                                </li>
+                                                <li>
+                                                  setMaxEpochs: Maximum number of epochs to train
+                                                </li>
+                                                <li>
+                                                  setL2: L2 regularization coefficient for CRF
+                                                </li>
+                                                <li>
+                                                  setC0: c0 defines decay speed for gradient
+                                                </li>
+                                                <li>
+                                                  setLossEps: If epoch relative improvement lass than this vallue, training is stopped
+                                                </li>
+                                                <li>
+                                                  setMinW: Features with less weights than this value will be filtered out
+                                                </li>
+                                                <li>
+                                                  setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
+                                                  path - word embeddings file
+                                                  nDims - number of word embeddings dimentions
+                                                  format - format of word embeddings files from com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat:
+                                                  SparkNlp -> For Spark-NLP own embeddings format file
+                                                  Text -> This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
+                                                  Binary -> This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                                </li>
+                                                <li>
+                                                  setDicts: Array of additional dictionary paths to use as features. A dict .txt files is a line separated file that has something like this: Volvo:ORG
+                                                </li>
+                                                <li>
+                                                  setEntities: Array of entities to recognize
+                                                </li>
+                                                <li>
+                                                  setVerbose: Verbosity level
+                                                </li>
+                                                <li>
+                                                  setRandomSeed: Random seed
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val nerTagger = new NERRegexApproach()
-  .setInputCols(Array("sentence"))
+                                            <pre><code class="language-python">new NerCrfApproach()
+  .setInputCols("sentence", "token", "pos")
+  .setLabelColumn("label")
+  .setMinEpochs(1)
+  .setMaxEpochs(3)
+  .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
+  .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
+  .setC0(34)
+  .setL2(3.0)
   .setOutputCol("ner")
-  .setCorpusPath("/ner-corpus/dict.txt")</code></pre>
+  .fit(df)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-                                <h4 id="SpellChecker" class="section-block"> 13. SpellChecker: Token spell
+                                <h4 id="SpellChecker" class="section-block"> 14. SpellChecker: Token spell
                                     corrector</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -824,7 +1112,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary. A
                                                 comma
                                                 separated custom dictionary.<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Requires:</b> Tokenizer<br>
                                                 <b>Functions:</b><br>
                                             <ul>
                                                 <li>
@@ -869,7 +1157,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary. A
                                                 comma
                                                 separated custom dictionary.<br>
-                                                <b>Requires:</b> RegexTokenizer<br>
+                                                <b>Requires:</b> Tokenizer<br>
                                                 <b>Functions:</b><br>
                                             <ul>
                                                 <li>
@@ -879,7 +1167,7 @@ documentAssembler = new DocumentAssembler()
                                                     setCorpusPath: path to training corpus. Can be any good text.
                                                 </li>
                                                 <li>
-                                                  setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
+                                                    setCorpusFormat(format): Allowed “txt” or “txtds”. The latter uses spark dataframes from text
                                                 </li>
                                                 <li>
                                                     setSlangPath: path to custom dictionares, separated by comma
@@ -905,9 +1193,8 @@ documentAssembler = new DocumentAssembler()
                                         </div><!--//code-block--></div>
                                 </div>
 
-                                <h4 id="ViveknSentimentDetector" class="section-block"> 14. ViveknSentimentDetector:
-                                    Sentiment
-                                    analysis</h4>
+
+                                <h4 id="AssertionStatus" class="section-block"> 15. AssertionStatus: Assertion Status Classifier</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -916,68 +1203,93 @@ documentAssembler = new DocumentAssembler()
                                                                data-toggle="tab">Scala</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                    <div role="tabpanel" class="tab-pane" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sentiment<br>
-                                                <b>Requires:</b> Document, Token<br>
+                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
+                                                <b>Type:</b> assertion<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
-                                                    setPositiveSource(path)
+                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
+                                                    You don't need to specify them explicitly.
                                                 </li>
                                                 <li>
-                                                    setNegativeSource(path)
+                                                    setInputCol(document): sets the name of the column that contains the text to be analyzed.
                                                 </li>
                                                 <li>
-                                                    setPruneCorpus(true): when training on small data you may want
-                                                    to disable this to not cut off unfrequent words
+                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
+                                                </li>
+                                                <li>
+                                                    setBefore(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
+                                                </li>
+                                                <li>
+                                                    setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
                                                 </li>
                                             </ul>
                                             <br>
-                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                            <b>Input:</b> a document as output by the Document Assembler.<br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">sentiment_detector = SentimentDetectorModel() \
-    .setInputCols(["lemma", "sentence"]) \
-    .setOutputCol("sentiment")</code></pre>
+                                            <pre><code class="language-python">
+assertion_status = AssertionStatusApproach() \
+.setLabelCol("label") \
+      .setInputCols("document") \
+      .setOutputCol("assertion") \
+      .setBefore(11) \
+      .setAfter(13) \
+      .setEmbeddingsSource(embeddingsFile, 200, 3)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                    <div role="tabpanel" class="tab-pane active" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Scores a sentence for a sentiment<br>
-                                                <b>Type:</b> sentiment<br>
-                                                <b>Requires:</b> Document, Token<br>
+                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
+                                                <b>Type:</b> assertion<br>
+                                                <b>Requires:</b> Document<br>
                                                 <b>Functions:</b>
                                             <ul>
                                                 <li>
-                                                    setPositiveSourcePath(path)
+                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
+                                                    You don't need to specify them explicitly.
                                                 </li>
                                                 <li>
-                                                    setNegativeSourcePath(path)
+                                                    setInputCol(document): sets the name of the column that contains the text to be analyzed.
                                                 </li>
                                                 <li>
-                                                    setCorpusPrune(true): when training on small data you may want
-                                                    to disable this to not cut off unfrequent words
+                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
+                                                </li>
+                                                <li>
+                                                    setBefore(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
+                                                </li>
+                                                <li>
+                                                    setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
                                                 </li>
                                             </ul>
                                             <br>
-                                            <b>Input:</b> File or folder of text files of positive and negative data<br>
+                                            <b>Input:</b> a document as output by the Document Assembler.<br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">new ViveknSentimentApproach()
-      .setInputCols(Array("token", "sentence"))
-      .setOutputCol("vivekn")
-      .setPositiveSourcePath("./positive/1.txt")
-      .setNegativeSourcePath("./negative/1.txt")
-      .setCorpusPrune(false)</code></pre>
-                                        </div>
+                                            <pre><code class="language-python">
+val assertionStatus = new AssertionStatusApproach() 
+.setLabelCol("label") 
+      .setInputCols("document") 
+      .setOutputCol("assertion") 
+      .setBefore(11) 
+      .setAfter(13)
+      .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)</code></pre>
+                                        </div><!--//code-block-->
                                     </div>
                                 </div>
 
-                                <h4 id="Finisher" class="section-block"> 15. Finisher: Getting data out </h4>
+                                <h4 id="Finisher" class="section-block"> 16. Finisher: Getting data out </h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -989,15 +1301,14 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-
-
                                                 Once we have our NLP pipeline ready to go, we might want to use our
                                                 annotation results somewhere else where it is easy to use. The Finisher
                                                 outputs annotation(s) values into string.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val finisher = new Finisher()
-  .setInputCols("token")
+                                            <pre><code class="language-python">finisher = Finisher() \
+  .setInputCols(["sentiment"]) \
+  .setIncludeKeys(True)
 </code></pre>
 
                                             <b>Settable parameters are:</b>
@@ -1074,7 +1385,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                         </div><!--//code-block--></div>
                                 </div>
-                              <h4 id="TokenAssembler" class="section-block"> 16. TokenAssembler: Getting data reshaped </h4>
+                              <h4 id="TokenAssembler" class="section-block"> 17. TokenAssembler: Getting data reshaped </h4>
                               <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                           role="tab" data-toggle="tab">Python</a>
@@ -1115,7 +1426,7 @@ documentAssembler = new DocumentAssembler()
 
 
                                       This transformer reconstructs a Document type annotation from tokens, usually after these
-                                      have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+                                      have been normalized, lemmatized, spell checked, etc, in order to use this
                                       document annotation in further annotators.
                                       <br><b>Example:</b><br>
                                     </p>
@@ -1146,7 +1457,7 @@ documentAssembler = new DocumentAssembler()
                                 <a class="scrollto" href="#code-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#DocumentAssembler">Document Assembler</a></li>
-                                    <li><a class="scrollto" href="#RegexTokenizer">Regex Tokenizer</a></li>
+                                    <li><a class="scrollto" href="#Tokenizer">Tokenizer</a></li>
                                     <li><a class="scrollto" href="#Normalizer">Normalizer</a></li>
                                     <li><a class="scrollto" href="#Stemmer">Stemmer</a></li>
                                     <li><a class="scrollto" href="#Lemmatizer">Lemmatizer</a></li>
@@ -1154,12 +1465,12 @@ documentAssembler = new DocumentAssembler()
                                     <li><a class="scrollto" href="#EntityExtractor">Entity Extractor</a></li>
                                     <li><a class="scrollto" href="#DateMatcher">Date Matcher</a></li>
                                     <li><a class="scrollto" href="#SentenceDetector">Sentence Detector</a></li>
-                                    <li><a class="scrollto" href="#POSTagger">POSTagger</a></li>
-                                    <li><a class="scrollto" href="#SentimentDetector">Sentiment Detector</a></li>
-                                    <li><a class="scrollto" href="#NERTagger">NERTagger</a></li>
+                                    <li><a class="scrollto" href="#POSTagger">Part of Speech Tagger</a></li>
+                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
+                                    <li><a class="scrollto" href="#SentimentDetector">Rule based Sentiment Detector</a></li>
+                                    <li><a class="scrollto" href="#NERCRF">Named Entity Recognition CRF</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
-                                    <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment
-                                        Detector</a></li>
+                                    <li><a class="scrollto" href="#AssertionStatus">Assertion Status</a></li>
                                     <li><a class="scrollto" href="#Finisher">Finisher</a></li>
 
                                 </ul><!--//nav-->

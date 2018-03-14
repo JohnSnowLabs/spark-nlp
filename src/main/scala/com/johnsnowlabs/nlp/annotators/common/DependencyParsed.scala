@@ -12,10 +12,10 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   override def annotatorType: String = AnnotatorType.DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[DependencyParsedSentence] = {
-    val sentences = Tokenized.unpack(annotations)
+    val sentences = TokenizedWithSentence.unpack(annotations)
     val depAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
-      .sortBy(a => a.begin)
+      .sortBy(a => a.start)
 
     var last = 0
     sentences.map{sentence =>
