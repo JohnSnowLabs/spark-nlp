@@ -72,3 +72,8 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
         super(_DownloadPredefinedPipeline, self).__init__(java_path)
         self._java_obj = self._new_java_obj(self._java_obj)
 
+
+class _SparklessPipeline(ExtendedJavaWrapper):
+    def __init__(self, pipelineModel):
+        super(_SparklessPipeline, self).__init__("com.johnsnowlabs.nlp.SparklessPipeline")
+        self._java_obj = self._new_java_obj(self._java_obj, pipelineModel._to_java())

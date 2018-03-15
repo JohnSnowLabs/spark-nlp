@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
 import org.scalatest._
@@ -82,6 +83,20 @@ class ViveknSentimentTestSpec extends FlatSpec {
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
     loadedPipeline.transform(data).show
+
+    import SparkAccessor.spark.implicits._
+    Benchmark.time("Time to collect all pipeline results") {
+      loadedPipeline.transform(ContentProvider.parquetData.limit(1000)).collect
+    }
+
+    val locdata = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
+    Benchmark.time("Time to collect sparkless results") {
+      new SparklessPipeline(loadedPipeline).annotate(locdata)
+    }
+    Benchmark.time("Time to collect sparkless results in parallel") {
+      new SparklessPipeline(loadedPipeline).parAnnotate(locdata)
+    }
+    new SparklessPipeline(loadedPipeline).annotate(locdata)("vivekn").take(3).foreach(c => println(c.result))
 
     succeed
   }
