@@ -3,6 +3,7 @@ import os
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.common import SparklessPipeline, RegexRule
 from test.util import SparkContextForTest
 
 
@@ -237,7 +238,16 @@ class PipelineTestSpec(unittest.TestCase):
         assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save
         assert lemma_after_save == lemma_before_save
-        loaded_pipeline.fit(self.data).transform(self.data).show()
+        pipeline_model = loaded_pipeline.fit(self.data)
+        pipeline_model.transform(self.data).show()
+        pipeline_model.write().overwrite().save(pipe_path)
+        loaded_model = PipelineModel.read().load(pipe_path)
+        loaded_model.transform(self.data).show()
+        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
+        spless = SparklessPipeline(loaded_model).annotate(locdata)
+        for atype, annotations in spless.items():
+            for annotation in annotations[:5]:
+                print(annotation.result)
 
 
 class SpellCheckerTestSpec(unittest.TestCase):
