@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.file.Files
 import java.util.UUID
 
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -47,15 +48,21 @@ object SparkWordEmbeddings {
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexText(tmpFile, localFile)
-    } else if (format == WordEmbeddingsFormat.BINARY) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
+
+      val tmpFile = Files.createTempFile("embeddings", ".txt").toAbsolutePath
+      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile.toString))
+      WordEmbeddingsIndexer.indexText(tmpFile.toString, localFile)
+      Files.delete(tmpFile)
+    }
+    else if (format == WordEmbeddingsFormat.BINARY) {
+
+      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath
+      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile.toString))
+      WordEmbeddingsIndexer.indexBinary(tmpFile.toString, localFile)
+      Files.delete(tmpFile)
     }
     else if (format == WordEmbeddingsFormat.SPARKNLP) {
+
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
     }
@@ -81,21 +88,22 @@ object SparkWordEmbeddings {
             dim: Int,
             format: WordEmbeddingsFormat.Format): SparkWordEmbeddings = {
 
-    val localFile: String = {
+    val localFile = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-        .toAbsolutePath.toString
+        .toAbsolutePath
     }
 
     val clusterFilePath: String = {
-      val name = new File(localFile).getName
+      val name = localFile.toFile.getName
       Path.mergePaths(new Path("/embeddings"), new Path(name)).toString
     }
 
     // 1 and 2.  Copy to local and Index Word Embeddings
-    indexEmbeddings(sourceEmbeddingsPath, localFile, format, spark)
+    indexEmbeddings(sourceEmbeddingsPath, localFile.toString, format, spark)
 
     // 2. Copy WordEmbeddings to cluster
-    copyIndexToCluster(localFile, clusterFilePath, spark)
+    copyIndexToCluster(localFile.toString, clusterFilePath, spark)
+    FileUtils.deleteDirectory(localFile.toFile)
 
     // 3. Create Spark Embeddings
     new SparkWordEmbeddings(clusterFilePath, dim)

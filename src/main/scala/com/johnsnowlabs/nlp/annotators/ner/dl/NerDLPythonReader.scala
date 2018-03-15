@@ -30,13 +30,9 @@ object NerDLModelPythonReader {
     lines.toList.head.toCharArray.toList
   }
 
-  private def readBundle(folder: String): SavedModelBundle = {
-    SavedModelBundle.load(Paths.get(folder).toString)
-  }
-
   private def readEmbeddingsHead(folder: String, spark: SparkSession): Int = {
     val metaFile = Paths.get(folder, embeddingsMetaFile).toString
-    Source.fromFile(metaFile).toList.head.toInt
+    Source.fromFile(metaFile).getLines().toList.head.toInt
   }
 
   private def readEmbeddings(folder: String, spark: SparkSession, embeddingsDim: Int): SparkWordEmbeddings = {
@@ -61,13 +57,14 @@ object NerDLModelPythonReader {
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
     val encoder = new DatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
-    val bundle = readBundle(folder)
-    val tf = new TensorflowWrapper(bundle.session, bundle.graph)
+    val tf = TensorflowWrapper.read(folder, false)
 
     FileUtils.deleteDirectory(new File(tmpFolder))
 
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(encoder.params)
+      .setDims(embeddingsDim)
+      .setIndexPath(embeddings.clusterFilePath.toString)
   }
 }

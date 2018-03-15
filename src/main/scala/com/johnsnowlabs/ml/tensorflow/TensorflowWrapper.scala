@@ -1,13 +1,11 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.io.{File, IOException, ObjectOutputStream}
-import java.nio.file.attribute.{BasicFileAttributeView, FileTime}
+import java.io.{File, IOException, ObjectInputStream, ObjectOutputStream}
 import java.nio.file.{Files, Paths}
-import java.util
 import java.util.UUID
 
 import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, Operation, SavedModelBundle, Session}
+import org.tensorflow.{Graph, Session}
 
 
 class TensorflowWrapper
@@ -19,12 +17,6 @@ class TensorflowWrapper
   /** For Deserialization */
   def this() = {
     this(null, null)
-  }
-
-  private def getCreationTime(file: File): Long = {
-    val path = Paths.get(file.getAbsolutePath())
-    val view = Files.getFileAttributeView(path, classOf[BasicFileAttributeView]).readAttributes()
-    view.creationTime().toMillis
   }
 
   def saveToFile(file: String): Unit = {
@@ -62,20 +54,36 @@ class TensorflowWrapper
     // 2. save to file
     this.saveToFile(file.toString)
 
-    // 3. Unpack and read TF state
-    val result = TensorflowWrapper.read(file.toString)
+    // 3. Read state as bytes array
+    val result = Files.readAllBytes(file)
 
-    // 4. Copy params
-    this.session = result.session
-    this.graph = result.graph
+    // 4. Save to out stream
+    out.writeObject(result)
 
     // 5. Remove tmp archive
-    FileUtils.deleteQuietly(new File(file.toString))
+    FileUtils.deleteQuietly(file.toFile)
+  }
+
+  @throws(classOf[IOException])
+  private def readObject(in: ObjectInputStream): Unit = {
+    // 1. Create tmp file
+    val file = Files.createTempFile("tf", "zip")
+    val bytes = in.readObject().asInstanceOf[Array[Byte]]
+    Files.write(file.toAbsolutePath, bytes)
+
+    // 2. Read from file
+    val tf = TensorflowWrapper.read(file.toString, true)
+    this.session = tf.session
+    this.graph = tf.graph
+
+    // 3. Delete tmp file
+    FileUtils.deleteQuietly(file.toFile)
   }
 }
 
 object TensorflowWrapper {
-  def read(file: String): TensorflowWrapper = {
+
+  def read(file: String, zipped: Boolean = true): TensorflowWrapper = {
     val t = new TensorResources()
 
     // 1. Create tmp folder
@@ -83,7 +91,11 @@ object TensorflowWrapper {
       .toAbsolutePath.toString
 
     // 2. Unpack archive
-    val folder = ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+    val folder = if (zipped)
+      ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+    else
+      file
+
 
     // 3. Read file as SavedModelBundle
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
@@ -95,7 +107,7 @@ object TensorflowWrapper {
       .run()
 
     // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(folder))
+    FileUtils.deleteDirectory(new File(tmpFolder))
     t.clearTensors()
 
     new TensorflowWrapper(session, graph)
