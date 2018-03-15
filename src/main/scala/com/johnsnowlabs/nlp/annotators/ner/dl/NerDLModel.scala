@@ -43,6 +43,8 @@ class NerDLModel(override val uid: String)
   def model: TensorflowNer = {
     if (_model == null) {
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
+      require(embeddings.isDefined, "Embeddings must be defined before usage")
+      require(datasetParams.isSet, "datasetParams must be set before usage")
 
       val encoder = new DatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowNer(
