@@ -27,7 +27,7 @@ object NerHelper {
     bw.write(s"start\tend\ttag\ttext\n")
     for (i <- 0 until annotations.length) {
       for (a <- annotations(i))
-        bw.write(s"${a.start}\t${a.end}\t${a.result}\t${a.metadata("text")}\n")
+        bw.write(s"${a.start}\t${a.end}\t${a.result}\t${a.metadata("text").replace("\n", " ")}\n")
     }
     bw.close()
   }
