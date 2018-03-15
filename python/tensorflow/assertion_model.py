@@ -82,7 +82,9 @@ class AssertionModel:
 
             # Define loss and optimizer
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=self.y))
-            optimizer = tf.train.AdamOptimizer(learning_rate=self.rate).minimize(cost)
+            # optimizer = tf.train.AdamOptimizer(learning_rate=self.rate).minimize(cost)
+
+            optimizer = tf.train.MomentumOptimizer(learning_rate=self.rate, momentum=0.9).minimize(cost)
 
             # Initialize the variables (i.e. assign their default value)
             init = tf.global_variables_initializer()
@@ -102,7 +104,7 @@ class AssertionModel:
             rate = learning_rate
             for epoch in range(1, epochs + 1):
                 if epoch > 7:
-                    rate /= 1.5
+                    rate *= .95
 
                 for batch in range(1, num_batches + 1):
                     batch_x, batch_y, batch_seqlen = trainset.next(batch_size)
@@ -112,7 +114,7 @@ class AssertionModel:
                                                    self.rate: rate})
                 if epoch > 7 or epoch is 1:
                     print('epoch # %d' % epoch, 'accuracy: %f' % self.calc_accuracy(testset, sess, batch_size))
-                    print(self.confusion_matrix(testset, sess, batch_size))
+                    #print(self.confusion_matrix(testset, sess, batch_size))
 
             print("Optimization Finished!")
 
@@ -126,7 +128,7 @@ class AssertionModel:
 
         for batch in range(1, n_test_batches + 1):
             batch_x, batch_y, batch_seqlen = dataset.next(batch_size)
-            global_matches += sess.run(self.match_count, feed_dict={self.x: batch_x, self.seqlen: batch_seqlen})
+            global_matches += sess.run(self.match_count, feed_dict={self.x: batch_x, self.y:batch_y, self.seqlen: batch_seqlen})
 
         return global_matches / float(dataset.size()[0])
 

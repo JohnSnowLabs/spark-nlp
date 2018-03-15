@@ -33,8 +33,8 @@ for do in [0.005, 0.01, 0.02, 0.1, 0.15, 0.20, 0.25]:
     for nh in [32]:
         print('nh: %d' % nh)
         # instantiate model
-        model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6, device='/gpu:0')
+        model = AssertionModel(trainset.max_seq_len, feat_size=210, n_classes=6, device='/cpu:0')
 
         # Network Parameters
         model.add_bidirectional_lstm(n_hidden=nh)
-        model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80)
+        model.train(trainset=trainset, testset=testset, learning_rate=0.0152, batch_size=batch_size, epochs=80, dropout=do)

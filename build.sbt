@@ -137,3 +137,6 @@ copyAssembledJar := {
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
+
+/* this must come from some other import - remove when merge */
+libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.272"
