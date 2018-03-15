@@ -32,7 +32,7 @@ object NerDLModelPythonReader {
 
   private def readEmbeddingsHead(folder: String, spark: SparkSession): Int = {
     val metaFile = Paths.get(folder, embeddingsMetaFile).toString
-    Source.fromFile(metaFile).toList.head.toInt
+    Source.fromFile(metaFile).getLines().toList.head.toInt
   }
 
   private def readEmbeddings(folder: String, spark: SparkSession, embeddingsDim: Int): SparkWordEmbeddings = {

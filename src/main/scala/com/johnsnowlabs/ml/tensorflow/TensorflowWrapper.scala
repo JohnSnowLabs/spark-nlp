@@ -1,7 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import java.io.{File, IOException, ObjectInputStream, ObjectOutputStream}
-import java.nio.file.attribute.BasicFileAttributeView
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 

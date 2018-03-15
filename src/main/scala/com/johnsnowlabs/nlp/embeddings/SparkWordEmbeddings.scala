@@ -6,6 +6,7 @@ import java.util.UUID
 
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
 
 /*
@@ -47,15 +48,21 @@ object SparkWordEmbeddings {
     val fs = FileSystem.get(spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexText(tmpFile, localFile)
-    } else if (format == WordEmbeddingsFormat.BINARY) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
+
+      val tmpFile = Files.createTempFile("embeddings", ".txt").toAbsolutePath
+      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile.toString))
+      WordEmbeddingsIndexer.indexText(tmpFile.toString, localFile)
+      Files.delete(tmpFile)
+    }
+    else if (format == WordEmbeddingsFormat.BINARY) {
+
+      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath
+      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(tmpFile.toString))
+      WordEmbeddingsIndexer.indexBinary(tmpFile.toString, localFile)
+      Files.delete(tmpFile)
     }
     else if (format == WordEmbeddingsFormat.SPARKNLP) {
+      
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
     }
