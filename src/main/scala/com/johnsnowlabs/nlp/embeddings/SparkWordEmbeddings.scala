@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.file.Files
 import java.util.UUID
 
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.sql.SparkSession
@@ -103,7 +104,7 @@ object SparkWordEmbeddings {
 
     // 2. Copy WordEmbeddings to cluster
     copyIndexToCluster(localFile.toString, clusterFilePath, spark)
-    Files.delete(localFile)
+    FileUtils.deleteDirectory(localFile.toFile)
 
     // 3. Create Spark Embeddings
     new SparkWordEmbeddings(clusterFilePath, dim)
