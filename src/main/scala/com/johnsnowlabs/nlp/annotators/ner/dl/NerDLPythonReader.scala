@@ -64,5 +64,7 @@ object NerDLModelPythonReader {
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(encoder.params)
+      .setDims(embeddingsDim)
+      .setIndexPath(embeddings.clusterFilePath.toString)
   }
 }
