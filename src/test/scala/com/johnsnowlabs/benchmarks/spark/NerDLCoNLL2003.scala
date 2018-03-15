@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
@@ -51,10 +51,16 @@ object NerDLPipeline extends App {
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
       .setVerbose(Verbose.Epochs)
 
+    val converter = new NerConverter()
+      .setInputCols("document", "token", "ner")
+      .setOutputCol("ner_span")
+
     Array(documentAssembler,
       sentenceDetector,
       tokenizer,
-      nerTagger)
+      nerTagger,
+      converter
+    )
   }
 
   def trainNerModel(er: ExternalResource): PipelineModel = {
@@ -157,8 +163,16 @@ object NerDLPipeline extends App {
     testDataset(testFileB, model, "ner", nerReader, collectNerLabeled)
   }
 
+  def getUserFriendly(model: PipelineModel, file: ExternalResource): Array[Array[Annotation]] = {
+    val df = model.transform(nerReader.readDataset(file, SparkAccessor.benchmarkSpark))
+    Annotation.collect(df, "ner_span")
+  }
+
   val model = trainNerModel(trainFile)
   measureNer(model)
+
+  val annotations = getUserFriendly(model, testFileB)
+  NerHelper.saveNerSpanTags(annotations, "predicted.csv")
 
   model.write.overwrite().save("ner_model")
   PipelineModel.read.load("ner_model")
