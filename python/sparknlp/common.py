@@ -46,7 +46,6 @@ class SparklessPipeline:
 Helper class used to generate the getters for all params
 """
 class ParamsGetters(Params):
-    """
     getter_attrs = []
 
     def __init__(self):
@@ -63,4 +62,3 @@ class ParamsGetters(Params):
             except:
                 return None
         return r
-    """
