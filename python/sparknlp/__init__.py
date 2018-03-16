@@ -6,6 +6,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.regex'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.crf'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ner.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.assertion'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.assertion.logreg'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.pos'] = annotator
