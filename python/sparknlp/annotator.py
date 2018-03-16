@@ -551,7 +551,7 @@ class NorvigSweetingModel(_AnnotatorModel):
 
 
 class NerApproach(Params):
-    vlabelColumn = Param(Params._dummy(),
+    labelColumn = Param(Params._dummy(),
                              "labelColumn",
                              "Column with label per each token",
                              typeConverter=TypeConverters.toString)
