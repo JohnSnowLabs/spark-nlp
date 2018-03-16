@@ -12,6 +12,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.ml.param.FloatParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -21,8 +22,10 @@ class NerDLModel(override val uid: String)
     with HasWordEmbeddings
     with ParamsAndFeaturesWritable {
 
-
   def this() = this(Identifiable.randomUID("NerDLModel"))
+
+  val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
 
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
   override val annotatorType = NAMED_ENTITY
