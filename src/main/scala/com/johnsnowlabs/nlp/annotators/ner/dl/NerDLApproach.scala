@@ -34,11 +34,13 @@ class NerDLApproach(override val uid: String)
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
+  val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
 
   def setLr(lr: Float) = set(this.lr, lr)
   def setPo(po: Float) = set(this.po, po)
   def setBatchSize(batch: Int) = set(this.batchSize, batch)
   def setDropout(dropout: Float) = set(this.dropout, dropout)
+  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
 
 
   setDefault(
