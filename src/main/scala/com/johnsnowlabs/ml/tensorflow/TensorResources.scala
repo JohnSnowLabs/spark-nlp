@@ -2,6 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.tensorflow.Tensor
 import scala.collection.mutable.ArrayBuffer
+import scala.language.existentials
 
 
 class TensorResources {

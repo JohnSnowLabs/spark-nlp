@@ -549,25 +549,21 @@ class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
 
-class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
-    labelColumn = Param(Params._dummy(),
-                        "labelColumn",
-                        "Column with label per each token",
-                        typeConverter=TypeConverters.toString)
+
+class NerApproach(Params):
+    vlabelColumn = Param(Params._dummy(),
+                             "labelColumn",
+                             "Column with label per each token",
+                             typeConverter=TypeConverters.toString)
 
     entities = Param(Params._dummy(), "entities", "Entities to recognize", TypeConverters.toListString)
 
     minEpochs = Param(Params._dummy(), "minEpochs", "Minimum number of epochs to train", TypeConverters.toInt)
     maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
-    l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
-    c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
-    lossEps = Param(Params._dummy(), "lossEps", "If Epoch relative improvement less than eps then training is stopped", TypeConverters.toFloat)
-    minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered", TypeConverters.toFloat)
 
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
-    externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features", TypeConverters.identity)
     externalDataset = Param(Params._dummy(), "externalDataset", "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage", TypeConverters.identity)
 
     def setLabelColumn(self, value):
@@ -582,6 +578,25 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     def setMaxEpochs(self, epochs):
         return self._set(maxEpochs=epochs)
 
+    def setVerbose(self, verboseValue):
+        return self._set(verbose=verboseValue)
+
+    def setRandomSeed(self, seed):
+        return self._set(randomSeed=seed)
+
+    def setExternalDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
+
+
+class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
+
+    l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
+    c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
+    lossEps = Param(Params._dummy(), "lossEps", "If Epoch relative improvement less than eps then training is stopped", TypeConverters.toFloat)
+    minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered", TypeConverters.toFloat)
+
+    externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features", TypeConverters.identity)
+
     def setL2(self, l2value):
         return self._set(l2=l2value)
 
@@ -594,20 +609,11 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     def setMinW(self, w):
         return self._set(minW=w)
 
-    def setVerbose(self, verboseValue):
-        return self._set(verbose=verboseValue)
-
-    def setRandomSeed(self, seed):
-        return self._set(randomSeed=seed)
-
     def setExternalFeatures(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
-
-    def setExternalDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
     def _create_model(self, java_model):
         return NerCrfModel(java_model)
@@ -689,3 +695,57 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionLogRegModel(_AnnotatorModel):
     name = "AssertionLogRegModel"
+
+
+class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+    po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)", TypeConverters.toFloat)
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+    minProba = Param(Params._dummy(), "minProba", "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
+
+    def setLr(self, v):
+        self._set(lr = v)
+        return self
+
+    def setPo(self, v):
+        self._set(po = v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize = v)
+        return self
+
+    def setDropout(self, v):
+        self._set(dropout = v)
+        return self
+
+    def setMinProbability(self, v):
+        self._set(minProba = v)
+        return self
+
+
+    def _create_model(self, java_model):
+        return NerDLModel(java_model)
+
+    @keyword_only
+    def __init__(self):
+        super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
+        self._setDefault(
+            minEpochs = 0,
+            maxEpochs = 50,
+            lr = float(0.2),
+            po = float(0.05),
+            batchSize = 9,
+            dropout = float(0.5),
+            verbose = 4
+        )
+
+
+class NerDLModel(_AnnotatorModel):
+    name = "NerDLModel"
+
+
+class NerConverter(_AnnotatorModel):
+    name = "NerConverter"
