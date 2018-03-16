@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, REGEX}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -33,7 +33,16 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     set(rules, value)
   }
 
-  def setStrategy(value: String): this.type = set(strategy, value)
+  def setRules(path: String,
+               delimiter: String,
+               readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+               options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(rules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+
+  def setStrategy(value: String): this.type = {
+    require(Seq("MATCH_ALL", "MATCH_FIRST", "MATCH_COMPLETE").contains(value.toUpperCase), "Must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+    set(strategy, value.toUpperCase)
+  }
 
   def getStrategy: String = $(strategy).toString
 

@@ -5,6 +5,7 @@ object ReadAs extends Enumeration {
     v.toUpperCase match {
       case "LINE_BY_LINE" => LINE_BY_LINE
       case "SPARK_DATASET" => SPARK_DATASET
+      case _ => throw new MatchError("ReadAs must be either LINE_BY_LINE or SPARK_DATASET")
     }
   }
   type Format = Value

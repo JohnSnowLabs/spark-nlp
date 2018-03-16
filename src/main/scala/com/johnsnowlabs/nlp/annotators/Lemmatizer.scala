@@ -45,6 +45,14 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     set(dictionary, value)
   }
 
+  def setDictionary(
+                     path: String,
+                     keyDelimiter: String,
+                     valueDelimiter: String,
+                     readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                     options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(dictionary, ExternalResource(path, readAs, options ++ Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
     new LemmatizerModel()
       .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))

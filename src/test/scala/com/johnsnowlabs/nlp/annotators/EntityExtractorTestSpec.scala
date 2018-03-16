@@ -57,7 +57,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
     val entityExtractor = new EntityExtractor()
       .setInputCols("token")
-      .setEntities(ExternalResource("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
 
     val finisher = new Finisher()
