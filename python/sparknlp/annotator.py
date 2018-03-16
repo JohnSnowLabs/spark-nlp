@@ -19,6 +19,7 @@ pos = sys.modules[__name__]
 perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
 crf = sys.modules[__name__]
+dl = sys.modules[__name__]
 assertion = sys.modules[__name__]
 logreg = sys.modules[__name__]
 regex = sys.modules[__name__]
@@ -747,5 +748,9 @@ class NerDLModel(_AnnotatorModel):
     name = "NerDLModel"
 
 
-class NerConverter(_AnnotatorModel):
-    name = "NerConverter"
+class NerConverter(AnnotatorModel):
+    name = 'Tokenizer'
+
+    @keyword_only
+    def __init__(self):
+        super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
