@@ -40,7 +40,7 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(annotations.length == labels.length)
     for ((annotation, label) <- annotations.zip(labels)) {
-      assert(annotation.start == label.start)
+      assert(annotation.begin == label.begin)
       assert(annotation.end == label.end)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
       assert(annotation.result == label.result)

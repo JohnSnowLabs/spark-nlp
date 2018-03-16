@@ -51,8 +51,8 @@ trait TokenizerBehaviors { this: FlatSpec =>
       val f = fixture(dataset)
       f.tokensAnnotations.foreach { a =>
         val token = a.result
-        val sentenceToken = f.corpus.slice(a.start, a.end + 1)
-        assert(sentenceToken == token, s"Word ($sentenceToken) from sentence at (${a.start},${a.end}) should be equal to token ($token) inside the corpus ${f.corpus}")
+        val sentenceToken = f.corpus.slice(a.begin, a.end + 1)
+        assert(sentenceToken == token, s"Word ($sentenceToken) from sentence at (${a.begin},${a.end}) should be equal to token ($token) inside the corpus ${f.corpus}")
       }
     }
   }

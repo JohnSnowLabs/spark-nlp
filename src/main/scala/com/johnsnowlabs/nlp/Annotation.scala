@@ -10,11 +10,11 @@ import scala.collection.Map
 /**
   * represents annotator's output parts and their details
   * @param annotatorType the type of annotation
-  * @param start the index of the first character under this annotation
+  * @param begin the index of the first character under this annotation
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
 
 object Annotation {
 
@@ -39,7 +39,7 @@ object Annotation {
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
     StructField("annotatorType", StringType, nullable = true),
-    StructField("start", IntegerType, nullable = false),
+    StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true)
@@ -120,7 +120,7 @@ object Annotation {
   }
 
   private def isInside(a: Annotation, begin: Int, end: Int): Boolean = {
-    a.start >= begin && a.end <= end
+    a.begin >= begin && a.end <= end
   }
 
   private def searchLabel(annotations: Array[Annotation], l: Int, r: Int, begin: Int, end: Int): Seq[Annotation] = {
@@ -138,9 +138,9 @@ object Annotation {
 
     if (l  >= r)
       getAnswers(l)
-    else if (begin < annotations(k).start)
+    else if (begin < annotations(k).begin)
       searchLabel(annotations, l, k - 1, begin, end)
-    else if (begin > annotations(k).start)
+    else if (begin > annotations(k).begin)
       searchLabel(annotations, k + 1, r, begin, end)
     else
      getAnswers(k)

@@ -18,7 +18,7 @@ class DocumentAssemblerTestSpec extends FlatSpec {
 
   "A DocumentAssembler" should "annotate with the correct indexes" in {
     val f = fixture
-    f.text.head should equal (f.text(f.assembledDoc.head.start))
+    f.text.head should equal (f.text(f.assembledDoc.head.begin))
     f.text.last should equal (f.text(f.assembledDoc.head.end))
   }
 }

@@ -21,7 +21,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
       .map{case (_, sentenceAnnotations) =>
           Annotation(
             DOCUMENT,
-            sentenceAnnotations.minBy(_.start).start,
+            sentenceAnnotations.minBy(_.begin).begin,
             sentenceAnnotations.maxBy(_.end).end,
             sentenceAnnotations.map(_.result).mkString(" "),
             Map.empty[String, String]
