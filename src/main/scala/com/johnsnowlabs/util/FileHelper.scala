@@ -1,8 +1,10 @@
 package com.johnsnowlabs.util
 
-import java.io.IOException
+import java.io.{File, IOException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
+
+import org.apache.commons.io.FileUtils
 
 object FileHelper {
   def writeLines(file: String, lines: Seq[String], encoding: String = "UTF-8"): Unit = {
@@ -21,6 +23,26 @@ object FileHelper {
         ex.printStackTrace()
     }
     finally if (writer != null) writer.close()
+  }
+
+  def delete(file: String, throwOnError: Boolean = false): Unit = {
+    val f = new File(file)
+    if (f.exists()) {
+      try {
+        if (f.isDirectory)
+          FileUtils.deleteDirectory(f)
+        else
+          FileUtils.deleteQuietly(f)
+      }
+      catch {
+        case e: Exception =>
+          if (throwOnError)
+            throw e
+          else
+            FileUtils.forceDeleteOnExit(f)
+      }
+    }
+
   }
 
 }

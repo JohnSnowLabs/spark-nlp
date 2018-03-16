@@ -119,10 +119,11 @@ object NerTagged extends Tagged[NerTaggedSentence]{
   def collectTrainingInstancesWithPos(dataset: Dataset[Row],
                                       posTaggedCols: Seq[String],
                                       labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
-
-    dataset
+    val annotations = dataset
       .select(labelColumn, posTaggedCols:_*)
       .collect()
+
+    annotations
       .flatMap{row =>
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations  = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))

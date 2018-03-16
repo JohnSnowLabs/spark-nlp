@@ -59,7 +59,6 @@ object WordEmbeddingsIndexer {
 
 
 
-
 private[embeddings] object TextIndexer {
 
   def index(source: Iterator[String], dbFile: String): Unit = {

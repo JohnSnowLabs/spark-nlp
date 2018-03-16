@@ -17,7 +17,7 @@ object SparkAccessor {
     .builder()
     .appName("benchmark")
     .master("local[*]")
-    .config("spark.driver.memory", "8G")
+    .config("spark.driver.memory", "6G")
     .config("spark.kryoserializer.buffer.max","200M")
     .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()

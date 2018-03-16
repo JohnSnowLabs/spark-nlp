@@ -6,6 +6,7 @@ import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -59,7 +60,7 @@ object NerDLModelPythonReader {
     val encoder = new DatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
     val tf = TensorflowWrapper.read(folder, false)
 
-    FileUtils.deleteDirectory(new File(tmpFolder))
+    FileHelper.delete(tmpFolder)
 
     new NerDLModel()
       .setTensorflow(tf)

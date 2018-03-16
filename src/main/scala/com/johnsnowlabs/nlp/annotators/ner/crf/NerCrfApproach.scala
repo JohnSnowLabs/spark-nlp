@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -48,7 +48,18 @@ class NerCrfApproach(override val uid: String)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
   def setMinW(w: Double) = set(this.minW, w)
 
-  def setExternalFeatures(value: ExternalResource) = set(externalFeatures, value)
+  def setExternalFeatures(value: ExternalResource) = {
+    require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
+    set(externalFeatures, value)
+  }
+
+  def setExternalFeatures(path: String,
+                          delimiter: String,
+                          readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                          options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+
+
 
   setDefault(
     minEpochs -> 0,
@@ -80,7 +91,7 @@ class NerCrfApproach(override val uid: String)
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
-      .setCustomBoundChars(Array("\n\n"))
+      .setCustomBoundChars(Array(System.lineSeparator+System.lineSeparator))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 

@@ -1,6 +1,6 @@
 import unittest
 import os
-
+import re
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
@@ -18,7 +18,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer()\
             .setOutputCol("token") \
-            .setCompositeTokens(["New York"])
+            .setCompositeTokens(["New York"]) \
+            .addInfixPattern("(%\\d+)")
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -52,7 +53,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt") \
+            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt", delimiter=",") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
@@ -72,7 +73,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt", key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -197,7 +198,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt", delimiter=",")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -219,7 +220,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt", key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -259,3 +260,27 @@ class SpellCheckerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(assembled)
         checked = spell_checker.transform(tokenized)
         checked.show()
+
+
+class ParamsGettersTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer]
+        for annotator in annotators:
+            a = annotator()
+            for param in a.params:
+                param_name = param.name
+                camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
+                assert(hasattr(a, param_name))
+                param_value = getattr(a, "get" + camelized_param)()
+                assert(param_value is None or param_value is not None)
+        # Try a getter
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence") \
+            .setCustomBounds(["%%"])
+        assert(sentence_detector.getOutputCol() == "sentence")
+        assert(sentence_detector.getCustomBounds() == ["%%"])
+        # Try a default getter
+        document_assembler = DocumentAssembler()
+        assert(document_assembler.getOutputCol() == "document")

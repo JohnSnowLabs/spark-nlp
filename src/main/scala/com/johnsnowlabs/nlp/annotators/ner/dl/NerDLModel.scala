@@ -10,6 +10,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.param.FloatParam
@@ -97,7 +98,7 @@ class NerDLModel(override val uid: String)
     fs.copyFromLocalFile(new Path(tfFile), new Path(path))
 
     // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(tmpFolder))
+    FileHelper.delete(tmpFolder)
   }
 }
 
@@ -121,6 +122,6 @@ object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] {
     instance.setTensorflow(tf)
 
     // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(tmpFolder))
+    FileHelper.delete(tmpFolder)
   }
 }

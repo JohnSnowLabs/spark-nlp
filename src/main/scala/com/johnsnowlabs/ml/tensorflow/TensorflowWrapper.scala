@@ -3,7 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import java.io.{File, IOException, ObjectInputStream, ObjectOutputStream}
 import java.nio.file.{Files, Paths}
 import java.util.UUID
-
+import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.tensorflow.{Graph, Session}
 
@@ -42,7 +42,7 @@ class TensorflowWrapper
     ZipArchiveUtil.zip(folder, file)
 
     // 5. Remove tmp directory
-    FileUtils.deleteDirectory(new File(folder))
+    FileHelper.delete(folder)
     t.clearTensors()
   }
 
@@ -61,7 +61,7 @@ class TensorflowWrapper
     out.writeObject(result)
 
     // 5. Remove tmp archive
-    FileUtils.deleteQuietly(file.toFile)
+    FileHelper.delete(file.toAbsolutePath.toString)
   }
 
   @throws(classOf[IOException])
@@ -77,7 +77,7 @@ class TensorflowWrapper
     this.graph = tf.graph
 
     // 3. Delete tmp file
-    FileUtils.deleteQuietly(file.toFile)
+    FileHelper.delete(file.toAbsolutePath.toString)
   }
 }
 
@@ -96,7 +96,6 @@ object TensorflowWrapper {
     else
       file
 
-
     // 3. Read file as SavedModelBundle
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
     val graph = new Graph()
@@ -107,7 +106,7 @@ object TensorflowWrapper {
       .run()
 
     // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(tmpFolder))
+    FileHelper.delete(tmpFolder)
     t.clearTensors()
 
     new TensorflowWrapper(session, graph)
