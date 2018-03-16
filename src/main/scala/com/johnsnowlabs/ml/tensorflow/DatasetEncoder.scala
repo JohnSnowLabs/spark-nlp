@@ -53,12 +53,11 @@ class DatasetEncoder
           .toArray
     }
 
-
     val maxWordLength = wordLengths.flatten.max
 
     val wordEmbeddings =
     Range(0, batchSize).map{i =>
-      val sentence = getOrElse(sentences, i, Array.empty[String])
+      val sentence = sentences(i)
       Range(0, maxSentenceLength).map{j =>
         val word = getOrElse(sentence, j, "")
         embeddingsResolver(word)
@@ -67,7 +66,7 @@ class DatasetEncoder
 
     val charIds =
       Range(0, batchSize).map { i =>
-        val sentence = getOrElse(sentences, i, Array.empty[String])
+        val sentence = sentences(i)
         Range(0, maxSentenceLength).map { j =>
           val word = getOrElse(sentence, j, "").toCharArray
           Range(0, maxWordLength).map { k =>
@@ -130,7 +129,7 @@ class DatasetEncoder
   * Batch that contains data in Tensorflow input format.
   */
 class Batch (
-  // Id in Word Embeddings. Shape: Batch x Max Sentence Length x Embeddings Dim
+  // Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
   val wordEmbeddings: Array[Array[Array[Float]]],
 
   // Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word length
