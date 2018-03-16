@@ -15,17 +15,17 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     val tokenized = TokenizedWithSentence.unpack(annotations)
     val tagAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
-      .sortBy(a => a.start)
+      .sortBy(a => a.begin)
       .toIterator
 
     var annotation: Option[Annotation] = None
 
     tokenized.map { sentence =>
       val tokens = sentence.indexedTokens.map { token =>
-        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.start < token.begin))
+        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.begin < token.begin))
           annotation = Some(tagAnnotations.next)
 
-        val tag = if (annotation.isDefined && annotation.get.start == token.begin)
+        val tag = if (annotation.isDefined && annotation.get.begin == token.begin)
           annotation.get.result
         else
           emptyTag
@@ -76,7 +76,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
 
   protected def getLabelsFromSentences(sentences: Seq[TokenizedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val sortedLabels = labelAnnotations.sortBy(a => a.start).toArray
+    val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
 
     sentences.map{sentence =>
       val labels = sentence.indexedTokens.map { w =>
@@ -93,7 +93,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
 
   protected def getLabelsFromTaggedSentences(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
-    val sortedLabels = labelAnnotations.sortBy(a => a.start).toArray
+    val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
 
     sentences.map{sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>

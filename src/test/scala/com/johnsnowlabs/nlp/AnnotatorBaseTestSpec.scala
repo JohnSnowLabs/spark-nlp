@@ -103,13 +103,13 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     val contentMeta = result.select("demand", "result").take(1).head.getSeq[Row](0)
     val contentAnnotation = contentMeta.map(Annotation(_)).head
     assert(contentAnnotation.annotatorType == dummyAnnotator.annotatorType)
-    assert(contentAnnotation.start == 0)
+    assert(contentAnnotation.begin == 0)
     assert(contentAnnotation.end == 25)
     assert(contentAnnotation.metadata.contains("a") && contentAnnotation.metadata("a") == "b")
     val demandContentMeta = result.select("demand", "result").take(1).head.getSeq[Row](1)
     val demandContentAnnotation = demandContentMeta.map(Annotation(_)).head
     assert(demandContentAnnotation.annotatorType == demandingDummyAnnotator.annotatorType)
-    assert(demandContentAnnotation.start == 11)
+    assert(demandContentAnnotation.begin == 11)
     assert(demandContentAnnotation.end == 18)
     assert(demandContentAnnotation.metadata.contains("aa") && demandContentAnnotation.metadata("aa") == "bb")
   }

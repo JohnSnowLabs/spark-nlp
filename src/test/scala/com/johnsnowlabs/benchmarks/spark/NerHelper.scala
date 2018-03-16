@@ -12,7 +12,7 @@ object NerHelper {
     */
   def print(annotations: Seq[Annotation], n: Int): Unit = {
     for (a <- annotations.take(n)) {
-      System.out.println(s"${a.start}, ${a.end}, ${a.result}, ${a.metadata("text")}")
+      System.out.println(s"${a.begin}, ${a.end}, ${a.result}, ${a.metadata("text")}")
     }
   }
 
@@ -27,7 +27,7 @@ object NerHelper {
     bw.write(s"start\tend\ttag\ttext\n")
     for (i <- 0 until annotations.length) {
       for (a <- annotations(i))
-        bw.write(s"${a.start}\t${a.end}\t${a.result}\t${a.metadata("text").replace("\n", " ")}\n")
+        bw.write(s"${a.begin}\t${a.end}\t${a.result}\t${a.metadata("text").replace("\n", " ")}\n")
     }
     bw.close()
   }

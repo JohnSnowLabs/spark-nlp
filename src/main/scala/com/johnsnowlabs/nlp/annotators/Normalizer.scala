@@ -44,7 +44,7 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
         .trim
       Annotation(
         annotatorType,
-        token.start,
+        token.begin,
         token.end,
         nToken,
         token.metadata
