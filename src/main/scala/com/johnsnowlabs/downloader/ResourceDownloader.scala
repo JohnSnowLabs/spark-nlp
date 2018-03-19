@@ -1,4 +1,4 @@
-package com.johnsnowlabs.pretrained
+package com.johnsnowlabs.downloader
 
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._

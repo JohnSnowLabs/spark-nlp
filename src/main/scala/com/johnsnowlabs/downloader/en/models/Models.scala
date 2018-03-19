@@ -1,10 +1,10 @@
-package com.johnsnowlabs.pretrained.en.models
+package com.johnsnowlabs.downloader.en.models
 
 import com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.pretrained.ResourceDownloader
+import com.johnsnowlabs.downloader.ResourceDownloader
 
 object CloudDocumentAssembler {
   def retrieveStandard = ResourceDownloader.downloadModel(nlp.DocumentAssembler, "document_std", Some("en"))
