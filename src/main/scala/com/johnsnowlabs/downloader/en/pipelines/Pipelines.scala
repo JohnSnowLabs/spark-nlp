@@ -1,6 +1,6 @@
-package com.johnsnowlabs.pretrained.en.pipelines
+package com.johnsnowlabs.downloader.en.pipelines
 
-import com.johnsnowlabs.pretrained.en.models._
+import com.johnsnowlabs.downloader.en.models._
 import com.johnsnowlabs.util.PipelineModels
 
 object CloudPOSPipeline {

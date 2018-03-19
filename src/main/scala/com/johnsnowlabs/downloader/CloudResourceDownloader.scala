@@ -1,4 +1,4 @@
-package com.johnsnowlabs.pretrained
+package com.johnsnowlabs.downloader
 
 import java.io.File
 import java.nio.file.{Files, Paths}
