@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.SparkNLP.en
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 object SparkNLP {
@@ -20,8 +19,8 @@ object SparkNLP {
                             tokens: Array[String],
                             normalized: Array[String],
                             spelled: Array[String],
-                            lemmas: Array[String],
                             stems: Array[String],
+                            lemmas: Array[String],
                             pos: Array[String],
                             entities: Array[String]
                           )
