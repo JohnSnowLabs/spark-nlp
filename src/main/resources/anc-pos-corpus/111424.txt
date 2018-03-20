@@ -1,8 +1,0 @@
-Date|NN :|: Mon|NNP ,|, 24|CD Jan|NNP 2011|CD 10:31:58|NN +|NN 0700|CD (|( WIT|NNP )|) Subject|NNP :|: Increase|VB your|PRP$ email|NN quota|NN From|IN :|: "|'' Webmaster|NNP Administrator|NNP "|'' <|NN no-reply@webmaster.com|NN >|NN To|TO :|: undisclosed-recipients|JJ :|: ;|: This|DT is|VBZ to|TO inform|VB you|PRP that|IN you|PRP have|VBP exceeded|VBN your|PRP$ email|NN quota|NN limit|NN of|IN 200|CD MB|NNP and|CC you|PRP need|VBP to|TO increase|VB your|PRP$ email|NN quota|NN limit|NN because|IN in|IN less|JJR than|IN 48|CD hours|NNS your|PRP$ email|NN will|MD be|VB disable|JJ .|. 
-Increase|VB your|PRP$ email|NN quota|NN limit|NN and|CC continue|VB to|TO use|VB your|PRP$ webmail|NN account|NN .|. 
-
-To|TO increase|VB your|PRP$ email|NN quota|NN limit|NN to|TO 10|CD GB|NNP ,|, click|NN the|DT below|IN link|NN :|: 
-http://www.troiani.ca/formgen/use/loginphp/form1.html|NN 
-Thank|VB you|PRP for|IN your|PRP$ understanding|NN .|. 
-
-Webmaster|NNP Administrator|NNP Copyright|NNP �|NN 2011|CD Webmail|NNP Technical|NNP Support|NN Center|NNP .|. 

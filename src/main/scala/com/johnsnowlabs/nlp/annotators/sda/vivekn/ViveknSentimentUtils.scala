@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 import java.io.FileNotFoundException
 
 import com.johnsnowlabs.nlp.util.io.ExternalResource
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, listResourceDirectory}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.SourceStream
 
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 
@@ -45,29 +45,14 @@ trait ViveknSentimentUtils {
     val regex = er.options("tokenPattern").r
     val prefix = "not_"
     val sourceStream = SourceStream(er.path)
-    if (sourceStream.isResourceFolder) {
-      try {
-        listResourceDirectory(er.path)
-          .map(filename => ViveknWordCount(ExternalResource(filename.toString, er.readAs, er.options), prune, f, left, right))
-      } catch {
-        case _: NullPointerException =>
-          sourceStream
-            .content
-            .getLines()
-            .map(fileName => ViveknWordCount(ExternalResource(er.path + "/" + fileName, er.readAs, er.options), prune, f, left, right))
-            .toArray
-          sourceStream.close()
-      }
-    } else {
-      sourceStream.content.getLines.foreach(line => {
-        val words = regex.findAllMatchIn(line).map(_.matched).toList
-        f.apply(words).foreach(w => {
-          left(w) += 1
-          right(prefix + w) += 1
-        })
+    sourceStream.content.getLines.foreach(line => {
+      val words = regex.findAllMatchIn(line).map(_.matched).toList
+      f.apply(words).foreach(w => {
+        left(w) += 1
+        right(prefix + w) += 1
       })
-      sourceStream.close()
-    }
+    })
+    sourceStream.close()
     if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
     if (prune > 0)
       (left.filter{case (_, v) => v > 1}, right.filter{case (_, v) => v > 1})

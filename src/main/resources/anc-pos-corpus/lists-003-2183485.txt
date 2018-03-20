@@ -1,8 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 003|CD -|: 2183485|CD "|'' received|VBD =|SYM "|'' Tue|NNP Jun|NNP 22|CD 18:50:42|NN 1993|CD EST|NNP "|'' sent|VBD =|SYM "|'' Wed|NNP ,|, 23|CD Jun|NNP 1993|CD 10:49:08|NN +|NN 0900|CD "|'' name|NN =|SYM "|'' Eiiti|NNP Wada|NNP "|'' email|NN =|SYM "|'' wada@u-tokyo.ac.jp|NN "|'' subject|JJ =|SYM "|'' Re|NNP :|: Who|WP knows|VBZ about|IN 10646|CD escape|VB sequences|NNS ?|. "|'' id|NN =|SYM "|'' 9306230149.AA28724@sino.syslab.iias.flab.fujitsu.co.jp|NN "|'' inreplyto|NN =|SYM "|'' Who|WP knows|VBZ about|IN 10646|CD escape|VB sequences|NNS ?|. "|'' To|TO :|: ietf-charsets@INNOSOFT.COM|NN Harald|NNP Tveit|NNP Alvestrand|NNP <|NN harald.t.alvestrand@delab.sintef.no|NN >|NN :|: >|NN Who|WP knows|VBZ if|IN ISO|NNP 10646|CD has|VBZ been|VBN assigned|VBN numbers|NNS and|CC escape|VB sequences|NNS ?|. 
-Escape|NNP sequences|NNS are|VBP assigned|VBN by|IN the|DT Registration|NNP Authority|NNP ,|, and|CC the|DT Registration|NNP Authority|NNP is|VBZ now|RB with|IN ECMA|NNP .|. 
-
-So|RB ,|, ask|VB Mr.|NN van|NN den|NN Beld|NNP of|IN ECMA|NNP about|IN the|DT current|JJ situations|NNS of|IN ISO|NNP 10646|CD escape|VB sequences|NNS .|. 
-
-His|PRP$ e-mail|JJ address|NN is|VBZ :|: jan.van-den-beld@ecma.ch|NN 
-
-Eiiti|NNP Wada|NNP (|( wada@u-tokyo.ac.jp|NN )|) 
