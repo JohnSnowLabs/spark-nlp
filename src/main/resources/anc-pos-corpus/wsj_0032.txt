@@ -1,8 +1,0 @@
-Italian|JJ chemical|NN giant|NN Montedison|NNP S.|NN p.|NN A.|NN ,|, through|IN its|PRP$ Montedison|NNP Acquisition|NNP N.V.|NN indirect|JJ unit|NN ,|, began|VBD its|PRP$ $|$ 37|CD -|- a|DT -|- share|NN tender|NN offer|NN for|IN all|PDT the|DT common|JJ shares|NNS outstanding|JJ of|IN Erbamont|NNP N.V.|NN ,|, a|DT maker|NN of|IN pharmaceuticals|NNS incorporated|VBN in|IN the|DT Netherlands|NNP 
-.|. 
-The|DT offer|NN ,|, advertised|VBN in|IN today|NN 's|POS editions|NNS of|IN The|DT Wall|NNP Street|NNP Journal|NNP ,|, is|VBZ scheduled|VBN to|TO expire|VB at|IN the|DT end|NN of|IN November|NNP .|. 
-
-Montedison|NNP currently|RB owns|VBZ about|IN 72|CD %|NN of|IN Erbamont|NNP 's|POS common|JJ shares|NNS outstanding|JJ .|. 
-
-The|DT offer|NN is|VBZ being|VBG launched|VBN pursuant|JJ to|TO a|DT previously|RB announced|VBN agreement|NN between|IN the|DT companies|NNS .|. 
-

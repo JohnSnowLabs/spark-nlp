@@ -4,7 +4,7 @@ import org.apache.spark.sql.DataFrame
 
 object EasyNLP {
 
-  private case class NLPBasics(
+  case class NLPBasics(
                                 text: String,
                                 tokens: Array[String],
                                 normalized: Array[String],
@@ -12,13 +12,13 @@ object EasyNLP {
                                 pos: Array[String]
                               )
 
-  private case class NLPAdvancedd(
+  case class NLPAdvanced(
                                    text: String,
                                    tokens: Array[String],
                                    normalized: Array[String],
+                                   spelled: Array[String],
                                    lemmas: Array[String],
                                    stems: Array[String],
-                                   spelled: Array[String],
                                    pos: Array[String],
                                    entities: Array[String]
                                  )

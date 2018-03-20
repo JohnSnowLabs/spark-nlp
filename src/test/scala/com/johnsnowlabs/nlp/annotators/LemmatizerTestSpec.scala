@@ -24,7 +24,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
   "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(latinBodyData)
 
   "A lemmatizer" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
-    val lemmatizer = new Lemmatizer()
+    val lemmatizer = new Lemmatizer().setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
     val path = "./test-output-tmp/lemmatizer"
     try {
       lemmatizer.write.overwrite.save(path)
@@ -54,6 +54,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
+      .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
 
     val finisher = new Finisher()
       .setInputCols("lemma")

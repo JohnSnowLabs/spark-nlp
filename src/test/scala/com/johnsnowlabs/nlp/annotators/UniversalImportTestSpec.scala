@@ -8,7 +8,7 @@ class UniversalImportTestSpec extends FlatSpec {
     import com.johnsnowlabs.nlp.annotator._
     val sd = new SentenceDetector()
     val SSD_PATH = "./tst_shortcut_sd"
-    sd.write.save(SSD_PATH)
+    sd.write.overwrite().save(SSD_PATH)
     SentenceDetector.read.load(SSD_PATH)
   }
 

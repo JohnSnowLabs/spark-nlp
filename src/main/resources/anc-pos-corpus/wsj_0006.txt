@@ -1,4 +1,0 @@
-Pacific|NNP First|CD Financial|NNP Corp|NNP .|. said|VBD shareholders|NNS approved|VBD its|PRP$ acquisition|NN by|IN Royal|NNP Trustco|NNP Ltd.|NN of|IN Toronto|NNP for|IN $27|NN a|DT share|NN ,|, or|CC $212|NN million|CD .|. 
-
-The|DT thrift|NN holding|VBG company|NN said|VBD it|PRP expects|VBZ to|TO obtain|VB regulatory|JJ approval|NN and|CC complete|VB the|DT transaction|NN by|IN year|NN -|- end|NN .|. 
-

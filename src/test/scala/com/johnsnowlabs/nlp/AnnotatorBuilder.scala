@@ -64,6 +64,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
+      .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
     val tokenized = withTokenizer(dataset)
     lemmatizer.fit(dataset).transform(tokenized)
   }
@@ -71,7 +72,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
       .setInputCols("normalized")
-      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
     val data = withFullNormalizer(
       withTokenizer(dataset, sbd), lowerCase)
@@ -93,7 +94,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
          .setNIterations(1)
-        .setCorpus(ExternalResource("/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+        .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
     }
 
@@ -102,7 +103,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setRules(ExternalResource("/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
@@ -125,7 +126,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictionary(ExternalResource("/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -133,8 +134,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
@@ -144,7 +145,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
-      .setCorpus(ExternalResource("./src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setDictionary("src/test/resources/spell/words.txt")
+      .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
   }
 

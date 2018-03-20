@@ -10,8 +10,9 @@ import org.scalatest._
 trait NorvigSweetingBehaviors { this: FlatSpec =>
 
   val spellChecker = new NorvigSweetingApproach()
-    .setCorpus(ExternalResource("/spell/", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
-    .setSlangDictionary(ExternalResource("/spell/slangs.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+    .setCorpus(ExternalResource("src/test/resources/spell/", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+    .setDictionary("src/test/resources/spell/words.txt")
+    .setSlangDictionary(ExternalResource("src/test/resources/spell/slangs.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
     .fit(DataBuilder.basicDataBuild("dummy"))
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
@@ -50,7 +51,8 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
       val spell = new NorvigSweetingApproach()
         .setInputCols(Array("normal"))
         .setOutputCol("spell")
-        .setCorpus(ExternalResource("/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+        .setDictionary("src/test/resources/spell/words.txt")
+        .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
 
       val finisher = new Finisher()
         .setInputCols("spell")

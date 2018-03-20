@@ -1,7 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 003|CD -|: 2180740|CD "|'' received|VBD =|SYM "|'' Mon|NNP Jun|NNP 21|CD 11:37:15|NN 1993|CD EST|NNP "|'' sent|VBD =|SYM "|'' Mon|NNP ,|, 21|CD Jun|NNP 1993|CD 14:36:41|NN -|: 0400|CD "|'' name|NN =|SYM "|'' Chris|NNP Weider|NNP "|'' email|NN =|SYM "|'' clw@merit.edu|NN "|'' subject|JJ =|SYM "|'' Re|NNP :|: IETF|NNP BOF|NNP "|'' id|NN =|SYM "|'' 9306211836.AA18241@merit.edu|NN "|'' inreplyto|NN =|SYM "|'' IETF|NNP BOF|NNP "|'' To|TO :|: WG-CHAR@rare.nl|NN ,|, ietf-charsets@INNOSOFT.COM|NN Borka|NNP ,|, Hi|NNP !|. 
-
-I|PRP 'd|MD like|VB to|TO request|VB that|IN the|DT scheduling|NN for|IN the|DT Character|NN Set|NNP BOF|NNP be|VB done|VBN so|IN that|IN it|PRP does|VBZ not|RB conflict|NN with|IN any|DT of|IN the|DT other|JJ information|NN service|NN working|VBG groups|NNS (|( IIIR|NNP ,|, IDS|NNP ,|, OSI-DS|NNP ,|, URI|NNP ,|, for|IN example|NN )|) as|IN I|PRP and|CC I|PRP suspect|VBP most|JJS of|IN the|DT information|NN service|NN people|NNS feel|VBP we|PRP *|NN need|VBP *|NN to|TO attend|VB this|DT BOF|NNP .|. 
-The|DT interest|NN will|MD be|VB quite|RB high|JJ ,|, I|PRP think|VBP .|. 
-Thanks|NNS for|IN getting|VBG this|DT together|RB .|. 
-
-Chris|NNP Weider|NNP Merit|NNP Network|NNP ,|, Inc.|NN Chair|NNP ,|, IIIR|NNP Co-chair|NNP ,|, IDS|NNP 

@@ -27,7 +27,6 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
 
-  setDefault(corpus, ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, options=Map("delimiter" -> "|")))
   setDefault(nIterations, 5)
 
   def setPosColumn(value: String): this.type = set(posCol, value)

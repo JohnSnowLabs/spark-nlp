@@ -1,8 +1,0 @@
-Date|NN :|: Fri|NNP ,|, 11|CD Feb|NNP 2011|CD 16:28:54|NN +|NN 0700|CD (|( WIT|NNP )|) Subject|NNP :|: ***|NN Confirm|NNP Account|NNP Update|NNP ***|NN From|IN :|: "|'' Webmail|NNP Help|VB Desk|NNP "|'' <|NN info@support.com|NN >|NN To|TO :|: A|DT DGTFX|NNP virus|NN has|VBZ been|VBN detected|VBN in|IN your|PRP$ folders|NNS Your|PRP$ email|NN account|NN has|VBZ to|TO be|VB upgraded|VBN to|TO our|PRP$ new|JJ Secured|JJ DGTFX|NNP anti-virus|JJ 2011|CD version|NN to|TO prevent|VB damages|NNS to|TO our|PRP$ webmail|NN log|NN and|CC your|PRP$ important|JJ files|NNS .|. 
-
-Click|NNP your|PRP$ reply|NN tab|NN ,|, Fill|NNP the|DT columns|NNS below|IN and|CC send|VB back|RB or|CC your|PRP$ email|NN account|NN will|MD be|VB terminated|VBN immediately|RB to|TO avoid|VB spread|NN of|IN the|DT virus|NN .|. 
-
-*|NN User|NNP ID|NNP :|: *|NN Password|NNP :|: *|NN Re-type|NNP Password|NNP :|: *|NN Date|NN of|IN Birth|NNP :|: 
-Email|NNP Technical|NNP Team|NNP 
-Note|VB that|IN your|PRP$ password|NN will|MD be|VB encrypted|JJ with|IN 1024-bit|NN RSA|NNP keys|NNS for|IN your|PRP$ password|NN safety|NN to|TO avoid|VB any|DT unauthorized|JJ user|NN 
-
