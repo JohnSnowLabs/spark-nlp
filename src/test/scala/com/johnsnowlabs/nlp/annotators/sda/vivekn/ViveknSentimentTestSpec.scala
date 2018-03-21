@@ -77,26 +77,12 @@ class ViveknSentimentTestSpec extends FlatSpec {
       ))
 
     val model = pipeline.fit(data)
-    model.transform(data).show()
+    model.transform(data).show(1)
 
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedPipeline.transform(data).show
-
-    import SparkAccessor.spark.implicits._
-    Benchmark.time("Time to collect all pipeline results") {
-      loadedPipeline.transform(ContentProvider.parquetData.limit(1000)).collect
-    }
-
-    val locdata = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
-    Benchmark.time("Time to collect sparkless results") {
-      new SparklessPipeline(loadedPipeline).annotate(locdata)
-    }
-    Benchmark.time("Time to collect sparkless results in parallel") {
-      new SparklessPipeline(loadedPipeline).parAnnotate(locdata)
-    }
-    new SparklessPipeline(loadedPipeline).annotate(locdata)("vivekn").take(3).foreach(c => println(c.result))
+    loadedPipeline.transform(data).show(1)
 
     succeed
   }
