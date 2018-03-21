@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import scala.collection.JavaConverters._
 
-class SparklessPipeline(stages: Array[Transformer]) {
+class EasyPipeline(stages: Array[Transformer]) {
 
   def this(pipelineModel: PipelineModel) = this(pipelineModel.stages)
 
@@ -23,36 +23,36 @@ class SparklessPipeline(stages: Array[Transformer]) {
     })
   }
 
-  def annotate(targets: Array[String]): Seq[Map[String, Seq[Annotation]]] = {
-    targets.map { annotate }
+  def linAnnotate(targets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+    targets.map(annotate)
   }
 
-  def annotate(targets: java.util.ArrayList[String]): java.util.Map[String, java.util.List[JavaAnnotation]] = {
-    targets.asScala.flatMap(target => {
+  def linAnnotate(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    targets.asScala.map(target => {
       annotate(target)
-    }).map{case (a,b) => (a,b.map(aa =>
+    }).map(_.map{case (a,b) => (a,b.map(aa =>
       JavaAnnotation(aa.annotatorType, aa.start, aa.end, aa.result, aa.metadata.asJava)
-    ).asJava)}.toMap.asJava
+    ).asJava)}.asJava).asJava
   }
 
-  def parAnnotate(targets: Array[String]): Map[String, Seq[Annotation]] = {
-    targets.par.flatMap(target => {
+  def annotate(targets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+    targets.par.map(target => {
       annotate(target)
-    }).toArray.toMap
+    }).toArray
   }
 
-  def parAnnotate(targets: java.util.ArrayList[String]): java.util.Map[String, java.util.List[JavaAnnotation]] = {
-    targets.asScala.par.flatMap(target => {
+  def annotate(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    targets.asScala.par.map(target => {
       annotate(target)
-    }).map{case (a,b) => (a,b.map(aa =>
+    }).map(_.map{case (a,b) => (a,b.map(aa =>
       JavaAnnotation(aa.annotatorType, aa.start, aa.end, aa.result, aa.metadata.asJava)
-    ).asJava)}.toList.toMap.asJava
+    ).asJava)}.toList.toMap.asJava).toList.asJava
   }
 
 }
 
-object SparklessPipeline {
-  implicit def pip2sparkless(pipelineModel: PipelineModel): SparklessPipeline = {
-    new SparklessPipeline(pipelineModel)
+object EasyPipeline {
+  implicit def pip2sparkless(pipelineModel: PipelineModel): EasyPipeline = {
+    new EasyPipeline(pipelineModel)
   }
 }

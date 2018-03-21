@@ -1,10 +1,10 @@
-package com.johnsnowlabs.nlp.annotators
+package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.{Annotation, ContentProvider, DocumentAssembler, SparklessPipeline}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
@@ -12,7 +12,7 @@ import org.scalatest._
 
 import scala.language.reflectiveCalls
 
-class SparklessPipelinesTestSpec extends FlatSpec {
+class EasyPipelineTestSpec extends FlatSpec {
   def fixture = new {
     val data: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
@@ -55,15 +55,17 @@ class SparklessPipelinesTestSpec extends FlatSpec {
 
     val model: PipelineModel = pipeline.fit(data)
 
-    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(10000)
+    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
     import textDF.sparkSession.implicits._
-    val textArray: Array[String] = ContentProvider.parquetData.limit(10000).select("text").as[String].collect
+    val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
   }
 
-  "A SparklessPipeline" should "annotate for each annotator" in {
+
+
+  "An EasyPipeline" should "annotate for each annotator" in {
     val f = fixture
-    val annotations = new SparklessPipeline(f.model).annotate(f.textArray)
+    val annotations = new EasyPipeline(f.model).annotate(f.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
         assert(annotations.nonEmpty)
@@ -77,23 +79,23 @@ class SparklessPipelinesTestSpec extends FlatSpec {
 
   it should "annotate for each string in the text array" in {
     val f = fixture
-    val annotations = new SparklessPipeline(f.model).annotate(f.textArray)
+    val annotations = new EasyPipeline(f.model).annotate(f.textArray)
     assert(f.textArray.length == annotations.length)
   }
 
   it should "run faster than a tranditional pipeline" in {
     val f = fixture
 
-    val t1: Double = Benchmark.measure("Time to collect all pipeline results") {
+    val t1: Double = Benchmark.measure("Time to collect SparkML pipeline results") {
       f.model.transform(f.textDF).collect
     }
 
-    val t2: Double = Benchmark.measure("Time to collect sparkless results") {
-      new SparklessPipeline(f.model).annotate(f.textArray)
+    val t2: Double = Benchmark.measure("Time to collect EasyPipeline results lineally") {
+      new EasyPipeline(f.model).linAnnotate(f.textArray)
     }
 
-    val t3: Double = Benchmark.measure("Time to collect sparkless results in parallel") {
-      new SparklessPipeline(f.model).parAnnotate(f.textArray)
+    val t3: Double = Benchmark.measure("Time to collect EasyPipeline results in parallel") {
+      new EasyPipeline(f.model).annotate(f.textArray)
     }
 
     assert(t1 > t2)
