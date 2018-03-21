@@ -14,7 +14,7 @@ class SparklessPipeline(stages: Array[Transformer]) {
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
-            annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations(name))
+            annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
@@ -23,10 +23,8 @@ class SparklessPipeline(stages: Array[Transformer]) {
     })
   }
 
-  def annotate(targets: Array[String]): Map[String, Seq[Annotation]] = {
-    targets.flatMap(target => {
-      annotate(target)
-    }).toMap
+  def annotate(targets: Array[String]): Seq[Map[String, Seq[Annotation]]] = {
+    targets.map { annotate }
   }
 
   def annotate(targets: java.util.ArrayList[String]): java.util.Map[String, java.util.List[JavaAnnotation]] = {
