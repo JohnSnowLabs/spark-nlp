@@ -1,13 +1,12 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.LongBuffer
+
 import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import org.slf4j.LoggerFactory
-import org.tensorflow.{Graph, Session, Tensor}
+import org.tensorflow.{Graph, Session}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -16,18 +15,10 @@ import scala.util.Random
 class TensorflowNer
 (
   val tensorflow: TensorflowWrapper,
-  val encoder: DatasetEncoder,
+  val encoder: NerDatasetEncoder,
   val batchSize: Int,
-  val verbose: Verbose.Value
-) {
-
-  private val logger = LoggerFactory.getLogger("NerDL")
-
-  private def log(value: => String, minLevel: Verbose.Level): Unit = {
-    if (minLevel.id >= verbose.id) {
-      logger.info(value)
-    }
-  }
+  override val verbose: Verbose.Value
+) extends Logging[TensorflowNer] {
 
   private val charIdsKey = "char_repr/char_ids"
   private val wordLengthsKey = "char_repr/word_lengths"
@@ -41,13 +32,6 @@ class TensorflowNer
   private val lossKey = "inference/loss"
   private val trainingKey = "training_1/Momentum"
   private val predictKey = "context_repr/predicted_labels"
-
-
-  private def extractInts(source: Tensor[_], size: Int): Array[Int] = {
-    val buffer = LongBuffer.allocate(size)
-    source.writeTo(buffer)
-    buffer.array().map(item => item.toInt)
-  }
 
   def predict(dataset: Array[TokenizedSentence]): Array[Array[String]] = {
 
@@ -73,7 +57,7 @@ class TensorflowNer
 
       tensors.clearTensors()
 
-      val tagIds = extractInts(calculated.get(0), batchSize * batchInput.maxLength)
+      val tagIds = TensorResources.extractInts(calculated.get(0), batchSize * batchInput.maxLength)
       val tags = encoder.decodeOutputData(tagIds)
       val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
 
@@ -148,7 +132,7 @@ class TensorflowNer
 
 object TensorflowNer {
 
-  def apply(encoder: DatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
+  def apply(encoder: NerDatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
     val graph = new Graph()
     val session = new Session(graph)
     graph.importGraphDef(Files.readAllBytes(Paths.get("char_cnn_blstm_30_25_100_200.pb")))

@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -103,7 +103,7 @@ class NerDLApproach(override val uid: String)
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.toCharArray)).distinct
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList)
-    val encoder = new DatasetEncoder(
+    val encoder = new NerDatasetEncoder(
       embeddings.get.getEmbeddings,
       settings
     )

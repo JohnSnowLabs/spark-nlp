@@ -4,7 +4,7 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{NerDatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
@@ -46,7 +46,7 @@ class NerDLModel(override val uid: String)
       require(embeddings.isDefined, "Embeddings must be defined before usage")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new DatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
+      val encoder = new NerDatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowNer(
         tensorflow,
         encoder,
