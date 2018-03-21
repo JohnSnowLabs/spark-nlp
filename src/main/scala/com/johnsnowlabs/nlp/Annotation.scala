@@ -14,7 +14,11 @@ import scala.collection.Map
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String])
+case class Annotation(annotatorType: String, start: Int, end: Int, result: String, metadata: Map[String, String]) {
+  require(start >= 0, "start field in Annotation class should always be gte 0")
+  require(start <= end, "start field in Annotation class should always be lte  end field")
+  require(end >= 0, "end field in Annotation class should always be gte 0")
+}
 
 object Annotation {
 
@@ -45,7 +49,6 @@ object Annotation {
     StructField("metadata", MapType(StringType, StringType), nullable = true)
   ))
 
-
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
     * @param row spark row to be converted
@@ -60,6 +63,7 @@ object Annotation {
       row.getMap[String, String](4)
     )
   }
+
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
@@ -118,6 +122,4 @@ object Annotation {
       )
     }
   }
-
-
 }

@@ -299,8 +299,7 @@ project/plugins/project/
 # End of https://www.gitignore.io/api/sbt,java,scala,python,eclipse,intellij,intellij+all
 
 ### Local ###
-tmp_pipeline/
 test-output-tmp/
 spark-warehouse/
 /python/python.iml
-test_crf_pipeline/
+*_pipeline/
