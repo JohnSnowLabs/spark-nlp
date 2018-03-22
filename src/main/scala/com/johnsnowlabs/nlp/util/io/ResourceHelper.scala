@@ -1,21 +1,20 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io._
+import java.net.{URL, URLDecoder}
+import java.nio.file.Paths
+import java.util.jar.JarFile
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
+import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.BufferedSource
-import java.net.URLDecoder
-import java.util.jar.JarFile
-
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
-
+import scala.io.{BufferedSource, Source}
 import scala.util.Random
 
 
@@ -69,18 +68,41 @@ object ResourceHelper {
     }
   }
 
-  def listResourceDirectory(path: String): Seq[String] = {
+  private def fixTarget(path: String): String = {
+    val toSearch = s"^.*target\\${File.separator}.*scala-.*\\${File.separator}.*classes\\${File.separator}"
+    if (path.matches(toSearch + ".*")) {
+      path.replaceFirst(toSearch, "")
+    }
+    else {
+      path
+    }
+  }
+
+  def getResourceStream(path: String): InputStream = {
+    Option(getClass.getResourceAsStream(path))
+      .getOrElse{
+        getClass.getClassLoader().getResourceAsStream(path)
+      }
+  }
+
+  def getResourceFile(path: String): URL = {
     var dirURL = getClass.getResource(path)
 
     if (dirURL == null)
       dirURL = getClass.getClassLoader.getResource(path)
 
-    if (dirURL != null && dirURL.getProtocol.equals("file")) {
+    dirURL
+  }
+
+  def listResourceDirectory(path: String): Seq[String] = {
+    val dirURL = getResourceFile(path)
+
+    if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath)
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
     } else if (dirURL == null) {
-      /* path not in resources and not in disk */
-      throw new FileNotFoundException(path)
+        /* path not in resources and not in disk */
+        throw new FileNotFoundException(path)
     }
 
     if (dirURL.getProtocol.equals("jar")) {

@@ -1,28 +1,35 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import java.io.File
+
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
-import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TokenizedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.SourceStream
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset}
-import org.slf4j.LoggerFactory
 import org.tensorflow.{Graph, Session}
+
+import scala.util.Random
 
 
 class NerDLApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[NerDLApproach, NerDLModel]
     with HasRecursiveFit[NerDLModel]
-    with NerApproach[NerDLApproach] {
+    with NerApproach[NerDLApproach]
+    with NerDLLogger {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -34,14 +41,32 @@ class NerDLApproach(override val uid: String)
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
-  val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+
+  val validationDataset = new ExternalResourceParam(this, "validationDataset", "Path to validation dataset. " +
+    "If set used to calculate statistic on it during training.")
+  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
+    "If set used to calculate statistic on it during training.")
 
   def setLr(lr: Float) = set(this.lr, lr)
   def setPo(po: Float) = set(this.po, po)
   def setBatchSize(batch: Int) = set(this.batchSize, batch)
   def setDropout(dropout: Float) = set(this.dropout, dropout)
-  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
 
+  def setValidationDataset(path: String,
+                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                         options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(validationDataset, ExternalResource(path, readAs, options))
+
+  def setValidationDataset(er: ExternalResource) = set(validationDataset, er)
+
+  def setTestDataset(path: String,
+                            readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                            options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(testDataset, ExternalResource(path, readAs, options))
+
+  def setTestDataset(er: ExternalResource) = set(testDataset, er)
+
+  override def verboseLevel = Verbose($(verbose))
 
   setDefault(
     minEpochs -> 0,
@@ -53,53 +78,76 @@ class NerDLApproach(override val uid: String)
     verbose -> Verbose.Silent.id
   )
 
-  private val logger = LoggerFactory.getLogger("NerDL")
+  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
+    :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
 
-  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
+    lazy val pipelineModel = recursivePipeline.getOrElse {
 
-    if (!isDefined(externalDataset))
-      return dataset.toDF()
+      logger.warn("NER DL not in a RecursivePipeline. " +
+        "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
+        "better performance during training")
 
-    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-    val dataframe = reader.readDataset($(externalDataset), dataset.sparkSession).toDF
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
 
-    if (recursivePipeline.isDefined) {
-      return recursivePipeline.get.transform(dataframe)
+      val sentenceDetector = new SentenceDetector()
+        .setCustomBoundChars(Array("\n\n", "\n\r\n\r"))
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val pipeline = new Pipeline().setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer)
+      )
+
+      pipeline.fit(dataset)
     }
 
-    logger.warn("NER DL not in a RecursivePipeline. " +
-      "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
-      "better performance during training")
+    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
 
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+    val train = if (!isDefined(externalDataset))
+      dataset.toDF()
+    else
+      pipelineModel.transform(reader.readDataset($(externalDataset), dataset.sparkSession).toDF)
 
-    val sentenceDetector = new SentenceDetector()
-      .setCustomBoundChars(Array("\n\n"))
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
+    val valid = if (!isDefined(validationDataset))
+      None
+    else
+      Some(pipelineModel.transform(reader.readDataset($(validationDataset), dataset.sparkSession).toDF))
 
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+    val test = if (!isDefined(testDataset))
+      None
+    else
+      Some(pipelineModel.transform(reader.readDataset($(testDataset), dataset.sparkSession).toDF))
 
-    val pipeline = new Pipeline().setStages(
-      Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer)
-    )
-
-    pipeline.fit(dataframe).transform(dataframe)
+    (train, valid, test)
   }
+
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
     require(isDefined(sourceEmbeddingsPath), "embeddings must be set before training")
 
-    val rows = getTrainDataframe(dataset, recursivePipeline)
+    val (train, valid, test) = getTrainDataframe(dataset, recursivePipeline)
 
-    val trainDataset: Array[(TextSentenceLabels, TokenizedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
+    val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
+
+    val validationDataset =
+      if (valid.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
+    else
+      NerTagged.collectTrainingInstances(valid.get, getInputCols, $(labelColumn))
+
+    val testDataset =
+      if (test.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
+      else
+        NerTagged.collectTrainingInstances(test.get, getInputCols, $(labelColumn))
+
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.toCharArray)).distinct
@@ -113,8 +161,9 @@ class NerDLApproach(override val uid: String)
     val graph = new Graph()
     val session = new Session(graph)
 
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsNDims), chars.length)
 
-    val graphStream = getClass.getResourceAsStream("/ner_dl/char_cnn_blstm_10_100_100_25_30.pb")
+    val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(graphBytesDef)
 
@@ -122,7 +171,11 @@ class NerDLApproach(override val uid: String)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs))
+      if (isDefined(randomSeed)) {
+        Random.setSeed($(randomSeed))
+      }
+
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), validationDataset, testDataset)
       model
     }
 
@@ -136,7 +189,68 @@ class NerDLApproach(override val uid: String)
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(ner.encoder.params)
+      .setBatchSize($(batchSize))
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach]
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] {
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int): String = {
+    val files = ResourceHelper.listResourceDirectory("/ner-dl")
+
+    // 1. Filter Graphs by embeddings
+    val embeddingsFiltered = files.map { filePath =>
+      val file = new File(filePath)
+      val name = file.getName
+
+      if (name.startsWith("char_cnn_blstm_")) {
+        val clean = name.replace("char_cnn_blstm_", "").replace(".pb", "")
+        val graphParams = clean.split("_").take(3).map(s => s.toInt)
+        val Array(fileTags, fileEmbeddingsNDims, fileNChars) = graphParams
+
+        if (embeddingsNDims == fileEmbeddingsNDims)
+          Some((fileTags, fileEmbeddingsNDims, fileNChars))
+        else
+          None
+      }
+      else {
+        None
+      }
+    }
+
+    require(embeddingsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for embeddings dim: $embeddingsNDims. " +
+      s"Generate graph by python code before usage.")
+
+    // 2. Filter by labels and nChars
+    val tagsFiltered = embeddingsFiltered.map {
+      case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
+        if (tags > fileTags)
+          None
+        else
+          Some((fileTags, fileEmbeddingsNDims, fileNChars))
+      case _ => None
+    }
+
+    require(tagsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of tags: $tags. " +
+      s"Generate graph by python code before usage.")
+
+    // 3. Filter by labels and nChars
+    val charsFiltered = tagsFiltered.map {
+      case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
+        if (nChars > fileNChars)
+          None
+        else
+          Some((fileTags, fileEmbeddingsNDims, fileNChars))
+      case _ => None
+    }
+
+    require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of chars: $nChars. " +
+      s"Generate graph by python code before usage.")
+
+    for (i <- 0 until files.length) {
+      if (charsFiltered(i).nonEmpty)
+        return files(i)
+    }
+
+    throw new IllegalStateException("Code shouldn't pass here")
+  }
+}
