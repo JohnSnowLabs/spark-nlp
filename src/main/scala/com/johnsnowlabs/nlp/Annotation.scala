@@ -16,6 +16,7 @@ import scala.collection.Map
   * @param metadata associated metadata for this annotation
   */
 case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class JavaAnnotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: java.util.Map[String, String])
 
 object Annotation {
 
@@ -64,7 +65,7 @@ object Annotation {
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
-    rawText.length,
+    rawText.length - 1,
     rawText,
     Map.empty[String, String]
   )

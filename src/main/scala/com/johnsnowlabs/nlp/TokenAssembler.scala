@@ -16,7 +16,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
-  override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.groupBy(token => token.result)
       .map{case (_, sentenceAnnotations) =>
           Annotation(

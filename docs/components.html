@@ -537,7 +537,6 @@ documentAssembler = new DocumentAssembler()
                                             <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">lemmatizer = Lemmatizer() \
-  .setDocumentCol("document") \
   .setInputCols(["token"]) \
   .setOutputCol("lemma") \
   .setDictionary("./lemmas001.txt")</code></pre>
