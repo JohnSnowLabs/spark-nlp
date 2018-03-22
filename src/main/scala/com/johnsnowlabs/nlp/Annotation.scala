@@ -63,7 +63,7 @@ object Annotation {
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
-    rawText.length,
+    rawText.length - 1,
     rawText,
     Map.empty[String, String]
   )
