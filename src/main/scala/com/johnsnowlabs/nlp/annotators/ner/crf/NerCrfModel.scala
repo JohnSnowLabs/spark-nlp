@@ -61,7 +61,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
     }
   }
 
-  override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sourceSentences = PosTagged.unpack(annotations)
     val taggedSentences = tag(sourceSentences)
     NerTagged.pack(taggedSentences)
