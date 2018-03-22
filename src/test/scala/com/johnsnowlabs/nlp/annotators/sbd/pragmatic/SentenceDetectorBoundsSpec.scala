@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
+import com.johnsnowlabs.nlp.ContentProvider
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import org.scalatest.FlatSpec
 
@@ -41,6 +42,12 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     assert(bounds(2) == Sentence("Third", 29, 33))
 
     checkBounds(text, bounds)
+  }
+
+  "SentenceDetector" should "correct process custom delimiters in with dots" in {
+    val bounds = model.extractBounds(ContentProvider.conllSevenSentences, Array("\n\n"))
+
+    assert(bounds.length == 8)
   }
 
 

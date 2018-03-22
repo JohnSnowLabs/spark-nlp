@@ -1,21 +1,22 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
+import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
+import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.util.FileHelper
-import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.ml.param.FloatParam
+import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+
+import scala.collection.JavaConverters._
 
 
 class NerDLModel(override val uid: String)
@@ -25,11 +26,15 @@ class NerDLModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
+  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
+  override val annotatorType = NAMED_ENTITY
+
+
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
-  override val annotatorType = NAMED_ENTITY
+  val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
+  def setBatchSize(size: Int) = set(this.batchSize, size)
 
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
@@ -54,11 +59,29 @@ class NerDLModel(override val uid: String)
       _model = new TensorflowNer(
         tensorflow,
         encoder,
-        10,
+        1,//${batchSize}, For some reasons Tensorflow doesn't clear state in batch
         Verbose.Silent)
     }
 
     _model
+  }
+
+  def tag(tokenized: Array[TokenizedSentence]): Array[NerTaggedSentence] = {
+    // Predict
+    val labels = model.predict(tokenized)
+
+    // Combine labels with sentences tokens
+    (0 until tokenized.length).map { i =>
+      val sentence = tokenized(i)
+
+      val tokens = (0 until sentence.tokens.length).map { j =>
+        val token = sentence.indexedTokens(j)
+        val label = labels(i)(j)
+        IndexedTaggedWord(token.token, label, token.begin, token.end)
+      }.toArray
+
+      new TaggedSentence(tokens)
+    }.toArray
   }
 
   override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
@@ -68,18 +91,12 @@ class NerDLModel(override val uid: String)
     val tokenized = TokenizedWithSentence.unpack(annotations).toArray
 
     // Predict
-    val labels = model.predict(tokenized)
+    val tagged = tag(tokenized)
 
-    // Combine labels with sentences tokens
-    (0 until tokenized.length).flatMap{i =>
-      val sentence = tokenized(i)
-      (0 until sentence.tokens.length).map{j =>
-        val token = sentence.indexedTokens(j)
-        val label = labels(i)(j)
-        new Annotation(NAMED_ENTITY, token.begin, token.end, label, Map.empty)
-      }
-    }
+    // Pack
+    NerTagged.pack(tagged)
   }
+
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)

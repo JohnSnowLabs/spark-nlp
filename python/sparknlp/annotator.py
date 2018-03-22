@@ -705,6 +705,9 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
     batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
     minProba = Param(Params._dummy(), "minProba", "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
+    validationDataset = Param(Params._dummy(), "validationDataset", "Path to validation dataset. If set used to calculate statistic on it during training.", TypeConverters.identity)
+    testDataset = Param(Params._dummy(), "testDataset", "Path to test dataset. If set used to calculate statistic on it during training.", TypeConverters.identity)
+
 
     def setLr(self, v):
         self._set(lr = v)
@@ -725,6 +728,12 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
     def setMinProbability(self, v):
         self._set(minProba = v)
         return self
+
+    def setValidationDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        return self._set(validationDataset=ExternalResource(path, read_as, options.copy()))
+
+    def setTestDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
 
     def _create_model(self, java_model):

@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
@@ -78,6 +79,22 @@ object Annotation {
       .as[AnnotationContainer]
       .map(_.__annotation)
       .collect
+  }
+
+  def collect(dataset: Dataset[Row], column: String, columns: String*): Array[Array[Annotation]] = {
+
+    dataset
+      .select(column, columns :_*)
+      .collect()
+      .map { row =>
+        (0 to columns.length)
+          .flatMap(idx => getAnnotations(row, idx))
+          .toArray
+      }
+  }
+
+  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
   /** dataframe take of a specific annotation column */

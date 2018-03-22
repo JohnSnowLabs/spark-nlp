@@ -6,9 +6,10 @@ import java.nio.file.{Files, Paths}
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import org.slf4j.LoggerFactory
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLLogger
 import org.tensorflow.{Graph, Session, Tensor}
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -18,16 +19,8 @@ class TensorflowNer
   val tensorflow: TensorflowWrapper,
   val encoder: DatasetEncoder,
   val batchSize: Int,
-  val verbose: Verbose.Value
-) {
-
-  private val logger = LoggerFactory.getLogger("NerDL")
-
-  private def log(value: => String, minLevel: Verbose.Level): Unit = {
-    if (minLevel.id >= verbose.id) {
-      logger.info(value)
-    }
-  }
+  val verboseLevel: Verbose.Value
+) extends NerDLLogger {
 
   private val charIdsKey = "char_repr/char_ids"
   private val wordLengthsKey = "char_repr/word_lengths"
@@ -89,7 +82,9 @@ class TensorflowNer
             batchSize: Int,
             dropout: Float,
             startEpoch: Int,
-            endEpoch: Int
+            endEpoch: Int,
+            validation: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty,
+            test: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -140,9 +135,107 @@ class TensorflowNer
         batches += 1
       }
 
-      System.out.println(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches")
+      log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
+
+      if (validation.nonEmpty) {
+        log("Quality on train dataset: ", Verbose.Epochs)
+        measure(trainDataset, (s: String) => log(s, Verbose.Epochs))
+      }
+
+      if (validation.nonEmpty) {
+        log("Quality on validation dataset: ", Verbose.Epochs)
+        measure(validation, (s: String) => log(s, Verbose.Epochs))
+      }
+
+      if (test.nonEmpty) {
+        log("Quality on test dataset: ", Verbose.Epochs)
+        measure(test, (s: String) => log(s, Verbose.Epochs))
+      }
     }
   }
+
+  def calcStat(correct: Int, predicted: Int, predictedCorrect: Int): (Float, Float, Float) = {
+    // prec = (predicted & correct) / predicted
+    // rec = (predicted & correct) / correct
+    val prec = predictedCorrect.toFloat / predicted
+    val rec = predictedCorrect.toFloat / correct
+    val f1 = 2 * prec * rec / (prec + rec)
+
+    (prec, rec, f1)
+  }
+
+  def measure(labeled: Array[(TextSentenceLabels, TokenizedSentence)],
+                  log: (String => Unit),
+                  extended: Boolean = false,
+                  nErrorsToPrint: Int = 0
+                 ): Unit = {
+
+    val started = System.nanoTime()
+
+    val predictedCorrect = mutable.Map[String, Int]()
+    val predicted = mutable.Map[String, Int]()
+    val correct = mutable.Map[String, Int]()
+
+    val sentence = labeled.map(pair => pair._2).toList
+    val sentenceLabels = labeled.map(pair => pair._1.labels.toArray).toList
+    val sentencePredictedTags = labeled.map(pair => predict(Array(pair._2)).head).toList
+
+    var errorsPrinted = 0
+    var linePrinted = false
+    (sentence, sentenceLabels, sentencePredictedTags).zipped.foreach {
+      case (tokens, labels, tags) =>
+        for (i <- 0 until labels.length) {
+          val label = labels(i)
+          val tag = tags(i)
+          val iWord = tokens.indexedTokens(i)
+
+          correct(label) = correct.getOrElse(label, 0) + 1
+          predicted(tag) = predicted.getOrElse(tag, 0) + 1
+
+          if (label == tag)
+            predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
+          else if (errorsPrinted < nErrorsToPrint) {
+            log(s"label: $label, predicted: $tag, word: $iWord")
+            linePrinted = false
+            errorsPrinted += 1
+          }
+        }
+
+        if (errorsPrinted < nErrorsToPrint && !linePrinted) {
+          log("")
+          linePrinted = true
+        }
+    }
+
+    if (extended)
+      log(s"time: ${(System.nanoTime() - started)/1e9}")
+
+    val labels = (correct.keys ++ predicted.keys).toSeq.distinct
+
+    val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
+
+    val totalCorrect = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
+    log(s"Total stat, prec: $prec\t, rec: $rec\t, f1: $f1")
+
+    if (!extended)
+      return
+
+    log("label\tprec\trec\tf1")
+
+    for (label <- notEmptyLabels) {
+      val (prec, rec, f1) = calcStat(
+        correct.getOrElse(label, 0),
+        predicted.getOrElse(label, 0),
+        predictedCorrect.getOrElse(label, 0)
+      )
+
+      log(s"$label\t$prec\t$rec\t$f1")
+    }
+  }
+
 }
 
 
