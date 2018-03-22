@@ -12,7 +12,7 @@ import org.scalatest._
 
 import scala.language.reflectiveCalls
 
-class EasyPipelineTestSpec extends FlatSpec {
+class LightPipelineTestSpec extends FlatSpec {
   def fixture = new {
     val data: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
@@ -59,13 +59,14 @@ class EasyPipelineTestSpec extends FlatSpec {
 
     import textDF.sparkSession.implicits._
     val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
+    val text = "hello world, this is some sentence"
   }
 
 
 
   "An EasyPipeline" should "annotate for each annotator" in {
     val f = fixture
-    val annotations = new EasyPipeline(f.model).annotate(f.textArray)
+    val annotations = new LightPipeline(f.model).fullAnnotate(f.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
         assert(annotations.nonEmpty)
@@ -79,8 +80,18 @@ class EasyPipelineTestSpec extends FlatSpec {
 
   it should "annotate for each string in the text array" in {
     val f = fixture
-    val annotations = new EasyPipeline(f.model).annotate(f.textArray)
+    val annotations = new LightPipeline(f.model).annotate(f.textArray)
     assert(f.textArray.length == annotations.length)
+  }
+
+  it should "annotate single chunks of text with proper token amount" in {
+    val f = fixture
+    val annotations = new LightPipeline(f.model)
+    val result = Benchmark.time("Time to annotate single text") {
+      annotations.annotate(f.text)
+    }
+    assert(result("token").length == 7)
+    assert(result("token")(4) == "is")
   }
 
   it should "run faster than a tranditional pipeline" in {
@@ -90,15 +101,10 @@ class EasyPipelineTestSpec extends FlatSpec {
       f.model.transform(f.textDF).collect
     }
 
-    val t2: Double = Benchmark.measure("Time to collect EasyPipeline results lineally") {
-      new EasyPipeline(f.model).linAnnotate(f.textArray)
-    }
-
-    val t3: Double = Benchmark.measure("Time to collect EasyPipeline results in parallel") {
-      new EasyPipeline(f.model).annotate(f.textArray)
+    val t2: Double = Benchmark.measure("Time to collect EasyPipeline results in parallel") {
+      new LightPipeline(f.model).annotate(f.textArray)
     }
 
     assert(t1 > t2)
-    assert(t1 > t3)
   }
 }
