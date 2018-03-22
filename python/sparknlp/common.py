@@ -19,9 +19,10 @@ class Annotation:
         self.result = result
         self.metadata = metadata
 
-class SparklessPipeline:
+
+class LightPipeline:
     def __init__(self, pipelineModel):
-        self._sparklessPipeline = _internal._SparklessPipeline(pipelineModel).apply()
+        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
 
     @staticmethod
     def _annotation_from_java(java_annotations):
@@ -35,12 +36,35 @@ class SparklessPipeline:
                                )
         return annotations
 
-    def annotate(self, target):
-        collected = self._sparklessPipeline.annotate(target)
-        result = {}
-        for atype, annotations in collected.items():
-            result[atype] = self._annotation_from_java(annotations)
+    def fullAnnotate(self, target):
+        result = []
+        for row in self._lightPipeline.fullAnnotateJava(target):
+            kas = {}
+            for atype, annotations in row.items():
+                kas[atype] = self._annotation_from_java(annotations)
+            result.append(kas)
         return result
+
+    def annotate(self, target):
+        def extract(text_annotations):
+            kas = {}
+            for atype, text in text_annotations.items():
+                kas[atype] = text
+            return kas
+
+        annotations = self._lightPipeline.annotateJava(target)
+
+        if type(target) is str:
+            result = extract(annotations)
+        elif type(target) is list:
+            result = []
+            for row_annotations in annotations:
+                result.append(extract(row_annotations))
+        else:
+            raise TypeError("target for annotation may be 'str' or 'list'")
+
+        return result
+
 
 """
 Helper class used to generate the getters for all params
