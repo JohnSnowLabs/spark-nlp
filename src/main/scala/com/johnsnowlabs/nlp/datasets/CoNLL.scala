@@ -46,8 +46,8 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
           else
             None
         } else if (items.length <= 1) {
-          if (doc.nonEmpty && doc.last != '\n') {
-            doc.append("\n\n")
+          if (doc.nonEmpty && !doc.endsWith(System.lineSeparator)) {
+            doc.append(System.lineSeparator + System.lineSeparator)
             addSentence()
           }
           None

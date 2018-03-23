@@ -47,15 +47,24 @@ class _ConfigLoaderSetter(ExtendedJavaWrapper):
         super(_ConfigLoaderSetter, self).__init__("com.johnsnowlabs.util.ConfigLoader.setConfigPath")
         self._java_obj = self._new_java_obj(self._java_obj, path)
 
+
 class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language):
         super(_DownloadModel, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadModel")
         self._java_obj = self._new_java_obj(self._java_obj, reader, name, language)
 
+
 class _DownloadPipeline(ExtendedJavaWrapper):
     def __init__(self, name, language):
         super(_DownloadPipeline, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadPipeline")
         self._java_obj = self._new_java_obj(self._java_obj, name, language)
+
+
+class _ClearCache(ExtendedJavaWrapper):
+    def __init__(self, name, language):
+        super(_ClearCache, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.clearCache")
+        self._java_obj = self._new_java_obj(self._java_obj, name, language)
+
 
 # predefined pipelines
 class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
@@ -63,3 +72,8 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
         super(_DownloadPredefinedPipeline, self).__init__(java_path)
         self._java_obj = self._new_java_obj(self._java_obj)
 
+
+class _LightPipeline(ExtendedJavaWrapper):
+    def __init__(self, pipelineModel):
+        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline")
+        self._java_obj = self._new_java_obj(self._java_obj, pipelineModel._to_java())

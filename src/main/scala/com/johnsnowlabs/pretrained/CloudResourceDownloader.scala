@@ -7,15 +7,15 @@ import com.johnsnowlabs.util.{Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
 
-class S3ResourceDownloader(bucket: String,
-                           s3Path: String,
-                           cacheFolder: String,
-                           region: String = "us-east-1")
+class CloudResourceDownloader(bucket: String,
+                              s3Path: String,
+                              cacheFolder: String,
+                              region: String = "us-east-1")
   extends ResourceDownloader with AutoCloseable {
 
   var lastMetadataVersion: Option[String] = None
   var metadata = List.empty[ResourceMetadata]
-  val metadataFile = Paths.get(s3Path, "metadata.json").toString
+  val metadataFile = Paths.get(s3Path, "metadata.json").toString.replaceAllLiterally("\\", "/")
 
    if (!new File(cacheFolder).exists()) {
     FileUtils.forceMkdir(new File(cacheFolder))
@@ -61,7 +61,7 @@ class S3ResourceDownloader(bucket: String,
     val link = resolveLink(name, language, libVersion, sparkVersion)
     link.flatMap {
       resource =>
-        val s3FilePath = Paths.get(s3Path, resource.fileName).toString
+        val s3FilePath = Paths.get(s3Path, resource.fileName).toString.replaceAllLiterally("\\", "/")
         val dstFile = new File(cacheFolder, resource.fileName)
         if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
@@ -102,6 +102,15 @@ class S3ResourceDownloader(bucket: String,
       val file = new File(fileName)
       if (file.exists()){
         file.delete()
+      }
+
+      if (resource.isZipped) {
+        require(fileName.substring(fileName.length - 4) == ".zip")
+        val unzipped = fileName.substring(0, fileName.length - 4)
+        val unzippedFile = new File(unzipped)
+        if (unzippedFile.exists()) {
+          FileUtils.deleteDirectory(unzippedFile)
+        }
       }
     }
   }
