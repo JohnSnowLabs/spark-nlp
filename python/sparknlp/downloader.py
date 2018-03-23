@@ -6,7 +6,7 @@ from pyspark.ml.wrapper import JavaModel
 
 class ResourceDownloader(object):
 
-    factory = {
+    _factory = {
         DocumentAssembler.name: lambda: DocumentAssembler(),
         SentenceDetector.name: lambda: SentenceDetector(),
         Tokenizer.name: lambda: Tokenizer(),
@@ -26,7 +26,7 @@ class ResourceDownloader(object):
 
     def downloadModel(self, reader, name, language):
         j_obj = _internal._DownloadModel(reader.name, name, language).apply()
-        py_obj = self.factory[reader.name]()
+        py_obj = self._factory[reader.name]()
         py_obj._java_obj = j_obj
         return py_obj
 
