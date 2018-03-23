@@ -65,7 +65,6 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     /* apply UDFs to classify and annotate */
     dataset.toDF.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
-      // TODO single datapoint version, use mapPartitions instead
       withColumn(getOutputCol, packAnnotations(col("text"), col("start"), col("end"))
     )
   }

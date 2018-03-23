@@ -1,8 +1,7 @@
 package com.johnsnowlabs.ml.logreg
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.nlp.annotators.assertion.dl.{AssertionDLApproach, AssertionDLModel}
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
+import com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}

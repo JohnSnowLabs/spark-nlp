@@ -28,7 +28,6 @@ class AssertionDLApproach(override val uid: String)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val label = new Param[String](this, "label", "Column with one label per document")
-  // TODO: remove target everywhere, use start and end instead
   val target = new Param[String](this, "target", "Column with the target to analyze")
 
   val startParam = new Param[String](this, "start", "Column with token number for first target token")
@@ -64,7 +63,6 @@ class AssertionDLApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): AssertionDLModel = {
 
-    /* TODO: what performs better, multiple collects or only one? */
     val sentences = dataset.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
       select("text").
@@ -114,7 +112,6 @@ class AssertionDLApproach(override val uid: String)
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
-  /* send this to common place */
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
     document.head.getString(3)
   }

@@ -56,7 +56,7 @@ object AssertionDLNegex extends App with EvaluationMetrics {
 
   val assertion = try {
     val model = new TensorflowAssertion(tf, encoder, batchSize, Verbose.All)
-    for (epoch <- 0 until 3) {
+    for (epoch <- 0 until 6) {
       model.train(trainingData, 0.0015f, 16, 0.1f, epoch, epoch + 1)
       System.out.println("Quality on train data")
       measure(model, trainingData)

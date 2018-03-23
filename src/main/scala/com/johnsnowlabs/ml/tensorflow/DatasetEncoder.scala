@@ -161,9 +161,7 @@ class AssertionDatasetEncoder
   def encodeInputData(sentences: Array[Array[String]], start: Array[Int], end:Array[Int]): AssertionBatch = {
     val batchSize = sentences.length
 
-    // TODO: keep this fixed for now, check if it's possible to have a different value for every batch
-    val maxSentenceLength = 250
-
+    val maxSentenceLength = sentences.map(_.length).max
     val wordEmbeddings =
       (sentences, start, end).zipped.map {(sentence, s, e) =>
         Range(0, maxSentenceLength).map{j =>
