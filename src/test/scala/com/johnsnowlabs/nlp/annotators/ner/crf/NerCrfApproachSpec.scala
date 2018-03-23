@@ -1,9 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import org.scalatest.{BeforeAndAfter, FlatSpec}
-import com.johnsnowlabs.testutils.TravisCIHelper
-
+import org.scalatest.FlatSpec
 
 class NerCrfApproachSpec extends FlatSpec {
   val spark = SparkAccessor.spark
@@ -13,10 +11,6 @@ class NerCrfApproachSpec extends FlatSpec {
 
   // Dataset ready for NER tagger
   lazy val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withTokenizer(nerSentence))
-
-  before {
-    TravisCIHelper.startLogger
-  }
 
   "NerCrfApproach" should "be serializable and deserializable correctly" in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
