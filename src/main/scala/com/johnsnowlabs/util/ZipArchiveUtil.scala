@@ -91,7 +91,7 @@ object ZipArchiveUtil {
       }
 
       // create output directory if it doesn't exist already
-      val splitPath = entry.getName.split(File.separator).dropRight(1)
+      val splitPath = entryName.split(File.separator.replace("\\", "/")).dropRight(1)
 
       val dirBuilder = new StringBuilder(destDir.getPath)
       for (part <- splitPath) {

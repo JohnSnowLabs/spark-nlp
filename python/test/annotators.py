@@ -3,6 +3,7 @@ import os
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.common import LightPipeline, RegexRule
 from test.util import SparkContextForTest
 
 
@@ -18,7 +19,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer()\
             .setOutputCol("token") \
-            .setCompositeTokens(["New York"])
+            .setCompositeTokens(["New York"]) \
+            .addInfixPattern("(%\\d+)")
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -236,7 +238,25 @@ class PipelineTestSpec(unittest.TestCase):
         assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save
         assert lemma_after_save == lemma_before_save
-        loaded_pipeline.fit(self.data).transform(self.data).show()
+        pipeline_model = loaded_pipeline.fit(self.data)
+        pipeline_model.transform(self.data).show()
+        pipeline_model.write().overwrite().save(pipe_path)
+        loaded_model = PipelineModel.read().load(pipe_path)
+        loaded_model.transform(self.data).show()
+        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
+        spless = LightPipeline(loaded_model).annotate(locdata)
+        fullSpless = LightPipeline(loaded_model).fullAnnotate(locdata)
+        for row in spless[:2]:
+            for _, annotations in row.items():
+                for annotation in annotations[:2]:
+                    print(annotation)
+        for row in fullSpless[:5]:
+            for _, annotations in row.items():
+                for annotation in annotations[:2]:
+                    print(annotation.result)
+        single = LightPipeline(loaded_model).annotate("Joe was running under the rain.")
+        print(single)
+        assert single["lemma"][2] == "run"
 
 
 class SpellCheckerTestSpec(unittest.TestCase):
@@ -273,10 +293,13 @@ class ParamsGettersTestSpec(unittest.TestCase):
                 assert(hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
                 assert(param_value is None or param_value is not None)
-        # Try a random getter
+        # Try a getter
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
         assert(sentence_detector.getOutputCol() == "sentence")
         assert(sentence_detector.getCustomBounds() == ["%%"])
+        # Try a default getter
+        document_assembler = DocumentAssembler()
+        assert(document_assembler.getOutputCol() == "document")

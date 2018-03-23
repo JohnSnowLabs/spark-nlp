@@ -5,7 +5,7 @@ package com.johnsnowlabs.nlp
   */
 object ContentProvider {
 
-  val parquetData = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")
+  lazy  val parquetData = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")
 
   val latinBody: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
     "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +

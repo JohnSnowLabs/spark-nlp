@@ -46,7 +46,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       // 1. Create tmp file for index
-      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath())
+      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath()).map(_.replaceAllLiterally("\\", "/"))
       // 2. Index Word Embeddings
       indexEmbeddings(localPath.get, spark.sparkContext)
       // 3. Copy WordEmbeddings to cluster

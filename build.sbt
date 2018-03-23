@@ -1,5 +1,5 @@
-val sparkVer = "2.1.2"
-val scalaVer = "2.11.11"
+val sparkVer = "2.3.0"
+val scalaVer = "2.11.12"
 val awsVer = "1.11.272"
 val scalaTestVersion = "3.0.0"
 
@@ -8,7 +8,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.4.1"
+version := "1.4.2"
 
 scalaVersion := scalaVer
 
@@ -83,7 +83,7 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "5.2.1",
+  "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
   "com.amazonaws" % "aws-java-sdk-bom" % awsVer,
