@@ -78,7 +78,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     /* convert start and end are indexes in the doc string */
     val start = tokens.slice(0, s).map(_.length).sum +
       tokens.slice(0, s).length // account for spaces
-  val end = start + tokens.slice(s, e + 1).map(_.length).sum +
+    val end = start + tokens.slice(s, e + 1).map(_.length).sum +
       tokens.slice(s, e + 1).length - 2 // account for spaces
 
     val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())

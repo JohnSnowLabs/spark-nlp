@@ -12,7 +12,7 @@ import scala.io.Source
   */
 
 class NegexDatasetReader(targetLengthLimit: Int = 10) extends Serializable {
-
+  /* returns token numbers for the target within the tokenized sentence */
   private def getTargetIndices(sentence: String, target: String) = {
 
     val targetTokens = target.split(" ").map(_.trim.toUpperCase).filter(_!="")

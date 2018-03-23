@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.logreg
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
+import com.johnsnowlabs.nlp.annotators.assertion.dl.{AssertionDLApproach, AssertionDLModel}
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler}
@@ -15,13 +16,10 @@ import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 * https://github.com/cambridgeltl/BioNLP-2016
 * */
 
-object NegexDatasetPipelineTest extends App with EvaluationMetrics {
+object NegexDLPipelineTest extends App with EvaluationMetrics {
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
   import spark.implicits._
-
-  // directory of the i2b2 dataset
-  val i2b2Dir = "/home/jose/Downloads/i2b2"
 
   // word embeddings location
   val embeddingsFile = s"PubMed-shuffle-win-2.bin"
@@ -35,10 +33,10 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
   val ds = reader.readDataframe(datasetPath).cache
 
   // Split the data into training and test sets (30% held out for testing).
-  val Array(trainingData, testData) = ds.randomSplit(Array(0.7, 0.3))
+  val Array(trainingData, testingData) = ds.randomSplit(Array(0.7, 0.3))
 
   val model = trainAssertionModel(trainingData.cache)
-  var result = testAssertionModel(testData.cache, model)
+  var result = testAssertionModel(testingData.cache, model)
 
   var pred = result.select($"assertion").collect.map(row => Annotation(row.getAs[Seq[Row]]("assertion").head).result)
   var gold = result.select($"label").collect.map(_.getAs[String]("label"))
@@ -51,7 +49,7 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
   model.write.overwrite().save(modelName)
   val readModel = PipelineModel.read.load(modelName)
 
-  result = testAssertionModel(testData, readModel)
+  result = testAssertionModel(testingData, readModel)
   pred = result.select($"assertion").collect.map(row => Annotation(row.getAs[Seq[Row]]("assertion").head).result)
   gold = result.select($"label").collect.map(_.getAs[String]("label"))
 
@@ -64,12 +62,11 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
       .setInputCol("sentence")
       .setOutputCol("document")
 
-    val assertionStatus = new AssertionLogRegApproach()
+    val assertionStatus = new AssertionDLApproach()
       .setLabelCol("label")
       .setInputCols("document")
       .setOutputCol("assertion")
-      .setBefore(11)
-      .setAfter(13)
+      .setEpochs(1)
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.BINARY)
 
     Array(documentAssembler,
