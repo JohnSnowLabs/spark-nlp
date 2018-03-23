@@ -87,12 +87,14 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   /** distance measure between two words */
   private def hammingDistance(word1: String, word2: String): Int = {
-    val bonus =
-      word1.take(word2.length).zip(word2.take(word1.length)).count({
-        case (w1, w2) => w1 == w2 ||
-          w1 == word2(Seq(word2.indexOf(w2) + 1, word2.length - 1).min) ||
-          w1 == word2(Seq(word2.indexOf(w2) - 1, 0).max)})
-    word1.intersect(word2).length + bonus
+    if (word1 == word2) return 0
+    var counts = 0
+    word1.take(word2.length).zip(word2.take(word1.length)).foreach{case (a,b) => if (a != b) counts += 1}
+    if (counts == 0) {
+      Seq(word1.length, word2.length).max
+    } else {
+      counts + (word2.length-word1.length).abs
+    }
   }
 
   /** retrieve frequency */
