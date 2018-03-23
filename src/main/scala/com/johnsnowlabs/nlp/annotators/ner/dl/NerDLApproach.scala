@@ -29,7 +29,7 @@ class NerDLApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[NerDLApproach, NerDLModel]
     with HasRecursiveFit[NerDLModel]
     with NerApproach[NerDLApproach]
-    with NerDLLogger {
+    with Logging {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -66,7 +66,7 @@ class NerDLApproach(override val uid: String)
 
   def setTestDataset(er: ExternalResource) = set(testDataset, er)
 
-  override def verboseLevel = Verbose($(verbose))
+  override val verboseLevel = Verbose($(verbose))
 
   setDefault(
     minEpochs -> 0,

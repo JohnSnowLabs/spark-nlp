@@ -14,8 +14,8 @@ class TensorflowAssertion (
   val tensorflow: TensorflowWrapper,
   val encoder: AssertionDatasetEncoder,
   val batchSize: Int,
-  val verbose: Verbose.Value
-) extends Logging[TensorflowAssertion] {
+  val verboseLevel: Verbose.Value
+) extends Logging {
 
   private val sentenceLengthsKey = "word_repr/sentence_lengths"
   private val wordEmbeddingsKey = "word_repr/word_embeddings"
@@ -61,6 +61,8 @@ class TensorflowAssertion (
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length} ", Verbose.TrainingStat)
+    // TODO delete this
+    log(s"TODO delete this test log", Verbose.All)
 
     // Initialize
     if (startEpoch == 0)

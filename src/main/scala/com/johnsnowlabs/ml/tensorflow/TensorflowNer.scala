@@ -5,7 +5,6 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import org.tensorflow.{Graph, Session}
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLLogger
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -16,8 +15,8 @@ class TensorflowNer
   val tensorflow: TensorflowWrapper,
   val encoder: NerDatasetEncoder,
   val batchSize: Int,
-  override val verbose: Verbose.Value
-) extends Logging[TensorflowNer] {
+  override val verboseLevel: Verbose.Value
+) extends Logging {
 
 
   private val charIdsKey = "char_repr/char_ids"
@@ -233,7 +232,7 @@ class TensorflowNer
 
 object TensorflowNer {
 
-  def apply(encoder: DatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
+  def apply(encoder: NerDatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
     val graph = new Graph()
     val session = new Session(graph)
     graph.importGraphDef(Files.readAllBytes(Paths.get("char_cnn_blstm_30_25_100_200.pb")))

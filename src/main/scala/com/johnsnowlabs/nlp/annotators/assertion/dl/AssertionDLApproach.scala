@@ -81,7 +81,6 @@ class AssertionDLApproach(override val uid: String)
       ))
 
     val labelCol = getOrDefault(label)
-
     /* infer labels and assign a number to each */
     val labelMappings = annotations.map(_.label).distinct.toList
 

@@ -35,11 +35,11 @@ object AssertionDLNegex extends App with EvaluationMetrics {
   val Array(trainingData, testingData) = randomSplit(ds, 0.7f).map(createDatapoints)
 
   // word embeddings
-  val wordEmbeddignsFile = s"PubMed-shuffle-win-2.bin"
+  val wordEmbeddingsFile = s"PubMed-shuffle-win-2.bin"
   val wordEmbeddingsCache = s"PubMed-shuffle-win-2.bin.db"
   val wordEmbeddingsDim = 200
   if (!new File(wordEmbeddingsCache).exists())
-    WordEmbeddingsIndexer.indexText(wordEmbeddignsFile, wordEmbeddingsCache)
+    WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, wordEmbeddingsCache)
 
   val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim)
   val labels = List("Affirmed", "Negated")
