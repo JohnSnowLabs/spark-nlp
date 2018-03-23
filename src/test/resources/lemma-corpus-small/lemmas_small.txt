@@ -1,0 +1,5367 @@
+monorail	->	monorail	monorails
+monosaccharide	->	monosaccharides	monosaccharide
+monosaturate	->	monosaturates	monosaturate
+monospar	->	monospar	monospars
+monosyllable	->	monosyllables	monosyllable
+monotheist	->	monotheist	monotheists
+monotone	->	monotone	monotones
+monotony	->	monotony	monotonies
+monotreme	->	monotremes	monotreme
+monotrope	->	monotrope	monotropes
+monotype	->	monotype	monotypes
+monounsaturate	->	monounsaturates	monounsaturated
+monoxide	->	monoxide	monoxided
+mon	->	mon	mons
+monsignor	->	monsignor	monsignors
+monsoon	->	monsoons	monsoon
+monster	->	monster	monsters	monstering
+monstrosity	->	monstrosities	monstrosity
+montage	->	montage	montages
+montagnard	->	montagnard	montagnards
+montana	->	montana	montanas
+montane	->	montane	montaner
+montego	->	montego	montegos
+montenegrin	->	montenegrins	montenegrin
+montfortian	->	montfortians	montfortian
+monthly	->	monthly	monthlies
+month	->	month	months
+montonero	->	montoneros	montonero
+monumentalise	->	monumentalising	monumentalise
+monument	->	monument	monuments
+mony	->	monies	mony
+moocher	->	moocher	moochers
+mooch	->	mooch	mooching	mooched	mooches
+moody	->	moody	moodier	moodiest	moodys
+mood	->	mood	moods
+moodswing	->	moodswings	moodswing
+mood-swing	->	mood-swings	mood-swing
+moo	->	moo	mooing	moos
+mook	->	mooks	mook
+moonbeam	->	moonbeam	moonbeams
+moonboot	->	moonboots	moonboot
+moon-daisy	->	moon-daisies	moon-daisy
+moondream	->	moondreams	moondream
+moonface	->	moonface	moonfaced
+moony	->	moony	moonies
+moon-landing	->	moon-landing	moon-landings
+moonlet	->	moonlets	moonlet
+moonlighter	->	moonlighters	moonlighter
+moonlight	->	moonlight	moonlighting	moonlights	moonlighted
+moonraker	->	moonrakers	moonraker
+moon	->	moon	moons	mooning	mooned
+moonshot	->	moonshots	moonshot
+moonstone	->	moonstone	moonstones
+moor	->	moors	moor	moored	mooring
+moorhen	->	moorhen	moorhens
+mooring-rope	->	mooring-ropes	mooring-rope
+moorland	->	moorland	moorlands
+moorman	->	moormen	moorman
+moor-top	->	moor-top	moor-tops
+moot	->	mooted	moot	mooter	mooting	moots
+mooth	->	mooth	mooths
+moped	->	moped	mopeds
+mophead	->	mophead	mopheads
+mope	->	mope	moping	mopes
+moppet	->	moppets	moppet
+mop	->	mop	mopping	mopped	mops
+moptop	->	moptop	moptops
+moquette	->	moquette	moquettes
+moraine	->	moraines	moraine
+morale	->	morales	morale
+moralisation	->	moralisations	moralisation
+moralise	->	moralising	moralise	moralised	moralises
+moraliser	->	moraliser	moralisers
+moralism	->	moralism	moralisms
+moralist	->	moralist	moralists
+morality	->	morality	moralities
+morality-religion	->	morality-religions	morality-religion
+moralization	->	moralization	moralizations
+moralize	->	moralizing	moralize	moralized
+moral	->	moral	morals
+moran	->	moran	morans
+mora	->	mora	moras
+morass	->	morass	morasses
+moratorium	->	moratorium	moratoriums
+moravian	->	moravian	moravians
+moray	->	moray	morays
+morbid	->	morbid	morbids
+mordant	->	mordant	mordants
+moreen	->	moreen	moreens
+morel	->	morels	morel
+morena	->	morena	morenas
+more	->	more	mores
+morgue	->	morgue	morgues
+moriarty	->	moriarty	moriartys
+mormaer	->	mormaers	mormaer
+mormon	->	mormon	mormons
+mormyrid	->	mormyrids	mormyrid
+morning	->	morning	mornings
+moroccan	->	moroccan	moroccans
+morocco	->	morocco	moroccos
+moroney	->	moroney	moroneys
+moron	->	moron	morons
+morph	->	morphs	morph
+morpheme	->	morpheme	morphemes
+morphet	->	morphets	morphet
+morphogen	->	morphogens	morphogen
+morphology	->	morphology	morphologies
+morphologist	->	morphologists	morphologist
+morrant	->	morrant	morrants
+morrisman	->	morrismen	morrisman
+morrow	->	morrow	morrows
+mor	->	mor	mors
+morsel	->	morsels	morsel
+mort	->	morts	mort
+mortality	->	mortalities	mortality
+mortal	->	mortal	mortals
+mortarman	->	mortarmen	mortarman
+mortar	->	mortar	mortars
+mortcloth	->	mortcloth	mortcloths
+mortgagee	->	mortgagee	mortgagees
+mortgage-holder	->	mortgage-holder	mortgage-holders
+mortgage	->	mortgage	mortgages	mortgaged	mortgaging
+mortgagor	->	mortgagor	mortgagors
+mortice	->	mortice	mortices	morticed
+mortician	->	morticians	mortician
+mortification	->	mortification	mortifications
+mortify	->	mortified	mortify	mortifies	mortifying
+mortimer	->	mortimer	mortimers
+mortise	->	mortise	mortises	mortising	mortised
+mortuary	->	mortuary	mortuaries
+mortuary-complex	->	mortuary-complex	mortuary-complexes
+mosaicist	->	mosaicists	mosaicist
+mosaic	->	mosaic	mosaics
+mosey	->	mosey	moseys	moseyed	moseying
+mosfet	->	mosfet	mosfets
+mosher	->	mosher	moshers
+mosh	->	mosh	moshing
+mosiac	->	mosiac	mosiacs
+moslem	->	moslem	moslems
+mosleyite	->	mosleyites	mosleyite
+mosque	->	mosques	mosque
+mosque-cap	->	mosque-cap	mosque-caps
+mosquito	->	mosquito	mosquitos
+moss	->	moss	mosses
+mossy	->	mossy	mossies
+mosstrooper	->	mosstroopers	mosstrooper
+most	->	most	mostest
+mote	->	motes	mote	moted	moter
+motel	->	motel	motels
+motet	->	motets	motet
+moth	->	moths	moth
+mothball	->	mothballs	mothball
+mothbal	->	mothballed	mothballing
+moth-ball	->	moth-ball	moth-balls
+motherboard	->	motherboards	motherboard
+motherfucker	->	motherfuckers	motherfucker
+mother-goddess	->	mother-goddesses	mother-goddess
+motherhood	->	motherhood	motherhoods
+mother-in-law	->	mother-in-law	mother-in-laws
+motherland	->	motherland	motherlands
+mother-of-pearl	->	mother-of-pearl	mother-of-pearls
+mother	->	mother	mothers	mothered	mothering
+mother-to-be	->	mothers-to-be	mother-to-be
+mother-tongue	->	mother-tongue	mother-tongues
+mothproof	->	mothproofed	mothproof
+motif	->	motif	motifs
+motility	->	motility	motilities
+motion	->	motions	motion	motioned	motioning
+motion-picture	->	motion-picture	motion-pictures
+motivate	->	motivate	motivated	motivates	motivating
+motivation	->	motivation	motivations
+motivator	->	motivator	motivators
+motive	->	motives	motive
+motley	->	motley	motleyed
+motorbike	->	motorbikes	motorbike	motorbiking
+motor-bike	->	motor-bike	motor-bikes
+motorboat	->	motorboat	motorboats
+motorcade	->	motorcades	motorcade	motorcaded
+motorcaravan	->	motorcaravan	motorcaravans
+motorcar	->	motorcar	motorcars
+motor-car	->	motor-car	motor-cars
+motor-coach	->	motor-coaches	motor-coach
+motor-cycle	->	motor-cycles	motor-cycle
+motorcycle	->	motorcycle	motorcycles
+motorcyclist	->	motorcyclist	motorcyclists
+motor-cyclist	->	motor-cyclist	motor-cyclists
+motorcyle	->	motorcyle	motorcyling
+motor-glider	->	motor-glider	motor-gliders
+motor-habit	->	motor-habit	motor-habits
+motor-home	->	motor-homes	motor-home
+motorhome	->	motorhome	motorhomes
+motorist	->	motorists	motorist
+motor-launch	->	motor-launch	motor-launches
+motor-mower	->	motor-mowers	motor-mower
+motor	->	motor	motors	motored
+motor-scooter	->	motor-scooter	motor-scooters
+motorsport	->	motorsports	motorsport
+motor-tyre	->	motor-tyres	motor-tyre
+motor-vehicle	->	motor-vehicle	motor-vehicles
+motorwagon	->	motorwagons	motorwagon
+motorway	->	motorway	motorways
+moto	->	moto	motos
+mot	->	mot	mots
+motte	->	motte	mottes
+mottle	->	mottling	mottle	mottles
+motto	->	motto	mottos
+mould	->	moulded	mould	moulds	moulding
+mouldboard	->	mouldboard	mouldboards
+mould-board	->	mould-board	mould-boards
+moulder	->	moulder	moulders	mouldering	mouldered
+mouldy	->	mouldy	mouldiest
+mouldiwarp	->	mouldiwarp	mouldiwarps
+moule	->	moules	moule
+moulham	->	moulhams	moulham
+moult	->	moulting	moults	moult	moulted
+mound	->	mounds	mound	mounding	mounded
+mount	->	mounted	mount	mounting	mounts
+mountain	->	mountains	mountain
+mountain-designer	->	mountain-designer	mountain-designers
+mountaineer	->	mountaineer	mountaineers
+mountainside	->	mountainside	mountainsides
+mountain-side	->	mountain-side	mountain-sides
+mountain-top	->	mountain-tops	mountain-top
+mountaintop	->	mountaintop	mountaintops
+mountboard	->	mountboard	mountboards
+mountebank	->	mountebanks	mountebank
+mourner	->	mourners	mourner
+mourne	->	mourne	mournes
+mourn	->	mourn	mourning	mourns	mourned
+mousehole	->	mousehole	mouseholes
+mousetrap	->	mousetrap	mousetraps
+mousquetaire	->	mousquetaire	mousquetaires
+moussaka	->	moussaka	moussakas
+mouss	->	mousses	moussed
+moustache	->	moustache	moustaches
+mouthbrooder	->	mouthbrooders	mouthbrooder
+mouthful	->	mouthful	mouthfuls
+mouth-organ	->	mouth-organ	mouth-organs
+mouthpiece	->	mouthpiece	mouthpieces
+mouth-piece	->	mouth-piece	mouth-pieces
+mouth	->	mouth	mouths	mouthed	mouthing
+mouthwash	->	mouthwash	mouthwashes
+mouvement	->	mouvement	mouvements
+movable	->	movable	movables
+'move	->	'moves	'move
+moveable	->	moveable	moveables
+movement	->	movement	movements
+move-on	->	move-on	move-ons
+mover	->	mover	movers
+move	->	move	moves	moved	moving
+movie-goer	->	movie-goers	movie-goer
+movie-house	->	movie-house	movie-houses
+moviemaker	->	moviemakers	moviemaker
+movie-maker	->	movie-makers	movie-maker
+movie	->	movie	movies
+moviestar	->	moviestars	moviestar
+movie-star	->	movie-star	movie-stars
+moving-picture	->	moving-picture	moving-pictures
+mow	->	mowing	mow	mows	mowed
+mower	->	mower	mowers
+moyen	->	moyen	moyens
+moye	->	moye	moyes
+moy	->	moy	moys
+mozambican	->	mozambican	mozambicans
+mozartian	->	mozartian	mozartians
+mpa	->	mpa	mpas
+mphil	->	mphil	mphils
+mp	->	mp	mps
+m-p	->	m-p	m-ps
+mrna	->	mrna	mrnas
+mro	->	mro	mros
+msc	->	msc	mscs
+msec	->	msec	msecs
+mtdna	->	mtdna	mtdnas
+m-tense	->	m-tense	m-tenses
+mtrna	->	mtrnas	mtrna
+mu	->	mus	mu
+muchacho	->	muchacho	muchachos
+mucin	->	mucins	mucin
+muck	->	muck	mucked	mucking	mucks
+mucker	->	mucker	muckers
+muckraker	->	muckrakers	muckraker
+mucopolysaccharide	->	mucopolysaccharide	mucopolysaccharides
+mucoprotein	->	mucoprotein	mucoproteins
+mucosa	->	mucosa	mucosae
+mudaliyar	->	mudaliyars	mudaliyar
+mudbank	->	mudbank	mudbanks
+mudbrick	->	mudbrick	mudbricks
+mudcloud	->	mudclouds	mudcloud
+muddy	->	muddy	muddied	muddiest	muddies	muddying	muddier
+muddle	->	muddle	muddled	muddling	muddles
+muderrislik	->	muderrislik	muderrisliks
+mudflat	->	mudflats	mudflat
+mud-flat	->	mud-flats	mud-flat
+mudflow	->	mudflows	mudflow
+mudguard	->	mudguard	mudguards
+mudlark	->	mudlark	mudlarks
+mudrock	->	mudrocks	mudrock
+mud	->	mud	muds
+mudskipper	->	mudskippers	mudskipper
+mudslide	->	mudslide	mudslides
+mudstone	->	mudstone	mudstones
+muesli	->	muesli	mueslis
+muezzin	->	muezzin	muezzins
+muff	->	muffing	muff	muffs	muffed
+muffin	->	muffin	muffins
+muffler	->	muffler	mufflers
+muffle	->	muffle	muffling	muffles
+muftilik	->	muftilik	muftiliks
+mufti	->	mufti	muftis
+mugger	->	mugger	muggers
+mug	->	mug	mugs	mugging	mugged
+mugshot	->	mugshot	mugshots
+mug-shot	->	mug-shot	mug-shots
+mugwump	->	mugwumps	mugwump
+muhajir	->	muhajir	muhajirs
+muirland	->	muirlands	muirland
+muir	->	muir	muirs
+mukhtar	->	mukhtar	mukhtars
+mulatta	->	mulattas	mulatta
+mulazim	->	mulazim	mulazims
+mulberry	->	mulberry	mulberries	mulberrys
+mulch	->	mulch	mulches	mulching	mulched
+mulct	->	mulcted	mulcts	mulct
+mule	->	mule	mules
+muleteer	->	muleteers	muleteer
+mullah	->	mullahs	mullah
+mullein	->	mullein	mulleins
+mullet	->	mullet	mullets
+mulligan	->	mulligan	mulligans
+mullion	->	mullions	mullioned	mullion
+mull	->	mull	mulls	mulled	mulling
+multi-activity	->	multi-activity	multi-activities
+multi-billionaire	->	multi-billionaire	multi-billionaires
+multi-chip	->	multi-chip	multi-chips
+multicolour	->	multicolour	multicolours
+multiculturalism	->	multiculturalism	multiculturalisms
+multiculturalist	->	multiculturalists	multiculturalist
+multi-effect	->	multi-effects	multi-effect
+multi-event	->	multi-event	multi-events
+multifilament	->	multifilament	multifilaments
+multihull	->	multihull	multihulls
+multi-language	->	multi-language	multi-languages
+multilateralist	->	multilateralist	multilateralists
+multilateral	->	multilateral	multilaterals
+multilayer	->	multilayer	multilayers
+multi-layer	->	multi-layer	multi-layers
+multilevel	->	multilevel	multilevelled
+multilist	->	multilist	multilists
+multiload	->	multiloads	multiload	multiloaded
+multimelta	->	multimeltas	multimelta
+multimeter	->	multimeter	multimeters
+multi-millionaire	->	multi-millionaire	multi-millionaires
+multi-national	->	multi-nationals	multi-national
+multinational	->	multinational	multinationals
+multipack	->	multipacks	multipack
+multipara	->	multiparas	multipara
+multiple	->	multiple	multiples	multipled
+multiple-stress	->	multiple-stresses	multiple-stress
+multiple-unit	->	multiple-unit	multiple-units
+multiplexer	->	multiplexer	multiplexers
+multiplex	->	multiplex	multiplexing	multiplexed
+multiplexor	->	multiplexors	multiplexor
+multiplication	->	multiplication	multiplications
+multiplicity	->	multiplicities	multiplicity
+multiplier	->	multipliers	multiplier
+multiply	->	multiplies	multiplying	multiplied	multiply
+multipoint	->	multipoint	multipointed
+multi-point	->	multi-point	multi-points
+multi-portion	->	multi-portion	multi-portions
+multiport	->	multiport	multiports
+multiprocessor	->	multiprocessor	multiprocessors
+multi-processor	->	multi-processor	multi-processors
+multi-source	->	multi-sources	multi-source
+multi-sport	->	multi-sport	multi-sports
+multi-storey	->	multi-storey	multi-storeys
+multithread	->	multithreaded	multithreading
+multi-track	->	multi-track	multi-tracks
+multitude	->	multitude	multitudes
+multi-user	->	multi-user	multi-users
+multiview	->	multiviews	multiview
+multivitamin	->	multivitamin	multivitamins
+multi-vitamin	->	multi-vitamin	multi-vitamins
+mulverin	->	mulverins	mulverin
+mumble	->	mumbling	mumbled	mumble	mumbles
+mumbler	->	mumblers	mumbler
+mummer	->	mummers	mummer
+mummery	->	mummery	mummeries	mummerys
+mummy	->	mummy	mummies
+mummify	->	mummifying	mummifies
+mum	->	mum	mums	mumming
+munch	->	munching	munch	munched	munches
+muncher	->	muncher	munchers
+munchkin	->	munchkin	munchkins
+munchy	->	munchies	munchy
+mundanity	->	mundanity	mundanities
+mundell	->	mundell	mundells
+municipality	->	municipalities	municipality
+municipal	->	municipal	municipals
+muniment	->	muniment	muniments
+munition	->	munitions	munition
+munroist	->	munroist	munroists
+muon	->	muon	muons
+muppet	->	muppet	muppets
+mural	->	murals	mural
+muralist	->	muralists	muralist
+murat	->	murat	murats
+murder	->	murder	murdered	murders	murdering
+murderer	->	murderer	murderers
+murdre	->	murdre	murdres
+mure	->	mure	mures
+muricacean	->	muricaceans	muricacean
+murid	->	murid	murids
+murillo	->	murillo	murillos
+murky	->	murky	murkier	murkiest
+murk	->	murk	murks
+murmur	->	murmurs	murmured	murmuring	murmur
+muro	->	muros	muro
+murre	->	murre	murres
+mur	->	mur	murs
+muscadet	->	muscadet	muscadets
+muscatel	->	muscatel	muscatels
+muscleman	->	musclemen	muscleman
+muscle-man	->	muscle-man	muscle-men
+muscle	->	muscle	muscles	muscled	muscling
+muscovite	->	muscovite	muscovites
+musem	->	musems	musem
+musette	->	musette	musettes
+museum	->	museums	museum
+musgrove	->	musgrove	musgroves
+musher	->	musher	mushers
+mush	->	mush	mushes	mushed
+mushroom	->	mushroomed	mushrooms	mushroom	mushrooming
+musicale	->	musicale	musicales
+musical	->	musical	musicals
+musicassette	->	musicassettes	musicassette
+music-box	->	music-box	music-boxes
+music-hall	->	music-hall	music-halls
+musichip	->	musichip	musichips
+musician	->	musician	musicians
+music-lover	->	music-lovers	music-lover
+musicologist	->	musicologist	musicologists
+music	->	music	musics
+musidisc	->	musidiscs	musidisc
+muse	->	muses	musing	mused	muse
+musket	->	muskets	musket
+musket-ball	->	musket-ball	musket-balls
+musketeer	->	musketeers	musketeer
+musky	->	musky	muskier
+muskrat	->	muskrat	muskrats
+musk	->	musk	musks
+muslim	->	muslims	muslim
+muslin	->	muslin	muslins
+muso	->	musos	muso
+muss	->	muss	mussed	mussing
+mussel	->	mussels	mussel
+mussulman	->	mussulmen	mussulman
+mussy	->	mussies	mussy
+mustajew	->	mustajew	mustajews
+mustang	->	mustang	mustangs
+mustard-plaster	->	mustard-plasters	mustard-plaster
+mustard	->	mustard	mustards	mustarded
+mustelid	->	mustelids	mustelid
+muster	->	muster	mustered	musters	mustering
+musty	->	musty	mustiest
+must	->	must	musts
+mutability	->	mutability	mutabilities
+mutagen	->	mutagens	mutagen
+mutant	->	mutant	mutants
+mutate	->	mutate	mutating	mutated	mutates
+mutation	->	mutations	mutation
+mutilate	->	mutilating	mutilate	mutilates
+mutilation	->	mutilation	mutilations
+mutineer	->	mutineers	mutineer
+mute	->	mute	muting	mutes
+mutiny	->	mutiny	mutinied	mutinies	mutinying
+mutter	->	mutter	muttered	muttering	mutters
+mutton-chop	->	mutton-chop	mutton-chops
+mutton	->	mutton	muttons
+mutt	->	mutt	mutts
+mutualise	->	mutualise	mutualised
+mutuality	->	mutualities	mutuality
+mutual	->	mutual	mutuals
+muvver	->	muvver	muvvers
+muzhik	->	muzhiks	muzhik
+muzzle	->	muzzle	muzzled	muzzles	muzzling
+mvoement	->	mvoement	mvoements
+m-way	->	m-way	m-ways
+m-word	->	m-word	m-words
+mycenaean	->	mycenaean	mycenaeans
+mycenean	->	mycenean	myceneans
+mycologist	->	mycologist	mycologists
+mycoplasma	->	mycoplasma	mycoplasmas
+mycoprotein	->	mycoprotein	mycoproteins
+mycotoxin	->	mycotoxin	mycotoxins
+myeloma	->	myeloma	myelomas
+mylonite	->	mylonites	mylonite
+mynah	->	mynah	mynahs
+myocyte	->	myocyte	myocytes
+myofibroblast	->	myofibroblasts	myofibroblast
+myofilament	->	myofilaments	myofilament
+myoglobin	->	myoglobin	myoglobins
+myopathy	->	myopathy	myopathies
+myope	->	myope	myopes
+myopic	->	myopic	myopics
+myrcan	->	myrcan	myrcans
+myriad	->	myriad	myriads
+myrmidon	->	myrmidons	myrmidon
+myrtle	->	myrtle	myrtles
+mystery	->	mystery	mysteries
+mysticete	->	mysticetes	mysticete
+mystic	->	mystic	mystics
+mystification	->	mystification	mystifications
+mystify	->	mystify	mystifies	mystified	mystifying
+mystique	->	mystique	mystiques
+myth	->	myths	myth
+mythago	->	mythago	mythagos
+myth-maker	->	myth-makers	myth-maker
+mythmaker	->	mythmaker	mythmakers
+mytho	->	mythos	mytho
+mythologise	->	mythologised	mythologising
+mythologist	->	mythologist	mythologists
+mythologize	->	mythologize	mythologized	mythologizes
+mythology	->	mythologies	mythology
+nab	->	nabbed	nab	nabs	nabbing
+nabataean	->	nabataean	nabataeans
+nablab	->	nablab	nablabs
+nabob	->	nabobs	nabob
+nacelle	->	nacelle	nacelles
+nacho	->	nachos	nacho
+nack	->	nack	nacks
+nacod	->	nacods	nacod
+nadir	->	nadir	nadirs
+nadi	->	nadi	nadis
+naff	->	naff	naffest	naffed	naffs
+naga	->	naga	nagas
+nagger	->	nagger	naggers
+nag	->	nag	nagging	nagged	nags
+naiad	->	naiads	naiad
+nail-clipping	->	nail-clipping	nail-clippings
+nailer	->	nailers	nailer
+nail-head	->	nail-heads	nail-head
+nailmaker	->	nailmaker	nailmakers
+nail	->	nail	nails	nailed	nailing
+nain	->	nains	nain
+naivety	->	naivety	naiveties
+naja	->	najas	naja
+nakoda	->	nakoda	nakodas
+nama	->	namas	nama
+nameboard	->	nameboard	nameboards
+name-board	->	name-board	name-boards
+name-check	->	name-checks	name-check
+namecheck	->	namechecks	namechecked	namecheck
+name-dropper	->	name-dropper	name-droppers
+name-plate	->	name-plates	name-plate
+nameplate	->	nameplate	nameplates
+namer	->	namers	namer
+name	->	name	names	naming	named
+namesake	->	namesakes	namesake
+nametag	->	nametags	nametag
+name-tag	->	name-tag	name-tags
+name-tape	->	name-tape	name-tapes
+namibian	->	namibian	namibians
+namy	->	namy	namys
+nanai	->	nanai	nanais
+nana	->	nana	nanas
+nancy-boy	->	nancy-boy	nancy-boys
+nanny	->	nanny	nannies	nannying	nannied
+nannofossil	->	nannofossils	nannofossil
+nanoceph	->	nanoceph	nanocephs
+nanocomposite	->	nanocomposite	nanocomposites
+nanogram	->	nanogram	nanograms
+nanometre	->	nanometres	nanometre
+nanosecond	->	nanoseconds	nanosecond
+nanotube	->	nanotubes	nanotube
+nan	->	nan	nans	nanning
+nao	->	nao	naos
+napalm	->	napalms	napalm	napalmed
+nape	->	nape	napes
+napkin	->	napkins	napkin
+nappe	->	nappe	nappes
+nap	->	nap	napping	naps	napped
+nappy	->	nappies	nappy
+narcissist	->	narcissists	narcissist
+narcotic	->	narcotic	narcotics
+nare	->	nares	nare
+narghil	->	narghils	narghil
+nark	->	nark	narking	narked	narks
+narrate	->	narrated	narrates	narrate	narrating
+narration	->	narration	narrations
+narrative	->	narrative	narratives
+narrator	->	narrator	narrators
+narrowboat	->	narrowboats	narrowboat	narrowboating
+narrowcast	->	narrowcasting	narrowcast
+narrow	->	narrow	narrower	narrows	narrowed	narrowing	narrowest
+narwhal	->	narwhals	narwhal
+nasal	->	nasal	nasals
+nasserist	->	nasserist	nasserists
+nasty	->	nasty	nastier	nasties	nastiest
+nasturtium	->	nasturtiums	nasturtium
+nate	->	nate	nates	nating
+nationale	->	nationale	nationales
+nationalisation	->	nationalisation	nationalisations
+nationalise	->	nationalising	nationalise
+nationalism	->	nationalism	nationalisms
+nationaliste	->	nationalistes	nationaliste
+nationalist	->	nationalist	nationalists
+nationality	->	nationality	nationalities
+nationalization	->	nationalization	nationalizations
+nationalize	->	nationalizing	nationalize
+national	->	national	nationals
+nation	->	nation	nations
+nation-state	->	nation-state	nation-states
+native	->	native	natives
+native-speaker	->	native-speaker	native-speakers
+nativist	->	nativists	nativist
+natro	->	natro	natros
+nat	->	nat	natter
+natty	->	natty	nattier
+natural-fibre	->	natural-fibres	natural-fibre
+naturalise	->	naturalising	naturalise	naturalised	naturalises
+naturalist-explorer	->	naturalist-explorer	naturalist-explorers
+naturalist	->	naturalist	naturalists
+naturalization	->	naturalization	naturalizations
+naturalize	->	naturalize	naturalizes	naturalizing
+natural	->	natural	naturals
+nature-lover	->	nature-lover	nature-lovers
+naturel	->	naturel	naturels
+nature	->	nature	natures
+nature-spirit	->	nature-spirit	nature-spirits
+naturist	->	naturist	naturists
+naturopath	->	naturopath	naturopaths
+naughty	->	naughty	naughtier	naughtiest	naughties
+nauseate	->	nauseated	nauseates	nauseate
+nautiloid	->	nautiloids	nautiloid
+navaid	->	navaids	navaid
+navajo	->	navajo	navajos
+navarran	->	navarrans	navarran
+navel	->	navel	navels
+nave	->	nave	naves
+navy	->	navy	navies
+navigate	->	navigate	navigating	navigated	navigates
+navigation	->	navigation	navigations
+navigator	->	navigator	navigators
+nav	->	nav	navs
+navvy	->	navvies	navvying	navvy
+nawab	->	nawab	nawabs
+naxalite	->	naxalites	naxalite
+naxian	->	naxian	naxians
+naya	->	naya	nayas
+nazarean	->	nazarean	nazareans
+nazi	->	nazi	nazis
+nde	->	ndes	nde
+ndo	->	ndo	ndos
+neanderthal	->	neanderthal	neanderthals
+neapolitan	->	neapolitan	neapolitans
+neap	->	neap	neaps
+near	->	nearest	near	nearer	nearing	neared	nears
+near-certainty	->	near-certainty	near-certainties
+near-collision	->	near-collision	near-collisions
+near-contemporary	->	near-contemporary	near-contemporaries
+near-drowning	->	near-drowning	near-drownings
+nearly-man	->	nearly-man	nearly-men
+nearly-silence	->	nearly-silence	nearly-silences
+near-miss	->	near-misses	near-miss
+near-neighbour	->	near-neighbours	near-neighbour
+nearness	->	nearness	nearnesses
+near-ruin	->	near-ruins	near-ruin
+near-stranger	->	near-stranger	near-strangers
+near-synonym	->	near-synonyms	near-synonym
+neaten	->	neatened	neaten	neatening
+neat	->	neat	neater	neatest	neats
+neave	->	neave	neaves
+neb	->	nebs	neb
+nebbish	->	nebbish	nebbishes
+nebe	->	nebes	nebe
+nebula	->	nebula	nebulae	nebulas
+nebulan	->	nebulan	nebulans
+nebuliser	->	nebuliser	nebulisers
+nebulosity	->	nebulosities	nebulosity
+necessary	->	necessary	necessaries
+necessitate	->	necessitated	necessitate	necessitating	necessitates
+necessity	->	necessity	necessities
+neckband	->	neckband	neckbands
+neck-chain	->	neck-chains	neck-chain
+neckcloth	->	neckcloths	neckcloth
+neckerchief	->	neckerchief	neckerchiefs
+necklace	->	necklaces	necklace	necklacing	necklaced
+necklet	->	necklet	necklets
+neckline	->	neckline	necklines
+neckplate	->	neckplates	neckplate
+neck	->	neck	necks	necking	necked
+necromancer	->	necromancers	necromancer
+necropsy	->	necropsies	necropsy
+nectarine	->	nectarine	nectarines
+nectar	->	nectar	nectars
+nectary	->	nectaries	nectary
+ned	->	ned	neds
+neebor	->	neebors	neebor
+need	->	needed	need	needs	needing
+needy	->	needy	neediest
+needle	->	needles	needle	needling	needled
+needle-point	->	needle-points	needle-point
+needlepoint	->	needlepoint	needlepoints
+needler	->	needlers	needler
+needlestick	->	needlestick	needlesticks
+needle-thin	->	needle-thin	needle-thins
+needlewoman	->	needlewomen	needlewoman
+needleworker	->	needleworkers	needleworker
+neel	->	neel	neels
+neep	->	neeps	neep
+ne'er-do-well	->	ne'er-do-well	ne'er-do-wells
+nefo	->	nefo	nefos
+nef	->	nef	nefs
+neg	->	negs	neg
+negate	->	negate	negated	negates	negating
+negation	->	negation	negations
+negative	->	negative	negatives	negatived	negativing
+neglect	->	neglecting	neglect	neglected	neglects
+negligee	->	negligee	negligees
+negligence	->	negligence	negligences
+negligent	->	negligent	negligenter
+negociate	->	negociated	negociate
+negotiate	->	negotiated	negotiates	negotiating	negotiate
+negotiation	->	negotiation	negotiations
+negotiator	->	negotiators	negotiator
+negress	->	negress	negresses
+negrito	->	negritos	negrito
+negro	->	negro	negros
+neigbour	->	neigbouring	neigbours
+neigh	->	neighing	neigh	neighs	neighed
+neighborhood	->	neighborhoods	neighborhood
+neighbor	->	neighbor	neighbors
+neighbourhood	->	neighbourhood	neighbourhoods
+neighbour	->	neighbour	neighbours	neighboured	neighbouring
+neilan	->	neilan	neilans
+nelly	->	nelly	nellies
+nem	->	nems	nem
+nematode	->	nematode	nematodes
+nemertean	->	nemerteans	nemertean
+nemesia	->	nemesias	nemesia
+neo-classicist	->	neo-classicist	neo-classicists
+neo-colonialist	->	neo-colonialists	neo-colonialist
+neocolor	->	neocolor	neocolors
+neo-conservative	->	neo-conservative	neo-conservatives
+neo-darwinist	->	neo-darwinist	neo-darwinists
+neo-elitist	->	neo-elitist	neo-elitists
+neo-expressionist	->	neo-expressionists	neo-expressionist
+neo-fascist	->	neo-fascists	neo-fascist
+neo-freudian	->	neo-freudians	neo-freudian
+neo-georgian	->	neo-georgian	neo-georgians
+neo-grammarian	->	neo-grammarian	neo-grammarians
+neo-impressionist	->	neo-impressionist	neo-impressionists
+neo-keynesian	->	neo-keynesian	neo-keynesians
+neo-lamarckian	->	neo-lamarckian	neo-lamarckians
+neoliberal	->	neoliberal	neoliberals
+neo-liberal	->	neo-liberal	neo-liberals
+neologism	->	neologisms	neologism
+neo-malthusian	->	neo-malthusian	neo-malthusians
+neo-marxism	->	neo-marxisms	neo-marxism
+neo-marxist	->	neo-marxist	neo-marxists
+neo-mercantilist	->	neo-mercantilists	neo-mercantilist
+neonate	->	neonate	neonates
+neonatologist	->	neonatologists	neonatologist
+neo-nazi	->	neo-nazis	neo-nazi
+neon	->	neon	neons
+neon-sign	->	neon-sign	neon-signs
+neophyte	->	neophyte	neophytes
+neoplasia	->	neoplasia	neoplasias
+neoplasm	->	neoplasm	neoplasms
+neo-populist	->	neo-populist	neo-populists
+neo-realist	->	neo-realists	neo-realist
+neo-romantic	->	neo-romantic	neo-romantics
+neo	->	neo	neos
+neo-weberian	->	neo-weberian	neo-weberians
+nepeta	->	nepeta	nepetas
+nephelinite	->	nephelinite	nephelinites
+nephew	->	nephew	nephews
+nephrologist	->	nephrologist	nephrologists
+nerd	->	nerds	nerd
+nereid	->	nereids	nereid
+nerine	->	nerine	nerines
+nerve	->	nerves	nerve	nerved	nerving
+nerve-cell	->	nerve-cells	nerve-cell
+nerve-centre	->	nerve-centres	nerve-centre
+nerve-end	->	nerve-ends	nerve-end
+nerve-ending	->	nerve-endings	nerve-ending
+nervous-system	->	nervous-systems	nervous-system
+ne	->	ne	nes
+ness	->	ness	nesses
+n'	->	n'	n'est
+nestbox	->	nestbox	nestboxes
+nest-box	->	nest-box	nest-boxes
+nest-egg	->	nest-egg	nest-eggs
+nester	->	nesters	nester
+nest-hole	->	nest-holes	nest-hole
+nestle-rowntree	->	nestle-rowntrees	nestle-rowntree
+nestle	->	nestled	nestling	nestles	nestle
+nestmate	->	nestmate	nestmates
+nestorian	->	nestorian	nestorians
+nest-owner	->	nest-owners	nest-owner
+nest	->	nest	nests	nested	nesting
+netframe	->	netframe	netframes
+nethercott	->	nethercott	nethercotts
+netherlander	->	netherlanders	netherlander
+nether	->	nether	nethers
+netserver	->	netserver	netservers
+netsman	->	netsmen	netsman
+netsuke	->	netsuke	netsukes
+netta	->	netta	nettas
+net	->	net	netted	nets	netting	netter
+netty	->	netty	netties
+nettle	->	nettles	nettle	nettled
+net-work	->	net-works	net-work
+network	->	network	networks	networking	networked
+neum	->	neums	neum
+neuralgia	->	neuralgia	neuralgias
+neuregulin	->	neuregulin	neuregulins
+neurite	->	neurite	neurites
+neuroanatomist	->	neuroanatomist	neuroanatomists
+neurobiology	->	neurobiology	neurobiologies
+neurobiologist	->	neurobiologist	neurobiologists
+neuroblast	->	neuroblasts	neuroblast
+neurochemist	->	neurochemists	neurochemist
+neuroleptic	->	neuroleptic	neuroleptics
+neurologist	->	neurologists	neurologist
+neuron	->	neurons	neuron
+neurone	->	neurones	neurone
+neuropathy	->	neuropathy	neuropathies
+neuropeptide	->	neuropeptides	neuropeptide
+neurophysiologist	->	neurophysiologists	neurophysiologist
+neuropsychologist	->	neuropsychologists	neuropsychologist
+neuroscience	->	neuroscience	neurosciences
+neuro-science	->	neuro-science	neuro-sciences
+neuroscientist	->	neuroscientists	neuroscientist
+neurosis	->	neuroses	neurosis
+neurosurgeon	->	neurosurgeon	neurosurgeons
+neuro-surgeon	->	neuro-surgeon	neuro-surgeons
+neurotic	->	neurotic	neurotics
+neurotoxin	->	neurotoxin	neurotoxins
+neurotransmitter	->	neurotransmitter	neurotransmitters
+neurtophil	->	neurtophils	neurtophil
+neustrian	->	neustrian	neustrians
+neuter	->	neutered	neuter	neutering	neuters
+neutralisation	->	neutralisation	neutralisations
+neutralise	->	neutralise	neutralising	neutralised	neutralises
+neutralist	->	neutralist	neutralists
+neutralization	->	neutralization	neutralizations
+neutralize	->	neutralize	neutralizing	neutralizes	neutralized
+neutral	->	neutral	neutrals
+neutrino	->	neutrinos	neutrino
+neutron	->	neutrons	neutron
+neutrophil	->	neutrophils	neutrophil
+never-never-land	->	never-never-lands	never-never-land
+never	->	never	nevers
+newborn	->	newborn	newborns
+new-boy	->	new-boy	new-boys
+newcastle	->	newcastle	newcastles
+newcome	->	newcomes	newcome
+newcomer	->	newcomers	newcomer
+new-comer	->	new-comers	new-comer
+newel	->	newel	newels
+new	->	new	newer	newest
+newe	->	newe	newes
+newley	->	newley	newleys
+newly-qualified	->	newly-qualified	newly-qualifieds
+newlywed	->	newlyweds	newlywed
+newly-wed	->	newly-weds	newly-wed
+newmanite	->	newmanites	newmanite
+newpaper	->	newpapers	newpaper
+new-product	->	new-product	new-products
+'new	->	'new	'news
+newsagency	->	newsagency	newsagencies
+newsagent	->	newsagents	newsagent
+newsbook	->	newsbooks	newsbook
+news-book	->	news-book	news-books
+newsboy	->	newsboys	newsboy
+newsbreak	->	newsbreak	newsbreaks
+newscast	->	newscasts	newscast
+newscaster	->	newscasters	newscaster
+newsclip	->	newsclipping	newsclips
+newsdesk	->	newsdesk	newsdesks
+newsfax	->	newsfax	newsfaxes
+newsflash	->	newsflash	newsflashes
+newsheet	->	newsheet	newsheets
+newshound	->	newshounds	newshound
+newsletter	->	newsletter	newsletters
+news-letter	->	news-letter	news-letters
+newsline	->	newslines	newsline
+newsman	->	newsmen	newsman
+newsome	->	newsome	newsomes
+newspaperman	->	newspaperman	newspapermen
+newspaper	->	newspaper	newspapers
+newsreader	->	newsreaders	newsreader
+news-reader	->	news-reader	news-readers
+newsreel	->	newsreel	newsreels
+newsroom	->	newsroom	newsrooms
+newssheet	->	newssheets	newssheet
+news-sheet	->	news-sheet	news-sheets
+news-stand	->	news-stands	news-stand
+newsstand	->	newsstand	newsstands
+newswrite	->	newswriter	newswrite
+newtonian	->	newtonian	newtonians
+newton	->	newton	newtons
+new-town	->	new-town	new-towns
+newt	->	newt	newts
+newview	->	newviews	newview
+nextstation	->	nextstation	nextstations
+nf	->	nf	nfer
+nganasan	->	nganasans	nganasan
+n-gram	->	n-grams	n-gram
+nh	->	nher	nh
+nha	->	nha	nhas
+nia	->	nia	nias
+nib	->	nibs	nib
+nibble	->	nibbling	nibble	nibbled	nibbles
+nibbler	->	nibblers	nibbler
+niblick	->	niblick	niblicks
+ni-cad	->	ni-cads	ni-cad
+nicaraguan	->	nicaraguans	nicaraguan
+nice	->	nice	nicer	nicest
+nicety	->	niceties	nicety
+nich	->	niches	nich	niched
+nick	->	nick	nicked	nicks	nicking
+nickelodeon	->	nickelodeons	nickelodeon
+nickel	->	nickel	nickels
+nicker	->	nicker	nickering	nickered
+nickleby	->	nickleby	nicklebys
+nick-nack	->	nick-nacks	nick-nack
+nickname	->	nicknames	nickname	nicknamed	nicknaming
+nick-name	->	nick-name	nick-named	nick-names
+nicol	->	nicol	nicols
+nico	->	nico	nicos
+nicotine	->	nicotine	nicotined
+niebuhr	->	niebuhr	niebuhrs
+niece	->	nieces	niece
+niel	->	niel	niels
+nieman	->	niemen	nieman
+nie	->	nie	nies
+niet	->	niets	niet
+niff	->	niffed	niff
+nif	->	nif	nifs
+nifty	->	nifty	niftiest
+nigerian	->	nigerian	nigerians
+nigga	->	nigga	niggas
+nigger	->	nigger	niggers
+niggle	->	niggles	niggle	niggled	niggling
+niggler	->	niggler	nigglers
+nightbird	->	nightbirds	nightbird
+nightcap	->	nightcap	nightcaps
+night-cap	->	night-cap	night-caps
+night-club	->	night-clubs	night-club
+nightclub	->	nightclub	nightclubs	nightclubbing
+nightdress	->	nightdresses	nightdress
+night-dress	->	night-dress	night-dresses
+night-fighter	->	night-fighters	night-fighter
+nightgown	->	nightgown	nightgowns
+nighthawk	->	nighthawk	nighthawks
+nightie	->	nightie	nighties
+nightingale	->	nightingale	nightingales
+nightjar	->	nightjars	nightjar
+nightlight	->	nightlights	nightlight
+night-light	->	night-light	night-lights
+nightline	->	nightlines	nightline
+nightmare	->	nightmare	nightmares
+night	->	night	nights	nighter
+night-scene	->	night-scenes	night-scene
+nightschool	->	nightschool	nightschools
+nightshade	->	nightshade	nightshades
+nightshelter	->	nightshelter	nightshelters
+nightshift	->	nightshift	nightshifts
+night-shift	->	night-shift	night-shifts
+nightshirt	->	nightshirt	nightshirts
+night-shirt	->	night-shirt	night-shirts
+night-sight	->	night-sight	night-sights
+nightsit	->	nightsitting	nightsit
+nightspot	->	nightspots	nightspot
+night-spot	->	night-spots	night-spot
+nightstick	->	nightstick	nightsticks
+night-time	->	night-time	night-times
+night-watchman	->	night-watchmen	night-watchman
+nightwatchman	->	nightwatchman	nightwatchmen
+nightwood	->	nightwood	nightwoods
+night-worker	->	night-workers	night-worker
+nignog	->	nignogs	nignog
+nig-nog	->	nig-nogs	nig-nog
+nig	->	nig	nigs
+nihilist	->	nihilists	nihilist
+nike	->	nike	nikes
+nikon	->	nikon	nikons
+nil	->	nils	nil
+nimby	->	nimby	nimbies	nimbys
+nimble	->	nimble	nimbled
+nimbl	->	nimbler	nimblest
+nincompoop	->	nincompoops	nincompoop
+nine-day	->	nine-day	nine-days
+nine-month	->	nine-month	nine-months
+nine-panel	->	nine-panels	nine-panel
+nine-pin	->	nine-pins	nine-pin
+nine-pounder	->	nine-pounder	nine-pounders
+nineteen-year-old	->	nineteen-year-old	nineteen-year-olds
+nine-to-fiver	->	nine-to-fiver	nine-to-fivers
+ninety-year-old	->	ninety-year-old	ninety-year-olds
+nine-year-old	->	nine-year-old	nine-year-olds
+ninfanian	->	ninfanians	ninfanian
+ninny	->	ninny	ninnies
+ninnin	->	ninnin	ninnins
+nip	->	nipped	nip	nips	nipping
+nipper	->	nipper	nippers
+nippy	->	nippy	nippier
+nipple	->	nipples	nipple	nippled
+nirvana	->	nirvana	nirvanas
+nit	->	nits	nit
+nitpick	->	nitpick	nitpicking
+nitrate	->	nitrates	nitrate
+nitride	->	nitride	nitriding
+nitrite	->	nitrite	nitrites
+nitrogen-fixer	->	nitrogen-fixer	nitrogen-fixers
+nitrogen	->	nitrogen	nitrogens
+nitro-organic	->	nitro-organic	nitro-organics
+nitrosamine	->	nitrosamines	nitrosamine
+nitty-gritty	->	nitty-gritty	nitty-gritties
+nitwit	->	nitwits	nitwit
+nivelle	->	nivelle	nivelles
+nive	->	nive	nives
+nivkh	->	nivkhs	nivkh
+nix	->	nixed	nix	nixes
+nob	->	nobs	nob
+no-ball	->	no-balls	no-ball
+nobble	->	nobbled	nobbles	nobble	nobbling
+nobile	->	nobile	nobiles
+nobility	->	nobility	nobilities
+nobleman	->	noblemen	nobleman
+noble	->	noble	nobles
+nobl	->	nobler	noblest
+nobody	->	nobody	nobodies
+nociceptor	->	nociceptors	nociceptor
+nock	->	nock	nocked	nocks
+no-claim	->	no-claims	no-claim
+no-cost	->	no-cost	no-costs
+nocturnal	->	nocturnal	nocturnals
+nocturne	->	nocturne	nocturnes
+noddy	->	noddy	noddies
+noddle	->	noddle	noddles
+node	->	nodes	node	noded
+nod	->	nodded	nods	nod	nodding
+nodule	->	nodules	nodule
+noe	->	noes	noe
+noggin	->	noggin	noggins
+no-go	->	no-go	no-gos
+no-hoper	->	no-hopers	no-hoper
+noir	->	noir	noirs
+noise-bar	->	noise-bars	noise-bar
+noisenik	->	noiseniks	noisenik
+noise	->	noise	noises
+noisette	->	noisettes	noisette
+noisy	->	noisy	noisier	noisiest
+noke	->	noke	nokes
+nomad	->	nomads	nomad
+noman	->	nomen	noman
+no-man	->	no-man	no-mans	no-men
+nome	->	nome	nomes
+nominalisation	->	nominalisation	nominalisations
+nominalization	->	nominalization	nominalizations
+nominal	->	nominal	nominals
+nominate	->	nominated	nominate	nominates	nominating
+nomination	->	nominations	nomination
+nominator	->	nominator	nominators
+nominee	->	nominees	nominee
+nomine	->	nomine	nomines
+nomogram	->	nomogram	nomograms
+non-academic	->	non-academic	non-academics
+non-accountant	->	non-accountant	non-accountants
+non-adult	->	non-adult	non-adults
+nonagenarian	->	nonagenarians	nonagenarian
+non-alcoholic	->	non-alcoholic	non-alcoholics
+non-american	->	non-american	non-americans
+nonamer	->	nonamer	nonamers
+no-name	->	no-name	no-names
+non-anglican	->	non-anglican	non-anglicans
+non-answer	->	non-answer	non-answers
+non-arab	->	non-arabs	non-arab
+non-arrival	->	non-arrival	non-arrivals
+non-art	->	non-art	non-arts
+non-bank	->	non-bank	non-banks
+non-behaviourist	->	non-behaviourist	non-behaviourists
+non-believer	->	non-believer	non-believers
+non-biologist	->	non-biologist	non-biologists
+non-black	->	non-black	non-blacks
+non-book	->	non-book	non-books
+non-carer	->	non-carers	non-carer
+non-case	->	non-cases	non-case
+non-catholic	->	non-catholic	non-catholics
+nonce	->	nonce	nonces
+non-christian	->	non-christian	non-christians
+non-cichlid	->	non-cichlids	non-cichlid
+non-citation	->	non-citation	non-citations
+non-client	->	non-client	non-clients
+non-climber	->	non-climbers	non-climber
+non-colitic	->	non-colitic	non-colitics
+non-collector	->	non-collector	non-collectors
+non-combatant	->	non-combatants	non-combatant
+non-communist	->	non-communist	non-communists
+non-computer	->	non-computer	non-computers
+non-conformance	->	non-conformance	non-conformances
+non-conformer	->	non-conformer	non-conformers
+nonconformist	->	nonconformist	nonconformists
+non-conformist	->	non-conformist	non-conformists
+non-conservative	->	non-conservative	non-conservatives
+non-conserver	->	non-conservers	non-conserver
+non-consultant	->	non-consultant	non-consultants
+non-consumer	->	non-consumer	non-consumers
+non-criminal	->	non-criminal	non-criminals
+non-customer	->	non-customers	non-customer
+non-decision	->	non-decisions	non-decision
+non-delinquent	->	non-delinquent	non-delinquents
+non-descriptor	->	non-descriptors	non-descriptor
+nondescript	->	nondescript	nondescripts
+non-detection	->	non-detection	non-detections
+non-deviant	->	non-deviants	non-deviant
+non-diabetic	->	non-diabetic	non-diabetics
+non-document	->	non-documents	non-document
+non-drinker	->	non-drinker	non-drinkers
+non-driver	->	non-drivers	non-driver
+non-drug	->	non-drugs	non-drug
+non-durable	->	non-durables	non-durable
+non-earning	->	non-earning	non-earnings
+non-economist	->	non-economists	non-economist
+non-eligible	->	non-eligible	non-eligibles
+non-elite	->	non-elite	non-elites
+non-emergency	->	non-emergency	non-emergencies
+non-employee	->	non-employees	non-employee
+nonentity	->	nonentity	nonentities
+non-entity	->	non-entity	non-entities
+none	->	none	nones
+non-essential	->	non-essential	non-essentials
+non-european	->	non-european	non-europeans
+non-evangelical	->	non-evangelicals	non-evangelical
+non-event	->	non-event	non-events
+non-executive	->	non-executive	non-executives
+non-existent	->	non-existent	non-existents
+non-experience	->	non-experiences	non-experience
+non-expert	->	non-experts	non-expert
+non-factive	->	non-factive	non-factives
+non-feminist	->	non-feminist	non-feminists
+non-gascon	->	non-gascons	non-gascon
+non-gay	->	non-gay	non-gays
+non-german	->	non-german	non-germans
+non-golfer	->	non-golfer	non-golfers
+non-goyigama	->	non-goyigama	non-goyigamas
+non-graduate	->	non-graduates	non-graduate
+non-greek	->	non-greek	non-greeks
+non-hippy	->	non-hippy	non-hippies
+non-homosexual	->	non-homosexual	non-homosexuals
+non-human	->	non-human	non-humans
+non-hungarian	->	non-hungarians	non-hungarian
+non-identity	->	non-identity	non-identities
+non-indian	->	non-indians	non-indian
+non-intellectual	->	non-intellectuals	non-intellectual
+non-intimate	->	non-intimate	non-intimates
+non-ionic	->	non-ionic	non-ionics
+non-israelite	->	non-israelites	non-israelite
+non-issue	->	non-issue	non-issues
+non-italian	->	non-italian	non-italians
+non-jacobite	->	non-jacobite	non-jacobites
+non-jew	->	non-jew	non-jews
+nonjuror	->	nonjurors	nonjuror
+non-juror	->	non-jurors	non-juror
+non-kinsman	->	non-kinsmen	non-kinsman
+non-lawyer	->	non-lawyers	non-lawyer
+non-libyan	->	non-libyan	non-libyans
+non-linearity	->	non-linearity	non-linearities
+non-linguist	->	non-linguists	non-linguist
+non-literate	->	non-literate	non-literates
+non-local	->	non-local	non-locals
+non-malay	->	non-malay	non-malays
+non-male	->	non-male	non-males
+non-manual	->	non-manual	non-manuals
+non-married	->	non-married	non-marrieds
+non-marxist	->	non-marxists	non-marxist
+non-meaning	->	non-meanings	non-meaning
+non-member	->	non-members	non-member
+non-man	->	non-man	non-men
+non-metallic	->	non-metallic	non-metallics
+non-metal	->	non-metal	non-metals
+non-migrant	->	non-migrant	non-migrants
+non-monogamist	->	non-monogamist	non-monogamists
+non-monopoly	->	non-monopoly	non-monopolies
+non-moslem	->	non-moslem	non-moslems
+non-mountaineer	->	non-mountaineer	non-mountaineers
+non-muppet	->	non-muppet	non-muppets
+non-musician	->	non-musicians	non-musician
+non-muslim	->	non-muslim	non-muslims
+non-national	->	non-national	non-nationals
+non-native	->	non-native	non-natives
+non-naturalist	->	non-naturalists	non-naturalist
+non-negotiable	->	non-negotiable	non-negotiables
+non-noble	->	non-noble	non-nobles
+non-nurse	->	non-nurse	non-nurses
+non-occurrence	->	non-occurrence	non-occurrences
+non-owner	->	non-owner	non-owners
+non-parent	->	non-parents	non-parent
+non-partial	->	non-partials	non-partial
+non-participant	->	non-participants	non-participant
+non-party	->	non-party	non-parties
+non-partner	->	non-partners	non-partner
+non-payer	->	non-payers	non-payer
+non-payment	->	non-payment	non-payments
+non-pensioner	->	non-pensioner	non-pensioners
+non-perishable	->	non-perishable	non-perishables
+non-person	->	non-person	non-persons
+non-pilot	->	non-pilot	non-pilots
+non-player	->	non-players	non-player
+non-politician	->	non-politicians	non-politician
+nonpossessor	->	nonpossessor	nonpossessors
+non-practice	->	non-practice	non-practices
+non-primate	->	non-primate	non-primates
+non-problem	->	non-problem	non-problems
+nonprofessional	->	nonprofessionals	nonprofessional
+non-professional	->	non-professional	non-professionals
+non-profit	->	non-profit	non-profits
+non-programmer	->	non-programmer	non-programmers
+non-racist	->	non-racist	non-racists
+non-radical	->	non-radical	non-radicals
+non-reader	->	non-readers	non-reader
+non-receptor	->	non-receptor	non-receptors
+non-recipient	->	non-recipients	non-recipient
+non-relative	->	non-relatives	non-relative
+non-representative	->	non-representative	non-representatives
+non-reproductive	->	non-reproductives	non-reproductive
+non-resident	->	non-residents	non-resident
+nonresident	->	nonresident	nonresidents
+non-resistant	->	non-resistants	non-resistant
+non-response	->	non-response	non-responses
+non-roman	->	non-roman	non-romans
+non-ruminant	->	non-ruminant	non-ruminants
+non-runner	->	non-runners	non-runner
+non-russian	->	non-russian	non-russians
+non-sailor	->	non-sailor	non-sailors
+non-scientist	->	non-scientists	non-scientist
+nonscientist	->	nonscientist	nonscientists
+non-sense	->	non-senses	non-sense
+nonsense	->	nonsense	nonsenses	nonsensed
+non-sexist	->	non-sexist	non-sexists
+non-signatory	->	non-signatories	non-signatory
+non-skier	->	non-skier	non-skiers
+non-slav	->	non-slav	non-slavs
+nonsmoker	->	nonsmokers	nonsmoker
+non-smoker	->	non-smokers	non-smoker
+non-socialist	->	non-socialist	non-socialists
+non-solicitor	->	non-solicitors	non-solicitor
+non-solution	->	non-solutions	non-solution
+non-somervillian	->	non-somervillian	non-somervillians
+nonspecialist	->	nonspecialist	nonspecialists
+non-specialist	->	non-specialist	non-specialists
+non-standard	->	non-standard	non-standards
+non-starter	->	non-starter	non-starters
+nonstop	->	nonstop	nonstops
+non-stranger	->	non-stranger	non-strangers
+non-striker	->	non-striker	non-strikers
+non-student	->	non-students	non-student
+non-subject	->	non-subjects	non-subject
+nonsuit	->	nonsuited	nonsuiting	nonsuit
+non-swimmer	->	non-swimmer	non-swimmers
+non-system	->	non-systems	non-system
+non-taxpayer	->	non-taxpayers	non-taxpayer
+non-teacher	->	non-teacher	non-teachers
+non-terminal	->	non-terminal	non-terminals
+non-tory	->	non-tory	non-tories
+non-trader	->	non-traders	non-trader
+non-tree	->	non-tree	non-trees
+non-trier	->	non-triers	non-trier
+nonuniformity	->	nonuniformity	nonuniformities
+non-unionist	->	non-unionist	non-unionists
+non-unit	->	non-units	non-unit
+non-user	->	non-users	non-user
+non-verbal	->	non-verbal	non-verbals
+non-vinyl	->	non-vinyl	non-vinyls
+non-visitor	->	non-visitor	non-visitors
+non-white	->	non-white	non-whites
+nonword	->	nonwords	nonword
+non-word	->	non-words	non-word
+non-worker	->	non-workers	non-worker
+nonwoven	->	nonwoven	nonwovens
+non-woven	->	non-woven	non-wovens
+non-writer	->	non-writer	non-writers
+noodle	->	noodles	noodle	noodling	noodled
+nook	->	nooks	nook
+noone	->	noone	noones
+noon	->	noon	noons
+noose	->	noose	nooses	noosed
+nordalbingian	->	nordalbingians	nordalbingian
+nordern	->	nordern	norderns
+nordestino	->	nordestino	nordestinos
+nordic	->	nordic	nordics
+norite	->	norite	norites
+norlander	->	norlander	norlanders
+norm	->	norms	norm
+normale	->	normale	normales
+normalise	->	normalising	normalise	normalised	normalises
+normality	->	normality	normalities
+normalize	->	normalize	normalizing	normalized
+normal	->	normal	normals
+norman	->	norman	normans
+norseman	->	norseman	norsemen
+north-easterly	->	north-easterly	north-easterlies
+north-easterner	->	north-easterners	north-easterner
+northerner	->	northerners	northerner
+northern	->	northern	northerns
+north	->	north	northing
+northland	->	northland	northlands
+northman	->	northmen	northman
+northumbrian	->	northumbrian	northumbrians
+norway	->	norway	norways
+norwegain	->	norwegain	norwegains
+norwegian	->	norwegians	norwegian
+no	->	no	nos
+'no	->	'no	'nos
+nose	->	noses	nose	nosing	nosed
+nosebag	->	nosebag	nosebags
+nose-bag	->	nose-bag	nose-bags
+noseband	->	noseband	nosebands
+nosebleed	->	nosebleeds	nosebleed
+nose-bleed	->	nose-bleed	nose-bleeds
+nosecone	->	nosecone	nosecones
+nosedive	->	nosedive	nosedived	nosedives
+nose-dive	->	nose-dive	nose-dived
+nosegay	->	nosegays	nosegay
+nosepick	->	nosepick	nosepicking
+noser	->	nosers	noser
+nose-ring	->	nose-rings	nose-ring
+nosewheel	->	nosewheels	nosewheel
+nosey	->	nosey	noseyed
+nosey-parker	->	nosey-parker	nosey-parkers
+nosh	->	nosh	noshing
+no-show	->	no-show	no-shows
+nosode	->	nosode	nosodes
+nosso	->	nosso	nossos
+nostalgia	->	nostalgia	nostalgias
+nostril	->	nostril	nostrils	nostrilling
+nostrum	->	nostrum	nostrums
+notability	->	notability	notabilities
+notable	->	notable	notables
+notam	->	notam	notams
+notary	->	notary	notaries
+notate	->	notated	notate	notating
+notation	->	notation	notations
+notch	->	notches	notch	notched	notching
+note	->	notes	note	noted	noting
+notebook	->	notebook	notebooks
+note-book	->	note-book	note-books
+notecard	->	notecards	notecard
+note-change	->	note-changes	note-change
+note-combination	->	note-combinations	note-combination
+note-group	->	note-group	note-groups
+note-length	->	note-length	note-lengths
+note-order	->	note-orders	note-order
+notepad	->	notepads	notepad
+note-pad	->	note-pads	note-pad
+notepaper	->	notepaper	notepapers
+noter	->	noter	noters
+note-succession	->	note-successions	note-succession
+nothing	->	nothing	nothings
+notice-board	->	notice-boards	notice-board
+noticeboard	->	noticeboard	noticeboards
+notice	->	notice	noticed	notices	noticing
+notification	->	notification	notifications
+notify	->	notified	notify	notifying	notifies
+notion	->	notion	notions
+no-trump	->	no-trump	no-trumps
+notturno	->	notturno	notturnos
+nought	->	nought	noughts
+nounphrase	->	nounphrase	nounphrases
+noun	->	noun	nouns
+nourish	->	nourished	nourish	nourishing	nourishes
+nouvelle	->	nouvelle	nouvelles
+nova	->	nova	novas
+novate	->	novated	novate
+novelette	->	novelettes	novelette
+novelist	->	novelist	novelists
+novella	->	novella	novellas
+novel	->	novel	novels
+novelty	->	novelty	novelties
+november	->	november	novembers
+novena	->	novenas	novena
+novia	->	novias	novia
+novice	->	novice	novices
+noviciate	->	noviciate	noviciates
+novio	->	novios	novio
+novitiate	->	novitiates	novitiate
+novo	->	novo	novos
+now	->	now	nows
+noye	->	noye	noyes
+noyon	->	noyon	noyons
+noyse	->	noyses	noyse
+nozzle	->	nozzle	nozzles
+npa	->	npa	npas
+nsa	->	nsas	nsa
+nse	->	nse	nses
+not	->	not	n't	nots	notting
+n-tuple	->	n-tuples	n-tuple
+nuage	->	nuages	nuage
+nuance	->	nuances	nuance	nuanced	nuancing
+nubbin	->	nubbins	nubbin
+nubian	->	nubian	nubians
+nubile	->	nubile	nubiles
+nub	->	nub	nubs
+nuclear-weapon	->	nuclear-weapons	nuclear-weapon
+nuclease	->	nuclease	nucleases
+nucleation	->	nucleation	nucleations
+nuclein	->	nuclein	nucleins
+nucleon	->	nucleons	nucleon
+nucleoprotein	->	nucleoprotein	nucleoproteins
+nucleoside	->	nucleoside	nucleosides
+nucleosome	->	nucleosome	nucleosomes
+nucleotide	->	nucleotides	nucleotide
+nucleus	->	nuclei	nucleus
+nuclide	->	nuclide	nuclides
+nude	->	nude	nudes	nuder
+nudge	->	nudge	nudged	nudging	nudges
+nudist	->	nudists	nudist
+nuff	->	nuff	nuffing
+nuffink	->	nuffink	nuffinks
+nuform	->	nuform	nuforms
+nugget	->	nuggets	nugget
+nuisance	->	nuisance	nuisances
+nuit	->	nuit	nuits
+nuke	->	nuke	nuking	nuked	nukes
+nullify	->	nullify	nullified	nullifying	nullifies
+null	->	null	nulls	nulling
+numan	->	numen	numan
+numb	->	numbs	numbed	numbing	numb
+number-cruncher	->	number-crunchers	number-cruncher
+numberplate	->	numberplates	numberplate
+number-plate	->	number-plate	number-plates
+number	->	number	numbers	numbered	numbering
+numbskull	->	numbskulls	numbskull
+numeral	->	numeral	numerals
+numerator	->	numerator	numerators
+numeric	->	numeric	numerics
+numismatist	->	numismatist	numismatists
+numnah	->	numnah	numnahs
+numskull	->	numskulls	numskull
+nun	->	nuns	nun
+nunatak	->	nunatak	nunataks
+nuncio	->	nuncio	nuncios
+nunnery	->	nunnery	nunneries
+nuptia	->	nuptias	nuptia
+nuptial	->	nuptial	nuptials
+nursemaid	->	nursemaids	nursemaid	nursemaiding
+nurse-maid	->	nurse-maid	nurse-maids
+nursery	->	nursery	nurseries	nurserys
+nurserymaid	->	nurserymaid	nurserymaids
+nurseryman	->	nurseryman	nurserymen
+nursery-rhyme	->	nursery-rhyme	nursery-rhymes
+nurse	->	nurse	nurses	nursing	nursed
+nursing-home	->	nursing-home	nursing-homes
+nurture	->	nurture	nurtured	nurturing	nurtures
+nurturer	->	nurturer	nurturers
+nu	->	nu	nus	nuer
+nut	->	nuts	nut	nutting	nutted
+nut-case	->	nut-cases	nut-case
+nutcase	->	nutcase	nutcases
+nutcracker	->	nutcracker	nutcrackers
+nuthatch	->	nuthatch	nuthatches
+nutmeg	->	nutmeg	nutmegged	nutmegs
+nutrient	->	nutrients	nutrient
+nutritionist	->	nutritionists	nutritionist
+nutshell	->	nutshell	nutshells
+nutter	->	nutter	nutters
+nut-tree	->	nut-trees	nut-tree
+nuture	->	nuture	nutured
+nuzzle	->	nuzzling	nuzzle	nuzzled	nuzzles
+nvq	->	nvq	nvqs
+nylon	->	nylon	nylons
+nyman	->	nymans	nyman
+nymphet	->	nymphets	nymphet
+nymphomaniac	->	nymphomaniac	nymphomaniacs
+nympho	->	nympho	nymphos
+nymph	->	nymph	nymphs
+oaa	->	oaas	oaa
+oab	->	oab	oabs
+oaf	->	oafs	oaf
+oakapple	->	oakapples	oakapple
+oak-apple	->	oak-apples	oak-apple
+oak	->	oak	oaks	oaking
+oak-tree	->	oak-tree	oak-trees
+oakwood	->	oakwoods	oakwood
+oak-wood	->	oak-wood	oak-woods
+oap	->	oaps	oap
+oare	->	oare	oares
+oarlock	->	oarlock	oarlocks
+oar	->	oar	oars
+oarsman	->	oarsmen	oarsman
+oasis	->	oasis	oases
+oast-house	->	oast-houses	oast-house
+oast	->	oast	oasts
+oatcake	->	oatcakes	oatcake
+oath	->	oath	oaths
+oba	->	oba	obas
+obbligato	->	obbligato	obbligatos
+obedience	->	obedience	obediences
+obeisance	->	obeisance	obeisances
+obelisk	->	obelisk	obelisks
+obe	->	obe	obes
+obey	->	obeyed	obey	obeying	obeys
+obfuscate	->	obfuscates	obfuscate	obfuscating	obfuscated
+obfuscation	->	obfuscation	obfuscations
+obit	->	obit	obits
+obituary	->	obituary	obituaries
+obituarist	->	obituarists	obituarist
+object	->	objects	object	objected	objecting
+object-glass	->	object-glass	object-glasses
+objectification	->	objectification	objectifications
+objectify	->	objectifies	objectifying	objectified	objectify
+objection	->	objection	objections
+objective	->	objectives	objective
+objectivist	->	objectivist	objectivists
+objectivity	->	objectivity	objectivities
+objector	->	objector	objectors
+object-relationship	->	object-relationships	object-relationship
+object-topic	->	object-topic	object-topics
+objectview	->	objectview	objectviews
+oblast	->	oblast	oblasts
+oblation	->	oblations	oblation
+oblidge	->	oblidge	oblidged
+obligate	->	obligated	obligate	obligating
+obligation	->	obligation	obligations
+oblige	->	obliging	oblige	obliges
+oblique	->	oblique	obliques
+obliquity	->	obliquity	obliquities
+obliterate	->	obliterate	obliterated	obliterating	obliterates
+oblivion	->	oblivion	oblivions
+oblong	->	oblong	oblongs
+oboe	->	oboe	oboes
+oboist	->	oboist	oboists
+obrero	->	obreros	obrero
+ob	->	ob	obs	obed
+obscenity	->	obscenity	obscenities
+obscure	->	obscure	obscured	obscurer	obscures	obscuring
+obscurity	->	obscurity	obscurities
+observable	->	observable	observables
+observance	->	observance	observances
+observation	->	observations	observation
+observa-tion	->	observa-tion	observa-tions
+observatory	->	observatory	observatories
+observe	->	observe	observed	observes	observing
+observer	->	observer	observers
+obsess	->	obsesses	obsess	obsessing
+obsessional	->	obsessional	obsessionals
+obsession	->	obsession	obsessions
+obsessive	->	obsessive	obsessives
+obsidian	->	obsidian	obsidians
+obsolete	->	obsolete	obsoleted
+obstacle	->	obstacles	obstacle
+obstetrician	->	obstetrician	obstetricians
+obstructionist	->	obstructionist	obstructionists
+obstruction	->	obstruction	obstructions
+obstruct	->	obstruct	obstructs	obstructed	obstructing
+obstruent	->	obstruents	obstruent
+obtain	->	obtained	obtain	obtaining	obtains
+obtrude	->	obtruded	obtrude	obtrudes	obtruding
+obviate	->	obviate	obviates	obviated	obviating
+ocarina	->	ocarinas	ocarina
+occasion	->	occasions	occasion	occasioned	occasioning
+occassion	->	occassion	occassions
+occidentale	->	occidentale	occidentales
+occlude	->	occludes	occlude	occluded	occluding
+occluder	->	occluder	occluders
+occlusion	->	occlusion	occlusions
+occultation	->	occultation	occultations
+occultist	->	occultist	occultists
+occupancy	->	occupancy	occupancies
+occupant	->	occupant	occupants
+occupational-pension	->	occupational-pension	occupational-pensions
+occupation	->	occupation	occupations
+occupy	->	occupy	occupied	occupies	occupying	occupyed
+occupier	->	occupier	occupiers
+occur	->	occurring	occur	occurred	occurs
+occurence	->	occurence	occurences
+occure	->	occured	occuring	occure	occures
+occurrence	->	occurrence	occurrences
+oceanic	->	oceanic	oceanics
+oceanographer	->	oceanographer	oceanographers
+oceano	->	oceano	oceanos
+ocean	->	ocean	oceans
+ocelot	->	ocelot	ocelots
+ochil	->	ochil	ochils
+ochre	->	ochre	ochres
+och	->	och	ochs
+octagon	->	octagon	octagons
+octahedron	->	octahedron	octahedrons
+octamer	->	octamer	octamers
+octave-combination	->	octave-combination	octave-combinations
+octave	->	octave	octaves
+october	->	october	octobers
+octobrist	->	octobrists	octobrist
+octogenarian	->	octogenarian	octogenarians
+oct-protein	->	oct-proteins	oct-protein
+oculist	->	oculist	oculists
+odalisque	->	odalisque	odalisques
+odb	->	odb	odbs
+oddball	->	oddball	oddballs
+od	->	od	oddest	odder	ods	oder
+oddity	->	oddity	oddities
+oddjob	->	oddjob	oddjobbing	oddjobs
+odd-job	->	odd-job	odd-jobs
+oddment	->	oddments	oddment
+oden	->	oden	odens
+odeon	->	odeon	odeons
+ode	->	ode	odes
+odometer	->	odometers	odometer
+odone	->	odone	odones
+odorant	->	odorants	odorant
+odor	->	odor	odors
+odour	->	odour	odours
+odyssey	->	odyssey	odysseys
+o'	->	o'	o'ed
+oem	->	oem	oemed	oeming
+oena	->	oenas	oena
+o	->	o	oer
+oerlikon	->	oerlikon	oerlikons
+oe	->	oe	oes
+oestrogen	->	oestrogen	oestrogens
+oeuf	->	oeuf	oeufs
+oeuvre	->	oeuvre	oeuvres
+ofa	->	ofas	ofa
+of	->	of	ofer	ofs
+offal	->	offal	offals
+off-beat	->	off-beat	off-beats
+off-break	->	off-breaks	off-break
+off-comer	->	off-comers	off-comer
+offcut	->	offcuts	offcut
+off-cut	->	off-cuts	off-cut
+off-cutter	->	off-cutter	off-cutters
+off-day	->	off-day	off-days
+off-drive	->	off-driving	off-drive
+off	->	off	offed	offs
+offence	->	offence	offences
+offend	->	offended	offend	offends	offending
+offender	->	offenders	offender
+offense	->	offense	offenses
+offensive	->	offensive	offensives
+offeree	->	offeree	offerees
+offerer	->	offerer	offerers
+offer	->	offers	offering	offered	offer	offerring	offerred
+offeror	->	offeror	offerors
+offical	->	officals	offical
+office-bearer	->	office-bearers	office-bearer
+office-block	->	office-block	office-blocks
+office-holder	->	office-holders	office-holder
+officer	->	officer	officers	officered	officering
+office	->	office	offices
+office-worker	->	office-workers	office-worker
+official	->	official	officials
+officiant	->	officiants	officiant
+officiate	->	officiate	officiates	officiating	officiated
+officier	->	officier	officiers
+off-licence	->	off-licence	off-licences
+offline	->	offline	offlined	offlining	offlines
+off-line	->	off-line	off-lines
+off-load	->	off-loads	off-loading	off-load	off-loaded
+offload	->	offloaded	offloads	offloading	offload
+off-moment	->	off-moment	off-moments
+offprint	->	offprints	offprint
+off-print	->	off-prints	off-print
+off-roader	->	off-roaders	off-roader
+off-season	->	off-season	off-seasons
+offset	->	offsets	offset	offsetting
+off-set	->	off-set	off-setting	off-sets
+offshoot	->	offshoot	offshoots
+off-shoot	->	off-shoot	off-shoots
+offside	->	offside	offsides
+off-side	->	off-side	off-sides
+offspinner	->	offspinner	offspinners
+off-spinner	->	off-spinner	off-spinners
+offspring	->	offspring	offsprings
+off-worlder	->	off-worlders	off-worlder
+offworlder	->	offworlder	offworlders
+oflag	->	oflag	oflags
+often	->	often	oftens
+ogam	->	ogam	ogams
+ogilvy	->	ogilvy	ogilvys	ogilvies
+ogle	->	ogling	ogle	ogled	ogles
+ogler	->	oglers	ogler
+ogre	->	ogre	ogres
+og	->	og	ogs
+ohm	->	ohms	ohm
+ohp	->	ohp	ohps
+oh	->	oh	ohs
+oic	->	oic	oics
+oie	->	oies	oie
+oignon	->	oignon	oignons
+oik	->	oiks	oik
+oilbar	->	oilbar	oilbars
+oilbird	->	oilbird	oilbirds
+oil-burner	->	oil-burners	oil-burner
+oil-drum	->	oil-drum	oil-drums
+oilfield	->	oilfields	oilfield
+oil-field	->	oil-field	oil-fields
+oily	->	oily	oilier	oilies	oiliest
+oil-lamp	->	oil-lamps	oil-lamp
+oilman	->	oilmen	oilman
+oil-painting	->	oil-painting	oil-paintings
+oil-rig	->	oil-rig	oil-rigs
+oil	->	oil	oils	oiling	oiled
+oilseed	->	oilseed	oilseeds
+oil-shale	->	oil-shale	oil-shales
+oilskin	->	oilskin	oilskins
+oil-slick	->	oil-slicks	oil-slick
+oil-spill	->	oil-spill	oil-spills
+oilstove	->	oilstove	oilstoves
+ointment	->	ointment	ointments
+oistrakh	->	oistrakh	oistrakhs
+okay	->	okay	okayed
+okrug	->	okrug	okrugs
+ola	->	ola	olas
+old-boy	->	old-boy	old-boys
+'old	->	'old	'olding
+oldland	->	oldland	oldlands
+old-maid	->	old-maids	old-maid
+old	->	old	olds	older	oldest
+old-soldier	->	old-soldier	old-soldiers
+old-stager	->	old-stagers	old-stager
+oldster	->	oldsters	oldster
+old-timer	->	old-timers	old-timer
+old'un	->	old'uns	old'un
+'ole	->	'oles	'ole
+oleander	->	oleander	oleanders
+olearia	->	olearia	olearias
+olefin	->	olefins	olefin
+oleograph	->	oleograph	oleographs
+o-level	->	o-level	o-levels
+oligarch	->	oligarchs	oligarch
+oligarchy	->	oligarchy	oligarchies
+oligochaete	->	oligochaete	oligochaetes
+oligodendrocyte	->	oligodendrocytes	oligodendrocyte
+oligomer	->	oligomers	oligomer
+oligonucleotide	->	oligonucleotide	oligonucleotides
+oligopeptide	->	oligopeptides	oligopeptide
+oligopoly	->	oligopoly	oligopolies
+oligo	->	oligo	oligos
+oligosaccharide	->	oligosaccharides	oligosaccharide
+olive	->	olives	olive
+olivine	->	olivines	olivine
+olly	->	olly	ollies	ollied	ollier
+ology	->	ology	ologies
+olo	->	olo	olos
+ol	->	ol	ols
+olsen	->	olsen	olsens
+olt	->	olts	olt
+olympian	->	olympian	olympians
+olympic	->	olympics	olympic
+ombudsman	->	ombudsman	ombudsmen	ombudsmans
+omda	->	omda	omdas
+omelette	->	omelettes	omelette
+omen	->	omen	omens
+omission	->	omissions	omission
+omit	->	omit	omitted	omitting	omits
+om	->	om	omming
+ommission	->	ommissions	ommission
+ommochrome	->	ommochrome	ommochromes
+omne	->	omne	omnes
+omnipoint	->	omnipoint	omnipoints
+omnisport	->	omnisports	omnisport
+omnivore	->	omnivore	omnivores
+omo	->	omo	omos
+omv	->	omv	omvs
+onanist	->	onanists	onanist
+oncogene	->	oncogene	oncogenes
+oncologist	->	oncologist	oncologists
+oncoprotein	->	oncoprotein	oncoproteins
+on-cost	->	on-cost	on-costs
+ond	->	onds	ond
+one-and-a-half-hour	->	one-and-a-half-hour	one-and-a-half-hours
+one-dayer	->	one-dayers	one-dayer
+one-day	->	one-day	one-days
+one-design	->	one-design	one-designs
+one-liner	->	one-liner	one-liners
+one-man-band	->	one-man-band	one-man-bands
+one-many	->	one-many	one-manys
+one-nighter	->	one-nighter	one-nighters
+one-off	->	one-off	one-offs
+one-piece	->	one-piece	one-pieces
+one	->	one	ones
+one-stop-shop	->	one-stop-shop	one-stop-shops
+onion	->	onions	onion
+onlap	->	onlap	onlapping	onlapped
+on-licence	->	on-licence	on-licences
+on-looker	->	on-lookers	on-looker
+onlooker	->	onlooker	onlookers
+only	->	only	onlys
+onomastic	->	onomastic	onomastics
+onrush	->	onrush	onrushing
+on	->	on	ons
+on-sight	->	on-sight	on-sights
+onslaught	->	onslaught	onslaughts
+ontology	->	ontology	ontologies
+onto	->	onto	ontos
+oob	->	oob	oobs
+oocyte	->	oocytes	oocyte
+oodle	->	oodles	oodle
+ood	->	ood	oods
+ooh	->	ooh	oohs	oohing	oohed	oohhing
+ook	->	ooking	ook
+oolite	->	oolite	oolites
+oooh	->	oooh	ooohed
+oor	->	oor	oors
+oo	->	oo	oos
+ooze	->	oozing	oozed	oozes	ooze
+opa	->	opas	opa
+opacity	->	opacities	opacity
+opac	->	opac	opacs
+opal	->	opal	opals
+op-amp	->	op-amps	op-amp
+opaque	->	opaque	opaques	opaqued
+opcode	->	opcodes	opcode
+'ope	->	'opes	'ope
+opencast	->	opencast	opencasting
+opener	->	opener	openers
+open	->	opened	opening	open	opens
+openside	->	openside	opensides
+open-space	->	open-space	open-spaces
+open-system	->	open-system	open-systems
+open-topper	->	open-topper	open-toppers
+opera-ballet	->	opera-ballets	opera-ballet
+opera-glass	->	opera-glass	opera-glasses
+opera-house	->	opera-house	opera-houses
+opera-lover	->	opera-lovers	opera-lover
+operand	->	operand	operands
+opera	->	opera	operas
+opera-singer	->	opera-singers	opera-singer
+operate	->	operating	operated	operate	operates
+operatic	->	operatic	operatics
+operation	->	operations	operation	operationed
+operationalise	->	operationalised	operationalise	operationalising
+operationalize	->	operationalized	operationalize	operationalizing
+operative	->	operative	operatives
+operator	->	operators	operator
+operatorship	->	operatorship	operatorships
+operculum	->	operculum	operculums
+operetta	->	operetta	operettas
+operon	->	operon	operons
+ophiacanthid	->	ophiacanthid	ophiacanthids
+ophiolite	->	ophiolites	ophiolite
+ophiuroid	->	ophiuroids	ophiuroid
+ophthalmologist	->	ophthalmologists	ophthalmologist
+opiate	->	opiates	opiate
+opic	->	opic	opics
+opy	->	opy	opies
+opine	->	opined	opining	opine	opines
+opinion-former	->	opinion-formers	opinion-former
+opinion-poll	->	opinion-poll	opinion-polls
+opinion	->	opinion	opinions
+opinon	->	opinon	opinons
+opioid	->	opioid	opioids
+oportunity	->	oportunities	oportunity
+opossum	->	opossum	opossums
+oppertunity	->	oppertunity	oppertunities
+oppo	->	oppos	oppo
+opponant	->	opponant	opponants
+opponent	->	opponents	opponent
+opportunist	->	opportunist	opportunists
+opportunity	->	opportunity	opportunities
+opposer	->	opposer	opposers
+oppose	->	opposes	opposing	opposed	oppose
+opposite	->	opposite	opposites
+oppositionist	->	oppositionist	oppositionists
+opposition	->	opposition	oppositions
+oppress	->	oppressing	oppress	oppresses
+oppression	->	oppression	oppressions
+oppressor	->	oppressor	oppressors
+opp	->	opp	opps
+op	->	op	ops	opped
+optative	->	optative	optatives
+opt	->	opts	opted	opt	opting
+optical	->	optical	opticals
+optician	->	optician	opticians
+optimisation	->	optimisation	optimisations
+optimise	->	optimise	optimised	optimising	optimises
+optimiser	->	optimiser	optimisers
+optimist	->	optimist	optimists
+optimize	->	optimize	optimizing	optimizes	optimized
+option	->	option	options	optioned
+optoelectronic	->	optoelectronic	optoelectronics
+optometrist	->	optometrists	optometrist
+optonic	->	optonic	optonics
+opt-out	->	opt-out	opt-outs
+oracle	->	oracles	oracle
+oralist	->	oralist	oralists
+oral	->	oral	orals
+oranda	->	oranda	orandas
+orangeman	->	orangeman	orangemen
+orangery	->	orangery	orangeries
+orange	->	orange	oranges	oranged
+orangist	->	orangist	orangists
+orang	->	orang	orangs
+orang-utang	->	orang-utang	orang-utangs
+orangutan	->	orangutan	orangutans
+orang-utan	->	orang-utan	orang-utans
+orate	->	orate	orated	orates
+oration	->	oration	orations
+oratorian	->	oratorian	oratorians
+oratory	->	oratory	oratories
+oratorio	->	oratorio	oratorios
+orator	->	orator	orators
+orbat	->	orbats	orbat
+orbital	->	orbital	orbitals
+orbiter	->	orbiters	orbiter
+orbit	->	orbit	orbits	orbiting	orbited
+orb	->	orb	orbs
+orc	->	orcs	orc
+orcadian	->	orcadian	orcadians
+orca	->	orca	orcas
+orchard	->	orchard	orchards
+orchestra	->	orchestra	orchestras
+orchestrate	->	orchestrating	orchestrated	orchestrate	orchestrates
+orchestration	->	orchestration	orchestrations
+orchestrator	->	orchestrator	orchestrators
+orchestrion	->	orchestrions	orchestrion
+orchid	->	orchids	orchid
+ordain	->	ordained	ordain	ordains	ordaining
+ordeal	->	ordeal	ordeals
+order-book	->	order-books	order-book
+orderer	->	orderers	orderer
+orderly	->	orderly	orderlies
+order	->	order	orders	ordering	ordered
+ordinaire	->	ordinaire	ordinaires
+ordinal	->	ordinal	ordinals
+ordinance	->	ordinances	ordinance
+ordinand	->	ordinand	ordinands
+ordinary	->	ordinary	ordinaries
+ordinate	->	ordinate	ordinates	ordinating	ordinated
+ordination	->	ordination	ordinations
+ordnance	->	ordnance	ordnances
+ord	->	ord	ords
+orebody	->	orebodies	orebody
+orefield	->	orefield	orefields
+ore	->	ore	ores
+orfe	->	orfe	orfes
+orf	->	orf	orfs
+orgainiser	->	orgainiser	orgainisers
+orgainse	->	orgainse	orgainsed
+orgainser	->	orgainser	orgainsers
+organ-builder	->	organ-builder	organ-builders
+organelle	->	organelles	organelle
+organic	->	organic	organics
+organisation	->	organisation	organisations
+organise	->	organise	organised	organising	organises
+organiser	->	organiser	organisers
+organism	->	organism	organisms
+organist	->	organist	organists
+organization	->	organizations	organization
+organize	->	organizing	organized	organize	organizes
+organizer	->	organizers	organizer
+organochloride	->	organochlorides	organochloride
+organo-chloride	->	organo-chloride	organo-chlorides
+organochlorine	->	organochlorines	organochlorine
+organo-chlorine	->	organo-chlorine	organo-chlorines
+organometallic	->	organometallic	organometallics
+organophosphate	->	organophosphate	organophosphates
+organ-pipe	->	organ-pipe	organ-pipes
+organ	->	organ	organs
+orgasm	->	orgasm	orgasms	orgasmed
+orgiast	->	orgiasts	orgiast
+orgy	->	orgy	orgies
+oriel	->	oriel	oriels
+orien	->	oriens	orien
+orientalist	->	orientalist	orientalists
+oriental	->	oriental	orientals
+orientate	->	orientated	orientate	orientating	orientates
+orientation	->	orientation	orientations
+orient	->	orient	oriented	orienting	orients
+orienteer	->	orienteers	orienteer
+orifice	->	orifice	orifices
+originality	->	originality	originalities
+original	->	original	originals
+originate	->	originates	originated	originating	originate
+origination	->	origination	originations
+originator	->	originators	originator
+origin	->	origin	origins
+oriole	->	oriole	orioles
+ork	->	orks	ork
+ormerod	->	ormerod	ormerods
+ormonde	->	ormonde	ormondes
+ornament	->	ornaments	ornament	ornamented	ornamenting
+ornamental	->	ornamental	ornamentals
+ornamentation	->	ornamentation	ornamentations
+ornithischian	->	ornithischians	ornithischian
+ornithologist	->	ornithologist	ornithologists
+orogen	->	orogens	orogen
+orogeny	->	orogeny	orogenies
+oromo	->	oromo	oromos
+orphan	->	orphans	orphan
+orphanage	->	orphanage	orphanages
+orphange	->	orphanges	orphange
+orphist	->	orphist	orphists
+orr	->	orr	orrs
+or	->	or	ors	orred
+'orse	->	'orses	'orse
+orthodontic	->	orthodontics	orthodontic
+orthodoxy	->	orthodoxy	orthodoxies
+orthogneiss	->	orthogneiss	orthogneisses
+orthogonalise	->	orthogonalises	orthogonalised
+orthogonal	->	orthogonal	orthogonals
+orthography	->	orthography	orthographies
+orthopaedic	->	orthopaedic	orthopaedics
+orthopedic	->	orthopedics	orthopedic
+orthophosphate	->	orthophosphate	orthophosphates
+ort	->	ort	orts
+oryx	->	oryx	oryxes
+oscar	->	oscar	oscars
+oscar-winner	->	oscar-winners	oscar-winner
+oscillate	->	oscillates	oscillate	oscillated	oscillating
+oscillation	->	oscillations	oscillation
+oscillator	->	oscillator	oscillators
+oscilloscope	->	oscilloscope	oscilloscopes
+osier	->	osiers	osier
+osmometer	->	osmometer	osmometers
+'ospital	->	'ospitals	'ospital
+osprey	->	osprey	ospreys
+oss	->	oss	osses
+'oss	->	'oss	'osses
+ossete	->	ossete	ossetes
+ossetian	->	ossetian	ossetians
+ossuary	->	ossuary	ossuaries
+ost	->	osts	ost
+osteopath	->	osteopaths	osteopath
+osteospermum	->	osteospermums	osteospermum
+osteostracan	->	osteostracans	osteostracan
+ostertag	->	ostertag	ostertags
+ostinato	->	ostinato	ostinatos
+ostiole	->	ostiole	ostioles
+ostler	->	ostlers	ostler
+ostmark	->	ostmarks	ostmark
+ostracise	->	ostracise	ostracised	ostracising	ostracises
+ostracize	->	ostracized	ostracize	ostracizing
+ostracod	->	ostracods	ostracod
+ostracoderm	->	ostracoderms	ostracoderm
+ostrer	->	ostrer	ostrers
+ostrich	->	ostrich	ostriches
+ostrogoth	->	ostrogoths	ostrogoth
+ot	->	oter	ot	ots
+ote	->	ote	otes
+otherise	->	otherised	otherise
+other	->	other	others	othering
+otter	->	otter	otters
+ottoman	->	ottomans	ottoman
+oubliette	->	oubliettes	oubliette
+ouch	->	ouch	ouches
+oued	->	oued	oueds
+ou	->	ou	ouest
+ought	->	ought	oughtest	oughts
+ouguiya	->	ouguiya	ouguiyas
+ounce	->	ounce	ounces
+we	->	we	our	us	wes	wee
+ouragon	->	ouragon	ouragons
+'ouse	->	'ouse	'ouses
+oust	->	oust	ousted	ousting	ousts
+ouster	->	ouster	ousters
+out-accelerate	->	out-accelerate	out-accelerating
+outage	->	outage	outages
+outbid	->	outbid	outbidding	outbids
+out-bluff	->	out-bluffed	out-bluff
+outboard	->	outboard	outboards
+outbowl	->	outbowled	outbowl
+outbreak	->	outbreak	outbreaks
+outbreed	->	outbreed	outbreeding
+outbuilding	->	outbuildings	outbuilding
+out-building	->	out-buildings	out-building
+outburst	->	outbursts	outburst
+outcaste	->	outcaste	outcastes
+outcast	->	outcast	outcasts
+outclass	->	outclassed	outclassing	outclasses	outclass
+out-class	->	out-classed	out-classing
+out-come	->	out-comes	out-come
+outcome	->	outcome	outcomes
+out-compete	->	out-competed	out-compete
+outcompete	->	outcompeted	outcompeting	outcompete
+outcry	->	outcry	outcries
+outcrop	->	outcrop	outcrops	outcropping	outcropped
+out-crop	->	out-crop	out-crops
+outcross	->	outcross	outcrossed	outcrossing
+outdistance	->	outdistance	outdistances	outdistanced
+outdo	->	outdo	outdoing
+outdoorsman	->	outdoorsmen	outdoorsman
+out-drink	->	out-drinking	out-drink
+out-drive	->	out-drive	out-driving
+outer	->	outer	outers
+outface	->	outface	outfaced	outfacing
+outfall	->	outfall	outfalls
+out-fall	->	out-fall	out-falls
+outfax	->	outfaxes	outfaxed
+outfielder	->	outfielder	outfielders
+outfield	->	outfield	outfields
+out-field	->	out-field	out-fields
+outfit	->	outfits	outfit	outfitted	outfitting
+outfitter	->	outfitter	outfitters
+outflank	->	outflank	outflanked	outflanking	outflanks
+outflow	->	outflows	outflow	outflowing
+out-flow	->	out-flows	out-flow
+outfly	->	outflying	outfly
+outfox	->	outfoxed	outfoxing	outfox
+outgass	->	outgassing	outgasses	outgassed
+outgoing	->	outgoing	outgoings
+out-going	->	out-going	out-goings
+outgross	->	outgrossing	outgrossed
+outgroup	->	outgroup	outgroups
+out-group	->	out-group	out-groups
+outgrow	->	outgrown	outgrowing	outgrows	outgrow
+outgrowth	->	outgrowth	outgrowths
+outguess	->	outguessed	outguessing	outguess
+outgun	->	outgunned	outgun
+out-gun	->	out-gun	out-gunned
+out-house	->	out-houses	out-house
+outhouse	->	outhouse	outhouses
+outing	->	outing	outings
+outjump	->	outjumping	outjumped
+outland	->	outland	outlands
+outlast	->	outlast	outlasted	outlasts	outlasting
+outlawry	->	outlawries	outlawry
+outlaw	->	outlaw	outlaws	outlawed	outlawing
+outlay	->	outlay	outlays	outlaid
+outlet	->	outlet	outlets
+outline	->	outlining	outlined	outlines	outline
+outliner	->	outliner	outliners
+outlive	->	outlive	outlived	outlives	outliving
+out-live	->	out-lived	out-living
+outlook	->	outlook	outlooks
+outmanoeuvre	->	outmanoeuvre	outmanoeuvred	outmanoeuvreing
+out-manoeuvre	->	out-manoeuvre	out-manoeuvres
+out-manoeuvr	->	out-manoeuvred	out-manoeuvring
+outmatch	->	outmatched	outmatch	outmatching
+outnumber	->	outnumbering	outnumbered	outnumber	outnumbers
+out-number	->	out-number	out-numbered	out-numbering
+out-of-door	->	out-of-doors	out-of-door
+out-of-towner	->	out-of-towners	out-of-towner
+outpace	->	outpaces	outpace	outpacing	outpaced
+out-pace	->	out-pacing	out-paced
+out-patient	->	out-patients	out-patient
+outpatient	->	outpatient	outpatients
+outperform	->	outperforming	outperform	outperformed	outperforms
+out-perform	->	out-performed	out-perform	out-performs	out-performing
+out-performance	->	out-performance	out-performanced
+outplay	->	outplayed	outplay	outplaying
+out-point	->	out-pointed	out-point	out-pointing
+outpoint	->	outpointed	outpointing
+outport	->	outport	outports
+outpost	->	outposts	outpost	outposted
+outpouring	->	outpouring	outpourings
+outprice	->	outprice	outpriced
+out-produce	->	out-produces	out-produce
+outproduce	->	outproduce	outproduces
+out-put	->	out-putted	out-put
+output	->	output	outputs	outputting
+outrage	->	outrage	outrages	outraging
+outrank	->	outrank	outranks	outranked	outranking
+outreach	->	outreach	outreached	outreaches	outreaching
+outr	->	outr	outred
+outrider	->	outriders	outrider
+outride	->	outrides	outriding
+outrigger	->	outrigger	outriggers
+outright	->	outright	outrights
+out-run	->	out-run	out-running
+outrun	->	outrun	outruns	outrunning
+out	->	out	outs	outed
+outscore	->	outscored	outscoring
+outsell	->	outsell	outsells
+outshine	->	outshines	outshine	outshining
+outshoot	->	outshoots	outshoot
+outshot	->	outshot	outshots
+outsider	->	outsiders	outsider
+outside	->	outside	outsides
+outsize	->	outsize	outsized
+outskirter	->	outskirters	outskirter
+outsmart	->	outsmarted	outsmart	outsmarting
+outsole	->	outsole	outsoles
+outsource	->	outsourcing	outsource
+outsprint	->	outsprinted	outsprint
+out-sprint	->	out-sprinting	out-sprinted
+outstare	->	outstare	outstares
+outstation	->	outstations	outstation
+out-station	->	out-station	out-stations
+outstay	->	outstayed	outstay	outstaying
+outstretch	->	outstretch	outstretching
+outstrip	->	outstripped	outstripping	outstrips	outstrip
+out-swinger	->	out-swingers	out-swinger
+out-take	->	out-take	out-takes
+out-talk	->	out-talk	out-talked
+out-think	->	out-think	out-thinking
+out-tray	->	out-trays	out-tray
+out-turn	->	out-turns	out-turn
+outturn	->	outturn	outturns
+outvote	->	outvoted	outvote
+out-vote	->	out-voted	out-vote
+out-weigh	->	out-weighed	out-weigh
+outweigh	->	outweigh	outweighs	outweighed	outweighing
+outweight	->	outweighted	outweight
+outwit	->	outwit	outwitting	outwitted	outwits
+outwork	->	outworks	outwork
+outworker	->	outworkers	outworker
+out-worker	->	out-workers	out-worker
+outworld	->	outworld	outworlds
+outyield	->	outyielded	outyield
+ouvrier	->	ouvrier	ouvriers
+oval	->	oval	ovals
+ovary	->	ovaries	ovary
+ovation	->	ovation	ovations
+oven	->	oven	ovens
+over-abstraction	->	over-abstraction	over-abstractions
+over-achieve	->	over-achieving	over-achieve
+over-achiever	->	over-achievers	over-achiever
+overact	->	overacting	overacts	overact
+over-allocation	->	over-allocations	over-allocation
+overall	->	overall	overalls
+over-all	->	over-all	over-alls
+over-ambition	->	over-ambition	over-ambitions
+over-analyse	->	over-analysing	over-analysed
+overawe	->	overawed	overawe	overawes
+overbalance	->	overbalanced	overbalancing	overbalance	overbalances
+over-balance	->	over-balance	over-balancing	over-balanced	over-balances
+overbear	->	overbears	overbear
+overbid	->	overbidding	overbid
+overboil	->	overboiled	overboiling
+overbook	->	overbooking	overbooked	overbook	overbooks
+overborrow	->	overborrowed	overborrowing
+over-borrow	->	over-borrowed	over-borrowing	over-borrow
+overbridge	->	overbridges	overbridge
+overbrown	->	overbrowning	overbrown
+overburden	->	overburdened	overburden	overburdening
+over-buy	->	over-buy	over-buying
+overcall	->	overcall	overcalls
+overcast	->	overcast	overcasting
+over-caution	->	over-cautioned	over-caution
+over-celebrate	->	over-celebrated	over-celebrating
+overcharge	->	overcharging	overcharged	overcharge	overcharges
+over-charge	->	over-charged	over-charging	over-charge
+overcloth	->	overcloth	overcloths
+over-coat	->	over-coats	over-coat
+overcoat	->	overcoat	overcoats	overcoated
+overcome	->	overcome	overcoming	overcomes	overcame
+over-commit	->	over-committing	over-commit	over-committed
+overcommit	->	overcommitted	overcommitting	overcommit
+overcompensate	->	overcompensated	overcompensate	overcompensating
+over-compensate	->	over-compensating	over-compensate	over-compensated
+over-concentrate	->	over-concentrating	over-concentrate
+overconcern	->	overconcern	overconcerned
+overcontrol	->	overcontrolling	overcontrol	overcontrolled
+over-control	->	over-control	over-controlled	over-controlling
+overcook	->	overcooked	overcook	overcooking
+over-correct	->	over-correct	over-corrected
+overcrowd	->	overcrowding	overcrowd
+overdeepen	->	overdeepening	overdeepened
+over-design	->	over-design	over-designed
+overdetermine	->	overdetermined	overdetermining	overdetermine
+over-determine	->	over-determined	over-determining	over-determines
+overdevelopment	->	overdevelopment	overdevelopments
+overdo	->	overdoing	overdo	overdone	overdid
+overdoor	->	overdoors	overdoor
+overdose	->	overdose	overdoses	overdosed	overdosing
+overdraft	->	overdraft	overdrafts
+over-dramatise	->	over-dramatised	over-dramatise	over-dramatising
+overdramatise	->	overdramatise	overdramatising
+over-dramatize	->	over-dramatize	over-dramatizes	over-dramatizing
+overdraw	->	overdraw	overdrawing
+overdress	->	overdressed	overdress	overdressing
+over-dress	->	over-dressed	over-dresses	over-dress	over-dressing
+overdrive	->	overdrive	overdriving
+over-dry	->	over-drying	over-dry
+overdub	->	overdubs	overdub	overdubbed	overdubbing
+overdue	->	overdue	overdues
+overeater	->	overeater	overeaters
+overeat	->	overeat	overeating
+over-embalm	->	over-embalming	over-embalmed
+over-emphasise	->	over-emphasise	over-emphasised	over-emphasises
+overemphasise	->	overemphasised	overemphasising	overemphasise	overemphasises
+overemphasize	->	overemphasizes	overemphasized	overemphasize	overemphasizing
+over-emphasize	->	over-emphasizes	over-emphasized	over-emphasize	over-emphasizing
+overestimate	->	overestimated	overestimate	overestimating	overestimates
+over-estimate	->	over-estimate	over-estimates	over-estimated	over-estimating
+over-exercise	->	over-exercise	over-exercised
+over-exert	->	over-exert	over-exerted
+over-expand	->	over-expanded	over-expand
+over-exploit	->	over-exploit	over-exploited
+over-expose	->	over-exposing	over-expose
+overexpress	->	overexpressed	overexpressing	overexpress
+over-extend	->	over-extended	over-extend	over-extending	over-extends
+over-extension	->	over-extension	over-extensions
+overfall	->	overfalls	overfall
+overfeed	->	overfeed	overfeeding
+overfil	->	overfilled	overfilling
+over-fill	->	over-fill	over-fills
+overfish	->	overfished	overfishing
+overflight	->	overflights	overflight
+overflow	->	overflowing	overflow	overflowed	overflows
+over-flow	->	over-flowing	over-flowed
+overfly	->	overfly	overflying
+overfund	->	overfunding	overfunded
+overgeneralise	->	overgeneralise	overgeneralises
+overgeneralization	->	overgeneralizations	overgeneralization
+overground	->	overground	overgrounds
+overgrow	->	overgrow	overgrowing
+over-grow	->	over-grown	over-growing	over-grow
+overgrowth	->	overgrowth	overgrowths
+over-hand	->	over-hand	over-handing
+overhang	->	overhang	overhangs
+overhaul	->	overhauled	overhaul	overhauls	overhauling
+overhead	->	overhead	overheads
+overhearer	->	overhearers	overhearer
+overhear	->	overheard	overhears	overhearing	overhear
+overheat	->	overheat	overheated	overheats
+overhit	->	overhitting	overhit
+overhunt	->	overhunting	overhunted
+over-identify	->	over-identify	over-identified	over-identifying
+over-impress	->	over-impressed	over-impress
+over-index	->	over-indexing	over-index	over-indexed
+over-indulge	->	over-indulge	over-indulged	over-indulging
+overinflate	->	overinflating	overinflated
+over-influence	->	over-influenced	over-influence
+over-invest	->	over-invest	over-investing
+overjacket	->	overjackets	overjacket
+overlay	->	overlay	overlaid	overlays	overlaying
+overlap	->	overlap	overlaps	overlapped	overlapping
+overlayer	->	overlayer	overlayering
+overleap	->	overleaped	overleap
+overlearn	->	overlearned	overlearning
+overly	->	overly	overlies
+over-load	->	over-loading	over-loaded	over-load
+overload	->	overload	overloading	overloaded	overloads
+overlock	->	overlocked	overlock	overlocking
+overlooker	->	overlooker	overlookers
+over-look	->	over-looked	over-looking
+overlook	->	overlooked	overlooks	overlooking	overlook
+overlord	->	overlord	overlords
+overlordship	->	overlordship	overlordships
+overman	->	overmanning	overmanned	overman
+overmark	->	overmarking	overmark
+overnight	->	overnight	overnights	overnighting	overnighted	overnighter
+over-order	->	over-ordering	over-ordered
+overpaint	->	overpainted	overpaint
+overpass	->	overpass	overpasses
+overpay	->	overpaid	overpay	overpaying	overpayed
+overpayment	->	overpayment	overpayments
+over-persuade	->	over-persuaded	over-persuade	over-persuading
+over-pitch	->	over-pitched	over-pitch
+overplay	->	overplayed	overplay	overplays	overplaying
+over-play	->	over-play	over-played
+overpopulate	->	overpopulated	overpopulating
+overpower	->	overpower	overpowering	overpowered	overpowers
+over-power	->	over-powered	over-powering
+overpraise	->	overpraise	overpraises	overpraised
+overpressure	->	overpressure	overpressuring
+overprice	->	overpricing	overprice	overprices
+overprint	->	overprinted	overprint	overprinting	overprints
+over-process	->	over-processed	over-processing	over-process
+over-produce	->	over-producing	over-produce	over-produced
+overproduce	->	overproducing	overproduced	overproduce	overproduces
+overpronator	->	overpronators	overpronator
+overprotect	->	overprotected	overprotect
+over-protect	->	over-protected	over-protect
+over-provide	->	over-provided	over-provide
+overrate	->	overrating	overrate	overrates
+over-rate	->	over-rate	over-rates
+overreach	->	overreached	overreach	overreaching	overreaches
+over-reach	->	over-reach	over-reaching	over-reached
+over-react	->	over-reacting	over-react	over-reacted
+overreact	->	overreact	overreacting	overreacts	overreacted
+over-record	->	over-recording	over-record	over-recorded
+over-regulate	->	over-regulated	over-regulate
+over-report	->	over-reporting	over-reported	over-report
+over-represent	->	over-represented	over-represent
+overrepresent	->	overrepresented	overrepresents
+over-restore	->	over-restored	over-restoring
+over-ride	->	over-ride	over-rides
+override	->	override	overriding	overrides
+over-romanticise	->	over-romanticised	over-romanticise
+over-rudder	->	over-rudder	over-ruddering
+overrule	->	overruled	overrule	overruling	overrules
+over-rule	->	over-ruled	over-rule
+over-run	->	over-runs	over-run	over-running
+overrun	->	overrun	overrunning	overruns
+over	->	over	overs	overing
+oversail	->	oversailing	oversailed	oversail
+oversalt	->	oversalted	oversalting
+oversample	->	oversampled	oversampling
+overscore	->	overscores	overscored
+oversee	->	overseeing	oversee	oversees
+overseer	->	overseer	overseers
+overshadow	->	overshadowing	overshadowed	overshadow	overshadows
+over-shadow	->	over-shadowed	over-shadowing	over-shadow
+oversheet	->	oversheet	oversheeting	oversheeted
+overshirt	->	overshirts	overshirt
+overshoe	->	overshoes	overshoe
+overshoot	->	overshooting	overshoot	overshoots
+oversight	->	oversight	oversights	oversighted
+oversimplification	->	oversimplification	oversimplifications
+over-simplification	->	over-simplification	over-simplifications
+oversimplify	->	oversimplify	oversimplifies	oversimplified	oversimplifying
+over-simplify	->	over-simplify	over-simplifies	over-simplified	over-simplifying
+over-size	->	over-size	over-sizing
+oversleep	->	oversleeping	oversleep	oversleeps
+overspecify	->	overspecified	overspecify
+overspeed	->	overspeeding	overspeed
+overspend	->	overspend	overspends	overspending
+overspil	->	overspilling	overspilled
+overspill	->	overspill	overspills
+overspray	->	overspray	overspraying
+overspread	->	overspread	overspreading
+overstamp	->	overstamped	overstamp
+overstand	->	overstanding	overstand
+over-state	->	over-stating	over-stated	over-states
+overstatement	->	overstatement	overstatements
+overstate	->	overstates	overstating	overstated	overstate
+overstay	->	overstayed	overstaying	overstay
+overstep	->	overstepped	overstep	overstepping	oversteps
+over-stimulate	->	over-stimulated	over-stimulates	over-stimulate
+overstimulate	->	overstimulate	overstimulating	overstimulated
+overstock	->	overstocked	overstocking	overstock	overstocks
+overstrain	->	overstrain	overstraining	overstrained
+overstress	->	overstressing	overstress	overstressed
+over-stress	->	over-stressing	over-stressed	over-stress
+over-stretch	->	over-stretched	over-stretch	over-stretches	over-stretching
+overstretch	->	overstretch	overstretching	overstretched
+overstrike	->	overstrikes	overstrike	overstriking
+over-stuff	->	over-stuffing	over-stuffed
+oversupinator	->	oversupinator	oversupinators
+oversupply	->	oversupply	oversupplied
+over-supply	->	over-supply	over-supplied
+over-swing	->	over-swinging	over-swing
+overtake	->	overtaken	overtakes	overtaking	overtake	overtook
+over-take	->	over-take	over-taking
+overtax	->	overtax	overtaxing	overtaxed	overtaxes
+over-tax	->	over-taxed	over-taxing
+overthrow	->	overthrow	overthrown	overthrowing	overthrows
+over-throw	->	over-throw	over-thrown
+overthrust	->	overthrust	overthrusting
+over-tighten	->	over-tightened	over-tighten
+overtire	->	overtired	overtire
+overtone	->	overtone	overtones
+over-top	->	over-topping	over-top
+overtop	->	overtop	overtopping	overtopped
+overtrain	->	overtraining	overtrain
+over-tunic	->	over-tunic	over-tunics
+overture	->	overture	overtures
+overturn	->	overturned	overturning	overturn	overturns
+over-turn	->	over-turned	over-turning	over-turn
+overuse	->	overused	overuse	overusing
+over-use	->	over-used	over-use	over-uses	over-using
+overvaluation	->	overvaluations	overvaluation
+overvalue	->	overvalued	overvalue	overvaluing	overvalues
+over-value	->	over-valued	over-valuing	over-value
+overview	->	overview	overviews	overviewing	overviewed
+overwatch	->	overwatches	overwatch
+overwater	->	overwatering	overwater	overwatered
+over-water	->	over-water	over-watering
+overweight	->	overweight	overweighted	overweights
+overwhelm	->	overwhelmed	overwhelms	overwhelm
+overwinter	->	overwinter	overwintered	overwintering	overwinters
+over-winter	->	over-winter	over-winters	over-wintering	over-wintered
+over-work	->	over-working	over-work
+overwork	->	overwork	overworking	overworks
+over-wrap	->	over-wrapping	over-wrap
+overwrap	->	overwrap	overwrapped	overwrapping
+overwrite	->	overwrites	overwrite
+oviduct	->	oviducts	oviduct
+oviposit	->	oviposit	ovipositing
+ovoid	->	ovoid	ovoids
+ovulate	->	ovulate	ovulating	ovulated	ovulates
+ovulation	->	ovulation	ovulations
+ovule	->	ovules	ovule
+owe	->	owed	owe	owes	owing
+owenite	->	owenite	owenites
+ow	->	ow	ower	ows
+owlet	->	owlets	owlet
+owl-hole	->	owl-hole	owl-holes
+owl	->	owl	owls	owled
+own-brander	->	own-brander	own-branders
+own-brand	->	own-brand	own-brands
+own	->	own	owned	owns	owning
+owner-breeder	->	owner-breeder	owner-breeders
+owner-driver	->	owner-drivers	owner-driver
+owner-farmer	->	owner-farmer	owner-farmers
+owner-manager	->	owner-managers	owner-manager
+owner-occupier	->	owner-occupiers	owner-occupier
+owner-operator	->	owner-operators	owner-operator
+owner-pilot	->	owner-pilots	owner-pilot
+owner	->	owner	owners
+ownership	->	ownership	ownerships
+owner-trainer	->	owner-trainer	owner-trainers
+own-label	->	own-label	own-labels
+oxalate	->	oxalate	oxalates
+oxbow	->	oxbow	oxbows
+ox-bow	->	ox-bow	ox-bows
+oxcart	->	oxcart	oxcarts
+ox-cart	->	ox-cart	ox-carts
+ox	->	ox	oxen	oxes
+oxford	->	oxford	oxfords
+oxhide	->	oxhides	oxhide
+oxidant	->	oxidants	oxidant
+oxidation	->	oxidation	oxidations
+oxide	->	oxides	oxide
+oxidise	->	oxidise	oxidising	oxidised	oxidises
+oxidize	->	oxidized	oxidize	oxidizing	oxidizes
+oxley	->	oxley	oxleys
+oxlip	->	oxlips	oxlip
+oxoanion	->	oxoanions	oxoanion
+oxonian	->	oxonian	oxonians
+oxo	->	oxo	oxos
+oxtail	->	oxtail	oxtails
+oxyanion	->	oxyanions	oxyanion
+oxyfluoride	->	oxyfluorides	oxyfluoride
+oxygenate	->	oxygenate	oxygenates
+oxygenator	->	oxygenators	oxygenator
+oxygen	->	oxygen	oxygens
+oy	->	oy	oyer	oys
+oy-oy	->	oy-oy	oy-oys
+oyster-catcher	->	oyster-catchers	oyster-catcher
+oystercatcher	->	oystercatcher	oystercatchers
+oyster	->	oyster	oysters
+ozone-depleter	->	ozone-depleters	ozone-depleter
+ozone	->	ozone	ozones
+oz	->	oz	ozs
+p'	->	p'ing	p'
+pabx	->	pabxs	pabx	pabxes
+pacemaker	->	pacemakers	pacemaker
+pace-maker	->	pace-maker	pace-makers
+paceman	->	pacemen	paceman
+pacer	->	pacer	pacers
+pacesetter	->	pacesetters	pacesetter
+pace-setter	->	pace-setter	pace-setters
+pachyderm	->	pachyderms	pachyderm
+pachytene	->	pachytene	pachytenes
+pacify	->	pacify	pacified	pacifying	pacifies
+pacifier	->	pacifier	pacifiers
+pacifist	->	pacifists	pacifist
+pace	->	pace	pacing	paces	paced
+package	->	packages	package	packaged	packaging
+packager	->	packagers	packager
+pack	->	packs	packed	pack	packing
+packer	->	packers	packer
+packet	->	packets	packet
+packhorse	->	packhorse	packhorses
+pack-horse	->	pack-horse	pack-horses
+packing-case	->	packing-cases	packing-case
+packmate	->	packmates	packmate
+packman	->	packman	packmen
+packstone	->	packstones	packstone
+pact	->	pact	pacts
+paddy	->	paddy	paddies
+pad	->	pad	padding	pads	padded
+paddler	->	paddler	paddlers
+paddle	->	paddled	paddling	paddle	paddles
+paddock	->	paddock	paddocks	paddocked
+paddy-field	->	paddy-field	paddy-fields
+padlock	->	padlock	padlocked	padlocks	padlocking
+padre	->	padre	padres
+paean	->	paean	paeans
+paediatrician	->	paediatrician	paediatricians
+paediatric	->	paediatric	paediatrics
+paedophile	->	paedophile	paedophiles
+paedophiliac	->	paedophiliac	paedophiliacs
+paella	->	paella	paellas
+paeony	->	paeonies	paeony
+paf	->	paf	pafs
+pagan	->	pagan	pagans
+pageant	->	pageant	pageants
+page-boy	->	page-boys	page-boy
+pageboy	->	pageboy	pageboys
+page-number	->	page-numbers	page-number
+pager	->	pagers	pager
+page	->	page	pages	paged	paging
+paget	->	pagets	paget
+page-turner	->	page-turner	page-turners
+paginate	->	paginated	paginate
+pagoda	->	pagoda	pagodas
+pah	->	pah	pahs
+pay	->	pay	paid	paying	pays	payed
+paid-out	->	paid-out	paid-outs
+paillard	->	paillard	paillards
+pail	->	pail	pails
+pain-killer	->	pain-killers	pain-killer
+painkiller	->	painkiller	painkillers
+pain	->	pain	pains	pained	paining
+paint	->	painted	paint	paints
+paintball	->	paintball	paintballs
+paintbrush	->	paintbrush	paintbrushes
+paint-brush	->	paint-brush	paint-brushes
+painter	->	painter	painters
+painter-stainer	->	painter-stainer	painter-stainers
+painting	->	paintings	painting
+painting-book	->	painting-book	painting-books
+paintpot	->	paintpots	paintpot
+paintstick	->	paintsticks	paintstick
+pair	->	pair	pairs	paired	pairing
+pai	->	pai	pais
+paisleyite	->	paisleyite	paisleyites
+pakamac	->	pakamac	pakamacs
+pakeha	->	pakeha	pakehas
+pakistani	->	pakistani	pakistanis
+pakora	->	pakora	pakoras
+palace	->	palaces	palace
+paladin	->	paladins	paladin
+palaeobotanist	->	palaeobotanist	palaeobotanists
+palaeoclimate	->	palaeoclimate	palaeoclimates
+palaeoecologist	->	palaeoecologists	palaeoecologist
+palaeoenvironment	->	palaeoenvironment	palaeoenvironments
+palaeogeography	->	palaeogeography	palaeogeographies
+palaeographer	->	palaeographer	palaeographers
+palaeomagnetist	->	palaeomagnetists	palaeomagnetist
+palaeontologist	->	palaeontologists	palaeontologist
+palaeozoic	->	palaeozoic	palaeozoics
+palanquin	->	palanquin	palanquins
+palatal	->	palatal	palatals
+palate	->	palate	palates
+palaver	->	palaver	palavers
+palazzo	->	palazzo	palazzos
+pale	->	paler	pale	paling	pales	palest	paled
+paleface	->	palefaces	paleface
+paleontologist	->	paleontologists	paleontologist
+palernian	->	palernian	palernians
+palestinan	->	palestinans	palestinan
+palestinian	->	palestinian	palestinians
+palette	->	palette	palettes
+palfrey	->	palfreys	palfrey
+palheiro	->	palheiro	palheiros
+palimpsest	->	palimpsest	palimpsests
+palindrome	->	palindrome	palindromes
+palisade	->	palisade	palisades
+pallant	->	pallant	pallants
+pall-bearer	->	pall-bearer	pall-bearers
+palletize	->	palletize	palletizing
+pallet	->	pallet	pallets
+palliate	->	palliate	palliated	palliating
+palliative	->	palliative	palliatives
+pall	->	pall	palling	palls	palled
+pallister	->	pallister	pallisters
+palma	->	palma	palmas
+palmer-tomkinson	->	palmer-tomkinson	palmer-tomkinsons
+palmette	->	palmette	palmettes
+palmetto	->	palmetto	palmettos
+palmy	->	palmy	palmier
+palmist	->	palmist	palmists
+palm-print	->	palm-prints	palm-print
+palm-reader	->	palm-readers	palm-reader
+palm-reading	->	palm-reading	palm-readings
+palm	->	palm	palms	palmed	palming
+palmtop	->	palmtops	palmtop
+palm-top	->	palm-top	palm-tops
+palmtree	->	palmtrees	palmtree
+palm-tree	->	palm-trees	palm-tree
+palombe	->	palombes	palombe
+palomino	->	palomino	palominos
+palooka	->	palookas	palooka
+palpate	->	palpates	palpated	palpate	palpating
+palpitate	->	palpitating	palpitated	palpitate
+palpitation	->	palpitations	palpitation
+palp	->	palp	palps	palping
+pal	->	pal	pals
+palsy	->	palsy	palsied	palsies
+paly	->	paly	palyer	palying
+palynomorph	->	palynomorphs	palynomorph
+pamir	->	pamirs	pamir
+pamment	->	pamments	pamment
+pampa	->	pampas	pampa
+pamper	->	pampered	pamper	pampering	pampers
+pamphleteer	->	pamphleteer	pamphleteers	pamphleteering
+pamphlet	->	pamphlet	pamphlets
+pan-	->	pan-s	pan-
+panacea	->	panacea	panaceas
+panamanian	->	panamanian	panamanians
+panama	->	panama	panamas
+pancake	->	pancake	pancakes	pancaked
+panchayat	->	panchayat	panchayats
+pancrease	->	pancreases	pancrease
+pancreatectomy	->	pancreatectomies	pancreatectomy
+pancreatogram	->	pancreatograms	pancreatogram
+panda	->	pandas	panda
+pandava	->	pandava	pandavas
+pandemic	->	pandemic	pandemics
+pander	->	pandering	pander	panders	pandered
+pandy	->	pandy	pandies
+pandit	->	pandit	pandits
+pane	->	panes	pane
+panegyric	->	panegyrics	panegyric
+panelinha	->	panelinhas	panelinha
+panelist	->	panelists	panelist
+panellist	->	panellists	panellist
+panel	->	panel	panels	panelled	panelling
+panemone	->	panemone	panemones
+panful	->	panfuls	panful
+panga	->	panga	pangas
+pangolin	->	pangolins	pangolin
+pang	->	pang	pangs
+panhandler	->	panhandlers	panhandler
+panhandle	->	panhandle	panhandling
+panic	->	panic	panicking	panics
+panier	->	panier	paniers
+panjandrum	->	panjandrum	panjandrums
+pankhurst	->	pankhurst	pankhursts
+panner	->	panners	panner
+pannier	->	pannier	panniers
+panorama	->	panorama	panoramas
+panorpoid	->	panorpoid	panorpoids
+pan	->	pan	pans	panned	panning
+pansy	->	pansy	pansies	pansying
+panslav	->	panslavs	panslav
+panslavist	->	panslavists	panslavist
+pantalon	->	pantalon	pantalons
+pantaloon	->	pantaloon	pantalooned
+pantechnicon	->	pantechnicon	pantechnicons
+pant	->	panting	panted	pant
+pantheon	->	pantheon	pantheons
+panther	->	panther	panthers
+pantile	->	pantiles	pantile	pantiled
+pantisocrat	->	pantisocrats	pantisocrat
+pantograph	->	pantograph	pantographs
+pantomime	->	pantomime	pantomimes	pantomimed
+panto	->	panto	pantos
+pantry	->	pantry	pantries
+pantsuit	->	pantsuits	pantsuit
+panty	->	panties	panty
+panzer	->	panzer	panzers
+papalist	->	papalist	papalists
+papa	->	papa	papas
+papaw	->	papaws	papaw
+papaya	->	papaya	papayas
+paperback	->	paperbacks	paperback	paperbacked
+paper-back	->	paper-back	paper-backs
+paper-boy	->	paper-boy	paper-boys
+paper-chain	->	paper-chains	paper-chain
+paperclip	->	paperclip	paperclips	paperclipped
+paper-clip	->	paper-clip	paper-clips
+papermaker	->	papermakers	papermaker
+papermill	->	papermill	papermills
+paper-mill	->	paper-mill	paper-mills
+paper	->	paper	papers	papering	papered
+paper-seller	->	paper-sellers	paper-seller
+paper-stripper	->	paper-stripper	paper-strippers
+paper-towel	->	paper-towel	paper-towels
+paper-type	->	paper-type	paper-types
+paperweight	->	paperweights	paperweight
+paper-weight	->	paper-weight	paper-weights
+paperwork	->	paperwork	paperworks
+pape	->	pape	papes
+papia	->	papias	papia
+papilla	->	papilla	papillas
+papilloma	->	papilloma	papillomas
+papist	->	papist	papists
+papoose	->	papoose	papooses
+pappa	->	pappas	pappa
+papuan	->	papuan	papuans
+papy	->	papier	papy
+papyrus	->	papyrus	papyri
+paque	->	paque	paques
+para	->	paras	para
+parabear	->	parabear	parabears
+parable	->	parables	parable
+parabola	->	parabola	parabolas
+paraboloid	->	paraboloid	paraboloids
+paracelsian	->	paracelsians	paracelsian
+paracetamol	->	paracetamol	paracetamols
+parachute	->	parachute	parachuted	parachuting	parachutes
+parachutist	->	parachutist	parachutists
+paradigm	->	paradigm	paradigms
+parade	->	parade	parading	parades	paraded
+paradise	->	paradise	paradises
+parador	->	parador	paradors
+paradox	->	paradox	paradoxes
+paradropper	->	paradropper	paradroppers
+paraesthesia	->	paraesthesia	paraesthesias
+paraffin	->	paraffin	paraffins
+parafoil	->	parafoil	parafoils
+paraglide	->	paragliding	paraglide
+paraglider	->	paragliders	paraglider
+paragon	->	paragon	paragons
+paragraph	->	paragraph	paragraphs	paragraphing	paragraphed
+paraguayan	->	paraguayan	paraguayans
+parakeet	->	parakeets	parakeet
+para-legal	->	para-legals	para-legal
+paralegal	->	paralegal	paralegals
+paralinguistic	->	paralinguistic	paralinguistics
+parallax	->	parallax	parallaxes
+parallelepiped	->	parallelepipeds	parallelepiped
+parallelise	->	parallelises	parallelising	parallelised	parallelise
+parallelism	->	parallelism	parallelisms
+parallelogram	->	parallelogram	parallelograms
+parallel	->	parallel	parallels	paralleling	parallelled
+paralympic	->	paralympic	paralympics
+paralyse	->	paralyse	paralysed	paralysing	paralyses
+paralysis	->	paralysis	paralyses
+paralyze	->	paralyzed	paralyze	paralyzes
+paramedic	->	paramedics	paramedic
+paramedical	->	paramedical	paramedicals
+parameter	->	parameters	parameter
+parametric	->	parametric	parametrics
+parametrize	->	parametrize	parametrized
+paramilitary	->	paramilitary	paramilitaries
+para-military	->	para-militaries	para-military
+paramour	->	paramours	paramour
+paranoiac	->	paranoiac	paranoiacs
+paranoia	->	paranoia	paranoias
+paranoid	->	paranoid	paranoids
+parapet	->	parapets	parapet
+paraphrase	->	paraphrased	paraphrase	paraphrases	paraphrasing
+paraprofessional	->	paraprofessional	paraprofessionals
+para-professional	->	para-professional	para-professionals
+parapsid	->	parapsid	parapsids
+parapsychologist	->	parapsychologists	parapsychologist
+para-relation	->	para-relations	para-relation
+parascend	->	parascend	parascending
+parasite	->	parasites	parasite
+parasitise	->	parasitising	parasitises	parasitise	parasitised
+parasitize	->	parasitize	parasitized	parasitizing
+parasitoid	->	parasitoid	parasitoids
+parasitologist	->	parasitologist	parasitologists
+parasol	->	parasol	parasols
+parastatal	->	parastatal	parastatals
+paratone	->	paratones	paratone
+paratroop	->	paratroops	paratroop
+paratrooper	->	paratroopers	paratrooper
+parboil	->	parboiled	parboil	parboiling
+parcel	->	parcels	parcel	parcelling	parcelled
+parch	->	parch	parches	parching
+parchment	->	parchment	parchments
+parchment-seller	->	parchment-seller	parchment-sellers
+parc	->	parc	parcs
+pardner	->	pardners	pardner
+pardon	->	pardoned	pardon	pardons	pardoning
+pardoner	->	pardoners	pardoner
+pare	->	paring	pare	pared	pares
+paren	->	parens	paren
+parent	->	parents	parent	parenting	parented
+parent-governor	->	parent-governors	parent-governor
+parenthesis	->	parenthesis	parentheses
+parenthetical	->	parenthetical	parentheticals
+parfum	->	parfum	parfums
+pargete	->	pargeting	pargeted
+pariah	->	pariah	pariahs
+parient	->	parient	parients
+parietal	->	parietal	parietals
+parish	->	parish	parishes
+parishioner	->	parishioners	parishioner
+parisian	->	parisian	parisians
+parity	->	parity	parities
+park	->	parks	park	parked	parking
+parka	->	parka	parkas
+parker	->	parker	parkers
+parking-token	->	parking-tokens	parking-token
+park-keeper	->	park-keepers	park-keeper
+parkland	->	parkland	parklands
+parkway	->	parkway	parkways
+parlay	->	parlay	parlaying
+parlement	->	parlement	parlements
+parley	->	parley	parleying	parleyed
+parliamentarian	->	parliamentarians	parliamentarian
+parliament	->	parliament	parliaments
+parlor	->	parlor	parlors
+parlourmaid	->	parlourmaid	parlourmaids
+parlour	->	parlour	parlours
+parma	->	parma	parmas
+parmesan	->	parmesan	parmesans
+parochial	->	parochial	parochials
+parodist	->	parodist	parodists
+parody	->	parodying	parody	parodies	parodied
+parole	->	parole	paroled	paroles
+parotid	->	parotids	parotid
+paroxysm	->	paroxysm	paroxysms
+parp	->	parp	parping	parped
+parricide	->	parricide	parricides
+parrish	->	parrish	parrishes
+parrote	->	parroting	parroted
+parrot	->	parrot	parrots
+parry	->	parried	parry	parries	parrying
+par	->	par	pars	parring	parred
+parse	->	parsing	parse	parsed	parses
+parsec	->	parsecs	parsec
+parsee	->	parsees	parsee
+parser	->	parser	parsers
+parslow	->	parslow	parslows
+parsnip	->	parsnip	parsnips
+parsonage	->	parsonage	parsonages
+parsy	->	parsy	parsys
+partaker	->	partakers	partaker
+partake	->	partaking	partakes	partake
+parter	->	parters	parter
+parterre	->	parterre	parterres
+parte	->	parte	partes
+parthian	->	parthian	parthians
+partial	->	partial	partials	partialled
+participant	->	participants	participant
+participant-observer	->	participant-observer	participant-observers
+participant-role	->	participant-roles	participant-role
+participate	->	participate	participating	participated	participates
+participation	->	participation	participations
+participator	->	participator	participators
+participle	->	participle	participles
+particle	->	particles	particle
+particularise	->	particularised	particularise	particularising
+particularism	->	particularism	particularisms
+particularist	->	particularist	particularists
+particularity	->	particularity	particularities
+particularize	->	particularized	particularize	particularizing
+particulate	->	particulate	particulates
+partida	->	partida	partidas
+party	->	party	parties	partied	partying	partys
+partisan	->	partisan	partisans
+partisanship	->	partisanship	partisanships
+partita	->	partita	partitas
+partition	->	partition	partitions	partitioned	partitioning
+partizan	->	partizan	partizans
+partner	->	partner	partners	partnered	partnering
+partnership	->	partnerships	partnership
+part-number	->	part-number	part-numbers
+part-object	->	part-object	part-objects
+part-own	->	part-owned	part-own
+part-owner	->	part-owner	part-owners
+part-pack	->	part-pack	part-packs
+part-payment	->	part-payments	part-payment
+partridge	->	partridge	partridges
+part	->	part	parts	parted	parting
+part-song	->	part-song	part-songs
+part-timer	->	part-timer	part-timers
+parturition	->	parturition	parturitions
+partwork	->	partwork	partworks
+party-giver	->	party-giver	party-givers
+partygoer	->	partygoers	partygoer
+party-goer	->	party-goers	party-goer
+party-member	->	party-members	party-member
+party-piece	->	party-piece	party-pieces
+party-pooper	->	party-poopers	party-pooper
+party-popper	->	party-poppers	party-popper
+party-thrower	->	party-thrower	party-throwers
+parvenu	->	parvenu	parvenus
+pa	->	pa	pas
+pascal	->	pascal	pascals
+pasha	->	pasha	pashas
+pash	->	pash	pashes
+pashtun	->	pashtuns	pashtun
+pass	->	passed	pass	passing	passes
+passacaglia	->	passacaglia	passacaglias
+passage-grave	->	passage-graves	passage-grave
+passage	->	passage	passages
+passageway	->	passageway	passageways
+passage-way	->	passage-way	passage-ways
+passaging	->	passaging	passagings
+passbook	->	passbook	passbooks
+passenger	->	passengers	passenger
+passerine	->	passerines	passerine
+passer	->	passer	passers
+passion	->	passions	passion
+passion-flower	->	passion-flowers	passion-flower
+passion-killer	->	passion-killer	passion-killers
+passive	->	passive	passives
+passivize	->	passivize	passivized
+passo	->	passos	passo
+passport	->	passport	passports
+password	->	password	passwords
+pasta	->	pasta	pastas
+paste	->	paste	pasted	pastes
+pastellist	->	pastellists	pastellist
+pastel	->	pastel	pastels
+paster	->	pasters	paster
+pastern	->	pasterns	pastern
+paste-up	->	paste-up	paste-ups
+pasteurize	->	pasteurized	pasteurizing
+pasty	->	pasty	pasties
+pastille	->	pastilles	pastille
+pastime	->	pastime	pastimes
+past	->	past	pasting	pasts
+past-master	->	past-masters	past-master
+pastorale	->	pastorale	pastorales
+pastoralist	->	pastoralist	pastoralists
+pastoral	->	pastoral	pastorals
+pastorate	->	pastorate	pastorates
+pastore	->	pastore	pastored	pastoring
+pastor	->	pastor	pastors
+pastry	->	pastry	pastries
+pastry-cook	->	pastry-cooks	pastry-cook
+pasture	->	pastures	pastured	pasture	pasturing
+pastureland	->	pastureland	pasturelands
+pasture-land	->	pasture-land	pasture-lands
+pata	->	patas	pata
+patch	->	patches	patch	patched	patching
+patchy	->	patchy	patchier
+patchwork	->	patchwork	patchworks
+paten	->	patens	paten
+patent	->	patent	patented	patents	patenting
+patentee	->	patentee	patentees
+patent-holder	->	patent-holder	patent-holders
+paternalist	->	paternalist	paternalists
+paternoster	->	paternoster	paternostered
+pater	->	pater	paters
+pate	->	pate	pates
+pathan	->	pathans	pathan
+pathe	->	pathe	pathes
+pathetic	->	pathetic	pathetics
+path-finder	->	path-finders	path-finder
+pathfinder	->	pathfinder	pathfinders
+pathname	->	pathname	pathnames
+pathogen	->	pathogen	pathogens
+pathological	->	pathological	pathologicals
+pathology	->	pathology	pathologies
+pathologist	->	pathologist	pathologists
+pathologize	->	pathologizing	pathologized
+pathomechanism	->	pathomechanism	pathomechanisms
+path	->	path	paths
+pathway	->	pathway	pathways
+patient	->	patients	patient
+patina	->	patina	patinas
+patinate	->	patinate	patinating	patinates
+patio	->	patio	patios
+pato	->	pato	patos
+patrial	->	patrials	patrial
+patriarchate	->	patriarchates	patriarchate
+patriarch	->	patriarch	patriarchs
+patrician	->	patrician	patricians
+patriciate	->	patriciate	patriciates
+patricio	->	patricio	patricios
+patriline	->	patrilines	patriline
+patrimony	->	patrimony	patrimonies
+patriotique	->	patriotique	patriotiques
+patriot	->	patriot	patriots
+patristic	->	patristic	patristics
+patrol	->	patrol	patrolling	patrols	patrolled
+patrolman	->	patrolman	patrolmen
+patronage	->	patronage	patronages
+patroness	->	patroness	patronesses
+patronisation	->	patronisations	patronisation
+patronise	->	patronised	patronise	patronises
+patronize	->	patronize	patronized	patronizes	patronizing
+patron	->	patron	patrons
+patronymic	->	patronymics	patronymic
+patsy	->	patsy	patsies
+patten	->	patten	pattens
+patter	->	patter	pattered	patters	pattering
+pattern-book	->	pattern-book	pattern-books
+pattern-maker	->	pattern-maker	pattern-makers
+pattern-note	->	pattern-notes	pattern-note
+pattern	->	pattern	patterns	patterning	patterned
+patty	->	patty	patties
+pat	->	pat	patting	patted	pats
+paunch	->	paunch	paunches
+pauper	->	paupers	pauper	paupered
+pause	->	pauses	pause	paused	pausing
+pavan	->	pavans	pavan
+pavane	->	pavane	pavanes
+pavement	->	pavements	pavement
+paver	->	pavers	paver
+pavilion	->	pavilion	pavilions
+pavillon	->	pavillon	pavillons
+pave	->	paved	paving	pave	paves
+paving-stone	->	paving-stone	paving-stones
+pavior	->	pavior	paviors
+paviour	->	paviour	paviours
+paw	->	paws	paw	pawing	pawed
+pawel	->	pawels	pawel
+pawnbroker	->	pawnbrokers	pawnbroker
+pawn	->	pawn	pawns	pawning	pawned
+pawnshop	->	pawnshop	pawnshops
+pawpaw	->	pawpaw	pawpaws
+paw-paw	->	paw-paw	paw-paws
+paw-print	->	paw-print	paw-prints
+paxman	->	paxman	paxmans
+paxo	->	paxos	paxo
+payable	->	payable	payables
+payback	->	payback	paybacks
+paybook	->	paybook	paybooks
+pay-day	->	pay-days	pay-day
+payee	->	payee	payees
+payer	->	payers	payer
+payload	->	payloads	payload
+paymaster	->	paymaster	paymasters
+payment	->	payments	payment
+payoff	->	payoffs	payoff
+pay-off	->	pay-off	pay-offs
+payout	->	payout	payouts
+pay-out	->	pay-out	pay-outs
+pay-packet	->	pay-packets	pay-packet
+pay-penny	->	pay-pennies	pay-penny
+payphone	->	payphones	payphone
+pay-rise	->	pay-rise	pay-rises
+payroll	->	payroll	payrolls
+pay-roll	->	pay-roll	pay-rolls
+paysannat	->	paysannats	paysannat
+pay-scale	->	pay-scale	pay-scales
+pay-slip	->	pay-slips	pay-slip
+payslip	->	payslip	payslips
+p-bass	->	p-bass	p-basses
+pby	->	pby	pbys
+p-cadherin	->	p-cadherin	p-cadherins
+pca	->	pca	pcas
+pcb	->	pcb	pcbs
+pcr-fragment	->	pcr-fragments	pcr-fragment
+pc	->	pc	pcs
+pda	->	pda	pdas
+peaberry	->	peaberry	peaberries
+peace-broker	->	peace-broker	peace-brokers
+peace-keeper	->	peace-keepers	peace-keeper
+peacekeeper	->	peacekeeper	peacekeepers
+peacemaker	->	peacemaker	peacemakers
+peace-maker	->	peace-maker	peace-makers
+peace-making	->	peace-making	peace-makings
+peace-offering	->	peace-offerings	peace-offering
+peace	->	peace	peaces
+peace-treaty	->	peace-treaty	peace-treaties
+peach	->	peaches	peach
+pea-coat	->	pea-coats	pea-coat
+peacock	->	peacock	peacocks	peacocking
+peahen	->	peahens	peahen
+peak	->	peaks	peak	peaking	peaked
+peak-hour	->	peak-hour	peak-hours
+peal	->	peal	peals	pealed	pealing
+peanut	->	peanuts	peanut
+pearle	->	pearle	pearles
+pearlescent	->	pearlescent	pearlescents
+pearly	->	pearly	pearliest
+pearl	->	pearl	pearls	pearling	pearled
+pearmain	->	pearmain	pearmains
+pear	->	pear	pears
+pear-tree	->	pear-tree	pear-trees
+pea	->	pea	peas
+peasant	->	peasants	peasant
+peasant-proletarian	->	peasant-proletarians	peasant-proletarian
+peasantry	->	peasantry	peasantries
+peashooter	->	peashooters	peashooter
+pea-shooter	->	pea-shooters	pea-shooter
+pea-souper	->	pea-soupers	pea-souper
+peat-bog	->	peat-bogs	peat-bog
+peat-cut	->	peat-cut	peat-cuts
+peat-digger	->	peat-digger	peat-diggers
+peate	->	peates	peate
+peatland	->	peatland	peatlands
+peat	->	peat	peats	peating
+peb	->	pebs	peb
+pebbledash	->	pebbledashed	pebbledash
+pebble	->	pebble	pebbles
+pec	->	pecs	pec
+pecan	->	pecan	pecans
+peccadillo	->	peccadillo	peccadillos
+peccary	->	peccary	peccaries
+pecheneg	->	pechenegs	pecheneg
+pech	->	pech	peches
+pecker	->	peckers	pecker
+peck	->	peck	pecking	pecked	pecks
+pectinid	->	pectinid	pectinids
+pectin	->	pectin	pectins
+pectoral	->	pectorals	pectoral
+peculation	->	peculation	peculations
+peculiarity	->	peculiarity	peculiarities
+peculiar	->	peculiar	peculiars
+pedagogy	->	pedagogy	pedagogies
+pedal-bin	->	pedal-bin	pedal-bins
+pedalboard	->	pedalboards	pedalboard
+pedalo	->	pedalo	pedalos
+pedal	->	pedal	pedals	pedalled	pedalling
+pedantry	->	pedantry	pedantries
+pedant	->	pedant	pedants
+peddler	->	peddler	peddlers
+peddle	->	peddled	peddling	peddle	peddles
+peder	->	peders	peder
+pederast	->	pederasts	pederast
+pede	->	pede	pedes
+pedestal	->	pedestal	pedestals
+pedestrianise	->	pedestrianising	pedestrianise
+pedestrian	->	pedestrian	pedestrians
+pedicel	->	pedicels	pedicel
+pedicle	->	pedicled	pedicle
+pedicure	->	pedicured	pedicure	pedicures
+pedigree	->	pedigree	pedigrees
+pediment	->	pediment	pediments
+pedipalp	->	pedipalps	pedipalp
+pediplain	->	pediplains	pediplain
+pedlar	->	pedlar	pedlars
+pedometer	->	pedometer	pedometers
+pedon	->	pedon	pedons
+pedulla	->	pedulla	pedullas
+peduncle	->	peduncle	peduncles
+pee-	->	pee-ing	pee-
+pee-bottle	->	pee-bottle	pee-bottles
+pee	->	pee	peed	peeing	pees
+peek	->	peek	peeking	peeked	peeks
+peeler	->	peelers	peeler
+peel	->	peel	peeling	peeled	peels
+peel-tower	->	peel-tower	peel-towers
+peep	->	peeps	peep	peeped	peeping
+peeper	->	peeper	peepers
+peephole	->	peephole	peepholes
+peep-hole	->	peep-hole	peep-holes
+peepshow	->	peepshow	peepshows
+peerage	->	peerage	peerages
+peer	->	peering	peered	peer	peers
+peeress	->	peeresses	peeress
+peesy	->	peesy	peesies
+peeter	->	peeter	peeters
+peet	->	peet	peets
+peever	->	peever	peevers
+peewit	->	peewit	peewits	peewitted
+peformance	->	peformances	peformance
+peform	->	peforming	peformed
+peg	->	pegs	peg	pegging	pegged
+peggotty	->	peggotty	peggottys
+peghead	->	pegheads	peghead
+pegmatite	->	pegmatite	pegmatites
+peinture	->	peinture	peintures
+pejorative	->	pejorative	pejoratives
+pekinese	->	pekinese	pekineses
+pekingese	->	pekingese	pekingeses
+pelargonium	->	pelargoniums	pelargonium
+pelham	->	pelham	pelhams
+pelican	->	pelican	pelicans
+pelite	->	pelites	pelite
+pelle	->	pelle	pelles
+pellete	->	pelleted	pelleting
+pellet	->	pellet	pellets
+pelling	->	pelling	pellings
+pell	->	pell	pells
+pelmet	->	pelmet	pelmets
+peloponnesian	->	peloponnesian	peloponnesians
+peloton	->	peloton	pelotons
+pelta-urn	->	pelta-urns	pelta-urn
+pelt	->	pelted	pelts	pelt	pelting
+pelvis	->	pelvis	pelvises	pelves
+pelycosaur	->	pelycosaurs	pelycosaur
+pember	->	pember	pembers
+penalise	->	penalised	penalising	penalise	penalises
+penality	->	penalities	penality
+penalize	->	penalizes	penalized	penalize	penalizing
+penalty	->	penalty	penalties
+penance	->	penance	penances
+penan	->	penan	penans
+pena	->	pena	penas
+pence	->	pence	pences
+penchant	->	penchant	penchants
+pencil-case	->	pencil-cases	pencil-case
+pencil	->	pencil	pencils	pencilled	pencilling
+pendant	->	pendant	pendants
+pendentive	->	pendentives	pendentive
+pend	->	pend	pends
+pendulum	->	pendulum	pendulums
+pene	->	pene	penes
+penetrate	->	penetrated	penetrate	penetrating	penetrates
+penetration	->	penetration	penetrations
+penetrometer	->	penetrometers	penetrometer
+penfriend	->	penfriends	penfriend
+pen-friend	->	pen-friend	pen-friends
+penguin	->	penguin	penguins
+penholder	->	penholder	penholders
+penicillin	->	penicillin	penicillins
+peninsula	->	peninsula	peninsulas
+penise	->	penises	penised
+penitential	->	penitentials	penitential
+penitent	->	penitent	penitents
+penlight	->	penlight	penlights
+pen-light	->	pen-light	pen-lights
+pen-man	->	pen-men	pen-man
+pennant	->	pennant	pennants
+pennon	->	pennons	pennon
+penn'orth	->	penn'orth	penn'orths
+penny	->	pennies	penny
+penny-farthing	->	penny-farthings	penny-farthing
+pennyfarthing	->	pennyfarthing	pennyfarthings
+pennyworth	->	pennyworths	pennyworth
+penologist	->	penologist	penologists
+pen-pal	->	pen-pals	pen-pal
+penpal	->	penpal	penpals
+pen-portrait	->	pen-portraits	pen-portrait
+pen-pusher	->	pen-pusher	pen-pushers
+penrose	->	penrose	penroses
+pen	->	pen	pens	penned	penning
+pension	->	pensions	pension	pensioned	pensioning
+pensioner	->	pensioner	pensioners
+pensione	->	pensione	pensiones
+penstemon	->	penstemon	penstemons
+penstock	->	penstock	penstocks
+penta	->	pentas	penta
+pentacle	->	pentacle	pentacles
+pentad	->	pentad	pentads
+pentagon	->	pentagon	pentagons
+pentagram	->	pentagram	pentagrams
+pentamer	->	pentamer	pentamers
+pentameter	->	pentameter	pentameters
+pentangle	->	pentangle	pentangles
+pentate	->	pentate	pentates
+pentathlete	->	pentathlete	pentathletes
+pentatonic	->	pentatonic	pentatonics
+pentecostal	->	pentecostal	pentecostals
+penthouse	->	penthouse	penthouses
+pentice	->	pentice	pentices
+pentland	->	pentland	pentlands
+pentstemon	->	pentstemon	pentstemons
+penumbra	->	penumbra	penumbras
+pen-up	->	pen-ups	pen-up
+peony	->	peony	peonies
+peon	->	peon	peons
+people	->	people	peoples	peopled	peopling
+peppercorn	->	peppercorns	peppercorn
+peppermint	->	peppermint	peppermints	pepperminted
+pepper	->	pepper	peppers	peppered	peppering
+pep-pill	->	pep-pill	pep-pills
+pep	->	pep	peps	pepped	pepping
+pepsi-cola	->	pepsi-cola	pepsi-colas
+pepsinogen	->	pepsinogen	pepsinogens
+pep-talk	->	pep-talk	pep-talks
+peptide	->	peptide	peptides
+perambulate	->	perambulated	perambulate	perambulating
+perambulation	->	perambulations	perambulation
+perambulator	->	perambulators	perambulator
+perborate	->	perborate	perborates
+perceive	->	perceive	perceived	perceives	perceiving
+perceiver	->	perceiver	perceivers
+percentage	->	percentage	percentages	percentaged
+percentile	->	percentile	percentiles
+percent	->	percent	percents
+perception	->	perceptions	perception
+perceptor	->	perceptor	perceptors
+perceptron	->	perceptrons	perceptron
+percept	->	percept	percepts
+perchance	->	perchance	perchanced
+perchery	->	perchery	percheries
+perch	->	perched	perching	perch	perches
+percipient	->	percipient	percipients
+percolate	->	percolate	percolated	percolates	percolating
+percolator	->	percolators	percolator
+percussionist	->	percussionists	percussionist
+percussion	->	percussion	percussions
+peregrination	->	peregrinations	peregrination
+peregrine	->	peregrine	peregrines
+pereire	->	pereire	pereires
+perennial	->	perennial	perennials
+perfect	->	perfect	perfected	perfecting	perfects
+perfectionist	->	perfectionists	perfectionist
+perfection	->	perfection	perfections
+perfector	->	perfectors	perfector
+perfecto	->	perfecto	perfectos
+perforate	->	perforates	perforating	perforate
+perforation	->	perforation	perforations
+performance	->	performance	performances
+performative	->	performative	performatives
+perform	->	perform	performed	performs	performing
+performer	->	performers	performer
+perfume	->	perfumes	perfume	perfumed	perfuming
+perfumer	->	perfumers	perfumer
+perfumery	->	perfumery	perfumeries
+perfusate	->	perfusates	perfusate
+perfuse	->	perfusing	perfused	perfuse
+perfusion	->	perfusion	perfusions
+pergola	->	pergola	pergolas
+peridotite	->	peridotite	peridotites
+peridot	->	peridot	peridots
+peril	->	perils	peril
+perimeter	->	perimeter	perimeters
+perineum	->	perineum	perineums
+period	->	periods	period	perioding
+periodical	->	periodical	periodicals
+periodicity	->	periodicity	periodicities
+periodization	->	periodization	periodizations
+periodize	->	periodizing	periodized
+periodogram	->	periodogram	periodograms
+peripatetic	->	peripatetic	peripatetics
+peripheral	->	peripheral	peripherals
+periphery	->	periphery	peripheries
+periscope	->	periscope	periscoped	periscopes
+perishable	->	perishable	perishables
+perish	->	perish	perished	perishing	perishes
+perisher	->	perishers	perisher
+peristyle	->	peristyles	peristyle
+periwinkle	->	periwinkle	periwinkles
+perjure	->	perjure	perjured
+perjurer	->	perjurer	perjurers
+perjury	->	perjury	perjuries
+perk	->	perks	perked	perk	perking
+perky	->	perky	perkier
+perm	->	perms	perm	permed	perming
+permanent	->	permanent	permanents
+permeability	->	permeability	permeabilities
+permeate	->	permeates	permeate	permeated	permeating
+permission	->	permission	permissions
+permissive	->	permissive	permissives
+permit	->	permitted	permits	permit	permitting
+permutate	->	permutating	permutated
+permutation	->	permutations	permutation
+permute	->	permuted	permute	permuting	permutes
+peronista	->	peronista	peronistas
+peronist	->	peronist	peronists
+peroration	->	peroration	perorations
+peroxide	->	peroxided	peroxide	peroxides	peroxiding
+perpetrate	->	perpetrate	perpetrated	perpetrating	perpetrates
+perpetrator	->	perpetrator	perpetrators
+perpetual	->	perpetual	perpetuals
+perpetuate	->	perpetuate	perpetuates	perpetuated	perpetuating
+perpetuation	->	perpetuation	perpetuations
+perpetuity	->	perpetuity	perpetuities
+perplex	->	perplexed	perplex	perplexing	perplexes
+perplexity	->	perplexities	perplexity
+perquisite	->	perquisite	perquisites
+perry	->	perry	perries	perried
+per	->	per	perring	pers
+persaud	->	persauded	persaud
+persecute	->	persecuting	persecuted	persecute	persecutes
+persecution	->	persecution	persecutions
+persecutor	->	persecutor	persecutors
+persevere	->	perseveres	persevere	persevered
+persian	->	persian	persians
+persist	->	persist	persisted	persists	persisting
+person-	->	person-s	person-
+personage	->	personages	personage
+personalisation	->	personalisation	personalisations
+personalise	->	personalises	personalising	personalise
+personality	->	personalities	personality
+personalize	->	personalizes	personalize	personalizing
+persona	->	persona	personas
+personation	->	personation	personations
+person-hour	->	person-hours	person-hour
+personification	->	personification	personifications
+personify	->	personified	personify	personifying	personifies
+personnel	->	personnel	personnels
+person	->	person	persons
+person-year	->	person-years	person-year
+perspective	->	perspective	perspectives
+perspire	->	perspire	perspiring	perspired
+persuade	->	persuade	persuaded	persuades	persuading
+persuader	->	persuaders	persuader
+persuasion	->	persuasion	persuasions
+persulphate	->	persulphates	persulphate
+pertain	->	pertaining	pertains	pertained	pertain
+perturbation	->	perturbation	perturbations
+perturb	->	perturbed	perturbing	perturb	perturbs
+perugian	->	perugian	perugians
+peruke	->	perukes	peruke
+perusal	->	perusal	perusals
+peruse	->	perused	perusing	peruses	peruse
+peruvian	->	peruvian	peruvians
+pervade	->	pervades	pervading	pervade	pervaded
+perverse	->	perverse	perversest
+perversion	->	perversions	perversion
+perversity	->	perversity	perversities
+pervert	->	pervert	perverted	perverts	perverting
+pe	->	pe	pes
+peseta	->	pesetas	peseta
+pesky	->	peskiest	pesky
+peso	->	peso	pesos
+pessary	->	pessary	pessaries
+pessimist	->	pessimists	pessimist
+pester	->	pestering	pester	pestered
+pesticide	->	pesticides	pesticide
+pestilence	->	pestilence	pestilences
+pestle	->	pestle	pestles
+pest	->	pest	pests
+petal	->	petals	petal	petalling	petalled
+petard	->	petard	petarding	petards
+peter	->	peter	petered	peters	petering
+petfood	->	petfoods	petfood
+petiole	->	petioles	petiole
+petite	->	petite	petites
+petition-drawer	->	petition-drawers	petition-drawer
+petitioner	->	petitioners	petitioner
+petition	->	petition	petitions	petitioned	petitioning
+petit	->	petit	petits
+pet-owner	->	pet-owners	pet-owner
+petrarch	->	petrarch	petrarchs
+petra	->	petra	petras
+petrel	->	petrels	petrel
+petrify	->	petrifying	petrify	petrifies
+petrochemical	->	petrochemical	petrochemicals
+petro-chemical	->	petro-chemical	petro-chemicals
+petrodollar	->	petrodollar	petrodollars
+petro-dollar	->	petro-dollar	petro-dollars
+petrofabric	->	petrofabric	petrofabrics
+petroglyph	->	petroglyphs	petroglyph
+petrographer	->	petrographer	petrographers
+petrologist	->	petrologists	petrologist
+petrol	->	petrol	petrols
+petrol-station	->	petrol-station	petrol-stations
+pet	->	pet	pets	petted	petting
+petshop	->	petshops	petshop
+pett	->	petts	pett
+petticoat	->	petticoat	petticoats
+petty	->	petty	pettier	pettys	pettiest
+pettigrew	->	pettigrew	pettigrews
+petulance	->	petulance	petulances
+petunia	->	petunias	petunia
+peugeot	->	peugeot	peugeots
+peuple	->	peuple	peuples
+pew	->	pew	pews
+pewter	->	pewter	pewtered
+pewterer	->	pewterer	pewterers
+pfennig	->	pfennigs	pfennig
+pgce	->	pgce	pgces
+phaeton	->	phaeton	phaetons
+phage	->	phages	phage
+phagemid	->	phagemid	phagemids
+phalange	->	phalange	phalanges
+phalangist	->	phalangist	phalangists
+phalanx	->	phalanxes	phalanx
+phalarope	->	phalarope	phalaropes
+phanerogam	->	phanerogam	phanerogams
+phantasy	->	phantasy	phantasies	phantasied
+phantasmagoria	->	phantasmagoria	phantasmagorias
+phantasmagorical	->	phantasmagorical	phantasmagoricals
+phantasm	->	phantasm	phantasms
+phantom	->	phantom	phantoms
+pharaoh	->	pharaoh	pharaohs
+pharisee	->	pharisees	pharisee
+pharmaceutical	->	pharmaceutical	pharmaceuticals
+pharmacist	->	pharmacist	pharmacists
+pharmacokinetic	->	pharmacokinetic	pharmacokinetics
+pharmacologist	->	pharmacologist	pharmacologists
+pharmacy	->	pharmacies	pharmacy
+pharo	->	pharos	pharo
+pharyngeal	->	pharyngeal	pharyngeals
+phaser	->	phasers	phaser
+phase	->	phase	phases	phased	phasing
+phasmid	->	phasmids	phasmid
+phasor	->	phasor	phasors
+phd	->	phd	phds
+pheasantry	->	pheasantry	pheasantries
+pheasant	->	pheasant	pheasants
+phenocryst	->	phenocrysts	phenocryst
+phenol	->	phenols	phenol
+phenolic	->	phenolics	phenolic
+phenomenalist	->	phenomenalist	phenomenalists
+phenomenologist	->	phenomenologists	phenomenologist
+phenomenon	->	phenomena	phenomenon
+phenothiazine	->	phenothiazines	phenothiazine
+phenotype	->	phenotype	phenotypes
+pheromone	->	pheromones	pheromone
+phial	->	phials	phial
+philadelphian	->	philadelphian	philadelphians
+philander	->	philandering	philander
+philanthropy	->	philanthropy	philanthropies
+philanthropist	->	philanthropists	philanthropist
+philatelist	->	philatelist	philatelists
+philhellene	->	philhellene	philhellenes
+philippian	->	philippians	philippian
+philippic	->	philippic	philippics
+philippino	->	philippinos	philippino
+philipp	->	philipp	philipps
+philistine	->	philistine	philistines
+philodendron	->	philodendrons	philodendron
+philologist	->	philologists	philologist
+philonym	->	philonyms	philonym
+philo	->	philo	philos
+philosophe	->	philosophes	philosophe
+philosopher	->	philosophers	philosopher
+philosopher-king	->	philosopher-kings	philosopher-king
+philosopher-scientist	->	philosopher-scientists	philosopher-scientist
+philosophy	->	philosophy	philosophies
+philosophise	->	philosophise	philosophised	philosophising	philosophises
+philosophize	->	philosophize	philosophizing	philosophizes
+philtre	->	philtres	philtre
+phlogopite	->	phlogopite	phlogopites
+phlox	->	phlox	phloxes
+phnaarg	->	phnaargs	phnaarg
+pho	->	phos	pho
+phobia	->	phobia	phobias
+phobic	->	phobic	phobics
+phocaean	->	phocaean	phocaeans
+phocid	->	phocid	phocids
+phoenician	->	phoenician	phoenicians
+phoenix	->	phoenix	phoenixes
+phokian	->	phokian	phokians
+phonebook	->	phonebook	phonebooks
+phone-booth	->	phone-booths	phone-booth
+phone-box	->	phone-box	phone-boxes
+phonecall	->	phonecalls	phonecall
+phone-call	->	phone-call	phone-calls
+phonecard	->	phonecards	phonecard
+phone-in	->	phone-in	phone-ins
+phoneme	->	phoneme	phonemes
+'phone	->	'phone	'phones
+phone-tap	->	phone-taps	phone-tap
+phonetician	->	phonetician	phoneticians
+phoney	->	phoney	phoneys
+phonic	->	phonic	phonics
+phony	->	phony	phoniest	phonies
+phone	->	phone	phoning	phoned	phones
+phonogram	->	phonogram	phonograms
+phonograph	->	phonograph	phonographs
+phonolite	->	phonolites	phonolite
+phonology	->	phonology	phonologies
+phormium	->	phormiums	phormium
+phosphatase	->	phosphatase	phosphatases
+phosphate	->	phosphate	phosphates	phosphating
+phosphatidylcholine	->	phosphatidylcholine	phosphatidylcholines
+phosphine	->	phosphine	phosphines
+phosphodiesterase	->	phosphodiesterase	phosphodiesterases
+phosphoinositide	->	phosphoinositide	phosphoinositides
+phospholipase	->	phospholipase	phospholipases
+phospholipid	->	phospholipids	phospholipid
+phosphoprotein	->	phosphoproteins	phosphoprotein
+phosphor	->	phosphor	phosphors
+phosphorylate	->	phosphorylated	phosphorylate	phosphorylates	phosphorylating
+photo	->	photos	photo
+photo-album	->	photo-albums	photo-album
+photo-booth	->	photo-booths	photo-booth
+photobooth	->	photobooth	photobooths
+photocall	->	photocall	photocalls
+photo-call	->	photo-call	photo-calls
+photo-cd	->	photo-cds	photo-cd
+photocell	->	photocells	photocell
+photo-cell	->	photo-cell	photo-cells
+photochemical	->	photochemical	photochemicals
+photocomposition	->	photocomposition	photocompositioned
+photocopier	->	photocopier	photocopiers
+photocopy	->	photocopying	photocopies	photocopied	photocopy
+photo-copy	->	photo-copy	photo-copies	photo-copied	photo-copying
+photodiode	->	photodiodes	photodiode
+photofinish	->	photofinish	photofinishes
+photo-finish	->	photo-finish	photo-finishes
+photofit	->	photofit	photofits
+photograph	->	photographs	photograph	photographed	photographing
+photographer	->	photographers	photographer
+photojournalist	->	photojournalist	photojournalists
+photometer	->	photometer	photometers
+photomicrograph	->	photomicrograph	photomicrographs
+photomicroscope	->	photomicroscope	photomicroscopes
+photomontage	->	photomontage	photomontages
+photo-montage	->	photo-montage	photo-montages
+photon	->	photons	photon
+photonic	->	photonic	photonics
+photo-opportunity	->	photo-opportunities	photo-opportunity
+photo-op	->	photo-op	photo-ops
+photo-painting	->	photo-painting	photo-paintings
+photo-pass	->	photo-passes	photo-pass
+photoplay	->	photoplay	photoplays
+photoprotein	->	photoproteins	photoprotein
+photoreceptor	->	photoreceptors	photoreceptor
+photoresist	->	photoresists	photoresist
+photoset	->	photosetting	photoset
+photosetter	->	photosetter	photosetters
+photostat	->	photostats	photostat	photostatting	photostatted
+photo-story	->	photo-story	photo-stories
+photosynthesise	->	photosynthesise	photosynthesising
+photosynthesize	->	photosynthesize	photosynthesized	photosynthesizing
+photovoltaic	->	photovoltaic	photovoltaics
+photowork	->	photoworks	photowork
+phrase-book	->	phrase-book	phrase-books
+phrase	->	phrase	phrased	phrases	phrasing
+phrase-structure	->	phrase-structure	phrase-structures
+phrenologist	->	phrenologists	phrenologist
+ph	->	ph	phs
+phut-phut	->	phut-phut	phut-phutting
+phut	->	phut	phutted
+phylactery	->	phylactery	phylacteries
+phylogeny	->	phylogeny	phylogenies
+physicalist	->	physicalist	physicalists
+physical	->	physical	physicals
+physician	->	physician	physicians
+physicist	->	physicists	physicist
+physiocrat	->	physiocrats	physiocrat
+physiognomy	->	physiognomy	physiognomies
+physiologist	->	physiologists	physiologist
+physio	->	physio	physios
+physiotherapist	->	physiotherapist	physiotherapists
+physique	->	physique	physiques
+physitian	->	physitian	physitians
+phytooestrogen	->	phytooestrogen	phytooestrogens
+pianissimo	->	pianissimo	pianissimos
+pianist	->	pianist	pianists
+pianoforte	->	pianofortes	pianoforte
+piano	->	piano	pianos
+piast	->	piasts	piast
+piastre	->	piastres	piastre
+piazza	->	piazza	piazzas
+pibroch	->	pibroch	pibrochs
+pib	->	pib	pibs
+pica	->	pica	picas
+piccaninny	->	piccaninnies	piccaninny
+piccolo	->	piccolo	piccolos
+piccy	->	piccys	piccy	piccies
+pich	->	pich	piched
+picker	->	pickers	picker
+picket	->	pickets	picket	picketted
+pickete	->	picketed	picketing
+pickin	->	pickins	pickin
+pickle	->	pickle	pickles	pickled	pickling
+picklock	->	picklocks	picklock
+pick-lock	->	pick-lock	pick-locks
+pickpocket	->	pickpockets	pickpocket
+pickpockete	->	pickpocketing	pickpocketed
+pick-pocket	->	pick-pocket	pick-pockets
+pick	->	pick	picks	picking	picked
+pickup	->	pickup	pickups
+pick-up	->	pick-up	pick-ups
+picnic	->	picnicking	picnic	picnics
+picnicker	->	picnickers	picnicker
+pico	->	pico	picos
+picosecond	->	picoseconds	picosecond
+picquet	->	picquets	picquet	picquetting
+pic	->	pic	pics
+pict	->	picts	pict
+picter	->	picters	picter
+pictogram	->	pictograms	pictogram
+pictorial	->	pictorial	pictorials
+picture-book	->	picture-book	picture-books
+picture	->	picture	pictured	pictures	picturing
+picture-frame	->	picture-frame	picture-frames
+picture-gallery	->	picture-galleries	picture-gallery
+picture-house	->	picture-house	picture-houses
+picture-postcard	->	picture-postcard	picture-postcards
+picture-strip	->	picture-strips	picture-strip
+piddle	->	piddling	piddle	piddles	piddled
+pidgeon	->	pidgeon	pidgeons
+pidgin	->	pidgin	pidgins
+piebald	->	piebalds	piebald
+piece-part	->	piece-parts	piece-part
+piece-rate	->	piece-rate	piece-rates
+piecer	->	piecer	piecers
+piece	->	piece	pieces	piecing	pieced
+pie-chart	->	pie-charts	pie-chart
+pied	->	pied	pieds
+pier	->	piers	pier
+pierce	->	piercing	pierce	pierced	pierces
+piercement	->	piercement	piercements
+pierhead	->	pierheads	pierhead
+pier-head	->	pier-heads	pier-head
+pie	->	pie	pies
+pie-seller	->	pie-seller	pie-sellers
+pieta	->	pietas	pieta
+piety	->	pieties	piety
+piffle	->	piffle	piffling
+pigeon	->	pigeons	pigeon
+pigeonhole	->	pigeonholed	pigeonholes	pigeonhole	pigeonholing
+pigeon-hole	->	pigeon-hole	pigeon-holes	pigeon-holed
+piggery	->	piggery	piggeries
+piggy	->	piggy	piggies
+piggyback	->	piggyback	piggybacked	piggybacking	piggybacks
+piggy-bank	->	piggy-banks	piggy-bank
+pightle	->	pightle	pightles
+piglet	->	piglet	piglets
+pigling	->	pigling	piglings
+pigment	->	pigments	pigment	pigmenting
+pigmy	->	pigmies	pigmy
+pig-out	->	pig-out	pig-outs
+pig-pen	->	pig-pens	pig-pen
+pig	->	pig	pigs	pigging	pigged
+pigsty	->	pigsty	pigsties	pigstys
+pig-sty	->	pig-sties	pig-sty
+pig-stye	->	pig-stye	pig-styes
+pigtail	->	pigtails	pigtail
+pig-tail	->	pig-tails	pig-tail
+pij	->	pij	pijs
+pika	->	pika	pikas
+pike	->	pikes	pike	piked	piking
+pikeman	->	pikemen	pikeman
+pikestaff	->	pikestaffs	pikestaff
+pilaf	->	pilaf	pilafs
+pilaster	->	pilaster	pilasters	pilastered
+pilau	->	pilaus	pilau
+pilchard	->	pilchards	pilchard
+pilcher	->	pilcher	pilchers
+pile-driver	->	pile-driver	pile-drivers
+pile-up	->	pile-up	pile-ups
+pilfer	->	pilfered	pilfer	pilfering
+pilferer	->	pilferer	pilferers
+pilgrimage	->	pilgrimage	pilgrimages
+pilgrim	->	pilgrim	pilgrims
+pile	->	piled	piling	pile	piles
+pill	->	pills	pill	pilling	pilled
+pillage	->	pillage	pillaged	pillaging	pillages
+pillager	->	pillagers	pillager
+pillar	->	pillars	pillar
+pillar-box	->	pillar-box	pillar-boxes
+pillbox	->	pillboxes	pillbox
+pill-box	->	pill-boxes	pill-box
+pillock	->	pillock	pillocks
+pillory	->	pilloried	pillory	pillories
+pillow	->	pillows	pillow	pillowed	pillowing
+pillowcase	->	pillowcases	pillowcase
+pillow-case	->	pillow-case	pillow-cases
+pillow-fight	->	pillow-fight	pillow-fights
+pillowslip	->	pillowslips	pillowslip
+pilmay	->	pilmay	pilmays
+pilote	->	piloted	pilote	piloting
+pilot	->	pilot	pilots	pilotted
+pil	->	pil	pils
+pimelodid	->	pimelodid	pimelodids
+piman	->	piman	pimen
+pimento	->	pimentos	pimento
+pi-meson	->	pi-meson	pi-mesons
+pimiento	->	pimientos	pimiento
+pimp	->	pimps	pimp	pimping
+pimpernel	->	pimpernel	pimpernels
+pimple	->	pimples	pimple
+pimply	->	pimply	pimpliest
+pin	->	pinned	pin	pins	pinning
+pinafore	->	pinafore	pinafores
+pinball	->	pinball	pinballs
+pinboard	->	pinboards	pinboard
+pincers	->	pincers	pincer
+pinch	->	pinch	pinched	pinching	pinches
+pincher	->	pincher	pinchers
+pincurl	->	pincurls	pincurl
+pin-curl	->	pin-curl	pin-curls
+pincushion	->	pincushions	pincushion
+pin-cushion	->	pin-cushion	pin-cushions
+pinderfield	->	pinderfields	pinderfield
+pind	->	pind	pinds
+pine	->	pines	pine	pining	pined
+pineapple	->	pineapple	pineapples
+pine-cone	->	pine-cone	pine-cones
+pine-needle	->	pine-needle	pine-needles
+pine-tree	->	pine-tree	pine-trees
+pinewood	->	pinewood	pinewoods
+ping	->	ping	pinging	pings
+pin-head	->	pin-head	pin-heads
+pinhole	->	pinhole	pinholes
+pinion	->	pinioned	pinions	pinion	pinioning
+pink-brown	->	pink-browns	pink-brown
+pinken	->	pinkened	pinken
+pink	->	pink	pinker	pinks	pinked	pinkest
+pinky	->	pinky	pinkies
+pinnace	->	pinnaces	pinnace
+pinnacle	->	pinnacle	pinnacles	pinnacled
+pinny	->	pinnies	pinny
+pinout	->	pinouts	pinout
+pin-point	->	pin-points	pin-pointed	pin-point	pin-pointing
+pinpoint	->	pinpointed	pinpoints	pinpoint	pinpointing
+pinprick	->	pinpricks	pinprick
+pin-prick	->	pin-prick	pin-pricks
+pinstripe	->	pinstripe	pinstripes	pinstriped
+pin-stripe	->	pin-stripe	pin-stripes
+pintail	->	pintail	pintails
+pinta	->	pinta	pintas
+pinto	->	pinto	pintos
+pint-pot	->	pint-pot	pint-pots
+pint	->	pint	pints
+pin-tuck	->	pin-tuck	pin-tucks
+pinup	->	pinups	pinup
+pin-up	->	pin-up	pin-ups
+pinwheel	->	pinwheels	pinwheel
+pioneer	->	pioneer	pioneered	pioneers	pioneering
+pion	->	pion	pions
+pipe-bomb	->	pipe-bomb	pipe-bombs
+pipe-cleaner	->	pipe-cleaner	pipe-cleaners
+pipe	->	pipe	piped	pipes	piping
+pipedream	->	pipedream	pipedreams
+pipe-dream	->	pipe-dream	pipe-dreams
+pipefish	->	pipefish	pipefishes
+pipefitter	->	pipefitters	pipefitter
+pipeful	->	pipeful	pipefuls
+pipe-line	->	pipe-lines	pipe-line
+pipeline	->	pipeline	pipelines	pipelining	pipelined
+piper	->	pipers	piper
+pipe-smoker	->	pipe-smoker	pipe-smokers
+pipet	->	pipetting	pipetted
+pipette	->	pipette	pipettes
+pipework	->	pipework	pipeworks
+pipin	->	pipins	pipin
+pipistrelle	->	pipistrelle	pipistrelles
+pipit	->	pipit	pipits
+pip	->	pips	pipping	pipped	pip
+pippin	->	pippin	pippins
+pip-pip	->	pip-pips	pip-pip
+pipsqueak	->	pipsqueaks	pipsqueak
+pique	->	piqued	pique	piques
+piracy	->	piracy	piracies
+piranha	->	piranha	piranhas
+pirate	->	pirate	pirates	pirated	pirating
+pire	->	pire	pires
+pirin	->	pirin	pirins
+pirogue	->	pirogues	pirogue
+pirouette	->	pirouettes	pirouette
+pirouet	->	pirouetting	pirouetted
+pi	->	pi	pis
+pisan	->	pisan	pisans
+piscean	->	piscean	pisceans
+piscivore	->	piscivore	piscivores
+pish	->	pished	pish
+pisistratid	->	pisistratid	pisistratids
+piss	->	pisses	piss	pissed	pissing
+piss-artist	->	piss-artist	piss-artists
+piss-head	->	piss-heads	piss-head
+piss-up	->	piss-up	piss-ups
+pistachio	->	pistachio	pistachios
+piste	->	pistes	piste
+pist	->	pist	pisted
+pistil	->	pistil	pistils
+pistol	->	pistol	pistols
+piston-engine	->	piston-engines	piston-engine
+piston	->	piston	pistons	pistoned	pistoning
+pit-bull	->	pit-bull	pit-bulls
+pitch-class	->	pitch-classes	pitch-class
+pitch	->	pitch	pitched	pitching	pitches
+pitcher	->	pitcher	pitchers
+pitchfork	->	pitchfork	pitchforked	pitchforks
+pitchman	->	pitchmen	pitchman
+pitfall	->	pitfalls	pitfall
+pithead	->	pitheads	pithead
+pit-head	->	pit-head	pit-heads
+pither	->	pithers	pither
+pithy	->	pithy	pithiest
+pity	->	pity	pities	pitied	pitying
+pitman	->	pitman	pitmen
+piton	->	piton	pitons
+pitot	->	pitot	pitots
+pit-pony	->	pit-pony	pit-ponies
+pit-prop	->	pit-props	pit-prop
+pitstop	->	pitstop	pitstops
+pit-stop	->	pit-stop	pit-stops
+pittance	->	pittance	pittances
+pittard	->	pittard	pittards
+pitter	->	pitter	pitters
+pit	->	pit	pitting	pits	pitted
+pituitary	->	pituitary	pituitaries
+pivote	->	pivoted	pivoting
+pivot	->	pivot	pivots
+piw	->	piw	piws
+pixel	->	pixel	pixels
+pixy	->	pixies	pixy
+pizza	->	pizza	pizzas
+pizzeria	->	pizzeria	pizzerias
+placard	->	placards	placard	placarded	placarding
+placate	->	placate	placated	placating
+placebo	->	placebo	placebos
+place	->	place	placed	places	placing	place's
+place-holder	->	place-holder	place-holders
+place-kick	->	place-kicks	place-kick
+placemat	->	placemats	placemat
+place-mat	->	place-mat	place-mats
+placeman	->	placeman	placemen
+placement	->	placement	placements
+placename	->	placenames	placename
+place-name	->	place-names	place-name
+placental	->	placental	placentals
+placenta	->	placenta	placentas
+placer	->	placer	placers
+placet	->	placets	placet
+placket	->	plackets	placket
+placoderm	->	placoderms	placoderm
+plagiarise	->	plagiarising	plagiarise	plagiarised
+plagiarism	->	plagiarism	plagiarisms
+plagiarist	->	plagiarist	plagiarists
+plagiarize	->	plagiarized	plagiarizing	plagiarize
+plague	->	plague	plagues	plagued	plaguing
+plaid	->	plaid	plaids
+plaine	->	plaine	plaines
+plain	->	plain	plains	plainest	plainer
+plaintiff	->	plaintiffs	plaintiff
+plaint	->	plaint	plaints
+plaisir	->	plaisir	plaisirs
+plaister	->	plaisters	plaistered	plaister
+plait	->	plait	plaited	plaiting	plaits
+planarian	->	planarians	planarian
+planation	->	planation	planations
+planeload	->	planeload	planeloads
+planemaker	->	planemakers	planemaker
+plane	->	plane	planes	planed	planing	planer
+planetary	->	planetary	planetaries
+planetarium	->	planetarium	planetariums
+planetesimal	->	planetesimals	planetesimal
+planetoid	->	planetoid	planetoids
+plane-tree	->	plane-trees	plane-tree
+planet	->	planet	planets
+plank	->	planks	plank	planked
+planner	->	planners	planner
+plan	->	plan	planning	plans	planned
+plantagenet	->	plantagenet	plantagenets
+plantain	->	plantain	plantains
+plantation	->	plantation	plantations
+plant	->	planting	planted	plant	plants
+planter	->	planter	planters
+plante	->	plante	plantes
+plantfood	->	plantfoods	plantfood
+planthouse	->	planthouses	planthouse
+plantlet	->	plantlets	plantlet
+plantsman	->	plantsman	plantsmen
+plaque	->	plaque	plaques
+plaquette	->	plaquettes	plaquette
+plash	->	plash	plashed	plashing
+plasma	->	plasma	plasmas
+plasmid	->	plasmids	plasmid
+plasm	->	plasm	plasms
+plasterboard	->	plasterboard	plasterboards
+plasterer	->	plasterers	plasterer
+plaster	->	plaster	plasters	plastered	plastering
+plasticiser	->	plasticisers	plasticiser
+plasticizer	->	plasticizers	plasticizer
+plastic	->	plastic	plastics
+plastid	->	plastids	plastid
+plastique	->	plastique	plastiques
+plastochron	->	plastochron	plastochrons
+plastron	->	plastron	plastrons
+plate	->	plates	plate	plated	plating
+plateaue	->	plateaued	plateauing
+plateau	->	plateau	plateaus
+plateful	->	plateful	platefuls
+platelayer	->	platelayers	platelayer
+plate-layer	->	plate-layer	plate-layers
+platelet	->	platelets	platelet
+plate-mark	->	plate-marks	plate-mark
+platen	->	platen	platens
+plater	->	plater	platers
+platform	->	platform	platforms	platforming
+plat-form	->	plat-form	plat-forms
+platinum	->	platinum	platinums
+platitude	->	platitudes	platitude
+platonic	->	platonic	platonics
+platonist	->	platonists	platonist
+platoon	->	platoon	platoons
+plat	->	plat	plats
+platten	->	plattens	platten
+platter	->	platter	platters
+plaudit	->	plaudits	plaudit
+plausibility	->	plausibility	plausibilities
+play-	->	play-ing	play-	play-ed
+playact	->	playacting	playacted
+play-back	->	play-backs	play-back
+playback	->	playback	playbacks
+playbill	->	playbills	playbill
+playboat	->	playboat	playboats
+playbook	->	playbook	playbooks
+playboy	->	playboy	playboys
+playday	->	playday	playdays
+player	->	player	players
+playe	->	playe	playes
+playfair	->	playfair	playfairs
+playfellow	->	playfellow	playfellows
+playgoer	->	playgoer	playgoers
+playground	->	playground	playgrounds
+playgroup	->	playgroups	playgroup
+play-group	->	play-groups	play-group
+playhouse	->	playhouse	playhouses
+play	->	play	playing	plays	played
+playing-card	->	playing-cards	playing-card
+playing-field	->	playing-field	playing-fields
+playlet	->	playlets	playlet
+playlist	->	playlist	playlisting	playlisted	playlists
+playmaker	->	playmaker	playmakers
+play-maker	->	play-maker	play-makers
+playmate	->	playmates	playmate
+playoff	->	playoff	playoffs
+play-off	->	play-off	play-offs
+playpark	->	playparks	playpark
+playpen	->	playpen	playpens
+play-pen	->	play-pen	play-pens
+play-reading	->	play-readings	play-reading
+playroom	->	playroom	playrooms
+playscheme	->	playschemes	playscheme
+play-school	->	play-schools	play-school
+playschool	->	playschool	playschools
+playscript	->	playscripts	playscript
+play-script	->	play-script	play-scripts
+playspace	->	playspace	playspaces
+playsuit	->	playsuit	playsuits
+play-text	->	play-texts	play-text
+plaything	->	plaything	playthings
+playtime	->	playtime	playtimes
+play-type	->	play-type	play-types
+playworker	->	playworkers	playworker
+play-wright	->	play-wrights	play-wright
+playwright	->	playwright	playwrights	playwrighting
+play-yard	->	play-yards	play-yard
+plaza	->	plaza	plazas
+plc	->	plc	plcs
+pleader	->	pleader	pleaders
+plead	->	plead	pleads	pleaded	pleading
+plea	->	plea	pleas
+pleasant	->	pleasant	pleasanter	pleasantest
+pleasantry	->	pleasantry	pleasantries
+pleaser	->	pleaser	pleasers
+please	->	please	pleases	pleased	pleasing
+pleasure	->	pleasure	pleasures	pleasuring	pleasured
+pleasure-seeker	->	pleasure-seekers	pleasure-seeker
+pleat	->	pleats	pleated	pleat	pleating
+pleb	->	plebs	pleb
+plebeian	->	plebeian	plebeians
+plebiscite	->	plebiscite	plebiscites
+pleco	->	plecos	pleco
+plec	->	plec	plecs
+plectrum	->	plectrum	plectrums
+pledge	->	pledged	pledge	pledging	pledges
+pledgee	->	pledgees	pledgee
+plee	->	plees	plee
+plenary	->	plenary	plenaries
+plenipotentiary	->	plenipotentiary	plenipotentiaries
+ple	->	ple	ples	pled
+plesiosaur	->	plesiosaurs	plesiosaur
+pleurote	->	pleurote	pleurotes
+plight	->	plight	plighted	plighting
+plimsoll	->	plimsoll	plimsolls
+plinth	->	plinth	plinths
+pliny	->	pliny	plinys
+plod	->	plodding	plodded	plod	plods
+plodder	->	plodder	plodders
+plonk	->	plonking	plonk	plonked	plonks
+plonker	->	plonkers	plonker
+plop	->	plopping	plops	plop	plopped
+plornish	->	plornish	plornishes
+plosive	->	plosives	plosive
+plotline	->	plotlines	plotline
+plot-line	->	plot-lines	plot-line
+plot	->	plot	plots	plotting	plotted
+plot-sequence	->	plot-sequence	plot-sequences
+plotter	->	plotter	plotters
+plough	->	plough	ploughed	ploughs	ploughing
+plougher	->	ploughers	plougher
+ploughland	->	ploughland	ploughlands
+ploughman	->	ploughman	ploughmen
+ploughshare	->	ploughshares	ploughshare
+plough-team	->	plough-team	plough-teams
+plover	->	plovers	plover
+plow	->	plow	plowed	plows	plowing
+ploy	->	ploys	ploy
+pl	->	pl	pls
+plucker	->	plucker	pluckers
+plucky	->	plucky	pluckiest
+pluck	->	pluck	plucks	plucked	plucking
+plug-compatible	->	plug-compatibles	plug-compatible
+plug	->	plug	plugged	plugging	plugs
+plugger	->	plugger	pluggers
+plughead	->	plughead	plugheads
+plughole	->	plughole	plugholes
+plug-in	->	plug-in	plug-ins
+plum	->	plums	plum
+plumage	->	plumage	plumages	plumaged
+plumb	->	plumb	plumbed	plumbs
+plumber	->	plumber	plumbers
+plumbing	->	plumbing	plumbings
+plume	->	plumes	plume	plumed	pluming
+plumet	->	plumet	plumetted
+plummer	->	plummer	plummers
+plummete	->	plummeted	plummeting
+plummet	->	plummet	plummetted	plummets
+plump	->	plump	plumping	plumper	plumped	plumps	plumpest
+plumpy	->	plumpies	plumpy
+plunder	->	plunders	plunder	plundered	plundering
+plunderer	->	plunderer	plunderers
+plunge	->	plunged	plunge	plunging	plunges
+plunger	->	plunger	plungers
+plunk	->	plunks	plunk	plunked
+pluralism	->	pluralism	pluralisms
+pluralist	->	pluralist	pluralists
+plurality	->	plurality	pluralities
+pluralize	->	pluralize	pluralized	pluralizing
+plural	->	plural	plurals
+plus	->	plus	pluses
+plush	->	plush	plusher	plushest
+plus-point	->	plus-points	plus-point
+pluss	->	plusses	plussing
+plutocrat	->	plutocrats	plutocrat
+pluton	->	pluton	plutons
+ply	->	plying	ply	plied	plies	plys	plyed
+plywood	->	plywood	plywoods
+pm	->	pm	pms	pmest
+pna	->	pna	pnas
+pneumatic	->	pneumatic	pneumatics
+pneumocyte	->	pneumocytes	pneumocyte
+pneumonia	->	pneumonia	pneumonias
+po-	->	po-s	po-
+poacher	->	poachers	poacher
+poach	->	poached	poaching	poach	poaches
+pochard	->	pochard	pochards
+pochette	->	pochette	pochettes
+pock	->	pock	pocked	pocks
+pocket	->	pockets	pocket
+pocket-book	->	pocket-book	pocket-books
+pocket-borough	->	pocket-borough	pocket-boroughs
+pocketful	->	pocketfuls	pocketful
+pockete	->	pocketed	pocketing
+pockmark	->	pockmarks	pockmarked	pockmark
+pod	->	pods	pod	podding
+podger	->	podgers	podger	podgered
+podium	->	podium	podiums
+podolian	->	podolians	podolian
+podophile	->	podophiles	podophile
+podsnap	->	podsnap	podsnaps
+podsol	->	podsols	podsol
+podzol	->	podzols	podzol
+poem	->	poems	poem
+poet	->	poets	poet
+poetaster	->	poetasters	poetaster
+poet-critic	->	poet-critics	poet-critic
+poetess	->	poetess	poetesses
+poetic	->	poetic	poetics
+poetry	->	poetry	poetries
+pogo	->	pogoing	pogo
+pogonophoran	->	pogonophorans	pogonophoran
+pogrom	->	pogroms	pogrom
+pogue	->	pogues	pogue
+poikilothermic	->	poikilothermic	poikilothermics
+poin	->	poins	poin
+poind	->	poinding	poinded
+poinsettia	->	poinsettia	poinsettias
+pointe	->	pointes	pointe
+pointer	->	pointers	pointer
+pointy	->	pointy	pointier
+point-of-sale	->	point-of-sale	point-of-sales
+point	->	point	points	pointing	pointed
+point-to-pointer	->	point-to-pointer	point-to-pointers
+point-to-point	->	point-to-point	point-to-points
+poire	->	poire	poires
+poise	->	poised	poise	poising	poises
+poison	->	poison	poisoned	poisoning	poisons
+poisoner	->	poisoners	poisoner
+poisson	->	poisson	poissons
+poitevin	->	poitevin	poitevins
+poitrine	->	poitrines	poitrine
+poke	->	poking	poke	poked	pokes
+poker	->	poker	pokers
+polarisation	->	polarisation	polarisations
+polarise	->	polarised	polarise	polarising	polarises
+polariser	->	polarisers	polariser
+polarity	->	polarities	polarity
+polarization	->	polarization	polarizations
+polarize	->	polarize	polarized	polarizes	polarizing
+polarizer	->	polarizer	polarizers
+polaroid	->	polaroid	polaroids
+polar	->	polar	polars
+polden	->	poldens	polden
+polder	->	polders	polder
+polecat	->	polecats	polecat
+polemicise	->	polemicise	polemicising	polemicised
+polemicist	->	polemicists	polemicist
+polemicize	->	polemicize	polemicizing	polemicized
+polemic	->	polemic	polemics
+polenier	->	poleniers	polenier
+polepiece	->	polepieces	polepiece
+pole	->	pole	poles	poled	poling
+pole-vaulter	->	pole-vaulter	pole-vaulters
+polgar	->	polgar	polgars
+policeman	->	policemen	policeman
+police-man	->	police-man	police-men
+police-officer	->	police-officer	police-officers
+police-station	->	police-station	police-stations
+policewoman	->	policewoman	policewomen
+policy	->	policy	policies
+police	->	police	policing	policed	polices
+policyholder	->	policyholders	policyholder
+policy-holder	->	policy-holders	policy-holder
+policymaker	->	policymakers	policymaker
+policy-maker	->	policy-makers	policy-maker
+polio	->	polio	polios
+polish-american	->	polish-american	polish-americans
+polish	->	polish	polished	polishes	polishing
+polisher	->	polisher	polishers
+politburo	->	politburo	politburos
+polite	->	polite	politest	politer
+political	->	political	politicals
+politican	->	politicans	politican
+politician	->	politicians	politician
+politicise	->	politicised	politicise	politicising
+politicization	->	politicization	politicizations
+politicize	->	politicize	politicized	politicizing	politicizes
+politick	->	politicks	politick
+politico	->	politico	politicos
+polity	->	polity	polities
+politique	->	politique	politiques
+polka-dot	->	polka-dot	polka-dots
+polka	->	polka	polkas
+poll	->	polls	poll	polled	polling
+pollard	->	pollard	pollarded	pollarding	pollards
+pollen	->	pollen	pollens
+pollen-tube	->	pollen-tube	pollen-tubes
+pollinate	->	pollinate	pollinated	pollinates	pollinating
+pollinator	->	pollinator	pollinators
+pollinologist	->	pollinologists	pollinologist
+pollock	->	pollock	pollocks
+pollster	->	pollsters	pollster
+poll-tax	->	poll-taxes	poll-tax
+pollutant	->	pollutants	pollutant
+polluter	->	polluters	polluter
+pollute	->	polluted	polluting	pollute	pollutes
+pollution	->	pollution	pollutions
+pollwinner	->	pollwinners	pollwinner
+polonaise	->	polonaise	polonaises
+polo-neck	->	polo-necks	polo-neck
+polo	->	polo	polos
+polo-shirt	->	polo-shirts	polo-shirt
+pol	->	pol	pols
+poltergeist	->	poltergeist	poltergeists
+poltical	->	poltical	polticals
+poltroon	->	poltroon	poltroons
+polyacetylene	->	polyacetylene	polyacetylenes
+polyacrylate	->	polyacrylates	polyacrylate
+polyamide	->	polyamide	polyamides
+polyarchy	->	polyarchies	polyarchy
+polybutadiene	->	polybutadiene	polybutadienes
+polycarbonate	->	polycarbonate	polycarbonates
+polycation	->	polycation	polycations
+polychaete	->	polychaete	polychaetes
+polychotomy	->	polychotomies	polychotomy
+polyester	->	polyester	polyesters
+polyether	->	polyether	polyethers
+polyethylene	->	polyethylene	polyethylenes
+polyfilter	->	polyfilter	polyfilters
+polygon	->	polygons	polygon
+polygraph	->	polygraph	polygraphs
+polyhedron	->	polyhedron	polyhedrons
+polyisoprene	->	polyisoprene	polyisoprenes
+polymath	->	polymath	polymaths
+polymerase	->	polymerase	polymerases
+polymerise	->	polymerising	polymerise	polymerised	polymerises
+polymerization	->	polymerization	polymerizations
+polymerize	->	polymerizing	polymerize	polymerized	polymerizes
+polymer	->	polymer	polymers
+polymorph	->	polymorphs	polymorph
+polymorphism	->	polymorphisms	polymorphism
+polymyxin	->	polymyxin	polymyxins
+polynesian	->	polynesians	polynesian
+polyneuropathy	->	polyneuropathy	polyneuropathies
+polynomial	->	polynomials	polynomial
+polynucleotide	->	polynucleotide	polynucleotides
+polynya	->	polynyas	polynya
+polypectomy	->	polypectomy	polypectomies
+polypeptide	->	polypeptide	polypeptides
+polyphosphate	->	polyphosphate	polyphosphates
+polypodium	->	polypodium	polypodiums
+polyp	->	polyp	polyps
+polypterid	->	polypterids	polypterid
+polyptych	->	polyptych	polyptychs
+poly	->	poly	polys
+polysaccharide	->	polysaccharides	polysaccharide
+polysaturate	->	polysaturates	polysaturate
+polysorbate	->	polysorbate	polysorbates
+polystyrene	->	polystyrene	polystyrenes
+polysyllable	->	polysyllables	polysyllable
+polytechnicien	->	polytechnicien	polytechniciens
+polytechnic	->	polytechnic	polytechnics
+polytheism	->	polytheism	polytheisms
+polytheist	->	polytheists	polytheist
+polyurethane	->	polyurethane	polyurethanes
+polyversity	->	polyversities	polyversity
+pomade	->	pomades	pomade	pomaded
+pomak	->	pomak	pomaks
+pomander	->	pomanders	pomander
+pome	->	pomes	pome
+pomegranate	->	pomegranates	pomegranate
+pomelo	->	pomelos	pomelo
+pomeranian	->	pomeranian	pomeranians
+pomeshchik	->	pomeshchiks	pomeshchik
+pomme	->	pommes	pomme
+pommel	->	pommel	pommels	pommelled
+pommy	->	pommy	pommies
+pompeian	->	pompeians	pompeian
+pompeiian	->	pompeiians	pompeiian
+pom-pom	->	pom-poms	pom-pom
+pompom	->	pompom	pompoms
+pompon	->	pompon	pompons
+pomposity	->	pomposity	pomposities
+pomp	->	pomp	pomps
+pom	->	pom	poms
+poncho	->	poncho	ponchos
+ponce	->	ponce	poncing	ponceing	ponces
+ponder	->	pondered	ponders	ponder	pondering
+pondkeeper	->	pondkeepers	pondkeeper
+pond	->	pond	ponds	ponded	ponding
+pond-weed	->	pond-weeds	pond-weed
+pondy	->	pondies	pondy
+pongine	->	pongine	pongines
+pong	->	pong	pongs
+pony	->	pony	ponies
+pontian	->	pontian	pontians
+pontiff	->	pontiff	pontiffs
+pontifical	->	pontifical	pontificals
+pontificate	->	pontificate	pontificating	pontificates	pontificated
+pontification	->	pontifications	pontification
+pont	->	pont	ponting	ponts
+pontoon	->	pontoon	pontoons	pontooning
+ponytail	->	ponytail	ponytails
+pony-tail	->	pony-tail	pony-tails
+poo	->	poos	poo
+pooch	->	pooches	pooch
+poodle	->	poodles	poodle	poodled
+poof	->	poof	poofs
+poofta	->	pooftas	poofta
+poofter	->	poofter	poofters
+pooh-pooh	->	pooh-pooh	pooh-poohs
+pooh	->	pooh	poohs
+pooka	->	pookas	pooka
+pool	->	pool	pooled	pools	pooling
+pooler	->	pooler	poolers
+pool-liner	->	pool-liner	pool-liners
+pool-owner	->	pool-owner	pool-owners
+poolroom	->	poolrooms	poolroom
+pool-room	->	pool-room	pool-rooms
+poolside	->	poolside	poolsides
+pooper	->	pooper	poopers
+poop	->	poop	pooping	pooped	poops
+poo-poo	->	poo-poo	poo-poos
+poop-scoop	->	poop-scoop	poop-scoops
+poor	->	poor	poorer	poorest	poors
+poorhouse	->	poorhouse	poorhouses
+pootle	->	pootling	pootled
+pope-burning	->	pope-burning	pope-burnings
+pope	->	pope	popes
+pop-eye	->	pop-eye	pop-eyes
+popgun	->	popgun	popguns
+popinjay	->	popinjays	popinjay
+pop-in	->	pop-in	pop-ins
+poplar	->	poplars	poplar
+popova	->	popova	popovas
+poppadam	->	poppadam	poppadams
+poppadom	->	poppadom	poppadoms
+popper	->	popper	poppers
+poppet	->	poppets	poppet
+poppy	->	poppy	poppies	poppiest
+pop	->	pop	popping	popped	pops
+poppy-seed	->	poppy-seeds	poppy-seed
+popsicle	->	popsicles	popsicle
+popstar	->	popstars	popstar
+pop-star	->	pop-star	pop-stars
+popster	->	popsters	popster
+populaire	->	populaire	populaires
+popularisation	->	popularisation	popularisations
+popularise	->	popularising	popularised	popularise
+populariser	->	popularisers	populariser
+popularization	->	popularizations	popularization
+popularizer	->	popularizers	popularizer
+popularize	->	popularized	popularizing	popularize	popularizes
+popular	->	popular	populars
+populate	->	populate	populated	populating	populates
+population	->	population	populations
+populism	->	populism	populisms
+populist	->	populist	populists
+populo	->	populos	populo
+pop-up	->	pop-up	pop-ups
+p-orbital	->	p-orbital	p-orbitals
+porblem	->	porblem	porblems
+porcelain	->	porcelain	porcelains
+porch	->	porch	porches
+porcupine	->	porcupine	porcupines	porcupined
+pore-canal	->	pore-canals	pore-canal
+pore	->	pores	poring	pored	pore
+porker	->	porkers	porker
+pork	->	pork	porking
+porky	->	porkies	porky
+pornographer	->	pornographer	pornographers
+porosity	->	porosity	porosities
+porphyrin	->	porphyrins	porphyrin
+porphyrio	->	porphyrios	porphyrio
+porphyry	->	porphyries	porphyry
+porpoise	->	porpoises	porpoise	porpoising	porpoised
+porringer	->	porringer	porringers
+porsch	->	porsches	porsch
+portable	->	portable	portables
+portacabin	->	portacabin	portacabins
+porta-cabin	->	porta-cabin	porta-cabins
+portage	->	portage	portages	portaged
+portakabin	->	portakabin	portakabins
+portal	->	portals	portal
+portaloo	->	portaloo	portaloos
+portamento	->	portamento	portamentos
+porta	->	porta	portas
+portend	->	portend	portended	portends	portending
+portent	->	portents	portent
+porter	->	porter	porters
+porte	->	porte	portes
+portfire	->	portfires	portfire
+portfolio	->	portfolio	portfolios
+porthole	->	portholes	porthole
+porticoe	->	porticoes	porticoed
+portico	->	portico	porticos
+portion	->	portion	portions	portioned	portioning
+portmanteau	->	portmanteau	portmanteaus
+portraitist	->	portraitist	portraitists
+portrait	->	portrait	portraits
+portrayal	->	portrayal	portrayals
+portray	->	portrayed	portrays	portray	portraying
+port	->	port	ports	porting	ported
+po	->	po	pos	poing
+pose	->	posed	pose	poses	posing
+poser	->	posers	poser
+posess	->	posessing	posess	posessed
+poseur	->	poseur	poseurs
+posh	->	posh	posher	poshest	poshed
+posy	->	posy	posies
+positionality	->	positionalities	positionality
+position	->	position	positions	positioned	positioning
+positive	->	positive	positives
+positivist	->	positivist	positivists
+positon	->	positon	positons
+positron	->	positron	positrons
+posit	->	posited	posits	posit	positing
+poss	->	posses	poss	possest	possed
+possess	->	possess	possessing	possessed	possesses
+possession	->	possessions	possession
+possessive	->	possessive	possessives
+possessor	->	possessor	possessors
+posset	->	posset	possets
+possibility	->	possibilities	possibility
+possibilty	->	possibilty	possibilties
+possible	->	possible	possibles
+possible-world	->	possible-worlds	possible-world
+possiblity	->	possiblity	possiblities
+possum	->	possum	possums
+post-acquisition	->	post-acquisition	post-acquisitions
+postage	->	postage	postages
+postal	->	postal	postals
+post-audit	->	post-audit	post-audits
+postbox	->	postbox	postboxes
+post-boy	->	post-boy	post-boys
+postcard	->	postcards	postcard
+post-chaise	->	post-chaise	post-chaises
+postcode	->	postcode	postcodes	postcoded	postcoding
+post-date	->	post-dates	post-date
+postdate	->	postdate	postdates	postdated
+postdoctoral	->	postdoctoral	postdoctorals
+poster	->	posters	poster
+posterior	->	posterior	posteriors
+postern	->	postern	posterns
+poster-opportunity	->	poster-opportunity	poster-opportunities
+post-feminist	->	post-feminist	post-feminists
+post-freudian	->	post-freudian	post-freudians
+postgraduate	->	postgraduate	postgraduates
+post-graduate	->	post-graduate	post-graduates
+postholder	->	postholder	postholders
+post-holder	->	post-holder	post-holders
+post-hole	->	post-holes	post-hole
+posthole	->	posthole	postholes
+posty	->	posty	posties
+postillion	->	postillions	postillion
+post-impressionist	->	post-impressionist	post-impressionists
+post	->	post	posting	posts	posted
+post-interview	->	post-interview	post-interviews
+postion	->	postions	postion
+postlethwaite	->	postlethwaite	postlethwaites
+postmark	->	postmarks	postmark	postmarked
+post-marxist	->	post-marxist	post-marxists
+postmaster	->	postmaster	postmasters
+postman	->	postman	postmen
+post-mill	->	post-mill	post-mills
+postmistress	->	postmistress	postmistresses
+postmodernist	->	postmodernist	postmodernists
+post-modifier	->	post-modifiers	post-modifier
+postmortem	->	postmortems	postmortem
+post-mortem	->	post-mortems	post-mortem
+postmultiplication	->	postmultiplication	postmultiplications
+postmultiply	->	postmultiply	postmultiplying	postmultiplied	postmultiplier
+postnominal	->	postnominal	postnominals
+post-office	->	post-office	post-offices
+postpone	->	postponed	postpone	postpones
+postponement	->	postponement	postponements
+post-processor	->	post-processor	post-processors
+postscript	->	postscript	postscripts
+post-structuralism	->	post-structuralism	post-structuralisms
+poststructuralist	->	poststructuralist	poststructuralists
+post-structuralist	->	post-structuralist	post-structuralists
+post-test	->	post-test	post-tests
+postulant	->	postulant	postulants
+postulate	->	postulate	postulated	postulates	postulating
+posture	->	postures	posture	posturing	postured
+post-velvet	->	post-velvets	post-velvet
+postverbal	->	postverbal	postverbals
+potager	->	potagers	potager
+potamogeton	->	potamogeton	potamogetons
+potation	->	potations	potation
+potato	->	potato	potatoes	potatos
+potbelly	->	potbelly	potbellied
+pot-belly	->	pot-belly	pot-bellies
+potboiler	->	potboilers	potboiler
+pot-boiler	->	pot-boiler	pot-boilers
+pote	->	potes	pote
+potency	->	potency	potencies
+potentate	->	potentate	potentates
+potentiality	->	potentiality	potentialities
+potential	->	potential	potentials
+potentiate	->	potentiated	potentiate	potentiates	potentiating
+potentilla	->	potentilla	potentillas
+potentiometer	->	potentiometer	potentiometers
+potful	->	potful	potfuls
+potholder	->	potholder	potholders
+pothole	->	potholes	pothole	potholing	potholed
+pot-hole	->	pot-holes	pot-hole
+potholer	->	potholers	potholer
+pot-house	->	pot-houses	pot-house
+potion	->	potions	potion
+pot-lid	->	pot-lids	pot-lid
+pot-plant	->	pot-plants	pot-plant
+potpourri	->	potpourri	potpourris
+pot-shape	->	pot-shapes	pot-shape
+pot-shot	->	pot-shots	pot-shot
+pottage	->	pottage	pottages
+potterer	->	potterers	potterer
+potter	->	potter	pottering	potters	pottered
+pottery	->	potteries	pottery
+potty	->	potty	potties
+pot	->	pot	potting	pots	potted
+pouch	->	pouches	pouch	pouched	pouching
+pouch-seat	->	pouch-seat	pouch-seats
+pouf	->	pouf	poufs
+poulain	->	poulains	poulain
+poulet	->	poulet	poulets
+poulterer	->	poulterers	poulterer
+poultice	->	poultice	poulticed	poultices
+poult	->	poult	poults
+pounce	->	pounce	pounced	pouncing	pounces
+pouncer	->	pouncer	pouncers
+pound	->	pounds	pound	pounded	pounding
+poundage	->	poundage	poundages
+pounder	->	pounders	pounder
+poundian	->	poundian	poundians
+pour	->	pour	poured	pouring	pours
+pourer	->	pourer	pourers
+pousada	->	pousadas	pousada
+poussin	->	poussin	poussins
+pout	->	pouted	pout	pouting	pouts
+pow	->	pows	pow
+powder-keg	->	powder-keg	powder-kegs
+powderpuff	->	powderpuff	powderpuffs
+powder	->	powder	powders	powdering	powdered
+powellite	->	powellites	powellite
+power-base	->	power-base	power-bases
+powerboater	->	powerboater	powerboaters
+powerboat	->	powerboat	powerboats	powerboating
+powerbook	->	powerbook	powerbooks
+powerbroker	->	powerbroker	powerbrokers
+power-broker	->	power-broker	power-brokers
+powerchord	->	powerchords	powerchord
+power-cut	->	power-cut	power-cuts
+powerfilter	->	powerfilter	powerfilters
+power-game	->	power-games	power-game
+powerglyde	->	powerglyde	powerglydes
+powerhead	->	powerhead	powerheads
+power-holder	->	power-holders	power-holder
+powerhouse	->	powerhouse	powerhouses
+power-house	->	power-house	power-houses
+powerline	->	powerline	powerlines
+power-line	->	power-line	power-lines
+power-loom	->	power-looms	power-loom
+powermaster	->	powermasters	powermaster
+power-pack	->	power-packs	power-pack
+powerpack	->	powerpack	powerpacks
+powerplant	->	powerplants	powerplant
+power-play	->	power-play	power-plays
+power	->	power	powers	powered	powering
+powerscreen	->	powerscreen	powerscreens
+power-seeker	->	power-seekers	power-seeker
+powerstation	->	powerstation	powerstations
+power-station	->	power-station	power-stations
+power-structure	->	power-structure	power-structures
+power-struggle	->	power-struggle	power-struggles
+powersystem	->	powersystems	powersystem
+power-tool	->	power-tools	power-tool
+power-up	->	power-ups	power-up
+pox	->	pox	poxed
+poynt	->	poynting	poynt
+p	->	p	pp	ps
+practicality	->	practicality	practicalities
+practical	->	practical	practicals
+practice	->	practice	practices	practicing	practiced
+practioner	->	practioners	practioner
+practise	->	practised	practises	practise	practising
+practitioner-researcher	->	practitioner-researchers	practitioner-researcher
+practitioner	->	practitioner	practitioners
+praesidium	->	praesidium	praesidiums
+praetorian	->	praetorian	praetorians
+praetor	->	praetor	praetors
+prager	->	prager	pragers
+pragmaticist	->	pragmaticist	pragmaticists
+pragmatist	->	pragmatists	pragmatist
+praier	->	praiers	praier
+praise	->	praise	praised	praising	praises
+praline	->	pralines	praline
+pram	->	prams	pram
+prance	->	pranced	prancing	prance	prances
+prang	->	prangs	prang
+prank	->	pranking	pranks	prank
+prankster	->	prankster	pranksters
+pranny	->	prannies	pranny
+pratfall	->	pratfall	pratfalls
+pratincole	->	pratincoles	pratincole
+prate	->	prate	prating	prater	prates	prated
+prat	->	prat	prats	pratted
+prattle	->	prattling	prattle	prattled
+pratt	->	pratt	pratts
+prawn	->	prawn	prawns
+pray	->	praying	pray	prayed	prays
+prayer	->	prayers	prayer
+prayerbook	->	prayerbook	prayerbooks
+prayer-book	->	prayer-book	prayer-books
+prayer-stool	->	prayer-stool	prayer-stools
+pray'r	->	pray'rs	pray'r
+preach	->	preach	preached	preaching	preaches
+preacher	->	preacher	preachers
+pre-adaptation	->	pre-adaptations	pre-adaptation
+preadaptation	->	preadaptation	preadaptations
+pre-admission	->	pre-admission	pre-admissions
+preadolescent	->	preadolescent	preadolescents
+preamble	->	preamble	preambles
+preamplifier	->	preamplifier	preamplifiers
+preamp	->	preamp	preamps
+pre-announcement	->	pre-announcement	pre-announcements
+pre-arthropod	->	pre-arthropods	pre-arthropod
+prebendary	->	prebendary	prebendaries
+prebend	->	prebend	prebends
+prebook	->	prebooked	prebook
+precaution	->	precautions	precaution
+precedence	->	precedence	precedences
+precedent	->	precedents	precedent	precedented
+precede	->	preceded	precedes	precede	preceding
+preceed	->	preceeding	preceed	preceeded	preceeds
+preceive	->	preceived	preceive
+precept	->	precepts	precept	precepting	precepted
+preceptor	->	preceptors	preceptor
+precess	->	precess	precesses
+pre-christian	->	pre-christian	pre-christians
+precinct	->	precinct	precincts	precincted
+precious-metal	->	precious-metals	precious-metal
+precipice	->	precipice	precipices
+precipitant	->	precipitant	precipitants
+precipitate	->	precipitating	precipitated	precipitates	precipitate
+precipitation	->	precipitation	precipitations
+precision	->	precision	precisions	precisioning
+preclear	->	precleared	preclearing
+preclude	->	precludes	precluding	precluded	preclude
+precognition	->	precognition	precognitions
+precompiler	->	precompilers	precompiler
+precompile	->	precompile	precompiling
+preconception	->	preconception	preconceptions
+precondition	->	preconditions	precondition	preconditioned
+pre-condition	->	pre-conditions	pre-condition
+pre-conference	->	pre-conference	pre-conferences
+precoverage	->	precoverages	precoverage
+precursor	->	precursor	precursors
+predate	->	predates	predate	predating	predated
+pre-date	->	pre-dated	pre-date	pre-dates	pre-dating
+predation	->	predation	predations
+predator	->	predators	predator
+predecease	->	predeceases	predeceased	predeceasing	predecease
+predecessor	->	predecessors	predecessor
+predestinarian	->	predestinarian	predestinarians
+pre-determine	->	pre-determines	pre-determine
+predetermine	->	predetermine	predetermines	predetermining
+predicable	->	predicables	predicable
+predicament	->	predicament	predicaments
+predicate	->	predicated	predicate	predicates	predicating
+predication	->	predications	predication
+predicative	->	predicative	predicatives
+predicator	->	predicator	predicators
+predict	->	predict	predicting	predicted	predicts
+prediction	->	predictions	prediction
+predic-tion	->	predic-tions	predic-tion
+predictor	->	predictors	predictor
+predilection	->	predilections	predilection
+pre-dispose	->	pre-disposes	pre-disposed
+predispose	->	predisposed	predisposes	predispose	predisposing
+predisposition	->	predisposition	predispositions
+predominate	->	predominates	predominated	predominating	predominate
+pre-echinoderm	->	pre-echinoderm	pre-echinoderms
+preempt	->	preempt	preempted	preempting	preempts
+pre-emption	->	pre-emption	pre-emptions
+pre-empt	->	pre-empt	pre-empts
+preen	->	preening	preen	preened	preens
+pre-estimate	->	pre-estimate	pre-estimated
+preexist	->	preexisting	preexisted
+pref	->	prefs	pref
+pre-fab	->	pre-fabs	pre-fab
+prefab	->	prefab	prefabs
+preface	->	preface	prefaced	prefaces	prefacing
+prefect	->	prefect	prefects
+prefecture	->	prefecture	prefectures
+preference	->	preference	preferences
+preferment	->	preferment	preferments
+prefern	->	preferns	prefern
+preferr	->	preferrred	preferr
+prefer	->	prefer	preferred	prefers	preferring	prefered	prefering
+prefiguration	->	prefiguration	prefigurations
+prefigure	->	prefigures	prefigured	prefiguring	prefigure
+pre-filter	->	pre-filters	pre-filter
+prefix	->	prefix	prefixed	prefixes	prefixing
+preflight	->	preflight	preflighting
+pre-flight	->	pre-flight	pre-flights
+preformationist	->	preformationists	preformationist
+preform	->	preform	preforming	preforms
+pre-game	->	pre-games	pre-game
+pregnancy	->	pregnancy	pregnancies
+pregnant	->	pregnant	pregnants
+prego	->	pregos	prego
+preheat	->	preheat	preheating	preheated
+prehistorian	->	prehistorians	prehistorian
+preincubate	->	preincubated	preincubating
+pre-install	->	pre-install	pre-installs
+prejudge	->	prejudge	prejudged	prejudging
+pre-judge	->	pre-judge	pre-judges
+prejudgment	->	prejudgment	prejudgments
+prejudice	->	prejudice	prejudices	prejudicing	prejudiced
+prelate	->	prelate	prelates
+pre-licentiate	->	pre-licentiate	pre-licentiates
+prelim	->	prelims	prelim
+preliminary	->	preliminary	preliminaries
+prelist	->	prelisting	prelisted
+preload	->	preloaded	preloading
+prelude	->	prelude	preludes
+pre-meeting	->	pre-meetings	pre-meeting
+premier	->	premier	premiered	premiering	premiers
+premiere	->	premiere	premieres
+premiership	->	premiership	premierships
+premise	->	premises	premise	premised	premising
+premiss	->	premiss	premisses	premissed
+premium	->	premium	premiums
+premix	->	premixed	premixes	premix
+premmia	->	premmia	premmias
+premolar	->	premolars	premolar
+premonition	->	premonition	premonitions
+premonstratensian	->	premonstratensian	premonstratensians
+premultiplication	->	premultiplication	premultiplications
+premultiply	->	premultiply	premultiplied	premultiplier	premultiplying
+prenominal	->	prenominal	prenominals
+prentice	->	prentice	prentices
+preoccupation	->	preoccupation	preoccupations
+pre-occupation	->	pre-occupation	pre-occupations
+pre-occupy	->	pre-occupy	pre-occupies
+preoccupy	->	preoccupy	preoccupying	preoccupies
+preordain	->	preordain	preordaining
+prepackage	->	prepackaging	prepackage	prepackages	prepackaged
+pre-pack	->	pre-pack	pre-packs
+preparation	->	preparation	preparations
+prepare	->	prepared	prepare	preparing	prepares
+preparer	->	preparers	preparer
+prepattern	->	prepattern	prepatterns
+prepay	->	prepay	prepaying
+prepayment	->	prepayment	prepayments
+pre-payment	->	pre-payment	pre-payments
+prepcom	->	prepcom	prepcoms
+preplan	->	preplan	preplanned
+preponderate	->	preponderate	preponderates
+preposition	->	preposition	prepositions
+prep	->	prep	prepped	preps
+preprint	->	preprint	preprints	preprinted
+pre-process	->	pre-processes	pre-process
+preprocess	->	preprocessed	preprocessing
+preprogram	->	preprogrammed	preprogram
+prep-school	->	prep-school	prep-schools
+pre-pubescent	->	pre-pubescent	pre-pubescents
+prepuce	->	prepuce	prepuces
+pre-qualifier	->	pre-qualifier	pre-qualifiers
+prequalify	->	prequalified	prequalifying
+prequel	->	prequel	prequels
+pre-raphaelite	->	pre-raphaelite	pre-raphaelites
+prerequisite	->	prerequisites	prerequisite
+pre-requisite	->	pre-requisite	pre-requisites
+prerogative	->	prerogative	prerogatives
+presage	->	presaged	presage	presaging	presages
+presbyter	->	presbyters	presbyter
+presbyterian	->	presbyterian	presbyterians
+presbytery	->	presbytery	presbyteries
+prescaler	->	prescalers	prescaler
+pre-schooler	->	pre-schoolers	pre-schooler
+pre-school	->	pre-school	pre-schools
+prescind	->	prescinding	prescinded	prescinds
+prescribe	->	prescribes	prescribed	prescribe	prescribing
+prescriber	->	prescriber	prescribers
+prescription	->	prescriptions	prescription
+prescriptive	->	prescriptive	prescriptives
+prescriptivist	->	prescriptivists	prescriptivist
+prese	->	preses	prese
+preselect	->	preselected	preselect	preselects
+pre-selection	->	pre-selection	pre-selections
+presence	->	presence	presences
+presen	->	presen	presens
+presentation	->	presentations	presentation
+presentative	->	presentative	presentatives
+present	->	present	presented	presenting	presents
+presentee	->	presentee	presentees
+presenter	->	presenter	presenters
+presentiment	->	presentiments	presentiment
+presentist	->	presentist	presentists
+presentment	->	presentment	presentments
+pre-sequence	->	pre-sequences	pre-sequence
+preservationist	->	preservationist	preservationists
+preservation	->	preservation	preservations
+preservative	->	preservative	preservatives
+preserver	->	preserver	preservers
+preserve	->	preserves	preserving	preserved	preserve
+preset	->	preset	presets	presetting
+pre-set	->	pre-set	pre-sets
+preside	->	preside	presided	presides	presiding
+presidency	->	presidency	presidencies
+presidential	->	presidential	presidentials
+president	->	president	presidents
+presidium	->	presidium	presidiums
+press-box	->	press-box	press-boxes
+press-cutting	->	press-cutting	press-cuttings
+presser	->	presser	pressers
+press-gang	->	press-gang	press-gangs
+presshouse	->	presshouse	presshouses
+press	->	press	pressing	pressed	presses
+pressman	->	pressmen	pressman
+pressmark	->	pressmark	pressmarking
+pressmaster	->	pressmaster	pressmasters
+press-stud	->	press-studs	press-stud
+press-up	->	press-ups	press-up
+pressure-group	->	pressure-group	pressure-groups
+pressure-point	->	pressure-points	pressure-point
+pressure	->	pressure	pressures	pressuring	pressured
+pressurise	->	pressurising	pressurise	pressurises
+pressurize	->	pressurize	pressurized	pressurizing	pressurizes
+presume	->	presumed	presume	presuming	presumes
+presumption	->	presumption	presumptions
+presuppose	->	presupposes	presuppose	presupposed	presupposing
+pre-suppose	->	pre-suppose	pre-supposes
+presupposition	->	presuppositions	presupposition
+pre-teenager	->	pre-teenagers	pre-teenager
+pre-teen	->	pre-teen	pre-teens
+pretence	->	pretence	pretences
+pretend	->	pretending	pretended	pretend	pretends	pretender
+pretense	->	pretense	pretenses
+pretension	->	pretensions	pretension
+pretention	->	pretentions	pretention
+pre-test	->	pre-test	pre-tests
+pretext	->	pretext	pretexts
+pretty	->	pretty	prettiest	prettier	pretties	prettied
+prettify	->	prettifying	prettified	prettify
+prettiness	->	prettiness	prettinesses
+pretzel	->	pretzels	pretzel
+prevail	->	prevailed	prevail	prevails	prevailing
+prevalence	->	prevalence	prevalences
+prevaricate	->	prevaricate	prevaricated	prevaricates	prevaricating
+prevarication	->	prevarications	prevarication
+prevent	->	prevent	preventing	prevented	prevents
+prevention	->	prevention	preventions
+preventive	->	preventive	preventives
+preview	->	preview	previewed	previews	previewing
+previewer	->	previewers	previewer
+pre-wash	->	pre-wash	pre-washes
+prey	->	prey	preyed	preys	preying	preies
+prezzy	->	prezzies	prezzy
+priapulid	->	priapulids	priapulid
+pricelist	->	pricelists	pricelist
+price-list	->	price-list	price-lists
+price	->	price	prices	priced	pricing
+price-tag	->	price-tag	price-tags
+price-taker	->	price-takers	price-taker
+prick	->	prick	pricked	pricks	pricking
+pricker	->	prickers	pricker
+prickle	->	prickling	prickles	prickle	prickled
+prickly	->	prickly	pricklier
+pricy	->	pricier	pricy	priciest
+pride	->	pride	prides	prided	priding
+priestess	->	priestess	priestesses
+priesthood	->	priesthood	priesthoods
+priestleyan	->	priestleyans	priestleyan
+priest	->	priest	priests	priested
+priest-son	->	priest-sons	priest-son
+prig	->	prig	prigs
+primacy	->	primacy	primacies
+primary	->	primary	primaries
+prima	->	prima	primas
+primate	->	primate	primates
+primatologist	->	primatologist	primatologists
+prime	->	prime	primed	priming	primes
+primer	->	primer	primers
+primeur	->	primeur	primeurs
+primitive	->	primitives	primitive
+prim	->	prim	primmest
+primo	->	primo	primos
+primp	->	primping	primp	primped
+primrose	->	primroses	primrose
+primula	->	primulas	primula
+prince-bishop	->	prince-bishop	prince-bishops
+princedom	->	princedoms	princedom
+princely	->	princely	princeliest
+princeling	->	princelings	princeling
+prince	->	prince	princes
+princess	->	princess	princesses
+principality	->	principality	principalities
+principal	->	principal	principals
+principe	->	principe	principes
+principle	->	principle	principles	principled
+prink	->	prinking	prinked	prinks
+print	->	printed	print	prints	printing
+printer	->	printer	printers
+printing-house	->	printing-houses	printing-house
+printing-office	->	printing-office	printing-offices
+printing-press	->	printing-press	printing-presses
+printmaker	->	printmaker	printmakers
+print-maker	->	print-maker	print-makers
+printout	->	printouts	printout
+print-out	->	print-out	print-outs
+print-run	->	print-runs	print-run
+print-shop	->	print-shop	print-shops
+prion	->	prion	prions
+priory	->	priory	priories
+priority	->	priority	priorities	prioritied
+prioritise	->	prioritising	prioritised	prioritise	prioritises
+prioritize	->	prioritize	prioritizing	prioritizes	prioritized
+priority-dispute	->	priority-dispute	priority-disputes
+prior	->	prior	priors
+prise	->	prised	prising	prise	prises
+prism	->	prisms	prism
+prisoner	->	prisoner	prisoners
+prisoner-of-war	->	prisoner-of-war	prisoners-of-war
+prison-officer	->	prison-officers	prison-officer
+prison	->	prison	prisons	prisoned
+prison-ship	->	prison-ships	prison-ship
+pritchett	->	pritchett	pritchetts
+privacy	->	privacy	privacies
+privateer	->	privateering	privateer	privateers
+private-eye	->	private-eye	private-eyes
+private	->	private	privates
+privation	->	privation	privations
+privatisation	->	privatisation	privatisations
+privatise	->	privatising	privatised	privatise
+privatization	->	privatization	privatizations
+privatize	->	privatizing	privatized	privatize
+privet	->	privet	privets
+privy	->	privy	privies
+priviledge	->	priviledge	priviledges
+privilege	->	privilege	privileges	privileged	privileging
+privvy	->	privvies	privvy
+prize-fight	->	prize-fights	prize-fight
+prizefighter	->	prizefighter	prizefighters
+prizefight	->	prizefights	prizefighting
+prizegiving	->	prizegivings	prizegiving
+prize-giving	->	prize-giving	prize-givings
+prizeman	->	prizemen	prizeman
+prize	->	prize	prizes	prized	prizing
+prizewinner	->	prizewinner	prizewinners
+prize-winner	->	prize-winner	prize-winners
+pro-act	->	pro-act	pro-acts
+pro-am	->	pro-am	pro-ams
+prob	->	probs	prob
+probability	->	probability	probabilities
+probable	->	probable	probables
+proband	->	probands	proband
+probate	->	probate	probates
+probationer	->	probationer	probationers
+probation	->	probation	probations
+probe	->	probed	probe	probing	probes
+problematic	->	problematic	problematics
+problematise	->	problematising	problematised	problematises
+problematize	->	problematized	problematize	problematizes
+problem	->	problem	problems
+problem-solution	->	problem-solution	problem-solutions
+problem-solver	->	problem-solvers	problem-solver
+pro-boer	->	pro-boer	pro-boers
+procaryote	->	procaryotes	procaryote
+pro-catholic	->	pro-catholic	pro-catholics
+procedural	->	procedural	procedurals
+procedure	->	procedure	procedures
+proceed	->	proceeds	proceeding	proceed	proceeded
+proceedure	->	proceedures	proceedure
+process	->	process	processing	processes	processed
+procession	->	procession	processions
+processor	->	processor	processors
+process-server	->	process-servers	process-server
+pro-chancellor	->	pro-chancellor	pro-chancellors
+procide	->	procides	procide
+proclaimer	->	proclaimers	proclaimer
+proclaim	->	proclaiming	proclaims	proclaimed	proclaim
+proclamation	->	proclamation	proclamations
+proclivity	->	proclivity	proclivities
+proconsul	->	proconsuls	proconsul
+procrastinate	->	procrastinated	procrastinating	procrastinate	procrastinates
+procrastination	->	procrastination	procrastinations
+procrastinator	->	procrastinators	procrastinator
+procreat	->	procreating	procreated
+procter	->	procter	procters
+proctocolectomy	->	proctocolectomy	proctocolectomies
+proctor	->	proctor	proctors
+procuracy	->	procuracy	procuracies
+procuration	->	procuration	procurations
+procurator	->	procurator	procurators
+procure	->	procure	procured	procures	procuring
+procurement	->	procurement	procurements
+procurer	->	procurer	procurers
+procuress	->	procuress	procuresses
+prod	->	prodding	prod	prodded	prods
+prodder	->	prodders	prodder
+proddy	->	proddy	proddys	proddies
+prodigy	->	prodigies	prodigy
+produce	->	produce	produced	producing	produces
+producer	->	producers	producer
+producer-entrepreneur	->	producer-entrepreneurs	producer-entrepreneur
+product	->	products	product	producted
+productionise	->	productionise	productionising	productionised
+productionist	->	productionist	productionists
+production	->	production	productions
+productise	->	productised	productise	productising
+productivity	->	productivity	productivities
+product-line	->	product-line	product-lines
+produit	->	produit	produits
+pro-european	->	pro-european	pro-europeans
+profane	->	profane	profaning	profaned	profanes
+profanity	->	profanity	profanities
+profess	->	professed	professing	profess	professes
+professionalise	->	professionalised	professionalise	professionalising
+professionalism	->	professionalism	professionalisms
+professionalize	->	professionalize	professionalized	professionalizing
+professional	->	professional	professionals
+profession	->	profession	professions
+professor	->	professor	professors
+professorship	->	professorship	professorships
+proffer	->	proffer	proffers	proffering	proffered
+proficiency	->	proficiency	proficiencies
+profile	->	profile	profiles	profiled	profiling
+profit	->	profits	profit	profited	profiting
+profitability	->	profitability	profitabilities
+profitboss	->	profitboss	profitbosses
+profit-centre	->	profit-centres	profit-centre
+profit-earner	->	profit-earner	profit-earners
+profiteer	->	profiteer	profiteers
+profiterole	->	profiteroles	profiterole
+profit-maximizer	->	profit-maximizers	profit-maximizer
+profit-taker	->	profit-takers	profit-taker
+profligate	->	profligate	profligates
+proforma	->	proforma	proformas
+pro-forma	->	pro-forma	pro-formas
+pro-format	->	pro-format	pro-formats
+profound	->	profound	profoundest	profounder	profounds
+prof	->	prof	profs
+profumo	->	profumo	profumos
+profundity	->	profundities	profundity
+progam	->	progams	progam
+progeny	->	progeny	progenies
+progenitor	->	progenitor	progenitors
+progenoid	->	progenoid	progenoids
+pro-german	->	pro-german	pro-germans
+progestogen	->	progestogen	progestogens
+progno	->	progno	prognos
+prognosticate	->	prognosticate	prognosticates	prognosticated
+prognostication	->	prognostications	prognostication
+prograde	->	prograded	prograde
+programe	->	programed	programe
+programme-maker	->	programme-makers	programme-maker
+programmer	->	programmers	programmer
+programme	->	programme	programmes	programmed
+programmme	->	programmmes	programmme
+program	->	program	programs	programming
+progress	->	progress	progressing	progressed	progresses
+progression	->	progression	progressions
+progressive	->	progressive	progressives
+progressivist	->	progressivist	progressivists
+prog	->	prog	progs	progged
+pro-hanoverian	->	pro-hanoverians	pro-hanoverian
+prohibit	->	prohibited	prohibiting	prohibits	prohibit
+prohibitionist	->	prohibitionist	prohibitionists
+prohibition	->	prohibition	prohibitions
+pro-imperialist	->	pro-imperialist	pro-imperialists
+project	->	projects	project	projected	projecting
+projectile	->	projectiles	projectile
+projectionist	->	projectionist	projectionists
+projection	->	projection	projections
+project-manage	->	project-manage	project-manages
+projector	->	projector	projectors
+projet	->	projet	projets
+prokaryote	->	prokaryotes	prokaryote
+prolamin	->	prolamin	prolamins
+prolapse	->	prolapse	prolapses	prolapsing
+prole	->	proles	prole
+proletarianize	->	proletarianized	proletarianizing
+proletarian	->	proletarian	proletarians
+proletariat	->	proletariat	proletariats
+proliferate	->	proliferated	proliferates	proliferate	proliferating
+proliferation	->	proliferation	proliferations
+proliferator	->	proliferators	proliferator
+proline	->	proline	prolines
+prologue	->	prologue	prologues
+prolongation	->	prolongation	prolongations
+prolong	->	prolong	prolonging	prolongs
+prom	->	proms	prom
+pro-marketeer	->	pro-marketeer	pro-marketeers
+promenade	->	promenade	promenades	promenaded	promenading
+prominence	->	prominence	prominences
+prominent	->	prominent	prominents
+promise	->	promised	promise	promises	promising
+promisee	->	promisee	promisees
+promisor	->	promisor	promisors
+promo	->	promos	promo
+promontory	->	promontory	promontories
+promoter	->	promoter	promoters
+promote	->	promoting	promotes	promoted	promote
+promotional	->	promotional	promotionals
+promotion	->	promotion	promotions
+promotor	->	promotor	promotors
+prompt	->	prompt	prompted	prompts	prompting	prompter
+promulgate	->	promulgated	promulgate	promulgating	promulgates
+promulgation	->	promulgation	promulgations
+prong	->	prongs	prong
+pronk	->	pronking	pronk
+pronominalisation	->	pronominalisations	pronominalisation
+pronounce	->	pronounce	pronounced	pronouncing	pronounces
+pronouncement	->	pronouncements	pronouncement
+pronoun	->	pronoun	pronouns
+pronunciamiento	->	pronunciamiento	pronunciamientos
+pronunciation	->	pronunciation	pronunciations
+proofer	->	proofer	proofers
+proofread	->	proofreading	proofread
+proofreader	->	proofreaders	proofreader
+proof-reader	->	proof-reader	proof-readers
+proof	->	proof	proofs	proofing	proofed
+proosian	->	proosians	proosian
+proove	->	proove	prooving
+prop	->	props	prop	propped	propping
+propagandise	->	propagandise	propagandising	propagandised
+propagandist	->	propagandists	propagandist
+propagate	->	propagating	propagated	propagate	propagates
+propagation	->	propagation	propagations
+propagator	->	propagator	propagators
+pro-palestinian	->	pro-palestinian	pro-palestinians
+propel	->	propelled	propel	propelling	propels
+propellant	->	propellant	propellants
+propeller	->	propeller	propellers
+propellor	->	propellor	propellors
+propensity	->	propensity	propensities
+property	->	property	properties	propertied
+property-owner	->	property-owners	property-owner
+prophecy	->	prophecy	prophecies
+prophesy	->	prophesied	prophesying	prophesies	prophesy
+prophet	->	prophets	prophet
+prophetess	->	prophetess	prophetesses
+prophylactic	->	prophylactics	prophylactic
+propitiate	->	propitiate	propitiating	propitiated	propitiates
+propliner	->	propliners	propliner
+proponent	->	proponents	proponent
+proportionality	->	proportionality	proportionalities
+proportioner	->	proportioners	proportioner
+proportion	->	proportion	proportions	proportioned	proportioning
+proposal	->	proposal	proposals
+propose	->	proposed	propose	proposing	proposes
+proposer	->	proposers	proposer
+proposition	->	proposition	propositions	propositioned	propositioning
+propound	->	propounded	propound	propounding	propounds
+propounder	->	propounders	propounder
+propriety	->	propriety	proprieties
+proprietor	->	proprietor	proprietors
+proprietorship	->	proprietorships	proprietorship
+proprietress	->	proprietress	proprietresses
+proprinter	->	proprinters	proprinter
+proprioceptor	->	proprioceptor	proprioceptors
+propshaft	->	propshaft	propshafts
+pro-republican	->	pro-republican	pro-republicans
+prorogate	->	prorogate	prorogates
+prorogue	->	prorogued	proroguing
+pro	->	pro	pros
+proscribe	->	proscribes	proscribed	proscribing	proscribe
+proscription	->	proscription	proscriptions
+proscute	->	proscuted	proscuting
+prose-character	->	prose-characters	prose-character
+prosecute	->	prosecute	prosecuted	prosecuting	prosecutes
+prosecution	->	prosecution	prosecutions
+prosecutor	->	prosecutor	prosecutors
+proselytise	->	proselytise	proselytised	proselytises	proselytising
+proselytiser	->	proselytiser	proselytisers
+proselytizer	->	proselytizers	proselytizer
+proselytize	->	proselytize	proselytizing	proselytized
+prose	->	prose	proses
+prose-speaker	->	prose-speakers	prose-speaker
+prose-writing	->	prose-writings	prose-writing
+prosimian	->	prosimians	prosimian
+prosobranch	->	prosobranchs	prosobranch
+prosodic	->	prosodic	prosodics
+prosody	->	prosody	prosodies
+prospect	->	prospects	prospect	prospecting	prospected
+prospective	->	prospective	prospectives
+prospector	->	prospector	prospectors
+prosper	->	prospering	prospered	prosper	prospers
+prosperity	->	prosperity	prosperities
+prostaglandin	->	prostaglandin	prostaglandins
+pro-standard	->	pro-standard	pro-standards
+prostanoid	->	prostanoids	prostanoid
+prostatectomy	->	prostatectomy	prostatectomies
+prostate	->	prostate	prostates
+prosthetic	->	prosthetics	prosthetic
+prosthetist	->	prosthetist	prosthetists
+prostitute	->	prostitutes	prostitute	prostituted	prostituting
+prostrate	->	prostrate	prostrated	prostrating	prostrates
+prostration	->	prostrations	prostration
+pro-syrian	->	pro-syrian	pro-syrians
+protaganist	->	protaganists	protaganist
+protaglandin	->	protaglandins	protaglandin
+protagonist	->	protagonists	protagonist
+protease	->	proteases	protease
+proteasome	->	proteasome	proteasomes
+protect	->	protect	protected	protecting	protects
+protectionist	->	protectionists	protectionist
+protection	->	protection	protections
+protector	->	protectors	protector
+protectorate	->	protectorate	protectorates
+proteinase	->	proteinase	proteinases
+protein	->	protein	proteins
+proteoglycan	->	proteoglycans	proteoglycan
+protest	->	protesting	protest	protests	protested
+protestant	->	protestant	protestants
+protestation	->	protestation	protestations
+protester	->	protesters	protester
+protestor	->	protestors	protestor
+protist	->	protists	protist
+protistan	->	protistan	protistans
+protocol	->	protocol	protocols
+protomer	->	protomers	protomer
+proton	->	protons	proton
+proto-oncogene	->	proto-oncogenes	proto-oncogene
+protoplast	->	protoplasts	protoplast
+protoranker	->	protorankers	protoranker
+proto-record	->	proto-records	proto-record
+protostar	->	protostars	protostar
+protostome	->	protostomes	protostome
+protosun	->	protosuns	protosun
+prototype	->	prototypes	prototype
+prototyp	->	prototyping	prototyped
+protoxin	->	protoxins	protoxin
+protozoan	->	protozoans	protozoan
+protractor	->	protractor	protractors
+protract	->	protracting	protracts	protract
+protrude	->	protruding	protrudes	protrude	protruded
+protrusion	->	protrusion	protrusions
+protta	->	protta	prottas
+protuberance	->	protuberance	protuberances
+proud	->	proud	proudest	prouder
+prove	->	prove	proved	proving	proven	proves
+provenance	->	provenance	provenanced	provenancing	provenances
+prover	->	provers	prover
+proverbial	->	proverbial	proverbials
+proverb	->	proverb	proverbs
+pro-vice-chancellor	->	pro-vice-chancellor	pro-vice-chancellors
+providee	->	providee	providees
+providence	->	providence	providences
+provider	->	provider	providers
+provide	->	provide	providing	provided	provides
+province	->	province	provinces
+provincial	->	provincial	provincials
+provisional	->	provisional	provisionals
+provision	->	provision	provisions	provisioning	provisioned
+proviso	->	provisos	proviso
+provisor	->	provisor	provisors
+provo	->	provos	provo
+provocateur	->	provocateurs	provocateur
+provocation	->	provocation	provocations
+provoke	->	provoked	provoke	provoking	provokes
+provost	->	provost	provosts
+prowler	->	prowlers	prowler
+prowl	->	prowled	prowling	prowl	prowls
+pro-woman	->	pro-women	pro-woman
+prow	->	prow	prows
+proxy	->	proxy	proxies	proxied
+proximity	->	proximity	proximities
+pr	->	pr	prs	prest	pring
+prudent	->	prudent	prudenter
+prude	->	prude	prudes
+prune	->	prune	pruned	pruning	prunes
+pruner	->	pruner	pruners
+prussian	->	prussian	prussians
+pry	->	prying	pry	prys	pryed	pried	pries
+pryer	->	pryer	pryers
+pryor	->	pryor	pryors
+psalm	->	psalms	psalm
+psalmist	->	psalmists	psalmist
+psaltery	->	psaltery	psalteries
+psalter	->	psalter	psalters
+p-selectin	->	p-selectins	p-selectin
+psephologist	->	psephologists	psephologist
+pseud	->	pseuds	pseud
+pseudoaneurysm	->	pseudoaneurysm	pseudoaneurysms
+pseudocyst	->	pseudocysts	pseudocyst
+pseudo-device	->	pseudo-device	pseudo-devices
+pseudo-homophone	->	pseudo-homophones	pseudo-homophone
+pseudohomophone	->	pseudohomophone	pseudohomophones
+pseudo-intellectual	->	pseudo-intellectual	pseudo-intellectuals
+pseudolymphoma	->	pseudolymphoma	pseudolymphomas
+pseudomonad	->	pseudomonads	pseudomonad
+pseudonym	->	pseudonym	pseudonyms
+pseudo-objective	->	pseudo-objective	pseudo-objectives
+pseudo-operation	->	pseudo-operations	pseudo-operation
+pseudopod	->	pseudopods	pseudopod
+pseudoscience	->	pseudosciences	pseudoscience
+pseudo-science	->	pseudo-science	pseudo-sciences
+pseudo-variable	->	pseudo-variable	pseudo-variables
+psi	->	psi	psis
+psoralen	->	psoralens	psoralen
+psych	->	psyches	psych	psyching	psyched	psychs
+psychedelic	->	psychedelic	psychedelics
+psychiatric	->	psychiatric	psychiatrics
+psychiatrist	->	psychiatrist	psychiatrists
+psychic	->	psychic	psychics
+psychoacoustic	->	psychoacoustics	psychoacoustic

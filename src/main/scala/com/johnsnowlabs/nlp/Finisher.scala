@@ -43,11 +43,11 @@ class Finisher(override val uid: String)
   def getIncludeKeys: Boolean = $(includeKeys)
   def getOutputAsArray: Boolean = $(outputAsArray)
 
-  setDefault(valueSplitSymbol, "#")
-  setDefault(annotationSplitSymbol, "@")
-  setDefault(cleanAnnotations, true)
-  setDefault(includeKeys, false)
-  setDefault(outputAsArray, false)
+  setDefault(valueSplitSymbol -> "#",
+    annotationSplitSymbol -> "@",
+    cleanAnnotations -> true,
+    includeKeys -> false,
+    outputAsArray -> true)
 
   def this() = this(Identifiable.randomUID("document"))
 

@@ -261,13 +261,6 @@ class Lemmatizer(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
-        self._setDefault(
-            dictionary=ExternalResource(
-                "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
-                ReadAs.LINE_BY_LINE,
-                {"keyDelimiter": "->", "valueDelimiter": "\t"}
-            )
-        )
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model)
@@ -348,7 +341,6 @@ class PerceptronApproach(AnnotatorApproach):
     def __init__(self):
         super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
         self._setDefault(
-            corpus=ExternalResource("/anc-pos-corpus/", ReadAs.LINE_BY_LINE, {"delimiter":"|", "format":"text"}),
             nIterations=5
         )
 
@@ -357,8 +349,7 @@ class PerceptronApproach(AnnotatorApproach):
 
     def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
-        if "delimiter" not in opts:
-            opts["delimiter"] = delimiter
+        opts["delimiter"] = delimiter
         return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setIterations(self, value):
@@ -509,10 +500,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
-        self._setDefault(dictionary=ExternalResource(
-            "/spell/words.txt",
-            ReadAs.LINE_BY_LINE,
-            {"tokenPattern": "[a-zA-Z]+"}), caseSensitive=False, doubleVariants=False, shortCircuit=False)
+        self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False)
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()

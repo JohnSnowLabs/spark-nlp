@@ -1,5 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 003|CD -|: 2144868|CD "|'' received|VBD =|SYM "|'' Tue|NNP May|NNP 18|CD 20:20:31|NN 1993|CD EST|NNP "|'' sent|VBD =|SYM "|'' Wed|NNP ,|, 19|CD May|NNP 1993|CD 12:17:09|NN +|NN 0900|CD (|( JST|NNP )|) "|'' name|NN =|SYM "|'' Masataka|NNP Ohta|NNP "|'' email|NN =|SYM "|'' mohta@necom830.cc.titech.ac.jp|NN "|'' subject|JJ =|SYM "|'' Re|NNP :|: CHARSET|NNP considerations|NNS "|'' id|NN =|SYM "|'' 9305190317.AA01493@necom830.cc.titech.ac.jp|NN "|'' inreplyto|NN =|SYM "|'' 01GYBXHRZVEA8Y5JAE@INNOSOFT.COM|NN "|'' To|TO :|: TROTH@ricevm1.rice.edu|NN (|( Rick|NNP Troth|NNP )|) Cc|NNP :|: scs@adam.mit.edu|NN ,|, pine-info@cac.washington.edu|NN ,|, ietf-charsets@INNOSOFT.COM|NN ,|, I|PRP do|VBP n't|RB know|VB what|WP pine|VBP is|VBZ .|. 
-
-But|CC ,|, could|MD you|PRP please|VB discuss|VB on|IN pine|VBP specific|JJ features|NNS in|IN pine|VBP ML|NNP only|RB ?|. 
-
-Masataka|NNP Ohta|NNP 
