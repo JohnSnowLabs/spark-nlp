@@ -62,6 +62,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
     val finisher = new Finisher()
       .setInputCols("entity")
+      .setOutputAsArray(false)
 
     val recursivePipeline = new RecursivePipeline()
       .setStages(Array(
@@ -72,6 +73,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
         finisher
       ))
 
+    recursivePipeline.fit(data).transform(data).show
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
