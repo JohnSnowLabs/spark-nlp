@@ -1,9 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 046|CD -|: 12130258|CD "|'' name|NN =|SYM "|'' Neil|NNP Soiffer|NNP "|'' email|NN =|SYM "|'' soiffer@wri.com|NN "|'' sent|VBD =|SYM "|'' Mon|NNP ,|, 3|CD Jun|NNP 1996|CD 23:06:04|NN -0700|CD "|'' id|NN =|SYM "|'' 199606040606.AA03032@drizzle.wri.com|NN "|'' subject|JJ =|SYM "|'' Re|NNP :|: Comments|NNS on|IN parsing|VBG steps|NNS :|: "|'' To|TO :|: raman@adobe.com|NN Cc|NNP :|: w3c-math-erb@w3.org|NN >|NN >|NN From|IN first|JJ reading|NN ,|, it|PRP appears|VBZ that|IN the|DT step|NN of|IN "|'' parsing|VBG embellishments|NNS "|'' >|NN e.g.|NN superscripts|NNS ,|, accents|NNS etc|FW needs|VBZ to|TO happen|VB *|NN before|IN *|NN the|DT operator|NN >|NN precedence|NN parsing|VBG step|NN .|. 
-
->|NN Also|RB ,|, this|DT will|MD allow|VB us|PRP to|TO handle|VB complex|JJ expressions|NNS appearing|VBG as|IN >|NN embellishments|NNS to|TO other|JJ complex|JJ expressions|NNS correctly|RB .|. 
-
-Mathematica|NNP 's|POS parsing|VBG ,|, which|WDT works|VBZ in|IN a|DT manner|NN similar|JJ to|TO what|WP Bruce|NNP describes|VBZ ,|, has|VBZ no|DT problem|NN handling|VBG complex|JJ embellishments|NNS as|IN in|IN your|PRP$ example|NN .|. 
-Perhaps|RB I|PRP am|VBP too|RB familar|NN with|IN the|DT algorithm|NN and|CC that|IN I|PRP filled|VBD in|IN pieces|NNS missing|VBG in|IN Bruce|NNP 's|POS description|NN ,|, but|CC I|PRP did|VBD n't|RB see|VB anything|NN wrong|JJ with|IN his|PRP$ description|NN .|. 
-Do|VBP you|PRP have|VB a|DT (|( simple|JJ )|) example|NN in|IN mind|NN where|WRB it|PRP fails|VBZ ?|. 
-
-Neil|NNP 

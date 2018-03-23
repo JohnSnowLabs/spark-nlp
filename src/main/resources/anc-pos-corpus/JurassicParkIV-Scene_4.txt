@@ -1,9 +1,0 @@
-EXT|NNP -|- ISLA|NNP SORNA|NNP -|: DAWN|NN EXT|NNP -|- CLARK|NNP IS|VBZ CROUCHING|VBG IN|IN THE|DT MIDDLE|NNP OF|IN THE|DT T|NNP -|- REX|NNP NEST|NN ON|IN ISLA|NNP SORNA|NNP .|. HE|PRP IS|VBZ HOLDING|VBG HIS|PRP$ UNCLE|NNP 'S|VBZ H|NNP &|CC H|NNP IN|IN HIS|PRP$ HANDS|NNS AND|CC IS|VBZ WEARING|VBG A|DT GHILLE|JJ SUIT|NN .|. 
--|- DAWN|NN CLARK|NNP reaches|VBZ up|IN to|TO press|VB a|DT button|NN on|IN his|PRP$ left|JJ shoulder|NN .|. 
-He|PRP begins|VBZ recording|NN .|. 
-JEFFERY|NNP CLARK|NNP (|( to|TO the|DT microphone|NN 
-)|) Isla|NNP Sorna|NNP ,|, day|NN fourteen|CD .|. 
-I|PRP have|VBP been|VBN on|IN this|DT island|NN for|IN two|CD weeks|NNS ,|, and|CC I|PRP 've|VBP seen|VBN no|DT sign|NN of|IN either|DT the|DT T-Rex|NNP or|CC the|DT Spinosaurus|NNP .|. 
-I|PRP have|VBP been|VBN to|TO all|DT of|IN the|DT locations|NNS that|IN the|DT animals|NNS were|VBD said|VBN to|TO frequent|JJ but|CC without|IN avail|NN .|. 
-I|PRP am|VBP out|IN of|IN food|NN and|CC set|VBN to|TO meet|VB the|DT helicopter|NN at|IN the|DT designated|VBN meeting|NN point|NN in|IN twelve|CD hours|NNS .|. 
-I|PRP regret|VBP that|IN I|PRP am|VBP coming|VBG home|NN from|IN this|DT hunt|NN empty-handed|JJ .|. 

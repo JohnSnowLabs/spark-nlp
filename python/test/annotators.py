@@ -3,8 +3,8 @@ import os
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
-from sparknlp.common import LightPipeline, RegexRule
 from test.util import SparkContextForTest
+from sparknlp.model.en import Basic
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -74,7 +74,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt", key_delimiter="->", value_delimiter="\t")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt", key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -153,6 +153,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
+            .setCorpus(path="file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
             .setIterations(2) \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
@@ -195,7 +196,8 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("lemma")
+            .setOutputCol("lemma") \
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt", key_delimiter="->", value_delimiter="\t")
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
@@ -221,7 +223,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt", key_delimiter="->", value_delimiter="\t")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/simple.txt", key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -273,6 +275,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
             .setOutputCol("spell") \
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/spell/words.txt") \
             .setCorpus("file:///" + os.getcwd() + "/../src/test/resources/spell/sherlockholmes.txt") \
             .fit(self.data)
         assembled = document_assembler.transform(self.data)
@@ -303,3 +306,15 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
+
+
+class ModelTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
+        Basic.annotate(self.data, "text").show()
+        print(Basic.annotate(locdata))
+        print(Basic.annotate("Joe is running under the rain"))
+

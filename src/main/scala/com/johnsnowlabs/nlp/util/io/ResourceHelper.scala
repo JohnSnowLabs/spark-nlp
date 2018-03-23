@@ -41,25 +41,14 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-    var isResourceFolder: Boolean = false
     val pipe: Option[InputStream] =
-      /** Check whether file exists within current jvm jar */
-      Option(getClass.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      })
-        /** Check whether file exists within classLoader jar*/
-      .orElse(Option(getClass.getClassLoader.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      }))
         /** Check whether it exists in file system */
-      .orElse(Option {
+      Option {
         val path = new Path(resource)
         val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
         val files = fs.listFiles(new Path(resource), true)
         if (files.hasNext) inputStreamOrSequence(fs, files) else null
-      })
+      }
     val content: BufferedSource = pipe.map(p => {
       new BufferedSource(p)("UTF-8")
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
@@ -67,48 +56,6 @@ object ResourceHelper {
       content.close()
       pipe.foreach(_.close)
     }
-  }
-
-  def listResourceDirectory(path: String): Seq[String] = {
-    var dirURL = getClass.getResource(path)
-
-    if (dirURL == null)
-      dirURL = getClass.getClassLoader.getResource(path)
-
-    if (dirURL != null && dirURL.getProtocol.equals("file")) {
-      /* A file path: easy enough */
-      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath)
-    } else if (dirURL == null) {
-      /* path not in resources and not in disk */
-      throw new FileNotFoundException(path)
-    }
-
-    if (dirURL.getProtocol.equals("jar")) {
-      /* A JAR path */
-      val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
-      val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
-      val entries = jar.entries()
-      val result = new ArrayBuffer[String]()
-
-      val pathToCheck = path.replaceFirst("/", "")
-      while(entries.hasMoreElements) {
-        val name = entries.nextElement().getName//.replaceFirst("/", "")
-        if (name.startsWith(pathToCheck)) { //filter according to the path
-          var entry = name.substring(pathToCheck.length())
-          val checkSubdir = entry.indexOf("/")
-          if (checkSubdir >= 0) {
-            // if it is a subdirectory, we just return the directory name
-            entry = entry.substring(0, checkSubdir)
-          }
-          if (entry.nonEmpty) {
-            result.append(pathToCheck + entry)
-          }
-        }
-      }
-      return result.distinct.sorted
-    }
-
-    throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
   def createDatasetFromText(
@@ -241,25 +188,17 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        if (sourceStream.isResourceFolder) {
-          Random.shuffle(listResourceDirectory(er.path).toList)
-            .flatMap { fileName =>
-              parseTupleSentences(ExternalResource(fileName, er.readAs, er.options))
-            }
-            .toArray
-        } else {
-          val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
-            line.split("\\s+").filter(kv => {
-              val s = kv.split(er.options("delimiter").head)
-              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-            }).map(kv => {
-              val p = kv.split(er.options("delimiter").head)
-              TaggedWord(p(0), p(1))
-            })
-          }).toArray
-          sourceStream.close()
-          result.map(TaggedSentence(_))
-        }
+        val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        }).toArray
+        sourceStream.close()
+        result.map(TaggedSentence(_))
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -319,29 +258,13 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
         val regex = er.options("tokenPattern").r
-        if (sourceStream.isResourceFolder) {
-          try {
-            listResourceDirectory(er.path)
-              .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
-          } catch {
-            case _: NullPointerException =>
-              sourceStream
-                .content
-                .getLines()
-                .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
-                .toArray
-              sourceStream.close()
-          }
-        } else {
-          val sourceStream = SourceStream(er.path)
-          sourceStream.content.getLines.foreach(line => {
-            val words = regex.findAllMatchIn(line).map(_.matched).toList
-              words.foreach(w => {
-                m(w) += 1
-              })
-          })
-          sourceStream.close()
-        }
+        sourceStream.content.getLines.foreach(line => {
+          val words = regex.findAllMatchIn(line).map(_.matched).toList
+            words.foreach(w => {
+              m(w) += 1
+            })
+        })
+        sourceStream.close()
         if (m.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         m
       case SPARK_DATASET =>

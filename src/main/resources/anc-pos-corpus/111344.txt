@@ -1,6 +1,0 @@
-To|TO :|: undisclosed-recipients|JJ :|: ;|: From|IN :|: Quah|NNP Seok|NNP Whee|NNP <|NN seokwhee.quah@ri.edu.sg|NN >|NN Date|NN :|: Tue|NNP ,|, 8|CD Feb|NNP 2011|CD 17:50:24|NN +|NN 0800|CD Subject|NNP :|: Important|NNP :|: Database|NNP Maintenance|NNP Update|NNP !|. !|. !|. A|DT Computer|NNP Database|NNP Maintenance|NNP is|VBZ currently|RB going|VBG on|IN our|PRP$ Webmail|NNP Message|NNP Center|NNP .|. 
-Our|PRP$ Message|NNP Center|NNP needs|VBZ to|TO be|VB re-set|JJ because|IN of|IN the|DT high|JJ amount|NN of|IN Spam|NNP mails|NNS we|PRP receive|VBP daily|RB .|. 
-A|DT Quarantine|NNP Maintenance|NNP will|MD help|VB us|PRP prevent|VB this|DT everyday|JJ dilemma|NN .|. 
-To|TO re-validate|JJ your|PRP$ mailbox|NN Please|VB Click|NNP on|IN the|DT link|NN below|IN :|: http://upgradearea.com/secured/index.php|NN 
-Failure|NN to|TO re-validate|JJ your|PRP$ mailbox|NN will|MD render|VB your|PRP$ e-mail|JJ in-active|JJ from|IN our|PRP$ database|NN .|. 
-Thanks|NNS Susan|NNP Barch|NNP System|NNP Administrator|NNP .|. 

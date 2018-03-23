@@ -11,12 +11,12 @@ import org.scalatest._
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("/anc-pos-corpus/test-training.txt")
+  "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("src/test/resources/anc-pos-corpus-small/test-training.txt")
 
   val trainedTagger: PerceptronModel =
     new PerceptronApproach()
         .setNIterations(3)
-        .setCorpus(ExternalResource("/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+        .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(DataBuilder.basicDataBuild("dummy"))
 
   // Works with high iterations only
@@ -42,7 +42,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
     new PerceptronApproach()
       .setNIterations(3)
-      .setCorpus(ExternalResource("/anc-pos-corpus/test-training.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/test-training.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .fit(DataBuilder.basicDataBuild("dummy")),
     tokenizedSentenceFromWsj,
     targetSentencesFromWsjResult
@@ -66,7 +66,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   "A Perceptron Tagger" should "be readable and writable" in {
     val perceptronTagger = new PerceptronApproach()
       .setNIterations(1)
-      .setCorpus(ExternalResource("/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/perceptrontagger"
     try {

@@ -1,24 +1,21 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import java.io.FileNotFoundException
-
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.{SourceStream, listResourceDirectory}
 import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-import scala.collection.mutable.{ListBuffer, Map => MMap}
+import scala.collection.mutable.{Map => MMap}
 
 /** Inspired on vivekn sentiment analysis algorithm
   * https://github.com/vivekn/sentiment/
   */
 class ViveknSentimentApproach(override val uid: String)
-  extends AnnotatorApproach[ViveknSentimentModel] {
+  extends AnnotatorApproach[ViveknSentimentModel] with ViveknSentimentUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -80,7 +77,7 @@ class ViveknSentimentApproach(override val uid: String)
           .map(_.name).get
 
         dataset.select(tokenColumn, $(sentimentCol)).as[(Array[Annotation], String)].foreach(tokenSentiment => {
-          ViveknSentimentApproach.negateSequence(tokenSentiment._1.map(_.result).toList).foreach(w => {
+          negateSequence(tokenSentiment._1.map(_.result).toList).foreach(w => {
             if (tokenSentiment._2 == "positive") {
               positiveDS.add(w, 1)
               negativeDS.add(prefix + w, 1)
@@ -92,16 +89,16 @@ class ViveknSentimentApproach(override val uid: String)
         })
         (positiveDS.value.withDefaultValue(0), negativeDS.value.withDefaultValue(0))
       } else {
-        val fromNegative: (MMap[String, Long], MMap[String, Long]) = ViveknSentimentApproach.ViveknWordCount(
+        val fromNegative: (MMap[String, Long], MMap[String, Long]) = ViveknWordCount(
           er=$(negativeSource),
           prune=$(pruneCorpus),
-          f=w => ViveknSentimentApproach.negateSequence(w)
+          f=w => negateSequence(w)
         )
 
-        val (mpos, mneg) = ViveknSentimentApproach.ViveknWordCount(
+        val (mpos, mneg) = ViveknWordCount(
           er=$(positiveSource),
           prune=$(pruneCorpus),
-          f=w => ViveknSentimentApproach.negateSequence(w),
+          f=w => negateSequence(w),
           fromNegative._2,
           fromNegative._1
         )
@@ -146,72 +143,5 @@ class ViveknSentimentApproach(override val uid: String)
 
 
 }
-private object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSentimentApproach] {
-  /** Detects negations and transforms them into not_ form */
-  private[vivekn] def negateSequence(words: List[String]): List[String] = {
-    val negations = Seq("not", "cannot", "no")
-    val delims = Seq("?.,!:;")
-    val result = ListBuffer.empty[String]
-    var negation = false
-    var prev: Option[String] = None
-    var pprev: Option[String] = None
-    words.foreach( word => {
-      val processed = word.toLowerCase
-      val negated = if (negation) "not_" + processed else processed
-      result.append(negated)
-      if (prev.isDefined) {
-        val bigram = prev.get + " " + negated
-        result.append(bigram)
-        if (pprev.isDefined) {
-          result.append(pprev.get + " " + bigram)
-        }
-        pprev = prev
-      }
-      prev = Some(negated)
-      if (negations.contains(processed) || processed.endsWith("n't")) negation = !negation
-      if (delims.exists(word.contains)) negation = false
-    })
-    result.toList
-  }
 
-  private[vivekn] def ViveknWordCount(
-                                       er: ExternalResource,
-                                       prune: Int,
-                                       f: (List[String] => List[String]),
-                                       left: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
-                                       right: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
-                                     ): (MMap[String, Long], MMap[String, Long]) = {
-    val regex = er.options("tokenPattern").r
-    val prefix = "not_"
-    val sourceStream = SourceStream(er.path)
-    if (sourceStream.isResourceFolder) {
-      try {
-        listResourceDirectory(er.path)
-          .map(filename => ViveknWordCount(ExternalResource(filename.toString, er.readAs, er.options), prune, f, left, right))
-      } catch {
-        case _: NullPointerException =>
-          sourceStream
-            .content
-            .getLines()
-            .map(fileName => ViveknWordCount(ExternalResource(er.path + "/" + fileName, er.readAs, er.options), prune, f, left, right))
-            .toArray
-          sourceStream.close()
-      }
-    } else {
-      sourceStream.content.getLines.foreach(line => {
-        val words = regex.findAllMatchIn(line).map(_.matched).toList
-        f.apply(words).foreach(w => {
-          left(w) += 1
-          right(prefix + w) += 1
-        })
-      })
-      sourceStream.close()
-    }
-    if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
-    if (prune > 0)
-      (left.filter{case (_, v) => v > 1}, right.filter{case (_, v) => v > 1})
-    else
-      (left, right)
-  }
-
-}
+private object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSentimentApproach]

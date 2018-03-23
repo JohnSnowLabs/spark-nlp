@@ -1,7 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 046|CD -|: 11506817|CD "|'' name|NN =|SYM "|'' Ron|NNP Whitney|NNP "|'' email|NN =|SYM "|'' RFW@math.ams.org|NN "|'' sent|VBD =|SYM "|'' Thu|NNP ,|, 11|CD Apr|NNP 1996|CD 08:46:25|NN -0400|CD (|( EDT|NNP )|) "|'' *|NN Mail-|NNP System-|NNP Version|NNP :|: subject|JJ =|SYM "|'' small|JJ questions|NNS regarding|VBG integrals|NNS "|'' To|TO :|: w3c-math-erb@w3.org|NN In|IN composing|VBG a|DT longer|JJR piece|NN about|IN concerns|NNS here|RB ,|, I|PRP have|VBP a|DT couple|NN of|IN smallish|NN ,|, focused|VBN questions|NNS .|. 
-I|PRP 'll|MD ask|VB them|PRP in|IN the|DT context|NN of|IN integrals|NNS .|. 
-Dave|NNP proposes|VBZ something|NN on|IN the|DT order|NN of|IN integral|JJ from|IN ...|... to|TO ...|... of|IN ...|... \|NN d|SYM x|SYM for|IN an|DT "|'' ordinary|JJ "|'' integral|JJ .|. 
-1|CD .|. How|WRB will|MD we|PRP handle|VB the|DT variants|NNS on|IN this|DT theme|NN such|JJ as|IN multiple|JJ integrals|NNS (|( to|TO be|VB rendered|VBN with|IN multiple|JJ integral|JJ signs|NNS )|) ,|, path|NN integrals|NNS ,|, etc.|NN ?|. 
-2|CD .|. Is|VBZ there|EX a|DT specific|JJ reason|NN we|PRP do|VBP n't|RB want|VB to|TO use|VB the|DT TeX-like|NNP notation|NN :|: \|NN int|NN _|NN {|( ...|... }|) ^|NN {|( ...|... }|) ...|... ?|. 
-(|( because|IN the|DT _|NN and|CC ^|NN operators|NNS become|VBP "|'' too|RB "|'' overloaded|JJ ?|. )|) 
--|: Ron|NNP 

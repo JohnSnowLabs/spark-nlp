@@ -1,8 +1,0 @@
-Message-ID|NNP :|: <|NN 5550308.1075857279636.JavaMail.evans@thyme|NN >|NN Date|NN :|: Tue|NNP ,|, 6|CD Jun|NNP 2000|CD 04:43:00|NN -|: 0700|CD (|( PDT|NNP )|) From|IN :|: jwahl@cinergy.com|NN To|TO :|: benjamin.rogers@enron.com|NN Subject|NNP :|: Confidential|NNP Agreement|NNP Cc|NNP :|: mcyrus@cinergy.com|NN Mime-|NNP Version|NNP :|: 1.0|CD Content-|NNP Type|NNP :|: text|NN /|NN plain|JJ ;|: charset|NN =|SYM us-ascii|JJ Content-|NNP Transfer-|NNP Encoding|NNP :|: 7|CD bit|NN Bcc|NNP :|: mcyrus@cinergy.com|NN This|DT follows|VBZ up|RB on|IN your|PRP$ voice|NN mail|NN message|NN regarding|VBG the|DT status|NN of|IN the|DT Confidentiality|NNP Agreement|NNP in|IN light|NN of|IN renewed|VBN discussions|NNS between|IN the|DT two|CD companies|NNS .|. 
-Attached|NNP is|VBZ the|DT latest|JJS draft|NN of|IN the|DT Confidentiality|NNP Agreement|NNP which|WDT was|VBD transmitted|VBN to|TO you|PRP on|IN May|NNP 13|CD .|. 
-Please|VB call|NN me|PRP with|IN any|DT comments|NNS or|CC questions|NNS .|. 
-
-<|NN <|NN Confidential|NNP AGrement|NNP with|IN Enron|NNP which|WDT was|VBD sent|VBN to|TO Ben|NNP Rogers|NNP on|IN 51200|CD -|: this|DT version|NN is|VBZ a|DT clean|JJ version|NN accepting|VBG all|DT blacklined|JJ changes|NNS from|IN 59437v3.DOC|NNP 
->|NN >|NN 
--|: Confidential|NNP AGrement|NNP with|IN Enron|NNP which|WDT was|VBD sent|VBN to|TO Ben|NNP Rogers|NNP on|IN 51200|CD -|: this|DT version|NN is|VBZ a|DT clean|JJ version|NN accepting|VBG all|DT blacklined|JJ changes|NNS from|IN 59437v3.DOC|NNP 
-
