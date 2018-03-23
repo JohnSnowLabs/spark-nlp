@@ -34,15 +34,33 @@ class NorvigSweetingApproach(override val uid: String)
     set(corpus, value)
   }
 
+  def setCorpus(path: String,
+                tokenPattern: String,
+                readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(corpus, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
+
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
+  def setDictionary(path: String,
+                    tokenPattern: String,
+                    readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                    options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
+
   def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
   }
+
+  def setSlangDictionary(path: String,
+                         delimiter: String,
+                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                         options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
   override val annotatorType: AnnotatorType = SPELL
 
@@ -54,7 +72,7 @@ class NorvigSweetingApproach(override val uid: String)
     val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] =
       if (get(corpus).isDefined) {
-        ResourceHelper.wordCount($(corpus)).toMap
+        ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
       } else {
         import ResourceHelper.spark.implicits._
         dataset.select($(inputCols).head).as[Array[Annotation]]

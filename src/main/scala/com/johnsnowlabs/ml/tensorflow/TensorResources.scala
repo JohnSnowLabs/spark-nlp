@@ -3,6 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import java.nio.LongBuffer
 import org.tensorflow.Tensor
 import scala.collection.mutable.ArrayBuffer
+import scala.language.existentials
 
 
 class TensorResources {

@@ -54,7 +54,7 @@ class NerDatasetEncoder
 
     val wordEmbeddings =
     Range(0, batchSize).map{i =>
-      val sentence = getOrElse(sentences, i, Array.empty[String])
+      val sentence = sentences(i)
       Range(0, maxSentenceLength).map{j =>
         val word = getOrElse(sentence, j, "")
         embeddingsResolver(word)
@@ -63,7 +63,7 @@ class NerDatasetEncoder
 
     val charIds =
       Range(0, batchSize).map { i =>
-        val sentence = getOrElse(sentences, i, Array.empty[String])
+        val sentence = sentences(i)
         Range(0, maxSentenceLength).map { j =>
           val word = getOrElse(sentence, j, "").toCharArray
           Range(0, maxWordLength).map { k =>

@@ -40,6 +40,12 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     set(corpus, value)
   }
 
+  def setCorpus(path: String,
+                delimiter: String,
+                readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
   def this() = this(Identifiable.randomUID("POS"))
@@ -101,7 +107,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
             require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
               s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
             TaggedSentence(annotations.zip(posTags)
-              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.start, annotation.end)}
+              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
             )
         }.collect
     } else {

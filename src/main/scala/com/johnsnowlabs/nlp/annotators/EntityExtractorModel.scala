@@ -43,7 +43,7 @@ class EntityExtractorModel(override val uid: String) extends AnnotatorModel[Enti
 
       val annotation = Annotation(
         ENTITY,
-        text(begin).start,
+        text(begin).begin,
         text(end).end,
         normalizedText,
         Map()

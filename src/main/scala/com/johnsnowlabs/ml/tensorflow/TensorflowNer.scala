@@ -1,13 +1,12 @@
 package com.johnsnowlabs.ml.tensorflow
 
-
 import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import org.tensorflow.{Graph, Session}
-
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLLogger
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -19,6 +18,7 @@ class TensorflowNer
   val batchSize: Int,
   override val verbose: Verbose.Value
 ) extends Logging[TensorflowNer] {
+
 
   private val charIdsKey = "char_repr/char_ids"
   private val wordLengthsKey = "char_repr/word_lengths"
@@ -73,7 +73,9 @@ class TensorflowNer
             batchSize: Int,
             dropout: Float,
             startEpoch: Int,
-            endEpoch: Int
+            endEpoch: Int,
+            validation: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty,
+            test: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -124,15 +126,114 @@ class TensorflowNer
         batches += 1
       }
 
-      System.out.println(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches")
+      log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
+
+      if (validation.nonEmpty) {
+        log("Quality on train dataset: ", Verbose.Epochs)
+        measure(trainDataset, (s: String) => log(s, Verbose.Epochs))
+      }
+
+      if (validation.nonEmpty) {
+        log("Quality on validation dataset: ", Verbose.Epochs)
+        measure(validation, (s: String) => log(s, Verbose.Epochs))
+      }
+
+      if (test.nonEmpty) {
+        log("Quality on test dataset: ", Verbose.Epochs)
+        measure(test, (s: String) => log(s, Verbose.Epochs))
+      }
     }
   }
+
+
+  def calcStat(correct: Int, predicted: Int, predictedCorrect: Int): (Float, Float, Float) = {
+    // prec = (predicted & correct) / predicted
+    // rec = (predicted & correct) / correct
+    val prec = predictedCorrect.toFloat / predicted
+    val rec = predictedCorrect.toFloat / correct
+    val f1 = 2 * prec * rec / (prec + rec)
+
+    (prec, rec, f1)
+  }
+
+  def measure(labeled: Array[(TextSentenceLabels, TokenizedSentence)],
+                  log: (String => Unit),
+                  extended: Boolean = false,
+                  nErrorsToPrint: Int = 0
+                 ): Unit = {
+
+    val started = System.nanoTime()
+
+    val predictedCorrect = mutable.Map[String, Int]()
+    val predicted = mutable.Map[String, Int]()
+    val correct = mutable.Map[String, Int]()
+
+    val sentence = labeled.map(pair => pair._2).toList
+    val sentenceLabels = labeled.map(pair => pair._1.labels.toArray).toList
+    val sentencePredictedTags = labeled.map(pair => predict(Array(pair._2)).head).toList
+
+    var errorsPrinted = 0
+    var linePrinted = false
+    (sentence, sentenceLabels, sentencePredictedTags).zipped.foreach {
+      case (tokens, labels, tags) =>
+        for (i <- 0 until labels.length) {
+          val label = labels(i)
+          val tag = tags(i)
+          val iWord = tokens.indexedTokens(i)
+
+          correct(label) = correct.getOrElse(label, 0) + 1
+          predicted(tag) = predicted.getOrElse(tag, 0) + 1
+
+          if (label == tag)
+            predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
+          else if (errorsPrinted < nErrorsToPrint) {
+            log(s"label: $label, predicted: $tag, word: $iWord")
+            linePrinted = false
+            errorsPrinted += 1
+          }
+        }
+
+        if (errorsPrinted < nErrorsToPrint && !linePrinted) {
+          log("")
+          linePrinted = true
+        }
+    }
+
+    if (extended)
+      log(s"time: ${(System.nanoTime() - started)/1e9}")
+
+    val labels = (correct.keys ++ predicted.keys).toSeq.distinct
+
+    val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
+
+    val totalCorrect = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
+    log(s"Total stat, prec: $prec\t, rec: $rec\t, f1: $f1")
+
+    if (!extended)
+      return
+
+    log("label\tprec\trec\tf1")
+
+    for (label <- notEmptyLabels) {
+      val (prec, rec, f1) = calcStat(
+        correct.getOrElse(label, 0),
+        predicted.getOrElse(label, 0),
+        predictedCorrect.getOrElse(label, 0)
+      )
+
+      log(s"$label\t$prec\t$rec\t$f1")
+    }
+  }
+
 }
 
 
 object TensorflowNer {
 
-  def apply(encoder: NerDatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
+  def apply(encoder: DatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
     val graph = new Graph()
     val session = new Session(graph)
     graph.importGraphDef(Files.readAllBytes(Paths.get("char_cnn_blstm_30_25_100_200.pb")))
@@ -143,130 +244,3 @@ object TensorflowNer {
   }
 }
 
-
-// ToDo Delete after merge
-import java.io.{File, FileInputStream, FileOutputStream, IOException}
-import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
-
-import org.apache.commons.io.FileUtils
-
-import scala.collection.JavaConversions.enumerationAsScalaIterator
-import scala.io.{BufferedSource, Codec}
-
-/**
-  * Copied from https://github.com/dhbikoff/Scala-Zip-Archive-Util
-  * with small fixes
-  */
-object ZipArchiveUtil {
-
-  private def listFiles(file: File, outputFilename: String): List[String] = {
-    file match {
-      case file if file.isFile => {
-        if (file.getName != outputFilename)
-          List(file.getAbsoluteFile.toString)
-        else
-          List()
-      }
-      case file if file.isDirectory => {
-        val fList = file.list
-        // Add all files in current dir to list and recur on subdirs
-        fList.foldLeft(List[String]())((pList: List[String], path: String) =>
-          pList ++ listFiles(new File(file, path), outputFilename))
-      }
-      case _ => throw new IOException("Bad path. No file or directory found.")
-    }
-  }
-
-  private def addFileToZipEntry(filename: String, parentPath: String,
-                                filePathsCount: Int): ZipEntry = {
-    if (filePathsCount <= 1)
-      new ZipEntry(new File(filename).getName)
-    else {
-      // use relative path to avoid adding absolute path directories
-      val relative = new File(parentPath).toURI.
-        relativize(new File(filename).toURI).getPath
-      new ZipEntry(relative)
-    }
-  }
-
-  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String) = {
-    try {
-      val fileOutputStream = new FileOutputStream(outputFilename)
-      val zipOutputStream = new ZipOutputStream(fileOutputStream)
-
-      filePaths.foreach((name: String) => {
-        val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
-        zipOutputStream.putNextEntry(zipEntry)
-        val inputSrc = new BufferedSource(
-          new FileInputStream(name))(Codec.ISO8859)
-        inputSrc foreach { c: Char => zipOutputStream.write(c) }
-        inputSrc.close
-      })
-
-      zipOutputStream.closeEntry
-      zipOutputStream.close
-      fileOutputStream.close
-
-    } catch {
-      case e: IOException => {
-        e.printStackTrace
-      }
-    }
-  }
-
-  def zip(fileName: String, outputFileName: String): Unit = {
-    val file = new File(fileName)
-    val filePaths = listFiles(file, outputFileName)
-    createZip(filePaths, outputFileName, fileName)
-  }
-
-  def unzip(file: File, destDirPath: Option[String] = None): String = {
-    val fileName = file.getName
-
-    val basename = if (fileName.indexOf('.') >= 0) {
-      fileName.substring(0, fileName.lastIndexOf("."))
-    } else {
-      fileName + "_unzipped"
-    }
-
-    val destDir = if (destDirPath == None) {
-      new File(file.getParentFile, basename)
-    }
-    else {
-      new File(destDirPath.get)
-    }
-
-    destDir.mkdirs()
-
-    val zip = new ZipFile(file)
-    zip.entries foreach { entry =>
-      val entryName = entry.getName
-      val entryPath = {
-        if (entryName.startsWith(basename))
-          entryName.substring(basename.length)
-        else
-          entryName
-      }
-
-      // create output directory if it doesn't exist already
-      val splitPath = entryName.split(File.separator.replace("\\", "/")).dropRight(1)
-
-      val dirBuilder = new StringBuilder(destDir.getPath)
-      for (part <- splitPath) {
-        dirBuilder.append(File.separator)
-        dirBuilder.append(part)
-        val path = dirBuilder.toString
-
-        if (!(new File(path).exists)) {
-          new File(path).mkdir
-        }
-      }
-
-      // write file to dest
-      FileUtils.copyInputStreamToFile(zip.getInputStream(entry),
-        new File(destDir, entryPath))
-    }
-
-    destDir.getPath
-  }
-}

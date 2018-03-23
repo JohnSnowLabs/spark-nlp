@@ -2,9 +2,11 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
@@ -71,7 +73,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
       .setInputCols("normalized")
-      .setEntities(ExternalResource("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
     val data = withFullNormalizer(
       withTokenizer(dataset, sbd), lowerCase)
@@ -85,13 +87,19 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentenceDetector.transform(dataset)
   }
 
+  var posTagger: PerceptronModel = null
+
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    new PerceptronApproach()
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("pos")
-      .setCorpus(ExternalResource("/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-      .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
-      .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    if (posTagger == null) {
+     posTagger = new PerceptronApproach()
+        .setInputCols(Array("sentence", "token"))
+        .setOutputCol("pos")
+         .setNIterations(1)
+        .setCorpus(ExternalResource("/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+        .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    }
+
+    posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
@@ -153,24 +161,45 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     getNerCrfModel(dataset).transform(df)
   }
 
   def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setExternalDataset(ExternalResource("src/test/resources/ner-corpus/test_ner_dataset.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
+      .fit(df)
+  }
+
+  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withFullPOSTagger(dataset)
+
+    getNerDLModel(dataset).transform(df)
+  }
+
+  def getNerDLModel(dataset: Dataset[Row]): NerDLModel = {
+    val df = withFullPOSTagger(dataset)
+
+    new NerDLApproach()
+      .setInputCols("sentence", "token")
+      .setLabelColumn("label")
+      .setMaxEpochs(100)
+      .setRandomSeed(0)
+      .setPo(0.01f)
+      .setLr(0.1f)
+      .setBatchSize(9)
+      .setOutputCol("ner")
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .fit(df)
   }
 

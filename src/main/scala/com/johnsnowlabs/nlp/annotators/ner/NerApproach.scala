@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.param.{IntParam, Param, Params, StringArrayParam}
 
 trait NerApproach[T <: NerApproach[_]] extends Params {
@@ -26,6 +26,11 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
   def setRandomSeed(seed: Int) = set(randomSeed, seed).asInstanceOf[T]
 
   def setExternalDataset(path: ExternalResource) = set(externalDataset, path).asInstanceOf[T]
+
+  def setExternalDataset(path: String,
+                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                         options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(externalDataset, ExternalResource(path, readAs, options))
 }
 
 object Verbose extends Enumeration {

@@ -1,8 +1,9 @@
 import unittest
 import os
-
+import re
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.common import LightPipeline, RegexRule
 from test.util import SparkContextForTest
 
 
@@ -18,7 +19,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer()\
             .setOutputCol("token") \
-            .setCompositeTokens(["New York"])
+            .setCompositeTokens(["New York"]) \
+            .addInfixPattern("(%\\d+)")
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -52,7 +54,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt") \
+            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt", delimiter=",") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
@@ -72,7 +74,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/main/resources/lemma-corpus/AntBNC_lemmas_ver_001.txt", key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -197,7 +199,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt", delimiter=",")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -219,7 +221,7 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus/simple.txt", key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -236,7 +238,25 @@ class PipelineTestSpec(unittest.TestCase):
         assert lemma_before_save == "unsad"
         assert token_after_save == token_before_save
         assert lemma_after_save == lemma_before_save
-        loaded_pipeline.fit(self.data).transform(self.data).show()
+        pipeline_model = loaded_pipeline.fit(self.data)
+        pipeline_model.transform(self.data).show()
+        pipeline_model.write().overwrite().save(pipe_path)
+        loaded_model = PipelineModel.read().load(pipe_path)
+        loaded_model.transform(self.data).show()
+        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
+        spless = LightPipeline(loaded_model).annotate(locdata)
+        fullSpless = LightPipeline(loaded_model).fullAnnotate(locdata)
+        for row in spless[:2]:
+            for _, annotations in row.items():
+                for annotation in annotations[:2]:
+                    print(annotation)
+        for row in fullSpless[:5]:
+            for _, annotations in row.items():
+                for annotation in annotations[:2]:
+                    print(annotation.result)
+        single = LightPipeline(loaded_model).annotate("Joe was running under the rain.")
+        print(single)
+        assert single["lemma"][2] == "run"
 
 
 class SpellCheckerTestSpec(unittest.TestCase):
@@ -259,3 +279,27 @@ class SpellCheckerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(assembled)
         checked = spell_checker.transform(tokenized)
         checked.show()
+
+
+class ParamsGettersTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer]
+        for annotator in annotators:
+            a = annotator()
+            for param in a.params:
+                param_name = param.name
+                camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
+                assert(hasattr(a, param_name))
+                param_value = getattr(a, "get" + camelized_param)()
+                assert(param_value is None or param_value is not None)
+        # Try a getter
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence") \
+            .setCustomBounds(["%%"])
+        assert(sentence_detector.getOutputCol() == "sentence")
+        assert(sentence_detector.getCustomBounds() == ["%%"])
+        # Try a default getter
+        document_assembler = DocumentAssembler()
+        assert(document_assembler.getOutputCol() == "document")

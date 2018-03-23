@@ -52,6 +52,6 @@ class DependencyParserApproachTest extends FlatSpec {
     val f = fixture
     f.depAnnotations
       .zip(f.tokenAnnotations)
-      .foreach { case (dep, token) => assert(dep.start == token.start && dep.end == token.end, s"Token and word should have equal indixes") }
+      .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
   }
 }

@@ -60,12 +60,15 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  setDefault(inputCols, Array(DOCUMENT))
+  setDefault(
+    inputCols -> Array(DOCUMENT),
+    dateFormat -> "yyyy/MM/dd"
+  )
 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
-  def getFormat: String = get(dateFormat).getOrElse("yyyy/MM/dd")
+  def getFormat: String = $(dateFormat)
 
   def setFormat(value: String): this.type = set(dateFormat, value)
 
