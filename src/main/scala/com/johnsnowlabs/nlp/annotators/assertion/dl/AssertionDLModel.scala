@@ -1,16 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.assertion.dl
 
-import java.io.File
-import java.nio.file.{Files, Paths}
-import java.util.UUID
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
-import org.apache.commons.io.FileUtils
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql._
@@ -25,6 +19,7 @@ import scala.collection.mutable
   */
 class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionDLModel]
   with HasWordEmbeddings
+  with WriteTensorflowModel
   with ParamsAndFeaturesWritable
   with TransformModelSchema {
 
@@ -89,63 +84,29 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     Seq(annotation)
   }
 
-  /* send this to common place */
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
      document.head.getString(3)
   }
 
-
   override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT)
   override val annotatorType: AnnotatorType = ASSERTION
-
 
   /** requirement for annotators copies */
   override def copy(extra: ParamMap): AssertionDLModel = defaultCopy(extra)
 
-  /* TODO Refactor put common code in some other place */
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-
-    // 1. Create tmp folder
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_assertiondl")
-      .toAbsolutePath.toString
-    val tfFile = Paths.get(tmpFolder, AssertionDLModel.tfFile).toString
-
-    // 2. Save Tensorflow state
-    tensorflow.saveToFile(tfFile)
-
-    // 3. Copy to dest folder
-    fs.copyFromLocalFile(new Path(tfFile), new Path(path))
-
-    // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(tmpFolder))
+    writeTensorflowModel(path, spark, tensorflow, "_assertiondl")
   }
 
 }
 
-/* TODO Refactor put common code in some other place */
-object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] {
+object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadTensorflowModel {
 
-  val tfFile = "tensorflow"
+  override val tfFile = "tensorflow"
 
   override def onRead(instance: AssertionDLModel, path: String, spark: SparkSession): Unit = {
-
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-
-    // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_assertiondl")
-      .toAbsolutePath.toString
-
-    // 2. Copy to local dir
-    fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
-
-    // 3. Read Tensorflow state
-    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString)
+    val tf = readTensorflowModel(path, spark, "_assertiondl")
     instance.setTensorflow(tf)
-
-    // 4. Remove tmp folder
-    FileUtils.deleteDirectory(new File(tmpFolder))
   }
 }
