@@ -125,7 +125,7 @@ class MockDataset(object):
         self.first_y = [0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
         self.second_y = [0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
         self.max_seq_len = 250
-
+        self.batch_id = 0
     def next(self, bs):
         if self.state:
             self.state = False
