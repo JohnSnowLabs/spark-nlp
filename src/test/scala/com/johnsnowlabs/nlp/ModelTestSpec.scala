@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 
-class ReadyModelTestSpec extends FlatSpec {
+class ModelTestSpec extends FlatSpec {
 
   import SparkAccessor.spark.implicits._
 
@@ -12,9 +12,9 @@ class ReadyModelTestSpec extends FlatSpec {
   val texts = data.select("text").as[String].collect
 
   "A ReadyModel basic pipeline" should "annotate datasets, strings and arrays" in {
-    ReadyModel.en.basic(data, "text").show(5)
-    println(ReadyModel.en.basic(text))
-    ReadyModel.en.basic(texts).take(5).foreach(println(_))
+    Model.en.Basic.annotate(data, "text").show(5)
+    println(Model.en.Basic.annotate(text))
+    Model.en.Basic.annotate(texts).take(5).foreach(println(_))
   }
 
 }

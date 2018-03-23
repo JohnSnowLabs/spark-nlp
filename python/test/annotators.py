@@ -3,8 +3,8 @@ import os
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
-from sparknlp.common import LightPipeline, RegexRule
 from test.util import SparkContextForTest
+from sparknlp.model.en import Basic
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -306,3 +306,15 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
+
+
+class ModelTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
+        Basic.annotate(self.data, "text").show()
+        print(Basic.annotate(locdata))
+        print(Basic.annotate("Joe is running under the rain"))
+
