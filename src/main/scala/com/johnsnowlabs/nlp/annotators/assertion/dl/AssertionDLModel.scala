@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.ParamMap
+import org.apache.spark.ml.param.{IntParam, ParamMap}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -34,6 +34,9 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     this
   }
 
+  val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
+  def setBatchSize(size: Int) = set(this.batchSize, size)
+
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
 
   @transient
@@ -49,7 +52,7 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
       _model = new TensorflowAssertion(
         tensorflow,
         encoder,
-        10,
+        ${batchSize},
         Verbose.Silent)
     }
 
@@ -84,7 +87,7 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
   }
 
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
-     document.head.getString(3)
+     document.head.getAs[String]("result")
   }
 
   override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT)

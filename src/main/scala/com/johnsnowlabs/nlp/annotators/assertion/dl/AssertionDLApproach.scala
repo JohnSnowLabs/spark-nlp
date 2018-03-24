@@ -106,13 +106,14 @@ class AssertionDLApproach(override val uid: String)
 
     new AssertionDLModel().
       setTensorflow(tf).
-      setDatasetParams(model.encoder.params)
+      setDatasetParams(model.encoder.params).
+      setBatchSize($(batchSize))
   }
 
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
-    document.head.getString(3)
+    document.head.getAs[String]("result")
   }
 }
