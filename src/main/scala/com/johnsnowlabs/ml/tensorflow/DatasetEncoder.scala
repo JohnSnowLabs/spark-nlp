@@ -43,8 +43,7 @@ class DatasetEncoder
   def encodeInputData(sentences: Array[Array[String]]): Batch = {
     val batchSize = sentences.length
     val sentenceLengths = sentences.map(s => s.length)
-
-    val maxSentenceLength = sentences.map(s => s.length).max
+    val maxSentenceLength = sentenceLengths.max
     val wordLengths = sentences.map{
       sentence =>
         val lengths = sentence.map(word => word.length)
