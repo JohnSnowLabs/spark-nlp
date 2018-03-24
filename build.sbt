@@ -3,7 +3,7 @@ val scalaVer = "2.11.12"
 val awsVer = "1.11.272"
 val scalaTestVersion = "3.0.0"
 
-  /** Package attributes */
+/** Package attributes */
 name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
@@ -13,10 +13,6 @@ version := "1.4.2"
 scalaVersion := scalaVer
 
 sparkVersion := sparkVer
-
-fork in run := true
-
-javaOptions += "-Xmx10G"
 
 /** Spark-Package attributes */
 spName := "JohnSnowLabs/spark-nlp"
@@ -29,13 +25,7 @@ spIncludeMaven := false
 
 spAppendScalaVersion := false
 
-
-
 resolvers += "Maven Central" at "http://central.maven.org/maven2/"
-resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
-
-resolvers ++= Seq(
-  Resolver.sonatypeRepo("public"))
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -84,8 +74,7 @@ developers := List(
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided",
-  "com.github.haifengl" %% "smile-scala" % "1.5.0"
+  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
 )
 
 lazy val testDependencies = Seq(
@@ -137,6 +126,3 @@ copyAssembledJar := {
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
-
-/* this must come from some other import - remove when merge */
-libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.272"

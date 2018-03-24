@@ -194,7 +194,7 @@ class AssertionDatasetEncoder
   * Batch that contains data in Tensorflow input format.
   */
 class NerBatch (
-  // Id in Word Embeddings. Shape: Batch x Max Sentence Length x Embeddings Dim
+  // Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
   val wordEmbeddings: Array[Array[Array[Float]]],
 
   // Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word length

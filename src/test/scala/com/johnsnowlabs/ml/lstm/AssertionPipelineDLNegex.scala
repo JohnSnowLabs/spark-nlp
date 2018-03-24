@@ -66,7 +66,7 @@ object AssertionPipelineDLNegex extends App with EvaluationMetrics {
       .setLabelCol("label")
       .setInputCols("document")
       .setOutputCol("assertion")
-      .setEpochs(1)
+      .setEpochs(5)
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.BINARY)
 
     Array(documentAssembler,

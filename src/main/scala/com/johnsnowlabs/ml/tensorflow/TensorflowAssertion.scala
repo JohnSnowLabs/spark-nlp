@@ -61,8 +61,6 @@ class TensorflowAssertion (
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length} ", Verbose.TrainingStat)
-    // TODO delete this
-    log(s"TODO delete this test log", Verbose.All)
 
     // Initialize
     if (startEpoch == 0)
