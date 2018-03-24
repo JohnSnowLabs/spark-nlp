@@ -66,8 +66,6 @@ class NerDLApproach(override val uid: String)
 
   def setTestDataset(er: ExternalResource) = set(testDataset, er)
 
-  override val verboseLevel = Verbose($(verbose))
-
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 50,
@@ -77,6 +75,8 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id
   )
+
+  override val verboseLevel = Verbose($(verbose))
 
   private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
     :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
