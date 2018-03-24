@@ -18,7 +18,7 @@ import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 object AssertionPipelineDLNegex extends App with EvaluationMetrics {
 
-  implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
+  implicit val spark = SparkSession.builder().appName("negex lstm").master("local[1]").getOrCreate
   import spark.implicits._
 
   // word embeddings location
@@ -66,7 +66,7 @@ object AssertionPipelineDLNegex extends App with EvaluationMetrics {
       .setLabelCol("label")
       .setInputCols("document")
       .setOutputCol("assertion")
-      .setBatchSize(64)
+      .setBatchSize(16)
       .setEpochs(5)
       .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.BINARY)
 
