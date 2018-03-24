@@ -1,6 +1,7 @@
-package com.johnsnowlabs.ml.logreg
+package com.johnsnowlabs.ml.lstm
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
+import com.johnsnowlabs.ml.logreg.NegexDatasetReader
 import com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler}
@@ -15,7 +16,7 @@ import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 * https://github.com/cambridgeltl/BioNLP-2016
 * */
 
-object NegexDLPipelineTest extends App with EvaluationMetrics {
+object AssertionPipelineDLNegex extends App with EvaluationMetrics {
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
   import spark.implicits._
