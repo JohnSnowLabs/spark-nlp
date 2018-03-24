@@ -2,7 +2,6 @@ val sparkVer = "2.3.0"
 val scalaVer = "2.11.12"
 val awsVer = "1.11.272"
 val scalaTestVersion = "3.0.0"
-val dl4jVersion = "0.8.0"
 
   /** Package attributes */
 name := "spark-nlp"
@@ -86,9 +85,7 @@ developers := List(
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided",
-  "org.deeplearning4j" % "deeplearning4j-nlp" % dl4jVersion,
-  "com.github.haifengl" %% "smile-scala" % "1.5.0",
-  "org.nd4j" % "nd4j-cuda-8.0-platform" % dl4jVersion //classifier "" classifier "linux-x86_64-avx2"
+  "com.github.haifengl" %% "smile-scala" % "1.5.0"
 )
 
 lazy val testDependencies = Seq(

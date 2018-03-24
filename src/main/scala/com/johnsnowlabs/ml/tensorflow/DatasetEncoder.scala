@@ -158,10 +158,10 @@ class AssertionDatasetEncoder
     sqrt(xs.map{ x => pow(x, 2)}.sum).toFloat
   }
 
-  def encodeInputData(sentences: Array[Array[String]], start: Array[Int], end:Array[Int]): AssertionBatch = {
+  /* at this point the graph does not support feeding a dynamic maxSentenceLength */
+  def encodeInputData(sentences: Array[Array[String]], start: Array[Int], end:Array[Int], maxSentenceLength:Int = 250): AssertionBatch = {
     val batchSize = sentences.length
 
-    val maxSentenceLength = sentences.map(_.length).max
     val wordEmbeddings =
       (sentences, start, end).zipped.map {(sentence, s, e) =>
         Range(0, maxSentenceLength).map{j =>
