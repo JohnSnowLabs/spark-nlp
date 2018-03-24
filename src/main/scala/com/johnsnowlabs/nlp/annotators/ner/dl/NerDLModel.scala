@@ -84,7 +84,7 @@ class NerDLModel(override val uid: String)
     }.toArray
   }
 
-  override protected def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     require(model != null, "call setModel before usage")
 
     // Parse

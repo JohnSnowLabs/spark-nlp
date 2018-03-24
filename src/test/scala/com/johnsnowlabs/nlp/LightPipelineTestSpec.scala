@@ -72,7 +72,7 @@ class LightPipelineTestSpec extends FlatSpec {
         assert(annotations.nonEmpty)
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
-          assert(annotation.start >= 0)
+          assert(annotation.begin >= 0)
         }
       }
     }
