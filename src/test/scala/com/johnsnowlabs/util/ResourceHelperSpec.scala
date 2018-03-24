@@ -15,7 +15,7 @@ class ResourceHelperSpec extends FlatSpec {
     val targetFiles = new File("src/main/resources/ner-dl").list.map{
       f => "ner-dl" + File.separator + f
     }.toList
-    assert(files == targetFiles)
+    assert(files.sorted == targetFiles.sorted)
   }
 
   "List directory" should "throw file not exists if there is no such file" in {

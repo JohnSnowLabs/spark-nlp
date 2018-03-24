@@ -31,7 +31,7 @@ class LightPipeline(stages: Array[Transformer]) {
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
     fullAnnotate(target).mapValues(_.map(aa =>
-      JavaAnnotation(aa.annotatorType, aa.start, aa.end, aa.result, aa.metadata.asJava)).asJava).asJava
+      JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava).asJava
   }
 
   def fullAnnotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
