@@ -31,7 +31,7 @@ object NerCrfCoNLL2003 extends App {
     embeddingsFile,
     embeddingsDims,
     WordEmbeddingsFormat.TEXT,
-    Some(ExternalResource("/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+    Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
   )
 
   def trainModel(er: ExternalResource): LinearChainCrfModel = {

@@ -1,0 +1,30 @@
+cache:
+  directories:
+    - $HOME/.spark_nlp.dep.cache
+
+matrix:
+  include:
+    - language: python
+      python: 2.7
+      before_script:
+        - sbt assemblyAndCopy
+        - pip install pyspark
+        - pip install numpy
+        - cd python/
+      script:
+        - python run-tests.py
+
+    - language: python
+      python: 3.6
+      before_script:
+        - sbt assemblyAndCopy
+        - pip install pyspark
+        - pip install numpy
+        - cd python/
+      script:
+        - python run-tests.py
+
+    - language: scala
+      scala: 2.11.11
+      before_script:
+        - export _JAVA_OPTIONS="-Xmx4G -XX:+UseConcMarkSweepGC -Xss6M -Xms2048M"

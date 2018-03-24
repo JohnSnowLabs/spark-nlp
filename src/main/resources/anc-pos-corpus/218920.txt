@@ -1,7 +1,0 @@
-Message-ID|NNP :|: <|NN 6316972.1075852466973.JavaMail.evans@thyme|NN >|NN Date|NN :|: Thu|NNP ,|, 16|CD Aug|NNP 2001|CD 10:33:21|NN -|: 0700|CD (|( PDT|NNP )|) From|IN :|: john.shelk@enron.com|NN To|TO :|: d|SYM .|. .|. steffes@enron.com|NN ,|, sarah.novosel@enron.com|NN ,|, charles.yeung@enron.com|NN Subject|NNP :|: Deadline|NNP Today|NNP --|: Draft|NNP Enron|NNP Comments|NNS on|IN NERC|NNP Bill|NNP Mime-|NNP Version|NNP :|: 1.0|CD Content-|NNP Type|NNP :|: text|NN /|NN plain|JJ ;|: charset|NN =|SYM us-ascii|JJ Content-|NNP Transfer-|NNP Encoding|NNP :|: 7|CD bit|NN Attached|NNP are|VBP suggested|VBN comments|NNS on|IN the|DT draft|NN NERC|NNP bill|NN for|IN which|WDT we|PRP were|VBD asked|VBN to|TO provide|VB comments|NNS by|IN today|NN .|. 
-You|PRP will|MD see|VB that|IN the|DT response|NN is|VBZ a|DT firm|NN ,|, but|CC polite|JJ --|: no|DT thanks|NNS .|. 
-While|IN I|PRP doubt|VBP NERC|NNP assumes|VBZ that|DT silence|NN means|VBZ support|NN by|IN their|PRP$ deadline|NN today|NN ,|, I|PRP would|MD like|VB to|TO get|VB something|NN to|TO them|PRP by|IN COB|NNP if|IN at|IN all|DT possible|JJ .|. 
-(|( I|NN will|MD be|VB on|IN vacation|NN tomorrow|NN in|IN any|DT event|NN )|) .|. 
-With|IN apologies|NNS for|IN the|DT short|JJ turn|NN around|RP ,|, please|VB call|NN or|CC e-mail|JJ your|PRP$ comments|NNS or|CC OK|JJ this|DT afternoon|NN .|. 
-
-John|NNP 

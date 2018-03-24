@@ -25,12 +25,6 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   val dictionary: ExternalResourceParam = new ExternalResourceParam(this, "dictionary", "lemmatizer external dictionary." +
     " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text")
 
-  setDefault(dictionary, ExternalResource(
-    "/lemma-corpus/AntBNC_lemmas_ver_001.txt",
-    ReadAs.LINE_BY_LINE,
-    options = Map("keyDelimiter" -> "->", "valueDelimiter" -> "\t")
-  ))
-
   override val annotatorType: AnnotatorType = TOKEN
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)

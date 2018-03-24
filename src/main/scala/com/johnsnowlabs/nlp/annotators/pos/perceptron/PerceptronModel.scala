@@ -10,9 +10,8 @@ import org.apache.spark.ml.util.Identifiable
   * @param uid Internal constructor requirement for serialization of params
   * @@model: representation of a POS Tagger approach
   */
-class PerceptronModel(override val uid: String) extends AnnotatorModel[PerceptronModel] {
+class PerceptronModel(override val uid: String) extends AnnotatorModel[PerceptronModel] with PerceptronUtils {
 
-  import PerceptronApproach._
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Internal structure for target sentences holding their range information which is used for annotation */

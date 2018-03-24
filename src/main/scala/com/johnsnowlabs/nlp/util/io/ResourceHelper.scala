@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.io._
 import java.net.{URL, URLDecoder}
-import java.nio.file.Paths
 import java.util.jar.JarFile
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -14,8 +13,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.{BufferedSource, Source}
-import scala.util.Random
+import scala.io.BufferedSource
 
 
 /**
@@ -40,25 +38,14 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-    var isResourceFolder: Boolean = false
     val pipe: Option[InputStream] =
-      /** Check whether file exists within current jvm jar */
-      Option(getClass.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      })
-        /** Check whether file exists within classLoader jar*/
-      .orElse(Option(getClass.getClassLoader.getResourceAsStream(resource)).map(r => {
-        isResourceFolder = resource.endsWith("/")
-        r
-      }))
         /** Check whether it exists in file system */
-      .orElse(Option {
+      Option {
         val path = new Path(resource)
         val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
         val files = fs.listFiles(new Path(resource), true)
         if (files.hasNext) inputStreamOrSequence(fs, files) else null
-      })
+      }
     val content: BufferedSource = pipe.map(p => {
       new BufferedSource(p)("UTF-8")
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
@@ -263,25 +250,17 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        if (sourceStream.isResourceFolder) {
-          Random.shuffle(listResourceDirectory(er.path).toList)
-            .flatMap { fileName =>
-              parseTupleSentences(ExternalResource(fileName, er.readAs, er.options))
-            }
-            .toArray
-        } else {
-          val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
-            line.split("\\s+").filter(kv => {
-              val s = kv.split(er.options("delimiter").head)
-              s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-            }).map(kv => {
-              val p = kv.split(er.options("delimiter").head)
-              TaggedWord(p(0), p(1))
-            })
-          }).toArray
-          sourceStream.close()
-          result.map(TaggedSentence(_))
-        }
+        val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        }).toArray
+        sourceStream.close()
+        result.map(TaggedSentence(_))
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -341,29 +320,13 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
         val regex = er.options("tokenPattern").r
-        if (sourceStream.isResourceFolder) {
-          try {
-            listResourceDirectory(er.path)
-              .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
-          } catch {
-            case _: NullPointerException =>
-              sourceStream
-                .content
-                .getLines()
-                .flatMap(fileName => wordCount(ExternalResource(fileName, er.readAs, er.options), m))
-                .toArray
-              sourceStream.close()
-          }
-        } else {
-          val sourceStream = SourceStream(er.path)
-          sourceStream.content.getLines.foreach(line => {
-            val words = regex.findAllMatchIn(line).map(_.matched).toList
-              words.foreach(w => {
-                m(w) += 1
-              })
-          })
-          sourceStream.close()
-        }
+        sourceStream.content.getLines.foreach(line => {
+          val words = regex.findAllMatchIn(line).map(_.matched).toList
+            words.foreach(w => {
+              m(w) += 1
+            })
+        })
+        sourceStream.close()
         if (m.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         m
       case SPARK_DATASET =>
@@ -399,5 +362,4 @@ object ResourceHelper {
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
-
 }

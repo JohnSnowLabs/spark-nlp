@@ -1,6 +1,0 @@
-GOODY|NNP PRODUCTS|NNP Inc.|NN cut|VB its|PRP$ quarterly|JJ dividend|NN to|TO five|CD cents|NNS a|DT share|NN from|IN 11.5|CD cents|NNS a|DT share|NN .|. 
-The|DT reduced|VBN dividend|NN is|VBZ payable|JJ Jan|NNP .|. 2|CD to|TO stock|NN of|IN record|NN Dec|NNP .|. 15|CD .|. 
-The|DT Kearny|NNP ,|, N.J.|NN -|- based|JJ maker|NN of|IN hair|NN accessories|NNS and|CC other|JJ cosmetic|JJ products|NNS said|VBD it|PRP cut|VBP the|DT dividend|NN due|JJ to|TO its|PRP$ third|JJ -|- quarter|NN loss|NN of|IN $992,000|NN ,|, or|CC 15|CD cents|NNS a|DT share|NN .|. 
-In|IN the|DT year|NN -|- ago|RB quarter|NN ,|, the|DT company|NN reported|VBD net|JJ income|NN of|IN $1.9|NN million|CD ,|, or|CC 29|CD cents|NNS a|DT share|NN .|. 
-The|DT company|NN also|RB adopted|VBD an|DT anti-takeover|JJ plan|NN .|. 
-

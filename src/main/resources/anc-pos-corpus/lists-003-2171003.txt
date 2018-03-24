@@ -1,9 +1,0 @@
-docno|NN =|SYM "|'' lists-|NN 003|CD -|: 2171003|CD "|'' received|VBD =|SYM "|'' Thu|NNP May|NNP 20|CD 12:57:41|NN 1993|CD EST|NNP "|'' sent|VBD =|SYM "|'' Thu|NNP ,|, 20|CD May|NNP 1993|CD 21:56:14|NN +|NN 0200|CD "|'' name|NN =|SYM "|'' Keld|NNP J|NNP ||NN rn|NN Simonsen|NNP "|'' email|NN =|SYM "|'' keld@dkuug.dk|NN "|'' subject|JJ =|SYM "|'' Re|NNP :|: CHARSET|NNP considerations|NNS "|'' id|NN =|SYM "|'' 199305201956.AA28105@dkuug.dk|NN "|'' inreplyto|NN =|SYM "|'' lgl@nwnet.net|NN "|'' To|TO :|: Laurence|NNP Lundblade|NNP <|NN lgl@nwnet.net|NN >|NN ,|, Cc|NNP :|: ietf-charsets@INNOSOFT.COM|NN ,|, scs@adam.mit.edu|NN ,|, TROTH@ricevm1.rice.edu|NN ,|, Laurence|NNP Lundblade|NNP writes|VBZ :|: 
->|NN Yes|UH ,|, I|PRP think|VBP that|DT 's|VBZ exactly|RB right|JJ .|. 
-We|PRP can|MD probably|RB adjust|VB the|DT comment|NN in|IN >|NN the|DT .|. pinerc|NN for|IN now|RB .|. 
-In|IN the|DT long|JJ term|NN the|DT .|. pinerc|NN needs|VBZ a|DT lot|NN of|IN good|JJ >|NN error|NN checking|NN .|. 
-It|PRP just|RB has|VBZ n't|RB been|VBN done|VBN because|IN limited|JJ resources|NNS .|. 
-All|DT of|IN the|DT RFC|NNP 1345|CD character|NN sets|NNS are|VBP registered|VBN for|IN MIME|NNP use|NN .|. 
-That|DT should|MD be|VB able|JJ to|TO cover|VB most|JJS needs|VBZ .|. 
-Keld|NNP 
-
