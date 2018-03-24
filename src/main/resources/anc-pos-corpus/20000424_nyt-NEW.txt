@@ -1,7 +1,0 @@
-IRAQ-POVERTY|NNP (|( Washington|NNP )|) 
-
-Rep.|NN Tony|NNP Hall|NNP ,|, D-Ohio|NNP ,|, urges|VBZ the|DT United|NNP Nations|NNPS to|TO allow|VB a|DT freer|JJR flow|NN of|IN food|NN and|CC medicine|NN into|IN Iraq|NNP .|. 
-Hall|NNP ,|, who|WP recently|RB returned|VBD from|IN a|DT trip|NN to|TO Iraq|NNP ,|, said|VBD U.N.|NN economic|JJ sanctions|NNS have|VBP hurt|VBN millions|NNS of|IN civilians|NNS there|RB .|. 
-
-By|IN AUSTIN|NNP ZALKIN|NNP .|. 
-

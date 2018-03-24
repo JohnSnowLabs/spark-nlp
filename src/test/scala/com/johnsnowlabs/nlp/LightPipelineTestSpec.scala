@@ -35,12 +35,13 @@ class LightPipelineTestSpec extends FlatSpec {
     val spellChecker: NorvigSweetingApproach = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
+      .setDictionary("src/test/resources/spell/words.txt")
 
     val sentimentDetector: ViveknSentimentApproach = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
 
     val pipeline: Pipeline = new Pipeline()
@@ -64,7 +65,7 @@ class LightPipelineTestSpec extends FlatSpec {
 
 
 
-  "An EasyPipeline" should "annotate for each annotator" in {
+  "An LightPipeline" should "annotate for each annotator" in {
     val f = fixture
     val annotations = new LightPipeline(f.model).fullAnnotate(f.textArray)
     annotations.foreach { mapAnnotations =>
@@ -101,7 +102,7 @@ class LightPipelineTestSpec extends FlatSpec {
       f.model.transform(f.textDF).collect
     }
 
-    val t2: Double = Benchmark.measure("Time to collect EasyPipeline results in parallel") {
+    val t2: Double = Benchmark.measure("Time to collect LightPipeline results in parallel") {
       new LightPipeline(f.model).annotate(f.textArray)
     }
 

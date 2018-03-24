@@ -5,6 +5,7 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGetters
 from sparknlp.util import AnnotatorJavaMLReadable
+import sparknlp.internal as _internal
 
 
 class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGetters):
@@ -64,6 +65,61 @@ class JavaRecursiveEstimator(JavaEstimator):
         else:
             raise ValueError("Params must be either a param map or a list/tuple of param maps, "
                              "but got %s." % type(params))
+
+
+class Annotation:
+    def __init__(self, annotator_type, begin, end, result, metadata):
+        self.annotator_type = annotator_type
+        self.begin = begin
+        self.end = end
+        self.result = result
+        self.metadata = metadata
+
+
+class LightPipeline:
+    def __init__(self, pipelineModel):
+        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
+
+    @staticmethod
+    def _annotation_from_java(java_annotations):
+        annotations = []
+        for annotation in java_annotations:
+            annotations.append(Annotation(annotation.annotatorType(),
+                                          annotation.begin(),
+                                          annotation.end(),
+                                          annotation.result(),
+                                          dict(annotation.metadata()))
+                               )
+        return annotations
+
+    def fullAnnotate(self, target):
+        result = []
+        for row in self._lightPipeline.fullAnnotateJava(target):
+            kas = {}
+            for atype, annotations in row.items():
+                kas[atype] = self._annotation_from_java(annotations)
+            result.append(kas)
+        return result
+
+    def annotate(self, target):
+        def extract(text_annotations):
+            kas = {}
+            for atype, text in text_annotations.items():
+                kas[atype] = text
+            return kas
+
+        annotations = self._lightPipeline.annotateJava(target)
+
+        if type(target) is str:
+            result = extract(annotations)
+        elif type(target) is list:
+            result = []
+            for row_annotations in annotations:
+                result.append(extract(row_annotations))
+        else:
+            raise TypeError("target for annotation may be 'str' or 'list'")
+
+        return result
 
 
 class RecursivePipeline(Pipeline, JavaEstimator):

@@ -1,9 +1,0 @@
-From|IN :|: "|'' Paula|NNP Partin|NNP "|'' <|NN partinpa@champaignschools.org|NN >|NN Subject|NNP :|: System|NNP Administrator|NNP (|( Mailbox|NNP Upgrade|NNP )|) Date|NN :|: March|NNP 19|CD ,|, 2012|CD 2:20:42|NN AM|NNP EDT|NNP To|TO :|: undisclosed-recipients|JJ :|: ;|: Your|PRP$ Webmail|NNP Quota|NNP has|VBZ exceeded|VBN the|DT Set|NNP Quota|NNP /|NN Limit|NNP Which|WDT Is|VBZ 20|CD GB|NNP .|. 
-You|PRP are|VBP currently|RB running|VBG on|IN 23|CD GB|NNP due|JJ to|TO hidden|VBN files|NNS and|CC folder|NN on|IN your|PRP$ mailbox|NN .|. 
-Please|VB click|NN the|DT link|NN below|IN to|TO validate|NN your|PRP$ mailbox|NN and|CC Increase|VB your|PRP$ Quota|NNP .|. 
-
-Click|NNP here|RB 
-
-Failure|NN to|TO validate|NN your|PRP$ mailbox|NN Quota|NNP may|MD result|VB in|IN lost|VBN of|IN Important|NNP Information|NNP in|IN your|PRP$ mailbox|NN or|CC may|MD cause|VB limited|JJ access|NN to|TO your|PRP$ mailbox|NN .|. 
-
-Thanks|NNS Paula|NNP Partin|NNP For|IN System|NNP Administrator|NNP 

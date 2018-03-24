@@ -1,7 +1,0 @@
-Date|NN :|: Wed|NNP ,|, 02|CD Jul|NNP 2008|CD 22:42:51|NN GMT|NNP From|IN :|: Kristin|NNP Chance|NNP <|NN jeanmaguire50@mchsi.com|NN >|NN To|TO :|: <|NN xxx@xxx.xxx|NN >|NN ,|, <|NN xxx@xxx.xxx|NN >|NN Subject|NNP :|: Give|VB your|PRP$ career|NN a|DT makeover|NN with|IN a|DT new|JJ degree|NN -|: Obtain|NNP a|DT prosperous|JJ future|JJ ,|, money-earning|JJ power|NN ,|, and|CC the|DT prestige|NN that|WDT comes|VBZ with|IN havint|NN the|DT career|NN position|NN you|PRP 've|VBP always|RB dreamed|VBN of|IN .|. 
--|: Our|PRP$ Diplomas|NNP /|NN Certificates|NNP are|VBP recognised|JJ in|IN most|JJS countries|NNS and|CC are|VBP well|RB worth|JJ the|DT investment|NN .|. 
--|: These|DT are|VBP real|JJ ,|, genuine|JJ degrees|NNS that|WDT include|VBP Bachelors|NNP ,|, Masters|NNP ,|, MBA|NNP and|CC Doctorate|NNP Degrees|NNP .|. 
-They|PRP are|VBP fully|RB verifiable|JJ !|. 
-You|PRP owe|VBP it|PRP to|TO yourself|PRP to|TO at|IN least|JJS let|VB us|PRP try|VB and|CC help|VB you|PRP achieve|VB your|PRP$ dreams|NNS .|. 
-http://getyourprestigedegree.com|NN 
-

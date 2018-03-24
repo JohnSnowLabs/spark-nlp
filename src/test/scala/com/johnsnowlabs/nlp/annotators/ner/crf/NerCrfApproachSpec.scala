@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.nlp._
 import org.scalatest.FlatSpec
 
-
 class NerCrfApproachSpec extends FlatSpec {
   val spark = SparkAccessor.spark
 
@@ -16,7 +15,6 @@ class NerCrfApproachSpec extends FlatSpec {
 
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
-
   "NerCrfApproach" should "be serializable and deserializable correctly" in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
@@ -26,14 +24,14 @@ class NerCrfApproachSpec extends FlatSpec {
   }
 
 
-  "NerCrfApproach" should "have correct set of labels" in {
+  it should "have correct set of labels" in {
     assert(nerModel.model.isSet)
     val metadata = nerModel.model.getOrDefault.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
 
 
-  "NerCrfApproach" should "correctly store annotations" in {
+  it should "correctly store annotations" in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten.toSeq
     val labels = Annotation.collect(tagged, "label").flatten.toSeq
@@ -49,7 +47,7 @@ class NerCrfApproachSpec extends FlatSpec {
   }
 
 
-  "NerCrfApproach" should "correctly tag sentences" in {
+  it should "correctly tag sentences" in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
@@ -67,7 +65,7 @@ class NerCrfApproachSpec extends FlatSpec {
   }
 
 
-  "NerCrfModel" should "correctly handle entities param" in {
+  it should "correctly handle entities param" in {
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
       .setModel(nerModel.model.getOrDefault)

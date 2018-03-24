@@ -1,9 +1,0 @@
-Date|NN :|: Tue|NNP ,|, 1|CD Aug|NNP 2000|CD 02:27:00|NN -|: 0700|CD (|( PDT|NNP )|) From|IN :|: steven.kean@enron.com|NN To|TO :|: michael.terraso@enron.com|NN ,|, karen.denne@enron.com|NN Subject|NNP :|: Corporate|NNP Watch|NNP article|NN Mime-|NNP Version|NNP :|: 1.0|CD Content-|NNP Type|NNP :|: text|NN /|NN plain|JJ ;|: charset|NN =|SYM us-ascii|JJ Content-|NNP Transfer-|NNP Encoding|NNP :|: 7|CD bit|NN X-From|NNP :|: Steven|NNP J|NNP Kean|NNP X-To|NNP :|: Michael|NNP Terraso|NNP ,|, Karen|NNP Denne|NNP X-cc|NNP :|: X-bcc|NNP :|: X-Folder|NNP :|: \|NN Steven|NNP _|NN Kean|NNP _|NN Dec|NNP 2000|CD _|NN 1|CD \|NN Notes|NNP Folders|NNP \|NN All|DT documents|NNS X-Origin|NNP :|: KEAN-S|NNP X-FileName|NNP :|: skean|NN .|. nsf|NN ----------------------|SYM Forwarded|NNP by|IN Steven|NNP J|NNP Kean|NNP /|NN HOU|NNP /|NN EES|NNP on|IN 08/01/2000|CD 09:24|NN AM|NNP ---------------------------|SYM 
-Sherri|NNP Sera|NNP @|IN ENRON|NNP 08/01/2000|CD 09:15|NN AM|NNP 
-To|TO :|: Steven|NNP J|NNP Kean|NNP /|NN HOU|NNP /|NN EES|NNP @|IN EES|NNP ,|, Mark|NNP Palmer|NNP /|NN Corp|NNP /|NN Enron|NNP @|IN ENRON|NNP cc|NN :|: Subject|NNP :|: Corporate|NNP Watch|NNP article|NN 
-Steve|NNP ,|, Mark|NNP -|: 
-
-Here|RB 's|VBZ the|DT link|NN to|TO the|DT entire|JJ message|NN in|IN the|DT event|NN you|PRP 're|VBP interested|JJ ...|... you|PRP 'll|MD go|VB through|IN several|JJ links|NNS to|TO get|VB all|DT the|DT information|NN that|WDT was|VBD posted|VBN .|. 
-In|IN addition|NN to|TO the|DT Corporate|NNP Watch|NNP article|NN ,|, there|EX is|VBZ an|DT Environmental|NNP Defense|NNP Scorecard|NNP on|IN Enron|NNP 's|POS Methanol|NNP Plant|NNP in|IN Deer|NNS Park|NNP ,|, TX|NNP ,|, and|CC the|DT old|JJ Amnesty|NNP International|NNP article|NN on|IN human|JJ rights|NNS issues|NNS in|IN India|NNP ...|... 
-
-http://boards.fool.com/Message.asp?id=1100058000814000&sort=postdate|NN 

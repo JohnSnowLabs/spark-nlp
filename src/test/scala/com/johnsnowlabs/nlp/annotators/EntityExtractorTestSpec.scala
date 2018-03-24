@@ -57,11 +57,12 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
     val entityExtractor = new EntityExtractor()
       .setInputCols("token")
-      .setEntities("/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
 
     val finisher = new Finisher()
       .setInputCols("entity")
+      .setOutputAsArray(false)
 
     val recursivePipeline = new RecursivePipeline()
       .setStages(Array(
@@ -72,6 +73,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
         finisher
       ))
 
+    recursivePipeline.fit(data).transform(data).show
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
