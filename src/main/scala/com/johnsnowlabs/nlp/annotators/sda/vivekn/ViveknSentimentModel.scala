@@ -5,10 +5,10 @@ import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.util.ConfigLoader
 import com.typesafe.config.Config
-import org.apache.spark.ml.param.{IntParam, LongParam}
+import org.apache.spark.ml.param.LongParam
 import org.apache.spark.ml.util.Identifiable
 
-class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[ViveknSentimentModel] {
+class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[ViveknSentimentModel] with ViveknSentimentUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -56,7 +56,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
   }
 
   def classify(sentence: TokenizedSentence): Boolean = {
-    val wordFeatures = ViveknSentimentApproach.negateSequence(sentence.tokens.toList).intersect($$(words)).distinct
+    val wordFeatures = negateSequence(sentence.tokens.toList).intersect($$(words)).distinct
     if (wordFeatures.isEmpty) return true
     val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
     val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum

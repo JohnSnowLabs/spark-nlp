@@ -19,12 +19,6 @@ class NorvigSweetingApproach(override val uid: String)
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
   val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(dictionary, ExternalResource(
-    "/spell/words.txt",
-    ReadAs.LINE_BY_LINE,
-    options=Map("tokenPattern" -> "[a-zA-Z]+"))
-  )
-
   setDefault(caseSensitive, false)
   setDefault(doubleVariants, false)
   setDefault(shortCircuit, false)
@@ -46,7 +40,7 @@ class NorvigSweetingApproach(override val uid: String)
   }
 
   def setDictionary(path: String,
-                    tokenPattern: String,
+                    tokenPattern: String = "\\S+",
                     readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                     options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
@@ -75,6 +69,8 @@ class NorvigSweetingApproach(override val uid: String)
         ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
       } else {
         import ResourceHelper.spark.implicits._
+        dataset.show()
+        dataset.select($(inputCols).head).show
         dataset.select($(inputCols).head).as[Array[Annotation]]
           .flatMap(_.map(_.result))
           .groupBy("value").count

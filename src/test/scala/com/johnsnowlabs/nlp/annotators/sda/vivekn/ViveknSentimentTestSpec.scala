@@ -58,12 +58,13 @@ class ViveknSentimentTestSpec extends FlatSpec {
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
+      .setDictionary("src/test/resources/spell/words.txt")
 
     val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
       .setCorpusPrune(0)
 
     val pipeline = new Pipeline()

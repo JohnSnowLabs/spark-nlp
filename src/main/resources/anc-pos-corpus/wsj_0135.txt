@@ -1,8 +1,0 @@
-Elco|NNP Industries|NNPS Inc.|NN said|VBD it|PRP expects|VBZ net|NN income|NN in|IN the|DT year|NN ending|VBG June|NNP 30|CD ,|, 1990|CD ,|, to|TO fall|VB below|IN a|DT recent|JJ analyst|NN 's|POS estimate|NN of|IN $1.65|NN a|DT share|NN .|. 
-
-The|DT Rockford|NNP ,|, Ill|NNP .|. ,|, maker|NN of|IN fasteners|NNS also|RB said|VBD it|PRP expects|VBZ to|TO post|VB sales|NNS in|IN the|DT current|JJ fiscal|JJ year|NN that|WDT are|VBP "|'' slightly|RB above|IN "|'' fiscal|JJ 1989|CD sales|NNS of|IN $155|NN million|CD .|. 
-The|DT company|NN said|VBD its|PRP$ industrial|JJ unit|NN continues|VBZ to|TO face|VB margin|NN pressures|NNS and|CC lower|JJR demand|NN .|. 
-
-In|IN fiscal|JJ 1989|CD ,|, Elco|NNP earned|VBD $7.8|NN million|CD ,|, or|CC $1.65|NN a|DT share|NN .|. 
-The|DT company|NN 's|POS stock|NN fell|VBD $1.125|NN to|TO $13.625|NN in|IN over|IN -|- the|DT -|- counter|NN trading|NN yesterday|NN .|. 
-
