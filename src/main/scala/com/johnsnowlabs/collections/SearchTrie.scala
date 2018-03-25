@@ -2,7 +2,6 @@ package com.johnsnowlabs.collections
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-
 /**
   * Immutable Collection that used for fast substring search
   * Implementation of Aho-Corasick algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
@@ -122,23 +121,30 @@ object SearchTrie {
 
       while (candidate > 0) {
         candidate = pi(candidate)
-        val answer = edges.getOrElse((candidate, wordId), 0)
+        val answer = edges.getOrElse((candidate, wordId), candidate)
         if (answer > 0) {
           pi(i) = answer
-          candidate = 0
         }
+        candidate = 0
       }
     }
 
-    val lastLeaf = ArrayBuffer[Int](-1)
+    val lastLeaf = mutable.ArrayBuffer[Int](-1)
     for (i <- 1 until parents.size) {
       lastLeaf.append(-1)
 
-      val piNode = pi(i)
+      var piNode = pi(i)
       if (isLeaf(piNode))
         lastLeaf(i) = piNode
-      else
+      else if (piNode < lastLeaf.size)
         lastLeaf(i) = lastLeaf(piNode)
+      else {
+        while(piNode > 0 && !isLeaf(piNode)) {
+          piNode = pi(piNode)
+        }
+        if (piNode > 0)
+          lastLeaf(i) = piNode
+      }
     }
 
     val nodes = pi.zip(isLeaf).zip(length).zip(lastLeaf)
