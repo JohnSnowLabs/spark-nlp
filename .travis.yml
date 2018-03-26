@@ -30,7 +30,5 @@ matrix:
         - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
         - sudo apt-get update -q
         - sudo apt-get install libstdc++6 -y
-        - wget http://ftp.br.debian.org/debian/pool/main/g/glibc/libc6_2.24-11+deb9u3_amd64.deb
-        - sudo dpkg -i libc6_2.24-11+deb9u3_amd64.deb
       before_script:
         - export _JAVA_OPTIONS="-Xmx4G -XX:+UseConcMarkSweepGC -Xss6M -Xms2048M"
