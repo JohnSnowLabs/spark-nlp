@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils
 
 object FileHelper {
   def writeLines(file: String, lines: Seq[String], encoding: String = "UTF-8"): Unit = {
-    val writer = Files.newBufferedWriter(Paths.get(file), Charset.forName("UTF-8"))
+    val writer = Files.newBufferedWriter(Paths.get(file), Charset.forName(encoding))
     try {
       var cnt = 0
       for (line <- lines) {

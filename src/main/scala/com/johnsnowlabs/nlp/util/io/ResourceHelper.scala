@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.io._
 import java.net.{URL, URLDecoder}
-import java.nio.file.Paths
 import java.util.jar.JarFile
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -14,8 +13,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.{BufferedSource, Source}
-import scala.util.Random
+import scala.io.BufferedSource
 
 
 /**
@@ -364,5 +362,4 @@ object ResourceHelper {
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
-
 }

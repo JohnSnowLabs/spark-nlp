@@ -68,9 +68,9 @@ class JavaRecursiveEstimator(JavaEstimator):
 
 
 class Annotation:
-    def __init__(self, annotator_type, start, end, result, metadata):
+    def __init__(self, annotator_type, begin, end, result, metadata):
         self.annotator_type = annotator_type
-        self.start = start
+        self.begin = begin
         self.end = end
         self.result = result
         self.metadata = metadata
@@ -85,7 +85,7 @@ class LightPipeline:
         annotations = []
         for annotation in java_annotations:
             annotations.append(Annotation(annotation.annotatorType(),
-                                          annotation.start(),
+                                          annotation.begin(),
                                           annotation.end(),
                                           annotation.result(),
                                           dict(annotation.metadata()))
