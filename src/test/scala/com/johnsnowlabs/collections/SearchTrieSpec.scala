@@ -20,6 +20,14 @@ class SearchTrieSpec extends FlatSpec {
     )
   )
 
+  val btrie = SearchTrie(
+    Array(
+      Array("a", "b", "a", "b"),
+      Array("b", "a", "a")
+    )
+  )
+
+
   "SearchTrie" should "create correct encode words" in {
     assert(trie.vocabulary.size == 2)
     assert(trie.vocabulary("a") == 0)
@@ -79,5 +87,11 @@ class SearchTrieSpec extends FlatSpec {
     }
 
     assert(result.size == shouldFound.size)
+  }
+
+  "SearchTrie" should "correct process something adding nodes for pi in different branch" in {
+    assert(btrie.nodes.size == 8)
+    val pi = (0 until 8).map(i => btrie.pi(i)).toList
+    assert(pi == List(0, 0, 5, 6, 2, 0, 1, 1))
   }
 }
