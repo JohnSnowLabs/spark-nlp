@@ -2,10 +2,6 @@ cache:
   directories:
     - $HOME/.spark_nlp.dep.cache
 
-before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y libstdc++6
-
 matrix:
   include:
     - language: python
@@ -30,5 +26,8 @@ matrix:
 
     - language: scala
       scala: 2.11.11
+      before_install:
+        - sudo apt-get -qq update
+        - sudo apt-get install -y libstdc++6
       before_script:
         - export _JAVA_OPTIONS="-Xmx4G -XX:+UseConcMarkSweepGC -Xss6M -Xms2048M"
