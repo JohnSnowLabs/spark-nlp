@@ -114,31 +114,62 @@ object SearchTrie {
     }
 
     // Calculate pi function
-    val pi = mutable.ArrayBuffer[Int](0)
-    for (i <- 1 until parents.size) {
-      val wordId = parentWord(i)
-      var candidate = parents(i)
-      pi.append(0)
+    val piCalculated = Array.fill[Boolean](parents.size)(false)
+    val pi = Array.fill[Int](parents.size)(0)
+
+    def calcPi(v: Int): Int = {
+      if (piCalculated(v))
+        return pi(v)
+
+      if (v == 0){
+        piCalculated(v) = true
+        pi(v) = 0
+        return 0
+      }
+
+      val wordId = parentWord(v)
+      var candidate = parents(v)
 
       while (candidate > 0) {
-        candidate = pi(candidate)
+        candidate = calcPi(candidate)
         val answer = edges.getOrElse((candidate, wordId), 0)
         if (answer > 0) {
-          pi(i) = answer
+          pi(v) = answer
           candidate = 0
         }
       }
+
+      piCalculated(v) = true
+      pi(v)
     }
 
-    val lastLeaf = ArrayBuffer[Int](-1)
-    for (i <- 1 until parents.size) {
-      lastLeaf.append(-1)
+    val lastLeaf = Array.fill[Int](parents.size)(-1)
+    val lastLeafCalculated = Array.fill[Boolean](parents.size)(false)
 
-      val piNode = pi(i)
+    def calcLastLeaf(v: Int): Int = {
+      if (lastLeafCalculated(v))
+        return lastLeaf(v)
+
+      if (v == 0) {
+        lastLeafCalculated(v) = true
+        lastLeaf(v) = -1
+        return -1
+      }
+
+      val piNode = pi(v)
       if (isLeaf(piNode))
-        lastLeaf(i) = piNode
+        lastLeaf(v) = piNode
       else
-        lastLeaf(i) = lastLeaf(piNode)
+        lastLeaf(v) = calcLastLeaf(piNode)
+
+      lastLeafCalculated(v) = true
+      lastLeaf(v)
+    }
+
+
+    for (i <- 0 until parents.size) {
+      calcPi(i)
+      calcLastLeaf(i)
     }
 
     val nodes = pi.zip(isLeaf).zip(length).zip(lastLeaf)
