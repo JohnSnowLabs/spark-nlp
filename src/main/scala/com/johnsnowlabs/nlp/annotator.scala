@@ -61,8 +61,8 @@ object annotator {
   object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel]
 
   type NorvigSweetingApproach = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-  object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingModel]
-  type NorvigSweetingModel = com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
+  object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingApproach]
+  type NorvigSweetingModel = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
   object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel]
 
 }
