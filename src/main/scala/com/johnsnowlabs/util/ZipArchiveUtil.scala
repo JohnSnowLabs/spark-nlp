@@ -33,7 +33,7 @@ object ZipArchiveUtil {
   }
 
   private def addFileToZipEntry(filename: String, parentPath: String,
-                        filePathsCount: Int): ZipEntry = {
+                                filePathsCount: Int): ZipEntry = {
     if (filePathsCount <= 1)
       new ZipEntry(new File(filename).getName)
     else {
@@ -75,10 +75,23 @@ object ZipArchiveUtil {
     createZip(filePaths, outputFileName, fileName)
   }
 
-  def unzip(file: File): String = {
-    val basename = file.getName.substring(0, file.getName.lastIndexOf("."))
-    val destDir = new File(file.getParentFile, basename)
-    destDir.mkdirs
+  def unzip(file: File, destDirPath: Option[String] = None): String = {
+    val fileName = file.getName
+
+    val basename = if (fileName.indexOf('.') >= 0) {
+      fileName.substring(0, fileName.lastIndexOf("."))
+    } else {
+      fileName + "_unzipped"
+    }
+
+    val destDir = if (destDirPath == None) {
+      new File(file.getParentFile, basename)
+    }
+    else {
+      new File(destDirPath.get)
+    }
+
+    destDir.mkdirs()
 
     val zip = new ZipFile(file)
     zip.entries foreach { entry =>

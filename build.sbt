@@ -86,6 +86,7 @@ lazy val utilDependencies = Seq(
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
+  "org.tensorflow" % "tensorflow" % "1.5.0",
   "com.amazonaws" % "aws-java-sdk-bom" % awsVer,
   "com.amazonaws" % "aws-java-sdk-s3" % awsVer
 )

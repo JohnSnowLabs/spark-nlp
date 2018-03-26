@@ -25,7 +25,7 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
       val token = tokenAnnotation.result
       Annotation(
         annotatorType,
-        tokenAnnotation.start,
+        tokenAnnotation.begin,
         tokenAnnotation.end,
         $$(lemmaDict).getOrElse(token, token),
         tokenAnnotation.metadata

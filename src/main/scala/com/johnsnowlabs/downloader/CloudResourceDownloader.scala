@@ -2,8 +2,9 @@ package com.johnsnowlabs.downloader
 
 import java.io.File
 import java.nio.file.{Files, Paths}
+
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.johnsnowlabs.util.{Version, ZipArchiveUtil}
+import com.johnsnowlabs.util.{FileHelper, Version, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
 
@@ -109,7 +110,7 @@ class CloudResourceDownloader(bucket: String,
         val unzipped = fileName.substring(0, fileName.length - 4)
         val unzippedFile = new File(unzipped)
         if (unzippedFile.exists()) {
-          FileUtils.deleteDirectory(unzippedFile)
+          FileHelper.delete(unzippedFile.toPath.toString)
         }
       }
     }

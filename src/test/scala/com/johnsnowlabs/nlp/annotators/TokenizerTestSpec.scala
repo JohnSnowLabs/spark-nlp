@@ -49,7 +49,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
       .select("token").as[Array[Annotation]]
       .collect.foreach(annotations => {
       annotations.foreach(annotation => {
-        assert(targetText.slice(annotation.start, annotation.end + 1) == annotation.result)
+        assert(targetText.slice(annotation.begin, annotation.end + 1) == annotation.result)
       })
     })
   }

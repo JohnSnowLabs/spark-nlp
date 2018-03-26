@@ -1,5 +1,6 @@
-package com.johnsnowlabs.ml.crf
+package com.johnsnowlabs.benchmarks.spark
 
+import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
@@ -19,9 +20,9 @@ import scala.collection.mutable
 object CoNLL2003PipelineTest extends App {
   val folder = "./"
 
-  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
+  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
+  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
 
   val nerReader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
   val posReader = CoNLL(targetColumn = 1, annotatorType = AnnotatorType.POS)
@@ -59,7 +60,7 @@ object CoNLL2003PipelineTest extends App {
       .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")))
       .setC0(2250000)
       .setRandomSeed(100)
-      .setMaxEpochs(20)
+      .setMaxEpochs(10)
       .setOutputCol("ner")
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
@@ -85,7 +86,7 @@ object CoNLL2003PipelineTest extends App {
   def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(er, SparkAccessor.spark)
+    val dataset = nerReader.readDataset(er, SparkAccessor.benchmarkSpark)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -136,7 +137,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = reader.readDataset(er, SparkAccessor.spark)
+    val dataset = reader.readDataset(er, SparkAccessor.benchmarkSpark)
     val transformed = model.transform(dataset)
 
     val sentences = collect(transformed)
@@ -160,7 +161,7 @@ object CoNLL2003PipelineTest extends App {
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
 
     val totalCorrect = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalPredicted = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
     System.out.println(s"Total stat, prec: $prec\t, rec: $rec\t, f1: $f1")

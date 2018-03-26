@@ -7,27 +7,26 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
  *
   * @param text symbolized text
   */
-class PragmaticSentenceExtractor(text: String) {
+class PragmaticSentenceExtractor(text: String, sourceText: String) {
 
   private val recoverySymbols = ("([" + PragmaticSymbols.symbolRecovery.keys.mkString + "])").r
 
   /** Goes through all sentences to store length and bounds of sentences */
-  private def buildSentenceProperties(rawSentences: Array[String]) = {
+  private def buildSentenceProperties(rawSentences: Array[String], sourceText: String) = {
     val sentences: Array[Sentence] = Array.ofDim[Sentence](rawSentences.length)
     var lastCharPosition = 0
     var i = 0
     while (i < sentences.length) {
       val rawSentence = rawSentences(i)
       val sentence = rawSentence.trim()
-      val startPad = rawSentence.indexOf(sentence)
+      val startPad = sourceText.indexOf(sentence, lastCharPosition)
 
-      val sentenceLastCharPos = lastCharPosition + rawSentence.length - 1
       sentences(i) = Sentence(
         sentence,
-        lastCharPosition + startPad,
-        lastCharPosition + startPad + sentence.length() - 1
+        startPad,
+        startPad + sentence.length() - 1
       )
-      lastCharPosition = sentenceLastCharPos + 1
+      lastCharPosition = sentences(i).end + 1
       i = i + 1
     }
     sentences
@@ -50,7 +49,7 @@ class PragmaticSentenceExtractor(text: String) {
           .getOrElse(m.matched, throw new IllegalArgumentException("Invalid symbol in sentence recovery"))
       ))
 
-    buildSentenceProperties(splitSentences)
+    buildSentenceProperties(splitSentences, sourceText)
       .filter(_.content.trim.nonEmpty)
   }
 }

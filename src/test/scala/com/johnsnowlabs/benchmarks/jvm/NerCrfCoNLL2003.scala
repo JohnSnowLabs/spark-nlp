@@ -1,5 +1,7 @@
-package com.johnsnowlabs.ml.crf
+package com.johnsnowlabs.benchmarks.jvm
 
+import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, LinearChainCrfModel}
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.datasets.CoNLL2003NerReader
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
@@ -15,7 +17,7 @@ import scala.collection.mutable
 
   Then script could be run
  */
-object CoNLL2003CrfTest extends App {
+object NerCrfCoNLL2003 extends App {
   val folder = "./"
 
   val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])

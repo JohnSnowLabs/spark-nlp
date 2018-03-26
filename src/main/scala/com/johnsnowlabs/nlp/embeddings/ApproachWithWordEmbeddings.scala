@@ -1,11 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.File
-import java.nio.file.Files
-import java.util.UUID
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasWordEmbeddings}
-import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.SparkContext
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
@@ -45,57 +40,27 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
 
   override def beforeTraining(spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
-      // 1. Create tmp file for index
-      localPath = Some(WordEmbeddingsClusterHelper.createLocalPath()).map(_.replaceAllLiterally("\\", "/"))
-      // 2. Index Word Embeddings
-      indexEmbeddings(localPath.get, spark.sparkContext)
-      // 3. Copy WordEmbeddings to cluster
-      WordEmbeddingsClusterHelper.copyIndexToCluster(localPath.get, spark.sparkContext)
-      // 4. Create Embeddings for usage during train
-      wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
+      clusterEmbeddings = Some(SparkWordEmbeddings(
+        spark.sparkContext,
+        $(sourceEmbeddingsPath),
+        $(embeddingsNDims),
+        WordEmbeddingsFormat($(embeddingsFormat))
+      ))
     }
-
-
   }
 
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
-      val fileName = WordEmbeddingsClusterHelper.getClusterFileName(localPath.get).toString
       model.setDims($(embeddingsNDims))
-      model.setIndexPath(fileName)
+      model.setIndexPath(clusterEmbeddings.get.clusterFilePath.toString)
     }
   }
 
-  @transient
-  var wembeddings: Option[WordEmbeddings] = None
+  private var clusterEmbeddings: Option[SparkWordEmbeddings] = None
 
-  def embeddings(): Option[WordEmbeddings] = {
-    if (isDefined(sourceEmbeddingsPath) && (wembeddings == null || wembeddings.isEmpty))
-      wembeddings = Some(WordEmbeddings(localPath.get, $(embeddingsNDims)))
-    wembeddings
-  }
-
-  private var localPath: Option[String] = None
-
-  private def indexEmbeddings(localFile: String, spark: SparkContext): Unit = {
-    val formatId = $(embeddingsFormat)
-
-    val fs = FileSystem.get(spark.hadoopConfiguration)
-
-    if (formatId == WordEmbeddingsFormat.TEXT.id) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexText(tmpFile, localFile)
-    } else if (formatId == WordEmbeddingsFormat.BINARY.id) {
-      val tmpFile = Files.createTempFile("embeddings", ".bin").toAbsolutePath.toString()
-      fs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(tmpFile))
-      WordEmbeddingsIndexer.indexBinary(tmpFile, localFile)
-    }
-    else if (formatId == WordEmbeddingsFormat.SPARKNLP.id) {
-      val hdfs = FileSystem.get(spark.hadoopConfiguration)
-      hdfs.copyToLocalFile(new Path($(sourceEmbeddingsPath)), new Path(localFile))
-    }
+  def embeddings: Option[WordEmbeddings] = {
+    clusterEmbeddings.map(c => c.wordEmbeddings)
   }
 
   override def close(): Unit = {
@@ -104,30 +69,4 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   }
 }
 
-object WordEmbeddingsClusterHelper {
-
-  def createLocalPath(): String = {
-    Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-      .toAbsolutePath.toString
-  }
-
-  def getClusterFileName(localFile: String): Path = {
-    val name = new File(localFile).getName
-    Path.mergePaths(new Path("/embeddings"), new Path(name))
-  }
-
-  def copyIndexToCluster(localFolder: String, spark: SparkContext): String = {
-    val fs = FileSystem.get(spark.hadoopConfiguration)
-
-    val src = new Path(localFolder)
-    val dst = Path.mergePaths(fs.getHomeDirectory, getClusterFileName(localFolder))
-
-    fs.copyFromLocalFile(false, true, src, dst)
-    fs.deleteOnExit(dst)
-
-    spark.addFile(dst.toString, true)
-
-    dst.toString
-  }
-}
 

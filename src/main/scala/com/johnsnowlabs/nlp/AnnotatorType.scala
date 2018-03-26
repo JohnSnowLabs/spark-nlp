@@ -10,6 +10,7 @@ object AnnotatorType {
   val SENTIMENT = "sentiment"
   val POS = "pos"
   val NAMED_ENTITY = "named_entity"
+  val NAMED_ENTITY_SPAN = "named_entity_span"
   val NEGEX = "negex"
   val DEPENDENCY = "dependency"
   val ASSERTION = "assertion"

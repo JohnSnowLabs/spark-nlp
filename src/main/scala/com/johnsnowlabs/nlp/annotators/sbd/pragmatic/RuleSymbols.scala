@@ -63,7 +63,7 @@ trait RuleSymbols {
     * Magic regex ensures no breaking within protection
     */
     // http://rubular.com/r/Tq7lWxGkQl
-  val UNPROTECTED_BREAK_INDICATOR = s"$BREAK_INDICATOR+(?![^$PROTECTION_MARKER_OPEN]*$PROTECTION_MARKER_CLOSE)"
+  val UNPROTECTED_BREAK_INDICATOR = s"$BREAK_INDICATOR(?![^$PROTECTION_MARKER_OPEN]*$PROTECTION_MARKER_CLOSE)"
 
   def symbolRecovery: Map[String, String] = Map(
     DOT -> ".",
