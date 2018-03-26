@@ -26,5 +26,9 @@ matrix:
 
     - language: scala
       scala: 2.11.11
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update -q
+        - sudo apt-get install libstdc++6 -y
       before_script:
         - export _JAVA_OPTIONS="-Xmx4G -XX:+UseConcMarkSweepGC -Xss6M -Xms2048M"

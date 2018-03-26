@@ -2,7 +2,9 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -161,13 +163,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     getNerCrfModel(dataset).transform(df)
   }
 
   def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
@@ -178,6 +180,28 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
+      .fit(df)
+  }
+
+  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withFullPOSTagger(dataset)
+
+    getNerDLModel(dataset).transform(df)
+  }
+
+  def getNerDLModel(dataset: Dataset[Row]): NerDLModel = {
+    val df = withFullPOSTagger(dataset)
+
+    new NerDLApproach()
+      .setInputCols("sentence", "token")
+      .setLabelColumn("label")
+      .setMaxEpochs(100)
+      .setRandomSeed(0)
+      .setPo(0.01f)
+      .setLr(0.1f)
+      .setBatchSize(9)
+      .setOutputCol("ner")
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .fit(df)
   }
 

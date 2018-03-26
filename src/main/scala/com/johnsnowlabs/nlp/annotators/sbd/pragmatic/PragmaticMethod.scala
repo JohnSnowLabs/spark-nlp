@@ -32,7 +32,7 @@ class PragmaticMethod(useAbbreviations: Boolean = false) extends Serializable {
       .formatExclamationPoint
       .formatBasicBreakers
       .finish
-    new PragmaticSentenceExtractor(symbolyzedData).pull
+    new PragmaticSentenceExtractor(symbolyzedData, content).pull
   }
 
 }

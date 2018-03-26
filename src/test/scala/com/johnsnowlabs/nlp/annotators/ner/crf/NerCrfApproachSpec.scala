@@ -7,10 +7,13 @@ class NerCrfApproachSpec extends FlatSpec {
   val spark = SparkAccessor.spark
 
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
-  val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
+  System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
   // Dataset ready for NER tagger
-  lazy val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withTokenizer(nerSentence))
+  val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(nerSentence)
+  System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+
+  val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
   "NerCrfApproach" should "be serializable and deserializable correctly" in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
@@ -35,7 +38,7 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(annotations.length == labels.length)
     for ((annotation, label) <- annotations.zip(labels)) {
-      assert(annotation.start == label.start)
+      assert(annotation.begin == label.begin)
       assert(annotation.end == label.end)
       assert(annotation.annotatorType == AnnotatorType.NAMED_ENTITY)
       assert(annotation.result == label.result)
@@ -49,7 +52,7 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 
@@ -58,7 +61,7 @@ class NerCrfApproachSpec extends FlatSpec {
     val annotations = Annotation.collect(tagged, "ner").flatten
 
     val tags = annotations.map(a => a.result).toSeq
-    assert(tags == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
 

@@ -1,43 +1,41 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
-import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels, Verbose}
-import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit, RecursivePipeline}
+import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
+import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param, StringArrayParam}
+import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
+import org.apache.spark.ml.param.{DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.slf4j.LoggerFactory
 
 /*
   Algorithm for training Named Entity Recognition Model.
    */
-
 class NerCrfApproach(override val uid: String)
-  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel] with HasRecursiveFit[NerCrfModel] {
+  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel]
+    with HasRecursiveFit[NerCrfModel]
+    with NerApproach[NerCrfApproach]
+{
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  private val logger = LoggerFactory.getLogger("NorvigApproach")
+  private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   override val description = "CRF based Named Entity Recognition Tagger"
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS)
   override val annotatorType = NAMED_ENTITY
 
-  val labelColumn = new Param[String](this, "labelColumn", "Column with label per each token")
-  val entities = new StringArrayParam(this, "entities", "Entities to recognize")
-
-  val minEpochs = new IntParam(this, "minEpochs", "Minimum number of epochs to train")
-  val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
@@ -45,17 +43,6 @@ class NerCrfApproach(override val uid: String)
 
   val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
-  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
-  val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-
-  val externalDataset = new ExternalResourceParam(this, "externalDataset", "Path to dataset. " +
-    "If not provided will use dataset passed to train as usual Spark Pipeline stage")
-
-  def setLabelColumn(column: String) = set(labelColumn, column)
-  def setEntities(tags: Array[String]) = set(entities, tags)
-
-  def setMinEpochs(epochs: Int) = set(minEpochs, epochs)
-  def setMaxEpochs(epochs: Int) = set(maxEpochs, epochs)
   def setL2(l2: Double) = set(this.l2, l2)
   def setC0(c0: Int) = set(this.c0, c0)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
@@ -72,16 +59,7 @@ class NerCrfApproach(override val uid: String)
                           options: Map[String, String] = Map("format" -> "text")): this.type =
     set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  def setVerbose(verbose: Int) = set(this.verbose, verbose)
-  def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id)
-  def setRandomSeed(seed: Int) = set(randomSeed, seed)
 
-  def setExternalDataset(path: ExternalResource) = set(externalDataset, path)
-
-  def setExternalDataset(path: String,
-                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                         options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(externalDataset, ExternalResource(path, readAs, options))
 
   setDefault(
     minEpochs -> 0,
@@ -142,11 +120,11 @@ class NerCrfApproach(override val uid: String)
 
     val rows = getTrainDataframe(dataset, recursivePipeline)
 
-    val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstances(rows, getInputCols, $(labelColumn))
+    val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstancesWithPos(rows, getInputCols, $(labelColumn))
 
     val extraFeatures = get(externalFeatures)
     val dictFeatures = DictionaryFeatures.read(extraFeatures)
-    val crfDataset = FeatureGenerator(dictFeatures, embeddings())
+    val crfDataset = FeatureGenerator(dictFeatures, embeddings)
       .generateDataset(trainDataset)
 
     val params = CrfParams(

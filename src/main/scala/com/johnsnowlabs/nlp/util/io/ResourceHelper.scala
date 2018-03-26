@@ -1,22 +1,19 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io._
+import java.net.{URL, URLDecoder}
+import java.util.jar.JarFile
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
+import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
-import java.net.URLDecoder
-import java.util.jar.JarFile
-
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
-
-import scala.util.Random
 
 
 /**
@@ -56,6 +53,71 @@ object ResourceHelper {
       content.close()
       pipe.foreach(_.close)
     }
+  }
+
+  private def fixTarget(path: String): String = {
+    val toSearch = s"^.*target\\${File.separator}.*scala-.*\\${File.separator}.*classes\\${File.separator}"
+    if (path.matches(toSearch + ".*")) {
+      path.replaceFirst(toSearch, "")
+    }
+    else {
+      path
+    }
+  }
+
+  def getResourceStream(path: String): InputStream = {
+    Option(getClass.getResourceAsStream(path))
+      .getOrElse{
+        getClass.getClassLoader().getResourceAsStream(path)
+      }
+  }
+
+  def getResourceFile(path: String): URL = {
+    var dirURL = getClass.getResource(path)
+
+    if (dirURL == null)
+      dirURL = getClass.getClassLoader.getResource(path)
+
+    dirURL
+  }
+
+  def listResourceDirectory(path: String): Seq[String] = {
+    val dirURL = getResourceFile(path)
+
+    if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
+      /* A file path: easy enough */
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
+    } else if (dirURL == null) {
+        /* path not in resources and not in disk */
+        throw new FileNotFoundException(path)
+    }
+
+    if (dirURL.getProtocol.equals("jar")) {
+      /* A JAR path */
+      val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
+      val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
+      val entries = jar.entries()
+      val result = new ArrayBuffer[String]()
+
+      val pathToCheck = path.replaceFirst("/", "")
+      while(entries.hasMoreElements) {
+        val name = entries.nextElement().getName//.replaceFirst("/", "")
+        if (name.startsWith(pathToCheck)) { //filter according to the path
+          var entry = name.substring(pathToCheck.length())
+          val checkSubdir = entry.indexOf("/")
+          if (checkSubdir >= 0) {
+            // if it is a subdirectory, we just return the directory name
+            entry = entry.substring(0, checkSubdir)
+          }
+          if (entry.nonEmpty) {
+            result.append(pathToCheck + entry)
+          }
+        }
+      }
+      return result.distinct.sorted
+    }
+
+    throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
   def createDatasetFromText(
@@ -300,5 +362,4 @@ object ResourceHelper {
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
-
 }
