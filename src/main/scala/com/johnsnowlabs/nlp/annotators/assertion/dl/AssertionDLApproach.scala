@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{FloatParam, IntParam, Param}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -30,11 +30,11 @@ class AssertionDLApproach(override val uid: String)
   val label = new Param[String](this, "label", "Column with one label per document")
   val target = new Param[String](this, "target", "Column with the target to analyze")
 
-  val startParam = new Param[String](this, "start", "Column with token number for first target token")
-  val endParam = new Param[String](this, "end", "Column with token number for last target token")
+  val start = new Param[String](this, "start", "Column with token number for first target token")
+  val end = new Param[String](this, "end", "Column with token number for last target token")
 
   val batchSize = new IntParam(this, "batchSize", "Size for each batch in the optimization process")
-  val epochsNumber = new IntParam(this, "epochs", "Number of epochs for the optimization process")
+  val epochs = new IntParam(this, "epochs", "Number of epochs for the optimization process")
   val learningRate = new FloatParam(this, "learningRate", "Learning rate for the optimization process")
   val dropout = new FloatParam(this, "dropout", "Dropout at the output of each layer")
 
@@ -42,11 +42,11 @@ class AssertionDLApproach(override val uid: String)
   def setLabelCol(label: String): this.type = set(label, label)
   def setTargetCol(target: String): this.type = set(target, target)
 
-  def setStart(start: String): this.type = set(startParam, start)
-  def setEnd(end: String): this.type = set(endParam, end)
+  def setStart(s: String): this.type = set(start, s)
+  def setEnd(e: String): this.type = set(end, e)
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
-  def setEpochs(number: Int): this.type = set(epochsNumber, number)
+  def setEpochs(number: Int): this.type = set(epochs, number)
   def setLearningRate(rate: Float): this.type = set(learningRate, rate)
   def setDropout(factor: Float): this.type = set(dropout, factor)
 
@@ -54,10 +54,10 @@ class AssertionDLApproach(override val uid: String)
   // defaults
   setDefault(label -> "label",
     target -> "target",
-    startParam -> "start",
-    endParam -> "end",
+    start -> "start",
+    end -> "end",
     batchSize -> 64,
-    epochsNumber -> 5,
+    epochs -> 5,
     learningRate -> 0.0012f,
     dropout -> 0.05f)
 
@@ -70,12 +70,12 @@ class AssertionDLApproach(override val uid: String)
       map(row => row.getAs[String]("text").split(" "))
 
     val annotations = dataset.
-      select(col(getOrDefault(label)), col(getOrDefault(startParam)), col(getOrDefault(endParam))).
+      select(col(getOrDefault(label)), col(getOrDefault(start)), col(getOrDefault(end))).
       collect().
       map(row => AssertionAnnotationWithLabel(
         row.getAs[String](getOrDefault(label)),
-        row.getAs[Int](getOrDefault(startParam)),
-        row.getAs[Int](getOrDefault(endParam))
+        row.getAs[Int](getOrDefault(start)),
+        row.getAs[Int](getOrDefault(end))
       ))
 
     val labelCol = getOrDefault(label)
@@ -94,14 +94,13 @@ class AssertionDLApproach(override val uid: String)
     val encoder = new AssertionDatasetEncoder(embeddings.get.getEmbeddings, params)
 
     val model = new TensorflowAssertion(tf, encoder, getOrDefault(batchSize), Verbose.All)
-    val epochs = getOrDefault(epochsNumber)
 
     model.train(sentences.zip(annotations),
       getOrDefault(learningRate),
       getOrDefault(batchSize),
       getOrDefault(dropout),
       0,
-      epochs
+      getOrDefault(epochs)
     )
 
     new AssertionDLModel().
@@ -117,3 +116,5 @@ class AssertionDLApproach(override val uid: String)
     document.head.getAs[String]("result")
   }
 }
+
+object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
