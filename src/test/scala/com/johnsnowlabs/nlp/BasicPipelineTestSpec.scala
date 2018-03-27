@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.downloader.pipelines.en.BasicPipeline
+import com.johnsnowlabs.pretrained.pipelines.en.BasicPipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 
@@ -13,11 +13,11 @@ class BasicPipelineTestSpec extends FlatSpec {
   val texts = data.select("text").as[String].collect
 
   "A ReadyModel basic pipeline" should "annotate datasets, strings and arrays" in {
-    val transformed = BasicPipeline.annotate(data, "text")
+    val transformed = new BasicPipeline().annotate(data, "text")
     transformed.show(5)
     assert(transformed.columns.length == 6)
-    println(BasicPipeline.annotate(text))
-    BasicPipeline.annotate(texts).take(5).foreach(println(_))
+    println(new BasicPipeline().annotate(text))
+    new BasicPipeline().annotate(texts).take(5).foreach(println(_))
   }
 
 }

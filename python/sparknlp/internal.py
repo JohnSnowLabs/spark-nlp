@@ -50,19 +50,19 @@ class _ConfigLoaderSetter(ExtendedJavaWrapper):
 
 class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language):
-        super(_DownloadModel, self).__init__("com.johnsnowlabs.downloader.PythonResourceDownloader.downloadModel")
+        super(_DownloadModel, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadModel")
         self._java_obj = self._new_java_obj(self._java_obj, reader, name, language)
 
 
 class _DownloadPipeline(ExtendedJavaWrapper):
     def __init__(self, name, language):
-        super(_DownloadPipeline, self).__init__("com.johnsnowlabs.downloader.PythonResourceDownloader.downloadPipeline")
+        super(_DownloadPipeline, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadPipeline")
         self._java_obj = self._new_java_obj(self._java_obj, name, language)
 
 
 class _ClearCache(ExtendedJavaWrapper):
     def __init__(self, name, language):
-        super(_ClearCache, self).__init__("com.johnsnowlabs.downloader.PythonResourceDownloader.clearCache")
+        super(_ClearCache, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.clearCache")
         self._java_obj = self._new_java_obj(self._java_obj, name, language)
 
 

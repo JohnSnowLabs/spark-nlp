@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.pretrained.ResourceDownloader
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -67,4 +68,9 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   }
 }
 
-object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel]
+trait PretrainedPerceptronModel {
+  def pretrained(name: String = "pos_fast", language: Option[String] = Some("en")): PerceptronModel =
+    ResourceDownloader.downloadModel(PerceptronModel, name, language)
+}
+
+object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel
