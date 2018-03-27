@@ -1,16 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.FileHelper
-import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
-import org.tensorflow.SavedModelBundle
 
 import scala.io.Source
 
@@ -45,6 +42,7 @@ object NerDLModelPythonReader {
   }
 
   def read(folder: String, spark: SparkSession): NerDLModel = {
+
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")
