@@ -12,7 +12,10 @@ import ResourceHelper.spark.implicits._
 object BasicPipeline extends NLPBase[NLPBasic] {
 
   lazy private val pipelineBasic: PipelineModel = ResourceDownloader
-    .downloadPipeline("pipeline_basic", Some("en"))
+    .downloadPipeline("pipeline_basic_fin", Some("en"))
+
+  lazy private val pipelineBasicAnn: PipelineModel = ResourceDownloader
+    .downloadPipeline("pipeline_basic_ann", Some("en"))
 
   override def annotate(dataset: DataFrame, inputColumn: String): Dataset[NLPBasic] = {
     pipelineBasic
@@ -23,7 +26,7 @@ object BasicPipeline extends NLPBase[NLPBasic] {
   }
 
   override def annotate(target: String): NLPBasic = {
-    val extracted = new LightPipeline(pipelineBasic).annotate(target)
+    val extracted = new LightPipeline(pipelineBasicAnn).annotate(target)
     NLPBasic(
       text = target,
       document = extracted("document"),
@@ -35,7 +38,7 @@ object BasicPipeline extends NLPBase[NLPBasic] {
   }
 
   override def annotate(target: Array[String]): Array[NLPBasic] = {
-    val allExtracted = new LightPipeline(pipelineBasic).annotate(target)
+    val allExtracted = new LightPipeline(pipelineBasicAnn).annotate(target)
     target.zip(allExtracted).map { case (doc, extracted) =>
       NLPBasic(
         text = doc,
@@ -48,12 +51,19 @@ object BasicPipeline extends NLPBase[NLPBasic] {
     }
   }
 
+  override def retrieve(): PipelineModel = {
+    pipelineBasicAnn
+  }
+
 }
 
 object AdvancedPipeline extends NLPBase[NLPAdvanced] {
 
   lazy private val pipelineAdvanced: PipelineModel = ResourceDownloader
-    .downloadPipeline("pipeline_advanced", Some("en"))
+    .downloadPipeline("pipeline_advanced_fin", Some("en"))
+
+  lazy private val pipelineAdvancedAnn: PipelineModel = ResourceDownloader
+    .downloadPipeline("pipeline_advanced_ann", Some("en"))
 
   override def annotate(dataset: DataFrame, inputColumn: String): Dataset[NLPAdvanced] = {
     pipelineAdvanced
@@ -64,7 +74,7 @@ object AdvancedPipeline extends NLPBase[NLPAdvanced] {
   }
 
   override def annotate(target: String): NLPAdvanced = {
-    val extracted = new LightPipeline(pipelineAdvanced).annotate(target)
+    val extracted = new LightPipeline(pipelineAdvancedAnn).annotate(target)
     NLPAdvanced(
       text = target,
       document = extracted("document"),
@@ -79,7 +89,7 @@ object AdvancedPipeline extends NLPBase[NLPAdvanced] {
   }
 
   override def annotate(target: Array[String]): Array[NLPAdvanced] = {
-    val allExtracted = new LightPipeline(pipelineAdvanced).annotate(target)
+    val allExtracted = new LightPipeline(pipelineAdvancedAnn).annotate(target)
     target.zip(allExtracted).map { case (doc, extracted) =>
       NLPAdvanced(
         text = doc,
@@ -93,6 +103,10 @@ object AdvancedPipeline extends NLPBase[NLPAdvanced] {
         entities = extracted("ner")
       )
     }
+  }
+
+  override def retrieve(): PipelineModel = {
+    pipelineAdvancedAnn
   }
 
 }
