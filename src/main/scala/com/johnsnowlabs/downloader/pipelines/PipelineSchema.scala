@@ -1,5 +1,6 @@
 package com.johnsnowlabs.downloader.pipelines
 
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 case class NLPBasic(
@@ -30,5 +31,7 @@ trait NLPBase[T] {
   def annotate(target: String): T
 
   def annotate(target: Array[String]): Array[T]
+
+  def retrieve(): PipelineModel
 
 }
