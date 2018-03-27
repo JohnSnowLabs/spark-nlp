@@ -10,24 +10,36 @@ class _Model:
             model_class.model = ResourceDownloader().downloadPipeline(name, "en")
         if type(target) is pyspark.sql.dataframe.DataFrame:
             if not target_column:
-                raise Exception("target_column argument needed when targeting a DataFrame")
+                raise Exception("anntate() target_column arg needed when targeting a DataFrame")
             return model_class.model.transform(target.withColumnRenamed(target_column, "text"))
         elif type(target) is list or type(target) is str:
             pip = LightPipeline(model_class.model)
             return pip.annotate(target)
 
 
-class Basic:
+class BasicPipeline:
     model = None
 
     @staticmethod
     def annotate(target, target_column=None):
-        return _Model._annotate(Basic, "pipeline_basic", target, target_column)
+        return _Model._annotate(BasicPipeline, "pipeline_basic", target, target_column)
+
+    @staticmethod
+    def retrieve():
+        if not BasicPipeline.model:
+            BasicPipeline.model = ResourceDownloader().downloadPipeline("pipeline_basic", "en")
+        return BasicPipeline.model
 
 
-class Advanced:
+class AdvancedPipeline:
     model = None
 
     @staticmethod
     def annotate(target, target_column=None):
-        return _Model._annotate(Basic, "advanced_basic", target, target_column)
+        return _Model._annotate(AdvancedPipeline, "pipeline_advanced", target, target_column)
+
+    @staticmethod
+    def retrieve():
+        if not BasicPipeline.model:
+            AdvancedPipeline.model = ResourceDownloader().downloadPipeline("pipeline_advanced", "en")
+        return AdvancedPipeline.model

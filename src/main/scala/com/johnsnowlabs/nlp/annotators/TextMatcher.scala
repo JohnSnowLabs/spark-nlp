@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
-class EntityExtractor(override val uid: String) extends AnnotatorApproach[EntityExtractorModel] {
+class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] {
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
@@ -56,16 +56,16 @@ class EntityExtractor(override val uid: String) extends AnnotatorApproach[Entity
     pipelineModel.transform(data).select($(inputCols).head).as[Array[Annotation]].map(_.map(_.result)).collect
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): EntityExtractorModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TextMatcherModel = {
     if (recursivePipeline.isDefined) {
-      new EntityExtractorModel()
+      new TextMatcherModel()
         .setEntities(loadEntities(recursivePipeline.get))
     } else {
-      new EntityExtractorModel()
+      new TextMatcherModel()
         .setEntities(loadEntities())
     }
   }
 
 }
 
-object EntityExtractor extends DefaultParamsReadable[EntityExtractor]
+object TextMatcher extends DefaultParamsReadable[TextMatcher]
