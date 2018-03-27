@@ -1,4 +1,4 @@
-package com.johnsnowlabs.downloader
+package com.johnsnowlabs.pretrained
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer
 import org.apache.spark.ml.Pipeline

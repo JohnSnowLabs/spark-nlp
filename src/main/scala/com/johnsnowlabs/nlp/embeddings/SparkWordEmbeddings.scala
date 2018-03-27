@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-import java.nio.file.Files
+import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.util.FileHelper
@@ -65,6 +65,10 @@ object SparkWordEmbeddings {
 
       val hdfs = FileSystem.get(spark.hadoopConfiguration)
       hdfs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
+      val fileName = new Path(sourceEmbeddingsPath).getName
+
+      FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
+      FileHelper.delete(Paths.get(localFile, fileName).toString)
     }
   }
 

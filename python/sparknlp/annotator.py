@@ -9,6 +9,7 @@ from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
+from sparknlp.pretrained import ResourceDownloader
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -273,6 +274,10 @@ class Lemmatizer(AnnotatorApproach):
 class LemmatizerModel(_AnnotatorModel):
     name = "LemmatizerModel"
 
+    @staticmethod
+    def retrieve(name="lemma_fast", language="en"):
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+
 
 class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
@@ -357,6 +362,10 @@ class PerceptronApproach(AnnotatorApproach):
 
 class PerceptronModel(_AnnotatorModel):
     name = "PerceptronModel"
+
+    @staticmethod
+    def retrieve(name="pos_fast", language="en"):
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
 class SentenceDetector(AnnotatorModel):
@@ -532,6 +541,9 @@ class NorvigSweetingApproach(AnnotatorApproach):
 class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
+    @staticmethod
+    def retrieve(name="spell_fast", language="en"):
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
 class NerApproach(Params):
@@ -617,6 +629,10 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
 
 class NerCrfModel(_AnnotatorModel):
     name = "NerCrfModel"
+
+    @staticmethod
+    def retrieve(name="ner_fast", language="en"):
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
