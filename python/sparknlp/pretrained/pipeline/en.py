@@ -1,4 +1,4 @@
-from sparknlp.downloader import ResourceDownloader
+from sparknlp.pretrained import ResourceDownloader
 from sparknlp.base import LightPipeline
 import pyspark
 

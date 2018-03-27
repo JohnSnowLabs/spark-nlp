@@ -4,7 +4,7 @@ import re
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
-from downloader.pipeline.en import BasicPipeline
+from pretrained.pipeline.en import BasicPipeline
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
