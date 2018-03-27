@@ -7,7 +7,7 @@ class BasicPipeline extends PretrainedPipeline("pipeline_basic", Some("en")) {
 }
 
 class AdvancedPipeline extends PretrainedPipeline("pipeline_advanced", Some("en")) {
-  override val columns = Array("text", "document", "tokens", "normalized", "spelled", "stems", "lemmas", "pos", "entities")
+  override val columns = Array("text", "document", "token", "normal", "spell", "stem", "lemma", "pos", "ner")
 }
 
 class SentimentPipeline extends PretrainedPipeline("pipeline_vivekn", Some("en")) {
