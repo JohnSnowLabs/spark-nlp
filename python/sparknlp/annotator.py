@@ -7,7 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource, ParamsGetters
+from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -99,11 +99,6 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
         super(AnnotatorApproach, self).__init__()
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
-
-
-class ReadAs(object):
-    LINE_BY_LINE = "LINE_BY_LINE"
-    SPARK_DATASET = "SPARK_DATASET"
 
 
 class Tokenizer(AnnotatorModel):
