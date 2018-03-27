@@ -121,7 +121,7 @@ object PythonResourceDownloader {
     "RegexMatcherModel" -> RegexMatcherModel,
     "LemmatizerModel" -> LemmatizerModel,
     "DateMatcher" -> DateMatcher,
-    "EntityExtractorModel" -> EntityExtractorModel,
+    "TextMatcherModel" -> TextMatcherModel,
     "SentimentDetectorModel" -> SentimentDetectorModel,
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,

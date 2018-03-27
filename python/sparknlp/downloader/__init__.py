@@ -17,24 +17,27 @@ class ResourceDownloader(object):
         RegexMatcherModel.name: lambda: RegexMatcherModel(),
         LemmatizerModel.name: lambda: LemmatizerModel(),
         DateMatcher.name: lambda: DateMatcher(),
-        EntityExtractorModel.name: lambda: EntityExtractorModel(),
+        TextMatcherModel.name: lambda: TextMatcherModel(),
         SentimentDetectorModel.name: lambda: SentimentDetectorModel(),
         ViveknSentimentModel.name: lambda: ViveknSentimentModel(),
         NorvigSweetingModel.name: lambda: NorvigSweetingModel(),
         AssertionLogRegModel.name: lambda: AssertionLogRegModel()
     }
 
-    def downloadModel(self, reader, name, language):
+    @staticmethod
+    def downloadModel(reader, name, language):
         j_obj = _internal._DownloadModel(reader.name, name, language).apply()
-        py_obj = self._factory[reader.name]()
+        py_obj = ResourceDownloader._factory[reader.name]()
         py_obj._java_obj = j_obj
         return py_obj
 
-    def downloadPipeline(self, name, language):
+    @staticmethod
+    def downloadPipeline(name, language):
         j_obj = _internal._DownloadPipeline(name, language).apply()
         jmodel = JavaModel()
         jmodel._java_obj = j_obj
         return jmodel
 
-    def clearCache(self, name, language):
+    @staticmethod
+    def clearCache(name, language):
         _internal._ClearCache(name, language).apply()

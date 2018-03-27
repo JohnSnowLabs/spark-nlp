@@ -14,10 +14,10 @@ object annotator {
   type DateMatcher = com.johnsnowlabs.nlp.annotators.DateMatcher
   object DateMatcher extends DefaultParamsReadable[DateMatcher]
 
-  type EntityExtractor = com.johnsnowlabs.nlp.annotators.EntityExtractor
-  object EntityExtractor extends DefaultParamsReadable[EntityExtractor]
-  type EntityExtractorModel = com.johnsnowlabs.nlp.annotators.EntityExtractorModel
-  object EntityExtractorModel extends ParamsAndFeaturesReadable[EntityExtractorModel]
+  type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
+  object TextMatcher extends DefaultParamsReadable[TextMatcher]
+  type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
+  object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel]
 
   type RegexMatcher = com.johnsnowlabs.nlp.annotators.RegexMatcher
   object RegexMatcher extends DefaultParamsReadable[RegexMatcher]

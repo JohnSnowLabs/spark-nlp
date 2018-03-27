@@ -50,7 +50,7 @@ class _ConfigLoaderSetter(ExtendedJavaWrapper):
 
 class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language):
-        super(_DownloadModel, self).__init__("com.johnsnowlabs.pretrained.PythonResourceDownloader.downloadModel")
+        super(_DownloadModel, self).__init__("com.johnsnowlabs.downloader.PythonResourceDownloader.downloadModel")
         self._java_obj = self._new_java_obj(self._java_obj, reader, name, language)
 
 

@@ -299,7 +299,7 @@ class DateMatcher(AnnotatorModel):
         return self._set(dateFormat=value)
 
 
-class EntityExtractor(AnnotatorApproach):
+class TextMatcher(AnnotatorApproach):
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -308,18 +308,18 @@ class EntityExtractor(AnnotatorApproach):
 
     @keyword_only
     def __init__(self):
-        super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
+        super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
         self._setDefault(inputCols=["token"])
 
     def _create_model(self, java_model):
-        return EntityExtractorModel(java_model)
+        return TextMatcherModel(java_model)
 
     def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
-class EntityExtractorModel(_AnnotatorModel):
-    name = "EntityExtractorModel"
+class TextMatcherModel(_AnnotatorModel):
+    name = "TextMatcherModel"
 
 
 class PerceptronApproach(AnnotatorApproach):

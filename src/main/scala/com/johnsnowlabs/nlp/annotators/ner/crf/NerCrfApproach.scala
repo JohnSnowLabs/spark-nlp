@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
+import com.johnsnowlabs.downloader.models.CloudPerceptronModel
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -99,8 +100,7 @@ class NerCrfApproach(override val uid: String)
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val posTagger = new PerceptronApproach()
-      .setNIterations(5)
+    val posTagger = CloudPerceptronModel.retrieve
       .setInputCols("token", "document")
       .setOutputCol("pos")
 

@@ -8,17 +8,17 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 
-class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
+class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
-  "An EntityExtractor" should s"be of type $ENTITY" in {
-    val entityExtractor = new EntityExtractorModel
+  "An TextMatcher" should s"be of type $ENTITY" in {
+    val entityExtractor = new TextMatcherModel
     assert(entityExtractor.annotatorType == ENTITY)
   }
 
-  "An EntityExtractor" should "extract entities with and without sentences" in {
+  "An TextMatcher" should "extract entities with and without sentences" in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua Lorem ipsum dolor sit in laborum")
-    val result = AnnotatorBuilder.withFullEntityExtractor(dataset)
-    val resultNoSentence = AnnotatorBuilder.withFullEntityExtractor(dataset, sbd = false)
+    val result = AnnotatorBuilder.withFullTextMatcher(dataset)
+    val resultNoSentence = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
     val extractedNoSentence = Annotation.collect(resultNoSentence, "entity").flatten.toSeq
 
@@ -34,13 +34,13 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
   "An Entity Extractor" should "search inside sentences" in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
-    val result = AnnotatorBuilder.withFullEntityExtractor(dataset, lowerCase = false)
+    val result = AnnotatorBuilder.withFullTextMatcher(dataset, lowerCase = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
 
     assert(extracted == Seq.empty[Annotation])
   }
 
-  "A Recursive Pipeline EntityExtractor" should "extract entities from dataset" in {
+  "A Recursive Pipeline TextMatcher" should "extract entities from dataset" in {
     val data = ContentProvider.parquetData.limit(1000)
 
     val documentAssembler = new DocumentAssembler()
@@ -55,7 +55,7 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val entityExtractor = new EntityExtractor()
+    val entityExtractor = new TextMatcher()
       .setInputCols("token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
@@ -79,6 +79,6 @@ class EntityExtractorTestSpec extends FlatSpec with EntityExtractorBehaviors {
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
-  "A full Normalizer pipeline with latin content" should behave like fullEntityExtractor(latinBodyData)
+  "A full Normalizer pipeline with latin content" should behave like fullTextMatcher(latinBodyData)
 
 }
