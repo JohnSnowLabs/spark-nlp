@@ -4,11 +4,11 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-trait EntityExtractorBehaviors { this: FlatSpec =>
+trait TextMatcherBehaviors { this: FlatSpec =>
 
-  def fullEntityExtractor(dataset: => Dataset[Row]) {
-    "An EntityExtractor Annotator" should "successfully transform data" in {
-      AnnotatorBuilder.withFullEntityExtractor(dataset)
+  def fullTextMatcher(dataset: => Dataset[Row]) {
+    "An TextMatcher Annotator" should "successfully transform data" in {
+      AnnotatorBuilder.withFullTextMatcher(dataset)
         .collect().foreach {
         row =>
           row.getSeq[Row](3)

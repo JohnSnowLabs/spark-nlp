@@ -14,7 +14,7 @@ import scala.collection.mutable.ArrayBuffer
   * @@ entitiesPath: Path to file with phrases to search
   * @@ insideSentences: Should Extractor search only within sentence borders?
   */
-class EntityExtractorModel(override val uid: String) extends AnnotatorModel[EntityExtractorModel] {
+class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] {
 
   override val annotatorType: AnnotatorType = ENTITY
 
@@ -63,4 +63,4 @@ class EntityExtractorModel(override val uid: String) extends AnnotatorModel[Enti
 
 }
 
-object EntityExtractorModel extends ParamsAndFeaturesReadable[EntityExtractorModel]
+object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel]

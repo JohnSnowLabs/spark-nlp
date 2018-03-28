@@ -4,7 +4,7 @@ import re
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
-from sparknlp.model.en import Basic
+from pretrained.pipeline.en import BasicPipeline
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -116,7 +116,7 @@ class DateMatcherTestSpec(unittest.TestCase):
         date_matcher.transform(assembled).show()
 
 
-class EntityExtractorTestSpec(unittest.TestCase):
+class TextMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.data
@@ -127,7 +127,7 @@ class EntityExtractorTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer() \
             .setOutputCol("token")
-        entity_extractor = EntityExtractor() \
+        entity_extractor = TextMatcher() \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
@@ -314,7 +314,7 @@ class ModelTestSpec(unittest.TestCase):
 
     def runTest(self):
         locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
-        Basic.annotate(self.data, "text").show()
-        print(Basic.annotate(locdata))
-        print(Basic.annotate("Joe is running under the rain"))
+        BasicPipeline.annotate(self.data, "text").show()
+        print(BasicPipeline.annotate(locdata))
+        print(BasicPipeline.annotate("Joe is running under the rain"))
 

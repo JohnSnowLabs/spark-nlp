@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosT
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasWordEmbeddings}
+import com.johnsnowlabs.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
 
@@ -75,4 +76,9 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
 }
 
-object NerCrfModel extends EmbeddingsReadable[NerCrfModel]
+trait PretrainedNerCrf {
+  def pretrained(name: String = "ner_fast", language: Option[String] = Some("en")): NerCrfModel =
+    ResourceDownloader.downloadModel(NerCrfModel, name, language)
+}
+
+object NerCrfModel extends EmbeddingsReadable[NerCrfModel] with PretrainedNerCrf

@@ -7,7 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource, ParamsGetters
+from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -99,11 +99,6 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
         super(AnnotatorApproach, self).__init__()
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
-
-
-class ReadAs(object):
-    LINE_BY_LINE = "LINE_BY_LINE"
-    SPARK_DATASET = "SPARK_DATASET"
 
 
 class Tokenizer(AnnotatorModel):
@@ -278,6 +273,11 @@ class Lemmatizer(AnnotatorApproach):
 class LemmatizerModel(_AnnotatorModel):
     name = "LemmatizerModel"
 
+    @staticmethod
+    def retrieve(name="lemma_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
+
 
 class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
@@ -299,7 +299,7 @@ class DateMatcher(AnnotatorModel):
         return self._set(dateFormat=value)
 
 
-class EntityExtractor(AnnotatorApproach):
+class TextMatcher(AnnotatorApproach):
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -308,18 +308,18 @@ class EntityExtractor(AnnotatorApproach):
 
     @keyword_only
     def __init__(self):
-        super(EntityExtractor, self).__init__(classname="com.johnsnowlabs.nlp.annotators.EntityExtractor")
+        super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
         self._setDefault(inputCols=["token"])
 
     def _create_model(self, java_model):
-        return EntityExtractorModel(java_model)
+        return TextMatcherModel(java_model)
 
     def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
-class EntityExtractorModel(_AnnotatorModel):
-    name = "EntityExtractorModel"
+class TextMatcherModel(_AnnotatorModel):
+    name = "TextMatcherModel"
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -362,6 +362,11 @@ class PerceptronApproach(AnnotatorApproach):
 
 class PerceptronModel(_AnnotatorModel):
     name = "PerceptronModel"
+
+    @staticmethod
+    def retrieve(name="pos_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
 class SentenceDetector(AnnotatorModel):
@@ -537,6 +542,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
 class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
+    @staticmethod
+    def retrieve(name="spell_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
 
 class NerApproach(Params):
@@ -622,6 +631,11 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
 
 class NerCrfModel(_AnnotatorModel):
     name = "NerCrfModel"
+
+    @staticmethod
+    def retrieve(name="ner_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(NerCrfModel, name, language)
 
 
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
