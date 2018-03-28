@@ -193,7 +193,7 @@ class NerDLApproach(override val uid: String)
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach] {
+trait HasGraph  {
   def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int): String = {
     val files = ResourceHelper.listResourceDirectory("/ner-dl")
 
@@ -254,3 +254,5 @@ object NerDLApproach extends DefaultParamsReadable[NerDLApproach] {
     throw new IllegalStateException("Code shouldn't pass here")
   }
 }
+
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with HasGraph

@@ -73,27 +73,168 @@
     <div class="doc-wrapper">
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
-                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_genius"></span> SparkNLP - Notebook</h1>
+                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_genius"></span> SparkNLP - Python Examples</h1>
                 <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div><!--//doc-header-->
             <div id="showcase" class="doc-body">
                 <div class="doc-content">
                     <div class="content-inner">
                         <section id="Notebook" class="doc-section">
-                            <h2 id="theme-start" class="section-title" style="margin-bottom: 10px;" >Notebook</h2>
-                          <div>
-                            <h4 id="Notebook1" class="section-block"> Jupyter notebooks using John Snow Labs Spark-NLP</h4>
+                            <h2 id="theme-start" class="section-title" style="margin-bottom: 10px;" >Python notebooks</h2>
                             <p>
-                                We are currently working on improving this page with valuable examples on using the library.
-                              While we do so, it is advised you take a look
-                              <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/python/example">HERE</a>
-                              for up to date Jupyter notebooks located in our repo and up to date correspondingly
+                                In this section, we present with different example use cases of both training and running
+                                predictions with SparkNLP in Python PySpark. Please lookup our
+                                <a href="http://nlp.johnsnowlabs.com/components.html">Annotators</a> page for reference.
                             </p>
-                            <!--div class="section-block">
-<pre><code class="language-python">
- </code></pre>
-                            </div-->
-                          </div>
+                            <div>
+                                <h4 id="vivekn-notebook" class="section-block"> Vivekn Sentiment Analysis</h4>
+                                <p>
+                                    In the following example, we walk-through Sentiment Analysis training and
+                                    prediction using Spark NLP Annotators.
+                                </p>
+                                  <p>
+                                    The ViveknSentimentApproach annotator will compute Vivek Narayanan algorithm with either
+                                    a column in training dataset with rows labelled 'positive' or 'negative' or a folder full
+                                    of positive text and a folder with negative text. Using n-grams and negation of sequences,
+                                    this statistical model can achieve high accuracy if trained properly.
+                                  </p>
+                                  <p>
+                                    Spark can be leveraged in training by utilizing ReadAs.Dataset setting. Spark will be
+                                    used during prediction by default.
+                                  </p>
+                                  <p>
+                                    We also include in this pipeline a spell checker which shall correct our sentences for
+                                    better Sentiment Analysis accuracy
+                                  </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/vivekn-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="sentiment-notebook" class="section-block"> Rule-based Sentiment Analysis</h4>
+                                <p>
+                                    In the following example, we walk-through a simple use case for our straight forward
+                                    SentimentDetector annotator.
+                                </p>
+                                <p>
+                                    This annotator will work on top of a list of labeled sentences which can have any
+                                    of the following features
+                                    <ul>
+                                <li>positive</li>
+                                <li>negative</li>
+                                <li>revert</li>
+                                <li>increment</li>
+                                <li>decrement</li>
+                            </ul>
+                                Each of these sentences will be used for giving a score to text
+                            </p>
+                                </p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/dictionary-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="crfner-notebook" class="section-block"> CRF Named Entity Recognition</h4>
+                                <p>
+                                    In the following example, we walk-through a Conditional Random Fields NER model training
+                                    and prediction.
+                                </p>
+                                <p>
+                                    This challenging annotator will require the user to provide either a labeled dataset
+                                    during fit() stage, or use external CoNLL 2003 resources to train. It may optionally
+                                    use an external word embeddings set and a list of additional entities to extract.
+                                </p>
+                                <p>
+                                    The CRF Annotator will also required Part-of-speech tags so we add those in the same
+                                    Pipeline. Also, we could use our special RecursivePipeline, which will tell SparkNLP's NER CRF
+                                    approach to use the same pipeline for tagging external resources.
+                                </p>
+                                <p>
+                                <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/crf-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="dlner-notebook" class="section-block"> CNN Deep Learning NER</h4>
+                                <p>
+                                    In the following example, we walk-through a Convolutional neural network + LSTM
+                                    NER model training and prediction. This annotator is implemented on top of TensorFlow.
+                                </p>
+                                <p>
+                                    This annotator will take a series of word embedding vectors, training CoNLL dataset,
+                                    plus a validation dataset. We include our own predefined Tensorflow Graphs, but
+                                    it will train all layers during fit() stage.
+                                </p>
+                                <p>
+                                    DL NER will compute several layers of BI-LSTM in order to auto generate entity extraction,
+                                    and it will leverage batch-based distributed calls to native TensorFlow libraries during prediction.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/dl-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="text-notebook" class="section-block"> Simple Text Matching</h4>
+                                <p>
+                                    In the following example, we walk-through our straight forward Text Matcher
+                                </p>
+                                <p>
+                                    This annotator will take a list of sentences in a text file and lookup them in the target dataset.
+                                </p>
+                                <p>
+                                    This annotator is an AnnotatorModel and does not require training.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="assertion-notebook" class="section-block"> Assertion Status with LogReg</h4>
+                                <p>
+                                    In the following example, we walk-through a negation LogReg based annotator, which will
+                                    be able to identify whether a scenario is happening or not.
+                                </p>
+                                <p>
+                                    This machine learning AnnotatorApproach will take a set of Word embeddings vector,
+                                    and compute the training only with them. The prediction of a negated/not negated
+                                    dataset will return the appropriate result.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/logreg-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="dlassertion-notebook" class="section-block"> Deep Learning Assertion Status</h4>
+                                <p>
+                                    In the following example, we walk-through a Deep Learning based annotator, which will
+                                    be able to identify whether a scenario is happening or not.
+                                </p>
+                                <p>
+                                    This AnnotatorApproach will utilize precomputed TensorFlow graphs, and learn from a
+                                    series of word embedding vectors. The rest, is all on Spark NLP. TensorFlow
+                                    graphs may be redesigned if needed.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/dl-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 id="downloader-notebook" class="section-block"> Retrieving Pretrained models</h4>
+                                <p>
+                                    In the following example, we walk-through different use cases of our newest
+                                    resource downloader.
+                                </p>
+                                <p>
+                                    Some of our models may be retrieved by using the AnnotatorModel class, such as
+                                    the PerceptronModel for retrieveing a POS model. For Pipelines, we have
+                                    Basic and AdvancedPipelines which are predesigned, but we also allow
+                                    downloading other models and Pipelines by name.
+                                </p>
+                                <p>
+                                    Such components may then be injected seamlessly into further pipelines, and so on.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.0/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -104,7 +245,14 @@
                             <li>
                                 <a class="scrollto" href="#Notebook">Notebook</a>
                                 <ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#Notebook1">Jupyter notebooks using <br/> &nbsp;&nbsp;&nbsp; John Snow Labs PySpark NLP</a></li>
+                                    <li><a class="scrollto" href="#vivekn-notebook">Vivekn Sentiment Analysis</a></li>
+                                    <li><a class="scrollto" href="#sentiment-notebook">Rule-based Sentiment Analysis</a></li>
+                                    <li><a class="scrollto" href="#crfner-notebook">CRF Named Entity Recognition</a></li>
+                                    <li><a class="scrollto" href="#dlner-notebook">CNN Deep Learning NER</a></li>
+                                    <li><a class="scrollto" href="#text-notebook">Simple Text Matching</a></li>
+                                    <li><a class="scrollto" href="#assertion-notebook">Assertion Status with LogReg</a></li>
+                                    <li><a class="scrollto" href="#dlassertion-notebook">Deep Learning Assertion Status</a></li>
+                                    <li><a class="scrollto" href="#downloader-notebook">Retrieving Pretrained models</a></li>
                                 </ul>
                             </li>
 
