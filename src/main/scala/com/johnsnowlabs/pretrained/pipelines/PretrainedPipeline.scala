@@ -10,17 +10,9 @@ abstract class PretrainedPipeline(downloadName: String, language: Option[String]
   lazy protected val modelCache: PipelineModel = ResourceDownloader
     .downloadPipeline(downloadName, language)
 
-  protected val columns: Array[String]
-
-  def annotate(dataset: DataFrame, inputColumn: String, useFinisher: Boolean = true): DataFrame = {
-    val result = modelCache
+  def annotate(dataset: DataFrame, inputColumn: String): DataFrame = {
+    modelCache
       .transform(dataset.withColumnRenamed(inputColumn, "text"))
-      .select(columns.head, columns.tail:_*)
-    if (useFinisher)
-      new Finisher().setInputCols(columns)
-        .transform(result)
-    else
-      result
   }
 
   def annotate(target: String): Map[String, Seq[String]] = new LightPipeline(modelCache).annotate(target)
