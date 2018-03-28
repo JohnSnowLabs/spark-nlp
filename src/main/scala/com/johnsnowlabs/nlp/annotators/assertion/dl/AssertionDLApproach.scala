@@ -78,7 +78,6 @@ class AssertionDLApproach(override val uid: String)
         row.getAs[Int](getOrDefault(end))
       ))
 
-    val labelCol = getOrDefault(label)
     /* infer labels and assign a number to each */
     val labelMappings = annotations.map(_.label).distinct.toList
 
@@ -106,7 +105,10 @@ class AssertionDLApproach(override val uid: String)
     new AssertionDLModel().
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
-      setBatchSize($(batchSize))
+      setBatchSize($(batchSize)).
+      setStart(getOrDefault(start)).
+      setEnd(getOrDefault(end))
+
   }
 
   override val annotatorType: AnnotatorType = ASSERTION

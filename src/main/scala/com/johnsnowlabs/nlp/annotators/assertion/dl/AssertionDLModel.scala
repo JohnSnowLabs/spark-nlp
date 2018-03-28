@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.{IntParam, ParamMap}
+import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -22,6 +22,13 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable
   with TransformModelSchema {
+
+
+  val start = new Param[String](this, "start", "Column with token number for first target token")
+  val end = new Param[String](this, "end", "Column with token number for last target token")
+
+  def setStart(s: String): this.type = set(start, s)
+  def setEnd(e: String): this.type = set(end, e)
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
@@ -68,7 +75,7 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     /* apply UDFs to classify and annotate */
     dataset.toDF.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn(getOutputCol, packAnnotations(col("text"), col("start"), col("end"))
+      withColumn(getOutputCol, packAnnotations(col("text"), col(getOrDefault(start)), col(getOrDefault(end)))
     )
   }
 
