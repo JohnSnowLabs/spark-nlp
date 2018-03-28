@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{HasGraph, NerDLModel, ReadsGraph}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{HasGraph, ReadsGraph}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
