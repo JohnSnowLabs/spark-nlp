@@ -119,11 +119,11 @@ class NerDLModel(override val uid: String)
   }
 }
 
-object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] {
+trait ReadsGraph  {
 
   val tfFile = "tensorflow"
 
-  override def onRead(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
+  def onRead(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
 
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
@@ -142,3 +142,5 @@ object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] {
     FileHelper.delete(tmpFolder)
   }
 }
+
+object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsGraph

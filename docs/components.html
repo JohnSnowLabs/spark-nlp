@@ -1051,7 +1051,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b> <br>
                                           <ul>
                                             <li>
-                                              setExternalDataset(path, readAs, options): Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                setExternalDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER and POS annotated file</a>. If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
                                             </li>
                                             <li>
                                               setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
@@ -1075,13 +1075,13 @@ documentAssembler = new DocumentAssembler()
                                               setMinW: Features with less weights than this value will be filtered out
                                             </li>
                                             <li>
-                                              setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
-                                              path - word embeddings file
-                                              nDims - number of word embeddings dimentions
-                                              format - format of word embeddings files:
-                                              1 - spark-nlp format.
-                                              2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
-                                              3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                                setEmbeddingsSource:(path, nDims, format) - sets <a href="https://en.wikipedia.org/wiki/Word_embedding">word embeddings</a> options.
+                                                path - word embeddings file
+                                                nDims - number of word embeddings dimensions
+                                                format - format of word embeddings files:<br>
+                                                1 - spark-nlp format. <br>
+                                                2 - text. This format is usually used by <a href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
+                                                3 - binary. This format is usually used by <a href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
                                             </li>
                                             <li>
                                               setExternalFeatures(path, delimiter, readAs, options): Path to file or folder of line separated file that has something like this: Volvo:ORG with such delimiter, readAs LINE_BY_LINE or SPARK_DATASET with options passed to the latter.
@@ -1125,7 +1125,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Functions:</b> <br>
                                             <ul>
                                               <li>
-                                                setExternalDataset(path, readAs, options): Path to a CoNLL 2003 IOB NER and POS annotated file (https://www.clips.uantwerpen.be/conll2003/ner). If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                  setExternalDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER and POS annotated file</a>. If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
                                               </li>
                                               <li>
                                                 setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
@@ -1149,13 +1149,13 @@ documentAssembler = new DocumentAssembler()
                                                 setMinW: Features with less weights than this value will be filtered out
                                               </li>
                                               <li>
-                                                setEmbeddingsSource:(path, nDims, format) - sets word embeddings options https://en.wikipedia.org/wiki/Word_embedding.
+                                                setEmbeddingsSource:(path, nDims, format) - sets <a href="https://en.wikipedia.org/wiki/Word_embedding">word embeddings</a> options.
                                                 path - word embeddings file
-                                                nDims - number of word embeddings dimentions
-                                                format - format of word embeddings files:
-                                                1 - spark-nlp format.
-                                                2 - text. This format is usually used by Glove https://nlp.stanford.edu/projects/glove/
-                                                3 - binary. This format is usually used by Word2Vec https://code.google.com/archive/p/word2vec/
+                                                nDims - number of word embeddings dimensions
+                                                format - format of word embeddings files:<br>
+                                                1 - spark-nlp format. <br>
+                                                  2 - text. This format is usually used by <a href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
+                                                  3 - binary. This format is usually used by <a href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
                                               </li>
                                               <li>
                                                 setExternalFeatures(path, delimiter, readAs, options): Path to file or folder of line separated file that has something like this: Volvo:ORG with such delimiter, readAs LINE_BY_LINE or SPARK_DATASET with options passed to the latter.
@@ -1183,6 +1183,161 @@ documentAssembler = new DocumentAssembler()
   .setL2(3.0)
   .setOutputCol("ner")
   .fit(df)</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="NerDL" class="section-block"> Named Entity Recognition Deep Learning
+                                    annotator</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                This Named Entity recognition annotator allows to train generic NER model
+                                                based on a Neural Networks. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset,
+                                                Also the user have to provide word embeddings file<br>
+                                                Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.<br>
+                                                <b>Type:</b> named_entity<br>
+                                                <b>Requires:</b> Document, token<br>
+                                                <b>Functions:</b> <br>
+                                            <ul>
+                                                <li>
+                                                    setExternalDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+                                                <li>
+                                                    setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                                </li>
+                                                <li>
+                                                    setMaxEpochs: Maximum number of epochs to train
+                                                </li>
+                                                <li>
+                                                    setLr: Initial learning rate
+                                                </li>
+                                                <li>
+                                                    setPo: Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch)
+                                                </li>
+                                                <li>
+                                                    setBatchSize: Batch size for training
+                                                </li>
+                                                <li>
+                                                    setDropout: Dropout coefficient
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsSource:(path, nDims, format) - sets <a href="https://en.wikipedia.org/wiki/Word_embedding">word embeddings</a> options.
+                                                    path - word embeddings file
+                                                    nDims - number of word embeddings dimensions
+                                                    format - format of word embeddings files:<br>
+                                                    1 - spark-nlp format. <br>
+                                                    2 - text. This format is usually used by <a href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
+                                                    3 - binary. This format is usually used by <a href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
+                                                </li>
+                                                <li>
+                                                    setValidationDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If provided than quality will be logged after every epoch. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+                                                <li>
+                                                    setTestDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If provided than quality will be logged after every epoch. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+                                                <li>
+                                                    setVerbose: Verbosity level
+                                                </li>
+                                                <li>
+                                                    setRandomSeed: Random seed
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">nerTagger = NerDLApproach()\
+  .setInputCols(["sentence", "token"])\
+  .setLabelColumn("label")\
+  .setOutputCol("ner")\
+  .setMaxEpochs(10)\
+  .setExternalDataset("file://conll2013/eng.train")\
+  .setValidationDataset("file://conll2013/eng.testa")\
+  .setTestDataset("file://conll2013/eng.testb")\
+  .setEmbeddingsSource("file://glove.6B/glove.6B.100d.txt", 100, 2)\
+  .setRandomSeed(0)\
+  .setVerbose(2)</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                            <p>
+                                                This Named Entity recognition annotator allows to train generic NER model
+                                                based on a Neural Networks. Its inputs are either a labeled dataset with an Annotations column or an external CoNLL 2003 IOB based dataset,
+                                                Also the user have to provide word embeddings file<br>
+                                                Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.<br>
+                                                <b>Type:</b> named_entity<br>
+                                                <b>Requires:</b> Document, token<br>
+                                                <b>Functions:</b> <br>
+                                            <ul>
+                                                <li>
+                                                    setExternalDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If this is provided. label column is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+                                                <li>
+                                                    setLabelColumn: If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+                                                </li>
+                                                <li>
+                                                    setMaxEpochs: Maximum number of epochs to train
+                                                </li>
+
+                                                <li>
+                                                    setLr: Initial learning rate
+                                                </li>
+                                                <li>
+                                                    setPo: Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch)
+                                                </li>
+                                                <li>
+                                                    setBatchSize: Batch size for training
+                                                </li>
+                                                <li>
+                                                    setDropout: Dropout coefficient
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsSource:(path, nDims, format) - sets <a href="https://en.wikipedia.org/wiki/Word_embedding">word embeddings</a> options.
+                                                    path - word embeddings file
+                                                    nDims - number of word embeddings dimensions
+                                                    format - format of word embeddings files:<br>
+                                                    1 - spark-nlp format. <br>
+                                                    2 - text. This format is usually used by <a href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
+                                                    3 - binary. This format is usually used by <a href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
+                                                </li>
+                                                <li>
+                                                    setValidationDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If provided than quality will be logged after every epoch. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+                                                <li>
+                                                    setTestDataset(path, readAs, options): Path to a <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL 2003 IOB NER file</a>. If provided than quality will be logged after every epoch. readAs can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used
+                                                </li>
+
+                                                <li>
+                                                    setVerbose: Verbosity level
+                                                </li>
+                                                <li>
+                                                    setRandomSeed: Random seed
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">val nerTagger = new NerDLApproach()
+      .setInputCols("sentence", "token")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setMaxEpochs(120)
+      .setRandomSeed(0)
+      .setPo(0.03f)
+      .setLr(0.2f)
+      .setDropout(0.5f)
+      .setBatchSize(9)
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setExternalDataset("conll2013/eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+      .setValidationDataset("conll2013/eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+      .setTestDataset("conll2013/eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+      .setVerbose(Verbose.Epochs)</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
                                 <h4 id="SpellChecker" class="section-block"> SpellChecker: Token spell
@@ -1499,6 +1654,7 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#SentimentDetector">Rule based Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#NERCRF">Named Entity Recognition CRF</a></li>
+                                    <li><a class="scrollto" href="#NerDL">Named Entity Recognition DL</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Spell Checker</a></li>
                                     <li><a class="scrollto" href="#AssertionStatus">Assertion Status</a></li>
                                     <li><a class="scrollto" href="#AssertionStatusDL">Assertion Status Deep Learning</a></li>

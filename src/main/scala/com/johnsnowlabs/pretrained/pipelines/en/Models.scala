@@ -2,14 +2,8 @@ package com.johnsnowlabs.pretrained.pipelines.en
 
 import com.johnsnowlabs.pretrained.pipelines.PretrainedPipeline
 
-class BasicPipeline extends PretrainedPipeline("pipeline_basic", Some("en")) {
-  override val columns = Array("text", "document", "token", "normal", "lemma", "pos")
-}
+case class BasicPipeline() extends PretrainedPipeline("pipeline_basic", Some("en"))
 
-class AdvancedPipeline extends PretrainedPipeline("pipeline_advanced", Some("en")) {
-  override val columns = Array("text", "document", "token", "normal", "spell", "stem", "lemma", "pos", "ner")
-}
+case class AdvancedPipeline() extends PretrainedPipeline("pipeline_advanced", Some("en"))
 
-class SentimentPipeline extends PretrainedPipeline("pipeline_vivekn", Some("en")) {
-  override protected val columns: Array[String] = Array("text", "document", "token", "normal", "spell", "sentiment")
-}
+case class SentimentPipeline() extends PretrainedPipeline("pipeline_vivekn", Some("en"))

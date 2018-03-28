@@ -13,11 +13,11 @@ class BasicPipelineTestSpec extends FlatSpec {
   val texts = data.select("text").as[String].collect
 
   "A ReadyModel basic pipeline" should "annotate datasets, strings and arrays" in {
-    val transformed = new BasicPipeline().annotate(data, "text")
+    val transformed = BasicPipeline().annotate(data, "text")
     transformed.show(5)
-    assert(transformed.columns.length == 6)
-    println(new BasicPipeline().annotate(text))
-    new BasicPipeline().annotate(texts).take(5).foreach(println(_))
+    assert(transformed.columns.length == 8)
+    println(BasicPipeline().annotate(text))
+    BasicPipeline().annotate(texts).take(5).foreach(println(_))
   }
 
 }
