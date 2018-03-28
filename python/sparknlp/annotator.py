@@ -276,7 +276,7 @@ class LemmatizerModel(_AnnotatorModel):
     @staticmethod
     def retrieve(name="lemma_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
 
 
 class DateMatcher(AnnotatorModel):
@@ -545,7 +545,7 @@ class NorvigSweetingModel(_AnnotatorModel):
     @staticmethod
     def retrieve(name="spell_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
 
 class NerApproach(Params):
@@ -635,7 +635,7 @@ class NerCrfModel(_AnnotatorModel):
     @staticmethod
     def retrieve(name="ner_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+        return ResourceDownloader.downloadModel(NerCrfModel, name, language)
 
 
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
