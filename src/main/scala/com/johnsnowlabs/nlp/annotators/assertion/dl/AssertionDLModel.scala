@@ -110,7 +110,7 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
 
 }
 
-object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadTensorflowModel {
+trait ReadsAssertionGraph extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadTensorflowModel {
 
   override val tfFile = "tensorflow"
 
@@ -119,3 +119,5 @@ object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with
     instance.setTensorflow(tf)
   }
 }
+
+object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadsAssertionGraph

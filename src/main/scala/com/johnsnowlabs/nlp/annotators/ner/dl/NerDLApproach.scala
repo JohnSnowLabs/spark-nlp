@@ -193,7 +193,7 @@ class NerDLApproach(override val uid: String)
   }
 }
 
-trait HasGraph  {
+trait WithGraphResolver  {
   def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int): String = {
     val files = ResourceHelper.listResourceDirectory("/ner-dl")
 
@@ -255,4 +255,4 @@ trait HasGraph  {
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with HasGraph
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
