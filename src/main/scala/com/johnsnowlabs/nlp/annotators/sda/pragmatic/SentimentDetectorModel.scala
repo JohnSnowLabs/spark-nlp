@@ -1,10 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Tokenized, TokenizedSentence}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.spark.ml.param.Param
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -20,14 +18,10 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val dictPath = new Param[String](this, "dictPath", "path to dictionary for pragmatic sentiment analysis")
+  val sentimentDict = new MapFeature[String, String](this, "sentimentDict")
 
-  lazy val model: PragmaticScorer = {
-    if (get(dictPath).isDefined)
-      new PragmaticScorer(SentimentDetectorModel.retrieveSentimentDict($(dictPath)))
-    else
-      new PragmaticScorer()
-  }
+  lazy val model: PragmaticScorer =
+    new PragmaticScorer($$(sentimentDict))
 
   override val annotatorType: AnnotatorType = SENTIMENT
 
@@ -35,13 +29,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
-  def setDictPath(path: String): this.type = {
-    set(dictPath, path)
-  }
-
-  def getDictPath: String = {
-    $(dictPath)
-  }
+  def setSentimentDict(value: Map[String, String]): this.type = set(sentimentDict, value)
 
   /**
     * Tokens are needed to identify each word in a sentence boundary
@@ -52,7 +40,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokenizedSentences = Tokenized.unpack(annotations)
+    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
 
     val score = model.score(tokenizedSentences.toArray)
 
@@ -66,20 +54,4 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   }
 
 }
-object SentimentDetectorModel extends DefaultParamsReadable[SentimentDetectorModel] {
-
-  private val config: Config = ConfigFactory.load
-
-  /**
-    * Sentiment dictionaries from compiled sources set in configuration
-    * @return Sentiment dictionary
-    */
-  private[pragmatic] def retrieveSentimentDict(sentFilePath: String = "__default"): Map[String, String] = {
-    val filePath = if (sentFilePath == "__default") config.getString("nlp.sentimentDict.file") else sentFilePath
-    val sentFormat = config.getString("nlp.sentimentDict.format")
-    val sentSeparator = config.getString("nlp.sentimentDict.separator")
-    ResourceHelper.parseKeyValueText(filePath, sentFormat, sentSeparator)
-  }
-
-
-}
+object SentimentDetectorModel extends ParamsAndFeaturesReadable[SentimentDetectorModel]

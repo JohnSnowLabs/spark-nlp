@@ -22,9 +22,12 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
   }
 
   def buildNerDataset(datasetContent: String): Dataset[Row] = {
-    val lines = datasetContent.split("\n")
+    val lines = datasetContent.split(System.lineSeparator)
     val data = CoNLL(1, AnnotatorType.NAMED_ENTITY)
       .readDatasetFromLines(lines, SparkAccessor.spark).toDF
     AnnotatorBuilder.withDocumentAssembler(data)
   }
+
+  def loadParquetDataset(path: String) =
+    SparkAccessor.spark.read.parquet(path)
 }

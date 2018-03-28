@@ -48,7 +48,7 @@ class DocumentAssembler(override val uid: String)
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
-  private def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
+  private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
     Seq(Annotation(annotatorType, 0, text.length - 1, text, metadata))
   }
 
@@ -112,4 +112,6 @@ class DocumentAssembler(override val uid: String)
   }
 
 }
+
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
+

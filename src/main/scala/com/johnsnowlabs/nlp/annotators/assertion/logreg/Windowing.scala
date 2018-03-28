@@ -1,40 +1,14 @@
+
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-import com.johnsnowlabs.nlp.annotators.datasets.I2b2AnnotationAndText
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.expressions.UserDefinedFunction
-
-import scala.collection.{GenTraversableOnce, mutable}
 
 
 /**
   * Created by jose on 24/11/17.
   */
-
-/* Type class to handle multiple Vectors versions */
-trait VectorsType[T] extends Serializable {
-  /* create a vector from an array */
-  def dense(array:Array[Double]):T
-}
-
-object mllib {
-  import org.apache.spark.mllib.linalg.Vector
-  import org.apache.spark.mllib.linalg.Vectors
-  object vectors extends VectorsType[Vector] {
-    override def dense(array: Array[Double]) = Vectors.dense(array)
-  }
-}
-
-object ml {
-  import org.apache.spark.ml.linalg.Vector
-  import org.apache.spark.ml.linalg.Vectors
-  object vectors extends VectorsType[Vector] {
-    override def dense(array: Array[Double]) = Vectors.dense(array)
-  }
-}
-
 trait Windowing extends Serializable {
 
   /* */
@@ -43,7 +17,7 @@ trait Windowing extends Serializable {
 
   val tokenizer : Tokenizer
 
-  lazy val wordVectors: Option[WordEmbeddings] = None
+  def wordVectors(): Option[WordEmbeddings] = None
 
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, s: Int, e: Int): (Array[String], Array[String], Array[String])  = {
@@ -81,11 +55,8 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
-  def applyWindow(wvectors: WordEmbeddings)(doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
-    val tokens = tokenizer.tokenize(doc.trim)
-
-    val target = Array.fill(5)(0.4)
-    val nonTarget = Array.fill(5)(0.0)
+  def applyWindow(wvectors: WordEmbeddings) (doc:String, targetTerm:String, s:Int, e:Int) : Array[Double]  = {
+    val tokens = doc.split(" ").filter(_!="")
 
     /* now start and end are indexes in the doc string */
     val start = tokens.slice(0, s).map(_.length).sum +
@@ -96,68 +67,15 @@ trait Windowing extends Serializable {
     val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
 
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ target) ++
-      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)) ++ nonTarget)
-      //computeLeftDistances(l.takeRight(2), wvectors) ++ computeRightDistances(r.take(2), wvectors)
+      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
+      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
   }
 
-  import scala.reflect.runtime.universe._
-  def applyWindowUdf[T](vectors:VectorsType[T])(implicit tag: TypeTag[T]): UserDefinedFunction =
-    //here 's' and 'e' are token number for start and end of target when split on " "
+  def applyWindowUdf =
+  //here 's' and 'e' are token numbers for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
-      vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
+      Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
-
-  def applyWindowAndPOSUdf[T](vectors:VectorsType[T], posVects:Map[String, Array[Double]])(implicit tag: TypeTag[T]): UserDefinedFunction =
-  //here 's' and 'e' are token number for start and end of target when split on " "
-    udf { (doc:String, targetTerm:String, s:Int, e:Int, pos:mutable.WrappedArray[GenericRowWithSchema]) =>
-
-      /* quick and dirty implementation */
-      val before = 7
-      val after = 8
-
-      val prevPos: Array[Double] = {
-        val (posSize,  padding:Array[Double]) = if(before - s < 0)
-          (before, Array.fill(0)(0.0))
-        else {
-          val paddingSize = before - s
-          (before - paddingSize, Array.fill(paddingSize * 3)(0.0))
-        }
-
-        val poss = ((s - posSize) to (s - 1)).map(idx => pos(idx)(3)).flatMap { tag =>
-            if (!posVects.contains(tag.toString))
-              println(s"tag not found $tag")
-            posVects.get(tag.toString).getOrElse(Array.fill(3)(0.0))
-          }.toArray
-        padding ++ poss
-      }
-
-      val postPos: Array[Double] = {
-
-        val (posSize,  padding:Array[Double]) =
-          if(s + after - 1 < pos.length)
-              (after, Array.fill(0)(0.0))
-          else {
-              val paddingSize = s + after - pos.length
-              (after - paddingSize, Array.fill(paddingSize * 3)(0.0))
-          }
-
-        val poss = (s to (s + posSize - 1)).map(idx => pos(idx)(3)).flatMap { tag =>
-            if (!posVects.contains(tag.toString))
-              println(s"tag not found $tag")
-            posVects.get(tag.toString).getOrElse(Array.fill(3)(0.0))
-          }.toArray
-
-        poss ++ padding
-      }
-      vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e) ++ prevPos ++ postPos)
-    }
-
-  /*take an annotation and return vector features for it */
-  def applyWindow(ann: I2b2AnnotationAndText) : Array[Double] =
-     applyWindow(wordVectors.get)(ann.text, ann.target, ann.start, ann.end)
-
-
 
   def l2norm(xs: Array[Double]):Double = {
     import math._
@@ -169,75 +87,5 @@ trait Windowing extends Serializable {
     vec.map(element => element / norm)
   }
 
-  /* experimental stuff */
-
-  def distance(xs: Array[Float], ys: Array[Float]):Double = {
-    import math.{sqrt, pow}
-    sqrt((xs zip ys).map { case (x,y) => pow(y - x, 2) }.sum)
-  }
-
-  val preComplex = Map("suspicious" -> List("for"),
-    "could" -> List("be"), "suggestive" -> List("of", "that"),
-    "imaging" -> List("for"), "question" -> List("of"),
-    "rule" -> List("out"), "evaluation" -> List("for"),
-    "attributable" -> List("to"), "consistent" -> List("with"),
-    "possibility" -> List("to", "of"), "in" -> List("case"), "for" -> List("presumed"), "with" ->List("possible"))
-
-  val preSimple = Array("suggesting", "suggest", "possible", "presumed", "perhaps", "question", "investigate")
-
-  val posComplex = Map("was" -> List("considered"))
-
-  val posSimple = Array("vs", "or", "occurred")
-
-  def computeLeftDistances(context: Array[String], wvectors: WordEmbeddings):
-  Array[Double] = {
-    //add distances to single word cues
-    val single : Array[Double] = preSimple map { cue =>
-      if(context.size > 0)
-        distance(wvectors.getEmbeddings(cue), wvectors.getEmbeddings(context.takeRight(1).head))
-      else
-        -0.5 // we don't know
-    }
-
-    //add distances to complex word cues
-    val complex = for ((firstToken, secondTokens) <- preComplex;
-                       secondToken <- secondTokens) yield {
-      if(context.size > 1)
-        distance(wvectors.getEmbeddings(firstToken), wvectors.getEmbeddings(context.takeRight(2).head)) +
-          distance(wvectors.getEmbeddings(secondToken), wvectors.getEmbeddings(context.takeRight(1).head))
-      else
-        -1.0 // we don't know
-    }
-    val distances:Array[Double] = single ++ complex
-    normalize(distances)
-  }
-
-
-  def computeRightDistances(context: Array[String], wvectors: WordEmbeddings):
-  Array[Double] = {
-
-
-    //add distances to single word cues
-    val single : Array[Double] = posSimple map { cue =>
-      if(context.size > 0)
-        distance(wvectors.getEmbeddings(cue), wvectors.getEmbeddings(context.head))
-      else
-        -0.5 // we don't know
-    }
-
-    //add distances to complex word cues
-    val complex = for ((firstToken, secondTokens) <- posComplex;
-                       secondToken <- secondTokens) yield {
-      if(context.size > 1)
-        distance(wvectors.getEmbeddings(firstToken), wvectors.getEmbeddings(context.head)) +
-          distance(wvectors.getEmbeddings(secondToken), wvectors.getEmbeddings(context.tail.head))
-      else
-        -1.0 // we don't know
-    }
-
-
-    val distances = single ++ complex
-    normalize(distances)
-  }
 
 }

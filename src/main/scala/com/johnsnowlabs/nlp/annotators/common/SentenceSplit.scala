@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 /**
   * structure representing a sentence and its boundaries
   */
-case class Sentence(content: String, begin: Int, end: Int)
+case class Sentence(content: String, start: Int, end: Int)
 
 object Sentence {
   def fromTexts(texts: String*): Seq[Sentence] = {
@@ -32,6 +32,6 @@ object SentenceSplit extends Annotated[Sentence] {
   }
 
   override def pack(items: Seq[Sentence]): Seq[Annotation] = {
-    items.map(item => Annotation(annotatorType, item.begin, item.end, item.content, Map.empty[String, String]))
+    items.map(item => Annotation(annotatorType, item.start, item.end, item.content, Map.empty[String, String]))
   }
 }

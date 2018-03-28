@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.types.ArrayType
@@ -12,6 +12,8 @@ import org.scalatest._
   */
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
+  require(Some(SparkAccessor).isDefined)
+
   val lemmatizer = new Lemmatizer
   "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     assert(lemmatizer.annotatorType == AnnotatorType.TOKEN)
@@ -22,12 +24,12 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
   "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(latinBodyData)
 
   "A lemmatizer" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
-    val lemmatizer = new Lemmatizer().setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+    val lemmatizer = new Lemmatizer().setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
     val path = "./test-output-tmp/lemmatizer"
     try {
       lemmatizer.write.overwrite.save(path)
       val lemmatizerRead = Lemmatizer.read.load(path)
-      assert(lemmatizer.getLemmaDict.head == lemmatizerRead.getLemmaDict.head)
+      assert(lemmatizer.getDictionary.path == lemmatizerRead.getDictionary.path)
     } catch {
       case _: java.io.IOException => succeed
     }
@@ -41,18 +43,18 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-      .setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+      .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
 
     val finisher = new Finisher()
       .setInputCols("lemma")
@@ -66,13 +68,30 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
         finisher
       ))
 
+    val recursivePipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        lemmatizer,
+        finisher
+      ))
+
     val model = pipeline.fit(data)
     model.transform(data).show()
 
     val PIPE_PATH = "./tmp_pipeline"
+
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
     loadedPipeline.transform(data).show
+
+    val recursiveModel = recursivePipeline.fit(data)
+    recursiveModel.transform(data).show()
+
+    recursiveModel.write.overwrite().save(PIPE_PATH)
+    val loadedRecPipeline = PipelineModel.read.load(PIPE_PATH)
+    loadedRecPipeline.transform(data).show
 
     succeed
   }

@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.annotators.common.{IntStringMapParam, StringMapParam}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.HashSet
@@ -22,8 +22,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
   private val vowels = "aeiouy".toCharArray
 
-  protected val wordCount: IntStringMapParam = new IntStringMapParam(this, "word_count", "word count")
-  protected val customDict: StringMapParam = new StringMapParam(this, "custom_dict", "custom dict")
+  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
+  protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
   private val config: Config = ConfigFactory.load
@@ -36,14 +36,16 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private val vowelSwapLimit = config.getInt("nlp.norvigChecker.vowelSwapLimit")
 
   private lazy val allWords: HashSet[String] = {
-    if ($(caseSensitive)) HashSet($(wordCount).keys.toSeq:_*) else HashSet($(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+    if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*) else HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
   }
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  def setWordCount(value: Map[String, Int]): this.type = set(wordCount, value)
-
+  def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
   def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
+
+  protected def getWordCount: Map[String, Long] = $$(wordCount)
+  protected def getCustomDict: Map[String, String] = $$(customDict)
 
   /** Utilities */
   /** number of items duplicated in some text */
@@ -84,21 +86,16 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   /** distance measure between two words */
-  private def hammingDistance(word1: String, word2: String): Int = {
-    val bonus =
-      word1.take(word2.length).zip(word2.take(word1.length)).count({
-        case (w1, w2) => w1 == w2 ||
-          w1 == word2(Seq(word2.indexOf(w2) + 1, word2.length - 1).min) ||
-          w1 == word2(Seq(word2.indexOf(w2) - 1, 0).max)})
-    word1.intersect(word2).length + bonus
-  }
+  private def hammingDistance(word1: String, word2: String): Int =
+    if (word1 == word2) 0
+    else word1.zip(word2).count { case (c1, c2) => c1 != c2 } + (word1.length - word2.length).abs
 
   /** retrieve frequency */
-  private def frequency(word: String, wordCount: Map[String, Int]): Int = {
+  private def frequency(word: String, wordCount: Map[String, Long]): Long = {
     wordCount.getOrElse(word, 0)
   }
 
-  private def compareFrequencies(value: String): Int = frequency(value, $(wordCount))
+  private def compareFrequencies(value: String): Long = frequency(value, $$(wordCount))
   private def compareHammers(input: String)(value: String): Int = hammingDistance(input, value)
 
   /** Posibilities analysis */
@@ -167,9 +164,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     if (allWords.contains(word)) {
       logger.debug("Word found in dictionary. No spell change")
       Some(word)
-    } else if ($(customDict).contains(word)) {
+    } else if ($$(customDict).contains(word)) {
       logger.debug("Word custom dictionary found. Replacing")
-      Some($(customDict)(word))
+      Some($$(customDict)(word))
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
       Some(word.distinct)
@@ -244,4 +241,4 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 }
 
-object NorvigSweetingModel extends DefaultParamsReadable[NorvigSweetingModel]
+object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel]

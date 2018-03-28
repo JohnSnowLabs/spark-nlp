@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp)
 # spark-nlp
 John Snow Labs Spark-NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
 
@@ -10,18 +11,18 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.0.0` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.4.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.2.3
+spark-shell --packages JohnSnowLabs:spark-nlp:1.4.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.2.3
+pyspark --packages JohnSnowLabs:spark-nlp:1.4.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.2.3
+spark-submit --packages JohnSnowLabs:spark-nlp:1.4.2
 ```
 
 If you want to use and old version check the spark-packages websites to see all the releases.
@@ -36,19 +37,19 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
   <groupId>com.johnsnowlabs.nlp</groupId>
   <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.2.3</version>
+  <version>1.4.2</version>
 </dependency>
 ```
 
 #### SBT
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.2.3"
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.4.2"
 ```
 
 If you are using `scala 2.11`
 
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.2.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.4.2"
 ```
 
 ## Using the jar manually 

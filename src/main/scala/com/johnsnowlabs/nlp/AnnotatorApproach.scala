@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.ml.{Estimator, Model}
+import org.apache.spark.ml.{Estimator, Model, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 import org.apache.spark.ml.util.DefaultParamsWritable
@@ -15,14 +15,14 @@ import org.apache.spark.ml.util.DefaultParamsWritable
   */
 abstract class AnnotatorApproach[M <: Model[M]]
   extends Estimator[M]
-  with HasInputAnnotationCols
-  with HasOutputAnnotationCol
-  with HasAnnotatorType
-  with DefaultParamsWritable {
+    with HasInputAnnotationCols
+    with HasOutputAnnotationCol
+    with HasAnnotatorType
+    with DefaultParamsWritable {
 
   val description: String
 
-  def train(dataset: Dataset[_]): M
+  def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): M
 
   def beforeTraining(spark: SparkSession): Unit = {}
 

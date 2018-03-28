@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
 import org.scalatest._
@@ -41,11 +43,11 @@ class ViveknSentimentTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val tokenizer = new RegexTokenizer()
+    val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
@@ -56,13 +58,14 @@ class ViveknSentimentTestSpec extends FlatSpec {
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
+      .setDictionary("src/test/resources/spell/words.txt")
 
     val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSourcePath("/vivekn/positive/1.txt")
-      .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setCorpusPrune(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -75,12 +78,12 @@ class ViveknSentimentTestSpec extends FlatSpec {
       ))
 
     val model = pipeline.fit(data)
-    model.transform(data).show()
+    model.transform(data).show(1)
 
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedPipeline.transform(data).show
+    loadedPipeline.transform(data).show(1)
 
     succeed
   }

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.scalatest._
@@ -14,7 +14,7 @@ class FinisherTestSpec extends FlatSpec {
     .setInputCol("text")
     .setOutputCol("document")
 
-  val tokenizer = new RegexTokenizer()
+  val tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
@@ -22,6 +22,7 @@ class FinisherTestSpec extends FlatSpec {
 
     val finisher = new Finisher()
       .setInputCols("token")
+      .setOutputAsArray(false)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -42,6 +43,7 @@ class FinisherTestSpec extends FlatSpec {
     val finisher = new Finisher()
       .setInputCols("token")
       .setOutputCols("token_out")
+      .setOutputAsArray(false)
       .setAnnotationSplitSymbol("%")
       .setValueSplitSymbol("&")
       .setCleanAnnotations(false)

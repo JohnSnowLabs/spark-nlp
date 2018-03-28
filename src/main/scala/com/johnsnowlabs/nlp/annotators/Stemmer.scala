@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.language.postfixOps
 
@@ -18,23 +18,23 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val algorithm: Param[String] = new Param(this, "language", "this is the language of the text")
-  setDefault(algorithm, "english")
+  val language: Param[String] = new Param(this, "language", "this is the language of the text")
+  setDefault(language, "english")
 
   override val annotatorType: AnnotatorType = TOKEN
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  def setPattern(value: String): Stemmer = set(algorithm, value)
+  def setLanguage(value: String): Stemmer = set(language, value)
 
-  def getPattern: String = $(algorithm)
+  def getLanguage: String = $(language)
 
   def this() = this(Identifiable.randomUID("STEMMER"))
 
   /** one-to-one stem annotation that returns single hard-stem per token */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { tokenAnnotation =>
-        val stem = Stemmer.stem(tokenAnnotation.result)
+        val stem = EnglishStemmer.stem(tokenAnnotation.result)
         Annotation(
           annotatorType,
           tokenAnnotation.begin,
@@ -46,7 +46,9 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
 }
 
-object Stemmer {
+object Stemmer extends DefaultParamsReadable[Stemmer]
+
+object EnglishStemmer {
 
   def stem(word: String): String = {
     // Deal with plurals and past participles

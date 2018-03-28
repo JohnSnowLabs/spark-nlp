@@ -1,19 +1,19 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.io.{File, FileNotFoundException, InputStream}
+import java.io._
+import java.net.{URL, URLDecoder}
+import java.util.jar.JarFile
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, RegexTokenizer}
-import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.util.io.ResourceFormat._
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import com.johnsnowlabs.nlp.util.io.ReadAs._
+import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.Source
-
-import java.net.URLDecoder
-import java.util.jar.JarFile
+import scala.io.BufferedSource
 
 
 /**
@@ -25,21 +25,71 @@ import java.util.jar.JarFile
   */
 object ResourceHelper {
 
-  private val spark: SparkSession = SparkSession.builder().getOrCreate()
+  val spark: SparkSession = SparkSession.builder().getOrCreate()
 
+  private def inputStreamOrSequence(fs: FileSystem, files: RemoteIterator[LocatedFileStatus]): InputStream = {
+    val firstFile = files.next
+    if (files.hasNext) {
+      new SequenceInputStream(fs.open(firstFile.getPath), inputStreamOrSequence(fs, files))
+    } else {
+      fs.open(firstFile.getPath)
+    }
+  }
 
-  def listDirectory(path: String): Seq[String] = {
+  /** Structure for a SourceStream coming from compiled content */
+  case class SourceStream(resource: String) {
+    val pipe: Option[InputStream] =
+        /** Check whether it exists in file system */
+      Option {
+        val path = new Path(resource)
+        val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
+        val files = fs.listFiles(new Path(resource), true)
+        if (files.hasNext) inputStreamOrSequence(fs, files) else null
+      }
+    val content: BufferedSource = pipe.map(p => {
+      new BufferedSource(p)("UTF-8")
+    }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
+    def close(): Unit = {
+      content.close()
+      pipe.foreach(_.close)
+    }
+  }
+
+  private def fixTarget(path: String): String = {
+    val toSearch = s"^.*target\\${File.separator}.*scala-.*\\${File.separator}.*classes\\${File.separator}"
+    if (path.matches(toSearch + ".*")) {
+      path.replaceFirst(toSearch, "")
+    }
+    else {
+      path
+    }
+  }
+
+  def getResourceStream(path: String): InputStream = {
+    Option(getClass.getResourceAsStream(path))
+      .getOrElse{
+        getClass.getClassLoader().getResourceAsStream(path)
+      }
+  }
+
+  def getResourceFile(path: String): URL = {
     var dirURL = getClass.getResource(path)
 
     if (dirURL == null)
       dirURL = getClass.getClassLoader.getResource(path)
 
-    if (dirURL != null && dirURL.getProtocol.equals("file")) {
+    dirURL
+  }
+
+  def listResourceDirectory(path: String): Seq[String] = {
+    val dirURL = getResourceFile(path)
+
+    if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).list().sorted
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
     } else if (dirURL == null) {
-      /* path not in resources and not in disk */
-      throw new FileNotFoundException(path)
+        /* path not in resources and not in disk */
+        throw new FileNotFoundException(path)
     }
 
     if (dirURL.getProtocol.equals("jar")) {
@@ -51,7 +101,7 @@ object ResourceHelper {
 
       val pathToCheck = path.replaceFirst("/", "")
       while(entries.hasMoreElements) {
-        val name = entries.nextElement().getName.replaceFirst("/", "")
+        val name = entries.nextElement().getName//.replaceFirst("/", "")
         if (name.startsWith(pathToCheck)) { //filter according to the path
           var entry = name.substring(pathToCheck.length())
           val checkSubdir = entry.indexOf("/")
@@ -59,8 +109,9 @@ object ResourceHelper {
             // if it is a subdirectory, we just return the directory name
             entry = entry.substring(0, checkSubdir)
           }
-          if (entry.nonEmpty)
-            result.append(entry)
+          if (entry.nonEmpty) {
+            result.append(pathToCheck + entry)
+          }
         }
       }
       return result.distinct.sorted
@@ -69,236 +120,246 @@ object ResourceHelper {
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
-  /** Structure for a SourceStream coming from compiled content */
-  case class SourceStream(resource: String) {
-    val pipe: Option[InputStream] = {
-      var stream = getClass.getResourceAsStream(resource)
-      if (stream == null)
-        stream = getClass.getClassLoader.getResourceAsStream(resource)
-      Option(stream)
+  def createDatasetFromText(
+                             path: String, clean: Boolean = true,
+                             includeFilename: Boolean = false,
+                             includeRowNumber: Boolean = false,
+                             aggregateByFile: Boolean = false
+                           ): Dataset[_] = {
+    require((includeFilename && aggregateByFile) || (!includeFilename && !aggregateByFile), "AggregateByFile requires includeFileName")
+    import org.apache.spark.sql.functions._
+    import spark.implicits._
+    var data: Dataset[_] = spark.read.textFile(path)
+    if (clean) data = data.as[String].map(_.trim()).filter(_.nonEmpty)
+    if (includeFilename) data = data.withColumn("filename", input_file_name())
+    if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
+      .withColumn("text", concat_ws(" ", $"value"))
+      .drop("value")
+    if (includeRowNumber) {
+      if (includeFilename && !aggregateByFile) {
+        import org.apache.spark.sql.expressions.Window
+        val w = Window.partitionBy("filename").orderBy("filename")
+        data = data.withColumn("id", row_number().over(w))
+      } else {
+        data = data.withColumn("id", monotonically_increasing_id())
+      }
     }
-    val content: Source = pipe.map(p => {
-      Source.fromInputStream(p)("UTF-8")
-    }).getOrElse(Source.fromFile(resource, "UTF-8"))
-    def close(): Unit = {
-      content.close()
-      pipe.foreach(_.close())
-    }
-  }
-
-  /** Checks whether a path points to directory */
-  def pathIsDirectory(path: String): Boolean = {
-    //ToDo: Improve me???
-    if (path.contains(".txt")) false else true
-  }
-
-  /**
-    * General purpose key values parser from source
-    * Currently only text files
-    * @param source File input to streamline
-    * @param format format, for now only txt
-    * @param keySep separator character
-    * @param valueSep values separator in dictionary
-    * @return Dictionary of all values per key
-    */
-  def parseKeyValuesText(
-                         source: String,
-                         format: Format,
-                         keySep: String,
-                         valueSep: String): Map[String, Array[String]] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.map (line => {
-          val kv = line.split (keySep).map (_.trim)
-          val key = kv (0)
-          val values = kv (1).split (valueSep).map (_.trim)
-          (key, values)
-        }).toMap
-        sourceStream.close()
-        res
-    }
+    data.withColumnRenamed("value", "text")
   }
 
   /**
     * General purpose key value parser from source
     * Currently read only text files
-    * @param source File input to streamline
-    * @param format format
-    * @param keySep separator of keys, values taken as single
     * @return
     */
   def parseKeyValueText(
-                          source: String,
-                          format: Format,
-                          keySep: String
+                         er: ExternalResource
                         ): Map[String, String] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.getLines.map (line => {
-          val kv = line.split (keySep).map (_.trim)
+          val kv = line.split (er.options("delimiter")).map (_.trim)
           (kv.head, kv.last)
         }).toMap
         sourceStream.close()
         res
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format"))
+          .options(er.options)
+          .option("delimiter", er.options("delimiter"))
+          .load(er.path)
+          .toDF("key", "value")
+        val keyValueStore = MMap.empty[String, String]
+        dataset.as[(String, String)].foreach{kv => keyValueStore(kv._1) = kv._2}
+        keyValueStore.toMap
+      case _ =>
+        throw new Exception("Unsupported readAs")
     }
   }
 
   /**
     * General purpose line parser from source
     * Currently read only text files
-    * @param source File input to streamline
-    * @param format format
     * @return
     */
-  def parseLinesText(
-                      source: String,
-                      format: Format
+  def parseLines(
+                      er: ExternalResource
                      ): Array[String] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.getLines.toArray
         sourceStream.close()
         res
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val lineStore = spark.sparkContext.collectionAccumulator[String]
+        dataset.as[String].foreach(l => lineStore.add(l))
+        val result = lineStore.value.toArray.map(_.toString)
+        lineStore.reset()
+        result
+      case _ =>
+        throw new Exception("Unsupported readAs")
     }
   }
 
   /**
     * General purpose tuple parser from source
     * Currently read only text files
-    * @param source File input to streamline
-    * @param format format
-    * @param keySep separator of tuples
     * @return
     */
   def parseTupleText(
-                         source: String,
-                         format: Format,
-                         keySep: String
+                         er: ExternalResource
                        ): Array[(String, String)] = {
-    format match {
-      case TXT =>
-        val sourceStream = SourceStream(source)
-        val res = sourceStream.content.getLines.map (line => {
-          val kv = line.split (keySep).map (_.trim)
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
+        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
+          val kv = line.split (er.options("delimiter")).map (_.trim)
           (kv.head, kv.last)
         }).toArray
         sourceStream.close()
         res
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val lineStore = spark.sparkContext.collectionAccumulator[String]
+        dataset.as[String].foreach(l => lineStore.add(l))
+        val result = lineStore.value.toArray.map(line => {
+          val kv = line.toString.split (er.options("delimiter")).map (_.trim)
+          (kv.head, kv.last)
+        })
+        lineStore.reset()
+        result
+      case _ =>
+        throw new Exception("Unsupported readAs")
+    }
+  }
+
+  /**
+    * General purpose tuple parser from source
+    * Currently read only text files
+    * @return
+    */
+  def parseTupleSentences(
+                      er: ExternalResource
+                    ): Array[TaggedSentence] = {
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
+        val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        }).toArray
+        sourceStream.close()
+        result.map(TaggedSentence(_))
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        }).collect
+        result.map(TaggedSentence(_))
+      case _ =>
+        throw new Exception("Unsupported readAs")
     }
   }
 
   /**
     * For multiple values per keys, this optimizer flattens all values for keys to have constant access
-    * @param source File input to streamline
-    * @param format format, for now only txt
-    * @param keySep separator cha
-    * @param valueSep values separator in dictionary
-    * @return
     */
-  def flattenRevertValuesAsKeys(
-                                 source: String,
-                                 format: Format,
-                                 keySep: String,
-                                 valueSep: String): Map[String, String] = {
-    format match {
-      case TXT =>
+  def flattenRevertValuesAsKeys(er: ExternalResource): Map[String, String] = {
+    er.readAs match {
+      case LINE_BY_LINE =>
         val m: MMap[String, String] = MMap()
-        val sourceStream = SourceStream(source)
+        val sourceStream = SourceStream(er.path)
         sourceStream.content.getLines.foreach(line => {
-          val kv = line.split(keySep).map(_.trim)
+          val kv = line.split(er.options("keyDelimiter")).map(_.trim)
           val key = kv(0)
-          val values = kv(1).split(valueSep).map(_.trim)
+          val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
           values.foreach(m(_) = key)
         })
         sourceStream.close()
         m.toMap
-      case _ => throw new IllegalArgumentException("Only txt supported as a file format")
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val valueAsKeys = MMap.empty[String, String]
+        dataset.as[String].foreach(line => {
+          val kv = line.split(er.options("keyDelimiter")).map(_.trim)
+          val key = kv(0)
+          val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
+          values.foreach(v => valueAsKeys(v) = key)
+        })
+        valueAsKeys.toMap
+      case _ =>
+        throw new Exception("Unsupported readAs")
     }
   }
 
   def wordCount(
-                 source: String,
-                 format: Format,
-                 m: MMap[String, Int] = MMap.empty[String, Int].withDefaultValue(0),
-                 clean: Boolean = true,
-                 prefix: Option[String] = None,
-                 f: Option[(List[String] => List[String])] = None
-               ): MMap[String, Int] = {
-    format match {
-      case TXT =>
-        val regex = if (clean) "[a-zA-Z]+".r else "\\S+".r
-        if (pathIsDirectory(source)) {
-          try {
-            new File(source).listFiles()
-              .flatMap(fileName => wordCount(fileName.toString, format, m))
-          } catch {
-            case _: NullPointerException =>
-              val sourceStream = SourceStream(source)
-              sourceStream
-                .content
-                .getLines()
-                .flatMap(fileName => wordCount(source + "/" + fileName, format, m))
-                .toArray
-              sourceStream.close()
-          }
-        } else {
-          val sourceStream = SourceStream(source)
-          sourceStream.content.getLines.foreach(line => {
-            val words = regex.findAllMatchIn(line).map(_.matched).toList
-            if (f.isDefined) {
-              f.get.apply(words).foreach(w => {
-                if (prefix.isDefined) {
-                  m(prefix.get + w) += 1
-                } else {
-                  m(w) += 1
-                }
-              })
-            } else {
-              words.foreach(w => {
-                if (prefix.isDefined) {
-                  m(prefix.get + w) += 1
-                } else {
-                  m(w) += 1
-                }
-              })
-            }
-          })
-          sourceStream.close()
-        }
+                 er: ExternalResource,
+                 m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                 p: Option[PipelineModel] = None
+               ): MMap[String, Long] = {
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
+        val regex = er.options("tokenPattern").r
+        sourceStream.content.getLines.foreach(line => {
+          val words = regex.findAllMatchIn(line).map(_.matched).toList
+            words.foreach(w => {
+              m(w) += 1
+            })
+        })
+        sourceStream.close()
         if (m.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         m
-      case TXTDS =>
+      case SPARK_DATASET =>
         import spark.implicits._
-        val dataset = spark.read.textFile(source)
-        val wordCount = spark.sparkContext.broadcast(MMap.empty[String, Int].withDefaultValue(0))
-        val documentAssembler = new DocumentAssembler()
-          .setInputCol("value")
-        val tokenizer = new RegexTokenizer()
-          .setInputCols("document")
-          .setOutputCol("token")
-        val normalizer = new Normalizer()
-          .setInputCols("token")
-          .setOutputCol("normal")
-        val finisher = new Finisher()
-          .setInputCols("normal")
-          .setOutputCols("finished")
-          .setAnnotationSplitSymbol("--")
-        new Pipeline()
-          .setStages(Array(documentAssembler, tokenizer, normalizer, finisher))
-          .fit(dataset)
-          .transform(dataset)
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val transformation = {
+          if (p.isDefined) {
+            p.get.transform(dataset)
+          } else {
+            val documentAssembler = new DocumentAssembler()
+              .setInputCol("value")
+            val tokenizer = new Tokenizer()
+              .setInputCols("document")
+              .setOutputCol("token")
+              .setTargetPattern(er.options("tokenPattern"))
+            val finisher = new Finisher()
+              .setInputCols("token")
+              .setOutputCols("finished")
+              .setAnnotationSplitSymbol("--")
+            new Pipeline()
+              .setStages(Array(documentAssembler, tokenizer, finisher))
+              .fit(dataset)
+              .transform(dataset)
+          }
+        }
+        val wordCount = MMap.empty[String, Long].withDefaultValue(0)
+        transformation
           .select("finished").as[String]
           .foreach(text => text.split("--").foreach(t => {
-            wordCount.value(t) += 1
+            wordCount(t) += 1
           }))
-        val result = wordCount.value
-        wordCount.destroy()
-        result
+        wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
-
 }

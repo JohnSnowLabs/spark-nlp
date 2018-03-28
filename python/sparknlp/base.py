@@ -1,22 +1,179 @@
 from pyspark import keyword_only
-from pyspark.ml.util import JavaMLReadable, JavaMLWritable
-from pyspark.ml.wrapper import JavaTransformer
+from pyspark.ml.util import JavaMLWritable
+from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
+from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
+from sparknlp.common import ParamsGetters
+from sparknlp.util import AnnotatorJavaMLReadable
+import sparknlp.internal as _internal
 
 
-class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGetters):
+    @keyword_only
+    def __init__(self, classname):
+        super(AnnotatorTransformer, self).__init__()
+        kwargs = self._input_kwargs
+        if 'classname' in kwargs:
+            kwargs.pop('classname')
+        self.setParams(**kwargs)
+        self.__class__._java_class_name = classname
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
+
+class JavaRecursiveEstimator(JavaEstimator):
+
+    def _fit_java(self, dataset, pipeline=None):
+        """
+        Fits a Java model to the input dataset.
+        :param dataset: input dataset, which is an instance of
+                        :py:class:`pyspark.sql.DataFrame`
+        :param params: additional params (overwriting embedded values)
+        :return: fitted Java model
+        """
+        self._transfer_params_to_java()
+        if pipeline:
+            return self._java_obj.recursiveFit(dataset._jdf, pipeline._to_java())
+        else:
+            return self._java_obj.fit(dataset._jdf)
+
+    def _fit(self, dataset, pipeline=None):
+        java_model = self._fit_java(dataset, pipeline)
+        model = self._create_model(java_model)
+        return self._copyValues(model)
+
+    def fit(self, dataset, params=None, pipeline=None):
+        """
+        Fits a model to the input dataset with optional parameters.
+        :param dataset: input dataset, which is an instance of :py:class:`pyspark.sql.DataFrame`
+        :param params: an optional param map that overrides embedded params. If a list/tuple of
+                       param maps is given, this calls fit on each param map and returns a list of
+                       models.
+        :returns: fitted model(s)
+        """
+        if params is None:
+            params = dict()
+        if isinstance(params, (list, tuple)):
+            models = [None] * len(params)
+            for index, model in self.fitMultiple(dataset, params):
+                models[index] = model
+            return models
+        elif isinstance(params, dict):
+            if params:
+                return self.copy(params)._fit(dataset, pipeline=pipeline)
+            else:
+                return self._fit(dataset, pipeline=pipeline)
+        else:
+            raise ValueError("Params must be either a param map or a list/tuple of param maps, "
+                             "but got %s." % type(params))
+
+
+class Annotation:
+    def __init__(self, annotator_type, begin, end, result, metadata):
+        self.annotator_type = annotator_type
+        self.begin = begin
+        self.end = end
+        self.result = result
+        self.metadata = metadata
+
+
+class LightPipeline:
+    def __init__(self, pipelineModel):
+        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
+
+    @staticmethod
+    def _annotation_from_java(java_annotations):
+        annotations = []
+        for annotation in java_annotations:
+            annotations.append(Annotation(annotation.annotatorType(),
+                                          annotation.begin(),
+                                          annotation.end(),
+                                          annotation.result(),
+                                          dict(annotation.metadata()))
+                               )
+        return annotations
+
+    def fullAnnotate(self, target):
+        result = []
+        for row in self._lightPipeline.fullAnnotateJava(target):
+            kas = {}
+            for atype, annotations in row.items():
+                kas[atype] = self._annotation_from_java(annotations)
+            result.append(kas)
+        return result
+
+    def annotate(self, target):
+        def extract(text_annotations):
+            kas = {}
+            for atype, text in text_annotations.items():
+                kas[atype] = text
+            return kas
+
+        annotations = self._lightPipeline.annotateJava(target)
+
+        if type(target) is str:
+            result = extract(annotations)
+        elif type(target) is list:
+            result = []
+            for row_annotations in annotations:
+                result.append(extract(row_annotations))
+        else:
+            raise TypeError("target for annotation may be 'str' or 'list'")
+
+        return result
+
+
+class RecursivePipeline(Pipeline, JavaEstimator):
+    @keyword_only
+    def __init__(self, *args, **kwargs):
+        super(RecursivePipeline, self).__init__(*args, **kwargs)
+        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.RecursivePipeline", self.uid)
+        kwargs = self._input_kwargs
+        self.setParams(**kwargs)
+
+    def _fit(self, dataset):
+        stages = self.getStages()
+        for stage in stages:
+            if not (isinstance(stage, Estimator) or isinstance(stage, Transformer)):
+                raise TypeError(
+                    "Cannot recognize a pipeline stage of type %s." % type(stage))
+        indexOfLastEstimator = -1
+        for i, stage in enumerate(stages):
+            if isinstance(stage, Estimator):
+                indexOfLastEstimator = i
+        transformers = []
+        for i, stage in enumerate(stages):
+            if isinstance(stage, Transformer):
+                transformers.append(stage)
+                dataset = stage.transform(dataset)
+            elif isinstance(stage, JavaRecursiveEstimator):
+                model = stage.fit(dataset, pipeline=PipelineModel(transformers))
+                transformers.append(model)
+                if i < indexOfLastEstimator:
+                    dataset = model.transform(dataset)
+            else:
+                model = stage.fit(dataset)
+                transformers.append(model)
+                if i < indexOfLastEstimator:
+                    dataset = model.transform(dataset)
+            if i <= indexOfLastEstimator:
+                pass
+            else:
+                transformers.append(stage)
+        return PipelineModel(transformers)
+
+
+class DocumentAssembler(AnnotatorTransformer):
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
+    name = 'DocumentAssembler'
 
     @keyword_only
     def __init__(self):
-        super(DocumentAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.DocumentAssembler", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(DocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.DocumentAssembler")
+        self._setDefault(outputCol="document")
 
     @keyword_only
     def setParams(self):
@@ -36,17 +193,15 @@ class DocumentAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
         return self._set(metadataCol=value)
 
 
-class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class TokenAssembler(AnnotatorTransformer):
 
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
+    name = "TokenAssembler"
 
     @keyword_only
     def __init__(self):
-        super(TokenAssembler, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.TokenAssembler", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(TokenAssembler, self).__init__(classname = "com.johnsnowlabs.nlp.TokenAssembler")
 
     @keyword_only
     def setParams(self):
@@ -60,7 +215,7 @@ class TokenAssembler(JavaTransformer, JavaMLReadable, JavaMLWritable):
         return self._set(outputCol=value)
 
 
-class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
+class Finisher(AnnotatorTransformer):
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
@@ -69,13 +224,18 @@ class Finisher(JavaTransformer, JavaMLReadable, JavaMLWritable):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeKeys = Param(Params._dummy(), "includeKeys", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
+    name = "Finisher"
 
     @keyword_only
     def __init__(self):
-        super(Finisher, self).__init__()
-        self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.Finisher", self.uid)
-        kwargs = self._input_kwargs
-        self.setParams(**kwargs)
+        super(Finisher, self).__init__(classname="com.johnsnowlabs.nlp.Finisher")
+        self._setDefault(
+            valueSplitSymbol="#",
+            annotationSplitSymbol="@",
+            cleanAnnotations=True,
+            includeKeys=False,
+            outputAsArray=False
+        )
 
     @keyword_only
     def setParams(self):

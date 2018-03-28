@@ -58,8 +58,6 @@ object WordEmbeddingsIndexer {
 }
 
 
-
-
 private[embeddings] object TextIndexer {
 
   def index(source: Iterator[String], dbFile: String): Unit = {
@@ -78,7 +76,7 @@ private[embeddings] object TextIndexer {
   }
 
   def index(source: String, dbFile: String): Unit = {
-    val lines = Source.fromFile(source).getLines()
+    val lines = Source.fromFile(source)("UTF-8").getLines()
     index(lines, dbFile)
   }
 }

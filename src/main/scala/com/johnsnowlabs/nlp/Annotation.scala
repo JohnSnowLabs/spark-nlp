@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
@@ -15,10 +16,11 @@ import scala.collection.Map
   * @param metadata associated metadata for this annotation
   */
 case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+case class JavaAnnotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: java.util.Map[String, String])
 
 object Annotation {
 
-  private case class AnnotationContainer(__annotation: Array[Annotation])
+  case class AnnotationContainer(__annotation: Array[Annotation])
 
   object extractors {
     /** annotation container ready for extraction */
@@ -63,7 +65,7 @@ object Annotation {
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
-    rawText.length,
+    rawText.length - 1,
     rawText,
     Map.empty[String, String]
   )
@@ -78,6 +80,22 @@ object Annotation {
       .as[AnnotationContainer]
       .map(_.__annotation)
       .collect
+  }
+
+  def collect(dataset: Dataset[Row], column: String, columns: String*): Array[Array[Annotation]] = {
+
+    dataset
+      .select(column, columns :_*)
+      .collect()
+      .map { row =>
+        (0 to columns.length)
+          .flatMap(idx => getAnnotations(row, idx))
+          .toArray
+      }
+  }
+
+  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
   /** dataframe take of a specific annotation column */
@@ -119,5 +137,38 @@ object Annotation {
     }
   }
 
+  private def isInside(a: Annotation, begin: Int, end: Int): Boolean = {
+    a.begin >= begin && a.end <= end
+  }
+
+  private def searchLabel(annotations: Array[Annotation], l: Int, r: Int, begin: Int, end: Int): Seq[Annotation] = {
+
+    def getAnswers(ind: Int) = {
+      val suitable = if (isInside(annotations(ind), begin, end))
+        annotations.toList.drop(ind)
+      else
+        annotations.toList.drop(ind + 1)
+
+      suitable.takeWhile(a => isInside(a, begin, end))
+    }
+
+    val k = (l + r) / 2
+
+    if (l  >= r)
+      getAnswers(l)
+    else if (begin < annotations(k).begin)
+      searchLabel(annotations, l, k - 1, begin, end)
+    else if (begin > annotations(k).begin)
+      searchLabel(annotations, k + 1, r, begin, end)
+    else
+     getAnswers(k)
+  }
+
+  /*
+    Returns Annotations that coverages text segment from begin till end (inclusive)
+   */
+  def searchCoverage(annotations: Array[Annotation], begin: Int, end: Int): Seq[Annotation] = {
+    searchLabel(annotations, 0, annotations.length - 1, begin, end)
+  }
 
 }

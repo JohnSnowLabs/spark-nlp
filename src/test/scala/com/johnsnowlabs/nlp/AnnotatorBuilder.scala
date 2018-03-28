@@ -1,14 +1,19 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParser
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetectorModel
-import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
+import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -25,11 +30,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     documentAssembler.transform(dataset)
   }
 
-  def withTokenizer(dataset: Dataset[Row]): Dataset[Row] = {
-    val regexTokenizer = new RegexTokenizer()
-      .setInputCols(Array("sentence"))
+  def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
+    val regexTokenizer = new Tokenizer()
       .setOutputCol("token")
-    regexTokenizer.transform(withFullPragmaticSentenceDetector(dataset))
+    if (sbd)
+      regexTokenizer.setInputCols(Array("sentence")).transform(withFullPragmaticSentenceDetector(dataset))
+    else
+      regexTokenizer.setInputCols(Array("document")).transform(dataset)
   }
 
   def withFullStemmer(dataset: Dataset[Row]): Dataset[Row] = {
@@ -39,10 +46,19 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     stemmer.transform(withTokenizer(dataset))
   }
 
-  def withFullNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
+  def withFullNormalizer(dataset: Dataset[Row], lowerCase: Boolean = true): Dataset[Row] = {
     val normalizer = new Normalizer()
       .setInputCols(Array("token"))
       .setOutputCol("normalized")
+      .setLowercase(lowerCase)
+    normalizer.transform(withTokenizer(dataset))
+  }
+
+  def withCaseSensitiveNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+      .setLowercase(false)
     normalizer.transform(withTokenizer(dataset))
   }
 
@@ -50,45 +66,50 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-      .setLemmaDict("/lemma-corpus/AntBNC_lemmas_ver_001.txt")
+      .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
     val tokenized = withTokenizer(dataset)
-    lemmatizer.transform(tokenized)
+    lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullEntityExtractor(dataset: Dataset[Row], insideSentences: Boolean = true): Dataset[Row] = {
+  def withFullEntityExtractor(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new EntityExtractor()
-      .setInputCols("sentence", "normalized")
-      .setInsideSentences(insideSentences)
-      .setEntitiesPath("/entity-extractor/test-phrases.txt")
+      .setInputCols("normalized")
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
-    entityExtractor.transform(
-      withFullNormalizer(
-        withTokenizer(dataset)))
+    val data = withFullNormalizer(
+      withTokenizer(dataset, sbd), lowerCase)
+    entityExtractor.fit(data).transform(data)
   }
 
   def withFullPragmaticSentenceDetector(dataset: Dataset[Row]): Dataset[Row] = {
-    val sentenceDetector = new SentenceDetectorModel()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
     sentenceDetector.transform(dataset)
   }
 
+  var posTagger: PerceptronModel = null
+
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val posTagger = new PerceptronApproach()
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("pos")
-    posTagger
-      .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
-      .transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    if (posTagger == null) {
+     posTagger = new PerceptronApproach()
+        .setInputCols(Array("sentence", "token"))
+        .setOutputCol("pos")
+         .setNIterations(1)
+        .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+        .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+    }
+
+    posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
   def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
+      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
-    if (rules.nonEmpty) regexMatcher.setRules(rules)
-    regexMatcher.transform(dataset)
+    regexMatcher.fit(dataset).transform(dataset)
   }
 
   def withDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
@@ -102,20 +123,22 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withPragmaticSentimentDetector(dataset: Dataset[Row]): Dataset[Row] = {
-    val sentimentDetector = new SentimentDetectorModel
+    val data = withFullPOSTagger(withFullLemmatizer(dataset))
+    val sentimentDetector = new SentimentDetector
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-    sentimentDetector.transform(withFullPOSTagger(withFullLemmatizer(dataset)))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
+    sentimentDetector.fit(data).transform(data)
   }
 
   def withViveknSentimentAnalysis(dataset: Dataset[Row]): Dataset[Row] = {
     new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSourcePath("/vivekn/positive/1.txt")
-      .setNegativeSourcePath("/vivekn/negative/1.txt")
-      .setCorpusPrune(false)
+      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setCorpusPrune(0)
       .fit(dataset)
       .transform(withTokenizer(dataset))
   }
@@ -124,40 +147,108 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
-      .setCorpusPath("./src/test/resources/spell/sherlockholmes.txt")
-      .setCorpusFormat(inputFormat)
+      .setDictionary("src/test/resources/spell/words.txt")
+      .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
   }
 
   def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
-    new DependencyParser()
+    new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
+      .setSource(ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
       .fit(df)
       .transform(df)
   }
 
   def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     getNerCrfModel(dataset).transform(df)
   }
 
   def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
-    val df = withFullPOSTagger(withTokenizer(dataset))
+    val df = withFullPOSTagger(dataset)
 
     new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setDatsetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
-      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
       .fit(df)
+  }
+
+  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withFullPOSTagger(dataset)
+
+    getNerDLModel(dataset).transform(df)
+  }
+
+  def getNerDLModel(dataset: Dataset[Row]): NerDLModel = {
+    val df = withFullPOSTagger(dataset)
+
+    new NerDLApproach()
+      .setInputCols("sentence", "token")
+      .setLabelColumn("label")
+      .setMaxEpochs(100)
+      .setRandomSeed(0)
+      .setPo(0.01f)
+      .setLr(0.1f)
+      .setBatchSize(9)
+      .setOutputCol("ner")
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
+      .fit(df)
+  }
+
+  /* generate a set of random embeddings from tokens in dataset
+  *  rowText is the column containing the text.
+  *  returns the path of the file
+  *
+  *  usage,
+  *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
+  * */
+  private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
+    import java.io.{File, PrintWriter}
+
+    import org.apache.spark.sql.functions._
+    val random = scala.util.Random
+    val filename = s"${rowText}_${dim}.txt"
+    val pw = new PrintWriter(new File(filename))
+
+    val tokens = dataset.toDF().select(col(rowText)).
+      collect().flatMap(row=> row.getString(0).split(" ")).
+      distinct
+
+    def randomDoubleArrayStr = (1 to dim).map{_ => random.nextDouble}.mkString(" ")
+
+    for (token <- tokens)
+      pw.println(s"$token $randomDoubleArrayStr")
+
+    filename
+  }
+
+  def getAssertionLogregModel(dataset: Dataset[Row]) = {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("sentence")
+      .setOutputCol("document")
+
+    val assertion = new AssertionLogRegApproach()
+      .setLabelCol("label")
+      .setInputCols("document")
+      .setOutputCol("assertion")
+      .setReg(0.01)
+      .setBefore(11)
+      .setAfter(13)
+      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.TEXT)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
+    pipeline
   }
 }
 

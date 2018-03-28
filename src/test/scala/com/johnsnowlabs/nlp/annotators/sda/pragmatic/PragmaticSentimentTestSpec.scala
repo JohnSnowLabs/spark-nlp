@@ -2,7 +2,8 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -19,13 +20,15 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
     val assembled = documentAssembler.transform(data)
 
-    val sentimentDetector = new SentimentDetectorModel()
+    val sentimentDetector = new SentimentDetector()
 
     val readyData = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withFullLemmatizer(assembled))
     
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .fit(readyData)
       .transform(readyData)
 
     import Annotation.extractors._
@@ -40,7 +43,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
     val dataFromMemory = readyData.persist(StorageLevel.MEMORY_AND_DISK)
     info(s"data in memory is of size: ${dataFromMemory.count}")
-    val resultFromMemory = sentimentDetector.transform(dataFromMemory)
+    val resultFromMemory = sentimentDetector.fit(dataFromMemory).transform(dataFromMemory)
 
     val date3 = new Date().getTime
     resultFromMemory.show
@@ -61,7 +64,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
     "I recommend others to avoid because it is too expensive"
 
   val sentimentSentences = {
-    new RegexTokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
+    new Tokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
   }
 
   "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)
@@ -72,7 +75,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
   )
 
   "A SentimentDetector" should "be readable and writable" in {
-    val sentimentDetector = new SentimentDetectorModel()
+    val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)

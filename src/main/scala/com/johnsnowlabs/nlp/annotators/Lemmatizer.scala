@@ -1,13 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.common.StringMapParam
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import com.typesafe.config.Config
-import com.johnsnowlabs.nlp.util.ConfigHelper
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
+import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-
-import scala.collection.JavaConverters._
+import org.apache.spark.sql.Dataset
 
 /**
   * Created by saif on 28/04/17.
@@ -18,11 +16,14 @@ import scala.collection.JavaConverters._
   * @param uid required internal uid provided by constructor
   * @@ lemmaDict: A dictionary of predefined lemmas must be provided
   */
-class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
+class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val lemmaDict: StringMapParam = new StringMapParam(this, "lemmaDict", "provide a lemma dictionary")
+  override val description: String = "Retrieves the significant part of a word"
+
+  val dictionary: ExternalResourceParam = new ExternalResourceParam(this, "dictionary", "lemmatizer external dictionary." +
+    " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text")
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -30,48 +31,27 @@ class Lemmatizer(override val uid: String) extends AnnotatorModel[Lemmatizer] {
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))
 
-  def getLemmaDict: Map[String, String] = $(lemmaDict)
+  def getDictionary: ExternalResource = $(dictionary)
 
-  def setLemmaDict(dictionary: String): this.type = {
-    set(lemmaDict, Lemmatizer.retrieveLemmaDict(dictionary))
+  def setDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("keyDelimiter") && value.options.contains("valueDelimiter"),
+      "Lemmatizer dictionary requires options with 'keyDelimiter' and 'valueDelimiter'")
+    set(dictionary, value)
   }
 
-  def setLemmaDictHMap(dictionary: java.util.HashMap[String, String]): this.type = {
-    set(lemmaDict, dictionary.asScala.toMap)
+  def setDictionary(
+                     path: String,
+                     keyDelimiter: String,
+                     valueDelimiter: String,
+                     readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                     options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(dictionary, ExternalResource(path, readAs, options ++ Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
+    new LemmatizerModel()
+      .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
   }
 
-  /**
-    * @return one to one annotation from token to a lemmatized word, if found on dictionary or leave the word as is
-    */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { tokenAnnotation =>
-      val token = tokenAnnotation.result
-      Annotation(
-        annotatorType,
-        tokenAnnotation.begin,
-        tokenAnnotation.end,
-        $(lemmaDict).getOrElse(token, token),
-        tokenAnnotation.metadata
-      )
-    }
-  }
 }
 
-object Lemmatizer extends DefaultParamsReadable[Lemmatizer] {
-
-  private val config: Config = ConfigHelper.retrieve
-
-  /**
-    * Retrieves Lemma dictionary from configured compiled source set in configuration
-    * @return a Dictionary for lemmas
-    */
-  protected def retrieveLemmaDict(
-                         lemmaFilePath: String = "__default",
-                         lemmaFormat: String = config.getString("nlp.lemmaDict.format"),
-                         lemmaKeySep: String = config.getString("nlp.lemmaDict.kvSeparator"),
-                         lemmaValSep: String = config.getString("nlp.lemmaDict.vSeparator")
-                       ): Map[String, String] = {
-    val filePath = if (lemmaFilePath == "__default") config.getString("nlp.lemmaDict.file") else lemmaFilePath
-    ResourceHelper.flattenRevertValuesAsKeys(filePath, lemmaFormat, lemmaKeySep, lemmaValSep)
-  }
-}
+object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
