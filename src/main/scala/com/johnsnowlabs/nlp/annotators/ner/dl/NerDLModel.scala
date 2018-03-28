@@ -102,7 +102,7 @@ class NerDLModel(override val uid: String)
   }
 }
 
-trait ReadsGraph extends ParamsAndFeaturesReadable[NerDLModel] {
+trait ReadsGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {
 
   override val tfFile = "tensorflow"
 
