@@ -9,7 +9,6 @@ from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
-from sparknlp.pretrained import ResourceDownloader
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -276,6 +275,7 @@ class LemmatizerModel(_AnnotatorModel):
 
     @staticmethod
     def retrieve(name="lemma_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
@@ -365,6 +365,7 @@ class PerceptronModel(_AnnotatorModel):
 
     @staticmethod
     def retrieve(name="pos_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
@@ -543,6 +544,7 @@ class NorvigSweetingModel(_AnnotatorModel):
 
     @staticmethod
     def retrieve(name="spell_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
@@ -632,6 +634,7 @@ class NerCrfModel(_AnnotatorModel):
 
     @staticmethod
     def retrieve(name="ner_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
 
