@@ -633,7 +633,7 @@ documentAssembler = new DocumentAssembler()
                                     </div>
                                 </div>
 
-                                <h4 id="EntityExtractor" class="section-block"> EntityExtractor: Phrase matching</h4>
+                                <h4 id="TextMatcher" class="section-block"> TextMatcher: Phrase matching</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -661,7 +661,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">entity_extractor = EntityExtractor() \
+                                            <pre><code class="language-python">entity_extractor = TextMatcher() \
  .setInputCols(["inputCol"])\
  .setOutputCol("entity")\
  .setEntities("/path/to/file/myentities.txt")
@@ -687,7 +687,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val entityExtractor = new EntityExtractor()
+                                            <pre><code class="language-python">val entityExtractor = new TextMatcher()
  .setInputCols("inputCol")
  .setOutputCol("entity")
  .setEntities("/path/to/file/myentities.txt")
@@ -1399,7 +1399,7 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#Stemmer">Stemmer</a></li>
                                     <li><a class="scrollto" href="#Lemmatizer">Lemmatizer</a></li>
                                     <li><a class="scrollto" href="#RegexMatcher">Regex Matcher</a></li>
-                                    <li><a class="scrollto" href="#EntityExtractor">Entity Extractor</a></li>
+                                    <li><a class="scrollto" href="#TextMatcher">Entity Extractor</a></li>
                                     <li><a class="scrollto" href="#DateMatcher">Date Matcher</a></li>
                                     <li><a class="scrollto" href="#SentenceDetector">Sentence Detector</a></li>
                                     <li><a class="scrollto" href="#POSTagger">Part of Speech Tagger</a></li>

@@ -83,7 +83,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedPipeline.transform(data).show(1)
+    loadedPipeline.transform(data).show(20)
 
     succeed
   }
