@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
+import com.johnsnowlabs.nlp.annotators.ner.dl.{HasGraph, NerDLModel, ReadsGraph}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
@@ -73,5 +74,10 @@ object annotator {
   object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingApproach]
   type NorvigSweetingModel = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
   object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting
+
+  type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+  object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with HasGraph
+  type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+  object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsGraph
 
 }
