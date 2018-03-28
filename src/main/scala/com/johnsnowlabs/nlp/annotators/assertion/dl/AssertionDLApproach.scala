@@ -107,7 +107,9 @@ class AssertionDLApproach(override val uid: String)
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
       setStart(getOrDefault(start)).
-      setEnd(getOrDefault(end))
+      setEnd(getOrDefault(end)).
+      setInputCols(getOrDefault(inputCols))
+
 
   }
 
