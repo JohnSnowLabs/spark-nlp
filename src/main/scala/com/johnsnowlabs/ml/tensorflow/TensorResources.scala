@@ -1,5 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import java.nio.LongBuffer
 import org.tensorflow.Tensor
 import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
@@ -26,5 +27,14 @@ class TensorResources {
     }
 
     tensors.clear()
+  }
+}
+
+object TensorResources {
+
+  def extractInts(source: Tensor[_], size: Int): Array[Int] = {
+    val buffer = LongBuffer.allocate(size)
+    source.writeTo(buffer)
+    buffer.array().map(item => item.toInt)
   }
 }

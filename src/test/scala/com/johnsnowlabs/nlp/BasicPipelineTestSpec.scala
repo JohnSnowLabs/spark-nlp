@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.pretrained.pipelines.en.BasicPipeline
+import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 

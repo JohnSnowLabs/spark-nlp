@@ -1,14 +1,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.LongBuffer
 import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLLogger
-import org.tensorflow.{Graph, Session, Tensor}
-
+import org.tensorflow.{Graph, Session}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -17,10 +13,11 @@ import scala.util.Random
 class TensorflowNer
 (
   val tensorflow: TensorflowWrapper,
-  val encoder: DatasetEncoder,
+  val encoder: NerDatasetEncoder,
   val batchSize: Int,
-  val verboseLevel: Verbose.Value
-) extends NerDLLogger {
+  override val verboseLevel: Verbose.Value
+) extends Logging {
+
 
   private val charIdsKey = "char_repr/char_ids"
   private val wordLengthsKey = "char_repr/word_lengths"
@@ -34,13 +31,6 @@ class TensorflowNer
   private val lossKey = "inference/loss"
   private val trainingKey = "training_1/Momentum"
   private val predictKey = "context_repr/predicted_labels"
-
-
-  private def extractInts(source: Tensor[_], size: Int): Array[Int] = {
-    val buffer = LongBuffer.allocate(size)
-    source.writeTo(buffer)
-    buffer.array().map(item => item.toInt)
-  }
 
   def predict(dataset: Array[TokenizedSentence]): Array[Array[String]] = {
 
@@ -66,7 +56,7 @@ class TensorflowNer
 
       tensors.clearTensors()
 
-      val tagIds = extractInts(calculated.get(0), batchSize * batchInput.maxLength)
+      val tagIds = TensorResources.extractInts(calculated.get(0), batchSize * batchInput.maxLength)
       val tags = encoder.decodeOutputData(tagIds)
       val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
 
@@ -153,6 +143,7 @@ class TensorflowNer
       }
     }
   }
+
 
   def calcStat(correct: Int, predicted: Int, predictedCorrect: Int): (Float, Float, Float) = {
     // prec = (predicted & correct) / predicted
