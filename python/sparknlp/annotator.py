@@ -274,7 +274,7 @@ class LemmatizerModel(_AnnotatorModel):
     name = "LemmatizerModel"
 
     @staticmethod
-    def retrieve(name="lemma_fast", language="en"):
+    def pretrained(name="lemma_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
 
@@ -364,7 +364,7 @@ class PerceptronModel(_AnnotatorModel):
     name = "PerceptronModel"
 
     @staticmethod
-    def retrieve(name="pos_fast", language="en"):
+    def pretrained(name="pos_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
@@ -543,7 +543,7 @@ class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
     @staticmethod
-    def retrieve(name="spell_fast", language="en"):
+    def pretrained(name="spell_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
@@ -633,7 +633,7 @@ class NerCrfModel(_AnnotatorModel):
     name = "NerCrfModel"
 
     @staticmethod
-    def retrieve(name="ner_fast", language="en"):
+    def pretrained(name="ner_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerCrfModel, name, language)
 

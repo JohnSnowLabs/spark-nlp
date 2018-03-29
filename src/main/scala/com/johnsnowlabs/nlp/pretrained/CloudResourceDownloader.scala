@@ -1,4 +1,4 @@
-package com.johnsnowlabs.pretrained
+package com.johnsnowlabs.nlp.pretrained
 
 import java.io.File
 import java.nio.file.{Files, Paths}

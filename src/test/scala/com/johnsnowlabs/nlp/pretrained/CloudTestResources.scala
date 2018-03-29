@@ -1,4 +1,4 @@
-package com.johnsnowlabs.pretrained
+package com.johnsnowlabs.nlp.pretrained
 
 import java.sql.Timestamp
 import com.johnsnowlabs.util.Version
