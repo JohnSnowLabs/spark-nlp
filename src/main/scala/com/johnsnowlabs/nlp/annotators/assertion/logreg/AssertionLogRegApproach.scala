@@ -66,7 +66,7 @@ class AssertionLogRegApproach(val uid: String)
 
   /* send this to common place */
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
-      document.head.getString(3)
+    document.head.getString(3)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
@@ -89,9 +89,9 @@ class AssertionLogRegApproach(val uid: String)
 
     /* infer labels and assign a number to each */
     val labelMappings: Map[String, Double] = dataset.select(labelCol).distinct.collect
-        .map(row => row.getAs[String](labelCol)).zipWithIndex
-        .map{case (labelK, idx) => (labelK, idx.toDouble)}
-        .toMap
+      .map(row => row.getAs[String](labelCol)).zipWithIndex
+      .map{case (labelK, idx) => (labelK, idx.toDouble)}
+      .toMap
 
     val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 

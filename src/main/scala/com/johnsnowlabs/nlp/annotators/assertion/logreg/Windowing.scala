@@ -1,11 +1,10 @@
+
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 
-import scala.collection.mutable
 
 /**
   * Created by jose on 24/11/17.
@@ -73,9 +72,9 @@ trait Windowing extends Serializable {
   }
 
   def applyWindowUdf =
-    //here 's' and 'e' are token numbers for start and end of target when split on " "
+  //here 's' and 'e' are token numbers for start and end of target when split on " "
     udf { (doc:String, targetTerm:String, s:Int, e:Int) =>
-       Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
+      Vectors.dense(applyWindow(wordVectors.get)(doc, targetTerm, s, e))
     }
 
   def l2norm(xs: Array[Double]):Double = {

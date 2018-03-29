@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosT
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasWordEmbeddings}
-import com.johnsnowlabs.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util._
 

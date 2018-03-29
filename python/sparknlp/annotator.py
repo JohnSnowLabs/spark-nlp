@@ -19,8 +19,8 @@ pos = sys.modules[__name__]
 perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
 crf = sys.modules[__name__]
-dl = sys.modules[__name__]
 assertion = sys.modules[__name__]
+dl = sys.modules[__name__]
 logreg = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
@@ -274,7 +274,7 @@ class LemmatizerModel(_AnnotatorModel):
     name = "LemmatizerModel"
 
     @staticmethod
-    def retrieve(name="lemma_fast", language="en"):
+    def pretrained(name="lemma_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
 
@@ -364,7 +364,7 @@ class PerceptronModel(_AnnotatorModel):
     name = "PerceptronModel"
 
     @staticmethod
-    def retrieve(name="pos_fast", language="en"):
+    def pretrained(name="pos_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language)
 
@@ -543,7 +543,7 @@ class NorvigSweetingModel(_AnnotatorModel):
     name = "NorvigSweetingModel"
 
     @staticmethod
-    def retrieve(name="spell_fast", language="en"):
+    def pretrained(name="spell_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
@@ -633,7 +633,7 @@ class NerCrfModel(_AnnotatorModel):
     name = "NerCrfModel"
 
     @staticmethod
-    def retrieve(name="ner_fast", language="en"):
+    def pretrained(name="ner_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerCrfModel, name, language)
 
@@ -641,7 +641,6 @@ class NerCrfModel(_AnnotatorModel):
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    # the document where we're extracting the assertion
     target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
     maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
     regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
@@ -765,3 +764,62 @@ class NerConverter(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
+
+class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
+
+    label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
+    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
+
+    start = Param(Params._dummy(), "start", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    end = Param(Params._dummy(), "end", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Size for each batch in the optimization process", TypeConverters.toInt)
+    epochs = Param(Params._dummy(), "epochs", "Number of epochs for the optimization process", TypeConverters.toInt)
+
+    learningRate = Param(Params._dummy(), "learningRate", "Learning rate for the optimization process", TypeConverters.toFloat)
+    dropout = Param(Params._dummy(), "dropout", "Dropout at the output of each layer", TypeConverters.toFloat)
+
+    def setLabelCol(self, label):
+        self._set(label = label)
+        return self
+
+    def setTargetCol(self, t):
+        self._set(target = t)
+        return self
+
+    def setStart(self, s):
+        self._set(startParam = s)
+        return self
+
+    def setEnd(self, e):
+        self._set(endParam = e)
+        return self
+
+    def setBatchSize(self, size):
+        self._set(batchSize = size)
+        return self
+
+    def setEpochs(self, number):
+        self._set(epochs = number)
+        return self
+
+    def setLearningRate(self, lamda):
+        self._set(learningRate = lamda)
+        return self
+
+    def setDropout(self, rate):
+        self._set(dropout = rate)
+        return self
+    
+    def _create_model(self, java_model):
+        return AssertionDLModel(java_model)
+
+    @keyword_only
+    def __init__(self):
+        super(AssertionDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach")
+        self._setDefault(label="label", target="target", start="start", end="end", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
+
+
+class AssertionDLModel(_AnnotatorModel):
+    name = "AssertionDLModel"
+

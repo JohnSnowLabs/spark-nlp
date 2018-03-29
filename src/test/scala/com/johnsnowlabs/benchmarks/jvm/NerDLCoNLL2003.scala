@@ -4,7 +4,8 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -37,8 +38,8 @@ object NerDLCoNLL2003 extends App {
   val tags = trainDataset.flatMap(s => s._1.labels).distinct
   val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.toCharArray)).distinct
 
-  val settings = DatasetEncoderParams(tags.toList, chars.toList)
-  val encoder = new DatasetEncoder(embeddings.getEmbeddings, settings)
+  val settings = new DatasetEncoderParams(tags.toList, chars.toList)
+  val encoder = new NerDatasetEncoder(embeddings.getEmbeddings, settings)
 
   val graph = new Graph()
   val session = new Session(graph)

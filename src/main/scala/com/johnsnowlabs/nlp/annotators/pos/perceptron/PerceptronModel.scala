@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.util.Identifiable
 
 /**

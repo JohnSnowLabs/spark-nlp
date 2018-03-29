@@ -25,7 +25,7 @@ class BasicPipeline:
         return _Model.annotate(BasicPipeline, "pipeline_basic", target, target_column)
 
     @staticmethod
-    def retrieve():
+    def pretrained():
         if not BasicPipeline.model:
             BasicPipeline.model = ResourceDownloader().downloadPipeline("pipeline_basic", "en")
         return BasicPipeline.model
@@ -39,7 +39,21 @@ class AdvancedPipeline:
         return _Model.annotate(AdvancedPipeline, "pipeline_advanced", target, target_column)
 
     @staticmethod
-    def retrieve():
+    def pretrained():
         if not BasicPipeline.model:
             AdvancedPipeline.model = ResourceDownloader().downloadPipeline("pipeline_advanced", "en")
+        return AdvancedPipeline.model
+
+
+class SentimentPipeline:
+    model = None
+
+    @staticmethod
+    def annotate(target, target_column=None):
+        return _Model.annotate(AdvancedPipeline, "pipeline_vivekn", target, target_column)
+
+    @staticmethod
+    def pretrained():
+        if not BasicPipeline.model:
+            AdvancedPipeline.model = ResourceDownloader().downloadPipeline("pipeline_vivekn", "en")
         return AdvancedPipeline.model
