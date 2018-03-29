@@ -1,7 +1,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.annotators.assertion.Datapoint
+import scala.util.Random
 
-class DatasetEncoder
+class NerDatasetEncoder
 (
   val embeddingsResolver: Function[String, Array[Float]],
   val params: DatasetEncoderParams
@@ -35,12 +37,7 @@ class DatasetEncoder
       value
   }
 
-  /**
-    * Converts input data to format acceptable by Tensorflow Model
-    * @param sentences Batch of sentences. Every sentence - is array of words.
-    * @return Data that is acceptable by Tensorflow Model.
-    */
-  def encodeInputData(sentences: Array[Array[String]]): Batch = {
+  def encodeInputData(sentences: Array[Array[String]]): NerBatch = {
     val batchSize = sentences.length
     val sentenceLengths = sentences.map(s => s.length)
     val maxSentenceLength = sentenceLengths.max
@@ -75,7 +72,7 @@ class DatasetEncoder
         }.toArray
       }.toArray
 
-    new Batch(
+    new NerBatch(
       wordEmbeddings,
       charIds,
       wordLengths,
@@ -98,6 +95,7 @@ class DatasetEncoder
 
   /**
     * Converts Tag Identifiers to Source Names
+    *
     * @param tagIds Tag Ids encoded for Tensorflow Model.
     * @return Tag names
     */
@@ -107,8 +105,9 @@ class DatasetEncoder
 
   /**
     * Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
+    *
     * @param tags 2-dimensional tensor in plain array
-    * @param sentenceLength Every sentence legnth (number of words).
+    * @param sentenceLength Every sentence length (number of words).
     * @return List of tags for each sentence
     */
   def convertBatchTags(tags: Array[String], sentenceLength: Array[Int]): Array[Array[String]] = {
@@ -123,11 +122,77 @@ class DatasetEncoder
   }
 }
 
+class AssertionDatasetEncoder
+(
+  val embeddingsResolver: Function[String, Array[Float]],
+  val params: DatasetEncoderParams,
+  val extraFeatSize: Int = 10
+) {
+
+  val nonTargetMark = normalize(Array.fill(extraFeatSize)(0.1f))
+  val targetMark = normalize(Array.fill(extraFeatSize)(-0.1f))
+
+  def decodeOutputData(tagIds: Array[Int]) = tagIds.map(params.tags(_))
+
+  def randomSplit(dataset:Seq[Datapoint], fraction: Float) = {
+    val shuffled = Random.shuffle(dataset)
+    val trainSize = (fraction * shuffled.length).toInt
+    val testSize = (shuffled.length - trainSize).toInt
+    (shuffled.take(trainSize), shuffled.takeRight(testSize))
+  }
+
+  def getOrElse[T](source: Array[T], i: Int, value: => T): T = {
+    if (i < source.length)
+      source(i)
+    else
+      value
+  }
+
+  def normalize(vec: Array[Float]) : Array[Float] = {
+    val norm = l2norm(vec) + 1.0f
+    vec.map(element => element / norm)
+  }
+  def l2norm(xs: Array[Float]):Float = {
+    import math._
+    sqrt(xs.map{ x => pow(x, 2)}.sum).toFloat
+  }
+
+  /* at this point the graph does not support feeding a dynamic maxSentenceLength */
+  def encodeInputData(sentences: Array[Array[String]], start: Array[Int], end:Array[Int], maxSentenceLength:Int = 250): AssertionBatch = {
+    val batchSize = sentences.length
+
+    val wordEmbeddings =
+      (sentences, start, end).zipped.map {(sentence, s, e) =>
+        Range(0, maxSentenceLength).map{j =>
+          val word = getOrElse(sentence, j, "")
+          if ((s to e).contains(j))
+              normalize(embeddingsResolver(word)) ++ targetMark
+          else
+              normalize(embeddingsResolver(word)) ++ nonTargetMark
+        }.toArray
+      }
+
+    new AssertionBatch(
+      wordEmbeddings,
+      sentences.map(_.length),
+      start,
+      end,
+      maxSentenceLength
+    )
+  }
+
+  def encodeOneHot(label: String): Array[Float] = {
+    val array = Array.fill(params.tags.size)(0.0f)
+    array(params.tags.indexOf(label)) = 1.0f
+    array
+  }
+}
+
 
 /**
   * Batch that contains data in Tensorflow input format.
   */
-class Batch (
+class NerBatch (
   // Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
   val wordEmbeddings: Array[Array[Array[Float]]],
 
@@ -142,6 +207,22 @@ class Batch (
 
   // Max length of sentence
   val maxLength: Int
+)
+
+class AssertionBatch (
+  val wordEmbeddings: Array[Array[Array[Float]]],
+
+  val sentenceLengths: Array[Int],
+
+  // The index of the first token of the target in each of the sentences of this batch
+  val start: Array[Int],
+
+  // The index of the last token of the target in each of the sentences of this batch
+  val end: Array[Int],
+
+  // Max length of sentence
+  val maxLength: Int
+
 )
 
 case class DatasetEncoderParams

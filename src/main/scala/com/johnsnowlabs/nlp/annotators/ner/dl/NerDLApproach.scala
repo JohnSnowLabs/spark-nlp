@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 import java.io.File
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -29,7 +29,7 @@ class NerDLApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[NerDLApproach, NerDLModel]
     with HasRecursiveFit[NerDLModel]
     with NerApproach[NerDLApproach]
-    with NerDLLogger {
+    with Logging {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -66,8 +66,6 @@ class NerDLApproach(override val uid: String)
 
   def setTestDataset(er: ExternalResource) = set(testDataset, er)
 
-  override def verboseLevel = Verbose($(verbose))
-
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 50,
@@ -77,6 +75,8 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id
   )
+
+  override val verboseLevel = Verbose($(verbose))
 
   private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
     :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
@@ -153,7 +153,7 @@ class NerDLApproach(override val uid: String)
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.toCharArray)).distinct
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList)
-    val encoder = new DatasetEncoder(
+    val encoder = new NerDatasetEncoder(
       embeddings.get.getEmbeddings,
       settings
     )
@@ -193,7 +193,7 @@ class NerDLApproach(override val uid: String)
   }
 }
 
-trait HasGraph  {
+trait WithGraphResolver  {
   def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int): String = {
     val files = ResourceHelper.listResourceDirectory("/ner-dl")
 
@@ -255,4 +255,4 @@ trait HasGraph  {
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with HasGraph
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver

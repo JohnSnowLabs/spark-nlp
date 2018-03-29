@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.util.Identifiable
 
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {

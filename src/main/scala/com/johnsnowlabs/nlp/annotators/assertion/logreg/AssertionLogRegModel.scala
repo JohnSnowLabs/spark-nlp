@@ -20,7 +20,7 @@ import scala.collection.mutable
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-    with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
+  with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
@@ -41,9 +41,9 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   override lazy val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 
   setDefault(
-     beforeParam -> 11,
-     afterParam -> 13
-    )
+    beforeParam -> 11,
+    afterParam -> 13
+  )
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 

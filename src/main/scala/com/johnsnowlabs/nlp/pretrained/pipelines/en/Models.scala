@@ -1,6 +1,6 @@
-package com.johnsnowlabs.pretrained.pipelines.en
+package com.johnsnowlabs.nlp.pretrained.pipelines.en
 
-import com.johnsnowlabs.pretrained.pipelines.PretrainedPipeline
+import com.johnsnowlabs.nlp.pretrained.pipelines.PretrainedPipeline
 
 case class BasicPipeline() extends PretrainedPipeline("pipeline_basic", Some("en"))
 

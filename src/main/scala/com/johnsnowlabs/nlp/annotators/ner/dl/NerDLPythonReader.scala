@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{NerDatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -55,7 +55,7 @@ object NerDLModelPythonReader {
     val labels = readTags(folder)
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
-    val encoder = new DatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
+    val encoder = new NerDatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
     val tf = TensorflowWrapper.read(folder, false)
 
     FileHelper.delete(tmpFolder)

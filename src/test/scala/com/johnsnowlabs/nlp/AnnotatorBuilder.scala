@@ -95,7 +95,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
      posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
-         .setNIterations(1)
+        .setNIterations(1)
         .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
     }

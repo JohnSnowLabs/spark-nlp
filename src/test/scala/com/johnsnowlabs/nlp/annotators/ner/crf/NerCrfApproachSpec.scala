@@ -12,7 +12,6 @@ class NerCrfApproachSpec extends FlatSpec {
   // Dataset ready for NER tagger
   val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(nerSentence)
   System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
-
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
   "NerCrfApproach" should "be serializable and deserializable correctly" in {
