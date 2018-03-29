@@ -239,16 +239,3 @@ class TensorflowNer
 }
 
 
-object TensorflowNer {
-
-  def apply(encoder: DatasetEncoder, batchSize: Int, verbose: Verbose.Value) = {
-    val graph = new Graph()
-    val session = new Session(graph)
-    graph.importGraphDef(Files.readAllBytes(Paths.get("char_cnn_blstm_30_25_100_200.pb")))
-
-    val tf = new TensorflowWrapper(session, graph)
-
-    new TensorflowNer(tf, encoder, batchSize, verbose)
-  }
-}
-

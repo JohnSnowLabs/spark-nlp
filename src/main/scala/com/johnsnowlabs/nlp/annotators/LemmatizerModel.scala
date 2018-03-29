@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.pretrained.ResourceDownloader
 import org.apache.spark.ml.util.Identifiable
 
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
@@ -35,4 +36,9 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
 
 }
 
-object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel]
+trait PretrainedLemmatizer {
+  def pretrained(name: String = "lemma_fast", language: Option[String] = Some("en")): LemmatizerModel =
+    ResourceDownloader.downloadModel(LemmatizerModel, name, language)
+}
+
+object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer

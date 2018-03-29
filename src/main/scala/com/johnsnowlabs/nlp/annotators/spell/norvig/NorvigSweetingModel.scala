@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.pretrained.ResourceDownloader
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
@@ -241,4 +242,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 }
 
-object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel]
+trait PretrainedNorvigSweeting {
+  def pretrained(name: String = "spell_fast", language: Option[String] = Some("en")): NorvigSweetingModel =
+    ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
+}
+
+object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting

@@ -1,4 +1,4 @@
-package com.johnsnowlabs.downloader
+package com.johnsnowlabs.pretrained
 
 import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
