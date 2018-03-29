@@ -1,4 +1,4 @@
-package com.johnsnowlabs.downloader
+package com.johnsnowlabs.pretrained
 
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
@@ -121,7 +121,7 @@ object PythonResourceDownloader {
     "RegexMatcherModel" -> RegexMatcherModel,
     "LemmatizerModel" -> LemmatizerModel,
     "DateMatcher" -> DateMatcher,
-    "EntityExtractorModel" -> EntityExtractorModel,
+    "TextMatcherModel" -> TextMatcherModel,
     "SentimentDetectorModel" -> SentimentDetectorModel,
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
