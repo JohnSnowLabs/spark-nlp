@@ -20,9 +20,6 @@ object NegexDatasetPipelineTest extends App with EvaluationMetrics {
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
   import spark.implicits._
 
-  // directory of the i2b2 dataset
-  val i2b2Dir = "/home/jose/Downloads/i2b2"
-
   // word embeddings location
   val embeddingsFile = s"PubMed-shuffle-win-2.bin"
   val datasetPath = "rsAnnotations-1-120-random.txt"

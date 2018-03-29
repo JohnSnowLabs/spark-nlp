@@ -14,7 +14,7 @@ trait EvaluationMetrics {
     val matrix : Map[T, MutableMap[T, Int]] =
       labels.map(label => (label, MutableMap(labels.zip(Array.fill(labels.size)(0)): _*))).toMap
 
-    predicted.zip(gold).foreach { case (p, g) => matrix.get(p).get(g) += 1}
+    predicted.zip(gold).foreach { case (p, g) => matrix.get(g).get(p) += 1}
 
     /* sanity check, the confusion matrix should contain as many elements as there were used during training / prediction */
     assert(predicted.length ==matrix.map(map => map._2.values.sum).sum)

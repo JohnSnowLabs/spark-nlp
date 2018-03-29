@@ -186,8 +186,77 @@ spark-submit --packages JohnSnowLabs:spark-nlp:1.5.0
                                 </div>
                             </div>
                         </section>
+                        <section class="doc-section">
+                            <h2 class="section-title">Quickly annotate some text</h2>
+                            <div id="annotators-type-section-quick" class="section-block">
+                                <h3 class="block-title">Basic Pipeline</h3>
+                                <p>
+                                A basic pipeline is a downloadable Spark ML pipeline ready to compute
+                                some annotations for you right away. Keep in mind this is trained with
+                                generic data and is not meant for production use, but should give you
+                                an insight of how the library works at a glance.
+                                <p>
+                            </div>
+                            <div class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Downloading the trained pipeline</h3>
+                                    <p>
+                                        Basic pipelines allow to inject either common strings or
+                                        Spark dataframes. Either way, SparkNLP will execute the
+                                        right pipeline type to bring back the results. Let's retrieve it:
+                                    </p>
+                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
+BasicPipeline().annotate(["We are very happy about SparkNLP", "And this is just another sentence")</code></pre>
+                                </div>
+                            </div>
+                            <div class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Sentence detection and tokenization</h3>
+                                    <p>
+                                        Since this is Apache Spark, we should make use of our DataFrame friends.
+                                        Pretraned pipelines allow us to do so with the same function, just
+                                        adding the target string column. The result here will be a dataframe
+                                        with many annotation columns.
+                                    </p>
+                                    <pre><code class="language-python">import spark.implicits._
+val data = Seq("hello, this is an example sentence").toDF("mainColumn")
+BasicPipeline().annotate(data, "mainColumn").show()</code>
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="section-block">
+                                <div class="code-block">
+                                    <h3 class="block-title">Using Pipelines</h3>
+                                    <p>
+                                        To add a bit of challenge, the output of the previous DataFrame
+                                        was in terms of Annotation objects. What if we want to deal with
+                                        just the resulting annotations? We can use the Finisher annotator,
+                                        retrieve the BasicPipeline, and add them together in a Spark ML Pipeline.
+                                        Note BasicPipeline expect the target column to be named "text".
+                                    </p>
+                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.Finisher
+import org.apache.spark.ml.Pipeline
+
+val finisher = new Finisher()
+    .setInputCols("token", "normal", "lemma", "pos")
+
+val basicPipeline = BasicPipeline().pretrained()
+
+val pipeline = new Pipeline()
+    .setStages(Array(
+        basicPipeline,
+        finisher
+    ))
+
+pipeline
+    .fit(spark.emptyDataFrame)
+    .transform(data.withColumnRenamed("mainColumn", "text"))
+    .show()</code></pre>
+                                </div>
+                            </div>
+                        </section>
                         <section id="example-section" class="doc-section">
-                            <h2 class="section-title">First Example</h2>
+                            <h2 class="section-title">Train your own pipeline</h2>
                             <div id="annotators-type-section" class="section-block">
                                 <h3 class="block-title">Annotator types</h3>
                                 <p>

@@ -49,7 +49,7 @@ class Finisher(override val uid: String)
     includeKeys -> false,
     outputAsArray -> true)
 
-  def this() = this(Identifiable.randomUID("document"))
+  def this() = this(Identifiable.randomUID("finisher"))
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 

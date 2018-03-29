@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
+import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadsAssertionGraph
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{HasGraph, ReadsGraph}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{WithGraphResolver, ReadsNERGraph}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
@@ -76,8 +77,13 @@ object annotator {
   object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting
 
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
-  object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with HasGraph
+  object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
-  object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsGraph
+  object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph
+
+  type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
+  object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
+  type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
+  object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadsAssertionGraph
 
 }
