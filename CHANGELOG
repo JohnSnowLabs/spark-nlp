@@ -1,4 +1,53 @@
 ========
+1.5.0
+========
+---------------
+Overview
+---------------
+We are proud to announce if not the biggest release in terms of content in Spark-NLP!
+This release makes the library miles easier to use for new comers, allowing easier to import
+annotators and the extended use of model downloader throughout pretrained models and pipelines.
+This also includes two new annotators that use deep learning algorithms with graphs from TensorFlow, which
+is the first time we do so.
+Apart from this, we include new Light Pipelines that are 10x times faster when working with data smaller than about
+50,000 rows length.
+Finally, we included several bugfixes across the library, from algorithm wise to developer API.
+We'll gladly welcome any feedback! The website has been extensively updated.
+---------------
+New features
+---------------
+* Light Pipelines are Annotator Pipelines created from SparkML pipelines that run more than 10x faster in small datasets
+* Deep Learning NER based on Bi-LSTM and Convolutional Neural Networks from word embeddings datasets
+* Deep Learning Assertion Status model based on LSTM to compute status identification from word embeddings
+* Easier to use Spark-NLP:
+1. Imports have been made easy in scala API (com.johnsnowlabs.annotator._) to bring all annotators
+2. BasicPipeline and AdvancedPipeline downloadable pipelines created for quick annotation of text
+3. Light Pipelines are easy to use and accept simple strings to annotate a Spark ML Pipeline without spark datasets
+* New Downloadable models: CRF NER, Lemmatizer, POS and Spell checker
+* New Downloadable pipelines: Vivekn Sentiment analysis, BasicPipeline and AdvancedPipeline
+---------------
+Enhancements
+---------------
+* Model downloader significantly improved in terms of usability
+---------------
+Documentation
+---------------
+* Website widely improved
+* Added invite to our first slack chat channel
+---------------
+Bugfixes
+---------------
+* Fixed positional index wrong value when creating Annotations from constructor
+* Fixed hamming distance calculation in spell checker
+* Fixed Downloadable NER model failing sporadically due to missing temporary files
+* Fixed SearchTrie algorithm used in TextMatcher (fmy. EntiyExtractor) thanks @avenka11 for reporting and proposing solution
+* Fixed some model deserialization issues happening on Windows
+---------------
+Other
+---------------
+* Training example resources removed in advantage of using the model downloader more
+* Finisher now outputs to array by default
+========
 1.4.2
 ========
 ---------------
