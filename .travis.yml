@@ -1,34 +1,33 @@
+sudo: required
+
+services:
+  - docker
+
 cache:
   directories:
     - $HOME/.spark_nlp.dep.cache
 
-matrix:
+jobs:
   include:
-    - language: python
-      python: 2.7
-      before_script:
-        - sbt assemblyAndCopy
-        - pip install pyspark
-        - pip install numpy
-        - cd python/
+    - stage: build
+      install: skip
+      script: 
+        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+        - docker build -t "$DOCKER_USERNAME"/spark-nlp-scala -f .ci/Dockerfile .
+        - docker push "$DOCKER_USERNAME"/spark-nlp-scala
+    - stage: scala
+      install: skip
+      language: scala
+      script: docker run "$DOCKER_USERNAME"/spark-nlp-scala sbt test 
+    - stage: python
+      install: skip
+      language: python
+      python: "2.7"
       script:
-        - python run-tests.py
-
+        - docker build --build-arg from="$DOCKER_USERNAME"/spark-nlp-scala -t spark-nlp-python-2 -f .ci/DockerfilePy2 .
+        - docker run spark-nlp-python-2 python2 run-tests.py
     - language: python
-      python: 3.6
-      before_script:
-        - sbt assemblyAndCopy
-        - pip install pyspark
-        - pip install numpy
-        - cd python/
+      python: "3.5"
       script:
-        - python run-tests.py
-
-    - language: scala
-      scala: 2.11.11
-      before_install:
-        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-        - sudo apt-get update -q
-        - sudo apt-get install libstdc++6 -y
-      before_script:
-        - export _JAVA_OPTIONS="-Xmx4G -XX:+UseConcMarkSweepGC -Xss6M -Xms2048M"
+       - docker build --build-arg from="$DOCKER_USERNAME"/spark-nlp-scala -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
+       - docker run spark-nlp-python-3 python3 run-tests.py
