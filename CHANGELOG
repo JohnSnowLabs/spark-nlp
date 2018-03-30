@@ -13,6 +13,7 @@ Apart from this, we include new Light Pipelines that are 10x times faster when w
 50,000 rows length.
 Finally, we included several bugfixes across the library, from algorithm wise to developer API.
 We'll gladly welcome any feedback! The website has been extensively updated.
+
 ---------------
 New features
 ---------------
@@ -25,15 +26,18 @@ New features
 3. Light Pipelines are easy to use and accept simple strings to annotate a Spark ML Pipeline without spark datasets
 * New Downloadable models: CRF NER, Lemmatizer, POS and Spell checker
 * New Downloadable pipelines: Vivekn Sentiment analysis, BasicPipeline and AdvancedPipeline
+
 ---------------
 Enhancements
 ---------------
 * Model downloader significantly improved in terms of usability
+
 ---------------
 Documentation
 ---------------
 * Website widely improved
 * Added invite to our first slack chat channel
+
 ---------------
 Bugfixes
 ---------------
@@ -43,10 +47,13 @@ Bugfixes
 * Fixed SearchTrie algorithm used in TextMatcher (fmy. EntiyExtractor) thanks @avenka11 for reporting and proposing solution
 * Fixed some model deserialization issues happening on Windows
 ---------------
+
 Other
 ---------------
-* Training example resources removed in advantage of using the model downloader more
+* Thanks to @showy we have TravisCI automatic integration testing
 * Finisher now outputs to array by default
+* Training example resources removed in advantage of using the model downloader more
+
 ========
 1.4.2
 ========
