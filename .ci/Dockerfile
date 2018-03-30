@@ -4,4 +4,4 @@ COPY . /app/spark-nlp
 
 WORKDIR /app/spark-nlp/
 
-RUN sbt update
+RUN sbt compile

@@ -1,3 +1,6 @@
+env:
+  - DOCKER_SPARK_NLP_SCALA="${DOCKER_USERNAME}/spark-nlp-scala-${TRAVIS_BUILD_ID}"
+
 sudo: required
 
 services:
@@ -13,21 +16,21 @@ jobs:
       install: skip
       script: 
         - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_USERNAME"/spark-nlp-scala -f .ci/Dockerfile .
-        - docker push "$DOCKER_USERNAME"/spark-nlp-scala
+        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/Dockerfile .
+        - docker push "$DOCKER_SPARK_NLP_SCALA"
     - stage: scala
       install: skip
       language: scala
-      script: docker run "$DOCKER_USERNAME"/spark-nlp-scala sbt test 
+      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt test
     - stage: python
       install: skip
       language: python
       python: "2.7"
       script:
-        - docker build --build-arg from="$DOCKER_USERNAME"/spark-nlp-scala -t spark-nlp-python-2 -f .ci/DockerfilePy2 .
+        - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-2 -f .ci/DockerfilePy2 .
         - docker run spark-nlp-python-2 python2 run-tests.py
     - language: python
       python: "3.5"
       script:
-       - docker build --build-arg from="$DOCKER_USERNAME"/spark-nlp-scala -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
+       - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
        - docker run spark-nlp-python-3 python3 run-tests.py
