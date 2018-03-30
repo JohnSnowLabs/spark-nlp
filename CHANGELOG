@@ -47,7 +47,6 @@ Bugfixes
 * Fixed SearchTrie algorithm used in TextMatcher (fmy. EntiyExtractor) thanks @avenka11 for reporting and proposing solution
 * Fixed some model deserialization issues happening on Windows
 ---------------
-
 Other
 ---------------
 * Thanks to @showy we have TravisCI automatic integration testing
