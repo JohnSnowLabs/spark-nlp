@@ -102,9 +102,9 @@ object ResourceHelper {
       val result = new ArrayBuffer[String]()
 
       val pathToCheck = path
-        .stripPrefix(File.separator)
+        .stripPrefix(File.separator.replaceAllLiterally("\\", "/"))
         .stripSuffix(File.separator) +
-        File.separator
+        File.separator.replaceAllLiterally("\\", "/")
 
       while(entries.hasMoreElements) {
         val name = entries.nextElement().getName.stripPrefix(File.separator)
