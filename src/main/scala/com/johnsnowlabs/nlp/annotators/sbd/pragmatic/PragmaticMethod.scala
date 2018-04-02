@@ -13,25 +13,31 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
   */
 class PragmaticMethod(useAbbreviations: Boolean = false) extends Serializable {
 
-  def extractBounds(content: String, customBounds: Array[String]): Array[Sentence] = {
+  def extractBounds(content: String, customBounds: Array[String], customOnly: Boolean = false): Array[Sentence] = {
     /** this is a hardcoded order of operations
       * considered to go from those most specific non-ambiguous cases
       * down to those that are more general and can easily be ambiguous
       */
-    val symbolyzedData = new PragmaticContentFormatter(content)
-      .formatCustomBounds(customBounds)
-      .formatLists
-      .formatAbbreviations(useAbbreviations)
-      .formatNumbers
-      .formatPunctuations
-      .formatMultiplePeriods
-      .formatGeoLocations
-      .formatEllipsisRules
-      .formatBetweenPunctuations
-      .formatQuotationMarkInQuotation
-      .formatExclamationPoint
-      .formatBasicBreakers
-      .finish
+    val symbolyzedData = if (customOnly) {
+      new PragmaticContentFormatter(content)
+        .formatCustomBounds(customBounds)
+        .finish
+    } else {
+      new PragmaticContentFormatter(content)
+        .formatCustomBounds(customBounds)
+        .formatLists
+        .formatAbbreviations(useAbbreviations)
+        .formatNumbers
+        .formatPunctuations
+        .formatMultiplePeriods
+        .formatGeoLocations
+        .formatEllipsisRules
+        .formatBetweenPunctuations
+        .formatQuotationMarkInQuotation
+        .formatExclamationPoint
+        .formatBasicBreakers
+        .finish
+    }
     new PragmaticSentenceExtractor(symbolyzedData, content).pull
   }
 
