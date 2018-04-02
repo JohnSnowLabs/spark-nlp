@@ -383,7 +383,7 @@ class SentenceDetector(AnnotatorModel):
 
     name = 'SentenceDetector'
 
-    def setCustomBounds(self, value):
+    def setCustomBoundChars(self, value):
         self._set(customBounds=value)
         return self
 
@@ -391,10 +391,14 @@ class SentenceDetector(AnnotatorModel):
         self._set(useAbbreviations=value)
         return self
 
+    def setUseCustomOnly(self, value):
+        self._set(useCustomOnly=value)
+        return self
+
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=False)
+        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomOnly=False)
 
 
 class SentimentDetector(AnnotatorApproach):

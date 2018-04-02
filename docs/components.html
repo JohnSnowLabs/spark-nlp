@@ -1268,33 +1268,38 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Finds sentence bounds in raw text.<br>
+                                                Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                               <li>
-                                                setCustomBounds(characters): Custom sentence separator text
+                                                setCustomBoundChars(characters): Custom sentence separator text
+                                              </li>
+                                              <li>
+                                                setUseCustomOnly(False): Use only custom chars without considering those of Pragmatic Segmenter
                                               </li>
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">sentence_detector = SentenceDetector() \
   .setInputCols(["document"]) \
-  .setOutputCol("sentence") \
-  .setUseAbbreviations(True)</code></pre>
+  .setOutputCol("sentence")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Finds sentence bounds in raw text.<br>
+                                                Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
                                               <b>Functions:</b> <br>
                                           <ul>
                                             <li>
-                                              setCustomBounds(characters): Custom sentence separator text
+                                              setCustomBoundChars(characters): Custom sentence separator text
+                                            </li>
+                                            <li>
+                                                setUseCustomOnly(false): Use only custom chars without considering those of Pragmatic Segmenter
                                             </li>
                                           </ul>
                                                 <b>Example:</b><br>

@@ -15,6 +15,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
+  val useCustomOnly = new BooleanParam(this, "useCustomOnly", "whether to consider custom bounds with pragmatic ones or alone")
 
   val customBounds: StringArrayParam = new StringArrayParam(
     this,
@@ -25,6 +26,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
   def setCustomBoundChars(value: Array[String]): this.type = set(customBounds, value)
+
+  def setUseCustomOnly(value: Boolean): this.type = set(useCustomOnly, value)
 
   def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
 
@@ -41,7 +44,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   def tag(document: String): Seq[Sentence] = {
     model.extractBounds(
       document,
-      get(customBounds).getOrElse(Array.empty[String])
+      get(customBounds).getOrElse(Array.empty[String]),
+      get(useCustomOnly).getOrElse(false)
     )
   }
 
