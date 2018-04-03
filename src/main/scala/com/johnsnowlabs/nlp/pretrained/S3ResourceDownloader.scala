@@ -16,7 +16,8 @@ import scala.collection.mutable
 class S3ResourceDownloader(bucket: String,
                            s3Path: String,
                            cacheFolder: String,
-                           credentials: Option[AWSCredentials] = None
+                           credentials: Option[AWSCredentials] = None,
+                           region: String = "us-east-1"
                           )
   extends ResourceDownloader with AutoCloseable {
 
@@ -33,13 +34,10 @@ class S3ResourceDownloader(bucket: String,
     if (credentials.isDefined)
       builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
 
+    builder.setRegion(region)
     builder.build()
   }
 
-
-  // ToDo 1. Test folders
-  // ToDo 2. Test Credentials
-  // ToDo 3. Good names
   private def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
 
