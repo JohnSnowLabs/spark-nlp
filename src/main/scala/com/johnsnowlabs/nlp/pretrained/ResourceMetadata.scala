@@ -55,17 +55,14 @@ object ResourceMetadata {
   }
 
   def resolveResource(candidates: List[ResourceMetadata],
-                      name: String,
-                      language: Option[String],
-                      libVersion: Version,
-                      sparkVersion: Version): Option[ResourceMetadata] = {
+                      request: ResourceRequest): Option[ResourceMetadata] = {
 
     candidates
       .filter(item => item.readyToUse
-        && item.name == name
-        && (language.isEmpty || item.language.isEmpty || language.get == item.language.get)
-        && Version.isCompatible(libVersion, item.libVersion)
-        && Version.isCompatible(sparkVersion, item.sparkVersion)
+        && item.name == request.name
+        && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
+        && Version.isCompatible(request.libVersion, item.libVersion)
+        && Version.isCompatible(request.sparkVersion, item.sparkVersion)
       )
       .sortBy(item => item.time.getTime)
       .lastOption
