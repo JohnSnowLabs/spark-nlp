@@ -23,20 +23,20 @@ class ResourceDownloaderSpec extends FlatSpec {
   }
 
   "CloudResourceDownloader" should "choose the newest versions" in {
-    val found = ResourceMetadata.resolveResource(b.all, "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
+    val found = ResourceMetadata.resolveResource(b.all, ResourceRequest("name", "", Some("en"), Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isDefined)
     assert(found.get == b.name_en_123_345_new)
   }
 
   "CloudResourceDownloader" should "filter disabled resources" in {
-    val found = ResourceMetadata.resolveResource(List(b.name_en_new_disabled), "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
+    val found = ResourceMetadata.resolveResource(List(b.name_en_new_disabled), ResourceRequest("name", "", Some("en"), Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isEmpty)
   }
 
   "CloudResourceDownloader" should "filter language and allow empty versions" in {
-    val found = ResourceMetadata.resolveResource(List(b.name_en_old, b.name_de), "name", Some("en"), Version(1, 2, 3), Version(3, 4, 5))
+    val found = ResourceMetadata.resolveResource(List(b.name_en_old, b.name_de), ResourceRequest("name", "", Some("en"), Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isDefined)
     assert(found.get == b.name_en_old)
