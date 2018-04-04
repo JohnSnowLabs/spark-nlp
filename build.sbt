@@ -1,6 +1,5 @@
 val sparkVer = "2.3.0"
 val scalaVer = "2.11.12"
-val awsVer = "1.11.272"
 val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
@@ -87,8 +86,7 @@ lazy val utilDependencies = Seq(
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
   "org.tensorflow" % "tensorflow" % "1.5.0",
-  "com.amazonaws" % "aws-java-sdk-bom" % awsVer,
-  "com.amazonaws" % "aws-java-sdk-s3" % awsVer
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.272"
 )
 
 lazy val root = (project in file("."))
