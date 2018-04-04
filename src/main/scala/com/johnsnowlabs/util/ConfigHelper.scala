@@ -2,7 +2,12 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.util.ConfigLoader.retrieve
 
+
 object ConfigHelper {
+
+  def hasPath(path: String): Boolean = {
+    retrieve.hasPath(path)
+  }
 
   def getConfigValue(path: String): Option[String] = {
     if (!retrieve.hasPath(path))
@@ -23,5 +28,11 @@ object ConfigHelper {
 
   // Configures cache folder where to cache pretrained models
   val pretrainedCacheFolder = "nlp.pretrained.cache_folder"
+
+  // Stores credentials for AWS S3 private models
+  val awsCredentials = "nlp.pretrained.credentials"
+
+  val accessKeyId = awsCredentials + ".access_key_id"
+  val secretAccessKey = awsCredentials + ".secret_access_key"
 
 }

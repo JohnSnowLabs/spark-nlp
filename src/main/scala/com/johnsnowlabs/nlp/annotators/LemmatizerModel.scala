@@ -37,8 +37,8 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
 }
 
 trait PretrainedLemmatizer {
-  def pretrained(name: String = "lemma_fast", language: Option[String] = Some("en")): LemmatizerModel =
-    ResourceDownloader.downloadModel(LemmatizerModel, name, language)
+  def pretrained(name: String = "lemma_fast", folder: String = "", language: Option[String] = Some("en")): LemmatizerModel =
+    ResourceDownloader.downloadModel(LemmatizerModel, name, folder, language)
 }
 
 object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer

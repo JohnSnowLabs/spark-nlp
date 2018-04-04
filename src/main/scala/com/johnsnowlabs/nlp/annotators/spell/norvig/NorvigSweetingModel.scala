@@ -243,8 +243,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 }
 
 trait PretrainedNorvigSweeting {
-  def pretrained(name: String = "spell_fast", language: Option[String] = Some("en")): NorvigSweetingModel =
-    ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
+  def pretrained(name: String = "spell_fast", folder: String = "", language: Option[String] = Some("en")): NorvigSweetingModel =
+    ResourceDownloader.downloadModel(NorvigSweetingModel, name, folder, language)
 }
 
 object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting
