@@ -697,6 +697,11 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionLogRegModel(_AnnotatorModel):
     name = "AssertionLogRegModel"
+    
+    @staticmethod
+    def pretrained(name="as_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
 
 
 class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
@@ -822,4 +827,8 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionDLModel(_AnnotatorModel):
     name = "AssertionDLModel"
+    @staticmethod
+    def pretrained(name="as_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
 
