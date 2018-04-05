@@ -81,7 +81,7 @@ object ResourceDownloader {
     */
   def downloadResource(request: ResourceRequest): String = {
     val path = defaultDownloader.download(request)
-    require(path.isDefined, s"Was not able to download: $request with downloader: $defaultDownloader")
+    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
 
     path.get
   }

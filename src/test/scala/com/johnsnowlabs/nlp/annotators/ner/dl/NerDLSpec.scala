@@ -54,7 +54,16 @@ class NerDLSpec extends FlatSpec {
     val loadedNer = NerDLModel.read.load("./test_ner_dl")
     FileHelper.delete("./test_ner_dl")
 
+    // Test that params of loaded model are the same
     assert(loadedNer.datasetParams.getOrDefault == nerModel.datasetParams.getOrDefault)
+
+    // Test that loaded model do the same predictions
+    val tokenized = AnnotatorBuilder.withTokenizer(nerInputDataset)
+    val tagged = loadedNer.transform(tokenized)
+    val annotations = Annotation.collect(tagged, "ner").flatten
+
+    val tags = annotations.map(a => a.result).toSeq
+    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
   "NerDLApproach" should "correct search for suitable graphs" in {

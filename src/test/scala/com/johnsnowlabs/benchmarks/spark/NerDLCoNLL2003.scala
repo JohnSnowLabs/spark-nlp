@@ -1,5 +1,10 @@
 package com.johnsnowlabs.benchmarks.spark
 
+import java.io.File
+import java.nio.file.Paths
+import java.sql.Timestamp
+import java.util.Date
+
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
@@ -8,8 +13,12 @@ import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.util.{PipelineModels, Version, ZipArchiveUtil}
+import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.util.MLWriter
 
 
 object NerDLPipeline extends App {
@@ -38,7 +47,7 @@ object NerDLPipeline extends App {
     val nerTagger = new NerDLApproach()
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
-      .setMaxEpochs(120)
+      .setMaxEpochs(150)
       .setRandomSeed(0)
       .setPo(0.03f)
       .setLr(0.2f)
@@ -95,6 +104,7 @@ object NerDLPipeline extends App {
     ner.measure(labeled, (s: String) => System.out.println(s), extended, errorsToPrint)
   }
 
+
   val model = trainNerModel(trainFile)
 
   measure(model, trainFile, false, 0)
@@ -106,4 +116,5 @@ object NerDLPipeline extends App {
 
   model.write.overwrite().save("ner_model")
   PipelineModel.read.load("ner_model")
+
 }
