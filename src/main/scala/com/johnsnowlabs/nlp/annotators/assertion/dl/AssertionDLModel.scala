@@ -114,10 +114,12 @@ trait ReadsAssertionGraph extends ParamsAndFeaturesReadable[AssertionDLModel] wi
 
   override val tfFile = "tensorflow"
 
-  override def onRead(instance: AssertionDLModel, path: String, spark: SparkSession): Unit = {
+  def readAssertionGraph(instance: AssertionDLModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_assertiondl")
     instance.setTensorflow(tf)
   }
+
+  addReader(readAssertionGraph)
 }
 
 object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadsAssertionGraph

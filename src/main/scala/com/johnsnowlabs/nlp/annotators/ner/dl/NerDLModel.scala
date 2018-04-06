@@ -8,12 +8,12 @@ import com.johnsnowlabs.nlp.annotators.assertion.dl.{ReadTensorflowModel, WriteT
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import scala.collection.JavaConverters._
 
 
 class NerDLModel(override val uid: String)
@@ -57,7 +57,7 @@ class NerDLModel(override val uid: String)
       _model = new TensorflowNer(
         tensorflow,
         encoder,
-        1,//${batchSize}, For some reasons Tensorflow doesn't clear state in batch
+        1, // Tensorflow doesn't clear state in batch
         Verbose.Silent)
     }
 
@@ -106,10 +106,18 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 
   override val tfFile = "tensorflow"
 
-  override def onRead(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
+  def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setTensorflow(tf)
   }
+
+  addReader(readNerGraph)
 }
 
-object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph
+trait PretrainedNerDL {
+  def pretrained(name: String = "ner_precise", folder: String = ResourceDownloader.publicFolder, language: Option[String] = Some("en")): NerDLModel =
+    ResourceDownloader.downloadModel(NerDLModel, name, folder, language)
+}
+
+
+object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
