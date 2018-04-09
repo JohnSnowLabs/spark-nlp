@@ -70,8 +70,8 @@ object ResourceDownloader {
     * @param language Desired language of Resource
     * @return path of downloaded resource
     */
-  def downloadResource(name: String, folder: String = publicFolder, language: Option[String] = None): String = {
-    downloadResource(ResourceRequest(name, folder, language))
+  def downloadResource(name: String, language: Option[String] = None, folder: String = publicFolder): String = {
+    downloadResource(ResourceRequest(name, language, folder))
   }
 
   /**
@@ -88,9 +88,10 @@ object ResourceDownloader {
 
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel],
                                              name: String,
-                                             folder: String = publicFolder,
-                                             language: Option[String] = None): TModel = {
-    downloadModel(reader, ResourceRequest(name, folder, language))
+                                             language: Option[String] = None,
+                                             folder: String = publicFolder
+                                            ): TModel = {
+    downloadModel(reader, ResourceRequest(name, language, folder))
   }
 
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel], request: ResourceRequest): TModel = {
@@ -105,8 +106,8 @@ object ResourceDownloader {
     }
   }
 
-  def downloadPipeline(name: String, folder: String = publicFolder, language: Option[String] = None): PipelineModel = {
-    downloadPipeline(ResourceRequest(name, folder, language))
+  def downloadPipeline(name: String, language: Option[String] = None, folder: String = publicFolder): PipelineModel = {
+    downloadPipeline(ResourceRequest(name, language, folder))
   }
 
   def downloadPipeline(request: ResourceRequest): PipelineModel = {
@@ -121,8 +122,8 @@ object ResourceDownloader {
     }
   }
 
-  def clearCache(name: String, folder: String = publicFolder, language: Option[String] = None): Unit = {
-    clearCache(ResourceRequest(name, folder, language))
+  def clearCache(name: String, language: Option[String] = None, folder: String = publicFolder): Unit = {
+    clearCache(ResourceRequest(name, language, folder))
   }
 
   def clearCache(request: ResourceRequest): Unit = {
@@ -134,8 +135,8 @@ object ResourceDownloader {
 case class ResourceRequest
 (
   name: String,
-  folder: String = ResourceDownloader.publicFolder,
   language: Option[String] = None,
+  folder: String = ResourceDownloader.publicFolder,
   libVersion: Version = ResourceDownloader.libVersion,
   sparkVersion: Version = ResourceDownloader.sparkVersion
 )
@@ -162,15 +163,20 @@ object PythonResourceDownloader {
     "AssertionLogRegModel" -> AssertionLogRegModel
     )
 
-  def downloadModel(readerStr: String, name: String, folder: String  = ResourceDownloader.publicFolder, language: String = null): PipelineStage = {
+  def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
     val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException("Unsupported Model."))
-    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, folder, Option(language))
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
   }
 
-  def downloadPipeline(name: String, folder: String = ResourceDownloader.publicFolder, language: String = null): PipelineModel =
-    ResourceDownloader.downloadPipeline(name, folder, Option(language))
+  def downloadPipeline(name: String, language: String = null, folder: String = null): PipelineModel = {
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.downloadPipeline(name, Option(language), correctedFolder)
+  }
 
-  def clearCache(name: String, folder: String = ResourceDownloader.publicFolder, language: String = null): Unit =
-    ResourceDownloader.clearCache(name, folder, Option(language))
+  def clearCache(name: String, language: String = null, folder: String = null): Unit = {
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.clearCache(name, Option(language), correctedFolder)
+  }
 }
 
