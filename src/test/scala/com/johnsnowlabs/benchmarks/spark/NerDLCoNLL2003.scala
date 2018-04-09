@@ -1,10 +1,5 @@
 package com.johnsnowlabs.benchmarks.spark
 
-import java.io.File
-import java.nio.file.Paths
-import java.sql.Timestamp
-import java.util.Date
-
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
@@ -13,12 +8,8 @@ import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
-import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.util.{PipelineModels, Version, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.util.MLWriter
 
 
 object NerDLPipeline extends App {
@@ -47,7 +38,7 @@ object NerDLPipeline extends App {
     val nerTagger = new NerDLApproach()
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
-      .setMaxEpochs(150)
+      .setMaxEpochs(1)
       .setRandomSeed(0)
       .setPo(0.03f)
       .setLr(0.2f)
@@ -64,11 +55,16 @@ object NerDLPipeline extends App {
       .setInputCols("document", "token", "ner")
       .setOutputCol("ner_span")
 
+    val labelConverter = new NerConverter()
+      .setInputCols("document", "token", "label")
+      .setOutputCol("label_span")
+
     Array(documentAssembler,
       sentenceDetector,
       tokenizer,
       nerTagger,
-      converter
+      converter,
+      labelConverter
     )
   }
 
@@ -88,7 +84,6 @@ object NerDLPipeline extends App {
     pipeline.fit(dataset)
   }
 
-
   def getUserFriendly(model: PipelineModel, file: ExternalResource): Array[Array[Annotation]] = {
     val df = model.transform(nerReader.readDataset(file, SparkAccessor.benchmarkSpark))
     Annotation.collect(df, "ner_span")
@@ -105,6 +100,8 @@ object NerDLPipeline extends App {
   }
 
 
+  val spark = SparkAccessor.benchmarkSpark
+
   val model = trainNerModel(trainFile)
 
   measure(model, trainFile, false, 0)
@@ -117,4 +114,12 @@ object NerDLPipeline extends App {
   model.write.overwrite().save("ner_model")
   PipelineModel.read.load("ner_model")
 
+  System.out.println("Training dataset")
+  NerHelper.measureExact(nerReader, model, trainFile, 0)
+
+  System.out.println("Validation dataset")
+  NerHelper.measureExact(nerReader, model, testFileA, 0)
+
+  System.out.println("Test dataset")
+  NerHelper.measureExact(nerReader, model, testFileB, 100)
 }
