@@ -88,258 +88,74 @@
                 <div class="doc-content">
                     <div class="content-inner">
                         <section id="code-section" class="doc-section" style="padding-left: 20px">
-                            <h2 class="section-title" id="pipelines">Pretrained Pipelines</h2>
-                            <div>
-                                <h4 id="BasicPipeline" class="section-block"> BasicPipeline: common NLP annotations</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                BasicPipeline will easily return to you tokens, normalized tokens,
-                                                lemmas and part of speech tags. It can take either a Spark dataset
-                                                or a string or array of strings (LightPipelines behind). It will
-                                                require internet connection to download it from our servers.
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import BasicPipeline
-#Annotate with pipeline
-BasicPipeline().annotate("Please parse this sentence. Thanks")
-BasicPipeline().annotate(["This is a first sentence", "This is another one"])
-BasicPipeline().annotate(dataset, "textColumn")
-#Just get the pipeline
-BasicPipeline().pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                BasicPipeline will easily return to you tokens, normalized tokens,
-                                                lemmas and part of speech tags. It can take either a Spark dataset
-                                                or a string or array of strings (LightPipelines behind). It will
-                                                require internet connection to download it from our servers.
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
-//Annotate with pipeline
-BasicPipeline().annotate("Please parse this sentence. Thanks")
-BasicPipeline().annotate(["This is a first sentence", "This is another one"])
-BasicPipeline().annotate(dataset, "textColumn")
-//Just get the pipeline
-BasicPipeline().pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="AdvancedPipeline" class="section-block"> AdvancedPipeline: All NLP annotations</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Advanced pipelines will return the same than the BasicPipeline, plus
-                                                Stems, Spell Checked tokens and NER entities using the CRF model.
-                                                It requires an internet connection to download it from our servers.
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import AdvancedPipeline
-#Annotate with pipeline
-AdvancedPipeline().annotate("Please parse this sentence. Thanks")
-AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
-AdvancedPipeline().annotate(dataset, "textColumn")
-#Just get the pipeline
-AdvancedPipeline().pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Advanced pipelines will return the same than the BasicPipeline, plus
-                                                Stems, Spell Checked tokens and NER entities using the CRF model.
-                                                It requires an internet connection to download it from our servers.
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.pretrained.pipelines.en.AdvancedPipeline
-//Annotate with pipeline
-AdvancedPipeline().annotate("Please parse this sentence. Thanks")
-AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
-AdvancedPipeline().annotate(dataset, "textColumn")
-//Just get the pipeline
-AdvancedPipeline().pretrained()</code></pre>
-                                </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="SentimentPipeline" class="section-block"> SentimentPipeline: Vivekn Sentiment analysis</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                This pipeline takes a dataset or text or array of text and computes
-                                                sentiment analysis with spell checking included
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import SentimentPipeline
-#Annotate with pipeline
-AdvancedPipeline().annotate("Please parse this sentence. Thanks")
-AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
-AdvancedPipeline().annotate(dataset, "textColumn")
-#Just get the pipeline
-SentimentPipeline().pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                This pipeline takes a dataset or text or array of text and computes
-                                                sentiment analysis with spell checking included
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.pretrained.pipelines.en.SentimentPipeline
-//Annotate with pipeline
-SentimentPipeline().annotate(data, "textColumn")
-//Just get the pipeline
-SentimentPipeline().pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                            </div>
-                            <h2 class="section-title" id="models">Pretrained Models</h2>
-                            <div>
-                                <h4 id="LemmaFast" class="section-block"> Fast lemmatizer</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Lemmatizer trained with AntBNC Free corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import LemmatizerModel
-LemmatizerModel.pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Lemmatizer trained with AntBNC Free corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.LemmatizerModel
-LemmatizerModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="SpellFast" class="section-block"> Fast Spell Checker</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Spell Checker trained with Wikipedia corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import NorvigSweetingModel
-NorvigSweetingModel.pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Spell Checker trained with Wikipedia corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.NorvigSweetingModel
-NorvigSweetingModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="PosFast" class="section-block"> Fast Part of Speech</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Part of Speech trained with ANC American Corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import PerceptronModel
-PerceptronModel.pretrained()</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Part of Speech trained with ANC American Corpus
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.PerceptronModel
-PerceptronModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="NerFast" class="section-block"> Fast CRF NER</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Named entity recognition model trained with Glove embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import NerCrfModel
-NerCrfModel.pretrained()
-</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Named entity recognition model trained with Glove embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.annotator.NerCrfModel
-NerCrfModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                            </div>
                             <h2 class="section-title" id="concepts">Concepts</h2>
                             <div>
+                                <h4 id="Imports" class="section-block"> Spark NLP Imports: Getting ready to work</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Since version 1.5.0 we are making necessary imports easy to reach, <b>base</b>
+                                                will include general Spark NLP transformers and concepts, while <b>annotator</b> will include
+                                                all annotators that we currently provide. We also need SparkML pipelines.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.base import *
+from sparknlp.annotator import *</code></pre>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Since version 1.5.0 we are making necessary imports easy to reach, <b>base._</b>
+                                                will include general Spark NLP transformers and concepts, while <b>annotator._</b> will include
+                                                all annotators that we currently provide. We also need SparkML pipelines.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotator._</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="MLPipeline" class="section-block"> Spark ML Pipelines</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                SparkML Pipelines are a uniform structure that helps creating and tuning practical machine learning pipelines.
+                                                Spark NLP integrates with them seamlessly so it is important to have this concept handy.
+                                                Once a <b>Pipeline</b> is trained with <b>fit()</b>, this becomes a <b>PipelineModel</b>
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from pyspark.ml import Pipeline
+pipeline = Pipeline().setStages([...])</code></pre>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                SparkML Pipelines are a uniform structure that helps creating and tuning practical machine learning pipelines.
+                                                Spark NLP integrates with them seamlessly so it is important to have this concept handy.
+                                                Once a <b>Pipeline</b> is trained with <b>fit()</b>, this becomes a <b>PipelineModel</b>
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import org.apache.spark.ml.Pipeline
+new Pipeline().setStages(Array(...))</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
                                 <h4 id="LightPipeline" class="section-block"> LightPipeline: A super-fast Spark-NLP pipeline for small data</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -380,7 +196,7 @@ LightPipeline(someTrainedPipeline).annotate(someStringOrArray)</code></pre>
                                                 To use them, simply plug in a trained (fitted) pipeline.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.LightPipeline
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.LightPipeline
 new LightPipeline(somePipelineModel).annotate(someStringOrArray))</code></pre>
                                             <b>Functions:</b>
                                             <ul>
@@ -422,7 +238,7 @@ recursivePipeline = RecursivePipeline(stages=[
         lemmatizer,
         finisher
       ])</code></pre>
-                                    </div><!--//code-block-->
+                                        </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
@@ -436,7 +252,7 @@ recursivePipeline = RecursivePipeline(stages=[
                                                 so they can be used with the same intention.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">import com.johnsnowlabs.nlp.RecursivePipeline
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.RecursivePipeline
 val recursivePipeline = new RecursivePipeline()
       .setStages(Array(
         documentAssembler,
@@ -445,7 +261,7 @@ val recursivePipeline = new RecursivePipeline()
         lemmatizer,
         finisher
       ))</code></pre>
-                                </div><!--//code-block--></div>
+                                        </div><!--//code-block--></div>
                                 </div>
                                 <h4 id="ExternalResource" class="section-block"> ExternalResource: Data properties outside the pipeline</h4>
                                 <ul class="nav nav-tabs" role="tablist">
@@ -496,7 +312,7 @@ val recursivePipeline = new RecursivePipeline()
                                                 parameters usually ask for elements used by it.
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">posTagger = new PerceptronApproach()
+                                            <pre><code class="language-javascript">posTagger = new PerceptronApproach()
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("pos")
     .setNIterations(1)
@@ -525,6 +341,15 @@ val recursivePipeline = new RecursivePipeline()
                                                                data-toggle="tab">Scala</a></li>
                                 </ul>
                                 <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                When working with external resources, like training data that is not
+                                                part of the pipeline process, our annotators use the ResourceHelper
+                                                to efficiently parse and extract data into specific formats. This
+                                                class may be utilized for other purposes by the user (Only in Scala)
+                                            </p>
+                                        </div><!--//code-block--></div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
@@ -532,7 +357,6 @@ val recursivePipeline = new RecursivePipeline()
                                                 part of the pipeline process, our annotators use the ResourceHelper
                                                 to efficiently parse and extract data into specific formats. This
                                                 class may be utilized for other purposes by the user.
-                                                <br><b>Example:</b><br>
                                             </p>
                                             <b>Functions (not all of them listed):</b>
                                             <ul>
@@ -590,6 +414,256 @@ val recursivePipeline = new RecursivePipeline()
                                                 among executors for better performance.
                                                 <br><b>Example:</b><br>
                                             </p>
+                                        </div><!--//code-block--></div>
+                                </div>
+                            </div>
+                            <h2 class="section-title" id="pipelines">Pretrained Pipelines</h2>
+                            <div>
+                                <h4 id="BasicPipeline" class="section-block"> BasicPipeline: common NLP annotations</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                BasicPipeline will easily return to you tokens, normalized tokens,
+                                                lemmas and part of speech tags. It can take either a Spark dataset
+                                                or a string or array of strings (LightPipelines behind). It will
+                                                require internet connection to download it from our servers.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import BasicPipeline
+#Annotate with pipeline
+BasicPipeline().annotate("Please parse this sentence. Thanks")
+BasicPipeline().annotate(["This is a first sentence", "This is another one"])
+BasicPipeline().annotate(dataset, "textColumn")
+#Just get the pipeline
+BasicPipeline().pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                BasicPipeline will easily return to you tokens, normalized tokens,
+                                                lemmas and part of speech tags. It can take either a Spark dataset
+                                                or a string or array of strings (LightPipelines behind). It will
+                                                require internet connection to download it from our servers.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
+//Annotate with pipeline
+BasicPipeline().annotate("Please parse this sentence. Thanks")
+BasicPipeline().annotate(["This is a first sentence", "This is another one"])
+BasicPipeline().annotate(dataset, "textColumn")
+//Just get the pipeline
+BasicPipeline().pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="AdvancedPipeline" class="section-block"> AdvancedPipeline: All NLP annotations</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Advanced pipelines will return the same than the BasicPipeline, plus
+                                                Stems, Spell Checked tokens and NER entities using the CRF model.
+                                                It requires an internet connection to download it from our servers.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import AdvancedPipeline
+#Annotate with pipeline
+AdvancedPipeline().annotate("Please parse this sentence. Thanks")
+AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
+AdvancedPipeline().annotate(dataset, "textColumn")
+#Just get the pipeline
+AdvancedPipeline().pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Advanced pipelines will return the same than the BasicPipeline, plus
+                                                Stems, Spell Checked tokens and NER entities using the CRF model.
+                                                It requires an internet connection to download it from our servers.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.pretrained.pipelines.en.AdvancedPipeline
+//Annotate with pipeline
+AdvancedPipeline().annotate("Please parse this sentence. Thanks")
+AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
+AdvancedPipeline().annotate(dataset, "textColumn")
+//Just get the pipeline
+AdvancedPipeline().pretrained()</code></pre>
+                                </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="SentimentPipeline" class="section-block"> SentimentPipeline: Vivekn Sentiment analysis</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                This pipeline takes a dataset or text or array of text and computes
+                                                sentiment analysis with spell checking included
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.pretrained.pipeline.en import SentimentPipeline
+#Annotate with pipeline
+AdvancedPipeline().annotate("Please parse this sentence. Thanks")
+AdvancedPipeline().annotate(["This is a first sentence", "This is another one"])
+AdvancedPipeline().annotate(dataset, "textColumn")
+#Just get the pipeline
+SentimentPipeline().pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                This pipeline takes a dataset or text or array of text and computes
+                                                sentiment analysis with spell checking included
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.pretrained.pipelines.en.SentimentPipeline
+//Annotate with pipeline
+SentimentPipeline().annotate(data, "textColumn")
+//Just get the pipeline
+SentimentPipeline().pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                            </div>
+                            <h2 class="section-title" id="models">Pretrained Models</h2>
+                            <div>
+                                <h4 id="LemmaFast" class="section-block"> Fast lemmatizer</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Lemmatizer trained with AntBNC Free corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import LemmatizerModel
+LemmatizerModel.pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Lemmatizer trained with AntBNC Free corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.LemmatizerModel
+LemmatizerModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="SpellFast" class="section-block"> Fast Spell Checker</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Spell Checker trained with Wikipedia corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import NorvigSweetingModel
+NorvigSweetingModel.pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Spell Checker trained with Wikipedia corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.NorvigSweetingModel
+NorvigSweetingModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="PosFast" class="section-block"> Fast Part of Speech</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Part of Speech trained with ANC American Corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import PerceptronModel
+PerceptronModel.pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Part of Speech trained with ANC American Corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.PerceptronModel
+PerceptronModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="NerFast" class="section-block"> Fast CRF NER</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Named entity recognition model trained with Glove embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import NerCrfModel
+NerCrfModel.pretrained()
+</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Named entity recognition model trained with Glove embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.NerCrfModel
+NerCrfModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
                             </div>
@@ -651,7 +725,7 @@ documentAssembler = new DocumentAssembler() \
                                       which may be used by annotators down the road
                                       <br><b>Example:</b><br>
                                     </p>
-                                    <pre><code class="language-python">import com.johnsnowlabs.nlp._
+                                    <pre><code class="language-javascript">import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
 documentAssembler = new DocumentAssembler()
@@ -721,7 +795,7 @@ documentAssembler = new DocumentAssembler()
                                       document annotation in further annotators.
                                       <br><b>Example:</b><br>
                                     </p>
-                                    <pre><code class="language-python">token_assembler = TokenAssembler()
+                                    <pre><code class="language-javascript">token_assembler = TokenAssembler()
   .setInputCols("normalized")
   .setOutputCol("assembled")
 </code></pre>
@@ -799,7 +873,7 @@ documentAssembler = new DocumentAssembler()
                                       outputs annotation(s) values into string.
                                       <br><b>Example:</b><br>
                                     </p>
-                                    <pre><code class="language-python">val finisher = new Finisher()
+                                    <pre><code class="language-javascript">val finisher = new Finisher()
   .setInputCols("token")
 </code></pre>
 
@@ -911,7 +985,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val tokenizer = new Tokenizer()
+                                            <pre><code class="language-javascript">val tokenizer = new Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")
   .addInfixPattern("(\p{L}+)(n't\b)")</code></pre>
@@ -967,7 +1041,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val normalizer = new Normalizer()
+                                            <pre><code class="language-javascript">val normalizer = new Normalizer()
   .setInputCols(Array("token"))
   .setOutputCol("normalized")</code></pre>
                                         </div><!--//code-block--></div>
@@ -1006,7 +1080,7 @@ documentAssembler = new DocumentAssembler()
                                                 <b>Requires:</b> Token<br>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val stemmer = new Stemmer()
+                                            <pre><code class="language-javascript">val stemmer = new Stemmer()
   .setInputCols(Array("token"))
   .setOutputCol("stem")</code></pre>
                                         </div>
@@ -1063,7 +1137,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val lemmatizer = new Lemmatizer()
+                                            <pre><code class="language-javascript">val lemmatizer = new Lemmatizer()
   .setInputCols(Array("token"))
   .setOutputCol("lemma")
   .setLemmaDict("./lemmas001.txt")</code></pre>
@@ -1128,7 +1202,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val regexMatcher = new RegexMatcher()
+                                            <pre><code class="language-javascript">val regexMatcher = new RegexMatcher()
   .setStrategy(strategy)
   .setInputCols(Array("document"))
   .setOutputCol("regex")</code></pre>
@@ -1190,7 +1264,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val entityExtractor = new TextMatcher()
+                                            <pre><code class="language-javascript">val entityExtractor = new TextMatcher()
  .setInputCols("inputCol")
  .setOutputCol("entity")
  .setEntities("/path/to/file/myentities.txt")
@@ -1249,7 +1323,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val dateMatcher = new DateMatcher()
+                                            <pre><code class="language-javascript">val dateMatcher = new DateMatcher()
   .setFormat("yyyyMM")
   .setOutputCol("date")</code></pre>
                                         </div><!--//code-block--></div>
@@ -1299,7 +1373,7 @@ documentAssembler = new DocumentAssembler()
                                           </ul>
                                                 <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentenceDetector = new SentenceDetector()
+                                            <pre><code class="language-javascript">val sentenceDetector = new SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")</code></pre>
                                         </div>
@@ -1379,7 +1453,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val posTagger = new PerceptronApproach()
+                                            <pre><code class="language-javascript">val posTagger = new PerceptronApproach()
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("pos")
   .fit(data)</code></pre>
@@ -1454,7 +1528,7 @@ documentAssembler = new DocumentAssembler()
                                     <b>Input:</b> File or folder of text files of positive and negative data<br>
                                     <b>Example:</b><br>
                                     </p>
-                                    <pre><code class="language-python">new ViveknSentimentApproach()
+                                    <pre><code class="language-javascript">new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
       .setPositiveSourcePath("./positive/1.txt")
@@ -1527,7 +1601,7 @@ documentAssembler = new DocumentAssembler()
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val sentimentDetector = new SentimentDetector
+                                            <pre><code class="language-javascript">val sentimentDetector = new SentimentDetector
   .setInputCols(Array("token", "sentence"))
   .setOutputCol("sentiment")</code></pre>
                                         </div><!--//code-block--></div>
@@ -1675,7 +1749,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">new NerCrfApproach()
+                                            <pre><code class="language-javascript">new NerCrfApproach()
   .setInputCols("sentence", "token", "pos")
   .setLabelColumn("label")
   .setMinEpochs(1)
@@ -1826,7 +1900,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val nerTagger = new NerDLApproach()
+                                            <pre><code class="language-javascript">val nerTagger = new NerDLApproach()
       .setInputCols("sentence", "token")
       .setOutputCol("ner")
       .setLabelColumn("label")
@@ -1931,7 +2005,7 @@ documentAssembler = new DocumentAssembler()
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">val spellChecker = new NorvigSweetingApproach()
+                                            <pre><code class="language-javascript">val spellChecker = new NorvigSweetingApproach()
   .setInputCols(Array("normalized"))
   .setOutputCol("spell")
   .setCorpusPath("./sherlockholmes.txt")</code></pre>
@@ -2022,7 +2096,7 @@ assertion_status = AssertionStatusApproach() \
                                             <b>Input:</b> a document as output by the Document Assembler.<br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">
+                                            <pre><code class="language-javascript">
 val assertionStatus = new AssertionStatusApproach() 
 .setLabelCol("label") 
       .setInputCols("document") 
@@ -2114,7 +2188,7 @@ assertion_status = AssertionStatusApproach() \
                                             <b>Input:</b> a document as output by the Document Assembler.<br>
                                             <b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-python">
+                                            <pre><code class="language-javascript">
 val assertionStatus = new AssertionStatusApproach() 
 .setLabelCol("label") 
       .setInputCols("document") 
@@ -2136,6 +2210,19 @@ val assertionStatus = new AssertionStatusApproach()
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu" style="overflow-y: auto;height: 100%;padding-top: 20px;padding-bottom: 30px" data-spy="affix">
                             <li>
+                                <a class="scrollto" href="#concepts">Concepts</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#Imports">Spark NLP Imports</a></li>
+                                    <li><a class="scrollto" href="#MLPipeline">Spark ML Pipelines</a></li>
+                                    <li><a class="scrollto" href="#LightPipeline">Light Pipelines</a></li>
+                                    <li><a class="scrollto" href="#RecursivePipeline">Recursive Pipelines</a></li>
+                                    <li><a class="scrollto" href="#ExternalResource">External Resources</a></li>
+                                    <li><a class="scrollto" href="#ResourceHelper">ResourceHelper</a></li>
+                                    <li><a class="scrollto" href="#ParamsFeatures">Params and Features</a></li>
+
+                                </ul><!--//nav-->
+                            </li>
+                            <li>
                                 <a class="scrollto" href="#pipelines">Pretrained Pipelines</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#BasicPipeline">Basic Pipeline</a></li>
@@ -2151,17 +2238,6 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#SpellFast">Fast Spell Checker</a></li>
                                     <li><a class="scrollto" href="#PosFast">Fast Part of Speech</a></li>
                                     <li><a class="scrollto" href="#NerFast">Fast NER</a></li>
-
-                                </ul><!--//nav-->
-                            </li>
-                            <li>
-                                <a class="scrollto" href="#concepts">Concepts</a>
-                                <ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#LightPipeline">Light Pipelines</a></li>
-                                    <li><a class="scrollto" href="#RecursivePipeline">Recursive Pipelines</a></li>
-                                    <li><a class="scrollto" href="#ExternalResource">External Resources</a></li>
-                                    <li><a class="scrollto" href="#ResourceHelper">ResourceHelper</a></li>
-                                    <li><a class="scrollto" href="#ParamsFeatures">Params and Features</a></li>
 
                                 </ul><!--//nav-->
                             </li>
