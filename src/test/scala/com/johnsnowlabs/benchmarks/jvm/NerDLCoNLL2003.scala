@@ -44,7 +44,7 @@ object NerDLCoNLL2003 extends App {
   val graph = new Graph()
   val session = new Session(graph)
 
-  graph.importGraphDef(Files.readAllBytes(Paths.get("./src/main/resources/ner_dl/char_cnn_blstm_10_100_100_25_30.pb")))
+  graph.importGraphDef(Files.readAllBytes(Paths.get("src/main/resources/ner-dl/char_cnn_blstm_10_100_100_25_30.pb")))
 
   val tf = new TensorflowWrapper(session, graph)
 
