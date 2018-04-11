@@ -20,7 +20,7 @@ class Normalizer(override val uid: String) extends AnnotatorModel[Normalizer] {
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
   setDefault(pattern, "[^\\pL+]")
-  setDefault(lowercase, true)
+  setDefault(lowercase, false)
 
   def getPattern: String = $(pattern)
 

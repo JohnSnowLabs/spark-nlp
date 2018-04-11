@@ -70,7 +70,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
       }
   }
 
-  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+  def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
