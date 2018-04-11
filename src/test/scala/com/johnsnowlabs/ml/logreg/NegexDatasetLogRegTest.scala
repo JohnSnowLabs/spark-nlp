@@ -3,7 +3,7 @@ package com.johnsnowlabs.ml.logreg
 import java.io.File
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{NegexDatasetReader, SimpleTokenizer, Tokenizer, Windowing}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.functions._
