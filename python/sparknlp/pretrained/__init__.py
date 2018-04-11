@@ -25,19 +25,19 @@ class ResourceDownloader(object):
     }
 
     @staticmethod
-    def downloadModel(reader, name, language):
-        j_obj = _internal._DownloadModel(reader.name, name, language).apply()
+    def downloadModel(reader, name, language, folder = None):
+        j_obj = _internal._DownloadModel(reader.name, name, language, folder).apply()
         py_obj = ResourceDownloader._factory[reader.name]()
         py_obj._java_obj = j_obj
         return py_obj
 
     @staticmethod
-    def downloadPipeline(name, language):
-        j_obj = _internal._DownloadPipeline(name, language).apply()
+    def downloadPipeline(name, language, folder = None):
+        j_obj = _internal._DownloadPipeline(name, language, folder).apply()
         jmodel = JavaModel()
         jmodel._java_obj = j_obj
         return jmodel
 
     @staticmethod
-    def clearCache(name, language):
-        _internal._ClearCache(name, language).apply()
+    def clearCache(name, language, folder = None):
+        _internal._ClearCache(name, language, folder).apply()

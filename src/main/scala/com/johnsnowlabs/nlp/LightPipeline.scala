@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{PipelineModel, Transformer}
+
 import scala.collection.JavaConverters._
 
 class LightPipeline(stages: Array[Transformer]) {
