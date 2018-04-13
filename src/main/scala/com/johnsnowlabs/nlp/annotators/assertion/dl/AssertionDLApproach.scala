@@ -87,7 +87,8 @@ class AssertionDLApproach(override val uid: String)
     val graph = new Graph()
     val session = new Session(graph)
 
-    val graphStream = getClass.getResourceAsStream(s"/assertion_dl/blstm_34_32_30_200_${getOrDefault(classes)}.pb")
+    val graphStream = getClass.
+      getResourceAsStream(s"/assertion_dl/blstm_34_32_30_${getOrDefault(embeddingsNDims)}_${getOrDefault(classes)}.pb")
     require(graphStream != null, "Graph not found for input parameters")
 
     val graphBytesDef = IOUtils.toByteArray(graphStream)
