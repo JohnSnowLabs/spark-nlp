@@ -84,6 +84,6 @@ object annotator {
   type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
   object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
   type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
-  object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadsAssertionGraph
+  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph
 
 }
