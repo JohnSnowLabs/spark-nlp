@@ -1405,33 +1405,44 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Finds sentence bounds in raw text.<br>
+                                                Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                               <li>
-                                                setCustomBounds(characters): Custom sentence separator text
+                                                  setCustomBounds(bounds): Custom sentence separator text
+                                              </li>
+                                              <li>
+                                                  setUseCustomOnly(False): Use only custom bounds without considering those of Pragmatic Segmenter
+                                              </li>
+                                              <li>
+                                                  setUseAbbreviations(False): Whether to consider abbreviation strategies for better accuracy but slower performance
                                               </li>
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">sentence_detector = SentenceDetector() \
   .setInputCols(["document"]) \
-  .setOutputCol("sentence") \
-  .setUseAbbreviations(True)</code></pre>
+  .setOutputCol("sentence")</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Finds sentence bounds in raw text.<br>
+                                                Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.<br>
                                                 <b>Type:</b> Document<br>
                                                 <b>Requires:</b> Document<br>
                                               <b>Functions:</b> <br>
                                           <ul>
                                             <li>
-                                              setCustomBounds(characters): Custom sentence separator text
+                                                setCustomBounds(bounds): Custom sentence separator text
+                                            </li>
+                                            <li>
+                                                setUseCustomOnly(False): Use only custom bounds without considering those of Pragmatic Segmenter
+                                            </li>
+                                            <li>
+                                                setUseAbbreviations(False): Whether to consider abbreviation strategies for better accuracy but slower performance
                                             </li>
                                           </ul>
                                                 <b>Example:</b><br>
