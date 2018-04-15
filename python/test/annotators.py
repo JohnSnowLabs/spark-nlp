@@ -174,7 +174,7 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
-            .setCustomBoundChars(["%%"])
+            .setCustomBounds(["%%"])
         assembled = document_assembler.transform(self.data)
         sentence_detector.transform(assembled).show()
 
@@ -300,7 +300,7 @@ class ParamsGettersTestSpec(unittest.TestCase):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
-            .setCustomBoundChars(["%%"])
+            .setCustomBounds(["%%"])
         assert(sentence_detector.getOutputCol() == "sentence")
         assert(sentence_detector.getCustomBounds() == ["%%"])
         # Try a default getter

@@ -15,7 +15,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
-  val useCustomOnly = new BooleanParam(this, "useCustomOnly", "whether to consider custom bounds with pragmatic ones or alone")
+
+  val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
 
   val customBounds: StringArrayParam = new StringArrayParam(
     this,
@@ -25,9 +26,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
-  def setCustomBoundChars(value: Array[String]): this.type = set(customBounds, value)
+  def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
 
-  def setUseCustomOnly(value: Boolean): this.type = set(useCustomOnly, value)
+  def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
 
   def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
 
@@ -35,17 +36,23 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  setDefault(inputCols, Array(DOCUMENT))
+  setDefault(
+    inputCols -> Array(DOCUMENT),
+    useAbbrevations -> false,
+    customBounds -> Array.empty[String]
+  )
 
-  setDefault(useAbbrevations, false)
+  lazy val model: PragmaticMethod =
+    if ($(customBounds).nonEmpty && $(useCustomBoundsOnly))
+      new CustomPragmaticMethod($(customBounds))
+    else if ($(customBounds).nonEmpty)
+      new MixedPragmaticMethod($(useAbbrevations), $(customBounds))
+    else
+      new DefaultPragmaticMethod($(useAbbrevations))
 
-  lazy val model = new PragmaticMethod($(useAbbrevations))
-
-  def tag(document: String): Seq[Sentence] = {
+  def tag(document: String): Array[Sentence] = {
     model.extractBounds(
-      document,
-      get(customBounds).getOrElse(Array.empty[String]),
-      get(useCustomOnly).getOrElse(false)
+      document
     )
   }
 
