@@ -33,6 +33,7 @@ class NerDLApproach(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
+  override def getLogName: String = "NerDL"
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
   override val annotatorType = NAMED_ENTITY

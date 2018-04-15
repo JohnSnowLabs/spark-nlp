@@ -19,7 +19,7 @@ class NorvigSweetingApproach(override val uid: String)
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
   val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(caseSensitive, false)
+  setDefault(caseSensitive, true)
   setDefault(doubleVariants, false)
   setDefault(shortCircuit, false)
 

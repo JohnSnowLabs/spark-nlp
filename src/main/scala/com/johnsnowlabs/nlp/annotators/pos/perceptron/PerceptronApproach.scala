@@ -162,6 +162,6 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     logger.debug("TRAINING: Finished all iterations")
     new PerceptronModel().setModel(trainedModel)
   }
-
 }
+
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]

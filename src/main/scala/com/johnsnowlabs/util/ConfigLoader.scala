@@ -16,5 +16,4 @@ object ConfigLoader {
   def retrieve: Config = ConfigFactory
     .parseFile(new File(overrideConfigPath))
     .withFallback(defaultConfig)
-
 }

@@ -44,13 +44,13 @@ object NerDLCoNLL2003 extends App {
   val graph = new Graph()
   val session = new Session(graph)
 
-  graph.importGraphDef(Files.readAllBytes(Paths.get("./src/main/resources/ner_dl/char_cnn_blstm_10_100_100_25_30.pb")))
+  graph.importGraphDef(Files.readAllBytes(Paths.get("src/main/resources/ner-dl/char_cnn_blstm_10_100_100_25_30.pb")))
 
   val tf = new TensorflowWrapper(session, graph)
 
   val ner = try {
     val model = new TensorflowNer(tf, encoder, 9, Verbose.All)
-    for (epoch <- 0 until 10) {
+    for (epoch <- 0 until 150) {
       model.train(trainDataset, 0.2f, 0.05f, 9, 0.5f, epoch, epoch + 1)
 
       System.out.println("\n\nQuality on train data")
