@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
 import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}

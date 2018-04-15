@@ -5,8 +5,10 @@ import java.nio.file.{Files, Paths}
 import java.sql.Timestamp
 import java.util.Calendar
 
+import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider, BasicAWSCredentials}
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.services.s3.model.GetObjectRequest
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
@@ -35,8 +37,19 @@ class S3ResourceDownloader(bucket: String,
       builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
 
     builder.setRegion(region)
+    val config = new ClientConfiguration()
+    //config.setSocketTimeout(0)
+    //config.setConnectionTimeout(0)
+    //config.setMaxErrorRetry(20)
+    //config.setMaxConnections(500)
+    //config.setUseTcpKeepAlive(true)
+    //config.setRequestTimeout(2000000)
+
+    builder.setClientConfiguration(config)
+
     builder.build()
   }
+
 
   private def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
@@ -81,13 +94,16 @@ class S3ResourceDownloader(bucket: String,
           None
         } else {
           if (!dstFile.exists()) {
-            val obj = client.getObject(bucket, s3FilePath)
+
+            //val obj = client.getObject(bucket, s3FilePath)
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
             val tmpFile = new File(tmpFileName)
 
             // 2. Download content to tmp file
-            FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
+            val req = new GetObjectRequest(bucket, s3FilePath)
+            client.getObject(req, tmpFile)
+            //FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
 
             // 3. Move tmp file to destination
             FileUtils.moveFile(tmpFile, dstFile)
