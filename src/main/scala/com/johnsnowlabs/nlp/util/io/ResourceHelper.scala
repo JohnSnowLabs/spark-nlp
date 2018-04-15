@@ -328,7 +328,9 @@ object ResourceHelper {
         val regex = er.options("tokenPattern").r
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
+            //println("Before counting words...")
             words.foreach(w => {
+              // Creates a Map of frequency words: word -> frequency based on ExternalResource
               m(w) += 1
             })
         })
@@ -368,4 +370,82 @@ object ResourceHelper {
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
+
+  /** Created by danilo 14/04/2018
+    * Add word and its derived deletions to dictionary (Map)
+  * */
+  def deriveWordCount(er: ExternalResource,
+                      m: MMap[String, (List[String], Long)] =
+                         MMap.empty[String, (List[String], Long)].withDefaultValue(List[String](), 0),
+                      p: Option[PipelineModel] = None,
+                      med: Int
+                     ): String = {
+    //
+    val foo = ""
+    var longestWordLength: Int = 0
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
+        val regex = er.options("tokenPattern").r
+        sourceStream.content.getLines.foreach(line => {
+          val words = regex.findAllMatchIn(line).map(_.matched).toList
+          words.foreach(w => {
+            // check if word is already in dictionary
+            // dictionary entries are in the form:
+            // (list of suggested corrections,frequency of word in corpus)
+            if (m(w.toLowerCase)._2 == 0) {
+              m(w.toLowerCase) = (List[String](), 1)
+              longestWordLength = w.length.max(longestWordLength)
+            } else{
+              var count: Long = m(w)._2
+              // increment count of word in corpus
+              count += 1
+              m(w.toLowerCase) = (m(w.toLowerCase)._1, count)
+            }
+
+            if (m(w.toLowerCase)._2 == 1){
+              println("Implement deletes")
+              getDeletes(w.toLowerCase, med)
+            }
+
+          })
+        })
+        foo
+    }
+
+
+  }
+
+
+  /** Created by danilo 14/04/2018
+    * Given a word, derive strings with up to maxEditDistance characters
+    * deleted
+    * */
+  def getDeletes(word: String, med: Int): List[String] ={
+
+    var deletes: List[String] = List()
+    var queueList = List(word)
+    val x = 1 to med
+    x.foreach( d =>
+      {
+        var tempQueue: List[String] = List()
+        queueList.foreach(w => {
+          //println(w.length)
+          if (w.length > 1){
+            val y = 0 to w.length
+            y.foreach(c =>{
+              //result of word minus c
+              val wordMinus = w.substring(0, c).concat(w.substring(c+1, w.length))
+              println(wordMinus)
+            }) // End y.foreach
+          }
+        }
+        ) //End queueList.foreach
+      }
+    ) //End x.foreach
+
+    deletes
+  }
+
+
 }
