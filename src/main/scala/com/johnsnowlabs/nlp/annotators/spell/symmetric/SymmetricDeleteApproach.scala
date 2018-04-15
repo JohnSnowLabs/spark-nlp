@@ -7,7 +7,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-import scala.collection.mutable.{Map => MMap} //MMap is a mutable object
+import scala.collection.mutable.{ListBuffer, Map => MMap} //MMap is a mutable object
 
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
@@ -55,13 +55,16 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val corpusDeriveWordCount: String =
+    val corpusDeriveWordCount: MMap[String, (ListBuffer[String], Long)] =
         ResourceHelper.deriveWordCount(er = $(corpus),
                                        p = recursivePipeline,
                                        med = $(maxEditDistance))
+    println("Dictionary created...")
 
     val corpusWordCount: Map[String, Long] =
         ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
+
+    println("Word count processed...")
 
     new SymmetricDeleteModel()
       .setWordCount(corpusWordCount)

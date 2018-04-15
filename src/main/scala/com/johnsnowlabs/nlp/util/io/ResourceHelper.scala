@@ -14,7 +14,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
-
+import scala.collection.mutable.ListBuffer
 
 /**
   * Created by saif on 28/04/17.
@@ -375,13 +375,12 @@ object ResourceHelper {
     * Add word and its derived deletions to dictionary (Map)
   * */
   def deriveWordCount(er: ExternalResource,
-                      m: MMap[String, (List[String], Long)] =
-                         MMap.empty[String, (List[String], Long)].withDefaultValue(List[String](), 0),
+                      m: MMap[String, (ListBuffer[String], Long)] =
+                         MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
                       p: Option[PipelineModel] = None,
                       med: Int
-                     ): String = {
-    //
-    val foo = ""
+                     ): MMap[String, (ListBuffer[String], Long)] = {
+
     var longestWordLength: Int = 0
     er.readAs match {
       case LINE_BY_LINE =>
@@ -394,7 +393,7 @@ object ResourceHelper {
             // dictionary entries are in the form:
             // (list of suggested corrections,frequency of word in corpus)
             if (m(w.toLowerCase)._2 == 0) {
-              m(w.toLowerCase) = (List[String](), 1)
+              m(w.toLowerCase) = (ListBuffer[String](), 1)
               longestWordLength = w.length.max(longestWordLength)
             } else{
               var count: Long = m(w)._2
@@ -404,18 +403,91 @@ object ResourceHelper {
             }
 
             if (m(w.toLowerCase)._2 == 1){
-              println("Implement deletes")
-              getDeletes(w.toLowerCase, med)
+              val deletes = getDeletes(w.toLowerCase, med)
+              //println(deletes)
+              deletes.foreach( item => {
+                if (m.contains(item)){
+                  // add (correct) word to delete's suggested correction list
+                  m(item)._1 += w
+                } else {
+                  // note frequency of word in corpus is not incremented
+                  val word = new ListBuffer[String]
+                  word += w.toLowerCase()
+                  m(item) = (word, 0)
+                }
+              }) // End deletes.foreach
             }
-
-          })
-        })
-        foo
+          }) // End words.foreach
+        }) // End sourceStream.foreach
+        sourceStream.close()
+        if (m.isEmpty) throw new
+            FileNotFoundException("Derived word count dictionary for spell checker does not exist or is empty")
+        m
     }
-
 
   }
 
+  def deriveWordCountTemp(er: ExternalResource,
+                      m: MMap[String, (ListBuffer[String], Long)] =
+                      MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
+                      p: Option[PipelineModel] = None,
+                      med: Int
+                     ): MMap[String, (ListBuffer[String], Long)] = {
+
+    // var dictionary : MMap[String, (ListBuffer[String], Long)]
+    er.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(er.path)
+        val regex = er.options("tokenPattern").r
+        sourceStream.content.getLines.foreach(line => {
+          val words = regex.findAllMatchIn(line).map(_.matched).toList
+          words.foreach(w => {
+            updateDictionary(m, w, med)
+          }) // End words.foreach
+        }) // End sourceStream.foreach
+        sourceStream.close()
+        if (m.isEmpty) throw new
+            FileNotFoundException("Derived word count dictionary for spell checker does not exist or is empty")
+        m
+    }
+
+  }
+
+  def updateDictionary(d: MMap[String, (ListBuffer[String], Long)],
+                       w: String, med: Int
+                      ): MMap[String, (ListBuffer[String], Long)] = {
+
+    var longestWordLength: Int = 0
+    // check if word is already in dictionary
+    // dictionary entries are in the form:
+    // (list of suggested corrections,frequency of word in corpus)
+    if (d(w.toLowerCase)._2 == 0) {
+      d(w.toLowerCase) = (ListBuffer[String](), 1)
+      longestWordLength = w.length.max(longestWordLength)
+    } else{
+      var count: Long = d(w)._2
+      // increment count of word in corpus
+      count += 1
+      d(w.toLowerCase) = (d(w.toLowerCase)._1, count)
+    }
+
+    if (d(w.toLowerCase)._2 == 1){
+      val deletes = getDeletes(w.toLowerCase, med)
+      //println(deletes)
+      deletes.foreach( item => {
+        if (d.contains(item)){
+          // add (correct) word to delete's suggested correction list
+          d(item)._1 += w
+        } else {
+          // note frequency of word in corpus is not incremented
+          val word = new ListBuffer[String]
+          word += w.toLowerCase()
+          d(item) = (word, 0)
+        }
+      }) // End deletes.foreach
+    }
+    d
+  }
 
   /** Created by danilo 14/04/2018
     * Given a word, derive strings with up to maxEditDistance characters
@@ -423,28 +495,33 @@ object ResourceHelper {
     * */
   def getDeletes(word: String, med: Int): List[String] ={
 
-    var deletes: List[String] = List()
+    var deletes = new ListBuffer[String]()
     var queueList = List(word)
     val x = 1 to med
     x.foreach( d =>
       {
-        var tempQueue: List[String] = List()
+        var tempQueue = new ListBuffer[String]()
         queueList.foreach(w => {
-          //println(w.length)
           if (w.length > 1){
-            val y = 0 to w.length
-            y.foreach(c =>{
+            val y = 0 until w.length
+            y.foreach(c => { //character index
               //result of word minus c
               val wordMinus = w.substring(0, c).concat(w.substring(c+1, w.length))
-              println(wordMinus)
+              if (!deletes.contains(wordMinus)){
+                deletes += wordMinus
+              }
+              if (!tempQueue.contains(wordMinus)){
+                tempQueue += wordMinus
+              }
             }) // End y.foreach
+            queueList = tempQueue.toList
           }
         }
         ) //End queueList.foreach
       }
     ) //End x.foreach
 
-    deletes
+    deletes.toList
   }
 
 
