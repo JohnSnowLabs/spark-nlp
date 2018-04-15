@@ -381,24 +381,26 @@ class SentenceDetector(AnnotatorModel):
                          "characters used to explicitly mark sentence bounds",
                          typeConverter=TypeConverters.toListString)
 
+    useCustomBoundsOnly = Param(Params._dummy(),
+                                "useCustomBoundsOnly",
+                                "Only utilize custom bounds in sentence detection",
+                                typeConverter=TypeConverters.toBoolean)
+
     name = 'SentenceDetector'
 
-    def setCustomBoundChars(self, value):
-        self._set(customBounds=value)
-        return self
+    def setCustomBounds(self, value):
+        return self._set(customBounds=value)
 
     def setUseAbbreviations(self, value):
-        self._set(useAbbreviations=value)
-        return self
+        return self._set(useAbbreviations=value)
 
-    def setUseCustomOnly(self, value):
-        self._set(useCustomOnly=value)
-        return self
+    def setUseCustomBoundsOnly(self, value):
+        return self._set(useCustomBoundsOnly=value)
 
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomOnly=False)
+        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomBoundsOnly=False, customBounds=[])
 
 
 class SentimentDetector(AnnotatorApproach):

@@ -92,7 +92,7 @@ class NerDLApproach(override val uid: String)
         .setOutputCol("document")
 
       val sentenceDetector = new SentenceDetector()
-        .setCustomBoundChars(Array("\n\n", "\n\r\n\r"))
+        .setCustomBounds(Array("\n\n", "\n\r\n\r"))
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
