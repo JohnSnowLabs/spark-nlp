@@ -7,7 +7,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-import scala.collection.mutable.{Map => MMap}
+import scala.collection.mutable.{Map => MMap} //MMap is a mutable object
 
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
@@ -65,13 +65,6 @@ class SymmetricDeleteApproach(override val uid: String)
 
     new SymmetricDeleteModel()
       .setWordCount(corpusWordCount)
-  }
-
-
-  //Just for testing
-  def loadWords(): MMap[String, Long] = { //MMap mutable Map
-    val loadWords = ResourceHelper.wordCount($(corpus)) //.toMap
-    loadWords
   }
 
 }
