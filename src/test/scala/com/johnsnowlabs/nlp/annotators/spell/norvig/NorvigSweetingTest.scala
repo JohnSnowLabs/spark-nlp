@@ -3,7 +3,8 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, ContentProvider, DataBuilder}
 import org.scalatest._
 
-class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
+class NorvigSweetingTest extends FlatSpec with NorvigSweetingBehaviors{
+
 
   "an isolated spell checker" should behave like isolatedNorvigChecker(
     Seq(

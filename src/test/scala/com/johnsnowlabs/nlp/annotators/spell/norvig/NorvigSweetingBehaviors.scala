@@ -72,4 +72,9 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
+  def testCheck(word: String): String = {
+    val text = spellChecker.check(word)
+    text
+  }
+
 }
