@@ -1286,16 +1286,47 @@ documentAssembler = new DocumentAssembler()
                                         <div class="code-block">
                                             <p>
                                                 Reads from different forms of date and time expressions and converts
-                                                them to a
-                                                provided date format<br>
+                                                them to a provided date format. Extracts only ONE date per sentence.
+                                                Use with sentence detector for more matches.<br>
                                                 <b>Type:</b> Date<br>
                                                 <b>Requires:</b> Document<br>
+                                                <b>Reads the following kind of dates:</b>
+                                        <ul>
+                                            <li>1978-01-28</li>
+                                            <li>1984/04/02</li>
+                                            <li>1/02/1980</li>
+                                            <li>2/28/79</li>
+                                            <li>The 31st of April in the year 2008</li>
+                                            <li>Fri, 21 Nov 1997</li>
+                                            <li>Jan 21, '97</li>
+                                            <li>Sun, Nov 21</li>
+                                            <li>jan 1st</li>
+                                            <li>next thursday</li>
+                                            <li>last wednesday</li>
+                                            <li>today</li>
+                                            <li>tomorrow</li>
+                                            <li>yesterday</li>
+                                            <li>next week</li>
+                                            <li>next month</li>
+                                            <li>next year</li>
+                                            <li>day after</li>
+                                            <li>the day before</li>
+                                            <li>0600h</li>
+                                            <li>06:00 hours</li>
+                                            <li>6pm</li>
+                                            <li>5:30 a.m.</li>
+                                            <li>at 5</li>
+                                            <li>12:59</li>
+                                            <li>23:59</li>
+                                            <li>1988/11/23 6pm</li>
+                                            <li>next week at 7.30</li>
+                                            <li>5 am tomorrow</li>
+                                        </ul>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
                                                     setDateFormat(format): SimpleDateFormat standard date formatting.
-                                                    Defaults
-                                                    to yyyy/MM/dd
+                                                    Defaults to yyyy/MM/dd
                                                 </li>
                                             </ul>
                                             <b>Example:</b><br>
@@ -1309,10 +1340,42 @@ documentAssembler = new DocumentAssembler()
                                         <div class="code-block">
                                             <p>
                                                 Reads from different forms of date and time expressions and converts
-                                                them to a
-                                                provided date format<br>
+                                                them to a provided date format. Extracts only ONE date per sentence.
+                                                Use with sentence detector for more matches.<br>
                                                 <b>Type:</b> Date<br>
                                                 <b>Requires:</b> Document<br>
+                                                <b>Reads the following kind of dates:</b>
+                                            <ul>
+                                                <li>1978-01-28</li>
+                                                <li>1984/04/02</li>
+                                                <li>1/02/1980</li>
+                                                <li>2/28/79</li>
+                                                <li>The 31st of April in the year 2008</li>
+                                                <li>Fri, 21 Nov 1997</li>
+                                                <li>Jan 21, '97</li>
+                                                <li>Sun, Nov 21</li>
+                                                <li>jan 1st</li>
+                                                <li>next thursday</li>
+                                                <li>last wednesday</li>
+                                                <li>today</li>
+                                                <li>tomorrow</li>
+                                                <li>yesterday</li>
+                                                <li>next week</li>
+                                                <li>next month</li>
+                                                <li>next year</li>
+                                                <li>day after</li>
+                                                <li>the day before</li>
+                                                <li>0600h</li>
+                                                <li>06:00 hours</li>
+                                                <li>6pm</li>
+                                                <li>5:30 a.m.</li>
+                                                <li>at 5</li>
+                                                <li>12:59</li>
+                                                <li>23:59</li>
+                                                <li>1988/11/23 6pm</li>
+                                                <li>next week at 7.30</li>
+                                                <li>5 am tomorrow</li>
+                                            </ul>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
