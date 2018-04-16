@@ -22,7 +22,8 @@ class ResourceDownloader(object):
         ViveknSentimentModel.name: lambda: ViveknSentimentModel(),
         NorvigSweetingModel.name: lambda: NorvigSweetingModel(),
         AssertionLogRegModel.name: lambda: AssertionLogRegModel(),
-        AssertionDLModel.name: lambda: AssertionDLModel()
+        AssertionDLModel.name: lambda: AssertionDLModel(),
+        NerDLModel.name: lambda: NerDLModel()
     }
 
     @staticmethod

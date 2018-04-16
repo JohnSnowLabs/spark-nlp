@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials}
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.AssertionDLModel
+import com.johnsnowlabs.nlp.annotator.{AssertionDLModel, NerDLModel}
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -162,7 +162,8 @@ object PythonResourceDownloader {
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "AssertionLogRegModel" -> AssertionLogRegModel,
-    "AssertionDLModel" -> AssertionDLModel
+    "AssertionDLModel" -> AssertionDLModel,
+    "NerDLModel" -> NerDLModel
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
