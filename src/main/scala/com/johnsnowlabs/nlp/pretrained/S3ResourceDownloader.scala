@@ -38,12 +38,12 @@ class S3ResourceDownloader(bucket: String,
 
     builder.setRegion(region)
     val config = new ClientConfiguration()
-    //config.setSocketTimeout(0)
-    //config.setConnectionTimeout(0)
-    //config.setMaxErrorRetry(20)
-    //config.setMaxConnections(500)
-    //config.setUseTcpKeepAlive(true)
-    //config.setRequestTimeout(2000000)
+    config.setSocketTimeout(0)
+    config.setConnectionTimeout(0)
+    config.setMaxErrorRetry(20)
+    config.setMaxConnections(500)
+    config.setUseTcpKeepAlive(true)
+    config.setRequestTimeout(2000000)
 
     builder.setClientConfiguration(config)
 

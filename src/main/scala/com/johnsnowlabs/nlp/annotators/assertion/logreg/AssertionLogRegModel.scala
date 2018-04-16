@@ -21,7 +21,7 @@ import scala.collection.mutable
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
+  with Windowing with TransformModelSchema with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
