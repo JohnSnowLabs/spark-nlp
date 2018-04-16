@@ -1,4 +1,33 @@
 ========
+1.5.1
+========
+---------------
+Overview
+---------------
+This release is an enhancement release to 1.5.0 which includes improved downloader properties and better annotator defaults.
+Also, assertion status models have been included as pretrained, which are models trained on top of Glove Stanford word embeddings
+
+---------------
+Enhancements
+---------------
+* SentenceDetector has now a useCustomOnly param which enforces into using only the custom bounds provided (thanks @atomobianco)
+* Normalizer defaults to not lowerCase words leads to better implicit accuracy in pipelines (thanks @marek.modry)
+* SpellChecker defaults to be case sensitive leads to better accuracy
+* com.johnsnowlabs.annotator._ in Scala now also includes RecursivePipelines and LightPipelines for easier imports
+* ModelDownloader has been improved with better directory management
+
+---------------
+Models
+---------------
+* New Assertion Status (LogisticRegression and DeepLearning) pretrained models now available
+* Vivekn, Basic and Advanced pretrained Pipelines improved accuracy (thanks @marek.modry)
+
+---------------
+Other
+---------------
+* S3 library dependencies updated
+
+========
 1.5.0
 ========
 ---------------
