@@ -9,15 +9,15 @@ object ConfigHelper {
     retrieve.hasPath(path)
   }
 
-  def getConfigValue[T](path: String): Option[T] = {
+  def getConfigValue(path: String): Option[String] = {
     if (!retrieve.hasPath(path))
       None
     else
-      Some(retrieve.getAnyRef(path).asInstanceOf[T])
+      Some(retrieve.getString(path))
   }
 
   def getConfigValueOrElse(path: String, defaultValue: => String): String = {
-    getConfigValue[String](path).getOrElse(defaultValue)
+    getConfigValue(path).getOrElse(defaultValue)
   }
 
   // Configures s3 bucket where pretrained models are stored
@@ -35,6 +35,6 @@ object ConfigHelper {
   val accessKeyId = awsCredentials + ".access_key_id"
   val secretAccessKey = awsCredentials + ".secret_access_key"
 
-  val s3SocketTimeout = "nlp.pretrained.s3_path"
+  val s3SocketTimeout = "nlp.pretrained.s3_socket_timeout"
 
 }
