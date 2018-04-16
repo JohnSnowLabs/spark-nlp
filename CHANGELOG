@@ -13,6 +13,7 @@ Enhancements
 * SentenceDetector has now a useCustomOnly param which enforces into using only the custom bounds provided (thanks @atomobianco)
 * Normalizer defaults to not lowerCase words leads to better implicit accuracy in pipelines (thanks @marek.modry)
 * SpellChecker defaults to be case sensitive leads to better accuracy
+* DateMatcher improved speed performance
 * com.johnsnowlabs.annotator._ in Scala now also includes RecursivePipelines and LightPipelines for easier imports
 * ModelDownloader has been improved with better directory management
 
