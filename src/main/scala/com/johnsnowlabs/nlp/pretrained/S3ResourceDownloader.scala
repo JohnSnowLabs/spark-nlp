@@ -9,7 +9,7 @@ import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider, BasicAWSCredentials}
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.model.GetObjectRequest
-import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 
 import scala.collection.mutable
@@ -37,14 +37,10 @@ class S3ResourceDownloader(bucket: String,
       builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
 
     builder.setRegion(region)
-    val config = new ClientConfiguration()
-    config.setSocketTimeout(0)
-    config.setConnectionTimeout(0)
-    config.setMaxErrorRetry(20)
-    config.setMaxConnections(500)
-    config.setUseTcpKeepAlive(true)
-    config.setRequestTimeout(2000000)
 
+    val config = new ClientConfiguration()
+    val timeout = ConfigHelper.getConfigValue[Int](ConfigHelper.s3SocketTimeout).getOrElse(0)
+    config.setSocketTimeout(timeout)
     builder.setClientConfiguration(config)
 
     builder.build()
@@ -95,7 +91,6 @@ class S3ResourceDownloader(bucket: String,
         } else {
           if (!dstFile.exists()) {
 
-            //val obj = client.getObject(bucket, s3FilePath)
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
             val tmpFile = new File(tmpFileName)
@@ -103,7 +98,6 @@ class S3ResourceDownloader(bucket: String,
             // 2. Download content to tmp file
             val req = new GetObjectRequest(bucket, s3FilePath)
             client.getObject(req, tmpFile)
-            //FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
 
             // 3. Move tmp file to destination
             FileUtils.moveFile(tmpFile, dstFile)
