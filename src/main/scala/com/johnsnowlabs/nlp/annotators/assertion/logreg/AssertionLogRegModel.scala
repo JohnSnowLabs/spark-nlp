@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 import com.johnsnowlabs.nlp.AnnotatorType.{ASSERTION, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.Identifiable
@@ -20,7 +21,7 @@ import scala.collection.mutable
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with Serializable with TransformModelSchema with HasWordEmbeddings  {
+  with Windowing with TransformModelSchema with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
@@ -98,4 +99,10 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
-object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]
+trait PretrainedAssertionLogRegModel {
+  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionLogRegModel =
+    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, folder)
+}
+
+
+object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel

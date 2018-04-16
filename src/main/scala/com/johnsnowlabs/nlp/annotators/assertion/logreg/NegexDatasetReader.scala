@@ -1,9 +1,7 @@
-package com.johnsnowlabs.ml.logreg
+package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Tokenizer, Windowing}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
 import org.apache.spark.sql._
+
 import scala.io.Source
 
 /**
