@@ -37,6 +37,7 @@ class AssertionDLApproach(override val uid: String)
   val epochs = new IntParam(this, "epochs", "Number of epochs for the optimization process")
   val learningRate = new FloatParam(this, "learningRate", "Learning rate for the optimization process")
   val dropout = new FloatParam(this, "dropout", "Dropout at the output of each layer")
+  val classes = new IntParam(this, "classes", "The number of classes")
 
 
   def setLabelCol(label: String): this.type = set(label, label)
@@ -49,6 +50,7 @@ class AssertionDLApproach(override val uid: String)
   def setEpochs(number: Int): this.type = set(epochs, number)
   def setLearningRate(rate: Float): this.type = set(learningRate, rate)
   def setDropout(factor: Float): this.type = set(dropout, factor)
+  def setClasses(k: Int): this.type = set(classes, k)
 
 
   // defaults
@@ -59,7 +61,8 @@ class AssertionDLApproach(override val uid: String)
     batchSize -> 64,
     epochs -> 5,
     learningRate -> 0.0012f,
-    dropout -> 0.05f)
+    dropout -> 0.05f,
+    classes -> 2)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): AssertionDLModel = {
 
@@ -84,7 +87,10 @@ class AssertionDLApproach(override val uid: String)
     val graph = new Graph()
     val session = new Session(graph)
 
-    val graphStream = getClass.getResourceAsStream("/assertion_dl/blstm_34_32_30_200.pb")
+    val graphStream = getClass.
+      getResourceAsStream(s"/assertion_dl/blstm_34_32_30_${getOrDefault(embeddingsNDims)}_${getOrDefault(classes)}.pb")
+    require(graphStream != null, "Graph not found for input parameters")
+
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(graphBytesDef)
 
@@ -109,8 +115,6 @@ class AssertionDLApproach(override val uid: String)
       setStart(getOrDefault(start)).
       setEnd(getOrDefault(end)).
       setInputCols(getOrDefault(inputCols))
-
-
   }
 
   override val annotatorType: AnnotatorType = ASSERTION

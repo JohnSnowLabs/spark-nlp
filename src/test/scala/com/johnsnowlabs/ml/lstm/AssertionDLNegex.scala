@@ -4,8 +4,8 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
-import com.johnsnowlabs.ml.logreg.{Datapoint, NegexDatasetReader}
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.{Datapoint, NegexDatasetReader}
 import com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
@@ -49,7 +49,7 @@ object AssertionDLNegex extends App with EvaluationMetrics {
   val graph = new Graph()
   val session = new Session(graph)
 
-  graph.importGraphDef(Files.readAllBytes(Paths.get("./src/test/resources/assertion.lstm/blstm_34_32_30_200.pb")))
+  graph.importGraphDef(Files.readAllBytes(Paths.get("./src/test/resources/assertion.lstm/blstm_34_32_30_200_2.pb")))
 
   val tf = new TensorflowWrapper(session, graph)
   val batchSize = 16
