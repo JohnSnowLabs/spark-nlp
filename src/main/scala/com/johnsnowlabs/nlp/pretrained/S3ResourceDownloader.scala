@@ -37,7 +37,6 @@ class S3ResourceDownloader(bucket: String,
       builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
 
     builder.setRegion(region)
-
     val config = new ClientConfiguration()
     val timeout = ConfigHelper.getConfigValue(ConfigHelper.s3SocketTimeout).map(_.toInt).getOrElse(0)
     config.setSocketTimeout(timeout)
