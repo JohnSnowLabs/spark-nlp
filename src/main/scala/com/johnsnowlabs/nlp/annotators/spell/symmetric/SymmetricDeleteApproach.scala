@@ -55,19 +55,23 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val corpusDeriveWordCount: MMap[String, (ListBuffer[String], Long)] =
+    val corpusDeriveWordCount: Map[String, (ListBuffer[String], Long)] =
         ResourceHelper.deriveWordCount(er = $(corpus),
                                        p = recursivePipeline,
-                                       med = $(maxEditDistance))
+                                       med = $(maxEditDistance)).toMap
+    val longestWordLength = ResourceHelper.getLongestWordLength
     println("Dictionary created...")
+    println("Longest Word Length: ", longestWordLength)
 
-    val corpusWordCount: Map[String, Long] =
+   /* val corpusWordCount: Map[String, Long] =
         ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
 
-    println("Word count processed...")
+    println("Word count processed...")*/
 
     new SymmetricDeleteModel()
-      .setWordCount(corpusWordCount)
+      .setDeriveWordCount(corpusDeriveWordCount)
+      .setLongestWordLength(longestWordLength)
+      //.setWordCount(corpusWordCount)
   }
 
 }
