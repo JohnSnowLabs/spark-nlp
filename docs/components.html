@@ -666,6 +666,36 @@ NerCrfModel.pretrained()
 NerCrfModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
+                                <h4 id="AsFastLG" class="section-block"> Logistic Regression Assertion Status</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Logistic Regression based assertion status model on top of Glove word embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import AssertionLogRegModel
+AssertionLogRegModel.pretrained()
+</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Logistic Regression based assertion status model on top of Glove word embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">from sparknlp.annotator import AssertionLogRegModel
+AssertionLogRegModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
                                 <h4 id="AsFast" class="section-block"> Fast Bi-LSTM Assertion Status</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -2342,6 +2372,7 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#SpellFast">Fast Spell Checker</a></li>
                                     <li><a class="scrollto" href="#PosFast">Fast Part of Speech</a></li>
                                     <li><a class="scrollto" href="#NerFast">Fast CRF NER</a></li>
+                                    <li><a class="scrollto" href="#AsFastLG">LogReg Assertion</a></li>
                                     <li><a class="scrollto" href="#AsFast">Fast Bi-LSTM Assertion</a></li>
 
                                 </ul><!--//nav-->
