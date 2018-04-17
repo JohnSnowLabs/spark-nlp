@@ -9,7 +9,9 @@ import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.HashSet
+import scala.collection.mutable.ListBuffer
 
+import org.apache.spark.ml.param.Param
 
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel] with SymmetricDeleteParams {
 
@@ -25,8 +27,16 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
   private val vowels = "aeiouy".toCharArray
 
-  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
+  // protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
+  protected val deriveWordCount: MapFeature[String, (ListBuffer[String], Long)] =
+                                  new MapFeature(this, "deriveWordCount")
   protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
+
+  val longestWordLength = new Param[Int](this, "longestWordLength", "length of longest word in corpus")
+
+  def getLongestWordLength: Int = $(longestWordLength)
+
+  def setLongestWordLength(value: Int): this.type = set(longestWordLength, value)
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
   private val config: Config = ConfigFactory.load
@@ -39,15 +49,19 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   private val vowelSwapLimit = config.getInt("nlp.norvigChecker.vowelSwapLimit")
 
   private lazy val allWords: HashSet[String] = {
-    HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+    //HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+    HashSet($$(deriveWordCount).keys.toSeq.map(_.toLowerCase):_*)
   }
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
+  //def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
+  def setDeriveWordCount(value: Map[String, (ListBuffer[String], Long)]) :
+                        this.type = set(deriveWordCount, value)
   def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
 
-  protected def getWordCount: Map[String, Long] = $$(wordCount)
+  //protected def getWordCount: Map[String, Long] = $$(wordCount)
+  protected def getDeriveWordCount: Map[String, (ListBuffer[String], Long)] = $$(deriveWordCount)
   protected def getCustomDict: Map[String, String] = $$(customDict)
 
   /** Utilities */
@@ -98,7 +112,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     wordCount.getOrElse(word, 0)
   }
 
-  private def compareFrequencies(value: String): Long = frequency(value, $$(wordCount))
+  //private def compareFrequencies(value: String): Long = frequency(value, $$(wordCount))
   private def compareHammers(input: String)(value: String): Int = hammingDistance(input, value)
 
   /** Posibilities analysis */
@@ -192,9 +206,20 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     else List.empty[String]
   }
 
+  /** Created by danilo 16/04/2018
+    * Return list of suggested corrections for potentially incorrectly
+    * spelled word
+    * */
+  def getSuggestedCorrections(string: String): Unit = {
+    //if (string.length - )
+    val lwl = this.getLongestWordLength
+    println("done")
+    //printf("Under construction... %d", lwl)
+  }
+
   def check(raw: String): String = {
     val input = limitDups(raw)
-    logger.debug(s"spell checker target word: $input")
+    /*logger.debug(s"spell checker target word: $input")
     val possibility = suggestion(input)
     if (possibility.isDefined) return possibility.get
     val listedSuggestions = suggestions(input)
@@ -221,7 +246,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     logger.debug(s"Received: $input. Best correction is: $result. " +
       s"Because frequency was ${compareFrequencies(result)} " +
       s"and hammer score is ${compareHammers(input)(result)}")
-    result
+    result*/
+    ""
   }
 
 

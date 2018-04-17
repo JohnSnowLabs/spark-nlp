@@ -15,6 +15,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.HashSet
 
 /**
   * Created by saif on 28/04/17.
@@ -63,6 +64,17 @@ object ResourceHelper {
     else {
       path
     }
+  }
+
+  //Created by danilo 17/04/2018
+  private var longestWordLength: Int = 0
+
+  /*def setLongestWordLength(value: Int): Unit ={
+    longestWordLength = value
+  }*/
+
+  def getLongestWordLength: Int = {
+    longestWordLength
   }
 
   def getResourceStream(path: String): InputStream = {
@@ -376,91 +388,71 @@ object ResourceHelper {
   * */
   def deriveWordCount(er: ExternalResource,
                       m: MMap[String, (ListBuffer[String], Long)] =
-                         MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
-                      p: Option[PipelineModel] = None,
-                      med: Int
-                     ): MMap[String, (ListBuffer[String], Long)] = {
-
-    var longestWordLength: Int = 0
-    er.readAs match {
-      case LINE_BY_LINE =>
-        val sourceStream = SourceStream(er.path)
-        val regex = er.options("tokenPattern").r
-        sourceStream.content.getLines.foreach(line => {
-          val words = regex.findAllMatchIn(line).map(_.matched).toList
-          words.foreach(w => {
-            // check if word is already in dictionary
-            // dictionary entries are in the form:
-            // (list of suggested corrections,frequency of word in corpus)
-            if (m(w.toLowerCase)._2 == 0) {
-              m(w.toLowerCase) = (ListBuffer[String](), 1)
-              longestWordLength = w.length.max(longestWordLength)
-            } else{
-              var count: Long = m(w)._2
-              // increment count of word in corpus
-              count += 1
-              m(w.toLowerCase) = (m(w.toLowerCase)._1, count)
-            }
-
-            if (m(w.toLowerCase)._2 == 1){
-              val deletes = getDeletes(w.toLowerCase, med)
-              //println(deletes)
-              deletes.foreach( item => {
-                if (m.contains(item)){
-                  // add (correct) word to delete's suggested correction list
-                  m(item)._1 += w
-                } else {
-                  // note frequency of word in corpus is not incremented
-                  val word = new ListBuffer[String]
-                  word += w.toLowerCase()
-                  m(item) = (word, 0)
-                }
-              }) // End deletes.foreach
-            }
-          }) // End words.foreach
-        }) // End sourceStream.foreach
-        sourceStream.close()
-        if (m.isEmpty) throw new
-            FileNotFoundException("Derived word count dictionary for spell checker does not exist or is empty")
-        m
-    }
-
-  }
-
-  def deriveWordCountTemp(er: ExternalResource,
-                      m: MMap[String, (ListBuffer[String], Long)] =
                       MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
                       p: Option[PipelineModel] = None,
                       med: Int
                      ): MMap[String, (ListBuffer[String], Long)] = {
-
-    // var dictionary : MMap[String, (ListBuffer[String], Long)]
+    //var longestWordLength: Int = 0
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
         val regex = er.options("tokenPattern").r
+        //var longestWordLength: Int = 0
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
           words.foreach(w => {
             updateDictionary(m, w, med)
+            //println(longestWordLength)
           }) // End words.foreach
         }) // End sourceStream.foreach
         sourceStream.close()
         if (m.isEmpty) throw new
             FileNotFoundException("Derived word count dictionary for spell checker does not exist or is empty")
-        m
+      m
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val transformation = {
+          if (p.isDefined) {
+            p.get.transform(dataset)
+          } else {
+            val documentAssembler = new DocumentAssembler()
+              .setInputCol("value")
+            val tokenizer = new Tokenizer()
+              .setInputCols("document")
+              .setOutputCol("token")
+              .setTargetPattern(er.options("tokenPattern"))
+            val finisher = new Finisher()
+              .setInputCols("token")
+              .setOutputCols("finished")
+              .setAnnotationSplitSymbol("--")
+            new Pipeline()
+              .setStages(Array(documentAssembler, tokenizer, finisher))
+              .fit(dataset)
+              .transform(dataset)
+          }
+        }
+        val deriveWordCount = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
+        transformation
+          .select("finished").as[String]
+          .foreach(text => text.split("--").foreach(t => {
+            updateDictionary(m, t, med)
+          }))
+        deriveWordCount
+      case _ => throw new IllegalArgumentException("format not available for word count")
     }
 
   }
 
+  /** Created by danilo 17/04/2018
+    * check if word is already in dictionary
+    * dictionary entries are in the form:
+    * (list of suggested corrections,frequency of word in corpus)
+    * */
   def updateDictionary(d: MMap[String, (ListBuffer[String], Long)],
                        w: String, med: Int
-                      ): MMap[String, (ListBuffer[String], Long)] = {
+                      ): Int = {
 
-    var longestWordLength: Int = 0
-    // check if word is already in dictionary
-    // dictionary entries are in the form:
-    // (list of suggested corrections,frequency of word in corpus)
     if (d(w.toLowerCase)._2 == 0) {
       d(w.toLowerCase) = (ListBuffer[String](), 1)
       longestWordLength = w.length.max(longestWordLength)
@@ -486,7 +478,7 @@ object ResourceHelper {
         }
       }) // End deletes.foreach
     }
-    d
+    longestWordLength
   }
 
   /** Created by danilo 14/04/2018
