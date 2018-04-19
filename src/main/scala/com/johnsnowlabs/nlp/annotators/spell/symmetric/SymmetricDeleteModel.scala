@@ -3,15 +3,18 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
-import scala.collection.immutable.HashSet
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.{HashSet, ListMap}
+import scala.collection.mutable.{ListBuffer, Map => MMap} //MMap is a mutable object
+import scala.util.control.Breaks._
+import scala.math._
 
 import org.apache.spark.ml.param.Param
+
+
 
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel] with SymmetricDeleteParams {
 
@@ -210,44 +213,126 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * Return list of suggested corrections for potentially incorrectly
     * spelled word
     * */
-  def getSuggestedCorrections(string: String): Unit = {
-    //if (string.length - )
-    val lwl = this.getLongestWordLength
-    println("done")
-    //printf("Under construction... %d", lwl)
+  def getSuggestedCorrections(string: String, silent: Boolean): (String, (Long, Int))  = {
+
+    if ((string.length - this.getLongestWordLength) > $(maxEditDistance)){
+      if (!silent){
+        logger.debug("No items in dictionary within maximum edit distance")
+      }
+      ()
+    }
+
+    var minSuggestLen: Double = Double.PositiveInfinity
+
+    val suggestDict = MMap[String, (Long, Int)]()
+    val queueDictionary = MMap[String, String]() // items other than string that we've checked
+    var queueList = ListBuffer(string)
+
+    while (queueList.nonEmpty){
+      val queueItem = queueList.head // pop
+      queueList = queueList.slice(1, queueList.length)
+
+      breakable{ //early exit
+        if (suggestDict.nonEmpty && (string.length - queueItem.length) > $(maxEditDistance)){
+          break
+        }
+      }
+
+      // process queue item
+      if (allWords.contains(queueItem) && suggestDict.contains(queueItem)) {
+
+        val dictionary = $$(deriveWordCount)
+
+        if (dictionary(queueItem)._2 > 0) {
+          // word is in dictionary, and is a word from the corpus, and not already in suggestion list
+          // so add to suggestion dictionary, indexed by the word with value:
+          // (frequency in corpus, edit distance)
+          // note q_items that are not the input string are shorter than input string since only
+          // deletes are added (unless manual dictionary corrections are added)
+          suggestDict(queueItem) = (dictionary(queueItem)._2,
+                                    string.length - queueItem.length)
+
+          breakable{ //early exit
+            if (string.length == queueItem.length){
+              break
+            }
+          }
+
+          if (string.length - queueItem.length < minSuggestLen){
+            minSuggestLen = string.length - queueItem.length
+          }
+        }
+
+        // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
+        // is a valid word or merely a delete) can be valid corrections
+        dictionary(queueItem)._1.foreach( scItem => {
+          if (!suggestDict.contains(scItem)){
+            // assert(scItem.length > queueItem.length) Include or not assertions ???
+
+            // calculate edit distance using Damerau-Levenshtein distance
+            val itemDist = levenshteinDistance(scItem, string)
+
+            if (itemDist <= $(maxEditDistance)){
+              suggestDict(scItem) = (dictionary(scItem)._2, itemDist)
+              if (itemDist < minSuggestLen) {
+                minSuggestLen = itemDist
+              }
+            }
+            // depending on order words are processed, some words with different edit distances may be
+            // entered into suggestions; trim suggestion dictionary
+            suggestDict.retain((k, v) => v._2 <= minSuggestLen)
+          }
+        })
+
+      }
+
+      // now generate deletes (e.g. a substring of string or of a delete) from the queue item
+      // do not add words with greater edit distance
+      if ((string.length - queueItem.length) < $(maxEditDistance) && queueItem.length > 1){
+        val y = 0 until queueItem.length
+        y.foreach(c => { //character index
+          //result of word minus c
+          val wordMinus = queueItem.substring(0, c).concat(queueItem.substring(c+1, queueItem.length))
+          if (!queueDictionary.contains(wordMinus)){
+            queueList += wordMinus
+            queueDictionary(wordMinus) = "None" // arbitrary value, just to identify we checked this
+          }
+        }) // End queueItem.foreach
+      }
+
+    } // End while
+
+    // return list of suggestions with (correction, (frequency in corpus, edit distance))
+    var suggestions = ListMap(suggestDict.toSeq.sortBy(_._2):_*).toList
+
+    if (suggestions.isEmpty){
+      suggestions = List((string, (0, 0)))
+    }
+
+    suggestions.head
+  }
+
+  private def minimum(i1: Int, i2: Int, i3: Int)=min(min(i1, i2), i3)
+
+  def levenshteinDistance(s1:String, s2:String): Int ={
+    val dist=Array.tabulate(s2.length+1, s1.length+1){(j,i)=>if(j==0) i else if (i==0) j else 0}
+
+    for(j<-1 to s2.length; i<-1 to s1.length)
+      dist(j)(i)=if(s2(j-1)==s1(i-1)) dist(j-1)(i-1)
+      else minimum(dist(j-1)(i)+1, dist(j)(i-1)+1, dist(j-1)(i-1)+1)
+
+    dist(s2.length)(s1.length)
   }
 
   def check(raw: String): String = {
-    val input = limitDups(raw)
-    /*logger.debug(s"spell checker target word: $input")
-    val possibility = suggestion(input)
-    if (possibility.isDefined) return possibility.get
-    val listedSuggestions = suggestions(input)
-    val sortedFreq = listedSuggestions.filter(_.length >= input.length).sortBy(compareFrequencies).takeRight(intersections)
-    logger.debug(s"recommended by frequency: ${sortedFreq.mkString(", ")}")
-    val sortedHamm = listedSuggestions.sortBy(compareHammers(input)).takeRight(intersections)
-    logger.debug(s"recommended by hamming: ${sortedHamm.mkString(", ")}")
-    val intersect = sortedFreq.intersect(sortedHamm)
-    /* Picking algorithm */
-    val result =
-      if (sortedFreq.isEmpty && sortedHamm.isEmpty) {
-        logger.debug("no intersection or frequent words found")
-        input
-      } else if (sortedFreq.isEmpty || sortedHamm.isEmpty) {
-        logger.debug("no intersection but one recommendation found")
-        (sortedFreq ++ sortedHamm).last
-      } else if (intersect.nonEmpty) {
-        logger.debug("hammer and frequency recommendations found")
-        intersect.last
-      } else {
-        logger.debug("no intersection of hammer and frequency")
-        Seq(sortedFreq.last, sortedHamm.last).maxBy(w => compareFrequencies(w) * compareHammers(input)(w))
-      }
-    logger.debug(s"Received: $input. Best correction is: $result. " +
-      s"Because frequency was ${compareFrequencies(result)} " +
-      s"and hammer score is ${compareHammers(input)(result)}")
-    result*/
-    ""
+    logger.debug(s"spell checker target word: $raw")
+    val silent = true
+    val word = getSuggestedCorrections(raw, silent)
+
+    logger.debug(s"Received: $raw. Best correction is: $word. " +
+      s"Because frequency was ${word._2._1} " +
+      s"and edit distance was ${word._2._2}")
+    word._1
   }
 
 
