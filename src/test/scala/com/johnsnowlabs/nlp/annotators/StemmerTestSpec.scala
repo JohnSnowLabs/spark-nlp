@@ -18,4 +18,5 @@ class StemmerTestSpec extends FlatSpec with StemmerBehaviors {
 
   "A full Stemmer pipeline with English content" should behave like fullStemmerPipeline(englishPhraseData)
 
+
 }

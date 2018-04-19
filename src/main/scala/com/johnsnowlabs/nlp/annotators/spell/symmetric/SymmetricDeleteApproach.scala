@@ -7,7 +7,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-import scala.collection.mutable.{ListBuffer, Map => MMap} //MMap is a mutable object
+import scala.collection.mutable.ListBuffer
 
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
