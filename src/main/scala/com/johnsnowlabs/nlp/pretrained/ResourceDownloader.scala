@@ -2,10 +2,11 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials}
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.{AssertionDLModel, NerDLModel}
+import com.johnsnowlabs.nlp.annotator.AssertionDLModel
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
@@ -167,7 +168,7 @@ object PythonResourceDownloader {
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
-    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException("Unsupported Model."))
+    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
     val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
     ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
   }
