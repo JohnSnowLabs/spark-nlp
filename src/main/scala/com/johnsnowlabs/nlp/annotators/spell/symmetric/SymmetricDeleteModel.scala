@@ -227,10 +227,16 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     val suggestDict = MMap[String, (Long, Int)]()
     val queueDictionary = MMap[String, String]() // items other than string that we've checked
     var queueList = ListBuffer(string)
+    var count = 0
 
     while (queueList.nonEmpty){
+      count += 1
       val queueItem = queueList.head // pop
       queueList = queueList.slice(1, queueList.length)
+
+      /*if (count == 10){
+        println("debug")
+      }*/
 
       breakable{ //early exit
         if (suggestDict.nonEmpty && (string.length - queueItem.length) > $(maxEditDistance)){
@@ -238,8 +244,11 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
         }
       }
 
+      //print(dictionary.contains("ntende"))
+      //print(allWords.contains("ntende"))
+
       // process queue item
-      if (allWords.contains(queueItem) && suggestDict.contains(queueItem)) {
+      if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
 
         val dictionary = $$(deriveWordCount)
 
@@ -303,7 +312,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     } // End while
 
     // return list of suggestions with (correction, (frequency in corpus, edit distance))
-    var suggestions = ListMap(suggestDict.toSeq.sortBy(_._2):_*).toList
+    var suggestions = suggestDict.toSeq.sortBy {case (k,(f,d)) => (d,-f,k)}.toList
 
     if (suggestions.isEmpty){
       suggestions = List((string, (0, 0)))
