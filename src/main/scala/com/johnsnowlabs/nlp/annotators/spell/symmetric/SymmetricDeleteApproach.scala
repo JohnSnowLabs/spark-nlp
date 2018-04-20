@@ -9,6 +9,10 @@ import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable.ListBuffer
 
+/** Created by danilo 16/04/2018,
+  * Symmetric Delete spelling correction algorithm
+  * inspired on https://github.com/wolfgarbe/SymSpell
+  * */
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
     with SymmetricDeleteParams {
@@ -17,9 +21,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
 
-  // We have to chose one of this, either corpus or dictionary because only one is used in the Python version
   val corpus = new ExternalResourceParam(this, "corpus", "folder or file with text that teaches about the language")
-  val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(maxEditDistance, 3)
 
@@ -33,17 +35,6 @@ class SymmetricDeleteApproach(override val uid: String)
                 readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                 options: Map[String, String] = Map("format" -> "text")): this.type =
     set(corpus, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
-
-  def setDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
-    set(dictionary, value)
-  }
-
-  def setDictionary(path: String,
-                    tokenPattern: String = "\\S+",
-                    readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                    options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
 
   // AnnotatorType shows the structure of the result, we can have annotators with the same result
@@ -60,18 +51,11 @@ class SymmetricDeleteApproach(override val uid: String)
                                        p = recursivePipeline,
                                        med = $(maxEditDistance)).toMap
     val longestWordLength = ResourceHelper.getLongestWordLength
-    println("Dictionary created...")
-    println("Longest Word Length: ", longestWordLength)
-
-   /* val corpusWordCount: Map[String, Long] =
-        ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
-
-    println("Word count processed...")*/
+    //println("Dictionary created...")
 
     new SymmetricDeleteModel()
       .setDeriveWordCount(corpusDeriveWordCount)
       .setLongestWordLength(longestWordLength)
-      //.setWordCount(corpusWordCount)
   }
 
 }

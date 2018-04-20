@@ -385,6 +385,7 @@ object ResourceHelper {
 
   /** Created by danilo 14/04/2018
     * Add word and its derived deletions to dictionary (Map)
+    * This function basically creates a dictionary
   * */
   def deriveWordCount(er: ExternalResource,
                       m: MMap[String, (ListBuffer[String], Long)] =
