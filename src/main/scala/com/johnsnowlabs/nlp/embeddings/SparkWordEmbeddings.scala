@@ -25,16 +25,18 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int) extends Ser
   private var wordEmbeddingsValue: WordEmbeddings = null
 
   def wordEmbeddings: WordEmbeddings = {
-    if (wordEmbeddingsValue == null) {
-      if (!new File(workPath).exists()) {
-        require(new File(src).exists(), s"file $src must be added to sparkContext")
-        FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+    synchronized {
+      if (wordEmbeddingsValue == null) {
+        if (!new File(workPath).exists()) {
+          require(new File(src).exists(), s"file $src must be added to sparkContext")
+          FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+        }
+
+        wordEmbeddingsValue = WordEmbeddings(workPath, dim)
       }
 
-      wordEmbeddingsValue = WordEmbeddings(workPath, dim)
+      wordEmbeddingsValue
     }
-
-    wordEmbeddingsValue
   }
 }
 
