@@ -6,9 +6,9 @@ import org.scalatest._
 class SymmetricDeleteModelTest extends FlatSpec with SymmetricDeleteBehaviors {
 
 
-  //testSuggestions()
+  testSuggestions()
 
-  //testLevenshteinDistance()
+  testLevenshteinDistance()
 
   testCheck()
 
