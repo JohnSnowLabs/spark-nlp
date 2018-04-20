@@ -69,14 +69,6 @@ object ResourceHelper {
   //Created by danilo 17/04/2018
   private var longestWordLength: Int = 0
 
-  /*def setLongestWordLength(value: Int): Unit ={
-    longestWordLength = value
-  }*/
-
-  def getLongestWordLength: Int = {
-    longestWordLength
-  }
-
   def getResourceStream(path: String): InputStream = {
     Option(getClass.getResourceAsStream(path))
       .getOrElse{
@@ -393,7 +385,7 @@ object ResourceHelper {
                       p: Option[PipelineModel] = None,
                       med: Int
                      ): MMap[String, (ListBuffer[String], Long)] = {
-    //var longestWordLength: Int = 0
+
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -466,7 +458,7 @@ object ResourceHelper {
 
     if (d(w.toLowerCase)._2 == 1){
       val deletes = getDeletes(w.toLowerCase, med)
-      //println(deletes)
+
       deletes.foreach( item => {
         if (d.contains(item)){
           // add (correct) word to delete's suggested correction list
