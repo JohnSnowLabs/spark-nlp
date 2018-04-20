@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
