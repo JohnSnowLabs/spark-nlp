@@ -69,6 +69,11 @@ object ResourceHelper {
   //Created by danilo 17/04/2018
   private var longestWordLength: Int = 0
 
+  def getLongestWordLength: Int = {
+    longestWordLength
+  }
+
+
   def getResourceStream(path: String): InputStream = {
     Option(getClass.getResourceAsStream(path))
       .getOrElse{
@@ -376,10 +381,10 @@ object ResourceHelper {
   }
 
   /** Created by danilo 14/04/2018
-    * Add word and its derived deletions to dictionary (Map)
-    * This function basically creates a dictionary
+    * This function creates a dictionary by adding
+    * words and its derived deletions to a Map object
   * */
-  def deriveWordCount(er: ExternalResource,
+  def createDictionary(er: ExternalResource,
                       m: MMap[String, (ListBuffer[String], Long)] =
                       MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
                       p: Option[PipelineModel] = None,
@@ -390,7 +395,7 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
         val regex = er.options("tokenPattern").r
-        //var longestWordLength: Int = 0
+
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
           words.foreach(w => {

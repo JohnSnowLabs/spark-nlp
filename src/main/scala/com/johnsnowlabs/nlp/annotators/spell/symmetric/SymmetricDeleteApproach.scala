@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -26,7 +26,8 @@ class SymmetricDeleteApproach(override val uid: String)
   setDefault(maxEditDistance, 3)
 
   def setCorpus(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+")
+    require(value.options.contains("tokenPattern"), "spell checker corpus needs 'tokenPattern' regex for " +
+                                                    "tagging words. e.g. [a-zA-Z]+")
     set(corpus, value)
   }
 
@@ -42,19 +43,19 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
 
-  def this() = this(Identifiable.randomUID("SPELL")) // constructor required for the annotator to work in python
+  def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val corpusDeriveWordCount: Map[String, (ListBuffer[String], Long)] =
-        ResourceHelper.deriveWordCount(er = $(corpus),
-                                       p = recursivePipeline,
-                                       med = $(maxEditDistance)).toMap
+    val dictionary: Map[String, (ListBuffer[String], Long)] =
+        ResourceHelper.createDictionary(er = $(corpus),
+                                        p = recursivePipeline,
+                                        med = $(maxEditDistance)).toMap
     val longestWordLength = ResourceHelper.getLongestWordLength
     //println("Dictionary created...")
 
     new SymmetricDeleteModel()
-      .setDeriveWordCount(corpusDeriveWordCount)
+      .setDictionary(dictionary)
       .setLongestWordLength(longestWordLength)
   }
 

@@ -34,11 +34,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val word = spellChecker.check(ms)
       println(word)
     })
-    println("Test passed")
-
-    /*val misspell = "Problex"
-    val word = spellChecker.check(misspell)
-    println(word)*/
+    assert(true)
+    succeed
   }
 
 }
