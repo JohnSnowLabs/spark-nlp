@@ -40,8 +40,8 @@ class S3ResourceDownloader(bucket: String,
 
     builder.setRegion(region)
     val config = new ClientConfiguration()
-    config.setSocketTimeout(2000*1000)
-
+    val timeout = ConfigHelper.getConfigValue(ConfigHelper.s3SocketTimeout).map(_.toInt).getOrElse(0)
+    config.setSocketTimeout(timeout)
     builder.setClientConfiguration(config)
 
     builder.build()
@@ -92,7 +92,6 @@ class S3ResourceDownloader(bucket: String,
         } else {
           if (!fs.exists(dstFile)) {
 
-            //val obj = client.getObject(bucket, s3FilePath)
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
             val tmpFile = new File(tmpFileName)
@@ -100,7 +99,6 @@ class S3ResourceDownloader(bucket: String,
             // 2. Download content to tmp file
             val req = new GetObjectRequest(bucket, s3FilePath)
             client.getObject(req, tmpFile)
-            //FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
 
             // 3. Move tmp file to destination
             fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)

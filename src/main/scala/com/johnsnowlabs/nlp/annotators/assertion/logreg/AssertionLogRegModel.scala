@@ -31,8 +31,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
-  // the target term, that must appear capitalized in the document, e.g., 'diabetes'
-  val target = new Param[String](this, "target", "Column with the target to analyze")
   val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
   val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
 
@@ -52,7 +50,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setAfter(after: Int): this.type = set(afterParam, after)
   def setStart(start: String): this.type = set(startParam, start)
   def setEnd(end: String): this.type = set(endParam, end)
-  def setTargetCol(target: String): this.type = set(target, target)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -64,7 +61,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     val processed = dataset.toDF.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
       withColumn("features", applyWindowUdf($"text",
-        col(getOrDefault(target)),
         col(getOrDefault(startParam)),
         col(getOrDefault(endParam))))
 

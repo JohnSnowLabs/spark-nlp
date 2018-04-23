@@ -33,8 +33,6 @@ class AssertionLogRegApproach(val uid: String)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val label = new Param[String](this, "label", "Column with one label per document")
-  // the target term, that must appear capitalized in the document, e.g., 'diabetes'
-  val target = new Param[String](this, "target", "Column with the target to analyze")
   val maxIter = new IntParam(this, "maxIter", "Max number of iterations for algorithm")
   val regParam = new DoubleParam(this, "regParam", "Regularization parameter")
   val eNetParam = new DoubleParam(this, "eNetParam", "Elastic net parameter")
@@ -46,7 +44,6 @@ class AssertionLogRegApproach(val uid: String)
 
 
   def setLabelCol(label: String): this.type = set(label, label)
-  def setTargetCol(target: String): this.type = set(target, target)
   def setMaxIter(max: Int): this.type = set(maxIter, max)
   def setReg(lambda: Double): this.type = set(regParam, lambda)
   def setEnet(enet: Double): this.type = set(eNetParam, enet)
@@ -56,7 +53,6 @@ class AssertionLogRegApproach(val uid: String)
   def setEnd(end: String): this.type = set(endParam, end)
 
   setDefault(label -> "label",
-    target   -> "target",
     maxIter -> 26,
     regParam -> 0.00192,
     eNetParam -> 0.9,
@@ -78,7 +74,6 @@ class AssertionLogRegApproach(val uid: String)
     val processed = dataset.toDF.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
       withColumn("features", applyWindowUdf($"text",
-        col(getOrDefault(target)),
         col(getOrDefault(startParam)),
         col(getOrDefault(endParam))))
 
@@ -101,7 +96,6 @@ class AssertionLogRegApproach(val uid: String)
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
-      .setTargetCol(getOrDefault(target))
       .setStart(getOrDefault(startParam))
       .setEnd(getOrDefault(endParam))
       .setLabelMap(labelMappings)
