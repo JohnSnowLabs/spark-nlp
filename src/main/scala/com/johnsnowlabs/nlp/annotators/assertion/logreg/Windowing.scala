@@ -82,7 +82,7 @@ trait Windowing extends Serializable {
     udf { (doc: String, ner: Seq[Annotation]) =>
       ner.map{n => {
         Vectors.dense(applyWindow(wordVectors.get)(doc, n.begin, n.end))
-      }}.flatten
+      }}
     }
 
   def l2norm(xs: Array[Double]):Double = {

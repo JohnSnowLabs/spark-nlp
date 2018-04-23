@@ -228,7 +228,7 @@ class AssertionBatch (
 
 case class DatasetEncoderParams
 (
-  tags: Array[String],
+  tags: List[String],
   chars: List[Char],
   defaultTag: String = "O"
 )

@@ -45,8 +45,9 @@ class AssertionDLApproach(override val uid: String)
   def setLabelCol(label: String): this.type = set(label, label)
   def setTargetCol(target: String): this.type = set(target, target)
 
-  def setStart(s: String): this.type = set(startCol, s)
-  def setEnd(e: String): this.type = set(endCol, e)
+  def setStartCol(s: String): this.type = set(startCol, s)
+  def setEndCol(e: String): this.type = set(endCol, e)
+  def setNerCol(col: String): this.type = set(nerCol, col)
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
   def setEpochs(number: Int): this.type = set(epochs, number)
@@ -108,7 +109,7 @@ class AssertionDLApproach(override val uid: String)
     graph.importGraphDef(graphBytesDef)
 
     val tf = new TensorflowWrapper(session, graph)
-    val params = DatasetEncoderParams(labelMappings, List.empty)
+    val params = DatasetEncoderParams(labelMappings.toList, List.empty)
     val encoder = new AssertionDatasetEncoder(embeddings.get.getEmbeddings, params)
 
     val model = new TensorflowAssertion(tf, encoder, getOrDefault(batchSize), Verbose.All)
@@ -125,8 +126,8 @@ class AssertionDLApproach(override val uid: String)
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
-      setStart(getOrDefault(startCol)).
-      setEnd(getOrDefault(endCol)).
+      setStartCol(getOrDefault(startCol)).
+      setEndCol(getOrDefault(endCol)).
       setInputCols(getOrDefault(inputCols))
   }
 
