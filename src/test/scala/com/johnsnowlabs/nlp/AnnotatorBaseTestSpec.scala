@@ -120,7 +120,7 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     demandingDummyAnnotator
       .setInputCols(Array("demand"))
       .setOutputCol("result")
-    assertThrows[AnalysisException](demandingDummyAnnotator.transform(dummyAnnotator.transform(dummyData)))
+    assertThrows[IllegalArgumentException](demandingDummyAnnotator.transform(dummyAnnotator.transform(dummyData)))
   }
 
 }
