@@ -122,13 +122,21 @@ class AssertionDLApproach(override val uid: String)
       getOrDefault(epochs)
     )
 
-    new AssertionDLModel().
+    val dlModel = new AssertionDLModel().
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
       setStartCol(getOrDefault(startCol)).
       setEndCol(getOrDefault(endCol)).
       setInputCols(getOrDefault(inputCols))
+
+    if (get(nerCol).isDefined)
+      dlModel
+        .setNerCol($(nerCol))
+    else
+      dlModel
+        .setStartCol($(startCol))
+        .setEndCol($(endCol))
   }
 
   override val annotatorType: AnnotatorType = ASSERTION
