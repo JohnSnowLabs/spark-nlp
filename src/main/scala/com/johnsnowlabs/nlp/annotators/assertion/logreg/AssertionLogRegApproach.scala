@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.PipelineModel
@@ -102,14 +101,20 @@ class AssertionLogRegApproach(val uid: String)
 
     val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
-    new AssertionLogRegModel()
+    val model = new AssertionLogRegModel()
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
-      .setStartCol(getOrDefault(startCol))
-      .setEndCol(getOrDefault(endCol))
       .setLabelMap(labelMappings)
       .setModel(lr.fit(processedWithLabel))
+
+    if (get(nerCol).isDefined)
+      model
+        .setNerCol($(nerCol))
+    else
+      model
+        .setStartCol($(startCol))
+        .setEndCol($(endCol))
   }
 
   private def labelToNumber(mappings: Map[String, Double]) = udf { label:String  => mappings.get(label)}

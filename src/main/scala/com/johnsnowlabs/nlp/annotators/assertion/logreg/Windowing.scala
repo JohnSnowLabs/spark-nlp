@@ -4,6 +4,7 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
 
 
@@ -79,9 +80,10 @@ trait Windowing extends Serializable {
     }
 
   def applyWindowUdfNer =
-    udf { (doc: String, ner: Seq[Annotation]) =>
-      ner.map{n => {
-        Vectors.dense(applyWindow(wordVectors.get)(doc, n.begin, n.end))
+    udf { (doc: String, rows: Seq[Row]) =>
+      rows.map{row => {
+        val annotation = Annotation(row)
+        Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
       }}
     }
 
