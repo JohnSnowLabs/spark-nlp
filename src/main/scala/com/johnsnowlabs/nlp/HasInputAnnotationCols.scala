@@ -24,18 +24,16 @@ trait HasInputAnnotationCols extends Params {
   protected def validate(schema: StructType): Boolean = requiredAnnotatorTypes.forall {
     requiredAnnotatorType =>
       schema.exists {
-        field =>
+        field => {
           field.metadata.contains("annotatorType") &&
-            field.metadata.getString("annotatorType") == requiredAnnotatorType
+            field.metadata.getString("annotatorType") == requiredAnnotatorType &&
+            $(inputCols).contains(field.name)
+        }
       }
   }
 
   /** Overrides required annotators column if different than default */
   final def setInputCols(value: Array[String]): this.type = {
-    require(
-      requiredAnnotatorTypes.nonEmpty,
-      "This annotator does not require any annotations"
-    )
     require(
       value.length == requiredAnnotatorTypes.length,
       s"setInputCols expecting ${requiredAnnotatorTypes.length} columns. " +

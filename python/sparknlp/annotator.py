@@ -41,10 +41,6 @@ class AnnotatorProperties(Params):
                       "outputCol",
                       "output annotation column. can be left default.",
                       typeConverter=TypeConverters.toString)
-    requiredAnnotatorTypes = Param(Params._dummy(),
-                                   "requiredAnnotatorTypes",
-                                   "required input annotations",
-                                   typeConverter=TypeConverters.toListString)
 
     def setInputCols(self, value):
         return self._set(inputCols=value)
