@@ -246,6 +246,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setBefore(11)
       .setAfter(13)
       .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.TEXT)
+      .setStartCol("start")
+      .setEndCol("end")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
     pipeline

@@ -50,8 +50,9 @@ class AssertionLogRegApproach(val uid: String)
   def setEnet(enet: Double): this.type = set(eNetParam, enet)
   def setBefore(b: Int): this.type = set(beforeParam, b)
   def setAfter(a: Int): this.type = set(afterParam, a)
-  def setStart(start: String): this.type = set(startCol, start)
-  def setEnd(end: String): this.type = set(endCol, end)
+  def setStartCol(start: String): this.type = set(startCol, start)
+  def setEndCol(end: String): this.type = set(endCol, end)
+  def setNerCol(col: String): this.type = set(nerCol, col)
 
   setDefault(label -> "label",
     maxIter -> 26,
@@ -75,7 +76,7 @@ class AssertionLogRegApproach(val uid: String)
       withColumn(textCol, extractTextUdf(col(getInputCols.head))).
       withColumn("features", {
         if (get(nerCol).isDefined) {
-          applyWindowUdfNer(col(textCol), col($(nerCol)))
+          explode(applyWindowUdfNer(col(textCol), col($(nerCol))))
         } else if (get(startCol).isDefined & get(endCol).isDefined){
         applyWindowUdf(col(textCol),
           col($(startCol)),
@@ -89,6 +90,7 @@ class AssertionLogRegApproach(val uid: String)
       .setMaxIter(getOrDefault(maxIter))
       .setRegParam(getOrDefault(regParam))
       .setElasticNetParam(getOrDefault(eNetParam))
+      .setPredictionCol("_prediction")
 
     val labelCol = getOrDefault(label)
 
@@ -104,8 +106,8 @@ class AssertionLogRegApproach(val uid: String)
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
-      .setStart(getOrDefault(startCol))
-      .setEnd(getOrDefault(endCol))
+      .setStartCol(getOrDefault(startCol))
+      .setEndCol(getOrDefault(endCol))
       .setLabelMap(labelMappings)
       .setModel(lr.fit(processedWithLabel))
   }

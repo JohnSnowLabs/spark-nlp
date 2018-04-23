@@ -31,7 +31,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
-  val nerCol = new Param[String](this, "startCol", "Column that contains NER annotations to be used as target token")
+  val nerCol = new Param[String](this, "nerCol", "Column that contains NER annotations to be used as target token")
   val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
   val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
@@ -49,8 +49,9 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   def setBefore(before: Int): this.type = set(beforeParam, before)
   def setAfter(after: Int): this.type = set(afterParam, after)
-  def setStart(start: String): this.type = set(startCol, start)
-  def setEnd(end: String): this.type = set(endCol, end)
+  def setStartCol(start: String): this.type = set(startCol, start)
+  def setEndCol(end: String): this.type = set(endCol, end)
+  def setNerCol(col: String): this.type = set(nerCol, col)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -65,7 +66,8 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
       withColumn(textCol, extractTextUdf(col(getInputCols.head))).
       withColumn("features", {
         if (get(nerCol).isDefined) {
-          applyWindowUdfNer(col(textCol), col($(nerCol)))
+          println("HERE")
+          explode(applyWindowUdfNer(col(textCol), col($(nerCol))))
         } else if (get(startCol).isDefined & get(endCol).isDefined) {
           applyWindowUdf(col(textCol),
             col($(startCol)),
@@ -75,9 +77,16 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
         }
       })
 
-    $$(model).transform(processed).withColumn(getOutputCol,
-      packAnnotations(col(textCol), col(getOrDefault(startCol)),
-        col(getOrDefault(endCol)), $"prediction"))
+    $$(model).transform(processed).withColumn(getOutputCol, {
+      if (get(nerCol).isDefined) {
+        packAnnotationsNer(col(textCol), col($(nerCol)), $"_prediction")
+      } else if (get(startCol).isDefined & get(endCol).isDefined) {
+        packAnnotations(col(textCol), col($(startCol)),
+          col($(endCol)), $"_prediction")
+      } else {
+        throw new IllegalArgumentException("Either nerCol or startCol and endCol must be provided in order to predict assertion")
+      }
+    })
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>
@@ -91,6 +100,21 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
     val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
     Seq(annotation)
+  }
+
+  private def packAnnotationsNer = udf { (text: String, n: Seq[Annotation], prediction: Double) =>
+    val tokens = text.split(" ").filter(_!="")
+
+    n.flatMap { nn => {
+      /* convert start and end are indexes in the doc string */
+      val start = tokens.slice(0, nn.begin).map(_.length).sum +
+        tokens.slice(0, nn.begin).length // account for spaces
+      val end = start + tokens.slice(nn.begin, nn.end + 1).map(_.length).sum +
+        tokens.slice(nn.begin, nn.end + 1).length - 2 // account for spaces
+
+      val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
+      Seq(annotation)
+    }}
   }
 
   def setModel(m: LogisticRegressionModel): this.type = set(model, m)

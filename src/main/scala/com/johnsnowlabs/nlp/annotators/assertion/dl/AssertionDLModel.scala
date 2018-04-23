@@ -31,8 +31,9 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
   val startCol = new Param[String](this, "startCol", "Column with token number for first target token")
   val endCol = new Param[String](this, "endCol", "Column with token number for last target token")
 
-  def setStart(s: String): this.type = set(startCol, s)
-  def setEnd(e: String): this.type = set(endCol, e)
+  def setStartCol(s: String): this.type = set(startCol, s)
+  def setEndCol(e: String): this.type = set(endCol, e)
+  def setNerCol(col: String): this.type = set(nerCol, col)
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
