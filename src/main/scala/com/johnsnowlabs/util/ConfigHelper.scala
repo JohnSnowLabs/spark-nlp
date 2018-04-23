@@ -35,4 +35,6 @@ object ConfigHelper {
   val accessKeyId = awsCredentials + ".access_key_id"
   val secretAccessKey = awsCredentials + ".secret_access_key"
 
+  val s3SocketTimeout = "nlp.pretrained.s3_socket_timeout"
+
 }
