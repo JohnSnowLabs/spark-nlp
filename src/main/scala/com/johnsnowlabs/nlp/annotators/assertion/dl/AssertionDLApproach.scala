@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.dl
 
 import com.johnsnowlabs.ml.tensorflow.{AssertionDatasetEncoder, DatasetEncoderParams, TensorflowAssertion, TensorflowWrapper}
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -27,11 +28,12 @@ class AssertionDLApproach(override val uid: String)
   override val description: String = "Deep Learning based Assertion Status"
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
-  val label = new Param[String](this, "label", "Column with one label per document")
-  val target = new Param[String](this, "target", "Column with the target to analyze")
+  val labelCol = new Param[String](this, "label", "Column with one label per document")
 
-  val start = new Param[String](this, "start", "Column with token number for first target token")
-  val end = new Param[String](this, "end", "Column with token number for last target token")
+  val startCol = new Param[String](this, "start", "Column with token number for first target token")
+  val endCol = new Param[String](this, "end", "Column with token number for last target token")
+  val nerCol = new Param[String](this, "nerCol", "Column of NER Annotations to use instead of start and end columns")
+
 
   val batchSize = new IntParam(this, "batchSize", "Size for each batch in the optimization process")
   val epochs = new IntParam(this, "epochs", "Number of epochs for the optimization process")
@@ -43,8 +45,8 @@ class AssertionDLApproach(override val uid: String)
   def setLabelCol(label: String): this.type = set(label, label)
   def setTargetCol(target: String): this.type = set(target, target)
 
-  def setStart(s: String): this.type = set(start, s)
-  def setEnd(e: String): this.type = set(end, e)
+  def setStart(s: String): this.type = set(startCol, s)
+  def setEnd(e: String): this.type = set(endCol, e)
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
   def setEpochs(number: Int): this.type = set(epochs, number)
@@ -54,10 +56,7 @@ class AssertionDLApproach(override val uid: String)
 
 
   // defaults
-  setDefault(label -> "label",
-    target -> "target",
-    start -> "start",
-    end -> "end",
+  setDefault(labelCol -> "label",
     batchSize -> 64,
     epochs -> 5,
     learningRate -> 0.0012f,
@@ -72,17 +71,31 @@ class AssertionDLApproach(override val uid: String)
       collect().
       map(row => row.getAs[String]("text").split(" "))
 
-    val annotations = dataset.
-      select(col(getOrDefault(label)), col(getOrDefault(start)), col(getOrDefault(end))).
-      collect().
-      map(row => AssertionAnnotationWithLabel(
-        row.getAs[String](getOrDefault(label)),
-        row.getAs[Int](getOrDefault(start)),
-        row.getAs[Int](getOrDefault(end))
-      ))
+    val annotations: Array[AssertionAnnotationWithLabel] = {
+      if (get(nerCol).isDefined) {
+        dataset.
+          select(col(getOrDefault(labelCol)), col(getOrDefault(nerCol))).
+          collect.
+          flatMap(row => AssertionAnnotationWithLabel.fromNer(
+            row.getAs[String](getOrDefault(labelCol)),
+            row.getAs[Seq[Annotation]](getOrDefault(nerCol))
+          ))
+      } else if (get(startCol).isDefined && get(endCol).isDefined) {
+        dataset.
+          select(col(getOrDefault(labelCol)), col($(startCol)), col($(endCol))).
+          collect.
+          map(row => AssertionAnnotationWithLabel(
+            row.getAs[String](getOrDefault(labelCol)),
+            row.getAs[Int]($(startCol)),
+            row.getAs[Int]($(endCol))
+          ))
+      } else {
+        throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined in order to train AssertionDL")
+      }
+    }
 
     /* infer labels and assign a number to each */
-    val labelMappings = annotations.map(_.label).distinct.toList
+    val labelMappings = annotations.map(_.label).distinct
 
     val graph = new Graph()
     val session = new Session(graph)
@@ -112,8 +125,8 @@ class AssertionDLApproach(override val uid: String)
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
-      setStart(getOrDefault(start)).
-      setEnd(getOrDefault(end)).
+      setStart(getOrDefault(startCol)).
+      setEnd(getOrDefault(endCol)).
       setInputCols(getOrDefault(inputCols))
   }
 

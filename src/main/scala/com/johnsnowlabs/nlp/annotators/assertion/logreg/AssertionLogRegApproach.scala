@@ -39,8 +39,9 @@ class AssertionLogRegApproach(val uid: String)
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
-  val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
-  val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
+  val nerCol = new Param[String](this, "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol")
+  val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
+  val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
 
   def setLabelCol(label: String): this.type = set(label, label)
@@ -49,17 +50,15 @@ class AssertionLogRegApproach(val uid: String)
   def setEnet(enet: Double): this.type = set(eNetParam, enet)
   def setBefore(b: Int): this.type = set(beforeParam, b)
   def setAfter(a: Int): this.type = set(afterParam, a)
-  def setStart(start: String): this.type = set(startParam, start)
-  def setEnd(end: String): this.type = set(endParam, end)
+  def setStart(start: String): this.type = set(startCol, start)
+  def setEnd(end: String): this.type = set(endCol, end)
 
   setDefault(label -> "label",
     maxIter -> 26,
     regParam -> 0.00192,
     eNetParam -> 0.9,
     beforeParam -> 10,
-    afterParam -> 10,
-    startParam -> "start",
-    endParam -> "end"
+    afterParam -> 10
   )
 
   /* send this to common place */
@@ -68,14 +67,23 @@ class AssertionLogRegApproach(val uid: String)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
-    import dataset.sqlContext.implicits._
+    import dataset.sparkSession.implicits._
 
     /* apply UDF to fix the length of each document */
+    val textCol = $(inputCols).head
     val processed = dataset.toDF.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn("features", applyWindowUdf($"text",
-        col(getOrDefault(startParam)),
-        col(getOrDefault(endParam))))
+      withColumn(textCol, extractTextUdf(col(getInputCols.head))).
+      withColumn("features", {
+        if (get(nerCol).isDefined) {
+          applyWindowUdfNer(col(textCol), col($(nerCol)))
+        } else if (get(startCol).isDefined & get(endCol).isDefined){
+        applyWindowUdf(col(textCol),
+          col($(startCol)),
+          col($(endCol)))
+        } else {
+          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined")
+        }
+      })
 
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
@@ -96,8 +104,8 @@ class AssertionLogRegApproach(val uid: String)
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
-      .setStart(getOrDefault(startParam))
-      .setEnd(getOrDefault(endParam))
+      .setStart(getOrDefault(startCol))
+      .setEnd(getOrDefault(endCol))
       .setLabelMap(labelMappings)
       .setModel(lr.fit(processedWithLabel))
   }
