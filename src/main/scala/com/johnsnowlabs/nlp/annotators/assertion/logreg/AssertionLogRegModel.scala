@@ -31,8 +31,9 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
-  val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
-  val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
+  val nerCol = new Param[String](this, "startCol", "Column that contains NER annotations to be used as target token")
+  val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
+  val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
   var model: StructFeature[LogisticRegressionModel] = new StructFeature[LogisticRegressionModel](this, "logistic regression")
   var labelMap: MapFeature[Double, String] = new MapFeature[Double, String](this, "labels")
@@ -48,8 +49,8 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   def setBefore(before: Int): this.type = set(beforeParam, before)
   def setAfter(after: Int): this.type = set(afterParam, after)
-  def setStart(start: String): this.type = set(startParam, start)
-  def setEnd(end: String): this.type = set(endParam, end)
+  def setStart(start: String): this.type = set(startCol, start)
+  def setEnd(end: String): this.type = set(endCol, end)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
@@ -57,16 +58,26 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
     import dataset.sqlContext.implicits._
 
+    val textCol = $(inputCols).head
+
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn("features", applyWindowUdf($"text",
-        col(getOrDefault(startParam)),
-        col(getOrDefault(endParam))))
+      withColumn(textCol, extractTextUdf(col(getInputCols.head))).
+      withColumn("features", {
+        if (get(nerCol).isDefined) {
+          applyWindowUdfNer(col(textCol), col($(nerCol)))
+        } else if (get(startCol).isDefined & get(endCol).isDefined) {
+          applyWindowUdf(col(textCol),
+            col($(startCol)),
+            col($(endCol)))
+        } else {
+          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be provided in order to predict assertion")
+        }
+      })
 
     $$(model).transform(processed).withColumn(getOutputCol,
-      packAnnotations($"text", col(getOrDefault(startParam)),
-        col(getOrDefault(endParam)), $"prediction"))
+      packAnnotations(col(textCol), col(getOrDefault(startCol)),
+        col(getOrDefault(endCol)), $"prediction"))
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>

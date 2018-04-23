@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.assertion.Datapoint
+
 import scala.util.Random
 
 class NerDatasetEncoder
@@ -227,7 +228,7 @@ class AssertionBatch (
 
 case class DatasetEncoderParams
 (
-  tags: List[String],
+  tags: Array[String],
   chars: List[Char],
   defaultTag: String = "O"
 )

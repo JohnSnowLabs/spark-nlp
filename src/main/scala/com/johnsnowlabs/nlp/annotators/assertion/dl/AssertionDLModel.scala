@@ -27,11 +27,12 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
   with TransformModelSchema {
 
 
-  val start = new Param[String](this, "start", "Column with token number for first target token")
-  val end = new Param[String](this, "end", "Column with token number for last target token")
+  val nerCol = new Param[String](this, "nerCol", "Column with NER output annotation to find target token")
+  val startCol = new Param[String](this, "startCol", "Column with token number for first target token")
+  val endCol = new Param[String](this, "endCol", "Column with token number for last target token")
 
-  def setStart(s: String): this.type = set(start, s)
-  def setEnd(e: String): this.type = set(end, e)
+  def setStart(s: String): this.type = set(startCol, s)
+  def setEnd(e: String): this.type = set(endCol, e)
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
@@ -73,12 +74,20 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
 
-    import dataset.sqlContext.implicits._
+    import dataset.sparkSession.implicits._
 
     /* apply UDFs to classify and annotate */
     dataset.toDF.
       withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn(getOutputCol, packAnnotations(col("text"), col(getOrDefault(start)), col(getOrDefault(end)))
+      withColumn(getOutputCol, {
+        if (get(nerCol).isDefined) {
+          packAnnotationsNer(col("text"), col($(nerCol)))
+        } else if (get(startCol).isDefined & get(endCol).isDefined) {
+          packAnnotations(col("text"), col($(startCol)), col($(endCol)))
+        } else {
+          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined in order to predict assertion")
+        }
+      }
     )
   }
 
@@ -94,6 +103,22 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     val prediction = model.predict(Array(tokens), Array(s), Array(e)).head
     val annotation = Annotation("assertion", start, end, prediction, Map())
     Seq(annotation)
+  }
+
+  private def packAnnotationsNer = udf { (text: String, n: Seq[Annotation]) =>
+    val tokens = text.split(" ").filter(_!="")
+    n.flatMap{ nn => {
+      val prediction = model.predict(Array(tokens), Array(nn.begin), Array(nn.end)).head
+
+      /* convert from token indices in s,e to indices in the doc string */
+      val start = tokens.slice(0, nn.begin).map(_.length).sum +
+        tokens.slice(0, nn.begin).length // account for spaces
+      val end = start + tokens.slice(nn.begin, nn.end + 1).map(_.length).sum +
+        tokens.slice(nn.begin, nn.end + 1).length - 2 // account for spaces
+
+      val annotation = Annotation("assertion", start, end, prediction, Map())
+      Seq(annotation)
+    }}
   }
 
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
