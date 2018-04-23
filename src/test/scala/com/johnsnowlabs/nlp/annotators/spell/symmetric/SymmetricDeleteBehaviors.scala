@@ -60,11 +60,11 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     }
   }
 
-  def datasetBasedSSympellChecker(): Unit = {
-    s"a SymSpellChecker annotator trained with datasets" should "successfully correct words" in {
-      val data = ContentProvider.parquetData.limit(1000)
-      //val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
-      //val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
+
+  def testBigPipeline(): Unit = {
+    s"a SymSpellChecker annotator using a big pipeline" should "successfully correct words" in {
+      val data = ContentProvider.parquetData.limit(3000)
+      val corpusData = Seq.empty[String].toDS
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -75,13 +75,14 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("token")
 
       val spell = new SymmetricDeleteApproach()
-        .setInputCols(Array("normal"))
+        .setInputCols(Array("token"))
         .setOutputCol("spell")
         .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
                                     ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
 
       val finisher = new Finisher()
         .setInputCols("spell")
+        //.setOutputAsArray(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -91,9 +92,20 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
           finisher
         ))
 
-      val model = pipeline.fit(Seq.empty[String].toDS)
-      model.transform(data).show()
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
+      model.transform(data).show(10, false)
 
+    }
+  }
+
+  def testIndividualWords(): Unit = {
+    s"a SymSpellChecker annotator with pipeline of individual words" should
+      "successfully correct words with good accuracy" in {
+
+      val path = "src/test/resources/spell/misspelled_words.csv"
+
+      val correctData = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
+      correctData.show()
     }
   }
 
