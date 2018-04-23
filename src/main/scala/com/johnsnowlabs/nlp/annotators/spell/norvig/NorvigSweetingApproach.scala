@@ -56,7 +56,7 @@ class NorvigSweetingApproach(override val uid: String)
                          options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  override val annotatorType: AnnotatorType = SPELL
+  override val annotatorType: AnnotatorType = TOKEN
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
