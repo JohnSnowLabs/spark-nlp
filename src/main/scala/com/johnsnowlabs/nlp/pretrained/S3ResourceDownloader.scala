@@ -7,11 +7,11 @@ import java.util.Calendar
 import java.util.zip.ZipInputStream
 
 import org.apache.hadoop.fs.Path
-
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.model.GetObjectRequest
+import com.johnsnowlabs.util.ConfigHelper
 
 import scala.collection.mutable
 
