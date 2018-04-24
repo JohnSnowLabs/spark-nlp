@@ -66,18 +66,21 @@ class AssertionDLApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): AssertionDLModel = {
 
-    val sentences = dataset.
-      withColumn("_text", extractTextUdf(col(getInputCols.head))).
+    val targetData = dataset.
+      withColumn("_text", extractTextUdf(col(getInputCols.head)))
+
+    val sentences = targetData.
       select("_text").
       collect().
       map(row => row.getAs[String]("_text").split(" "))
 
     val annotations: Array[AssertionAnnotationWithLabel] = {
       if (get(nerCol).isDefined) {
-        dataset.
-          select(col(getOrDefault(labelCol)), col(getOrDefault(nerCol))).
+        targetData.
+          select(col("_text"), col(getOrDefault(labelCol)), col(getOrDefault(nerCol))).
           collect.
           flatMap(row => AssertionAnnotationWithLabel.fromNer(
+            row.getAs[String]("_text"),
             row.getAs[String](getOrDefault(labelCol)),
             row.getAs(getOrDefault(nerCol))
           ))
