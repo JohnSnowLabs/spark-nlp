@@ -75,8 +75,6 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
 
-    import dataset.sparkSession.implicits._
-
     /* apply UDFs to classify and annotate */
     dataset.toDF.
       withColumn("_text", extractTextUdf(col(getInputCols.head))).

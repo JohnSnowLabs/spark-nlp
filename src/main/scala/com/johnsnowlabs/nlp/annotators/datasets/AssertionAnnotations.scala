@@ -9,10 +9,14 @@ import org.apache.spark.sql.Row
 case class AssertionAnnotationAndText(text: String, target: String, label: String, start:Int, end:Int)
 case class AssertionAnnotationWithLabel(label: String, start:Int, end:Int)
 object AssertionAnnotationWithLabel {
-  def fromNer(label: String, ner: Seq[Row]): Seq[AssertionAnnotationWithLabel] = {
+  def fromNer(doc: String, label: String, ner: Seq[Row]): Seq[AssertionAnnotationWithLabel] = {
     ner.map{n => {
       val annotation = Annotation(n)
-      AssertionAnnotationWithLabel(label, annotation.begin, annotation.end)
+      val content = doc.split(" ")
+      val target = doc.substring(annotation.begin, annotation.end).split(" ")
+      val start = content.indexOf(target.head)
+      val end = content.indexOf(target.last)
+      AssertionAnnotationWithLabel(label, start, end)
     }}
   }
 }
