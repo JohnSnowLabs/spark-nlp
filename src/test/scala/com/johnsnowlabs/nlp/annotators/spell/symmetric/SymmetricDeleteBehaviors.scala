@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp._
 
 import org.scalatest._
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions._
 
 import SparkAccessor.spark.implicits._
 
@@ -78,11 +79,11 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("token"))
         .setOutputCol("spell")
         .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
-                                    ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+                                    ReadAs.LINE_BY_LINE,
+                                    Map("tokenPattern" -> "[a-zA-Z]+")))
 
       val finisher = new Finisher()
         .setInputCols("spell")
-        //.setOutputAsArray(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -102,10 +103,53 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     s"a SymSpellChecker annotator with pipeline of individual words" should
       "successfully correct words with good accuracy" in {
 
+      val corpusData = Seq.empty[String].toDS
       val path = "src/test/resources/spell/misspelled_words.csv"
+      val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
+      data.show(10)
 
-      val correctData = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
-      correctData.show()
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("misspell")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      // val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
+      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
+      val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
+      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("token"))
+        .setOutputCol("spell")
+        .setCorpus(ExternalResource(corpusPath,
+                                    ReadAs.LINE_BY_LINE,
+                                    Map("tokenPattern" -> "[a-zA-Z]+")))
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+        .setOutputAsArray(false)
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
+
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("misspell")))
+      var correctedData = model.transform(data)
+      correctedData.show(10)
+      correctedData = correctedData.withColumn("prediction",
+                                               when(col("word") === col("finished_spell"), 1).otherwise(0))
+      correctedData.show(10)
+      val rightCorrections = correctedData.filter(col("prediction")===1).count()
+      val wrongCorrections = correctedData.filter(col("prediction")===0).count()
+      printf("Right Corrections: %d \n", rightCorrections)
+      printf("Wrong Corrections: %d \n", wrongCorrections)
     }
   }
 
