@@ -79,12 +79,12 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
 
     /* apply UDFs to classify and annotate */
     dataset.toDF.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
+      withColumn("_text", extractTextUdf(col(getInputCols.head))).
       withColumn(getOutputCol, {
         if (get(nerCol).isDefined) {
-          packAnnotationsNer(col("text"), col($(nerCol)))
+          packAnnotationsNer(col("_text"), col($(nerCol)))
         } else if (get(startCol).isDefined & get(endCol).isDefined) {
-          packAnnotations(col("text"), col($(startCol)), col($(endCol)))
+          packAnnotations(col("_text"), col($(startCol)), col($(endCol)))
         } else {
           throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined in order to predict assertion")
         }
@@ -106,19 +106,13 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     Seq(annotation)
   }
 
-  private def packAnnotationsNer = udf { (text: String, n: Seq[Annotation]) =>
+  private def packAnnotationsNer = udf { (text: String, n: Seq[Row]) =>
     val tokens = text.split(" ").filter(_!="")
     n.flatMap{ nn => {
-      val prediction = model.predict(Array(tokens), Array(nn.begin), Array(nn.end)).head
-
-      /* convert from token indices in s,e to indices in the doc string */
-      val start = tokens.slice(0, nn.begin).map(_.length).sum +
-        tokens.slice(0, nn.begin).length // account for spaces
-      val end = start + tokens.slice(nn.begin, nn.end + 1).map(_.length).sum +
-        tokens.slice(nn.begin, nn.end + 1).length - 2 // account for spaces
-
-      val annotation = Annotation("assertion", start, end, prediction, Map())
-      Seq(annotation)
+      val annotation = Annotation(nn)
+      val prediction = model.predict(Array(tokens), Array(annotation.begin), Array(annotation.end)).head
+      val resultAnnotation = Annotation("assertion", annotation.begin, annotation.end, prediction, Map())
+      Seq(resultAnnotation)
     }}
   }
 
