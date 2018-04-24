@@ -21,6 +21,18 @@ trait Windowing extends Serializable {
 
   def wordVectors(): Option[WordEmbeddings] = None
 
+  def tokenIndexToSubstringIndex(doc: String, s: Int, e: Int): (Int, Int) = {
+    val tokens = doc.split(" ").filter(_!="")
+
+    /* now start and end are indexes in the doc string */
+    val start = tokens.slice(0, s).map(_.length).sum +
+      tokens.slice(0, s).length // account for spaces
+    val end = start + tokens.slice(s, e + 1).map(_.length).sum +
+      tokens.slice(s, e + 1).length - 1 // account for spaces
+
+    (start, end)
+  }
+
   /* apply window, pad/truncate sentence according to window */
   def applyWindow(doc: String, s: Int, e: Int): (Array[String], Array[String], Array[String])  = {
 
@@ -33,8 +45,8 @@ trait Windowing extends Serializable {
     else tokenizer.tokenize(doc.slice(e, doc.length).trim)
 
     val (start, leftPadding) =
-      if(leftPart.size >= before)
-        (leftPart.size - before, Array[String]())
+      if(leftPart.length >= before)
+        (leftPart.length - before, Array[String]())
       else
         (0, Array.fill(before - leftPart.length)("empty_marker"))
 
@@ -58,15 +70,7 @@ trait Windowing extends Serializable {
   }
 
   def applyWindow(wvectors: WordEmbeddings) (doc:String, s:Int, e:Int) : Array[Double]  = {
-    val tokens = doc.split(" ").filter(_!="")
-
-    /* now start and end are indexes in the doc string */
-    val start = tokens.slice(0, s).map(_.length).sum +
-      tokens.slice(0, s).size // account for spaces
-    val end = start + tokens.slice(s, e + 1).map(_.length).sum +
-        tokens.slice(s, e + 1).size - 1 // account for spaces
-
-    val (l, t, r) = applyWindow(doc.toLowerCase, start, end)
+    val (l, t, r) = applyWindow(doc.toLowerCase, s, e)
 
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
       t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
@@ -74,17 +78,17 @@ trait Windowing extends Serializable {
   }
 
   def applyWindowUdf =
-  //here 's' and 'e' are token numbers for start and end of target when split on " "
-    udf { (doc:String, s:Int, e:Int) =>
-      Vectors.dense(applyWindow(wordVectors.get)(doc, s, e))
-    }
+  //here 's' and 'e' are token numbers for start and end of target when split on " ". Convert to substring index first.
+    udf { (doc:String, s:Int, e:Int) => {
+      val (start, end) = tokenIndexToSubstringIndex(doc, s, e)
+      Vectors.dense(applyWindow(wordVectors.get)(doc, start, end))
+    }}
 
   def applyWindowUdfNer =
-    udf { (doc: String, rows: Seq[Row]) =>
-      rows.map{row => {
-        val annotation = Annotation(row)
-        Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
-      }}
+  // here 's' and 'e' are already substring indexes from ner annotations
+    udf { (doc: String, row: Row) =>
+      val annotation = Annotation(row)
+      Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
     }
 
   def l2norm(xs: Array[Double]):Double = {
