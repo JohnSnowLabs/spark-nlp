@@ -84,7 +84,14 @@ trait Windowing extends Serializable {
       Vectors.dense(applyWindow(wordVectors.get)(doc, start, end))
     }}
 
-  def applyWindowUdfNer =
+  def applyWindowUdfNerFirst =
+  // here 's' and 'e' are already substring indexes from ner annotations
+    udf { (doc: String, row: Seq[Row]) =>
+      val annotation = Annotation(row.head)
+      Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
+    }
+
+  def applyWindowUdfNerExhaustive =
   // here 's' and 'e' are already substring indexes from ner annotations
     udf { (doc: String, row: Row) =>
       val annotation = Annotation(row)

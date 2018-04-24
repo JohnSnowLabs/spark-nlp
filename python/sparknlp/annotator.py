@@ -643,7 +643,6 @@ class NerCrfModel(_AnnotatorModel):
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
     maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
     regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
     eNetParam = Param(Params._dummy(), "eNetParam", "Elastic net parameter", TypeConverters.toFloat)
@@ -652,12 +651,10 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
     nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
+    exhaustiveNerMode = Param(Params._dummy(), "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence", typeConverter=TypeConverters.toBoolean)
 
     def setLabelCol(self, label):
         return self._set(label = label)
-
-    def setTargetCol(self, t):
-        return self._set(target = t)
 
     def setMaxIter(self, maxiter):
         return self._set(maxIter = maxiter)
@@ -682,6 +679,9 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     def setNerCol(self, n):
         return self._set(nerCol = n)
+
+    def setExhaustiveNerMode(self, v):
+        return self._set(exhaustiveNerMode = v)
 
     def _create_model(self, java_model):
         return AssertionLogRegModel(java_model)
@@ -775,7 +775,6 @@ class NerConverter(AnnotatorModel):
 class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
 
     startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
@@ -789,9 +788,6 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     def setLabelCol(self, label):
         return self._set(label = label)
-
-    def setTargetCol(self, t):
-        return self._set(target = t)
 
     def setStartCol(self, s):
         return self._set(startCol = s)
@@ -820,7 +816,7 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     @keyword_only
     def __init__(self):
         super(AssertionDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach")
-        self._setDefault(label="label", target="target", start="start", end="end", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
+        self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
 
 
 class AssertionDLModel(_AnnotatorModel):

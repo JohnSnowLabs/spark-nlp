@@ -30,8 +30,8 @@ class AssertionDLApproach(override val uid: String)
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val labelCol = new Param[String](this, "label", "Column with one label per document")
 
-  val startCol = new Param[String](this, "start", "Column with token number for first target token")
-  val endCol = new Param[String](this, "end", "Column with token number for last target token")
+  val startCol = new Param[String](this, "startCol", "Column with token number for first target token")
+  val endCol = new Param[String](this, "endCol", "Column with token number for last target token")
   val nerCol = new Param[String](this, "nerCol", "Column of NER Annotations to use instead of start and end columns")
 
 
@@ -67,10 +67,10 @@ class AssertionDLApproach(override val uid: String)
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): AssertionDLModel = {
 
     val sentences = dataset.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
-      select("text").
+      withColumn("_text", extractTextUdf(col(getInputCols.head))).
+      select("_text").
       collect().
-      map(row => row.getAs[String]("text").split(" "))
+      map(row => row.getAs[String]("_text").split(" "))
 
     val annotations: Array[AssertionAnnotationWithLabel] = {
       if (get(nerCol).isDefined) {
@@ -79,7 +79,7 @@ class AssertionDLApproach(override val uid: String)
           collect.
           flatMap(row => AssertionAnnotationWithLabel.fromNer(
             row.getAs[String](getOrDefault(labelCol)),
-            row.getAs[Seq[Annotation]](getOrDefault(nerCol))
+            row.getAs(getOrDefault(nerCol))
           ))
       } else if (get(startCol).isDefined && get(endCol).isDefined) {
         dataset.
@@ -126,8 +126,6 @@ class AssertionDLApproach(override val uid: String)
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
-      setStartCol(getOrDefault(startCol)).
-      setEndCol(getOrDefault(endCol)).
       setInputCols(getOrDefault(inputCols))
 
     if (get(nerCol).isDefined)

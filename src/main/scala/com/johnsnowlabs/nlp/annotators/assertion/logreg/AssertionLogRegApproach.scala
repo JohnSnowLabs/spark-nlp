@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -39,6 +39,7 @@ class AssertionLogRegApproach(val uid: String)
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
   val nerCol = new Param[String](this, "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol")
+  val exhaustiveNerMode = new BooleanParam(this, "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence")
   val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
   val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
@@ -52,13 +53,15 @@ class AssertionLogRegApproach(val uid: String)
   def setStartCol(start: String): this.type = set(startCol, start)
   def setEndCol(end: String): this.type = set(endCol, end)
   def setNerCol(col: String): this.type = set(nerCol, col)
+  def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   setDefault(label -> "label",
     maxIter -> 26,
     regParam -> 0.00192,
     eNetParam -> 0.9,
     beforeParam -> 10,
-    afterParam -> 10
+    afterParam -> 10,
+    exhaustiveNerMode -> false
   )
 
   /* send this to common place */
@@ -71,7 +74,7 @@ class AssertionLogRegApproach(val uid: String)
     dataset.toDF
       .withColumn("_explodener", explode(col($(nerCol))))
       .withColumn("_features",
-        applyWindowUdfNer(col(textCol), col("_explodener"))
+        applyWindowUdfNerExhaustive(col(textCol), col("_explodener"))
       )
   }
 
