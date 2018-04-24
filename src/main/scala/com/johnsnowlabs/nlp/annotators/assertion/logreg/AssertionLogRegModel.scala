@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -62,31 +62,40 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     val textCol = $(inputCols).head
 
     /* apply UDF to fix the length of each document */
-    val processed = dataset.toDF.
-      withColumn(textCol, extractTextUdf(col(getInputCols.head))).
-      withColumn("features", {
-        if (get(nerCol).isDefined) {
-          println("HERE")
-          explode(applyWindowUdfNer(col(textCol), col($(nerCol))))
-        } else if (get(startCol).isDefined & get(endCol).isDefined) {
-          applyWindowUdf(col(textCol),
-            col($(startCol)),
-            col($(endCol)))
-        } else {
-          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be provided in order to predict assertion")
-        }
-      })
+    val processed = if (get(nerCol).isDefined) {
+      dataset.toDF.
+        withColumn(textCol, extractTextUdf(col(getInputCols.head))).
+        withColumn("_rid", monotonically_increasing_id()).
+        withColumn("_explodener", explode(col($(nerCol)))).
+        withColumn("_features", applyWindowUdfNer(col(textCol), col("_explodener")))
+    } else if (get(startCol).isDefined & get(endCol).isDefined) {
+      dataset.toDF.
+        withColumn(textCol, extractTextUdf(col(getInputCols.head))).
+        withColumn("_features", applyWindowUdf(col(textCol),
+          col($(startCol)),
+          col($(endCol))))
+    } else {
+      throw new IllegalArgumentException("Either nerCol or startCol and endCol must be provided in order to predict assertion")
+    }
 
-    $$(model).transform(processed).withColumn(getOutputCol, {
+    val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {
       if (get(nerCol).isDefined) {
-        packAnnotationsNer(col(textCol), col($(nerCol)), $"_prediction")
-      } else if (get(startCol).isDefined & get(endCol).isDefined) {
+        packAnnotationsNer(col(textCol), col("_explodener"), $"_prediction")
+      } else {
         packAnnotations(col(textCol), col($(startCol)),
           col($(endCol)), $"_prediction")
-      } else {
-        throw new IllegalArgumentException("Either nerCol or startCol and endCol must be provided in order to predict assertion")
       }
-    })
+    }).drop("_prediction", "_features", "_explodener")
+
+    if (get(nerCol).isDefined) {
+      val firstOfAll = resultData.drop("_rid").columns.map(c => first(col(c)).as(c))
+      resultData
+        .groupBy("_rid")
+        .agg(collect_list(col("_tmpassertion")).as(getOutputCol), firstOfAll:_*)
+        .drop("_rid")
+    } else {
+      resultData.drop("_rid").withColumnRenamed("_tmpassertion", getOutputCol)
+    }
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>
@@ -102,19 +111,18 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     Seq(annotation)
   }
 
-  private def packAnnotationsNer = udf { (text: String, n: Seq[Annotation], prediction: Double) =>
+  private def packAnnotationsNer = udf { (text: String, row: Row, prediction: Double) =>
     val tokens = text.split(" ").filter(_!="")
 
-    n.flatMap { nn => {
-      /* convert start and end are indexes in the doc string */
-      val start = tokens.slice(0, nn.begin).map(_.length).sum +
-        tokens.slice(0, nn.begin).length // account for spaces
-      val end = start + tokens.slice(nn.begin, nn.end + 1).map(_.length).sum +
-        tokens.slice(nn.begin, nn.end + 1).length - 2 // account for spaces
+    /* convert start and end are indexes in the doc string */
+    val annotation = Annotation(row)
+    val start = tokens.slice(0, annotation.begin).map(_.length).sum +
+      tokens.slice(0, annotation.begin).length // account for spaces
+    val end = start + tokens.slice(annotation.begin, annotation.end + 1).map(_.length).sum +
+      tokens.slice(annotation.begin, annotation.end + 1).length - 2 // account for spaces
 
-      val annotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
-      Seq(annotation)
-    }}
+    val resultAnnotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
+    resultAnnotation
   }
 
   def setModel(m: LogisticRegressionModel): this.type = set(model, m)

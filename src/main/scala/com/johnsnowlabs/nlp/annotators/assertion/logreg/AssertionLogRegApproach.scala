@@ -8,7 +8,7 @@ import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
@@ -66,30 +66,33 @@ class AssertionLogRegApproach(val uid: String)
     document.head.getString(3)
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
-    import dataset.sparkSession.implicits._
-
-    /* apply UDF to fix the length of each document */
+  private def processWithNer(dataset: DataFrame): DataFrame = {
     val textCol = $(inputCols).head
-    val processed = dataset.toDF.
-      withColumn(textCol, extractTextUdf(col(getInputCols.head))).
-      withColumn("features", {
-        if (get(nerCol).isDefined) {
-          explode(applyWindowUdfNer(col(textCol), col($(nerCol))))
-        } else if (get(startCol).isDefined & get(endCol).isDefined){
+    dataset.toDF
+      .withColumn("_explodener", explode(col($(nerCol))))
+      .withColumn("_features",
+        applyWindowUdfNer(col(textCol), col("_explodener"))
+      )
+  }
+
+  private def processWithStartEnd(dataset: DataFrame): DataFrame = {
+    val textCol = $(inputCols).head
+    dataset.toDF
+      .withColumn("_features",
         applyWindowUdf(col(textCol),
           col($(startCol)),
           col($(endCol)))
-        } else {
-          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined")
-        }
-      })
+      )
+  }
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
 
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
       .setRegParam(getOrDefault(regParam))
       .setElasticNetParam(getOrDefault(eNetParam))
       .setPredictionCol("_prediction")
+      .setFeaturesCol("_features")
 
     val labelCol = getOrDefault(label)
 
@@ -99,14 +102,25 @@ class AssertionLogRegApproach(val uid: String)
       .map{case (labelK, idx) => (labelK, idx.toDouble)}
       .toMap
 
-    val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+    val preprocessed = dataset
+      .withColumn($(inputCols).head, extractTextUdf(col(getInputCols.head)))
+      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    /* apply UDF to fix the length of each document */
+    val processed = if (get(nerCol).isDefined) {
+      processWithNer(preprocessed)
+    } else if (get(startCol).isDefined & get(endCol).isDefined) {
+      processWithStartEnd(preprocessed)
+    } else {
+      throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined")
+    }
 
     val model = new AssertionLogRegModel()
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
       .setLabelMap(labelMappings)
-      .setModel(lr.fit(processedWithLabel))
+      .setModel(lr.fit(processed))
 
     if (get(nerCol).isDefined)
       model
