@@ -7,6 +7,8 @@ import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
 
+import scala.collection.mutable.ArrayBuffer
+
 
 /**
   * Created by jose on 24/11/17.
@@ -84,19 +86,57 @@ trait Windowing extends Serializable {
       Vectors.dense(applyWindow(wordVectors.get)(doc, start, end))
     }}
 
-  def applyWindowUdfNerFirst =
+  def applyWindowUdfNerFirst(targetLabels: Array[String]) =
   // here 's' and 'e' are already substring indexes from ner annotations
     udf { (doc: String, row: Seq[Row]) =>
-      val annotation = Annotation(row.head)
-      Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
+      var i: Option[Int] = None
+      var range: Option[(Int, Int)] = None
+      val annotations = row.map { r => Annotation(r) }
+      annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).takeWhile(a => {
+        if (i.isDefined) {
+          if (a._2 == i.get + 1) {
+            i = Some(a._2)
+            range = Some((range.get._1, a._1.end))
+            true
+          } else {
+            false
+          }
+        } else {
+          range = Some(a._1.begin, a._1.end)
+          true
+        }
+      })
+      if (range.isDefined)
+        Vectors.dense(applyWindow(wordVectors.get)(doc, range.get._1, range.get._2))
+      else
+        Vectors.dense(applyWindow(wordVectors.get)(doc, annotations.head.begin, annotations.last.end))
     }
 
-  def applyWindowUdfNerExhaustive =
+  def applyWindowUdfNerExhaustive(targetLabels: Array[String]) =
   // here 's' and 'e' are already substring indexes from ner annotations
-    udf { (doc: String, row: Row) =>
-      val annotation = Annotation(row)
-      Vectors.dense(applyWindow(wordVectors.get)(doc, annotation.begin, annotation.end))
-    }
+    udf { (doc: String, row: Seq[Row]) => {
+      val annotations = row.map { r => Annotation(r) }
+      val targets = annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).toIterator
+      val ranges = ArrayBuffer.empty[(Int, Int)]
+      while (targets.hasNext) {
+        val annotation = targets.next
+        var range = (annotation._1.begin, annotation._1.end)
+        var look = true
+        while(look && targets.hasNext) {
+          val nextAnnotation = targets.next
+          if (nextAnnotation._2 == annotation._2 + 1)
+            range = (range._1, nextAnnotation._1.end)
+          else
+            look = false
+        }
+        ranges.append(range)
+      }
+      println(s"RANGE IS: ${ranges.mkString(",")} among ${annotations.head.begin} and ${annotations.last.end}")
+      if (ranges.nonEmpty)
+        ranges.map{r => Vectors.dense(applyWindow(wordVectors.get)(doc, r._1, r._2))}
+      else
+        Seq(Vectors.dense(applyWindow(wordVectors.get)(doc, annotations.head.begin, annotations.last.end)))
+    }}
 
   def l2norm(xs: Array[Double]):Double = {
     import math._
