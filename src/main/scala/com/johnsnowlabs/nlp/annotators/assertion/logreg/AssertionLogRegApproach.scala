@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -39,6 +39,7 @@ class AssertionLogRegApproach(val uid: String)
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
   val nerCol = new Param[String](this, "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol")
+  val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
   val exhaustiveNerMode = new BooleanParam(this, "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence")
   val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
   val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
@@ -53,6 +54,7 @@ class AssertionLogRegApproach(val uid: String)
   def setStartCol(start: String): this.type = set(startCol, start)
   def setEndCol(end: String): this.type = set(endCol, end)
   def setNerCol(col: String): this.type = set(nerCol, col)
+  def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
   def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   setDefault(label -> "label",
@@ -70,19 +72,17 @@ class AssertionLogRegApproach(val uid: String)
   }
 
   private def processWithNer(dataset: DataFrame): DataFrame = {
-    val textCol = $(inputCols).head
+    require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
     dataset.toDF
-      .withColumn("_explodener", explode(col($(nerCol))))
       .withColumn("_features",
-        applyWindowUdfNerExhaustive(col(textCol), col("_explodener"))
+        explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col("_text"), col($(nerCol))))
       )
   }
 
   private def processWithStartEnd(dataset: DataFrame): DataFrame = {
-    val textCol = $(inputCols).head
     dataset.toDF
       .withColumn("_features",
-        applyWindowUdf(col(textCol),
+        applyWindowUdf(col("_text"),
           col($(startCol)),
           col($(endCol)))
       )
@@ -106,7 +106,7 @@ class AssertionLogRegApproach(val uid: String)
       .toMap
 
     val preprocessed = dataset
-      .withColumn($(inputCols).head, extractTextUdf(col(getInputCols.head)))
+      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
       .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
     /* apply UDF to fix the length of each document */

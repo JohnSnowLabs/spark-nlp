@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
+import org.apache.spark.ml.param._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
@@ -32,6 +32,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
 
   val nerCol = new Param[String](this, "nerCol", "Column that contains NER annotations to be used as target token")
+  val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
   val exhaustiveNerMode = new BooleanParam(this, "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence")
   val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
   val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
@@ -54,6 +55,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setStartCol(start: String): this.type = set(startCol, start)
   def setEndCol(end: String): this.type = set(endCol, end)
   def setNerCol(col: String): this.type = set(nerCol, col)
+  def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
   def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
@@ -69,12 +71,11 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
       dataset.toDF.
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
         withColumn("_rid", monotonically_increasing_id()).
-        withColumn("_explodener", explode(col($(nerCol)))).
-        withColumn("_features", applyWindowUdfNerExhaustive(col(textCol), col("_explodener")))
+        withColumn("_features", explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col(textCol), col($(nerCol)))))
     } else if (get(nerCol).isDefined){
       dataset.toDF.
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
-        withColumn("_features", applyWindowUdfNerFirst(col(textCol), col($(nerCol))))
+        withColumn("_features", applyWindowUdfNerFirst($(targetNerLabels))(col(textCol), col($(nerCol))))
     }
     else if (get(startCol).isDefined & get(endCol).isDefined) {
       dataset.toDF.
@@ -88,14 +89,14 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
     val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {
       if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
-        packAnnotationsNerExhaustive(col(textCol), col("_explodener"), $"_prediction")
+        packAnnotationsNerExhaustive(col("_features"), $"_prediction")
       } else if (get(nerCol).isDefined) {
-        packAnnotationsNerFirst(col(textCol), col($(nerCol)), $"_prediction")
+        packAnnotationsNerFirst( col("_features"), $"_prediction")
       } else {
         packAnnotations(col(textCol), col($(startCol)),
           col($(endCol)), $"_prediction")
       }
-    }).drop("_prediction", "_features", "_explodener")
+    }).drop("_prediction", "_features")
 
     if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
       val firstOfAll = resultData.drop("_rid").columns.map(c => first(col(c)).as(c))
@@ -121,31 +122,13 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     Seq(annotation)
   }
 
-  private def packAnnotationsNerFirst = udf { (text: String, row: Seq[Row], prediction: Double) =>
-    val tokens = text.split(" ").filter(_!="")
-
-    /* convert start and end are indexes in the doc string */
-    val annotation = Annotation(row.head)
-    val start = tokens.slice(0, annotation.begin).map(_.length).sum +
-      tokens.slice(0, annotation.begin).length // account for spaces
-  val end = start + tokens.slice(annotation.begin, annotation.end + 1).map(_.length).sum +
-    tokens.slice(annotation.begin, annotation.end + 1).length - 2 // account for spaces
-
-    val resultAnnotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
+  private def packAnnotationsNerFirst = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
+    val resultAnnotation = Annotation("assertion", vector.apply(1).toInt, vector.apply(2).toInt, $$(labelMap)(prediction), Map())
     Seq(resultAnnotation)
   }
 
-  private def packAnnotationsNerExhaustive = udf { (text: String, row: Row, prediction: Double) =>
-    val tokens = text.split(" ").filter(_!="")
-
-    /* convert start and end are indexes in the doc string */
-    val annotation = Annotation(row)
-    val start = tokens.slice(0, annotation.begin).map(_.length).sum +
-      tokens.slice(0, annotation.begin).length // account for spaces
-    val end = start + tokens.slice(annotation.begin, annotation.end + 1).map(_.length).sum +
-      tokens.slice(annotation.begin, annotation.end + 1).length - 2 // account for spaces
-
-    val resultAnnotation = Annotation("assertion", start, end, $$(labelMap)(prediction), Map())
+  private def packAnnotationsNerExhaustive = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
+    val resultAnnotation = Annotation("assertion", vector.apply(1).toInt, vector.apply(2).toInt, $$(labelMap)(prediction), Map())
     resultAnnotation
   }
 
