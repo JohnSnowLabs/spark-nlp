@@ -125,9 +125,9 @@ class SymmetricDeleteApproach(override val uid: String)
                            derivedWords: MMap[String, (ListBuffer[String], Long)] =
                            MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
                            maxEditDistance: Int
-                          ): MMap[String, (ListBuffer[String], Long)] ={
+                          ): WordsFeatures = {
     val regex = $(corpus).options("tokenPattern").r
-    val wordFeatures = WordsFeatures(0)
+    val wordFeatures = WordsFeatures(MMap(), 0)
     var longestWordLength = wordFeatures.longestWordLength
     externalResource.foreach(line => {
       val tokenizeWords = regex.findAllMatchIn(line).map(_.matched).toList
@@ -136,30 +136,24 @@ class SymmetricDeleteApproach(override val uid: String)
       })
     })
     wordFeatures.longestWordLength = longestWordLength
-    derivedWords
+    wordFeatures.derivedWords = derivedWords
+    wordFeatures
   }
 
-  case class WordsFeatures(var longestWordLength: Int)
+  case class WordsFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)] =
+                           MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
+                           var longestWordLength: Int)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
     val externalResource = ResourceHelper.getExternalResourceAsList($(corpus))
-    println(externalResource.size)
 
-    val derivedWords = derivedWordDistances(externalResource = externalResource,
+    val wordFeatures = derivedWordDistances(externalResource = externalResource,
                                             maxEditDistance = $(maxEditDistance))
-    println(derivedWords.size)
-
-    val dictionary: Map[String, (ListBuffer[String], Long)] =
-        ResourceHelper.createDictionary(er = $(corpus),
-                                        p = recursivePipeline,
-                                        med = $(maxEditDistance)).toMap
-    val longestWordLength = ResourceHelper.getLongestWordLength
-    //println("Dictionary created...")
 
     new SymmetricDeleteModel()
-      .setDictionary(dictionary)
-      .setLongestWordLength(longestWordLength)
+      .setDictionary(wordFeatures.derivedWords.toMap)
+      .setLongestWordLength(wordFeatures.longestWordLength)
   }
 
 }
