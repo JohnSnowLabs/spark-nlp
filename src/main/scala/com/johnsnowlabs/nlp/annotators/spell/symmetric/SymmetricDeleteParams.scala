@@ -4,8 +4,14 @@ import org.apache.spark.ml.param.{IntParam, Params}
 
 trait SymmetricDeleteParams extends Params{
 
-  val maxEditDistance = new IntParam(this, "maxEditDistance", "max edit distance characters to derive strings from a word")
+  val maxEditDistance = new IntParam(this, "maxEditDistance",
+                               "max edit distance characters to derive strings from a word")
 
   def setMaxEditDistance(value: Int): this.type = set(maxEditDistance, value)
+
+  /*val longestWordLength = new IntParam(this, "longestWordLength",
+                                "longest word length in the corpus")
+
+  def setLongestWordLength(value: Int): this.type = set(longestWordLength, value)*/
 
 }
