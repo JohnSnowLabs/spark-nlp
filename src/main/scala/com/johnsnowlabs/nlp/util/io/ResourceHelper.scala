@@ -379,69 +379,6 @@ object ResourceHelper {
     }
   }
 
-  /** Created by danilo 14/04/2018
-    * This function creates a dictionary by adding
-    * words and its derived deletions to a Map object
-  * */
-  def createDictionary(er: ExternalResource,
-                      m: MMap[String, (ListBuffer[String], Long)] =
-                      MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
-                      p: Option[PipelineModel] = None,
-                      med: Int
-                     ): MMap[String, (ListBuffer[String], Long)] = {
-
-    er.readAs match {
-      case LINE_BY_LINE =>
-        val sourceStream = SourceStream(er.path)
-        val regex = er.options("tokenPattern").r
-
-        sourceStream.content.getLines.foreach(line => {
-          val words = regex.findAllMatchIn(line).map(_.matched).toList
-          //println(words)
-          words.foreach(w => {
-            updateDictionary(m, w, med)
-            //println(longestWordLength)
-          }) // End words.foreach
-        }) // End sourceStream.foreach
-        sourceStream.close()
-        if (m.isEmpty) throw new
-            FileNotFoundException("Derived word count dictionary for spell checker does not exist or is empty")
-      m
-      case SPARK_DATASET =>
-        import spark.implicits._
-        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val transformation = {
-          if (p.isDefined) {
-            p.get.transform(dataset)
-          } else {
-            val documentAssembler = new DocumentAssembler()
-              .setInputCol("value")
-            val tokenizer = new Tokenizer()
-              .setInputCols("document")
-              .setOutputCol("token")
-              .setTargetPattern(er.options("tokenPattern"))
-            val finisher = new Finisher()
-              .setInputCols("token")
-              .setOutputCols("finished")
-              .setAnnotationSplitSymbol("--")
-            new Pipeline()
-              .setStages(Array(documentAssembler, tokenizer, finisher))
-              .fit(dataset)
-              .transform(dataset)
-          }
-        }
-        val deriveWordCount = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
-        transformation
-          .select("finished").as[String]
-          .foreach(text => text.split("--").foreach(t => {
-            updateDictionary(m, t, med)
-          }))
-        deriveWordCount
-      case _ => throw new IllegalArgumentException("format not available for word count")
-    }
-
-  }
-
   /** Created by danilo 26/04/2018
     * returns a list representation of the external resource list
     * the elements are lower cased before return
@@ -452,12 +389,6 @@ object ResourceHelper {
         val sourceStream = SourceStream(er.path)
 
         val resourceList = sourceStream.content.getLines.toList
-        //val result = colors.map(_.toUpperCase())
-        //println(result)
-        /*val resourceMap = resourceList.map(text => text.split("\t"))
-        println(resourceMap.size)
-        val resourceSeq = resourceList.toSeq
-        println(resourceSeq.size)*/
         sourceStream.close()
         if (resourceList.isEmpty) throw new
             FileNotFoundException("Resource list does not exist or is empty")
@@ -467,88 +398,5 @@ object ResourceHelper {
        case _ => throw new IllegalArgumentException("format not available for resource list")
     }
   }
-
-  /*def appendVector(a: Vector[Int], value: Int): Vector[Int] = {
-    val b = a :+ value
-    b
-  }
-
-  def appendSeq(seq: Seq[List[String]], nextSeq: List[String]): Seq[List[String]] = {
-    val newSeq = seq :+ nextSeq
-    newSeq
-  }*/
-
-  /** Created by danilo 17/04/2018
-    * check if word is already in dictionary
-    * dictionary entries are in the form:
-    * (list of suggested corrections,frequency of word in corpus)
-    * */
-  def updateDictionary(d: MMap[String, (ListBuffer[String], Long)],
-                       w: String, med: Int
-                      ): Int = {
-
-    if (d(w.toLowerCase)._2 == 0) {
-      d(w.toLowerCase) = (ListBuffer[String](), 1)
-      longestWordLength = w.length.max(longestWordLength)
-    } else{
-      var count: Long = d(w)._2
-      // increment count of word in corpus
-      count += 1
-      d(w.toLowerCase) = (d(w.toLowerCase)._1, count)
-    }
-
-    if (d(w.toLowerCase)._2 == 1){
-      val deletes = getDeletes(w.toLowerCase, med)
-
-      deletes.foreach( item => {
-        if (d.contains(item)){
-          // add (correct) word to delete's suggested correction list
-          d(item)._1 += w
-        } else {
-          // note frequency of word in corpus is not incremented
-          val word = new ListBuffer[String]
-          word += w.toLowerCase()
-          d(item) = (word, 0)
-        }
-      }) // End deletes.foreach
-    }
-    longestWordLength
-  }
-
-  /** Created by danilo 14/04/2018
-    * Given a word, derive strings with up to maxEditDistance characters
-    * deleted
-    * */
-  def getDeletes(word: String, med: Int): List[String] ={
-
-    var deletes = new ListBuffer[String]()
-    var queueList = List(word)
-    val x = 1 to med
-    x.foreach( d =>
-      {
-        var tempQueue = new ListBuffer[String]()
-        queueList.foreach(w => {
-          if (w.length > 1){
-            val y = 0 until w.length
-            y.foreach(c => { //character index
-              //result of word minus c
-              val wordMinus = w.substring(0, c).concat(w.substring(c+1, w.length))
-              if (!deletes.contains(wordMinus)){
-                deletes += wordMinus
-              }
-              if (!tempQueue.contains(wordMinus)){
-                tempQueue += wordMinus
-              }
-            }) // End y.foreach
-            queueList = tempQueue.toList
-          }
-        }
-        ) //End queueList.foreach
-      }
-    ) //End x.foreach
-
-    deletes.toList
-  }
-
 
 }
