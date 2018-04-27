@@ -32,8 +32,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  protected val dictionary: MapFeature[String, (ListBuffer[String], Long)] =
-                                  new MapFeature(this, "dictionary")
+  protected val derivedWords: MapFeature[String, (ListBuffer[String], Long)] =
+                                  new MapFeature(this, "derivedWords")
 
   val longestWordLength = new Param[Int](this, "longestWordLength", "length of longest word in corpus")
 
@@ -45,15 +45,14 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   private lazy val allWords: HashSet[String] = {
     //HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
-    HashSet($$(dictionary).keys.toSeq.map(_.toLowerCase):_*)
+    HashSet($$(derivedWords).keys.toSeq.map(_.toLowerCase):_*)
   }
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
-  def setDictionary(value: Map[String, (ListBuffer[String], Long)]) :
-                        this.type = set(dictionary, value)
+  def setDerivedWords(value: Map[String, (ListBuffer[String], Long)]) :
+                        this.type = set(derivedWords, value)
 
-  //protected def getDictionary: Map[String, (ListBuffer[String], Long)] = $$(dictionary)
 
   /** Utilities */
   /** Computes Levenshtein distance :
@@ -105,13 +104,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
       // process queue item
       if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
 
-        if ($$(dictionary)(queueItem)._2 > 0) {
+        if ($$(derivedWords)(queueItem)._2 > 0) {
           // word is in dictionary, and is a word from the corpus, and not already in suggestion list
           // so add to suggestion dictionary, indexed by the word with value:
           // (frequency in corpus, edit distance)
           // note q_items that are not the input string are shorter than input string since only
           // deletes are added (unless manual dictionary corrections are added)
-          suggestDict(queueItem) = ($$(dictionary)(queueItem)._2,
+          suggestDict(queueItem) = ($$(derivedWords)(queueItem)._2,
                                     string.length - queueItem.length)
 
           breakable{ //early exit
@@ -127,7 +126,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
         // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
         // is a valid word or merely a delete) can be valid corrections
-        $$(dictionary)(queueItem)._1.foreach( scItem => {
+        $$(derivedWords)(queueItem)._1.foreach( scItem => {
           if (!suggestDict.contains(scItem.toLowerCase())){
             // assert(scItem.length > queueItem.length) Include or not assertions ???
 
@@ -135,7 +134,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
             val itemDist = levenshteinDistance(scItem.toLowerCase, string)
 
             if (itemDist <= $(maxEditDistance)){
-              suggestDict(scItem.toLowerCase) = ($$(dictionary)(scItem.toLowerCase)._2,
+              suggestDict(scItem.toLowerCase) = ($$(derivedWords)(scItem.toLowerCase)._2,
                                                 itemDist)
               if (itemDist < minSuggestLen) {
                 minSuggestLen = itemDist

@@ -9,9 +9,4 @@ trait SymmetricDeleteParams extends Params{
 
   def setMaxEditDistance(value: Int): this.type = set(maxEditDistance, value)
 
-  /*val longestWordLength = new IntParam(this, "longestWordLength",
-                                "longest word length in the corpus")
-
-  def setLongestWordLength(value: Int): this.type = set(longestWordLength, value)*/
-
 }
