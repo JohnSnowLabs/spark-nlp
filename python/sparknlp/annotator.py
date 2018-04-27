@@ -762,10 +762,6 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
 
 class NerDLModel(_AnnotatorModel):
     name = "NerDLModel"
-    @staticmethod
-    def pretrained(name="ner_precise", language="en"):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, language)
 
 
 class NerConverter(AnnotatorModel):
@@ -783,6 +779,7 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
     nerCol = Param(Params._dummy(), "nerCol", "Column of NER Annotations to use instead of start and end columns", typeConverter=TypeConverters.toString)
+    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
     batchSize = Param(Params._dummy(), "batchSize", "Size for each batch in the optimization process", TypeConverters.toInt)
     epochs = Param(Params._dummy(), "epochs", "Number of epochs for the optimization process", TypeConverters.toInt)
@@ -801,6 +798,9 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     def setNerCol(self, n):
         return self._set(nerCol = n)
+
+    def setTargetNerLabels(self, v):
+        return self._set(targetNerLabels = v)
 
     def setBatchSize(self, size):
         return self._set(batchSize = size)

@@ -58,22 +58,34 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
   def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
+  private def generateEmptyAnnotations = udf {
+    () => Seq.empty[Annotation]
+  }
+
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
 
     import dataset.sqlContext.implicits._
 
-    val textCol = $(inputCols).head
+    val textCol = "_text"
 
     /* apply UDF to fix the length of each document */
     val processed = if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
       dataset.toDF.
+        filter(r => {
+          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+          annotations.exists(a => $(targetNerLabels).contains(a.result))
+        }).
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
         withColumn("_rid", monotonically_increasing_id()).
         withColumn("_features", explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col(textCol), col($(nerCol)))))
     } else if (get(nerCol).isDefined){
       dataset.toDF.
+        filter(r => {
+          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+          annotations.exists(a => $(targetNerLabels).contains(a.result))
+        }).
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
         withColumn("_features", applyWindowUdfNerFirst($(targetNerLabels))(col(textCol), col($(nerCol))))
     }
@@ -96,17 +108,31 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
         packAnnotations(col(textCol), col($(startCol)),
           col($(endCol)), $"_prediction")
       }
-    }).drop("_prediction", "_features")
+    }).drop(textCol, "_prediction", "_features", "rawPrediction", "probability")
 
-    if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
-      val firstOfAll = resultData.drop("_rid").columns.map(c => first(col(c)).as(c))
-      resultData
-        .groupBy("_rid")
-        .agg(collect_list(col("_tmpassertion")).as(getOutputCol), firstOfAll:_*)
-        .drop("_rid")
-    } else {
-      resultData.drop("_rid").withColumnRenamed("_tmpassertion", getOutputCol)
+    val packedData = {
+      if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
+        val firstOfAll = resultData.drop("_rid").columns.map(c => first(col(c)).as(c))
+        resultData
+          .groupBy("_rid")
+          .agg(collect_list(col("_tmpassertion")).as(getOutputCol), firstOfAll:_*)
+          .drop("_rid", "_tmpassertion")
+      } else {
+        resultData.drop("_rid").withColumnRenamed("_tmpassertion", getOutputCol)
+      }
     }
+
+    if (get(nerCol).isDefined) {
+      val missingData = dataset.toDF.
+        filter(r => {
+          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+          annotations.forall(a => !$(targetNerLabels).contains(a.result))
+        }).withColumn(getOutputCol, generateEmptyAnnotations())
+      packedData.union(missingData.select(packedData.columns.head, packedData.columns.tail:_*))
+    } else {
+      packedData
+    }
+
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int, prediction: Double) =>
