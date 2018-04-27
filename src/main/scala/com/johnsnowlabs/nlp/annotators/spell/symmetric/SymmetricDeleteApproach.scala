@@ -87,42 +87,46 @@ class SymmetricDeleteApproach(override val uid: String)
     * dictionary entries are in the form:
     * (list of suggested corrections,frequency of word in corpus)
     * */
-  def updateDerivedWords(d: MMap[String, (ListBuffer[String], Long)],
+  def updateDerivedWords(derivedWords: MMap[String, (ListBuffer[String], Long)],
                          word: String, maxEditDistance: Int, longestWordLength: Int
                          ): Int = {
 
     var newLongestWordLength = longestWordLength
 
-    if (d(word)._2 == 0) {
-      d(word) = (ListBuffer[String](), 1)
+    if (derivedWords(word)._2 == 0) {
+      derivedWords(word) = (ListBuffer[String](), 1)
       newLongestWordLength = word.length.max(longestWordLength)
     } else{
-      var count: Long = d(word)._2
+      var count: Long = derivedWords(word)._2
       // increment count of word in corpus
       count += 1
-      d(word) = (d(word)._1, count)
+      derivedWords(word) = (derivedWords(word)._1, count)
     }
 
-    if (d(word)._2 == 1){
+    if (derivedWords(word)._2 == 1){
       val deletes = getDeletes(word, maxEditDistance)
 
       deletes.foreach( item => {
-        if (d.contains(item)){
+        if (derivedWords.contains(item)){
           // add (correct) word to delete's suggested correction list
-          d(item)._1 += word
+          derivedWords(item)._1 += word
         } else {
           // note frequency of word in corpus is not incremented
           val wordFrequency = new ListBuffer[String]
           wordFrequency += word
-          d(item) = (wordFrequency, 0)
+          derivedWords(item) = (wordFrequency, 0)
         }
       }) // End deletes.foreach
     }
     newLongestWordLength
   }
 
+  /** Created by danilo 26/04/2018
+    * Computes derived words from a word
+    * */
   def derivedWordDistances(externalResource: List[String], maxEditDistance: Int
                           ): WordFeatures = {
+
     val regex = $(corpus).options("tokenPattern").r
     val derivedWords = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
     val wordFeatures = WordFeatures(derivedWords, 0)

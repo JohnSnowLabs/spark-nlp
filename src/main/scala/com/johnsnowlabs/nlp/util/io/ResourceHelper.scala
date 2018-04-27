@@ -336,7 +336,6 @@ object ResourceHelper {
         val regex = er.options("tokenPattern").r
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
-            //println("Before counting words...")
             words.foreach(w => {
               // Creates a Map of frequency words: word -> frequency based on ExternalResource
               m(w) += 1
