@@ -37,4 +37,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a dataset of individual words with Spark pipeleine" should behave like testIndividualWords
 
+  // "a spark dataset " should behave like testSparkDataset()
+
 }
