@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -8,7 +9,7 @@ import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
@@ -35,8 +36,8 @@ class AssertionLogRegApproach(val uid: String)
   val maxIter = new IntParam(this, "maxIter", "Max number of iterations for algorithm")
   val regParam = new DoubleParam(this, "regParam", "Regularization parameter")
   val eNetParam = new DoubleParam(this, "eNetParam", "Elastic net parameter")
-  val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
-  val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
+  val beforeParam = new IntParam(this, "beforeParam", "Amount of tokens from the context before the target")
+  val afterParam = new IntParam(this, "afterParam", "Amount of tokens from the context after the target")
 
   val nerCol = new Param[String](this, "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol")
   val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
@@ -72,7 +73,6 @@ class AssertionLogRegApproach(val uid: String)
   }
 
   private def processWithNer(dataset: DataFrame): DataFrame = {
-    require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
     dataset.toDF
       .withColumn("_features",
         explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col("_text"), col($(nerCol))))
@@ -88,7 +88,38 @@ class AssertionLogRegApproach(val uid: String)
       )
   }
 
+  private def trainWithNer(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+    require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
+
+    val prefiltered =
+      dataset.toDF().filter(r => {
+        val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+        annotations.exists(a => $(targetNerLabels).contains(a.result))
+      })
+
+    require(!prefiltered.rdd.isEmpty(),
+      "NER based assertion status cannot be trained since training set did not match any valid entity")
+
+    val preprocessed = prefiltered
+      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
+      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    processWithNer(preprocessed)
+  }
+
+  private def trainWithStartEnd(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+
+    val preprocessed = dataset
+      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
+      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    processWithStartEnd(preprocessed)
+  }
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
+
+    // Preload word embeddings before doing it within udf
+    wordVectors()
 
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
@@ -105,15 +136,12 @@ class AssertionLogRegApproach(val uid: String)
       .map{case (labelK, idx) => (labelK, idx.toDouble)}
       .toMap
 
-    val preprocessed = dataset
-      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
-      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
-
     /* apply UDF to fix the length of each document */
-    val processed = if (get(nerCol).isDefined) {
-      processWithNer(preprocessed)
+    val processed =
+      if (get(nerCol).isDefined) {
+      trainWithNer(dataset, labelCol, labelMappings)
     } else if (get(startCol).isDefined & get(endCol).isDefined) {
-      processWithStartEnd(preprocessed)
+      trainWithStartEnd(dataset, labelCol, labelMappings)
     } else {
       throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined")
     }
@@ -128,6 +156,8 @@ class AssertionLogRegApproach(val uid: String)
     if (get(nerCol).isDefined)
       model
         .setNerCol($(nerCol))
+        .setTargetNerLabels($(targetNerLabels))
+        .setExhaustiveNerMode(getOrDefault(exhaustiveNerMode))
     else
       model
         .setStartCol($(startCol))

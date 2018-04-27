@@ -106,14 +106,17 @@ trait Windowing extends Serializable {
           true
         }
       })
-      if (range.isDefined)
+      if (range.isDefined) {
+        require(doc.slice(range.get._1, range.get._2).split(" ").length <= after,
+          "NER Based assertion status failed due to targets longer than afterParam")
         Vectors.dense(applyWindow(wordVectors.get)(doc, range.get._1, range.get._2))
+      }
       else
-        Vectors.dense(applyWindow(wordVectors.get)(doc, annotations.head.begin, annotations.last.end))
+        throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
     }
 
   def applyWindowUdfNerExhaustive(targetLabels: Array[String]) =
-  // here 's' and 'e' are already substring indexes from ner annotations
+  // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
     udf { (doc: String, row: Seq[Row]) => {
       val annotations = row.map { r => Annotation(r) }
       val targets = annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).toIterator
@@ -131,11 +134,13 @@ trait Windowing extends Serializable {
         }
         ranges.append(range)
       }
-      println(s"RANGE IS: ${ranges.mkString(",")} among ${annotations.head.begin} and ${annotations.last.end}")
-      if (ranges.nonEmpty)
-        ranges.map{r => Vectors.dense(applyWindow(wordVectors.get)(doc, r._1, r._2))}
+      if (ranges.nonEmpty) {
+        require(ranges.forall(p => doc.slice(p._1, p._2).split(" ").length <= after),
+          "NER Based assertion status failed due to targets longer than afterParam")
+        ranges.map { r => Vectors.dense(applyWindow(wordVectors.get)(doc, r._1, r._2)) }
+      }
       else
-        Seq(Vectors.dense(applyWindow(wordVectors.get)(doc, annotations.head.begin, annotations.last.end)))
+        throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
     }}
 
   def l2norm(xs: Array[Double]):Double = {
