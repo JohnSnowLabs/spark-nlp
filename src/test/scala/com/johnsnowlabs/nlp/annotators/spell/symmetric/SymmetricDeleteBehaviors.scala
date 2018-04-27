@@ -116,9 +116,9 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("document"))
         .setOutputCol("token")
 
-      // val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
+      val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
-      val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
+      // val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
       // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
 
       val spell = new SymmetricDeleteApproach()
