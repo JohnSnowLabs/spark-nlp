@@ -10,6 +10,8 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
+# Do NOT delete. Looks redundant but this is a workaround for model deSer from disk
+import com.johnsnowlabs.nlp
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
     from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
@@ -83,10 +85,6 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
         super(JavaTransformer, self).__init__()
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
-
-
-class _AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
-    pass
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
@@ -239,7 +237,10 @@ class RegexMatcher(AnnotatorApproach):
         return RegexMatcherModel(java_model)
 
 
-class RegexMatcherModel(_AnnotatorModel):
+class RegexMatcherModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(RegexMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel")
     name = "RegexMatcherModel"
 
 
@@ -266,7 +267,10 @@ class Lemmatizer(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
 
-class LemmatizerModel(_AnnotatorModel):
+class LemmatizerModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
     name = "LemmatizerModel"
 
     @staticmethod
@@ -314,7 +318,11 @@ class TextMatcher(AnnotatorApproach):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
-class TextMatcherModel(_AnnotatorModel):
+class TextMatcherModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(TextMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel")
+        self._setDefault(inputCols=["token"])
     name = "TextMatcherModel"
 
 
@@ -356,7 +364,10 @@ class PerceptronApproach(AnnotatorApproach):
         return PerceptronModel(java_model)
 
 
-class PerceptronModel(_AnnotatorModel):
+class PerceptronModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
     name = "PerceptronModel"
 
     @staticmethod
@@ -418,7 +429,10 @@ class SentimentDetector(AnnotatorApproach):
         return SentimentDetectorModel(java_model)
 
 
-class SentimentDetectorModel(_AnnotatorModel):
+class SentimentDetectorModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(SentimentDetectorModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel")
     name = "SentimentDetectorModel"
 
 
@@ -470,7 +484,10 @@ class ViveknSentimentApproach(AnnotatorApproach):
         return ViveknSentimentModel(java_model)
 
 
-class ViveknSentimentModel(_AnnotatorModel):
+class ViveknSentimentModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
     name = "ViveknSentimentModel"
 
 
@@ -541,8 +558,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return NorvigSweetingModel(java_model)
 
 
-class NorvigSweetingModel(_AnnotatorModel):
+class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
+    @keyword_only
+    def __init__(self):
+        super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
 
     @staticmethod
     def pretrained(name="spell_fast", language="en"):
@@ -631,8 +651,11 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(_AnnotatorModel):
+class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
+    @keyword_only
+    def __init__(self):
+        super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
 
     @staticmethod
     def pretrained(name="ner_fast", language="en"):
@@ -696,9 +719,12 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         self._setDefault(label="label", beforeParam=11, afterParam=13)
 
 
-class AssertionLogRegModel(_AnnotatorModel):
+class AssertionLogRegModel(AnnotatorModel):
+    @keyword_only
+    def __init__(self):
+        super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
     name = "AssertionLogRegModel"
-    
+
     @staticmethod
     def pretrained(name="as_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
@@ -760,8 +786,12 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
         )
 
 
-class NerDLModel(_AnnotatorModel):
+class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
+
+    @keyword_only
+    def __init__(self):
+        super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
 
 
 class NerConverter(AnnotatorModel):
@@ -823,10 +853,13 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
 
 
-class AssertionDLModel(_AnnotatorModel):
+class AssertionDLModel(AnnotatorModel):
     name = "AssertionDLModel"
+    @keyword_only
+    def __init__(self):
+        super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
     @staticmethod
-    def pretrained(name="as_fast", language="en"):
+    def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
 

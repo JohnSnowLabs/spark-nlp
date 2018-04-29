@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
-import com.johnsnowlabs.nlp.annotators.assertion.dl.{AssertionDLModel, PretrainedDLAssertionStatus, ReadsAssertionGraph}
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.{AssertionLogRegModel, PretrainedAssertionLogRegModel}
+import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLModel, ReadsNERGraph, WithGraphResolver}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
