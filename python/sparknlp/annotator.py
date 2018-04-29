@@ -820,6 +820,11 @@ class NerDLModel(AnnotatorModel):
         else:
             super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
 
+    @staticmethod
+    def pretrained(name="ner_precise", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(NerDLModel, name, language)
+
 
 class NerConverter(AnnotatorModel):
     name = 'Tokenizer'
