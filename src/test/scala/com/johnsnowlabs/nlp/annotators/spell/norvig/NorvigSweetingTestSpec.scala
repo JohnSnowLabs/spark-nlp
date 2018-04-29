@@ -5,6 +5,7 @@ import org.scalatest._
 
 class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
 
+
   "an isolated spell checker" should behave like isolatedNorvigChecker(
     Seq(
       ("mral", "meal"),
