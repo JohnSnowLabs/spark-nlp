@@ -238,9 +238,12 @@ class RegexMatcher(AnnotatorApproach):
 
 
 class RegexMatcherModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(RegexMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel")
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(RegexMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel")
+
     name = "RegexMatcherModel"
 
 
@@ -256,7 +259,7 @@ class Lemmatizer(AnnotatorApproach):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return LemmatizerModel(java_model)
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -268,10 +271,13 @@ class Lemmatizer(AnnotatorApproach):
 
 
 class LemmatizerModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
     name = "LemmatizerModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
 
     @staticmethod
     def pretrained(name="lemma_fast", language="en"):
@@ -319,11 +325,13 @@ class TextMatcher(AnnotatorApproach):
 
 
 class TextMatcherModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(TextMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel")
-        self._setDefault(inputCols=["token"])
     name = "TextMatcherModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(TextMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel")
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -365,10 +373,13 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
     name = "PerceptronModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
 
     @staticmethod
     def pretrained(name="pos_fast", language="en"):
@@ -430,10 +441,13 @@ class SentimentDetector(AnnotatorApproach):
 
 
 class SentimentDetectorModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(SentimentDetectorModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel")
     name = "SentimentDetectorModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(SentimentDetectorModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel")
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
@@ -485,10 +499,13 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
 
 class ViveknSentimentModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
     name = "ViveknSentimentModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -560,9 +577,12 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
 class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
-    @keyword_only
-    def __init__(self):
-        super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
 
     @staticmethod
     def pretrained(name="spell_fast", language="en"):
@@ -653,9 +673,12 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
 
 class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
-    @keyword_only
-    def __init__(self):
-        super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
 
     @staticmethod
     def pretrained(name="ner_fast", language="en"):
@@ -720,10 +743,13 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 
 class AssertionLogRegModel(AnnotatorModel):
-    @keyword_only
-    def __init__(self):
-        super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
     name = "AssertionLogRegModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
 
     @staticmethod
     def pretrained(name="as_fast", language="en"):
@@ -768,7 +794,6 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
     def setTestDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
-
     def _create_model(self, java_model):
         return NerDLModel(java_model)
 
@@ -789,9 +814,11 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
 
-    @keyword_only
-    def __init__(self):
-        super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
 
 
 class NerConverter(AnnotatorModel):
@@ -855,9 +882,13 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionDLModel(AnnotatorModel):
     name = "AssertionDLModel"
-    @keyword_only
-    def __init__(self):
-        super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+
     @staticmethod
     def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
