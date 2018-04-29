@@ -507,6 +507,11 @@ class ViveknSentimentModel(AnnotatorModel):
         else:
             super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
 
+    @staticmethod
+    def pretrained(name="vivekn_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language)
+
 
 class NorvigSweetingApproach(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
