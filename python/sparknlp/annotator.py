@@ -864,7 +864,7 @@ class AssertionDLModel(AnnotatorModel):
     def __init__(self):
         super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
     @staticmethod
-    def pretrained(name="as_fast", language="en"):
+    def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
 
