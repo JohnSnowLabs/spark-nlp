@@ -13,7 +13,6 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.SourceStream
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.param._
