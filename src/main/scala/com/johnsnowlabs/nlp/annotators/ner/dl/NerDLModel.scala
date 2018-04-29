@@ -114,5 +114,4 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   addReader(readNerGraph)
 }
 
-
 object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph
