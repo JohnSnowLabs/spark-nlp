@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.Tokenizer
-import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.nlp.annotator.{AssertionDLModel, AssertionLogRegModel, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.NegexDatasetReader
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
 /**
   * Combine a downloaded tokenizer with a locally created document assembler
@@ -10,21 +11,34 @@ import org.apache.spark.sql.SparkSession
   */
 object ModelDownloadSpec extends App {
 
-  implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[2]").getOrCreate
+  implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
   import spark.implicits._
 
-  val dataset = Seq("Songs are to be sung", "Dances are to be danced").toDF("text")
+  val datasetPath = "rsAnnotations-1-120-random.txt"
+  val embeddingsDims = 100
+
+  val reader = new NegexDatasetReader()
+
+  val dataset = "rsAnnotations-1-120-random.txt"
+
+  val ds = reader.readDataframe(datasetPath).cache
 
   val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
+    .setInputCol("sentence")
     .setOutputCol("document")
 
-  val tokenizer = new Tokenizer()
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+  val assertion = ResourceDownloader.downloadModel(AssertionDLModel,"as_full_dl", Some("en"))
+  //assertion.setIndexPath("cache_pretrained/as_fast_dl_en_1.5_2_1523537970256/embeddings")
 
-  val pipeline = new Pipeline().setStages(
-    Array(documentAssembler, tokenizer)
-  )
-  print(pipeline.fit(dataset).transform(dataset))
+  val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion))
+
+  val pipelineModel = pipeline.fit(ds.cache)
+  val result = pipelineModel.transform(ds.cache).collect
+
+  result.foreach { x=>
+
+    println(x)
+  }
+
+
 }

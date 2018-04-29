@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 object base {
@@ -12,5 +13,13 @@ object base {
 
   type Finisher = com.johnsnowlabs.nlp.Finisher
   object Finisher extends DefaultParamsReadable[Finisher]
+
+  type RecursivePipeline = com.johnsnowlabs.nlp.RecursivePipeline
+
+  type LightPipeline = com.johnsnowlabs.nlp.LightPipeline
+
+  implicit def pip2sparkless(pipelineModel: PipelineModel): LightPipeline = {
+    LightPipeline.pip2sparkless(pipelineModel)
+  }
 
 }

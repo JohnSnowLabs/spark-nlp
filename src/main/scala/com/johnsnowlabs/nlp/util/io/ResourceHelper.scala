@@ -92,8 +92,6 @@ object ResourceHelper {
   def listResourceDirectory(path: String): Seq[String] = {
     val dirURL = getResourceFile(path)
 
-    System.out.println(s"listDirectory ${dirURL}")
-
     if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
       return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))

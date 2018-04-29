@@ -1,13 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
@@ -31,37 +33,38 @@ class AssertionLogRegApproach(val uid: String)
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
   val label = new Param[String](this, "label", "Column with one label per document")
-  // the target term, that must appear capitalized in the document, e.g., 'diabetes'
-  val target = new Param[String](this, "target", "Column with the target to analyze")
   val maxIter = new IntParam(this, "maxIter", "Max number of iterations for algorithm")
   val regParam = new DoubleParam(this, "regParam", "Regularization parameter")
   val eNetParam = new DoubleParam(this, "eNetParam", "Elastic net parameter")
-  val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
-  val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
+  val beforeParam = new IntParam(this, "beforeParam", "Amount of tokens from the context before the target")
+  val afterParam = new IntParam(this, "afterParam", "Amount of tokens from the context after the target")
 
-  val startParam = new Param[String](this, "startParam", "Column that contains the token number for the start of the target")
-  val endParam = new Param[String](this, "endParam", "Column that contains the token number for the end of the target")
+  val nerCol = new Param[String](this, "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol")
+  val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
+  val exhaustiveNerMode = new BooleanParam(this, "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence")
+  val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
+  val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
 
   def setLabelCol(label: String): this.type = set(label, label)
-  def setTargetCol(target: String): this.type = set(target, target)
   def setMaxIter(max: Int): this.type = set(maxIter, max)
   def setReg(lambda: Double): this.type = set(regParam, lambda)
   def setEnet(enet: Double): this.type = set(eNetParam, enet)
   def setBefore(b: Int): this.type = set(beforeParam, b)
   def setAfter(a: Int): this.type = set(afterParam, a)
-  def setStart(start: String): this.type = set(startParam, start)
-  def setEnd(end: String): this.type = set(endParam, end)
+  def setStartCol(start: String): this.type = set(startCol, start)
+  def setEndCol(end: String): this.type = set(endCol, end)
+  def setNerCol(col: String): this.type = set(nerCol, col)
+  def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
+  def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   setDefault(label -> "label",
-    target   -> "target",
     maxIter -> 26,
     regParam -> 0.00192,
     eNetParam -> 0.9,
     beforeParam -> 10,
     afterParam -> 10,
-    startParam -> "start",
-    endParam -> "end"
+    exhaustiveNerMode -> false
   )
 
   /* send this to common place */
@@ -69,21 +72,61 @@ class AssertionLogRegApproach(val uid: String)
     document.head.getString(3)
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
-    import dataset.sqlContext.implicits._
+  private def processWithNer(dataset: DataFrame): DataFrame = {
+    dataset.toDF
+      .withColumn("_features",
+        explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col("_text"), col($(nerCol))))
+      )
+  }
 
-    /* apply UDF to fix the length of each document */
-    val processed = dataset.toDF.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn("features", applyWindowUdf($"text",
-        col(getOrDefault(target)),
-        col(getOrDefault(startParam)),
-        col(getOrDefault(endParam))))
+  private def processWithStartEnd(dataset: DataFrame): DataFrame = {
+    dataset.toDF
+      .withColumn("_features",
+        applyWindowUdf(col("_text"),
+          col($(startCol)),
+          col($(endCol)))
+      )
+  }
+
+  private def trainWithNer(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+    require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
+
+    val prefiltered =
+      dataset.toDF().filter(r => {
+        val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+        annotations.exists(a => $(targetNerLabels).contains(a.result))
+      })
+
+    require(!prefiltered.rdd.isEmpty(),
+      "NER based assertion status cannot be trained since training set did not match any valid entity")
+
+    val preprocessed = prefiltered
+      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
+      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    processWithNer(preprocessed)
+  }
+
+  private def trainWithStartEnd(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+
+    val preprocessed = dataset
+      .withColumn("_text", extractTextUdf(col(getInputCols.head)))
+      .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+
+    processWithStartEnd(preprocessed)
+  }
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel] = None): AssertionLogRegModel = {
+
+    // Preload word embeddings before doing it within udf
+    wordVectors()
 
     val lr = new LogisticRegression()
       .setMaxIter(getOrDefault(maxIter))
       .setRegParam(getOrDefault(regParam))
       .setElasticNetParam(getOrDefault(eNetParam))
+      .setPredictionCol("_prediction")
+      .setFeaturesCol("_features")
 
     val labelCol = getOrDefault(label)
 
@@ -93,21 +136,42 @@ class AssertionLogRegApproach(val uid: String)
       .map{case (labelK, idx) => (labelK, idx.toDouble)}
       .toMap
 
-    val processedWithLabel = processed.withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
+    /* apply UDF to fix the length of each document */
+    val processed =
+      if (get(nerCol).isDefined) {
+      trainWithNer(dataset, labelCol, labelMappings)
+    } else if (get(startCol).isDefined & get(endCol).isDefined) {
+      trainWithStartEnd(dataset, labelCol, labelMappings)
+    } else {
+      throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined")
+    }
 
-    new AssertionLogRegModel()
+    val model = new AssertionLogRegModel()
       .setBefore(getOrDefault(beforeParam))
       .setAfter(getOrDefault(afterParam))
       .setInputCols(getOrDefault(inputCols))
-      .setTargetCol(getOrDefault(target))
-      .setStart(getOrDefault(startParam))
-      .setEnd(getOrDefault(endParam))
       .setLabelMap(labelMappings)
-      .setModel(lr.fit(processedWithLabel))
+      .setModel(lr.fit(processed))
+
+    if (get(nerCol).isDefined)
+      model
+        .setNerCol($(nerCol))
+        .setTargetNerLabels($(targetNerLabels))
+        .setExhaustiveNerMode(getOrDefault(exhaustiveNerMode))
+    else
+      model
+        .setStartCol($(startCol))
+        .setEndCol($(endCol))
   }
 
   private def labelToNumber(mappings: Map[String, Double]) = udf { label:String  => mappings.get(label)}
 
 }
 
-object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]
+trait PretrainedLogRegAssertionStatus {
+  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionLogRegModel =
+    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, folder)
+}
+
+
+object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach] with PretrainedLogRegAssertionStatus
