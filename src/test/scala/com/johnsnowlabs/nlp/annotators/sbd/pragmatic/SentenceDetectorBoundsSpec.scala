@@ -7,11 +7,10 @@ import org.scalatest.FlatSpec
 
 class SentenceDetectorBoundsSpec extends FlatSpec {
 
-  val model = new PragmaticMethod(false)
-
   "SentenceDetector" should "return correct sentence bounds" in {
+    val model = new DefaultPragmaticMethod(false)
     val text = "Hello World!! New Sentence"
-    val bounds = model.extractBounds(text, Array.empty[String])
+    val bounds = model.extractBounds(text)
 
     assert(bounds.length == 2)
     assert(bounds(0) == Sentence("Hello World!!", 0, 12))
@@ -21,8 +20,9 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
   }
 
   "SentenceDetector" should "correct return sentence bounds with whitespaces" in {
+    val model = new DefaultPragmaticMethod(false)
     val text = " Hello World!! .  New Sentence  "
-    val bounds = model.extractBounds(text, Array.empty[String])
+    val bounds = model.extractBounds(text)
 
     assert(bounds.length == 3)
     assert(bounds(0) == Sentence("Hello World!!", 1, 13))
@@ -33,8 +33,9 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
   }
 
   "SentenceDetector" should "correct process custom delimiters" in {
+    val model = new MixedPragmaticMethod(false, Array("\n\n"))
     val text = " Hello World.\n\nNew Sentence\n\nThird"
-    val bounds = model.extractBounds(" Hello World.\n\nNew Sentence\n\nThird", Array("\n\n"))
+    val bounds = model.extractBounds(" Hello World.\n\nNew Sentence\n\nThird")
 
     assert(bounds.length == 3)
     assert(bounds(0) == Sentence("Hello World.", 1, 12))
@@ -45,7 +46,8 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
   }
 
   "SentenceDetector" should "correct process custom delimiters in with dots" in {
-    val bounds = model.extractBounds(ContentProvider.conllSevenSentences, Array("\n\n"))
+    val model = new MixedPragmaticMethod(false, Array("\n\n"))
+    val bounds = model.extractBounds(ContentProvider.conllSevenSentences)
 
     assert(bounds.length == 8)
   }

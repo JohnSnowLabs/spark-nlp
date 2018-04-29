@@ -5,10 +5,10 @@ import com.johnsnowlabs.nlp.{Finisher, LightPipeline}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
-abstract class PretrainedPipeline(downloadName: String, folder: String = ResourceDownloader.publicFolder, language: Option[String] = None) {
+abstract class PretrainedPipeline(downloadName: String, language: Option[String] = None, folder: String = ResourceDownloader.publicFolder) {
 
   lazy protected val modelCache: PipelineModel = ResourceDownloader
-    .downloadPipeline(downloadName, folder, language)
+    .downloadPipeline(downloadName, language, folder)
 
   def annotate(dataset: DataFrame, inputColumn: String): DataFrame = {
     modelCache

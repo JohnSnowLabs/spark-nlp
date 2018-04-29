@@ -24,10 +24,10 @@ class PragmaticContentFormatter(text: String) {
     * Arbitrarely mark bounds with user provided characters
     * @return
     */
-  def formatCustomBounds(chars: Array[String]): this.type = {
+  def formatCustomBounds(bounds: Array[String]): this.type = {
 
     val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
-    chars.foreach(char => factory.addRule(char.r, s"split character: $char"))
+    bounds.foreach(bound => factory.addRule(bound.r, s"split bound: $bound"))
 
     wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
 

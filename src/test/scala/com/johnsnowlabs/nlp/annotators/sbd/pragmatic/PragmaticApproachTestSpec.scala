@@ -412,4 +412,9 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val noWhiteSpace = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(noWhiteSpace, noWhiteSpaceAns)
   */
+
+  //German characters use case
+  val germanAns = Array("Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung.")
+  val german = "Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung."
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(german, germanAns)
 }

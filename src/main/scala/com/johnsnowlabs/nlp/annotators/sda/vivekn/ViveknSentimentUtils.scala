@@ -53,7 +53,7 @@ trait ViveknSentimentUtils {
       })
     })
     sourceStream.close()
-    if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
+    if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for vivekn sentiment does not exist or is empty")
     if (prune > 0)
       (left.filter{case (_, v) => v > 1}, right.filter{case (_, v) => v > 1})
     else
