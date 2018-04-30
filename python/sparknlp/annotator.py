@@ -636,7 +636,7 @@ class SymmetricDeleteModel(AnnotatorModel):
     @staticmethod
     def pretrained(name="spell_sd_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
+        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language)
 
 
 class NerApproach(Params):
