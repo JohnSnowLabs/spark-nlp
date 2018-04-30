@@ -148,7 +148,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val externalResource = ResourceHelper.getExternalResourceAsList($(corpus))
+    val externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
 
     val wordFeatures = derivedWordDistances(externalResource = externalResource,
                                             maxEditDistance = $(maxEditDistance))
