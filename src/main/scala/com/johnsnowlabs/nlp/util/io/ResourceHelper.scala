@@ -65,14 +65,6 @@ object ResourceHelper {
     }
   }
 
-  //Created by danilo 17/04/2018
-  private var longestWordLength: Int = 0
-
-  def getLongestWordLength: Int = {
-    longestWordLength
-  }
-
-
   def getResourceStream(path: String): InputStream = {
     Option(getClass.getResourceAsStream(path))
       .getOrElse{
@@ -373,48 +365,6 @@ object ResourceHelper {
           }))
         wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
-    }
-  }
-
-  /** Created by danilo 26/04/2018
-    * returns a list representation of the external resource list
-    * the elements are lower cased before return
-    * */
-  def getExternalResourceAsList(er: ExternalResource, p: Option[PipelineModel] = None): List[String] = {
-    er.readAs match {
-      case LINE_BY_LINE =>
-        val sourceStream = SourceStream(er.path)
-
-        val resource = sourceStream.content.getLines.toList
-        sourceStream.close()
-        if (resource.isEmpty) throw new
-            FileNotFoundException("Resource list does not exist or is empty")
-
-        resource.map(_.toLowerCase)
-
-      case SPARK_DATASET =>
-        import spark.implicits._
-
-        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val transformation = {
-          if (p.isDefined) {
-            p.get.transform(dataset)
-          } else {
-            val documentAssembler = new DocumentAssembler()
-              .setInputCol("value")
-            val finisher = new Finisher()
-              .setInputCols("document")
-              .setOutputCols("finished")
-            new Pipeline()
-              .setStages(Array(documentAssembler, finisher))
-              .fit(dataset)
-              .transform(dataset)
-          }
-        }
-        val resource = transformation.select("finished").map(r => r.getString(0)).collect.toList
-        resource.map(_.toLowerCase)
-
-      case _ => throw new IllegalArgumentException("format not available for resource list")
     }
   }
 
