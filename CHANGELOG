@@ -1,4 +1,44 @@
 ========
+1.5.2
+========
+---------------
+Overview
+---------------
+This release focuses on improving model downloader stability, fixing word embedding reading issues and joining
+spark ecosystem filesystem configuration appropriately, utilizing spark's defined default filesystem, in order to work
+properly with clusters and multi node environments. This includes Databricks cloud clusters or Amazon EMR yarn HDFS nodes.
+
+Aside of that we come up with exciting new features, a brand new Spell Checker with higher accuracy inspired on the
+Symmetric delete algorithm.
+
+Finally Assertion Status can be trained and predicted on top of NER output, since before
+this only worked by providing assertion status Start and End boundaries for the target to assert.
+
+---------------
+New Features
+---------------
+* Assertion status annotators can now be trained and predict against NER output instead of start and end boundaries. Entities can now be directly asserted
+* Brand new Symmetric Delete annotator (SymmetricDeleteApproach) with closer to start of the art optimal accuracy 80%
+
+---------------
+Enhancements
+---------------
+* Model downloader now uses proper spark filesystem. Works properly with distributed storage, databricks cloud clusters or amazon EMR seamlessly
+* Fixed several race condition while loading word embeddings from disk or download resources, library is more stable
+* Improved several assertion status validations and error messages
+
+---------------
+Bug fixes
+---------------
+* Stand alone Annotator models are now properly read from disk in python
+
+---------------
+Models
+---------------
+* New Symmetric Delete Spell checker pretrained model
+* Vivekn Sentiment annotator may now be downloaded standalone with pretrained()
+
+========
 1.5.1
 ========
 ---------------
