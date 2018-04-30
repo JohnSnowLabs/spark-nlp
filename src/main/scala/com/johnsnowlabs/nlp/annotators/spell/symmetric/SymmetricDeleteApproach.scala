@@ -23,6 +23,7 @@ class SymmetricDeleteApproach(override val uid: String)
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
 
   val corpus = new ExternalResourceParam(this, "corpus", "folder or file with text that teaches about the language")
+  val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(maxEditDistance, 3)
   //setDefault(longestWordLength, 0)
@@ -38,6 +39,17 @@ class SymmetricDeleteApproach(override val uid: String)
                 readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                 options: Map[String, String] = Map("format" -> "text")): this.type =
     set(corpus, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
+
+  def setDictionary(value: ExternalResource): this.type = {
+    require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
+    set(dictionary, value)
+  }
+
+  def setDictionary(path: String,
+                    tokenPattern: String = "\\S+",
+                    readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                    options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
 
   // AnnotatorType shows the structure of the result, we can have annotators with the same result
@@ -150,12 +162,19 @@ class SymmetricDeleteApproach(override val uid: String)
 
     val externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
 
+    val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
+
     val wordFeatures = derivedWordDistances(externalResource = externalResource,
                                             maxEditDistance = $(maxEditDistance))
 
-    new SymmetricDeleteModel()
+    val model = new SymmetricDeleteModel()
       .setDerivedWords(wordFeatures.derivedWords.toMap)
       .setLongestWordLength(wordFeatures.longestWordLength)
+
+    if (possibleDict.isDefined)
+      model.setDictionary(possibleDict.get.toMap)
+
+    model
   }
 
 }

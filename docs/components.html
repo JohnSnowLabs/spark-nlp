@@ -2169,6 +2169,9 @@ documentAssembler = new DocumentAssembler()
                                                     setCorpus(path, tokenPattern, readAs, options): path to training corpus folder or file. If not set, content available in Dataset received in fit() stage will be used. tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.
                                                 </li>
                                                 <li>
+                                                    setDictionary(path, tokenPattern, readAs, options): Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
+                                                </li>
+                                                <li>
                                                     setMaxEditDistance(distance): Maximum edit distance to calculate possible derived words. Defaults to 3.
                                                 </li>
                                             </ul>
@@ -2194,6 +2197,9 @@ documentAssembler = new DocumentAssembler()
                                             <ul>
                                                 <li>
                                                     setCorpus(path, tokenPattern, readAs, options): path to training corpus folder or file. If not set, content available in Dataset received in fit() stage will be used. tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.
+                                                </li>
+                                                <li>
+                                                    setDictionary(path, tokenPattern, readAs, options): Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
                                                 </li>
                                                 <li>
                                                     setMaxEditDistance(distance): Maximum edit distance to calculate possible derived words. Defaults to 3.
