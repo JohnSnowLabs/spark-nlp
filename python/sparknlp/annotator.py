@@ -601,6 +601,11 @@ class SymmetricDeleteApproach(AnnotatorApproach):
                    "folder or file with text that teaches about the language",
                    typeConverter=TypeConverters.identity)
 
+    dictionary = Param(Params._dummy(),
+                   "dictionary",
+                   "folder or file with text that teaches about the language",
+                   typeConverter=TypeConverters.identity)
+
     maxEditDistance = Param(Params._dummy(),
                         "maxEditDistance",
                         "max edit distance characters to derive strings from a word",
@@ -616,6 +621,12 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
         return self._set(corpus=ExternalResource(path, read_as, opts))
+
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def setMaxEditDistance(self, v):
         return self._set(maxEditDistance=v)
