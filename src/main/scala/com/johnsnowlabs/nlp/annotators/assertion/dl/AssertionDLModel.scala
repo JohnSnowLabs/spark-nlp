@@ -5,7 +5,11 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.{IntParam, Param, ParamMap}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.param.{IntParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -13,6 +17,7 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
 import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by jose on 14/03/18.
@@ -24,11 +29,15 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
   with TransformModelSchema {
 
 
-  val start = new Param[String](this, "start", "Column with token number for first target token")
-  val end = new Param[String](this, "end", "Column with token number for last target token")
+  val nerCol = new Param[String](this, "nerCol", "Column with NER output annotation to find target token")
+  val startCol = new Param[String](this, "startCol", "Column with token number for first target token")
+  val endCol = new Param[String](this, "endCol", "Column with token number for last target token")
+  val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
 
-  def setStart(s: String): this.type = set(start, s)
-  def setEnd(e: String): this.type = set(end, e)
+  def setStartCol(s: String): this.type = set(startCol, s)
+  def setEndCol(e: String): this.type = set(endCol, e)
+  def setNerCol(col: String): this.type = set(nerCol, col)
+  def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
@@ -66,17 +75,50 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     _model
   }
 
+  private def generateEmptyAnnotations = udf {
+    () => Seq.empty[Annotation]
+  }
+
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
 
-    import dataset.sqlContext.implicits._
-
     /* apply UDFs to classify and annotate */
-    dataset.toDF.
-      withColumn("text", extractTextUdf(col(getInputCols.head))).
-      withColumn(getOutputCol, packAnnotations(col("text"), col(getOrDefault(start)), col(getOrDefault(end)))
-    )
+    val prefiltered = if (get(nerCol).isDefined) {
+      require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
+      dataset.toDF.
+        filter(r => {
+          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+          annotations.exists(a => $(targetNerLabels).contains(a.result))
+        })
+      } else {
+        dataset.toDF
+      }
+
+    val packed = prefiltered.
+      withColumn("_text", extractTextUdf(col(getInputCols.head))).
+      withColumn(getOutputCol, {
+        if (get(nerCol).isDefined) {
+          require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
+          packAnnotationsNer($(targetNerLabels))(col("_text"), col($(nerCol)))
+        } else if (get(startCol).isDefined & get(endCol).isDefined) {
+          packAnnotations(col("_text"), col($(startCol)), col($(endCol)))
+        } else {
+          throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined in order to predict assertion")
+        }
+      }).
+      drop("_text")
+
+    if (get(nerCol).isDefined) {
+      packed.union(dataset.toDF.
+        filter(r => {
+          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
+          annotations.forall(a => !$(targetNerLabels).contains(a.result))
+        }).withColumn(getOutputCol, generateEmptyAnnotations()))
+    } else {
+      packed
+    }
+
   }
 
   private def packAnnotations = udf { (text: String, s: Int, e: Int) =>
@@ -91,6 +133,34 @@ class AssertionDLModel(override val uid: String) extends RawAnnotator[AssertionD
     val prediction = model.predict(Array(tokens), Array(s), Array(e)).head
     val annotation = Annotation("assertion", start, end, prediction, Map())
     Seq(annotation)
+  }
+
+  private def packAnnotationsNer(targetLabels: Array[String]) = udf { (text: String, n: Seq[Row]) =>
+    val tokens = text.split(" ").filter(_!="")
+    val annotations = n.map { r => Annotation(r) }
+    val targets = annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).toIterator
+    val ranges = ArrayBuffer.empty[(Int, Int)]
+    while (targets.hasNext) {
+      val annotation = targets.next
+      var range = (annotation._1.begin, annotation._1.end)
+      var look = true
+      while(look && targets.hasNext) {
+        val nextAnnotation = targets.next
+        if (nextAnnotation._2 == annotation._2 + 1)
+          range = (range._1, nextAnnotation._1.end)
+        else
+          look = false
+      }
+      ranges.append(range)
+    }
+    if (ranges.nonEmpty) {
+      ranges.map {r => {
+        val prediction = model.predict(Array(tokens), Array(r._1), Array(r._2)).head
+        Annotation("assertion", r._1, r._2, prediction, Map())
+      }}
+    }
+    else
+      throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
   }
 
   def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
@@ -114,10 +184,17 @@ trait ReadsAssertionGraph extends ParamsAndFeaturesReadable[AssertionDLModel] wi
 
   override val tfFile = "tensorflow"
 
-  override def onRead(instance: AssertionDLModel, path: String, spark: SparkSession): Unit = {
+  def readAssertionGraph(instance: AssertionDLModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_assertiondl")
     instance.setTensorflow(tf)
   }
+
+  addReader(readAssertionGraph)
 }
 
-object AssertionDLModel extends ParamsAndFeaturesReadable[AssertionDLModel] with ReadsAssertionGraph
+trait PretrainedDLAssertionStatus {
+  def pretrained(name: String = "as_fast_dl", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionDLModel =
+    ResourceDownloader.downloadModel(AssertionDLModel, name, language, folder)
+}
+
+object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus

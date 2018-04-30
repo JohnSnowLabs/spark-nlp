@@ -2,9 +2,11 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials}
 import com.johnsnowlabs.nlp.DocumentAssembler
+import com.johnsnowlabs.nlp.annotator.AssertionDLModel
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
@@ -14,12 +16,13 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
 
 
 trait ResourceDownloader {
-  
+
   /**
     * Download resource to local file
     * @param request      Resource request
@@ -28,13 +31,18 @@ trait ResourceDownloader {
   def download(request: ResourceRequest): Option[String]
 
   def clearCache(request: ResourceRequest): Unit
+
+  val fs = ResourceDownloader.fs
+
 }
 
 object ResourceDownloader {
 
+  val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+
   val s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
   val s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
-  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, "cache_pretrained")
+  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
 
   val credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
@@ -70,8 +78,8 @@ object ResourceDownloader {
     * @param language Desired language of Resource
     * @return path of downloaded resource
     */
-  def downloadResource(name: String, folder: String = publicFolder, language: Option[String] = None): String = {
-    downloadResource(ResourceRequest(name, folder, language))
+  def downloadResource(name: String, language: Option[String] = None, folder: String = publicFolder): String = {
+    downloadResource(ResourceRequest(name, language, folder))
   }
 
   /**
@@ -81,16 +89,17 @@ object ResourceDownloader {
     */
   def downloadResource(request: ResourceRequest): String = {
     val path = defaultDownloader.download(request)
-    require(path.isDefined, s"Was not able to download: $request with downloader: $defaultDownloader")
+    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
 
     path.get
   }
 
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel],
                                              name: String,
-                                             folder: String = publicFolder,
-                                             language: Option[String] = None): TModel = {
-    downloadModel(reader, ResourceRequest(name, folder, language))
+                                             language: Option[String] = None,
+                                             folder: String = publicFolder
+                                            ): TModel = {
+    downloadModel(reader, ResourceRequest(name, language, folder))
   }
 
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel], request: ResourceRequest): TModel = {
@@ -105,8 +114,8 @@ object ResourceDownloader {
     }
   }
 
-  def downloadPipeline(name: String, folder: String = publicFolder, language: Option[String] = None): PipelineModel = {
-    downloadPipeline(ResourceRequest(name, folder, language))
+  def downloadPipeline(name: String, language: Option[String] = None, folder: String = publicFolder): PipelineModel = {
+    downloadPipeline(ResourceRequest(name, language, folder))
   }
 
   def downloadPipeline(request: ResourceRequest): PipelineModel = {
@@ -121,8 +130,8 @@ object ResourceDownloader {
     }
   }
 
-  def clearCache(name: String, folder: String = publicFolder, language: Option[String] = None): Unit = {
-    clearCache(ResourceRequest(name, folder, language))
+  def clearCache(name: String, language: Option[String] = None, folder: String = publicFolder): Unit = {
+    clearCache(ResourceRequest(name, language, folder))
   }
 
   def clearCache(request: ResourceRequest): Unit = {
@@ -134,8 +143,8 @@ object ResourceDownloader {
 case class ResourceRequest
 (
   name: String,
-  folder: String = ResourceDownloader.publicFolder,
   language: Option[String] = None,
+  folder: String = ResourceDownloader.publicFolder,
   libVersion: Version = ResourceDownloader.libVersion,
   sparkVersion: Version = ResourceDownloader.sparkVersion
 )
@@ -159,18 +168,25 @@ object PythonResourceDownloader {
     "SentimentDetectorModel" -> SentimentDetectorModel,
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
-    "AssertionLogRegModel" -> AssertionLogRegModel
+    "AssertionLogRegModel" -> AssertionLogRegModel,
+    "AssertionDLModel" -> AssertionDLModel,
+    "NerDLModel" -> NerDLModel
     )
 
-  def downloadModel(readerStr: String, name: String, folder: String  = ResourceDownloader.publicFolder, language: String = null): PipelineStage = {
-    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException("Unsupported Model."))
-    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, folder, Option(language))
+  def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
+    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
   }
 
-  def downloadPipeline(name: String, folder: String = ResourceDownloader.publicFolder, language: String = null): PipelineModel =
-    ResourceDownloader.downloadPipeline(name, folder, Option(language))
+  def downloadPipeline(name: String, language: String = null, folder: String = null): PipelineModel = {
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.downloadPipeline(name, Option(language), correctedFolder)
+  }
 
-  def clearCache(name: String, folder: String = ResourceDownloader.publicFolder, language: String = null): Unit =
-    ResourceDownloader.clearCache(name, folder, Option(language))
+  def clearCache(name: String, language: String = null, folder: String = null): Unit = {
+    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    ResourceDownloader.clearCache(name, Option(language), correctedFolder)
+  }
 }
 

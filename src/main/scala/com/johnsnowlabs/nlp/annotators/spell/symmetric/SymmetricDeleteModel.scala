@@ -202,7 +202,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 trait PretrainedSymmetricDelete { // ask if the name spell_sd_fast it's ok
   def pretrained(name: String = "spell_sd_fast", folder: String = "",
                  language: Option[String] = Some("en")): SymmetricDeleteModel =
-    ResourceDownloader.downloadModel(SymmetricDeleteModel, name, folder, language)
+    ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, folder)
 }
 
 object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete

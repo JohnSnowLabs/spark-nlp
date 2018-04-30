@@ -10,6 +10,8 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
+# Do NOT delete. Looks redundant but this is a workaround for model deSer from disk
+import com.johnsnowlabs.nlp
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
     from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
@@ -41,10 +43,6 @@ class AnnotatorProperties(Params):
                       "outputCol",
                       "output annotation column. can be left default.",
                       typeConverter=TypeConverters.toString)
-    requiredAnnotatorTypes = Param(Params._dummy(),
-                                   "requiredAnnotatorTypes",
-                                   "required input annotations",
-                                   typeConverter=TypeConverters.toListString)
 
     def setInputCols(self, value):
         return self._set(inputCols=value)
@@ -87,10 +85,6 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
         super(JavaTransformer, self).__init__()
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
-
-
-class _AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
-    pass
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
@@ -243,7 +237,13 @@ class RegexMatcher(AnnotatorApproach):
         return RegexMatcherModel(java_model)
 
 
-class RegexMatcherModel(_AnnotatorModel):
+class RegexMatcherModel(AnnotatorModel):
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(RegexMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel")
+
     name = "RegexMatcherModel"
 
 
@@ -259,7 +259,7 @@ class Lemmatizer(AnnotatorApproach):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return LemmatizerModel(java_model)
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -270,8 +270,14 @@ class Lemmatizer(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
 
-class LemmatizerModel(_AnnotatorModel):
+class LemmatizerModel(AnnotatorModel):
     name = "LemmatizerModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
 
     @staticmethod
     def pretrained(name="lemma_fast", language="en"):
@@ -318,8 +324,14 @@ class TextMatcher(AnnotatorApproach):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
 
-class TextMatcherModel(_AnnotatorModel):
+class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(TextMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel")
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -360,8 +372,14 @@ class PerceptronApproach(AnnotatorApproach):
         return PerceptronModel(java_model)
 
 
-class PerceptronModel(_AnnotatorModel):
+class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
 
     @staticmethod
     def pretrained(name="pos_fast", language="en"):
@@ -381,20 +399,26 @@ class SentenceDetector(AnnotatorModel):
                          "characters used to explicitly mark sentence bounds",
                          typeConverter=TypeConverters.toListString)
 
+    useCustomBoundsOnly = Param(Params._dummy(),
+                                "useCustomBoundsOnly",
+                                "Only utilize custom bounds in sentence detection",
+                                typeConverter=TypeConverters.toBoolean)
+
     name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
-        self._set(customBounds=value)
-        return self
+        return self._set(customBounds=value)
 
     def setUseAbbreviations(self, value):
-        self._set(useAbbreviations=value)
-        return self
+        return self._set(useAbbreviations=value)
+
+    def setUseCustomBoundsOnly(self, value):
+        return self._set(useCustomBoundsOnly=value)
 
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=False)
+        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomBoundsOnly=False, customBounds=[])
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -416,8 +440,14 @@ class SentimentDetector(AnnotatorApproach):
         return SentimentDetectorModel(java_model)
 
 
-class SentimentDetectorModel(_AnnotatorModel):
+class SentimentDetectorModel(AnnotatorModel):
     name = "SentimentDetectorModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(SentimentDetectorModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel")
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
@@ -468,8 +498,19 @@ class ViveknSentimentApproach(AnnotatorApproach):
         return ViveknSentimentModel(java_model)
 
 
-class ViveknSentimentModel(_AnnotatorModel):
+class ViveknSentimentModel(AnnotatorModel):
     name = "ViveknSentimentModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
+
+    @staticmethod
+    def pretrained(name="vivekn_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language)
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -539,8 +580,14 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return NorvigSweetingModel(java_model)
 
 
-class NorvigSweetingModel(_AnnotatorModel):
+class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
 
     @staticmethod
     def pretrained(name="spell_fast", language="en"):
@@ -555,9 +602,9 @@ class SymmetricDeleteApproach(AnnotatorApproach):
                    typeConverter=TypeConverters.identity)
 
     maxEditDistance = Param(Params._dummy(),
-                            "maxEditDistance",
-                            "max edit distance characters to derive strings from a word",
-                            typeConverter=TypeConverters.toInt)
+                        "maxEditDistance",
+                        "max edit distance characters to derive strings from a word",
+                        typeConverter=TypeConverters.toInt)
 
     @keyword_only
     def __init__(self):
@@ -577,7 +624,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return SymmetricDeleteModel(java_model)
 
 
-class SymmetricDeleteModel(_AnnotatorModel):
+class SymmetricDeleteModel(AnnotatorModel):
     name = "SymmetricDeleteModel"
 
     def __init__(self, java_model=None):
@@ -589,7 +636,7 @@ class SymmetricDeleteModel(_AnnotatorModel):
     @staticmethod
     def pretrained(name="spell_sd_fast", language="en"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
 
 class NerApproach(Params):
@@ -673,8 +720,14 @@ class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(_AnnotatorModel):
+class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
 
     @staticmethod
     def pretrained(name="ner_fast", language="en"):
@@ -685,50 +738,49 @@ class NerCrfModel(_AnnotatorModel):
 class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
     maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
     regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
     eNetParam = Param(Params._dummy(), "eNetParam", "Elastic net parameter", TypeConverters.toFloat)
     beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
     afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
-    startParam = Param(Params._dummy(), "startParam", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    endParam = Param(Params._dummy(), "endParam", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
+    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
+    exhaustiveNerMode = Param(Params._dummy(), "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence", typeConverter=TypeConverters.toBoolean)
 
     def setLabelCol(self, label):
-        self._set(label = label)
-        return self
-
-    def setTargetCol(self, t):
-        self._set(target = t)
-        return self
+        return self._set(label = label)
 
     def setMaxIter(self, maxiter):
-        self._set(maxIter = maxiter)
-        return self
+        return self._set(maxIter = maxiter)
 
     def setReg(self, lamda):
-        self._set(regParam = lamda)
-        return self
+        return self._set(regParam = lamda)
 
     def setEnet(self, enet):
-        self._set(eNetParam = enet)
-        return self
-    
+        return self._set(eNetParam = enet)
+
     def setBefore(self, before):
-        self._set(beforeParam = before)
-        return self
+        return self._set(beforeParam = before)
 
     def setAfter(self, after):
-        self._set(afterParam = after)
-        return self
+        return self._set(afterParam = after)
 
-    def setStart(self, s):
-        self._set(startParam = s)
-        return self
+    def setStartCol(self, s):
+        return self._set(startCol = s)
 
-    def setEnd(self, e):
-        self._set(endParam = e)
-        return self
+    def setEndCol(self, e):
+        return self._set(endCol = e)
+
+    def setNerCol(self, n):
+        return self._set(nerCol = n)
+
+    def setTargetNerLabels(self, v):
+        return self._set(targetNerLabels = v)
+
+    def setExhaustiveNerMode(self, v):
+        return self._set(exhaustiveNerMode = v)
 
     def _create_model(self, java_model):
         return AssertionLogRegModel(java_model)
@@ -739,8 +791,19 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         self._setDefault(label="label", beforeParam=11, afterParam=13)
 
 
-class AssertionLogRegModel(_AnnotatorModel):
+class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
+
+    @staticmethod
+    def pretrained(name="as_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
 
 
 class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
@@ -780,7 +843,6 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
     def setTestDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
-
     def _create_model(self, java_model):
         return NerDLModel(java_model)
 
@@ -798,8 +860,19 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
         )
 
 
-class NerDLModel(_AnnotatorModel):
+class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
+
+    @staticmethod
+    def pretrained(name="ner_precise", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(NerDLModel, name, language)
 
 
 class NerConverter(AnnotatorModel):
@@ -809,13 +882,15 @@ class NerConverter(AnnotatorModel):
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
 
+
 class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    target = Param(Params._dummy(), "target", "Column with the target to analyze", typeConverter=TypeConverters.toString)
 
-    start = Param(Params._dummy(), "start", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    end = Param(Params._dummy(), "end", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    nerCol = Param(Params._dummy(), "nerCol", "Column of NER Annotations to use instead of start and end columns", typeConverter=TypeConverters.toString)
+    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
     batchSize = Param(Params._dummy(), "batchSize", "Size for each batch in the optimization process", TypeConverters.toInt)
     epochs = Param(Params._dummy(), "epochs", "Number of epochs for the optimization process", TypeConverters.toInt)
@@ -824,46 +899,52 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
     dropout = Param(Params._dummy(), "dropout", "Dropout at the output of each layer", TypeConverters.toFloat)
 
     def setLabelCol(self, label):
-        self._set(label = label)
-        return self
+        return self._set(label = label)
 
-    def setTargetCol(self, t):
-        self._set(target = t)
-        return self
+    def setStartCol(self, s):
+        return self._set(startCol = s)
 
-    def setStart(self, s):
-        self._set(startParam = s)
-        return self
+    def setEndCol(self, e):
+        return self._set(endCol = e)
 
-    def setEnd(self, e):
-        self._set(endParam = e)
-        return self
+    def setNerCol(self, n):
+        return self._set(nerCol = n)
+
+    def setTargetNerLabels(self, v):
+        return self._set(targetNerLabels = v)
 
     def setBatchSize(self, size):
-        self._set(batchSize = size)
-        return self
+        return self._set(batchSize = size)
 
     def setEpochs(self, number):
-        self._set(epochs = number)
-        return self
+        return self._set(epochs = number)
 
     def setLearningRate(self, lamda):
-        self._set(learningRate = lamda)
-        return self
+        return self._set(learningRate = lamda)
 
     def setDropout(self, rate):
-        self._set(dropout = rate)
-        return self
-    
+        return self._set(dropout = rate)
+
     def _create_model(self, java_model):
         return AssertionDLModel(java_model)
 
     @keyword_only
     def __init__(self):
         super(AssertionDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach")
-        self._setDefault(label="label", target="target", start="start", end="end", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
+        self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
 
 
-class AssertionDLModel(_AnnotatorModel):
+class AssertionDLModel(AnnotatorModel):
     name = "AssertionDLModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+
+    @staticmethod
+    def pretrained(name="as_fast_dl", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
 
