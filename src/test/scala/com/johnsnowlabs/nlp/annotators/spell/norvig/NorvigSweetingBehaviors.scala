@@ -72,4 +72,5 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
+
 }

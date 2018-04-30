@@ -14,7 +14,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
-
+import scala.collection.mutable.ListBuffer
 
 /**
   * Created by saif on 28/04/17.
@@ -327,6 +327,7 @@ object ResourceHelper {
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
             words.foreach(w => {
+              // Creates a Map of frequency words: word -> frequency based on ExternalResource
               m(w) += 1
             })
         })
@@ -366,4 +367,5 @@ object ResourceHelper {
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
   }
+
 }
