@@ -548,6 +548,50 @@ class NorvigSweetingModel(_AnnotatorModel):
         return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
 
 
+class SymmetricDeleteApproach(AnnotatorApproach):
+    corpus = Param(Params._dummy(),
+                   "corpus",
+                   "folder or file with text that teaches about the language",
+                   typeConverter=TypeConverters.identity)
+
+    maxEditDistance = Param(Params._dummy(),
+                            "maxEditDistance",
+                            "max edit distance characters to derive strings from a word",
+                            typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(SymmetricDeleteApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
+        self._setDefault(maxEditDistance=3)
+
+    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "tokenPattern" not in opts:
+            opts["tokenPattern"] = token_pattern
+        return self._set(corpus=ExternalResource(path, read_as, opts))
+
+    def setMaxEditDistance(self, v):
+        return self._set(maxEditDistance=v)
+
+    def _create_model(self, java_model):
+        return SymmetricDeleteModel(java_model)
+
+
+class SymmetricDeleteModel(_AnnotatorModel):
+    name = "SymmetricDeleteModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(SymmetricDeleteModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel")
+
+    @staticmethod
+    def pretrained(name="spell_sd_fast", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language)
+
+
 class NerApproach(Params):
     labelColumn = Param(Params._dummy(),
                              "labelColumn",
