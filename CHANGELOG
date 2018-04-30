@@ -7,9 +7,12 @@ Overview
 This release focuses on improving model downloader stability, fixing word embedding reading issues and joining
 spark ecosystem filesystem configuration appropriately, utilizing spark's defined default filesystem, in order to work
 properly with clusters and multi node environments. This includes Databricks cloud clusters or Amazon EMR yarn HDFS nodes.
+
 Aside of that we come up with exciting new features, a brand new Spell Checker with higher accuracy inspired on the
-Symmetric delete algorithm. We are also capable of computing Assertion Status on top of NER output results, since before
-this only worked by providing assertion status a column with Start and End boundaries for the target to assert.
+Symmetric delete algorithm.
+
+Finally Assertion Status can be trained and predicted on top of NER output, since before
+this only worked by providing assertion status Start and End boundaries for the target to assert.
 
 ---------------
 New Features
