@@ -18,6 +18,7 @@ class TensorflowNer
   override val verboseLevel: Verbose.Value
 ) extends Logging {
 
+  override def getLogName: String = "NerDL"
 
   private val charIdsKey = "char_repr/char_ids"
   private val wordLengthsKey = "char_repr/word_lengths"

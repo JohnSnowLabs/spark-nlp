@@ -69,8 +69,8 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 }
 
 trait PretrainedPerceptronModel {
-  def pretrained(name: String = "pos_fast", folder: String = "", language: Option[String] = Some("en")): PerceptronModel =
-    ResourceDownloader.downloadModel(PerceptronModel, name, folder, language)
+  def pretrained(name: String = "pos_fast", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): PerceptronModel =
+    ResourceDownloader.downloadModel(PerceptronModel, name, language, folder)
 }
 
 object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel

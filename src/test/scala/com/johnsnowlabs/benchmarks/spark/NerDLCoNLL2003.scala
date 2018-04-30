@@ -27,7 +27,7 @@ object NerDLPipeline extends App {
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
-      .setCustomBoundChars(Array("\n\n", "\r\n\r\n"))
+      .setCustomBounds(Array("\n\n", "\r\n\r\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
@@ -38,7 +38,7 @@ object NerDLPipeline extends App {
     val nerTagger = new NerDLApproach()
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
-      .setMaxEpochs(120)
+      .setMaxEpochs(1)
       .setRandomSeed(0)
       .setPo(0.03f)
       .setLr(0.2f)
@@ -55,11 +55,16 @@ object NerDLPipeline extends App {
       .setInputCols("document", "token", "ner")
       .setOutputCol("ner_span")
 
+    val labelConverter = new NerConverter()
+      .setInputCols("document", "token", "label")
+      .setOutputCol("label_span")
+
     Array(documentAssembler,
       sentenceDetector,
       tokenizer,
       nerTagger,
-      converter
+      converter,
+      labelConverter
     )
   }
 
@@ -79,7 +84,6 @@ object NerDLPipeline extends App {
     pipeline.fit(dataset)
   }
 
-
   def getUserFriendly(model: PipelineModel, file: ExternalResource): Array[Array[Annotation]] = {
     val df = model.transform(nerReader.readDataset(file, SparkAccessor.benchmarkSpark))
     Annotation.collect(df, "ner_span")
@@ -95,6 +99,9 @@ object NerDLPipeline extends App {
     ner.measure(labeled, (s: String) => System.out.println(s), extended, errorsToPrint)
   }
 
+
+  val spark = SparkAccessor.benchmarkSpark
+
   val model = trainNerModel(trainFile)
 
   measure(model, trainFile, false, 0)
@@ -106,4 +113,13 @@ object NerDLPipeline extends App {
 
   model.write.overwrite().save("ner_model")
   PipelineModel.read.load("ner_model")
+
+  System.out.println("Training dataset")
+  NerHelper.measureExact(nerReader, model, trainFile, 0)
+
+  System.out.println("Validation dataset")
+  NerHelper.measureExact(nerReader, model, testFileA, 0)
+
+  System.out.println("Test dataset")
+  NerHelper.measureExact(nerReader, model, testFileB, 100)
 }

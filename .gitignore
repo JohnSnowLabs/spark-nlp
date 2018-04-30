@@ -14,7 +14,13 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
+PubMed*
+*anc-pos*
+*cache_pretrained*
+*.crc
+part-*
+*.sst
+_SUCCESS*
 # External tool builders
 .externalToolBuilders/
 

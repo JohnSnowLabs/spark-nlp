@@ -1,14 +1,17 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import java.io.File
-import java.nio.file.{Files, Paths}
+import java.nio.file.Files
 import java.sql.Timestamp
 import java.util.Calendar
+import java.util.zip.ZipInputStream
 
-import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider, BasicAWSCredentials}
+import org.apache.hadoop.fs.Path
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
+import com.amazonaws.services.s3.model.GetObjectRequest
+import com.johnsnowlabs.util.ConfigHelper
 
 import scala.collection.mutable
 
@@ -23,9 +26,10 @@ class S3ResourceDownloader(bucket: String,
 
   // repository Folder -> repository Metadata
   val repoFolder2Metadata = mutable.Map[String, RepositoryMetadata]()
+  val cachePath = new Path(cacheFolder)
 
-   if (!new File(cacheFolder).exists()) {
-    FileUtils.forceMkdir(new File(cacheFolder))
+  if (!fs.exists(cachePath)) {
+    fs.mkdirs(cachePath)
   }
 
   lazy val client = {
@@ -35,8 +39,14 @@ class S3ResourceDownloader(bucket: String,
       builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
 
     builder.setRegion(region)
+    val config = new ClientConfiguration()
+    val timeout = ConfigHelper.getConfigValue(ConfigHelper.s3SocketTimeout).map(_.toInt).getOrElse(0)
+    config.setSocketTimeout(timeout)
+    builder.setClientConfiguration(config)
+
     builder.build()
   }
+
 
   private def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
@@ -76,30 +86,50 @@ class S3ResourceDownloader(bucket: String,
     link.flatMap {
       resource =>
         val s3FilePath = getS3File(s3Path, request.folder, resource.fileName)
-        val dstFile = new File(cacheFolder, resource.fileName)
+        val dstFile = new Path(cachePath.toString, resource.fileName)
         if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
         } else {
-          if (!dstFile.exists()) {
-            val obj = client.getObject(bucket, s3FilePath)
+          if (!fs.exists(dstFile)) {
+
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
             val tmpFile = new File(tmpFileName)
 
             // 2. Download content to tmp file
-            FileUtils.copyInputStreamToFile(obj.getObjectContent, tmpFile)
+            val req = new GetObjectRequest(bucket, s3FilePath)
+            client.getObject(req, tmpFile)
 
             // 3. Move tmp file to destination
-            FileUtils.moveFile(tmpFile, dstFile)
+            fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)
           }
 
           // 4. Unzip if needs
-          val dstFileName = if (resource.isZipped)
-            ZipArchiveUtil.unzip(dstFile)
-          else
-            dstFile.getPath
-
-          Some(dstFileName)
+          if (resource.isZipped) {
+            val zis = new ZipInputStream(fs.open(dstFile))
+            val buf = Array.ofDim[Byte](1024)
+            var entry = zis.getNextEntry
+            require(dstFile.toString.substring(dstFile.toString.length - 4) == ".zip")
+            val splitPath = dstFile.toString.substring(0, dstFile.toString.length - 4)
+            while (entry != null) {
+              if (!entry.isDirectory) {
+                val entryName = new Path(splitPath, entry.getName)
+                val outputStream = fs.create(entryName)
+                var bytesRead = zis.read(buf, 0, 1024)
+                while (bytesRead > -1) {
+                  outputStream.write(buf, 0, bytesRead)
+                  bytesRead = zis.read(buf, 0, 1024)
+                }
+                outputStream.close()
+              }
+              zis.closeEntry()
+              entry = zis.getNextEntry
+            }
+            zis.close()
+            Some(splitPath)
+          } else {
+            Some(dstFile.getName)
+          }
         }
     }
   }
@@ -113,19 +143,16 @@ class S3ResourceDownloader(bucket: String,
 
     val resources = ResourceMetadata.resolveResource(metadata, request)
     for (resource <- resources) {
-      val fileName = Paths.get(cacheFolder, resource.fileName).toString
-      val file = new File(fileName)
-      if (file.exists()){
-        file.delete()
-      }
+      val fileName = new Path(cachePath.toString, resource.fileName)
+      if (fs.exists(fileName))
+        fs.delete(fileName, true)
 
       if (resource.isZipped) {
-        require(fileName.substring(fileName.length - 4) == ".zip")
-        val unzipped = fileName.substring(0, fileName.length - 4)
-        val unzippedFile = new File(unzipped)
-        if (unzippedFile.exists()) {
-          FileHelper.delete(unzippedFile.toPath.toString)
-        }
+        require(fileName.toString.substring(fileName.toString.length - 4) == ".zip")
+        val unzipped = fileName.toString.substring(0, fileName.toString.length - 4)
+        val unzippedFile = new Path(unzipped)
+        if (fs.exists(unzippedFile))
+          fs.delete(unzippedFile, true)
       }
     }
   }
