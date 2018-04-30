@@ -4,9 +4,10 @@ import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
 import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadsNERGraph, WithGraphResolver}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
+import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import org.apache.spark.ml.util.DefaultParamsReadable
 
@@ -77,10 +78,15 @@ object annotator {
   type NorvigSweetingModel = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
   object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting
 
+  type SymmetricDeleteApproach = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
+  object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]
+  type SymmetricDeleteModel = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
+  object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete
+
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
-  object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph
+  object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
 
   type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
   object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
