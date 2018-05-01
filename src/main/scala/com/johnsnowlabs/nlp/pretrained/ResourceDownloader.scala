@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotator.AssertionDLModel
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
@@ -15,12 +16,13 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
 
 
 trait ResourceDownloader {
-  
+
   /**
     * Download resource to local file
     * @param request      Resource request
@@ -29,13 +31,18 @@ trait ResourceDownloader {
   def download(request: ResourceRequest): Option[String]
 
   def clearCache(request: ResourceRequest): Unit
+
+  val fs = ResourceDownloader.fs
+
 }
 
 object ResourceDownloader {
 
+  val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+
   val s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
   val s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
-  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, "cache_pretrained")
+  val cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
 
   val credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
@@ -162,11 +169,12 @@ object PythonResourceDownloader {
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "AssertionLogRegModel" -> AssertionLogRegModel,
-    "AssertionDLModel" -> AssertionDLModel
+    "AssertionDLModel" -> AssertionDLModel,
+    "NerDLModel" -> NerDLModel
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
-    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException("Unsupported Model."))
+    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
     val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
     ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
   }
