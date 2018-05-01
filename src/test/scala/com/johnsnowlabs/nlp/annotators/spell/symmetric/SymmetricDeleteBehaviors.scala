@@ -235,11 +235,10 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val data = Seq("Hello World").toDS.toDF("text")
       data.show()
       val pretrainedPipeline = new BasicPipeline().pretrained
-      val homePath = "/Users/dburbano/IdeaProjects/spark-nlp-models/models/"
-      val modelSpell = NorvigSweetingModel.load(homePath+"spell_fast_en_1.5_2_1525210767728")
+      val modelSpell = NorvigSweetingModel.load("./tmp_spell")
       println("Spell Checker")
       modelSpell.transform(pretrainedPipeline.transform(data)).show(5)
-      val modelSymSpell = SymmetricDeleteModel.load(homePath+"spell_sd_fast_en_1.5_2_1525210888717")
+      val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
       println("SymSpell Checker")
       modelSymSpell.transform(pretrainedPipeline.transform(data)).show(5)
     }
