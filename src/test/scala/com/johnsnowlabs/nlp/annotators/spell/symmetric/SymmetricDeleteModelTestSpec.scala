@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import org.scalatest._
 
-class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehaviors {
+class SymmetricDeleteModelTestSpec(var foo: String = "pruebas") extends FlatSpec with SymmetricDeleteBehaviors {
 
 
   //testSuggestions()
@@ -11,7 +11,7 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
   //testLevenshteinDistance()
 
 
-  "a simple isolated symmetric spell checker " should behave like testSimpleCheck(
+  /*"a simple isolated symmetric spell checker " should behave like testSimpleCheck(
     Seq(("problex", "problem")))
 
   "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
@@ -37,7 +37,12 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict
 
-  "a dataset of individual words with Spark pipeleine" should behave like testIndividualWords
+  "a dataset of individual words with Spark pipeline" should behave like testIndividualWords
+
+  "a dataset of individual words with Spark pipeline using a dictionary" should behave like
+    testIndividualWordsWithDictionary*/
+
+  "a simple isolated symmetric spell checker with dataset" should behave like datasetBasedSpellChecker
 
   // "a spark dataset " should behave like testSparkDataset()
 

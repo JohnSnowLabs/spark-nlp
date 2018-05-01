@@ -154,18 +154,24 @@ class SymmetricDeleteApproach(override val uid: String)
     wordFeatures
   }
 
-  case class WordFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)] =
-                           MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
-                           var longestWordLength: Int)
+  case class WordFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)],
+                          var longestWordLength: Int)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
-
+    var externalResource = List[String]()
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
+    var wordFeatures = WordFeatures(MMap.empty, 0)
 
-    val wordFeatures = derivedWordDistances(externalResource = externalResource,
-                                            maxEditDistance = $(maxEditDistance))
+    if (get(corpus).isDefined){
+      externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
+      wordFeatures = derivedWordDistances(externalResource = externalResource, maxEditDistance = $(maxEditDistance))
+    } else {
+      println("Training from dataset under construction")
+      dataset.show(5)
+      dataset.select($(inputCols).head).show(5)
+    }
+
 
     val model = new SymmetricDeleteModel()
       .setDerivedWords(wordFeatures.derivedWords.toMap)
