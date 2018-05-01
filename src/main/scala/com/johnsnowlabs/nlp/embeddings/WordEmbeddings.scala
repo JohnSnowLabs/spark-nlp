@@ -25,7 +25,9 @@ case class WordEmbeddings(dbFile: String,
   }
 
   def getEmbeddings(word: String): Array[Float] = {
-    lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
+    synchronized {
+      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
+    }
   }
 
   override def close(): Unit = {

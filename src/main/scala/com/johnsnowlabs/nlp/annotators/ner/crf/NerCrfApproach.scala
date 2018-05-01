@@ -91,7 +91,7 @@ class NerCrfApproach(override val uid: String)
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
-      .setCustomBoundChars(Array(System.lineSeparator+System.lineSeparator))
+      .setCustomBounds(Array(System.lineSeparator+System.lineSeparator))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 

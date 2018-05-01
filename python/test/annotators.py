@@ -284,6 +284,28 @@ class SpellCheckerTestSpec(unittest.TestCase):
         checked.show()
 
 
+class SymmetricDeleteTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setOutputCol("token")
+        spell_checker = SymmetricDeleteApproach() \
+            .setInputCols(["token"]) \
+            .setOutputCol("symmspell") \
+            .setCorpus("file:///" + os.getcwd() + "/../src/test/resources/spell/sherlockholmes.txt") \
+            .fit(self.data)
+        assembled = document_assembler.transform(self.data)
+        tokenized = tokenizer.transform(assembled)
+        checked = spell_checker.transform(tokenized)
+        checked.show()
+
+
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():

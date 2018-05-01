@@ -56,7 +56,7 @@ class NorvigSweetingApproach(override val uid: String)
                          options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  override val annotatorType: AnnotatorType = SPELL
+  override val annotatorType: AnnotatorType = TOKEN
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
@@ -69,8 +69,6 @@ class NorvigSweetingApproach(override val uid: String)
         ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
       } else {
         import ResourceHelper.spark.implicits._
-        dataset.show()
-        dataset.select($(inputCols).head).show
         dataset.select($(inputCols).head).as[Array[Annotation]]
           .flatMap(_.map(_.result))
           .groupBy("value").count

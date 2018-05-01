@@ -92,10 +92,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     * Matching strategy is to find first match only, ignore additional matches from then
     * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
     */
+  private val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(formalDate, "formal date matcher with year at first")
+    .addRule(formalDateAlt, "formal date with year at end")
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
-    val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    formalFactory.addRule(formalDate, "formal date matcher with year at first")
-    formalFactory.addRule(formalDateAlt, "formal date with year at end")
     formalFactory.findMatchFirstOnly(text).map{ possibleDate =>
       val formalDate = possibleDate.content
       val calendar = new Calendar.Builder()
@@ -118,12 +118,12 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     * Strategy used is to match first only. any other matches discarded
     * Auto completes short versions of months. Any two digit year is considered to be XX century
     */
+  private val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relaxedDayNumbered, "relaxed days")
+    .addRule(relaxedMonths.r, "relaxed months exclusive")
+    .addRule(relaxedShortMonths.r, "relaxed months abbreviated exclusive")
+    .addRule(relaxedYear, "relaxed year")
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
-    val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    relaxedFactory.addRule(relaxedDayNumbered, "relaxed days")
-    relaxedFactory.addRule(relaxedMonths.r, "relaxed months exclusive")
-    relaxedFactory.addRule(relaxedShortMonths.r, "relaxed months abbreviated exclusive")
-    relaxedFactory.addRule(relaxedYear, "relaxed year")
     val possibleDates = relaxedFactory.findMatch(text)
     if (possibleDates.length > 1) {
       val dayMatch = possibleDates.head.content
@@ -154,9 +154,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     * Will always assume relative day from current time at processing
     * ToDo: Support relative dates from input date
     */
+  private val relativeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDate, "relative dates")
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    val relativeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    relativeFactory.addRule(relativeDate, "relative dates")
     relativeFactory.findMatchFirstOnly(text).map(possibleDate => {
       val relativeDate = possibleDate.content
       val calendar = Calendar.getInstance()
@@ -171,9 +171,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   /** Searches for relative informal dates such as today or the day after tomorrow */
+  private val tyFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDay, "relative days")
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
-    val tyFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    tyFactory.addRule(relativeDay, "relative days")
     tyFactory.findMatchFirstOnly(text).map (possibleDate => {
       val tyDate = possibleDate.content
       tyDate.matched.toLowerCase match {
@@ -212,9 +212,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   /** Searches for exactly provided days of the week. Always relative from current time at processing */
+  private val relativeExactFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeExactDay, "relative precise dates")
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
-    val relativeExactFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    relativeExactFactory.addRule(relativeExactDay, "relative precise dates")
     relativeExactFactory.findMatchFirstOnly(text).map(possibleDate => {
         val relativeDate = possibleDate.content
         val calendar = Calendar.getInstance()
@@ -248,16 +248,16 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   /**
     * Searches for times of the day
-    * @param dateTime If any dates found previously, keep it as part of the final result
-    * @param text target document
+    * dateTime If any dates found previously, keep it as part of the final result
+    * text target document
     * @return a final possible date if any found
     */
+  private val timeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(clockTime, "standard time extraction")
+    .addRule(altTime, "alternative time format")
+    .addRule(coordTIme, "coordinate like time")
+    .addRule(refTime, "referred time")
   private def setTimeIfAny(dateTime: Option[MatchedDateTime], text: String): Option[MatchedDateTime] = {
-    val timeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    timeFactory.addRule(clockTime, "standard time extraction")
-    timeFactory.addRule(altTime, "alternative time format")
-    timeFactory.addRule(coordTIme, "coordinate like time")
-    timeFactory.addRule(refTime, "referred time")
     timeFactory.findMatchFirstOnly(text).map { possibleTime => {
       val calendarBuild = new Calendar.Builder
       val currentCalendar = dateTime.map(_.calendar).getOrElse(Calendar.getInstance)

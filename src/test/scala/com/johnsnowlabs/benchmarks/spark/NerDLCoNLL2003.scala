@@ -27,7 +27,7 @@ object NerDLPipeline extends App {
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
-      .setCustomBoundChars(Array("\n\n", "\r\n\r\n"))
+      .setCustomBounds(Array("\n\n", "\r\n\r\n"))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 

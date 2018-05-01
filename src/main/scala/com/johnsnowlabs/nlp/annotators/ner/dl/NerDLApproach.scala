@@ -13,7 +13,6 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.SourceStream
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.param._
@@ -93,7 +92,7 @@ class NerDLApproach(override val uid: String)
         .setOutputCol("document")
 
       val sentenceDetector = new SentenceDetector()
-        .setCustomBoundChars(Array("\n\n", "\n\r\n\r"))
+        .setCustomBounds(Array("\n\n", "\n\r\n\r"))
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 

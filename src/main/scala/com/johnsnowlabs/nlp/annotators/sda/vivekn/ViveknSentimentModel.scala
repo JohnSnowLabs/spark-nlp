@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.util.ConfigLoader
@@ -87,4 +88,9 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
 }
 
-object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel]
+trait ViveknPretrainedModel {
+  def pretrained(name: String = "vivekn_fast", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): ViveknSentimentModel =
+    ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, folder)
+}
+
+object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel
