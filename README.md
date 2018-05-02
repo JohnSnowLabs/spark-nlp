@@ -14,10 +14,10 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.5.3` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.5.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.5.3
+spark-shell --packages JohnSnowLabs:spark-nlp:1.5.2
 ```
 
 ```sh
