@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import org.scalatest._
 
-class SymmetricDeleteModelTestSpec(var foo: String = "pruebas") extends FlatSpec with SymmetricDeleteBehaviors {
+class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehaviors {
 
 
   //testSuggestions()

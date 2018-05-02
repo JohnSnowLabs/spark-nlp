@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -151,6 +151,7 @@ class SymmetricDeleteApproach(override val uid: String)
       })
     })
     wordFeatures.longestWordLength = longestWordLength
+    println(wordFeatures.derivedWords.head)
     wordFeatures
   }
 
@@ -168,8 +169,16 @@ class SymmetricDeleteApproach(override val uid: String)
       wordFeatures = derivedWordDistances(externalResource = externalResource, maxEditDistance = $(maxEditDistance))
     } else {
       println("Training from dataset under construction")
-      dataset.show(5)
-      dataset.select($(inputCols).head).show(5)
+      import ResourceHelper.spark.implicits._
+      dataset.show(5, false)
+      dataset.select($(inputCols).head).show(5, false)
+      dataset.select($(inputCols).head).as[Array[Annotation]]
+        .flatMap(_.map(_.result)).show(20, false)
+
+      val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
+                        .flatMap(_.map(_.result))
+      trainDataset.show()
+      trainDataset.groupBy("value").count().as[(String, Long)].show()
     }
 
 

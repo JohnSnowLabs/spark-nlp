@@ -15,13 +15,7 @@ import SparkAccessor.spark.implicits._
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
-  /*def getSpellChecker(): SymmetricDeleteApproach = {
-
-  }*/
-
-  def foo: String
-
-  val spellChecker = new SymmetricDeleteApproach()
+  /*val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
       ReadAs.LINE_BY_LINE,
       Map("tokenPattern" -> "[a-zA-Z]+")))
@@ -66,7 +60,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       println(result)
       assert(result > 0.60, s"because result: $result did was below: 0.60")
     }
-  }
+  }*/
 
 
   def testBigPipeline(): Unit = {
@@ -304,9 +298,9 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   def datasetBasedSpellChecker(): Unit = {
     s"a SpellChecker annotator trained with datasets" should "successfully correct words" in {
-      println(foo)
+      val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       val data = ContentProvider.parquetData.limit(100)
-      val corpusData = SparkAccessor.spark.read.textFile("src/test/resources/spell/sherlockholmes.txt")
+      val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -321,11 +315,14 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("normal")*/
 
       val spell = new SymmetricDeleteApproach()
-        .setInputCols(Array("normal"))
+        .setInputCols(Array("token"))
+        .setCorpus(ExternalResource(corpusPath, ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
         .setOutputCol("spell")
 
       val finisher = new Finisher()
         .setInputCols("spell")
+        .setOutputAsArray(false)
+        .setIncludeKeys(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
