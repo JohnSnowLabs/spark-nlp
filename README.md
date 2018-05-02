@@ -21,11 +21,11 @@ spark-shell --packages JohnSnowLabs:spark-nlp:1.5.3
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.5.3
+pyspark --packages JohnSnowLabs:spark-nlp:1.5.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.5.3
+spark-submit --packages JohnSnowLabs:spark-nlp:1.5.2
 ```
 
 If you want to use and old version check the spark-packages websites to see all the releases.
@@ -40,19 +40,19 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
   <groupId>com.johnsnowlabs.nlp</groupId>
   <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.5.3</version>
+  <version>1.5.2</version>
 </dependency>
 ```
 
 #### SBT
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.5.3"
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.5.2"
 ```
 
 If you are using `scala 2.11`
 
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.5.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.5.2"
 ```
 
 ## Using the jar manually 
