@@ -39,7 +39,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
-    require(validate(schema), s"Wrong annotators in pipeline. Make sure the following annotator types are present in inputCols: " +
+    require(validate(schema), s"Wrong annotators in pipeline for ${this.uid}. Make sure the following annotator types are present in inputCols: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
     getInputCols.foreach {
       annotationColumn =>
