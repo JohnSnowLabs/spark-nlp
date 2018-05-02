@@ -79,6 +79,34 @@
             <div id="showcase" class="doc-body">
                 <div class="doc-content">
                     <div class="content-inner">
+                        <section id="ScalaNotebook" class="doc-section">
+                            <h2 id="scala-theme-start" class="section-title" style="margin-bottom: 10px;" >Scala notebooks</h2>
+                            <p>
+                                In this section, we present with different example use cases of both training and running
+                                predictions with SparkNLP in Python PySpark. Please lookup our
+                                <a href="http://nlp.johnsnowlabs.com/components.html">Annotators</a> page for reference.
+                            </p>
+                            <div>
+                                <h4 id="scala-vivekn-notebook" class="section-block"> Vivekn Sentiment Analysis</h4>
+                                <p>
+                                    In the following example, we walk-through Sentiment Analysis training and
+                                    prediction using Spark NLP Annotators, Light Pipelines and Spark ML Pipelines
+                                </p>
+                                <p>
+                                    The ViveknSentimentApproach annotator will compute Vivek Narayanan algorithm with either
+                                    a column in training dataset with rows labelled 'positive' or 'negative' or a folder full
+                                    of positive text and a folder with negative text. Using n-grams and negation of sequences,
+                                    this statistical model can achieve high accuracy if trained properly.
+                                </p>
+                                <p>
+                                    In this use case we are training with spark datasets passed to fit() and transform().
+                                    Since we are dealing with small amounts of data, we put in practice LightPipelines.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/example/src/TrainViveknSentiment.scala" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                        </section>
                         <section id="Notebook" class="doc-section">
                             <h2 id="theme-start" class="section-title" style="margin-bottom: 10px;" >Python notebooks</h2>
                             <p>
@@ -243,7 +271,11 @@
                         <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
 
                             <li>
-                                <a class="scrollto" href="#Notebook">Notebook</a>
+                                <a class="scrollto" href="#ScalaNotebook">Scala Notebooks</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#scala-vivekn-notebook">Vivekn Sentiment Analysis</a></li>
+                                </ul>
+                                <a class="scrollto" href="#Notebook">Python Notebooks</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#vivekn-notebook">Vivekn Sentiment Analysis</a></li>
                                     <li><a class="scrollto" href="#sentiment-notebook">Rule-based Sentiment Analysis</a></li>
