@@ -4,11 +4,12 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp._
 import org.scalatest._
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions._
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.annotator.NorvigSweetingModel
 import com.johnsnowlabs.util.Benchmark
-
+import com.johnsnowlabs.nlp.pretrained.pipelines.en._
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
@@ -225,6 +226,21 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val resource = resourceList.map(_.toLowerCase)
       println(resource.size)
 
+    }
+  }
+
+  def testLoadModel(): Unit = {
+    s"a SymSpellChecker annotator with load model of" should
+      "successfully correct words" in {
+      val data = Seq("Hello World").toDS.toDF("text")
+      data.show()
+      val pretrainedPipeline = new BasicPipeline().pretrained
+      val modelSpell = NorvigSweetingModel.load("./tmp_spell")
+      println("Spell Checker")
+      modelSpell.transform(pretrainedPipeline.transform(data)).show(5)
+      val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
+      println("SymSpell Checker")
+      modelSymSpell.transform(pretrainedPipeline.transform(data)).show(5)
     }
   }
 
