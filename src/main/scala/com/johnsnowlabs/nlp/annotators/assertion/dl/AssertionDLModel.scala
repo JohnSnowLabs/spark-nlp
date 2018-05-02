@@ -193,7 +193,7 @@ trait ReadsAssertionGraph extends ParamsAndFeaturesReadable[AssertionDLModel] wi
 }
 
 trait PretrainedDLAssertionStatus {
-  def pretrained(name: String = "as_fast_dl", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionDLModel =
+  def pretrained(name: String = "as_fast_dl", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicLoc): AssertionDLModel =
     ResourceDownloader.downloadModel(AssertionDLModel, name, language, folder)
 }
 
