@@ -13,18 +13,20 @@ Bug fixes
 * Fixed a bug causing the library to fail when trying to save or read an annotator with an unset Feature without default
 * Added missing default Param value to SentenceDetector. Thanks @superman24-7
 * Symmetric spell checker now utilizes List instead of ListBuffer on its prediction layer
-
----------------
-Other
----------------
-* Downloader now works retroactively when a newer version finds a model of a previous release
-* Renamed folder argument to remote_loc for downloader remote location, which caused confusion. Thanks @AtulSehgal
+* Fixed Vivekn Sentiment Analysis failing when training with a sentiment column
 
 ---------------
 Models
 ---------------
 * Symmetric Spell Checker pretrained model now works well and may be downloaded
 * Vivekn Sentiment pretrained model now defaults to "token" input column instead of "spell"
+
+---------------
+Other
+---------------
+* Downloader now works retroactively when a newer version finds a model of a previous release
+* Renamed folder argument to remote_loc for downloader remote location, which caused confusion. Thanks @AtulSehgal
+* Added new Scala example in example folder, also available on website
 
 ========
 1.5.2
