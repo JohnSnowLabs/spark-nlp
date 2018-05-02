@@ -1,4 +1,32 @@
 ========
+1.5.3
+========
+---------------
+Overview
+---------------
+This quick release is a hotfix for issues found on 1.5.2 after it's release. Thanks to the users who quickly tested this out.
+It fixes Symmetric spell checker not being capable of reading the pretrained model, a SentenceDetector missing default value and retroactive version matching to the downloader
+
+---------------
+Bug fixes
+---------------
+* Fixed a bug causing the library to fail when trying to save or read an annotator with an unset Feature without default
+* Added missing default Param value to SentenceDetector. Thanks @superman24-7
+* Symmetric spell checker now utilizes List instead of ListBuffer on its prediction layer
+
+---------------
+Other
+---------------
+* Downloader now works retroactively when a newer version finds a model of a previous release
+* Renamed folder argument to remote_loc for downloader remote location, which caused confusion. Thanks @AtulSehgal
+
+---------------
+Models
+---------------
+* Symmetric Spell Checker pretrained model now works well and may be downloaded
+* Vivekn Sentiment pretrained model now defaults to "token" input column instead of "spell"
+
+========
 1.5.2
 ========
 ---------------
