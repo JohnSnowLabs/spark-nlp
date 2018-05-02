@@ -168,10 +168,4 @@ class AssertionLogRegApproach(val uid: String)
 
 }
 
-trait PretrainedLogRegAssertionStatus {
-  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionLogRegModel =
-    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, folder)
-}
-
-
-object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach] with PretrainedLogRegAssertionStatus
+object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]

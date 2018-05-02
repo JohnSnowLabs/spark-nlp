@@ -49,21 +49,21 @@ class _ConfigLoaderSetter(ExtendedJavaWrapper):
 
 
 class _DownloadModel(ExtendedJavaWrapper):
-    def __init__(self, reader, name, language, folder):
+    def __init__(self, reader, name, language, remote_loc):
         super(_DownloadModel, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModel")
-        self._java_obj = self._new_java_obj(self._java_obj, reader, name, language, folder)
+        self._java_obj = self._new_java_obj(self._java_obj, reader, name, language, remote_loc)
 
 
 class _DownloadPipeline(ExtendedJavaWrapper):
-    def __init__(self, name, language, folder):
+    def __init__(self, name, language, remote_loc):
         super(_DownloadPipeline, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadPipeline")
-        self._java_obj = self._new_java_obj(self._java_obj, name, language, folder)
+        self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
 
 
 class _ClearCache(ExtendedJavaWrapper):
-    def __init__(self, name, language, folder):
+    def __init__(self, name, language, remote_loc):
         super(_ClearCache, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.clearCache")
-        self._java_obj = self._new_java_obj(self._java_obj, name, language, folder)
+        self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
 
 
 # predefined pipelines
