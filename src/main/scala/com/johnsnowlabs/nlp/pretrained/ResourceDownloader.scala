@@ -57,7 +57,7 @@ object ResourceDownloader {
   }
 
 
-  val publicFolder = "public/models"
+  val publicLoc = "public/models"
 
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
@@ -78,7 +78,7 @@ object ResourceDownloader {
     * @param language Desired language of Resource
     * @return path of downloaded resource
     */
-  def downloadResource(name: String, language: Option[String] = None, folder: String = publicFolder): String = {
+  def downloadResource(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
@@ -97,7 +97,7 @@ object ResourceDownloader {
   def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel],
                                              name: String,
                                              language: Option[String] = None,
-                                             folder: String = publicFolder
+                                             folder: String = publicLoc
                                             ): TModel = {
     downloadModel(reader, ResourceRequest(name, language, folder))
   }
@@ -114,7 +114,7 @@ object ResourceDownloader {
     }
   }
 
-  def downloadPipeline(name: String, language: Option[String] = None, folder: String = publicFolder): PipelineModel = {
+  def downloadPipeline(name: String, language: Option[String] = None, folder: String = publicLoc): PipelineModel = {
     downloadPipeline(ResourceRequest(name, language, folder))
   }
 
@@ -130,7 +130,7 @@ object ResourceDownloader {
     }
   }
 
-  def clearCache(name: String, language: Option[String] = None, folder: String = publicFolder): Unit = {
+  def clearCache(name: String, language: Option[String] = None, folder: String = publicLoc): Unit = {
     clearCache(ResourceRequest(name, language, folder))
   }
 
@@ -144,7 +144,7 @@ case class ResourceRequest
 (
   name: String,
   language: Option[String] = None,
-  folder: String = ResourceDownloader.publicFolder,
+  folder: String = ResourceDownloader.publicLoc,
   libVersion: Version = ResourceDownloader.libVersion,
   sparkVersion: Version = ResourceDownloader.sparkVersion
 )
@@ -173,19 +173,19 @@ object PythonResourceDownloader {
     "NerDLModel" -> NerDLModel
     )
 
-  def downloadModel(readerStr: String, name: String, language: String = null,  folder: String  = null): PipelineStage = {
+  def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String  = null): PipelineStage = {
     val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
-    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
   }
 
-  def downloadPipeline(name: String, language: String = null, folder: String = null): PipelineModel = {
-    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+  def downloadPipeline(name: String, language: String = null, remoteLoc: String = null): PipelineModel = {
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.downloadPipeline(name, Option(language), correctedFolder)
   }
 
-  def clearCache(name: String, language: String = null, folder: String = null): Unit = {
-    val correctedFolder = Option(folder).getOrElse(ResourceDownloader.publicFolder)
+  def clearCache(name: String, language: String = null, remoteLoc: String = null): Unit = {
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
 }

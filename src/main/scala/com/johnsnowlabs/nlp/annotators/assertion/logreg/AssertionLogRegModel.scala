@@ -172,8 +172,8 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 }
 
 trait PretrainedAssertionLogRegModel {
-  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicFolder): AssertionLogRegModel =
-    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, folder)
+  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): AssertionLogRegModel =
+    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remoteLoc)
 }
 
 
