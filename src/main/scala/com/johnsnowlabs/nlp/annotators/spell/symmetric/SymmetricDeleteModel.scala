@@ -10,8 +10,7 @@ import scala.collection.immutable.HashSet
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 import scala.util.control.Breaks._
 import scala.math._
-import org.apache.spark.ml.param.Param
-
+import org.apache.spark.ml.param.IntParam
 
 /** Created by danilo 16/04/2018,
   * inspired on https://github.com/wolfgarbe/SymSpell
@@ -31,12 +30,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  protected val derivedWords: MapFeature[String, (ListBuffer[String], Long)] =
+  protected val derivedWords: MapFeature[String, (List[String], Long)] =
     new MapFeature(this, "derivedWords")
 
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
 
-  val longestWordLength = new Param[Int](this, "longestWordLength", "length of longest word in corpus")
+  val longestWordLength = new IntParam(this, "longestWordLength",
+                                "length of longest word in corpus")
 
   def getLongestWordLength: Int = $(longestWordLength)
 
@@ -53,7 +53,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
-  def setDerivedWords(value: Map[String, (ListBuffer[String], Long)]):
+  def setDerivedWords(value: Map[String, (List[String], Long)]):
   this.type = set(derivedWords, value)
 
 
