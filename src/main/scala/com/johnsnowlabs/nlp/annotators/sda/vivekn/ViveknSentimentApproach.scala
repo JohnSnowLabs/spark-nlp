@@ -71,6 +71,8 @@ class ViveknSentimentApproach(override val uid: String)
         import ResourceHelper.spark.implicits._
         val positiveDS = new MapAccumulator()
         val negativeDS = new MapAccumulator()
+        dataset.sparkSession.sparkContext.register(positiveDS)
+        dataset.sparkSession.sparkContext.register(negativeDS)
         val prefix = "not_"
         val tokenColumn = dataset.schema.fields
           .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
