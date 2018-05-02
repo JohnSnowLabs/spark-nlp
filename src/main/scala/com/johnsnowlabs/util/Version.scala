@@ -39,17 +39,29 @@ object Version {
     * 1.2   and None  => True  (found version that could be used with all versions)
     */
   def isCompatible(current: Version, found: Option[Version]): Boolean = {
-    found.map{f =>
+    found.forall{f =>
       val cParts = current.parts
       val fParts = f.parts
 
-      // If found version more specific than our than we can use it
+      // If found version more specific than ours then we can't use it
       if (cParts.length < fParts.length)
         false
       else {
         // All first digits must be equals:
-        cParts.zip(fParts).forall{case(a, b) => a == b}
+        var previousWasBigger: Option[Boolean] = None
+        cParts.zip(fParts).forall{case(c, t) =>
+          if (previousWasBigger.exists(v => v) || t == c)
+            true
+          else if (c > t && previousWasBigger.isEmpty) {
+            previousWasBigger = Some(true)
+            true
+          }
+          else {
+            previousWasBigger = Some(false)
+            false
+          }
+        }
       }
-    }.getOrElse(true)
+    }
   }
 }

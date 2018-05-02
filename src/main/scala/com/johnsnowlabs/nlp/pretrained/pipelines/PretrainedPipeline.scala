@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.{Finisher, LightPipeline}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
-abstract class PretrainedPipeline(downloadName: String, language: Option[String] = None, folder: String = ResourceDownloader.publicFolder) {
+abstract class PretrainedPipeline(downloadName: String, language: Option[String] = None, folder: String = ResourceDownloader.publicLoc) {
 
   lazy protected val modelCache: PipelineModel = ResourceDownloader
     .downloadPipeline(downloadName, language, folder)
