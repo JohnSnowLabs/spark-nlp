@@ -37,7 +37,7 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict*/
 
-  "a dataset of individual words with Spark pipeline" should behave like testIndividualWords
+  //"a dataset of individual words with Spark pipeline" should behave like testIndividualWords
 
   //"a dataset of individual words with Spark pipeline using a dictionary" should behave like
     //testIndividualWordsWithDictionary
