@@ -46,10 +46,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
-  private lazy val allWords: HashSet[String] = {
-    //HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+  /*private lazy val allWords: HashSet[String] = {
     HashSet($$(derivedWords).keys.toSeq.map(_.toLowerCase): _*)
-  }
+  }*/
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
@@ -79,7 +78,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * */
 
   def getSuggestedCorrections(word: String): Option[(String, (Long, Int))] = {
-    //val string = word.toLowerCase()
+
     if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((word.length - this.getLongestWordLength) > $(maxEditDistance)))
       return None
 
@@ -101,8 +100,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
         }
       }
 
+      /*if (queueItem.equals("cotde")){
+        println("Debug....")
+      }*/
+
       // process queue item
-      if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
+      //if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
+      if ($$(derivedWords).contains(queueItem) && !suggestDict.contains(queueItem)) {
 
         if ($$(derivedWords)(queueItem)._2 > 0) {
           // word is in dictionary, and is a word from the corpus, and not already in suggestion list
@@ -127,14 +131,14 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
         // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
         // is a valid word or merely a delete) can be valid corrections
         $$(derivedWords)(queueItem)._1.foreach(scItem => {
-          if (!suggestDict.contains(scItem.toLowerCase())) {
+          if (!suggestDict.contains(scItem)) {
             // assert(scItem.length > queueItem.length) Include or not assertions ???
 
             // calculate edit distance using Damerau-Levenshtein distance
-            val itemDist = levenshteinDistance(scItem.toLowerCase, word)
+            val itemDist = levenshteinDistance(scItem, word)
 
             if (itemDist <= $(maxEditDistance)) {
-              suggestDict(scItem.toLowerCase) = ($$(derivedWords)(scItem.toLowerCase)._2,
+              suggestDict(scItem) = ($$(derivedWords)(scItem)._2,
                 itemDist)
               if (itemDist < minSuggestLen) {
                 minSuggestLen = itemDist

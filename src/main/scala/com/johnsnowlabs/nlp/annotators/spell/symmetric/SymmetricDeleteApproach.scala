@@ -151,7 +151,6 @@ class SymmetricDeleteApproach(override val uid: String)
       })
     })
     wordFeatures.longestWordLength = longestWordLength
-    println(wordFeatures.derivedWords.head)
     wordFeatures
   }
 
@@ -164,12 +163,14 @@ class SymmetricDeleteApproach(override val uid: String)
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
     var wordFeatures = WordFeatures(MMap.empty, 0)
 
-    if (get(corpus).isDefined){
       externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
+      printf("Number of words with training file: %d\n", externalResource.size)
       wordFeatures = derivedWordDistances(externalResource = externalResource, maxEditDistance = $(maxEditDistance))
+      printf("Derive words size with training file %d\n", wordFeatures.derivedWords.size)
     } else {
       println("Training from dataset under construction")
       import ResourceHelper.spark.implicits._
+      import org.apache.spark.sql.functions._
       dataset.show(5, false)
       dataset.select($(inputCols).head).show(5, false)
       dataset.select($(inputCols).head).as[Array[Annotation]]
@@ -178,7 +179,37 @@ class SymmetricDeleteApproach(override val uid: String)
       val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
                         .flatMap(_.map(_.result))
       trainDataset.show()
-      trainDataset.groupBy("value").count().as[(String, Long)].show()
+      /*println("Size without grouping")
+      println(trainDataset.count())
+      println("Size grouping")*/
+      val resourceList = trainDataset.collect.toList
+      printf("Number of words with training dataset: %d\n", resourceList.size)
+      wordFeatures = getDerivedWordsv2(resourceList, $(maxEditDistance))
+      printf("Derive words size with training dataset: %d\n", wordFeatures.derivedWords.size)
+      /****************************************** My version ********************************/
+      /*
+      val resourceList = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
+      val df = trainDataset.withColumn("length", length(col("value")))
+      val longestWordLength = df.agg(max(col("length"))).head().getInt(0)
+      //println(longestWordLength)
+      wordFeatures = getDerivedWords(resourceList, $(maxEditDistance))
+      wordFeatures.longestWordLength = longestWordLength*/
+
+
+
+      //println(wordFeatures.derivedWords.size)
+      // https://www.balabit.com/blog/spark-scala-dataset-tutorial
+      // https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-udfs.html
+      // https://medium.com/@mrpowers/spark-user-defined-functions-udfs-6c849e39443b
+      /*var trainDatasetNew =  trainDataset.withColumn("length", length(col("value")))
+      trainDatasetNew.show(5)
+      //sw_ds.withColumn("Jedi_Species", createTuple2[String, String].apply(sw_ds("jedi"), sw_ds("species")))
+      trainDatasetNew = trainDatasetNew.withColumn("tuple",
+                                                   createTuple2[String, String].apply(col("value"), col("length")))
+      trainDatasetNew.show(5, false)
+      trainDatasetNew = trainDatasetNew.withColumn("upper", upperUDF(col("value")))
+      trainDatasetNew.show(5, false)
+      println("End training from dataset")*/
     }
 
 
@@ -191,6 +222,63 @@ class SymmetricDeleteApproach(override val uid: String)
 
     model
   }
+
+  /**********************  mdba Temp just for testing ******************************/
+
+  import scala.reflect.runtime.universe.TypeTag
+  import org.apache.spark.sql.functions.udf
+  def createTuple2[Type_x: TypeTag, Type_y: TypeTag] =
+    udf[(Type_x, Type_y), Type_x, Type_y]((x: Type_x, y: Type_y) => (x, y))
+
+  // Define a regular Scala function
+  def upperFunction: String => String = _.toUpperCase
+  // Define a UDF that wraps the upper Scala function defined above
+  // You could also define the function in place, i.e. inside udf
+  // but separating Scala functions from Spark SQL's UDFs allows for easier testing
+  import org.apache.spark.sql.functions.udf
+  def upperUDF = udf(upperFunction)
+
+  def getDerivedWords(words: List[(String, Long)], maxEditDistance: Int): WordFeatures = {
+
+    //val derivedWords = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
+    val derivedWords = collection.mutable.Map() ++ words.map{a => (a._1, (ListBuffer[String](),a._2))}.toMap
+    val wordFeatures = WordFeatures(derivedWords, 0)
+    //printf("Derive words before loop %d\n", derivedWords.size)
+    words.foreach(word =>{
+      val deletes = getDeletes(word._1, maxEditDistance)
+
+      deletes.foreach( item => {
+        if (derivedWords.contains(item)){
+          // add (correct) word to delete's suggested correction list
+          derivedWords(item)._1 += word._1
+        } else {
+          // note frequency of word in corpus is not incremented
+          val wordFrequency = new ListBuffer[String]
+          wordFrequency += word._1
+          derivedWords(item) = (wordFrequency, 0)
+        }
+      }) // End deletes.foreach
+    })
+    //printf("Derive words after loop %d\n", derivedWords.size)
+    wordFeatures.derivedWords = derivedWords
+    wordFeatures
+  }
+
+  def getDerivedWordsv2(words: List[String], maxEditDistance: Int): WordFeatures = {
+
+    //val derivedWords = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
+    val derivedWords = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
+    val wordFeatures = WordFeatures(derivedWords, 0)
+    var longestWordLength = wordFeatures.longestWordLength
+
+    words.foreach(word =>{
+      longestWordLength = updateDerivedWords(wordFeatures.derivedWords, word, maxEditDistance, longestWordLength)
+    })
+    wordFeatures.longestWordLength = longestWordLength
+    wordFeatures
+  }
+
+  /**********************  mdba Temp just for testing ******************************/
 
 }
 // This objects reads the class' properties, it enables reding the model after it is stored
