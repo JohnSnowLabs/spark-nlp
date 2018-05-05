@@ -163,6 +163,7 @@ class SymmetricDeleteApproach(override val uid: String)
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
     var wordFeatures = WordFeatures(MMap.empty, 0)
 
+    if (get(corpus).isDefined) {
       externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
       printf("Number of words with training file: %d\n", externalResource.size)
       wordFeatures = derivedWordDistances(externalResource = externalResource, maxEditDistance = $(maxEditDistance))
