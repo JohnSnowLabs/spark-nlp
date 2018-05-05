@@ -316,14 +316,15 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("document"))
         .setOutputCol("token")
 
-      val normalizer = new Normalizer()
+      /*val normalizer = new Normalizer()
         .setInputCols(Array("token"))
         .setOutputCol("normal")
+        .setPattern("[^A-Za-z-]")*/
 
       val spell = new SymmetricDeleteApproach()
-        .setInputCols(Array("normal"))
+        .setInputCols(Array("token"))
         //.setDictionary("src/test/resources/spell/words.txt")
-        .setCorpus(ExternalResource(corpusPath, ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+        //.setCorpus(ExternalResource(corpusPath, ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
         .setOutputCol("spell")
 
       val finisher = new Finisher()
@@ -335,7 +336,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setStages(Array(
           documentAssembler,
           tokenizer,
-          normalizer,
+          //normalizer,
           spell,
           finisher
         ))
@@ -344,6 +345,14 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
 
       Benchmark.time("without dictionary") { //to measure processing time
+        //https://forums.databricks.com/questions/2808/select-dataframe-columns-from-a-sequence-of-string.html
+        // desired list of column names in string (making it possible programmatically)
+        val column_names_str = Seq[String]("a", "b")
+
+        //val column_names_col = column_names_str.map(name => col(name))
+        val column_names_col = column_names_str.map(name => col(name).as(s"renamed_$name"))  // rename if needed
+
+
         var correctedData = model.transform(data.select(data.col("misspell").as("text")))
         correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
