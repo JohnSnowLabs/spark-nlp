@@ -299,10 +299,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   def datasetBasedSpellChecker(): Unit = {
     s"a SpellChecker annotator trained with datasets" should "successfully correct words" in {
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
-      //val data = ContentProvider.parquetData.limit(100)
       val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
-      //val data = corpusData.select(corpusData.col("_c0").as("value"))
-      //data.show(5)
 
       val dataPath = "src/test/resources/spell/misspelled_words.csv"
       val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(dataPath)
@@ -316,13 +313,14 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("document"))
         .setOutputCol("token")
 
-      /*val normalizer = new Normalizer()
+      val normalizer = new Normalizer()
         .setInputCols(Array("token"))
         .setOutputCol("normal")
-        .setPattern("[^A-Za-z-]")*/
+        .setLowercase(true)
+        //.setPattern("[^A-Za-z-]")*/
 
       val spell = new SymmetricDeleteApproach()
-        .setInputCols(Array("token"))
+        .setInputCols(Array("normal"))
         //.setDictionary("src/test/resources/spell/words.txt")
         //.setCorpus(ExternalResource(corpusPath, ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
         .setOutputCol("spell")
@@ -336,7 +334,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setStages(Array(
           documentAssembler,
           tokenizer,
-          //normalizer,
+          normalizer,
           spell,
           finisher
         ))
@@ -345,18 +343,13 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
 
       Benchmark.time("without dictionary") { //to measure processing time
-        //https://forums.databricks.com/questions/2808/select-dataframe-columns-from-a-sequence-of-string.html
-        // desired list of column names in string (making it possible programmatically)
-        val column_names_str = Seq[String]("a", "b")
+        val df = data.select(data.col("misspell").as("text"),
+                             data.col("word"))
 
-        //val column_names_col = column_names_str.map(name => col(name))
-        val column_names_col = column_names_str.map(name => col(name).as(s"renamed_$name"))  // rename if needed
-
-
-        var correctedData = model.transform(data.select(data.col("misspell").as("text")))
+        var correctedData = model.transform(df)
         correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
-          when(col("text") === col("finished_spell"), 1).otherwise(0))
+          when(col("word") === col("finished_spell"), 1).otherwise(0))
         correctedData.show(10)
         val rightCorrections = correctedData.filter(col("prediction")===1).count()
         val wrongCorrections = correctedData.filter(col("prediction")===0).count()
