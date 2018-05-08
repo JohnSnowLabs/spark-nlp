@@ -15,7 +15,8 @@ import SparkAccessor.spark.implicits._
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
-  /*val spellChecker = new SymmetricDeleteApproach()
+
+  val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
       ReadAs.LINE_BY_LINE,
       Map("tokenPattern" -> "[a-zA-Z]+")))
@@ -60,7 +61,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       println(result)
       assert(result > 0.60, s"because result: $result did was below: 0.60")
     }
-  }*/
+  }
 
 
   def testBigPipeline(): Unit = {
