@@ -158,7 +158,6 @@ class SymmetricDeleteApproach(override val uid: String)
 
     val derivedWords = collection.mutable.Map() ++ wordFrequencies.map{a => (a._1, (ListBuffer[String](),a._2))}.toMap
     val wordFeatures = WordFeatures(derivedWords, 0)
-    //printf("Derive words before loop %d\n", derivedWords.size)
     wordFrequencies.foreach(word =>{
 
       val deletes = getDeletes(word._1, maxEditDistance)
@@ -175,7 +174,6 @@ class SymmetricDeleteApproach(override val uid: String)
         }
       }) // End deletes.foreach
     })
-    //printf("Derive words after loop %d\n", derivedWords.size)
     wordFeatures.derivedWords = derivedWords
     wordFeatures
   }
@@ -185,26 +183,17 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    var externalResource = List[String]()
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
     var wordFeatures = WordFeatures(MMap.empty, 0)
 
     if (get(corpus).isDefined) {
-      val corpusWordCount = ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
-      println(corpusWordCount.head)
-      println(corpusWordCount.size)
 
-      //val wordFrequencies = corpusWordCount.productIterator.map(case (a,b) => (a, (List[String](),b))).toMap
+      val corpusWordCount = ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
       val wordFrequencies = corpusWordCount.flatMap{case (a,b) => List((a.toLowerCase(), b))}
-      val lwl = wordFrequencies.keysIterator.reduceLeft((x,y) => if (x.length > y.length) x else y)
-      println(lwl.length)
-      var wordFeatures = getDerivedWords(wordFrequencies.toList, $(maxEditDistance))
-      println(wordFeatures.derivedWords.size)
-      //https://alvinalexander.com/scala/scala-maps-how-to-find-largest-key-value-reduceleft
-      val externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
-      //printf("Number of words with training file: %d\n", externalResource.size)
-      wordFeatures = derivedWordDistances(externalResource = externalResource, maxEditDistance = $(maxEditDistance))
-      //printf("Derive words size with training file %d\n", wordFeatures.derivedWords.size)
+      wordFeatures = getDerivedWords(wordFrequencies.toList, $(maxEditDistance))
+      val longestWord = wordFrequencies.keysIterator.reduceLeft((x,y) => if (x.length > y.length) x else y)
+      wordFeatures.longestWordLength = longestWord.length
+
     } else {
       import ResourceHelper.spark.implicits._
       import org.apache.spark.sql.functions._
@@ -212,12 +201,9 @@ class SymmetricDeleteApproach(override val uid: String)
       val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
                         .flatMap(_.map(_.result))
       val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
-      //printf("Number of words with training dataset: %d\n", words.size)
       wordFeatures = getDerivedWords(wordFrequencies, $(maxEditDistance))
-      //printf("Derive words size with training dataset: %d\n", wordFeatures.derivedWords.size)
       wordFeatures.longestWordLength = trainDataset.agg(max(length(col("value")))).head().getInt(0)
     }
-
 
     val model = new SymmetricDeleteModel()
       .setDerivedWords(wordFeatures.derivedWords.toMap)
