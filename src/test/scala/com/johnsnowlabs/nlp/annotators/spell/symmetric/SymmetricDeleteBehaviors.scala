@@ -286,7 +286,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val transformation = model.transform(data)
       transformation.show(10, false)
       println("done")
-      // val resourceList = transformation.select(transformation.col("finished"))
       val resourceList = transformation.select("finished").map(r => r.getString(0)).collect.toList
 
       println(resourceList.size)
@@ -296,7 +295,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     }
   }
 
-  def datasetBasedSpellChecker(): Unit = {
+  def testDatasetBasedSpellChecker(): Unit = {
     s"a SpellChecker annotator trained with datasets" should "successfully correct words" in {
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
@@ -321,8 +320,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("normal"))
-        //.setDictionary("src/test/resources/spell/words.txt")
-        //.setCorpus(ExternalResource(corpusPath, ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
         .setOutputCol("spell")
 
       val finisher = new Finisher()
@@ -357,7 +354,72 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         printf("Wrong Corrections: %d \n", wrongCorrections)
         val accuracy = rightCorrections.toFloat/(rightCorrections+wrongCorrections).toFloat
         printf("Accuracy: %f\n", accuracy)
-      }
+      } //End benchmark
+
+    }
+  }
+
+  def testDatasetBasedSpellCheckerWithDic(): Unit = {
+    s"a SpellChecker annotator trained with datasets and a dictionary" should "successfully correct words" in {
+      val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
+      val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
+
+      val dataPath = "src/test/resources/spell/misspelled_words.csv"
+      val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(dataPath)
+      data.show(10)
+
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val normalizer = new Normalizer()
+        .setInputCols(Array("token"))
+        .setOutputCol("normal")
+        .setLowercase(true)
+      //.setPattern("[^A-Za-z-]")*/
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("normal"))
+        .setDictionary("src/test/resources/spell/words.txt")
+        .setOutputCol("spell")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+        .setOutputAsArray(false)
+        .setIncludeKeys(false)
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          normalizer,
+          spell,
+          finisher
+        ))
+
+      /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
+
+      Benchmark.time("without dictionary") { //to measure processing time
+        val df = data.select(data.col("misspell").as("text"),
+          data.col("word"))
+
+        var correctedData = model.transform(df)
+        correctedData.show(10)
+        correctedData = correctedData.withColumn("prediction",
+          when(col("word") === col("finished_spell"), 1).otherwise(0))
+        correctedData.show(10)
+        val rightCorrections = correctedData.filter(col("prediction")===1).count()
+        val wrongCorrections = correctedData.filter(col("prediction")===0).count()
+        printf("Right Corrections: %d \n", rightCorrections)
+        printf("Wrong Corrections: %d \n", wrongCorrections)
+        val accuracy = rightCorrections.toFloat/(rightCorrections+wrongCorrections).toFloat
+        printf("Accuracy: %f\n", accuracy)
+      } // End benchmark
 
     }
   }
