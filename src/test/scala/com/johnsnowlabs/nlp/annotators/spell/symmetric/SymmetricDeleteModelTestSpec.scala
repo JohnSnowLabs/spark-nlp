@@ -11,7 +11,7 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
   //testLevenshteinDistance()
 
 
-  /*"a simple isolated symmetric spell checker " should behave like testSimpleCheck(
+  "a simple isolated symmetric spell checker " should behave like testSimpleCheck(
     Seq(("problex", "problem")))
 
   "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
@@ -35,7 +35,7 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a good sized dataframe with Spark pipeline" should behave like testBigPipeline
 
-  "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict*/
+  "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict
 
   "a dataset of individual words with Spark pipeline" should behave like testIndividualWords
 
@@ -47,6 +47,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
   "a simple isolated symmetric spell checker with dataset using dictionary" should behave like
     testDatasetBasedSpellCheckerWithDic
 
-  // "a spark dataset " should behave like testSparkDataset()
+  "a spark dataset " should behave like testSparkDataset()
 
 }
