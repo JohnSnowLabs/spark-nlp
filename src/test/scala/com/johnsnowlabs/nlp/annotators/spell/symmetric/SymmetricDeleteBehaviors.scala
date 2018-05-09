@@ -6,10 +6,10 @@ import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.DataFrame
 
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.nlp.pretrained.pipelines.en._
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
@@ -256,44 +256,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     }
   }
 
-  def testSparkDataset(): Unit = {
-    s"a SymSpellChecker annotator with load model of" should
-      "successfully correct words" in {
-
-      val corpusData = Seq.empty[String].toDS
-      val path = "src/test/resources/spell/sherlockholmes.txt"
-      var data = SparkAccessor.spark.read.format("csv").load(path)
-      data = data.select(data.col("_c0").as("text"))
-      data.show(10)
-
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-      val finisher = new Finisher()
-        .setInputCols("document")
-        .setOutputCols("finished")
-        .setOutputAsArray(false)
-
-      val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          finisher
-        ))
-
-      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
-      val transformation = model.transform(data)
-      transformation.show(10, false)
-      println("done")
-      val resourceList = transformation.select("finished").map(r => r.getString(0)).collect.toList
-
-      println(resourceList.size)
-      val resource = resourceList.map(_.toLowerCase)
-      println(resource.size)
-
-    }
-  }
-
   def testDatasetBasedSpellChecker(): Unit = {
     s"a SpellChecker annotator trained with datasets" should "successfully correct words" in {
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
@@ -420,6 +382,27 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         printf("Accuracy: %f\n", accuracy)
       } // End benchmark
 
+    }
+  }
+
+  def testLoadModel(): Unit = {
+    s"a SymSpellChecker annotator with load model of" should
+      "successfully correct words" in {
+      val data = Seq("Hello World").toDS.toDF("text")
+      data.show()
+      val pretrainedPipeline = BasicPipeline().pretrained()
+      val pdata = pretrainedPipeline.transform(data)
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("token"))
+        .setOutputCol("spell")
+        .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
+          ReadAs.LINE_BY_LINE,
+          Map("tokenPattern" -> "[a-zA-Z]+")))
+      val tspell = spell.fit(pdata)
+      tspell.write.overwrite.save("./tmp_symspell")
+      val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
+      println("SymSpell Checker")
+      modelSymSpell.transform(pdata).show(5)
     }
   }
 
