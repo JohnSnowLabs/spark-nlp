@@ -47,6 +47,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
   "a simple isolated symmetric spell checker with dataset using dictionary" should behave like
     testDatasetBasedSpellCheckerWithDic
 
-  "a spark dataset " should behave like testSparkDataset()
+  "a loaded model " should behave like testLoadModel()
 
 }
