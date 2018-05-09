@@ -39,7 +39,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   setDefault(
     inputCols -> Array(DOCUMENT),
     useAbbrevations -> false,
-    customBounds -> Array.empty[String]
+    customBounds -> Array.empty[String],
+    useCustomBoundsOnly -> false
   )
 
   lazy val model: PragmaticMethod =

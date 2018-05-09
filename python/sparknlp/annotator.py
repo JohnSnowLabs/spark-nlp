@@ -812,7 +812,7 @@ class AssertionLogRegModel(AnnotatorModel):
             super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
 
     @staticmethod
-    def pretrained(name="as_fast", language="en"):
+    def pretrained(name="as_fast_lg", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
 

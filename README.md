@@ -14,21 +14,39 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.5.1` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.5.3` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.5.1
+spark-shell --packages JohnSnowLabs:spark-nlp:1.5.3
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.5.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.5.3
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.5.1
+spark-submit --packages JohnSnowLabs:spark-nlp:1.5.3
 ```
 
-If you want to use and old version check the spark-packages websites to see all the releases.
+## Jupyter Notebook
+
+```
+export SPARK_HOME=/path/to/your/spark/folder
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+
+pyspark --packages JohnSnowLabs:spark-nlp:1.5.3
+```
+
+## Apache Zeppelin
+This way will work for both Scala and Python
+```
+export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.5.3"
+```
+Alternatively, add the following Maven Coordinates to the interpreter's library list
+```
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.5.3
+```
 
 ## Maven central
 
@@ -40,19 +58,19 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
   <groupId>com.johnsnowlabs.nlp</groupId>
   <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.5.1</version>
+  <version>1.5.3</version>
 </dependency>
 ```
 
 #### SBT
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.5.1"
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.5.3"
 ```
 
 If you are using `scala 2.11`
 
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.5.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.5.3"
 ```
 
 ## Using the jar manually 

@@ -206,7 +206,7 @@ class SymmetricDeleteApproach(override val uid: String)
     }
 
     val model = new SymmetricDeleteModel()
-      .setDerivedWords(wordFeatures.derivedWords.toMap)
+      .setDerivedWords(wordFeatures.derivedWords.mapValues(f => (f._1.toList, f._2)).toMap)
       .setLongestWordLength(wordFeatures.longestWordLength)
 
     if (possibleDict.isDefined)
@@ -216,5 +216,5 @@ class SymmetricDeleteApproach(override val uid: String)
   }
 
 }
-// This objects reads the class' properties, it enables reding the model after it is stored
+// This objects reads the class' properties, it enables reading the model after it is stored
 object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]

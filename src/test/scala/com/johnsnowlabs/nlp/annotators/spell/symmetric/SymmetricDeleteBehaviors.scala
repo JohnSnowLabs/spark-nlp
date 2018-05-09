@@ -3,18 +3,16 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.annotators.{Tokenizer,Normalizer}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.util.Benchmark
-
 import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.DataFrame
 
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.util.Benchmark
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
-
 
   val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
@@ -158,8 +156,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
-      // val corpusPath = "/Users/dburbano/IdeaProjects/spark-nlp-models/src/main/resources/spell//coca2017.txt"
-      //val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
+      // val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
+      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
@@ -259,7 +257,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testSparkDataset(): Unit = {
-    s"a SymSpellChecker annotator with pipeline of" should
+    s"a SymSpellChecker annotator with load model of" should
       "successfully correct words" in {
 
       val corpusData = Seq.empty[String].toDS
