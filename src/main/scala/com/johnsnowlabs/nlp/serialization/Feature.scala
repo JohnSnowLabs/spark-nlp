@@ -66,11 +66,15 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
     broadcastValue.map(_.value).orElse(rawValue)
   }
 
-  final def getOrDefault: TComplete = {
+  final def orDefault: Option[TComplete] = {
     broadcastValue.map(_.value)
       .orElse(rawValue)
       .orElse(fallbackRawValue)
       .orElse(callAndSetFallback)
+  }
+
+  final def getOrDefault: TComplete = {
+    orDefault
       .getOrElse(throw new Exception(s"feature $name is not set"))
   }
 

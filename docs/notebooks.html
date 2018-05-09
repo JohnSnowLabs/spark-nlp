@@ -79,6 +79,34 @@
             <div id="showcase" class="doc-body">
                 <div class="doc-content">
                     <div class="content-inner">
+                        <section id="ScalaNotebook" class="doc-section">
+                            <h2 id="scala-theme-start" class="section-title" style="margin-bottom: 10px;" >Scala notebooks</h2>
+                            <p>
+                                In this section, we present with different example use cases of both training and running
+                                predictions with SparkNLP in Python PySpark. Please lookup our
+                                <a href="http://nlp.johnsnowlabs.com/components.html">Annotators</a> page for reference.
+                            </p>
+                            <div>
+                                <h4 id="scala-vivekn-notebook" class="section-block"> Vivekn Sentiment Analysis</h4>
+                                <p>
+                                    In the following example, we walk-through Sentiment Analysis training and
+                                    prediction using Spark NLP Annotators, Light Pipelines and Spark ML Pipelines
+                                </p>
+                                <p>
+                                    The ViveknSentimentApproach annotator will compute Vivek Narayanan algorithm with either
+                                    a column in training dataset with rows labelled 'positive' or 'negative' or a folder full
+                                    of positive text and a folder with negative text. Using n-grams and negation of sequences,
+                                    this statistical model can achieve high accuracy if trained properly.
+                                </p>
+                                <p>
+                                    In this use case we are training with spark datasets passed to fit() and transform().
+                                    Since we are dealing with small amounts of data, we put in practice LightPipelines.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/example/src/TrainViveknSentiment.scala" target="_blank"> Take me to notebook!</a>
+                                </p>
+                            </div>
+                        </section>
                         <section id="Notebook" class="doc-section">
                             <h2 id="theme-start" class="section-title" style="margin-bottom: 10px;" >Python notebooks</h2>
                             <p>
@@ -107,7 +135,7 @@
                                     better Sentiment Analysis accuracy
                                   </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/vivekn-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/vivekn-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -129,7 +157,7 @@
                                 Each of these sentences will be used for giving a score to text
                             </p>
                                 </p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/dictionary-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/dictionary-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -149,7 +177,7 @@
                                     approach to use the same pipeline for tagging external resources.
                                 </p>
                                 <p>
-                                <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/crf-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/crf-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -168,7 +196,7 @@
                                     and it will leverage batch-based distributed calls to native TensorFlow libraries during prediction.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/dl-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/dl-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -183,7 +211,7 @@
                                     This annotator is an AnnotatorModel and does not require training.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -198,7 +226,7 @@
                                     dataset will return the appropriate result.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/logreg-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/logreg-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -213,7 +241,7 @@
                                     graphs may be redesigned if needed.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/dl-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/dl-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -232,7 +260,7 @@
                                     Such components may then be injected seamlessly into further pipelines, and so on.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.1/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.5.3/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                         </section>
@@ -243,7 +271,11 @@
                         <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
 
                             <li>
-                                <a class="scrollto" href="#Notebook">Notebook</a>
+                                <a class="scrollto" href="#ScalaNotebook">Scala Notebooks</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#scala-vivekn-notebook">Vivekn Sentiment Analysis</a></li>
+                                </ul>
+                                <a class="scrollto" href="#Notebook">Python Notebooks</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#vivekn-notebook">Vivekn Sentiment Analysis</a></li>
                                     <li><a class="scrollto" href="#sentiment-notebook">Rule-based Sentiment Analysis</a></li>

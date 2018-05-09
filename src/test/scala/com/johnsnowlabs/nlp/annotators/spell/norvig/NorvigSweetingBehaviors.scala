@@ -9,7 +9,6 @@ import org.scalatest._
 
 trait NorvigSweetingBehaviors { this: FlatSpec =>
 
-  /* commented to allow debugging datasetBasedSpellChecker
   val spellChecker = new NorvigSweetingApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
     .setDictionary("src/test/resources/spell/words.txt")
@@ -21,7 +20,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
       val result = wordAnswer.count(wa => spellChecker.check(wa._1) == wa._2) / wordAnswer.length.toDouble
       assert(result > 0.95, s"because result: $result did was below: 0.95")
     }
-  }*/
+  }
 
   def sparkBasedSpellChecker(dataset: => Dataset[Row], inputFormat: String = "TXT"): Unit = {
     s"a SpellChecker Annotator with ${dataset.count} rows and corpus format $inputFormat" should s"successfully correct words" in {
@@ -73,5 +72,11 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
+  def testOutputSpellChecker(word: String): Unit = {
+    s"spell checker" should s"correctly correct a word" in {
+      val checkedWord = spellChecker.check(word)
+      println(checkedWord)
+    }
+  }
 
 }

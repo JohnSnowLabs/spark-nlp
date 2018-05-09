@@ -10,8 +10,7 @@ import scala.collection.immutable.HashSet
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 import scala.util.control.Breaks._
 import scala.math._
-import org.apache.spark.ml.param.Param
-
+import org.apache.spark.ml.param.IntParam
 
 /** Created by danilo 16/04/2018,
   * inspired on https://github.com/wolfgarbe/SymSpell
@@ -31,12 +30,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  protected val derivedWords: MapFeature[String, (ListBuffer[String], Long)] =
+  protected val derivedWords: MapFeature[String, (List[String], Long)] =
     new MapFeature(this, "derivedWords")
 
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
 
-  val longestWordLength = new Param[Int](this, "longestWordLength", "length of longest word in corpus")
+  val longestWordLength = new IntParam(this, "longestWordLength",
+                                "length of longest word in corpus")
 
   def getLongestWordLength: Int = $(longestWordLength)
 
@@ -46,13 +46,14 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
-  /*private lazy val allWords: HashSet[String] = {
+  private lazy val allWords: HashSet[String] = {
+    //HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
     HashSet($$(derivedWords).keys.toSeq.map(_.toLowerCase): _*)
-  }*/
+  }
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
-  def setDerivedWords(value: Map[String, (ListBuffer[String], Long)]):
+  def setDerivedWords(value: Map[String, (List[String], Long)]):
   this.type = set(derivedWords, value)
 
 
@@ -78,15 +79,15 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * */
 
   def getSuggestedCorrections(word: String): Option[(String, (Long, Int))] = {
-
-    if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((word.length - this.getLongestWordLength) > $(maxEditDistance)))
+    val string = word.toLowerCase()
+    if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((string.length - this.getLongestWordLength) > $(maxEditDistance)))
       return None
 
     var minSuggestLen: Double = Double.PositiveInfinity
 
     val suggestDict = MMap[String, (Long, Int)]()
     val queueDictionary = MMap[String, String]() // items other than string that we've checked
-    var queueList = ListBuffer(word)
+    var queueList = ListBuffer(string)
     var count = 0
 
     while (queueList.nonEmpty) {
@@ -95,18 +96,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
       queueList = queueList.slice(1, queueList.length)
 
       breakable { //early exit
-        if (suggestDict.nonEmpty && (word.length - queueItem.length) > $(maxEditDistance)) {
+        if (suggestDict.nonEmpty && (string.length - queueItem.length) > $(maxEditDistance)) {
           break
         }
       }
 
-      /*if (queueItem.equals("cotde")){
-        println("Debug....")
-      }*/
-
       // process queue item
-      //if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
-      if ($$(derivedWords).contains(queueItem) && !suggestDict.contains(queueItem)) {
+      if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
 
         if ($$(derivedWords)(queueItem)._2 > 0) {
           // word is in dictionary, and is a word from the corpus, and not already in suggestion list
@@ -115,30 +111,30 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
           // note q_items that are not the input string are shorter than input string since only
           // deletes are added (unless manual dictionary corrections are added)
           suggestDict(queueItem) = ($$(derivedWords)(queueItem)._2,
-            word.length - queueItem.length)
+            string.length - queueItem.length)
 
           breakable { //early exit
-            if (word.length == queueItem.length) {
+            if (string.length == queueItem.length) {
               break
             }
           }
 
-          if (word.length - queueItem.length < minSuggestLen) {
-            minSuggestLen = word.length - queueItem.length
+          if (string.length - queueItem.length < minSuggestLen) {
+            minSuggestLen = string.length - queueItem.length
           }
         }
 
         // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
         // is a valid word or merely a delete) can be valid corrections
         $$(derivedWords)(queueItem)._1.foreach(scItem => {
-          if (!suggestDict.contains(scItem)) {
+          if (!suggestDict.contains(scItem.toLowerCase())) {
             // assert(scItem.length > queueItem.length) Include or not assertions ???
 
             // calculate edit distance using Damerau-Levenshtein distance
-            val itemDist = levenshteinDistance(scItem, word)
+            val itemDist = levenshteinDistance(scItem.toLowerCase, string)
 
             if (itemDist <= $(maxEditDistance)) {
-              suggestDict(scItem) = ($$(derivedWords)(scItem)._2,
+              suggestDict(scItem.toLowerCase) = ($$(derivedWords)(scItem.toLowerCase)._2,
                 itemDist)
               if (itemDist < minSuggestLen) {
                 minSuggestLen = itemDist
@@ -154,7 +150,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
       // now generate deletes (e.g. a substring of string or of a delete) from the queue item
       // do not add words with greater edit distance
-      if ((word.length - queueItem.length) < $(maxEditDistance) && queueItem.length > 1) {
+      if ((string.length - queueItem.length) < $(maxEditDistance) && queueItem.length > 1) {
         val y = 0 until queueItem.length
         y.foreach(c => { //character index
           //result of word minus c
@@ -202,10 +198,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 }
 
-trait PretrainedSymmetricDelete {
-  def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"),
-                 folder: String = ResourceDownloader.publicFolder): SymmetricDeleteModel =
-    ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, folder)
+trait PretrainedSymmetricDelete { // ask if the name spell_sd_fast it's ok
+  def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
+    ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remoteLoc)
 }
 
 object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete
