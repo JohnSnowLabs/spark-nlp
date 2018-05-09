@@ -47,7 +47,6 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
   private lazy val allWords: HashSet[String] = {
-    //HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
     HashSet($$(derivedWords).keys.toSeq.map(_.toLowerCase): _*)
   }
 
@@ -199,7 +198,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 }
 
 trait PretrainedSymmetricDelete { // ask if the name spell_sd_fast it's ok
-  def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
+  def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"),
+                 remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
     ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remoteLoc)
 }
 

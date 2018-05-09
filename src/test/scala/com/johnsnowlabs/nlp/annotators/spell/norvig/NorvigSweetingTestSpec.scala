@@ -6,7 +6,7 @@ import org.scalatest._
 class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
 
 
- /*"an isolated spell checker" should behave like isolatedNorvigChecker(
+ "an isolated spell checker" should behave like isolatedNorvigChecker(
     Seq(
       ("mral", "meal"),
       ("delicatly", "delicately"),
@@ -27,8 +27,8 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
     AnnotatorBuilder.withDocumentAssembler(ContentProvider.parquetData.limit(5000))
   )
 
-  "a good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker*/
+  "a good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
 
-  "a simple spell checker of a word" should behave like testOutputSpellChecker("wouls")
+  //"a simple spell checker of a word" should behave like testOutputSpellChecker("wouls")
 
 }
