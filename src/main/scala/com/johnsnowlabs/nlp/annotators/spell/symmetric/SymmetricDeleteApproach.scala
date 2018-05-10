@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
@@ -94,78 +94,59 @@ class SymmetricDeleteApproach(override val uid: String)
     deletes.toList
   }
 
-  /** Created by danilo 17/04/2018
-    * check if word is already in dictionary
-    * dictionary entries are in the form:
-    * (list of suggested corrections,frequency of word in corpus)
+  /** Created by danilo 26/04/2018
+    * Computes derived words from a frequency of words
     * */
-  def updateDerivedWords(derivedWords: MMap[String, (ListBuffer[String], Long)],
-                         word: String, maxEditDistance: Int, longestWordLength: Int
-                         ): Int = {
+  def derivedWordDistances(wordFrequencies: List[(String, Long)], maxEditDistance: Int): WordFeatures = {
 
-    var newLongestWordLength = longestWordLength
+    val derivedWords = collection.mutable.Map() ++ wordFrequencies.map{a => (a._1, (ListBuffer[String](),a._2))}.toMap
+    val wordFeatures = WordFeatures(derivedWords, 0)
+    wordFrequencies.foreach(word =>{
 
-    if (derivedWords(word)._2 == 0) {
-      derivedWords(word) = (ListBuffer[String](), 1)
-      newLongestWordLength = word.length.max(longestWordLength)
-    } else{
-      var count: Long = derivedWords(word)._2
-      // increment count of word in corpus
-      count += 1
-      derivedWords(word) = (derivedWords(word)._1, count)
-    }
-
-    if (derivedWords(word)._2 == 1){
-      val deletes = getDeletes(word, maxEditDistance)
+      val deletes = getDeletes(word._1, maxEditDistance)
 
       deletes.foreach( item => {
         if (derivedWords.contains(item)){
           // add (correct) word to delete's suggested correction list
-          derivedWords(item)._1 += word
+          derivedWords(item)._1 += word._1
         } else {
           // note frequency of word in corpus is not incremented
           val wordFrequency = new ListBuffer[String]
-          wordFrequency += word
+          wordFrequency += word._1
           derivedWords(item) = (wordFrequency, 0)
         }
       }) // End deletes.foreach
-    }
-    newLongestWordLength
-  }
-
-  /** Created by danilo 26/04/2018
-    * Computes derived words from a word
-    * */
-  def derivedWordDistances(externalResource: List[String], maxEditDistance: Int
-                          ): WordFeatures = {
-
-    val regex = $(corpus).options("tokenPattern").r
-    val derivedWords = MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0)
-    val wordFeatures = WordFeatures(derivedWords, 0)
-    var longestWordLength = wordFeatures.longestWordLength
-
-    externalResource.foreach(line => {
-      val tokenizeWords = regex.findAllMatchIn(line).map(_.matched).toList
-      tokenizeWords.foreach(word => {
-        longestWordLength = updateDerivedWords(wordFeatures.derivedWords, word, maxEditDistance, longestWordLength)
-      })
     })
-    wordFeatures.longestWordLength = longestWordLength
+    wordFeatures.derivedWords = derivedWords
     wordFeatures
   }
 
-  case class WordFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)] =
-                           MMap.empty[String, (ListBuffer[String], Long)].withDefaultValue(ListBuffer[String](), 0),
-                           var longestWordLength: Int)
+  case class WordFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)],
+                          var longestWordLength: Int)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    val externalResource = ResourceHelper.parseLines($(corpus)).map(_.toLowerCase).toList
-
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
+    var wordFeatures = WordFeatures(MMap.empty, 0)
 
-    val wordFeatures = derivedWordDistances(externalResource = externalResource,
-                                            maxEditDistance = $(maxEditDistance))
+    if (get(corpus).isDefined) {
+
+      val corpusWordCount = ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
+      val wordFrequencies = corpusWordCount.flatMap{case (a,b) => List((a.toLowerCase(), b))}
+      wordFeatures = derivedWordDistances(wordFrequencies.toList, $(maxEditDistance))
+      val longestWord = wordFrequencies.keysIterator.reduceLeft((x,y) => if (x.length > y.length) x else y)
+      wordFeatures.longestWordLength = longestWord.length
+
+    } else {
+      import ResourceHelper.spark.implicits._
+      import org.apache.spark.sql.functions._
+
+      val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
+                        .flatMap(_.map(_.result))
+      val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
+      wordFeatures = derivedWordDistances(wordFrequencies, $(maxEditDistance))
+      wordFeatures.longestWordLength = trainDataset.agg(max(length(col("value")))).head().getInt(0)
+    }
 
     val model = new SymmetricDeleteModel()
       .setDerivedWords(wordFeatures.derivedWords.mapValues(f => (f._1.toList, f._2)).toMap)
