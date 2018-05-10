@@ -222,7 +222,7 @@ class Finisher(AnnotatorTransformer):
     valueSplitSymbol = Param(Params._dummy(), "valueSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
     annotationSplitSymbol = Param(Params._dummy(), "annotationSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
-    includeKeys = Param(Params._dummy(), "includeKeys", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
+    includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
     name = "Finisher"
 
@@ -233,7 +233,7 @@ class Finisher(AnnotatorTransformer):
             valueSplitSymbol="#",
             annotationSplitSymbol="@",
             cleanAnnotations=True,
-            includeKeys=False,
+            includeMetadata=False,
             outputAsArray=False
         )
 
@@ -258,7 +258,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setIncludeKeys(self, value):
-        return self._set(includeKeys=value)
+        return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
