@@ -4,7 +4,7 @@ import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.{Dataset, Row}
-import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
+import org.apache.spark.sql.types._
 
 class Finisher(override val uid: String)
   extends Transformer
@@ -20,8 +20,8 @@ class Finisher(override val uid: String)
     new Param(this, "annotationSplitSymbol", "character separating annotations")
   protected val cleanAnnotations: BooleanParam =
     new BooleanParam(this, "cleanAnnotations", "whether to remove annotation columns")
-  protected val includeKeys: BooleanParam =
-    new BooleanParam(this, "includeKeys", "annotation metadata format")
+  protected val includeMetadata: BooleanParam =
+    new BooleanParam(this, "includeMetadata", "annotation metadata format")
   protected val outputAsArray: BooleanParam =
     new BooleanParam(this, "outputAsArray", "finisher generates an Array with the results instead of string")
 
@@ -32,7 +32,7 @@ class Finisher(override val uid: String)
   def setValueSplitSymbol(value: String): this.type = set(valueSplitSymbol, value)
   def setAnnotationSplitSymbol(value: String): this.type = set(annotationSplitSymbol, value)
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
-  def setIncludeKeys(value: Boolean): this.type = set(includeKeys, value)
+  def setIncludeMetadata(value: Boolean): this.type = set(includeMetadata, value)
   def setOutputAsArray(value: Boolean): this.type = set(outputAsArray, value)
 
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
@@ -40,13 +40,13 @@ class Finisher(override val uid: String)
   def getValueSplitSymbol: String = $(valueSplitSymbol)
   def getAnnotationSplitSymbol: String = $(annotationSplitSymbol)
   def getCleanAnnotations: Boolean = $(cleanAnnotations)
-  def getIncludeKeys: Boolean = $(includeKeys)
+  def getIncludeMetadata: Boolean = $(includeMetadata)
   def getOutputAsArray: Boolean = $(outputAsArray)
 
   setDefault(valueSplitSymbol -> "#",
     annotationSplitSymbol -> "@",
     cleanAnnotations -> true,
-    includeKeys -> false,
+    includeMetadata -> false,
     outputAsArray -> true)
 
   def this() = this(Identifiable.randomUID("finisher"))
@@ -65,13 +65,19 @@ class Finisher(override val uid: String)
         require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
           s"column [$annotationColumn] must be an NLP Annotation column")
     }
+    val metadataFields =  getOutputCols.flatMap(outputCol => {
+      if ($(outputAsArray))
+        Some(StructField(outputCol + "_md", MapType(StringType, StringType), nullable = false))
+      else
+        None
+    })
     val outputFields = schema.fields ++
       getOutputCols.map(outputCol => {
         if ($(outputAsArray))
           StructField(outputCol, ArrayType(StringType), nullable = false)
         else
           StructField(outputCol, StringType, nullable = true)
-      })
+      }) ++ metadataFields
     val cleanFields = if ($(cleanAnnotations)) outputFields.filterNot(f =>
       f.dataType == ArrayType(Annotation.dataType)
     ) else outputFields
@@ -93,14 +99,21 @@ class Finisher(override val uid: String)
           outputCol, {
             if ($(outputAsArray))
               Annotation.flattenArray(flattened.col(inputCol))
-            else if (!$(includeKeys))
+            else if (!$(includeMetadata))
               Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
             else
-              Annotation.flattenKV($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
+              Annotation.flattenDetail($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
           }
         )
       }
     }
+    if ($(outputAsArray) && $(includeMetadata))
+      cols.foreach { case (inputCol, outputCol) =>
+        flattened = flattened.withColumn(
+          outputCol + "_md",
+          Annotation.flattenArrayMetadata(flattened.col(inputCol))
+        )
+      }
     if ($(cleanAnnotations)) flattened.drop(
       flattened.schema.fields
         .filter(_.dataType == ArrayType(Annotation.dataType))
