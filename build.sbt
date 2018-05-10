@@ -68,7 +68,9 @@ scmInfo := Some(
 developers := List(
   Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
-  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai"))
+  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
+  Developer(id="albertoandreottiATgmail", name="Alberto Andreotti", email="alberto@pacific.ai", url=url("https://github.com/albertoandreottiATgmail")),
+  Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
 )
 
 lazy val analyticsDependencies = Seq(
@@ -85,7 +87,7 @@ lazy val utilDependencies = Seq(
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
-  "org.tensorflow" % "tensorflow" % "1.5.0",
+  "org.tensorflow" % "tensorflow" % "1.8.0",
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313"
 )
 
