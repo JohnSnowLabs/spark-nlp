@@ -574,11 +574,11 @@ LemmatizerModel.pretrained()</code></pre>
                                                 Lemmatizer trained with AntBNC Free corpus
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.LemmatizerModel
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.LemmatizerModel
 LemmatizerModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-                                <h4 id="SpellFast" class="section-block"> Fast Spell Checker</h4>
+                                <h4 id="SpellFast" class="section-block"> Fast Norvig Spell Checker</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -603,7 +603,36 @@ NorvigSweetingModel.pretrained()</code></pre>
                                                 Spell Checker trained with Wikipedia corpus
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.NorvigSweetingModel
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.NorvigSweetingModel
+NorvigSweetingModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="SymmSpellFast" class="section-block"> Fast SymmDelete Spell Checker</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Symmetric delete Spell Checker trained with Wikipedia corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import SymmetricDeleteModel
+SymmetricDeleteModel.pretrained()</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Symmetric delete Spell Checker trained with Wikipedia corpus
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.NorvigSweetingModel
 NorvigSweetingModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -632,7 +661,7 @@ PerceptronModel.pretrained()</code></pre>
                                                 Part of Speech trained with ANC American Corpus
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.PerceptronModel
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.PerceptronModel
 PerceptronModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -666,6 +695,36 @@ NerCrfModel.pretrained()
 NerCrfModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
+                                <h4 id="NerDL" class="section-block"> Fast Deep Learning NER</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Named entity recognition deep learning model trained with Glove embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">from sparknlp.annotator import NerDLModel
+NerDLModel.pretrained()
+</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Named entity recognition deep learning model trained with Glove embeddings
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.NerDLModel
+NerDLModel.pretrained()</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
                                 <h4 id="AsFastLG" class="section-block"> Logistic Regression Assertion Status</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -692,7 +751,7 @@ AssertionLogRegModel.pretrained()
                                                 Logistic Regression based assertion status model on top of Glove word embeddings
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-javascript">from sparknlp.annotator import AssertionLogRegModel
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.AssertionLogRegModel
 AssertionLogRegModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -722,7 +781,7 @@ AssertionDLModel.pretrained()
                                                 Assertion status trained on TensorFlow and Spark-NLP utilizing Glove word embeddings
                                                 <br><b>Example:</b><br>
                                             </p>
-                                            <pre><code class="language-javascript">from sparknlp.annotator import AssertionDLModel
+                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.AssertionDLModel
 AssertionDLModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
@@ -2435,10 +2494,12 @@ val assertionStatus = new AssertionStatusApproach()
                                 <a class="scrollto" href="#models">Pretrained Models</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#LemmaFast">Fast Lemmatizer</a></li>
-                                    <li><a class="scrollto" href="#SpellFast">Fast Spell Checker</a></li>
+                                    <li><a class="scrollto" href="#SpellFast">Fast Norvig Spell Checker</a></li>
+                                    <li><a class="scrollto" href="#SymmSpellFast">Fast SymmDelete Spell Checker</a></li>
                                     <li><a class="scrollto" href="#PosFast">Fast Part of Speech</a></li>
                                     <li><a class="scrollto" href="#NerFast">Fast CRF NER</a></li>
-                                    <li><a class="scrollto" href="#AsFastLG">LogReg Assertion</a></li>
+                                    <li><a class="scrollto" href="#NerDL">Fast DL NER</a></li>
+                                    <li><a class="scrollto" href="#AsFastLG">Fast LogReg Assertion</a></li>
                                     <li><a class="scrollto" href="#AsFast">Fast Bi-LSTM Assertion</a></li>
 
                                 </ul><!--//nav-->
