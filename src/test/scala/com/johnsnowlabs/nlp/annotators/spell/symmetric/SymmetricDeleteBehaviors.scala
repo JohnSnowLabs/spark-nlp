@@ -286,7 +286,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("spell")
         .setOutputAsArray(false)
-        .setIncludeKeys(false)
+        .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -351,7 +351,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("spell")
         .setOutputAsArray(false)
-        .setIncludeKeys(false)
+        .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
