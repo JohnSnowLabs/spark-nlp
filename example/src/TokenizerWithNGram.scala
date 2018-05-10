@@ -1,11 +1,12 @@
+import NerDLPipeline._
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators.ner.NerConverter
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.feature.NGram
 import org.apache.spark.sql.SparkSession
 
-object NerDLPipeline extends App {
+object TokenizerWithNGram extends App {
 
   val spark: SparkSession = SparkSession
     .builder()
@@ -31,21 +32,19 @@ object NerDLPipeline extends App {
     .setInputCols("token")
     .setOutputCol("normal")
 
-  val ner = NerDLModel.pretrained()
-    .setInputCols("normal", "document")
-    .setOutputCol("ner")
-
-  val nerConverter = new NerConverter()
-    .setInputCols("document", "normal", "ner")
-    .setOutputCol("ner_converter")
-
   val finisher = new Finisher()
-    .setInputCols("ner", "ner_converter")
-    .setIncludeMetadata(true)
-    .setOutputAsArray(false)
-    .setCleanAnnotations(false)
+    .setInputCols("normal")
 
-  val pipeline = new Pipeline().setStages(Array(document, token, normalizer, ner, nerConverter, finisher))
+  val ngram = new NGram()
+    .setN(3)
+    .setInputCol("finished_normal")
+    .setOutputCol("3-gram")
+
+  val gramAssembler = new DocumentAssembler()
+    .setInputCol("3-gram")
+    .setOutputCol("3-grams")
+
+  val pipeline = new Pipeline().setStages(Array(document, token, normalizer, finisher, ngram, gramAssembler))
 
   val testing = Seq(
     (1, "Google is a famous company"),
@@ -53,6 +52,7 @@ object NerDLPipeline extends App {
   ).toDS.toDF( "_id", "text")
 
   val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(testing)
-  Benchmark.time("Time to convert and show") {result.select("ner", "ner_converter").show(truncate=false)}
+  Benchmark.time("Time to convert and show") {result.show(truncate=false)}
+
 
 }
