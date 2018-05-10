@@ -52,6 +52,12 @@ class DocumentAssembler(override val uid: String)
     Seq(Annotation(annotatorType, 0, text.length - 1, text, metadata))
   }
 
+  private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
+    texts.map(text => {
+      Annotation(annotatorType, 0, text.length - 1, text, Map.empty[String, String])
+    })
+  }
+
   private def dfAssemble: UserDefinedFunction = udf {
     (text: String, id: String, metadata: Map[String, String]) =>
       assemble(text, metadata ++ Map("id" -> id))
@@ -68,8 +74,12 @@ class DocumentAssembler(override val uid: String)
   }
 
   private def dfAssembleNoExtras: UserDefinedFunction = udf {
-    (text: String) =>
+    text: String =>
       assemble(text, Map.empty[String, String])
+  }
+
+  private def dfAssemblyFromArray: UserDefinedFunction = udf {
+    texts: Seq[String] => assembleFromArray(texts)
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
@@ -85,7 +95,11 @@ class DocumentAssembler(override val uid: String)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
     val documentAnnotations =
-      if (get(idCol).isDefined && get(metadataCol).isDefined)
+      if (dataset.schema.fields.find(_.name == getInputCol).get.dataType == ArrayType(StringType, containsNull = false))
+        dfAssemblyFromArray(
+          dataset.col(getInputCol)
+        )
+      else if (get(idCol).isDefined && get(metadataCol).isDefined)
         dfAssemble(
           dataset.col(getInputCol),
           dataset.col(getIdCol),
