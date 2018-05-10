@@ -52,7 +52,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
         .setInputCols(Array("normal"))
         .setOutputCol("spell")
         .setDictionary("src/test/resources/spell/words.txt")
-        .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
+        //.setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "[a-zA-Z]+")))
 
       val finisher = new Finisher()
         .setInputCols("spell")
@@ -72,5 +72,11 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
+  def testOutputSpellChecker(word: String): Unit = {
+    s"spell checker" should s"correctly correct a word" in {
+      val checkedWord = spellChecker.check(word)
+      println(checkedWord)
+    }
+  }
 
 }
