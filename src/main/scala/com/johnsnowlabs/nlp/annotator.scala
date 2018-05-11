@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
+import com.johnsnowlabs.nlp.annotators.{PretrainedLemmatizer, PretrainedNormalizer}
 import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
@@ -18,6 +18,8 @@ object annotator {
 
   type Normalizer = com.johnsnowlabs.nlp.annotators.Normalizer
   object Normalizer extends DefaultParamsReadable[Normalizer]
+  type NormalizerModel = com.johnsnowlabs.nlp.annotators.NormalizerModel
+  object NormalizerModel extends ParamsAndFeaturesReadable[NormalizerModel] with PretrainedNormalizer
 
   type DateMatcher = com.johnsnowlabs.nlp.annotators.DateMatcher
   object DateMatcher extends DefaultParamsReadable[DateMatcher]

@@ -188,6 +188,11 @@ class Normalizer(AnnotatorModel):
                       "lowercase",
                       "whether to convert strings to lowercase")
 
+    slangDictionary = Param(Params._dummy(),
+                            "slangDictionary",
+                            "slang dictionary is a delimited text. needs 'delimiter' in options",
+                            typeConverter=TypeConverters.identity)
+
     name = "Normalizer"
 
     @keyword_only
@@ -203,6 +208,12 @@ class Normalizer(AnnotatorModel):
 
     def setLowercase(self, value):
         return self._set(lowercase=value)
+
+    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
 
 class RegexMatcher(AnnotatorApproach):
@@ -524,10 +535,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
                    "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
                    typeConverter=TypeConverters.identity)
 
-    slangDictionary = Param(Params._dummy(),
-                            "slangDictionary",
-                            "slang dictionary is a delimited text. needs 'delimiter' in options",
-                            typeConverter=TypeConverters.identity)
+    # slangDictionary = Param(Params._dummy(),
+    #                         "slangDictionary",
+    #                         "slang dictionary is a delimited text. needs 'delimiter' in options",
+    #                         typeConverter=TypeConverters.identity)
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -561,11 +572,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
             opts["tokenPattern"] = token_pattern
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
-    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "delimiter" not in opts:
-            opts["delimiter"] = delimiter
-        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+    # def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    #     opts = options.copy()
+    #     if "delimiter" not in opts:
+    #         opts["delimiter"] = delimiter
+    #     return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)

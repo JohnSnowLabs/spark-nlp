@@ -39,4 +39,6 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
   "an isolated normalizer " should behave like testMultipleRegexPatterns(data)
 
+  "a loaded model " should behave like testLoadModel()
+
 }

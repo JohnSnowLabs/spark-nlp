@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
 
 trait NormalizerBehaviors { this: FlatSpec =>
 
@@ -128,6 +128,25 @@ trait NormalizerBehaviors { this: FlatSpec =>
       normalizedWords.foreach( words => {
         assert(words._1 == words._2)
       })
+    }
+  }
+
+  def testLoadModel(): Unit = {
+    s"a Normalizer annotator with a load model" should
+      "successfully normalize words" in {
+      val data = Seq("gr8").toDS.toDF("text")
+      data.show()
+      val pretrainedPipeline = BasicPipeline().pretrained()
+      val pdata = pretrainedPipeline.transform(data)
+      val normalizer = new Normalizer()
+        .setInputCols(Array("text"))
+        .setOutputCol("normalized")
+        .setSlangDictionary(ExternalResource("src/test/resources/spell/slangs.txt",
+          ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      val tempNormalizer = normalizer.fit(pdata)
+      tempNormalizer.write.overwrite.save("./tmp_symspell")
+      val modelNormalizer = NormalizerModel.load("./tmp_symspell")
+      modelNormalizer.transform(pdata).show(5)
     }
   }
 
