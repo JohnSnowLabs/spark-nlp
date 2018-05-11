@@ -3,9 +3,9 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorModel}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -20,16 +20,18 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val requiredAnnotatorTypes: Array[String] = Array(TOKEN)
 
-  val pattern = new Param[String](this, "pattern", "normalization regex pattern which match will be replaced with a space")
+  val pattern = new StringArrayParam(this, "pattern",
+    "normalization regex pattern which match will be replaced with a space")
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
-  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
+  val slangDictionary = new ExternalResourceParam(this,
+    "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(pattern, "[^\\pL+]")
+  setDefault(pattern, Array("[^\\pL+]"))
   setDefault(lowercase, false)
 
-  def getPattern: String = $(pattern)
+  def getPattern: Array[String] = $(pattern)
 
-  def setPattern(value: String): this.type = set(pattern, value)
+  def setPattern(value: Array[String]): this.type = set(pattern, value)
 
   def getLowercase: Boolean = $(lowercase)
 
@@ -60,7 +62,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
       .setLowerCase($(lowercase))
       .setSlangDict(loadSlangs)
   }
-  _
+
 }
 
 object Normalizer extends DefaultParamsReadable[Normalizer]

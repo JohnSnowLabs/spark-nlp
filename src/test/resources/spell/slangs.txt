@@ -1,1 +1,4 @@
 gr8,great
+4,for
+b4,before
+lol, laugh out loud

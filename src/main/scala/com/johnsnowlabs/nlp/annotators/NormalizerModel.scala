@@ -4,9 +4,8 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadab
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.slf4j.LoggerFactory
 
 class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel]{
 
@@ -14,17 +13,16 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  val pattern = new Param[String](this, "pattern", "normalization regex pattern which match will be replaced with a space")
+  val pattern = new StringArrayParam(this, "pattern",
+    "normalization regex pattern which match will be replaced with a space")
 
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
   protected val slangDict: MapFeature[String, String] = new MapFeature(this, "slangDict")
 
-  private val logger = LoggerFactory.getLogger("NorvigApproach")
-
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  def setPattern(value: String): this.type = set(pattern, value)
+  def setPattern(value: Array[String]): this.type = set(pattern, value)
 
   def setLowerCase(value: Boolean): this.type = set(lowercase, value)
 
@@ -47,9 +45,12 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
           cased
         }
 
-      val nToken = correctedWord
-        .replaceAll($(pattern), "")
-        .trim
+      val nToken = {
+        get(pattern).map(_.foldLeft(correctedWord)((currentText, compositeToken) => {
+          currentText.replaceAll(compositeToken,"")
+        })).getOrElse(correctedWord)
+      }
+
       Annotation(
         annotatorType,
         token.begin,
