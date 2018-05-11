@@ -51,7 +51,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCols(Array("token"))
       .setOutputCol("normalized")
       .setLowercase(lowerCase)
-    normalizer.transform(withTokenizer(dataset))
+    val tokenized = withTokenizer(dataset)
+    normalizer.fit(dataset).transform(tokenized).show(5)
+    normalizer.fit(dataset).transform(tokenized)
   }
 
   def withCaseSensitiveNormalizer(dataset: Dataset[Row]): Dataset[Row] = {
@@ -59,7 +61,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCols(Array("token"))
       .setOutputCol("normalized")
       .setLowercase(false)
-    normalizer.transform(withTokenizer(dataset))
+    val tokenized = withTokenizer(dataset)
+    normalizer.fit(dataset).transform(tokenized).show(5)
+    normalizer.fit(dataset).transform(tokenized)
   }
 
   def withFullLemmatizer(dataset: Dataset[Row]): Dataset[Row] = {
