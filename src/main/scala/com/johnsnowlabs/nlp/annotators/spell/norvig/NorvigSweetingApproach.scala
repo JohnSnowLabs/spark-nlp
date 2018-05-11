@@ -17,7 +17,7 @@ class NorvigSweetingApproach(override val uid: String)
 
   val corpus = new ExternalResourceParam(this, "corpus", "folder or file with text that teaches about the language")
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
-  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
+  //val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
   setDefault(caseSensitive, true)
   setDefault(doubleVariants, false)
@@ -45,7 +45,7 @@ class NorvigSweetingApproach(override val uid: String)
                     options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
-  def setSlangDictionary(value: ExternalResource): this.type = {
+  /*def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
   }
@@ -54,7 +54,7 @@ class NorvigSweetingApproach(override val uid: String)
                          delimiter: String,
                          readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                          options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+    set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))*/
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -75,13 +75,13 @@ class NorvigSweetingApproach(override val uid: String)
           .as[(String, Long)]
           .collect.toMap
       }
-    val loadSlangs = if (get(slangDictionary).isDefined)
+    /*val loadSlangs = if (get(slangDictionary).isDefined)
       ResourceHelper.parseKeyValueText($(slangDictionary))
     else
-      Map.empty[String, String]
+      Map.empty[String, String]*/
     new NorvigSweetingModel()
       .setWordCount(loadWords ++ corpusWordCount)
-      .setCustomDict(loadSlangs)
+      //.setCustomDict(loadSlangs)
       .setDoubleVariants($(doubleVariants))
       .setCaseSensitive($(caseSensitive))
       .setShortCircuit($(shortCircuit))

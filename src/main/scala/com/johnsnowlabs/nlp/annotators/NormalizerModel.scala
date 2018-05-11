@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
-class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel]{
+class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] {
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -30,7 +30,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
-  /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens*/
+  /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { token =>
 
@@ -39,7 +39,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
         else token.result
 
       val correctedWord =
-        if ($$(slangDict).contains(cased)){
+        if ($$(slangDict).contains(cased)) {
           $$(slangDict)(cased)
         } else {
           cased
@@ -47,7 +47,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
       val nToken = {
         get(pattern).map(_.foldLeft(correctedWord)((currentText, compositeToken) => {
-          currentText.replaceAll(compositeToken,"")
+          currentText.replaceAll(compositeToken, "")
         })).getOrElse(correctedWord)
       }
 
@@ -62,10 +62,10 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
 }
 
-trait  PretrainedNormalizer {
+trait PretrainedNormalizer {
   def pretrained(name: String = "norm_fast", language: Option[String] = Some("en"),
-                 remoteLoc: String = ResourceDownloader.publicLoc): LemmatizerModel =
-    ResourceDownloader.downloadModel(LemmatizerModel, name, language, remoteLoc)
+                 remoteLoc: String = ResourceDownloader.publicLoc): NormalizerModel =
+    ResourceDownloader.downloadModel(NormalizerModel, name, language, remoteLoc)
 }
 
 object NormalizerModel extends ParamsAndFeaturesReadable[NormalizerModel] with PretrainedNormalizer
