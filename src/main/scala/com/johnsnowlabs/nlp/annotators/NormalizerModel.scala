@@ -28,34 +28,41 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
+  def applyRegexPatterns(word: String): String ={
+
+    val nToken = {
+      get(pattern).map(_.foldLeft(word)((currentText, compositeToken) => {
+        currentText.replaceAll(compositeToken, "")
+      })).getOrElse(word)
+    }
+    nToken
+  }
+
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
+
     annotations.map { token =>
 
       val cased =
         if ($(lowercase)) token.result.toLowerCase
         else token.result
 
-      val correctedWord =
+      val correctedWords =
         if ($$(slangDict).contains(cased)) {
           $$(slangDict)(cased)
         } else {
           cased
         }
 
-      val nToken = {
-        get(pattern).map(_.foldLeft(correctedWord)((currentText, compositeToken) => {
-          currentText.replaceAll(compositeToken, "")
-        })).getOrElse(correctedWord)
-      }
+      val finalWords = correctedWords.split(" ").map(word => applyRegexPatterns(word))
 
       Annotation(
         annotatorType,
         token.begin,
         token.end,
-        nToken,
+        finalWords.mkString(" "),
         token.metadata
       )
     }.filter(_.result.nonEmpty)
