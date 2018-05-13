@@ -139,7 +139,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
       //val pretrainedPipeline = BasicPipeline().pretrained() //download from S3, thus it has outdated version
       //val pdata = pretrainedPipeline.transform(data)
       //pdata.show()
-      val homePath = "/Users/dburbano/IdeaProjects/spark-nlp-models/models/"
+      val homePath = "HOMEPATH/spark-nlp-models/models/"
       //val lemmaModel = LemmatizerModel.load(homePath+"lemma_fast_en_1.5.3_2_1526218239169")
       val normModel = NormalizerModel.load(homePath+"norm_fast_en_1.5.3_2_1526218675158")
 
