@@ -72,11 +72,4 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
-  def testOutputSpellChecker(word: String): Unit = {
-    s"spell checker" should s"correctly correct a word" in {
-      val checkedWord = spellChecker.check(word)
-      println(checkedWord)
-    }
-  }
-
 }
