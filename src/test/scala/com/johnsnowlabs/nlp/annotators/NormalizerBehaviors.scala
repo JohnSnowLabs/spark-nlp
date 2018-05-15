@@ -134,15 +134,46 @@ trait NormalizerBehaviors { this: FlatSpec =>
   def testLoadModel(): Unit = {
     s"a Normalizer annotator with a load model" should
       "successfully normalize words" in {
-      val data = Seq("gr8").toDS.toDF("token")
+      val data = Seq("gr8").toDS.toDF("text")
       data.show()
-      //val pretrainedPipeline = BasicPipeline().pretrained() //download from S3, thus it has outdated version
-      val homePath = "/Users/dburbano/IdeaProjects/spark-nlp-models/models/"
-      val normModel = NormalizerModel.load(homePath+"norm_fast_en_1.5.3_2_1526218675158")
+      val path = "./tmp_normalizer"
 
-      println("Normalizer Model")
-      normModel.transform(data).show()
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
 
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val normalizer = new Normalizer()
+        .setInputCols(Array("token"))
+        .setOutputCol("normal")
+        .setSlangDictionary("src/test/resources/spell/slangs.txt",",")
+
+      val trainNormalizer = normalizer.fit(data)
+      trainNormalizer.write.overwrite.save(path)
+
+      val loadedNormalizer = NormalizerModel.load(path)
+
+      val finisher = new Finisher()
+        .setInputCols("normal")
+        .setOutputAsArray(false)
+        .setIncludeKeys(false)
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          loadedNormalizer,
+          finisher
+        ))
+
+      val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
+      val transform = model.transform(data)
+      transform.show()
+      val normalizedWords = transform.select("finished_normal").map(r => r.getString(0)).collect.toList
+      assert("great" == normalizedWords.head)
     }
   }
 
