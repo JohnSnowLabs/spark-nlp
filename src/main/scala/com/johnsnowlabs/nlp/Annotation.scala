@@ -110,29 +110,38 @@ object Annotation {
       .take(howMany)
   }
 
-  /** dataframe annotation flatmap of metadata values */
+  /** dataframe annotation flatmap of results into strings*/
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(r =>
+      annotations: Seq[Row] => annotations.map(r =>
         r.getString(3)
       ).mkString(aSep)
     }
   }
 
-  /** dataframe annotation flatmap of metadata key values */
-  def flattenKV(vSep: String, aSep: String): UserDefinedFunction = {
+  /** dataframe annotation flatmap of results and metadata key values into strings */
+  def flattenDetail(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(r =>
+      annotations: Seq[Row] => annotations.map(r =>
         (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
       ).mkString(aSep)
     }
   }
 
-  /** dataframe annotation flatmap of metadata values as ArrayType */
+  /** dataframe annotation flatmap of result values as ArrayType */
   def flattenArray: UserDefinedFunction = {
     udf {
-      (annotations: Seq[Row]) => annotations.map(r =>
+      annotations: Seq[Row] => annotations.map(r =>
         r.getString(3)
+      )
+    }
+  }
+
+  /** dataframe annotation flatmap of metadata values as ArrayType */
+  def flattenArrayMetadata: UserDefinedFunction = {
+    udf {
+      annotations: Seq[Row] => annotations.map(r =>
+        r.getMap[String, String](4)
       )
     }
   }

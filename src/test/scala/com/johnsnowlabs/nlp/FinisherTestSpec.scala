@@ -47,7 +47,7 @@ class FinisherTestSpec extends FlatSpec {
       .setAnnotationSplitSymbol("%")
       .setValueSplitSymbol("&")
       .setCleanAnnotations(false)
-      .setIncludeKeys(true)
+      .setIncludeMetadata(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(

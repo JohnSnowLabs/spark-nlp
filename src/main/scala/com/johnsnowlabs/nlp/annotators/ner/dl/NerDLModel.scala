@@ -69,10 +69,10 @@ class NerDLModel(override val uid: String)
     val labels = model.predict(tokenized)
 
     // Combine labels with sentences tokens
-    (0 until tokenized.length).map { i =>
+    tokenized.indices.map { i =>
       val sentence = tokenized(i)
 
-      val tokens = (0 until sentence.tokens.length).map { j =>
+      val tokens = sentence.tokens.indices.map { j =>
         val token = sentence.indexedTokens(j)
         val label = labels(i)(j)
         IndexedTaggedWord(token.token, label, token.begin, token.end)
