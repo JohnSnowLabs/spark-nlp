@@ -67,7 +67,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("normalized")
         .setOutputAsArray(false)
-        .setIncludeKeys(false)
+        .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -109,7 +109,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("normalized")
         .setOutputAsArray(false)
-        .setIncludeKeys(false)
+        .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -159,7 +159,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("normal")
         .setOutputAsArray(false)
-        .setIncludeKeys(false)
+        .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
         .setStages(Array(
