@@ -107,7 +107,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
   }
 
-  def withRegexMatcher(dataset: Dataset[Row], rules: Array[(String, String)] = Array.empty[(String, String)], strategy: String): Dataset[Row] = {
+  def withRegexMatcher(dataset: Dataset[Row], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
       .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
       .setStrategy(strategy)

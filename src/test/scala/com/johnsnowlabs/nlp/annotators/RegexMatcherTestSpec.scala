@@ -12,5 +12,4 @@ class RegexMatcherTestSpec extends FlatSpec with RegexMatcherBehaviors {
     ("ceremonies", "ceremony")
   )
   "A full RegexMatcher pipeline with content" should behave like customizedRulesRegexMatcher(df, rules, strategy)
-  it should behave like predefinedRulesRegexMatcher(df, strategy)
 }
