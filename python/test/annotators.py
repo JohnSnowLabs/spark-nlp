@@ -328,15 +328,3 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
-
-
-class ModelTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.data = SparkContextForTest.data
-
-    def runTest(self):
-        locdata = list(map(lambda d: d[0], self.data.select("text").collect()))
-        BasicPipeline.annotate(self.data, "text").show()
-        print(BasicPipeline.annotate(locdata))
-        print(BasicPipeline.annotate("Joe is running under the rain"))
-

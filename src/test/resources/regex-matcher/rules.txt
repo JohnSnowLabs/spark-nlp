@@ -1,2 +1,2 @@
 the\s\w+, followed by 'the'
-ceremonies, "ceremony"
+ceremonies, ceremony

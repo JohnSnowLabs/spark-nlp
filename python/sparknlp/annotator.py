@@ -10,11 +10,11 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
-# Do NOT delete. Looks redundant but this is a workaround for model deSer from disk
-import com.johnsnowlabs.nlp
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
     from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
+else:
+    import com.johnsnowlabs.nlp
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
