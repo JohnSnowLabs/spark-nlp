@@ -12,7 +12,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
       ("delicatly", "delicately"),
       ("efusive", "effusive"),
       ("lauging", "laughing"),
-      ("gr8", "great"),
+      //("gr8", "great"),
       ("juuuuuuuuuuuuuuuussssssssssttttttttttt", "just"),
       ("screeeeeeeewed", "screwed"),
       ("readampwritepeaceee", "readampwritepeaceee")
@@ -28,7 +28,5 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
   )
 
   "a good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
-
-  //"a simple spell checker of a word" should behave like testOutputSpellChecker("wouls")
-
+  
 }
