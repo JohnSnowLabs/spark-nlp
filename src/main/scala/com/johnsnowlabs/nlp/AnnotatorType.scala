@@ -6,7 +6,6 @@ object AnnotatorType {
   val DATE = "date"
   val ENTITY = "entity"
   val REGEX = "regex"
-  val SPELL = "spell"
   val SENTIMENT = "sentiment"
   val POS = "pos"
   val NAMED_ENTITY = "named_entity"
