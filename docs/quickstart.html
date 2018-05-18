@@ -333,9 +333,16 @@ val regexTokenizer = new Tokenizer()
                                     <p>
                                         Now we want to put all this together and retrieve the results,
                                         we use a Pipeline for this. We also include another special transformer,
-                                        called <b>Finisher</b> to show tokens in a human language
+                                        called <b>Finisher</b> to show tokens in a human language.
+                                        We use an emptyDataFrame in fit() since none of the pipeline stages
+                                        have a training stage.
                                     </p>
-                                    <pre><code class="language-javascript">val finisher = new Finisher()
+                                    <pre><code class="language-javascript">
+val testData = Seq("Lorem ipsum dolor sit amet, " +
+    "consectetur adipiscing elit, sed do eiusmod tempor " +
+    "incididunt ut labore et dolore magna aliqua.").toDF("text")
+
+val finisher = new Finisher()
     .setInputCols("token")
     .setCleanAnnotations(false)
 
@@ -348,10 +355,26 @@ val pipeline = new Pipeline()
     ))
 
 pipeline
-    .fit(data)
+    .fit(spark.emptyDataFrame)
     .transform(data)
     .show()</code></pre>
                                 </div>
+                            </div>
+                        </section>
+                        <section id="next-section" class="doc-section">
+                            <h2 class="section-title">Where to go next?</h2>
+                            <div id="next-type-section" class="section-block">
+                                <h3 class="block-title">Documentation and reference</h3>
+                                <p>
+                                    Detailed information about Spark-NLP concepts, annotators and more may be found
+                                    <a href="http://nlp.johnsnowlabs.com/components.html">HERE</a>
+                                <p>
+                                <h3 class="block-title">More examples in Scala and Python</h3>
+                                <p>
+                                    We are working on examples to show you how the library may be used in
+                                    different scenarios, take a look <a href="http://nlp.johnsnowlabs.com/notebooks.html">HERE</a>
+                                <p>
+                            </p>
                             </div>
                         </section>
                     </div>
@@ -365,15 +388,12 @@ pipeline
                             <li>
                                 <a class="scrollto" href="#annotators-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#anno-functions">Functions</a></li>
-                                    <li><a class="scrollto" href="#anno-doc-example">Example</a></li>
+                                    <li><a class="scrollto" href="#annotators-type-section-quick">Quick results test</a></li>
+                                    <li><a class="scrollto" href="#example-section">Your own Pipeline</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a class="scrollto" href="#annotators-type-section">Annotator types</a>
-                                <ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#using-pipelines">Using Pipelines</a></li>
-                                </ul>
+                                <a class="scrollto" href="#next-type-section">What next</a>
                             </li>
                         </ul>
                     </nav>
