@@ -53,7 +53,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
 
   // AnnotatorType shows the structure of the result, we can have annotators with the same result
-  override val annotatorType: AnnotatorType = SPELL
+  override val annotatorType: AnnotatorType = TOKEN
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
 
