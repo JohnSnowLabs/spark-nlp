@@ -24,7 +24,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private val vowels = "aeiouy".toCharArray
 
   protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
-  protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
+  //protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
   private val config: Config = ConfigFactory.load
@@ -43,10 +43,10 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def this() = this(Identifiable.randomUID("SPELL"))
 
   def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
-  def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
+  //def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
 
   protected def getWordCount: Map[String, Long] = $$(wordCount)
-  protected def getCustomDict: Map[String, String] = $$(customDict)
+  //protected def getCustomDict: Map[String, String] = $$(customDict)
 
   /** Utilities */
   /** number of items duplicated in some text */
@@ -165,9 +165,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     if (allWords.contains(word)) {
       logger.debug("Word found in dictionary. No spell change")
       Some(word)
-    } else if ($$(customDict).contains(word)) {
+    /*} else if ($$(customDict).contains(word)) {
       logger.debug("Word custom dictionary found. Replacing")
-      Some($$(customDict)(word))
+      Some($$(customDict)(word))*/
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
       Some(word.distinct)

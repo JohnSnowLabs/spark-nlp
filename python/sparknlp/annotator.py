@@ -179,14 +179,19 @@ class Stemmer(AnnotatorModel):
 
 class Normalizer(AnnotatorModel):
 
-    pattern = Param(Params._dummy(),
-                    "pattern",
-                    "normalization regex pattern which match will be replaced with a space",
-                    typeConverter=TypeConverters.toString)
+    patterns = Param(Params._dummy(),
+                     "patterns",
+                     "normalization regex patterns which match will be replaced with a space",
+                     typeConverter=TypeConverters.toString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
                       "whether to convert strings to lowercase")
+
+    slangDictionary = Param(Params._dummy(),
+                            "slangDictionary",
+                            "slang dictionary is a delimited text. needs 'delimiter' in options",
+                            typeConverter=TypeConverters.identity)
 
     name = "Normalizer"
 
@@ -194,15 +199,21 @@ class Normalizer(AnnotatorModel):
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
-            pattern="[^\\pL+]",
+            patterns="[^\\pL+]",
             lowercase=True
         )
 
-    def setPattern(self, value):
-        return self._set(pattern=value)
+    def setPatterns(self, value):
+        return self._set(patterns=value)
 
     def setLowercase(self, value):
         return self._set(lowercase=value)
+
+    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
 
 class RegexMatcher(AnnotatorApproach):
@@ -524,10 +535,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
                    "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
                    typeConverter=TypeConverters.identity)
 
-    slangDictionary = Param(Params._dummy(),
-                            "slangDictionary",
-                            "slang dictionary is a delimited text. needs 'delimiter' in options",
-                            typeConverter=TypeConverters.identity)
+    # slangDictionary = Param(Params._dummy(),
+    #                         "slangDictionary",
+    #                         "slang dictionary is a delimited text. needs 'delimiter' in options",
+    #                         typeConverter=TypeConverters.identity)
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -561,11 +572,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
             opts["tokenPattern"] = token_pattern
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
-    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "delimiter" not in opts:
-            opts["delimiter"] = delimiter
-        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+    # def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    #     opts = options.copy()
+    #     if "delimiter" not in opts:
+    #         opts["delimiter"] = delimiter
+    #     return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
