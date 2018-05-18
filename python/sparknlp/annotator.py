@@ -203,7 +203,7 @@ class Normalizer(AnnotatorModel):
             lowercase=True
         )
 
-    def setPattern(self, value):
+    def setPatterns(self, value):
         return self._set(patterns=value)
 
     def setLowercase(self, value):

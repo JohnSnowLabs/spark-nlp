@@ -22,7 +22,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  def setPattern(value: Array[String]): this.type = set(patterns, value)
+  def setPatterns(value: Array[String]): this.type = set(patterns, value)
 
   def setLowerCase(value: Boolean): this.type = set(lowercase, value)
 
@@ -74,3 +74,5 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     }.filter(_.result.nonEmpty)
 
 }
+
+object NormalizerModel extends ParamsAndFeaturesReadable[NormalizerModel]

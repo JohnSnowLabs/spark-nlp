@@ -29,9 +29,9 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   setDefault(patterns, Array("[^\\pL+]"))
   setDefault(lowercase, false)
 
-  def getPattern: Array[String] = $(patterns)
+  def getPatterns: Array[String] = $(patterns)
 
-  def setPattern(value: Array[String]): this.type = set(patterns, value)
+  def setPatterns(value: Array[String]): this.type = set(patterns, value)
 
   def getLowercase: Boolean = $(lowercase)
 
@@ -58,7 +58,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
       Map.empty[String, String]
 
     new NormalizerModel()
-      .setPattern($(patterns))
+      .setPatterns($(patterns))
       .setLowerCase($(lowercase))
       .setSlangDict(loadSlangs)
   }
