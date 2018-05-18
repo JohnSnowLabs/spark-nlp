@@ -95,7 +95,9 @@ class DocumentAssembler(override val uid: String)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
     val documentAnnotations =
-      if (dataset.schema.fields.find(_.name == getInputCol).get.dataType == ArrayType(StringType, containsNull = false))
+      if (dataset.schema.fields.find(_.name == getInputCol)
+          .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
+          .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(
           dataset.col(getInputCol)
         )
