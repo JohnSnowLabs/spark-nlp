@@ -179,10 +179,10 @@ class Stemmer(AnnotatorModel):
 
 class Normalizer(AnnotatorModel):
 
-    pattern = Param(Params._dummy(),
-                    "pattern",
-                    "normalization regex pattern which match will be replaced with a space",
-                    typeConverter=TypeConverters.toString)
+    patterns = Param(Params._dummy(),
+                     "patterns",
+                     "normalization regex patterns which match will be replaced with a space",
+                     typeConverter=TypeConverters.toString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
@@ -199,12 +199,12 @@ class Normalizer(AnnotatorModel):
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
-            pattern="[^\\pL+]",
+            patterns="[^\\pL+]",
             lowercase=True
         )
 
     def setPattern(self, value):
-        return self._set(pattern=value)
+        return self._set(patterns=value)
 
     def setLowercase(self, value):
         return self._set(lowercase=value)

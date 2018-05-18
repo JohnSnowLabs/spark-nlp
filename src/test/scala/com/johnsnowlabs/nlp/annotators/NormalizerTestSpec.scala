@@ -24,7 +24,7 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
 
   var data = Seq(
-    ("lol", "laugh out loud"),
+    //("lol", "laugh out loud"),
     ("gr8", "great"),
      ("b4", "before"),
     ("4", "for")
@@ -39,6 +39,6 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
   "an isolated normalizer " should behave like testMultipleRegexPatterns(data)
 
-  "a loaded model " should behave like testLoadModel()
+  //"a loaded model " should behave like testLoadModel()
 
 }

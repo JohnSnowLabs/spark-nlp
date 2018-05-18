@@ -154,7 +154,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
       val trainNormalizer = normalizer.fit(data)
       trainNormalizer.write.overwrite.save(path)
 
-      val loadedNormalizer = NormalizerModel.load(path)
+      val loadedNormalizer = Normalizer.load(path)
 
       val finisher = new Finisher()
         .setInputCols("normal")

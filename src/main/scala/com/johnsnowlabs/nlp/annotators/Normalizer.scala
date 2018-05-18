@@ -20,18 +20,18 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val requiredAnnotatorTypes: Array[String] = Array(TOKEN)
 
-  val pattern = new StringArrayParam(this, "pattern",
-    "normalization regex pattern which match will be replaced with a space")
+  val patterns = new StringArrayParam(this, "patterns",
+    "normalization regex patterns which match will be replaced with a space")
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
   val slangDictionary = new ExternalResourceParam(this,
     "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(pattern, Array("[^\\pL+]"))
+  setDefault(patterns, Array("[^\\pL+]"))
   setDefault(lowercase, false)
 
-  def getPattern: Array[String] = $(pattern)
+  def getPattern: Array[String] = $(patterns)
 
-  def setPattern(value: Array[String]): this.type = set(pattern, value)
+  def setPattern(value: Array[String]): this.type = set(patterns, value)
 
   def getLowercase: Boolean = $(lowercase)
 
@@ -58,7 +58,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
       Map.empty[String, String]
 
     new NormalizerModel()
-      .setPattern($(pattern))
+      .setPattern($(patterns))
       .setLowerCase($(lowercase))
       .setSlangDict(loadSlangs)
   }
