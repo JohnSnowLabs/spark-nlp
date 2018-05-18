@@ -1,4 +1,36 @@
 ========
+1.5.4
+========
+---------------
+Overview
+---------------
+This release improves various annotators: the Normalizer, SymmetricDelete, TextMatcher, DocumentAssembler and Finisher
+allowing them to cover more use-cases that were mentioned in our Slack channel. We also fixed two important bugs.
+Finally, this will be our first release with PIP support for python sparknlp, for those entirely python based.
+
+---------------
+Enhancements
+---------------
+* Normalizer now allows multiple to-delete regex patterns.
+* Normalizer slangDictionary param allows converting tokens into something else (e.g. 'lol' into 'laughing out loud') from a dictionary file
+* SymmetricDelete spell checker may now be trained from the dataset passed to fit if external corpus not provided
+* SymmetricDelete spell checker improved training and prediction performance
+* Finisher param includeMetadata now outputs annotation metadata content both in Array format or String format
+* DocumentAssembler may now read from Array[String] column if provided. This improves compatibility for some SparkML transformers
+* TextMatcher now includes identifier name in metadata
+
+---------------
+Bug fixes
+---------------
+* Fixed a bug introduced in 1.5.3 that made spark-nlp not to work in Python2 (thanks @surendralalwani)
+* Fixed SymmetricDeleteApproach wrong annotator type
+
+---------------
+Other
+---------------
+* setup.py for PIP support (instructions will be added to readme and website). Still needs spark-nlp jar in SparkSession classpath.
+
+========
 1.5.3
 ========
 ---------------
