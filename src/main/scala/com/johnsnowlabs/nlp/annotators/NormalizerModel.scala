@@ -13,8 +13,8 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  val pattern = new StringArrayParam(this, "pattern",
-    "normalization regex pattern which match will be replaced with a space")
+  val patterns = new StringArrayParam(this, "patterns",
+    "normalization regex patterns which match will be replaced with a space")
 
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
@@ -22,20 +22,34 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  def setPattern(value: Array[String]): this.type = set(pattern, value)
+  def setPattern(value: Array[String]): this.type = set(patterns, value)
 
   def setLowerCase(value: Boolean): this.type = set(lowercase, value)
 
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
-  def applyRegexPatterns(word: String): String ={
+  def applyRegexPatterns(word: String): String = {
 
     val nToken = {
-      get(pattern).map(_.foldLeft(word)((currentText, compositeToken) => {
+      get(patterns).map(_.foldLeft(word)((currentText, compositeToken) => {
         currentText.replaceAll(compositeToken, "")
       })).getOrElse(word)
     }
     nToken
+  }
+
+  def getAnnotation(word: String, token: Annotation, finalWords: Array[String], index: Int): Annotation = {
+    if (finalWords.length > 1) {
+      Annotation(annotatorType,0,word.length-1,word,Map("sentence"->index.toString))
+    } else {
+      Annotation(
+        annotatorType,
+        token.begin,
+        token.end,
+        word,
+        token.metadata)
+    }
+
   }
 
   protected def getSlangDict: Map[String, String] = $$(slangDict)
@@ -43,36 +57,20 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
 
-    annotations.map { token =>
+    annotations.flatMap { token =>
 
       val cased =
         if ($(lowercase)) token.result.toLowerCase
         else token.result
 
-      val correctedWords =
-        if ($$(slangDict).contains(cased)) {
-          $$(slangDict)(cased)
-        } else {
-          cased
-        }
+      val correctedWords = $$(slangDict).getOrElse(cased, cased)
 
       val finalWords = correctedWords.split(" ").map(word => applyRegexPatterns(word))
 
-      Annotation(
-        annotatorType,
-        token.begin,
-        token.end,
-        finalWords.mkString(" "),
-        token.metadata
-      )
+      val annotations = finalWords.zipWithIndex.map{case (word, index) =>
+        getAnnotation(word, token, finalWords, index+1)}
+
+      annotations
     }.filter(_.result.nonEmpty)
 
 }
-
-trait PretrainedNormalizer {
-  def pretrained(name: String = "norm_fast", language: Option[String] = Some("en"),
-                 remoteLoc: String = ResourceDownloader.publicLoc): NormalizerModel =
-    ResourceDownloader.downloadModel(NormalizerModel, name, language, remoteLoc)
-}
-
-object NormalizerModel extends ParamsAndFeaturesReadable[NormalizerModel] with PretrainedNormalizer
