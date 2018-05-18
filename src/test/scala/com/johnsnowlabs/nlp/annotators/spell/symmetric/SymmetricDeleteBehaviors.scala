@@ -144,7 +144,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val corpusData = Seq.empty[String].toDS
       val path = "src/test/resources/spell/misspelled_words.csv"
       val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
-      data.show(10)
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("misspell")
@@ -182,10 +181,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       Benchmark.time("without dictionary") { //to measure proceesing time
         var correctedData = model.transform(data)
-        correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
           when(col("word") === col("finished_spell"), 1).otherwise(0))
-        correctedData.show(10)
         val rightCorrections = correctedData.filter(col("prediction")===1).count()
         val wrongCorrections = correctedData.filter(col("prediction")===0).count()
         printf("Right Corrections: %d \n", rightCorrections)
@@ -203,7 +200,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val corpusData = Seq.empty[String].toDS
       val path = "src/test/resources/spell/misspelled_words.csv"
       val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
-      data.show(10)
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("misspell")
@@ -214,9 +210,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("token")
 
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
-      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
-      // val corpusPath = "/Users/dburbano/IdeaProjects/spark-nlp-models/src/main/resources/spell//coca2017.txt"
-      //val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
@@ -242,10 +235,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       Benchmark.time("with dictionary") { //to measure processing time
         var correctedData = model.transform(data)
-        correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
           when(col("word") === col("finished_spell"), 1).otherwise(0))
-        correctedData.show(10)
         val rightCorrections = correctedData.filter(col("prediction")===1).count()
         val wrongCorrections = correctedData.filter(col("prediction")===0).count()
         printf("Right Corrections: %d \n", rightCorrections)
@@ -263,7 +254,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       val dataPath = "src/test/resources/spell/misspelled_words.csv"
       val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(dataPath)
-      data.show(10)
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -277,10 +267,10 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("token"))
         .setOutputCol("normal")
         .setLowercase(true)
-        //.setPattern("[^A-Za-z-]")*/
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("normal"))
+        .setDictionary("src/test/resources/spell/words.txt")
         .setOutputCol("spell")
 
       val finisher = new Finisher()
@@ -305,10 +295,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
                              data.col("word"))
 
         var correctedData = model.transform(df)
-        correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
           when(col("word") === col("finished_spell"), 1).otherwise(0))
-        correctedData.show(10)
         val rightCorrections = correctedData.filter(col("prediction")===1).count()
         val wrongCorrections = correctedData.filter(col("prediction")===0).count()
         printf("Right Corrections: %d \n", rightCorrections)
@@ -327,7 +315,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       val dataPath = "src/test/resources/spell/misspelled_words.csv"
       val data = SparkAccessor.spark.read.format("csv").option("header", "true").load(dataPath)
-      data.show(10)
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -341,7 +328,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setInputCols(Array("token"))
         .setOutputCol("normal")
         .setLowercase(true)
-      //.setPattern("[^A-Za-z-]")*/
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("normal"))
@@ -370,10 +356,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
           data.col("word"))
 
         var correctedData = model.transform(df)
-        correctedData.show(10)
         correctedData = correctedData.withColumn("prediction",
           when(col("word") === col("finished_spell"), 1).otherwise(0))
-        correctedData.show(10)
         val rightCorrections = correctedData.filter(col("prediction")===1).count()
         val wrongCorrections = correctedData.filter(col("prediction")===0).count()
         printf("Right Corrections: %d \n", rightCorrections)
@@ -389,9 +373,27 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     s"a SymSpellChecker annotator with load model of" should
       "successfully correct words" in {
       val data = Seq("Hello World").toDS.toDF("text")
-      data.show()
-      val pretrainedPipeline = BasicPipeline().pretrained()
-      val pdata = pretrainedPipeline.transform(data)
+
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val normalizer = new Normalizer()
+        .setInputCols(Array("token"))
+        .setOutputCol("normal")
+        .setLowercase(true)
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          normalizer
+        ))
+      val pdata = pipeline.fit(Seq.empty[String].toDF("text")).transform(data)
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
         .setOutputCol("spell")

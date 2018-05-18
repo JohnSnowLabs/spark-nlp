@@ -37,7 +37,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         stemmed = stemmer.transform(tokenized)
-        normalized = normalizer.transform(stemmed)
+        normalized = normalizer.fit(stemmed).transform(stemmed)
         reassembled = token_assembler.transform(normalized)
         finisher.transform(reassembled).show()
 

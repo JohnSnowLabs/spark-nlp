@@ -177,12 +177,12 @@ class Stemmer(AnnotatorModel):
         )
 
 
-class Normalizer(AnnotatorModel):
+class Normalizer(AnnotatorApproach):
 
     patterns = Param(Params._dummy(),
                      "patterns",
                      "normalization regex patterns which match will be replaced with a space",
-                     typeConverter=TypeConverters.toString)
+                     typeConverter=TypeConverters.toListString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
@@ -193,13 +193,11 @@ class Normalizer(AnnotatorModel):
                             "slang dictionary is a delimited text. needs 'delimiter' in options",
                             typeConverter=TypeConverters.identity)
 
-    name = "Normalizer"
-
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
-            patterns="[^\\pL+]",
+            patterns=["[^\\pL+]"],
             lowercase=True
         )
 
@@ -214,6 +212,19 @@ class Normalizer(AnnotatorModel):
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return NormalizerModel(java_model)
+
+
+class NormalizerModel(AnnotatorModel):
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(NormalizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NormalizerModel")
+
+    name = "RegexMatcherModel"
 
 
 class RegexMatcher(AnnotatorApproach):
