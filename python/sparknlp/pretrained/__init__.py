@@ -13,7 +13,7 @@ class ResourceDownloader(object):
         PerceptronModel.name: lambda: PerceptronModel(),
         NerCrfModel.name: lambda: NerCrfModel(),
         Stemmer.name: lambda: Stemmer(),
-        Normalizer.name: lambda: Normalizer(),
+        NormalizerModel.name: lambda: NormalizerModel(),
         RegexMatcherModel.name: lambda: RegexMatcherModel(),
         LemmatizerModel.name: lambda: LemmatizerModel(),
         DateMatcher.name: lambda: DateMatcher(),
