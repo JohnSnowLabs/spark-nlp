@@ -48,6 +48,23 @@ Alternatively, add the following Maven Coordinates to the interpreter's library 
 com.johnsnowlabs.nlp:spark-nlp_2.11:1.5.4
 ```
 
+## Python without explicit Spark installation
+If you installed pyspark through pip, you can now install sparknlp through pip
+```
+pip install --index-url https://test.pypi.org/simple/ spark-nlp==1.5.4
+```
+Then you'll have to create a SparkSession manually, for example:
+```
+spark = SparkSession.builder \
+    .appName("ner")\
+    .master("local[4]")\
+    .config("spark.driver.memory","4G")\
+    .config("spark.driver.maxResultSize", "2G") \
+    .config("spark.driver.extraClassPath", "lib/sparknlp.jar")\
+    .config("spark.kryoserializer.buffer.max", "500m")\
+    .getOrCreate()
+```
+
 ## Maven central
 
 Our package is deployed to maven central. In order to add this package as a dependency in your application:
