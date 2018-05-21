@@ -803,9 +803,10 @@ AssertionDLModel.pretrained()</code></pre>
                                     <p>
 
                                       In order to get through the NLP process, we need to get raw data
-                                      annotated. There is a special transformer that does this for us: the
-                                      DocumentAssembler, it creates the first annotation of type Document
-                                      which may be used by annotators down the road
+                                      annotated. There is a special transformer that does this for us:
+                                        it creates the first annotation of type Document
+                                      which may be used by annotators down the road. It can read either
+                                        a String column or an Array[String]
                                       <br><b>Example:</b><br>
                                     </p>
                                     <pre><code class="language-python">from sparknlp.annotator import *
@@ -838,10 +839,11 @@ documentAssembler = new DocumentAssembler() \
                                   <div class="code-block">
                                     <p>
 
-                                      In order to get through the NLP process, we need to get raw data
-                                      annotated. There is a special transformer that does this for us: the
-                                      DocumentAssembler, it creates the first annotation of type Document
-                                      which may be used by annotators down the road
+                                        In order to get through the NLP process, we need to get raw data
+                                        annotated. There is a special transformer that does this for us:
+                                        it creates the first annotation of type Document
+                                        which may be used by annotators down the road. It can read either
+                                        a String column or an Array[String]
                                       <br><b>Example:</b><br>
                                     </p>
                                     <pre><code class="language-javascript">import com.johnsnowlabs.nlp._
@@ -973,7 +975,7 @@ documentAssembler = new DocumentAssembler()
                                         character
                                       </li>
                                       <li>
-                                        setIncludeKeys(False) -> Whether to include metadata keys. Sometimes
+                                        setIncludeMetadata(False) -> Whether to include metadata keys. Sometimes
                                         useful in some annotations
                                       </li>
                                       <li>
@@ -1016,10 +1018,10 @@ documentAssembler = new DocumentAssembler()
                                         setAnnotationSplitSymbol("@") -> split values between annotations
                                         character
                                       </li>
-                                      <li>
-                                        setIncludeKeys(false) -> Whether to include metadata keys. Sometimes
-                                        useful in some annotations
-                                      </li>
+                                        <li>
+                                            setIncludeMetadata(False) -> Whether to include metadata keys. Sometimes
+                                            useful in some annotations
+                                        </li>
                                       <li>
                                         setOutputAsArray(false) -> Whether to output as Array. Useful as input for other Spark transformers.
                                       </li>
@@ -1123,17 +1125,21 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Removes all dirty characters from text<br>
+                                                Removes all dirty characters from text following a regex pattern and
+                                                transforms words based on a provided dictionary<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Token<br>
                                                 <b>Functions:</b>
                                             <ul>
                                               <li>
-                                                setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
+                                                setPatterns(patterns): Regular expressions list for normalization, defaults [^A-Za-z]
                                               </li>
                                               <li>
                                                 setLowercase(value): lowercase tokens, default true
                                               </li>
+                                                <li>
+                                                    setSlangDictionary(path): txt file with delimited words to be transformed into something else
+                                                </li>
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
@@ -1146,17 +1152,21 @@ documentAssembler = new DocumentAssembler()
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Removes all dirty characters from text<br>
+                                                Removes all dirty characters from text following a regex pattern and
+                                                transforms words based on a provided dictionary<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Requires:</b> Token<br>
                                                 <b>Functions:</b>
                                             <ul>
-                                              <li>
-                                                setPattern(pattern): Regular expression for normalization, defaults [^A-Za-z]
-                                              </li>
-                                              <li>
-                                                setLowercase(value): lowercase tokens, default true
-                                              </li>
+                                                <li>
+                                                    setPatterns(patterns): Regular expressions list for normalization, defaults [^A-Za-z]
+                                                </li>
+                                                <li>
+                                                    setLowercase(value): lowercase tokens, default true
+                                                </li>
+                                                <li>
+                                                    setSlangDictionary(path): txt file with delimited words to be transformed into something else
+                                                </li>
                                             </ul>
                                                 <b>Example:</b><br>
                                             </p>
