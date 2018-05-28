@@ -30,6 +30,10 @@ case class WordEmbeddings(dbFile: String,
     }
   }
 
+  def contains(word: String) = {
+    db.get(word.toLowerCase.trim.getBytes()) != null
+  }
+
   override def close(): Unit = {
     db.close()
   }
