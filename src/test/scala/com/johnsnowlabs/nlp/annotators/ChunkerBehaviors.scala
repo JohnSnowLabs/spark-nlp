@@ -57,7 +57,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
           ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
 
       val chunker = new Chunker()
-        .setInputCols(Array("pos", "document"))
+        .setInputCols(Array("pos"))
         .setOutputCol("chunk")
         .setRegexParser("(<NN>)+")
 
