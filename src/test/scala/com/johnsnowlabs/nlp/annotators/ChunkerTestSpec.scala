@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 
 class ChunkerTestSpec extends FlatSpec with ChunkerBehaviors{
 
-  /*"a trained POS tag" should behave like testPOSForChunking(
+  "a trained POS tag" should behave like testPOSForChunking(
   Array(
   "first sentence example",
   "second something going"
@@ -16,7 +16,7 @@ class ChunkerTestSpec extends FlatSpec with ChunkerBehaviors{
   "first sentence example",
   "second something going"
   )
-  )*/
+  )
 
   "a chunk with user input tags" should behave like testUserInputPOSTags(
     Array("the little yellow dog barked at the cat"),
