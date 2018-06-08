@@ -3,10 +3,15 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.nlp.annotators.ChunkerBehaviors
 
 trait ChunkerBehaviors { this:FlatSpec =>
+
+  case class Phrases(sentence: String, POSFormatSentence: Array[String],
+                     regexParser: String, correctChunkPhrases: Array[String])
 
   def testPOSForChunking(document: Array[String]): Unit = {
     it should "successfully transform a trained POS tag" in {
@@ -35,7 +40,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
     }
   }
 
-  def testPOSForChunkingWithPipeline(document: Array[String]): Unit = {
+  def testChunkingWithTrainedPOS(document: Array[String]): Unit = {
     it should "successfully transform a trained POS tag with pipeline" in {
       import SparkAccessor.spark.implicits._
       val data = AnnotatorBuilder.withDocumentAssembler(
@@ -79,7 +84,42 @@ trait ChunkerBehaviors { this:FlatSpec =>
     }
   }
 
-  def testUserInputPOSTags(document: Array[String], tags: Array[Array[String]]): Unit = {
+  def chunkModelBuilder(dataset: Dataset[Row], regexParser: String): PipelineModel = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val manualTrainedPos = new PerceptronApproach()
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
+      .setPosColumn("tags")
+
+    val chunker = new Chunker()
+      .setInputCols(Array("pos"))
+      .setOutputCol("chunks")
+      .setRegexParser(regexParser)
+
+    val finisher = new Finisher()
+      .setInputCols("chunks")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        manualTrainedPos,
+        chunker,
+        finisher
+      ))
+
+    val model = pipeline.fit(dataset)
+    model
+  }
+
+  def testUserInputPOSTags(document: Array[String], tags: Array[Array[String]], regexParser: String): Unit = {
     it should "successfully train from a POS Column" in {
       import SparkAccessor.spark.implicits._
       val data = AnnotatorBuilder.withDocumentAssembler(
@@ -101,12 +141,13 @@ trait ChunkerBehaviors { this:FlatSpec =>
 
       val chunker = new Chunker()
         .setInputCols(Array("pos"))
-        .setOutputCol("chunk")
-        .setRegexParser("<DT>?<JJ>*<NN>")
+        .setOutputCol("chunks")
+        .setRegexParser(regexParser)
+      //.setRegexParser("<DT>?<JJ>*<NN>")
         //.setRegexParser("(<DT>)?(<JJ>)*(<NN>)")
 
       val finisher = new Finisher()
-        .setInputCols("chunk")
+        .setInputCols("chunks")
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -120,6 +161,44 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val model = pipeline.fit(data)
       val transform = model.transform(data)
       transform.show(false)
+
+    }
+  }
+
+  def testSeveralSentences(phrases: List[Phrases]): Unit = {
+    it should "successfully generate chunks from regex parser" in {
+      import SparkAccessor.spark.implicits._
+      import org.apache.spark.sql.functions._
+
+      for (phrase <- phrases){
+
+        val dataSeq = Seq((phrase.sentence, phrase.POSFormatSentence, phrase.correctChunkPhrases))
+        val data = SparkAccessor.spark.sparkContext.parallelize(dataSeq).toDF("text", "tags", "correct_chunks")
+        //data.show(false)
+
+        val model = this.chunkModelBuilder(data, phrase.regexParser)
+        var transform = model.transform(data)
+        //transform.show(false)
+
+        transform = transform.withColumn("equal_chunks",
+          col("correct_chunks") === col("finished_chunks"))
+        //transform.show(false)
+
+        //https://medium.com/@mrpowers/testing-spark-applications-8c590d3215fa
+        val equalChunks = transform.select("equal_chunks").collect()
+        for (equalChunk <- equalChunks){
+          assert(equalChunk.getBoolean(0))
+        }
+
+      }
+
+    }
+  }
+
+  def testDocument(dataset: Dataset[Row], regexParser: String): Unit = {
+    it should "successfully generate chunks from regex parser" in {
+      val model = this.chunkModelBuilder(dataset, regexParser)
+      model.transform(dataset).show(false)
 
     }
   }

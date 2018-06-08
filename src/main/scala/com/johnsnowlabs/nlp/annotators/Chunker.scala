@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators
 
 import scala.util.matching.Regex
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
@@ -13,7 +13,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
                                         "A grammar based chunk parser")
 
   override val annotatorType: AnnotatorType = DOCUMENT
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(POS) //Array(POS, DOCUMENT)
+  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(POS)
 
   def setRegexParser(value: String): Chunker = set(regexParser, value)
   def getRegexParser: String = $(regexParser)
@@ -29,7 +29,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   def getIndexAnnotation(limits: (Int, Int), indexTags: List[(Int, Int)]): List[Int] = {
       val indexAnnotation = indexTags.zipWithIndex.collect{
-        case (range, index) if limits._1 <= range._1 && limits._2 > range._2 => index
+        case (range, index) if limits._1-1 <= range._1 && limits._2 > range._2 => index
       }
     indexAnnotation
   }
@@ -39,20 +39,21 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
     annotation
   }
 
+  private lazy val POSTagPattern: Regex = {
+    val replacements = Map( "<" -> "(<", ">" -> ">)", "|" -> ">)|(<")
+    replacements.foldLeft($(regexParser))((accumulatedParser, keyValueReplace) =>
+      accumulatedParser.replaceAllLiterally(keyValueReplace._1, keyValueReplace._2)).r
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val POSFormatSentence = annotations.map(annotation => "<"+annotation.result+">")
                                         .mkString(" ").replaceAll("\\s","")
-    val replacements = Map( "<" -> "(<", ">" -> ">)")
-    val POSTagPattern = replacements.foldLeft($(regexParser))((accumulatedParser, keyValueReplace) =>
-      accumulatedParser.replaceAllLiterally(keyValueReplace._1, keyValueReplace._2)).r
-
     val rangeMatches = patternMatchIndexes(POSTagPattern, POSFormatSentence)
     val indexLeftTags = patternMatchFirstIndex("<".r, POSFormatSentence)
     val indexRightTags = patternMatchFirstIndex(">".r, POSFormatSentence)
     val indexTags = indexLeftTags zip indexRightTags //merge two sequential collections
     val indexAnnotations = rangeMatches.map(range => getIndexAnnotation(range, indexTags))
-
     val chunkPhrases = indexAnnotations.map(indexAnnotation => getPhrase(indexAnnotation, annotations)).toArray
 
     val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) =>
@@ -65,3 +66,5 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
   }
 
 }
+
+object Chunker extends ParamsAndFeaturesReadable[Chunker]
