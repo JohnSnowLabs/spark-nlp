@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import org.apache.spark.ml.param.BooleanParam
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -22,9 +23,17 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   val parsedEntities = new ArrayFeature[Array[String]](this, "parsedEntities")
 
+  val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
+
   def setEntities(value: Array[Array[String]]): this.type = set(parsedEntities, value)
 
-  lazy val searchTrie = SearchTrie.apply($$(parsedEntities))
+  def setCaseSensitive(v: Boolean): this.type =
+    set(caseSensitive, v)
+
+  def getCaseSensitive: Boolean =
+    $(caseSensitive)
+
+  lazy val searchTrie = SearchTrie.apply($$(parsedEntities), $(caseSensitive))
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
