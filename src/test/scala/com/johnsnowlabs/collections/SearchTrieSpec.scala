@@ -8,7 +8,7 @@ class SearchTrieSpec extends FlatSpec {
     Array(
       Array("a", "b", "a", "b", "a"),
       Array("a", "a", "a")
-    )
+    ), caseSensitive = false
   )
 
   val aTrie =  SearchTrie(
@@ -17,14 +17,14 @@ class SearchTrieSpec extends FlatSpec {
       Array("a", "a", "a"),
       Array("a", "a"),
       Array("a")
-    )
+    ), caseSensitive = false
   )
 
   val btrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b"),
       Array("b", "a", "a")
-    )
+    ), caseSensitive = false
   )
 
 
