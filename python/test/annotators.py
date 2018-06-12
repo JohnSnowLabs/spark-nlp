@@ -95,6 +95,7 @@ class NormalizerTestSpec(unittest.TestCase):
             .setInputCols(["token"]) \
             .setOutputCol("normalized_token") \
             .setLowercase(False)
+
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.transform(tokenized).show()
@@ -160,6 +161,39 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
         pos_tagger.transform(tokenized).show()
+
+
+class ChunkerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(path="file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
+            .setIterations(2) \
+            .fit(self.data)
+        chunker = Chunker() \
+            .setInputCols(["pos"]) \
+            .setOutputCol("chunk") \
+            .setRegexParser(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        pos_sentence_format = pos_tagger.transform(tokenized)
+        chunk_phrases = chunker.transform(pos_sentence_format)
+        chunk_phrases.show()
 
 
 class PragmaticSBDTestSpec(unittest.TestCase):
