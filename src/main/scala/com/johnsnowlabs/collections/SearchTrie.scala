@@ -85,7 +85,7 @@ case class SearchTrie
 
 
 object SearchTrie {
-  def apply(phrases: Array[Array[String]], caseSensitive: Boolean): SearchTrie = {
+  def apply(phrases: Array[Array[String]], caseSensitive: Boolean = false): SearchTrie = {
 
     // Have only root at the beginning
     val vocab = mutable.Map[String, Int]()
