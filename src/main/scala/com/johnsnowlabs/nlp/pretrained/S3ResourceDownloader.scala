@@ -6,12 +6,13 @@ import java.sql.Timestamp
 import java.util.Calendar
 import java.util.zip.ZipInputStream
 
-import org.apache.hadoop.fs.Path
-import com.amazonaws.ClientConfiguration
-import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.auth.AWSCredentials
+import com.amazonaws.regions.RegionUtils
+import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.GetObjectRequest
+import com.amazonaws.{AmazonServiceException, ClientConfiguration}
 import com.johnsnowlabs.util.ConfigHelper
+import org.apache.hadoop.fs.Path
 
 import scala.collection.mutable
 
@@ -33,20 +34,23 @@ class S3ResourceDownloader(bucket: String,
   }
 
   lazy val client = {
+    val regionObj = RegionUtils.getRegion(region)
 
-    val builder = AmazonS3ClientBuilder.standard()
-    if (credentials.isDefined)
-      builder.setCredentials(new AWSStaticCredentialsProvider(credentials.get))
-
-    builder.setRegion(region)
     val config = new ClientConfiguration()
     val timeout = ConfigHelper.getConfigValue(ConfigHelper.s3SocketTimeout).map(_.toInt).getOrElse(0)
     config.setSocketTimeout(timeout)
-    builder.setClientConfiguration(config)
 
-    builder.build()
+    val s3Client = {
+      if (credentials.isDefined) {
+        new AmazonS3Client(credentials.get, config)
+      } else {
+        new AmazonS3Client(config)
+      }
+    }
+
+    s3Client.setRegion(regionObj)
+    s3Client
   }
-
 
   private def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
@@ -171,4 +175,17 @@ class S3ResourceDownloader(bucket: String,
       .filter(part => part.nonEmpty)
       .mkString("/")
   }
+
+  implicit class S3ClientWrapper(client: AmazonS3Client) {
+
+    def doesObjectExist(bucket: String, key: String): Boolean = {
+      try {
+        client.getObjectMetadata(bucket, key)
+        true
+      } catch {
+        case e: AmazonServiceException => if (e.getStatusCode == 404) return false else throw e
+      }
+    }
+  }
+
 }
