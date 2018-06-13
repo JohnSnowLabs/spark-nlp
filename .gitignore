@@ -15,7 +15,6 @@ local.properties
 .loadpath
 .recommenders
 PubMed*
-*anc-pos*
 *cache_pretrained*
 *.crc
 part-*
@@ -311,3 +310,5 @@ spark-warehouse/
 /python/python.iml
 test_crf_pipeline/
 test_*_pipeline/
+*metastore_db*
+python/src/
