@@ -190,7 +190,7 @@ class Chunker(AnnotatorModel):
     def __init__(self):
         super(Chunker, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Chunker")
 
-    def setRegexParser(self, value):
+    def setRegexParsers(self, value):
         return self._set(regexParsers=value)
 
 
