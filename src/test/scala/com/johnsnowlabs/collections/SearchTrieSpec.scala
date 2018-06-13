@@ -8,7 +8,7 @@ class SearchTrieSpec extends FlatSpec {
     Array(
       Array("a", "b", "a", "b", "a"),
       Array("a", "a", "a")
-    )
+    ), caseSensitive = false
   )
 
   val aTrie =  SearchTrie(
@@ -17,14 +17,14 @@ class SearchTrieSpec extends FlatSpec {
       Array("a", "a", "a"),
       Array("a", "a"),
       Array("a")
-    )
+    ), caseSensitive = false
   )
 
   val btrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b"),
       Array("b", "a", "a")
-    )
+    ), caseSensitive = false
   )
 
 
@@ -77,7 +77,7 @@ class SearchTrieSpec extends FlatSpec {
     val text = "a a a a c a a a a a a".split(" ")
     val result = aTrie.search(text)
     val shouldFound =
-        Seq((0, 0), (1, 1), (2, 2), (3, 3), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10)) ++
+      Seq((0, 0), (1, 1), (2, 2), (3, 3), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10)) ++
         Seq((0, 1), (1, 2), (2, 3), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10)) ++
         Seq((0, 2), (1, 3), (5, 7), (6, 8), (7, 9), (8, 10)) ++
         Seq((5, 9), (6, 10))
