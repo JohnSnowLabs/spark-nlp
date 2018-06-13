@@ -121,12 +121,13 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.5.4</code></pre>
     .master("local[*]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.driver.extraClassPath", "lib/sparknlp.jar")\
+    .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.5.4.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()</code></pre>
                                 <p>
-                                    Another way to use the library is by appending jar file into spark classpath,
-                                    which can be downloaded
+                                    Pre-compiled Spark-NLP assembly fat-jar for using in standalone projects, may be downloaded
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.5.4.jar">here</a>
+                                    Non-fat-jar may be downloaded
                                     <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.5.4/spark-nlp_2.11-1.5.4.jar">here</a>
                                     then, run spark-shell or spark-submit with appropriate <b>--jars
                                     /path/to/spark-nlp_2.11-1.5.4.jar</b> to use the library in spark.
