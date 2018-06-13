@@ -1,15 +1,15 @@
 package com.johnsnowlabs.nlp.annotators
 
 import scala.util.matching.Regex
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.{Param, StringArrayParam}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val regexParsers = new StringArrayParam(this, "regexParsers", "An array of grammar based chunk parsers")
+  val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
   override val annotatorType: AnnotatorType = DOCUMENT
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(POS)
@@ -81,4 +81,4 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
 }
 
-object Chunker extends ParamsAndFeaturesReadable[Chunker]
+object Chunker extends DefaultParamsReadable[Chunker]

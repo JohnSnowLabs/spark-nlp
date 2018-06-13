@@ -7,8 +7,6 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 
-import scala.collection.mutable
-
 trait ChunkerBehaviors { this:FlatSpec =>
 
   case class SentenceParams(sentence: String, POSFormatSentence: Array[String],
@@ -39,7 +37,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val chunker = new Chunker()
         .setInputCols(Array("pos"))
         .setOutputCol("chunk")
-        .setRegexParser(Array("(<NN>)+"))
+        .setRegexParser(Array("<NN>+"))
         .transform(POSdataset)
 
       //chunker.show(false)
@@ -72,7 +70,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val chunker = new Chunker()
         .setInputCols(Array("pos"))
         .setOutputCol("chunk")
-        .setRegexParser(Array("(<NN>)+"))
+        .setRegexParser(Array("<NN>+"))
 
       val finisher = new Finisher()
         .setInputCols("chunk")
