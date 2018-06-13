@@ -334,16 +334,24 @@ class TextMatcher(AnnotatorApproach):
                      "ExternalResource for entities",
                      typeConverter=TypeConverters.identity)
 
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to match regardless of case. Defaults true",
+                          typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
-        self._setDefault(inputCols=["token"])
+        self._setDefault(inputCols=["token"], caseSensitive=True)
 
     def _create_model(self, java_model):
         return TextMatcherModel(java_model)
 
     def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
+
+    def setCaseSensitive(self, b):
+        return self._set(caseSensitive=b)
 
 
 class TextMatcherModel(AnnotatorModel):
