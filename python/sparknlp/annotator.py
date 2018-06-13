@@ -177,6 +177,23 @@ class Stemmer(AnnotatorModel):
         )
 
 
+class Chunker(AnnotatorModel):
+
+    regexParsers = Param(Params._dummy(),
+                         "regexParsers",
+                         "an array of grammar based chunk parsers",
+                         typeConverter=TypeConverters.toListString)
+
+    name = "Chunker"
+
+    @keyword_only
+    def __init__(self):
+        super(Chunker, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Chunker")
+
+    def setRegexParser(self, value):
+        return self._set(regexParsers=value)
+
+
 class Normalizer(AnnotatorApproach):
 
     patterns = Param(Params._dummy(),
@@ -224,7 +241,7 @@ class NormalizerModel(AnnotatorModel):
         else:
             super(NormalizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NormalizerModel")
 
-    name = "RegexMatcherModel"
+    name = "NormalizerModel"
 
 
 class RegexMatcher(AnnotatorApproach):
