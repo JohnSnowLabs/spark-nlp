@@ -3,12 +3,12 @@ from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
-from sparknlp.common import ParamsGetters
+from sparknlp.common import ParamsGettersSetters
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
 
 
-class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGetters):
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorTransformer, self).__init__()
