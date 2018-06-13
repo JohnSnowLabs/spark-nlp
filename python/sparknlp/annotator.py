@@ -7,7 +7,7 @@ from pyspark import keyword_only
 from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource, ParamsGetters, ReadAs
+from sparknlp.common import ExternalResource, ParamsGettersSetters, ReadAs
 from sparknlp.util import AnnotatorJavaMLReadable
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -71,7 +71,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(embeddingsNDims=nDims)
 
 
-class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGetters):
+class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
 
     column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
@@ -87,7 +87,7 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
         self._java_obj = self._new_java_obj(classname, self.uid)
 
 
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGetters):
+class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGettersSetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorApproach, self).__init__()
@@ -554,11 +554,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
                    "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
                    typeConverter=TypeConverters.identity)
 
-    # slangDictionary = Param(Params._dummy(),
-    #                         "slangDictionary",
-    #                         "slang dictionary is a delimited text. needs 'delimiter' in options",
-    #                         typeConverter=TypeConverters.identity)
-
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
                           "whether to ignore case sensitivty",
@@ -590,12 +585,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
         return self._set(dictionary=ExternalResource(path, read_as, opts))
-
-    # def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-    #     opts = options.copy()
-    #     if "delimiter" not in opts:
-    #         opts["delimiter"] = delimiter
-    #     return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
@@ -835,6 +824,14 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 class AssertionLogRegModel(AnnotatorModel):
     name = "AssertionLogRegModel"
 
+    beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
+    afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
+    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
+    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
+    exhaustiveNerMode = Param(Params._dummy(), "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence", typeConverter=TypeConverters.toBoolean)
+
     def __init__(self, java_model=None):
         if java_model:
             super(JavaModel, self).__init__(java_model)
@@ -977,6 +974,11 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
 
 class AssertionDLModel(AnnotatorModel):
     name = "AssertionDLModel"
+
+    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
+    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
+    nerCol = Param(Params._dummy(), "nerCol", "Column of NER Annotations to use instead of start and end columns", typeConverter=TypeConverters.toString)
+    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
     def __init__(self, java_model=None):
         if java_model:
