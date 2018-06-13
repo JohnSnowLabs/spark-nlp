@@ -19,7 +19,6 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
       )
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
-      //tokenized.show(false)
 
       val trainedTagger: PerceptronModel =
         new PerceptronApproach()
@@ -30,17 +29,14 @@ trait ChunkerBehaviors { this:FlatSpec =>
             ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
           .fit(tokenized)
 
-      //trainedTagger.transform(tokenized).show(false)
       val POSdataset = trainedTagger.transform(tokenized)
-      //POSdataset.show(false)
 
       val chunker = new Chunker()
         .setInputCols(Array("pos"))
         .setOutputCol("chunk")
-        .setRegexParser(Array("<NN>+"))
+        .setRegexParsers(Array("(?:<JJ|DT>)(?:<NN|VBG>)+"))
         .transform(POSdataset)
 
-      //chunker.show(false)
       assert(chunker.select("chunk").count() > 0)
 
     }
@@ -70,7 +66,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val chunker = new Chunker()
         .setInputCols(Array("pos"))
         .setOutputCol("chunk")
-        .setRegexParser(Array("<NN>+"))
+        .setRegexParsers(Array("(<NN>)+"))
 
       val finisher = new Finisher()
         .setInputCols("chunk")
@@ -86,7 +82,6 @@ trait ChunkerBehaviors { this:FlatSpec =>
 
       val model = pipeline.fit(data)
       val transform = model.transform(data)
-      //transform.show(false)
       assert(transform.select("finished_chunk").count() > 0)
     }
   }
@@ -108,7 +103,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
     val chunker = new Chunker()
       .setInputCols(Array("pos"))
       .setOutputCol("chunks")
-      .setRegexParser(regexParser)
+      .setRegexParsers(regexParser)
 
     val finisher = new Finisher()
       .setInputCols("chunks")
@@ -164,7 +159,6 @@ trait ChunkerBehaviors { this:FlatSpec =>
 
         val dataSeq = Seq((phrase.sentence, phrase.POSFormatSentence, phrase.correctChunkPhrases))
         val data = SparkAccessor.spark.sparkContext.parallelize(dataSeq).toDF("text", "tags", "correct_chunks")
-        //data.show(false)
 
         val model = this.chunkerModelBuilder(data, phrase.regexParser)
         var transform = model.transform(data)
@@ -172,7 +166,6 @@ trait ChunkerBehaviors { this:FlatSpec =>
 
         transform = transform.withColumn("equal_chunks",
           col("correct_chunks") === col("finished_chunks"))
-        //transform.show(false)
 
         val equalChunks = transform.select("equal_chunks").collect()
         for (equalChunk <- equalChunks){

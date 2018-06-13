@@ -8,8 +8,8 @@ class ChunkerTestSpec extends FlatSpec with ChunkerBehaviors{
 
   "a chunker using a trained POS" should behave like testChunkingWithTrainedPOS(
   Array(
-  "first sentence example",
-  "second something going"
+  "first sentence example and with another cat",
+  "second something going and with another dog"
   )
   )
 

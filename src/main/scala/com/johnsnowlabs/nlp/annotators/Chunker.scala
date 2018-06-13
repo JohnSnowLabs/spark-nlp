@@ -14,42 +14,45 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
   override val annotatorType: AnnotatorType = DOCUMENT
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(POS)
 
-  def setRegexParser(value: Array[String]): Chunker = set(regexParsers, value)
-  def getRegexParser: Array[String] = $(regexParsers)
+  def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
+  def addRegexParser(value: String): Chunker = {
+    set(regexParsers, get(regexParsers).getOrElse(Array.empty[String]) :+ value)
+  }
+  def getRegexParsers: Array[String] = $(regexParsers)
 
   def this() = this(Identifiable.randomUID("CHUNKER"))
 
-  private lazy val replacements = Map( "<" -> "(<", ">" -> ">)", "|" -> ">)|(<")
+  private lazy val replacements = Map( "<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
 
   private lazy val POSTagPatterns: Array[Regex] = {
-    getRegexParser.map(regexParser => replaceRegexParser(regexParser))
+    getRegexParsers.map(regexParser => replaceRegexParser(regexParser))
   }
 
-  def replaceRegexParser(regexParser: String): Regex = {
+  private def replaceRegexParser(regexParser: String): Regex = {
     replacements.foldLeft(regexParser)((accumulatedParser, keyValueReplace) =>
       accumulatedParser.replaceAllLiterally(keyValueReplace._1, keyValueReplace._2)).r
   }
 
-  def patternMatchIndexes(pattern: Regex, text: String): List[(Int, Int)] = {
+  private def patternMatchIndexes(pattern: Regex, text: String): List[(Int, Int)] = {
     pattern.findAllMatchIn(text).map(index => (index.start, index.end )).toList
   }
 
-  def patternMatchFirstIndex(pattern: Regex, text: String): List[Int] =
+  private def patternMatchFirstIndex(pattern: Regex, text: String): List[Int] =
     pattern.findAllMatchIn(text).map(_.start).toList
 
-  def getIndexAnnotation(limits: (Int, Int), indexTags: List[(Int, Int)]): List[Int] = {
+  private def getIndexAnnotation(limits: (Int, Int), indexTags: List[(Int, Int)]): List[Int] = {
       val indexAnnotation = indexTags.zipWithIndex.collect{
         case (range, index) if limits._1-1 <= range._1 && limits._2 > range._2 => index
       }
     indexAnnotation
   }
 
-  def getPhrase(indexAnnotation: List[Int], annotations: Seq[Annotation]): Seq[Annotation] = {
+  private def getPhrase(indexAnnotation: List[Int], annotations: Seq[Annotation]): Seq[Annotation] = {
     val annotation = indexAnnotation.map(index => annotations.apply(index))
     annotation
   }
 
-  def getChunkPhrases(POSTagPattern: Regex, POSFormatSentence: String, annotations: Seq[Annotation]):
+  private def getChunkPhrases(POSTagPattern: Regex, POSFormatSentence: String, annotations: Seq[Annotation]):
   Option[Array[Seq[Annotation]]] = {
     val rangeMatches = patternMatchIndexes(POSTagPattern, POSFormatSentence)
     if (rangeMatches.isEmpty){
@@ -70,10 +73,12 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
     val chunkPhrases = POSTagPatterns.flatMap(POSTagPattern =>
       getChunkPhrases(POSTagPattern, POSFormatSentence, annotations)).flatten
 
-    val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) =>
-      val result = phrase.map(annotation => annotation.metadata.head._2).mkString(" ")
-      Annotation(annotatorType, 0, result.length, result, Map("chunk" -> index.toString))
-    }
+    val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) => {
+      val result = phrase.map(annotation => annotation.metadata("word")).mkString(" ")
+      val start = phrase.map(_.begin).min
+      val end = phrase.map(_.end).max
+      Annotation(annotatorType, start, end, result, Map("chunk" -> index.toString))
+    }}
 
     chunkAnnotations
 

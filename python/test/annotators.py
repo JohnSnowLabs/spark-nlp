@@ -187,7 +187,7 @@ class ChunkerTestSpec(unittest.TestCase):
         chunker = Chunker() \
             .setInputCols(["pos"]) \
             .setOutputCol("chunk") \
-            .setRegexParser(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
+            .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
