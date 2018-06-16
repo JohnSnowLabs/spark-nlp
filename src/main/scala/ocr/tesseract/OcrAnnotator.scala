@@ -57,22 +57,19 @@ class OcrAnnotator(override val uid: String) extends Transformer
     pageSegmentationMode -> TessPageSegMode.PSM_AUTO,
     engineMode -> TessOcrEngineMode.OEM_LSTM_ONLY,
     outputCol -> "ocr_text_regions"
-    //filenameCol -> "file_name"
   )
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     import dataset.sqlContext.implicits._
     val sc = dataset.sqlContext.sparkContext
 
-
     val files = sc.binaryFiles(getOrDefault(inputPath))
-    val config = sc.hadoopConfiguration
     files.flatMap {case (fileName, stream) =>
-      doOcr(stream.open).map{case (pageN, region) =>
-        Annotation(annotatorType, 0, region.size, region,
-          Map("source_file" -> fileName, "page_number" -> pageN.toString))
-      }
-    }.toDF
+      doOcr(stream.open).map{case (pageN, region) => (fileName, region, pageN)}
+    }.toDF. // TODO this naming _1, _2, etc is not very robust
+      withColumn(getOrDefault(outputCol), createAnnotations(col("_1"), col("_2"), col("_3"))).
+      drop("_1", "_2", "_3")
+
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
@@ -110,13 +107,10 @@ class OcrAnnotator(override val uid: String) extends Transformer
   * returns sequence of (pageNumber:Int, textRegion:String)
   *
   * */
-  import org.apache.hadoop.conf.Configuration
-  import org.apache.spark.SparkContext
   private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
-
 
     /* try to extract a text layer from each page, default to OCR if not present */
     Range(1, numPages + 1).flatMap { pageNum =>
@@ -133,39 +127,16 @@ class OcrAnnotator(override val uid: String) extends Transformer
     }
   }
 
-  private def doOcrUDF(spark:SparkContext) = udf { path:String =>
-    val fs = FileSystem.get(spark.hadoopConfiguration)
-    val bufferedImage = ImageIO.read(fs.open(new Path(path)))
-    val regions = tesseract.getSegmentedRegions(bufferedImage, TessPageIteratorLevel.RIL_BLOCK)
-    regions
+  private def createAnnotations = udf { (path:String, region:String, pageN:Int) =>
+    Annotation(annotatorType, 0, region.size, region,
+      Map("source_file" -> path, "page_number" -> pageN.toString))
   }
-
-  /*
-  * accepts a number of patterns specifying pdf or image files, e.g., 'hdfs:/data/ *.pdf' or 'document.png'
-  * currently defaults to *.pdf
-  * returns the list of files present in the folder
-  *
-  * */
-  private def parsePath(path:String, spark:SparkContext):Seq[String] = {
-    import org.apache.hadoop.fs._
-    val fs = FileSystem.get(spark.hadoopConfiguration)
-    val it = fs.listFiles(new Path(path), false)
-
-    var result = Seq.empty[String]
-    while(it.hasNext)
-      result = result :+ it.next.getPath.toString
-
-    // TODO returning an in-memory collection of Strings, suitable for few files only.
-    result
-  }
-
 
   /*
   * extracts a text layer from a PDF.
   * */
   private def extractText(document: PDDocument, pageNum:Int):String = {
     import org.apache.pdfbox.text.PDFTextStripper
-    //val document = PDDocument.load(pdfFile)
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(pageNum)
     pdfTextStripper.setEndPage(pageNum)
