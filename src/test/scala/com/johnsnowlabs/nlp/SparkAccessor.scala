@@ -6,7 +6,7 @@ object SparkAccessor {
   val spark: SparkSession = SparkSession
     .builder()
     .appName("test")
-    .master("local[*]")
+    .master("local[1]")
     .config("spark.driver.memory", "1G")
     .config("spark.kryoserializer.buffer.max","200M")
     .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
