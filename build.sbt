@@ -88,7 +88,10 @@ lazy val utilDependencies = Seq(
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
   "org.tensorflow" % "tensorflow" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313"
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313",
+  "org.apache.pdfbox" % "pdfbox" % "2.0.9" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("log4j", "log4j"),
+  "javax.media" % "jai_core" % "1.1.3"
 )
 
 lazy val root = (project in file("."))

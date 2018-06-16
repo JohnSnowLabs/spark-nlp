@@ -63,11 +63,12 @@ class OcrAnnotator(override val uid: String) extends Transformer
   override def transform(dataset: Dataset[_]): DataFrame = {
     import dataset.sqlContext.implicits._
     val sc = dataset.sqlContext.sparkContext
-    dataset.sparkSession.read.csv()
-    val filenames = parsePath(getOrDefault(inputPath), sc).toDS
+
+
+    val files = sc.binaryFiles(getOrDefault(inputPath))
     val config = sc.hadoopConfiguration
-    filenames.flatMap {fileName =>
-      doOcr(fileName, config).map{case (pageN, region) =>
+    files.flatMap {case (fileName, stream) =>
+      doOcr(stream.open).map{case (pageN, region) =>
         Annotation(annotatorType, 0, region.size, region,
           Map("source_file" -> fileName, "page_number" -> pageN.toString))
       }
@@ -111,19 +112,17 @@ class OcrAnnotator(override val uid: String) extends Transformer
   * */
   import org.apache.hadoop.conf.Configuration
   import org.apache.spark.SparkContext
-  private def doOcr(path:String, config:Configuration):Seq[(Int, String)] = {
+  private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
-    val fs = FileSystem.get(config)
-
-    val fileStream = fs.open(new Path(path))
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
 
+
     /* try to extract a text layer from each page, default to OCR if not present */
-    Range(1, numPages).flatMap { pageNum =>
-      val textContent = extractText(fileStream, pageNum)
-      if (textContent.isEmpty) { // if no text layer present, do the OCR
-        val renderedImage = getImageFromPDF(pdfDoc, pageNum)
+    Range(1, numPages + 1).flatMap { pageNum =>
+      val textContent = extractText(pdfDoc, pageNum)
+      if (textContent.size < 10) { // if no text layer present, do the OCR
+        val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
         val bufferedImage = PlanarImage.wrapRenderedImage(renderedImage).getAsBufferedImage()
         val regions = tesseract.getSegmentedRegions(bufferedImage, TessPageIteratorLevel.RIL_BLOCK)
         regions.map{rectangle => (pageNum, tesseract.doOCR(bufferedImage, rectangle))}
@@ -164,9 +163,9 @@ class OcrAnnotator(override val uid: String) extends Transformer
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(pdfFile: InputStream, pageNum:Int):String = {
+  private def extractText(document: PDDocument, pageNum:Int):String = {
     import org.apache.pdfbox.text.PDFTextStripper
-    val document = PDDocument.load(pdfFile)
+    //val document = PDDocument.load(pdfFile)
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(pageNum)
     pdfTextStripper.setEndPage(pageNum)
