@@ -49,12 +49,17 @@ class OcrAnnotator(override val uid: String) extends Transformer
     this
   }
 
+  def setPageSegmentationMode(mode: Int) = {
+    set(pageSegmentationMode, mode)
+    this
+  }
+
   @transient
   var tesseractAPI : Tesseract = null
 
   setDefault(inputPath -> "*.pdf",
     extractTextLayer -> true,
-    pageSegmentationMode -> TessPageSegMode.PSM_AUTO,
+    pageSegmentationMode -> TessPageSegMode.PSM_SINGLE_BLOCK,
     engineMode -> TessOcrEngineMode.OEM_LSTM_ONLY,
     outputCol -> "ocr_text_regions"
   )
@@ -128,8 +133,8 @@ class OcrAnnotator(override val uid: String) extends Transformer
   }
 
   private def createAnnotations = udf { (path:String, region:String, pageN:Int) =>
-    Annotation(annotatorType, 0, region.size, region,
-      Map("source_file" -> path, "page_number" -> pageN.toString))
+    Seq(Annotation(annotatorType, 0, region.size, region,
+      Map("source_file" -> path, "page_number" -> pageN.toString)))
   }
 
   /*
