@@ -2,7 +2,6 @@ package ocr.tesseract
 
 import java.awt.image.RenderedImage
 import java.io.{File, InputStream}
-import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 
 import com.johnsnowlabs.nlp.{Annotation, HasAnnotatorType, HasOutputAnnotationCol}
@@ -10,11 +9,9 @@ import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs
 
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
-import org.apache.spark.SparkContext
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap, Params}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
@@ -118,7 +115,7 @@ class OcrAnnotator(override val uid: String) extends Transformer
     val numPages = pdfDoc.getNumberOfPages
 
     /* try to extract a text layer from each page, default to OCR if not present */
-    Range(1, numPages + 1).flatMap { pageNum =>
+    val result = Range(1, numPages + 1).flatMap { pageNum =>
       val textContent = extractText(pdfDoc, pageNum)
       if (textContent.size < 10) { // if no text layer present, do the OCR
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
@@ -130,6 +127,12 @@ class OcrAnnotator(override val uid: String) extends Transformer
         Seq((pageNum, textContent))
       }
     }
+
+    /* TODO: beware PDF box may have a potential memory leak according to,
+     * https://issues.apache.org/jira/browse/PDFBOX-3388
+     */
+    pdfDoc.close
+    result
   }
 
   private def createAnnotations = udf { (path:String, region:String, pageN:Int) =>
