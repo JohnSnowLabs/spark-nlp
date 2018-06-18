@@ -291,6 +291,16 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val USNonSentence = "I have lived in the U.S. for 20 years."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USNonSentence, USNonSentenceAns)
 
+  //Colon should not break sentence
+  val ColonNotBreakAns = Array("Right upper lobe wedge resection: Negative for malignancy")
+  val ColonNotBreak = "Right upper lobe wedge resection: Negative for malignancy"
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ColonNotBreak, ColonNotBreakAns)
+
+  // Colon should not break sence with new lines
+  val ColonNotBreakNLAns = Array("9. Right upper lobe wedge resection: Negative for malignancy.", "Normal lung.")
+  val ColonNotBreakNL = "9. Right upper lobe wedge resection: Negative for malignancy. Normal lung."
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ColonNotBreakNL, ColonNotBreakNLAns)
+
   /*
   //A.M. / P.M. as non sentence boundary and sentence boundary
   val AMPMAns = Array("At 5 a.m. Mr. Smith went to the bank.", "He left the bank at 6 P.M.", "Mr. Smith " +
@@ -324,7 +334,6 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listParensNoPeriod, listParensNoPeriodAns)
   */
 
-  /*
   //List (period to mark list and no period to end item)
   val listPeriodMarkAns = Array("1. The first item", "2. The second item")
   val listPeriodMark = "1. The first item 2. The second item"
@@ -335,6 +344,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val listPeriodMarkEnd = "1. The first item. 2. The second item."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listPeriodMarkEnd, listPeriodMarkEndAns)
 
+  /*
   //List with bullet
   val listBulletAns = Array("• 9. The first item", "• 10. The second item")
   val listBullet = "• 9. The first item • 10. The second item"
