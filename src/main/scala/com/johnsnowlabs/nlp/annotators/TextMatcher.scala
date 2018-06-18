@@ -8,6 +8,7 @@ import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import org.apache.spark.ml.param.BooleanParam
 
 class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] {
 
@@ -20,14 +21,22 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   override val description: String = "Extracts entities from target dataset given in a text file"
 
   val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
+  val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
 
   setDefault(inputCols,Array(TOKEN))
+  setDefault(caseSensitive, true)
 
   def setEntities(value: ExternalResource): this.type =
     set(entities, value)
 
   def setEntities(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "text")): this.type =
     set(entities, ExternalResource(path, readAs, options))
+
+  def setCaseSensitive(v: Boolean): this.type =
+    set(caseSensitive, v)
+
+  def getCaseSensitive: Boolean =
+    $(caseSensitive)
 
   /**
     * Loads entities from a provided source.
@@ -63,6 +72,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     } else {
       new TextMatcherModel()
         .setEntities(loadEntities())
+        .setCaseSensitive($(caseSensitive))
     }
   }
 

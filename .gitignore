@@ -15,10 +15,8 @@ local.properties
 .loadpath
 .recommenders
 PubMed*
-*anc-pos*
 *cache_pretrained*
 *.crc
-part-*
 *.sst
 _SUCCESS*
 # External tool builders
@@ -306,8 +304,11 @@ project/plugins/project/
 
 ### Local ###
 tmp_pipeline/
+tmp_symspell/
 test-output-tmp/
 spark-warehouse/
 /python/python.iml
 test_crf_pipeline/
 test_*_pipeline/
+*metastore_db*
+python/src/

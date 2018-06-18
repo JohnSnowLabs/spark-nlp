@@ -17,9 +17,14 @@ case class SearchTrie
   // Is Leaf - whether node is leaf?
   // Length - length from Root to node (in words)
   // Previous Leaf - Link to leaf that suffix of current path from root
-  nodes: Vector[(Int, Boolean, Int, Int)]
+  nodes: Vector[(Int, Boolean, Int, Int)],
+  caseSensitive: Boolean
 )
 {
+  val caseSearch = if (caseSensitive)
+    (word: String) => vocabulary.getOrElse(word, -1)
+  else
+    (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
   /**
     * Searchs phrases in the text
     * @param text test to search in
@@ -41,7 +46,7 @@ case class SearchTrie
     }
 
     for ((word, index) <- text.zipWithIndex) {
-      val wordId = vocabulary.getOrElse(word, -1)
+      val wordId = caseSearch(word)
       if (wordId < 0) {
         nodeId = 0
       } else {
@@ -80,7 +85,7 @@ case class SearchTrie
 
 
 object SearchTrie {
-  def apply(phrases: Array[Array[String]]): SearchTrie = {
+  def apply(phrases: Array[Array[String]], caseSensitive: Boolean): SearchTrie = {
 
     // Have only root at the beginning
     val vocab = mutable.Map[String, Int]()
@@ -90,6 +95,11 @@ object SearchTrie {
 
     val isLeaf = mutable.ArrayBuffer(false)
     val length = mutable.ArrayBuffer(0)
+
+    val caseUpdate = if (caseSensitive)
+      (w: String) => vocab.getOrElseUpdate(w, vocab.size)
+    else
+      (w: String) => vocab.getOrElseUpdate(w.toLowerCase, vocab.size)
 
     def addNode(parentNodeId: Int, wordId: Int): Int = {
       parents.append(parentNodeId)
@@ -105,7 +115,7 @@ object SearchTrie {
       var nodeId = 0
 
       for (word <- phrase) {
-        val wordId = vocab.getOrElseUpdate(word, vocab.size)
+        val wordId = caseUpdate(word)
         nodeId = edges.getOrElseUpdate((nodeId, wordId), addNode(nodeId, wordId))
       }
 
@@ -175,6 +185,6 @@ object SearchTrie {
     val nodes = pi.zip(isLeaf).zip(length).zip(lastLeaf)
       .map{case (((a,b),c),d) => (a,b,c,d)}.toVector
 
-    SearchTrie(vocab.toMap, edges.toMap, nodes)
+    SearchTrie(vocab.toMap, edges.toMap, nodes, caseSensitive)
   }
 }
