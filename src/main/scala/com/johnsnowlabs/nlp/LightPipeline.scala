@@ -19,6 +19,8 @@ class LightPipeline(stages: Array[Transformer]) {
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
+        case pipeline: PipelineModel =>
+          LightPipeline.pip2sparkless(pipeline).fullAnnotate(target)
         case _ => annotations
       }
     })
