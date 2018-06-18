@@ -140,9 +140,9 @@ object Annotation {
   /** dataframe annotation flatmap of metadata values as ArrayType */
   def flattenArrayMetadata: UserDefinedFunction = {
     udf {
-      annotations: Seq[Row] => annotations.map(r =>
+      annotations: Seq[Row] => annotations.flatMap(r => {
         r.getMap[String, String](4)
-      )
+      })
     }
   }
 
