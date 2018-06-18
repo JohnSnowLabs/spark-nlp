@@ -102,20 +102,16 @@ class LightPipeline:
         return result
 
     def annotate(self, target):
-        def extract(text_annotations):
-            kas = {}
-            for atype, text in text_annotations.items():
-                kas[atype] = text
-            return kas
+
+        def reformat(annotations):
+            return {k: list(v) for k, v in annotations.items()}
 
         annotations = self._lightPipeline.annotateJava(target)
 
         if type(target) is str:
-            result = extract(annotations)
+            result = reformat(annotations)
         elif type(target) is list:
-            result = []
-            for row_annotations in annotations:
-                result.append(extract(row_annotations))
+            result = list(map(lambda a: reformat(a), list(annotations)))
         else:
             raise TypeError("target for annotation may be 'str' or 'list'")
 
