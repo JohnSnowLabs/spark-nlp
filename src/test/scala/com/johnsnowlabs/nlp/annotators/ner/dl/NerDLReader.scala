@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp.LightPipeline
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
@@ -8,13 +9,14 @@ import org.scalatest._
 
 class NerDLReader extends FlatSpec {
 
-  "Tensorflow NerDLReader" should "correctly load and save a ner model" ignore {
+  "Tensorflow NerDLReader" should "correctly load and save a ner model" in {
 
     val reader = NerDLModelPythonReader.read(
-      "/path_to_tf_moodel",
-      ResourceHelper.spark
+      "/home/saif/IdeaProjects/spark-nlp-models/python/tensorflow/ner/conll_model/",
+      ResourceHelper.spark,
+      WordEmbeddingsFormat.TEXT
     )
-    reader.write.overwrite().save("./nertst")
+    reader.write.overwrite().save("./nerconll")
 
     succeed
   }
