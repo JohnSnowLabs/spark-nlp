@@ -9,7 +9,7 @@ import org.scalatest._
 
 class NerDLReader extends FlatSpec {
 
-  "Tensorflow NerDLReader" should "correctly load and save a ner model" in {
+  "Tensorflow NerDLReader" should "correctly load and save a ner model" ignore {
 
     val reader = NerDLModelPythonReader.read(
       "/home/saif/IdeaProjects/spark-nlp-models/python/tensorflow/ner/conll_model/",
