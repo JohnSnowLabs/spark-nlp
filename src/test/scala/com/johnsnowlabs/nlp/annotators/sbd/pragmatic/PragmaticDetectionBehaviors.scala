@@ -39,6 +39,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
       val diffInCorrect = correctAnswer.diff(result)
       assert(
         result.sameElements(correctAnswer),
+        s"\n--------------\nSENTENCE IS WRONG:\n--------------\n$input" +
         s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${diffInResult.mkString("\n@@")}" +
           s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${diffInCorrect.mkString("\n@@")}")
     }
