@@ -1,14 +1,14 @@
 package ocr.tesseract
 
+import java.awt.Rectangle
 import java.awt.image.RenderedImage
-import java.io.{File, InputStream}
-import javax.media.jai.PlanarImage
+import java.io.InputStream
 
+import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.{Annotation, HasAnnotatorType, HasOutputAnnotationCol}
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs
-
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
@@ -120,7 +120,11 @@ class OcrAnnotator(override val uid: String) extends Transformer
       if (textContent.size < 10) { // if no text layer present, do the OCR
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
         val bufferedImage = PlanarImage.wrapRenderedImage(renderedImage).getAsBufferedImage()
-        val regions = tesseract.getSegmentedRegions(bufferedImage, TessPageIteratorLevel.RIL_BLOCK)
+
+        // Disable this completely for demo purposes
+        //val regions = tesseract.getSegmentedRegions(bufferedImage, TessPageIteratorLevel.RIL_BLOCK)
+        val regions = Seq.empty[Rectangle]
+
         regions.map{rectangle => (pageNum, tesseract.doOCR(bufferedImage, rectangle))}
       }
       else {

@@ -23,6 +23,4 @@ object OcrExample extends App {
   val empty = Seq.empty[String].toDS
   pipeline.fit(empty).transform(empty).show
 
-
-
 }
