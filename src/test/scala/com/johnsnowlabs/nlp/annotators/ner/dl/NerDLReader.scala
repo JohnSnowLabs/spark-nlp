@@ -39,7 +39,9 @@ class NerDLReaderTestSpec extends FlatSpec {
       "An ultrasound of the right upper quadrant did not reveal any cholelithiasis or cholecystitis",
       "However , she has no vomiting and only mild nausea with medications .")
 
-    val r = new LightPipeline(np.fit(Seq.empty[String].toDF("text")))
+    val fit = np.fit(Seq.empty[String].toDF("text"))
+
+    val r = new LightPipeline(fit)
       .annotate(target)
 
     println(r.map(_.filterKeys(k => k == "document" || k == "ner")).mkString(","))
