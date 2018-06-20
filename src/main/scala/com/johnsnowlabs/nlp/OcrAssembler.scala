@@ -66,18 +66,21 @@ class OcrAssembler(override val uid: String) extends Transformer
     import dataset.sqlContext.implicits._
     val sc = dataset.sqlContext.sparkContext
 
+    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+    metadataBuilder.putString("annotatorType", annotatorType)
+
     val files = sc.binaryFiles(getOrDefault(inputPath))
     files.flatMap {case (fileName, stream) =>
       doOcr(stream.open).map{case (pageN, region) => (fileName, region, pageN)}
     }.toDF. // TODO this naming _1, _2, etc is not very robust
-      withColumn(getOrDefault(outputCol), createAnnotations(col("_1"), col("_2"), col("_3"))).
+      withColumn(getOrDefault(outputCol), createAnnotations(col("_1"), col("_2"), col("_3")).as(getOrDefault(outputCol), metadataBuilder.build)).
       drop("_1", "_2", "_3")
 
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
-  override val annotatorType: AnnotatorType = "OCR"
+  override val annotatorType: AnnotatorType = AnnotatorType.DOCUMENT
 
   override def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
