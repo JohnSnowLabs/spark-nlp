@@ -87,10 +87,16 @@ lazy val utilDependencies = Seq(
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
-  "org.tensorflow" % "tensorflow" % "1.8.0",
-  /* Enable for GPU */
+  //"org.tensorflow" % "tensorflow" % "1.8.0",
+  "org.tensorflow" % "libtensorflow" % "1.8.0",
   "org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313"
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
+  "org.apache.pdfbox" % "pdfbox" % "2.0.9" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.0",
+  //"javax.media" % "jai_core" % "1.1.3", // broken??
+  "com.github.jai-imageio" % "jai-imageio-core" % "1.3.1"
+
 )
 
 lazy val root = (project in file("."))
@@ -118,6 +124,15 @@ test in assembly := {}
 
 /** Publish test artificat **/
 publishArtifact in Test := true
+
+assemblyMergeStrategy in assembly := {
+  case "versionchanges.txt" => MergeStrategy.discard
+  case "StaticLoggerBinder" => MergeStrategy.first
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case PathList("org", "apache", xs @ _*)  => MergeStrategy.first
+  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
+  case _ => MergeStrategy.deduplicate
+}
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")

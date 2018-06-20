@@ -3,7 +3,6 @@ package com.johnsnowlabs.ml.tensorflow
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
-
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.tensorflow.{Graph, Session}
@@ -101,8 +100,11 @@ object TensorflowWrapper {
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
     val graph = new Graph()
     graph.importGraphDef(graphDef)
-    val protoConf = Array(56,1,64,1).map(_.toByte)
-    val session = new Session(graph, protoConf)
+    //Use CPU
+    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+    //Use GPU
+    val config = Array[Byte](56, 1, 64, 1)
+    val session = new Session(graph, config)
     session.runner.addTarget("save/restore_all")
       .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
       .run()
