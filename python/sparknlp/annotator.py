@@ -31,6 +31,7 @@ pragmatic = sys.modules[__name__]
 vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
+ocr = sys.modules[__name__]
 
 
 class AnnotatorProperties(Params):
@@ -988,4 +989,33 @@ class AssertionDLModel(AnnotatorModel):
     def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
+
+
+class OcrAnnotator(AnnotatorTransformer):
+
+    inputPath = Param(Params._dummy(), "inputPath", "input path for PDFs/images to be recognized", typeConverter=TypeConverters.toString)
+    extractTextLayer = Param(Params._dummy(), "extractTextLayer", "wheather to extract a layer of text when it is present in a PDF", typeConverter=TypeConverters.toString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name for OCR annotations", typeConverter=TypeConverters.toString)
+    pageSegmentationMode = Param(Params._dummy(), "pageSegmentationMode", "Tesseract's page segmentation mode", typeConverter=TypeConverters.toInt)
+    engineMode = Param(Params._dummy(), "pageSegmentationMode", "Tesseract's engine mode", typeConverter=TypeConverters.toInt)
+    name = 'OcrAnnotator'
+
+    @keyword_only
+    def __init__(self):
+        super(OcrAnnotator, self).__init__(classname="com.johnsnowlabs.nlp.OcrAnnotator")
+        self._setDefault(outputCol="document")
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setOutputCol(self, value):
+        return self._set(outputCol=value)
+
+    def setIdCol(self, value):
+        return self._set(idCol=value)
+
+    def setMetadataCol(self, value):
+        return self._set(metadataCol=value)
 
