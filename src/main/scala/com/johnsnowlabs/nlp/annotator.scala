@@ -34,6 +34,9 @@ object annotator {
   type RegexMatcherModel = com.johnsnowlabs.nlp.annotators.RegexMatcherModel
   object RegexMatcherModel extends ParamsAndFeaturesReadable[RegexMatcherModel]
 
+  type Chunker = com.johnsnowlabs.nlp.annotators.Chunker
+  object Chunker extends DefaultParamsReadable[Chunker]
+
   type Stemmer = com.johnsnowlabs.nlp.annotators.Stemmer
   object Stemmer extends DefaultParamsReadable[Stemmer]
 
