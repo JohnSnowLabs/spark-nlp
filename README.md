@@ -65,6 +65,12 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
+## Pre-compiled Spark-NLP
+You may download fat-jar from here:
+[Spark-NLP 1.5.4 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.5.4.jar)
+or non-fat from here
+[Spark-NLP 1.5.4 PKG JAR](http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.5.4/spark-nlp_2.11-1.5.4.jar)
+
 ## Maven central
 
 Our package is deployed to maven central. In order to add this package as a dependency in your application:

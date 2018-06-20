@@ -11,39 +11,34 @@ trait RuleSymbols {
 
   /**
     * Separation symbols for list items and numbers
-    * alt 197
+    * 
     */
-  val BREAK_INDICATOR = "┼"
+  val BREAK_INDICATOR = "\uF050"
 
   /**
     * looks up .
-    * alt 401
     */
-  val DOT = "æ"
+  val DOT = "\uF051"
 
   /**
     * looks up ,
-    * alt 402
     */
-  val COMMA = "Æ"
+  val COMMA = "\uF052"
 
   /**
     * looks up ;
-    * alt 403
     */
-  val SEMICOLON = "ô"
+  val SEMICOLON = "\uF053"
 
   /**
     * looks up ?
-    * alt 404
     */
-  val QUESTION = "ö"
+  val QUESTION = "\uF054"
 
   /**
     * looks up !
-    * alt 405
     */
-  val EXCLAMATION = "ò"
+  val EXCLAMATION = "\uF055"
 
   /**
     * ====================
@@ -53,11 +48,9 @@ trait RuleSymbols {
 
   /**
     * Between punctuations marker
-    * alt 505
-    * alt 506
     */
-  val PROTECTION_MARKER_OPEN = "∙"
-  val PROTECTION_MARKER_CLOSE = "·"
+  val PROTECTION_MARKER_OPEN = "\uF056"
+  val PROTECTION_MARKER_CLOSE = "\uF057"
 
   /**
     * Magic regex ensures no breaking within protection
