@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.{NerDatasetEncoder, DatasetEncoderParams, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowWrapper}
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -33,15 +33,20 @@ object NerDLModelPythonReader {
     Source.fromFile(metaFile).getLines().toList.head.toInt
   }
 
-  private def readEmbeddings(folder: String, spark: SparkSession, embeddingsDim: Int): SparkWordEmbeddings = {
+  private def readEmbeddings(
+                              folder: String,
+                              spark: SparkSession,
+                              embeddingsDim: Int,
+                              format: WordEmbeddingsFormat.Format
+                            ): SparkWordEmbeddings = {
     SparkWordEmbeddings(
       spark.sparkContext,
       Paths.get(folder, embeddingsFile).toString,
       embeddingsDim,
-      WordEmbeddingsFormat.BINARY)
+      format)
   }
 
-  def read(folder: String, spark: SparkSession): NerDLModel = {
+  def read(folder: String, spark: SparkSession, format: WordEmbeddingsFormat.Format = WordEmbeddingsFormat.BINARY): NerDLModel = {
 
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
@@ -51,7 +56,7 @@ object NerDLModelPythonReader {
     fs.copyToLocalFile(new Path(folder), new Path(tmpFolder))
 
     val embeddingsDim = readEmbeddingsHead(folder, spark)
-    val embeddings = readEmbeddings(folder, spark, embeddingsDim)
+    val embeddings = readEmbeddings(folder, spark, embeddingsDim, format)
     val labels = readTags(folder)
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)

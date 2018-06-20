@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.io.{File, IOException, ObjectInputStream, ObjectOutputStream}
+import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
@@ -100,7 +100,11 @@ object TensorflowWrapper {
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
     val graph = new Graph()
     graph.importGraphDef(graphDef)
-    val session = new Session(graph)
+    //Use CPU
+    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+    //Use GPU
+    val config = Array[Byte](56, 1, 64, 1)
+    val session = new Session(graph, config)
     session.runner.addTarget("save/restore_all")
       .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
       .run()
