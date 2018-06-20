@@ -32,7 +32,7 @@ import scala.collection.Map
  */
 
 
-class OcrAnnotator(override val uid: String) extends Transformer
+class OcrAssembler(override val uid: String) extends Transformer
   with DefaultParamsWritable
   with HasAnnotatorType
   with HasOutputAnnotationCol {
@@ -110,7 +110,7 @@ class OcrAnnotator(override val uid: String) extends Transformer
   * returns sequence of (pageNumber:Int, textRegion:String)
   *
   * */
-  private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
+  private[nlp] def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
@@ -128,9 +128,8 @@ class OcrAnnotator(override val uid: String) extends Transformer
 
         regions.map{rectangle => (pageNum, tesseract.doOCR(bufferedImage, rectangle))}
       }
-      else {
+      else
         Seq((pageNum, textContent))
-      }
     }
 
     /* TODO: beware PDF box may have a potential memory leak according to,
@@ -140,9 +139,20 @@ class OcrAnnotator(override val uid: String) extends Transformer
     result
   }
 
-  private def createAnnotations = udf { (path:String, region:String, pageN:Int) =>
-    Seq(Annotation(annotatorType, 0, region.size, region,
+  private[nlp] def annotate(path: String, region: String, pageN: Int): Seq[Annotation] = {
+    Seq(Annotation(
+      annotatorType,
+      0,
+      region.length,
+      region
+        .replaceAll(System.lineSeparator(), " ")
+        .trim()
+        .replaceAll("\\s+", " "),
       Map("source_file" -> path, "page_number" -> pageN.toString)))
+  }
+
+  private def createAnnotations = udf { (path:String, region:String, pageN:Int) =>
+    annotate(path, region, pageN)
   }
 
   /*
@@ -164,8 +174,8 @@ class OcrAnnotator(override val uid: String) extends Transformer
   }
 
   import java.util
-  private def getImagesFromResources(resources: PDResources):util.ArrayList[RenderedImage]= {
-    val images = new util.ArrayList[RenderedImage]
+  private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
+    val images = new java.util.ArrayList[RenderedImage]
     import scala.collection.JavaConversions._
     for (xObjectName <- resources.getXObjectNames) {
       val xObject = resources.getXObject(xObjectName)
