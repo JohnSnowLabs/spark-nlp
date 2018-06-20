@@ -1,8 +1,9 @@
-package ocr.tesseract
+package com.johnsnowlabs.nlp
 
 import java.awt.Rectangle
 import java.awt.image.RenderedImage
 import java.io.InputStream
+import java.util
 
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.{Annotation, HasAnnotatorType, HasOutputAnnotationCol}
