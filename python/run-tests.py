@@ -7,7 +7,10 @@ unittest.TextTestRunner().run(RegexMatcherTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())
+
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
+unittest.TextTestRunner().run(ChunkerTestSpec())
+
 unittest.TextTestRunner().run(PragmaticSBDTestSpec())
 unittest.TextTestRunner().run(PragmaticScorerTestSpec())
 unittest.TextTestRunner().run(PipelineTestSpec())

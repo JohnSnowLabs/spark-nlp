@@ -3,12 +3,12 @@ from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
-from sparknlp.common import ParamsGetters
+from sparknlp.common import ParamsGettersSetters
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
 
 
-class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGetters):
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorTransformer, self).__init__()
@@ -102,20 +102,16 @@ class LightPipeline:
         return result
 
     def annotate(self, target):
-        def extract(text_annotations):
-            kas = {}
-            for atype, text in text_annotations.items():
-                kas[atype] = text
-            return kas
+
+        def reformat(annotations):
+            return {k: list(v) for k, v in annotations.items()}
 
         annotations = self._lightPipeline.annotateJava(target)
 
         if type(target) is str:
-            result = extract(annotations)
+            result = reformat(annotations)
         elif type(target) is list:
-            result = []
-            for row_annotations in annotations:
-                result.append(extract(row_annotations))
+            result = list(map(lambda a: reformat(a), list(annotations)))
         else:
             raise TypeError("target for annotation may be 'str' or 'list'")
 
