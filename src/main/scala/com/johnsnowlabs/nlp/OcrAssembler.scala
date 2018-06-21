@@ -7,6 +7,7 @@ import java.util
 
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.{Annotation, HasAnnotatorType, HasOutputAnnotationCol}
+import javax.imageio.ImageIO
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs

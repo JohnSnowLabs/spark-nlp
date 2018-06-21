@@ -93,9 +93,8 @@ lazy val utilDependencies = Seq(
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.9" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
   "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12") exclude("log4j", "log4j"),
-  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.0",
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
   //"javax.media" % "jai_core" % "1.1.3", // broken??
-  "com.github.jai-imageio" % "jai-imageio-core" % "1.3.1"
 
 )
 
