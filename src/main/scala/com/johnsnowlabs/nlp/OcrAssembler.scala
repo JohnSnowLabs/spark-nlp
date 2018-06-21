@@ -123,6 +123,8 @@ class OcrAssembler(override val uid: String) extends Transformer
     val result = Range(1, numPages + 1).flatMap { pageNum =>
       val textContent = extractText(pdfDoc, pageNum)
       if (textContent.size < 10) { // if no text layer present, do the OCR
+        /*
+        // Not working for now. Index out of bounds error when PDF using Image plugin
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
         val bufferedImage = PlanarImage.wrapRenderedImage(renderedImage).getAsBufferedImage()
 
@@ -131,6 +133,8 @@ class OcrAssembler(override val uid: String) extends Transformer
         val regions = Seq.empty[Rectangle]
 
         regions.map{rectangle => (pageNum, tesseract.doOCR(bufferedImage, rectangle))}
+        */
+        Seq.empty[(Int, String)]
       }
       else
         Seq((pageNum, textContent))
