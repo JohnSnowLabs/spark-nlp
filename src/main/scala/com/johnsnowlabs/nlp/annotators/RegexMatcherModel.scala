@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, REGEX}
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MatchStrategy
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
@@ -20,7 +20,7 @@ import org.apache.spark.ml.util.Identifiable
   */
 class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] {
 
-  override val annotatorType: AnnotatorType = REGEX
+  override val annotatorType: AnnotatorType = DOCUMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
