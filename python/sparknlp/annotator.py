@@ -159,7 +159,7 @@ class Tokenizer(AnnotatorModel):
 
     def addInfixPattern(self, value):
         infix_patterns = self.getInfixPatterns()
-        infix_patterns.append(value)
+        infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
 
 
