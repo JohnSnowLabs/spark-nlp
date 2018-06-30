@@ -37,16 +37,24 @@ object NerDLModelPythonReader {
                               folder: String,
                               spark: SparkSession,
                               embeddingsDim: Int,
+                              normalize: Boolean,
                               format: WordEmbeddingsFormat.Format
                             ): SparkWordEmbeddings = {
     SparkWordEmbeddings(
       spark.sparkContext,
       Paths.get(folder, embeddingsFile).toString,
       embeddingsDim,
+      normalize,
       format)
   }
 
-  def read(folder: String, spark: SparkSession, format: WordEmbeddingsFormat.Format = WordEmbeddingsFormat.BINARY): NerDLModel = {
+  def read(
+            folder: String,
+            spark: SparkSession,
+            normalize: Boolean,
+            format: WordEmbeddingsFormat.Format = WordEmbeddingsFormat.BINARY,
+            useBundle: Boolean = false,
+            tags: Array[String] = Array.empty[String]): NerDLModel = {
 
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
@@ -56,12 +64,12 @@ object NerDLModelPythonReader {
     fs.copyToLocalFile(new Path(folder), new Path(tmpFolder))
 
     val embeddingsDim = readEmbeddingsHead(folder, spark)
-    val embeddings = readEmbeddings(folder, spark, embeddingsDim, format)
+    val embeddings = readEmbeddings(folder, spark, embeddingsDim, normalize, format)
     val labels = readTags(folder)
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
     val encoder = new NerDatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
-    val tf = TensorflowWrapper.read(folder, false)
+    val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
 
     FileHelper.delete(tmpFolder)
 
@@ -70,5 +78,6 @@ object NerDLModelPythonReader {
       .setDatasetParams(encoder.params)
       .setDims(embeddingsDim)
       .setIndexPath(embeddings.clusterFilePath.toString)
+      .setNormalizeEmbeddings(normalize)
   }
 }

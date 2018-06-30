@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp.LightPipeline
+import com.johnsnowlabs.nlp.annotators.NormalizerModel
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -11,33 +12,32 @@ class NerDLReaderTestSpec extends FlatSpec {
 
   "Tensorflow NerDLReader" should "correctly load and save a ner model" ignore {
 
-    val reader = NerDLModelPythonReader.read(
-      "/conll_model/",
+    val model = NerDLModelPythonReader.read(
+      "./source_model",
       ResourceHelper.spark,
-      WordEmbeddingsFormat.TEXT
+      normalize = true,
+      WordEmbeddingsFormat.BINARY
     )
-    reader.write.overwrite().save("./nerconll")
+    model.write.overwrite().save("./some_model")
 
     succeed
   }
 
 
-  "NerDLModel" should "correctly read and use a tensorflow originated ner model" ignore {
+  "NerDLModel" should "correctly read and use a tensorflow originated ner model" in {
     val spark = ResourceHelper.spark
     import spark.implicits._
 
     val bp = BasicPipeline().pretrained()
 
-    val ner = NerDLModel.load("./nertst").setInputCols("document", "token").setOutputCol("ner")
+    bp.stages(2).asInstanceOf[NormalizerModel]
+
+    val ner = NerDLModel.load("./some_model").setInputCols("document", "normal").setOutputCol("ner")
 
     val np = new Pipeline().setStages(Array(bp, ner))
 
     val target = Array(
-      "chronic obstructive pulmonary disease exacerbation",
-      "acute hypertensive nephropathy",
-      "moderate to severe enlargement of the cardiac silhouette",
-      "An ultrasound of the right upper quadrant did not reveal any cholelithiasis or cholecystitis",
-      "However , she has no vomiting and only mild nausea with medications .")
+      "With regard to the patient's chronic obstructive pulmonary disease, the patient's respiratory status improved throughout the remainder of her hospital course.")
 
     val r = new LightPipeline(np.fit(Seq.empty[String].toDF("text")))
       .annotate(target)
