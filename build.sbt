@@ -73,9 +73,21 @@ developers := List(
   Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
 )
 
+
+lazy val ocrDependencies = Seq(
+  "org.apache.pdfbox" % "pdfbox" % "2.0.9",
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12-1.7."),
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
+)
+
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
+)
+
+lazy val analyticsDependenciesNotProvided = Seq(
+  "org.apache.spark" %% "spark-core" % sparkVer,
+  "org.apache.spark" %% "spark-mllib" % sparkVer
 )
 
 lazy val testDependencies = Seq(
@@ -93,8 +105,10 @@ lazy val utilDependencies = Seq(
   "org.apache.pdfbox" % "pdfbox" % "2.0.9",
   "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12-1.7."),
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
-
 )
+
+lazy val ocr = (project in file("ocr")).settings(
+  libraryDependencies ++= ocrDependencies ++ analyticsDependenciesNotProvided)
 
 lazy val root = (project in file("."))
   .settings(
@@ -102,7 +116,9 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies
-  )
+  ).aggregate(ocr)
+
+
 
 parallelExecution in Test := false
 

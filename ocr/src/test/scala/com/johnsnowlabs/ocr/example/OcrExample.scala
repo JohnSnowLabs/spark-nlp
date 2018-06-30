@@ -20,6 +20,7 @@ object OcrExample extends App {
 
   // annotator doesn't use input DS, still it is used for accessing context, so it can't be null
   val empty = Seq.empty[String].toDS
-  pipeline.fit(empty).transform(empty).show
+  pipeline.fit(empty).transform(empty).collect.take(20).foreach(println)
+
 
 }
