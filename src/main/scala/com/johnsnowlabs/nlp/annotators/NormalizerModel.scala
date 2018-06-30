@@ -24,7 +24,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   def setPatterns(value: Array[String]): this.type = set(patterns, value)
 
-  def setLowerCase(value: Boolean): this.type = set(lowercase, value)
+  def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
