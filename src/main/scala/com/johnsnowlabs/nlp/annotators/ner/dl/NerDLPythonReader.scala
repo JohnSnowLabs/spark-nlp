@@ -78,6 +78,6 @@ object NerDLModelPythonReader {
       .setDatasetParams(encoder.params)
       .setDims(embeddingsDim)
       .setIndexPath(embeddings.clusterFilePath.toString)
-      .setNormalizeEmbeddings(normalize)
+      .setUseNormalizedTokensForEmbeddings(normalize)
   }
 }

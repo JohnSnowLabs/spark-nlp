@@ -23,9 +23,10 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")
   val embeddingsNDims = new IntParam(this, "embeddingsNDims", "Number of dimensions for word vectors")
-  val normalizeEmbeddings = new BooleanParam(this, "normalizeEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
+  val useNormalizedTokensForEmbeddings = new BooleanParam(this, "useNormalizedTokensForEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
 
-  setDefault(normalizeEmbeddings, true)
+  def setUseNormalizedTokensForEmbeddings(value: Boolean): this.type = set(this.useNormalizedTokensForEmbeddings, value)
+  setDefault(useNormalizedTokensForEmbeddings, true)
 
   def setEmbeddingsSource(path: String, nDims: Int, format: WordEmbeddingsFormat.Format): A = {
     set(this.sourceEmbeddingsPath, path)
@@ -46,7 +47,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
         spark.sparkContext,
         $(sourceEmbeddingsPath),
         $(embeddingsNDims),
-        $(normalizeEmbeddings),
+        $(useNormalizedTokensForEmbeddings),
         WordEmbeddingsFormat($(embeddingsFormat))
       ))
     }
