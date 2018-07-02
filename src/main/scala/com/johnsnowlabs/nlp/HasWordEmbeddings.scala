@@ -21,20 +21,20 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
-  val normalizeEmbeddings = new BooleanParam(this, "normalizeEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
+  val useNormalizedTokensForEmbeddings = new BooleanParam(this, "useNormalizedTokensForEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
 
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
-  def setNormalizeEmbeddings(value: Boolean): this.type = set(this.normalizeEmbeddings, value)
+  def setUseNormalizedTokensForEmbeddings(value: Boolean): this.type = set(this.useNormalizedTokensForEmbeddings, value)
 
-  setDefault(normalizeEmbeddings, true)
+  setDefault(useNormalizedTokensForEmbeddings, true)
 
   @transient
   private var sparkEmbeddings: SparkWordEmbeddings = null
 
   def embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     if (sparkEmbeddings == null)
-      sparkEmbeddings = new SparkWordEmbeddings(path, $(nDims), $(normalizeEmbeddings))
+      sparkEmbeddings = new SparkWordEmbeddings(path, $(nDims), $(useNormalizedTokensForEmbeddings))
 
     sparkEmbeddings.wordEmbeddings
   }
@@ -58,7 +58,7 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
     val src = getEmbeddingsSerializedPath(path)
 
     if (fs.exists(src)) {
-      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, $(normalizeEmbeddings), WordEmbeddingsFormat.SPARKNLP)
+      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, $(useNormalizedTokensForEmbeddings), WordEmbeddingsFormat.SPARKNLP)
       setIndexPath(embeddings.clusterFilePath.toString)
     }
   }
