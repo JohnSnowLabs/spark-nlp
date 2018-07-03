@@ -26,7 +26,7 @@ spIncludeMaven := false
 
 spAppendScalaVersion := false
 
-resolvers += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -87,11 +87,6 @@ lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
 )
 
-lazy val analyticsDependenciesNotProvided = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVer,
-  "org.apache.spark" %% "spark-mllib" % sparkVer
-)
-
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 )
@@ -114,7 +109,7 @@ lazy val root = (project in file("."))
         utilDependencies
   )
 
-val rules: (String => MergeStrategy)  = {
+val ocrMergeRules: (String => MergeStrategy)  = {
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.first
   case PathList("META-INF", fileName)
@@ -127,8 +122,7 @@ val rules: (String => MergeStrategy)  = {
 
 lazy val ocr = (project in file("ocr")).settings(
   libraryDependencies ++= ocrDependencies ++ analyticsDependencies,
-  resolvers ++= Seq("Maven Central" at "http://central.maven.org/maven2/"),
-  assemblyMergeStrategy in assembly := rules)
+  assemblyMergeStrategy in assembly := ocrMergeRules)
   .dependsOn(root)
 
 parallelExecution in Test := false
