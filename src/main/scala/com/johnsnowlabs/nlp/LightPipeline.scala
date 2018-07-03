@@ -15,7 +15,7 @@ class LightPipeline(stages: Array[Transformer]) {
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
-        case ocrAssembler: OcrAssembler =>
+        case ocrAssembler: HasOcr with AnnotatorModel[_]=>
           val extracted = ocrAssembler.doOcr(new FileInputStream(target))
             .flatMap{case (pageN, content) => ocrAssembler.annotate(target, content, pageN)}
           annotations.updated(ocrAssembler.getOutputCol, extracted)

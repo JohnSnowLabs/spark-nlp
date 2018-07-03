@@ -1,4 +1,4 @@
-package com.johnsnowlabs.ocr
+package com.johnsnowlabs.nlp
 
 import java.awt.image.RenderedImage
 import java.io.InputStream
@@ -31,12 +31,14 @@ import scala.collection.Map
 class OcrAssembler(override val uid: String) extends Transformer
   with DefaultParamsWritable
   with HasAnnotatorType
-  with HasOutputAnnotationCol {
+  with HasOutputAnnotationCol
+  with HasOcr {
 
   val inputPath: Param[String] = new Param[String](this, "inputPath", "input path containing the file(s) to be recognized")
   val extractTextLayer: Param[Boolean] = new Param[Boolean](this, "extractTextLayer", "indicates that non graphical textual information should be extracted from PDFs")
   val pageSegmentationMode:Param[Int] = new Param[Int](this, "pageSegmentationMode", "Tesseract's page segmentation mode")
   val engineMode:Param[Int] = new Param[Int](this, "engineMode", "Tesseract's engine mode")
+  val minTextLayerSize:Param[Int] = new Param[Int](this, "minTextLayerSize", "Minimum Size for the text layer in a PDF to be extracted.")
 
   def setInputPath(str: String) = {
     set(inputPath, str)
@@ -51,11 +53,12 @@ class OcrAssembler(override val uid: String) extends Transformer
   @transient
   var tesseractAPI : Tesseract = null
 
-  setDefault(inputPath -> "*.pdf",
+  setDefault(inputPath -> ".",
     extractTextLayer -> true,
     pageSegmentationMode -> TessPageSegMode.PSM_SINGLE_BLOCK,
     engineMode -> TessOcrEngineMode.OEM_LSTM_ONLY,
-    outputCol -> "ocr_text_regions"
+    outputCol -> "ocr_text_regions",
+    minTextLayerSize -> 10
   )
 
   override def transform(dataset: Dataset[_]): DataFrame = {
@@ -68,10 +71,9 @@ class OcrAssembler(override val uid: String) extends Transformer
     val files = sc.binaryFiles(getOrDefault(inputPath))
     files.flatMap {case (fileName, stream) =>
       doOcr(stream.open).map{case (pageN, region) => (fileName, region, pageN)}
-    }.toDF. // TODO this naming _1, _2, etc is not very robust
+    }.toDF.
       withColumn(getOrDefault(outputCol), createAnnotations(col("_1"), col("_2"), col("_3")).as(getOrDefault(outputCol), metadataBuilder.build)).
       drop("_1", "_2", "_3")
-
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
@@ -117,7 +119,8 @@ class OcrAssembler(override val uid: String) extends Transformer
     /* try to extract a text layer from each page, default to OCR if not present */
     val result = Range(1, numPages + 1).flatMap { pageNum =>
       val textContent = extractText(pdfDoc, pageNum)
-      if (textContent.size < 10) { // if no text layer present, do the OCR
+      // if no text layer present, do the OCR
+      if (textContent.size < getOrDefault(minTextLayerSize)) {
 
         // Not working for now. Index out of bounds error when PDF using Image plugin
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
@@ -173,7 +176,6 @@ class OcrAssembler(override val uid: String) extends Transformer
     getImagesFromResources(page.getResources)(0)
   }
 
-  import java.util
   private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
     val images = new java.util.ArrayList[RenderedImage]
     import scala.collection.JavaConversions._
