@@ -122,7 +122,6 @@ class OcrAssembler(override val uid: String) extends Transformer
       // if no text layer present, do the OCR
       if (textContent.size < getOrDefault(minTextLayerSize)) {
 
-        // Not working for now. Index out of bounds error when PDF using Image plugin
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
         val bufferedImage = PlanarImage.wrapRenderedImage(renderedImage).getAsBufferedImage()
 
