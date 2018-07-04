@@ -78,7 +78,7 @@ developers := List(
 
 lazy val ocrDependencies = Seq(
   "org.apache.pdfbox" % "pdfbox" % "2.0.9",
-  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12-1.7."),
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12-1.7.16"),
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
 )
 
@@ -111,7 +111,7 @@ lazy val root = (project in file("."))
 
 val ocrMergeRules: (String => MergeStrategy)  = {
   case "versionchanges.txt" => MergeStrategy.discard
-  case "StaticLoggerBinder" => MergeStrategy.first
+  case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
     if (List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName)) => MergeStrategy.discard
   case PathList("META-INF", "services", xs @ _*)  => MergeStrategy.first
