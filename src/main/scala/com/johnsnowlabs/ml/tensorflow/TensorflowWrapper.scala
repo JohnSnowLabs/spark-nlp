@@ -99,7 +99,7 @@ object TensorflowWrapper {
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
-    val config = Array[Byte](56, 1, 64, 1)
+    val config = Array[Byte](56, 1)
 
     // 3. Read file as SavedModelBundle
     val (graph, session) = if (useBundle) {
