@@ -168,6 +168,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("spell")
         .setOutputAsArray(false)
+        .setAnnotationSplitSymbol("@")
+        .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -222,6 +224,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val finisher = new Finisher()
         .setInputCols("spell")
         .setOutputAsArray(false)
+        .setAnnotationSplitSymbol("@")
+        .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
         .setStages(Array(

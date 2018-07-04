@@ -63,6 +63,8 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     val finisher = new Finisher()
       .setInputCols("entity")
       .setOutputAsArray(false)
+      .setAnnotationSplitSymbol("@")
+      .setValueSplitSymbol("#")
 
     val recursivePipeline = new RecursivePipeline()
       .setStages(Array(
