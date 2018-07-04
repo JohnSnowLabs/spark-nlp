@@ -24,7 +24,7 @@ class NerDLReaderTestSpec extends FlatSpec {
   }
 
 
-  "NerDLModel" should "correctly read and use a tensorflow originated ner model" in {
+  "NerDLModel" should "correctly read and use a tensorflow originated ner model" ignore {
     val spark = ResourceHelper.spark
     import spark.implicits._
 

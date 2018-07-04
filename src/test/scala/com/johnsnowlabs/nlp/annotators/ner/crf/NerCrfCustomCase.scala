@@ -67,7 +67,7 @@ class NerCrfCustomCase extends FlatSpec {
 
   }
 
-  "NerCRF" should "read and predict" in {
+  "NerCRF" should "read and predict" ignore {
     val lp = new LightPipeline(PipelineModel.load("./crfnerconll"))
 
     println(lp.annotate(
