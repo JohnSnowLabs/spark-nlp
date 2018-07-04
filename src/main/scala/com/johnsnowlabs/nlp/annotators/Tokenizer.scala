@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -22,6 +22,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
   val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Defaults to \\A([^\\s\\p{L}$\\.]*)")
   val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
+  val includeDefaults: BooleanParam = new BooleanParam(this, "includeDefaults", "whether to include default patterns or only use user provided ones. Defaults to true.")
 
   override val annotatorType: AnnotatorType = TOKEN
 
@@ -44,33 +45,52 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def getCompositeTokens: Array[String] = $(compositeTokens)
 
-  def getInfixPatterns: Array[String] = $(infixPatterns)
+  def getInfixPatterns: Array[String] = if ($(includeDefaults)) $(infixPatterns) ++ infixDefaults else $(infixPatterns)
 
-  def getPrefixPattern: String = $(prefixPattern)
+  def getPrefixPattern: String = if ($(includeDefaults)) get(prefixPattern).getOrElse(prefixDefault) else $(prefixPattern)
 
-  def getSuffixPattern: String = $(suffixPattern)
+  def getSuffixPattern: String = if ($(includeDefaults)) get(suffixPattern).getOrElse(suffixDefault) else $(suffixPattern)
 
   def getTargetPattern: String = $(targetPattern)
 
+  def getIncludeDefaults: Boolean = $(includeDefaults)
+
+  def setIncludeDefaults(value: Boolean): this.type = set(includeDefaults, value)
+
   setDefault(inputCols, Array(DOCUMENT))
+  setDefault(includeDefaults, true)
+  setDefault(targetPattern, "\\S+")
+  setDefault(infixPatterns, Array.empty[String])
+
+  /** Check here for explanation on this default pattern */
+  private val infixDefaults =  Array(
+    "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)", // Money, Phone number and dates -> http://rubular.com/r/ihCCgJiX4e
+    "((?:\\p{L}\\.)+)", // Abbreviations -> http://rubular.com/r/nMf3n0axfQ
+    "(\\p{L}+)(n't\\b)", // Weren't -> http://rubular.com/r/coeYJFt8eM
+    "(\\p{L}+)('{1}\\p{L}+)", // I'll -> http://rubular.com/r/N84PYwYjQp
+    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // foo-bar -> http://rubular.com/r/cjit4R6uWd
+    "([\\p{L}\\w]+)" // basic word token
+  )
+  /** These catch everything before and after a word, as a separate token*/
+  private val prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
+  private val suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
 
   /** Clears out rules and constructs a new rule for every combination of rules provided */
   /** The strategy is to catch one token per regex group */
   /** User may add its own groups if needs targets to be tokenized separately from the rest */
   lazy private val ruleFactory = {
     val rules = ArrayBuffer.empty[String]
-    require($(infixPatterns).nonEmpty)
-    require($(infixPatterns).forall(ip => ip.contains("(") && ip.contains(")")),
+    require(getInfixPatterns.forall(ip => ip.contains("(") && ip.contains(")")),
       "infix patterns must use regex group. Notice each group will result in separate token")
-    $(infixPatterns).foreach(ip => {
+    getInfixPatterns.foreach(ip => {
       val rule = new StringBuilder
-      get(prefixPattern).orElse(getDefault(prefixPattern)).foreach(pp => {
+      get(prefixPattern).orElse(if (!$(includeDefaults)) None else Some(prefixDefault)).foreach(pp => {
         require(pp.startsWith("\\A"), "prefixPattern must begin with \\A to ensure it is the beginning of the string")
         require(pp.contains("(") && pp.contains(")"), "prefixPattern must contain regex groups. Each group will return in separate token")
         rule.append(pp)
       })
       rule.append(ip)
-      get(suffixPattern).orElse(getDefault(suffixPattern)).foreach(sp => {
+      get(suffixPattern).orElse(if (!$(includeDefaults)) None else Some(suffixDefault)).foreach(sp => {
         require(sp.endsWith("\\z"), "suffixPattern must end with \\z to ensure it is the end of the string")
         require(sp.contains("(") && sp.contains(")"), "suffixPattern must contain regex groups. Each group will return in separate token")
         rule.append(sp)
@@ -79,20 +99,6 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
     })
     rules.foldLeft(new RuleFactory(MatchStrategy.MATCH_FIRST))((factory, rule) => factory.addRule(rule.r, rule))
   }
-
-  /** Check here for explanation on this default pattern */
-  setDefault(infixPatterns, Array(
-    "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)", // Money, Phone number and dates -> http://rubular.com/r/ihCCgJiX4e
-    "((?:\\p{L}\\.)+)", // Abbreviations -> http://rubular.com/r/nMf3n0axfQ
-    "(\\p{L}+)(n't\\b)", // Weren't -> http://rubular.com/r/coeYJFt8eM
-    "(\\p{L}+)('{1}\\p{L}+)", // I'll -> http://rubular.com/r/N84PYwYjQp
-    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // foo-bar -> http://rubular.com/r/cjit4R6uWd
-    "([\\p{L}\\w]+)" // basic word token
-  ))
-  /** These catch everything before and after a word, as a separate token*/
-  setDefault(prefixPattern, "\\A([^\\s\\p{L}\\d\\$\\.#]*)")
-  setDefault(suffixPattern, "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z")
-  setDefault(targetPattern, "\\S+")
 
   private val PROTECT_CHAR = "ↈ"
   private val BREAK_CHAR = "ↇ"
