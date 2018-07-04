@@ -3,16 +3,16 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.util.io.ReadAs
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 
 class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
-  "An TextMatcher" should s"be of type $ENTITY" in {
+  "An TextMatcher" should s"be of type $DOCUMENT" in {
     val entityExtractor = new TextMatcherModel
-    assert(entityExtractor.annotatorType == ENTITY)
+    assert(entityExtractor.annotatorType == DOCUMENT)
   }
 
   "An TextMatcher" should "extract entities with and without sentences" in {
@@ -23,9 +23,9 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     val extractedNoSentence = Annotation.collect(resultNoSentence, "entity").flatten.toSeq
 
     val expected = Seq(
-      Annotation(ENTITY, 6, 24, "dolore magna aliqua", Map()),
-      Annotation(ENTITY, 26, 46, "lorem ipsum dolor sit", Map()),
-      Annotation(ENTITY, 51, 57, "laborum", Map())
+      Annotation(DOCUMENT, 6, 24, "dolore magna aliqua", Map()),
+      Annotation(DOCUMENT, 26, 46, "lorem ipsum dolor sit", Map()),
+      Annotation(DOCUMENT, 51, 57, "laborum", Map())
     )
 
     assert(extracted == expected)

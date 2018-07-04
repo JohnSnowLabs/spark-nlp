@@ -96,10 +96,11 @@ lazy val utilDependencies = Seq(
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
-  "org.tensorflow" % "tensorflow" % "1.8.0",
-  "org.tensorflow" % "libtensorflow" % "1.8.0" ,
-  "org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+  "com.amazonaws" % "aws-java-sdk" % "1.7.4",
+  "org.tensorflow" % "tensorflow" % "1.8.0"
+  /** Enable the following for tensorflow GPU support */
+  //"org.tensorflow" % "libtensorflow" % "1.8.0",
+  //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
 )
 
 lazy val root = (project in file("."))
@@ -110,11 +111,11 @@ lazy val root = (project in file("."))
         utilDependencies
   )
 
-val ocrMergeRules: (String => MergeStrategy)  = {
+val ocrMergeRules: String => MergeStrategy  = {
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.first
   case PathList("META-INF", fileName)
-    if (List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName)) => MergeStrategy.discard
+    if List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) => MergeStrategy.discard
   case PathList("META-INF", "services", xs @ _*)  => MergeStrategy.first
   case PathList("org", "apache", xs @ _*)  => MergeStrategy.first
   case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
