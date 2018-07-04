@@ -55,7 +55,7 @@ class DocumentAssembler(override val uid: String)
 
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
     if ($(trimAndClearNewLines)) {
-      val cleanText = text.replaceAll(System.lineSeparator(), " ").trim
+      val cleanText = text.replaceAll(System.lineSeparator(), " ").trim.replaceAll("\\s+", " ")
       Seq(Annotation(annotatorType, 0, cleanText.length - 1, cleanText, metadata))
     }
     else
