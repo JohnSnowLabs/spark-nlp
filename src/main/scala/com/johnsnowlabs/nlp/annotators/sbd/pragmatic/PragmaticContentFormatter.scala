@@ -42,7 +42,7 @@ class PragmaticContentFormatter(text: String) {
     */
   def formatLists: this.type = {
 
-    val factory = new RuleFactory(MATCH_ALL, PREPEND_WITH_SYMBOL)
+    val factory = new RuleFactory(MATCH_ALL, BREAK_AND_PROTECT_FROM_BREAK)
     // http://rubular.com/r/XcpaJKH0sz
       //lower case dots
       // ToDo: This rule requires more complex logic than just itself
@@ -50,15 +50,15 @@ class PragmaticContentFormatter(text: String) {
     // http://rubular.com/r/Gu5rQapywf
       //lower case parens
       .addRule(new RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)", "formatLists"))
+    // http://rubular.com/r/wfmnFNotdt
       //numeric dots
       .addRule(new RegexRule(
         "\\s\\d{1,2}\\.\\s|^\\d{1,2}\\.\\s|\\s\\d{1,2}\\.\\)|" +
         "^\\d{1,2}\\.\\)|\\s\\-\\d{1,2}\\.\\s|^\\-\\d{1,2}\\.\\s|" +
         "s\\-\\d{1,2}\\.\\)|^\\-\\d{1,2}(.\\))",
-        "formatLists-numerical"
-    ))
+        "formatLists-numerical"))
 
-    wip = factory.transformWithSymbol(BREAK_INDICATOR, wip)
+    wip = factory.transformWithSymbolicRules(wip)
 
     this
   }
@@ -131,6 +131,9 @@ class PragmaticContentFormatter(text: String) {
   def formatNumbers: this.type = {
 
     val factory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+    //
+      //numbers and decimals
+      .addRule(new RegexRule("(?<=\\d)\\.(?=\\d)", "formatNumbers-numberAndDecimals"))
     // http://rubular.com/r/oNyxBOqbyy
       //period before
       .addRule(new RegexRule("\\.(?=\\d)", "formatNumbers-periodBefore"))
