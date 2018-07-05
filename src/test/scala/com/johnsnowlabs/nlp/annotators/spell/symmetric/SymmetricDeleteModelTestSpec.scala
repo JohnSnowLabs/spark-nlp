@@ -49,4 +49,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a loaded model " should behave like testLoadModel()
 
+  "a symmetric spell checker with empty dataset" should behave like testEmptyDataset
+
 }
