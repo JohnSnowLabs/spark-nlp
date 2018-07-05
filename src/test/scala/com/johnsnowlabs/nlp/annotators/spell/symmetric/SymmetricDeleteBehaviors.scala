@@ -11,7 +11,7 @@ import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.Benchmark
 
 
-trait   SymmetricDeleteBehaviors { this: FlatSpec =>
+trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
@@ -153,9 +153,6 @@ trait   SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("token")
 
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
-      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
-      // val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
-      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
@@ -287,7 +284,6 @@ trait   SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
-      //corpusData.show()
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
 
       Benchmark.time("without dictionary") { //to measure processing time
