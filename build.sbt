@@ -88,7 +88,7 @@ lazy val utilDependencies = Seq(
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
   "org.tensorflow" % "tensorflow" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313"
+  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
 )
 
 lazy val root = (project in file("."))

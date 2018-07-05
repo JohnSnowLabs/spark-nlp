@@ -4,7 +4,6 @@ import re
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
-from sparknlp.pretrained.pipeline.en import BasicPipeline
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -79,6 +78,27 @@ class LemmatizerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
 
+class TokenizerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setOutputCol("token") \
+            .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
+        finisher = Finisher() \
+            .setInputCols(["token"]) \
+            .setOutputCols(["token_out"]) \
+            .setOutputAsArray(True)
+        assembled = document_assembler.transform(data)
+        tokenized = tokenizer.transform(assembled)
+        finished = finisher.transform(tokenized)
+        self.assertEqual(len(finished.first()['token_out']), 6)
 
 class NormalizerTestSpec(unittest.TestCase):
 
@@ -95,6 +115,7 @@ class NormalizerTestSpec(unittest.TestCase):
             .setInputCols(["token"]) \
             .setOutputCol("normalized_token") \
             .setLowercase(False)
+
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.transform(tokenized).show()
@@ -160,6 +181,39 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
         pos_tagger.transform(tokenized).show()
+
+
+class ChunkerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(path="file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
+            .setIterations(2) \
+            .fit(self.data)
+        chunker = Chunker() \
+            .setInputCols(["pos"]) \
+            .setOutputCol("chunk") \
+            .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        pos_sentence_format = pos_tagger.transform(tokenized)
+        chunk_phrases = chunker.transform(pos_sentence_format)
+        chunk_phrases.show()
 
 
 class PragmaticSBDTestSpec(unittest.TestCase):
