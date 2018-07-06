@@ -115,7 +115,8 @@ val ocrMergeRules: String => MergeStrategy  = {
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
-    if List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) => MergeStrategy.discard
+    if List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
+        => MergeStrategy.discard
   case PathList("META-INF", "services", xs @ _*)  => MergeStrategy.first
   case PathList("org", "apache", xs @ _*)  => MergeStrategy.first
   case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
