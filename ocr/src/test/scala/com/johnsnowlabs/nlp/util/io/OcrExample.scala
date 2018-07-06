@@ -17,7 +17,8 @@ class OcrExample extends FlatSpec {
       .config("spark.kryoserializer.buffer.max", "500m")
       .getOrCreate()
 
-    val data = OcrHelper.createDataset(spark, "/home/saif/IdeaProjects/spark-nlp/python/example/ocr/pdfs/immortal_text.pdf")
+    // point to test/resources/pdfs
+    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs")
 
     data.show(10)
 
