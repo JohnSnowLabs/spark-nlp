@@ -123,24 +123,34 @@ class Tokenizer(AnnotatorModel):
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
+    includeDefaults = Param(Params._dummy(),
+                            "includeDefaults",
+                            "whether to include default patterns or only use user provided ones. Defaults to true.",
+                            typeConverter=TypeConverters.toBoolean
+                            )
+
     name = 'Tokenizer'
 
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
+
+        self.infixDefaults = [
+            "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
+            "((?:\\p{L}\\.)+)",
+            "(\\p{L}+)(n't\\b)",
+            "(\\p{L}+)('{1}\\p{L}+)",
+            "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
+            "([\\p{L}\\w]+)"
+        ]
+        self.prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
+        self.suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+
         self._setDefault(
             inputCols=["document"],
-            infixPatterns=[
-                "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-                "((?:\\p{L}\\.)+)",
-                "(\\p{L}+)(n't\\b)",
-                "(\\p{L}+)('{1}\\p{L}+)",
-                "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-                "([\\p{L}\\w]+)"
-            ],
-            prefixPattern="\\A([^\\s\\p{L}\\d\\$\\.#]*)",
-            suffixPattern="([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z",
-            targetPattern="\\S+"
+            targetPattern="\\S+",
+            infixPatterns=[],
+            includeDefaults=True
         )
 
     def setTargetPattern(self, value):
@@ -158,10 +168,40 @@ class Tokenizer(AnnotatorModel):
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
+    def setIncludeDefaults(self, value):
+        return self._set(includeDefaults=value)
+
     def addInfixPattern(self, value):
         infix_patterns = self.getInfixPatterns()
-        infix_patterns.append(value)
+        infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
+
+    def getIncludeDefaults(self):
+        return self.getOrDefault("includeDefaults")
+
+    def getInfixPatterns(self):
+        if self.getIncludeDefaults():
+            return self.getOrDefault("infixPatterns") + self.infixDefaults
+        else:
+            return self.getOrDefault("infixPatterns")
+
+    def getSuffixPattern(self):
+        if self.getIncludeDefaults():
+            if self.isDefined("suffixPattern"):
+                return self.getOrDefault("suffixPattern")
+            else:
+                return self.suffixDefault
+        else:
+            return self.getOrDefault("suffixPattern")
+
+    def getPrefixPattern(self):
+        if self.getIncludeDefaults():
+            if self.isDefined("prefixPattern"):
+                return self.getOrDefault("prefixPattern")
+            else:
+                return self.prefixDefault
+        else:
+            return self.getOrDefault("prefixPattern")
 
 
 class Stemmer(AnnotatorModel):
@@ -1008,33 +1048,3 @@ class AssertionDLModel(AnnotatorModel):
     def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
-
-
-class OcrAnnotator(AnnotatorTransformer):
-
-    inputPath = Param(Params._dummy(), "inputPath", "input path for PDFs/images to be recognized", typeConverter=TypeConverters.toString)
-    extractTextLayer = Param(Params._dummy(), "extractTextLayer", "wheather to extract a layer of text when it is present in a PDF", typeConverter=TypeConverters.toString)
-    outputCol = Param(Params._dummy(), "outputCol", "output column name for OCR annotations", typeConverter=TypeConverters.toString)
-    pageSegmentationMode = Param(Params._dummy(), "pageSegmentationMode", "Tesseract's page segmentation mode", typeConverter=TypeConverters.toInt)
-    engineMode = Param(Params._dummy(), "pageSegmentationMode", "Tesseract's engine mode", typeConverter=TypeConverters.toInt)
-    name = 'OcrAnnotator'
-
-    @keyword_only
-    def __init__(self):
-        super(OcrAnnotator, self).__init__(classname="com.johnsnowlabs.nlp.OcrAnnotator")
-        self._setDefault(outputCol="document")
-
-    @keyword_only
-    def setParams(self):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
-    def setOutputCol(self, value):
-        return self._set(outputCol=value)
-
-    def setIdCol(self, value):
-        return self._set(idCol=value)
-
-    def setMetadataCol(self, value):
-        return self._set(metadataCol=value)
-
