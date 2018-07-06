@@ -115,10 +115,11 @@ val ocrMergeRules: String => MergeStrategy  = {
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
-    if List("MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
+    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
         => MergeStrategy.discard
-  case PathList("META-INF", "services", xs @ _*)  => MergeStrategy.first
-  case PathList("org", "apache", xs @ _*)  => MergeStrategy.first
+  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
+  case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
   case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
   case _ => MergeStrategy.deduplicate
 }
@@ -150,10 +151,18 @@ publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
+lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assemblyOutputPath in assembly).value
   val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
+  IO.copyFile(jarFilePath, newJarFilePath)
+  println(s"[info] $jarFilePath copied to $newJarFilePath ")
+}
+
+copyAssembledOcrJar := {
+  val jarFilePath = (assemblyOutputPath in assembly).value
+  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-ocr.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
