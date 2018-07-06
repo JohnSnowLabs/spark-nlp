@@ -12,6 +12,7 @@ import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.apache.spark.util.{CollectionAccumulator, LongAccumulator}
+import org.apache.spark.sql.functions.rand
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
 import scala.util.Random
@@ -98,7 +99,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         * update totals and timestamps
         */
       val param = (feature, tag)
-      tot.update(param, (ii - tt.getOrElse(param, 0L)) * weight)
+      tot.update(param, tot.getOrElse(param, 0.0) + ((ii - tt.getOrElse(param, 0L)) * weight))
       //totals.add(param, (updateIteration.value - timestamps.value(param)) * weight)
       //timestamps(param) = updateIteration.value
       tt.update(param, ii)
@@ -162,7 +163,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     *
     * @return A trained averaged model
     */
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): PerceptronModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): PerceptronModel = Benchmark.time("Total training") {
 
     val featuresWeight = new StringMapStringDoubleAccumulator()
     val timestamps = new TupleKeyLongMapAccumulatorWithDefault()
@@ -194,7 +195,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
             )
         }
     } else {
-      ResourceHelper.parseTupleSentencesDS($(corpus)).repartition(16).cache
+      ResourceHelper.parseTupleSentencesDS($(corpus))
     }
     val taggedWordBook = dataset.sparkSession.sparkContext.broadcast(buildTagBook(taggedSentences))
     /** finds all distinct tags and stores them */
@@ -233,7 +234,9 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         dataset.sparkSession.sparkContext.broadcast[Long](updateIteration.value)
       }
 
-      taggedSentences.foreachPartition(partition => {
+      val sortedSentences = taggedSentences.orderBy(rand()).repartition(16).cache
+
+      sortedSentences.foreachPartition(partition => {
 
         val t = ListBuffer.empty[((String, String), Long)]
         ttt.value.copyToBuffer(t)
@@ -303,6 +306,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         }
       })
       println("Unpersisting...")
+      sortedSentences.unpersist()
       ttt.unpersist()
       bbb.unpersist()
       iii.unpersist()
