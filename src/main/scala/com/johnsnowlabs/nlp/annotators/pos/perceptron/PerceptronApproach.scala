@@ -4,12 +4,16 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.util.spark.{DoubleMapAccumulatorWithDefault, LongMapAccumulatorWithDefault, TupleKeyLongMapAccumulatorWithDefault}
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
+import org.apache.spark.util.{CollectionAccumulator, LongAccumulator}
 
-import scala.collection.mutable.{Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
 import scala.util.Random
 
 /**
@@ -59,25 +63,98 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
     */
   private def buildTagBook(
-                            taggedSentences: Array[TaggedSentence],
+                            taggedSentences: Dataset[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
                           ): Map[String, String] = {
-
+    import ResourceHelper.spark.implicits._
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
-      .groupBy(_.word.toLowerCase)
-      .mapValues(_.groupBy(_.tag).mapValues(_.length))
+      .groupByKey(tw => tw.word.toLowerCase)
+      .mapGroups{case (lw, tw) => (lw, tw.toSeq.groupBy(_.tag).mapValues(_.length))}
+      .filter { lwtw =>
+        val (_, mode) = lwtw._2.maxBy(t => t._2)
+        val n = lwtw._2.values.sum
+        n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
+      }
 
-    tagFrequenciesByWord.filter { case (_, tagFrequencies) =>
-      val (_, mode) = tagFrequencies.maxBy(_._2)
-      val n = tagFrequencies.values.sum
-      n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
-    }.map { case (word, tagFrequencies) =>
+    tagFrequenciesByWord.map { case (word, tagFrequencies) =>
       val (tag, _) = tagFrequencies.maxBy(_._2)
       logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
       (word, tag)
+    }.collect.toMap
+  }
+
+  def update(
+              truth: String,
+              guess: String,
+              features: Iterable[String],
+              ii: Long,
+              bb: MMap[String, MMap[String, Double]],
+              tot: MMap[(String, String), Double],
+              tt: MMap[(String, String), Long]) = {
+    def updateFeature(tag: String, feature: String, weight: Double, value: Double): Unit = {
+      /**
+        * update totals and timestamps
+        */
+      val param = (feature, tag)
+      tot.update(param, (ii - tt.getOrElse(param, 0L)) * weight)
+      //totals.add(param, (updateIteration.value - timestamps.value(param)) * weight)
+      //timestamps(param) = updateIteration.value
+      tt.update(param, ii)
+      /**
+        * update weights
+        */
+      bb.update(feature, bb.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value)))
+      //featuresWeight.add(feature, Map(tag -> (weight + value)))
+      //featuresWeight.innerSet((feature, tag), weight + value)
+      //featuresWeight(feature)(tag) = weight + value
+      //featuresWeight.value(feature) = MMap(tag -> (weight + value))
     }
+    /**
+      * if prediction was wrong, take all features and for each feature get feature's current tags and their weights
+      * congratulate if success and punish for wrong in weight
+      */
+    if (truth != guess) {
+      features.foreach{feature =>
+        val weights = bb.getOrElse(feature, MMap())
+        updateFeature(truth, feature, weights.getOrElse(truth, 0.0), 1.0)
+        updateFeature(guess, feature, weights.getOrElse(guess, 0.0), -1.0)
+      }
+    }
+  }
+
+  private[pos] def averageWeights(
+                                   tags: Broadcast[Array[String]],
+                                   taggedWordBook: Broadcast[Map[String, String]],
+                                   featuresWeight: StringMapStringDoubleAccumulator,
+                                   updateIteration: LongAccumulator,
+                                   totals: StringTupleDoubleAccumulatorWithDV,
+                                   timestamps: TupleKeyLongMapAccumulatorWithDefault
+                                   ): AveragedPerceptron = {
+    val fw = featuresWeight.value
+    val uiv = updateIteration.value
+    val tv = totals.value
+    val tmv = timestamps.value
+    featuresWeight.reset()
+    updateIteration.reset()
+    totals.reset()
+    timestamps.reset()
+    val finalfw = Benchmark.time("Average weighting took") {fw.map { case (feature, weights) =>
+      (feature, weights.map { case (tag, weight) =>
+        val param = (feature, tag)
+        val total = tv.getOrElse(param, 0.0) + ((uiv - tmv.getOrElse(param, 0L)) * weight)
+        (tag, total / uiv.toDouble)
+      })
+    }}
+    val apr = AveragedPerceptron(
+      tags.value,
+      taggedWordBook.value,
+      finalfw
+    )
+    taggedWordBook.destroy()
+    tags.destroy()
+    apr
   }
 
   /**
@@ -86,10 +163,20 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     * @return A trained averaged model
     */
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): PerceptronModel = {
+
+    val featuresWeight = new StringMapStringDoubleAccumulator()
+    val timestamps = new TupleKeyLongMapAccumulatorWithDefault()
+    val updateIteration = new LongAccumulator()
+    val totals = new StringTupleDoubleAccumulatorWithDV()
+    dataset.sparkSession.sparkContext.register(featuresWeight)
+    dataset.sparkSession.sparkContext.register(timestamps)
+    dataset.sparkSession.sparkContext.register(updateIteration)
+    dataset.sparkSession.sparkContext.register(totals)
+
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
+    val taggedSentences: Dataset[TaggedSentence] = if (get(posCol).isDefined) {
       import ResourceHelper.spark.implicits._
       val tokenColumn = dataset.schema.fields
         .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
@@ -105,62 +192,123 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
             TaggedSentence(annotations.zip(posTags)
               .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
             )
-        }.collect
+        }
     } else {
-      ResourceHelper.parseTupleSentences($(corpus))
+      ResourceHelper.parseTupleSentencesDS($(corpus)).repartition(16).cache
     }
-    val taggedWordBook = buildTagBook(taggedSentences)
+    val taggedWordBook = dataset.sparkSession.sparkContext.broadcast(buildTagBook(taggedSentences))
     /** finds all distinct tags and stores them */
-    val classes = taggedSentences.flatMap(_.tags).distinct
-    val initialModel = new AveragedPerceptron(
-      classes,
-      taggedWordBook,
-      MMap()
-    )
+    val classes = {
+      import ResourceHelper.spark.implicits._
+      dataset.sparkSession.sparkContext.broadcast(taggedSentences.flatMap(_.tags).distinct.collect)
+    }
+
     /**
       * Iterates for training
       */
-    val trainedModel = (1 to $(nIterations)).foldLeft(initialModel) { (iteratedModel, iteration) => {
+    (1 to $(nIterations)).foreach { iteration => {
       logger.debug(s"TRAINING: Iteration n: $iteration")
-      /**
-        * In a shuffled sentences list, try to find tag of the word, hold the correct answer
-        */
-      Random.shuffle(taggedSentences.toList).foldLeft(iteratedModel) { (model, taggedSentence) =>
 
-        /**
-          * Defines a sentence context, with room to for look back
+      val ttt = if (iteration == 1 ) {
+        dataset.sparkSession.sparkContext.broadcast(Map.empty[(String, String), Long])
+      } else {
+        dataset.sparkSession.sparkContext.broadcast(timestamps.value)
+      }
+
+      val bbb = if (iteration == 1 ) {
+        dataset.sparkSession.sparkContext.broadcast(Map.empty[String, Map[String, Double]])
+      } else {
+        dataset.sparkSession.sparkContext.broadcast(featuresWeight.value)
+      }
+
+      val ooo = if (iteration == 1 ) {
+        dataset.sparkSession.sparkContext.broadcast(Map.empty[(String, String), Double])
+      } else {
+        dataset.sparkSession.sparkContext.broadcast(totals.value)
+      }
+
+      val iii = if (iteration == 1 ) {
+        dataset.sparkSession.sparkContext.broadcast[Long](0L)
+      } else {
+        dataset.sparkSession.sparkContext.broadcast[Long](updateIteration.value)
+      }
+
+      taggedSentences.foreachPartition(partition => {
+
+        val t = ListBuffer.empty[((String, String), Long)]
+        ttt.value.copyToBuffer(t)
+        val tt = MMap(t:_*)
+        t.clear()
+
+        val b = ListBuffer.empty[(String, Map[String, Double])]
+        bbb.value.copyToBuffer(b)
+        val bb = MMap(b.map{case (k,v) => (k, MMap(v.toSeq:_*))}:_*)
+        b.clear()
+
+        val o = ListBuffer.empty[((String, String), Double)]
+        ooo.value.copyToBuffer(o)
+        val tot = MMap(o:_*)
+        o.clear()
+
+        var ii: Long = iii.value
+
+          /**
+          * In a shuffled sentences list, try to find tag of the word, hold the correct answer
           */
-        var prev = START(0)
-        var prev2 = START(1)
-        val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
-        taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
-            val guess = taggedWordBook.getOrElse(word.toLowerCase,{
-                /**
-                  * if word is not found, collect its features which are used for prediction and predict
-                  */
+        println(s"Starting shuffling for partition")
+        partition.foreach { taggedSentence =>
+
+          //println(s"computing  ${taggedSentence.words.take(5).mkString(",")}")
+
+          /**
+            * Defines a sentence context, with room to for look back
+            */
+          var prev = START(0)
+          var prev2 = START(1)
+          val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
+          taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
+            val guess =
+              taggedWordBook.value.getOrElse(word.toLowerCase, {
                 val features = getFeatures(i, word, context, prev, prev2)
+                val model = TrainingPerceptron(classes.value, bb)
                 val guess = model.predict(features)
-                /**
-                  * Update the model based on the prediction results
-                  */
-                model.update(taggedSentence.tags(i), guess, features.toMap)
-                /**
-                  * return the guess
-                  */
+                ii += 1L
+                update(taggedSentence.tags(i), guess, features.keys, ii, bb, tot, tt)
                 guess
               })
-          /**
-            * shift the context
-            */
-          prev2 = prev
-          prev = guess
+
+            /**
+              * shift the context
+              */
+            prev2 = prev
+            prev = guess
+          }
+
+          //println("finished computing sentence")
         }
-        model
-      }
+        println(s"Finished shuffling... adding to models")
+        synchronized {
+          Benchmark.time("add many features") {
+            featuresWeight.addMany(bb)
+          }
+          Benchmark.time("update many timestamps") {
+            timestamps.updateMany(tt)
+          }
+          Benchmark.time("update many totals") {
+            totals.updateMany(tot)
+          }
+          Benchmark.time("update iterations") {
+            updateIteration.add(ii)
+          }
+        }
+      })
+      println("Unpersisting...")
+      ttt.unpersist()
+      bbb.unpersist()
+      iii.unpersist()
     }}
-    trainedModel.averageWeights()
     logger.debug("TRAINING: Finished all iterations")
-    new PerceptronModel().setModel(trainedModel)
+    new PerceptronModel().setModel(averageWeights(classes, taggedWordBook, featuresWeight, updateIteration, totals, timestamps))
   }
 }
 

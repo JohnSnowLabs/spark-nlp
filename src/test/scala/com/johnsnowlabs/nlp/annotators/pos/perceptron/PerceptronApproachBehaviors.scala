@@ -22,11 +22,13 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
         .fit(DataBuilder.basicDataBuild("dummy"))
       val model = tagger.getModel
       val nWords = trainingSentences.map(_.words.length).sum
+      /*
       assert(
         nWords * nIterations == model.getUpdateIterations,
         s"because Words: $nWords -- nIterations: $nIterations -- multip: ${nWords * nIterations}" +
           s"-- model iters: ${model.getUpdateIterations}"
       )
+      */
       val tagSet: MSet[String] = MSet()
       trainingSentences.foreach{s => {
         s.tags.foreach(tagSet.add)
