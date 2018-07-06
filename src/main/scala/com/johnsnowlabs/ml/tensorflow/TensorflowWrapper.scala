@@ -100,10 +100,9 @@ object TensorflowWrapper {
     val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
     val graph = new Graph()
     graph.importGraphDef(graphDef)
-    //Use CPU
-    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
-    //Use GPU
-    val config = Array[Byte](56, 1, 64, 1)
+    /** Enables allow_soft_placement in Tensorflow */
+    /** Add log_device_placement for debugging with (64, 1) */
+    val config = Array[Byte](56, 1)
     val session = new Session(graph, config)
     session.runner.addTarget("save/restore_all")
       .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))

@@ -33,8 +33,8 @@ class DefaultPragmaticMethod(useAbbreviations: Boolean = false) extends Pragmati
     val symbolyzedData =
       new PragmaticContentFormatter(content)
         .formatLists
-        .formatAbbreviations(useAbbreviations)
         .formatNumbers
+        .formatAbbreviations(useAbbreviations)
         .formatPunctuations
         .formatMultiplePeriods
         .formatGeoLocations
