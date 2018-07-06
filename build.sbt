@@ -78,7 +78,7 @@ developers := List(
 
 lazy val ocrDependencies = Seq(
   "org.apache.pdfbox" % "pdfbox" % "2.0.9",
-  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12"),
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
 )
 
@@ -124,9 +124,11 @@ val ocrMergeRules: String => MergeStrategy  = {
 }
 
 lazy val ocr = (project in file("ocr")).settings(
-  libraryDependencies ++= ocrDependencies ++ analyticsDependencies,
+  libraryDependencies ++= ocrDependencies ++
+    analyticsDependencies ++
+    testDependencies,
   assemblyMergeStrategy in assembly := ocrMergeRules)
-  .dependsOn(root)
+  .dependsOn(root % "test")
 
 parallelExecution in Test := false
 
