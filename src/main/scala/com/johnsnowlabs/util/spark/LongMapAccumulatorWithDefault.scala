@@ -53,14 +53,16 @@ class DoubleMapAccumulatorWithDefault(defaultMap: MMap[String, Double] = MMap.em
 class TupleKeyLongMapAccumulatorWithDefault(defaultMap: MMap[(String, String), Long] = MMap.empty[(String, String), Long], defaultValue: Long = 0L)
   extends AccumulatorV2[((String, String), Long), Map[(String, String), Long]] {
 
-  var mmap = defaultMap.withDefaultValue(defaultValue)
+  @volatile var mmap = defaultMap.withDefaultValue(defaultValue)
 
   override def reset(): Unit = mmap.clear()
 
   override def add(v: ((String, String), Long)): Unit = mmap(v._1) = v._2
 
   def updateMany(v: MMap[(String, String), Long]): Unit = {
-    mmap ++= v
+    synchronized {
+      mmap ++= v
+    }
   }
 
   def update(k: (String, String), v: Long): Unit =  mmap(k) = v

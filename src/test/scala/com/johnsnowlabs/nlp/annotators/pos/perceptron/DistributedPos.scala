@@ -8,7 +8,7 @@ import org.apache.spark.ml.Pipeline
 
 class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
 
-  "distributed pos" should "successfully work" ignore {
+  "distributed pos" should "successfully work" in {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
@@ -23,7 +23,7 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
     val pos = new PerceptronApproach()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("./pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text"))
+      .setCorpus("/home/saif/IdeaProjects/spark-nlp-models/src/main/resources/pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text"))
       .setNIterations(5)
 
     val finisher = new Finisher()
@@ -41,8 +41,10 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
     val lp = new LightPipeline(m)
 
     val result = lp.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
+    val correct = Array("pos", " -> ", "DT", "NN", "IN", "NNS", "RB", "VBN", "TO", "VB", "NNP", "NN", "NNS", "VBZ", "VBN", "DT", "JJ", "NN", "IN", "NN", "NNS", "IN", "DT", "NN", "IN", "NNS", "VBN", "TO", "PRP", "JJR", "IN", "CD", "NNS", "RB", "NNS", "VBD")
 
     println(result.mapValues(_.mkString(",")).mkString(","))
+    println(correct.mkString(","))
 
   }
 

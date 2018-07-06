@@ -7,14 +7,18 @@ import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 class StringTupleDoubleAccumulatorWithDV(defaultMap: MMap[(String, String), Double] = MMap.empty[(String, String), Double])
   extends AccumulatorV2[((String, String), Double), Map[(String, String), Double]] {
 
-  private var mmap = defaultMap.withDefaultValue(0.0)
+  @volatile private var mmap = defaultMap.withDefaultValue(0.0)
 
   override def reset(): Unit = mmap.clear()
 
   override def add(v: ((String, String), Double)): Unit = mmap(v._1) += v._2
 
-  def updateMany(v: MMap[(String, String), Double]): Unit = {
-    mmap ++= v
+  def updateMany(other: MMap[(String, String), Double]): Unit = {
+    synchronized {
+      other.foreach { case (k, v) =>
+        mmap(k) = mmap.getOrElse(k, 0.0) + v
+      }
+    }
   }
 
   override def value: Map[(String, String), Double] = mmap.toMap
