@@ -39,7 +39,9 @@ class NerDLReaderTestSpec extends FlatSpec {
     val target = Array(
       "With regard to the patient's chronic obstructive pulmonary disease, the patient's respiratory status improved throughout the remainder of her hospital course.")
 
-    val r = new LightPipeline(np.fit(Seq.empty[String].toDF("text")))
+    val fit = np.fit(Seq.empty[String].toDF("text"))
+
+    val r = new LightPipeline(fit)
       .annotate(target)
 
     println(r.map(_.filterKeys(k => k == "document" || k == "ner")).mkString(","))

@@ -16,7 +16,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   override val requiredAnnotatorTypes = Array(TOKEN)
 
-  override val annotatorType: AnnotatorType = ENTITY
+  override val annotatorType: AnnotatorType = DOCUMENT
 
   override val description: String = "Extracts entities from target dataset given in a text file"
 

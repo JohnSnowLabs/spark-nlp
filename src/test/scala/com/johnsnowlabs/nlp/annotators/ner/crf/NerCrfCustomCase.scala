@@ -58,12 +58,7 @@ class NerCrfCustomCase extends FlatSpec {
     val model = recursivePipeline.fit(Seq.empty[String].toDF("text"))
 
     model.write.overwrite().save("./crfnerconll")
-
-    val lp = new LightPipeline(model)
-
-    println(lp.annotate(
-      "left upper lobe"
-    ))
+    model.stages(4).asInstanceOf[NerCrfModel].write.overwrite().save("./crfnerconll-single")
 
   }
 

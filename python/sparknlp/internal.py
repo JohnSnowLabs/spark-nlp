@@ -77,3 +77,15 @@ class _LightPipeline(ExtendedJavaWrapper):
     def __init__(self, pipelineModel):
         super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline")
         self._java_obj = self._new_java_obj(self._java_obj, pipelineModel._to_java())
+
+
+class _OcrCreateDataset(ExtendedJavaWrapper):
+    def __init__(self, spark, input_path, output_col, metadata_col):
+        super(_OcrCreateDataset, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createDataset")
+        self._java_obj = self._new_java_obj(self._java_obj, spark, input_path, output_col, metadata_col)
+
+
+class _OcrCreateMap(ExtendedJavaWrapper):
+    def __init__(self, input_path):
+        super(_OcrCreateMap, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createMap")
+        self._java_obj = self._new_java_obj(self._java_obj, input_path)
