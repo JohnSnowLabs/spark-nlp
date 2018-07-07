@@ -9,7 +9,6 @@ import org.apache.spark.sql.functions._
 
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.Benchmark
-import com.johnsnowlabs.nlp.pretrained.pipelines.en._
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
@@ -154,9 +153,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("token")
 
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
-      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/wiki1_en.txt"
-      // val corpusPath = "/home/danilo/PycharmProjects/SymSpell/coca2017.txt"
-      // val corpusPath = "/home/danilo/IdeaProjects/spark-nlp-models/src/main/resources/spell/coca2017/2017_spok.txt"
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
@@ -329,7 +325,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("normal")
         .setLowercase(true)
 
-      val spell = new SymmetricDeleteApproach()
+        val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("normal"))
         .setDictionary("src/test/resources/spell/words.txt")
         .setOutputCol("spell")
@@ -405,6 +401,54 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
       println("SymSpell Checker")
       modelSymSpell.transform(pdata).show(5)
+    }
+  }
+
+
+  def testEmptyDataset(): Unit = {
+    it should "rise an error message" in {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normal")
+      .setLowercase(true)
+
+    val spell = new SymmetricDeleteApproach()
+      .setInputCols(Array("normal"))
+      .setDictionary("src/test/resources/spell/words.txt")
+      .setOutputCol("spell")
+
+    val finisher = new Finisher()
+      .setInputCols("spell")
+      .setOutputAsArray(false)
+      .setIncludeMetadata(false)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        normalizer,
+        spell,
+        finisher
+      ))
+
+      import SparkAccessor.spark.implicits._
+
+      val emptyDataset = Seq.empty[String].toDF("text")
+
+      val thrown = intercept[Exception] {
+        pipeline.fit(emptyDataset)
+      }
+      val message = "corpus not provided and dataset for training is empty"
+      assert(thrown.getMessage === "requirement failed: " + message)
     }
   }
 

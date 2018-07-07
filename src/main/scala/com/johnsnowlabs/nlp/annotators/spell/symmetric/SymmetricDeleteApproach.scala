@@ -141,6 +141,8 @@ class SymmetricDeleteApproach(override val uid: String)
       import ResourceHelper.spark.implicits._
       import org.apache.spark.sql.functions._
 
+      require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
+
       val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
                         .flatMap(_.map(_.result))
       val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
