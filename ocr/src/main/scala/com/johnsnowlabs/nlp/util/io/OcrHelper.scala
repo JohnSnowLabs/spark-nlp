@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.awt.image.RenderedImage
-import java.io.{File, FileInputStream, InputStream}
+import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
 
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
@@ -10,7 +10,7 @@ import net.sourceforge.tess4j.util.LoadLibs
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /*
  * Perform OCR/text extraction().
@@ -34,22 +34,24 @@ object OcrHelper {
   case class OcrRow(region: String, metadata: Map[String, String])
 
   private def getListOfFiles(dir: String): List[(String, FileInputStream)] = {
-    val d = new File(dir)
-    if (d.exists && d.isDirectory) {
-      d.listFiles.filter(_.isFile).map(f => (f.getName, new FileInputStream(f))).toList
+    val path = new File(dir)
+    if (path.exists && path.isDirectory) {
+      path.listFiles.filter(_.isFile).map(f => (f.getName, new FileInputStream(f))).toList
+    } else if (path.exists && path.isFile) {
+      List((path.getName, new FileInputStream(path)))
     } else {
-      List.empty[(String, FileInputStream)]
+      throw new FileNotFoundException("Path does not exist or is not a valid file or directory")
     }
   }
 
-  def createDataset(spark: SparkSession, inputPath: String): Dataset[OcrRow] = {
+  def createDataset(spark: SparkSession, inputPath: String, outputCol: String, metadataCol: String): DataFrame = {
     import spark.implicits._
     val sc = spark.sparkContext
 
     val files = sc.binaryFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
       doOcr(stream.open).map{case (pageN, region) => OcrRow(region, Map("source" -> fileName, "pagenum" -> pageN.toString))}
-    }.toDS
+    }.toDF(outputCol, metadataCol)
   }
 
   def createMap(inputPath: String): Map[String, String] = {

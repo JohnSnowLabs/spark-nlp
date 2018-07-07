@@ -124,11 +124,15 @@ val ocrMergeRules: String => MergeStrategy  = {
   case _ => MergeStrategy.deduplicate
 }
 
-lazy val ocr = (project in file("ocr")).settings(
-  libraryDependencies ++= ocrDependencies ++
-    analyticsDependencies ++
-    testDependencies,
-  assemblyMergeStrategy in assembly := ocrMergeRules)
+lazy val ocr = (project in file("ocr"))
+  .settings(
+    name := "spark-nlp-ocr",
+    version := "1.5.4",
+    libraryDependencies ++= ocrDependencies ++
+      analyticsDependencies ++
+      testDependencies,
+    assemblyMergeStrategy in assembly := ocrMergeRules
+  )
   .dependsOn(root % "test")
 
 parallelExecution in Test := false
@@ -161,7 +165,7 @@ copyAssembledJar := {
 }
 
 copyAssembledOcrJar := {
-  val jarFilePath = (assemblyOutputPath in assembly).value
+  val jarFilePath = (assemblyOutputPath in assembly in "ocr").value
   val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-ocr.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
