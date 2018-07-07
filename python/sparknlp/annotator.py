@@ -311,7 +311,6 @@ class NormalizerModel(AnnotatorModel):
                       "lowercase",
                       "whether to convert strings to lowercase")
 
-    @keyword_only
     def __init__(self, java_model=None):
         if java_model:
             super(JavaModel, self).__init__(java_model)
