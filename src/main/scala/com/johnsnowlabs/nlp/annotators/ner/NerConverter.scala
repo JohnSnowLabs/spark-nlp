@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, NAMED_ENTITY, NAMED_ENTITY_SPAN}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, NAMED_ENTITY}
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
@@ -22,13 +22,13 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
     val entities = NerTagsEncoding.fromIOB(sentences, doc)
 
     entities.map{entity =>
-      Annotation(AnnotatorType.NAMED_ENTITY_SPAN, entity.start, entity.end, entity.entity, Map("text" -> entity.text))
+      Annotation(annotatorType, entity.start, entity.end, entity.text, Map("entity" -> entity.entity))
     }
   }
 
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
 
-  override val annotatorType: AnnotatorType = NAMED_ENTITY_SPAN
+  override val annotatorType: AnnotatorType = DOCUMENT
 }
 
 object NerConverter extends ParamsAndFeaturesReadable[NerConverter]

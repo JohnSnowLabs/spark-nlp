@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
-import com.johnsnowlabs.nlp.AnnotatorType.REGEX
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import scala.language.reflectiveCalls
 
 trait RegexMatcherBehaviors { this: FlatSpec =>
@@ -36,7 +36,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
     it should "create annotations with the correct tag" in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
-        assert(a.annotatorType == REGEX)
+        assert(a.annotatorType == DOCUMENT)
       }
     }
   }

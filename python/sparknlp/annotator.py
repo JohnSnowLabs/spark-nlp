@@ -31,6 +31,7 @@ pragmatic = sys.modules[__name__]
 vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
+ocr = sys.modules[__name__]
 
 
 class AnnotatorProperties(Params):
@@ -1121,4 +1122,3 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
     def pretrained(name="as_fast_dl", language="en"):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
-

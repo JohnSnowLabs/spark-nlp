@@ -4,6 +4,8 @@ import re
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
+from sparknlp.pretrained.pipeline.en import BasicPipeline
+from sparknlp.ocr import OcrHelper
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -78,6 +80,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
 
+
 class TokenizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -99,6 +102,7 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(assembled)
         finished = finisher.transform(tokenized)
         self.assertEqual(len(finished.first()['token_out']), 6)
+
 
 class NormalizerTestSpec(unittest.TestCase):
 
@@ -382,3 +386,20 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
+
+
+class OcrTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        data = OcrHelper.createDataset(
+            spark=SparkContextForTest.spark,
+            input_path="../ocr/src/test/resources/pdfs/",
+            output_col="region",
+            metadata_col="metadata")
+        data.show()
+        content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs/")
+        print(content)
+        document_assembler = DocumentAssembler() \
+            .setInputCol("region") \
+            .setOutputCol("document")
+        document_assembler.transform(data).show()

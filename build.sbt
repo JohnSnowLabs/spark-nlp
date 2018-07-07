@@ -75,6 +75,13 @@ developers := List(
   Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
 )
 
+
+lazy val ocrDependencies = Seq(
+  "org.apache.pdfbox" % "pdfbox" % "2.0.9",
+  "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
+)
+
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
@@ -89,11 +96,11 @@ lazy val utilDependencies = Seq(
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
-  "org.tensorflow" % "tensorflow" % "1.8.0",
-  // Enable the following for tensorflow GPU support
+  "com.amazonaws" % "aws-java-sdk" % "1.7.4",
+  "org.tensorflow" % "tensorflow" % "1.8.0"
+  /** Enable the following for tensorflow GPU support */
   //"org.tensorflow" % "libtensorflow" % "1.8.0",
   //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
 )
 
 lazy val root = (project in file("."))
@@ -103,6 +110,30 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies
   )
+
+val ocrMergeRules: String => MergeStrategy  = {
+  case "versionchanges.txt" => MergeStrategy.discard
+  case "StaticLoggerBinder" => MergeStrategy.discard
+  case PathList("META-INF", fileName)
+    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
+        => MergeStrategy.discard
+  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
+  case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
+  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
+  case _ => MergeStrategy.deduplicate
+}
+
+lazy val ocr = (project in file("ocr"))
+  .settings(
+    name := "spark-nlp-ocr",
+    version := "1.5.4",
+    libraryDependencies ++= ocrDependencies ++
+      analyticsDependencies ++
+      testDependencies,
+    assemblyMergeStrategy in assembly := ocrMergeRules
+  )
+  .dependsOn(root % "test")
 
 parallelExecution in Test := false
 
@@ -124,10 +155,18 @@ publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
+lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assemblyOutputPath in assembly).value
   val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
+  IO.copyFile(jarFilePath, newJarFilePath)
+  println(s"[info] $jarFilePath copied to $newJarFilePath ")
+}
+
+copyAssembledOcrJar := {
+  val jarFilePath = (assemblyOutputPath in assembly in "ocr").value
+  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-ocr.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
