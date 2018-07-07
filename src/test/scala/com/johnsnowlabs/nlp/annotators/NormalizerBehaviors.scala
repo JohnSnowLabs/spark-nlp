@@ -68,6 +68,8 @@ trait NormalizerBehaviors { this: FlatSpec =>
         .setInputCols("normalized")
         .setOutputAsArray(false)
         .setIncludeMetadata(false)
+        .setAnnotationSplitSymbol("@")
+        .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -110,6 +112,8 @@ trait NormalizerBehaviors { this: FlatSpec =>
         .setInputCols("normalized")
         .setOutputAsArray(false)
         .setIncludeMetadata(false)
+        .setAnnotationSplitSymbol("@")
+        .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -160,6 +164,8 @@ trait NormalizerBehaviors { this: FlatSpec =>
         .setInputCols("normal")
         .setOutputAsArray(false)
         .setIncludeMetadata(false)
+        .setAnnotationSplitSymbol("@")
+        .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
         .setStages(Array(
