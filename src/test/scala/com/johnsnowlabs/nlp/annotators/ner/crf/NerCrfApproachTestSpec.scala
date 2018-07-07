@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.nlp._
 import org.scalatest.FlatSpec
 
-class NerCrfApproachSpec extends FlatSpec {
+class NerCrfApproachTestSpec extends FlatSpec {
   val spark = SparkAccessor.spark
 
   val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
@@ -77,4 +77,5 @@ class NerCrfApproachSpec extends FlatSpec {
 
     assert(tags == Seq("PER", "PER", "LOC"))
   }
+
 }

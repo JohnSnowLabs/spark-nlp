@@ -15,6 +15,7 @@ import com.johnsnowlabs.nlp.util.io.ExternalResource
   */
 class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          wordEmbeddingsNDims: Int,
+                         normalize: Boolean,
                          embeddingsFormat: WordEmbeddingsFormat.Format,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
@@ -40,7 +41,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = Some(WordEmbeddings(fileDb, wordEmbeddingsNDims))
+      wordEmbeddings = Some(WordEmbeddings(fileDb, wordEmbeddingsNDims, normalize))
     }
   }
 

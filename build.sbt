@@ -1,3 +1,5 @@
+import sbtassembly.MergeStrategy
+
 val sparkVer = "2.3.0"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
@@ -9,14 +11,14 @@ organization := "com.johnsnowlabs.nlp"
 
 version := "1.5.4"
 
-scalaVersion := scalaVer
+scalaVersion in ThisBuild := scalaVer
 
-sparkVersion := sparkVer
+sparkVersion in ThisBuild := sparkVer
 
 /** Spark-Package attributes */
-spName := "JohnSnowLabs/spark-nlp"
+spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
-sparkComponents ++= Seq("mllib")
+sparkComponents in ThisBuild ++= Seq("mllib")
 
 licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
@@ -24,7 +26,7 @@ spIncludeMaven := false
 
 spAppendScalaVersion := false
 
-resolvers += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -88,6 +90,9 @@ lazy val utilDependencies = Seq(
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.apache.commons" % "commons-compress" % "1.15",
   "org.tensorflow" % "tensorflow" % "1.8.0",
+  // Enable the following for tensorflow GPU support
+  //"org.tensorflow" % "libtensorflow" % "1.8.0",
+  //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
 )
 

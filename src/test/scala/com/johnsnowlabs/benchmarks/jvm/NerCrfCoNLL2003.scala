@@ -30,6 +30,7 @@ object NerCrfCoNLL2003 extends App {
   val reader = new CoNLL2003NerReader(
     embeddingsFile,
     embeddingsDims,
+    normalize=false, // Not normalize might give weight to People names due to upper case, although may overfit
     WordEmbeddingsFormat.TEXT,
     Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
   )
