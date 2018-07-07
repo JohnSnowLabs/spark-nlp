@@ -14,7 +14,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("src/test/resources/anc-pos-corpus-small/test-training.txt")
 
   val trainedTagger: PerceptronModel =
-    new PerceptronApproach()
+    new PerceptronApproachLegacy()
         .setNIterations(3)
         .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(DataBuilder.basicDataBuild("dummy"))
@@ -40,7 +40,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
-    new PerceptronApproach()
+    new PerceptronApproachLegacy()
       .setNIterations(3)
       .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/test-training.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .fit(DataBuilder.basicDataBuild("dummy")),
@@ -64,7 +64,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   "A Perceptron Tagger" should "be readable and writable" in {
-    val perceptronTagger = new PerceptronApproach()
+    val perceptronTagger = new PerceptronApproachLegacy()
       .setNIterations(1)
       .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .fit(DataBuilder.basicDataBuild("dummy"))

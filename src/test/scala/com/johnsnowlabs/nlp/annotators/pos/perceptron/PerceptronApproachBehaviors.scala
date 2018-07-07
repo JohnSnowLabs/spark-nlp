@@ -17,16 +17,10 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       val nIterations = 5
-      val tagger = new PerceptronApproach()
+      val tagger = new PerceptronApproachLegacy()
         .setCorpus(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(DataBuilder.basicDataBuild("dummy"))
       val model = tagger.getModel
-      val nWords = trainingSentences.map(_.words.length).sum
-      assert(
-        nWords * nIterations == model.getUpdateIterations,
-        s"because Words: $nWords -- nIterations: $nIterations -- multip: ${nWords * nIterations}" +
-          s"-- model iters: ${model.getUpdateIterations}"
-      )
       val tagSet: MSet[String] = MSet()
       trainingSentences.foreach{s => {
         s.tags.foreach(tagSet.add)
@@ -105,7 +99,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(rows.zip(tags)).toDF("text", "tags")
       )
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
-      val trainedPos = new PerceptronApproach()
+      val trainedPos = new PerceptronApproachLegacy()
         .setInputCols("document", "token")
         .setOutputCol("pos")
         .setPosColumn("tags")

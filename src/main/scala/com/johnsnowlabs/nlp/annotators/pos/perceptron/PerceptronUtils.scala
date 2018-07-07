@@ -41,7 +41,7 @@ trait PerceptronUtils  {
                                        context: Array[String],
                                        prev: String,
                                        prev2: String
-                                     ): List[(String, Int)] = {
+                                     ): Map[String, Int] = {
     val features = MMap[String, Int]().withDefaultValue(0)
     def add(name: String, args: Array[String] = Array()): Unit = {
       features((name +: args).mkString(" ")) += 1
@@ -61,6 +61,6 @@ trait PerceptronUtils  {
     add("i+1 word", Array(context(i+1)))
     add("i+1 suffix", Array(context(i+1).takeRight(3)))
     add("i+2 word", Array(context(i+2)))
-    features.toList
+    features.toMap
   }
 }
