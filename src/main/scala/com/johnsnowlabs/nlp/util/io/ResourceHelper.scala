@@ -125,28 +125,20 @@ object ResourceHelper {
   }
 
   def createDatasetFromText(
-                             path: String, clean: Boolean = true,
-                             includeFilename: Boolean = false,
+                             path: String,
                              includeRowNumber: Boolean = false,
                              aggregateByFile: Boolean = false
                            ): Dataset[_] = {
-    require((includeFilename && aggregateByFile) || (!includeFilename && !aggregateByFile), "AggregateByFile requires includeFileName")
     import org.apache.spark.sql.functions._
     import spark.implicits._
-    var data: Dataset[_] = spark.read.textFile(path)
-    if (clean) data = data.as[String].map(_.trim()).filter(_.nonEmpty)
-    if (includeFilename) data = data.withColumn("filename", input_file_name())
+    var data: Dataset[_] = spark.sparkContext.wholeTextFiles(path).toDF("filename", "text")
     if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
       .withColumn("text", concat_ws(" ", $"value"))
       .drop("value")
     if (includeRowNumber) {
-      if (includeFilename && !aggregateByFile) {
-        import org.apache.spark.sql.expressions.Window
-        val w = Window.partitionBy("filename").orderBy("filename")
-        data = data.withColumn("id", row_number().over(w))
-      } else {
-        data = data.withColumn("id", monotonically_increasing_id())
-      }
+      import org.apache.spark.sql.expressions.Window
+      val w = Window.partitionBy("filename").orderBy("filename")
+      data = data.withColumn("id", row_number().over(w))
     }
     data.withColumnRenamed("value", "text")
   }
