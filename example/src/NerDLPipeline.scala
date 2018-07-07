@@ -44,6 +44,8 @@ object NerDLPipeline extends App {
     .setIncludeMetadata(true)
     .setOutputAsArray(false)
     .setCleanAnnotations(false)
+    .setAnnotationSplitSymbol("@")
+    .setValueSplitSymbol("#")
 
   val pipeline = new Pipeline().setStages(Array(document, token, normalizer, ner, nerConverter, finisher))
 

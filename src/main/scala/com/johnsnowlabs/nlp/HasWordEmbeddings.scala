@@ -5,7 +5,7 @@ import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddings, WordEmbeddingsFormat}
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
 
@@ -21,16 +21,20 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
+  val useNormalizedTokensForEmbeddings = new BooleanParam(this, "useNormalizedTokensForEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
 
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
+  def setUseNormalizedTokensForEmbeddings(value: Boolean): this.type = set(this.useNormalizedTokensForEmbeddings, value)
+
+  setDefault(useNormalizedTokensForEmbeddings, true)
 
   @transient
   private var sparkEmbeddings: SparkWordEmbeddings = null
 
   def embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     if (sparkEmbeddings == null)
-      sparkEmbeddings = new SparkWordEmbeddings(path, $(nDims))
+      sparkEmbeddings = new SparkWordEmbeddings(path, $(nDims), $(useNormalizedTokensForEmbeddings))
 
     sparkEmbeddings.wordEmbeddings
   }
@@ -54,7 +58,7 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
     val src = getEmbeddingsSerializedPath(path)
 
     if (fs.exists(src)) {
-      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, WordEmbeddingsFormat.SPARKNLP)
+      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, $(useNormalizedTokensForEmbeddings), WordEmbeddingsFormat.SPARKNLP)
       setIndexPath(embeddings.clusterFilePath.toString)
     }
   }

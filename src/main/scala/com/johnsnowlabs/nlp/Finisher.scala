@@ -43,8 +43,7 @@ class Finisher(override val uid: String)
   def getIncludeMetadata: Boolean = $(includeMetadata)
   def getOutputAsArray: Boolean = $(outputAsArray)
 
-  setDefault(valueSplitSymbol -> "#",
-    annotationSplitSymbol -> "@",
+  setDefault(
     cleanAnnotations -> true,
     includeMetadata -> false,
     outputAsArray -> true)

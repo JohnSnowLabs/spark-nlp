@@ -81,6 +81,29 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer.fit(tokenized).transform(tokenized).show()
 
 
+class TokenizerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setOutputCol("token") \
+            .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
+        finisher = Finisher() \
+            .setInputCols(["token"]) \
+            .setOutputCols(["token_out"]) \
+            .setOutputAsArray(True)
+        assembled = document_assembler.transform(data)
+        tokenized = tokenizer.transform(assembled)
+        finished = finisher.transform(tokenized)
+        self.assertEqual(len(finished.first()['token_out']), 6)
+
+
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):

@@ -47,7 +47,7 @@ class NerDLModel(override val uid: String)
   @transient
   private var _model: TensorflowNer = null
 
-  def model: TensorflowNer = {
+  lazy val model: TensorflowNer = {
     if (_model == null) {
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
       require(embeddings.isDefined, "Embeddings must be defined before usage")

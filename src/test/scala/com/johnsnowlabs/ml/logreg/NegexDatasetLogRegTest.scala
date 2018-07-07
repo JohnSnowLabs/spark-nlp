@@ -40,7 +40,7 @@ object NegexDatasetLogRegTest extends App with Windowing with EvaluationMetrics 
       if (!new File(fileDb).exists())
         WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
   }.filter(_ => new File(fileDb).exists())
-    .map(_ => WordEmbeddings(fileDb, embeddingsDims))
+    .map(_ => WordEmbeddings(fileDb, embeddingsDims, normalize = true))
 
   val mappings = Map("Affirmed" -> 0.0, "Negated" -> 1.0)
   val reader = new NegexDatasetReader()

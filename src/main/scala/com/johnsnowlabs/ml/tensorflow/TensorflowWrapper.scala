@@ -5,7 +5,7 @@ import java.nio.file.{Files, Paths}
 import java.util.UUID
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, Session}
+import org.tensorflow.{Graph, SavedModelBundle, Session}
 
 
 class TensorflowWrapper
@@ -83,7 +83,7 @@ class TensorflowWrapper
 
 object TensorflowWrapper {
 
-  def read(file: String, zipped: Boolean = true): TensorflowWrapper = {
+  def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
     val t = new TensorResources()
 
     // 1. Create tmp folder
@@ -96,17 +96,28 @@ object TensorflowWrapper {
     else
       file
 
-    // 3. Read file as SavedModelBundle
-    val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
-    val graph = new Graph()
-    graph.importGraphDef(graphDef)
-    /** Enables allow_soft_placement in Tensorflow */
-    /** Add log_device_placement for debugging with (64, 1) */
+    //Use CPU
+    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+    //Use GPU
     val config = Array[Byte](56, 1)
-    val session = new Session(graph, config)
-    session.runner.addTarget("save/restore_all")
-      .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
-      .run()
+
+    // 3. Read file as SavedModelBundle
+    val (graph, session) = if (useBundle) {
+      val model = SavedModelBundle.load(folder, tags:_*)
+      val graph = model.graph()
+      val session = model.session()
+      session.runner().run()
+      (graph, session)
+    } else {
+      val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
+      val graph = new Graph()
+      graph.importGraphDef(graphDef)
+      val session = new Session(graph, config)
+      session.runner.addTarget("save/restore_all")
+        .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
+        .run()
+      (graph, session)
+    }
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)

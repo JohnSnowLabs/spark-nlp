@@ -23,6 +23,8 @@ class FinisherTestSpec extends FlatSpec {
     val finisher = new Finisher()
       .setInputCols("token")
       .setOutputAsArray(false)
+      .setAnnotationSplitSymbol("@")
+      .setValueSplitSymbol("#")
 
     val pipeline = new Pipeline()
       .setStages(Array(

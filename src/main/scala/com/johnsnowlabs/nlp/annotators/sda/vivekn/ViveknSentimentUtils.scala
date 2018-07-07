@@ -38,7 +38,7 @@ trait ViveknSentimentUtils {
   def ViveknWordCount(
                                        er: ExternalResource,
                                        prune: Int,
-                                       f: (List[String] => List[String]),
+                                       f: List[String] => List[String],
                                        left: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
                                        right: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
                                      ): (MMap[String, Long], MMap[String, Long]) = {
