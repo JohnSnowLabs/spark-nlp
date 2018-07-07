@@ -4,10 +4,10 @@ import org.apache.spark.util.AccumulatorV2
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 
-class StringTupleDoubleAccumulatorWithDV(defaultMap: MMap[(String, String), Double] = MMap.empty[(String, String), Double])
+class StringTupleDoubleAccumulator(defaultMap: MMap[(String, String), Double] = MMap.empty[(String, String), Double])
   extends AccumulatorV2[((String, String), Double), Map[(String, String), Double]] {
 
-  @volatile private var mmap = defaultMap.withDefaultValue(0.0)
+  @volatile private var mmap = defaultMap
 
   override def reset(): Unit = mmap.clear()
 
@@ -24,7 +24,7 @@ class StringTupleDoubleAccumulatorWithDV(defaultMap: MMap[(String, String), Doub
   override def value: Map[(String, String), Double] = mmap.toMap
 
   override def copy(): AccumulatorV2[((String, String), Double), Map[(String, String), Double]] = {
-    val c = new StringTupleDoubleAccumulatorWithDV(MMap.empty[(String, String), Double])
+    val c = new StringTupleDoubleAccumulator(MMap.empty[(String, String), Double])
     c.mmap = this.mmap
     c
   }
@@ -105,4 +105,40 @@ class SMSAccumulator(defaultMap: Map[String, Map[String, Double]] = Map.empty[St
 
   override def merge(other: AccumulatorV2[(String, Map[String, Double]), Map[String, Map[String, Double]]]): Unit =
     mmap ++= ArrayBuffer(other.value)
+}
+
+class TupleKeyLongMapAccumulator(defaultMap: MMap[(String, String), Long] = MMap.empty[(String, String), Long])
+  extends AccumulatorV2[((String, String), Long), Map[(String, String), Long]] {
+
+  @volatile var mmap = defaultMap
+
+  override def reset(): Unit = mmap.clear()
+
+  override def add(v: ((String, String), Long)): Unit = mmap(v._1) = v._2
+
+  def updateMany(v: MMap[(String, String), Long]): Unit = {
+    synchronized {
+      mmap ++= v
+    }
+  }
+
+  def update(k: (String, String), v: Long): Unit =  mmap(k) = v
+
+  override def value: Map[(String, String), Long] = mmap.toMap
+
+  override def copy(): AccumulatorV2[((String, String), Long), Map[(String, String), Long]] = {
+    val c = new TupleKeyLongMapAccumulator(MMap.empty[(String, String), Long])
+    c.mmap = this.mmap
+    c
+  }
+
+
+  override def isZero: Boolean = mmap.isEmpty
+
+  override def merge(other: AccumulatorV2[((String, String), Long), Map[(String, String), Long]]): Unit =
+    other match {
+      case o: TupleKeyLongMapAccumulator =>
+        mmap = mmap ++ o.mmap
+      case _ => throw new Exception("Cannot merge tuple key long")
+    }
 }
