@@ -7,6 +7,7 @@ import org.rocksdb._
 
 case class WordEmbeddings(dbFile: String,
                           nDims: Int,
+                          normalize: Boolean,
                           lruCacheSize: Int = 100000) extends Closeable{
   RocksDB.loadLibrary()
 
@@ -17,11 +18,14 @@ case class WordEmbeddings(dbFile: String,
   val lru = new LruMap[String, Array[Float]](lruCacheSize)
 
   private def getEmbeddingsFromDb(word: String): Array[Float] = {
-    val result = db.get(word.toLowerCase.trim.getBytes())
-    if (result == null)
-      zeroArray
-    else
+    lazy val result = db.get(word.toLowerCase.trim.getBytes())
+    lazy val resultnn = db.get(word.trim.getBytes())
+    if (normalize && result != null)
       WordEmbeddingsIndexer.fromBytes(result)
+    else if (resultnn != null)
+      WordEmbeddingsIndexer.fromBytes(resultnn)
+    else
+      zeroArray
   }
 
   def getEmbeddings(word: String): Array[Float] = {
@@ -31,7 +35,7 @@ case class WordEmbeddings(dbFile: String,
   }
 
   def contains(word: String) = {
-    db.get(word.toLowerCase.trim.getBytes()) != null
+    (normalize && db.get(word.toLowerCase.trim.getBytes()) != null) || db.get(word.trim.getBytes()) != null
   }
 
   override def close(): Unit = {

@@ -41,7 +41,7 @@ object AssertionDLNegex extends App with EvaluationMetrics {
   if (!new File(wordEmbeddingsCache).exists())
     WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, wordEmbeddingsCache)
 
-  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim)
+  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim, normalize = true)
   val labels = List("Affirmed", "Negated")
   val params = new DatasetEncoderParams(labels, List.empty)
 

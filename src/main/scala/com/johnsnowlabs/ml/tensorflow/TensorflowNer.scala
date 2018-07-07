@@ -1,10 +1,8 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.file.{Files, Paths}
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import org.tensorflow.{Graph, Session}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -51,7 +49,7 @@ class TensorflowNer
         .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
         .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
 
-        .feed(dropoutKey, tensors.createTensor(1.1f))
+        .feed(dropoutKey, tensors.createTensor(1.0f))
         .fetch(predictKey)
         .run()
 

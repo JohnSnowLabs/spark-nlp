@@ -59,7 +59,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
     new NormalizerModel()
       .setPatterns($(patterns))
-      .setLowerCase($(lowercase))
+      .setLowercase($(lowercase))
       .setSlangDict(loadSlangs)
   }
 

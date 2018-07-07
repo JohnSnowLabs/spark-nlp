@@ -51,7 +51,7 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
-class AnnotatorWithEmbeddings(Params):
+class ApproachWithEmbeddings(Params):
     sourceEmbeddingsPath = Param(Params._dummy(),
                                  "sourceEmbeddingsPath",
                                  "Word embeddings file",
@@ -65,10 +65,35 @@ class AnnotatorWithEmbeddings(Params):
                             "Number of dimensions for word vectors",
                             typeConverter=TypeConverters.toInt)
 
+    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
+                                             "useNormalizedTokensForEmbeddings",
+                                             "whether to use embeddings of normalized tokens (if not already normalized)",
+                                             typeConverter=TypeConverters.toBoolean)
+
+    def setUseNormalizedTokensForEmbeddings(self, value):
+        return self._set(useNormalizedTokensForEmbeddings=value)
+
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
         self._set(embeddingsFormat=format)
         return self._set(embeddingsNDims=nDims)
+
+
+class ModelWithEmbeddings(Params):
+    indexPath = Param(Params._dummy(),
+                                 "indexPath",
+                                 "File that stores Index",
+                                 typeConverter=TypeConverters.toString)
+
+    nDims = Param(Params._dummy(),
+                            "nDims",
+                            "Number of dimensions for word vectors",
+                            typeConverter=TypeConverters.toInt)
+
+    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
+                                             "useNormalizedTokensForEmbeddings",
+                                             "whether to use embeddings of normalized tokens (if not already normalized)",
+                                             typeConverter=TypeConverters.toBoolean)
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
@@ -275,6 +300,17 @@ class Normalizer(AnnotatorApproach):
 
 
 class NormalizerModel(AnnotatorModel):
+
+    patterns = Param(Params._dummy(),
+                     "patterns",
+                     "normalization regex patterns which match will be replaced with a space",
+                     typeConverter=TypeConverters.toListString)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
+    @keyword_only
     def __init__(self, java_model=None):
         if java_model:
             super(JavaModel, self).__init__(java_model)
@@ -802,7 +838,7 @@ class NerApproach(Params):
         return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
 
-class NerCrfApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
+class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
@@ -860,7 +896,7 @@ class NerCrfModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(NerCrfModel, name, language)
 
 
-class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
+class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
     maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
@@ -916,7 +952,7 @@ class AssertionLogRegApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         self._setDefault(label="label", beforeParam=11, afterParam=13)
 
 
-class AssertionLogRegModel(AnnotatorModel):
+class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
     name = "AssertionLogRegModel"
 
     beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
@@ -939,7 +975,7 @@ class AssertionLogRegModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
 
 
-class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
+class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)", TypeConverters.toFloat)
@@ -993,7 +1029,7 @@ class NerDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel):
+class NerDLModel(AnnotatorModel, ModelWithEmbeddings):
     name = "NerDLModel"
 
     def __init__(self, java_model=None):
@@ -1016,7 +1052,7 @@ class NerConverter(AnnotatorModel):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
 
 
-class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
+class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
 
     label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
 
@@ -1067,7 +1103,7 @@ class AssertionDLApproach(AnnotatorApproach, AnnotatorWithEmbeddings):
         self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
 
 
-class AssertionDLModel(AnnotatorModel):
+class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
     name = "AssertionDLModel"
 
     startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
