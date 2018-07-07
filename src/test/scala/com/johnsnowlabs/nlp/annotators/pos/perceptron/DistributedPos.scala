@@ -3,12 +3,12 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import org.scalatest._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 
 class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
 
-  "distributed pos" should "successfully work" in {
+  "distributed pos" should "successfully work" ignore {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
@@ -23,7 +23,7 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
     val pos = new PerceptronApproach()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("/home/saif/IdeaProjects/spark-nlp-models/src/main/resources/pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text"))
+      .setCorpus("/pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text", "repartition" -> "8"))
       .setNIterations(5)
 
     val finisher = new Finisher()
@@ -37,7 +37,7 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
         finisher
       ))
 
-    val m = pipeline.fit(Seq.empty[String].toDF("text"))
+    val m = Benchmark.time("Training time for distributed pos") {pipeline.fit(Seq.empty[String].toDF("text"))}
     val lp = new LightPipeline(m)
 
     val result = lp.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")

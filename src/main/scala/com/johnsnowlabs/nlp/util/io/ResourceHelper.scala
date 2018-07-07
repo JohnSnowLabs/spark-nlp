@@ -303,7 +303,7 @@ object ResourceHelper {
         })
         result.map(TaggedSentence(_))
       case _ =>
-        throw new Exception("Unsupported readAs")
+        throw new Exception("Unsupported readAs. If you're training POS with local small data, consider PerceptronApproachLegacy")
     }
   }
 
