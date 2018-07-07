@@ -132,28 +132,20 @@ object ResourceHelper {
   }
 
   def createDatasetFromText(
-                             path: String, clean: Boolean = true,
-                             includeFilename: Boolean = false,
+                             path: String,
                              includeRowNumber: Boolean = false,
                              aggregateByFile: Boolean = false
                            ): Dataset[_] = {
-    require((includeFilename && aggregateByFile) || (!includeFilename && !aggregateByFile), "AggregateByFile requires includeFileName")
     import org.apache.spark.sql.functions._
     import spark.implicits._
-    var data: Dataset[_] = spark.read.textFile(path)
-    if (clean) data = data.as[String].map(_.trim()).filter(_.nonEmpty)
-    if (includeFilename) data = data.withColumn("filename", input_file_name())
+    var data: Dataset[_] = spark.sparkContext.wholeTextFiles(path).toDF("filename", "text")
     if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
       .withColumn("text", concat_ws(" ", $"value"))
       .drop("value")
     if (includeRowNumber) {
-      if (includeFilename && !aggregateByFile) {
-        import org.apache.spark.sql.expressions.Window
-        val w = Window.partitionBy("filename").orderBy("filename")
-        data = data.withColumn("id", row_number().over(w))
-      } else {
-        data = data.withColumn("id", monotonically_increasing_id())
-      }
+      import org.apache.spark.sql.expressions.Window
+      val w = Window.partitionBy("filename").orderBy("filename")
+      data = data.withColumn("id", row_number().over(w))
     }
     data.withColumnRenamed("value", "text")
   }
@@ -206,12 +198,7 @@ object ResourceHelper {
         res
       case SPARK_DATASET =>
         import spark.implicits._
-        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val lineStore = spark.sparkContext.collectionAccumulator[String]
-        dataset.as[String].foreach(l => lineStore.add(l))
-        val result = lineStore.value.toArray.map(_.toString)
-        lineStore.reset()
-        result
+        spark.read.options(er.options).format(er.options("format")).load(er.path).as[String].collect
       case _ =>
         throw new Exception("Unsupported readAs")
     }
@@ -287,6 +274,28 @@ object ResourceHelper {
         result.map(TaggedSentence(_))
       case _ =>
         throw new Exception("Unsupported readAs")
+    }
+  }
+
+  def parseTupleSentencesDS(
+                           er: ExternalResource
+                         ): Dataset[TaggedSentence] = {
+    er.readAs match {
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        })
+        result.map(TaggedSentence(_))
+      case _ =>
+        throw new Exception("Unsupported readAs. If you're training POS with local small data, consider PerceptronApproachLegacy")
     }
   }
 

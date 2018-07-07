@@ -1,8 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.TaggedWord
-import com.johnsnowlabs.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
-
 import scala.collection.mutable.{Map => MMap}
 
 /**
@@ -10,27 +7,18 @@ import scala.collection.mutable.{Map => MMap}
   */
 
 /**
-  * Specific model for [[PerceptronApproach]]
   * @param tags Holds all unique tags based on training
   * @param taggedWordBook Contains non ambiguous words and their tags
   * @param featuresWeight Contains prediction information based on context frequencies
-  * @param lastIteration Contains information on how many iterations have run for weighting
   */
-class AveragedPerceptron(
+
+case class AveragedPerceptron(
                           tags: Array[String],
                           taggedWordBook: Map[String, String],
-                          featuresWeight: MMap[String, MMap[String, Double]],
-                          lastIteration: Int = 0
+                          featuresWeight: Map[String, Map[String, Double]]
                         ) extends Serializable {
 
-  /**How many training iterations ran*/
-  private var updateIteration: Int = lastIteration
-  /**totals contains scores for words and their possible tags*/
-  private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
-  /**weighting parameter for words and their tags based on how many times passed through*/
-  private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
-
-  def predict(features: List[(String, Int)]): String = {
+  def predict(features: Map[String, Int]): String = {
     /**
       * scores are used for feature scores, which are all by default 0
       * if a feature has a relevant score, look for all its possible tags and their scores
@@ -44,10 +32,88 @@ class AveragedPerceptron(
         featuresWeight(feature)
           .map{ case (tag, weight) =>
             (tag, value * weight)
-        }
+          }
+      }.aggregate(Map[String, Double]())(
+      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+    )
+    /**
+      * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
+      * Secondary sort by tag simply made to match original python behavior
+      */
+    tags.maxBy{ tag => (scoresByTag.withDefaultValue(0.0)(tag), tag)}
+  }
+
+  private[nlp] def getTags: Array[String] = tags
+  def getWeights: Map[String, Map[String, Double]] = featuresWeight
+  def getTaggedBook: Map[String, String] = taggedWordBook
+}
+
+case class TrainingPerceptron(
+                               tags: Array[String],
+                               featuresWeight: MMap[String, MMap[String, Double]]
+                             ) extends Serializable {
+  //println(s"CREATED MODEL WITH TAGS: ${tags.length} WITH TAGGED WORDS: ${taggedWordBook.size} WITH FEATURES: ${featuresWeight.size} CONTAINING: ${featuresWeight.values.size} TAGS ON IT")
+
+  def predict(features: Map[String, Int]): String = {
+    /**
+      * scores are used for feature scores, which are all by default 0
+      * if a feature has a relevant score, look for all its possible tags and their scores
+      * multiply their weights per the times they appear
+      * Return highest tag by score
+      *
+      */
+    val scoresByTag = features
+      .filter{case (feature, value) => featuresWeight.contains(feature) && value != 0}
+      .map{case (feature, value ) =>
+        featuresWeight.getOrElse(feature, MMap())
+          .map{ case (tag, weight) =>
+            (tag, value * weight)
+          }
       }.aggregate(MMap[String, Double]())(
-        (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
-        (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+    )
+    /**
+      * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
+      * Secondary sort by tag simply made to match original python behavior
+      */
+    tags.maxBy{ tag => (scoresByTag.withDefaultValue(0.0)(tag), tag)}
+  }
+}
+
+class TrainingPerceptronLegacy(
+                                tags: Array[String],
+                                taggedWordBook: Map[String, String],
+                                featuresWeight: MMap[String, MMap[String, Double]],
+                                lastIteration: Int = 0
+                              ) extends Serializable {
+
+  /**How many training iterations ran*/
+  private var updateIteration: Int = lastIteration
+  /**totals contains scores for words and their possible tags*/
+  private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
+  /**weighting parameter for words and their tags based on how many times passed through*/
+  private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
+
+  def predict(features: Map[String, Int]): String = {
+    /**
+      * scores are used for feature scores, which are all by default 0
+      * if a feature has a relevant score, look for all its possible tags and their scores
+      * multiply their weights per the times they appear
+      * Return highest tag by score
+      *
+      */
+    val scoresByTag = features
+      .filter{case (feature, value) => featuresWeight.contains(feature) && value != 0}
+      .map{case (feature, value ) =>
+        featuresWeight(feature)
+          .map{ case (tag, weight) =>
+            (tag, value * weight)
+          }
+      }.aggregate(MMap[String, Double]())(
+      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
     )
     /**
       * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
@@ -60,7 +126,7 @@ class AveragedPerceptron(
     * Training level operation
     * once a model was trained, average its weights more in the first iterations
     */
-  private[pos] def averageWeights(): Unit = {
+  private[pos] def averageWeights(): AveragedPerceptron = {
     featuresWeight.foreach { case (feature, weights) =>
       featuresWeight.update(feature,
         weights.map { case (tag, weight) =>
@@ -70,6 +136,7 @@ class AveragedPerceptron(
         }
       )
     }
+    AveragedPerceptron(tags, taggedWordBook, featuresWeight.mapValues(_.toMap).toMap)
   }
   private[nlp] def getUpdateIterations: Int = updateIteration
   private[nlp] def getTagBook: Map[String, String] = taggedWordBook
