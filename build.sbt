@@ -94,9 +94,12 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
-  "org.slf4j" % "slf4j-api" % "1.7.25",
-  "org.apache.commons" % "commons-compress" % "1.15",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4",
+  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+    exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude("com.fasterxml.jackson.core", "jackson-databind")
+    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
+    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
   "org.tensorflow" % "tensorflow" % "1.8.0"
   /** Enable the following for tensorflow GPU support */
   //"org.tensorflow" % "libtensorflow" % "1.8.0",
@@ -122,6 +125,13 @@ val ocrMergeRules: String => MergeStrategy  = {
   case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
   case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
   case _ => MergeStrategy.deduplicate
+}
+
+assemblyMergeStrategy in assembly := {
+  case PathList("com.fasterxml.jackson") => MergeStrategy.first
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
 }
 
 lazy val ocr = (project in file("ocr"))

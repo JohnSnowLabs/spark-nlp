@@ -1,4 +1,59 @@
 ========
+1.6.0
+========
+---------------
+Overview
+---------------
+We're late! But it was worth it. We're glad to release 1.6.0 which brings new features, lots of enhancements and many bugfixes. First of all, we are thankful for community participating in Slack and in GitHub by reporting feedback and issues.
+In this one, we have a new annotator, the Chunker, which allows to grab pieces of text following a particular Part-of-Speech pattern.
+On the other hand, we have a brand new OCR to Spark Dataframe utility, which bundles as an optional component to Spark-NLP. This one requires tesseract 4.x+ to be installed on your system, and may be downloaded from our website or readme pages.
+Aside from that, we improved in many areas, from the DocumentAssembler to work better with OCR output, down to our Deep Learning models with better consistency and accuracy. Word Embedding based annotators also receive improvements when working in Cluster environments.
+Finally, we are glad a user contributed a fix to the AWS dependency issue, particularly happening in Cloudera environments. We're still waiting for feedback, and gladly accept it.
+We'll be working on the documentation as this release follows. Thank you.
+
+---------------
+New Features
+---------------
+* New annotator: Chunker. This annotator takes regex for Part-of-Speech tags and returns appropriate chunks of text following such patterns
+* OCR to Spark-NLP: As an optional jar module, users may use OcrHelper class in order to convert PDF files into Spark Dataset, ready to be utilized by Spark-NLP's document assembler. May be used without Spark-NLP. Requires Tesseract 4.x on your system.
+
+---------------
+Enhancements
+---------------
+* TextMatcher now has caseSensitive (setCaseSensitive) Param which allows to setup for matching with case sensitivity or not (Ignores if Normalizer did it). Returned word is still the original.
+* LightPipelines in Python should now be faster thanks to an optimization of prefetching results into Python memory instead of py4j bridge
+* LightPipelines can now handle embedded Pipelines
+* PerceptronApproach now trains utilizing full Spark distributed algoritm. Still experimental. PerceptronApproachLegacy may still be used, which might be better for local non cluster setups.
+* Tokenizer now has a param 'includeDefaults' which may be set to False to disable all preset-rules.
+* WordEmbedding based annotators may now decide to normalize tokens before matching embeddings vectors through 'useNormalizedTokensForEmbeddings' Param. Generally improves consistency, lesser overfitting.
+* DocumentAssembler may now better deal with large amounts of texts by using 'trimAndClearNewLines' to better work with OCR Outputs and be better ready for further Sentence Detection
+* Improved SentenceDetector handling of enumerations and lists
+* Slightly improved SentenceDetector performance through non-tail-recursive optimizations
+* Finisher does no longer have default delimiters when output into String (not Array) (thanks @S_L)
+
+---------------
+Bug fixes
+---------------
+* AWS library dependecy conflict now resolved (Thanks to @apiltamang for proposing solution. thanks to the community for follow-up). Solution is experimental, waiting for feedback.
+* Fixed wrong order of further added Tokenizer's infixPatterns in Python (Thanks @sethah)
+* Training annotators that use Word Embeddings in a distributed cluster does no longer throw file not found exceptions sporadically
+* Fixed NerDLModel returning non-deterministic results during prediction
+* Deep-Learning based models and graphs now allow running them on CPU if trained on GPU and GPU is not available on client
+* WordEmbeddings temporary location no longer in HOME dir, moved to tmp.dir
+* Fixed SentenceDetector incorrectly bounding sentences with non-English characters (Thanks @lorenz-nlp)
+* Python Spark-NLP annotator models should now have all appropriate setter and getter functions for Params
+* Fixed wrong-format of column when showing Metadata through Finisher's output as Array
+* Added missing python Finisher's include metadata function (thanks @PinusSilvestris for reporting the bug)
+* Fixed Symmetric Delete Spell Checker throwing wrong error when training with an empty dataset (Thanks @ankush)
+
+---------------
+Developer API
+---------------
+* Deep Learning models may now be read through SavedModelBundle API into Tensorflow for Java in TensorflowWrapper
+* WordEmbeddings now allow checking if word exists with contains()
+* Included tool that converts text into CoNLL format for further labeling for training NER models (
+
+========
 1.5.4
 ========
 ---------------
