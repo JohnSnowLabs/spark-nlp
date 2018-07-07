@@ -6,7 +6,7 @@ import os
 class SparkContextForTest:
     spark = SparkSession.builder \
         .master("local[4]") \
-        .config("spark.jars", 'lib/sparknlp.jar') \
+        .config("spark.jars", 'lib/sparknlp.jar,lib/sparknlp-ocr.jar') \
         .getOrCreate()
     data = spark. \
         read \
