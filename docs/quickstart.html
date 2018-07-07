@@ -95,42 +95,42 @@
                                 To start using the library, execute any of the following lines
                                 depending on your desired use case:
                                 </p>
-                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:1.5.4
-pyspark --packages JohnSnowLabs:spark-nlp:1.5.4
-spark-submit --packages JohnSnowLabs:spark-nlp:1.5.4
+                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:1.6.0
+pyspark --packages JohnSnowLabs:spark-nlp:1.6.0
+spark-submit --packages JohnSnowLabs:spark-nlp:1.6.0
 </code></pre>
                                 <p>
                                     Using <b>Databricks cloud cluster</b> or an <b>Apache Zeppelin</b> Scala notebook? Add the following Maven coordinates in the appropriate menu:
                                 </p>
-                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:1.5.4</code></pre>
+                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:1.6.0</code></pre>
                                 <p>
                                     For Python in <b>Apache Zeppelin</b> you may need to setup <i><b>SPARK_SUBMIT_OPTIONS</b></i> utilizing --packages instruction shown above like this
                                 </p>
-                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.5.4"</code></pre>
+                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.6.0"</code></pre>
                                 <p><b>Python Jupyter Notebook with PySpark</b>? add the following environment variables (depending on your OS)</p>
                                 <pre><code class="language-javascript">export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:1.5.4</code></pre>
+pyspark --packages JohnSnowLabs:spark-nlp:1.6.0</code></pre>
                                 <p><b>Python without explicit Spark Installationk</b>? Use pip to install (after you pip installed pyspark)</p>
-                                <pre><code class="language-javascript">pip install --index-url https://test.pypi.org/simple/ spark-nlp==1.5.4</code></pre>
+                                <pre><code class="language-javascript">pip install --index-url https://test.pypi.org/simple/ spark-nlp==1.6.0</code></pre>
                                 <p>In this way, you will have to start SparkSession in your python program manually, this is an example</p>
                                 <pre><code class="python">spark = SparkSession.builder \
     .appName("ner")\
     .master("local[*]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.5.4.jar")\
+    .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.6.0.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()</code></pre>
                                 <p>
                                     Pre-compiled Spark-NLP assembly fat-jar for using in standalone projects, may be downloaded
-                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.5.4.jar">here</a>
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.6.0.jar">here</a>
                                     Non-fat-jar may be downloaded
-                                    <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.5.4/spark-nlp_2.11-1.5.4.jar">here</a>
+                                    <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.6.0/spark-nlp_2.11-1.6.0.jar">here</a>
                                     then, run spark-shell or spark-submit with appropriate <b>--jars
-                                    /path/to/spark-nlp_2.11-1.5.4.jar</b> to use the library in spark.
+                                    /path/to/spark-nlp_2.11-1.6.0.jar</b> to use the library in spark.
                                 </p>
                                 <p>
                                     For further alternatives and documentation check out our README page in <a href="https://github.com/JohnSnowLabs/spark-nlp">GitHub</a>.
