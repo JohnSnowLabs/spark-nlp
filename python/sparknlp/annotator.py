@@ -447,6 +447,44 @@ class PerceptronApproach(AnnotatorApproach):
     def setPosCol(self, value):
         return self._set(posCol=value)
 
+    def setCorpus(self, path, delimiter, read_as=ReadAs.SPARK_DATASET, options={"format": "text", "repartition": "8"}):
+        opts = options.copy()
+        opts["delimiter"] = delimiter
+        return self._set(corpus=ExternalResource(path, read_as, opts))
+
+    def setIterations(self, value):
+        return self._set(nIterations=value)
+
+    def _create_model(self, java_model):
+        return PerceptronModel(java_model)
+
+
+class PerceptronApproachLegacy(AnnotatorApproach):
+    posCol = Param(Params._dummy(),
+                   "posCol",
+                   "column of Array of POS tags that match tokens",
+                   typeConverter=TypeConverters.toString)
+
+    corpus = Param(Params._dummy(),
+                   "corpus",
+                   "POS tags delimited corpus. Needs 'delimiter' in options",
+                   typeConverter=TypeConverters.identity)
+
+    nIterations = Param(Params._dummy(),
+                        "nIterations",
+                        "Number of iterations in training, converges to better accuracy",
+                        typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(PerceptronApproachLegacy, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachLegacy")
+        self._setDefault(
+            nIterations=5
+        )
+
+    def setPosCol(self, value):
+        return self._set(posCol=value)
+
     def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
         opts["delimiter"] = delimiter

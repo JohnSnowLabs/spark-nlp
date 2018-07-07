@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronApproachLegacy, PerceptronModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
@@ -21,7 +21,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       val trainedTagger: PerceptronModel =
-        new PerceptronApproach()
+        new PerceptronApproachLegacy()
           .setInputCols("document", "token")
           .setOutputCol("pos")
           .setNIterations(3)
@@ -56,7 +56,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         .setInputCols(Array("document"))
         .setOutputCol("token")
 
-      val POSTag = new PerceptronApproach()
+      val POSTag = new PerceptronApproachLegacy()
         .setInputCols("document", "token")
         .setOutputCol("pos")
         .setNIterations(3)
@@ -95,7 +95,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val manualTrainedPos = new PerceptronApproach()
+    val manualTrainedPos = new PerceptronApproachLegacy()
       .setInputCols("document", "token")
       .setOutputCol("pos")
       .setPosColumn("tags")

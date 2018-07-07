@@ -25,7 +25,14 @@ import scala.collection.mutable.ListBuffer
   */
 object ResourceHelper {
 
-  val spark: SparkSession = SparkSession.builder().getOrCreate()
+  val spark: SparkSession = SparkSession.builder()
+    .appName("SparkNLP-Default-Spark")
+    .master("local[*]")
+    .config("spark.driver.memory","6G")
+    .config("spark.driver.maxResultSize", "2G")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .config("spark.kryoserializer.buffer.max", "500m")
+    .getOrCreate()
 
   private def inputStreamOrSequence(fs: FileSystem, files: RemoteIterator[LocatedFileStatus]): InputStream = {
     val firstFile = files.next
@@ -191,12 +198,7 @@ object ResourceHelper {
         res
       case SPARK_DATASET =>
         import spark.implicits._
-        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val lineStore = spark.sparkContext.collectionAccumulator[String]
-        dataset.as[String].foreach(l => lineStore.add(l))
-        val result = lineStore.value.toArray.map(_.toString)
-        lineStore.reset()
-        result
+        spark.read.options(er.options).format(er.options("format")).load(er.path).as[String].collect
       case _ =>
         throw new Exception("Unsupported readAs")
     }
@@ -272,6 +274,28 @@ object ResourceHelper {
         result.map(TaggedSentence(_))
       case _ =>
         throw new Exception("Unsupported readAs")
+    }
+  }
+
+  def parseTupleSentencesDS(
+                           er: ExternalResource
+                         ): Dataset[TaggedSentence] = {
+    er.readAs match {
+      case SPARK_DATASET =>
+        import spark.implicits._
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
+          line.split("\\s+").filter(kv => {
+            val s = kv.split(er.options("delimiter").head)
+            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+          }).map(kv => {
+            val p = kv.split(er.options("delimiter").head)
+            TaggedWord(p(0), p(1))
+          })
+        })
+        result.map(TaggedSentence(_))
+      case _ =>
+        throw new Exception("Unsupported readAs. If you're training POS with local small data, consider PerceptronApproachLegacy")
     }
   }
 
