@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronApproachLegacy, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
@@ -96,7 +96,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
-     posTagger = new PerceptronApproach()
+     posTagger = new PerceptronApproachLegacy()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
         .setNIterations(1)

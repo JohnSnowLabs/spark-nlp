@@ -15,16 +15,16 @@ import org.apache.spark.{SparkContext, SparkFiles}
   3. Copy Index to cluster
   4. Open RocksDb based Embeddings on local index (lazy)
  */
-class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int) extends Serializable {
-
-  // Have to copy file because RockDB changes it and Spark rises Exception
-  val src = SparkFiles.get(clusterFilePath)
-  val workPath = src + "_work"
+class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normalize: Boolean) extends Serializable {
 
   @transient
   private var wordEmbeddingsValue: WordEmbeddings = null
 
   def wordEmbeddings: WordEmbeddings = {
+    // Have to copy file because RockDB changes it and Spark rises Exception
+    val src = SparkFiles.get(clusterFilePath)
+    val workPath = src + "_work"
+
     synchronized {
       if (wordEmbeddingsValue == null) {
         if (!new File(workPath).exists()) {
@@ -32,7 +32,7 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int) extends Ser
           FileUtil.deepCopy(new File(src), new File(workPath), null, false)
         }
 
-        wordEmbeddingsValue = WordEmbeddings(workPath, dim)
+        wordEmbeddingsValue = WordEmbeddings(workPath, dim, normalize)
       }
 
       wordEmbeddingsValue
@@ -76,9 +76,8 @@ object SparkWordEmbeddings {
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
     val fs = FileSystem.get(spark.hadoopConfiguration)
-
     val src = new Path(localFile)
-    val dst = Path.mergePaths(fs.getHomeDirectory, new Path(clusterFilePath))
+    val dst = Path.mergePaths(new Path(fs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir")), new Path(clusterFilePath))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
@@ -92,6 +91,7 @@ object SparkWordEmbeddings {
   def apply(spark: SparkContext,
             sourceEmbeddingsPath: String,
             dim: Int,
+            normalize: Boolean,
             format: WordEmbeddingsFormat.Format): SparkWordEmbeddings = {
 
     val localFile = {
@@ -112,6 +112,6 @@ object SparkWordEmbeddings {
     FileHelper.delete(localFile.toString)
 
     // 3. Create Spark Embeddings
-    new SparkWordEmbeddings(clusterFilePath, dim)
+    new SparkWordEmbeddings(clusterFilePath, dim, normalize)
   }
 }
