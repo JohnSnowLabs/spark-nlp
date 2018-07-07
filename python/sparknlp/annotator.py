@@ -147,24 +147,34 @@ class Tokenizer(AnnotatorModel):
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
+    includeDefaults = Param(Params._dummy(),
+                            "includeDefaults",
+                            "whether to include default patterns or only use user provided ones. Defaults to true.",
+                            typeConverter=TypeConverters.toBoolean
+                            )
+
     name = 'Tokenizer'
 
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
+
+        self.infixDefaults = [
+            "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
+            "((?:\\p{L}\\.)+)",
+            "(\\p{L}+)(n't\\b)",
+            "(\\p{L}+)('{1}\\p{L}+)",
+            "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
+            "([\\p{L}\\w]+)"
+        ]
+        self.prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
+        self.suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+
         self._setDefault(
             inputCols=["document"],
-            infixPatterns=[
-                "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-                "((?:\\p{L}\\.)+)",
-                "(\\p{L}+)(n't\\b)",
-                "(\\p{L}+)('{1}\\p{L}+)",
-                "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-                "([\\p{L}\\w]+)"
-            ],
-            prefixPattern="\\A([^\\s\\p{L}\\d\\$\\.#]*)",
-            suffixPattern="([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z",
-            targetPattern="\\S+"
+            targetPattern="\\S+",
+            infixPatterns=[],
+            includeDefaults=True
         )
 
     def setTargetPattern(self, value):
@@ -182,10 +192,40 @@ class Tokenizer(AnnotatorModel):
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
+    def setIncludeDefaults(self, value):
+        return self._set(includeDefaults=value)
+
     def addInfixPattern(self, value):
         infix_patterns = self.getInfixPatterns()
-        infix_patterns.append(value)
+        infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
+
+    def getIncludeDefaults(self):
+        return self.getOrDefault("includeDefaults")
+
+    def getInfixPatterns(self):
+        if self.getIncludeDefaults():
+            return self.getOrDefault("infixPatterns") + self.infixDefaults
+        else:
+            return self.getOrDefault("infixPatterns")
+
+    def getSuffixPattern(self):
+        if self.getIncludeDefaults():
+            if self.isDefined("suffixPattern"):
+                return self.getOrDefault("suffixPattern")
+            else:
+                return self.suffixDefault
+        else:
+            return self.getOrDefault("suffixPattern")
+
+    def getPrefixPattern(self):
+        if self.getIncludeDefaults():
+            if self.isDefined("prefixPattern"):
+                return self.getOrDefault("prefixPattern")
+            else:
+                return self.prefixDefault
+        else:
+            return self.getOrDefault("prefixPattern")
 
 
 class Stemmer(AnnotatorModel):
@@ -436,6 +476,44 @@ class PerceptronApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(PerceptronApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach")
+        self._setDefault(
+            nIterations=5
+        )
+
+    def setPosCol(self, value):
+        return self._set(posCol=value)
+
+    def setCorpus(self, path, delimiter, read_as=ReadAs.SPARK_DATASET, options={"format": "text", "repartition": "8"}):
+        opts = options.copy()
+        opts["delimiter"] = delimiter
+        return self._set(corpus=ExternalResource(path, read_as, opts))
+
+    def setIterations(self, value):
+        return self._set(nIterations=value)
+
+    def _create_model(self, java_model):
+        return PerceptronModel(java_model)
+
+
+class PerceptronApproachLegacy(AnnotatorApproach):
+    posCol = Param(Params._dummy(),
+                   "posCol",
+                   "column of Array of POS tags that match tokens",
+                   typeConverter=TypeConverters.toString)
+
+    corpus = Param(Params._dummy(),
+                   "corpus",
+                   "POS tags delimited corpus. Needs 'delimiter' in options",
+                   typeConverter=TypeConverters.identity)
+
+    nIterations = Param(Params._dummy(),
+                        "nIterations",
+                        "Number of iterations in training, converges to better accuracy",
+                        typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(PerceptronApproachLegacy, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachLegacy")
         self._setDefault(
             nIterations=5
         )

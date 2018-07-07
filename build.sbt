@@ -93,7 +93,7 @@ lazy val utilDependencies = Seq(
   // Enable the following for tensorflow GPU support
   //"org.tensorflow" % "libtensorflow" % "1.8.0",
   //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.313"
+  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
 )
 
 lazy val root = (project in file("."))
