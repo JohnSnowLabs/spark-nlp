@@ -4,66 +4,27 @@ import org.apache.spark.util.AccumulatorV2
 
 import scala.collection.mutable.{Map => MMap}
 
-class TupleKeyDoubleMapAccumulator(defaultMap: MMap[(String, String), Double] = MMap.empty[(String, String), Double])
-  extends AccumulatorV2[((String, String), Double), Map[(String, String), Double]] {
+class TupleKeyLongDoubleMapAccumulator(defaultMap: MMap[(String, String), (Long, Double)] = MMap.empty[(String, String), (Long, Double)])
+  extends AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]] {
 
-  @volatile private var mmap = defaultMap
-
-  override def reset(): Unit = mmap.clear()
-
-  override def add(v: ((String, String), Double)): Unit = mmap(v._1) += v._2
-
-  def updateMany(other: MMap[(String, String), Double]): Unit = {
-    println("ADDING MANY ON DOUBLE KEY")
-    synchronized {
-      other.foreach{case (k, v) =>
-        mmap(k) = mmap.getOrElse(k, 0.0) + v
-      }
-    }
-  }
-
-  override def value: Map[(String, String), Double] = mmap.toMap
-
-  override def copy(): AccumulatorV2[((String, String), Double), Map[(String, String), Double]] = {
-    val c = new TupleKeyDoubleMapAccumulator(MMap.empty[(String, String), Double])
-    c.mmap = this.mmap
-    c
-  }
-
-  override def isZero: Boolean = mmap.isEmpty
-
-  override def merge(other: AccumulatorV2[((String, String), Double), Map[(String, String), Double]]): Unit = {
-    println("MERGE ON DOUBLE KEY")
-    other match {
-      case o: TupleKeyDoubleMapAccumulator =>
-        updateMany(o.mmap)
-      case _ => throw new Exception("Cannot merge tuple key long")
-    }
-  }
-}
-
-class TupleKeyLongMapAccumulator(defaultMap: MMap[(String, String), Long] = MMap.empty[(String, String), Long])
-  extends AccumulatorV2[((String, String), Long), Map[(String, String), Long]] {
-
-  @volatile var mmap = defaultMap
+  var mmap = defaultMap
 
   override def reset(): Unit = mmap.clear()
 
-  override def add(v: ((String, String), Long)): Unit = mmap(v._1) = v._2
+  override def add(v: ((String, String), (Long, Double))): Unit = mmap(v._1) = v._2
 
-  def updateMany(other: MMap[(String, String), Long]): Unit = {
-    println("ADDING MANY ON LONG KEY")
-    synchronized {
-      mmap ++= other
+  def updateMany(other: MMap[(String, String), (Long, Double)]): Unit = {
+    other.foreach{case (k, v) =>
+      mmap(k) = mmap.get(k).map{case (v1, v2) => (Seq(v1, v._1).max, v2 + v._2)}.getOrElse(v)
     }
   }
 
-  def update(k: (String, String), v: Long): Unit =  mmap(k) = v
+  def update(k: (String, String), v: (Long, Double)): Unit =  mmap(k) = v
 
-  override def value: Map[(String, String), Long] = mmap.toMap
+  override def value: Map[(String, String), (Long, Double)] = mmap.toMap
 
-  override def copy(): AccumulatorV2[((String, String), Long), Map[(String, String), Long]] = {
-    val c = new TupleKeyLongMapAccumulator(MMap.empty[(String, String), Long])
+  override def copy(): AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]] = {
+    val c = new TupleKeyLongDoubleMapAccumulator(MMap.empty[(String, String), (Long, Double)])
     c.mmap = this.mmap
     c
   }
@@ -71,17 +32,9 @@ class TupleKeyLongMapAccumulator(defaultMap: MMap[(String, String), Long] = MMap
 
   override def isZero: Boolean = mmap.isEmpty
 
-  override def merge(other: AccumulatorV2[((String, String), Long), Map[(String, String), Long]]): Unit = {
-    println("MERGE ON LONG KEY")
+  override def merge(other: AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]]): Unit = {
     other match {
-      case o: TupleKeyLongMapAccumulator =>
-        /*
-        synchronized {
-          o.mmap.foreach{case (k, v) =>
-            mmap(k) = mmap.getOrElse(k, 0L) + v
-          }
-        }
-        */
+      case o: TupleKeyLongDoubleMapAccumulator =>
         updateMany(o.mmap)
       case _ => throw new Exception("Cannot merge tuple key long")
     }
@@ -91,7 +44,7 @@ class TupleKeyLongMapAccumulator(defaultMap: MMap[(String, String), Long] = MMap
 class StringMapStringDoubleAccumulator(defaultMap: MMap[String, MMap[String, Double]] = MMap.empty[String, MMap[String, Double]])
   extends AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]] {
 
-  @volatile private var mmap = defaultMap
+  private var mmap = defaultMap
 
   override def reset(): Unit = mmap.clear()
 
@@ -118,12 +71,6 @@ class StringMapStringDoubleAccumulator(defaultMap: MMap[String, MMap[String, Dou
   override def merge(other: AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]]): Unit =
     other match {
       case o: StringMapStringDoubleAccumulator =>
-        /*
-        o.mmap.foreach{case (k, v) =>
-          v.foreach{case(kk,vv) =>
-            mmap.getOrElseUpdate(k, MMap())(kk) = mmap(k).getOrElse(kk, 0.0) + vv
-          }}
-          */
         addMany(o.mmap)
       case _ => throw new Exception("Wrong StringMapStringDouble merge")
     }
