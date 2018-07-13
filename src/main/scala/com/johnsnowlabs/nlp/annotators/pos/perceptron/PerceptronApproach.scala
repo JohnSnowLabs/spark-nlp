@@ -14,7 +14,6 @@ import org.apache.spark.util.LongAccumulator
 import org.apache.spark.sql.functions.rand
 
 import scala.collection.mutable.{ListBuffer, Map => MMap}
-import scala.math
 
 /**
   * Created by Saif Addin on 5/17/2017.
@@ -322,12 +321,12 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         println(s"new tot: ${newPartitionTotals.size}")
         totalsAcc.updateMany(newPartitionTotals)
         println(s"new iteration count: ${math.ceil(partitionUpdateCount / npt).toLong}")
-        updateIterationAcc.add(math.ceil(partitionUpdateCount / npt).toLong)
+        updateIterationAcc.add(partitionUpdateCount)
       })
-      if (doCache) sortedSentences.unpersist()
-      iterationTimestamps.unpersist()
-      iterationWeights.unpersist()
-      iterationUpdateCount.unpersist()
+      if (doCache) {sortedSentences.unpersist()}
+      iterationTimestamps.unpersist(true)
+      iterationWeights.unpersist(true)
+      iterationUpdateCount.unpersist(true)
     }}
     logger.debug("TRAINING: Finished all iterations")
     new PerceptronModel().setModel(averageWeights(classes, taggedWordBook, featuresWeightAcc, updateIterationAcc, totalsAcc, timestampsAcc))
