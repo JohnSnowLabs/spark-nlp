@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
+import com.johnsnowlabs.nlp.ContentProvider
 import org.scalatest._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
@@ -8,7 +9,7 @@ import org.apache.spark.ml.Pipeline
 
 class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
 
-  "distributed pos" should "successfully work" ignore {
+  "distributed pos" should "successfully work" in {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
@@ -23,8 +24,12 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
     val pos = new PerceptronApproach()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("/pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text", "repartition" -> "8"))
+      .setCorpus("./pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text"))
       .setNIterations(5)
+
+    val posLegacy = PerceptronModel.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
 
     val finisher = new Finisher()
       .setInputCols("pos")
@@ -37,14 +42,34 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
         finisher
       ))
 
+    val pipelineLegacy = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        posLegacy,
+        finisher
+      ))
+
     val m = Benchmark.time("Training time for distributed pos") {pipeline.fit(Seq.empty[String].toDF("text"))}
+    val ml = pipelineLegacy.fit(Seq.empty[String].toDF("text"))
     val lp = new LightPipeline(m)
+    val lpl = new LightPipeline(ml)
 
     val result = lp.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
+    val resultLegacy = lpl.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
     val correct = Array("pos", " -> ", "DT", "NN", "IN", "NNS", "RB", "VBN", "TO", "VB", "NNP", "NN", "NNS", "VBZ", "VBN", "DT", "JJ", "NN", "IN", "NN", "NNS", "IN", "DT", "NN", "IN", "NNS", "VBN", "TO", "PRP", "JJR", "IN", "CD", "NNS", "RB", "NNS", "VBD")
 
     println(result.mapValues(_.mkString(",")).mkString(","))
+    println(resultLegacy.mapValues(_.mkString(",")).mkString(","))
     println(correct.mkString(","))
+
+    println("VS Legacy accuracy ratio: ")
+    println(result.values.head.zip(resultLegacy.values.head).count{case (a, b) => a == b} / result.values.head.length.toDouble)
+
+    println("VS Legacy accuracy ratio in paragraph: ")
+    val result2 = lp.annotate(ContentProvider.sbdTestParagraph.replaceAll("@@", ""))
+    val resultLegacy2 = lpl.annotate(ContentProvider.sbdTestParagraph.replaceAll("@@", ""))
+    println(result2.values.head.zip(resultLegacy2.values.head).count{case (a, b) => a == b} / result2.values.head.length.toDouble)
 
   }
 
