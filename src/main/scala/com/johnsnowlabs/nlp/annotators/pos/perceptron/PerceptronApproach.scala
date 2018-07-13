@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
@@ -14,6 +14,7 @@ import org.apache.spark.util.LongAccumulator
 import org.apache.spark.sql.functions.rand
 
 import scala.collection.mutable.{ListBuffer, Map => MMap}
+import scala.math
 
 /**
   * Created by Saif Addin on 5/17/2017.
@@ -84,47 +85,14 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     }.collect.toMap
   }
 
-  private def update(
-              truth: String,
-              guess: String,
-              features: Iterable[String],
-              updateIteration: Long,
-              partitionWeights: MMap[String, MMap[String, Double]],
-              partitionTotals: MMap[(String, String), Double],
-              partitionTimestamps: MMap[(String, String), Long]): Unit = {
-    def updateFeature(tag: String, feature: String, weight: Double, value: Double): Unit = {
-      /**
-        * update totals and timestamps
-        */
-      val param = (feature, tag)
-      partitionTotals.update(param, partitionTotals.getOrElse(param, 0.0) + ((updateIteration - partitionTimestamps.getOrElse(param, 0L)) * weight))
-      partitionTimestamps.update(param, updateIteration)
-      /**
-        * update weights
-        */
-      partitionWeights.update(feature, partitionWeights.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value)))
-    }
-    /**
-      * if prediction was wrong, take all features and for each feature get feature's current tags and their weights
-      * congratulate if success and punish for wrong in weight
-      */
-    if (truth != guess) {
-      features.foreach{feature =>
-        val weights = partitionWeights.getOrElse(feature, MMap())
-        updateFeature(truth, feature, weights.getOrElse(truth, 0.0), 1.0)
-        updateFeature(guess, feature, weights.getOrElse(guess, 0.0), -1.0)
-      }
-    }
-  }
-
   private[pos] def averageWeights(
                                    tags: Broadcast[Array[String]],
                                    taggedWordBook: Broadcast[Map[String, String]],
                                    featuresWeight: StringMapStringDoubleAccumulator,
                                    updateIteration: LongAccumulator,
-                                   totals: StringTupleDoubleAccumulator,
+                                   totals: TupleKeyDoubleMapAccumulator,
                                    timestamps: TupleKeyLongMapAccumulator
-                                   ): AveragedPerceptron = {
+                                 ): AveragedPerceptron = {
     val fw = featuresWeight.value
     val uiv = updateIteration.value
     val tv = totals.value
@@ -160,7 +128,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     val featuresWeightAcc = new StringMapStringDoubleAccumulator()
     val timestampsAcc = new TupleKeyLongMapAccumulator()
     val updateIterationAcc = new LongAccumulator()
-    val totalsAcc = new StringTupleDoubleAccumulator()
+    val totalsAcc = new TupleKeyDoubleMapAccumulator()
     dataset.sparkSession.sparkContext.register(featuresWeightAcc)
     dataset.sparkSession.sparkContext.register(timestampsAcc)
     dataset.sparkSession.sparkContext.register(updateIterationAcc)
@@ -189,12 +157,18 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     } else {
       ResourceHelper.parseTupleSentencesDS($(corpus))
     }
+
+    val nPartitions = $(corpus).options.get("repartition").map(_.toInt).getOrElse(8)
+    val doCache = $(corpus).options.get("cache").exists(_.toBoolean == true)
+
     val taggedWordBook = dataset.sparkSession.sparkContext.broadcast(buildTagBook(taggedSentences))
     /** finds all distinct tags and stores them */
     val classes = {
       import ResourceHelper.spark.implicits._
       dataset.sparkSession.sparkContext.broadcast(taggedSentences.flatMap(_.tags).distinct.collect)
     }
+
+    val nPartitionsBc = dataset.sparkSession.sparkContext.broadcast(nPartitions.toDouble)
 
     /**
       * Iterates for training
@@ -214,44 +188,105 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
         dataset.sparkSession.sparkContext.broadcast(featuresWeightAcc.value)
       }
 
-      val iterationTotals = if (iteration == 1 ) {
-        dataset.sparkSession.sparkContext.broadcast(Map.empty[(String, String), Double])
-      } else {
-        dataset.sparkSession.sparkContext.broadcast(totalsAcc.value)
-      }
-
       val iterationUpdateCount = if (iteration == 1 ) {
         dataset.sparkSession.sparkContext.broadcast[Long](0L)
       } else {
         dataset.sparkSession.sparkContext.broadcast[Long](updateIterationAcc.value)
       }
 
-      val sortedSentences = taggedSentences.sort(rand())
-        .repartition($(corpus).options.get("repartition").map(_.toInt)
-          .getOrElse(8))
-        /** Cache of iteration datasets does not show any improvements, try sample? */
-        //.cache
+      val sortedSentences = Benchmark.time("reshuffle dataset and repartition") {
+        val data = taggedSentences.sort(rand())
+          .repartition(nPartitions)
+        if (doCache)
+          data.cache
+        else
+          data
+      }
+
+      /** Cache of iteration datasets does not show any improvements, try sample? */
 
       sortedSentences.foreachPartition(partition => {
 
         val _temp1 = ListBuffer.empty[((String, String), Long)]
-        iterationTimestamps.value.copyToBuffer(_temp1)
-        val partitionTimestamp = MMap(_temp1:_*)
+        Benchmark.time("Time to retrieve tt broadcasts") {iterationTimestamps.value.copyToBuffer(_temp1) }
+        val newPartitionTimestamps = MMap.empty[(String, String), Long]
+        val partitionTimestamps = _temp1.toMap
         _temp1.clear()
 
         val _temp2 = ListBuffer.empty[(String, Map[String, Double])]
-        iterationWeights.value.copyToBuffer(_temp2)
-        val partitionWeights = MMap(_temp2.map{case (k,v) => (k, MMap(v.toSeq:_*))}:_*)
+        Benchmark.time("Time to retrieve fw broadcasts") {iterationWeights.value.copyToBuffer(_temp2) }
+        val newPartitionWeights = MMap.empty[String, MMap[String, Double]]
+        val partitionWeights = _temp2.toMap
+        //val partitionWeights = MMap(_temp2.map{case (k,v) => (k, MMap(v.toSeq:_*))}:_*)
         _temp2.clear()
 
-        val _temp3 = ListBuffer.empty[((String, String), Double)]
-        iterationTotals.value.copyToBuffer(_temp3)
-        val partitionTotals = MMap(_temp3:_*)
-        _temp3.clear()
+        val newPartitionTotals = MMap.empty[(String, String), Double]
 
-        var partitionUpdateCount: Long = iterationUpdateCount.value
+        var partitionUpdateCount: Long = Benchmark.time("Time to setup local accumulators") {iterationUpdateCount.value}
 
+        val twb = taggedWordBook.value
+        val cls = classes.value
+        val npt = nPartitionsBc.value
+
+        def update(
+                    truth: String,
+                    guess: String,
+                    features: Iterable[String]): Unit = {
+          def updateFeature(tag: String, feature: String, weight: Double, value: Double): Unit = {
+            /**
+              * update totals and timestamps
+              */
+            val param = (feature, tag)
+            // partitionTotals.update(param, partitionTotals.getOrElse(param, 0.0) + ((updateIteration - partitionTimestamps.getOrElse(param, 0L)) * weight))
+            newPartitionTotals.update(param, (partitionUpdateCount - newPartitionTimestamps.getOrElse(param, partitionTimestamps.getOrElse(param, 0L))) * weight)
+            newPartitionTimestamps.update(param, partitionUpdateCount)
+            /**
+              * update weights
+              */
+            newPartitionWeights.update(feature, newPartitionWeights.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value)))
+            //partitionWeights.update(feature, partitionWeights.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value)))
+          }
           /**
+            * if prediction was wrong, take all features and for each feature get feature's current tags and their weights
+            * congratulate if success and punish for wrong in weight
+            */
+          if (truth != guess) {
+            features.foreach{feature =>
+              val weights = newPartitionWeights.get(feature).map(pw => partitionWeights.getOrElse(feature, Map()) ++ pw).orElse(partitionWeights.get(feature)).getOrElse(Map())
+              //val weights = partitionWeights.getOrElse(feature, MMap())
+              updateFeature(truth, feature, weights.getOrElse(truth, 0.0), 1.0)
+              updateFeature(guess, feature, weights.getOrElse(guess, 0.0), -1.0)
+            }
+          }
+        }
+
+        def predict(features: Map[String, Int]): String = {
+          /**
+            * scores are used for feature scores, which are all by default 0
+            * if a feature has a relevant score, look for all its possible tags and their scores
+            * multiply their weights per the times they appear
+            * Return highest tag by score
+            *
+            */
+          val scoresByTag = features
+            .filter{case (feature, value) => (partitionWeights.contains(feature) || newPartitionWeights.contains(feature)) && value != 0}
+            .map{case (feature, value ) =>
+              newPartitionWeights.get(feature).map(pw => partitionWeights.getOrElse(feature, Map()) ++ pw).getOrElse(partitionWeights(feature))
+                .map{ case (tag, weight) =>
+                  (tag, value * weight)
+                }
+            }.aggregate(Map[String, Double]())(
+            (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
+            (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
+          )
+          /**
+            * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
+            * Secondary sort by tag simply made to match original python behavior
+            */
+          cls.maxBy{ tag => (scoresByTag.getOrElse(tag, 0.0), tag)}
+        }
+
+        /**
           * In a shuffled sentences list, try to find tag of the word, hold the correct answer
           */
         partition.foreach { taggedSentence =>
@@ -264,12 +299,11 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
           val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
           taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
             val guess =
-              taggedWordBook.value.getOrElse(word.toLowerCase, {
+              twb.getOrElse(word.toLowerCase, {
                 val features = getFeatures(i, word, context, prev, prev2)
-                val model = TrainingPerceptron(classes.value, partitionWeights)
-                val guess = model.predict(features)
+                val guess = predict(features)
                 partitionUpdateCount += 1L
-                update(taggedSentence.tags(i), guess, features.keys, partitionUpdateCount, partitionWeights, partitionTotals, partitionTimestamp)
+                update(taggedSentence.tags(i), guess, features.keys)
                 guess
               })
 
@@ -281,14 +315,16 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
           }
 
         }
-        synchronized {
-          featuresWeightAcc.addMany(partitionWeights)
-          timestampsAcc.updateMany(partitionTimestamp)
-          totalsAcc.updateMany(partitionTotals)
-          updateIterationAcc.add(partitionUpdateCount)
-        }
+        println(s"base pw: ${partitionWeights.size} vs new pw: ${newPartitionWeights.size}")
+        featuresWeightAcc.addMany(newPartitionWeights)
+        println(s"base tt: ${partitionTimestamps.size} vs new tt: ${newPartitionTimestamps.size}")
+        timestampsAcc.updateMany(newPartitionTimestamps)
+        println(s"new tot: ${newPartitionTotals.size}")
+        totalsAcc.updateMany(newPartitionTotals)
+        println(s"new iteration count: ${math.ceil(partitionUpdateCount / npt).toLong}")
+        updateIterationAcc.add(math.ceil(partitionUpdateCount / npt).toLong)
       })
-      //sortedSentences.unpersist()
+      if (doCache) sortedSentences.unpersist()
       iterationTimestamps.unpersist()
       iterationWeights.unpersist()
       iterationUpdateCount.unpersist()
