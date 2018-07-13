@@ -75,11 +75,14 @@ class TupleKeyLongMapAccumulator(defaultMap: MMap[(String, String), Long] = MMap
     println("MERGE ON LONG KEY")
     other match {
       case o: TupleKeyLongMapAccumulator =>
+        /*
         synchronized {
           o.mmap.foreach{case (k, v) =>
             mmap(k) = mmap.getOrElse(k, 0L) + v
           }
         }
+        */
+        updateMany(o.mmap)
       case _ => throw new Exception("Cannot merge tuple key long")
     }
   }
@@ -115,10 +118,13 @@ class StringMapStringDoubleAccumulator(defaultMap: MMap[String, MMap[String, Dou
   override def merge(other: AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]]): Unit =
     other match {
       case o: StringMapStringDoubleAccumulator =>
+        /*
         o.mmap.foreach{case (k, v) =>
           v.foreach{case(kk,vv) =>
             mmap.getOrElseUpdate(k, MMap())(kk) = mmap(k).getOrElse(kk, 0.0) + vv
           }}
+          */
+        addMany(o.mmap)
       case _ => throw new Exception("Wrong StringMapStringDouble merge")
     }
 }
