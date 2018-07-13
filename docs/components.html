@@ -1402,6 +1402,66 @@ documentAssembler = new DocumentAssembler()
                                     </div>
                                 </div>
 
+                                <h4 id="Chunker" class="section-block"> Chunker: Meaningful phrase matching</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                This annotator matches a pattern of part-of-speech tags in order to return meaningul phrases from document<br>
+                                            </p>
+                                                <b>Type:</b> Document<br>
+                                                <b>Requires:</b> Document<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setRegexParsers(patterns): A list of regex patterns to match chunks, for example: Array("&lsaquo;DT&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;")
+                                                </li>
+                                                <li>
+                                                    addRegexParser(patterns): adds a pattern to the current list of chunk patterns, for example: "&lsaquo;DT&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;"
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b>
+                                            <pre><code class="language-python">chunker = Chunker() \
+    .setInputCols(["pos"]) \
+    .setOutputCol("chunk") \
+    .setRegexParsers(["&lsaquo;NNP&rsaquo;+", "&lsaquo;DT|PP\\$&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;"])
+</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                This annotator matches a pattern of part-of-speech tags in order to return meaningul phrases from document<br>
+                                            </p>
+                                            <b>Type:</b> Document<br>
+                                            <b>Requires:</b> Document<br>
+                                            <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setRegexParsers(patterns): A list of regex patterns to match chunks, for example: Array("&lsaquo;DT&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;")
+                                                </li>
+                                                <li>
+                                                    addRegexParser(patterns): adds a pattern to the current list of chunk patterns, for example: "&lsaquo;DT&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;"
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">val chunker = new Chunker()
+  .setInputCols(Array("pos"))
+  .setOutputCol("chunks")
+  .setRegexParsers(Array("&lsaquo;NNP&rsaquo;+", "&lsaquo;DT|PP\\$&rsaquo;?&lsaquo;JJ&rsaquo;*&lsaquo;NN&rsaquo;"))
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <h4 id="DateMatcher" class="section-block"> DateMatcher: Date-time parsing</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -2532,7 +2592,8 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#Stemmer">Stemmer</a></li>
                                     <li><a class="scrollto" href="#Lemmatizer">Lemmatizer</a></li>
                                     <li><a class="scrollto" href="#RegexMatcher">Regex Matcher</a></li>
-                                    <li><a class="scrollto" href="#TextMatcher">Entity Extractor</a></li>
+                                    <li><a class="scrollto" href="#TextMatcher">Text Matcher</a></li>
+                                    <li><a class="scrollto" href="#Chunker">Chunker</a></li>
                                     <li><a class="scrollto" href="#DateMatcher">Date Matcher</a></li>
                                     <li><a class="scrollto" href="#SentenceDetector">Sentence Detector</a></li>
                                     <li><a class="scrollto" href="#POSTagger">Part of Speech Tagger</a></li>
