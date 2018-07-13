@@ -99,6 +99,9 @@
 pyspark --packages JohnSnowLabs:spark-nlp:1.6.0
 spark-submit --packages JohnSnowLabs:spark-nlp:1.6.0
 </code></pre>
+                                <div><b>NOTE: </b>Spark packages --packages has been reported to work unproperly, particularly in python, when utilizing physical clusters.
+                                    Utilizing --jars is advised. For python, add python Spark-NLP through pip</div>
+                                <p/>
                                 <p>
                                     Using <b>Databricks cloud cluster</b> or an <b>Apache Zeppelin</b> Scala notebook? Add the following Maven coordinates in the appropriate menu:
                                 </p>
@@ -232,7 +235,12 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.6.0</code></pre>
                                         right pipeline type to bring back the results. Let's retrieve it:
                                     </p>
                                     <pre><code class="language-javascript">import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
-BasicPipeline().annotate(["We are very happy about SparkNLP", "And this is just another sentence")</code></pre>
+
+val annotations = BasicPipeline().annotate(Array("We are very happy about SparkNLP", "And this is just another sentence"))
+
+annotations.foreach(println(_, "\n"))</code></pre>
+                                    <pre><code class="language-c">(Map(lemma -> List(We, be, very, happy, about, SparkNLP), document -> List(We are very happy about SparkNLP), normal -> List(We, are, very, happy, about, SparkNLP), pos -> ArrayBuffer(PRP, VBP, RB, JJ, IN, NNP), token -> List(We, are, very, happy, about, SparkNLP)))
+(Map(lemma -> List(And, this, be, just, another, sentence), document -> List(And this is just another sentence), normal -> List(And, this, is, just, another, sentence), pos -> ArrayBuffer(CC, DT, VBZ, RB, DT, NN), token -> List(And, this, is, just, another, sentence)))</code></pre>
                                 </div>
                             </div>
                             <div class="section-block">
@@ -245,9 +253,17 @@ BasicPipeline().annotate(["We are very happy about SparkNLP", "And this is just 
                                         with many annotation columns.
                                     </p>
                                     <pre><code class="language-javascript">import spark.implicits._
+
 val data = Seq("hello, this is an example sentence").toDF("mainColumn")
+
 BasicPipeline().annotate(data, "mainColumn").show()</code>
                                     </pre>
+                                    <pre><code class="language-c">+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|                text|            document|               token|              normal|               lemma|                 pos|
++--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|hello, this is an...|[[document, 0, 33...|[[token, 0, 4, he...|[[token, 0, 4, he...|[[token, 0, 4, he...|[[pos, 0, 4, UH, ...|
++--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+</code></pre>
                                 </div>
                             </div>
                             <div class="section-block">
@@ -263,21 +279,27 @@ BasicPipeline().annotate(data, "mainColumn").show()</code>
                                     <pre><code class="language-javascript">import com.johnsnowlabs.nlp.Finisher
 import org.apache.spark.ml.Pipeline
 
-val finisher = new Finisher()
-    .setInputCols("token", "normal", "lemma", "pos")
+val finisher = new Finisher().
+    setInputCols("token", "normal", "lemma", "pos")
 
 val basicPipeline = BasicPipeline().pretrained()
 
-val pipeline = new Pipeline()
-    .setStages(Array(
+val pipeline = new Pipeline().
+    setStages(Array(
         basicPipeline,
         finisher
     ))
 
-pipeline
-    .fit(spark.emptyDataFrame)
-    .transform(data.withColumnRenamed("mainColumn", "text"))
-    .show()</code></pre>
+pipeline.
+    fit(spark.emptyDataFrame).
+    transform(data.withColumnRenamed("mainColumn", "text")).
+    show()</code></pre>
+                                    <pre><code class="language-c">+--------------------+--------------------+--------------------+--------------------+--------------------+
+|                text|      finished_token|     finished_normal|      finished_lemma|        finished_pos|
++--------------------+--------------------+--------------------+--------------------+--------------------+
+|hello, this is an...|[hello, ,, this, ...|[hello, this, is,...|[hello, ,, this, ...|[UH, DT, VBZ, DT,...|
++--------------------+--------------------+--------------------+--------------------+--------------------+
+</code></pre>
                                 </div>
                             </div>
                         </section>
@@ -313,9 +335,9 @@ import org.apache.spark.ml.Pipeline</code></pre>
                                         it creates the first annotation of type <b>Document</b> which may be used by
                                         annotators down the road
                                     </p>
-                                    <pre><code class="language-javascript">val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")</code></pre>
+                                    <pre><code class="language-javascript">val documentAssembler = new DocumentAssembler().
+    setInputCol("text").
+    setOutputCol("document")</code></pre>
                                 </div>
                             </div>
                             <div id="anno-token-example" class="section-block">
@@ -331,18 +353,18 @@ import org.apache.spark.ml.Pipeline</code></pre>
                                         with DocumentAssembler
                                         or SentenceDetector output, in here, we use the sentence output.
                                     </p>
-                                    <pre><code class="language-javascript">val sentenceDetector = new SentenceDetector()
-    .setInputCols(Array("document"))
-    .setOutputCol("sentence")
+                                    <pre><code class="language-javascript">val sentenceDetector = new SentenceDetector().
+    setInputCols(Array("document")).
+    setOutputCol("sentence")
 
-val regexTokenizer = new Tokenizer()
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")</code></pre>
+val regexTokenizer = new Tokenizer().
+    setInputCols(Array("sentence")).
+    setOutputCol("token")</code></pre>
                                 </div>
                             </div>
                             <div id="using-pipelines" class="section-block">
                                 <div class="code-block">
-                                    <h3 class="block-title">Using Pipelines</h3>
+                                    <h3 class="block-title">Using SparkML Pipeline</h3>
                                     <p>
                                         Now we want to put all this together and retrieve the results,
                                         we use a Pipeline for this. We also include another special transformer,
@@ -350,28 +372,116 @@ val regexTokenizer = new Tokenizer()
                                         We use an emptyDataFrame in fit() since none of the pipeline stages
                                         have a training stage.
                                     </p>
-                                    <pre><code class="language-javascript">
-val testData = Seq("Lorem ipsum dolor sit amet, " +
+                                    <pre><code class="language-javascript">val testData = Seq("Lorem ipsum dolor sit amet, " +
     "consectetur adipiscing elit, sed do eiusmod tempor " +
     "incididunt ut labore et dolore magna aliqua.").toDF("text")
 
-val finisher = new Finisher()
-    .setInputCols("token")
-    .setCleanAnnotations(false)
+val finisher = new Finisher().
+    setInputCols("token").
+    setCleanAnnotations(false)
 
-val pipeline = new Pipeline()
-    .setStages(Array(
+val pipeline = new Pipeline().
+    setStages(Array(
         documentAssembler,
         sentenceDetector,
         regexTokenizer,
         finisher
     ))
 
-pipeline
-    .fit(spark.emptyDataFrame)
-    .transform(data)
-    .show()</code></pre>
+pipeline.
+    fit(Seq.empty[String].toDF("text")).
+    transform(Seq("hello, this is an example sentence").toDF("text")).
+    show()</code></pre>
                                 </div>
+                                <div class="code-block">
+                                    <h3 class="block-title">Using LightPipeline</h3>
+                                    <p>
+                                        LightPipeline is a Spark-NLP specific Pipeline class equivalent to SparkML's Pipeline. The difference is that
+                                        it's execution does not hold to Spark principles, instead it computes everything locally (but in parallel) in order
+                                        to achieve fast results when dealing with small amounts of data. This means, we do not input a Spark Dataframe, but a string
+                                        or an Array of strings instead, to be annotated.
+                                        To create Light Pipelines, you need to input an already trained (fit) Spark ML Pipeline. It's transform() stage is converted into annotate() instead.
+                                    </p>
+                                    <pre><code class="language-javascript">import com.johnsnowlabs.nlp.base._
+
+val trainedModel = pipeline.fit(Seq.empty[String].toDF("text"))
+
+val lightPipeline = new LightPipeline(trainedModel)
+
+lightPipeline.annotate("Hello world, please annotate my text")
+                                    </code></pre>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="ocr-section" class="doc-section">
+                            <h2 class="section-title">Utilizing Spark-NLP OCR PDF Converter</h2>
+                            <div id="ocr-type-section" class="section-block">
+                                <h3 class="block-title">Installing Spark-NLP OCRHelper</h3>
+                                <p>
+                                    First, either build from source or download the following standalone jar module (works both from Spark-NLP python and scala):
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-ocr-assembly-1.6.0.jar">Spark-NLP-OCR</a>
+                                    And add it to your Spark environment (with --jars or spark.driver.extraClassPath and spark.executor.extraClassPath configuration)
+                                    Second, if your PDFs don't have a text layer (this depends on how PDFs were created), the library will use Tesseract 4.0 on background.
+                                    Tesseract will utilize native libraries, so you'll have to get them installed in your system.
+                                </p>
+                                <h3 class="block-title">Creating Spark datasets from PDF (For SparkML Pipeline)</h3>
+                                <p>
+                                    You can use OcrHelper to directly create spark dataframes from PDF. This will hold entire documents in single rows, meant to
+                                    be later processed by a SentenceDetector. This way, you won't be breaking the content in rows as if you were reading a standard document.
+                                    Metadata column will include page numbers and file name information per row.
+                                </p>
+                                    <pre><code class="language-python">import com.johnsnowlabs.nlp.util.io.OcrHelper
+
+val data = OcrHelper.createDataset(spark, "/pdfs/", "text", "metadata")
+
+val documentAssembler = new DocumentAssembler().setInputCol("text").setMetadataCol("metadata")
+
+documentAssembler.transform(data).show()</code></pre>
+                                <h3 class="block-title">Creating an Array of Strings from PDF (For LightPipeline)</h3>
+                                <p>
+                                    Another way, would be to simply create an array of strings. This is useful for example if you are parsing a small amount of pdf files
+                                    and would like to use LightPipelines instead. See an example below.
+                                </p>
+                                <pre><code class="language-python">import com.johnsnowlabs.nlp.util.io.OcrHelper
+
+val raw = OcrHelper.createMap("/pdfs/")
+
+val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+
+val lightPipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler, sentenceDetector)).fit(Seq.empty[String].toDF("text")))
+
+pipeline.annotate(raw.values.toArray)</code></pre>
+                            </div>
+                        </section>
+                        <section id="training-section" class="doc-section">
+                            <h2 class="section-title">Training annotators</h2>
+                            <div id="training-type-section" class="section-block">
+                                <h3 class="block-title">Training methodology</h3>
+                                <p>
+                                    Training your own annotators is the most key concept when dealing with real life scenarios.
+                                    Any of the annotators provided above, such as pretrained pipelines and models, will rarely ever apply to
+                                    a specific use case. Dealing with real life problems will require training your own models.
+
+                                    In Spark-NLP, training annotators will vary depending on the annotators. Currently, we support three ways:
+                                    <ol>
+                                <li>Training from an <b>external source</b>: Most of our annotators train from an external file or folder passed to the annotator as a param. You will see such ones as
+                                <b>setCorpus()</b> or <b>setDictionary()</b> param setter methods, allowing you to configure the input to use. You can set Spark-NLP to read them as Spark datasets or LINE_BY_LINE
+                                which is usually faster for small enough corpora</li>
+                                <p/>
+                                <li>Some annotators are capable of training through the dataset passed to <b>fit()</b>. This is the standard behavior in Spark ML, but unfortunately in NLP, not all
+                                annotators use structured data to train. Hence, we provide external resource capabilities. This form of training might be used when 'setCorpus' is not set
+                                or any form for <b>setLabelCol()</b> is set instead. Check the reference to see which annotators allow training this one.</li>
+                                <p/>
+                                <li>Last but not least, some of our annotators are <b>Deep Learning</b> based. These models may be trained either on Tensorflow and read utilizing internal tools,
+                                    or converted into Spark-NLP models (Using <b>tensorflow graphs</b>) and allowing them to be trainable from Spark-NLP as well.</li>
+                                    </ol>
+                                </p>
+                                <h3 class="block-title">More examples in Scala and Python</h3>
+                                <p>
+                                    You can checkout the reference for pretrained models, and to check which params you can set in order to train your own.
+                                </p>
                             </div>
                         </section>
                         <section id="next-section" class="doc-section">
@@ -381,13 +491,12 @@ pipeline
                                 <p>
                                     Detailed information about Spark-NLP concepts, annotators and more may be found
                                     <a href="http://nlp.johnsnowlabs.com/components.html">HERE</a>
-                                <p>
+                                </p>
                                 <h3 class="block-title">More examples in Scala and Python</h3>
                                 <p>
                                     We are working on examples to show you how the library may be used in
                                     different scenarios, take a look <a href="http://nlp.johnsnowlabs.com/notebooks.html">HERE</a>
-                                <p>
-                            </p>
+                                </p>
                             </div>
                         </section>
                     </div>
@@ -402,7 +511,9 @@ pipeline
                                 <a class="scrollto" href="#annotators-section">Annotators</a>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#annotators-type-section-quick">Quick results test</a></li>
-                                    <li><a class="scrollto" href="#example-section">Your own Pipeline</a></li>
+                                    <li><a class="scrollto" href="#example-section">Using Pipelines</a></li>
+                                    <li><a class="scrollto" href="#ocr-section">Spark-NLP OCR</a></li>
+                                    <li><a class="scrollto" href="#training-section">Training annotators</a></li>
                                 </ul>
                             </li>
                             <li>
