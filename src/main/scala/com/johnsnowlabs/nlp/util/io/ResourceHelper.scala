@@ -131,25 +131,6 @@ object ResourceHelper {
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
-  def createDatasetFromText(
-                             path: String,
-                             includeRowNumber: Boolean = false,
-                             aggregateByFile: Boolean = false
-                           ): Dataset[_] = {
-    import org.apache.spark.sql.functions._
-    import spark.implicits._
-    var data: Dataset[_] = spark.sparkContext.wholeTextFiles(path).toDF("filename", "text")
-    if (aggregateByFile) data = data.groupBy("filename").agg(collect_list($"value").as("value"))
-      .withColumn("text", concat_ws(" ", $"value"))
-      .drop("value")
-    if (includeRowNumber) {
-      import org.apache.spark.sql.expressions.Window
-      val w = Window.partitionBy("filename").orderBy("filename")
-      data = data.withColumn("id", row_number().over(w))
-    }
-    data.withColumnRenamed("value", "text")
-  }
-
   /**
     * General purpose key value parser from source
     * Currently read only text files

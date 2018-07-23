@@ -565,6 +565,11 @@ class SentenceDetector(AnnotatorModel):
                                 "Only utilize custom bounds in sentence detection",
                                 typeConverter=TypeConverters.toBoolean)
 
+    explodeSentences = Param(Params._dummy(),
+                                "explodeSentences",
+                                "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                                typeConverter=TypeConverters.toBoolean)
+
     name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
@@ -576,10 +581,13 @@ class SentenceDetector(AnnotatorModel):
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
 
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
+
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomBoundsOnly=False, customBounds=[])
+        self._setDefault(inputCols=["document"], useAbbreviations=False, useCustomBoundsOnly=False, customBounds=[], explodeSentences=False)
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -908,7 +916,6 @@ class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
     nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
     targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
-    exhaustiveNerMode = Param(Params._dummy(), "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence", typeConverter=TypeConverters.toBoolean)
 
     def setLabelCol(self, label):
         return self._set(label = label)
@@ -940,9 +947,6 @@ class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
     def setTargetNerLabels(self, v):
         return self._set(targetNerLabels = v)
 
-    def setExhaustiveNerMode(self, v):
-        return self._set(exhaustiveNerMode = v)
-
     def _create_model(self, java_model):
         return AssertionLogRegModel(java_model)
 
@@ -961,18 +965,12 @@ class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
     nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
     targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
-    exhaustiveNerMode = Param(Params._dummy(), "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence", typeConverter=TypeConverters.toBoolean)
 
     def __init__(self, java_model=None):
         if java_model:
             super(JavaModel, self).__init__(java_model)
         else:
             super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
-
-    @staticmethod
-    def pretrained(name="as_fast_lg", language="en"):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
 
 
 class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
@@ -1058,8 +1056,6 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
 
     startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
     endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
-    nerCol = Param(Params._dummy(), "nerCol", "Column of NER Annotations to use instead of start and end columns", typeConverter=TypeConverters.toString)
-    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
     batchSize = Param(Params._dummy(), "batchSize", "Size for each batch in the optimization process", TypeConverters.toInt)
     epochs = Param(Params._dummy(), "epochs", "Number of epochs for the optimization process", TypeConverters.toInt)
@@ -1075,12 +1071,6 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
 
     def setEndCol(self, e):
         return self._set(endCol = e)
-
-    def setNerCol(self, n):
-        return self._set(nerCol = n)
-
-    def setTargetNerLabels(self, v):
-        return self._set(targetNerLabels = v)
 
     def setBatchSize(self, size):
         return self._set(batchSize = size)
@@ -1106,9 +1096,6 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
 class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
     name = "AssertionDLModel"
 
-    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
-    nerCol = Param(Params._dummy(), "nerCol", "Column of NER Annotations to use instead of start and end columns", typeConverter=TypeConverters.toString)
     targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
     def __init__(self, java_model=None):
@@ -1116,8 +1103,3 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(JavaModel, self).__init__(java_model)
         else:
             super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
-
-    @staticmethod
-    def pretrained(name="as_fast_dl", language="en"):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)

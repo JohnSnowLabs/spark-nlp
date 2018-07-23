@@ -17,7 +17,7 @@ import scala.collection.mutable.ArrayBuffer
   */
 class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] {
 
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val annotatorType: AnnotatorType = CHUNK
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 

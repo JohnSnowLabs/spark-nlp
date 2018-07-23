@@ -33,7 +33,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   val nerCol = new Param[String](this, "nerCol", "Column that contains NER annotations to be used as target token")
   val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
-  val exhaustiveNerMode = new BooleanParam(this, "exhaustiveNerMode", "If using nerCol, exhaustively assert status against all possible NER matches in sentence")
   val startCol = new Param[String](this, "startCol", "Column that contains the token number for the start of the target")
   val endCol = new Param[String](this, "endCol", "Column that contains the token number for the end of the target")
 
@@ -44,8 +43,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   setDefault(
     beforeParam -> 11,
-    afterParam -> 13,
-    exhaustiveNerMode -> false
+    afterParam -> 13
   )
 
   def this() = this(Identifiable.randomUID("ASSERTION"))
@@ -56,7 +54,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setEndCol(end: String): this.type = set(endCol, end)
   def setNerCol(col: String): this.type = set(nerCol, col)
   def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
-  def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   private def generateEmptyAnnotations = udf {
     () => Seq.empty[Annotation]
@@ -71,7 +68,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     val textCol = "_text"
 
     /* apply UDF to fix the length of each document */
-    val processed = if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
+    val processed = if (get(nerCol).isDefined) {
       dataset.toDF.
         filter(r => {
           val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
@@ -80,16 +77,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
         withColumn("_rid", monotonically_increasing_id()).
         withColumn("_features", explode(applyWindowUdfNerExhaustive($(targetNerLabels))(col(textCol), col($(nerCol)))))
-    } else if (get(nerCol).isDefined){
-      dataset.toDF.
-        filter(r => {
-          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
-          annotations.exists(a => $(targetNerLabels).contains(a.result))
-        }).
-        withColumn(textCol, extractTextUdf(col(getInputCols.head))).
-        withColumn("_features", applyWindowUdfNerFirst($(targetNerLabels))(col(textCol), col($(nerCol))))
-    }
-    else if (get(startCol).isDefined & get(endCol).isDefined) {
+    } else if (get(startCol).isDefined & get(endCol).isDefined) {
       dataset.toDF.
         withColumn(textCol, extractTextUdf(col(getInputCols.head))).
         withColumn("_features", applyWindowUdf(col(textCol),
@@ -100,10 +88,8 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     }
 
     val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {
-      if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
+      if (get(nerCol).isDefined) {
         packAnnotationsNerExhaustive(col("_features"), $"_prediction")
-      } else if (get(nerCol).isDefined) {
-        packAnnotationsNerFirst( col("_features"), $"_prediction")
       } else {
         packAnnotations(col(textCol), col($(startCol)),
           col($(endCol)), $"_prediction")
@@ -111,7 +97,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     }).drop(textCol, "_prediction", "_features", "rawPrediction", "probability")
 
     val packedData = {
-      if (get(nerCol).isDefined && getOrDefault(exhaustiveNerMode)) {
+      if (get(nerCol).isDefined) {
         val firstOfAll = resultData.drop("_rid").columns.map(c => first(col(c)).as(c))
         resultData
           .groupBy("_rid")
@@ -171,10 +157,4 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
-trait PretrainedAssertionLogRegModel {
-  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): AssertionLogRegModel =
-    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remoteLoc)
-}
-
-
-object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel
+object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]

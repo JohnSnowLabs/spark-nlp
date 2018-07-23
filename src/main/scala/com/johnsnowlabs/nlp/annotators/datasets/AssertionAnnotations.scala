@@ -10,34 +10,44 @@ import scala.collection.mutable.ArrayBuffer
   */
 case class AssertionAnnotationAndText(text: String, target: String, label: String, start:Int, end:Int)
 case class AssertionAnnotationWithLabel(label: String, start:Int, end:Int)
+case class IndexedChunk(chunkBegin: Int, chunkEnd: Int)
 object AssertionAnnotationWithLabel {
-  def fromNer(doc: String, label: String, ner: Seq[Row], targetLabels: Array[String]): Seq[AssertionAnnotationWithLabel] = {
-    val annotations = ner.map { r => Annotation(r) }
-    val targets = annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).toIterator
-    val ranges = ArrayBuffer.empty[(Int, Int)]
-    while (targets.hasNext) {
-      val annotation = targets.next
-      var range = (annotation._1.begin, annotation._1.end)
-      var look = true
-      while(look && targets.hasNext) {
-        val nextAnnotation = targets.next
-        if (nextAnnotation._2 == annotation._2 + 1)
-          range = (range._1, nextAnnotation._1.end)
-        else
-          look = false
-      }
-      ranges.append(range)
-    }
-    if (ranges.nonEmpty) {
-      ranges.map { range => {
-        val content = doc.split(" ")
-        val target = doc.substring(range._1, range._2+1).split(" ")
-        val start = content.indexOf(target.head)
-        val end = content.indexOf(target.last)
-        AssertionAnnotationWithLabel(label, start, end)
-      }}
-    }
-    else
-      throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
+
+  def fromChunk(sentence: String, label: String, chunkContent: Seq[Row]): Seq[AssertionAnnotationWithLabel] = {
+    val chunks = chunkContent.map { r => Annotation(r).result }
+
+    /** Useful for token indices i.e. logreg*/
+    /*
+    val indexed = sentences.flatMap(sentence => {
+      chunks.flatMap(chunk => {
+        if (sentence.contains(chunk)) {
+          val index = sentence.indexOf(chunk)
+          var tokenIndexBegin = 0
+          for (i <- 0 until index) {
+            if (sentence(i) == ' ')
+              tokenIndexBegin += 1
+          }
+          val tokenIndexEnd = tokenIndexBegin + chunk.split(" ").length - 1
+          Some(IndexedChunk(sentence.split(" "), tokenIndexBegin, tokenIndexEnd))
+        } else {
+          None
+        }
+      })
+    })
+    */
+
+    val indexed = chunks.flatMap(chunk => {
+        if (sentence.contains(chunk)) {
+          val tokenIndexBegin = sentence.indexOf(chunk)
+          val tokenIndexEnd = tokenIndexBegin + chunk.length - 1
+          Some(IndexedChunk(tokenIndexBegin, tokenIndexEnd))
+        } else {
+          None
+        }
+      })
+
+    indexed.map { marked => {
+      AssertionAnnotationWithLabel(label, marked.chunkBegin, marked.chunkEnd)
+    }}
   }
 }

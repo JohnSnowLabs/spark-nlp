@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.nlp.base._
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 

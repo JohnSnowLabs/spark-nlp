@@ -56,7 +56,6 @@ class AssertionLogRegApproach(val uid: String)
   def setEndCol(end: String): this.type = set(endCol, end)
   def setNerCol(col: String): this.type = set(nerCol, col)
   def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
-  def setExhaustiveNerMode(v: Boolean) = set(exhaustiveNerMode, v)
 
   setDefault(label -> "label",
     maxIter -> 26,
@@ -157,7 +156,6 @@ class AssertionLogRegApproach(val uid: String)
       model
         .setNerCol($(nerCol))
         .setTargetNerLabels($(targetNerLabels))
-        .setExhaustiveNerMode(getOrDefault(exhaustiveNerMode))
     else
       model
         .setStartCol($(startCol))
