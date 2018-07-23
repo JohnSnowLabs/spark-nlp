@@ -1,16 +1,16 @@
 package com.johnsnowlabs.nlp.annotators.assertion.dl
 
 import com.johnsnowlabs.ml.tensorflow.{AssertionDatasetEncoder, DatasetEncoderParams, TensorflowAssertion, TensorflowWrapper}
-import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{FloatParam, IntParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{FloatParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
@@ -24,7 +24,7 @@ import scala.collection.mutable
 class AssertionDLApproach(override val uid: String)
   extends ApproachWithWordEmbeddings[AssertionDLApproach, AssertionDLModel]{
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT)
+  override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
   override val description: String = "Deep Learning based Assertion Status"
 
   // example of possible values, 'Negated', 'Affirmed', 'Historical'
@@ -32,9 +32,6 @@ class AssertionDLApproach(override val uid: String)
 
   val startCol = new Param[String](this, "startCol", "Column with token number for first target token")
   val endCol = new Param[String](this, "endCol", "Column with token number for last target token")
-  val nerCol = new Param[String](this, "nerCol", "Column of NER Annotations to use instead of start and end columns")
-  val targetNerLabels = new StringArrayParam(this, "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output")
-
 
   val batchSize = new IntParam(this, "batchSize", "Size for each batch in the optimization process")
   val epochs = new IntParam(this, "epochs", "Number of epochs for the optimization process")
@@ -48,8 +45,6 @@ class AssertionDLApproach(override val uid: String)
 
   def setStartCol(s: String): this.type = set(startCol, s)
   def setEndCol(e: String): this.type = set(endCol, e)
-  def setNerCol(col: String): this.type = set(nerCol, col)
-  def setTargetNerLabels(v: Array[String]): this.type = set(targetNerLabels, v)
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
   def setEpochs(number: Int): this.type = set(epochs, number)
@@ -68,14 +63,18 @@ class AssertionDLApproach(override val uid: String)
 
   private type SentencesAndAnnotations = (Array[Array[String]], Array[AssertionAnnotationWithLabel])
 
-  private def trainWithNer(dataset: Dataset[_]): SentencesAndAnnotations = {
+  private def trainWithChunk(dataset: Dataset[_]): SentencesAndAnnotations = {
+    require(dataset.schema.fields.exists(f => f.metadata.contains("annotatorType") &&
+      f.metadata.getString("annotatorType") == AnnotatorType.CHUNK),
+      "chunkCol must be of type CHUNK"
+    )
+
+    val chunkCol = dataset.schema.fields.find(f => f.metadata.contains("annotatorType") &&
+      f.metadata.getString("annotatorType") == AnnotatorType.CHUNK).get.name
+
     val targetData =
       dataset
         .toDF()
-        .filter(r => {
-          val annotations = r.getAs[Seq[Row]]($(nerCol)).map(Annotation(_))
-          annotations.exists(a => $(targetNerLabels).contains(a.result))
-        })
         .withColumn("_text", extractTextUdf(col(getInputCols.head)))
 
     require(!targetData.rdd.isEmpty(),
@@ -86,24 +85,23 @@ class AssertionDLApproach(override val uid: String)
       collect().
       map(row => row.getAs[String]("_text").split(" "))
 
-    require(get(targetNerLabels).isDefined, "Param targetNerLabels must be defined in order to use NER based assertion status")
-
     val annotations: Array[AssertionAnnotationWithLabel] =
       targetData.
-        select(col("_text"), col(getOrDefault(labelCol)), col(getOrDefault(nerCol))).
+        select(col("_text"), col(getOrDefault(labelCol)), col(chunkCol)).
         collect.
-        flatMap(row => AssertionAnnotationWithLabel.fromNer(
+        flatMap(row => AssertionAnnotationWithLabel.fromChunk(
           row.getAs[String]("_text"),
           row.getAs[String](getOrDefault(labelCol)),
-          row.getAs(getOrDefault(nerCol)),
-          $(targetNerLabels)
+          row.getAs(chunkCol)
         ))
 
     (sentences, annotations)
   }
 
   private def trainWithStartEnd(dataset: Dataset[_]): SentencesAndAnnotations = {
-    val targetData = dataset.toDF().withColumn("_text", extractTextUdf(col(getInputCols.head)))
+    val targetData = dataset.toDF().withColumn("_text", extractTextUdf(dataset.schema.fields
+      .find(f => f.metadata.contains("annotatorType") &&
+        f.metadata.getString("annotatorType") == AnnotatorType.DOCUMENT).map(f => col(f.name)).get))
 
     val sentences = targetData.
       select("_text").
@@ -126,9 +124,8 @@ class AssertionDLApproach(override val uid: String)
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): AssertionDLModel = {
 
     val (sentences, annotations) =
-      if (get(nerCol).isDefined) trainWithNer(dataset)
-      else if (get(startCol).isDefined && get(endCol).isDefined) trainWithStartEnd(dataset)
-      else throw new IllegalArgumentException("Either nerCol or startCol and endCol must be defined in order to train AssertionDL")
+      if (get(startCol).isDefined && get(endCol).isDefined) trainWithStartEnd(dataset)
+      else trainWithChunk(dataset)
 
     /* infer labels and assign a number to each */
     val labelMappings = annotations.map(_.label).distinct
@@ -157,20 +154,12 @@ class AssertionDLApproach(override val uid: String)
       getOrDefault(epochs)
     )
 
-    val dlModel = new AssertionDLModel().
+    new AssertionDLModel().
       setTensorflow(tf).
       setDatasetParams(model.encoder.params).
       setBatchSize($(batchSize)).
       setInputCols(getOrDefault(inputCols))
 
-    if (get(nerCol).isDefined)
-      dlModel
-        .setNerCol($(nerCol))
-        .setTargetNerLabels($(targetNerLabels))
-    else
-      dlModel
-        .setStartCol($(startCol))
-        .setEndCol($(endCol))
   }
 
   override val annotatorType: AnnotatorType = ASSERTION

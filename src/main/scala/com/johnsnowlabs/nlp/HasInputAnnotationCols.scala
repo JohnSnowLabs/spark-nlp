@@ -37,8 +37,8 @@ trait HasInputAnnotationCols extends Params {
     require(
       value.length == requiredAnnotatorTypes.length,
       s"setInputCols expecting ${requiredAnnotatorTypes.length} columns. " +
-        s"Provided column amount: ${value.length} " +
-        s"which should be made of: ${requiredAnnotatorTypes.mkString(", ")} annotators"
+        s"Provided column amount: ${value.length}. " +
+        s"Which should be columns from the following annotators: ${requiredAnnotatorTypes.mkString(", ")}"
     )
     set(inputCols, value)
   }

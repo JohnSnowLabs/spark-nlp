@@ -43,6 +43,9 @@ abstract class AnnotatorModel[M <: Model[M]]
       annotate(annotatorProperties.flatMap(_.map(Annotation(_))))
   }
 
+  protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = dataset
+
+  protected def afterAnnotate(dataset: DataFrame): DataFrame = dataset
 
   /**
     * Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
@@ -63,12 +66,18 @@ abstract class AnnotatorModel[M <: Model[M]]
     }
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
-    dataset.withColumn(
+
+    val inputDataset = beforeAnnotate(dataset)
+
+    val processedDataset = inputDataset.withColumn(
       getOutputCol,
       dfAnnotate(
         array(getInputCols.map(c => dataset.col(c)):_*)
       ).as(getOutputCol, metadataBuilder.build)
     )
+
+    afterAnnotate(processedDataset)
+
   }
 
   /** requirement for annotators copies */
