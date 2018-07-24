@@ -77,13 +77,9 @@ object SparkWordEmbeddings {
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
     val uri = new java.net.URI(localFile)
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
-    val uridst = new java.net.URI(clusterFilePath)
-    val fsdt = FileSystem.get(uridst, spark.hadoopConfiguration)
+    val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
-    val dst = Path.mergePaths(
-      new Path(fsdt.getScheme, "",
-        spark.hadoopConfiguration.get("hadoop.tmp.dir")), new Path(clusterFilePath)
-    )
+    val dst = Path.mergePaths(new Path(cfs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir")), new Path(clusterFilePath))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
