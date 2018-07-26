@@ -79,26 +79,6 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
       .map(_.result)
       .toArray
 
-    /** Useful for token indices i.e. logreg*/
-    /*
-    val indexed = sentences.flatMap(sentence => {
-      chunks.flatMap(chunk => {
-        if (sentence.contains(chunk)) {
-          val index = sentence.indexOf(chunk)
-          var tokenIndexBegin = 0
-          for (i <- 0 until index) {
-            if (sentence(i) == ' ')
-              tokenIndexBegin += 1
-          }
-          val tokenIndexEnd = tokenIndexBegin + chunk.split(" ").length - 1
-          Some(IndexedChunk(sentence.split(" "), tokenIndexBegin, tokenIndexEnd))
-        } else {
-          None
-        }
-      })
-    })
-    */
-
     /** Find chunk index in sentence, reference to entire sentence*/
     val indexed = sentences.flatMap(sentence => {
       chunks.flatMap(chunk => {
