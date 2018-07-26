@@ -18,6 +18,7 @@ import org.tensorflow.{Graph, Session}
 
 import scala.collection.mutable
 
+
 /**
   * Created by jose on 14/03/18.
   */
@@ -63,22 +64,23 @@ class AssertionDLApproach(override val uid: String)
 
   private type SentencesAndAnnotations = (Array[Array[String]], Array[AssertionAnnotationWithLabel])
 
+  protected def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
+    document.head.getAs[String]("result")
+  }
+
   private def trainWithChunk(dataset: Dataset[_]): SentencesAndAnnotations = {
     require(dataset.schema.fields.exists(f => f.metadata.contains("annotatorType") &&
       f.metadata.getString("annotatorType") == AnnotatorType.CHUNK),
       "chunkCol must be of type CHUNK"
     )
 
-    val chunkCol = dataset.schema.fields.find(f => f.metadata.contains("annotatorType") &&
+    val chunkCol = dataset.schema.fields.find(f => $(inputCols).contains(f.name) &&
       f.metadata.getString("annotatorType") == AnnotatorType.CHUNK).get.name
 
     val targetData =
       dataset
         .toDF()
         .withColumn("_text", extractTextUdf(col(getInputCols.head)))
-
-    require(!targetData.rdd.isEmpty(),
-      "NER based assertion status cannot be trained since training set did not match any valid entity")
 
     val sentences = targetData.
       select("_text").
@@ -165,9 +167,6 @@ class AssertionDLApproach(override val uid: String)
   override val annotatorType: AnnotatorType = ASSERTION
   def this() = this(Identifiable.randomUID("ASSERTION"))
 
-  def extractTextUdf: UserDefinedFunction = udf { document:mutable.WrappedArray[GenericRowWithSchema] =>
-    document.head.getAs[String]("result")
-  }
 }
 
 object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
