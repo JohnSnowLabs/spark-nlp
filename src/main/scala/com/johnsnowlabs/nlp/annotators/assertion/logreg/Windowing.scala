@@ -7,9 +7,6 @@ import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
 
-import scala.collection.mutable.ArrayBuffer
-
-
 /**
   * Created by jose on 24/11/17.
   */
@@ -81,66 +78,47 @@ trait Windowing extends Serializable {
 
   def applyWindowUdf =
   //here 's' and 'e' are token numbers for start and end of target when split on " ". Convert to substring index first.
-    udf { (doc:String, s:Int, e:Int) => {
+    udf { (documents:Seq[Row], s:Int, e:Int) => {
+      /** NOTE: Yes, this only works with one sentence per row, start end applies only to first */
+      val doc = Annotation(documents.head).result
       val (start, end) = tokenIndexToSubstringIndex(doc, s, e)
-      Vectors.dense(applyWindow(wordVectors.get)(doc, start, end))
+      Vectors.dense(applyWindow(wordVectors().get)(doc, start, end))
     }}
 
-  def applyWindowUdfNerFirst(targetLabels: Array[String]) =
-  // here 's' and 'e' are already substring indexes from ner annotations
-    udf { (doc: String, row: Seq[Row]) =>
-      var i: Option[Int] = None
-      var range: Option[(Int, Int)] = None
-      val annotations = row.map { r => Annotation(r) }
-      annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).takeWhile(a => {
-        if (i.isDefined) {
-          if (a._2 == i.get + 1) {
-            i = Some(a._2)
-            range = Some((range.get._1, a._1.end))
-            true
-          } else {
-            false
-          }
-        } else {
-          range = Some(a._1.begin, a._1.end)
-          true
-        }
-      })
-      if (range.isDefined) {
-        require(doc.slice(range.get._1, range.get._2).split(" ").length <= after,
-          "NER Based assertion status failed due to targets longer than afterParam")
-        Vectors.dense(applyWindow(wordVectors.get)(doc, range.get._1, range.get._2))
-      }
-      else
-        throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
-    }
+  private case class IndexedChunk(sentence: String, chunkBegin: Int, chunkEnd: Int)
 
-  def applyWindowUdfNerExhaustive(targetLabels: Array[String]) =
+  def applyWindowUdfNerExhaustive =
   // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
-    udf { (doc: String, row: Seq[Row]) => {
-      val annotations = row.map { r => Annotation(r) }
-      val targets = annotations.zipWithIndex.filter(a => targetLabels.contains(a._1.result)).toIterator
-      val ranges = ArrayBuffer.empty[(Int, Int)]
-      while (targets.hasNext) {
-        val annotation = targets.next
-        var range = (annotation._1.begin, annotation._1.end)
-        var look = true
-        while(look && targets.hasNext) {
-          val nextAnnotation = targets.next
-          if (nextAnnotation._2 == annotation._2 + 1)
-            range = (range._1, nextAnnotation._1.end)
-          else
-            look = false
+    udf { (documents: Seq[Row], chunks: Seq[Row]) => {
+      println(s"all documents: ${documents.map(Annotation(_).result).mkString(", ")}")
+      println(s"all chunks: ${chunks.map(Annotation(_).result).mkString(", ")}")
+
+      var lastIC: Option[IndexedChunk] = None
+
+      val indexed = documents.map(Annotation(_).result).zipAll(chunks.map(Annotation(_).result), "", "")
+        .map { case (doc, chunk) =>
+            if (chunk.isEmpty) {
+              IndexedChunk("", 0, 0)
+            } else if (doc.isEmpty) {
+              /** More than one chunk per document*/
+              lastIC.get
+            } else {
+              require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
+              val index = doc.indexOf(chunk)
+              var tokenIndexBegin = 0
+              for (i <- 0 until index) {
+                if (doc(i) == ' ')
+                  tokenIndexBegin += 1
+              }
+              val tokenIndexEnd = tokenIndexBegin + chunk.split(" ").length - 1
+              val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
+              lastIC = Some(ic)
+              ic
+          }
         }
-        ranges.append(range)
-      }
-      if (ranges.nonEmpty) {
-        require(ranges.forall(p => doc.slice(p._1, p._2).split(" ").length <= after),
-          "NER Based assertion status failed due to targets longer than afterParam")
-        ranges.map { r => Vectors.dense(applyWindow(wordVectors.get)(doc, r._1, r._2)) }
-      }
-      else
-        throw new IllegalArgumentException("NER Based assertion status failed due to missing entities in nerCol")
+
+      indexed.map ( r => Vectors.dense(applyWindow(wordVectors().get)(r.sentence, r.chunkBegin, r.chunkEnd)) )
+
     }}
 
   def l2norm(xs: Array[Double]):Double = {

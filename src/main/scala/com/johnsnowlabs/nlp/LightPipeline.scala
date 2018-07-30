@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import java.io.{File, FileInputStream}
-
 import org.apache.spark.ml.{PipelineModel, Transformer}
 
 import scala.collection.JavaConverters._
@@ -15,10 +13,6 @@ class LightPipeline(stages: Array[Transformer]) {
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
-        case ocrAssembler: HasOcr with AnnotatorModel[_]=>
-          val extracted = ocrAssembler.doOcr(new FileInputStream(target))
-            .flatMap{case (pageN, content) => ocrAssembler.annotate(target, content, pageN)}
-          annotations.updated(ocrAssembler.getOutputCol, extracted)
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))

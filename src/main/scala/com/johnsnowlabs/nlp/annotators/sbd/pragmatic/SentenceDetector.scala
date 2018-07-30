@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.DataFrame
 
 /**
   * Annotator that detects sentence boundaries using any provided approach
@@ -17,6 +18,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
 
   val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
+
+  val explodeSentences = new BooleanParam(this, "explodeSentences", "whether to explode each sentence into a different row, for better parallelization. Defaults to false.")
 
   val customBounds: StringArrayParam = new StringArrayParam(
     this,
@@ -32,6 +35,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
 
+  def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
+
   override val annotatorType: AnnotatorType = DOCUMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
@@ -39,8 +44,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   setDefault(
     inputCols -> Array(DOCUMENT),
     useAbbrevations -> false,
-    customBounds -> Array.empty[String],
-    useCustomBoundsOnly -> false
+    useCustomBoundsOnly -> false,
+    explodeSentences -> false,
+    customBounds -> Array.empty[String]
   )
 
   lazy val model: PragmaticMethod =
@@ -67,6 +73,19 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     val sentences = docs.flatMap(doc => tag(doc))
     SentenceSplit.pack(sentences)
   }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    import org.apache.spark.sql.functions.{col, explode}
+    println(dataset.schema.fields.find(_.name == getOutputCol).get.metadata.getString("annotatorType"))
+    if ($(explodeSentences)) {
+      dataset
+        .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)
+        .withColumn(getOutputCol, col("_tmp").as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .drop("_tmp")
+    }
+    else dataset
+  }
+
 }
 
 object SentenceDetector extends DefaultParamsReadable[SentenceDetector]

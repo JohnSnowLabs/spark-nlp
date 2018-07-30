@@ -1,8 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
-import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
+import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadsAssertionGraph
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
@@ -48,7 +47,7 @@ object annotator {
   type AssertionLogRegApproach = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
   object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]
   type AssertionLogRegModel = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
-  object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel
+  object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]
 
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
@@ -96,6 +95,6 @@ object annotator {
   type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
   object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
   type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
-  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus
+  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph
 
 }
