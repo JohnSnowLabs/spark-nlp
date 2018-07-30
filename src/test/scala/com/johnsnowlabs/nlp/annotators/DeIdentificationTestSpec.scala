@@ -33,14 +33,12 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val nerTagger = NerDLModel.pretrained()
-
   private val nerConverter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("nc")
+    .setOutputCol("ner_con")
 
   private val deIdentification = new DeIdentification()
-    .setInputCols(Array("nc", "document"))
+    .setInputCols(Array("ner_con", "document"))
     .setOutputCol("dei")
 
   private val testDataset = Seq(
@@ -56,7 +54,7 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(5)
+      .setMaxEpochs(20)
       .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
@@ -108,19 +106,19 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
   }
 
 
-  "An NER with DL model" should "train de-identification entities" ignore  {
+  "An NER with DL model" should "train de-identification entities" in  {
     nerDlModel = trainNerDlModel("/Users/dburbano/PycharmProjects/De-Identification/data/train_dataset_small.csv")
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
   it should behave like saveModel(nerDlModel.write, "/Users/dburbano/tmp/ner_dl_model")
 
-  it should "load NER DL Model" ignore {
+  it should "load NER DL Model" in {
     val loadedNerDlModel = NerDLModel.read.load("/Users/dburbano/tmp/ner_dl_model")
     assert(loadedNerDlModel.isInstanceOf[NerDLModel])
   }
 
-  "A NER with CRF model" should "train de-identification entities" ignore  {
+  "A NER with CRF model" should "train de-identification entities" ignore {
     nerCrfModel = trainNerCRFModel("/Users/dburbano/PycharmProjects/De-Identification/data/train_dataset_medium.csv")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
@@ -134,14 +132,41 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
 
   private var deIdentificationDataFrame = PipelineModels.dummyDataset
 
-  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" ignore {
+  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
+
+    val nerDlTagger = NerDLModel.pretrained()
 
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,
         tokenizer,
-        nerTagger,
+        nerDlModel,
+        nerConverter,
+        deIdentification
+      )).fit(emptyDataset)
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    //deIdentificationDataFrame.show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  it should behave like deIdentificationAnnotator(deIdentification)
+
+  "A de-identificastion annotator (using NER trained with CRF)" should "return a spark dataframe" in {
+
+    val posTagger = PerceptronModel.pretrained()
+    val nerCRFTagger = NerCrfModel.pretrained()
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        nerCRFTagger,
+        nerConverter,
         deIdentification
       )).fit(emptyDataset)
 
@@ -150,27 +175,5 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
-
-  it should behave like deIdentificationAnnotator(deIdentification)
-
-  "A de-identification annotator (using NER Converter)" should "return a spark dataframe" in {
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        nerTagger,
-        nerConverter,
-        deIdentification
-      )).fit(emptyDataset)
-
-    deIdentificationDataFrame = pipeline.transform(testDataset)
-    pipeline.transform(testDataset).show(false)
-    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-
-  }
-
-
 
 }
