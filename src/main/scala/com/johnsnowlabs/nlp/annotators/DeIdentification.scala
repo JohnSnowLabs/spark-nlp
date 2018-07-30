@@ -2,12 +2,13 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY}
+import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, TokenizedWithSentence}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class DeIdentification(override val uid: String) extends  AnnotatorModel[DeIdentification]{
 
   override val annotatorType: AnnotatorType = DOCUMENT
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(NAMED_ENTITY)
+  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, DOCUMENT)
 
   def this() = this(Identifiable.randomUID("DE-IDENTIFICATION"))
 
@@ -32,11 +33,24 @@ class DeIdentification(override val uid: String) extends  AnnotatorModel[DeIdent
     Annotation(annotatorType, 0, anonymizeSentence.length, anonymizeSentence, Map("sentence" -> "protected"))
   }
 
+
+  def getSentence(annotations: Seq[Annotation]): String = {
+    //annotations(2).result
+    val sentenceAnnotations = annotations.filter(annotation => annotation.metadata.isEmpty).map(_.)
+    //  sentenceAnnotation.map(sentence => sentence.result)
+
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentence = annotations.map(annotation => annotation.metadata("word")).mkString(" ")
-    val protectedEntities = getProtectedEntities(annotations)
-    val anonymizeSentence = getAnonymizeSentence(sentence, protectedEntities)
-    Seq(createAnonymizeAnnotation(annotations, anonymizeSentence))
+    val sentences = SentenceSplit.unpack(Seq(annotations.head))
+
+    //val anonymizeSentences = sentences.map(sentence => Seq(createAnonymizeAnnotation(annotations, sentence.content)))
+    //anonymizeSentences
+    // val protectedEntities = getProtectedEntities(annotations)
+    //val sentence = annotations.map(annotation => annotation.metadata("word")).mkString(" ")
+    //val anonymizeSentence = getAnonymizeSentence(sentence, protectedEntities)
+    //Seq(createAnonymizeAnnotation(annotations, anonymizeSentence))
+    annotations
   }
 
 }
