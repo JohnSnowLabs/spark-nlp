@@ -9,9 +9,11 @@ import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.util.PipelineModels
-import io.netty.handler.codec.spdy.DefaultSpdyDataFrame
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.DataFrame
+
+import SparkAccessor.spark.implicits._
+
 
 class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
 
@@ -33,10 +35,19 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
 
   private val nerTagger = NerDLModel.pretrained()
 
+  private val nerConverter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("nc")
+
   private val deIdentification = new DeIdentification()
-    .setInputCols("ner")
+    .setInputCols(Array("nc", "document"))
     .setOutputCol("dei")
 
+  private val testDataset = Seq(
+    "Bob visited Switzerland a couple of years ago",
+    "Rapunzel let down her long golden hair",
+    "money market fund in Canada"
+  ).toDS.toDF("text")
 
   //Fixture creation methods
   def trainNerDlModel(trainDatasetPath: String): NerDLModel = {
@@ -116,14 +127,14 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
 
   it should behave like saveModel(nerCrfModel.write, "/Users/dburbano/tmp/ner_crf_model")
 
-  it should "load model" in {
+  it should "load model" ignore {
     nerCrfModel = NerCrfModel.read.load("/Users/dburbano/tmp/ner_crf_model")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
   private var deIdentificationDataFrame = PipelineModels.dummyDataset
 
-  "A de-identification annotator (using NER with DL)" should "return a spark dataframe" in {
+  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" ignore {
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -134,20 +145,32 @@ class DeIdentificationTestSpec extends FlatSpec with DeIdentificationBehaviors {
         deIdentification
       )).fit(emptyDataset)
 
-    import SparkAccessor.spark.implicits._
-
-    val testDataset = Seq(
-      "Bob visited Switzerland a couple of years ago",
-      "Rapunzel let down her long golden hair",
-      "money market fund in Canada"
-    ).toDS.toDF("text")
-
     deIdentificationDataFrame = pipeline.transform(testDataset)
-    //deIdentificationDataFrame.show(false)
+    deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
 
   it should behave like deIdentificationAnnotator(deIdentification)
+
+  "A de-identification annotator (using NER Converter)" should "return a spark dataframe" in {
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        nerTagger,
+        nerConverter,
+        deIdentification
+      )).fit(emptyDataset)
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    pipeline.transform(testDataset).show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+
 
 }
