@@ -112,6 +112,33 @@ spark-shell --jars spark-nlp.jar
 
 The preferred way to use the library when running spark programs is using the `--packages` option as specified in the `spark-packages` section.
 
+## Downloading models for offline use
+
+If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
+If there is any older than current version of a model, it means they still work for current versions.
+
+### Pipelines
+* [Basic Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.6.0_2_1530947669208.zip)
+* [Advanced Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.6.0_2_1530947692578.zip)
+* [Vivekn Sentiment Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.5.4_2_1526672003128.zip)
+
+### Models
+* [PerceptronModel (POS)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.6.0_2_1530947179686.zip)
+* [ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.5.3_2_1525275364141.zip)
+* [SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.5.3_2_1525273109034.zip)
+* [NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.5_2_1522181401412.zip)
+* [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.5.2_2_1525218818894.zip)
+* [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.5_2_1522918062000.zip)
+* [LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.5_2_1522181347222.zip)
+
+# Special community aknowledgments
+Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
+Community has been key in the last releases with feedback in various Spark based environments.
+
+Here a few specific mentions for recurring feedback and slack participation
+* @maziyarpanahi (https://github.com/maziyarpanahi) - For contributing with testing and valuable feedback
+* @easimadi (https://github.com/easimadi) - For contributing with documentation and valuable feedback
+
 # Contribute
 We appreciate any sort of contributions:
 * ideas

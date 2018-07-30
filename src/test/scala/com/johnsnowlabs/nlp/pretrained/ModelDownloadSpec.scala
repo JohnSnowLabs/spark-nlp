@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.{AssertionDLModel, AssertionLogRegModel, Tokenizer}
+import com.johnsnowlabs.nlp.annotator.{AssertionDLModel}
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.NegexDatasetReader
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.{Pipeline}
 import org.apache.spark.sql.SparkSession
 /**
   * Combine a downloaded tokenizer with a locally created document assembler
@@ -12,7 +12,6 @@ import org.apache.spark.sql.SparkSession
 object ModelDownloadSpec extends App {
 
   implicit val spark = SparkSession.builder().appName("i2b2 logreg").master("local[1]").getOrCreate
-  import spark.implicits._
 
   val datasetPath = "rsAnnotations-1-120-random.txt"
   val embeddingsDims = 100

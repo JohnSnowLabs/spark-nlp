@@ -7,6 +7,7 @@ object AnnotatorType {
   val ENTITY = "entity"
   val SENTIMENT = "sentiment"
   val POS = "pos"
+  val CHUNK = "chunk"
   val NAMED_ENTITY = "named_entity"
   val NEGEX = "negex"
   val DEPENDENCY = "dependency"
