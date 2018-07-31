@@ -36,23 +36,21 @@ class FunctionsTestSpec extends FlatSpec {
 
     import functions._
 
-    val mapped = mapAnnotations(data, "pos", "modpos", (annotations: Seq[Annotation]) => {
+    val mapped = data.mapAnnotations("pos", "modpos", (annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
     })
 
-    val modified = mapAnnotations(data, "pos", "modpos", (_: Seq[Annotation]) => {
+    val modified = data.mapAnnotations("pos", "modpos", (_: Seq[Annotation]) => {
       "hello world"
     })
 
-    val filtered = filterByAnnotations(data, "pos", (annotations: Seq[Annotation]) => {
+    val filtered = data.filterByAnnotations("pos", (annotations: Seq[Annotation]) => {
       annotations.exists(_.result == "JJ")
     })
 
     mapped.show(truncate = false)
     modified.show(truncate = false)
     filtered.show(truncate = false)
-
-
   }
 
 }
