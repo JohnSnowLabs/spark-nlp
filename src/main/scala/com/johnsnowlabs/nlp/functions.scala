@@ -7,7 +7,7 @@ import scala.reflect.runtime.universe._
 object functions {
 
   implicit class FilterAnnotations(dataset: DataFrame) {
-    def filterByAnnotations(dataset: DataFrame, column: String, function: Seq[Annotation] => Boolean): DataFrame = {
+    def filterByAnnotations(column: String, function: Seq[Annotation] => Boolean): DataFrame = {
       val meta = dataset.schema(column).metadata
       val func = udf {
         annotatorProperties: Seq[Row] =>
@@ -18,7 +18,7 @@ object functions {
   }
 
   implicit class MapAnnotations(dataset: DataFrame) {
-    def mapAnnotations[T: TypeTag](dataset: DataFrame, column: String, outputCol: String, function: Seq[Annotation] => T): DataFrame = {
+    def mapAnnotations[T: TypeTag](column: String, outputCol: String, function: Seq[Annotation] => T): DataFrame = {
       val meta = dataset.schema(column).metadata
       val func = udf {
         annotatorProperties: Seq[Row] =>
