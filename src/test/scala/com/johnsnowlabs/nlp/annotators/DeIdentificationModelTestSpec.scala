@@ -62,6 +62,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMaxEpochs(20)
+      //.setEmbeddingsSource("src/test/resources/glove.6B.100d.txt",
       .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
@@ -112,13 +113,14 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-
   "An NER with DL model" should "train de-identification entities" in  {
     nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_small.csv")
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  it should behave like saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+  "Our model" should "serialize for God's sake" in {
+    saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+  }
 
   it should "load NER DL Model" ignore {
     val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
