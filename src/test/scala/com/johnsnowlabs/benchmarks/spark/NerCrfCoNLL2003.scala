@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
@@ -41,7 +41,7 @@ object CoNLL2003PipelineTest extends App {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val posTagger = new PerceptronApproach()
+    val posTagger = new PerceptronApproachDistributed()
       .setNIterations(10)
       .setInputCols("token", "document")
       .setOutputCol("pos")
