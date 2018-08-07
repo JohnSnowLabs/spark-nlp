@@ -3,13 +3,14 @@ package com.johnsnowlabs.nlp.annotators
 import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.annotators.common.IndexedToken
 import org.apache.spark.ml.util.MLWriter
 import org.scalatest.FlatSpec
 
 trait DeIdentificationBehaviors { this: FlatSpec =>
 
   def saveModel(model: MLWriter, modelFilePath: String): Unit = {
-    it should "save model on disk" in {
+    it should "save model on disk" ignore  {
       model.overwrite().save(modelFilePath)
       assertResult(true){
         Files.exists(Paths.get(modelFilePath))
@@ -18,14 +19,15 @@ trait DeIdentificationBehaviors { this: FlatSpec =>
   }
 
   case class TestParams(originalSentence: String,
-                        tokenizedSentence: List[String],
+                        tokenizeSentence: Seq[IndexedToken],
                         annotations: Seq[Annotation]
                        )
 
   case class ExpectedParams(anonymizeSentence: String,
-                            unclassifiedEntities: List[String],
+                            regexEntities: Seq[Annotation],
                             anonymizeAnnotation: Annotation,
-                            protectedEntities: Seq[Annotation])
+                            nerEntities: Seq[Annotation],
+                            mergedEntities: Seq[Annotation])
 
   def deIdentificationAnnotator(deIdentification: DeIdentificationModel, testParams: TestParams,
                                 expectedParams: ExpectedParams): Unit = {
@@ -40,33 +42,51 @@ trait DeIdentificationBehaviors { this: FlatSpec =>
 
     }
 
-    it should "get protected entities" in {
+
+    it should "get tokens from annotations" in {
+      //Act
+      val tokens = deIdentification.getTokens(testParams.annotations)
+
+      //Assert
+      assert(tokens == testParams.tokenizeSentence)
+
+    }
+
+    it should "get NER entities" in {
       //Arrange
-      val expectedProtectedEntities = expectedParams.protectedEntities.map(annotation => annotation.result).toList
+      val expectedProtectedEntities = expectedParams.nerEntities.map(annotation => annotation.result).toList
 
       //Act
-      val protectedEntities = deIdentification.getProtectedEntities(testParams.annotations)
+      val protectedEntities = deIdentification.getNerEntities(testParams.annotations)
           .map(annotation => annotation.result).toList
 
       //Assert
       assert(expectedProtectedEntities == protectedEntities)
     }
 
-    /*it should "identified potential unclassified entities" in {
+    it should "identified regex entities" in {
       //Act
-      val unclassifiedEntities = deIdentification.getUnclassifiedEntities(testParams.tokenizedSentence)
+      val regexEntities = deIdentification.getRegexEntities(testParams.tokenizeSentence)
 
       //Assert
-      assert(unclassifiedEntities == expectedParams.unclassifiedEntities)
+      assert(regexEntities == expectedParams.regexEntities)
 
-    }*/
+    }
+
+    it should "merge ner and regex entities" in {
+      //Act
+      val entitiesMerged = deIdentification.mergeEntities(expectedParams.nerEntities, expectedParams.regexEntities)
+
+      //Assert
+      val expectedEntitiesMerged = expectedParams.mergedEntities.map(entity=>entity.result).toList
+      val entitiesMergedAsList = entitiesMerged.map(entity=>entity.result).toList
+      assert(entitiesMergedAsList==expectedEntitiesMerged)
+    }
 
     it should "anonymize sentence" in {
-      //Arrange
-      val protectedEntities = deIdentification.getProtectedEntities(testParams.annotations)
-
       //Act
-      val anonymizeSentence = deIdentification.getAnonymizeSentence(testParams.originalSentence, protectedEntities)
+      val anonymizeSentence = deIdentification.getAnonymizeSentence(testParams.originalSentence,
+        expectedParams.mergedEntities)
 
       assert(expectedParams.anonymizeSentence == anonymizeSentence)
 
@@ -74,8 +94,7 @@ trait DeIdentificationBehaviors { this: FlatSpec =>
 
     it should "create anonymize annotation" in {
       // Arrange
-      val protectedEntities = deIdentification.getProtectedEntities(testParams.annotations)
-      val anonymizeSentence = deIdentification.getAnonymizeSentence(testParams.originalSentence, protectedEntities)
+      val anonymizeSentence = deIdentification.getAnonymizeSentence(testParams.originalSentence, expectedParams.mergedEntities)
 
       // Act
       val anonymizeAnnotator = deIdentification.createAnonymizeAnnotation(anonymizeSentence)
