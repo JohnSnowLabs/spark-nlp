@@ -90,30 +90,23 @@ trait Windowing extends Serializable {
   def applyWindowUdfNerExhaustive =
   // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
     udf { (documents: Seq[Row], chunks: Seq[Row]) => {
-      //println(s"all documents: ${documents.map(Annotation(_).result).mkString(", ")}")
-      //println(s"all chunks: ${chunks.map(Annotation(_).result).mkString(", ")}")
 
       var lastIC: Option[IndexedChunk] = None
 
       val indexed = documents.map(Annotation(_).result).zipAll(chunks.map(Annotation(_).result), "", "")
         .map { case (doc, chunk) =>
-            if (chunk.isEmpty) {
-              IndexedChunk("", 0, 0)
-            } else if (doc.isEmpty) {
-              /** More than one chunk per document*/
-              lastIC.get
-            } else {
-              require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
-              val index = doc.indexOf(chunk)
-              var tokenIndexBegin = 0
-              for (i <- 0 until index) {
-                if (doc(i) == ' ')
-                  tokenIndexBegin += 1
-              }
-              val tokenIndexEnd = tokenIndexBegin + chunk.split(" ").length - 1
-              val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
-              lastIC = Some(ic)
-              ic
+          if (chunk.isEmpty) {
+            IndexedChunk("", 0, 0)
+          } else if (doc.isEmpty) {
+            /** More than one chunk per document*/
+            lastIC.get
+          } else {
+            require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
+            val tokenIndexBegin = doc.indexOf(chunk)
+            val tokenIndexEnd = tokenIndexBegin + chunk.length - 1
+            val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
+            lastIC = Some(ic)
+            ic
           }
         }
 
