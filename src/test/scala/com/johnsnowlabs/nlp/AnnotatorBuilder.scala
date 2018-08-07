@@ -242,9 +242,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCol("sentence")
       .setOutputCol("document")
 
+    val chunkAssembler = new ChunkAssembler()
+      .setInputCols("document")
+      .setChunkCol("target")
+      .setOutputCol("chunk")
+
     val assertion = new AssertionLogRegApproach()
       .setLabelCol("label")
-      .setInputCols("document")
+      .setInputCols("document", "chunk")
       .setOutputCol("assertion")
       .setReg(0.01)
       .setBefore(11)
@@ -253,8 +258,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setStartCol("start")
       .setEndCol("end")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
-    pipeline
+    new Pipeline().setStages(Array(documentAssembler, chunkAssembler, assertion)).fit(dataset)
   }
 }
 

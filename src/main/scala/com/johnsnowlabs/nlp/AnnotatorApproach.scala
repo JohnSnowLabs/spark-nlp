@@ -39,18 +39,6 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
-    require(validate(schema), s"Wrong annotators in pipeline for ${this.uid}. Make sure the following annotator types are present in inputCols: " +
-      s"${requiredAnnotatorTypes.mkString(", ")}")
-    getInputCols.foreach {
-      annotationColumn =>
-        require(getInputCols.forall(schema.fieldNames.contains),
-          s"pipeline annotator stages incomplete. " +
-            s"expected: ${getInputCols.mkString(", ")}, " +
-            s"found: ${schema.fields.filter(_.dataType == ArrayType(Annotation.dataType)).map(_.name).mkString(", ")}, " +
-            s"among available: ${schema.fieldNames.mkString(", ")}")
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
-          s"column [$annotationColumn] must be an NLP Annotation column")
-    }
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
     val outputFields = schema.fields :+

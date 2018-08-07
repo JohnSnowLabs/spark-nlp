@@ -22,7 +22,7 @@ import org.apache.spark.ml.linalg.Vector
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with TransformModelSchema with HasWordEmbeddings  {
+  with Windowing with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
@@ -51,10 +51,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setAfter(after: Int): this.type = set(afterParam, after)
   def setStartCol(start: String): this.type = set(startCol, start)
   def setEndCol(end: String): this.type = set(endCol, end)
-
-  private def generateEmptyAnnotations = udf {
-    () => Seq.empty[Annotation]
-  }
 
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
