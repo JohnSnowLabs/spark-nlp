@@ -199,7 +199,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  it should behave like saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+  "Our model" should "serialize for God's sake" in {
+    saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+  }
 
   it should "load NER DL Model" ignore {
     val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
