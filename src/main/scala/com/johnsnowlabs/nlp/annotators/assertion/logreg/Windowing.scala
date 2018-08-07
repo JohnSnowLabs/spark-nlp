@@ -90,8 +90,8 @@ trait Windowing extends Serializable {
   def applyWindowUdfNerExhaustive =
   // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
     udf { (documents: Seq[Row], chunks: Seq[Row]) => {
-      println(s"all documents: ${documents.map(Annotation(_).result).mkString(", ")}")
-      println(s"all chunks: ${chunks.map(Annotation(_).result).mkString(", ")}")
+      //println(s"all documents: ${documents.map(Annotation(_).result).mkString(", ")}")
+      //println(s"all chunks: ${chunks.map(Annotation(_).result).mkString(", ")}")
 
       var lastIC: Option[IndexedChunk] = None
 

@@ -17,8 +17,7 @@ import org.apache.spark.sql.functions._
 class AssertionDLModel(override val uid: String) extends AnnotatorModel[AssertionDLModel]
   with HasWordEmbeddings
   with WriteTensorflowModel
-  with ParamsAndFeaturesWritable
-  with TransformModelSchema {
+  with ParamsAndFeaturesWritable {
 
   override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT, CHUNK)
   override val annotatorType: AnnotatorType = ASSERTION
@@ -57,10 +56,6 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
     }
 
     _model
-  }
-
-  private def generateEmptyAnnotations = udf {
-    () => Seq.empty[Annotation]
   }
 
   private case class IndexedChunk(sentenceTokens: Array[String], chunkBegin: Int, chunkEnd: Int)

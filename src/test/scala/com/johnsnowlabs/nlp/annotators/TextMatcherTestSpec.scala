@@ -10,9 +10,9 @@ import org.scalatest._
 
 class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
-  "An TextMatcher" should s"be of type $DOCUMENT" in {
+  "An TextMatcher" should s"be of type $CHUNK" in {
     val entityExtractor = new TextMatcherModel
-    assert(entityExtractor.annotatorType == DOCUMENT)
+    assert(entityExtractor.annotatorType == CHUNK)
   }
 
   "An TextMatcher" should "extract entities with and without sentences" in {
@@ -23,9 +23,9 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     val extractedNoSentence = Annotation.collect(resultNoSentence, "entity").flatten.toSeq
 
     val expected = Seq(
-      Annotation(DOCUMENT, 6, 24, "dolore magna aliqua", Map()),
-      Annotation(DOCUMENT, 26, 46, "lorem ipsum dolor sit", Map()),
-      Annotation(DOCUMENT, 51, 57, "laborum", Map())
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map()),
+      Annotation(CHUNK, 26, 46, "lorem ipsum dolor sit", Map()),
+      Annotation(CHUNK, 51, 57, "laborum", Map())
     )
 
     assert(extracted == expected)
