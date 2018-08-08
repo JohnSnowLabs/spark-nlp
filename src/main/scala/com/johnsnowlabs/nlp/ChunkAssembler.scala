@@ -21,7 +21,7 @@ class ChunkAssembler(override val uid: String) extends RawAnnotator[ChunkAssembl
 
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
-  val chunkCol = new Param(this, "chunkCol", "column that contains string that belongs to DOCUMENT")
+  val chunkCol = new Param(this, "chunkCol", "column that contains string. Must be part of DOCUMENT")
   val isArray = new BooleanParam(this, "isArray", "whether the chunkCol is an array of strings")
 
   setDefault(isArray -> false)
