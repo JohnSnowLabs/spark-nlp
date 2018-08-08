@@ -4,19 +4,16 @@ import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import org.apache.spark.ml.util.MLWriter
 import org.scalatest.FlatSpec
 
 trait DeIdentificationBehaviors { this: FlatSpec =>
 
   def saveModel(model: MLWriter, modelFilePath: String): Unit = {
-    //it should "save model on disk" in {
     model.overwrite().save(modelFilePath)
     assertResult(true){
         Files.exists(Paths.get(modelFilePath))
       }
-    //}
   }
 
   case class TestParams(originalSentence: String,

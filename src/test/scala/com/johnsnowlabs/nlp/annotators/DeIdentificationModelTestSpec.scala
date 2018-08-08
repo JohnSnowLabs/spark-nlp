@@ -199,11 +199,11 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  "Our model" should "serialize for God's sake" in {
+  it should "be serializable" ignore {
     saveModel(nerDlModel.write, "./tmp/ner_dl_model")
   }
 
-  it should "load NER DL Model" ignore {
+  it should "be loaded from disk" in {
     val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
     assert(loadedNerDlModel.isInstanceOf[NerDLModel])
   }
@@ -213,9 +213,11 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
-  it should behave like saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
+  it should "be serializable" ignore {
+    saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
+  }
 
-  it should "load model" ignore {
+  it should "be loaded from disk" in {
     nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
@@ -227,7 +229,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
-    //deIdentificationDataFrame.show(false)
+    deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
@@ -237,7 +239,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
-    //deIdentificationDataFrame.show(false)
+    deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
@@ -347,6 +349,116 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
  }
 
+  "A de-identification annotator with ner and regex entities that differ in labeled entities" should
+    "choose regex entities over ner entities" in {
+    //Arrange
+    val nerEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"ID"))
+    )
+
+    val regexEntities = Seq(
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    val deIdentificationModel = new DeIdentificationModel()
+
+    val expectedNerEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC"))
+    )
+
+    //Act
+    val cleanNerEntities = deIdentificationModel.handleEntitiesDifferences(nerEntities, regexEntities)
+
+    //Assert
+    assert(cleanNerEntities.map(entity=>entity.result).toList==expectedNerEntities.map(entity=>entity.result).toList)
+  }
+
+  "A de-identification annotator when ner and regex entities overlaps with one regex entity" should
+    "merge entities" in {
+    //Arrange
+    val nerEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+      )
+
+    val regexEntities = Seq(Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE")))
+
+    val deIdentificationModel = new DeIdentificationModel()
+
+    val expectedProtectedEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    //Act
+    val protectedEntities = deIdentificationModel.mergeEntities(nerEntities, regexEntities)
+
+    //Assert
+    assert(protectedEntities.map(entity=>entity.result).toList==expectedProtectedEntities.map(entity=>entity.result).toList)
+  }
+
+
+  "A de-identification annotator when ner and regex entities overlaps with multiple regex entities" should
+    "merge entities" in {
+    //Arrange
+    val nerEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    val regexEntities = Seq(
+      Annotation(CHUNK, 26, 31, "510-1975", Map("entity"->"ID")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    val deIdentificationModel = new DeIdentificationModel()
+
+    val expectedProtectedEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE")),
+      Annotation(CHUNK, 26, 31, "510-1975", Map("entity"->"ID"))
+    )
+
+    //Act
+    val protectedEntities = deIdentificationModel.mergeEntities(nerEntities, regexEntities)
+
+    //Assert
+    assert(protectedEntities.map(entity=>entity.result).toList==expectedProtectedEntities.map(entity=>entity.result).toList)
+  }
+
+  "A de-identification annotator when ner and regex entities overlaps with empty regex entities" should
+    "merge entities" in {
+    //Arrange
+    val nerEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    val regexEntities = Seq()
+
+    val deIdentificationModel = new DeIdentificationModel()
+
+    val expectedProtectedEntities = Seq(
+      Annotation(CHUNK, 0, 2, "John", Map("entity"->"PER")),
+      Annotation(CHUNK, 12, 22, "Canada", Map("entity"->"LOC")),
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
+    )
+
+    //Act
+    val protectedEntities = deIdentificationModel.mergeEntities(nerEntities, regexEntities)
+
+    //Assert
+    assert(protectedEntities.map(entity=>entity.result).toList==expectedProtectedEntities.map(entity=>entity.result).toList)
+  }
+
   //Assert
   testParams = TestParams(
     originalSentence = "John was born on 05/10/1975 in Canada",
@@ -376,7 +488,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   expectedParams = ExpectedParams(
     anonymizeSentence = "PER was born on DATE in LOC",
     regexEntities = Seq(
-      Annotation(CHUNK, 26, 31, "05/10/1975", Map("regex_entity"->"DATE"))
+      Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
     ),
     anonymizeAnnotation = Annotation(DOCUMENT, 0, 37, "PER was born on DATE in LOC",
       Map("sentence"->"protected")),
@@ -390,7 +502,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   )
 
   //Act
-  "when NER does not identify date on sentence" should behave like deIdentificationAnnotator(deIdentificationModel,
+  "A de-identification annotator when NER does not identify date on sentence" should behave like deIdentificationAnnotator(deIdentificationModel,
     testParams, expectedParams)
 
 }
