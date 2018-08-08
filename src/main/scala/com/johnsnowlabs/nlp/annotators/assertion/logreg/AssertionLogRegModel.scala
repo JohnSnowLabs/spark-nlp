@@ -5,17 +5,12 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
-import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.ml.param._
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
 import scala.collection.immutable.Map
-import scala.collection.mutable
-import org.apache.spark.ml.linalg.Vector
 
 /**
   * Created by jose on 22/11/17.
@@ -68,10 +63,10 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
       withColumn("_rid", monotonically_increasing_id()).
-      withColumn("_features", explode_outer(applyWindowUdfNerExhaustive(col(documentCol), col(chunkCol))))
+      withColumn("_features", explode_outer(applyWindowUdfChunk(col(documentCol), col(chunkCol))))
 
     val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {
-      packAnnotationsNerExhaustive(col("_features"), $"_prediction")
+      packAnnotationsFromChunks(col("_features"), $"_prediction")
     }).drop("_prediction", "_features", "rawPrediction", "probability")
 
     val packedData = {
@@ -86,7 +81,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   }
 
-  private def packAnnotationsNerExhaustive = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
+  private def packAnnotationsFromChunks = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
     if (vector.numNonzeros > 0)
      Annotation("assertion", vector.apply(1).toInt, vector.apply(2).toInt, $$(labelMap)(prediction), Map())
     else
