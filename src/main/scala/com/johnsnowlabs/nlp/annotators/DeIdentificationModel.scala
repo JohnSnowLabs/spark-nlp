@@ -50,7 +50,7 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
          if (isRegexMatch(tokenSentence.token, regexPatterns)){
 
            val regexEntity = Annotation(CHUNK, tokenSentence.begin, tokenSentence.end,
-             tokenSentence.token, Map("regex_entity"->entity))
+             tokenSentence.token, Map("entity"->entity))
            regexEntities += regexEntity
          }
 
@@ -60,6 +60,7 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
   }
 
   def isRegexMatch(token: String, regexPatterns: List[String]): Boolean ={
+
     val matches = regexPatterns.flatMap(regexPattern => regexPattern.r.findFirstMatchIn(token))
     if (matches.nonEmpty){
       val realMatch = matches.filter(fullMatch => fullMatch.group(0).length == token.length)
@@ -70,10 +71,30 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
   }
 
   def mergeEntities(nerEntities: Seq[Annotation], regexEntities: Seq[Annotation]): Seq[Annotation] = {
-    nerEntities ++ regexEntities
+
+    val cleanEntities = handleEntitiesDifferences(nerEntities, regexEntities)
+
+    val duplicatedEntities = regexEntities.flatMap(regexEntity => cleanEntities.
+      filter(nerEntity => nerEntity.equals(regexEntity)))
+
+    val cleanRegexEntities = regexEntities diff duplicatedEntities
+
+    nerEntities ++ cleanRegexEntities
+  }
+
+  def handleEntitiesDifferences(nerEntities: Seq[Annotation], regexEntities: Seq[Annotation]): Seq[Annotation] = {
+
+    val differedEntities = regexEntities.flatMap(regexEntity => nerEntities.
+      filter(nerEntity => (nerEntity.result == regexEntity.result) &&
+                          (nerEntity.metadata("entity") != regexEntity.metadata("entity"))))
+
+    val cleanNerEntities = nerEntities diff differedEntities
+
+    cleanNerEntities
   }
 
   def getAnonymizeSentence(sentence: String, protectedEntities: Seq[Annotation]): String = {
+
     var anonymizeSentence = sentence
     protectedEntities.foreach(annotation => {
       val wordToReplace = annotation.result
@@ -88,6 +109,7 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
     val sentence = getSentence(annotations)
     val tokens = getTokens(annotations)
     val nerEntities = getNerEntities(annotations)
