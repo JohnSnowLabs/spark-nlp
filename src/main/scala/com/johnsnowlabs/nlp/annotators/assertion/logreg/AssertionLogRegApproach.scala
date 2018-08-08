@@ -65,6 +65,8 @@ class AssertionLogRegApproach(val uid: String)
 
     dataset.toDF
       .withColumn("_features",
+        /** explode will delete rows that do not contain any chunk. Will only train chunked rows.
+          * Transform will explode_outer instead */
         explode(applyWindowUdfChunk(col(documentCol), col(chunkCol)))
       )
   }
