@@ -54,7 +54,7 @@ class AssertionLogRegApproach(val uid: String)
     afterParam -> 10
   )
 
-  private def processWithNer(dataset: DataFrame): DataFrame = {
+  private def processWithChunk(dataset: DataFrame): DataFrame = {
     val documentCol = dataset.schema.fields
       .find(f => $(inputCols).contains(f.name) && f.metadata.getString("annotatorType") == DOCUMENT)
       .get.name
@@ -65,7 +65,7 @@ class AssertionLogRegApproach(val uid: String)
 
     dataset.toDF
       .withColumn("_features",
-        explode(applyWindowUdfNerExhaustive(col(documentCol), col(chunkCol)))
+        explode(applyWindowUdfChunk(col(documentCol), col(chunkCol)))
       )
   }
 
@@ -83,12 +83,12 @@ class AssertionLogRegApproach(val uid: String)
   }
 
 
-  private def trainWithNer(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+  private def trainWithChunk(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
 
     val preprocessed = dataset
       .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
-    processWithNer(preprocessed)
+    processWithChunk(preprocessed)
   }
 
   private def trainWithStartEnd(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
@@ -124,7 +124,7 @@ class AssertionLogRegApproach(val uid: String)
     if (get(startCol).isDefined & get(endCol).isDefined) {
       trainWithStartEnd(dataset, labelCol, labelMappings)
     } else {
-      trainWithNer(dataset, labelCol, labelMappings)
+      trainWithChunk(dataset, labelCol, labelMappings)
     }
 
     new AssertionLogRegModel()

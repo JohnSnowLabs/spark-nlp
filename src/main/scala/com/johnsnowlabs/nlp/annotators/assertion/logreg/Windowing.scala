@@ -72,8 +72,8 @@ trait Windowing extends Serializable {
     val (l, t, r) = applyWindow(doc.toLowerCase, s, e)
 
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+      t.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
+      r.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
   }
 
   def applyWindowUdf =
@@ -87,7 +87,7 @@ trait Windowing extends Serializable {
 
   private case class IndexedChunk(sentence: String, chunkBegin: Int, chunkEnd: Int)
 
-  def applyWindowUdfNerExhaustive =
+  def applyWindowUdfChunk =
   // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
     udf { (documents: Seq[Row], chunks: Seq[Row]) => {
 
