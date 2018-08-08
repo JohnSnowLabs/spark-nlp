@@ -12,7 +12,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     override val before: Int = 5
     override val after: Int = 5
     override val tokenizer = new SimpleTokenizer
-    override lazy val wordVectors = None
+    override def wordVectors = None
   }
 
   "sentences" should "be correctly padded" in new Scope {
