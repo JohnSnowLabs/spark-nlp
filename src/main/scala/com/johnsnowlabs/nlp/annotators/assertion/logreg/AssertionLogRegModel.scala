@@ -63,6 +63,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
       withColumn("_rid", monotonically_increasing_id()).
+      /** explode_outer will nullify non-chunked rows */
       withColumn("_features", explode_outer(applyWindowUdfChunk(col(documentCol), col(chunkCol))))
 
     val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {

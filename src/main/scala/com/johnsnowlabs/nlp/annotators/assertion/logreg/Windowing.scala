@@ -102,8 +102,9 @@ trait Windowing extends Serializable {
             lastIC.get
           } else {
             require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
+            /** If there are two identical CHUNKS in a single row for the same DOCUMENT, this will BREAK. Use Start/End instead*/
             val tokenIndexBegin = doc.indexOf(chunk)
-            val tokenIndexEnd = tokenIndexBegin + chunk.length - 1
+            val tokenIndexEnd = tokenIndexBegin + chunk.length
             val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
             lastIC = Some(ic)
             ic
