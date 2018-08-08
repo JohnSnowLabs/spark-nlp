@@ -80,7 +80,13 @@ class NerCrfApproach(override val uid: String)
     val dataframe = reader.readDataset($(externalDataset), dataset.sparkSession).toDF
 
     if (recursivePipeline.isDefined) {
-      return recursivePipeline.get.transform(dataframe)
+      val rp = recursivePipeline.get
+      /** Disable trim and clear in order to properly read CONLL */
+      rp.stages.foreach {
+        case d: DocumentAssembler => d.setTrimAndClearNewLines(false)
+        case _ =>
+      }
+      return rp.transform(dataframe)
     }
 
     logger.warn("NER CRF not in a RecursivePipeline. " +
@@ -89,6 +95,7 @@ class NerCrfApproach(override val uid: String)
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
+      .setTrimAndClearNewLines(false)
 
     val sentenceDetector = new SentenceDetector()
       .setCustomBounds(Array(System.lineSeparator+System.lineSeparator))
