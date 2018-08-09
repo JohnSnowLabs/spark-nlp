@@ -1,30 +1,33 @@
 package com.johnsnowlabs.nlp
 
-import java.io.{File, FileInputStream}
-
 import org.apache.spark.ml.{PipelineModel, Transformer}
 
 import scala.collection.JavaConverters._
 
 class LightPipeline(stages: Array[Transformer]) {
 
+  private var ignoreUnsupported = false
+
   def this(pipelineModel: PipelineModel) = this(pipelineModel.stages)
+
+  def setIgnoreUnsupported(v: Boolean): Unit = ignoreUnsupported = v
+  def getIgnoreUnsupported: Boolean = ignoreUnsupported
 
   def fullAnnotate(target: String): Map[String, Seq[Annotation]] = {
     stages.foldLeft(Map.empty[String, Seq[Annotation]])((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
-        case ocrAssembler: HasOcr with AnnotatorModel[_]=>
-          val extracted = ocrAssembler.doOcr(new FileInputStream(target))
-            .flatMap{case (pageN, content) => ocrAssembler.annotate(target, content, pageN)}
-          annotations.updated(ocrAssembler.getOutputCol, extracted)
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
+        case rawModel: RawAnnotator[_] =>
+          if (ignoreUnsupported) annotations
+          else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
+            s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
           LightPipeline.pip2sparkless(pipeline).fullAnnotate(target)
         case _ => annotations
