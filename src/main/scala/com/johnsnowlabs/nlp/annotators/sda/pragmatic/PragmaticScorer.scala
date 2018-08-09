@@ -1,10 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
-import scala.collection.JavaConverters._
-import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.LoggerFactory
 
 /**
@@ -15,7 +12,14 @@ import org.slf4j.LoggerFactory
   * Scorer is a rule based implementation inspired on http://fjavieralba.com/basic-sentiment-analysis-with-python.html
   * Its strategy is to tag words by a dictionary in a sentence context, and later identify such context to get amplifiers
   */
-class PragmaticScorer(sentimentDict: Map[String, String]) extends Serializable {
+class PragmaticScorer(
+                       sentimentDict: Map[String, String],
+                       POSITIVE_VALUE: Double = 1.0,
+                       NEGATIVE_VALUE: Double = -1.0,
+                       INCREMENT_MULTIPLIER: Double = 2.0,
+                       DECREMENT_MULTIPLIER: Double = -2.0,
+                       REVERT_MULTIPLIER: Double = -1.0
+                     ) extends Serializable {
 
   private val logger = LoggerFactory.getLogger("PragmaticScorer")
 
@@ -34,15 +38,6 @@ class PragmaticScorer(sentimentDict: Map[String, String]) extends Serializable {
   private val INCREMENT = "increment"
   private val DECREMENT = "decrement"
   private val REVERT = "revert"
-
-  /** config is used for tunning values for tags */
-  private val config: Config = ConfigFactory.load
-
-  private val POSITIVE_VALUE = config.getDouble("nlp.sentimentParams.positive")
-  private val NEGATIVE_VALUE = config.getDouble("nlp.sentimentParams.negative")
-  private val INCREMENT_MULTIPLIER = config.getDouble("nlp.sentimentParams.increment")
-  private val DECREMENT_MULTIPLIER = config.getDouble("nlp.sentimentParams.decrement")
-  private val REVERT_MULTIPLIER = config.getDouble("nlp.sentimentParams.revert")
 
   /** reads the dictionary and processes it into useful information on a [[ProcessedKey]] */
   private val processedKeys: Array[ProcessedKey] = {
@@ -95,11 +90,5 @@ class PragmaticScorer(sentimentDict: Map[String, String]) extends Serializable {
         case _ => currentScore
       }
     })}.sum
-  }
-}
-
-object PragmaticScorer {
-  def py4jHelper(javaSentimentDict: java.util.HashMap[String, String]): PragmaticScorer = {
-    new PragmaticScorer(javaSentimentDict.asScala.toMap)
   }
 }
