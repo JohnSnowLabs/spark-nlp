@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.{IntParam, ParamMap}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql._
@@ -117,4 +118,9 @@ trait ReadsAssertionGraph extends ParamsAndFeaturesReadable[AssertionDLModel] wi
   addReader(readAssertionGraph)
 }
 
-object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph
+trait PretrainedDLAssertionStatus {
+  def pretrained(name: String = "as_fast_dl", language: Option[String] = Some("en"), folder: String = ResourceDownloader.publicLoc): AssertionDLModel =
+    ResourceDownloader.downloadModel(AssertionDLModel, name, language, folder)
+}
+
+object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus
