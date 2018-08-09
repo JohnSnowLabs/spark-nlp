@@ -101,10 +101,29 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
     val path = "./test-output-tmp/pragmaticdetector"
     try {
       pragmaticDetector.write.overwrite.save(path)
-      val pragmaticDetectorRead = SentenceDetector.read.load(path)
+      SentenceDetector.read.load(path)
     } catch {
       case _: java.io.IOException => succeed
     }
+
+  }
+
+  "A Pragmatic SBD" should "successfully explode sentences" in {
+    import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
+    val data = Seq("This is one sentence. This is another sentence. Third sentence.").toDF("text")
+    val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence").setExplodeSentences(true)
+
+    val doc = document.transform(data)
+    val sen = sentence.transform(doc)
+
+    assert(sen.count == 3, "because there were no 3 rows out of 3 sentences")
+
+    val token = new Tokenizer().setInputCols("sentence").setOutputCol("token")
+
+    val tok = token.transform(sen)
+
+    assert(tok.count == 3, "because there were no 3 rows out of 3 sentences after tokenization")
 
   }
 

@@ -36,9 +36,9 @@ trait HasInputAnnotationCols extends Params {
   final def setInputCols(value: Array[String]): this.type = {
     require(
       value.length == requiredAnnotatorTypes.length,
-      s"setInputCols expecting ${requiredAnnotatorTypes.length} columns. " +
-        s"Provided column amount: ${value.length} " +
-        s"which should be made of: ${requiredAnnotatorTypes.mkString(", ")} annotators"
+      s"setInputCols in ${this.uid} expecting ${requiredAnnotatorTypes.length} columns. " +
+        s"Provided column amount: ${value.length}. " +
+        s"Which should be columns from the following annotators: ${requiredAnnotatorTypes.mkString(", ")}"
     )
     set(inputCols, value)
   }
