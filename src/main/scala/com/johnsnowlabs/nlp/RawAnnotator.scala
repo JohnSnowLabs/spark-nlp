@@ -23,8 +23,15 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
     col.as(getOutputCol, metadataBuilder.build)
   }
 
+  /** Override for additional custom schema checks */
+  protected def extraValidateMsg = "Schema validation failed"
+  protected def extraValidate(structType: StructType): Boolean = {
+    true
+  }
+
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
+    require(extraValidate(schema), extraValidateMsg)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
     val outputFields = schema.fields :+

@@ -4,7 +4,7 @@ import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.types.MetadataBuilder
+import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StringType, StructType}
 import org.slf4j.LoggerFactory
 
 /**
@@ -21,38 +21,69 @@ class ChunkAssembler(override val uid: String) extends RawAnnotator[ChunkAssembl
 
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
-  val chunkCol = new Param(this, "chunkCol", "column that contains string. Must be part of DOCUMENT")
+  val chunkCol = new Param[String](this, "chunkCol", "column that contains string. Must be part of DOCUMENT")
   val isArray = new BooleanParam(this, "isArray", "whether the chunkCol is an array of strings")
 
   setDefault(isArray -> false)
 
-  def setChunkCol(value: String): this.type = set("chunkCol", value)
+  def setChunkCol(value: String): this.type = set(chunkCol, value)
+  def setIsArray(value: Boolean): this.type = set(isArray, value)
+
+  def getChunkCol: String = $(chunkCol)
+  def getIsArray: Boolean = $(isArray)
 
   def this() = this(Identifiable.randomUID("CHUNK_ASSEMBLER"))
 
-  private def assemble = udf {
+  override protected def extraValidate(structType: StructType): Boolean = {
+    if ($(isArray))
+      structType.fields.find(_.name == $(chunkCol)).exists(_.dataType == ArrayType(StringType, containsNull=true))
+    else
+      structType.fields.find(_.name == $(chunkCol)).exists(_.dataType == StringType)
+  }
+
+  override protected def extraValidateMsg: AnnotatorType =
+    if ($(isArray)) s"${$(chunkCol)} must be ArrayType(StringType)"
+    else s"${$(chunkCol)} must be StringType"
+
+  private def buildFromChunk(annotation: Annotation, chunk: String) = {
+    /** This will break if there are two identical chunks */
+    val beginning = annotation.result.indexOf(chunk)
+    val ending = beginning + chunk.length - 1
+    if (chunk.trim.isEmpty || beginning == -1) {
+      logger.warn(s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`")
+      None
+    } else {
+      Some(Annotation(
+        annotatorType,
+        beginning,
+        ending,
+        chunk,
+        Map.empty[String, String]
+      ))
+    }
+  }
+
+  private def assembleChunks = udf {
+    (annotationProperties: Seq[Row], chunks: Seq[String]) =>
+      val annotations = annotationProperties.map(Annotation(_))
+      annotations.flatMap(annotation => {
+        chunks.flatMap(chunk => buildFromChunk(annotation, chunk))
+      })
+  }
+
+  private def assembleChunk = udf {
     (annotationProperties: Seq[Row], chunk: String) =>
       val annotations = annotationProperties.map(Annotation(_))
       annotations.flatMap(annotation => {
-        val beginning = annotation.result.indexOf(chunk)
-        val ending = beginning + chunk.length - 1
-        if (beginning == -1) {
-          logger.warn(s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`")
-          None
-        } else {
-          Some(Annotation(
-            annotatorType,
-            beginning,
-            ending,
-            chunk,
-            Map.empty[String, String]
-          ))
-        }
+        buildFromChunk(annotation, chunk)
       })
   }
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    dataset.withColumn($(outputCol), wrapColumnMetadata(assemble(col($(inputCols).head), col($(chunkCol)))))
+    if ($(isArray))
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col($(inputCols).head), col($(chunkCol)))))
+    else
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col($(inputCols).head), col($(chunkCol)))))
   }
 
 }
