@@ -585,11 +585,37 @@ class SentenceDetector(AnnotatorModel):
 class SentimentDetector(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
                        "dictionary",
-                       "path for dictionary to sentiment analysis")
+                       "path for dictionary to sentiment analysis",
+                       typeConverter=TypeConverters.identity)
 
-    @keyword_only
+    positiveMultiplier = Param(Params._dummy(),
+                                  "positiveMultiplier",
+                                  "multiplier for positive sentiments. Defaults 1.0",
+                                  typeConverter=TypeConverters.toFloat)
+
+    negativeMultiplier = Param(Params._dummy(),
+                               "negativeMultiplier",
+                               "multiplier for negative sentiments. Defaults -1.0",
+                               typeConverter=TypeConverters.toFloat)
+
+    incrementMultiplier = Param(Params._dummy(),
+                               "incrementMultiplier",
+                               "multiplier for increment sentiments. Defaults 2.0",
+                               typeConverter=TypeConverters.toFloat)
+
+    decrementMultiplier = Param(Params._dummy(),
+                               "decrementMultiplier",
+                               "multiplier for decrement sentiments. Defaults -2.0",
+                               typeConverter=TypeConverters.toInt)
+
+    reverseMultiplier = Param(Params._dummy(),
+                               "reverseMultiplier",
+                               "multiplier for revert sentiments. Defaults -1.0",
+                               typeConverter=TypeConverters.toFloat)
+
     def __init__(self):
         super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
+        self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0, decrementMultiplier=-2, reverseMultiplier=-1.0)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format':'text'}):
         opts = options.copy()
@@ -603,6 +629,11 @@ class SentimentDetector(AnnotatorApproach):
 
 class SentimentDetectorModel(AnnotatorModel):
     name = "SentimentDetectorModel"
+
+    positiveMultiplier = Param(Params._dummy(),
+                               "positiveMultiplier",
+                               "multiplier for positive sentiments. Defaults 1.0",
+                               typeConverter=TypeConverters.toFloat)
 
     def __init__(self, java_model=None):
         if java_model:
@@ -632,10 +663,25 @@ class ViveknSentimentApproach(AnnotatorApproach):
                         "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
                         typeConverter=TypeConverters.toInt)
 
+    importantFeatureRatio = Param(Params._dummy(),
+                                  "importantFeatureRatio",
+                                  "proportion of feature content to be considered relevant. Defaults to 0.5",
+                                  typeConverter=TypeConverters.toFloat)
+
+    unimportantFeatureStep = Param(Params._dummy(),
+                                   "unimportantFeatureStep",
+                                   "proportion to lookahead in unimportant features. Defaults to 0.025",
+                                   typeConverter=TypeConverters.toFloat)
+
+    featureLimit = Param(Params._dummy(),
+                         "featureLimit",
+                         "content feature limit, to boost performance in very dirt text. Default disabled with -1",
+                         typeConverter=TypeConverters.toInt)
+
     @keyword_only
     def __init__(self):
         super(ViveknSentimentApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach")
-        self._setDefault(pruneCorpus=1)
+        self._setDefault(pruneCorpus=1, importantFeatureRatio=0.5, unimportantFeatureStep=0.025, featureLimit=-1)
 
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
@@ -661,6 +707,21 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
 class ViveknSentimentModel(AnnotatorModel):
     name = "ViveknSentimentModel"
+
+    importantFeatureRatio = Param(Params._dummy(),
+                                  "importantFeatureRatio",
+                                  "proportion of feature content to be considered relevant. Defaults to 0.5",
+                                  typeConverter=TypeConverters.toFloat)
+
+    unimportantFeatureStep = Param(Params._dummy(),
+                                   "unimportantFeatureStep",
+                                   "proportion to lookahead in unimportant features. Defaults to 0.025",
+                                   typeConverter=TypeConverters.toFloat)
+
+    featureLimit = Param(Params._dummy(),
+                         "featureLimit",
+                         "content feature limit, to boost performance in very dirt text. Default disabled with -1",
+                         typeConverter=TypeConverters.toInt)
 
     def __init__(self, java_model=None):
         if java_model:
@@ -700,10 +761,36 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          "whether to use faster mode",
                          typeConverter=TypeConverters.toBoolean)
 
+    wordSizeIgnore = Param(Params._dummy(),
+                         "wordSizeIgnore",
+                         "minimum size of word before ignoring. Defaults to 3",
+                         typeConverter=TypeConverters.toInt)
+
+    dupsLimit = Param(Params._dummy(),
+                            "dupsLimit",
+                            "maximum duplicate of characters in a word to consider. Defaults to 2",
+                            typeConverter=TypeConverters.toInt)
+
+    reductLimit = Param(Params._dummy(),
+                           "reductLimit",
+                           "word reductions limit. Defaults to 3",
+                           typeConverter=TypeConverters.toInt)
+
+    intersections = Param(Params._dummy(),
+                           "intersections",
+                           "hamming intersections to attempt. Defaults to 10",
+                           typeConverter=TypeConverters.toInt)
+
+    vowelSwapLimit = Param(Params._dummy(),
+                           "vowelSwapLimit",
+                           "vowel swap attempts. Defaults to 6",
+                           typeConverter=TypeConverters.toInt)
+
+
     @keyword_only
     def __init__(self):
         super(NorvigSweetingApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
-        self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False)
+        self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2, reductLimit=3, intersections=10, vowelSwapLimit=6)
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()

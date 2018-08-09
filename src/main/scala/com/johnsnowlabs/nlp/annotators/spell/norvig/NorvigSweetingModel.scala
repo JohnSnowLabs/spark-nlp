@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -27,14 +27,19 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   //protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
-  private val config: Config = ConfigFactory.load
 
   /** params */
-  private val wordSizeIgnore = config.getInt("nlp.norvigChecker.wordSizeIgnore")
-  private val dupsLimit = config.getInt("nlp.norvigChecker.dupsLimit")
-  private val reductLimit = config.getInt("nlp.norvigChecker.reductLimit")
-  private val intersections = config.getInt("nlp.norvigChecker.intersections")
-  private val vowelSwapLimit = config.getInt("nlp.norvigChecker.vowelSwapLimit")
+  protected val wordSizeIgnore = new IntParam(this, "wordSizeIgnore", "minimum size of word before ignoring. Defaults to 3")
+  protected val dupsLimit = new IntParam(this, "dupsLimit", "maximum duplicate of characters in a word to consider. Defaults to 2")
+  protected val reductLimit = new IntParam(this, "reductLimit", "word reductions limit. Defaults to 3")
+  protected val intersections = new IntParam(this, "intersections", "hamming intersections to attempt. Defaults to 10")
+  protected val vowelSwapLimit = new IntParam(this, "vowelSwapLimit", "vowel swap attempts. Defaults to 6")
+
+  def setWordSizeIgnore(v: Int) = set(wordSizeIgnore, v)
+  def setDupsLimit(v: Int) = set(dupsLimit, v)
+  def setReductLimit(v: Int) = set(reductLimit, v)
+  def setIntersections(v: Int) = set(intersections, v)
+  def setVowelSwapLimit(v: Int) = set(vowelSwapLimit, v)
 
   private lazy val allWords: HashSet[String] = {
     if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*) else HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
@@ -73,7 +78,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
           w
         }
         else if (w == text(i - 1)) {
-          if (dups < overrideLimit.getOrElse(dupsLimit)) {
+          if (dups < overrideLimit.getOrElse($(dupsLimit))) {
             dups += 1
             w
           } else {
@@ -131,7 +136,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
       case (c, i) =>
         val n = numberOfDups(word, i)
         if (n > 0) {
-          (0 to n).map(r => c.toString*r).take(reductLimit).toList
+          (0 to n).map(r => c.toString*r).take($(reductLimit)).toList
         } else {
           List(c.toString)
         }
@@ -143,7 +148,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   /** flattens vowel possibilities */
   private def vowelSwaps(word: String): Set[String] = {
-    if (word.length > vowelSwapLimit) return Set.empty[String]
+    if (word.length > $(vowelSwapLimit)) return Set.empty[String]
     val flatWord: List[List[Char]] = word.toCharArray.collect {
       case c => if (vowels.contains(c)) {
         vowels.toList
@@ -171,7 +176,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
       Some(word.distinct)
-    }  else if (word.length <= wordSizeIgnore) {
+    }  else if (word.length <= $(wordSizeIgnore)) {
       logger.debug("word ignored because length is less than wordSizeIgnore")
       Some(word)
     } else if ($(shortCircuit)) {
@@ -203,9 +208,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     val possibility = suggestion(input)
     if (possibility.isDefined) return possibility.get
     val listedSuggestions = suggestions(input)
-    val sortedFreq = listedSuggestions.filter(_.length >= input.length).sortBy(compareFrequencies).takeRight(intersections)
+    val sortedFreq = listedSuggestions.filter(_.length >= input.length).sortBy(compareFrequencies).takeRight($(intersections))
     logger.debug(s"recommended by frequency: ${sortedFreq.mkString(", ")}")
-    val sortedHamm = listedSuggestions.sortBy(compareHammers(input)).takeRight(intersections)
+    val sortedHamm = listedSuggestions.sortBy(compareHammers(input)).takeRight($(intersections))
     logger.debug(s"recommended by hamming: ${sortedHamm.mkString(", ")}")
     val intersect = sortedFreq.intersect(sortedHamm)
     /* Picking algorithm */
