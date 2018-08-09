@@ -15,8 +15,8 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
   private val config = ConfigLoader.retrieve
   private val spark = ResourceHelper.spark
 
-  val serializationMode: String = config.getString("settings.annotatorSerializationFormat")
-  val useBroadcast: Boolean = config.getBoolean("settings.useBroadcastForFeatures")
+  val serializationMode: String = config.getString("sparknlp.settings.annotatorSerializationFormat")
+  val useBroadcast: Boolean = config.getBoolean("sparknlp.settings.useBroadcastForFeatures")
 
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
 
