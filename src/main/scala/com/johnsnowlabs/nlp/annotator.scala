@@ -60,7 +60,7 @@ object annotator {
   type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
   object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
 
-  type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+  type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
   object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]
   type PerceptronModel = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
   object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel
