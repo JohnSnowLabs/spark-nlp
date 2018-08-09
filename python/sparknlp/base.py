@@ -160,10 +160,11 @@ class RecursivePipeline(Pipeline, JavaEstimator):
 
 class DocumentAssembler(AnnotatorTransformer):
 
-    inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
-    outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
-    idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
-    metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
+    inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
+    idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
+    metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
+    trimAndClearNewLines = Param(Params._dummy(), "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces", typeConverter=TypeConverters.toBoolean)
     name = 'DocumentAssembler'
 
     @keyword_only
@@ -187,6 +188,9 @@ class DocumentAssembler(AnnotatorTransformer):
 
     def setMetadataCol(self, value):
         return self._set(metadataCol=value)
+
+    def setTrimAndClearNewLines(self, value):
+        return self._set(trimAndClearNewLines=value)
 
 
 class TokenAssembler(AnnotatorTransformer):
