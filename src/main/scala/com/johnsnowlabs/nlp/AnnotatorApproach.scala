@@ -35,10 +35,17 @@ abstract class AnnotatorApproach[M <: Model[M]]
     model
   }
 
+  /** Override for additional custom schema checks */
+  protected def extraValidateMsg = "Schema validation failed"
+  protected def extraValidate(structType: StructType): Boolean = {
+    true
+  }
+
   override final def copy(extra: ParamMap): Estimator[M] = defaultCopy(extra)
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
+    require(extraValidate(schema), extraValidateMsg)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", annotatorType)
     val outputFields = schema.fields :+
