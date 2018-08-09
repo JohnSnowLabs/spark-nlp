@@ -1,6 +1,14 @@
 ========
 1.6.1
 ========
+---------------
+Overview
+---------------
+Hi! We're glad to announce new hotfix 1.6.1. Although changes seem modest or very specific, there is a lot going underground. First of all, we've worked hard with the community to understand S3-based clusters,
+which don't have a common fs.defaultFS configuration, which is the one we use to tell where is the cluster temp folder located in order to distribute word embeddings. We fixed two things here,
+on one side we fixed a bug pointing to the wrong filesystem. Second, we added a custom override setting in application.conf that allows manually setting where to put temp folders in cluster. This should help S3 users.
+Please share your feedback on this regard.
+On the other hand, we created a new annotator type internally. The CHUNK type allows better modulary in the communication between different annotators. Impact will be noticed implicitly and over time.
 
 ---------------
 New features

@@ -1059,6 +1059,11 @@ class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
         else:
             super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
 
+    @staticmethod
+    def pretrained(name="as_fast_lg", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
+
 
 class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
 
@@ -1190,3 +1195,8 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(JavaModel, self).__init__(java_model)
         else:
             super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+
+    @staticmethod
+    def pretrained(name="as_fast_dl", language="en"):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
