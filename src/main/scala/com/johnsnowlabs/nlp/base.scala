@@ -8,6 +8,9 @@ object base {
   type DocumentAssembler = com.johnsnowlabs.nlp.DocumentAssembler
   object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
 
+  type ChunkAssembler = com.johnsnowlabs.nlp.ChunkAssembler
+  object ChunkAssembler extends DefaultParamsReadable[ChunkAssembler]
+
   type TokenAssembler = com.johnsnowlabs.nlp.TokenAssembler
   object TokenAssembler extends DefaultParamsReadable[TokenAssembler]
 
