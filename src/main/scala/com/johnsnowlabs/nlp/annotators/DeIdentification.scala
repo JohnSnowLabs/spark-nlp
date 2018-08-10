@@ -19,8 +19,14 @@ class DeIdentification(override val uid: String) extends AnnotatorApproach[DeIde
 
   def this() = this(Identifiable.randomUID("DE-IDENTIFICATION"))
 
-  def setRegexPatternsDictionary(value: ExternalResource): this.type = {
-    set(regexPatternsDictionary, value)
+  def setRegexPatternsDictionary(path: ExternalResource): this.type = {
+    set(regexPatternsDictionary, path)
+  }
+
+  def setRegexPatternsDictionary(path: String,
+                                 readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                                 options: Map[String, String] = Map("delimiter"->" ")): this.type = {
+    set(regexPatternsDictionary, ExternalResource(path, readAs, options))
   }
 
   def transformRegexPatternsDictionary(regexPatternsDictionary: List[(String, String)]):
