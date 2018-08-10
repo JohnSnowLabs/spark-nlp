@@ -97,7 +97,7 @@ class ViveknSentimentApproach(override val uid: String)
           .map(_.name).get
 
         dataset.select(tokenColumn, $(sentimentCol)).as[(Array[Annotation], String)].foreach(tokenSentiment => {
-          negateSequence(tokenSentiment._1.map(_.result).toList).foreach(w => {
+          negateSequence(tokenSentiment._1.map(_.result)).foreach(w => {
             if (tokenSentiment._2 == "positive") {
               positiveDS.add(w, 1)
               negativeDS.add(prefix + w, 1)
@@ -112,13 +112,13 @@ class ViveknSentimentApproach(override val uid: String)
         val fromNegative: (MMap[String, Long], MMap[String, Long]) = ViveknWordCount(
           er=$(negativeSource),
           prune=$(pruneCorpus),
-          f=w => negateSequence(w)
+          f=w => negateSequence(w.toArray)
         )
 
         val (mpos, mneg) = ViveknWordCount(
           er=$(positiveSource),
           prune=$(pruneCorpus),
-          f=w => negateSequence(w),
+          f=w => negateSequence(w.toArray),
           fromNegative._2,
           fromNegative._1
         )
