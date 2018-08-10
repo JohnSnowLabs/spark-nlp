@@ -21,9 +21,11 @@ class OcrExample extends FlatSpec {
     import spark.implicits._
 
     // point to test/resources/pdfs
-    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/", "region", "metadata")
+    OcrHelper.pageSegmentationMode = 3
+    OcrHelper.pageIteratorLevel = 1
+    val data = OcrHelper.createDataset(spark, "/home/jose/strata_demo", "region", "metadata")
 
-    data.show(10)
+    data.collect.foreach(println)
 
     val documentAssembler = new DocumentAssembler().setInputCol("region").setMetadataCol("metadata")
 

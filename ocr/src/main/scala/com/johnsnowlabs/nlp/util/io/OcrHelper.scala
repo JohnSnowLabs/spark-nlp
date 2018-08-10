@@ -1,7 +1,9 @@
 package com.johnsnowlabs.nlp.util.io
 
+import java.awt.Image
 import java.awt.image.RenderedImage
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
+
 
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
@@ -21,6 +23,19 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
  * can produce multiple annotations for each file, and for each page.
  */
 
+
+object PageSegmentationMode extends Enumeration {
+  type PageSegmentationMode = Value
+  val SINGLE_BLOCK = Value(TessPageSegMode.PSM_SINGLE_BLOCK)
+  val SINGLE_WORD = Value(TessPageSegMode.PSM_SINGLE_WORD)
+}
+
+object EngineMode extends Enumeration {
+  type EngineMode = Value
+  val SINGLE_BLOCK = Value(TessPageSegMode.PSM_SINGLE_BLOCK)
+  val SINGLE_WORD = Value(TessPageSegMode.PSM_SINGLE_WORD)
+}
+
 object OcrHelper {
 
   @transient
@@ -29,6 +44,11 @@ object OcrHelper {
   var minTextLayerSize: Int = 10
   var pageSegmentationMode: Int = TessPageSegMode.PSM_SINGLE_BLOCK
   var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
+  var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
+
+  def setPageSegMode(mode: PageSegmentationMode) = { pageSegmentationMode = mode.id}
+
+
   var extractTextLayer: Boolean = true
 
   case class OcrRow(region: String, metadata: Map[String, String])
@@ -93,10 +113,18 @@ object OcrHelper {
       if (textContent.length < minTextLayerSize) {
 
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
-        val bufferedImage = PlanarImage.wrapRenderedImage(renderedImage).getAsBufferedImage()
+        val image = PlanarImage.wrapRenderedImage(renderedImage).
+          getAsBufferedImage().
+          getScaledInstance(3000, 4000, Image.SCALE_SMOOTH)
+
+        val bufferedImage = toBufferedImage(image)
+
+        import javax.imageio.ImageIO
+        val outputfile = new File("image_rescaled.jpg")
+        ImageIO.write(bufferedImage, "png", outputfile)
 
         // Disable this completely for demo purposes
-        val regions = tesseract.getSegmentedRegions(bufferedImage, TessPageIteratorLevel.RIL_BLOCK)
+        val regions = tesseract.getSegmentedRegions(bufferedImage, pageIteratorLevel)
         regions.map{rectangle => (pageNum, tesseract.doOCR(bufferedImage, rectangle))}
 
       }
@@ -142,5 +170,23 @@ object OcrHelper {
     }
     images
   }
+
+
+  import java.awt.image.BufferedImage
+
+  def toBufferedImage(img: Image): BufferedImage = {
+    if (img.isInstanceOf[BufferedImage]) return img.asInstanceOf[BufferedImage]
+
+    // Create a buffered image with transparency
+    val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
+    // Draw the image on to the buffered image
+    val bGr = bimage.createGraphics
+    bGr.drawImage(img, 0, 0, null)
+    bGr.dispose()
+    // Return the buffered image
+    bimage
+  }
+
+
 
 }
