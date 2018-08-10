@@ -320,6 +320,43 @@ class NormalizerModel(AnnotatorModel):
     name = "NormalizerModel"
 
 
+class DeIdentification(AnnotatorApproach):
+
+    regexPatternsDictionary = Param(Params._dummy(),
+                                    "regexPatternsDictionary",
+                                    "dictionary with regular expression patterns that match some protected entity",
+                                    typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(DeIdentification, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentification")
+
+    def setRegexPatternsDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"delimiter": " "}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(regexPatternsDictionary=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return DeIdentificationModel(java_model)
+
+
+class DeIdentificationModel(AnnotatorModel):
+
+    name = "DeIdentificationModel"
+
+    regexPatternsDictionary = Param(Params._dummy(),
+                                    "regexPatternsDictionary",
+                                    "dictionary with regular expression patterns that match some protected entity",
+                                    typeConverter=TypeConverters.toListString)
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(DeIdentificationModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel")
+
+
 class RegexMatcher(AnnotatorApproach):
 
     strategy = Param(Params._dummy(),
@@ -1103,3 +1140,7 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(JavaModel, self).__init__(java_model)
         else:
             super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+
+
+
+

@@ -45,13 +45,6 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     "money market fund in Canada"
   ).toDS.toDF("text")
 
-  private val testANDataset = Seq(
-    "John was born on 05/10/1975",
-    "Bob visited Switzerland a couple of years ago",
-    "Rapunzel let down her long golden hair",
-    "money market fund in Canada"
-  ).toDS.toDF("text")
-
   //Fixture creation methods
   def trainNerDlModel(trainDatasetPath: String): NerDLModel = {
 
@@ -59,7 +52,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(20)
+      .setMaxEpochs(15)
       .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
@@ -110,6 +103,34 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
+  "An NER with DL model" should "train de-identification entities" ignore  {
+    nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_medium.csv")
+    assert(nerDlModel.isInstanceOf[NerDLModel])
+  }
+
+  it should "be serializable" ignore  {
+    saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+  }
+
+  it should "be loaded from disk" in {
+    val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
+    assert(loadedNerDlModel.isInstanceOf[NerDLModel])
+  }
+
+  "A NER with CRF model" should "train de-identification entities" ignore {
+    nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_medium.csv")
+    assert(nerCrfModel.isInstanceOf[NerCrfModel])
+  }
+
+  it should "be serializable" ignore {
+    saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
+  }
+
+  it should "be loaded from disk" in {
+    nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
+    assert(nerCrfModel.isInstanceOf[NerCrfModel])
+  }
+
   def getDeIdentificationCRFPipeline: Pipeline = {
     val posTagger = PerceptronModel.pretrained()
     val nerCRFTagger = NerCrfModel.pretrained()
@@ -153,8 +174,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-        ReadAs.LINE_BY_LINE, Map()))
+      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+//      .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
+//        ReadAs.LINE_BY_LINE, Map("delimiter"->" ")))
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -194,138 +216,14 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(!isMatch)
   }
 
-  "An NER with DL model" should "train de-identification entities" ignore  {
-    nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_small.csv")
-    assert(nerDlModel.isInstanceOf[NerDLModel])
-  }
-
-  it should "be serializable" ignore {
-    saveModel(nerDlModel.write, "./tmp/ner_dl_model")
-  }
-
-  it should "be loaded from disk" in {
-    val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
-    assert(loadedNerDlModel.isInstanceOf[NerDLModel])
-  }
-
-  "A NER with CRF model" should "train de-identification entities" ignore {
-    nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_medium.csv")
-    assert(nerCrfModel.isInstanceOf[NerCrfModel])
-  }
-
-  it should "be serializable" ignore {
-    saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
-  }
-
-  it should "be loaded from disk" in {
-    nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
-    assert(nerCrfModel.isInstanceOf[NerCrfModel])
-  }
-
-  private var deIdentificationDataFrame = PipelineModels.dummyDataset
-
-  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" in {
-
-    val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
-
-    deIdentificationDataFrame = pipeline.transform(testDataset)
-    deIdentificationDataFrame.show(false)
-    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-
-  }
-
-  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
-
-    val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
-
-    deIdentificationDataFrame = pipeline.transform(testDataset)
-    deIdentificationDataFrame.show(false)
-    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-
-  }
-
-  //Arrange
-  var testParams = TestParams(
-    originalSentence = "Bob visited Switzerland a couple of years ago",
-    tokenizeSentence = Seq(
-      IndexedToken("Bob", 0, 2),
-      IndexedToken("visited", 4, 10),
-      IndexedToken("Switzerland", 12, 22),
-      IndexedToken("a", 24, 24),
-      IndexedToken("couple", 26, 31),
-      IndexedToken("of", 33, 34),
-      IndexedToken("years", 36, 40),
-      IndexedToken("ago", 42, 44)
-    ),
-    annotations = Seq(
-      Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
-      Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC")),
-      Annotation(TOKEN, 0, 2, "Bob", Map("sentence"->"1")),
-      Annotation(TOKEN, 4, 10, "visited", Map("sentence"->"1")),
-      Annotation(TOKEN, 12, 22, "Switzerland", Map("sentence"->"1")),
-      Annotation(TOKEN, 24, 24, "a", Map("sentence"->"1")),
-      Annotation(TOKEN, 26, 31, "couple", Map("sentence"->"1")),
-      Annotation(TOKEN, 33, 34, "of", Map("sentence"->"1")),
-      Annotation(TOKEN, 36, 40, "years", Map("sentence"->"1")),
-      Annotation(TOKEN, 42, 44, "ago", Map("sentence"->"1")),
-      Annotation(DOCUMENT, 0, 44, "Bob visited Switzerland a couple of years ago", Map())
-    )
-  )
-
-  var expectedParams = ExpectedParams(
-    anonymizeSentence = "PER visited LOC a couple of years ago",
-    regexEntities = Seq(),
-    anonymizeAnnotation = Annotation(DOCUMENT, 0, 37, "PER visited LOC a couple of years ago",
-      Map("sentence"->"protected")),
-    nerEntities = Seq(
-      Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
-      Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC"))),
-    mergedEntities = Seq(
-      Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
-      Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC")))
-  )
-
-  private val deIdentificationModel = new DeIdentification()
-    .setInputCols(Array("ner_con", "token", "document"))
-    .setOutputCol("dei")
-    .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-      ReadAs.LINE_BY_LINE, Map("delimiter"->" "))).fit(emptyDataset)
-
-
-  "A de-identification annotator with regex pattern dictionary" should "return a spark dataframe" in {
-
-    val nerDlTagger = NerDLModel.pretrained()
-
-    val deIdentification = new DeIdentification()
-      .setInputCols(Array("ner_con", "token", "document"))
-      .setOutputCol("dei")
-      .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-        ReadAs.LINE_BY_LINE, Map("delimiter"->" ")))
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        nerDlTagger,
-        nerConverter,
-        deIdentification
-      )).fit(emptyDataset)
-
-    deIdentificationDataFrame = pipeline.transform(testDataset)
-    //deIdentificationDataFrame.show(false)
-    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-
-  }
-
-
- "A de-identification approach" should "transform regex dictionary" in {
+ "A de-identification approach" should "transform a regex dictionary" in {
    //Arrange
    val deIdentificationApproach = new DeIdentification()
      .setInputCols(Array("ner_con", "token ", "document"))
      .setOutputCol("dei")
-     .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-       ReadAs.LINE_BY_LINE, Map()))
+     .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+//     .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
+//       ReadAs.LINE_BY_LINE, Map()))
 
    val regexPatternsDictionary = List(
      ("DATE", "\\d{4}-\\d{2}-\\d{2}"),
@@ -349,7 +247,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
  }
 
-  "A de-identification annotator with ner and regex entities that differ in labeled entities" should
+  "A de-identification model with ner and regex entities that differ in labeled entities" should
     "choose regex entities over ner entities" in {
     //Arrange
     val nerEntities = Seq(
@@ -433,7 +331,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(protectedEntities.map(entity=>entity.result).toList==expectedProtectedEntities.map(entity=>entity.result).toList)
   }
 
-  "A de-identification annotator when ner and regex entities overlaps with empty regex entities" should
+  "A de-identification annotator with empty regex entities" should
     "merge entities" in {
     //Arrange
     val nerEntities = Seq(
@@ -460,7 +358,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   //Assert
-  testParams = TestParams(
+  var testParams = TestParams(
     originalSentence = "John was born on 05/10/1975 in Canada",
     tokenizeSentence = Seq(
       IndexedToken("John", 0, 2),
@@ -485,7 +383,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     )
   )
 
-  expectedParams = ExpectedParams(
+  var expectedParams = ExpectedParams(
     anonymizeSentence = "PER was born on DATE in LOC",
     regexEntities = Seq(
       Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE"))
@@ -501,8 +399,93 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       Annotation(CHUNK, 26, 31, "05/10/1975", Map("entity"->"DATE")))
   )
 
+  private val deIdentificationModel = new DeIdentification()
+      .setInputCols(Array("ner_con", "token", "document"))
+      .setOutputCol("dei")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt").fit(emptyDataset)
+
   //Act
-  "A de-identification annotator when NER does not identify date on sentence" should behave like deIdentificationAnnotator(deIdentificationModel,
-    testParams, expectedParams)
+  "A de-identification model when NER does not identify an entity on sentence" should behave like
+    deIdentificationAnnotator(deIdentificationModel, testParams, expectedParams)
+
+  //Arrange
+  testParams = TestParams(
+      originalSentence = "Bob visited Switzerland a couple of years ago",
+      tokenizeSentence = Seq(
+        IndexedToken("Bob", 0, 2),
+        IndexedToken("visited", 4, 10),
+        IndexedToken("Switzerland", 12, 22),
+        IndexedToken("a", 24, 24),
+        IndexedToken("couple", 26, 31),
+        IndexedToken("of", 33, 34),
+        IndexedToken("years", 36, 40),
+        IndexedToken("ago", 42, 44)
+      ),
+      annotations = Seq(
+        Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
+        Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC")),
+        Annotation(TOKEN, 0, 2, "Bob", Map("sentence"->"1")),
+        Annotation(TOKEN, 4, 10, "visited", Map("sentence"->"1")),
+        Annotation(TOKEN, 12, 22, "Switzerland", Map("sentence"->"1")),
+        Annotation(TOKEN, 24, 24, "a", Map("sentence"->"1")),
+        Annotation(TOKEN, 26, 31, "couple", Map("sentence"->"1")),
+        Annotation(TOKEN, 33, 34, "of", Map("sentence"->"1")),
+        Annotation(TOKEN, 36, 40, "years", Map("sentence"->"1")),
+        Annotation(TOKEN, 42, 44, "ago", Map("sentence"->"1")),
+        Annotation(DOCUMENT, 0, 44, "Bob visited Switzerland a couple of years ago", Map())
+      )
+    )
+
+  expectedParams = ExpectedParams(
+      anonymizeSentence = "PER visited LOC a couple of years ago",
+      regexEntities = Seq(),
+      anonymizeAnnotation = Annotation(DOCUMENT, 0, 37, "PER visited LOC a couple of years ago",
+        Map("sentence"->"protected")),
+      nerEntities = Seq(
+        Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
+        Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC"))),
+      mergedEntities = Seq(
+        Annotation(CHUNK, 0, 2, "Bob", Map("entity"->"PER")),
+        Annotation(CHUNK, 12, 22, "Switzerland", Map("entity"->"LOC")))
+    )
+
+  "A de-identification model when NER identify all entities on sentence" should behave like
+    deIdentificationAnnotator(deIdentificationModel, testParams, expectedParams)
+
+  private var deIdentificationDataFrame = PipelineModels.dummyDataset
+
+  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" in {
+
+    val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    //deIdentificationDataFrame.show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
+
+    val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    //deIdentificationDataFrame.show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" in {
+
+    val pipeline = getDeIdentificationDLPipelineWithDictionary.fit(emptyDataset)
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    //deIdentificationDataFrame.show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
 
 }
+
+
+
+
