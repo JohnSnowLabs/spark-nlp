@@ -63,7 +63,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   /** Positive: 0, Negative: 1, NA: 2*/
   def classify(sentence: TokenizedSentence): Short = {
-    val wordFeatures = negateSequence(sentence.tokens).intersect($$(words))
+    val wordFeatures = negateSequence(sentence.tokens).intersect($$(words)).toList
     if (wordFeatures.isEmpty) return 2
     val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
     val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum
