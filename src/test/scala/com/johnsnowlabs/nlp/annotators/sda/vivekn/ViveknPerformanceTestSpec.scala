@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions.rand
 
 class ViveknPerformanceTestSpec extends FlatSpec {
@@ -64,6 +65,62 @@ class ViveknPerformanceTestSpec extends FlatSpec {
     Benchmark.time("Known positive") {println(sentlplight.annotate("I love Harry Potter..").values.flatten.mkString(","))}
     Benchmark.time("Known negative") {println(sentlplight.annotate("Brokeback Mountain is fucking horrible..").values.flatten.mkString(","))}
     Benchmark.time("Known negative") {println(sentlplight.annotate("These Harry Potter movies really suck.").values.flatten.mkString(","))}
+
+  }
+
+  "Vivekn pipeline with spell checker" should "be fast" ignore {
+
+    ResourceHelper.spark
+    import ResourceHelper.spark.implicits._
+
+    val documentAssembler = new DocumentAssembler().
+      setInputCol("text").
+      setOutputCol("document")
+
+    val tokenizer = new Tokenizer().
+      setInputCols(Array("document")).
+      setOutputCol("token")
+
+    val spell = SymmetricDeleteModel.pretrained()
+      .setInputCols("token")
+      .setOutputCol("spell")
+
+    val vivekn = ViveknSentimentModel.load("./my_models/vivekn_opt/").
+      setInputCols("document", "spell").
+      setOutputCol("sentiment")
+
+    val finisher = new Finisher().
+      setInputCols("sentiment")
+
+    val recursivePipeline = new RecursivePipeline().
+      setStages(Array(
+        documentAssembler,
+        tokenizer,
+        spell,
+        vivekn,
+        finisher
+      ))
+
+    val sentmodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
+    val sentlplight = new LightPipeline(sentmodel)
+
+    val n = 2000
+
+    val parquet = ResourceHelper.spark.read
+      .text("./vivekn/training_positive")
+      .toDF("text").sort(rand())
+    val data = parquet.as[String].take(n)
+    println(s"Data size is ${data.length}")
+
+    val sentpipsym = new LightPipeline(PipelineModel.load("./my_models/pipeline_vivekn_sym/"))
+
+    val sentpip = new LightPipeline(PipelineModel.load("./my_models/pipeline_vivekn/"))
+
+    Benchmark.time("Sentiment pipeline with Symmetric Spell Checker no Normalizer") {sentlplight.annotate(data)}
+
+    Benchmark.time("Sentiment pipeline with Symmetric Spell Checker and Normalizer") {sentpipsym.annotate(data)}
+
+    Benchmark.time("Sentiment pipeline with Norvig Spell Checker and Normalizer") {sentpip.annotate(data)}
 
   }
 
