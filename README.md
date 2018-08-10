@@ -137,11 +137,11 @@ If there is any older than current version of a model, it means they still work 
 ### Pipelines
 * [Basic Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.6.1_2_1533856444797.zip)
 * [Advanced Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.6.1_2_1533856478690.zip)
-* [Vivekn Sentiment Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.6.1_2_1533856455061.zip)
+* [Vivekn Sentiment Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.6.1_2_1533942424443.zip)
 
 ### Models
 * [PerceptronModel (POS)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.6.1_2_1533853928168.zip)
-* [ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.6.1_2_1533855848539.zip)
+* [ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.6.1_2_1533942419063.zip)
 * [SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.6.1_2_1533854712643.zip)
 * [NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.6.1_2_1533854544551.zip)
 * [AssertionDLModel (Assertion Status)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.6.1_2_1533855787457.zip)
