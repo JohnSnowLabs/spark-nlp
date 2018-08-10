@@ -83,7 +83,7 @@
                 <div class="doc-content">
                     <div class="content-inner">
                         <section id="concepts-section" class="doc-section">
-                            <h2 class="section-title">Requirements</h2>
+                            <h2 class="section-title">Requirements & Setup</h2>
                             <div class="section-block">
                                 <p>SparkNLP is built on top of Apache Spark 2.3.0 and works with any user provided Spark 2.x.x
                                     it is advised to have basic knowledge of the framework and a working environment
@@ -102,21 +102,20 @@ spark-submit --packages JohnSnowLabs:spark-nlp:1.6.1
                                 <div><b>NOTE: </b>Spark packages --packages has been reported to work unproperly, particularly in python, when utilizing physical clusters.
                                     Utilizing --jars is advised. For python, add python Spark-NLP through pip</div>
                                 <p/>
-                                <p>
-                                    Using <b>Databricks cloud cluster</b> or an <b>Apache Zeppelin</b> Scala notebook? Add the following Maven coordinates in the appropriate menu:
-                                </p>
+                                <h3><b>Databricks cloud cluster</b> & <b>Apache Zeppelin</b></h3>
                                 <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:1.6.1</code></pre>
                                 <p>
                                     For Python in <b>Apache Zeppelin</b> you may need to setup <i><b>SPARK_SUBMIT_OPTIONS</b></i> utilizing --packages instruction shown above like this
                                 </p>
                                 <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.6.1"</code></pre>
-                                <p><b>Python Jupyter Notebook with PySpark</b>? add the following environment variables (depending on your OS)</p>
+                                <h3><b>Python Jupyter Notebook with PySpark</b></h3>
                                 <pre><code class="language-javascript">export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
 pyspark --packages JohnSnowLabs:spark-nlp:1.6.1</code></pre>
-                                <p><b>Python without explicit Spark Installationk</b>? Use pip to install (after you pip installed pyspark)</p>
+                                <h3><b>Python without explicit Spark Installation</b></h3>
+                                <p>Use pip to install (after you pip installed pyspark)</p>
                                 <pre><code class="language-javascript">pip install --index-url https://test.pypi.org/simple/ spark-nlp==1.6.1</code></pre>
                                 <p>In this way, you will have to start SparkSession in your python program manually, this is an example</p>
                                 <pre><code class="python">spark = SparkSession.builder \
@@ -127,6 +126,23 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.6.1</code></pre>
     .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.6.1.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()</code></pre>
+                                <h3>S3 based standalone cluster (No Hadoop)</h3>
+                                <p>
+                                    If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
+                                    You need to specify where in the cluster distributed storage you want to store Spark-NLP's tmp files.
+                                    First, decide where you want to put your <b>application.conf</b> file
+                                </p>
+                                <pre><code class="python">import com.johnsnowlabs.uti.ConfigLoader
+ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")</code></pre>
+                                <p>
+                                    And then we need to put in such application.conf the following content
+                                </p>
+                                <pre><code class="python">sparknlp {
+  settings {
+    cluster_tmp_dir = "somewhere in s3n:// path to some folder"
+  }
+}</code></pre>
+                                <h3>Pre-Compiled Spark-NLP for download</h3>
                                 <p>
                                     Pre-compiled Spark-NLP assembly fat-jar for using in standalone projects, may be downloaded
                                     <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.6.1.jar">here</a>
