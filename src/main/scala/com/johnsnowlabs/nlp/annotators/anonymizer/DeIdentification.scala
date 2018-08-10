@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators
+package com.johnsnowlabs.nlp.annotators.anonymizer
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
@@ -29,8 +29,8 @@ class DeIdentification(override val uid: String) extends AnnotatorApproach[DeIde
     set(regexPatternsDictionary, ExternalResource(path, readAs, options))
   }
 
-  def transformRegexPatternsDictionary(regexPatternsDictionary: List[(String, String)]):
-  Map[String, List[String]] = {
+  def transformRegexPatternsDictionary(regexPatternsDictionary: Array[(String, String)]):
+  Map[String, Array[String]] = {
 
     if (regexPatternsDictionary.isEmpty){
       return Map()
@@ -41,15 +41,15 @@ class DeIdentification(override val uid: String) extends AnnotatorApproach[DeIde
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DeIdentificationModel = {
-    val regexPatternDictionary:List[(String, String)] = if (get(regexPatternsDictionary).isDefined)
-      ResourceHelper.parseTupleText($(regexPatternsDictionary)).toList
+    val regexPatternDictionary:Array[(String, String)] = if (get(regexPatternsDictionary).isDefined)
+      ResourceHelper.parseTupleText($(regexPatternsDictionary))
     else
-      List()
+      Array()
 
     val dictionary = transformRegexPatternsDictionary(regexPatternDictionary)
 
     new DeIdentificationModel()
-      .setRegexPatternsDictionary(dictionary)
+      .setRegexPatternsDictionary(RegexPatternsDictionary(dictionary))
   }
 
 }
