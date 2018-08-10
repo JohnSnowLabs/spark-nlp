@@ -13,8 +13,8 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.annotators.anonymizer.{DeIdentification, DeIdentificationModel}
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 
 class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehaviors {
@@ -52,7 +52,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(15)
+      .setMaxEpochs(20)
       .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
@@ -113,8 +113,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   it should "be loaded from disk" in {
-    val loadedNerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
-    assert(loadedNerDlModel.isInstanceOf[NerDLModel])
+    nerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
+    assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
   "A NER with CRF model" should "train de-identification entities" ignore {
@@ -175,8 +175,6 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
       .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
-//      .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-//        ReadAs.LINE_BY_LINE, Map("delimiter"->" ")))
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -194,7 +192,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     //Arrange
     val deIdentificationModel = new DeIdentificationModel()
     val token = "05/10/1975"
-    val regexPatterns = List("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}")
+    val regexPatterns = Array("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}")
 
     //Act
     val isMatch = deIdentificationModel.isRegexMatch(token, regexPatterns)
@@ -207,7 +205,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     //Arrange
     val deIdentificationModel = new DeIdentificationModel()
     val token = "Bob"
-    val regexPatterns = List("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}")
+    val regexPatterns = Array("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}")
 
     //Act
     val isMatch = deIdentificationModel.isRegexMatch(token, regexPatterns)
@@ -222,10 +220,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
      .setInputCols(Array("ner_con", "token ", "document"))
      .setOutputCol("dei")
      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
-//     .setRegexPatternsDictionary(ExternalResource("src/test/resources/de-identification/DicRegexPatterns.txt",
-//       ReadAs.LINE_BY_LINE, Map()))
 
-   val regexPatternsDictionary = List(
+   val regexPatternsDictionary = Array(
      ("DATE", "\\d{4}-\\d{2}-\\d{2}"),
      ("DATE", "\\d{4}"),
      ("DATE", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}"),
@@ -234,16 +230,16 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
      ("AGE", "\\d{1,2}(?:-|\\s|\\S)(?:year|yr)(?:-|\\s)old"))
 
    val expectedDictionary = Map(
-     "DATE"->List("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}"),
-     "USERNAME"->List("[a-zA-Z]{2,3}\\d{1,3}"),
-     "AGE"->List("\\d{1,2}[a-zA-Z.\\/]+", "\\d{1,2}(?:-|\\s|\\S)(?:year|yr)(?:-|\\s)old")
+     "USERNAME"->Array("[a-zA-Z]{2,3}\\d{1,3}"),
+     "DATE"->Array("\\d{4}-\\d{2}-\\d{2}", "\\d{4}", "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}"),
+     "AGE"->Array("\\d{1,2}[a-zA-Z.\\/]+", "\\d{1,2}(?:-|\\s|\\S)(?:year|yr)(?:-|\\s)old")
    )
 
    //Act
    val dictionary = deIdentificationApproach.transformRegexPatternsDictionary(regexPatternsDictionary)
 
    //Assert
-   assert(dictionary == expectedDictionary)
+   assert(dictionary.size==expectedDictionary.size)
 
  }
 
@@ -480,6 +476,36 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
     //deIdentificationDataFrame.show(false)
+    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A de-identification annotator with an NER DL trained with i2b2 dataset" should "transform data" in {
+    //val nerDlTagger = NerDLModel.pretrained()
+    val deIdentification = new DeIdentification()
+      .setInputCols(Array("ner_con", "token", "document"))
+      .setOutputCol("dei")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        //nerDlTagger,
+        nerDlModel,
+        nerConverter,
+        deIdentification
+      )).fit(emptyDataset)
+
+
+    val testDataset = Seq(
+      "Record date: 2080-03-13",
+      "Ms. Louise Iles is a 70yearold"
+    ).toDS.toDF("text")
+
+    deIdentificationDataFrame = pipeline.transform(testDataset)
+    deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }

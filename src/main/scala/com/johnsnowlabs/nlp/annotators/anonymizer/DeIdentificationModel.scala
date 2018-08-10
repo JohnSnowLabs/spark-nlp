@@ -1,27 +1,33 @@
-package com.johnsnowlabs.nlp.annotators
+package com.johnsnowlabs.nlp.annotators.anonymizer
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, SentenceSplit, TokenizedWithSentence}
-import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.mutable.ListBuffer
 
-class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[DeIdentificationModel]{
+class DeIdentificationModel(override val uid: String) extends AnnotatorModel[DeIdentificationModel]{
+
+  def this() = this(Identifiable.randomUID("DE-IDENTIFICATION"))
 
   override val annotatorType: AnnotatorType = DOCUMENT
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
 
-  val regexPatternsDictionary: MapFeature[String, List[String]] = new MapFeature(this, "regexPatternsDictionary")
+  // val regexPatternsDictionary: MapFeature[String, Array[String]] = new MapFeature(this, "regexPatternsDictionary")
 
-  def this() = this(Identifiable.randomUID("DE-IDENTIFICATION"))
+  val regexPatternsDictionary: StructFeature[RegexPatternsDictionary] =
+    new StructFeature[RegexPatternsDictionary](this, "regexPatternsDictionary")
 
-  def setRegexPatternsDictionary(value: Map[String, List[String]]): this.type = set(regexPatternsDictionary, value)
+  //def setRegexPatternsDictionary(value: Map[String, Array[String]]): this.type = set(regexPatternsDictionary, value)
 
-  def getRegexPatternsDictionary: Map[String, List[String]] = $$(regexPatternsDictionary)
+  def setRegexPatternsDictionary(value: RegexPatternsDictionary): this.type = set(regexPatternsDictionary, value)
 
-  private lazy val dictionary = getRegexPatternsDictionary
+  //def getRegexPatternsDictionary: Map[String, Array[String]] = $$(regexPatternsDictionary)
+  def getRegexPatternsDictionary: RegexPatternsDictionary = $$(regexPatternsDictionary)
+
+  private lazy val regexDictionary = getRegexPatternsDictionary
 
   def getSentence(annotations: Seq[Annotation]): String = {
     val sentences = SentenceSplit.unpack(annotations)
@@ -41,11 +47,12 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
 
     var regexEntities = new ListBuffer[Annotation]()
 
-    if (dictionary.isEmpty){
+    //if (regexDictionary.isEmpty){
+    if (regexDictionary.dictionary.isEmpty){
       return Seq()
     }
 
-    for ((entity, regexPatterns) <- dictionary){
+    for ((entity, regexPatterns) <- regexDictionary.dictionary){
       tokensSentence.foreach{tokenSentence =>
          if (isRegexMatch(tokenSentence.token, regexPatterns)){
 
@@ -59,7 +66,7 @@ class DeIdentificationModel(override val uid: String) extends  AnnotatorModel[De
     regexEntities.toList
   }
 
-  def isRegexMatch(token: String, regexPatterns: List[String]): Boolean ={
+  def isRegexMatch(token: String, regexPatterns: Array[String]): Boolean ={
 
     val matches = regexPatterns.flatMap(regexPattern => regexPattern.r.findFirstMatchIn(token))
     if (matches.nonEmpty){
