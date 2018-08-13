@@ -44,9 +44,9 @@ object OcrHelper {
   private var tesseractAPI : Tesseract = _
 
   var minTextLayerSize: Int = 10
-  var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
-  var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
-  var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
+  private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
+  private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
+  private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
