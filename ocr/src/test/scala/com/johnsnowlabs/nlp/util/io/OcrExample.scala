@@ -23,6 +23,8 @@ class OcrExample extends FlatSpec {
     // point to test/resources/pdfs
     val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/", "region", "metadata")
 
+    data.show(10)
+
     val documentAssembler = new DocumentAssembler().setInputCol("region").setMetadataCol("metadata")
 
     documentAssembler.transform(data).show()
