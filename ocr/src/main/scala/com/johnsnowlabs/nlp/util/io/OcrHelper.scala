@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.awt.Image
-import java.awt.image.RenderedImage
+import java.awt.image.{RenderedImage, BufferedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
-
 
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
@@ -13,6 +12,7 @@ import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
 import org.apache.spark.sql.{DataFrame, SparkSession}
+
 
 /*
  * Perform OCR/text extraction().
@@ -24,16 +24,18 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
  */
 
 
-object PageSegmentationMode extends Enumeration {
-  type PageSegmentationMode = Value
-  val SINGLE_BLOCK = Value(TessPageSegMode.PSM_SINGLE_BLOCK)
-  val SINGLE_WORD = Value(TessPageSegMode.PSM_SINGLE_WORD)
+object PageSegmentationMode {
+
+  val AUTO = TessPageSegMode.PSM_AUTO
+  val SINGLE_BLOCK = TessPageSegMode.PSM_SINGLE_BLOCK
+  val SINGLE_WORD = TessPageSegMode.PSM_SINGLE_WORD
 }
 
-object EngineMode extends Enumeration {
-  type EngineMode = Value
-  val SINGLE_BLOCK = Value(TessPageSegMode.PSM_SINGLE_BLOCK)
-  val SINGLE_WORD = Value(TessPageSegMode.PSM_SINGLE_WORD)
+object PageIteratorLevel {
+
+  val BLOCK = TessPageIteratorLevel.RIL_BLOCK
+  val PARAGRAPH = TessPageIteratorLevel.RIL_PARA
+  val WORD = TessPageIteratorLevel.RIL_WORD
 }
 
 object OcrHelper {
@@ -42,12 +44,24 @@ object OcrHelper {
   private var tesseractAPI : Tesseract = _
 
   var minTextLayerSize: Int = 10
-  var pageSegmentationMode: Int = TessPageSegMode.PSM_SINGLE_BLOCK
+  var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
   var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
 
-  def setPageSegMode(mode: PageSegmentationMode) = { pageSegmentationMode = mode.id}
+  /* if defined we resize the image multiplying both width and height by this value */
+  var scalingFactor: Option[Float] = None
 
+  def setPageSegMode(mode: Int) = {
+    pageSegmentationMode = mode
+  }
+
+  def setPageIteratorLevel(mode: Int) = {
+    pageSegmentationMode = mode
+  }
+
+  def setScalingFactor(factor:Float) = {
+    scalingFactor = Some(factor)
+  }
 
   var extractTextLayer: Boolean = true
 
@@ -96,11 +110,18 @@ object OcrHelper {
     api
   }
 
+  def reScaleImage(image: PlanarImage, factor: Float) = {
+    val width = image.getWidth * factor
+    val height = image.getHeight * factor
+    image.getAsBufferedImage().
+    getScaledInstance(width.toInt, height.toInt, Image.SCALE_SMOOTH)
+  }
+
   /*
-  * path: the path of the PDF
-  * returns sequence of (pageNumber:Int, textRegion:String)
-  *
-  * */
+    * path: the path of the PDF
+    * returns sequence of (pageNumber:Int, textRegion:String)
+    *
+    * */
   private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
     val pdfDoc = PDDocument.load(fileStream)
@@ -113,15 +134,14 @@ object OcrHelper {
       if (textContent.length < minTextLayerSize) {
 
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
-        val image = PlanarImage.wrapRenderedImage(renderedImage).
-          getAsBufferedImage().
-          getScaledInstance(3000, 4000, Image.SCALE_SMOOTH)
+        val image = PlanarImage.wrapRenderedImage(renderedImage)
 
-        val bufferedImage = toBufferedImage(image)
-
-        import javax.imageio.ImageIO
-        val outputfile = new File("image_rescaled.jpg")
-        ImageIO.write(bufferedImage, "png", outputfile)
+        val bufferedImage = scalingFactor.map { factor =>
+          // scaling factor provided
+          reScaleImage(image, factor)
+        }.map(toBufferedImage).
+          // no factor provided
+          getOrElse(image.getAsBufferedImage)
 
         // Disable this completely for demo purposes
         val regions = tesseract.getSegmentedRegions(bufferedImage, pageIteratorLevel)
@@ -170,9 +190,6 @@ object OcrHelper {
     }
     images
   }
-
-
-  import java.awt.image.BufferedImage
 
   def toBufferedImage(img: Image): BufferedImage = {
     if (img.isInstanceOf[BufferedImage]) return img.asInstanceOf[BufferedImage]
