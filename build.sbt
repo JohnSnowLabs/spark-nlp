@@ -83,7 +83,7 @@ lazy val ocrDependencies = Seq(
 )
 
 lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVer % "provided" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
+  "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
 )
 
