@@ -37,7 +37,7 @@ class DeIdentification(override val uid: String) extends AnnotatorApproach[DeIde
     }
 
     regexPatternsDictionary.groupBy(_._1) //group by entity
-      .mapValues(regexDicList => regexDicList.map(regexDic => regexDic._2))
+      .mapValues(regexDicList => regexDicList.map(regexDic => regexDic._2)).map(identity)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DeIdentificationModel = {

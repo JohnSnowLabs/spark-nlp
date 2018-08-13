@@ -343,11 +343,6 @@ class DeIdentificationModel(AnnotatorModel):
 
     name = "DeIdentificationModel"
 
-    regexPatternsDictionary = Param(Params._dummy(),
-                                    "regexPatternsDictionary",
-                                    "dictionary with regular expression patterns that match some protected entity",
-                                    typeConverter=TypeConverters.toListString)
-
     def __init__(self, java_model=None):
         if java_model:
             super(JavaModel, self).__init__(java_model)
