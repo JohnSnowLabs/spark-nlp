@@ -170,19 +170,54 @@ object OcrHelper {
     gray
   }
 
-
-  /* dilate the image 'in  place' */
+  /* dilate the image */
   def dilate2(bi: BufferedImage, kernelSize: Int) = {
 
-    val image = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
-    val g = image.getGraphics()
+    val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
+    val g = gray.createGraphics()
     g.drawImage(bi, 0, 0, null);
     g.dispose()
 
-    val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB)
-    val data = bi.getRaster().getDataBuffer().asInstanceOf[DataBufferInt].getData
-    image
+    val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
+    val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
 
+
+    val converted = inputData.map {v =>
+      if (v > 0 && v < 100)
+        0.toByte
+      else
+        255.toByte
+    }
+
+    /*
+    // init result
+    for (i <- output.indices)
+      output(i) = 127
+    */
+
+    val width = bi.getWidth
+
+    for (idx <- outputData.indices) {
+      val x = idx % width
+      val y = idx / width
+      val rowIdxs = Range(-kernelSize, kernelSize + 1).map(_ * width)
+      val colIdxs = Range(-kernelSize, kernelSize + 1)
+      var acc = 0
+      for (ri <- rowIdxs; ci <- colIdxs) {
+        val index = idx + ri + ci
+        if (index > -1 && index < converted.length)
+          acc += converted(index)
+      }
+      // the tresholding part goes here
+      if (acc.toFloat > -1 * (2 * kernelSize + 1) * (2 * kernelSize + 1))
+        outputData(idx) = 0.toByte
+      else
+        outputData(idx) = (-1).toByte
+
+      //outputData(idx) = converted(idx)
+    }
+    dest
   }
 
   /*
@@ -210,17 +245,16 @@ object OcrHelper {
         }.map(toBufferedImage).
           // no factor provided
           getOrElse(image.getAsBufferedImage)
-        val dilatedImage = dilate(dilate2(bufferedImage, 1))
+        val dilatedImage = //dilate2(bufferedImage, 3)
+          dilate(bufferedImage)
 
-        ImageIO.write(dilatedImage,  "png",
+        ImageIO.write(dilatedImage, "png",
           new File("saved.png"))
 
         // Disable this completely for demo purposes
         val regions = tesseract.getSegmentedRegions(dilatedImage, pageIteratorLevel)
         regions.map{rectangle =>
-          val rect = new Rectangle(rectangle.x - 10, rectangle.y, rectangle.width + 10, rectangle.height)
-          (pageNum, tesseract.doOCR(dilatedImage, rect))}
-
+          (pageNum, tesseract.doOCR(dilatedImage, rectangle))}
       }
       else
         Seq((pageNum, textContent))
