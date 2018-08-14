@@ -7,11 +7,11 @@ import org.scalatest._
 
 class OcrExample extends FlatSpec {
 
-  "OcrExample with Spark" should "successfully create a dataset" in {
+    "OcrExample with Spark" should "successfully create a dataset" in {
 
     val spark: SparkSession = SparkSession.builder()
       .appName("SparkNLP-OCR-Default-Spark")
-      .master("local[*]")
+      .master("local[1]")
       .config("spark.driver.memory", "4G")
       .config("spark.driver.maxResultSize", "2G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
@@ -19,10 +19,11 @@ class OcrExample extends FlatSpec {
       .getOrCreate()
 
     import spark.implicits._
+    OcrHelper.setScalingFactor(2.47f)
 
     // point to test/resources/pdfs
-    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/", "region", "metadata")
-
+    val data = OcrHelper.createDataset(spark, "/home/jose/strata_demo", "region", "metadata")
+    data.select("region").collect.foreach(println)
     data.show(10)
 
     val documentAssembler = new DocumentAssembler().setInputCol("region").setMetadataCol("metadata")
