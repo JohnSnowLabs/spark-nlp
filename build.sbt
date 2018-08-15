@@ -77,14 +77,15 @@ developers := List(
 
 
 lazy val ocrDependencies = Seq(
-  "org.apache.pdfbox" % "pdfbox" % "2.0.9",
+  "org.apache.pdfbox" % "pdfbox" % "2.0.9" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
   "net.sourceforge.tess4j" % "tess4j" % "4.0.2" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
-  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1"
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.1",
+  "org.openpnp" % "opencv" % "2.4.9-8"
 )
 
 lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
+  "org.apache.spark" %% "spark-core" % sparkVer % "provided" exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j"),
+  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"exclude("org.slf4j", "slf4j-log4j12") exclude("org.apache.logging", "log4j")
 )
 
 lazy val testDependencies = Seq(
