@@ -115,7 +115,6 @@ object OcrHelper {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
 
-    tesseractAPI.setTessVariable("user_words_suffix", "user-words")
     tesseractAPI
   }
 
