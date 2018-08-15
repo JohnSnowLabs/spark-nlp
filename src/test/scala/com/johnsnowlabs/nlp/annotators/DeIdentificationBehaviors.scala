@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators
 import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.annotators.anonymizer.DeIdentificationModel
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
 import org.apache.spark.ml.util.MLWriter
 import org.scalatest.FlatSpec

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.{PretrainedLemmatizer, anonymizer}
+import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
 import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadsAssertionGraph
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -97,9 +97,9 @@ object annotator {
   type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
   object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph
 
-  type DeIdentification = com.johnsnowlabs.nlp.annotators.anonymizer.DeIdentification
+  type DeIdentification = com.johnsnowlabs.nlp.annotators.DeIdentification
   object DeIdentification extends DefaultParamsReadable[DeIdentification]
-  type DeIdentificationModel = com.johnsnowlabs.nlp.annotators.anonymizer.DeIdentificationModel
+  type DeIdentificationModel = com.johnsnowlabs.nlp.annotators.DeIdentificationModel
   object DeIdentificationModel extends DefaultParamsReadable[DeIdentificationModel]
 
 }

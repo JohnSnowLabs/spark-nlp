@@ -329,7 +329,7 @@ class DeIdentification(AnnotatorApproach):
 
     @keyword_only
     def __init__(self):
-        super(DeIdentification, self).__init__(classname="com.johnsnowlabs.nlp.annotators.anonymizer.DeIdentification")
+        super(DeIdentification, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentification")
 
     def setRegexPatternsDictionary(self, path, read_as=ReadAs.LINE_BY_LINE, options={"delimiter": " "}):
         opts = options.copy()
@@ -347,7 +347,7 @@ class DeIdentificationModel(AnnotatorModel):
         if java_model:
             super(JavaModel, self).__init__(java_model)
         else:
-            super(DeIdentificationModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.anonymizer.DeIdentificationModel")
+            super(DeIdentificationModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel")
 
 
 class RegexMatcher(AnnotatorApproach):

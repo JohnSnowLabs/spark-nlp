@@ -13,7 +13,6 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotators.anonymizer.{DeIdentification, DeIdentificationModel}
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
 
 
