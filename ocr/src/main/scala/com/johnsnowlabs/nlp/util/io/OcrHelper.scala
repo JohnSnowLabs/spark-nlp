@@ -151,8 +151,14 @@ object OcrHelper {
   }
 
   def bufferedImageToMat(bi: BufferedImage ) = {
+
+    val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
+    val g = gray.createGraphics()
+    g.drawImage(bi, 0, 0, null);
+    g.dispose()
+
     // take the data from image to buffer
-    val data = bi.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val data = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
     val byteBuffer = ByteBuffer.allocate(data.length * 4)
     byteBuffer.put(data)
     // take data from buffer to mat
@@ -183,12 +189,21 @@ object OcrHelper {
     val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
 
 
-    val converted = inputData.map {v =>
-      if (v > 0 && v < 100)
-        0.toByte
+    def fromUnsigned(byte:Byte): Int = {
+      if (byte > 0)
+         byte
       else
-        255.toByte
+         byte + 255
     }
+
+    def fromSigned(integer:Int): Byte = {
+      if (integer > 0 && integer < 127)
+        integer.toByte
+      else
+        (integer - 255).toByte
+    }
+
+    val converted = inputData.map(fromUnsigned)
 
     /*
     // init result
@@ -197,25 +212,18 @@ object OcrHelper {
     */
 
     val width = bi.getWidth
+    val rowIdxs = Range(-kernelSize, kernelSize + 1).map(_ * width)
+    val colIdxs = Range(-kernelSize, kernelSize + 1)
 
-    for (idx <- outputData.indices) {
-      val x = idx % width
-      val y = idx / width
-      val rowIdxs = Range(-kernelSize, kernelSize + 1).map(_ * width)
-      val colIdxs = Range(-kernelSize, kernelSize + 1)
-      var acc = 0
+    outputData.indices.par.foreach { idx =>
+      var acc = Int.MaxValue
       for (ri <- rowIdxs; ci <- colIdxs) {
         val index = idx + ri + ci
         if (index > -1 && index < converted.length)
-          acc += converted(index)
+          if(acc > converted(index))
+            acc = converted(index)
       }
-      // the tresholding part goes here
-      if (acc.toFloat > -1 * (2 * kernelSize + 1) * (2 * kernelSize + 1))
-        outputData(idx) = 0.toByte
-      else
-        outputData(idx) = (-1).toByte
-
-      //outputData(idx) = converted(idx)
+      outputData(idx) = fromSigned(acc)
     }
     dest
   }
@@ -245,8 +253,10 @@ object OcrHelper {
         }.map(toBufferedImage).
           // no factor provided
           getOrElse(image.getAsBufferedImage)
-        val dilatedImage = //dilate2(bufferedImage, 3)
-          dilate(bufferedImage)
+        val dilatedImage = dilate2(bufferedImage, 2)
+          //dilate(bufferedImage)
+
+
 
         ImageIO.write(dilatedImage, "png",
           new File("saved.png"))
