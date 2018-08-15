@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.anonymizer
+package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
@@ -49,7 +49,7 @@ class DeIdentification(override val uid: String) extends AnnotatorApproach[DeIde
     val dictionary = transformRegexPatternsDictionary(regexPatternDictionary)
 
     new DeIdentificationModel()
-      .setRegexPatternsDictionary(RegexPatternsDictionary(dictionary))
+      .setRegexPatternsDictionary(dictionary)
   }
 
 }
