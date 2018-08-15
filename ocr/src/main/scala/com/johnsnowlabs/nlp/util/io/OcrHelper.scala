@@ -1,11 +1,9 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.{Image, Rectangle}
-import java.awt.image.{BufferedImage, DataBufferByte, DataBufferInt, RenderedImage}
+import java.awt.Image
+import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
-import java.nio.ByteBuffer
 
-import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
 import net.sourceforge.tess4j.Tesseract
@@ -14,7 +12,6 @@ import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.opencv.core.{Core, CvType}
 
 
 /*
@@ -41,21 +38,21 @@ object PageIteratorLevel {
   val WORD = TessPageIteratorLevel.RIL_WORD
 }
 
+object Kernels {
+  val SQUARED = 0
+}
+
+
 object OcrHelper {
 
   @transient
   private var tesseractAPI : Tesseract = _
 
-  val path: String = System.getProperty("java.library.path")
-
-  print(path)
-
-  System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
-
   var minTextLayerSize: Int = 10
   private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
+  private var kernelSize:Option[Int] = None
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -69,7 +66,17 @@ object OcrHelper {
   }
 
   def setScalingFactor(factor:Float) = {
-    scalingFactor = Some(factor)
+    if (factor == 1.0f)
+      scalingFactor = None
+    else
+      scalingFactor = Some(factor)
+  }
+
+  def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED) = {
+    if (!useIt)
+      kernelSize = None
+    else
+      kernelSize = Some(kSize)
   }
 
   var extractTextLayer: Boolean = true
@@ -110,7 +117,6 @@ object OcrHelper {
 
     tesseractAPI.setTessVariable("user_words_suffix", "user-words")
     tesseractAPI
-
   }
 
   private def initTesseract():Tesseract = {
@@ -125,96 +131,33 @@ object OcrHelper {
   def reScaleImage(image: PlanarImage, factor: Float) = {
     val width = image.getWidth * factor
     val height = image.getHeight * factor
-    image.getAsBufferedImage().
+    val scaledImg = image.getAsBufferedImage().
     getScaledInstance(width.toInt, height.toInt, Image.SCALE_AREA_AVERAGING)
+    toBufferedImage(scaledImg)
   }
 
-  import org.opencv.core.{Point, Mat, Size}
-  import org.opencv.imgproc.Imgproc
-
-  def dilate(bi: BufferedImage) = {
-    val kernelSize = 2
-    val elementType = Imgproc.CV_SHAPE_RECT
-    val element:Mat = Imgproc.getStructuringElement(elementType,
-      new Size(2 * kernelSize + 1, 2 * kernelSize + 1),
-      new Point(kernelSize, kernelSize))
-
-    val tresholdedImg = new Mat
-    // thresholding / binarization
-    //Imgproc.threshold(bufferedImageToMat(bi), tresholdedImg, 0.0, 255.0,
-    //  Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU)
-
-    val dstMat = new Mat
-    // erosion
-    Imgproc.erode(bufferedImageToMat(bi), dstMat, element)
-    matToBufferedImage(dstMat)
-  }
-
-  def bufferedImageToMat(bi: BufferedImage ) = {
-
+  /* erode the image */
+  def erode(bi: BufferedImage, kernelSize: Int) = {
+    // convert to grayscale
     val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
     val g = gray.createGraphics()
-    g.drawImage(bi, 0, 0, null);
+    g.drawImage(bi, 0, 0, null)
     g.dispose()
 
-    // take the data from image to buffer
-    val data = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
-    val byteBuffer = ByteBuffer.allocate(data.length * 4)
-    byteBuffer.put(data)
-    // take data from buffer to mat
-    val mat = new Mat(bi.getHeight, bi.getWidth, CvType.CV_8UC1)
-    mat.put(0, 0, byteBuffer.array())
-    mat
-  }
-
-  def matToBufferedImage(mat:Mat) = {
-    // Create an empty image in matching format
-    val gray = new BufferedImage(mat.width(), mat.height(), BufferedImage.TYPE_BYTE_GRAY)
-    // Get the BufferedImage's backing array and copy the pixels directly into it
-    val data = gray.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-    mat.get(0, 0, data)
-    gray
-  }
-
-  /* dilate the image */
-  def dilate2(bi: BufferedImage, kernelSize: Int) = {
-
-    val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
-    val g = gray.createGraphics()
-    g.drawImage(bi, 0, 0, null);
-    g.dispose()
-
+    // init
     val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
     val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
     val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
 
-
-    def fromUnsigned(byte:Byte): Int = {
-      if (byte > 0)
-         byte
-      else
-         byte + 255
-    }
-
-    def fromSigned(integer:Int): Byte = {
-      if (integer > 0 && integer < 127)
-        integer.toByte
-      else
-        (integer - 255).toByte
-    }
-
+    // handle the unsigned type
     val converted = inputData.map(fromUnsigned)
 
-    /*
-    // init result
-    for (i <- output.indices)
-      output(i) = 127
-    */
-
+    // define the boundaries of the squared kernel
     val width = bi.getWidth
     val rowIdxs = Range(-kernelSize, kernelSize + 1).map(_ * width)
     val colIdxs = Range(-kernelSize, kernelSize + 1)
 
+    // convolution and nonlinear op (minimum)
     outputData.indices.par.foreach { idx =>
       var acc = Int.MaxValue
       for (ri <- rowIdxs; ci <- colIdxs) {
@@ -228,11 +171,27 @@ object OcrHelper {
     dest
   }
 
+
+  def fromUnsigned(byte:Byte): Int = {
+    if (byte > 0)
+      byte
+    else
+      byte + 255
+  }
+
+  def fromSigned(integer:Int): Byte = {
+    if (integer > 0 && integer < 127)
+      integer.toByte
+    else
+      (integer - 255).toByte
+  }
+
+
   /*
-        * path: the path of the PDF
-        * returns sequence of (pageNumber:Int, textRegion:String)
-        *
-        * */
+   * fileStream: a stream to PDF files
+   * returns sequence of (pageNumber:Int, textRegion:String)
+   *
+   * */
   private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
     val pdfDoc = PDDocument.load(fileStream)
@@ -247,21 +206,17 @@ object OcrHelper {
         val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
         val image = PlanarImage.wrapRenderedImage(renderedImage)
 
-        val bufferedImage = scalingFactor.map { factor =>
-          // scaling factor provided
+        // rescale if factor provided
+        val scaledImage = scalingFactor.map { factor =>
           reScaleImage(image, factor)
-        }.map(toBufferedImage).
-          // no factor provided
-          getOrElse(image.getAsBufferedImage)
-        val dilatedImage = dilate2(bufferedImage, 2)
-          //dilate(bufferedImage)
+        }.getOrElse(image.getAsBufferedImage)
 
+        // erode if kernel provided
+        val dilatedImage = kernelSize.map {kernelRadio =>
+          erode(scaledImage, kernelRadio)
+        }.getOrElse(scaledImage)
 
-
-        ImageIO.write(dilatedImage, "png",
-          new File("saved.png"))
-
-        // Disable this completely for demo purposes
+        // obtain regions and run OCR on each region
         val regions = tesseract.getSegmentedRegions(dilatedImage, pageIteratorLevel)
         regions.map{rectangle =>
           (pageNum, tesseract.doOCR(dilatedImage, rectangle))}
@@ -321,7 +276,4 @@ object OcrHelper {
     // Return the buffered image
     bimage
   }
-
-
-
 }
