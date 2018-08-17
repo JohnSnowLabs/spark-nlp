@@ -231,7 +231,11 @@ object PragmaticContentFormatter {
     .addRule(new RegexRule("(?i)p\\.m\\.*", "protectAbbreviations-pm"))
     .addRule(new RegexRule("(?i)a\\.m\\.*", "protectAbbreviations-am"))
 
+  val pabb = "(?:" + PREPOSITIVE_ABBREVIATIONS.mkString("|") + ")"
+  val nubb = "(?:" + NUMBER_ABBREVIATIONS.mkString("|") + ")"
+  val abbr = "(?:" + ABBREVIATIONS.mkString("|") + ")"
   val dictAbbrFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+    /*
     //prepositive
     .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s)|(?<=^(?i)$abbr)\\.(?=\\s)", "formatAbbreviations-preposAbbr")))
     //tagged prepositive
@@ -248,10 +252,25 @@ object PragmaticContentFormatter {
     , "formatAbbreviations-generalAbbr")))
     //general comma abbreviation
     .addRules(ABBREVIATIONS.map(abbr => new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)", "formatAbbreviations-otherAbbr")))
+    */
+    .addRule(new RegexRule(s"(?<=\\s(?i)$pabb)\\.(?=\\s)|(?<=^(?i)$pabb)\\.(?=\\s)", "formatAbbreviations-preposAbbr"))
+    //tagged prepositive
+    .addRule(new RegexRule(s"(?<=\\s(?i)$pabb)\\.(?=:\\d+)|(?<=^(?i)$pabb)\\.(?=:\\d+)", "formatAbbreviations-preposAbbr"))
+    //number abbreviation
+    .addRule(new RegexRule(s"(?<=\\s(?i)$nubb)\\.(?=\\s\\d)|(?<=^(?i)$nubb)\\.(?=\\s\\d)", "formatAbbreviations-numberAbbr"))
+    //tagged number abbreviation
+    .addRule(new RegexRule(s"(?<=\\s(?i)$nubb)\\.(?=\\s+\\()|(?<=^(?i)$nubb)\\.(?=\\s+\\()", "formatAbbreviations-numberAbbr"))
+    //general abbreviation
+    .addRule(new RegexRule(
+    s"(?<=\\s(?i)$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
+      s"|\\d))))|(?<=^(?i)$abbr)\\.(?=((\\.|\\:|\\?)" +
+      s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))"
+    , "formatAbbreviations-generalAbbr"))
+    //general comma abbreviation
+    .addRule(new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)", "formatAbbreviations-otherAbbr"))
 
   val formatNumbersFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     //
-    //numbers and decimals
     .addRule(new RegexRule("(?<=\\d)\\.(?=\\d)", "formatNumbers-numberAndDecimals"))
     // http://rubular.com/r/oNyxBOqbyy
     //period before
@@ -307,6 +326,7 @@ object PragmaticContentFormatter {
     .addRule(new RegexRule("'[\\w\\s?!\\.,']+'", "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
     //between double quotes
+    //numbers and decimals
     .addRule(new RegexRule("\"[\\w\\s?!\\.,]+\"", "betweenPunctuations-doubleQuot"))
     // http://rubular.com/r/WX4AvnZvlX
     //between square brackets
