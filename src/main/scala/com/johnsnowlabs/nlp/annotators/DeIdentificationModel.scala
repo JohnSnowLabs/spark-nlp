@@ -97,11 +97,22 @@ class DeIdentificationModel(override val uid: String) extends AnnotatorModel[DeI
 
     var anonymizeSentence = sentence
     protectedEntities.foreach(annotation => {
-      val wordToReplace = annotation.result
+      val wordToReplace = replaceRegExFlavors(annotation.result)
       val replacement = annotation.metadata("entity")
       anonymizeSentence = anonymizeSentence.replaceFirst(wordToReplace, replacement)
     })
     anonymizeSentence
+  }
+
+  def replaceRegExFlavors(word: String): String = {
+
+    val regExFlavors = List(".", "^", "$", "*", "+", "-", "?", "(", ")", "[", "]", "{", "}", "|")
+    var newWord = word
+
+    regExFlavors.foreach(regExFlavor =>
+      newWord = newWord.replace(regExFlavor, "\\"+regExFlavor))
+
+    newWord
   }
 
   def createAnonymizeAnnotation(anonymizeSentence: String): Annotation = {
