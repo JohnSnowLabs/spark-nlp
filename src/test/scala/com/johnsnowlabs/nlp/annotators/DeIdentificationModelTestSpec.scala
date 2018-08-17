@@ -29,6 +29,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   private val sentenceDetector = new SentenceDetector()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
+    .setUseAbbreviations(true)
 
   private val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
@@ -352,6 +353,32 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(protectedEntities.map(entity=>entity.result).toList==expectedProtectedEntities.map(entity=>entity.result).toList)
   }
 
+  "A string that contains RegEx flavors (PCRE)" should  "replace those characters with escape" in {
+    //Assert
+    val word = "200[2"
+    val expectedWord = "200\\[2"
+
+    //Act
+    val newWord = deIdentificationModel.replaceRegExFlavors(word)
+
+    //Assert
+    assert(newWord == expectedWord)
+
+  }
+
+  "A string that contains several RegEx flavors (PCRE)" should  "replace those characters with escape" in {
+    //Assert
+    val word = "(several.favors)"
+    val expectedWord = "\\(several\\.favors\\)"
+
+    //Act
+    val newWord = deIdentificationModel.replaceRegExFlavors(word)
+
+    //Assert
+    assert(newWord == expectedWord)
+
+  }
+
   //Assert
   var testParams = TestParams(
     originalSentence = "John was born on 05/10/1975 in Canada",
@@ -531,14 +558,79 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
     val testDataset = Seq(
       "Record date: 2080-03-13",
-      "Ms. Louise Iles is a 70yearold"
+      "Ms. Louise Iles is a 70yearold",
+      "200[2"
     ).toDS.toDF("text")
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
+    // deIdentificationDataFrame.collect()
     deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
+
+//  "A de-identification annotator with a pretrained NER CRF with document assembler" should "transform data" in {
+//    val posTagger = PerceptronModel.pretrained()
+//    val nerPretrained = NerCrfModel.pretrained()
+//    val deIdentification = new DeIdentification()
+//      .setInputCols(Array("ner_con", "token", "document"))
+//      .setOutputCol("dei")
+//      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+//
+//    val pipeline = new Pipeline()
+//      .setStages(Array(
+//        documentAssembler,
+//        sentenceDetector,
+//        tokenizer,
+//        posTagger,
+//        nerPretrained
+//      )).fit(emptyDataset)
+//
+//
+//    val testDataset = Seq(
+//      "Record date: 2080-03-13",
+//      "Ms. Louise Iles is a 70yearold"
+//    ).toDS.toDF("text")
+//
+//    deIdentificationDataFrame = pipeline.transform(testDataset)
+//    deIdentificationDataFrame.show(false)
+//    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+//
+//  }
+//
+//  "A de-identification annotator with a pretrained NER CRF without document assembler" should "transform data" in {
+//
+//    val documentAssembler = new DocumentAssembler()
+//      .setInputCol("text")
+//      .setOutputCol("sentence")
+//
+//    val tokenizer = new Tokenizer()
+//      .setInputCols(Array("sentence"))
+//      .setOutputCol("token")
+//
+//    val posTagger = PerceptronModel.pretrained()
+//    val nerPretrained = NerCrfModel.pretrained()
+//
+//    val pipeline = new Pipeline()
+//      .setStages(Array(
+//        documentAssembler,
+//        tokenizer,
+//        posTagger,
+//        nerPretrained
+//      )).fit(emptyDataset)
+//
+//
+//    val testDataset = Seq(
+//      "Record date: 2080-03-13",
+//      "Ms. Louise Iles is a 70yearold"
+//    ).toDS.toDF("text")
+//
+//    deIdentificationDataFrame = pipeline.transform(testDataset)
+//    deIdentificationDataFrame.show(false)
+//    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
+//
+//  }
+
 }
 
 
