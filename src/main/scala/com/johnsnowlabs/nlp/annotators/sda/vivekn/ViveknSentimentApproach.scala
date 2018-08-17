@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -30,7 +30,25 @@ class ViveknSentimentApproach(override val uid: String)
   val positiveSource = new ExternalResourceParam(this, "positiveSource", "positive sentiment file or folder")
   val negativeSource = new ExternalResourceParam(this, "negativeSource", "negative sentiment file or folder")
   val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
-  setDefault(pruneCorpus, 1)
+
+  protected val importantFeatureRatio = new DoubleParam(this, "importantFeatureRatio", "proportion of feature content to be considered relevant. Defaults to 0.5")
+  protected val unimportantFeatureStep = new DoubleParam(this, "unimportantFeatureStep", "proportion to lookahead in unimportant features. Defaults to 0.025")
+  protected val featureLimit = new IntParam(this, "featureLimit", "content feature limit, to boost performance in very dirt text. Default disabled with -1")
+
+  def setImportantFeatureRatio(v: Double): this.type = set(importantFeatureRatio, v)
+  def setUnimportantFeatureStep(v: Double): this.type = set(unimportantFeatureStep, v)
+  def setFeatureLimit(v: Int): this.type = set(featureLimit, v)
+
+  def getImportantFeatureRatio(v: Double): Double = $(importantFeatureRatio)
+  def getUnimportantFeatureStep(v: Double): Double = $(unimportantFeatureStep)
+  def getFeatureLimit(v: Int): Int = $(featureLimit)
+
+  setDefault(
+    importantFeatureRatio -> 0.5,
+    unimportantFeatureStep -> 0.025,
+    featureLimit -> -1,
+    pruneCorpus -> 1
+  )
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
@@ -136,6 +154,9 @@ class ViveknSentimentApproach(override val uid: String)
     val words = (positive.keys ++ negative.keys).toArray.distinct.sortBy(- mutualInformation(_))
 
     new ViveknSentimentModel()
+      .setImportantFeatureRatio($(importantFeatureRatio))
+      .setUnimportantFeatureStep($(unimportantFeatureStep))
+      .setFeatureLimit($(featureLimit))
       .setPositive(positive)
       .setNegative(negative)
       .setPositiveTotals(positiveTotals)

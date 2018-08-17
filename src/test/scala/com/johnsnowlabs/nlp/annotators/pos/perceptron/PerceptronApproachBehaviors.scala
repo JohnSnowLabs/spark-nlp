@@ -17,7 +17,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       val nIterations = 5
-      val tagger = new PerceptronApproachLegacy()
+      val tagger = new PerceptronApproach()
         .setCorpus(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
         .fit(DataBuilder.basicDataBuild("dummy"))
       val model = tagger.getModel
@@ -99,7 +99,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(rows.zip(tags)).toDF("text", "tags")
       )
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
-      val trainedPos = new PerceptronApproachLegacy()
+      val trainedPos = new PerceptronApproach()
         .setInputCols("document", "token")
         .setOutputCol("pos")
         .setPosColumn("tags")

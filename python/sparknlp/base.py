@@ -160,10 +160,11 @@ class RecursivePipeline(Pipeline, JavaEstimator):
 
 class DocumentAssembler(AnnotatorTransformer):
 
-    inputCol = Param(Params._dummy(), "inputCol", "input column name.", typeConverter=TypeConverters.toString)
-    outputCol = Param(Params._dummy(), "outputCol", "input column name.", typeConverter=TypeConverters.toString)
-    idCol = Param(Params._dummy(), "idCol", "input column name.", typeConverter=TypeConverters.toString)
-    metadataCol = Param(Params._dummy(), "metadataCol", "input column name.", typeConverter=TypeConverters.toString)
+    inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
+    idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
+    metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
+    trimAndClearNewLines = Param(Params._dummy(), "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces", typeConverter=TypeConverters.toBoolean)
     name = 'DocumentAssembler'
 
     @keyword_only
@@ -188,6 +189,9 @@ class DocumentAssembler(AnnotatorTransformer):
     def setMetadataCol(self, value):
         return self._set(metadataCol=value)
 
+    def setTrimAndClearNewLines(self, value):
+        return self._set(trimAndClearNewLines=value)
+
 
 class TokenAssembler(AnnotatorTransformer):
 
@@ -197,7 +201,7 @@ class TokenAssembler(AnnotatorTransformer):
 
     @keyword_only
     def __init__(self):
-        super(TokenAssembler, self).__init__(classname = "com.johnsnowlabs.nlp.TokenAssembler")
+        super(TokenAssembler, self).__init__(classname="com.johnsnowlabs.nlp.TokenAssembler")
 
     @keyword_only
     def setParams(self):
@@ -209,6 +213,39 @@ class TokenAssembler(AnnotatorTransformer):
 
     def setOutputCol(self, value):
         return self._set(outputCol=value)
+
+
+class ChunkAssembler(AnnotatorTransformer):
+
+    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
+    chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
+    isArray = Param(Params._dummy(), "isArray", "whether the chunkCol is an array of strings", typeConverter=TypeConverters.toBoolean)
+    name = "ChunkAssembler"
+
+    @keyword_only
+    def __init__(self):
+        super(ChunkAssembler, self).__init__(classname="com.johnsnowlabs.nlp.ChunkAssembler")
+        self._setDefault(
+            isArray=False
+        )
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, value):
+        return self._set(inputCols=value)
+
+    def setOutputCol(self, value):
+        return self._set(outputCol=value)
+
+    def setChunkCol(self, value):
+        return self._set(chunkCol=value)
+
+    def setIsArray(self, value):
+        return self._set(isArray=value)
 
 
 class Finisher(AnnotatorTransformer):

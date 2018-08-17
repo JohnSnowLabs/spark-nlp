@@ -1,16 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
-import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param._
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
 import scala.collection.mutable
@@ -21,7 +17,7 @@ import scala.collection.mutable
 class AssertionLogRegApproach(val uid: String)
   extends ApproachWithWordEmbeddings[AssertionLogRegApproach, AssertionLogRegModel] with Windowing {
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT)
+  override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
   val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override def wordVectors(): Option[WordEmbeddings] = embeddings
@@ -58,7 +54,7 @@ class AssertionLogRegApproach(val uid: String)
     afterParam -> 10
   )
 
-  private def processWithNer(dataset: DataFrame): DataFrame = {
+  private def processWithChunk(dataset: DataFrame): DataFrame = {
     val documentCol = dataset.schema.fields
       .find(f => $(inputCols).contains(f.name) && f.metadata.getString("annotatorType") == DOCUMENT)
       .get.name
@@ -69,7 +65,9 @@ class AssertionLogRegApproach(val uid: String)
 
     dataset.toDF
       .withColumn("_features",
-        explode(applyWindowUdfNerExhaustive(col(documentCol), col(chunkCol)))
+        /** explode will delete rows that do not contain any chunk. Will only train chunked rows.
+          * Transform will explode_outer instead */
+        explode(applyWindowUdfChunk(col(documentCol), col(chunkCol)))
       )
   }
 
@@ -87,12 +85,12 @@ class AssertionLogRegApproach(val uid: String)
   }
 
 
-  private def trainWithNer(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
+  private def trainWithChunk(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
 
     val preprocessed = dataset
       .withColumn(labelCol, labelToNumber(labelMappings)(col(labelCol)))
 
-    processWithNer(preprocessed)
+    processWithChunk(preprocessed)
   }
 
   private def trainWithStartEnd(dataset: Dataset[_], labelCol: String, labelMappings: Map[String, Double]): DataFrame = {
@@ -128,7 +126,7 @@ class AssertionLogRegApproach(val uid: String)
     if (get(startCol).isDefined & get(endCol).isDefined) {
       trainWithStartEnd(dataset, labelCol, labelMappings)
     } else {
-      trainWithNer(dataset, labelCol, labelMappings)
+      trainWithChunk(dataset, labelCol, labelMappings)
     }
 
     new AssertionLogRegModel()

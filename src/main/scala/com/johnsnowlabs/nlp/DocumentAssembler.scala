@@ -49,6 +49,10 @@ class DocumentAssembler(override val uid: String)
 
   def getMetadataCol: String = $(metadataCol)
 
+  def setTrimAndClearNewLines(value: Boolean): this.type = set(trimAndClearNewLines, value)
+
+  def getTrimAndClearNewLines: Boolean = $(trimAndClearNewLines)
+
   def this() = this(Identifiable.randomUID("document"))
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)

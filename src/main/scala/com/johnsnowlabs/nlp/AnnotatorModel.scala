@@ -1,9 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
-import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.apache.spark.sql.types._
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.MetadataBuilder
@@ -14,12 +12,7 @@ import org.apache.spark.sql.types.MetadataBuilder
  * https://issues.apache.org/jira/browse/SPARK-7768
   */
 abstract class AnnotatorModel[M <: Model[M]]
-  extends Model[M]
-    with ParamsAndFeaturesWritable
-    with HasAnnotatorType
-    with HasInputAnnotationCols
-    with HasOutputAnnotationCol
-    with TransformModelSchema {
+    extends RawAnnotator[M] {
 
   /**
     * internal types to show Rows as a relevant StructType
@@ -38,9 +31,9 @@ abstract class AnnotatorModel[M <: Model[M]]
     * Wraps annotate to happen inside SparkSQL user defined functions in order to act with [[org.apache.spark.sql.Column]]
     * @return udf function to be applied to [[inputCols]] using this annotator's annotate function as part of ML transformation
     */
-  private def dfAnnotate: UserDefinedFunction = udf {
-    annotatorProperties: Seq[AnnotationContent] =>
-      annotate(annotatorProperties.flatMap(_.map(Annotation(_))))
+  protected def dfAnnotate: UserDefinedFunction = udf {
+    annotationProperties: Seq[AnnotationContent] =>
+      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
   }
 
   protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = dataset
@@ -64,23 +57,18 @@ abstract class AnnotatorModel[M <: Model[M]]
       case withEmbeddings: HasWordEmbeddings => withEmbeddings.embeddings
       case _ =>
     }
-    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
 
     val inputDataset = beforeAnnotate(dataset)
 
     val processedDataset = inputDataset.withColumn(
       getOutputCol,
-      dfAnnotate(
+      wrapColumnMetadata(dfAnnotate(
         array(getInputCols.map(c => dataset.col(c)):_*)
-      ).as(getOutputCol, metadataBuilder.build)
+      ))
     )
 
     afterAnnotate(processedDataset)
 
   }
-
-  /** requirement for annotators copies */
-  override def copy(extra: ParamMap): M = defaultCopy(extra)
 
 }

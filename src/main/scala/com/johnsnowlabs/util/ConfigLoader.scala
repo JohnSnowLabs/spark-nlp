@@ -7,7 +7,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 object ConfigLoader {
 
   private val defaultConfig = ConfigFactory.load()
-  private var overrideConfigPath = defaultConfig.getString("settings.overrideConfigPath")
+  private var overrideConfigPath = defaultConfig.getString("sparknlp.settings.overrideConfigPath")
 
   def setConfigPath(path: String): Unit = overrideConfigPath = path
 

@@ -4,7 +4,7 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.util.FileHelper
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -47,7 +47,8 @@ object SparkWordEmbeddings {
                               format: WordEmbeddingsFormat.Format,
                               spark: SparkContext): Unit = {
 
-    val fs = FileSystem.get(spark.hadoopConfiguration)
+    val uri = new java.net.URI(sourceEmbeddingsPath)
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
 
@@ -65,8 +66,7 @@ object SparkWordEmbeddings {
     }
     else if (format == WordEmbeddingsFormat.SPARKNLP) {
 
-      val hdfs = FileSystem.get(spark.hadoopConfiguration)
-      hdfs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
+      fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
       val fileName = new Path(sourceEmbeddingsPath).getName
 
       FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
@@ -75,9 +75,16 @@ object SparkWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val fs = FileSystem.get(spark.hadoopConfiguration)
+    val uri = new java.net.URI(localFile)
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
-    val dst = Path.mergePaths(new Path(fs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir")), new Path(clusterFilePath))
+    val clusterTmpLocation = {
+      ConfigHelper.getConfigValue(ConfigHelper.embeddingsTmpDir).map(new Path(_)).getOrElse(
+        new Path(cfs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir"))
+      )
+    }
+    val dst = Path.mergePaths(clusterTmpLocation, new Path(clusterFilePath))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)

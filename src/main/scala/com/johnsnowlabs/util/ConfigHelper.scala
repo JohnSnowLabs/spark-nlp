@@ -21,20 +21,22 @@ object ConfigHelper {
   }
 
   // Configures s3 bucket where pretrained models are stored
-  val pretrainedS3BucketKey = "nlp.pretrained.s3_bucket"
+  val pretrainedS3BucketKey = "sparknlp.settings.pretrained.s3_bucket"
 
   // Configures s3 path where pretrained models are stored
-  val pretrainedS3PathKey = "nlp.pretrained.s3_path"
+  val pretrainedS3PathKey = "sparknlp.settings.pretrained.s3_path"
 
   // Configures cache folder where to cache pretrained models
-  val pretrainedCacheFolder = "nlp.pretrained.cache_folder"
+  val pretrainedCacheFolder = "sparknlp.settings.pretrained.cache_folder"
 
   // Stores credentials for AWS S3 private models
-  val awsCredentials = "nlp.pretrained.credentials"
+  val awsCredentials = "sparknlp.settings.pretrained.credentials"
 
   val accessKeyId = awsCredentials + ".access_key_id"
   val secretAccessKey = awsCredentials + ".secret_access_key"
 
-  val s3SocketTimeout = "nlp.pretrained.s3_socket_timeout"
+  val s3SocketTimeout = "sparknlp.settings.pretrained.s3_socket_timeout"
+
+  val embeddingsTmpDir = "sparknlp.settings.embeddings.cluster_tmp_dir"
 
 }

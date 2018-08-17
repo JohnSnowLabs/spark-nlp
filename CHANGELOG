@@ -1,4 +1,55 @@
 ========
+1.6.1
+========
+---------------
+Overview
+---------------
+Hi! We're glad to announce new hotfix 1.6.1. Although changes seem modest or very specific, there is a lot going underground. First of all, we've worked hard with the community to understand S3-based clusters,
+which don't have a common fs.defaultFS configuration, which is the one we use to tell where is the cluster temp folder located in order to distribute word embeddings. We fixed two things here,
+on one side we fixed a bug pointing to the wrong filesystem. Second, we added a custom override setting in application.conf that allows manually setting where to put temp folders in cluster. This should help S3 users.
+Please share your feedback on this regard.
+On the other hand, we created a new annotator type internally. The CHUNK type allows better modulary in the communication between different annotators. Impact will be noticed implicitly and over time.
+
+---------------
+New features
+---------------
+* new Scala-only functions that make it easier to work with Annotations in Dataframes. May be imported through com.johnsnowlabs.nlp.functions._ and allow mapping and filtering within and outside Annotations.
+filterByAnnotations, mapAnnotations and explodeAnnotations work by providing a column and a function. Check out documentation. Possibly later coming to Python.
+
+---------------
+Bug fixes
+---------------
+* Fixed incorrect filesystem readings in some S3 environments for word embeddings
+* Fixed NerCRF not correctly training from CONLL, labeling everything as -O- (Thanks @arnound from Slack Channel)
+
+---------------
+Enhancements
+---------------
+* Added overrideable config sparknlp.settings.cluster_tmp_dir allows setting cluster location for temporary embeddings file. May help S3 based clusters with no fs.defaultFS set to a proper distributed storage.
+* New annotator type: CHUNK. Representes a SUBSTRING of DOCUMENT and it is used as output from NerConverter, TextMatcher, RegexMatcher and other annotators that retrieve a substring from the original document.
+This will make for better modularity and integration within various annotators, such as between NER and AssertionStatus.
+* New annotation transformer: ChunkAssembler. Takes a string or array(string) column from a dataset and creates a CHUNK type annotator. The content must also belong to the current DOCUMENT annotation's content.
+* SentenceDetector new param explodeSentences allow to explode sentences within a single row into different rows to increase parallelism and performance in some scenarios. Particularly OCR based.
+* AssertionDLApproach now may be used within LightPipelines
+* AssertionDLApproach and AssertionLogRegApproach now work from CHUNK type instead of start/end bounds. May still be trained with Start/end though. This means target for assertion may be any CHUNK output annotator now (e.g. RegexMatcher)
+
+---------------
+Other
+---------------
+* PerceptronApproachLegacy moved back to default PerceptronApproach. Distributed PerceptronApproach moved to PerceptronApproachDistributed due to not meeting accuracy expectations yet.
+* Some configuration parameters in application.conf have been appropriately moved to proper annotator Params (NorvigSweeting Spell Checker, Vivekn Approach and Sentiment Detector affected)
+* application.conf renamed configuration values for better consistency
+
+---------------
+Developer API
+---------------
+* Added beforeAnnotate() and afterAnnotate() to manipulate dataframes after or before calling annotate() UDF
+* Added extraValidate() and extraValidateMsg() in all annotators to provide developer to add additional SCHEMA checks in transformSchema() stage
+* Removed validation() stage in fit() stage. Allows for more flexible training when some of the columns are not really required yet.
+* WrapColumnMetadata() will wrap an Annotation column with its appropriate Metadata. Makes it easier not to forget about Metadata in Schema.
+* RawAnnotator trait has now all the basics needed to start a new Annotator without annotate() function. It is a complete previous stage before AnnotatorModel, which inherits from RawAnnotator.
+
+========
 1.6.0
 ========
 ---------------
