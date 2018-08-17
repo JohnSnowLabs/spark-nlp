@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 /**
   * Annotator that detects sentence boundaries using any provided approach
@@ -43,7 +43,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   setDefault(
     inputCols -> Array(DOCUMENT),
-    useAbbrevations -> false,
+    useAbbrevations -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
     customBounds -> Array.empty[String]
@@ -61,6 +61,13 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     model.extractBounds(
       document
     )
+  }
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    /** Preload model */
+    model
+
+    dataset
   }
 
   /**
