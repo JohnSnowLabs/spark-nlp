@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
+import com.johnsnowlabs.nlp.serialization.{MapFeature, SetFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, LongParam}
 import org.apache.spark.ml.util.Identifiable
@@ -17,7 +17,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   protected val positive: MapFeature[String, Long] = new MapFeature(this, "positive_sentences")
   protected val negative: MapFeature[String, Long] = new MapFeature(this, "negative_sentences")
-  protected val words: ArrayFeature[String] = new ArrayFeature(this, "words")
+  protected val words: SetFeature[String] = new SetFeature[String](this, "words")
 
   protected val positiveTotals: LongParam = new LongParam(this, "positive_totals", "count of positive words")
   protected val negativeTotals: LongParam = new LongParam(this, "negative_totals", "count of negative words")
@@ -38,7 +38,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   def getPositive: Map[String, Long] = $$(positive)
   def getNegative: Map[String, Long] = $$(negative)
-  def getFeatures: Array[String] = $$(words)
+  def getFeatures: Set[String] = $$(words)
 
   private[vivekn] def setPositive(value: Map[String, Long]): this.type = set(positive, value)
   private[vivekn] def setNegative(value: Map[String, Long]): this.type = set(negative, value)
@@ -58,15 +58,16 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
       value.slice(k, k+step).foreach(currentFeatures.add)
     })
 
-    set(words, currentFeatures.toArray)
+    set(words, currentFeatures.toSet)
   }
 
-  def classify(sentence: TokenizedSentence): Boolean = {
-    val wordFeatures = negateSequence(sentence.tokens.toList).intersect($$(words)).distinct
-    if (wordFeatures.isEmpty) return true
+  /** Positive: 0, Negative: 1, NA: 2*/
+  def classify(sentence: TokenizedSentence): Short = {
+    val wordFeatures = negateSequence(sentence.tokens).intersect($$(words)).toList
+    if (wordFeatures.isEmpty) return 2
     val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
     val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum
-    positiveProbability > negativeProbability
+    if (positiveProbability > negativeProbability) 0 else 1
   }
 
   /**
@@ -85,7 +86,11 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
         annotatorType,
         sentence.indexedTokens.map(t => t.begin).min,
         sentence.indexedTokens.map(t => t.end).max,
-        if (classify(sentence)) "positive" else "negative",
+        classify(sentence) match {
+          case 0 => "positive"
+          case 1 => "negative"
+          case 2 => "na"
+        },
         Map.empty[String, String]
       )
     })
