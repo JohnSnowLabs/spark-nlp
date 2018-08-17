@@ -42,7 +42,11 @@ object NerDLCoNLL2003 extends App {
   val encoder = new NerDatasetEncoder(embeddings.getEmbeddings, settings)
 
   val graph = new Graph()
-  val session = new Session(graph)
+  //Use CPU
+  //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+  //Use GPU
+  val config = Array[Byte](56, 1)
+  val session = new Session(graph, config)
 
   graph.importGraphDef(Files.readAllBytes(Paths.get("src/main/resources/ner-dl/char_cnn_blstm_10_100_100_25_30.pb")))
 

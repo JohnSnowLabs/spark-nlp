@@ -47,7 +47,11 @@ object AssertionDLNegex extends App with EvaluationMetrics {
 
   val encoder = new AssertionDatasetEncoder(embeddings.getEmbeddings, params)
   val graph = new Graph()
-  val session = new Session(graph)
+  //Use CPU
+  //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+  //Use GPU
+  val config = Array[Byte](56, 1)
+  val session = new Session(graph, config)
 
   graph.importGraphDef(Files.readAllBytes(Paths.get("./src/test/resources/assertion.lstm/blstm_34_32_30_200_2.pb")))
 
