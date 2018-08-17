@@ -56,7 +56,8 @@ object NerDLModelPythonReader {
             useBundle: Boolean = false,
             tags: Array[String] = Array.empty[String]): NerDLModel = {
 
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    val uri = new java.net.URI(folder)
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")
       .toAbsolutePath.toString

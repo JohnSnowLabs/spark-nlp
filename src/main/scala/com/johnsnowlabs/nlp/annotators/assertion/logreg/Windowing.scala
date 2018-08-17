@@ -72,8 +72,8 @@ trait Windowing extends Serializable {
     val (l, t, r) = applyWindow(doc.toLowerCase, s, e)
 
     l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w =>  normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+      t.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
+      r.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
   }
 
   def applyWindowUdf =
@@ -87,33 +87,27 @@ trait Windowing extends Serializable {
 
   private case class IndexedChunk(sentence: String, chunkBegin: Int, chunkEnd: Int)
 
-  def applyWindowUdfNerExhaustive =
+  def applyWindowUdfChunk =
   // Reading NER annotations and calculating start-end boundaries for each contiguous entity token
     udf { (documents: Seq[Row], chunks: Seq[Row]) => {
-      println(s"all documents: ${documents.map(Annotation(_).result).mkString(", ")}")
-      println(s"all chunks: ${chunks.map(Annotation(_).result).mkString(", ")}")
 
       var lastIC: Option[IndexedChunk] = None
 
       val indexed = documents.map(Annotation(_).result).zipAll(chunks.map(Annotation(_).result), "", "")
         .map { case (doc, chunk) =>
-            if (chunk.isEmpty) {
-              IndexedChunk("", 0, 0)
-            } else if (doc.isEmpty) {
-              /** More than one chunk per document*/
-              lastIC.get
-            } else {
-              require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
-              val index = doc.indexOf(chunk)
-              var tokenIndexBegin = 0
-              for (i <- 0 until index) {
-                if (doc(i) == ' ')
-                  tokenIndexBegin += 1
-              }
-              val tokenIndexEnd = tokenIndexBegin + chunk.split(" ").length - 1
-              val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
-              lastIC = Some(ic)
-              ic
+          if (chunk.isEmpty) {
+            IndexedChunk("", 0, 0)
+          } else if (doc.isEmpty) {
+            /** More than one chunk per document*/
+            lastIC.get
+          } else {
+            require(doc.contains(chunk), s"Chunk: $chunk is not a substring of document: $doc")
+            /** If there are two identical CHUNKS in a single row for the same DOCUMENT, this will BREAK. Use Start/End instead*/
+            val tokenIndexBegin = doc.indexOf(chunk)
+            val tokenIndexEnd = tokenIndexBegin + chunk.length
+            val ic = IndexedChunk(doc, tokenIndexBegin, tokenIndexEnd)
+            lastIC = Some(ic)
+            ic
           }
         }
 

@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronApproachLegacy, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproachDistributed, PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
@@ -96,7 +96,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
-     posTagger = new PerceptronApproachLegacy()
+     posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
         .setNIterations(1)
@@ -242,9 +242,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCol("sentence")
       .setOutputCol("document")
 
+    val chunkAssembler = new ChunkAssembler()
+      .setInputCols("document")
+      .setChunkCol("target")
+      .setOutputCol("chunk")
+
     val assertion = new AssertionLogRegApproach()
       .setLabelCol("label")
-      .setInputCols("document")
+      .setInputCols("document", "chunk")
       .setOutputCol("assertion")
       .setReg(0.01)
       .setBefore(11)
@@ -253,8 +258,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setStartCol("start")
       .setEndCol("end")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, assertion)).fit(dataset)
-    pipeline
+    new Pipeline().setStages(Array(documentAssembler, chunkAssembler, assertion)).fit(dataset)
   }
 }
 

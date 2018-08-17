@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
-import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadsAssertionGraph
+import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
+import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
@@ -47,7 +48,7 @@ object annotator {
   type AssertionLogRegApproach = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
   object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]
   type AssertionLogRegModel = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
-  object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]
+  object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel
 
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
@@ -59,7 +60,7 @@ object annotator {
   type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
   object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
 
-  type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+  type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
   object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]
   type PerceptronModel = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
   object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel
@@ -95,7 +96,7 @@ object annotator {
   type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
   object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
   type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
-  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph
+  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus
 
   type DeIdentification = com.johnsnowlabs.nlp.annotators.DeIdentification
   object DeIdentification extends DefaultParamsReadable[DeIdentification]

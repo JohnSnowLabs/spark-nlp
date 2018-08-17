@@ -3,26 +3,22 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
-import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.ml.param._
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
-import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
 import scala.collection.immutable.Map
-import scala.collection.mutable
-import org.apache.spark.ml.linalg.Vector
 
 /**
   * Created by jose on 22/11/17.
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with TransformModelSchema with HasWordEmbeddings  {
+  with Windowing with HasWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
@@ -52,10 +48,6 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   def setStartCol(start: String): this.type = set(startCol, start)
   def setEndCol(end: String): this.type = set(endCol, end)
 
-  private def generateEmptyAnnotations = udf {
-    () => Seq.empty[Annotation]
-  }
-
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Missing annotators in pipeline. Make sure the following are present: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
@@ -72,10 +64,11 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
     /* apply UDF to fix the length of each document */
     val processed = dataset.toDF.
       withColumn("_rid", monotonically_increasing_id()).
-      withColumn("_features", explode_outer(applyWindowUdfNerExhaustive(col(documentCol), col(chunkCol))))
+      /** explode_outer will nullify non-chunked rows */
+      withColumn("_features", explode_outer(applyWindowUdfChunk(col(documentCol), col(chunkCol))))
 
     val resultData = $$(model).transform(processed).withColumn("_tmpassertion", {
-      packAnnotationsNerExhaustive(col("_features"), $"_prediction")
+      packAnnotationsFromChunks(col("_features"), $"_prediction")
     }).drop("_prediction", "_features", "rawPrediction", "probability")
 
     val packedData = {
@@ -90,7 +83,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
 
   }
 
-  private def packAnnotationsNerExhaustive = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
+  private def packAnnotationsFromChunks = udf { (vector: org.apache.spark.ml.linalg.Vector, prediction: Double) =>
     if (vector.numNonzeros > 0)
      Annotation("assertion", vector.apply(1).toInt, vector.apply(2).toInt, $$(labelMap)(prediction), Map())
     else
@@ -105,4 +98,10 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   override def copy(extra: ParamMap): AssertionLogRegModel = defaultCopy(extra)
 }
 
-object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel]
+trait PretrainedAssertionLogRegModel {
+  def pretrained(name: String = "as_fast_lg", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): AssertionLogRegModel =
+    ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remoteLoc)
+}
+
+
+object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel
