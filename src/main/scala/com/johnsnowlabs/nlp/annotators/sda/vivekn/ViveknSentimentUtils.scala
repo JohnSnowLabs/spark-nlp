@@ -9,7 +9,7 @@ import scala.collection.mutable.{ListBuffer, Map => MMap}
 
 trait ViveknSentimentUtils {
   /** Detects negations and transforms them into not_ form */
-  def negateSequence(words: List[String]): List[String] = {
+  def negateSequence(words: Array[String]): Set[String] = {
     val negations = Seq("not", "cannot", "no")
     val delims = Seq("?.,!:;")
     val result = ListBuffer.empty[String]
@@ -32,13 +32,13 @@ trait ViveknSentimentUtils {
       if (negations.contains(processed) || processed.endsWith("n't")) negation = !negation
       if (delims.exists(word.contains)) negation = false
     })
-    result.toList
+    result.toSet
   }
 
   def ViveknWordCount(
                                        er: ExternalResource,
                                        prune: Int,
-                                       f: List[String] => List[String],
+                                       f: List[String] => Set[String],
                                        left: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
                                        right: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0)
                                      ): (MMap[String, Long], MMap[String, Long]) = {

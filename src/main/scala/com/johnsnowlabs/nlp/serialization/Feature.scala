@@ -221,3 +221,42 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
 
 }
 
+class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
+  extends Feature[TValue, TValue, Set[TValue]](model, name) {
+
+  implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
+
+  override def serializeObject(spark: SparkSession, path: String, field: String, value: Set[TValue]): Unit = {
+    val dataPath = getFieldPath(path, field)
+    spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
+  }
+
+  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Set[TValue]] = {
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    if (fs.exists(dataPath)) {
+      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect().toSet)
+    } else {
+      None
+    }
+  }
+
+  override def serializeDataset(spark: SparkSession, path: String, field: String, value: Set[TValue]): Unit = {
+    val dataPath = getFieldPath(path, field)
+    spark.createDataset(value.toSeq).write.mode("overwrite").parquet(dataPath.toString)
+  }
+
+  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[Set[TValue]] = {
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    if (fs.exists(dataPath)) {
+      Some(spark.read.parquet(dataPath.toString).as[TValue].collect.toSet)
+    } else {
+      None
+    }
+  }
+
+}
+
