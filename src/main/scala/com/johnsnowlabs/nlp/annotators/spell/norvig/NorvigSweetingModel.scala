@@ -125,9 +125,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   /** variants of variants of a word */
-  private def doubleVariants(word: String): Set[String] = {
+  private def doubleVariants(word: String): Set[String] =
     variants(word).flatMap(v => variants(v))
-  }
 
   /** possible variations of the word by removing duplicate letters */
   /* ToDo: convert logic into an iterator, probably faster */
@@ -173,12 +172,12 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     /*} else if ($$(customDict).contains(word)) {
       logger.debug("Word custom dictionary found. Replacing")
       Some($$(customDict)(word))*/
+    } else if (word.length <= $(wordSizeIgnore)) {
+      logger.debug("word ignored because length is less than wordSizeIgnore")
+      Some(word)
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
       Some(word.distinct)
-    }  else if (word.length <= $(wordSizeIgnore)) {
-      logger.debug("word ignored because length is less than wordSizeIgnore")
-      Some(word)
     } else if ($(shortCircuit)) {
       if (allWords.intersect(reductions(word)).nonEmpty) Some(word)
       else if (allWords.intersect(vowelSwaps(word)).nonEmpty) Some(word)

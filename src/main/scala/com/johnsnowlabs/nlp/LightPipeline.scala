@@ -13,6 +13,8 @@ class LightPipeline(stages: Array[Transformer]) {
   def setIgnoreUnsupported(v: Boolean): Unit = ignoreUnsupported = v
   def getIgnoreUnsupported: Boolean = ignoreUnsupported
 
+  def getStages = stages
+
   def fullAnnotate(target: String): Map[String, Seq[Annotation]] = {
     stages.foldLeft(Map.empty[String, Seq[Annotation]])((annotations, transformer) => {
       transformer match {

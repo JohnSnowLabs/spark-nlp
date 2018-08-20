@@ -115,6 +115,7 @@ lazy val root = (project in file("."))
   )
 
 val ocrMergeRules: String => MergeStrategy  = {
+
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)

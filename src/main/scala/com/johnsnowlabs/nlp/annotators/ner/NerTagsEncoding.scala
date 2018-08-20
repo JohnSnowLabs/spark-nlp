@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 
 import scala.collection.mutable.ArrayBuffer
@@ -17,39 +18,42 @@ object NerTagsEncoding {
     * @param doc Source doc text
     * @return Extracted Named Entities
     */
-  def fromIOB(tagged: Seq[NerTaggedSentence], doc: String): Seq[NamedEntity] = {
+  def fromIOB(sentence: NerTaggedSentence, doc: Annotation): Seq[NamedEntity] = {
     val result = ArrayBuffer[NamedEntity]()
 
-    for (sentence <- tagged) {
-      val words = sentence.words.length
+    val words = sentence.words.length
 
-      var lastTag: Option[String] = None
-      var lastTagStart = -1
+    var lastTag: Option[String] = None
+    var lastTagStart = -1
 
-      def flushEntity(startIdx: Int, endIdx: Int): Unit = {
-        val start = sentence.indexedTaggedWords(startIdx).begin
-        val end = sentence.indexedTaggedWords(endIdx).end
-        val entity = NamedEntity(start, end, lastTag.get, doc.substring(start, end + 1))
+    def flushEntity(startIdx: Int, endIdx: Int): Unit = {
+      val start = sentence.indexedTaggedWords(startIdx).begin - doc.begin
+      val end = sentence.indexedTaggedWords(endIdx).end - doc.begin
+      val entity = NamedEntity(
+        sentence.indexedTaggedWords(startIdx).begin,
+        sentence.indexedTaggedWords(endIdx).end,
+        lastTag.get,
+        doc.result.substring(start, end + 1)
+      )
 
-        result.append(entity)
-        lastTag = None
+      result.append(entity)
+      lastTag = None
+    }
+
+    for (i <- 0 until words) {
+      val tag = sentence.tags(i)
+      if (lastTag.isDefined && (tag.startsWith("B-") || tag == "O")) {
+        flushEntity(lastTagStart, i - 1)
       }
 
-      for (i <- 0 until words) {
-        val tag = sentence.tags(i)
-        if (lastTag.isDefined && (tag.startsWith("B-") || tag == "O")) {
-          flushEntity(lastTagStart, i - 1)
-        }
-
-        if (lastTag.isEmpty && tag != "O") {
-          lastTag = Some(tag.substring(2))
-          lastTagStart = i
-        }
+      if (lastTag.isEmpty && tag != "O") {
+        lastTag = Some(tag.substring(2))
+        lastTagStart = i
       }
+    }
 
-      if (lastTag.isDefined) {
-        flushEntity(lastTagStart, words - 1)
-      }
+    if (lastTag.isDefined) {
+      flushEntity(lastTagStart, words - 1)
     }
 
     result.toList
