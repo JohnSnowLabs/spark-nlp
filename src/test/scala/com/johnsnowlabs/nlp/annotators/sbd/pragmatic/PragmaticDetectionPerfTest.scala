@@ -8,7 +8,7 @@ import org.scalatest._
 
 class PragmaticDetectionPerfTest extends FlatSpec {
 
-  "sentence detection" should "be fast" ignore {
+  "sentence detection" should "be fast" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
