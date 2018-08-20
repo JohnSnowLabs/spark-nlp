@@ -81,7 +81,13 @@ class NerDLApproach(override val uid: String)
   private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
     :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
 
-    lazy val pipelineModel = recursivePipeline.getOrElse {
+    lazy val pipelineModel = recursivePipeline.map(rp => {
+      rp.stages.foreach {
+        case d: DocumentAssembler => d.setTrimAndClearNewLines(false)
+        case _ =>
+      }
+      rp
+    }).getOrElse {
 
       logger.warn("NER DL not in a RecursivePipeline. " +
         "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
@@ -90,6 +96,7 @@ class NerDLApproach(override val uid: String)
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
+        .setTrimAndClearNewLines(false)
 
       val sentenceDetector = new SentenceDetector()
         .setCustomBounds(Array("\n\n", "\n\r\n\r"))
@@ -159,7 +166,11 @@ class NerDLApproach(override val uid: String)
     )
 
     val graph = new Graph()
-    val session = new Session(graph)
+    //Use CPU
+    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
+    //Use GPU
+    val config = Array[Byte](56, 1)
+    val session = new Session(graph, config)
 
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsNDims), chars.length)
 

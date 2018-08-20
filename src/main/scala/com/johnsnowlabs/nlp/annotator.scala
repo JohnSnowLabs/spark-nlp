@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRe
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
+import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
@@ -76,7 +77,7 @@ object annotator {
   type ViveknSentimentApproach = com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
   object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSentimentApproach]
   type ViveknSentimentModel = com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
-  object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel]
+  object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel
 
   type NorvigSweetingApproach = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
   object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingApproach]

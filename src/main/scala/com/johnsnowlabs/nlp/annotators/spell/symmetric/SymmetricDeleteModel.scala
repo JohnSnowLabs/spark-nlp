@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.HashSet
-import scala.collection.mutable.{ListBuffer, Map => MMap}
+import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
 import scala.math._
 import org.apache.spark.ml.param.IntParam
@@ -78,24 +78,23 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * */
 
   def getSuggestedCorrections(word: String): Option[(String, (Long, Int))] = {
-    val string = word.toLowerCase()
-    if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((string.length - this.getLongestWordLength) > $(maxEditDistance)))
+    val lowercaseWord = word.toLowerCase()
+    val lowercaseWordLength = lowercaseWord.length
+    if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((lowercaseWordLength - this.getLongestWordLength) > $(maxEditDistance)))
       return None
 
     var minSuggestLen: Double = Double.PositiveInfinity
 
-    val suggestDict = MMap[String, (Long, Int)]()
-    val queueDictionary = MMap[String, String]() // items other than string that we've checked
-    var queueList = ListBuffer(string)
-    var count = 0
+    val suggestDict = MMap.empty[String, (Long, Int)]
+    val queueDictionary = MMap.empty[String, String] // items other than string that we've checked
+    var queueList = Iterator(lowercaseWord)
 
-    while (queueList.nonEmpty) {
-      count += 1
-      val queueItem = queueList.head // pop
-      queueList = queueList.slice(1, queueList.length)
+    while (queueList.hasNext) {
+      val queueItem = queueList.next // pop
+      val queueItemLength = queueItem.length
 
       breakable { //early exit
-        if (suggestDict.nonEmpty && (string.length - queueItem.length) > $(maxEditDistance)) {
+        if (suggestDict.nonEmpty && (lowercaseWordLength - queueItemLength) > $(maxEditDistance)) {
           break
         }
       }
@@ -110,30 +109,31 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
           // note q_items that are not the input string are shorter than input string since only
           // deletes are added (unless manual dictionary corrections are added)
           suggestDict(queueItem) = ($$(derivedWords)(queueItem)._2,
-            string.length - queueItem.length)
+            lowercaseWordLength - queueItemLength)
 
           breakable { //early exit
-            if (string.length == queueItem.length) {
+            if (lowercaseWordLength == queueItemLength) {
               break
             }
           }
 
-          if (string.length - queueItem.length < minSuggestLen) {
-            minSuggestLen = string.length - queueItem.length
+          if (lowercaseWordLength - queueItemLength < minSuggestLen) {
+            minSuggestLen = lowercaseWordLength - queueItemLength
           }
         }
 
         // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
         // is a valid word or merely a delete) can be valid corrections
         $$(derivedWords)(queueItem)._1.foreach(scItem => {
-          if (!suggestDict.contains(scItem.toLowerCase())) {
-            // assert(scItem.length > queueItem.length) Include or not assertions ???
+          val lowercaseScItem = scItem.toLowerCase
+          if (!suggestDict.contains(lowercaseScItem)) {
+            // assert(scItem.length > queueItemLength) Include or not assertions ???
 
             // calculate edit distance using Damerau-Levenshtein distance
-            val itemDist = levenshteinDistance(scItem.toLowerCase, string)
+            val itemDist = levenshteinDistance(lowercaseScItem, lowercaseWord)
 
             if (itemDist <= $(maxEditDistance)) {
-              suggestDict(scItem.toLowerCase) = ($$(derivedWords)(scItem.toLowerCase)._2,
+              suggestDict(lowercaseScItem) = ($$(derivedWords)(lowercaseScItem)._2,
                 itemDist)
               if (itemDist < minSuggestLen) {
                 minSuggestLen = itemDist
@@ -149,13 +149,13 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
       // now generate deletes (e.g. a substring of string or of a delete) from the queue item
       // do not add words with greater edit distance
-      if ((string.length - queueItem.length) < $(maxEditDistance) && queueItem.length > 1) {
-        val y = 0 until queueItem.length
+      if ((lowercaseWordLength - queueItemLength) < $(maxEditDistance) && queueItemLength > 1) {
+        val y = 0 until queueItemLength
         y.foreach(c => { //character index
           //result of word minus c
-          val wordMinus = queueItem.substring(0, c).concat(queueItem.substring(c + 1, queueItem.length))
+          val wordMinus = queueItem.substring(0, c).concat(queueItem.substring(c + 1, queueItemLength))
           if (!queueDictionary.contains(wordMinus)) {
-            queueList += wordMinus
+            queueList ++= Iterator(wordMinus)
             queueDictionary(wordMinus) = "None" // arbitrary value, just to identify we checked this
           }
         }) // End queueItem.foreach

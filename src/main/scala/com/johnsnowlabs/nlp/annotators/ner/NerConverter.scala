@@ -18,8 +18,8 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
-    val doc = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT).head.result
-    val entities = NerTagsEncoding.fromIOB(sentences, doc)
+    val docs = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT)
+    val entities = sentences.zip(docs).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc)}
 
     entities.map{entity =>
       Annotation(annotatorType, entity.start, entity.end, entity.text, Map("entity" -> entity.entity))
