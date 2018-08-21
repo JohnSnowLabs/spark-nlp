@@ -31,6 +31,12 @@ object PageSegmentationMode {
   val SINGLE_WORD = TessPageSegMode.PSM_SINGLE_WORD
 }
 
+object EngineMode {
+
+  val OEM_LSTM_ONLY = TessOcrEngineMode.OEM_LSTM_ONLY
+  val DEFAULT = TessOcrEngineMode.OEM_DEFAULT
+}
+
 object PageIteratorLevel {
 
   val BLOCK = TessPageIteratorLevel.RIL_BLOCK
@@ -61,8 +67,12 @@ object OcrHelper {
     pageSegmentationMode = mode
   }
 
+  def setEngineMode(mode: Int) = {
+    engineMode = mode
+  }
+
   def setPageIteratorLevel(mode: Int) = {
-    pageSegmentationMode = mode
+    pageIteratorLevel = mode
   }
 
   def setScalingFactor(factor:Float) = {
@@ -216,7 +226,7 @@ object OcrHelper {
         }.getOrElse(scaledImage)
 
         // obtain regions and run OCR on each region
-        val regions = tesseract.getSegmentedRegions(dilatedImage, pageIteratorLevel)
+        val regions = tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel)
         regions.map{rectangle =>
           (pageNum, tesseract.doOCR(dilatedImage, rectangle))}
       }
