@@ -205,6 +205,7 @@ object OcrHelper {
     import scala.collection.JavaConversions._
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
+    val api = initTesseract()
 
     /* try to extract a text layer from each page, default to OCR if not present */
     val result = Range(1, numPages + 1).flatMap { pageNum =>
@@ -226,9 +227,9 @@ object OcrHelper {
         }.getOrElse(scaledImage)
 
         // obtain regions and run OCR on each region
-        val regions = tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel)
+        val regions = api.getSegmentedRegions(scaledImage, pageIteratorLevel)
         regions.map{rectangle =>
-          (pageNum, tesseract.doOCR(dilatedImage, rectangle))}
+          (pageNum, api.doOCR(dilatedImage, rectangle))}
       }
       else
         Seq((pageNum, textContent))
