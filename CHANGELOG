@@ -1,4 +1,48 @@
 ========
+1.6.2
+========
+---------------
+Overview
+---------------
+In this release, we focused on reviewing out streaming performance, buy measuring our amount of sentences processed by second, through a LightPipeline.
+We increased Norvig Spell Checker by more than 300% by disabling DoubleVariants and improving algorithm orders. It is now reported capable of 42K sentences per second.
+Symmetric Delete Spell checker is more performance, although it has been reported to process 2K sentences per second.
+NerCRF has been reported to process 300 hundred sentences per second, while NerDL can do twice fast (about 700 sentences per second).
+Vivekn Sentiment Analysis was improved and is now capable to processing 100K sentences per sentence (before it was below 500).
+Finally, SentenceDetector performance was improved by a 40% from ~30K rows processed per second to ~40K. But, we have now enabled Abbreviation processing by default which reduces final speed to 22K rows per second with a negative net but better accuracy.
+Again, thanks for the community for helping with feedback. We welcome everyone asking questions or giving feedback in our Slack channel or reporting issues on Github.
+
+---------------
+Enhancements
+---------------
+* OCR now features kernel segmentation. Significantly improves image based PDF processing
+* Vivekn Sentiment Analysis prediction performance improved by better data structures
+* Both Norvig and Symmetric Delete spell checkers now have improved performance
+* SentenceDetector improved accuracy by better handling abbreviations. UseAbbreviations now also by default turned ON
+* SentenceDetector improved performance significantly by improved preloading of rules
+
+---------------
+Bug fixes
+---------------
+* Fixed NerDL not training correctly (broken since 1.6.0). Pretrained models not affected
+* Fixed NerConverter not properly considering multiple sentences per row (after using SentenceDetector), causing an unhandled exception to occur in some scenarios.
+* Tensorflow sessions now all support allow_soft_placement, supporting GPU based graphs to work with and without GPU
+* Norvig Spell Checker fixed a missing step from the algorithm to check for additional variants. May improve accuracy
+* Norvig Spell Checker disabled DoubleVariants by default. Was not improving accuracy significantly and was hitting performance very hard
+
+---------------
+Developer API
+---------------
+* New FeatureSet allows HashSet params
+
+---------------
+Models
+---------------
+* Vivekn Sentiment Pipeline doesn't have Spell Checker anymore
+* Fixed Vivekn Sentiment pretrained improved accuracy
+
+
+========
 1.6.1
 ========
 ---------------
