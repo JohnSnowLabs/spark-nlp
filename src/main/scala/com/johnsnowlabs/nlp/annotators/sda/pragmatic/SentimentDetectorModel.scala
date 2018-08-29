@@ -3,8 +3,8 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.{DoubleParam, IntParam}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.param.DoubleParam
+import org.apache.spark.ml.util.Identifiable
 
 /**
   * Created by saif on 12/06/2017.
@@ -33,13 +33,13 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   val positiveMultiplier = new DoubleParam(this, "positiveMultiplier", "multiplier for positive sentiments. Defaults 1.0")
   val negativeMultiplier = new DoubleParam(this, "negativeMultiplier", "multiplier for negative sentiments. Defaults -1.0")
   val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "multiplier for increment sentiments. Defaults 2.0")
-  val decrementMultiplier = new IntParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
+  val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
   val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
 
   def setPositiveMultipler(v: Double): this.type = set(positiveMultiplier, v)
   def setNegativeMultipler(v: Double): this.type = set(negativeMultiplier, v)
   def setIncrementMultipler(v: Double): this.type = set(incrementMultiplier, v)
-  def setDecrementMultipler(v: Int): this.type = set(decrementMultiplier, v)
+  def setDecrementMultipler(v: Double): this.type = set(decrementMultiplier, v)
   def setReverseMultipler(v: Double): this.type = set(reverseMultiplier, v)
 
   def setSentimentDict(value: Map[String, String]): this.type = set(sentimentDict, value)
