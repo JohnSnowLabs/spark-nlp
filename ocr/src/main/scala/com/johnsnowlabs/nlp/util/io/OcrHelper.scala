@@ -210,11 +210,11 @@ object OcrHelper {
     /* try to extract a text layer from each page, default to OCR if not present */
     val result = Range(1, numPages + 1).flatMap { pageNum =>
       val textContent = extractText(pdfDoc, pageNum)
+      lazy val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
       // if no text layer present, do the OCR
-      if (textContent.length < minTextLayerSize) {
+      if (textContent.length < minTextLayerSize && renderedImage.isDefined) {
 
-        val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
-        val image = PlanarImage.wrapRenderedImage(renderedImage)
+        val image = PlanarImage.wrapRenderedImage(renderedImage.get)
 
         // rescale if factor provided
         val scaledImage = scalingFactor.map { factor =>
@@ -227,9 +227,17 @@ object OcrHelper {
         }.getOrElse(scaledImage)
 
         // obtain regions and run OCR on each region
-        val regions = api.getSegmentedRegions(scaledImage, pageIteratorLevel)
-        regions.map{rectangle =>
-          (pageNum, api.doOCR(dilatedImage, rectangle))}
+        val regions = {
+          /** Some ugly image scenarios cause a null pointer in tesseract. Avoid here.*/
+          try {
+            api.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
+          } catch {
+            case _: NullPointerException => List()
+          }
+        }
+        regions.flatMap(_.map { rectangle =>
+          (pageNum, api.doOCR(dilatedImage, rectangle))
+        })
       }
       else
         Seq((pageNum, textContent))
@@ -254,10 +262,10 @@ object OcrHelper {
   }
 
   /* TODO refactor, assuming single image */
-  private def getImageFromPDF(document: PDDocument, pageNumber:Int): RenderedImage = {
+  private def getImageFromPDF(document: PDDocument, pageNumber:Int): Option[RenderedImage] = {
     import scala.collection.JavaConversions._
     val page = document.getPages.get(pageNumber)
-    getImagesFromResources(page.getResources)(0)
+    getImagesFromResources(page.getResources).headOption
   }
 
   private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
