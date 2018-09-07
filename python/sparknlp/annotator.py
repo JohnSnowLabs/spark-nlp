@@ -623,7 +623,7 @@ class SentimentDetector(AnnotatorApproach):
 
     def __init__(self):
         super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
-        self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0, decrementMultiplier=-2, reverseMultiplier=-1.0)
+        self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0, decrementMultiplier=-2.0, reverseMultiplier=-1.0)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format':'text'}):
         opts = options.copy()
