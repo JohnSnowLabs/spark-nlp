@@ -111,14 +111,14 @@ object OcrHelper {
     val files = sc.binaryFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
       doOcr(stream.open).map{case (pageN, region) => OcrRow(region, Map("source" -> fileName, "pagenum" -> pageN.toString))}
-    }.toDF(outputCol, metadataCol)
+    }.filter(_.region.nonEmpty).toDF(outputCol, metadataCol)
   }
 
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
       doOcr(stream).map{case (_, region) => (fileName, region)}
-    }.toMap
+    }.filter(_._2.nonEmpty).toMap
   }
 
   private def tesseract:Tesseract = {
