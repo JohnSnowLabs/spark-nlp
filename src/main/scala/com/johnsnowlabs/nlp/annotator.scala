@@ -99,4 +99,7 @@ object annotator {
   type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
   object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus
 
+  type NerConverter = com.johnsnowlabs.nlp.annotators.ner.NerConverter
+  object NerConverter extends ParamsAndFeaturesReadable[NerConverter]
+
 }
