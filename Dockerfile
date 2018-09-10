@@ -1,6 +1,6 @@
 FROM openjdk:8-alpine
 
-RUN apk add --no-cache --virtual=.dependencies tar wget bash rsync
+RUN apk add --no-cache --virtual=.dependencies tar wget bash rsync python3 python3-pip
 
 ARG SBT_VERSION=0.13.16
 
