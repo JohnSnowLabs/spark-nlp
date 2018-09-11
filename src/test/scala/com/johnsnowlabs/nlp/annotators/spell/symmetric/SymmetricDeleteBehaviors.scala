@@ -1,14 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.annotators.{Tokenizer,Normalizer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
-
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.sql.DataFrame
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
@@ -26,7 +26,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   def testSuggestions(): Unit = {
     // The code above should be executed first
     spellChecker.getSuggestedCorrections("problex")
-    println("done")
   }
 
   def testLevenshteinDistance(): Unit = {
@@ -46,7 +45,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testSeveralChecks(wordAnswer:  Seq[(String, String)]): Unit = {
-    s"symspell checker " should s"successfully correct several misspells" ignore {
+    s"symspell checker " should s"successfully correct several misspells" in {
       wordAnswer.foreach( wa => {
         val misspell = wa._1
         val correction = spellChecker.check(misspell).getOrElse(misspell)
@@ -56,7 +55,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testAccuracyChecks(wordAnswer: Seq[(String, String)]): Unit = {
-    s"spell checker" should s" correct words with at least a fair accuracy" ignore {
+    s"spell checker" should s" correct words with at least a fair accuracy" in {
       val result = wordAnswer.count(wa =>
         spellChecker.check(wa._1).getOrElse(wa._1) == wa._2) / wordAnswer.length.toDouble
       println(result)
@@ -66,7 +65,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
 
   def testBigPipeline(): Unit = {
-    s"a SymSpellChecker annotator using a big pipeline" should "successfully correct words" ignore {
+    s"a SymSpellChecker annotator using a big pipeline" should "successfully correct words" in {
       val data = ContentProvider.parquetData.limit(3000)
       val corpusData = Seq.empty[String].toDS
 
@@ -97,13 +96,13 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
-      Benchmark.time("without dict") { model.transform(data).show(20, false) }
-
+      
+      assert(model.transform(data).isInstanceOf[DataFrame])
     }
   }
 
   def testBigPipelineDict(): Unit = {
-    s"a SymSpellChecker annotator using a big pipeline and a dictionary" should "successfully correct words" ignore {
+    s"a SymSpellChecker annotator using a big pipeline and a dictionary" should "successfully correct words" in {
       val data = ContentProvider.parquetData.limit(3000)
       val corpusData = Seq.empty[String].toDS
 
@@ -135,14 +134,15 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
-      Benchmark.time("with dict") { model.transform(data).show(20, false) }
+
+      assert(model.transform(data).isInstanceOf[DataFrame])
 
     }
   }
 
   def testIndividualWords(): Unit = {
     s"a SymSpellChecker annotator with pipeline of individual words" should
-      "successfully correct words with good accuracy" ignore {
+      "successfully correct words with good accuracy" in {
 
       val corpusData = Seq.empty[String].toDS
       val path = "src/test/resources/spell/misspelled_words.csv"
@@ -197,7 +197,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   def testIndividualWordsWithDictionary(): Unit = {
     s"a SymSpellChecker annotator with pipeline of individual words with dictionary" should
-      "successfully correct words with good accuracy" ignore {
+      "successfully correct words with good accuracy" in {
 
       val corpusData = Seq.empty[String].toDS
       val path = "src/test/resources/spell/misspelled_words.csv"
@@ -252,7 +252,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testDatasetBasedSpellChecker(): Unit = {
-    s"a SpellChecker annotator trained with datasets" should "successfully correct words" ignore {
+    s"a SpellChecker annotator trained with datasets" should "successfully correct words" in {
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
 
@@ -315,7 +315,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testDatasetBasedSpellCheckerWithDic(): Unit = {
-    s"a SpellChecker annotator trained with datasets and a dictionary" should "successfully correct words" ignore {
+    s"a SpellChecker annotator trained with datasets and a dictionary" should "successfully correct words" in {
       val corpusPath = "src/test/resources/spell/sherlockholmes.txt"
       val corpusData = SparkAccessor.spark.read.textFile(corpusPath)
 
@@ -379,7 +379,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   def testLoadModel(): Unit = {
     s"a SymSpellChecker annotator with load model of" should
-      "successfully correct words" ignore {
+      "successfully correct words" in {
       val data = Seq("Hello World").toDS.toDF("text")
 
       val documentAssembler = new DocumentAssembler()
@@ -411,14 +411,14 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val tspell = spell.fit(pdata)
       tspell.write.overwrite.save("./tmp_symspell")
       val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
-      println("SymSpell Checker")
-      modelSymSpell.transform(pdata).show(5)
+
+      assert(modelSymSpell.transform(pdata).isInstanceOf[DataFrame])
     }
   }
 
 
   def testEmptyDataset(): Unit = {
-    it should "rise an error message" ignore {
+    it should "rise an error message" in {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -547,6 +547,32 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val transformedWord = spellChecker.transformToOriginalCaseType(caseType, correctedWord)
 
       assert(transformedWord === expectedWord)
+
+    }
+  }
+
+  def returnTrueWhenWordIsNoisy(): Unit = {
+    it should "return true when word has a symbol somewhere" in {
+      //Assert
+      val word = "CARDIOVASCULAR:"
+
+      //Act
+      val isNoisy = spellChecker.isNoisyWord(word)
+
+      assert(isNoisy)
+
+    }
+  }
+
+  def returnFalseWhenWordIsNotNoisy(): Unit = {
+    it should "return false when word does not have a symbol somewhere" in {
+      //Assert
+      val word = "CARDIOVASCULAR"
+
+      //Act
+      val isNoisy = spellChecker.isNoisyWord(word)
+
+      assert(!isNoisy)
 
     }
   }

@@ -20,7 +20,11 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "an UPPER case word " should behave like obtainUpperCaseTypeFromUpperCaseWord
 
-  it should behave like transformUpperCaseTypeWordIntoUpperCase()
+  it should behave like transformUpperCaseTypeWordIntoUpperCase
+
+  "a noise word " should behave like returnTrueWhenWordIsNoisy
+
+  "a not noise word" should behave like returnFalseWhenWordIsNotNoisy
 
   "a simple isolated symmetric spell checker with a lowercase word" should behave like testSimpleCheck(
     Seq(("problex", "problem")))
@@ -30,6 +34,9 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a simple isolated symmetric spell checker with UPPERCASE word" should behave like testSimpleCheck(
     Seq(("PROBLEX", "PROBLEM")))
+
+  "a simple isolated symmetric spell checker with noisy word" should behave like testSimpleCheck(
+    Seq(("CARDIOVASCULAR:", "CARDIOVASCULAR:")))
 
   "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
     ("problex", "problem"),

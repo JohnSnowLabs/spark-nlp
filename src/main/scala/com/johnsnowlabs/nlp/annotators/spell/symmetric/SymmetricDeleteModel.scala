@@ -73,15 +73,32 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   def check(originalWord: String): Option[String] = {
     logger.debug(s"spell checker target word: $originalWord")
+
+    if (isNoisyWord(originalWord)) {
+      return Option(originalWord)
+    }
+    var transformedWord = originalWord
     val originalCaseType = getCaseWordType(originalWord)
     val correctedWord = getSuggestedCorrections(originalWord)
     if (correctedWord.isDefined) {
       logger.debug(s"Received: $originalWord. Best correction is: $correctedWord. " +
         s"Because frequency was ${correctedWord.get._2._1} " +
         s"and edit distance was ${correctedWord.get._2._2}")
+      transformedWord = transformToOriginalCaseType(originalCaseType, correctedWord.map(_._1).getOrElse(""))
     }
-    val transformedWord = transformToOriginalCaseType(originalCaseType, correctedWord.map(_._1).getOrElse(""))
+
     Option(transformedWord)
+  }
+
+  def isNoisyWord(word: String): Boolean = {
+    val noisyWordRegex = "[^a-zA-Z]".r
+    val matchNoisyWord = noisyWordRegex.findFirstMatchIn(word)
+
+    if (matchNoisyWord.isEmpty){
+      false
+    } else {
+      true
+    }
   }
 
   def getCaseWordType(word: String): Char = {
@@ -146,13 +163,21 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
       // process queue item
       if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
 
-        if ($$(derivedWords)(queueItem)._2 > 0) {
+//        if (queueItem == "cotde"){
+//          println("debug...")
+//          val suggestionList = $$(derivedWords).getOrElse(queueItem, (List(""), 0))
+//          println(value)
+//        }
+
+        var suggestedWordsWeight: (List[String], Long) = $$(derivedWords).getOrElse(queueItem, (List(""), 0))
+
+        if (suggestedWordsWeight._2 > 0) {
           // word is in dictionary, and is a word from the corpus, and not already in suggestion list
           // so add to suggestion dictionary, indexed by the word with value:
           // (frequency in corpus, edit distance)
           // note q_items that are not the input string are shorter than input string since only
           // deletes are added (unless manual dictionary corrections are added)
-          suggestDict(queueItem) = ($$(derivedWords)(queueItem)._2,
+          suggestDict(queueItem) = (suggestedWordsWeight._2,
             lowercaseWordLength - queueItemLength)
 
           breakable { //early exit
@@ -168,19 +193,21 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
         // the suggested corrections for q_item as stored in dictionary (whether or not queueItem itself
         // is a valid word or merely a delete) can be valid corrections
-        $$(derivedWords)(queueItem)._1.foreach(scItem => {
+        suggestedWordsWeight._1.foreach(scItem => {
           val lowercaseScItem = scItem.toLowerCase
-          if (!suggestDict.contains(lowercaseScItem)) {
-            // assert(scItem.length > queueItemLength) Include or not assertions ???
+          if (!suggestDict.contains(lowercaseScItem) && lowercaseScItem != "") {
 
             // calculate edit distance using Damerau-Levenshtein distance
             val itemDist = levenshteinDistance(lowercaseScItem, lowercaseWord)
 
             if (itemDist <= $(maxEditDistance)) {
-              suggestDict(lowercaseScItem) = ($$(derivedWords)(lowercaseScItem)._2,
-                itemDist)
-              if (itemDist < minSuggestLen) {
-                minSuggestLen = itemDist
+              suggestedWordsWeight = $$(derivedWords).getOrElse(lowercaseScItem, (List(""), 0))
+              if (suggestedWordsWeight._2 > 0){
+                suggestDict(lowercaseScItem) = (suggestedWordsWeight._2,
+                  itemDist)
+                if (itemDist < minSuggestLen) {
+                  minSuggestLen = itemDist
+                }
               }
             }
             // depending on order words are processed, some words with different edit distances may be
@@ -208,8 +235,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     } // End while
 
     // return list of suggestions with (correction, (frequency in corpus, edit distance))
-    val suggestions = suggestDict.toSeq.sortBy { case (k, (f, d)) => (d, -f, k) }.toList
 
+    val suggestions = suggestDict.toSeq.sortBy { case (k, (f, d)) => (d, -f, k) }.toList
     suggestions.headOption.orElse(None)
 
   }
