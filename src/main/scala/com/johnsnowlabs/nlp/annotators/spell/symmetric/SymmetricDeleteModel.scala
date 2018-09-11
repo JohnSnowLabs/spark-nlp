@@ -50,28 +50,72 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     HashSet($$(derivedWords).keys.toSeq.map(_.toLowerCase): _*)
   }
 
+  private val CAPITAL = 'C'
+  private val LOWERCASE = 'L'
+  private val UPPERCASE = 'U'
+
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
   def setDerivedWords(value: Map[String, (List[String], Long)]):
   this.type = set(derivedWords, value)
 
-
-  /** Utilities */
-  /** Computes Levenshtein distance :
-    * Metric of measuring difference between two sequences (edit distance)
-    * Source: https://rosettacode.org/wiki/Levenshtein_distance
-    * */
-  def levenshteinDistance(s1: String, s2: String): Int = {
-    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i else if (i == 0) j else 0 }
-
-    for (j <- 1 to s2.length; i <- 1 to s1.length)
-      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1, dist(j)(i - 1) + 1, dist(j - 1)(i - 1) + 1)
-
-    dist(s2.length)(s1.length)
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    annotations.map { token => {
+      Annotation(
+        annotatorType,
+        token.begin,
+        token.end,
+        check(token.result).getOrElse(token.result),
+        token.metadata
+      )
+    }}
   }
 
-  private def minimum(i1: Int, i2: Int, i3: Int) = min(min(i1, i2), i3)
+  def check(originalWord: String): Option[String] = {
+    logger.debug(s"spell checker target word: $originalWord")
+    val originalCaseType = getCaseWordType(originalWord)
+    val correctedWord = getSuggestedCorrections(originalWord)
+    if (correctedWord.isDefined) {
+      logger.debug(s"Received: $originalWord. Best correction is: $correctedWord. " +
+        s"Because frequency was ${correctedWord.get._2._1} " +
+        s"and edit distance was ${correctedWord.get._2._2}")
+    }
+    val transformedWord = transformToOriginalCaseType(originalCaseType, correctedWord.map(_._1).getOrElse(""))
+    Option(transformedWord)
+  }
+
+  def getCaseWordType(word: String): Char = {
+    val firstLetter = word(0).toString
+    val matchUpperCaseFirstLetter = "[A-Z]".r.findFirstMatchIn(firstLetter)
+
+    var caseType = UPPERCASE
+
+    word.foreach{letter =>
+      val matchUpperCase = "[A-Z]".r.findFirstMatchIn(letter.toString)
+      if (matchUpperCase.isEmpty){
+        if (matchUpperCaseFirstLetter.nonEmpty) {
+          caseType = CAPITAL
+        } else {
+          caseType = LOWERCASE
+        }
+      }
+    }
+
+    caseType
+  }
+
+  def transformToOriginalCaseType(caseType: Char, word: String): String ={
+
+    var transformedWord = word
+
+    if (caseType == CAPITAL){
+      val firstLetter = word(0).toString
+      transformedWord = word.replaceFirst(firstLetter, firstLetter.toUpperCase)
+    } else if(caseType == UPPERCASE) {
+      transformedWord = word.toUpperCase
+    }
+    transformedWord
+  }
 
   /** Return list of suggested corrections for potentially incorrectly
     * spelled word
@@ -170,34 +214,26 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   }
 
-  def check(raw: String): Option[String] = {
-    logger.debug(s"spell checker target word: $raw")
-    val word = getSuggestedCorrections(raw)
+  /** Utilities */
+  /** Computes Levenshtein distance :
+    * Metric of measuring difference between two sequences (edit distance)
+    * Source: https://rosettacode.org/wiki/Levenshtein_distance
+    * */
+  def levenshteinDistance(s1: String, s2: String): Int = {
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i else if (i == 0) j else 0 }
 
-    if (word.isDefined) {
-      logger.debug(s"Received: $raw. Best correction is: $word. " +
-        s"Because frequency was ${word.get._2._1} " +
-        s"and edit distance was ${word.get._2._2}")
-    }
-    word.map(_._1)
+    for (j <- 1 to s2.length; i <- 1 to s1.length)
+      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
+      else minimum(dist(j - 1)(i) + 1, dist(j)(i - 1) + 1, dist(j - 1)(i - 1) + 1)
+
+    dist(s2.length)(s1.length)
   }
 
-
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { token => {
-      Annotation(
-        annotatorType,
-        token.begin,
-        token.end,
-        check(token.result).getOrElse(token.result),
-        token.metadata
-      )
-    }}
-  }
+  private def minimum(i1: Int, i2: Int, i3: Int) = min(min(i1, i2), i3)
 
 }
 
-trait PretrainedSymmetricDelete { // ask if the name spell_sd_fast it's ok
+trait PretrainedSymmetricDelete {
   def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"),
                  remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
     ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remoteLoc)
