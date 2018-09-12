@@ -52,8 +52,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
       .setInputCols("sentence", "token")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(20)
-      .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt",
+      .setMaxEpochs(10)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
       .setRandomSeed(0)
@@ -75,16 +75,14 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val posTagger = PerceptronModel.pretrained()
 
     val nerTagger = new NerCrfApproach()
-      //.setInputCols("document", "token", "pos")
       .setInputCols("sentence", "token", "pos")
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMinEpochs(5)
-      .setMaxEpochs(15)
+      .setMaxEpochs(10)
       .setLossEps(1e-3)
-      //.setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/glove.6B/glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
-      .setEmbeddingsSource("/Users/dburbano/Documents/JSL/Corpus/PubMed-shuffle-win-2.bin",
-        200, WordEmbeddingsFormat.BINARY)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
+        100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainDatasetPath)
       .setL2(1)
       .setC0(1250000)
@@ -103,12 +101,12 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-  "An NER with DL model" should "train de-identification entities" ignore  {
-    nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_mid.csv")
+  "An NER with DL model" should "train de-identification entities" in  {
+    nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_main_small.csv")
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  it should "be serializable" ignore  {
+  it should "be serializable" in  {
     saveModel(nerDlModel.write, "./tmp/ner_dl_model")
   }
 
@@ -117,12 +115,12 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  "A NER with CRF model" should "train de-identification entities" ignore {
-    nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_mid.csv")
+  "A NER with CRF model" should "train de-identification entities" in {
+    nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_main_small.csv")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
-  it should "be serializable" ignore {
+  it should "be serializable" in {
     saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
   }
 
@@ -174,7 +172,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt")
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -219,7 +217,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
    val deIdentificationApproach = new DeIdentification()
      .setInputCols(Array("ner_con", "token ", "document"))
      .setOutputCol("dei")
-     .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+     .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_sub_categories.txt")
 
    val regexPatternsDictionary = Array(
      ("DATE", "\\d{4}-\\d{2}-\\d{2}"),
@@ -424,7 +422,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   private val deIdentificationModel = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt").fit(emptyDataset)
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt").fit(emptyDataset)
 
   //Act
   "A de-identification model when NER does not identify an entity on sentence" should behave like
@@ -507,18 +505,16 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   "A de-identification annotator with an NER DL trained with i2b2 dataset" should "transform data" in {
-    //val nerDlTagger = NerDLModel.pretrained()
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt")
 
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,
         tokenizer,
-        //nerDlTagger,
         nerDlModel,
         nerConverter,
         deIdentification
@@ -531,7 +527,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     ).toDS.toDF("text")
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
-    deIdentificationDataFrame.show(false)
+    deIdentificationDataFrame.collect()
+    //deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
@@ -542,7 +539,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt")
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -563,73 +560,11 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     ).toDS.toDF("text")
 
     deIdentificationDataFrame = pipeline.transform(testDataset)
-    // deIdentificationDataFrame.collect()
-    deIdentificationDataFrame.show(false)
+    deIdentificationDataFrame.collect()
+    //deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
   }
-
-//  "A de-identification annotator with a pretrained NER CRF with document assembler" should "transform data" in {
-//    val posTagger = PerceptronModel.pretrained()
-//    val nerPretrained = NerCrfModel.pretrained()
-//    val deIdentification = new DeIdentification()
-//      .setInputCols(Array("ner_con", "token", "document"))
-//      .setOutputCol("dei")
-//      .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
-//
-//    val pipeline = new Pipeline()
-//      .setStages(Array(
-//        documentAssembler,
-//        sentenceDetector,
-//        tokenizer,
-//        posTagger,
-//        nerPretrained
-//      )).fit(emptyDataset)
-//
-//
-//    val testDataset = Seq(
-//      "Record date: 2080-03-13",
-//      "Ms. Louise Iles is a 70yearold"
-//    ).toDS.toDF("text")
-//
-//    deIdentificationDataFrame = pipeline.transform(testDataset)
-//    deIdentificationDataFrame.show(false)
-//    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-//
-//  }
-//
-//  "A de-identification annotator with a pretrained NER CRF without document assembler" should "transform data" in {
-//
-//    val documentAssembler = new DocumentAssembler()
-//      .setInputCol("text")
-//      .setOutputCol("sentence")
-//
-//    val tokenizer = new Tokenizer()
-//      .setInputCols(Array("sentence"))
-//      .setOutputCol("token")
-//
-//    val posTagger = PerceptronModel.pretrained()
-//    val nerPretrained = NerCrfModel.pretrained()
-//
-//    val pipeline = new Pipeline()
-//      .setStages(Array(
-//        documentAssembler,
-//        tokenizer,
-//        posTagger,
-//        nerPretrained
-//      )).fit(emptyDataset)
-//
-//
-//    val testDataset = Seq(
-//      "Record date: 2080-03-13",
-//      "Ms. Louise Iles is a 70yearold"
-//    ).toDS.toDF("text")
-//
-//    deIdentificationDataFrame = pipeline.transform(testDataset)
-//    deIdentificationDataFrame.show(false)
-//    assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
-//
-//  }
 
 }
 
