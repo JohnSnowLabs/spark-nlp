@@ -1,28 +1,31 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.annotators.{Tokenizer,Normalizer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
-
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.sql.DataFrame
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
-  val spellChecker = new SymmetricDeleteApproach()
+  private val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
       ReadAs.LINE_BY_LINE,
       Map("tokenPattern" -> "[a-zA-Z]+")))
     .fit(DataBuilder.basicDataBuild("dummy"))
 
+  private val CAPITAL = 'C'
+  private val LOWERCASE = 'L'
+  private val UPPERCASE = 'U'
+
   def testSuggestions(): Unit = {
     // The code above should be executed first
     spellChecker.getSuggestedCorrections("problex")
-    println("done")
   }
 
   def testLevenshteinDistance(): Unit = {
@@ -34,7 +37,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     println("%s -> %s : %d".format(s1, s2, spellChecker.levenshteinDistance(s1, s2)))
 
   def testSimpleCheck(wordAnswer: Seq[(String, String)]): Unit ={
-    s"symspell checker " should s"successfully correct a misspell" in {
+     it should "successfully correct a misspell" in {
       val misspell = wordAnswer.head._1
       val correction = spellChecker.check(misspell).getOrElse(misspell)
       assert(correction == wordAnswer.head._2)
@@ -93,8 +96,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
-      Benchmark.time("without dict") { model.transform(data).show(20, false) }
-
+      
+      assert(model.transform(data).isInstanceOf[DataFrame])
     }
   }
 
@@ -131,7 +134,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
-      Benchmark.time("with dict") { model.transform(data).show(20, false) }
+
+      assert(model.transform(data).isInstanceOf[DataFrame])
 
     }
   }
@@ -407,8 +411,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val tspell = spell.fit(pdata)
       tspell.write.overwrite.save("./tmp_symspell")
       val modelSymSpell = SymmetricDeleteModel.load("./tmp_symspell")
-      println("SymSpell Checker")
-      modelSymSpell.transform(pdata).show(5)
+
+      assert(modelSymSpell.transform(pdata).isInstanceOf[DataFrame])
     }
   }
 
@@ -457,6 +461,119 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       }
       val message = "corpus not provided and dataset for training is empty"
       assert(thrown.getMessage === "requirement failed: " + message)
+    }
+  }
+
+  def obtainLowerCaseTypeFromALowerCaseWord(): Unit = {
+    it should "return a lower case word type" in {
+      //Assert
+      val word = "problem"
+      val expectedCaseType = LOWERCASE
+
+      //Act
+      val caseType = spellChecker.getCaseWordType(word)
+
+      assert(caseType === expectedCaseType)
+
+    }
+  }
+
+  def obtainCapitalCaseTypeFromACapitalCaseWord(): Unit = {
+    it should "return a capital case word type" in {
+      //Assert
+      val word = "Problem"
+      val expectedCaseType = CAPITAL
+
+      //Act
+      val caseType = spellChecker.getCaseWordType(word)
+
+      assert(caseType === expectedCaseType)
+
+    }
+  }
+
+  def obtainUpperCaseTypeFromUpperCaseWord(): Unit = {
+    it should "return an upper case word type" in {
+      //Assert
+      val word = "PROBLEM"
+      val expectedCaseType = UPPERCASE
+
+      //Act
+      val caseType = spellChecker.getCaseWordType(word)
+
+      assert(caseType === expectedCaseType)
+
+    }
+  }
+
+  def transformLowerCaseTypeWordIntoLowerCase(): Unit = {
+    it should "transform a corrected lower case type word into lower case" in {
+      //Assert
+      val caseType = LOWERCASE
+      val correctedWord = "problem"
+      val expectedWord = "problem"
+
+      //Act
+      val transformedWord = spellChecker.transformToOriginalCaseType(caseType, correctedWord)
+
+      assert(transformedWord === expectedWord)
+
+    }
+  }
+
+  def transformCapitalCaseTypeWordIntoCapitalCase(): Unit = {
+    it should "transform a corrected capital case type word into capital case" in {
+      //Assert
+      val caseType = CAPITAL
+      val correctedWord = "problem"
+      val expectedWord = "Problem"
+
+      //Act
+      val transformedWord = spellChecker.transformToOriginalCaseType(caseType, correctedWord)
+
+      assert(transformedWord === expectedWord)
+
+    }
+  }
+
+  def transformUpperCaseTypeWordIntoUpperCase(): Unit = {
+    it should "transform a corrected capital case type word into capital case" in {
+      //Assert
+      val caseType = UPPERCASE
+      val correctedWord = "problem"
+      val expectedWord = "PROBLEM"
+
+      //Act
+      val transformedWord = spellChecker.transformToOriginalCaseType(caseType, correctedWord)
+
+      assert(transformedWord === expectedWord)
+
+    }
+  }
+
+  def returnTrueWhenWordIsNoisy(): Unit = {
+    it should "return true when word has a symbol somewhere" in {
+      //Assert
+      val word = "CARDIOVASCULAR:"
+
+      //Act
+      val isNoisy = spellChecker.isNoisyWord(word)
+
+      assert(isNoisy)
+
+    }
+  }
+
+  def returnFalseWhenWordIsNotNoisy(): Unit = {
+    it should "return false when word does not have a symbol somewhere" in {
+      //Assert
+      val word = "CARDIOVASCULAR"
+
+      //Act
+      val isNoisy = spellChecker.isNoisyWord(word)
+
+      assert(!isNoisy)
+
     }
   }
 
