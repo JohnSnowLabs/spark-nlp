@@ -644,7 +644,7 @@ class SentimentDetector(AnnotatorApproach):
     decrementMultiplier = Param(Params._dummy(),
                                "decrementMultiplier",
                                "multiplier for decrement sentiments. Defaults -2.0",
-                               typeConverter=TypeConverters.toInt)
+                               typeConverter=TypeConverters.toFloat)
 
     reverseMultiplier = Param(Params._dummy(),
                                "reverseMultiplier",
