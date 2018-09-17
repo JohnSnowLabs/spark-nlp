@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.6.2"
+version := "1.6.3"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -167,6 +167,7 @@ publishArtifact in Test := true
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
 lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
+lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assemblyOutputPath in assembly).value
@@ -178,6 +179,13 @@ copyAssembledJar := {
 copyAssembledOcrJar := {
   val jarFilePath = (assemblyOutputPath in assembly in "ocr").value
   val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-ocr.jar").value
+  IO.copyFile(jarFilePath, newJarFilePath)
+  println(s"[info] $jarFilePath copied to $newJarFilePath ")
+}
+
+copyAssembledJarForPyPi := {
+  val jarFilePath = (assemblyOutputPath in assembly).value
+  val newJarFilePath = baseDirectory( _ / "python" / "sparknlp" / "lib"  / "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
