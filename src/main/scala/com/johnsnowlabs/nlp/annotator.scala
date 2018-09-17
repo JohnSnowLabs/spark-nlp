@@ -102,4 +102,9 @@ object annotator {
   type NerConverter = com.johnsnowlabs.nlp.annotators.ner.NerConverter
   object NerConverter extends ParamsAndFeaturesReadable[NerConverter]
 
+  type DeIdentification = com.johnsnowlabs.nlp.annotators.DeIdentification
+  object DeIdentification extends DefaultParamsReadable[DeIdentification]
+  type DeIdentificationModel = com.johnsnowlabs.nlp.annotators.DeIdentificationModel
+  object DeIdentificationModel extends DefaultParamsReadable[DeIdentificationModel]
+
 }
