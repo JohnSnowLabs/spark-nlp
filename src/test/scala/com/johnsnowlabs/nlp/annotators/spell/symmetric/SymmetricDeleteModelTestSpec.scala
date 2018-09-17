@@ -10,9 +10,33 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   //testLevenshteinDistance()
 
+  "a lower case word " should behave like obtainLowerCaseTypeFromALowerCaseWord
 
-  "a simple isolated symmetric spell checker " should behave like testSimpleCheck(
+  it should behave like transformLowerCaseTypeWordIntoLowerCase
+
+  "a Capital case word " should behave like obtainCapitalCaseTypeFromACapitalCaseWord
+
+  it should behave like transformUpperCaseTypeWordIntoUpperCase
+
+  "an UPPER case word " should behave like obtainUpperCaseTypeFromUpperCaseWord
+
+  it should behave like transformUpperCaseTypeWordIntoUpperCase
+
+  "a noise word " should behave like returnTrueWhenWordIsNoisy
+
+  "a not noise word" should behave like returnFalseWhenWordIsNotNoisy
+
+  "a simple isolated symmetric spell checker with a lowercase word" should behave like testSimpleCheck(
     Seq(("problex", "problem")))
+
+  "a simple isolated symmetric spell checker with a Capitalized word" should behave like testSimpleCheck(
+    Seq(("Problex", "Problem")))
+
+  "a simple isolated symmetric spell checker with UPPERCASE word" should behave like testSimpleCheck(
+    Seq(("PROBLEX", "PROBLEM")))
+
+  "a simple isolated symmetric spell checker with noisy word" should behave like testSimpleCheck(
+    Seq(("CARDIOVASCULAR:", "CARDIOVASCULAR:")))
 
   "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
     ("problex", "problem"),

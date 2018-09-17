@@ -26,7 +26,6 @@ class SymmetricDeleteApproach(override val uid: String)
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(maxEditDistance, 3)
-  //setDefault(longestWordLength, 0)
 
   def setCorpus(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "spell checker corpus needs 'tokenPattern' regex for " +
@@ -132,9 +131,11 @@ class SymmetricDeleteApproach(override val uid: String)
     if (get(corpus).isDefined) {
 
       val corpusWordCount = ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
-      val wordFrequencies = corpusWordCount.flatMap{case (a,b) => List((a.toLowerCase(), b))}
+      val wordFrequencies = corpusWordCount.flatMap{case (word, wordFrequency) =>
+        List((word, wordFrequency))}
       wordFeatures = derivedWordDistances(wordFrequencies.toList, $(maxEditDistance))
-      val longestWord = wordFrequencies.keysIterator.reduceLeft((x,y) => if (x.length > y.length) x else y)
+      val longestWord = wordFrequencies.keysIterator.reduceLeft((word, nextWord) =>
+        if (word.length > nextWord.length) word else nextWord)
       wordFeatures.longestWordLength = longestWord.length
 
     } else {
@@ -151,7 +152,8 @@ class SymmetricDeleteApproach(override val uid: String)
     }
 
     val model = new SymmetricDeleteModel()
-      .setDerivedWords(wordFeatures.derivedWords.mapValues(f => (f._1.toList, f._2)).toMap)
+      .setDerivedWords(wordFeatures.derivedWords.mapValues(derivedWords =>
+        (derivedWords._1.toList, derivedWords._2)).toMap)
       .setLongestWordLength(wordFeatures.longestWordLength)
 
     if (possibleDict.isDefined)
