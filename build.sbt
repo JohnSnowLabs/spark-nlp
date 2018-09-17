@@ -138,7 +138,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.6.2",
+    version := "1.6.3",
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
