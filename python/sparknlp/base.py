@@ -9,7 +9,7 @@ from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
 
 
-class SparkNlp:
+class SparkNLP:
 
     def __init__(self):
         self.spark_session = SparkSession.builder \
