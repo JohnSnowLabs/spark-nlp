@@ -19,6 +19,8 @@ PubMed*
 *.crc
 *.sst
 _SUCCESS*
+*stages*
+*auxdata*
 # External tool builders
 .externalToolBuilders/
 
