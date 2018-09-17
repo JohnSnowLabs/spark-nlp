@@ -1,3 +1,4 @@
+from pyspark.sql import SparkSession
 from pyspark import keyword_only
 from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
@@ -6,6 +7,19 @@ from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGettersSetters
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
+
+
+class SparkNlp:
+
+    def __init__(self):
+        self.spark_session = SparkSession.builder \
+            .appName("spark-nlp") \
+            .master("local[*]") \
+            .config("spark.driver.memory", "4G") \
+            .config("spark.driver.maxResultSize", "2G") \
+            .config("spark.driver.extraClassPath", "lib/sparknlp.jar") \
+            .config("spark.kryoserializer.buffer.max", "500m") \
+            .getOrCreate()
 
 
 class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
