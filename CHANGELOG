@@ -1,4 +1,41 @@
 ========
+1.6.3
+========
+---------------
+Overview
+---------------
+This release includes a new annotator for de-identification of sensitive information. It uses CHUNK annotations, meaning its accuracy will depend on previous annotators on the pipeline.
+Also, OCR capabilities have been improved in the OCR module.
+In terms of broken stuff, we've fixed a few annoying bugs on SymmetricDelete and SentenceDetector explode feature.
+Finally, pip is now part of the official repositories, meaning you can install it just as any other module. It also includes jars and we've added a SparkNLP class which creates SparkSession easily for you.
+Thanks again for all community contribution in issues, feedback and comments in GitHub and in Slack.
+
+---------------
+New features
+---------------
+* DeIdentification annotator, takes DOCUMENT and TOKEN from the original sentence, plus a CHUNK annotation to anonymize target chunk in sentence. CHUNK annotation might come from NerConverter, TextMatcher or other chunk annotators.
+
+---------------
+Enhancements
+---------------
+* Kernel zoom and region erosion improve overall detection quality. Fixed some stability bugs. Improved parallelism
+
+---------------
+Bug fixes
+---------------
+* Sentence Detector explode sentences into rows now works properly
+* Fixed Dictionary-based sentiment detector not working on pyspark
+* Added missing NerConverter to annotator._ imports
+* Fixed SymmetricDelete spell checker deleting tokens in some scenarios
+* Fixed SymmetricDelete spell checker unwilling lower-casing
+
+---------------
+Other
+---------------
+* PySpark pip now part from official pip repos
+* Pip installation now includes corresponding spark-nlp jar. base module includes SparkNLP SparkSession creator
+
+========
 1.6.2
 ========
 ---------------
@@ -40,7 +77,6 @@ Models
 ---------------
 * Vivekn Sentiment Pipeline doesn't have Spell Checker anymore
 * Fixed Vivekn Sentiment pretrained improved accuracy
-
 
 ========
 1.6.1
