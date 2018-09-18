@@ -8,8 +8,12 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
   }
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
-    assert(wLevenshteinDistance("c1ean", "clean") > wLevenshteinDistance("c!ean", "clean"))
-    assert(wLevenshteinDistance("crean", "clean") > wLevenshteinDistance("c!ean", "clean"))
-    assert(wLevenshteinDistance("Fatient", "Patient") < wLevenshteinDistance("Aatient", "Patient"))
+    assert(wLevenshteinDist("c1ean", "clean") > wLevenshteinDist("c!ean", "clean"))
+    assert(wLevenshteinDist("crean", "clean") > wLevenshteinDist("c!ean", "clean"))
+    assert(wLevenshteinDist("Fatient", "Patient") < wLevenshteinDist("Aatient", "Patient"))
+  }
+
+  "weighted Levenshtein distance" should "properly compute distance to a regular language - dates" in new Scope {
+    assert(wLevenshteinDateDist("10/0772018") == 1.0f)
   }
 }
