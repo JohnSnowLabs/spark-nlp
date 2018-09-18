@@ -7,17 +7,21 @@ from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGettersSetters
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
+import site
 
 
 class SparkNlp:
 
     def __init__(self):
+
+        jar_path = site.getsitepackages()[0] + "/sparknlp/lib/sparknlp.jar"
+
         self.spark_session = SparkSession.builder \
             .appName("spark-nlp") \
             .master("local[*]") \
             .config("spark.driver.memory", "4G") \
             .config("spark.driver.maxResultSize", "2G") \
-            .config("spark.driver.extraClassPath", "lib/sparknlp.jar") \
+            .config("spark.driver.extraClassPath", jar_path) \
             .config("spark.kryoserializer.buffer.max", "500m") \
             .getOrCreate()
 
