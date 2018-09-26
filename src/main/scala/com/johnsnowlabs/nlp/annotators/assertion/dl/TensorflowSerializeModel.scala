@@ -47,14 +47,16 @@ trait ReadTensorflowModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12))
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
-    fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
+    //TODO hardcoded path
+    fs.copyToLocalFile(new Path(path), new Path(tmpFolder))
 
+    // TODO remove hardcoded useBundle
     // 3. Read Tensorflow state
-    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString)
+    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString, zipped = false, tags = Array("our-graph"), useBundle = true)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)

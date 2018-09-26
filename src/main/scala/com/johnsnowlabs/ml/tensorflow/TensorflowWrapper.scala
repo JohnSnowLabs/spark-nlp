@@ -106,7 +106,7 @@ object TensorflowWrapper {
       val model = SavedModelBundle.load(folder, tags:_*)
       val graph = model.graph()
       val session = model.session()
-      session.runner().run()
+      //session.runner().run()
       (graph, session)
     } else {
       val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
