@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.ocr
 import com.github.liblevenshtein.transducer.Algorithm
 import org.json4s.jackson.JsonMethods
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
+import com.johnsnowlabs.nlp.SparkAccessor
 import org.scalatest._
 
 import scala.collection.mutable
@@ -51,10 +52,24 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     He deries having any chest pain, palpitalicns, He denies any worse sxtramity""".split(" ")
 
 
-    testData.foreach { term =>
+    /*testData.foreach { term =>
       transducer.transduce(term)
-    }
+    }*/
 
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
   }
+
+
+  "a model" should "train and predict" in {
+    import SparkAccessor.spark.implicits._
+    val ocrspell = new OcrSpellCheckApproach().
+      setInputCols("text").
+      train(Seq.empty[String].toDF("text"))
+
+    ocrspell.annotate(Seq.empty)
+
+  }
+
+
+
 }
