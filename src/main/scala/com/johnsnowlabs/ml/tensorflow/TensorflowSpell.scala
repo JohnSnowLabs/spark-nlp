@@ -13,17 +13,21 @@ class TensorflowSpell(
   val testInitOp = "test/init"
   val validWords = "valid_words"
   val fileNameTest = "file_name"
+  val inMemoryInput = "in-memory-input"
   val batchesKey = "batches"
   val lossKey = "loss/loss"
   val dropoutRate = "dropout_rate"
 
   val tensors = new TensorResources()
 
+  val sentMatrix = tensors.createTensor(Array(
+    Array(1, 8008, 3358, 4902, 5324, 3008, 845, 2),
+    Array(1, 8008, 9663, 4902, 5324, 3008, 845, 2)))
+
   tensorflow.session.runner
-    .feed(fileNameTest, tensors.createTensor("../auxdata/data/gap_filling_exercise.ids"))
+    .feed(inMemoryInput, sentMatrix)
     .addTarget(testInitOp)
     .run()
-
 
   def predict(dataset: Array[Array[String]], start:Array[Int], end:Array[Int]): Array[Float] = {
 
