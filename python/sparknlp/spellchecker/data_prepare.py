@@ -5,6 +5,43 @@ from functools import reduce
 # define 'token classes'
 
 
+class SuffixedToken(object):
+    def __init__(self):
+        self._suffixes = [',', '.', ')', ':']
+
+    def belongs(self, token):
+        """ does the token belong to the class? """
+        ends_in_any_suffix = reduce(lambda a, b: a or b, [token.endswith(suffix) for suffix in self._suffixes])
+        return ends_in_any_suffix
+
+    def get_rep(self, token):
+        return ([token[:-1], token[-1]])
+
+
+class RoundBracket(object):
+
+    def __init__(self):
+        self._round_brackets = re.compile("\(([^\s]+)\)")
+
+    def belongs(self, token):
+        """ does the token belong to the class? """
+        return self._round_brackets.match(token) is not None
+
+    def get_rep(self, token):
+        return ['(', self._round_brackets.match(token).group(1), ')']
+
+class Percentage(object):
+    def __init__(self):
+        self._percentage_regex = re.compile("^([0-9]{1,2}|[0-9]{1,2}\.[0-9]{1,2})%$")
+
+    def belongs(self, token):
+        """ does the token belong to the class? """
+        return self._percentage_regex.match(token) is not None
+
+    def get_rep(self, token):
+        return ['_NUM_', '%']
+
+
 class AgeToken(object):
 
     def __init__(self):

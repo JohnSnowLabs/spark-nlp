@@ -3,6 +3,7 @@ import com.github.liblevenshtein.transducer.Algorithm
 import org.json4s.jackson.JsonMethods
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.nlp.SparkAccessor
+import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{BaseParser, DictWord, DoubleQuotes}
 import org.scalatest._
 
 import scala.collection.mutable
@@ -24,7 +25,6 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
   }
 
   "levenshtein automaton" should "build index and search terms" in {
-    import scala.collection.JavaConverters._
     import scala.collection.JavaConversions._
     // TODO move to resources
     val path = "/home/jose/auxdata/ocr_spell/"
@@ -34,7 +34,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       val json = JsonMethods.parse(source.reader())
       json.children.map(_.values.toString)
     }.toSet
-
+    /*
     val transducer = new TransducerBuilder().
       dictionary(vocab.toList.sorted, true).
       algorithm(Algorithm.TRANSPOSITION).
@@ -57,19 +57,40 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     }*/
 
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+    */
   }
 
 
   "a model" should "train and predict" in {
+
     import SparkAccessor.spark.implicits._
     val ocrspell = new OcrSpellCheckApproach().
-      setInputCols("text").
-      train(Seq.empty[String].toDF("text"))
+      setInputCols("text")
+      .train(Seq.empty[String].toDF("text"))
 
     ocrspell.annotate(Seq.empty)
 
+
   }
 
+  "double quotes" should "be parsed correctly" in {
+    val result = DoubleQuotes.splits("\"aspirin\"")
+    result.foreach(println)
 
+  }
+
+/*
+  "a parser" should "recognize special tokens" in {
+    DictWord.setDict(Seq())
+    val result = BaseParser.parse("(08/10/1982),")
+    result.foreach(println)
+  }*/
+
+
+  "jsl" should "handle commas at the end" in {
+    //DictWord.setDict(null)
+    val result = BaseParser.parse("thermalis,")
+    result.foreach(println)
+  }
 
 }
