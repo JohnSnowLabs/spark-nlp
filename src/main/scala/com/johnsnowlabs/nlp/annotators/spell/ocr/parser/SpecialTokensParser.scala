@@ -4,6 +4,7 @@ import com.github.liblevenshtein.transducer.{Algorithm, ITransducer}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 
 
+
 trait TokenParser {
 
   def belongs(token:String):Boolean
@@ -11,6 +12,9 @@ trait TokenParser {
 
   // the type of tokens this parser won't detect, but will pass the token to another parser
   val parsers:Seq[TokenParser]
+
+  // separate the token with spaces so it can be tokenized splitting on spaces
+  def separate(word:String):String
 }
 
 case class CandidateSplit(candidates:Seq[Seq[String]]) {
@@ -25,7 +29,7 @@ object SuffixedToken extends TokenParser {
   private val suffixes = Array(",", ".", ":", "%")
 
   private def parse(token:String)  =
-    (token.slice(0, token.length -1), token.last.toString)
+    (token.dropRight(1), token.last.toString)
 
   override def belongs(token: String): Boolean = suffixes.map(token.endsWith).reduce(_ || _)
 
@@ -38,12 +42,20 @@ object SuffixedToken extends TokenParser {
       Seq.empty
 
   override val parsers: Seq[TokenParser] = Seq(DateToken, DictWord, NumberToken, RoundBrackets)
+
+  override def separate(token:String): String ={
+    var tmp = token
+    suffixes.foreach{ symbol =>
+      tmp = tmp.replace(symbol, s" $symbol ")
+    }
+    tmp
+  }
 }
 
 
 object DateToken extends TokenParser {
 
-  val dateRegex = "^([0-9]{2}/[0-9]{2}/[0-9]{4})$".r
+  val dateRegex = ".*([0-9]{2}/[0-9]{2}/[0-9]{4}).*".r
 
   override def belongs(token: String): Boolean = dateRegex.pattern.matcher(token).matches
 
@@ -56,11 +68,23 @@ object DateToken extends TokenParser {
   }
 
   override val parsers: Seq[TokenParser] = Seq.empty
+
+  override def separate(word: String): String = {
+    val matcher = dateRegex.pattern.matcher(word)
+    if (matcher.matches) {
+      val result = word.replace(matcher.group(1), "_DATE_")
+      println(s"$word -> $result")
+      result
+    }
+    else
+      word
+  }
+
 }
 
 object NumberToken extends TokenParser {
   private val numRegex =
-    """^([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+)$""".r
+    """^?([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)$""".r
 
   override def belongs(token: String): Boolean = numRegex.pattern.matcher(token).matches
 
@@ -72,7 +96,19 @@ object NumberToken extends TokenParser {
   }
 
   override val parsers: Seq[TokenParser] = Seq.empty
+
+  override def separate(word: String): String = {
+    val matcher = numRegex.pattern.matcher(word)
+    if(matcher.matches) {
+      val result = word.replace(matcher.group(1), "_NUM_")
+      println(s"$word -> $result")
+      result
+    }
+    else
+      word
+  }
 }
+
 
 class OpenCloseToken(open:String, close:String) extends TokenParser {
 
@@ -86,13 +122,12 @@ class OpenCloseToken(open:String, close:String) extends TokenParser {
   }
 
   override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
-}
 
-object DatesToken extends TokenParser {
-
-  override def belongs(token: String): Boolean = true
-  override def splits(token: String): Seq[CandidateSplit] = Seq.empty
-  override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
+  override def separate(word: String): String = {
+    word.
+      replace(open, s" $open ").
+      replace(close, s" $close ")
+  }
 }
 
 
@@ -123,6 +158,7 @@ class DictWord(var dict:ITransducer[String]) extends TokenParser {
 
   override val parsers: Seq[TokenParser] = Seq.empty
 
+  override def separate(word: String): String = word
 }
 
 // TODO fill this
@@ -135,7 +171,7 @@ object DoubleQuotes extends OpenCloseToken("\"", "\"")
 
 object BaseParser {
 
-  val parsers = Seq(SuffixedToken, RoundBrackets, DoubleQuotes, DatesToken)
+  val parsers = Seq(SuffixedToken, RoundBrackets, DoubleQuotes, DateToken)
 
   def parse(token:String):Seq[CandidateSplit] = {
     val splits = DictWord.splits(token)
