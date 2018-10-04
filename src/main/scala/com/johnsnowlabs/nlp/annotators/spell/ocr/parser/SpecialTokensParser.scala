@@ -1,9 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr.parser
 
-import com.github.liblevenshtein.transducer.{Algorithm, ITransducer}
-import com.github.liblevenshtein.transducer.factory.TransducerBuilder
-
-
+import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
 
 trait TokenParser {
 
@@ -17,7 +14,7 @@ trait TokenParser {
   def separate(word:String):String
 }
 
-case class CandidateSplit(candidates:Seq[Seq[String]]) {
+case class CandidateSplit(candidates:Seq[Seq[String]], cost:Int=0) {
   def appendLeft(token: String) = {
     CandidateSplit(candidates :+ Seq(token))
   }
@@ -26,7 +23,7 @@ case class CandidateSplit(candidates:Seq[Seq[String]]) {
 
 object SuffixedToken extends TokenParser {
 
-  private val suffixes = Array(",", ".", ":", "%")
+  private val suffixes = Array(",", ".", ":", "%", ";", "]", "-", "?", "'")
 
   private def parse(token:String)  =
     (token.dropRight(1), token.last.toString)
@@ -73,7 +70,7 @@ object DateToken extends TokenParser {
     val matcher = dateRegex.pattern.matcher(word)
     if (matcher.matches) {
       val result = word.replace(matcher.group(1), "_DATE_")
-      println(s"$word -> $result")
+      //println(s"$word -> $result")
       result
     }
     else
@@ -101,7 +98,7 @@ object NumberToken extends TokenParser {
     val matcher = numRegex.pattern.matcher(word)
     if(matcher.matches) {
       val result = word.replace(matcher.group(1), "_NUM_")
-      println(s"$word -> $result")
+      //println(s"$word -> $result")
       result
     }
     else
@@ -131,33 +128,29 @@ class OpenCloseToken(open:String, close:String) extends TokenParser {
 }
 
 
-class DictWord(var dict:ITransducer[String]) extends TokenParser {
+class DictWord(var dict:ITransducer[Candidate]) extends TokenParser {
   import scala.collection.JavaConversions._
 
-  def setDict(vocab:Seq[String]) = {
-    dict = new TransducerBuilder().
-      dictionary(vocab.sorted, true).
-      algorithm(Algorithm.TRANSPOSITION).
-      defaultMaxDistance(2).
-      includeDistance(true).
-      build[String]
+  def setDict(vocab:ITransducer[Candidate]) = {
+    dict = vocab
   }
 
   override def belongs(token: String): Boolean = dict != null && dict.transduce(token).iterator().hasNext
 
   override def splits(token: String): Seq[CandidateSplit] = {
     if (dict != null) { // we're parsing real data
-      val res = dict.transduce(token).toSeq
+      val res = dict.transduce(token, 3).toSeq
       if (res.isEmpty)
         Seq.empty
-      else
-        Seq(CandidateSplit(Seq(res)))
+      else {
+        val min = res.minBy(_.distance()).distance
+        Seq(CandidateSplit(Seq(res.filter(_.distance == min).map(_.term)), min))
+      }
     } else // we're extracting the vocabulary
       Seq(CandidateSplit(Seq(Seq(token))))
   }
 
   override val parsers: Seq[TokenParser] = Seq.empty
-
   override def separate(word: String): String = word
 }
 
@@ -171,18 +164,10 @@ object DoubleQuotes extends OpenCloseToken("\"", "\"")
 
 object BaseParser {
 
-  val parsers = Seq(SuffixedToken, RoundBrackets, DoubleQuotes, DateToken)
+  val parsers = Seq(SuffixedToken, RoundBrackets, DoubleQuotes, DateToken, NumberToken, DictWord)
 
   def parse(token:String):Seq[CandidateSplit] = {
-    val splits = DictWord.splits(token)
-
-    // give precedence to words coming from vocabulary
-    if(splits.length == 0) {
       parsers.flatMap(_.splits(token))
-    }
-    else {
-      splits
-    }
   }
 }
 

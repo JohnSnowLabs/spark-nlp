@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.ocr
 import com.github.liblevenshtein.transducer.Algorithm
 import org.json4s.jackson.JsonMethods
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
-import com.johnsnowlabs.nlp.SparkAccessor
+import com.johnsnowlabs.nlp.{Annotation, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{BaseParser, DictWord, DoubleQuotes}
 import org.scalatest._
 
@@ -24,7 +24,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDateDist("10/0772018") == 1.0f)
   }
 
-  "levenshtein automaton" should "build index and search terms" in {
+  "levenshtein automaton" should "build index and search terms" ignore {
     import scala.collection.JavaConversions._
     // TODO move to resources
     val path = "/home/jose/auxdata/ocr_spell/"
@@ -34,7 +34,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       val json = JsonMethods.parse(source.reader())
       json.children.map(_.values.toString)
     }.toSet
-    /*
+
     val transducer = new TransducerBuilder().
       dictionary(vocab.toList.sorted, true).
       algorithm(Algorithm.TRANSPOSITION).
@@ -57,7 +57,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     }*/
 
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
-    */
+
   }
 
 
@@ -68,8 +68,8 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       setInputCols("text")
       .train(Seq.empty[String].toDF("text"))
 
-    ocrspell.annotate(Seq.empty)
-
+    val result = ocrspell.annotate(Seq(Annotation("(01/12/1982),"), Annotation("duodenojejunostom1,")))
+    result.foreach(println)
 
   }
 

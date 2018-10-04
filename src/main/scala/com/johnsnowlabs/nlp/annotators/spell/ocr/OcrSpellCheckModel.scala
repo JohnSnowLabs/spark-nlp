@@ -1,8 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
+import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadTensorflowModel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{BaseParser, DictWord}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -12,6 +14,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   override val tfFile: String = "spell_model"
 
   private var tensorflow:TensorflowWrapper = null
+
+  private var transducer:ITransducer[Candidate] = null
+
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -38,6 +43,14 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }*/
 
+
+  def setIndex(lev:ITransducer[Candidate]) = {
+    // TODO change instantiation of this
+    DictWord.setDict(lev)
+    transducer = lev
+    this
+  }
+
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
@@ -45,12 +58,18 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokens = annotations.map(_.result)
-    model
-    _model.predict(Array(Array.empty[String]), Array.empty, Array.empty).foreach(println)
-    _model.predict(Array(Array.empty[String]), Array.empty, Array.empty).foreach(println)
-    
-    Seq.empty
+
+    // TODO integrate the LM!
+    //model.predict(Array(Array.empty[String]), Array.empty, Array.empty).foreach(println)
+    annotations.map{ annotation =>
+      val corrected = annotation.result.split(" ").map { token =>
+        // keep the one with lower cost
+        val bestCandidate = BaseParser.parse(token).minBy(_.cost)
+        bestCandidate.candidates.map(_.head) //keep one of all the possible candidate for each sub-token
+          .mkString("")
+      }.mkString(" ")
+      annotation.copy(result = corrected, metadata = annotation.metadata + ("score" -> "0.0"))
+    }
   }
 
   def this() = this(Identifiable.randomUID("SPELL"))

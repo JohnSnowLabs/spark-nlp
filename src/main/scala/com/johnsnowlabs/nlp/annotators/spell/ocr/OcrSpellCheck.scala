@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
+import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
+import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
@@ -14,6 +16,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   override val description: String = "Ocr specific Spell Checking"
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
+
+    import scala.collection.JavaConversions._
 
     // TODO: finish loading the language model
     val graph = new Graph()
@@ -37,15 +41,24 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       }
 
       // second pass identify things, and replace
-      tmp.split(" ").filter(_!=" ").foreach { token =>
+      tmp.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         vocab += NumberToken.separate(DateToken.separate(token))
       }
     }
 
+
     // Create Levenshtein Automata
+    val transducer:ITransducer[Candidate] = new TransducerBuilder().
+      dictionary(vocab.toList.sorted, true).
+      algorithm(Algorithm.TRANSPOSITION).
+      defaultMaxDistance(2).
+      includeDistance(true).
+      build[Candidate]
+
 
     // TODO: replace hard coded stuff for development only
     new OcrSpellCheckModel().
+      setIndex(transducer).
       //setTensorflow(tf).
       readModel("../auxdata/spell_model", dataset.sparkSession, "").
       setInputCols(getOrDefault(inputCols))
