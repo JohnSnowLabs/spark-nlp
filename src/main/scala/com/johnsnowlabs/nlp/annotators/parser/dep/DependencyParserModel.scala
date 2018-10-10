@@ -20,14 +20,15 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   def setSourcePath(value: ExternalResource): this.type = set(source, value)
 
-  def tag(sentence: PosTaggedSentence): DependencyParsedSentence = {
+  def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    model.parse(sentence, $(source))
+    val dependencyParsedSentence = model.parse(sentence, $(source))
+    dependencyParsedSentence
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val posTaggedSentences = PosTagged.unpack(annotations)
-    val sentencesWithDependency = posTaggedSentences.map{sentence => tag(sentence)}
+    val sentencesWithDependency = posTaggedSentences.map{sentence => getDependencyParsedSentence(sentence)}
     DependencyParsed.pack(sentencesWithDependency)
   }
 }
