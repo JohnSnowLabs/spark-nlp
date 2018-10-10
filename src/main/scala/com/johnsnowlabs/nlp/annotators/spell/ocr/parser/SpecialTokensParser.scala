@@ -1,8 +1,32 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr.parser
 
+import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
+import com.johnsnowlabs.nlp.annotators.spell.ocr.TokenClasses
+import com.navigamez.greex.GreexGenerator
 
 trait TokenParser {
+
+  val regex:String
+
+  def generateTransducer: ITransducer[Candidate] = {
+    import scala.collection.JavaConversions._
+
+    // first step, enumerate the regular language
+    val generator = new GreexGenerator(regex)
+    val matches = generator.generateAll
+
+    // second step, create the transducer
+    new TransducerBuilder().
+      dictionary(matches.toList.sorted, true).
+      algorithm(Algorithm.STANDARD).
+      defaultMaxDistance(2).
+      includeDistance(true).
+      build[Candidate]
+  }
+
+  def replaceWithLabel(tmp: String): String
+
 
   def belongs(token:String):Boolean
   def splits(token:String):Seq[CandidateSplit]
@@ -14,16 +38,14 @@ trait TokenParser {
   def separate(word:String):String
 }
 
-case class CandidateSplit(candidates:Seq[Seq[String]], cost:Int=0) {
+case class CandidateSplit(candidates:Seq[Seq[String]], cost:Float=0f) {
   def appendLeft(token: String) = {
     CandidateSplit(candidates :+ Seq(token))
   }
 }
 
 
-object SuffixedToken extends TokenParser {
-
-  private val suffixes = Array(",", ".", ":", "%", ";", "]", "-", "?", "'")
+class SuffixedToken(suffixes:Array[String]) extends TokenParser {
 
   private def parse(token:String)  =
     (token.dropRight(1), token.last.toString)
@@ -38,28 +60,79 @@ object SuffixedToken extends TokenParser {
     else
       Seq.empty
 
-  override val parsers: Seq[TokenParser] = Seq(DateToken, DictWord, NumberToken, RoundBrackets)
+  override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
+
+  override def separate(token:String): String = {
+    if(belongs(token)) {
+      var tmp = token
+      suffixes.foreach { symbol =>
+        tmp = tmp.replace(symbol, s" $symbol ")
+      }
+      tmp
+    }
+    else
+      token
+  }
+
+  // so far we don't see a reason to replace this one
+  override def replaceWithLabel(tmp: String): String = tmp
+  override val regex: String = ""
+}
+
+object SuffixedToken {
+  def apply(suffixes:Array[String]) = new SuffixedToken(suffixes)
+}
+
+
+
+class PrefixedToken(prefixes:Array[String]) extends TokenParser {
+
+  private def parse(token:String)  =
+    (token.head.toString, token.tail)
+
+  override def belongs(token: String): Boolean = prefixes.map(token.head.toString.equals).reduce(_ || _)
+
+  override def splits(token: String): Seq[CandidateSplit] =
+    if (belongs(token)) {
+      val (prefix, suffix) = parse(token)
+      parsers.flatMap(_.splits(prefix)).map(_.appendLeft(suffix))
+    }
+    else
+      Seq.empty
+
+  override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
 
   override def separate(token:String): String ={
     var tmp = token
-    suffixes.foreach{ symbol =>
+    prefixes.foreach{ symbol =>
       tmp = tmp.replace(symbol, s" $symbol ")
     }
     tmp
   }
+
+  // so far we don't see a reason to replace this one
+  override def replaceWithLabel(tmp: String): String = tmp
+  override val regex: String = ""
 }
 
+object PrefixedToken {
+  def apply(prefixes:Array[String]) = new PrefixedToken(prefixes)
+}
 
-object DateToken extends TokenParser {
+object DateToken extends TokenParser with TokenClasses{
 
-  val dateRegex = ".*([0-9]{2}/[0-9]{2}/[0-9]{4}).*".r
+  val dateRegex = "\\(?(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}\\)?".r
+  override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}"
 
   override def belongs(token: String): Boolean = dateRegex.pattern.matcher(token).matches
 
   // so far it only proposes candidates with 0 distance(the token itself)
   override def splits(token: String): Seq[CandidateSplit] ={
-    if (belongs(token))
-      Seq(CandidateSplit(Seq(Seq(token))))
+    val dist = wLevenshteinDateDist(token)
+    if (dist < 3.0) {
+      //val candidates = ??? -> Seq(token)
+      Seq(CandidateSplit(Seq(Seq(token)), dist))
+    }
     else
       Seq.empty
   }
@@ -69,7 +142,7 @@ object DateToken extends TokenParser {
   override def separate(word: String): String = {
     val matcher = dateRegex.pattern.matcher(word)
     if (matcher.matches) {
-      val result = word.replace(matcher.group(1), "_DATE_")
+      val result = word.replace(matcher.group(0), "_DATE_")
       //println(s"$word -> $result")
       result
     }
@@ -77,11 +150,17 @@ object DateToken extends TokenParser {
       word
   }
 
+  override def replaceWithLabel(tmp: String): String = separate(tmp)
+
 }
 
 object NumberToken extends TokenParser {
+
   private val numRegex =
-    """^?([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)$""".r
+    """([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)""".r
+
+  override val regex =
+    "([0-9]{1,4}\\.[0-9]{1,2}|[0-9]{1,2})"
 
   override def belongs(token: String): Boolean = numRegex.pattern.matcher(token).matches
 
@@ -104,70 +183,9 @@ object NumberToken extends TokenParser {
     else
       word
   }
+
+  override def replaceWithLabel(tmp: String): String = separate(tmp)
+
 }
 
-
-class OpenCloseToken(open:String, close:String) extends TokenParser {
-
-  override def belongs(token: String): Boolean = token.startsWith(open) && token.endsWith(close)
-
-  override def splits(token: String): Seq[CandidateSplit] = {
-    if(belongs(token))
-      Seq(CandidateSplit(Seq(Seq(open), Seq(token.drop(1).dropRight(1)), Seq(close))))
-    else
-      Seq.empty
-  }
-
-  override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
-
-  override def separate(word: String): String = {
-    word.
-      replace(open, s" $open ").
-      replace(close, s" $close ")
-  }
-}
-
-
-class DictWord(var dict:ITransducer[Candidate]) extends TokenParser {
-  import scala.collection.JavaConversions._
-
-  def setDict(vocab:ITransducer[Candidate]) = {
-    dict = vocab
-  }
-
-  override def belongs(token: String): Boolean = dict != null && dict.transduce(token).iterator().hasNext
-
-  override def splits(token: String): Seq[CandidateSplit] = {
-    if (dict != null) { // we're parsing real data
-      val res = dict.transduce(token, 3).toSeq
-      if (res.isEmpty)
-        Seq.empty
-      else {
-        val min = res.minBy(_.distance()).distance
-        Seq(CandidateSplit(Seq(res.filter(_.distance == min).map(_.term)), min))
-      }
-    } else // we're extracting the vocabulary
-      Seq(CandidateSplit(Seq(Seq(token))))
-  }
-
-  override val parsers: Seq[TokenParser] = Seq.empty
-  override def separate(word: String): String = word
-}
-
-// TODO fill this
-object DictWord extends DictWord(null)
-
-object RoundBrackets extends OpenCloseToken("(", ")")
-object DoubleQuotes extends OpenCloseToken("\"", "\"")
-
-
-
-object BaseParser {
-
-  val parsers = Seq(SuffixedToken, RoundBrackets, DoubleQuotes, DateToken, NumberToken, DictWord)
-
-  def parse(token:String):Seq[CandidateSplit] = {
-      parsers.flatMap(_.splits(token))
-  }
-}
 

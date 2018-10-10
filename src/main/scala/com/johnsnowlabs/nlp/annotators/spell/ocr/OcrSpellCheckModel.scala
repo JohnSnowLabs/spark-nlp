@@ -4,10 +4,10 @@ import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadTensorflowModel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{BaseParser, DictWord}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import scala.collection.mutable.HashMap
 
 class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel] with ReadTensorflowModel {
 
@@ -17,6 +17,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var transducer:ITransducer[Candidate] = null
 
+  private var specialClassesTransducers: Seq[ITransducer[Candidate]] = null
+
+  private var vocab: HashMap[String, Double] = null
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -44,10 +47,18 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   }*/
 
 
-  def setIndex(lev:ITransducer[Candidate]) = {
-    // TODO change instantiation of this
-    DictWord.setDict(lev)
-    transducer = lev
+  def setVocabTransducer(trans:ITransducer[Candidate]) = {
+    transducer = trans
+    this
+  }
+
+  def setVocab(v: HashMap[String, Double]) = {
+    vocab = v
+    this
+  }
+
+  def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = {
+    specialClassesTransducers = transducers
     this
   }
 
@@ -58,17 +69,30 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    import scala.collection.JavaConversions._
+    val allTransducers = specialClassesTransducers :+ transducer
 
     // TODO integrate the LM!
     //model.predict(Array(Array.empty[String]), Array.empty, Array.empty).foreach(println)
+
     annotations.map{ annotation =>
       val corrected = annotation.result.split(" ").map { token =>
-        // keep the one with lower cost
-        val bestCandidate = BaseParser.parse(token).minBy(_.cost)
-        bestCandidate.candidates.map(_.head) //keep one of all the possible candidate for each sub-token
-          .mkString("")
-      }.mkString(" ")
-      annotation.copy(result = corrected, metadata = annotation.metadata + ("score" -> "0.0"))
+        // ask each token class for candidates, keep the one with lower cost
+        val candidates = allTransducers.flatMap(_.transduce(token, 2))
+        val min = candidates.map(_.distance).min
+
+        val candW = candidates.map{ c =>
+          val weight = -vocab(c.term) / 60.0 + c.distance.toDouble / token.size
+          (c.term, weight)
+        }.sortBy(_._2).take(15)
+
+
+        println(s"""$token -> ${candW.toList.take(7)}""")
+        (candidates.minBy(_.distance), min)
+      }
+      val globalMin = corrected.map(_._2).sum.toString
+      annotation.copy(result = corrected.map(_._1.term).mkString(" "),
+        metadata = annotation.metadata + ("score" -> globalMin))
     }
   }
 

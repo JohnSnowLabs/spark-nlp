@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
-import com.github.liblevenshtein.transducer.Algorithm
+import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import org.json4s.jackson.JsonMethods
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.nlp.{Annotation, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{BaseParser, DictWord, DoubleQuotes}
 import org.scalatest._
 
 import scala.collection.mutable
@@ -14,7 +13,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     weights += ('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
   }
 
-  "weighted Levenshtein distance" should "produce weighted results" in new Scope {
+  "weighted Levenshtein distance" should "produce weighted results" ignore new Scope {
     assert(wLevenshteinDist("c1ean", "clean") > wLevenshteinDist("c!ean", "clean"))
     assert(wLevenshteinDist("crean", "clean") > wLevenshteinDist("c!ean", "clean"))
     assert(wLevenshteinDist("Fatient", "Patient") < wLevenshteinDist("Aatient", "Patient"))
@@ -51,13 +50,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     pains, diffusely. He also complains of "bene pain’. He denies having any fevers or chills.
     He deries having any chest pain, palpitalicns, He denies any worse sxtramity""".split(" ")
 
-
-    /*testData.foreach { term =>
-      transducer.transduce(term)
-    }*/
-
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
-
   }
 
 
@@ -65,32 +58,58 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
     import SparkAccessor.spark.implicits._
     val ocrspell = new OcrSpellCheckApproach().
-      setInputCols("text")
-      .train(Seq.empty[String].toDF("text"))
+                    setInputCols("text").
+                    setTrainCorpus("../auxdata/spell_dataset/vocab/spell_corpus.txt").
+                    train(Seq.empty[String].toDF("text"))
 
-    val result = ocrspell.annotate(Seq(Annotation("(01/12/1982),"), Annotation("duodenojejunostom1,")))
-    result.foreach(println)
+    val result = ocrspell.annotate(Seq(
+      Annotation("swelling than his baseline. He states ha's teen compliant with his medications. Although he stales he ran out of his Eliquis & few wesks ago. He denies having any blood in his stools or meiena, although he does 1ake iron pills and states his stools arc frequently black His hemoglobin is a1 baseline."),
+      Annotation("(01712/1982),"), Annotation("duodenojejunostom1,")))
+
+    assert(result.exists(_.result == "duodenojejunostomy,"))
+    assert(result.exists(_.result == "(01/12/1982)"))
 
   }
 
-  "double quotes" should "be parsed correctly" in {
-    val result = DoubleQuotes.splits("\"aspirin\"")
-    result.foreach(println)
+  "levenshtein automata" should "handle dates" ignore {
+    import scala.collection.JavaConversions._
+
+    import com.navigamez.greex.GreexGenerator
+    val generator = new GreexGenerator("\\(?(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}\\)?")
+    //val generator = new GreexGenerator("([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)")
+    val matches = generator.generateAll
+
+    val transducer = new TransducerBuilder().
+      dictionary(matches.toList.sorted, true).
+      algorithm(Algorithm.TRANSPOSITION).
+      defaultMaxDistance(2).
+      includeDistance(true).
+      build[Candidate]
+
+    val result = transducer.transduce("123.23", 1)
+    result.foreach(cand => println(cand.term))
 
   }
+
+  /*
+    "double quotes" should "be parsed correctly" in {
+      val result = DoubleQuotes.splits("\"aspirin\"")
+      result.foreach(println)
+
+    }
+
+
+    "a parser" should "recognize special tokens" in {
+      DictWord.setDict(Seq())
+      val result = BaseParser.parse("(08/10/1982),")
+      result.foreach(println)
+    }*/
 
 /*
-  "a parser" should "recognize special tokens" in {
-    DictWord.setDict(Seq())
-    val result = BaseParser.parse("(08/10/1982),")
-    result.foreach(println)
-  }*/
-
-
   "jsl" should "handle commas at the end" in {
     //DictWord.setDict(null)
     val result = BaseParser.parse("thermalis,")
     result.foreach(println)
-  }
+  }*/
 
 }
