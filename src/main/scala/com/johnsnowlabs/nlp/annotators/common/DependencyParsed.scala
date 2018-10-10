@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 case class DependencyParsedSentence(tokens: Array[WordWithDependency])
 
-case class WordWithDependency(word: String, begin: Int, end: Int, dependency: Int)
+case class WordWithDependency(word: String, begin: Int, end: Int, head: Int)
 
 
 object DependencyParsed extends Annotated[DependencyParsedSentence]{
@@ -38,7 +38,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
     items.flatMap{sentence =>
       sentence.tokens.map(t =>
-        Annotation(annotatorType, t.begin, t.end, t.dependency.toString, Map.empty[String, String]))
+        Annotation(annotatorType, t.begin, t.end, t.head.toString, Map("head"->t.head.toString)))
     }
   }
 }

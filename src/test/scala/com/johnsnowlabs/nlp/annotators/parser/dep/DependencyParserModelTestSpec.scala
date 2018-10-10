@@ -86,8 +86,8 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val emptyDataset = PipelineModels.dummyDataset
 
   private val testDataset = Seq(
-    //"One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know.",
-    //"I saw a girl with a telescope"
+    "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know.",
+    "I saw a girl with a telescope",
     "MSNBC reported that Facebook bought WhatsApp for 16bn"
   ).toDS.toDF("text")
 
@@ -104,7 +104,6 @@ class DependencyParserModelTestSpec extends FlatSpec {
     val dependencyParserDataset = model.transform(testDataset)
     dependencyParserDataset.show(false)
   }
-
 
   "A dependency parser model" should "parse sentences showing relationship between words" in {
     dependencyParcerTest()
