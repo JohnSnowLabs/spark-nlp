@@ -23,7 +23,7 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
   "A Normalizer pipeline with latin content and disabled lowercasing" should behave like lowercasingNormalizerPipeline(latinBodyData)
 
 
-  var data = Seq(
+  private var data = Seq(
     //("lol", "laugh out loud"),
     ("gr8", "great"),
      ("b4", "before"),
@@ -33,12 +33,19 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
   "an isolated normalizer " should behave like testCorrectSlangs(data)
 
   data = Seq(
+    //("payment", "payment"),
+    //("pay", "pay"),
+    ("pymt", "payment"),
+    ("pmt", "payment")
+  ).toDS.toDF("text", "normalized_gt")
+
+  "an isolated normalizer" should behave like correctSlangsWithAnyDelimiter(data)
+
+  data = Seq(
     ("test-ing", "testing"),
     ("test-ingX", "testing")
   ).toDS.toDF("text", "normalized_gt")
 
   "an isolated normalizer " should behave like testMultipleRegexPatterns(data)
-
-  //"a loaded model " should behave like testLoadModel()
 
 }

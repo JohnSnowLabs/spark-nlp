@@ -14,7 +14,7 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val annotatorType: String = DEPENDENCY
 
-  override val requiredAnnotatorTypes =  Array[String](DOCUMENT, POS, TOKEN)
+  override val requiredAnnotatorTypes:Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
   val source = new ExternalResourceParam(this, "source", "source file for dependency model")
 
