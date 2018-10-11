@@ -51,6 +51,8 @@ bintrayOrganization := Some("johnsnowlabs")
 
 sonatypeProfileName := "com.johnsnowlabs"
 
+addArtifact(Artifact("spark-nlp", "assembly"), sbtassembly.AssemblyKeys.assembly)
+
 publishTo := Some(
   if (isSnapshot.value)
     Opts.resolver.sonatypeSnapshots
