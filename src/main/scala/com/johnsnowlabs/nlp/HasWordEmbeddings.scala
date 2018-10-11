@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp
 import java.io.File
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsHelper, SparkWordEmbeddings, WordEmbeddings, WordEmbeddingsFormat}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.sql.SparkSession
@@ -21,16 +21,37 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   val nDims = new IntParam(this, "nDims", "Number of embedding dimensions")
   val indexPath = new Param[String](this, "indexPath", "File that stores Index")
+  val includeEmbeddings = new BooleanParam(this, "includeEmbeddings", "whether to include embeddings when saving annotator")
   val useNormalizedTokensForEmbeddings = new BooleanParam(this, "useNormalizedTokensForEmbeddings", "whether to use embeddings of normalized tokens (if not already normalized)")
 
   def setDims(nDims: Int): this.type = set(this.nDims, nDims)
   def setIndexPath(path: String): this.type = set(this.indexPath, path)
+  def setIncludeEmbeddings(value: Boolean): this.type = set(this.includeEmbeddings, value)
   def setUseNormalizedTokensForEmbeddings(value: Boolean): this.type = set(this.useNormalizedTokensForEmbeddings, value)
+
+  def setEmbeddings(path: String, spark: SparkSession): this.type = {
+    if (sparkEmbeddings == null)
+      sparkEmbeddings = new SparkWordEmbeddings($(indexPath), $(nDims), $(useNormalizedTokensForEmbeddings))
+    else
+      throw new UnsupportedOperationException("Trying to override a already set embeddings")
+    this
+  }
+
+  def setEmbeddings(embeddings: SparkWordEmbeddings): Unit = {
+    if (sparkEmbeddings == null)
+      sparkEmbeddings = embeddings
+    else
+      throw new UnsupportedOperationException("Trying to override a already set embeddings")
+  }
+
+  def saveEmbeddings(path: String, spark: SparkSession): Unit = {
+    serializeEmbeddings(path, spark.sparkContext)
+  }
 
   setDefault(useNormalizedTokensForEmbeddings, true)
 
   @transient
-  private var sparkEmbeddings: SparkWordEmbeddings = null
+  private[nlp] var sparkEmbeddings: SparkWordEmbeddings = _
 
   def embeddings: Option[WordEmbeddings] = get(indexPath).map { path =>
     if (sparkEmbeddings == null)
@@ -53,28 +74,18 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   }
 
   def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
-    val src = getEmbeddingsSerializedPath(path)
-
-    if (fs.exists(src)) {
-      val embeddings = SparkWordEmbeddings(spark, src.toUri.toString, 0, $(useNormalizedTokensForEmbeddings), WordEmbeddingsFormat.SPARKNLP)
-      setIndexPath(embeddings.clusterFilePath.toString)
+    val embeddings = EmbeddingsHelper.loadEmbeddings(path, spark, $(useNormalizedTokensForEmbeddings))
+    if (embeddings.isDefined) {
+      setIndexPath(embeddings.get.clusterFilePath.toString)
+      sparkEmbeddings = embeddings.get
     }
   }
 
   def serializeEmbeddings(path: String, spark: SparkContext): Unit = {
-    if (isDefined(indexPath)) {
-      val index = new Path(SparkFiles.get($(indexPath)))
-      val uri = new java.net.URI(path)
-      val fs = FileSystem.get(uri, spark.hadoopConfiguration)
-
-      val dst = getEmbeddingsSerializedPath(path)
-      fs.copyFromLocalFile(false, true, index, dst)
+    if ($(includeEmbeddings) && isDefined(indexPath)) {
+      EmbeddingsHelper.saveEmbeddings(path, spark, $(indexPath))
     }
   }
-
-  def getEmbeddingsSerializedPath(path: String): Path = Path.mergePaths(new Path(path), new Path("/embeddings"))
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     serializeEmbeddings(path, spark.sparkContext)
