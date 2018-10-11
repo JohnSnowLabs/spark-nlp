@@ -18,7 +18,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
 class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normalize: Boolean) extends Serializable {
 
   @transient
-  private var wordEmbeddingsValue: WordEmbeddings = null
+  private var wordEmbeddingsValue: WordEmbeddings = _
 
   def wordEmbeddings: WordEmbeddings = {
     // Have to copy file because RockDB changes it and Spark rises Exception
