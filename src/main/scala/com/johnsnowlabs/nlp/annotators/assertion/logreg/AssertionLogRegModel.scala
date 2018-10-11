@@ -18,12 +18,12 @@ import scala.collection.immutable.Map
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with HasWordEmbeddings  {
+  with Windowing with ModelWithWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
   override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
-  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
+  override lazy val wordVectors: WordEmbeddings = embeddings
 
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")

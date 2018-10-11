@@ -18,7 +18,7 @@ import org.apache.spark.sql.SparkSession
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
-    with HasWordEmbeddings
+    with ModelWithWordEmbeddings
     with WriteTensorflowModel
     with ParamsAndFeaturesWritable {
 
@@ -50,10 +50,9 @@ class NerDLModel(override val uid: String)
   lazy val model: TensorflowNer = {
     if (_model == null) {
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
-      require(embeddings.isDefined, "Embeddings must be defined before usage")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new NerDatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
+      val encoder = new NerDatasetEncoder(embeddings.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowNer(
         tensorflow,
         encoder,

@@ -16,7 +16,7 @@ import org.apache.spark.sql.functions._
   * Created by jose on 14/03/18.
   */
 class AssertionDLModel(override val uid: String) extends AnnotatorModel[AssertionDLModel]
-  with HasWordEmbeddings
+  with ModelWithWordEmbeddings
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable {
 
@@ -45,10 +45,9 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
   def model: TensorflowAssertion = {
     if (_model == null) {
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
-      require(embeddings.isDefined, "Embeddings must be defined before usage")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new AssertionDatasetEncoder(embeddings.get.getEmbeddings, datasetParams.get.get)
+      val encoder = new AssertionDatasetEncoder(embeddings.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowAssertion(
         tensorflow,
         encoder,
