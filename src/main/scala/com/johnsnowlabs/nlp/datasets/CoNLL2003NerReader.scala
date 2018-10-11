@@ -22,7 +22,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   private val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
   private val posReader = CoNLL(1, AnnotatorType.POS)
 
-  private var wordEmbeddings: Option[WordEmbeddings] = None
+  private var wordEmbeddings: WordEmbeddings = _
 
   if (wordEmbeddingsFile != null) {
     require(new File(wordEmbeddingsFile).exists())
@@ -41,7 +41,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = Some(WordEmbeddings(fileDb, wordEmbeddingsNDims, normalize))
+      wordEmbeddings = WordEmbeddings(fileDb, wordEmbeddingsNDims, normalize)
     }
   }
 

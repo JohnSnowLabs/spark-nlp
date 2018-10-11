@@ -54,7 +54,7 @@ abstract class AnnotatorModel[M <: Model[M]]
       s"${requiredAnnotatorTypes.mkString(", ")}")
     this match {
         // Preload embeddings once
-      case withEmbeddings: HasWordEmbeddings => withEmbeddings.embeddings
+      case withEmbeddings: ModelWithWordEmbeddings => withEmbeddings.embeddings
       case _ =>
     }
 

@@ -11,16 +11,10 @@ import scala.collection.mutable
   * Generates features for CrfBasedNer
   */
 case class FeatureGenerator(dictFeatures: DictionaryFeatures,
-                            embeddings: Option[WordEmbeddings] = None) {
-
-  val emptyEmbedding = if (embeddings.isEmpty) Array.empty[Float] else Array.fill[Float](embeddings.get.nDims)(0f)
+                            embeddings: WordEmbeddings) {
 
   def getEmbeddings(token: String): Array[Float] = {
-    if (embeddings.isEmpty) {
-      emptyEmbedding
-    } else {
-      embeddings.get.getEmbeddings(token)
-    }
+    embeddings.getEmbeddings(token)
   }
 
   val shapeEncoding = Map(

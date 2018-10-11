@@ -28,7 +28,7 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normali
     synchronized {
       if (wordEmbeddingsValue == null) {
         if (!new File(workPath).exists()) {
-          require(new File(src).exists(), s"file $src must be added to sparkContext")
+          require(new File(src).exists(), s"indexed embeddings at $src not found")
           FileUtil.deepCopy(new File(src), new File(workPath), null, false)
         }
 

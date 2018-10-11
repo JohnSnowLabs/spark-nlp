@@ -18,7 +18,7 @@ trait Windowing extends Serializable {
 
   val tokenizer : Tokenizer
 
-  def wordVectors(): Option[WordEmbeddings] = None
+  def wordVectors(): WordEmbeddings
 
   def tokenIndexToSubstringIndex(doc: String, s: Int, e: Int): (Int, Int) = {
     val tokens = doc.split(" ").filter(_!="")
@@ -82,7 +82,7 @@ trait Windowing extends Serializable {
       /** NOTE: Yes, this only works with one sentence per row, start end applies only to first */
       val doc = Annotation(documents.head).result
       val (start, end) = tokenIndexToSubstringIndex(doc, s, e)
-      Vectors.dense(applyWindow(wordVectors().get)(doc, start, end))
+      Vectors.dense(applyWindow(wordVectors())(doc, start, end))
     }}
 
   private case class IndexedChunk(sentence: String, chunkBegin: Int, chunkEnd: Int)
@@ -111,7 +111,7 @@ trait Windowing extends Serializable {
           }
         }
 
-      indexed.map ( r => Vectors.dense(applyWindow(wordVectors().get)(r.sentence, r.chunkBegin, r.chunkEnd)) )
+      indexed.map ( r => Vectors.dense(applyWindow(wordVectors())(r.sentence, r.chunkBegin, r.chunkEnd)) )
 
     }}
 
