@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import org.apache.spark.ml.Model
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -54,7 +55,7 @@ abstract class AnnotatorModel[M <: Model[M]]
       s"${requiredAnnotatorTypes.mkString(", ")}")
     this match {
         // Preload embeddings once
-      case withEmbeddings: ModelWithWordEmbeddings => withEmbeddings.embeddings
+      case withEmbeddings: ModelWithWordEmbeddings => withEmbeddings.getWordEmbeddings
       case _ =>
     }
 
