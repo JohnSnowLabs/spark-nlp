@@ -19,30 +19,6 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
   private def getEmbeddingsSerializedPath(path: String): Path =
     Path.mergePaths(new Path(path), new Path("/embeddings"))
 
-  private def updateAvailableEmbeddings: Unit = {
-    /** clusterEmbeddings may become null when a different thread calls getEmbeddings. Clean up now. */
-    val cleanEmbeddings: Option[SparkWordEmbeddings] = if (clusterEmbeddings == null) None else clusterEmbeddings
-    val currentEmbeddings = cleanEmbeddings
-      .orElse(get(includedEmbeddingsRef).flatMap(ref => EmbeddingsHelper.embeddingsCache.get(ref)))
-      .orElse(get(includedEmbeddingsIndexPath).flatMap(path => EmbeddingsHelper.loadEmbeddings(path, $(embeddingsDim), $(caseSensitiveEmbeddings))))
-      .getOrElse(throw new NoSuchElementException(
-        s"Word embeddings missing. " +
-          s"Not in ref cache ${get(includedEmbeddingsRef).getOrElse("")} " +
-          s"or embeddings not included. Check includeEmbeddings or includedEmbeddingsRef params")
-      )
-
-    setEmbeddingsIfFNotSet(currentEmbeddings)
-  }
-
-  def getEmbeddings: SparkWordEmbeddings = {
-    updateAvailableEmbeddings
-    clusterEmbeddings.getOrElse(throw new NoSuchElementException(s"embeddings not set in $uid"))
-  }
-
-  def getWordEmbeddings: WordEmbeddings = {
-    getEmbeddings.wordEmbeddings
-  }
-
   def moveFolderFiles(folderSrc: String, folderDst: String): Unit = {
     for (file <- new File(folderSrc).list()) {
       Files.move(Paths.get(folderSrc, file), Paths.get(folderDst, file))
@@ -76,10 +52,6 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
       EmbeddingsHelper.saveEmbeddings(fs, index, dst)
     }
-  }
-
-  override def beforeWrite(): Unit = {
-    clear(includedEmbeddingsIndexPath)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

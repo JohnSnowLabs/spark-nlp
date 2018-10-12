@@ -26,16 +26,46 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setCaseSensitiveEmbeddings(value: Boolean): this.type = set(this.caseSensitiveEmbeddings, value)
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
 
-  def setEmbeddings(embeddings: SparkWordEmbeddings): Unit = {
+  def setEmbeddings(embeddings: SparkWordEmbeddings): this.type = {
     set(embeddingsDim, embeddings.dim)
     set(caseSensitiveEmbeddings, embeddings.caseSensitive)
     set(includedEmbeddingsIndexPath, embeddings.clusterFilePath)
     clusterEmbeddings = Some(embeddings)
+
+    this
   }
 
-  def setEmbeddingsIfFNotSet(embeddings: SparkWordEmbeddings): Unit = {
+  def setEmbeddingsIfFNotSet(embeddings: SparkWordEmbeddings): this.type = {
     if (clusterEmbeddings == null || clusterEmbeddings.isEmpty)
       setEmbeddings(embeddings)
+    else
+      this
+  }
+
+  private def updateAvailableEmbeddings(): Unit = {
+    /** clusterEmbeddings may become null when a different thread calls getEmbeddings. Clean up now. */
+    val cleanEmbeddings: Option[SparkWordEmbeddings] = if (clusterEmbeddings == null) None else clusterEmbeddings
+    val currentEmbeddings = cleanEmbeddings
+      .orElse(get(includedEmbeddingsRef)
+        .flatMap(ref => EmbeddingsHelper.embeddingsCache.get(ref)))
+      .orElse(get(includedEmbeddingsIndexPath).filter(_ => $(includeEmbeddings))
+        .flatMap(path => EmbeddingsHelper.loadEmbeddings(path, $(embeddingsDim), $(caseSensitiveEmbeddings))))
+      .getOrElse(throw new NoSuchElementException(
+        s"Word embeddings missing. " +
+          s"Not in ref cache ${get(includedEmbeddingsRef).getOrElse("")} " +
+          s"or embeddings not included. Check includeEmbeddings or includedEmbeddingsRef params")
+      )
+
+    setEmbeddingsIfFNotSet(currentEmbeddings)
+  }
+
+  def getEmbeddings: SparkWordEmbeddings = {
+    updateAvailableEmbeddings()
+    clusterEmbeddings.getOrElse(throw new NoSuchElementException(s"embeddings not set in $uid"))
+  }
+
+  def getWordEmbeddings: WordEmbeddings = {
+    getEmbeddings.wordEmbeddings
   }
 
   override def close(): Unit = {
