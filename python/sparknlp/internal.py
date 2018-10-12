@@ -89,3 +89,4 @@ class _OcrCreateMap(ExtendedJavaWrapper):
     def __init__(self, input_path):
         super(_OcrCreateMap, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createMap")
         self._java_obj = self._new_java_obj(self._java_obj, input_path)
+

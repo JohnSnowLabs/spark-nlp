@@ -59,10 +59,10 @@ class RNNLM(object):
 
         training_dataset = tf.data.TextLineDataset(self.file_name_train).map(parse).shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None]))
         validation_dataset = tf.data.TextLineDataset(self.file_name_validation).map(parse).padded_batch(self.batch_size, padded_shapes=([None], [None]))
-        #test_dataset = tf.data.TextLineDataset(self.file_name_test).map(parse).batch(1)
-        test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(parse_row).batch(1)
+        test_dataset = tf.data.TextLineDataset(self.file_name_test).map(parse).batch(1)
+        #test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(parse_row).batch(1)
 
-        iterator = tf.contrib.data.Iterator.from_structure(training_dataset.output_types,
+        iterator = tf.data.Iterator.from_structure(training_dataset.output_types,
                                               training_dataset.output_shapes)
 
         self.input_batch, self.output_batch = iterator.get_next("batches")
@@ -72,11 +72,12 @@ class RNNLM(object):
         self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
 
         # Input embedding mat
-        self.input_embedding_mat = tf.get_variable("input_embedding_mat",
+        with tf.device('/cpu:0'):
+            self.input_embedding_mat = tf.get_variable("input_embedding_mat",
                                                    [self.vocab_size, self.num_hidden_units],
                                                    dtype=tf.float32)
 
-        self.input_embedded = tf.nn.embedding_lookup(self.input_embedding_mat, self.input_batch)
+            self.input_embedded = tf.nn.embedding_lookup(self.input_embedding_mat, self.input_batch)
 
         # LSTM cell
         cell = tf.contrib.rnn.LSTMCell(self.num_hidden_units, state_is_tuple=True)
@@ -157,7 +158,7 @@ class RNNLM(object):
 
         while epoch < self.num_epochs:
 
-            sess.run(self.trining_init_op, {self.file_name_train: "./data/train.ids"})
+            sess.run(self.trining_init_op, {self.file_name_train: "../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"})
             train_loss = 0.0
             train_valid_words = 0
             while True:
@@ -214,12 +215,12 @@ class RNNLM(object):
     def predict(self, sess, input_file, raw_file, verbose=False):
         # if verbose is true, then we print the ppl of every sequence
 
-        #sess.run(self.test_init_op, {self.file_name_test: input_file})
+        sess.run(self.test_init_op, {self.file_name_test: input_file})
 
-        sentence_matrix = np.array([[1, 8008, 3358, 4902, 5324, 3008, 845, 2],
-                                    [1, 8008, 9663, 4902, 5324, 3008, 845, 2]])
+        #sentence_matrix = np.array([[1, 8008, 3358, 4902, 5324, 3008, 845, 2],
+        #                            [1, 8008, 9663, 4902, 5324, 3008, 845, 2]])
 
-        sess.run(self.test_init_op, {self.in_memory_test: sentence_matrix})
+        #sess.run(self.test_init_op, {self.in_memory_test: sentence_matrix})
 
         with open(raw_file) as fp:
 

@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
+import java.io.{BufferedWriter, File, FileWriter}
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
@@ -18,18 +19,24 @@ case class OpenClose(open:String, close:String)
 class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[OcrSpellCheckModel]{
   override val description: String = "Ocr specific Spell Checking"
 
-  val trainCorpus = new Param[String](this, "trainCorpus", "Path to the training corpus text file.")
-  def setTrainCorpus(path: String): this.type = set(trainCorpus, path)
+  val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
+  def setTrainCorpusPath(path: String): this.type = set(trainCorpusPath, path)
+
+  val vocabPath = new Param[String](this, "vocabPath", "Path to the training corpus text file.")
+  def setVocabPath(path: String): this.type = set(vocabPath, path)
 
   // TODO make params
-  val suffixes = Array(".", ":", "%", ",", ";", "?")
-  val prefixes = Array[String]()
+  val blackList = Seq("&amp;gt;")
+  val suffixes = Array(".", ":", "%", ",", ";", "?", "'")
+  val prefixes = Array[String]("'")
 
-  val openClose = Array(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("(", "),"))
+  val openClose = Array(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
+
+  private val firstPass = Seq(SuffixedToken(suffixes ++ openClose.map(_.close)),
+    PrefixedToken(prefixes ++ openClose.map(_.open)))
 
   // Special token classes, TODO: make Params
   val specialClasses = Seq(DateToken, NumberToken)
-
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
 
@@ -40,41 +47,19 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val tf = new TensorflowWrapper(session, graph)
 
     // extract vocabulary
-    require(isDefined(trainCorpus), "Train corpus must be set before training")
-    val rawText = getOrDefault(trainCorpus)
-    val source = scala.io.Source.fromFile(rawText)
+    require(isDefined(trainCorpusPath), "Train corpus must be set before training")
+    val rawTextPath = getOrDefault(trainCorpusPath)
+    val vPath = getOrDefault(vocabPath)
 
-    var vocab = mutable.HashMap[String, Double]()
-    val firstPass = Seq(SuffixedToken(suffixes ++ openClose.map(_.close)),
-      PrefixedToken(openClose.map(_.open)))
-
-    source.getLines.foreach { line =>
-      // second pass identify tokens that belong to special classes, and replace with a label
-      // TODO removing crazy encodings of space and replacing with standard one
-      line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
-        var tmp = token
-
-        firstPass.foreach{ parser =>
-          tmp = parser.separate(tmp)
-        }
-
-        specialClasses.foreach { specialClass =>
-          tmp = specialClass.replaceWithLabel(tmp)
-        }
-
-        tmp.split(" ").foreach {cleanToken =>
-           val currCount = vocab.getOrElse(cleanToken, 0.0)
-           vocab.update(cleanToken, currCount + 1.0)
-        }
+    val vocab =
+      if (new File(vPath).exists())
+        loadVocab(vPath).toMap
+      else {
+        val v = persistVocab(genVocab(rawTextPath), vPath)
+        // TODO: analyze v.map(_._1).sorted and see the garbage
+        encodeCorpus(rawTextPath, v.map(_._1))
+        v.toMap
       }
-    }
-    // remove 'rare' tokens, those appearing only one time
-    vocab = vocab.filter(_._2 > 1)
-    // compute frequencies - logarithmic
-    val totalCount = math.log(vocab.values.reduce(_ + _))
-    for (key <- vocab.keys){
-      vocab.update(key, math.log(vocab(key)) - totalCount)
-    }
 
     // create transducers for special classes
     val specialClassesTransducers = specialClasses.par.map(_.generateTransducer).seq
@@ -89,23 +74,71 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       setInputCols(getOrDefault(inputCols))
   }
 
-  /* TODO: deprecate (create an expanded list with prefixes and suffixes) */
-  private def expList(vocab:List[String]) = {
-    val allSuffixes = suffixes ++ openClose.map(_.close)
-    val withSuffixes = vocab.toList.flatMap { word =>
-      if (!allSuffixes.contains(word))
-        Seq(word) ++ suffixes.map(word + _)
-      else
-        Seq(word)
+  private def loadVocab(path: String):mutable.HashMap[String, Double] = {
+    val vocab = mutable.HashMap[String, Double]()
+    scala.io.Source.fromFile(path + ".freq").getLines.foreach { line =>
+       val lineFields = line.split("\\|")
+      // TODO: this is not working
+       vocab += (lineFields(0)-> lineFields(1).toDouble)
     }
-    val allPrefixes = prefixes ++ openClose.map(_.open)
-    val withPrefixes = vocab.toList.flatMap { word =>
-      if (!allPrefixes.contains(word))
-        allPrefixes.map(_ + word)
-      else
-        Seq(word)
+    vocab
+  }
+
+  private def genVocab(rawDataPath: String):List[(String, Double)] = {
+    var vocab = mutable.HashMap[String, Double]()
+
+    // TODO: Spark implementation?
+    scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
+      // second pass identify tokens that belong to special classes, and replace with a label
+      // TODO removing crazy encodings of space and replacing with standard one
+      line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
+        var tmp = token
+
+        firstPass.foreach{ parser =>
+          tmp = parser.separate(tmp)
+        }
+
+        specialClasses.foreach { specialClass =>
+          tmp = specialClass.replaceWithLabel(tmp)
+        }
+
+        tmp.split(" ").map(_.trim)foreach {cleanToken => //TODO handle case
+          val currCount = vocab.getOrElse(cleanToken, 0.0)
+          vocab.update(cleanToken, currCount + 1.0)
+        }
+      }
     }
-    withSuffixes ++ withPrefixes
+    // remove 'rare' tokens, those appearing only one time
+    vocab = vocab.filter(_._2 > 1.0)
+
+    // compute frequencies - logarithmic
+    val totalCount = math.log(vocab.values.reduce(_ + _))
+    for (key <- vocab.keys){
+      vocab.update(key, math.log(vocab(key)) - totalCount)
+    }
+
+    List(("_PAD_", 0.0), ("_BOS_", 0.0), ("_EOS_", 0.0), ("_UNK_", 0.0)) ++ vocab.toList
+  }
+
+
+  private def persistVocab(v: List[(String, Double)], fileName:String) = {
+    // both the vocabulary, and vocabulary + frequencies
+    val freqFile = new File(fileName + ".freq")
+    val vocabFile = new File(fileName)
+
+    val bwVocabFreq = new BufferedWriter(new FileWriter(freqFile))
+    val bwVocab = new BufferedWriter(new FileWriter(vocabFile))
+
+    v.foreach{case (word, freq) =>
+      bwVocabFreq.write(s"""$word|$freq""")
+      bwVocabFreq.newLine
+
+      bwVocab.write(word)
+      bwVocab.newLine
+    }
+    bwVocab.close
+    bwVocabFreq.close
+    v
   }
 
 
@@ -136,6 +169,32 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     }
   }
 
+  private def encodeCorpus(rawTextPath: String, sorted: List[String]) = {
+
+
+    val vMap: Map[String, Int] = sorted.zipWithIndex.toMap
+    val bw = new BufferedWriter(new FileWriter(new File(rawTextPath + ".ids")))
+
+    scala.io.Source.fromFile(rawTextPath).getLines.foreach { line =>
+      // TODO removing crazy encodings of space and replacing with standard one
+      val text  = line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").flatMap { token =>
+        var tmp = token
+        firstPass.foreach{ parser =>
+          tmp = parser.separate(tmp)
+        }
+        // second pass identify tokens that belong to special classes, and replace with a label
+        specialClasses.foreach { specialClass =>
+          tmp = specialClass.replaceWithLabel(tmp)
+        }
+
+        tmp.split(" ").filter(_ != " ").map {cleanToken =>
+          s"""${vMap.getOrElse(cleanToken, vMap("_UNK_")).toString}"""
+        }
+      }.mkString(" ")
+      bw.write(s"""${vMap("_BOS_")} $text ${vMap("_EOS_")}\n""")
+    }
+    bw.close
+  }
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
