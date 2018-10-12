@@ -18,7 +18,7 @@ import org.apache.spark.sql.SparkSession
 
 // had to relax the requirement for type M here - check.
 abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M], M <: Model[M] with ModelWithWordEmbeddings]
-  extends AnnotatorApproach[M] with HasLazyEmbeddings {
+  extends AnnotatorApproach[M] with HasEmbeddings {
 
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")
@@ -63,7 +63,6 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   override def onTrained(model: M, spark: SparkSession): Unit = {
     model.setEmbeddings(clusterEmbeddings.get)
     model.setEmbeddingsDim(clusterEmbeddings.get.dim)
-    model.setIndexPath(clusterEmbeddings.get.clusterFilePath.toString)
     model.setIncludeEmbeddings($(includeEmbeddings))
     model.setIncludedEmbeddingsRef($(includedEmbeddingsRef))
   }
