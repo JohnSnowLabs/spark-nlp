@@ -25,16 +25,19 @@ trait HasLazyEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
 
   def setEmbeddings(embeddings: SparkWordEmbeddings): Unit = {
-    if (clusterEmbeddings.isEmpty) {
-      set(embeddingsDim, embeddings.dim)
-      clusterEmbeddings = Some(embeddings)
-    }
-    else
-      throw new UnsupportedOperationException("Trying to override a already set embeddings")
+    set(embeddingsDim, embeddings.dim)
+    set(caseSensitiveEmbeddings, embeddings.caseSensitive)
+    clusterEmbeddings = Some(embeddings)
   }
 
-  def getEmbeddings: Option[SparkWordEmbeddings] = {
-    clusterEmbeddings
+  def setEmbeddingsIfFNotSet(embeddings: SparkWordEmbeddings): Unit = {
+    if (clusterEmbeddings.isEmpty) {
+      setEmbeddings(embeddings)
+    }
+  }
+
+  def getEmbeddings: SparkWordEmbeddings = {
+    clusterEmbeddings.getOrElse(throw new NoSuchElementException(s"embeddings not set in $uid"))
   }
 
   override def close(): Unit = {

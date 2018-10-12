@@ -37,19 +37,27 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
-    if (isDefined(sourceEmbeddingsPath)) {
-      clusterEmbeddings = Some(SparkWordEmbeddings(
-        spark.sparkContext,
-        $(sourceEmbeddingsPath),
-        $(embeddingsDim),
-        $(caseSensitiveEmbeddings),
-        WordEmbeddingsFormat($(embeddingsFormat))
-      ))
-      if (isDefined(includedEmbeddingsRef))
-        EmbeddingsHelper.embeddingsCache.update($(includedEmbeddingsRef), clusterEmbeddings.get)
-    } else if (isDefined(includedEmbeddingsRef)) {
-      clusterEmbeddings = EmbeddingsHelper.embeddingsCache.get($(includedEmbeddingsRef))
-    } else throw new IllegalArgumentException("Word embeddings not defined. Either set sourceEmbeddingsPath or includedEmbeddingsRef")
+    clusterEmbeddings = {
+      clusterEmbeddings
+        .orElse(get(sourceEmbeddingsPath).flatMap(sourcePath => {
+          EmbeddingsHelper.loadEmbeddings(
+            sourcePath,
+            spark,
+            WordEmbeddingsFormat($(embeddingsFormat)),
+            $(embeddingsDim),
+            $(caseSensitiveEmbeddings),
+            get(includedEmbeddingsRef)
+          )
+        }))
+        .orElse(get(includedEmbeddingsRef).flatMap(EmbeddingsHelper.embeddingsCache.get))
+    }
+
+    clusterEmbeddings
+      .getOrElse(throw new IllegalArgumentException(
+        s"Word embeddings not found. Either resources not set," +
+          s" not found ${get(sourceEmbeddingsPath).getOrElse("")}" +
+          s" or not in cache ${get(includedEmbeddingsRef).getOrElse("")}")
+      )
   }
 
   override def onTrained(model: M, spark: SparkSession): Unit = {

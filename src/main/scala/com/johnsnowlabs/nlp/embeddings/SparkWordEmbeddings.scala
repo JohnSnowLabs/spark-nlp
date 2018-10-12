@@ -15,7 +15,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
   3. Copy Index to cluster
   4. Open RocksDb based Embeddings on local index (lazy)
  */
-class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normalize: Boolean) extends Serializable {
+class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
   @transient
   private var wordEmbeddingsValue: WordEmbeddings = _
@@ -32,7 +32,7 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normali
           FileUtil.deepCopy(new File(src), new File(workPath), null, false)
         }
 
-        wordEmbeddingsValue = WordEmbeddings(workPath, dim, normalize)
+        wordEmbeddingsValue = WordEmbeddings(workPath, dim, caseSensitive)
       }
 
       wordEmbeddingsValue

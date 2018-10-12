@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.FileNotFoundException
-
 import com.johnsnowlabs.nlp.ModelWithWordEmbeddings
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -20,33 +18,47 @@ object EmbeddingsHelper {
                       spark: SparkSession,
                       format: WordEmbeddingsFormat.Format,
                       nDims: Int,
-                      useNormalizedTokensForEmbeddings: Boolean): SparkWordEmbeddings = {
+                      caseSensitiveEmbeddings: Boolean,
+                      placeInCache: Option[String] = None
+                    ): Option[SparkWordEmbeddings] = {
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val src = new Path(path)
 
     if (fs.exists(src)) {
-      SparkWordEmbeddings(spark.sparkContext, src.toUri.toString, nDims, useNormalizedTokensForEmbeddings, format)
+      val someEmbeddings =
+        SparkWordEmbeddings(spark.sparkContext, src.toUri.toString, nDims, caseSensitiveEmbeddings, format)
+      placeInCache.foreach(embeddingsCache.update(_, someEmbeddings))
+      Some(someEmbeddings)
     } else {
-      throw new FileNotFoundException(s"Could not load embeddings. ${src.toString} not found")
+      None
     }
   }
 
-  def getEmbeddingsFromAnnotator(annotator: ModelWithWordEmbeddings): Option[SparkWordEmbeddings] = {
+  def getEmbeddingsFromAnnotator(annotator: ModelWithWordEmbeddings): SparkWordEmbeddings = {
     annotator.getEmbeddings
   }
 
   def saveEmbeddings(path: String, spark: SparkSession, indexPath: String): Unit = {
     val index = new Path(SparkFiles.get(indexPath))
+
     val uri = new java.net.URI(path)
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-
     val dst = new Path(path)
-    fs.copyFromLocalFile(false, true, index, dst)
+
+    saveEmbeddings(fs, index, dst)
   }
 
   def saveEmbeddings(path: String, spark: SparkSession, embeddings: SparkWordEmbeddings): Unit = {
-    saveEmbeddings(path, spark, embeddings.clusterFilePath.toString)
+    EmbeddingsHelper.saveEmbeddings(path, spark, embeddings.clusterFilePath.toString)
+  }
+
+  def saveEmbeddings(fs: FileSystem, index: Path, dst: Path): Unit = {
+    fs.copyFromLocalFile(false, true, index, dst)
+  }
+
+  def clearCache: Unit = {
+    embeddingsCache.clear()
   }
 
 }
