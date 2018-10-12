@@ -6,7 +6,6 @@ import java.nio.file.{Files, Paths}
 import com.johnsnowlabs.nlp.embeddings._
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
-import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -16,11 +15,7 @@ import org.apache.spark.sql.SparkSession
   * Corresponding Approach have to implement AnnotatorWithWordEmbeddings
    */
 
-trait ModelWithWordEmbeddings extends HasLazyEmbeddings with ParamsAndFeaturesWritable {
-
-  val indexPath = new Param[String](this, "indexPath", "File that stores Index")
-
-  def setIndexPath(path: String): this.type = set(this.indexPath, path)
+trait ModelWithWordEmbeddings extends HasEmbeddings {
 
   private def getEmbeddingsSerializedPath(path: String): Path =
     Path.mergePaths(new Path(path), new Path("/embeddings"))
@@ -28,11 +23,10 @@ trait ModelWithWordEmbeddings extends HasLazyEmbeddings with ParamsAndFeaturesWr
   private def updateAvailableEmbeddings: Unit = {
     val currentEmbeddings = clusterEmbeddings
       .orElse(get(includedEmbeddingsRef).flatMap(EmbeddingsHelper.embeddingsCache.get))
-      .orElse(get(indexPath).map(new SparkWordEmbeddings(_, $(embeddingsDim), $(caseSensitiveEmbeddings))))
       .getOrElse(throw new NoSuchElementException(
         s"Word embeddings missing. " +
           s"Not in cache ${get(includedEmbeddingsRef).getOrElse("")} " +
-          s"or index path not found ${get(indexPath).getOrElse("")}")
+          s"or deserialization did not read them.")
       )
 
     setEmbeddingsIfFNotSet(currentEmbeddings)
@@ -63,14 +57,11 @@ trait ModelWithWordEmbeddings extends HasLazyEmbeddings with ParamsAndFeaturesWr
           $(embeddingsDim),
           $(caseSensitiveEmbeddings)))
 
-    embeddings.foreach(e => {
-      setIndexPath(e.clusterFilePath)
-      setEmbeddings(e)
-    })
+    embeddings.foreach(setEmbeddings)
   }
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    if ($(includeEmbeddings) && isDefined(indexPath)) {
+    if ($(includeEmbeddings)) {
       updateAvailableEmbeddings
 
       val index = new Path(SparkFiles.get(getEmbeddings.clusterFilePath))

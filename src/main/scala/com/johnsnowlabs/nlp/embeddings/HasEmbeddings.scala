@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 
-trait HasLazyEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
+trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   @transient
   protected var clusterEmbeddings: Option[SparkWordEmbeddings] = None
@@ -17,7 +17,7 @@ trait HasLazyEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setIncludedEmbeddingsRef(value: String): this.type = set(this.includedEmbeddingsRef, value)
 
   val caseSensitiveEmbeddings = new BooleanParam(this, "caseSensitiveEmbeddings", "whether to ignore case in tokens for embeddings matching")
-  val embeddingsDim = new IntParam(this, "nDims", "Number of embedding dimensions")
+  val embeddingsDim = new IntParam(this, "embeddingsDim", "Number of embedding dimensions")
 
   setDefault(caseSensitiveEmbeddings, true)
 

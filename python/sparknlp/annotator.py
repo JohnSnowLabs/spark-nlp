@@ -52,7 +52,41 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
-class ApproachWithEmbeddings(Params):
+class AnnotatorWithEmbeddings(Params):
+    embeddingsDim = Param(Params._dummy(),
+                             "embeddingsDim",
+                             "Number of embedding dimensions",
+                             typeConverter=TypeConverters.toInt)
+
+    caseSensitiveEmbeddings = Param(Params._dummy(),
+                          "caseSensitiveEmbeddings",
+                          "whether to ignore case in tokens for embeddings matching",
+                          typeConverter=TypeConverters.toBoolean)
+
+    includeEmbeddings = Param(Params._dummy(),
+                                    "includeEmbeddings",
+                                    "whether to include embeddings when saving annotator",
+                                    typeConverter=TypeConverters.toBoolean)
+
+    includedEmbeddingsRef = Param(Params._dummy(),
+                              "includedEmbeddingsRef",
+                              "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                              typeConverter=TypeConverters.toString)
+
+    def setEmbeddingsDim(self, value):
+        return self._set(embeddingsDim=value)
+
+    def setCaseSensitiveEmbeddings(self, value):
+        return self._set(caseSensitiveEmbeddings=value)
+
+    def setIncludeEmbeddings(self, value):
+        return self._set(includeEmbeddings=value)
+
+    def setIncludedEmbeddingsRef(self, value):
+        return self._set(includedEmbeddingsRef=value)
+
+
+class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
     sourceEmbeddingsPath = Param(Params._dummy(),
                                  "sourceEmbeddingsPath",
                                  "Word embeddings file",
@@ -61,40 +95,15 @@ class ApproachWithEmbeddings(Params):
                              "embeddingsFormat",
                              "Word vectors file format",
                              typeConverter=TypeConverters.toInt)
-    embeddingsNDims = Param(Params._dummy(),
-                            "embeddingsNDims",
-                            "Number of dimensions for word vectors",
-                            typeConverter=TypeConverters.toInt)
-
-    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
-                                             "useNormalizedTokensForEmbeddings",
-                                             "whether to use embeddings of normalized tokens (if not already normalized)",
-                                             typeConverter=TypeConverters.toBoolean)
-
-    def setUseNormalizedTokensForEmbeddings(self, value):
-        return self._set(useNormalizedTokensForEmbeddings=value)
 
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
         self._set(embeddingsFormat=format)
-        return self._set(embeddingsNDims=nDims)
+        return self._set(embeddingsDim=nDims)
 
 
-class ModelWithEmbeddings(Params):
-    indexPath = Param(Params._dummy(),
-                                 "indexPath",
-                                 "File that stores Index",
-                                 typeConverter=TypeConverters.toString)
-
-    nDims = Param(Params._dummy(),
-                            "nDims",
-                            "Number of dimensions for word vectors",
-                            typeConverter=TypeConverters.toInt)
-
-    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
-                                             "useNormalizedTokensForEmbeddings",
-                                             "whether to use embeddings of normalized tokens (if not already normalized)",
-                                             typeConverter=TypeConverters.toBoolean)
+class ModelWithEmbeddings(AnnotatorWithEmbeddings):
+    pass
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
