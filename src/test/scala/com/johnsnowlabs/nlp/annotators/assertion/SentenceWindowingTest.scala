@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion
 
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{SimpleTokenizer, Windowing}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.scalatest.{FlatSpec, Matchers}
 
 /**
@@ -12,7 +13,7 @@ class SentenceWindowingTest extends FlatSpec with Matchers {
     override val before: Int = 5
     override val after: Int = 5
     override val tokenizer = new SimpleTokenizer
-    override def wordVectors = None
+    override def wordVectors: WordEmbeddings = null
   }
 
   "sentences" should "be correctly padded" in new Scope {

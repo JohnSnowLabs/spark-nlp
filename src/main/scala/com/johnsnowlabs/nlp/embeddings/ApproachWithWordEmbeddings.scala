@@ -64,13 +64,14 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   override def onTrained(model: M, spark: SparkSession): Unit = {
     model.setEmbeddings(clusterEmbeddings.get)
     model.setEmbeddingsDim(clusterEmbeddings.get.dim)
+    model.setIncludedEmbeddingsIndexPath(clusterEmbeddings.get.clusterFilePath)
     model.setIncludeEmbeddings($(includeEmbeddings))
 
     get(includedEmbeddingsRef).foreach(ref => model.setIncludedEmbeddingsRef(ref))
   }
 
   def embeddings: WordEmbeddings = {
-    clusterEmbeddings.get.wordEmbeddings
+    getWordEmbeddings
   }
 
 }
