@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{AnnotatorApproach, ModelWithWordEmbeddings}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.sql.SparkSession

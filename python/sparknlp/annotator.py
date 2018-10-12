@@ -85,6 +85,9 @@ class AnnotatorWithEmbeddings(Params):
     def setIncludedEmbeddingsRef(self, value):
         return self._set(includedEmbeddingsRef=value)
 
+    def setEmbeddings(self, embeddings):
+        self._java_obj.setEmbeddings(embeddings)
+
 
 class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
     sourceEmbeddingsPath = Param(Params._dummy(),
@@ -103,7 +106,8 @@ class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
 
 
 class ModelWithEmbeddings(AnnotatorWithEmbeddings):
-    pass
+    def getEmbeddings(self):
+        return self._java_obj.getEmbeddings()
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):

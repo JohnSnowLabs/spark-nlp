@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.{IntParam, ParamMap}
 import org.apache.spark.ml.util.Identifiable
@@ -47,7 +47,7 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new AssertionDatasetEncoder(embeddings.getEmbeddings, datasetParams.get.get)
+      val encoder = new AssertionDatasetEncoder(getWordEmbeddings.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowAssertion(
         tensorflow,
         encoder,

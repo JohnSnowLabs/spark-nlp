@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.annotators.assertion.dl.{ReadTensorflowModel, WriteT
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param.{FloatParam, IntParam}
@@ -52,7 +52,7 @@ class NerDLModel(override val uid: String)
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new NerDatasetEncoder(embeddings.getEmbeddings, datasetParams.get.get)
+      val encoder = new NerDatasetEncoder(getWordEmbeddings.getEmbeddings, datasetParams.get.get)
       _model = new TensorflowNer(
         tensorflow,
         encoder,

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{ModelWithWordEmbeddings, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.ParamsAndFeaturesReadable
 import org.apache.spark.sql.SparkSession
 
 trait EmbeddingsReadable[T <: ModelWithWordEmbeddings] extends ParamsAndFeaturesReadable[T] {

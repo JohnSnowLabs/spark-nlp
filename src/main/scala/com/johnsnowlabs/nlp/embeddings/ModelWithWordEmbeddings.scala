@@ -1,9 +1,8 @@
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.embeddings._
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
@@ -32,8 +31,12 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
     setEmbeddingsIfFNotSet(currentEmbeddings)
   }
 
-  def embeddings: WordEmbeddings = {
+  def getEmbeddings: SparkWordEmbeddings = {
     updateAvailableEmbeddings
+    clusterEmbeddings.getOrElse(throw new NoSuchElementException(s"embeddings not set in $uid"))
+  }
+
+  def getWordEmbeddings: WordEmbeddings = {
     getEmbeddings.wordEmbeddings
   }
 
@@ -46,7 +49,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
   }
 
   def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    val src = EmbeddingsHelper.getEmbeddingsSerializedPath(path)
+    val src = getEmbeddingsSerializedPath(path)
     val embeddings: Option[SparkWordEmbeddings] =
       get(includedEmbeddingsRef)
         .flatMap(EmbeddingsHelper.embeddingsCache.get)

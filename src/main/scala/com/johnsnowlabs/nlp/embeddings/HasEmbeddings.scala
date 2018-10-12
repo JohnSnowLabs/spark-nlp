@@ -19,7 +19,7 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   val caseSensitiveEmbeddings = new BooleanParam(this, "caseSensitiveEmbeddings", "whether to ignore case in tokens for embeddings matching")
   val embeddingsDim = new IntParam(this, "embeddingsDim", "Number of embedding dimensions")
 
-  setDefault(caseSensitiveEmbeddings, true)
+  setDefault(caseSensitiveEmbeddings, false)
 
   def setCaseSensitiveEmbeddings(value: Boolean): this.type = set(this.caseSensitiveEmbeddings, value)
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
@@ -31,13 +31,8 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   }
 
   def setEmbeddingsIfFNotSet(embeddings: SparkWordEmbeddings): Unit = {
-    if (clusterEmbeddings.isEmpty) {
+    if (clusterEmbeddings.isEmpty)
       setEmbeddings(embeddings)
-    }
-  }
-
-  def getEmbeddings: SparkWordEmbeddings = {
-    clusterEmbeddings.getOrElse(throw new NoSuchElementException(s"embeddings not set in $uid"))
   }
 
   override def close(): Unit = {
