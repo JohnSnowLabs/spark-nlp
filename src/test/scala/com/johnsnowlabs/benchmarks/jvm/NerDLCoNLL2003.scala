@@ -28,7 +28,7 @@ object NerDLCoNLL2003 extends App {
   if (!new File(wordEmbeddingsCache).exists())
     WordEmbeddingsIndexer.indexText(wordEmbeddignsFile, wordEmbeddingsCache)
 
-  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim, normalize=false)
+  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
 
   val reader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
   val trainDataset = toTrain(reader.readDocs(trainFile))

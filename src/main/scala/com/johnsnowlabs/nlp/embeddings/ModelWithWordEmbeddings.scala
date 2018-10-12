@@ -20,12 +20,15 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
     Path.mergePaths(new Path(path), new Path("/embeddings"))
 
   private def updateAvailableEmbeddings: Unit = {
-    val currentEmbeddings = clusterEmbeddings
-      .orElse(get(includedEmbeddingsRef).flatMap(EmbeddingsHelper.embeddingsCache.get))
+    /** clusterEmbeddings may become null when a different thread calls getEmbeddings. Clean up now. */
+    val cleanEmbeddings: Option[SparkWordEmbeddings] = if (clusterEmbeddings == null) None else clusterEmbeddings
+    val currentEmbeddings = cleanEmbeddings
+      .orElse(get(includedEmbeddingsRef).flatMap(ref => EmbeddingsHelper.embeddingsCache.get(ref)))
+      .orElse(get(includedEmbeddingsIndexPath).flatMap(path => EmbeddingsHelper.loadEmbeddings(path, $(embeddingsDim), $(caseSensitiveEmbeddings))))
       .getOrElse(throw new NoSuchElementException(
         s"Word embeddings missing. " +
-          s"Not in cache ${get(includedEmbeddingsRef).getOrElse("")} " +
-          s"or deserialization did not read them.")
+          s"Not in ref cache ${get(includedEmbeddingsRef).getOrElse("")} " +
+          s"or embeddings not included. Check includeEmbeddings or includedEmbeddingsRef params")
       )
 
     setEmbeddingsIfFNotSet(currentEmbeddings)
@@ -65,8 +68,6 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
     if ($(includeEmbeddings)) {
-      updateAvailableEmbeddings
-
       val index = new Path(SparkFiles.get(getEmbeddings.clusterFilePath))
 
       val uri = new java.net.URI(path)
@@ -77,7 +78,12 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
     }
   }
 
+  override def beforeWrite(): Unit = {
+    clear(includedEmbeddingsIndexPath)
+  }
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
+    /** Param only useful for runtime execution */
     serializeEmbeddings(path, spark)
   }
 }

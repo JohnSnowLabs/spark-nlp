@@ -73,6 +73,19 @@ class AnnotatorWithEmbeddings(Params):
                               "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
                               typeConverter=TypeConverters.toString)
 
+    includedEmbeddingsIndexPath = Param(Params._dummy(),
+                                        "includedEmbeddingsRef",
+                                        "internal cluster index locator",
+                                        typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(AnnotatorWithEmbeddings, self).__init__()
+        self._setDefault(
+            caseSensitiveEmbeddings=False,
+            includeEmbeddings=True
+        )
+
     def setEmbeddingsDim(self, value):
         return self._set(embeddingsDim=value)
 
@@ -86,7 +99,7 @@ class AnnotatorWithEmbeddings(Params):
         return self._set(includedEmbeddingsRef=value)
 
     def setEmbeddings(self, embeddings):
-        self._java_obj.setEmbeddings(embeddings)
+        self._java_obj.setEmbeddings(embeddings.jembeddings.get())
 
 
 class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
@@ -1019,7 +1032,7 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(AnnotatorModel):
+class NerCrfModel(AnnotatorModel, ModelWithEmbeddings):
     name = "NerCrfModel"
 
     def __init__(self, java_model=None):

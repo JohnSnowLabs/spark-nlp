@@ -55,6 +55,14 @@ object EmbeddingsHelper {
     }
   }
 
+  def loadEmbeddings(
+                    indexPath: String,
+                    nDims: Int,
+                    caseSensitive: Boolean
+                    ): Option[SparkWordEmbeddings] = {
+    Some(new SparkWordEmbeddings(indexPath, nDims, caseSensitive))
+  }
+
   def getEmbeddingsFromAnnotator(annotator: ModelWithWordEmbeddings): SparkWordEmbeddings = {
     annotator.getEmbeddings
   }
