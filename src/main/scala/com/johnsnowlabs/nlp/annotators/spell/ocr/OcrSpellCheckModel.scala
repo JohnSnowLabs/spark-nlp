@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import scala.collection.mutable.HashMap
 
 class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel] with ReadTensorflowModel {
 
@@ -19,7 +18,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var specialClassesTransducers: Seq[ITransducer[Candidate]] = null
 
-  private var vocab: HashMap[String, Double] = null
+  private var vocab: Predef.Map[String, Double] = null
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -52,7 +51,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }
 
-  def setVocab(v: HashMap[String, Double]) = {
+  def setVocab(v: Map[String, Double]) = {
     vocab = v
     this
   }

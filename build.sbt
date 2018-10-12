@@ -101,7 +101,8 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
   "org.tensorflow" % "tensorflow" % "1.8.0",
-  "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
+  "com.github.universal-automata" % "liblevenshtein" % "3.0.0",
+  "com.navigamez" % "greex" % "1.0"
   /** Enable the following for tensorflow GPU support */
   //"org.tensorflow" % "libtensorflow" % "1.8.0",
   //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",

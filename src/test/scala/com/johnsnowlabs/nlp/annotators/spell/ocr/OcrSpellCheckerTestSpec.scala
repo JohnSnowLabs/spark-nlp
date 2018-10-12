@@ -59,7 +59,8 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     import SparkAccessor.spark.implicits._
     val ocrspell = new OcrSpellCheckApproach().
                     setInputCols("text").
-                    setTrainCorpus("../auxdata/spell_dataset/vocab/spell_corpus.txt").
+                    setTrainCorpusPath("../auxdata/spell_dataset/vocab/spell_corpus.txt").
+                    setVocabPath("../auxdata/spell_dataset/vocab/vocab").
                     train(Seq.empty[String].toDF("text"))
 
     val result = ocrspell.annotate(Seq(
@@ -71,23 +72,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "levenshtein automata" should "handle dates" ignore {
-    import scala.collection.JavaConversions._
-
-    import com.navigamez.greex.GreexGenerator
-    val generator = new GreexGenerator("\\(?(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}\\)?")
-    //val generator = new GreexGenerator("([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)")
-    val matches = generator.generateAll
-
-    val transducer = new TransducerBuilder().
-      dictionary(matches.toList.sorted, true).
-      algorithm(Algorithm.TRANSPOSITION).
-      defaultMaxDistance(2).
-      includeDistance(true).
-      build[Candidate]
-
-    val result = transducer.transduce("123.23", 1)
-    result.foreach(cand => println(cand.term))
+  "a spell checker" should "correclty handle dates" ignore {
 
   }
 

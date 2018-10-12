@@ -50,7 +50,11 @@ class SuffixedToken(suffixes:Array[String]) extends TokenParser {
   private def parse(token:String)  =
     (token.dropRight(1), token.last.toString)
 
-  override def belongs(token: String): Boolean = suffixes.map(token.endsWith).reduce(_ || _)
+  override def belongs(token: String): Boolean =
+    if(token.length > 1)
+       suffixes.map(token.endsWith).reduce(_ || _)
+    else
+       false
 
   override def splits(token: String): Seq[CandidateSplit] =
     if (belongs(token)) {
@@ -64,11 +68,7 @@ class SuffixedToken(suffixes:Array[String]) extends TokenParser {
 
   override def separate(token:String): String = {
     if(belongs(token)) {
-      var tmp = token
-      suffixes.foreach { symbol =>
-        tmp = tmp.replace(symbol, s" $symbol ")
-      }
-      tmp
+      s"""${separate(token.dropRight(1))} ${token.last}"""
     }
     else
       token
@@ -84,13 +84,16 @@ object SuffixedToken {
 }
 
 
-
 class PrefixedToken(prefixes:Array[String]) extends TokenParser {
 
   private def parse(token:String)  =
     (token.head.toString, token.tail)
 
-  override def belongs(token: String): Boolean = prefixes.map(token.head.toString.equals).reduce(_ || _)
+  override def belongs(token: String): Boolean =
+    if(token.length > 1)
+      prefixes.map(token.head.toString.equals).reduce(_ || _)
+    else
+      false
 
   override def splits(token: String): Seq[CandidateSplit] =
     if (belongs(token)) {
@@ -102,12 +105,11 @@ class PrefixedToken(prefixes:Array[String]) extends TokenParser {
 
   override val parsers: Seq[TokenParser] = Seq(DateToken, NumberToken)
 
-  override def separate(token:String): String ={
-    var tmp = token
-    prefixes.foreach{ symbol =>
-      tmp = tmp.replace(symbol, s" $symbol ")
-    }
-    tmp
+  override def separate(token:String): String = {
+    if (belongs(token))
+        s"""${token.head} ${separate(token.tail)}"""
+    else
+        token
   }
 
   // so far we don't see a reason to replace this one
@@ -157,7 +159,7 @@ object DateToken extends TokenParser with TokenClasses{
 object NumberToken extends TokenParser {
 
   private val numRegex =
-    """([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)""".r
+    """(\-|#)?([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)""".r
 
   override val regex =
     "([0-9]{1,4}\\.[0-9]{1,2}|[0-9]{1,2})"
@@ -176,7 +178,7 @@ object NumberToken extends TokenParser {
   override def separate(word: String): String = {
     val matcher = numRegex.pattern.matcher(word)
     if(matcher.matches) {
-      val result = word.replace(matcher.group(1), "_NUM_")
+      val result = word.replace(matcher.group(0), "_NUM_")
       //println(s"$word -> $result")
       result
     }
