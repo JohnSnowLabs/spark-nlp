@@ -33,14 +33,15 @@ object NegexDatasetLogRegTest extends App with Windowing with EvaluationMetrics 
   val embeddingsFile = s"PubMed-shuffle-win-2.bin"
   val fileDb = embeddingsFile + ".db"
 
-  override lazy val wordVectors: Option[WordEmbeddings] = Option(embeddingsFile).map {
+  override lazy val wordVectors: WordEmbeddings = Option(embeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(embeddingsFile).exists())
       val fileDb = wordEmbeddingsFile + ".db"
       if (!new File(fileDb).exists())
         WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
   }.filter(_ => new File(fileDb).exists())
-    .map(_ => WordEmbeddings(fileDb, embeddingsDims, normalize = true))
+    .map(_ => WordEmbeddings(fileDb, embeddingsDims, caseSensitive = true))
+    .getOrElse(throw new Exception("Embeddings file not found"))
 
   val mappings = Map("Affirmed" -> 0.0, "Negated" -> 1.0)
   val reader = new NegexDatasetReader()

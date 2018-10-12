@@ -98,7 +98,7 @@ object SparkWordEmbeddings {
   def apply(spark: SparkContext,
             sourceEmbeddingsPath: String,
             dim: Int,
-            normalize: Boolean,
+            caseSensitive: Boolean,
             format: WordEmbeddingsFormat.Format): SparkWordEmbeddings = {
 
     val localFile = {
@@ -119,6 +119,6 @@ object SparkWordEmbeddings {
     FileHelper.delete(localFile.toString)
 
     // 3. Create Spark Embeddings
-    new SparkWordEmbeddings(clusterFilePath, dim, normalize)
+    new SparkWordEmbeddings(clusterFilePath, dim, caseSensitive)
   }
 }

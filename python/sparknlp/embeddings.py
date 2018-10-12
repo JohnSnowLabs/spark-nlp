@@ -1,10 +1,16 @@
 import sparknlp.internal as _internal
 
 
+class Embeddings:
+    def __init__(self, embeddings):
+        self.jembeddings = embeddings
+
+
 class EmbeddingsHelper:
     @classmethod
     def loadEmbeddings(cls, path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens=True, place_in_cache=""):
-        return _internal._EmbeddingsHelperLoad(path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens, place_in_cache).apply()
+        jembeddings = _internal._EmbeddingsHelperLoad(path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens, place_in_cache).apply()
+        return Embeddings(jembeddings)
 
     @classmethod
     def saveEmbeddings(cls, path, embeddings, spark_session):

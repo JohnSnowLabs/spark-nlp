@@ -37,7 +37,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
-    clusterEmbeddings = {
+    val currentEmbeddings = {
       clusterEmbeddings
         .orElse(get(sourceEmbeddingsPath).flatMap(sourcePath => {
           EmbeddingsHelper.loadEmbeddings(
@@ -52,19 +52,21 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
         .orElse(get(includedEmbeddingsRef).flatMap(EmbeddingsHelper.embeddingsCache.get))
     }
 
-    clusterEmbeddings
+    setEmbeddings(currentEmbeddings
       .getOrElse(throw new IllegalArgumentException(
         s"Word embeddings not found. Either resources not set," +
           s" not found ${get(sourceEmbeddingsPath).getOrElse("")}" +
           s" or not in cache ${get(includedEmbeddingsRef).getOrElse("")}")
       )
+    )
   }
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
     model.setEmbeddings(clusterEmbeddings.get)
     model.setEmbeddingsDim(clusterEmbeddings.get.dim)
     model.setIncludeEmbeddings($(includeEmbeddings))
-    model.setIncludedEmbeddingsRef($(includedEmbeddingsRef))
+
+    get(includedEmbeddingsRef).foreach(ref => model.setIncludedEmbeddingsRef(ref))
   }
 
   def embeddings: WordEmbeddings = {
