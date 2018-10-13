@@ -8,6 +8,7 @@ import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
+import org.slf4j.LoggerFactory
 
 /*
   1. Copy Embeddings to local tmp file
@@ -16,7 +17,6 @@ import org.apache.spark.{SparkContext, SparkFiles}
   4. Open RocksDb based Embeddings on local index (lazy)
  */
 class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normalize: Boolean) extends Serializable {
-
   @transient
   private var wordEmbeddingsValue: WordEmbeddings = null
 
@@ -42,12 +42,13 @@ class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normali
 
 object SparkWordEmbeddings {
 
+  protected val logger = LoggerFactory.getLogger(classOf[SparkWordEmbeddings])
   private def indexEmbeddings(sourceEmbeddingsPath: String,
                               localFile: String,
                               format: WordEmbeddingsFormat.Format,
                               spark: SparkContext): Unit = {
 
-    val uri = new java.net.URI(sourceEmbeddingsPath)
+    val uri = new File(sourceEmbeddingsPath).toURI
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
@@ -75,7 +76,7 @@ object SparkWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val uri = new java.net.URI(localFile)
+    val uri = new File(localFile).toURI
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
     val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
