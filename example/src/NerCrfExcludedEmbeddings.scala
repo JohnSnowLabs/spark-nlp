@@ -53,7 +53,7 @@ object NerCrfExcludedEmbeddings extends App {
     /** http://nlp.stanford.edu/data/glove.6B.zip */
     setEmbeddingsSource("./glove.6B.100d.txt", 100, "TEXT").
     setIncludeEmbeddings(false).
-    setIncludedEmbeddingsRef("glove6b")
+    setEmbeddingsRef("glove6b")
 
   val pipeline = new RecursivePipeline().setStages(
     Array(doc,
@@ -73,13 +73,12 @@ object NerCrfExcludedEmbeddings extends App {
     spark,
     WordEmbeddingsFormat.TEXT,
     200,
-    true,
-    placeInCache=Some("glove6b")
+    true
   )
 
   pipread.transform(data).select("ner").show(false)
 
-  pipread.stages(4).asInstanceOf[NerCrfModel].setIncludeEmbeddings(true).setIncludedEmbeddingsRef("glove6b")
+  pipread.stages(4).asInstanceOf[NerCrfModel].setIncludeEmbeddings(true).setEmbeddingsRef("glove6b")
 
   pipread.write.overwrite.save("pip_w_embeddings")
 

@@ -8,7 +8,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{Datapoint, NegexDatasetReader}
 import com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsIndexer}
 import org.tensorflow.{Graph, Session}
 
 import scala.util.Random
@@ -41,11 +41,11 @@ object AssertionDLNegex extends App with EvaluationMetrics {
   if (!new File(wordEmbeddingsCache).exists())
     WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, wordEmbeddingsCache)
 
-  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive = true)
+  val embeddings = WordEmbeddingsRetriever(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive = true)
   val labels = List("Affirmed", "Negated")
   val params = new DatasetEncoderParams(labels, List.empty)
 
-  val encoder = new AssertionDatasetEncoder(embeddings.getEmbeddings, params)
+  val encoder = new AssertionDatasetEncoder(embeddings.getEmbeddingsVector, params)
   val graph = new Graph()
   //Use CPU
   //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)

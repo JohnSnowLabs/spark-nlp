@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.Model
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.sql.SparkSession
 
 
@@ -37,41 +37,45 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
-    val currentEmbeddings = {
-      clusterEmbeddings
-        .orElse(get(sourceEmbeddingsPath).flatMap(sourcePath => {
-          EmbeddingsHelper.loadEmbeddings(
-            sourcePath,
-            spark,
-            WordEmbeddingsFormat($(embeddingsFormat)),
-            $(embeddingsDim),
-            $(caseSensitiveEmbeddings),
-            get(includedEmbeddingsRef)
-          )
-        }))
-        .orElse(get(includedEmbeddingsRef).flatMap(EmbeddingsHelper.embeddingsCache.get))
+    val clusterEmbeddings = {
+      if (isDefined(sourceEmbeddingsPath)) {
+        EmbeddingsHelper.loadEmbeddings(
+          $(sourceEmbeddingsPath),
+          spark,
+          WordEmbeddingsFormat($(embeddingsFormat)).toString,
+          $(embeddingsDim),
+          $(caseSensitiveEmbeddings)
+        )
+      } else if (isSet(embeddingsRef)) {
+        EmbeddingsHelper.getEmbeddingsByRef($(embeddingsRef))
+          .map(clusterEmbeddings => {
+            set(embeddingsDim, clusterEmbeddings.dim)
+            set(caseSensitiveEmbeddings, clusterEmbeddings.caseSensitive)
+            clusterEmbeddings
+          }).getOrElse(throw new NoSuchElementException(s"embeddings by ref ${$(embeddingsRef)} not found"))
+      } else
+        throw new IllegalArgumentException(
+          s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
+            s" or not in cache by ref: ${get(embeddingsRef).getOrElse("-embeddingsRef not set-")}. " +
+            s"Load using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() to make them available."
+        )
     }
 
-    setEmbeddings(currentEmbeddings
-      .getOrElse(throw new IllegalArgumentException(
-        s"Word embeddings not found. Either resources not set," +
-          s" not found ${get(sourceEmbeddingsPath).getOrElse("")}" +
-          s" or not in cache ${get(includedEmbeddingsRef).getOrElse("")}")
-      )
-    )
+    /** Set embeddings ref */
+    EmbeddingsHelper.setEmbeddingsRef($(embeddingsRef), clusterEmbeddings)
+
   }
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
-    model.setEmbeddings(clusterEmbeddings.get)
-    model.setEmbeddingsDim(clusterEmbeddings.get.dim)
-    model.setIncludedEmbeddingsIndexPath(clusterEmbeddings.get.clusterFilePath)
+    val clusterEmbeddings = EmbeddingsHelper.getEmbeddingsByRef($(embeddingsRef))
+      .getOrElse(throw new NoSuchElementException("Embeddings not found after training"))
+
     model.setIncludeEmbeddings($(includeEmbeddings))
+    model.setEmbeddingsDim(clusterEmbeddings.dim)
+    model.setCaseSensitiveEmbeddings(clusterEmbeddings.caseSensitive)
 
-    get(includedEmbeddingsRef).foreach(ref => model.setIncludedEmbeddingsRef(ref))
-  }
+    if (isSet(embeddingsRef)) model.setEmbeddingsRef($(embeddingsRef))
 
-  def embeddings: WordEmbeddings = {
-    getWordEmbeddings
   }
 
 }

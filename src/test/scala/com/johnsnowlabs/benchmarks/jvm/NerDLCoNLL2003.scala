@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsIndexer}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
 import org.tensorflow.{Graph, Session}
@@ -28,7 +28,7 @@ object NerDLCoNLL2003 extends App {
   if (!new File(wordEmbeddingsCache).exists())
     WordEmbeddingsIndexer.indexText(wordEmbeddignsFile, wordEmbeddingsCache)
 
-  val embeddings = WordEmbeddings(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
+  val embeddings = WordEmbeddingsRetriever(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
 
   val reader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
   val trainDataset = toTrain(reader.readDocs(trainFile))
@@ -39,7 +39,7 @@ object NerDLCoNLL2003 extends App {
   val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.toCharArray)).distinct
 
   val settings = new DatasetEncoderParams(tags.toList, chars.toList)
-  val encoder = new NerDatasetEncoder(embeddings.getEmbeddings, settings)
+  val encoder = new NerDatasetEncoder(embeddings.getEmbeddingsVector, settings)
 
   val graph = new Graph()
   //Use CPU

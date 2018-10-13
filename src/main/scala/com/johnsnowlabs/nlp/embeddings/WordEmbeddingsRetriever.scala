@@ -5,15 +5,15 @@ import com.johnsnowlabs.nlp.util.LruMap
 import org.rocksdb._
 
 
-case class WordEmbeddings(dbFile: String,
-                          nDims: Int,
-                          caseSensitive: Boolean,
-                          lruCacheSize: Int = 100000) extends Closeable{
+case class WordEmbeddingsRetriever(dbFile: String,
+                                   nDims: Int,
+                                   caseSensitive: Boolean,
+                                   lruCacheSize: Int = 100000) extends Closeable{
   RocksDB.loadLibrary()
 
-  val db = RocksDB.openReadOnly(dbFile)
+  val db: RocksDB = RocksDB.openReadOnly(dbFile)
 
-  val zeroArray = Array.fill[Float](nDims)(0f)
+  val zeroArray: Array[Float] = Array.fill[Float](nDims)(0f)
 
   val lru = new LruMap[String, Array[Float]](lruCacheSize)
 
@@ -28,13 +28,13 @@ case class WordEmbeddings(dbFile: String,
       zeroArray
   }
 
-  def getEmbeddings(word: String): Array[Float] = {
+  def getEmbeddingsVector(word: String): Array[Float] = {
     synchronized {
       lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
     }
   }
 
-  def contains(word: String) = {
+  def containsEmbeddingsVector(word: String): Boolean = {
     (caseSensitive && db.get(word.toLowerCase.trim.getBytes()) != null) || db.get(word.trim.getBytes()) != null
   }
 

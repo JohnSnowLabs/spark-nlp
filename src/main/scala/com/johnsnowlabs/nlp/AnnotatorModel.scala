@@ -53,11 +53,6 @@ abstract class AnnotatorModel[M <: Model[M]]
     require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid. " +
       s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns have following annotator types: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
-    this match {
-        // Preload embeddings once
-      case withEmbeddings: ModelWithWordEmbeddings => withEmbeddings.getWordEmbeddings
-      case _ =>
-    }
 
     val inputDataset = beforeAnnotate(dataset)
 

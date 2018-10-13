@@ -2,7 +2,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
@@ -18,7 +18,7 @@ trait Windowing extends Serializable {
 
   val tokenizer : Tokenizer
 
-  def wordVectors(): WordEmbeddings
+  def wordVectors(): WordEmbeddingsRetriever
 
   def tokenIndexToSubstringIndex(doc: String, s: Int, e: Int): (Int, Int) = {
     val tokens = doc.split(" ").filter(_!="")
@@ -68,12 +68,12 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
-  def applyWindow(wvectors: WordEmbeddings) (doc:String, s:Int, e:Int) : Array[Double]  = {
+  def applyWindow(wvectors: WordEmbeddingsRetriever)(doc:String, s:Int, e:Int) : Array[Double]  = {
     val (l, t, r) = applyWindow(doc.toLowerCase, s, e)
 
-    l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+    l.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble))) ++
+      t.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble))) ++
+      r.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble)))
   }
 
   def applyWindowUdf =

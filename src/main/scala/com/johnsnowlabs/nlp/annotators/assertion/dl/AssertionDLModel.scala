@@ -47,7 +47,7 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
-      val encoder = new AssertionDatasetEncoder(getWordEmbeddings.getEmbeddings, datasetParams.get.get)
+      val encoder = new AssertionDatasetEncoder(getClusterEmbeddings.getOrCreateLocalRetriever.getEmbeddingsVector, datasetParams.get.get)
       _model = new TensorflowAssertion(
         tensorflow,
         encoder,

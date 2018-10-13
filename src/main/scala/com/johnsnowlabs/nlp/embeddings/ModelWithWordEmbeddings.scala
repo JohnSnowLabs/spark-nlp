@@ -29,22 +29,38 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
   def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
     val src = getEmbeddingsSerializedPath(path)
-    val embeddings: Option[SparkWordEmbeddings] =
-      get(includedEmbeddingsRef)
-        .flatMap(EmbeddingsHelper.embeddingsCache.get)
-        .orElse(EmbeddingsHelper.loadEmbeddings(
-          src.toUri.toString,
-          spark,
-          WordEmbeddingsFormat.SPARKNLP,
-          $(embeddingsDim),
-          $(caseSensitiveEmbeddings)))
 
-    embeddings.foreach(setEmbeddings)
+    if ($(includeEmbeddings)) {
+
+      val clusterEmbeddings = EmbeddingsHelper.loadEmbeddings(
+        src.toUri.toString,
+        spark,
+        WordEmbeddingsFormat.SPARKNLP.toString,
+        $(embeddingsDim),
+        $(caseSensitiveEmbeddings)
+      )
+
+      /** Set embeddings ref */
+      EmbeddingsHelper.setEmbeddingsRef($(embeddingsRef), clusterEmbeddings)
+
+    } else if (isSet(embeddingsRef)) {
+
+      val clusterEmbeddings = EmbeddingsHelper
+        .getEmbeddingsByRef($(embeddingsRef))
+        .getOrElse(throw new NoSuchElementException(
+          s"Embeddings for stage $uid not included and not found in embeddings cache by ref '${$(embeddingsRef)}'. " +
+          s"Please load embeddings first using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() by '${$(embeddingsRef)}'"
+        ))
+      setEmbeddingsDim(clusterEmbeddings.dim)
+      setCaseSensitiveEmbeddings(clusterEmbeddings.caseSensitive)
+
+    } else throw new IllegalArgumentException("Annotator requires embeddings. They're either not included or ref is not defined")
+
   }
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
     if ($(includeEmbeddings)) {
-      val index = new Path(SparkFiles.get(getEmbeddings.clusterFilePath))
+      val index = new Path(SparkFiles.get(getClusterEmbeddings.clusterFilePath))
 
       val uri = new java.net.URI(path)
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)

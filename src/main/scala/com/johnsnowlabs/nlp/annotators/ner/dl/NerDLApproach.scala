@@ -161,7 +161,7 @@ class NerDLApproach(override val uid: String)
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList)
     val encoder = new NerDatasetEncoder(
-      embeddings.getEmbeddings,
+      getClusterEmbeddings.getOrCreateLocalRetriever.getEmbeddingsVector,
       settings
     )
 
