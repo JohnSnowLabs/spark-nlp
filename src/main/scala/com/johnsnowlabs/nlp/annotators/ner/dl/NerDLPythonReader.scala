@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
@@ -56,7 +57,7 @@ object NerDLModelPythonReader {
             useBundle: Boolean = false,
             tags: Array[String] = Array.empty[String]): NerDLModel = {
 
-    val uri = new java.net.URI(folder)
+    val uri = new File(folder).toURI
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")

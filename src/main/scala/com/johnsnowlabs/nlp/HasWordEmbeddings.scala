@@ -53,7 +53,7 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   }
 
   def deserializeEmbeddings(path: String, spark: SparkContext): Unit = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new File(path).toURI
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
     val src = getEmbeddingsSerializedPath(path)
 
@@ -66,7 +66,7 @@ trait HasWordEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def serializeEmbeddings(path: String, spark: SparkContext): Unit = {
     if (isDefined(indexPath)) {
       val index = new Path(SparkFiles.get($(indexPath)))
-      val uri = new java.net.URI(path)
+      val uri = new File(path).toURI
       val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
       val dst = getEmbeddingsSerializedPath(path)
