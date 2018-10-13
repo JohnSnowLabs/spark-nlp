@@ -120,11 +120,11 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
-  it should "be serializable" in {
+  it should "be serializable" ignore {
     saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
   }
 
-  it should "be loaded from disk" in {
+  it should "be loaded from disk" ignore {
     nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
