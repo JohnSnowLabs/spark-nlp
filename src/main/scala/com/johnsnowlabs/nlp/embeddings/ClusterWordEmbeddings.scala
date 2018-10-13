@@ -8,6 +8,7 @@ import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
+import org.slf4j.LoggerFactory
 
 /*
   1. Copy Embeddings to local tmp file
@@ -42,12 +43,13 @@ class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseS
 
 object ClusterWordEmbeddings {
 
+  protected val logger = LoggerFactory.getLogger(classOf[ClusterWordEmbeddings])
   private def indexEmbeddings(sourceEmbeddingsPath: String,
                               localFile: String,
                               format: WordEmbeddingsFormat.Format,
                               spark: SparkContext): Unit = {
 
-    val uri = new java.net.URI(sourceEmbeddingsPath)
+    val uri = new File(sourceEmbeddingsPath).toURI
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
@@ -75,7 +77,7 @@ object ClusterWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val uri = new java.net.URI(localFile)
+    val uri = new File(localFile).toURI
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
     val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
