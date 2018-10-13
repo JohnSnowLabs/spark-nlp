@@ -62,7 +62,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
     if ($(includeEmbeddings)) {
       val index = new Path(SparkFiles.get(getClusterEmbeddings.clusterFilePath))
 
-      val uri = new java.net.URI(path)
+      val uri = new File(path).toURI
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
       val dst = getEmbeddingsSerializedPath(path)
 

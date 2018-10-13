@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.FileNotFoundException
+import java.io.{File, FileNotFoundException}
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -30,7 +30,7 @@ object EmbeddingsHelper {
                       nDims: Int,
                       caseSensitiveEmbeddings: Boolean
                     ): ClusterWordEmbeddings = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new File(path).toURI
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val src = new Path(path)
 
@@ -78,7 +78,7 @@ object EmbeddingsHelper {
   protected def saveEmbeddings(path: String, spark: SparkSession, indexPath: String): Unit = {
     val index = new Path(SparkFiles.get(indexPath))
 
-    val uri = new java.net.URI(path)
+    val uri = new File(path).toURI
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dst = new Path(path)
 
