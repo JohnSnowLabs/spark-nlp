@@ -6,7 +6,7 @@ import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, Tex
 import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsFormat, WordEmbeddingsIndexer}
 import com.johnsnowlabs.nlp.util.io.ExternalResource
 
 /**
@@ -22,7 +22,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   private val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
   private val posReader = CoNLL(1, AnnotatorType.POS)
 
-  private var wordEmbeddings: WordEmbeddings = _
+  private var wordEmbeddings: WordEmbeddingsRetriever = _
 
   if (wordEmbeddingsFile != null) {
     require(new File(wordEmbeddingsFile).exists())
@@ -41,7 +41,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = WordEmbeddings(fileDb, wordEmbeddingsNDims, normalize)
+      wordEmbeddings = WordEmbeddingsRetriever(fileDb, wordEmbeddingsNDims, normalize)
     }
   }
 

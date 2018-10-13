@@ -68,15 +68,10 @@ class AnnotatorWithEmbeddings(Params):
                                     "whether to include embeddings when saving annotator",
                                     typeConverter=TypeConverters.toBoolean)
 
-    includedEmbeddingsRef = Param(Params._dummy(),
-                              "includedEmbeddingsRef",
+    embeddingsRef = Param(Params._dummy(),
+                              "embeddingsRef",
                               "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
                               typeConverter=TypeConverters.toString)
-
-    includedEmbeddingsIndexPath = Param(Params._dummy(),
-                                        "includedEmbeddingsRef",
-                                        "internal cluster index locator",
-                                        typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -95,11 +90,8 @@ class AnnotatorWithEmbeddings(Params):
     def setIncludeEmbeddings(self, value):
         return self._set(includeEmbeddings=value)
 
-    def setIncludedEmbeddingsRef(self, value):
-        return self._set(includedEmbeddingsRef=value)
-
-    def setEmbeddings(self, embeddings):
-        self._java_obj.setEmbeddings(embeddings.jembeddings.get())
+    def setEmbeddingsRef(self, value):
+        return self._set(embeddingsRef=value)
 
 
 class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
@@ -119,8 +111,8 @@ class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
 
 
 class ModelWithEmbeddings(AnnotatorWithEmbeddings):
-    def getEmbeddings(self):
-        return self._java_obj.getEmbeddings()
+    def getClusterEmbeddings(self):
+        return self._java_obj.getClusterEmbeddings()
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):

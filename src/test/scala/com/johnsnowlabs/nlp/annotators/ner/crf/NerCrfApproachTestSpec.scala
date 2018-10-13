@@ -75,12 +75,16 @@ class NerCrfApproachTestSpec extends FlatSpec {
       false
     )
 
+    EmbeddingsHelper.setEmbeddingsRef("random_embeddings", smallEmbeddings)
+
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
       .setModel(nerModel.model.getOrDefault)
       .setOutputCol(nerModel.getOutputCol)
       .setInputCols(nerModel.getInputCols)
-      .setEmbeddings(smallEmbeddings.get)
+      .setEmbeddingsDim(smallEmbeddings.dim)
+      .setEmbeddingsRef("random_embeddings")
+      .setCaseSensitiveEmbeddings(smallEmbeddings.caseSensitive)
 
     val tagged = restrictedModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
