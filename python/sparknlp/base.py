@@ -304,11 +304,8 @@ class Finisher(AnnotatorTransformer):
     def setCleanAnnotations(self, value):
         return self._set(cleanAnnotations=value)
 
-    def setIncludeKeys(self, value):
+    def setIncludeMetadata(self, value):
         return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
-
-    def setIncludeMetadata(self, value):
-        return self._set(includeMetadata=value)

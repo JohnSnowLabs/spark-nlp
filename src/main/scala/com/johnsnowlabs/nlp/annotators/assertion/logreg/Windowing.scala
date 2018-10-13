@@ -2,7 +2,7 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
@@ -18,7 +18,7 @@ trait Windowing extends Serializable {
 
   val tokenizer : Tokenizer
 
-  def wordVectors(): Option[WordEmbeddings] = None
+  def wordVectors(): WordEmbeddingsRetriever
 
   def tokenIndexToSubstringIndex(doc: String, s: Int, e: Int): (Int, Int) = {
     val tokens = doc.split(" ").filter(_!="")
@@ -68,12 +68,12 @@ trait Windowing extends Serializable {
     applyWindow(doc, start, end)
   }
 
-  def applyWindow(wvectors: WordEmbeddings) (doc:String, s:Int, e:Int) : Array[Double]  = {
+  def applyWindow(wvectors: WordEmbeddingsRetriever)(doc:String, s:Int, e:Int) : Array[Double]  = {
     val (l, t, r) = applyWindow(doc.toLowerCase, s, e)
 
-    l.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      t.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble))) ++
-      r.flatMap(w => normalize(wvectors.getEmbeddings(w).map(_.toDouble)))
+    l.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble))) ++
+      t.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble))) ++
+      r.flatMap(w => normalize(wvectors.getEmbeddingsVector(w).map(_.toDouble)))
   }
 
   def applyWindowUdf =
@@ -82,7 +82,7 @@ trait Windowing extends Serializable {
       /** NOTE: Yes, this only works with one sentence per row, start end applies only to first */
       val doc = Annotation(documents.head).result
       val (start, end) = tokenIndexToSubstringIndex(doc, s, e)
-      Vectors.dense(applyWindow(wordVectors().get)(doc, start, end))
+      Vectors.dense(applyWindow(wordVectors())(doc, start, end))
     }}
 
   private case class IndexedChunk(sentence: String, chunkBegin: Int, chunkEnd: Int)
@@ -111,7 +111,7 @@ trait Windowing extends Serializable {
           }
         }
 
-      indexed.map ( r => Vectors.dense(applyWindow(wordVectors().get)(r.sentence, r.chunkBegin, r.chunkEnd)) )
+      indexed.map ( r => Vectors.dense(applyWindow(wordVectors())(r.sentence, r.chunkBegin, r.chunkEnd)) )
 
     }}
 
