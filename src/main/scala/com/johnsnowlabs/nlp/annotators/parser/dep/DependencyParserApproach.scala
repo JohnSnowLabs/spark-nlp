@@ -22,7 +22,6 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   override val requiredAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
-    dataset.show()
     new DependencyParserModel()
       .setSourcePath($(source))
   }

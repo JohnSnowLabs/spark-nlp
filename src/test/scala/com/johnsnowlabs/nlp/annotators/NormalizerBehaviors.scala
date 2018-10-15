@@ -11,7 +11,7 @@ import SparkAccessor.spark.implicits._
 trait NormalizerBehaviors { this: FlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
-    "A Normalizer Annotator" should "successfully transform data" ignore {
+    "A Normalizer Annotator" should "successfully transform data" in {
     AnnotatorBuilder.withFullNormalizer(dataset)
       .collect().foreach {
       row =>
@@ -27,7 +27,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
   }
 
   def lowercasingNormalizerPipeline(dataset: => Dataset[Row]) {
-    "A case-sensitive Normalizer Annotator" should "successfully transform data" ignore {
+    "A case-sensitive Normalizer Annotator" should "successfully transform data" in {
     AnnotatorBuilder.withCaseSensitiveNormalizer(dataset)
       .collect().foreach {
       row =>
@@ -47,7 +47,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
   }
 
   def testCorrectSlangs(dataset: Dataset[Row]): Unit = {
-    s"normalizer with slang dictionary " should s"successfully correct several abbreviations" ignore {
+    s"normalizer with slang dictionary " should s"successfully correct several abbreviations" in {
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -91,53 +91,8 @@ trait NormalizerBehaviors { this: FlatSpec =>
     }
   }
 
-  def correctSlangsWithAnyDelimiter(dataset: Dataset[Row]): Unit = {
-    s"normalizer with any format of slang dictionary " should s"successfully correct several abbreviations" in {
-
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-      val tokenizer = new Tokenizer()
-        .setInputCols(Array("document"))
-        .setOutputCol("token")
-
-      val normalizer = new Normalizer()
-        .setInputCols(Array("token"))
-        .setOutputCol("normalized")
-        .setLowercase(true)
-        .setSlangDictionary(ExternalResource("src/test/resources/spell/slangsv2.txt",
-          ReadAs.LINE_BY_LINE, Map("delimiter" -> "\\|")))
-
-      val finisher = new Finisher()
-        .setInputCols("normalized")
-        .setOutputAsArray(false)
-        .setIncludeMetadata(false)
-        .setAnnotationSplitSymbol("@")
-        .setValueSplitSymbol("#")
-
-      val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          normalizer,
-          finisher
-        ))
-
-      val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
-      val transform = model.transform(dataset)
-      transform.show(false)
-      val normalizedWords = transform.select("normalized_gt",
-        "finished_normalized").map(r => (r.getString(0), r.getString(1))).collect.toSeq
-
-      normalizedWords.foreach( words => {
-        assert(words._1 == words._2)
-      })
-    }
-  }
-
   def testMultipleRegexPatterns(dataset: Dataset[Row]): Unit = {
-    s"normalizer with multiple regex patterns " should s"successfully correct several words" ignore {
+    s"normalizer with multiple regex patterns " should s"successfully correct several words" in {
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
