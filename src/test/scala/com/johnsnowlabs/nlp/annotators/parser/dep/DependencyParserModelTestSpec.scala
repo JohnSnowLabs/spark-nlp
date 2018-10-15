@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
+import java.nio.file.{Files, Paths}
+
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -10,6 +12,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
+import org.apache.spark.ml.util.MLWriter
 
 import scala.language.reflectiveCalls
 
@@ -31,6 +34,13 @@ class DependencyParserModelTestSpec extends FlatSpec {
       .map { r =>
         Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
+  }
+
+  def saveModel(model: MLWriter, modelFilePath: String): Unit = {
+    model.overwrite().save(modelFilePath)
+    assertResult(true){
+      Files.exists(Paths.get(modelFilePath))
+    }
   }
 
   "A DependencyParser" should "add annotations" in {
@@ -91,7 +101,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     "MSNBC reported that Facebook bought WhatsApp for 16bn"
   ).toDS.toDF("text")
 
-  def dependencyParcerTest(): Unit = {
+  def dependencyParserPipeline(): Unit = {
 
     val model = new Pipeline().setStages(
       Array(documentAssembler,
@@ -105,8 +115,27 @@ class DependencyParserModelTestSpec extends FlatSpec {
     dependencyParserDataset.show(false)
   }
 
-  "A dependency parser model" should "parse sentences showing relationship between words" in {
-    dependencyParcerTest()
+  def trainDependencyParserModel(): DependencyParserModel = {
+    val model = new Pipeline().setStages(
+      Array(documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser
+      )).fit(emptyDataset)
+
+    model.stages.last.asInstanceOf[DependencyParserModel]
+
+  }
+
+  "A dependency parser annotator" should "save a trained model to local disk" in {
+    val dependencyParserModel = trainDependencyParserModel()
+    saveModel(dependencyParserModel.write, "./tmp/dp_model")
+  }
+
+  it should "load a pre-trained model from disk" in {
+    val dependencyParserModel = DependencyParserModel.read.load("./tmp/dp_model")
+    assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
 }

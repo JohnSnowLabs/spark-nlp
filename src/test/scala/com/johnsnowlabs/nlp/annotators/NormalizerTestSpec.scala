@@ -33,15 +33,6 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
   "an isolated normalizer " should behave like testCorrectSlangs(data)
 
   data = Seq(
-    //("payment", "payment"),
-    //("pay", "pay"),
-    ("pymt", "payment"),
-    ("pmt", "payment")
-  ).toDS.toDF("text", "normalized_gt")
-
-  "an isolated normalizer" should behave like correctSlangsWithAnyDelimiter(data)
-
-  data = Seq(
     ("test-ing", "testing"),
     ("test-ingX", "testing")
   ).toDS.toDF("text", "normalized_gt")
