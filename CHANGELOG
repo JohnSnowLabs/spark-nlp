@@ -1,7 +1,28 @@
 ========
 1.7.0
 ========
+---------------
+Overview
+---------------
+Having multiple annotators that use the same word embeddings set, may result in huge pipelines, driver memory and storage consumption.
+Since now on, embeddings may be shared and reutilized across annotators making the process much more efficient.
+Also, thanks to @apiltamang, we now better support path resolution for Windows implementations.
 
+---------------
+Enhancements
+---------------
+Memory and storage saving by allowing annotators with embeddings through params 'includeEmbeddings' and 'embeddingsRef' to allow them to set whether they should be included when saved, or referenced by id from other annotators
+EmbeddingsHelper class allows embeddings management
+
+---------------
+Bug fixes
+---------------
+Thanks to @apiltamang for improving URI path support for Windows Servers
+
+---------------
+Developer API
+---------------
+Embeddings interfaces and method names completely refactored, hopefully simplified and easier to understand
 
 ========
 1.6.3

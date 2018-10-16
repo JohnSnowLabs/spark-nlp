@@ -381,6 +381,98 @@ val recursivePipeline = new RecursivePipeline()
                                             </ul>
                                         </div><!--//code-block--></div>
                                 </div>
+                                <h4 id="EmbeddingsHelper" class="section-block"> EmbeddingsHelper: Deal with word embeddings</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Allows loading, saving and setting word embeddings for annotators
+                                            </p>
+                                            <b>Functions (not all of them listed):</b>
+                                            <ul>
+                                                <li>
+                                                    loadEmbeddings(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                </li>
+                                                <li>
+                                                    saveEmbeddings(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+                                                </li>
+                                                <li>
+                                                    clearCache() -> clears reference and cached embeddings
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Allows loading, saving and setting word embeddings for annotators
+                                            </p>
+                                            <b>Functions (not all of them listed):</b>
+                                            <ul>
+                                                <li>
+                                                    loadEmbeddings(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                </li>
+                                                <li>
+                                                    saveEmbeddings(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+                                                </li>
+                                                <li>
+                                                    clearCache() -> clears reference and cached embeddings
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="AnnotatorEmbeddings" class="section-block"> Annotator with Word Embeddings</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Some annotators use word embeddings. This is a common functionality within them.
+                                            </p>
+                                            <b>Functions (not all of them listed):</b>
+                                            <ul>
+                                                <li>
+                                                    setIncludeEmbeddings(bool) -> Param to define whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsRef(ref) -> Set whether to use annotators under the provided name. This means these embeddings will be lookup from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Some annotators use word embeddings. This is a common functionality within them.
+                                            </p>
+                                            <b>Functions (not all of them listed):</b>
+                                            <ul>
+                                                <li>
+                                                    setIncludeEmbeddings(bool) -> Param to define whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
+                                                </li>
+                                                <li>
+                                                    setEmbeddingsRef(ref) -> Set whether to use annotators under the provided name. This means these embeddings will be lookup from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                </div>
                                 <h4 id="ParamsFeatures" class="section-block"> Params and Features: Annotator parameters</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -2618,6 +2710,8 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#RecursivePipeline">Recursive Pipelines</a></li>
                                     <li><a class="scrollto" href="#ExternalResource">External Resources</a></li>
                                     <li><a class="scrollto" href="#ResourceHelper">ResourceHelper</a></li>
+                                    <li><a class="scrollto" href="#EmbeddingsHelper">EmbeddingsHelper</a></li>
+                                    <li><a class="scrollto" href="#AnnotatorEmbeddings">Annotators with Embeddings</a></li>
                                     <li><a class="scrollto" href="#ParamsFeatures">Params and Features</a></li>
 
                                 </ul><!--//nav-->
