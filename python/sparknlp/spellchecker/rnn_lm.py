@@ -81,6 +81,7 @@ class RNNLM(object):
 
         # LSTM cell
         cell = tf.contrib.rnn.LSTMCell(self.num_hidden_units, state_is_tuple=True)
+
         cell = tf.contrib.rnn.DropoutWrapper(cell, input_keep_prob=self.dropout_rate)
         cell = tf.contrib.rnn.MultiRNNCell(cells=[cell]*self.num_layers, state_is_tuple=True)
 
@@ -131,6 +132,15 @@ class RNNLM(object):
         params = tf.trainable_variables()
 
         opt = tf.train.AdagradOptimizer(self.learning_rate)
+
+        import memory_saving_gradients
+
+        #tf.add_to_collection('checkpoints', logits)
+        #tf.add_to_collection('checkpoints', self.output_embedding_mat)
+
+        # monkey patch tf.gradients to point to our custom version, with automatic checkpoint selection
+        # tf.__dict__["gradients"] = memory_saving_gradients.gradients_collection
+
         gradients = tf.gradients(self.loss, params, colocate_gradients_with_ops=True)
         clipped_gradients, _ = tf.clip_by_global_norm(gradients, self.max_gradient_norm)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
@@ -150,7 +160,7 @@ class RNNLM(object):
 
         builder.save()
 
-    def batch_train(self, sess, saver):
+    def batch_train(self, sess, saver, train_path, valid_path):
 
         best_score = np.inf
         patience = 5
@@ -158,7 +168,8 @@ class RNNLM(object):
 
         while epoch < self.num_epochs:
 
-            sess.run(self.trining_init_op, {self.file_name_train: "../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"})
+            sess.run(self.trining_init_op, {self.file_name_train: train_path})
+            print ('epoch %d' % epoch)
             train_loss = 0.0
             train_valid_words = 0
             while True:
@@ -166,12 +177,13 @@ class RNNLM(object):
                 try:
                     _loss, _valid_words, global_step, current_learning_rate, _ = sess.run(
                         [self.loss, self.valid_words, self.global_step, self.learning_rate, self.updates],
-                        {self.dropout_rate: 0.5})
+                        {self.dropout_rate: 0.6})
                     train_loss += np.sum(_loss)
                     train_valid_words += _valid_words
 
                     if global_step % self.check_point_step == 0:
-
+                        import gc
+                        gc.collect()
                         train_loss /= train_valid_words
                         train_ppl = math.exp(train_loss)
                         print ("Training Step: {}, LR: {}".format(global_step, current_learning_rate))
@@ -184,7 +196,7 @@ class RNNLM(object):
                     # The end of one epoch
                     break
 
-            sess.run(self.validation_init_op, {self.file_name_validation: "./data/valid.ids"})
+            sess.run(self.validation_init_op, {self.file_name_validation: valid_path})
             dev_loss = 0.0
             dev_valid_words = 0
             while True:
@@ -207,8 +219,8 @@ class RNNLM(object):
                     else:
                         patience -= 1
 
-                    if patience == 0:
-                        epoch = self.num_epochs
+                    #if patience == 0:
+                    epoch = self.num_epochs
 
                     break
 
