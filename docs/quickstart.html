@@ -145,7 +145,7 @@ ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")</code></pre>
                                 <h3>Pre-Compiled Spark-NLP for download</h3>
                                 <p>
                                     Pre-compiled Spark-NLP assembly fat-jar for using in standalone projects, may be downloaded
-                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.7.0.jar">here</a>
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.0.jar">here</a>
                                     Non-fat-jar may be downloaded
                                     <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.7.0/spark-nlp_2.11-1.7.0.jar">here</a>
                                     then, run spark-shell or spark-submit with appropriate <b>--jars
@@ -435,7 +435,7 @@ lightPipeline.annotate("Hello world, please annotate my text")
                                 <h3 class="block-title">Installing Spark-NLP OCRHelper</h3>
                                 <p>
                                     First, either build from source or download the following standalone jar module (works both from Spark-NLP python and scala):
-                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-ocr-assembly-1.7.0.jar">Spark-NLP-OCR</a>
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.0.jar">Spark-NLP-OCR</a>
                                     And add it to your Spark environment (with --jars or spark.driver.extraClassPath and spark.executor.extraClassPath configuration)
                                     Second, if your PDFs don't have a text layer (this depends on how PDFs were created), the library will use Tesseract 4.0 on background.
                                     Tesseract will utilize native libraries, so you'll have to get them installed in your system.
