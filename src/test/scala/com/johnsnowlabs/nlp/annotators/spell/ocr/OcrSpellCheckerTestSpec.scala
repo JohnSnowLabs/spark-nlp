@@ -72,7 +72,12 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "a spell checker" should "correclty handle dates" ignore {
+  "a spell checker" should "correclty parse training data" ignore {
+
+    val ocrspell = new OcrSpellCheckApproach().
+      setMinCount(1.0)
+    val vocab = ocrspell.genVocab("src/main/resources/spell_corpus.txt")
+    assert(vocab.size == 10)
 
   }
 

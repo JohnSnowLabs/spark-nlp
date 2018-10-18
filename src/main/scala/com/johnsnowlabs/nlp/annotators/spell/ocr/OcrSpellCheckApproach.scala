@@ -25,6 +25,11 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val vocabPath = new Param[String](this, "vocabPath", "Path to the training corpus text file.")
   def setVocabPath(path: String): this.type = set(vocabPath, path)
 
+  val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
+  def setMinCount(threshold: Double): this.type = set(minCount, threshold)
+
+  setDefault(minCount -> 3.0)
+
   // TODO make params
   val blackList = Seq("&amp;gt;")
   val suffixes = Array(".", ":", "%", ",", ";", "?", "'")
@@ -84,7 +89,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     vocab
   }
 
-  private def genVocab(rawDataPath: String):List[(String, Double)] = {
+  def genVocab(rawDataPath: String):List[(String, Double)] = {
     var vocab = mutable.HashMap[String, Double]()
 
     // TODO: Spark implementation?
@@ -92,24 +97,44 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       // second pass identify tokens that belong to special classes, and replace with a label
       // TODO removing crazy encodings of space and replacing with standard one
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
-        var tmp = token
+        var tmp = Seq(token)
 
         firstPass.foreach{ parser =>
-          tmp = parser.separate(tmp)
+          tmp = tmp.flatMap(_.split(" ").map(_.trim)).map(parser.separate).flatMap(_.split(" "))
         }
 
         specialClasses.foreach { specialClass =>
-          tmp = specialClass.replaceWithLabel(tmp)
+          tmp = tmp.map(specialClass.replaceWithLabel)
         }
 
-        tmp.split(" ").map(_.trim)foreach {cleanToken => //TODO handle case
+        tmp.foreach {cleanToken =>
           val currCount = vocab.getOrElse(cleanToken, 0.0)
           vocab.update(cleanToken, currCount + 1.0)
         }
       }
     }
-    // remove 'rare' tokens, those appearing only one time
-    vocab = vocab.filter(_._2 > 1.0)
+    // remove 'rare' tokens, those appearing less than 2 times
+    vocab = vocab.filter(_._2 >= getOrDefault(minCount))
+
+    // Blacklists
+    // words that appear with first letter capitalized, at the beginning of sentence
+    val fwis = vocab.filter(_._1.length > 1).filter(_._1.head.isUpper).
+      filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).map(_._1)
+
+    val hyphen = vocab.filter {
+      case (word, weight) =>
+        val splits = word.split("-")
+        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1))
+    }.map(_._1)
+
+    val slash = vocab.filter {
+      case (word, weight) =>
+        val splits = word.split("/")
+        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1))
+    }.map(_._1)
+
+    val blacklist = fwis ++ hyphen ++ slash
+    blacklist.foreach{vocab.remove}
 
     // compute frequencies - logarithmic
     val totalCount = math.log(vocab.values.reduce(_ + _))
