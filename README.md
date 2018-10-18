@@ -145,8 +145,8 @@ If there is any older than current version of a model, it means they still work 
 * [SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.6.2_2_1534781178138.zip)
 * [NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.6.2_2_1534781328404.zip)
 * [AssertionDLModel (Assertion Status)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.6.1_2_1533855787457.zip)
-* [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.7.0_2_1539460824995.zip)
-* [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_fast_en_1.7.0_2_1539623388047.zip)
+* [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.7.0_2_1539896043754.zip)
+* [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.7.0_2_1539623388047.zip)
 * [LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.6.1_2_1533854538211.zip)
 * [AssertionDLModel (Assertion)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.7.0_2_1539653960749.zip)
 
