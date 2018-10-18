@@ -84,11 +84,11 @@ sparknlp {
 
 ## Pre-compiled Spark-NLP and Spark-NLP-OCR
 You may download fat-jar from here:
-[Spark-NLP 1.7.0 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.7.0.jar)
+[Spark-NLP 1.7.0 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.0.jar)
 or non-fat from here
 [Spark-NLP 1.7.0 PKG JAR](http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.7.0/spark-nlp_2.11-1.7.0.jar)
 Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 1.7.0 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-ocr-assembly-1.7.0.jar)
+[Spark-NLP-OCR 1.7.0 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.0.jar)
 
 ## Maven central
 
