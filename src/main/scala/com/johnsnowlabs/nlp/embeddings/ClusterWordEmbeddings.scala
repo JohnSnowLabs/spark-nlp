@@ -103,19 +103,18 @@ object ClusterWordEmbeddings {
 
     val localFile = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-        .toAbsolutePath
     }
 
     val clusterFilePath: String = {
-      val name = localFile.toFile.getName
+      val name = localFile.toString
       Path.mergePaths(new Path("/embeddings"), new Path(name)).toString
     }
 
     // 1 and 2.  Copy to local and Index Word Embeddings
-    indexEmbeddings(sourceEmbeddingsPath, localFile.toString, format, spark)
+    indexEmbeddings(sourceEmbeddingsPath, localFile.toAbsolutePath.toString, format, spark)
 
     // 2. Copy WordEmbeddings to cluster
-    copyIndexToCluster(localFile.toString, clusterFilePath, spark)
+    copyIndexToCluster(localFile.toUri.toString, clusterFilePath, spark)
     FileHelper.delete(localFile.toString)
 
     // 3. Create Spark Embeddings
