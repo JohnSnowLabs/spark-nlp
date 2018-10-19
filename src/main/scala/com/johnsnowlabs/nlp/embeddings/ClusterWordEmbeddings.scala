@@ -106,7 +106,7 @@ object ClusterWordEmbeddings {
     }
 
     val clusterFilePath: String = {
-      val name = localFile.toString
+      val name = localFile.toFile.getName
       Path.mergePaths(new Path("/embeddings"), new Path(name)).toString
     }
 
