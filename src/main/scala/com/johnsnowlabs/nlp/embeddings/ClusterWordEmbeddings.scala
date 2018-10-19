@@ -47,7 +47,7 @@ object ClusterWordEmbeddings {
                               format: WordEmbeddingsFormat.Format,
                               spark: SparkContext): Unit = {
 
-    val uri = new File(sourceEmbeddingsPath).toURI
+    val uri = new java.net.URI(sourceEmbeddingsPath.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
@@ -75,7 +75,7 @@ object ClusterWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val uri = new File(localFile).toURI
+    val uri = new java.net.URI(localFile.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
     val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
@@ -103,7 +103,6 @@ object ClusterWordEmbeddings {
 
     val localFile = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-        .toAbsolutePath
     }
 
     val clusterFilePath: String = {
@@ -112,10 +111,10 @@ object ClusterWordEmbeddings {
     }
 
     // 1 and 2.  Copy to local and Index Word Embeddings
-    indexEmbeddings(sourceEmbeddingsPath, localFile.toString, format, spark)
+    indexEmbeddings(sourceEmbeddingsPath, localFile.toAbsolutePath.toString, format, spark)
 
     // 2. Copy WordEmbeddings to cluster
-    copyIndexToCluster(localFile.toString, clusterFilePath, spark)
+    copyIndexToCluster(localFile.toUri.toString, clusterFilePath, spark)
     FileHelper.delete(localFile.toString)
 
     // 3. Create Spark Embeddings
