@@ -3,14 +3,17 @@ package com.johnsnowlabs.nlp.annotators.parser.util
 import com.johnsnowlabs.nlp.annotators.parser.util.DictionaryTypes.DictionaryTypes
 import gnu.trove.map.hash.TIntIntHashMap
 
-class DictionarySet(var isCounting: Boolean, var dictionaries: Array[Dictionary]) {
+class DictionarySet(dictionaries: Array[Dictionary]) {
 
   private var counters: Array[TIntIntHashMap] = _
+  private var isCounting = false
 
   def this () {
-    this(false, Array())
-    val indexDictionaryTypes = DictionaryTypes.TYPE_END.id
-    this.dictionaries = Array.fill[Dictionary](indexDictionaryTypes)(new Dictionary())
+    this{
+      val indexDictionaryTypes = DictionaryTypes.TYPE_END.id
+      val dictionary = new Dictionary()
+      Array.fill[Dictionary](indexDictionaryTypes)(dictionary)
+    }
   }
 
   def lookupIndex(tag: DictionaryTypes, item: String): Int = {
@@ -37,7 +40,7 @@ class DictionarySet(var isCounting: Boolean, var dictionaries: Array[Dictionary]
   def getDictionary(tag: DictionaryTypes): Dictionary = this.dictionaries(tag.id)
 
   def setCounters(): Unit = {
-    this.isCounting = true
+    isCounting = true
     counters = Array.fill[TIntIntHashMap](dictionaries.length)(new TIntIntHashMap)
   }
 

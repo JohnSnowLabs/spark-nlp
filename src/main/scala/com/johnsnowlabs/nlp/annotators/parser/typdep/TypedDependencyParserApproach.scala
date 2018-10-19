@@ -17,8 +17,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
-  val BITS = 30
-
   val numberOfPreTrainingIterations = new IntParam(this, "numberOfPreTrainingIterations",
     "Number of iterations used in a pre-training phase, converges to better accuracy")
   val numberOfTrainingIterations = new IntParam(this, "numberOfTrainingIterations",

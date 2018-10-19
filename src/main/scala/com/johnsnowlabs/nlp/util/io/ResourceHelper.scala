@@ -14,7 +14,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
-import scala.collection.mutable.ListBuffer
+import scala.io.Source
 
 /**
   * Created by saif on 28/04/17.
@@ -362,6 +362,17 @@ object ResourceHelper {
           }))
         wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
+    }
+  }
+
+  def getFilesContentAsArray(externalResource: ExternalResource): Array[String] = {
+    externalResource.readAs match {
+      case LINE_BY_LINE =>
+        val filesPath = new File(externalResource.path).listFiles().toList.sorted
+        val filesContent = filesPath.map(filePath => Source.fromFile(filePath).mkString)
+        filesContent.toArray
+      case _ =>
+        throw new Exception("Unsupported readAs")
     }
   }
 
