@@ -1,4 +1,30 @@
 ========
+1.7.1
+========
+---------------
+Overview
+---------------
+Thanks to our slack community (Bryan Wilkinson, @maziyarpanahi, @apiltamang), a few bugs been pointed out very quickly from 1.7.0 release. This hotfix fixes an embeddings deserialization issue when cache_pretrained is located on a distributed filesystem.
+Also, fixes some path resolution in Windows OS. Thanks to Maziyar, .gitattributes been added in order to identify proper languages in GitHub.
+Finally, 1.7.1 adds a missing annotator from 1.7.0 Chunk2Doc, which converts CHUNK types into DOCUMENT types, for further retokenization or other annotations.
+
+---------------
+Enhancements
+---------------
+* Chunk2Doc annotator converts annotatorType from CHUNK to DOCUMENT
+
+---------------
+Bugfixes
+---------------
+* Fixed embedding-based annotators deserialization error when cache_pretrained is on distributed fs (Thanks Bryan Wilkinson for pointing out issue and testing fix)
+* Fixed windows path reading when deserializing embeddings (Thanks @apiltamang)
+
+---------------
+Other
+---------------
+* .gitattributes added in order to properly discard jupyter as main language for GitHub repo (thanks @maziyarpanahi)
+
+========
 1.7.0
 ========
 ---------------
