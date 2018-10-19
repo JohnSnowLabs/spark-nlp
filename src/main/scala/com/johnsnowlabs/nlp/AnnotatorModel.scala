@@ -1,11 +1,9 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.embeddings.ModelWithWordEmbeddings
 import org.apache.spark.ml.Model
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.MetadataBuilder
 
 /**
  * This trait implements logic that applies nlp using Spark ML Pipeline transformers

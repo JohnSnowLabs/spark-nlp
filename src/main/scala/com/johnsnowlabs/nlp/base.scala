@@ -14,6 +14,9 @@ object base {
   type TokenAssembler = com.johnsnowlabs.nlp.TokenAssembler
   object TokenAssembler extends DefaultParamsReadable[TokenAssembler]
 
+  type Chunk2Doc = com.johnsnowlabs.nlp.Chunk2Doc
+  object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
+
   type Finisher = com.johnsnowlabs.nlp.Finisher
   object Finisher extends DefaultParamsReadable[Finisher]
 
