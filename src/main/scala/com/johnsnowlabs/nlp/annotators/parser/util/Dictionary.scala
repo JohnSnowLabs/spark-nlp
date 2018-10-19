@@ -11,7 +11,6 @@ class Dictionary(capacity: Int) {
   def this() {
     this(10000)
     this.mapDictionary = new TObjectIntHashMap[String](capacity)
-    numEntries = 0
   }
 
   /** Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present. */
