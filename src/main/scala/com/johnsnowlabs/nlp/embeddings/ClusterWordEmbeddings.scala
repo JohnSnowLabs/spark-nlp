@@ -75,19 +75,16 @@ object ClusterWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val uri = new java.net.URI(localFile.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
+    println(s"getting fs as ${fs.getScheme} through ${localFile} as ${new Path(localFile)}")
     val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
-    println(s"localFile was $localFile now is ${src.toString}")
     val clusterTmpLocation = {
       ConfigHelper.getConfigValue(ConfigHelper.embeddingsTmpDir).map(new Path(_)).getOrElse(
         new Path(cfs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir"))
       )
     }
     val dst = Path.mergePaths(clusterTmpLocation, new Path(clusterFilePath))
-
-    println(s"destination is a merge of $clusterTmpLocation and $clusterFilePath which becomes $dst")
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
@@ -118,7 +115,6 @@ object ClusterWordEmbeddings {
     indexEmbeddings(sourceEmbeddingsPath, localFile.toAbsolutePath.toString, format, spark)
 
     // 2. Copy WordEmbeddings to cluster
-    println(s"index which originally is ${localFile.toString} becomes absolute as ${localFile.toString} and we are using ${localFile.toUri.toString}")
     copyIndexToCluster(localFile.toString, clusterFilePath, spark)
     FileHelper.delete(localFile.toString)
 
