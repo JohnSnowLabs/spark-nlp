@@ -1,15 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{ApproachWithWordEmbeddings, WordEmbeddingsRetriever}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param._
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions._
-
-import scala.collection.mutable
 
 /**
   * Created by jose on 22/11/17.
@@ -20,7 +18,7 @@ class AssertionLogRegApproach(val uid: String)
   override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
   val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
-  override def wordVectors(): Option[WordEmbeddings] = embeddings
+  override def wordVectors(): WordEmbeddingsRetriever = getClusterEmbeddings.getOrCreateLocalRetriever
 
   lazy override val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 

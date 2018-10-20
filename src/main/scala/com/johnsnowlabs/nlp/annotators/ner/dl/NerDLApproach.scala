@@ -161,7 +161,7 @@ class NerDLApproach(override val uid: String)
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList)
     val encoder = new NerDatasetEncoder(
-      embeddings.get.getEmbeddings,
+      getClusterEmbeddings.getOrCreateLocalRetriever.getEmbeddingsVector,
       settings
     )
 
@@ -172,7 +172,7 @@ class NerDLApproach(override val uid: String)
     val config = Array[Byte](56, 1)
     val session = new Session(graph, config)
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsNDims), chars.length)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsDim), chars.length)
 
     val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
@@ -200,7 +200,7 @@ class NerDLApproach(override val uid: String)
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(ner.encoder.params)
-      .setUseNormalizedTokensForEmbeddings($(useNormalizedTokensForEmbeddings))
+      .setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
       .setBatchSize($(batchSize))
   }
 }
