@@ -17,10 +17,10 @@ import org.apache.hadoop.fs.Path
 import scala.collection.mutable
 
 
-class S3ResourceDownloader(bucket: String,
-                           s3Path: String,
-                           cacheFolder: String,
-                           credentials: Option[AWSCredentials] = None,
+class S3ResourceDownloader(bucket: => String,
+                           s3Path: => String,
+                           cacheFolder: => String,
+                           credentials: => Option[AWSCredentials] = None,
                            region: String = "us-east-1"
                           )
   extends ResourceDownloader with AutoCloseable {
