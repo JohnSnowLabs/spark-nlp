@@ -32,7 +32,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
     if ($(includeEmbeddings)) {
 
-      val clusterEmbeddings = EmbeddingsHelper.loadEmbeddings(
+      val clusterEmbeddings = EmbeddingsHelper.load(
         src.toUri.toString,
         spark,
         WordEmbeddingsFormat.SPARKNLP.toString,
@@ -66,7 +66,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
       val dst = getEmbeddingsSerializedPath(path)
 
-      EmbeddingsHelper.saveEmbeddings(fs, index, dst)
+      EmbeddingsHelper.save(fs, index, dst)
     }
   }
 

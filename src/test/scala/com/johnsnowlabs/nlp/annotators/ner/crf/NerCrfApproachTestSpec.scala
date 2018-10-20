@@ -67,7 +67,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
 
   it should "correctly handle entities param" in {
 
-    val smallEmbeddings = EmbeddingsHelper.loadEmbeddings(
+    val smallEmbeddings = EmbeddingsHelper.load(
       "src/test/resources/random_embeddings_dim4.txt",
       spark,
       "TEXT",

@@ -8,12 +8,12 @@ class Embeddings:
 
 class EmbeddingsHelper:
     @classmethod
-    def loadEmbeddings(cls, path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens=False):
+    def load(cls, path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens=False):
         jembeddings = _internal._EmbeddingsHelperLoad(path, spark_session, embeddings_format, embeddings_dim, embeddings_casesens).apply()
         return Embeddings(jembeddings)
 
     @classmethod
-    def saveEmbeddings(cls, path, embeddings, spark_session):
+    def save(cls, path, embeddings, spark_session):
         return _internal._EmbeddingsHelperSave(path, embeddings, spark_session).apply()
 
     @classmethod
@@ -21,13 +21,13 @@ class EmbeddingsHelper:
         return _internal._EmbeddingsHelperClear().apply()
 
     @classmethod
-    def getEmbeddingsFromAnnotator(cls, annotator):
+    def getFromAnnotator(cls, annotator):
         return _internal._EmbeddingsHelperFromAnnotator(annotator).apply()
 
     @classmethod
-    def getEmbeddingsByRef(cls, ref):
+    def getByRef(cls, ref):
         return _internal._EmbeddingsHelperByRef(ref).apply()
 
     @classmethod
-    def setEmbeddingsRef(cls, ref, embeddings):
+    def setRef(cls, ref, embeddings):
         return _internal._EmbeddingsHelperSetRef(ref, embeddings).apply()
