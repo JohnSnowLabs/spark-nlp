@@ -75,7 +75,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
       false
     )
 
-    EmbeddingsHelper.setEmbeddingsRef("random_embeddings", smallEmbeddings)
+    EmbeddingsHelper.setRef("random_embeddings", smallEmbeddings)
 
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
