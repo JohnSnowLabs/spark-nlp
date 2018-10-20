@@ -13,13 +13,13 @@ object EmbeddingsHelper {
 
   private var embeddingsCache = spark.sparkContext.broadcast(Map.empty[String, ClusterWordEmbeddings])
 
-  def setEmbeddingsRef(ref: String, embeddings: ClusterWordEmbeddings): Unit = {
+  def setRef(ref: String, embeddings: ClusterWordEmbeddings): Unit = {
     val current = embeddingsCache.value
     embeddingsCache.destroy()
     embeddingsCache = spark.sparkContext.broadcast(current ++ Map(ref -> embeddings))
   }
 
-  def getEmbeddingsByRef(ref: String): Option[ClusterWordEmbeddings] = {
+  def getByRef(ref: String): Option[ClusterWordEmbeddings] = {
     embeddingsCache.value.get(ref)
   }
 

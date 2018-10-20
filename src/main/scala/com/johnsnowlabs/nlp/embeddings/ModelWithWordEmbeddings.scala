@@ -41,12 +41,12 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
       )
 
       /** Set embeddings ref */
-      EmbeddingsHelper.setEmbeddingsRef($(embeddingsRef), clusterEmbeddings)
+      EmbeddingsHelper.setRef($(embeddingsRef), clusterEmbeddings)
 
     } else if (isSet(embeddingsRef)) {
 
       val clusterEmbeddings = EmbeddingsHelper
-        .getEmbeddingsByRef($(embeddingsRef))
+        .getByRef($(embeddingsRef))
         .getOrElse(throw new NoSuchElementException(
           s"Embeddings for stage $uid not included and not found in embeddings cache by ref '${$(embeddingsRef)}'. " +
           s"Please load embeddings first using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() by '${$(embeddingsRef)}'"

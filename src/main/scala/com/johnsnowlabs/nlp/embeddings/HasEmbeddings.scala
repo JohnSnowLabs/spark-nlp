@@ -22,7 +22,7 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def getClusterEmbeddings: ClusterWordEmbeddings = {
     get(embeddingsRef)
       .orElse(getDefault(embeddingsRef))
-      .flatMap(ref => EmbeddingsHelper.getEmbeddingsByRef(ref))
+      .flatMap(ref => EmbeddingsHelper.getByRef(ref))
       .getOrElse(throw new NoSuchElementException(
         s"embeddings not set in $uid for ref ${get(embeddingsRef).orElse(getDefault(embeddingsRef)).getOrElse("-ref not provided-")}")
       )
@@ -30,7 +30,7 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   override def close(): Unit = {
     get(embeddingsRef)
-      .flatMap(EmbeddingsHelper.getEmbeddingsByRef)
+      .flatMap(EmbeddingsHelper.getByRef)
       .foreach(_.getOrCreateLocalRetriever.close())
   }
 

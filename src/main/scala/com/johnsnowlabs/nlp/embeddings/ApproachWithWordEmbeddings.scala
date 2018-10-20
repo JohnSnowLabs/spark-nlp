@@ -47,7 +47,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
           $(caseSensitiveEmbeddings)
         )
       } else if (isSet(embeddingsRef)) {
-        EmbeddingsHelper.getEmbeddingsByRef($(embeddingsRef))
+        EmbeddingsHelper.getByRef($(embeddingsRef))
           .map(clusterEmbeddings => {
             set(embeddingsDim, clusterEmbeddings.dim)
             set(caseSensitiveEmbeddings, clusterEmbeddings.caseSensitive)
@@ -62,12 +62,12 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
     }
 
     /** Set embeddings ref */
-    EmbeddingsHelper.setEmbeddingsRef($(embeddingsRef), clusterEmbeddings)
+    EmbeddingsHelper.setRef($(embeddingsRef), clusterEmbeddings)
 
   }
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
-    val clusterEmbeddings = EmbeddingsHelper.getEmbeddingsByRef($(embeddingsRef))
+    val clusterEmbeddings = EmbeddingsHelper.getByRef($(embeddingsRef))
       .getOrElse(throw new NoSuchElementException("Embeddings not found after training"))
 
     model.setIncludeEmbeddings($(includeEmbeddings))
