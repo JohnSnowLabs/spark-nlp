@@ -115,16 +115,16 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  "A NER with CRF model" should "train de-identification entities" in {
+  "A NER with CRF model" should "train de-identification entities" ignore {
     nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_main_small.csv")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
-  it should "be serializable" in {
+  it should "be serializable" ignore {
     saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
   }
 
-  it should "be loaded from disk" in {
+  it should "be loaded from disk" ignore {
     nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
@@ -474,7 +474,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   private var deIdentificationDataFrame = PipelineModels.dummyDataset
 
-  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" in {
+  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" ignore {
 
     val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
 
@@ -484,7 +484,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
+  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" ignore {
 
     val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
 
@@ -494,7 +494,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-  "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" in {
+  "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" ignore {
 
     val pipeline = getDeIdentificationDLPipelineWithDictionary.fit(emptyDataset)
 
@@ -534,7 +534,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
 
-  "A de-identification annotator with an NER CRF trained with i2b2 dataset" should "transform data" in {
+  "A de-identification annotator with an NER CRF trained with i2b2 dataset" should "transform data" ignore {
     val posTagger = PerceptronModel.pretrained()
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))

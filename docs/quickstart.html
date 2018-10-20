@@ -95,35 +95,35 @@
                                 To start using the library, execute any of the following lines
                                 depending on your desired use case:
                                 </p>
-                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:1.6.3
-pyspark --packages JohnSnowLabs:spark-nlp:1.6.3
-spark-submit --packages JohnSnowLabs:spark-nlp:1.6.3
+                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:1.7.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.1
+spark-submit --packages JohnSnowLabs:spark-nlp:1.7.1
 </code></pre>
                                 <div><b>NOTE: </b>Spark packages --packages has been reported to work unproperly, particularly in python, when utilizing physical clusters.
                                     Utilizing --jars is advised. For python, add python Spark-NLP through pip</div>
                                 <p/>
                                 <h3><b>Databricks cloud cluster</b> & <b>Apache Zeppelin</b></h3>
-                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:1.6.3</code></pre>
+                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.1</code></pre>
                                 <p>
                                     For Python in <b>Apache Zeppelin</b> you may need to setup <i><b>SPARK_SUBMIT_OPTIONS</b></i> utilizing --packages instruction shown above like this
                                 </p>
-                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.6.3"</code></pre>
+                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.7.1"</code></pre>
                                 <h3><b>Python Jupyter Notebook with PySpark</b></h3>
                                 <pre><code class="language-javascript">export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:1.6.3</code></pre>
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.1</code></pre>
                                 <h3><b>Python without explicit Spark Installation</b></h3>
                                 <p>Use pip to install (after you pip installed pyspark)</p>
-                                <pre><code class="language-javascript">pip install spark-nlp==1.6.3</code></pre>
+                                <pre><code class="language-javascript">pip install spark-nlp==1.7.1</code></pre>
                                 <p>In this way, you will have to start SparkSession in your python program manually, this is an example</p>
                                 <pre><code class="python">spark = SparkSession.builder \
     .appName("ner")\
     .master("local[*]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.6.3.jar")\
+    .config("spark.driver.extraClassPath", "lib/spark-nlp-assembly-1.7.1.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()</code></pre>
                                 <h3>S3 based standalone cluster (No Hadoop)</h3>
@@ -145,11 +145,11 @@ ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")</code></pre>
                                 <h3>Pre-Compiled Spark-NLP for download</h3>
                                 <p>
                                     Pre-compiled Spark-NLP assembly fat-jar for using in standalone projects, may be downloaded
-                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-assembly-1.6.3.jar">here</a>
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.1.jar">here</a>
                                     Non-fat-jar may be downloaded
-                                    <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.6.3/spark-nlp_2.11-1.6.3.jar">here</a>
+                                    <a href="http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.7.1/spark-nlp_2.11-1.7.1.jar">here</a>
                                     then, run spark-shell or spark-submit with appropriate <b>--jars
-                                    /path/to/spark-nlp_2.11-1.6.3.jar</b> to use the library in spark.
+                                    /path/to/spark-nlp_2.11-1.7.1.jar</b> to use the library in spark.
                                 </p>
                                 <p>
                                     For further alternatives and documentation check out our README page in <a href="https://github.com/JohnSnowLabs/spark-nlp">GitHub</a>.
@@ -435,7 +435,7 @@ lightPipeline.annotate("Hello world, please annotate my text")
                                 <h3 class="block-title">Installing Spark-NLP OCRHelper</h3>
                                 <p>
                                     First, either build from source or download the following standalone jar module (works both from Spark-NLP python and scala):
-                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/spark-nlp-ocr-assembly-1.6.3.jar">Spark-NLP-OCR</a>
+                                    <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.1.jar">Spark-NLP-OCR</a>
                                     And add it to your Spark environment (with --jars or spark.driver.extraClassPath and spark.executor.extraClassPath configuration)
                                     Second, if your PDFs don't have a text layer (this depends on how PDFs were created), the library will use Tesseract 4.0 on background.
                                     Tesseract will utilize native libraries, so you'll have to get them installed in your system.

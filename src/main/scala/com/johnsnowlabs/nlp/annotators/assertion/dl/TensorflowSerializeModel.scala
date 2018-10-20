@@ -18,7 +18,7 @@ trait WriteTensorflowModel{
 
   def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String): Unit = {
 
-    val uri = new java.net.URI(path)
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp folder
@@ -43,7 +43,7 @@ trait ReadTensorflowModel {
 
   def readTensorflowModel(path: String, spark: SparkSession, suffix: String): TensorflowWrapper = {
 
-    val uri = new java.net.URI(path)
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory

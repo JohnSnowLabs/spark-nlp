@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf._
 import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever
 
 import scala.collection.mutable
 
@@ -11,16 +11,10 @@ import scala.collection.mutable
   * Generates features for CrfBasedNer
   */
 case class FeatureGenerator(dictFeatures: DictionaryFeatures,
-                            embeddings: Option[WordEmbeddings] = None) {
-
-  val emptyEmbedding = if (embeddings.isEmpty) Array.empty[Float] else Array.fill[Float](embeddings.get.nDims)(0f)
+                            embeddings: WordEmbeddingsRetriever) {
 
   def getEmbeddings(token: String): Array[Float] = {
-    if (embeddings.isEmpty) {
-      emptyEmbedding
-    } else {
-      embeddings.get.getEmbeddings(token)
-    }
+    embeddings.getEmbeddingsVector(token)
   }
 
   val shapeEncoding = Map(
