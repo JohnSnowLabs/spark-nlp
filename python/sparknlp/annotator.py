@@ -443,9 +443,9 @@ class LemmatizerModel(AnnotatorModel):
             super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
 
     @staticmethod
-    def pretrained(name="lemma_fast", language="en"):
+    def pretrained(name="lemma_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, language, remote_loc)
 
 
 class DateMatcher(AnnotatorModel):
@@ -591,9 +591,9 @@ class PerceptronModel(AnnotatorModel):
             super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
 
     @staticmethod
-    def pretrained(name="pos_fast", language="en"):
+    def pretrained(name="pos_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
 
 class SentenceDetector(AnnotatorModel):
@@ -786,9 +786,9 @@ class ViveknSentimentModel(AnnotatorModel):
             super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
 
     @staticmethod
-    def pretrained(name="vivekn_fast", language="en"):
+    def pretrained(name="vivekn_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language)
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remote_loc)
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -883,9 +883,9 @@ class NorvigSweetingModel(AnnotatorModel):
             super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
 
     @staticmethod
-    def pretrained(name="spell_fast", language="en"):
+    def pretrained(name="spell_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language, remote_loc)
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
@@ -938,9 +938,9 @@ class SymmetricDeleteModel(AnnotatorModel):
             super(SymmetricDeleteModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel")
 
     @staticmethod
-    def pretrained(name="spell_sd_fast", language="en"):
+    def pretrained(name="spell_sd_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language)
+        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remote_loc)
 
 
 class NerApproach(Params):
@@ -1034,9 +1034,9 @@ class NerCrfModel(AnnotatorModel, ModelWithEmbeddings):
             super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
 
     @staticmethod
-    def pretrained(name="ner_fast", language="en"):
+    def pretrained(name="ner_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerCrfModel, name, language)
+        return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
 
 class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
@@ -1108,9 +1108,9 @@ class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
             super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
 
     @staticmethod
-    def pretrained(name="as_fast_lg", language="en"):
+    def pretrained(name="as_fast_lg", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
+        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remote_loc)
 
 
 class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
@@ -1177,9 +1177,9 @@ class NerDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
 
     @staticmethod
-    def pretrained(name="ner_precise", language="en"):
+    def pretrained(name="ner_precise", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, language)
+        return ResourceDownloader.downloadModel(NerDLModel, name, language, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
@@ -1245,6 +1245,6 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
 
     @staticmethod
-    def pretrained(name="as_fast_dl", language="en"):
+    def pretrained(name="as_fast_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
+        return ResourceDownloader.downloadModel(AssertionDLModel, name, language, remote_loc)
