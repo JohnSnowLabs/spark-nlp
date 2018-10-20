@@ -93,13 +93,13 @@ class _OcrCreateMap(ExtendedJavaWrapper):
 
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
     def __init__(self, path, spark, embformat, ndims, case):
-        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.loadEmbeddings")
+        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load")
         self._java_obj = self._new_java_obj(self._java_obj, path, spark._jsparkSession, embformat, ndims, case)
 
 
 class _EmbeddingsHelperSave(ExtendedJavaWrapper):
     def __init__(self, path, embeddings, spark):
-        super(_EmbeddingsHelperSave, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.saveEmbeddings")
+        super(_EmbeddingsHelperSave, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.save")
         self._java_obj = self._new_java_obj(self._java_obj, path, embeddings.jembeddings, spark._jsparkSession)
 
 
@@ -111,17 +111,17 @@ class _EmbeddingsHelperClear(ExtendedJavaWrapper):
 
 class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
     def __init__(self, annotator):
-        super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getEmbeddingsFromAnnotator")
+        super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getFromAnnotator")
         self._java_obj = self._new_java_obj(self._java_obj, annotator._java_obj)
 
 
 class _EmbeddingsHelperByRef(ExtendedJavaWrapper):
     def __init__(self, ref):
-        super(_EmbeddingsHelperByRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getEmbeddingsByRef")
+        super(_EmbeddingsHelperByRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getByRef")
         self._java_obj = self._new_java_obj(self._java_obj, ref)
 
 
 class _EmbeddingsHelperSetRef(ExtendedJavaWrapper):
     def __init__(self, ref, embeddings):
-        super(_EmbeddingsHelperSetRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.setEmbeddingsRef")
+        super(_EmbeddingsHelperSetRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.setRef")
         self._java_obj = self._new_java_obj(self._java_obj, ref, embeddings.jembeddings)

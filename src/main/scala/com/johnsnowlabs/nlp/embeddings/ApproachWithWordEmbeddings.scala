@@ -39,7 +39,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   override def beforeTraining(spark: SparkSession): Unit = {
     val clusterEmbeddings = {
       if (isDefined(sourceEmbeddingsPath)) {
-        EmbeddingsHelper.loadEmbeddings(
+        EmbeddingsHelper.load(
           $(sourceEmbeddingsPath),
           spark,
           WordEmbeddingsFormat($(embeddingsFormat)).toString,

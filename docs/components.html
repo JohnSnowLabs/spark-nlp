@@ -398,13 +398,13 @@ val recursivePipeline = new RecursivePipeline()
                                             <b>Functions (not all of them listed):</b>
                                             <ul>
                                                 <li>
-                                                    loadEmbeddings(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
+                                                    load(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                    setRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
                                                 </li>
                                                 <li>
-                                                    saveEmbeddings(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+                                                    save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
                                                 </li>
                                                 <li>
                                                     clearCache() -> clears reference and cached embeddings
@@ -419,13 +419,13 @@ val recursivePipeline = new RecursivePipeline()
                                             <b>Functions (not all of them listed):</b>
                                             <ul>
                                                 <li>
-                                                    loadEmbeddings(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
+                                                    load(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                    setRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
                                                 </li>
                                                 <li>
-                                                    saveEmbeddings(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+                                                    save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
                                                 </li>
                                                 <li>
                                                     clearCache() -> clears reference and cached embeddings

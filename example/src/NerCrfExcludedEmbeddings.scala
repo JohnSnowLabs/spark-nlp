@@ -68,7 +68,7 @@ object NerCrfExcludedEmbeddings extends App {
 
   import com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper
 
-  EmbeddingsHelper.loadEmbeddings(
+  EmbeddingsHelper.load(
     "./glove.6B.100d.txt",
     spark,
     WordEmbeddingsFormat.TEXT,
