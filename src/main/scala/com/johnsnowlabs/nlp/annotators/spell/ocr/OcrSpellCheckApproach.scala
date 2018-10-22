@@ -45,7 +45,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
 
-    /* TODO: finish loading the language model */
     val graph = new Graph()
     val config = Array[Byte](56, 1)
     val session = new Session(graph, config)
@@ -56,37 +55,49 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val rawTextPath = getOrDefault(trainCorpusPath)
     val vPath = getOrDefault(vocabPath)
 
-    val vocab =
-      if (new File(vPath).exists())
-        loadVocab(vPath).toMap
+    val (vocabFreq, vocabIds) =
+      //if (new File(vPath).exists())
+        loadVocab(vPath)
+    /*
       else {
         val v = persistVocab(genVocab(rawTextPath), vPath)
-        // TODO: analyze v.map(_._1).sorted and see the garbage
         encodeCorpus(rawTextPath, v.map(_._1))
         v.toMap
-      }
+      }*/
 
     // create transducers for special classes
     val specialClassesTransducers = specialClasses.par.map(_.generateTransducer).seq
 
-    // TODO: replace hard coded stuff for development only
     new OcrSpellCheckModel().
-      setVocab(vocab).
-      setVocabTransducer(createTransducer(vocab.keys.toList)).
+      setVocabFreq(vocabFreq.toMap).
+      setVocabIds(vocabIds.toMap).
+      setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
-      //setTensorflow(tf).
-      //readModel("../auxdata/spell_model", dataset.sparkSession, "").
+      setTensorflow(tf).
+      readModel("../auxdata/good_model", dataset.sparkSession, "").
       setInputCols(getOrDefault(inputCols))
   }
 
-  private def loadVocab(path: String):mutable.HashMap[String, Double] = {
-    val vocab = mutable.HashMap[String, Double]()
-    scala.io.Source.fromFile(path + ".freq").getLines.foreach { line =>
+  private def loadVocab(path: String) = {
+    // store individual frequencies of words
+    val vocabFreq = mutable.HashMap[String, Double]()
+
+    // store word ids
+    val vocabIdxs = mutable.HashMap[String, Int]()
+
+    scala.io.Source.fromFile(path + ".freq").getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
-      // TODO: this is not working
-       vocab += (lineFields(0)-> lineFields(1).toDouble)
+       println(lineFields(0))
+       vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
+
     }
-    vocab
+
+    // TODO: remove this, retrieve everything from the .freq file
+    scala.io.Source.fromFile(path).getLines.zipWithIndex.foreach { case (line, idx) =>
+      vocabIdxs += (line-> idx)
+    }
+
+    (vocabFreq, vocabIdxs)
   }
 
   def genVocab(rawDataPath: String):List[(String, Double)] = {
@@ -142,7 +153,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       vocab.update(key, math.log(vocab(key)) - totalCount)
     }
 
-    List(("_PAD_", 0.0), ("_BOS_", 0.0), ("_EOS_", 0.0), ("_UNK_", 0.0)) ++ vocab.toList
+    List(("_PAD_", 1.0), ("_BOS_", 1.0), ("_EOS_", 1.0), ("_UNK_", 1.0)) ++ vocab.toList
   }
 
 

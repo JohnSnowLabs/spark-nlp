@@ -133,14 +133,6 @@ class RNNLM(object):
 
         opt = tf.train.AdagradOptimizer(self.learning_rate)
 
-        import memory_saving_gradients
-
-        #tf.add_to_collection('checkpoints', logits)
-        #tf.add_to_collection('checkpoints', self.output_embedding_mat)
-
-        # monkey patch tf.gradients to point to our custom version, with automatic checkpoint selection
-        # tf.__dict__["gradients"] = memory_saving_gradients.gradients_collection
-
         gradients = tf.gradients(self.loss, params, colocate_gradients_with_ops=True)
         clipped_gradients, _ = tf.clip_by_global_norm(gradients, self.max_gradient_norm)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
