@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.util
 
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Dictionary
 import org.scalatest.FlatSpec
 
 class DictionaryTestSpec extends FlatSpec {

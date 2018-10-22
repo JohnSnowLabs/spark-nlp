@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.parser.util
+package com.johnsnowlabs.nlp.annotators.parser.typdep.util
 
 import gnu.trove.map.hash.TObjectIntHashMap
 
