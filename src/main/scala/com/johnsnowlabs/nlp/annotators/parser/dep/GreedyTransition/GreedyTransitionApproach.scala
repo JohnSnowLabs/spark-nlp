@@ -13,6 +13,7 @@ class GreedyTransitionApproach {
 
   def parse(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
     val parser = new Parser()
+    val lastElement = trainedPerceptron.lastOption
     parser.perceptron.load(trainedPerceptron.toIterator)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
@@ -30,6 +31,7 @@ class GreedyTransitionApproach {
   def parseOld(posTagged: PosTaggedSentence, externalResource: ExternalResource): DependencyParsedSentence = {
     val parser = new Parser()
     val perceptronAsArray = ResourceHelper.parseLines(externalResource)
+    val lastElement = perceptronAsArray.lastOption
     parser.perceptron.load(perceptronAsArray.toIterator)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
@@ -64,10 +66,13 @@ class GreedyTransitionApproach {
             learning
               .getOrElse(name, Map[String,ClassToWeightLearner]())
               .getOrElse(data, Map[ClassNum, WeightLearner]())
-              .foldLeft(acc) { (accForFeature, cnWl) =>
-                val classnum: ClassNum = cnWl._1
-                val weightLearner: WeightLearner = cnWl._2
-                accForFeature.updated(classnum, accForFeature(classnum) + score * scoreMethod(weightLearner))
+              .foldLeft(acc) { (accForFeature, classNumAndWeights) =>
+                val classNum: ClassNum = classNumAndWeights._1
+                val weightLearner: WeightLearner = classNumAndWeights._2
+                println("accForFeature: " + accForFeature)
+                println("classNum: " + classNum)
+                println("weightLearner:" + weightLearner)
+                accForFeature.updated(classNum, accForFeature(classNum) + score * scoreMethod(weightLearner))
               }
         }
     }

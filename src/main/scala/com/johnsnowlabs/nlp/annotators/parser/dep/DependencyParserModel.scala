@@ -27,8 +27,8 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    val dependencyParsedSentence = model.parseOld(sentence, $(source))
-    //val dependencyParsedSentence = model.parse(sentence, $$(perceptronAsArray))
+    // val dependencyParsedSentence = model.parseOld(sentence, $(source))
+    val dependencyParsedSentence = model.parse(sentence, $$(perceptronAsArray))
     dependencyParsedSentence
   }
 
