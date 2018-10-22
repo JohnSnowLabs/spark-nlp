@@ -16,7 +16,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   val source = new ExternalResourceParam(this, "source", "source file for dependency model")
-  val dependencyTreeBank = new ExternalResourceParam(this, "source", "dependency treebank source files")
+  val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "dependency treebank source files")
 
   def setSource(value: ExternalResource): this.type = set(source, value)
 
@@ -30,7 +30,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   private lazy val filesContent = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
 
-  private lazy val trainingSentences = filesContent.flatMap(fileContent => readCONLL(fileContent))
+  private lazy val trainingSentences = filesContent.flatMap(fileContent => readCONLL(fileContent)).toList
 
   def readCONLL(filesContent: String): List[Sentence] = {
 
@@ -55,12 +55,20 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
 
-    val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences.toList)
+    val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
 
     val tagger = new Tagger(classes, tagDictionary)
 
+    val performanceProgress = (0 until 10).map { seed =>
+        tagger.train(trainingSentences, seed) //Iterates to increase accuracy
+    }
+    println(s"Tagger Performance = $performanceProgress")
+
+    val perceptronAsArray = tagger.getPerceptronAsArray
+
     new DependencyParserModel()
       .setSourcePath($(source))
+      .setPerceptronAsArray(perceptronAsArray)
   }
 
 }

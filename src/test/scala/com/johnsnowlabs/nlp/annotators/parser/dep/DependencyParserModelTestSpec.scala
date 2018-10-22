@@ -28,12 +28,12 @@ class DependencyParserModelTestSpec extends FlatSpec {
         Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
       }
     val tokens: DataFrame = df.select("token")
-    val tokenAnnotations: Seq[Annotation] = tokens
-      .collect
-      .flatMap { r => r.getSeq[Row](0) }
-      .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
-      }
+//    val tokenAnnotations: Seq[Annotation] = tokens
+//      .collect
+//      .flatMap { r => r.getSeq[Row](0) }
+//      .map { r =>
+//        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+//      }
   }
 
   def saveModel(model: MLWriter, modelFilePath: String): Unit = {
@@ -55,10 +55,10 @@ class DependencyParserModelTestSpec extends FlatSpec {
     }
   }
 
-  it should "annotate each token" ignore {
-    val f = fixture
-    assert(f.tokenAnnotations.size == f.depAnnotations.size, s"Every token should be annotated")
-  }
+//  it should "annotate each token" ignore {
+//    val f = fixture
+//    assert(f.tokenAnnotations.size == f.depAnnotations.size, s"Every token should be annotated")
+//  }
 
   it should "annotate each word with a head" ignore {
     val f = fixture
@@ -67,12 +67,12 @@ class DependencyParserModelTestSpec extends FlatSpec {
     }
   }
 
-  it should "annotate each word with the correct indexes" ignore {
-    val f = fixture
-    f.depAnnotations
-      .zip(f.tokenAnnotations)
-      .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
-  }
+//  it should "annotate each word with the correct indexes" ignore {
+//    val f = fixture
+//    f.depAnnotations
+//      .zip(f.tokenAnnotations)
+//      .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
+//  }
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -137,6 +137,10 @@ class DependencyParserModelTestSpec extends FlatSpec {
   it should "load a pre-trained model from disk" in {
     val dependencyParserModel = DependencyParserModel.read.load("./tmp/dp_model")
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
+  }
+
+  "A dependency parser model" should "transform a test dataset" in {
+    dependencyParserPipeline()
   }
 
 }

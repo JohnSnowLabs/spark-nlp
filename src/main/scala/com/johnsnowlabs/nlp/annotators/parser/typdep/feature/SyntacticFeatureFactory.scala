@@ -1,6 +1,6 @@
-package com.johnsnowlabs.nlp.annotators.parser.feature
+package com.johnsnowlabs.nlp.annotators.parser.typdep.feature
 
-import com.johnsnowlabs.nlp.annotators.parser.util.Alphabet
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Alphabet
 import gnu.trove.set.hash.TLongHashSet
 
 class SyntacticFeatureFactory(wordAlphabet: Alphabet, stoppedGrowth: Boolean, featureHashSet: TLongHashSet,

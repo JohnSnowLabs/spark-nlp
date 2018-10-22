@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParse
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
+import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -14,20 +15,20 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val annotatorType: String = DEPENDENCY
 
-  override val requiredAnnotatorTypes:Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
+  override val requiredAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
   val source = new ExternalResourceParam(this, "source", "source file for dependency model")
-  val dependencyTreeBank = new ExternalResourceParam(this, "source", "dependency treebank source files")
 
   def setSourcePath(value: ExternalResource): this.type = set(source, value)
 
-  def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                            options: Map[String, String] = Map.empty[String, String]): this.type =
-    set(dependencyTreeBank, ExternalResource(path, readAs, options))
+  val perceptronAsArray: ArrayFeature[String] = new ArrayFeature[String](this, "perceptronAsArray")
+
+  def setPerceptronAsArray(perceptron: Array[String]): this.type = set(perceptronAsArray, perceptron)
 
   def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    val dependencyParsedSentence = model.parse(sentence, $(source))
+    val dependencyParsedSentence = model.parseOld(sentence, $(source))
+    //val dependencyParsedSentence = model.parse(sentence, $$(perceptronAsArray))
     dependencyParsedSentence
   }
 

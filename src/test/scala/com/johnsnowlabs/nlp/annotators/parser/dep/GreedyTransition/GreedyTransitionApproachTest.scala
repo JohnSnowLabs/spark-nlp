@@ -27,11 +27,11 @@ class GreedyTransitionApproachTest extends FlatSpec {
 
   }
 
-  "A GreedyTransitionApproach" should "return an array of dependencies" in {
-    val f = fixture
-    val sentences = PosTagged.unpack(f.sentenceAnnotation ++ f.tokenAnnotations ++ f.posTagAnnotations)
-    for (sentence <- sentences) {
-      assert(f.model.parse(sentence, ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String])).tokens.length == sentence.indexedTaggedWords.length)
-    }
-  }
+//  "A GreedyTransitionApproach" should "return an array of dependencies" in {
+//    val f = fixture
+//    val sentences = PosTagged.unpack(f.sentenceAnnotation ++ f.tokenAnnotations ++ f.posTagAnnotations)
+//    for (sentence <- sentences) {
+//      assert(f.model.parse(sentence, ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String])).tokens.length == sentence.indexedTaggedWords.length)
+//    }
+//  }
 }

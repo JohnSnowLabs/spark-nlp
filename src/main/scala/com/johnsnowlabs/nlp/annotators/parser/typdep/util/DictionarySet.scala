@@ -1,6 +1,6 @@
-package com.johnsnowlabs.nlp.annotators.parser.util
+package com.johnsnowlabs.nlp.annotators.parser.typdep.util
 
-import com.johnsnowlabs.nlp.annotators.parser.util.DictionaryTypes.DictionaryTypes
+import DictionaryTypes.DictionaryTypes
 import gnu.trove.map.hash.TIntIntHashMap
 
 class DictionarySet(dictionaries: Array[Dictionary]) {
