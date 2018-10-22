@@ -10,7 +10,7 @@ import org.apache.spark.sql.SparkSession
 
 class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel] with ReadTensorflowModel {
 
-  override val tfFile: String = "spell_model"
+  override val tfFile: String = "good_model"
 
   private var tensorflow:TensorflowWrapper = null
 
@@ -18,7 +18,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var specialClassesTransducers: Seq[ITransducer[Candidate]] = null
 
-  private var vocab: Predef.Map[String, Double] = null
+  private var vocabFreq: Predef.Map[String, Double] = null
+
+  private var vocabIds: Predef.Map[String, Int] = null
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -39,11 +41,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     _model
   }
 
-  /*
+
   def setTensorflow(tf: TensorflowWrapper): OcrSpellCheckModel = {
     tensorflow = tf
     this
-  }*/
+  }
 
 
   def setVocabTransducer(trans:ITransducer[Candidate]) = {
@@ -51,14 +53,71 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }
 
-  def setVocab(v: Map[String, Double]) = {
-    vocab = v
+  def setVocabFreq(v: Map[String, Double]) = {
+    vocabFreq = v
+    this
+  }
+
+  def setVocabIds(v: Map[String, Int]) = {
+    vocabIds = v
     this
   }
 
   def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = {
     specialClassesTransducers = transducers
     this
+  }
+
+  def getCost(path: Array[Int], pathCost:Double, state: Int) = {
+
+    model.predict(Array(path))
+  }
+
+  def decodeViterbi(trellis: Array[Array[(String, Double)]]):(Array[Int], Double) = {
+
+    // encode words with ids
+    val encTrellis = Array(Array((vocabIds("_BOS_"), 1.0))) ++
+          trellis.map(_.map{case (word, weight) => (vocabIds.getOrElse(word, vocabIds("_UNK_")), weight)}) ++
+          Array(Array((vocabIds("_EOS_"), 1.0)))
+
+    // init
+    var paths = Array(Array(vocabIds("_BOS_")))
+    var costs = Array(1.0) // cost for each of the paths
+    var ppls = Array(1.0) // perplexities for each path
+
+    for(i <- 1 to encTrellis.length - 1) {
+
+      var newPaths = Array(Array[Int]())
+      var newCosts = Array[Double]()
+      var newPpl = Array[Double]()
+
+      for {(state, wcost) <- encTrellis(i)} {
+        var minCost = Double.MaxValue
+        var minPath = Array[Int]()
+        var minPpl = Double.MaxValue
+
+        for ((path, pathCost, pathPpl) <- (paths, costs, ppls).zipped) {
+          // compute cost to arrive to this 'state' coming from that 'path'
+          model
+          val ppl = _model.predict(Array(path :+ state)).head
+          val dppl = ppl - pathPpl
+          val cost = pathCost + dppl * wcost
+          if (cost < minCost){
+            minCost = cost
+            minPath = path :+ state
+            minPpl = ppl
+          }
+        }
+        newPaths = newPaths :+ minPath
+        newCosts = newCosts :+ minCost
+        newPpl = newPpl :+ minPpl
+      }
+      paths = newPaths
+      costs = newCosts
+      ppls = newPpl
+    }
+
+    (paths.zip(costs).minBy(_._2)._1, 0.0)
   }
 
   /**
@@ -71,27 +130,27 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     import scala.collection.JavaConversions._
     val allTransducers = specialClassesTransducers :+ transducer
 
-    // TODO integrate the LM!
-    //model.predict(Array(Array.empty[String]), Array.empty, Array.empty).foreach(println)
 
     annotations.map{ annotation =>
-      val corrected = annotation.result.split(" ").map { token =>
+      val trellis:Array[Array[(String, Double)]] = annotation.result.split(" ").map { token =>
         // ask each token class for candidates, keep the one with lower cost
         val candidates = allTransducers.flatMap(_.transduce(token, 2))
         val min = candidates.map(_.distance).min
 
+        // TODO remove hardcoded normalization
         val candW = candidates.map{ c =>
-          val weight = -vocab(c.term) / 60.0 + c.distance.toDouble / token.size
+          val weight = -vocabFreq.getOrElse(c.term, Double.MaxValue) / 60.0 + c.distance.toDouble / token.size
           (c.term, weight)
-        }.sortBy(_._2).take(15)
-
+        }.sortBy(_._2).take(10) // TODO: this should be a Param
 
         println(s"""$token -> ${candW.toList.take(7)}""")
-        (candidates.minBy(_.distance), min)
+        candW.toArray
       }
-      val globalMin = corrected.map(_._2).sum.toString
-      annotation.copy(result = corrected.map(_._1.term).mkString(" "),
-        metadata = annotation.metadata + ("score" -> globalMin))
+
+      val (decodedPath, cost) = decodeViterbi(trellis)
+
+      annotation.copy(result = decodedPath.mkString(" "),
+        metadata = annotation.metadata + ("score" -> cost.toString))
     }
   }
 
