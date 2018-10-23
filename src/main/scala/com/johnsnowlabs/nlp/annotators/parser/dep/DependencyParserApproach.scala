@@ -15,10 +15,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
-  val source = new ExternalResourceParam(this, "source", "source file for dependency model")
   val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "dependency treebank source files")
-
-  def setSource(value: ExternalResource): this.type = set(source, value)
 
   def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
@@ -67,7 +64,6 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val perceptronAsArray = tagger.getPerceptronAsArray
 
     new DependencyParserModel()
-      .setSourcePath($(source))
       .setPerceptronAsArray(perceptronAsArray)
   }
 

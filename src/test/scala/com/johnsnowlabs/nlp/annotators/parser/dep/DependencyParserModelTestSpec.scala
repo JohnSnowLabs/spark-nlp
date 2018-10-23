@@ -91,7 +91,6 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    .setSource(ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
     .setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
 
   private val emptyDataset = PipelineModels.dummyDataset
