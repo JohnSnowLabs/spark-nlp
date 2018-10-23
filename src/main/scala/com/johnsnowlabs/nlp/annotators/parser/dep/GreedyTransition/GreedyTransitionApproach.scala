@@ -1,10 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
-
-import scala.collection.mutable
+import com.johnsnowlabs.nlp.annotators.parser.dep.Perceptron
 
 /**
   * Parser based on the code of Matthew Honnibal and Martin Andrews
@@ -12,12 +10,11 @@ import scala.collection.mutable
 class GreedyTransitionApproach {
 
   def parse(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
-    val parser = new Parser()
-    val lastElement = trainedPerceptron.lastOption
-    parser.perceptron.load(trainedPerceptron.toIterator)
+    val dependencyMaker = new DependencyMaker()
+    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
-    val dependencies = parser.parse(sentence)
+    val dependencies = dependencyMaker.predictHeads(sentence)
     val words = posTagged.indexedTaggedWords
       .zip(dependencies)
       .map{
@@ -28,103 +25,7 @@ class GreedyTransitionApproach {
     DependencyParsedSentence(words)
   }
 
-  def parseOld(posTagged: PosTaggedSentence, externalResource: ExternalResource): DependencyParsedSentence = {
-    val parser = new Parser()
-    val perceptronAsArray = ResourceHelper.parseLines(externalResource)
-    val lastElement = perceptronAsArray.lastOption
-    parser.perceptron.load(perceptronAsArray.toIterator)
-    val sentence: Sentence = posTagged.indexedTaggedWords
-      .map { item => WordData(item.word, item.tag) }.toList
-    val dependencies = parser.parse(sentence)
-    val words = posTagged.indexedTaggedWords
-      .zip(dependencies)
-      .map{
-        case (word, dependency) =>
-          WordWithDependency(word.word, word.begin, word.end, dependency)
-      }
-
-    DependencyParsedSentence(words)
-  }
-
-  class Perceptron(nClasses:Int) {
-    type ClassToWeightLearner = mutable.Map[ ClassNum,  WeightLearner ]
-    type ClassVector = Vector[Score]
-
-    case class WeightLearner(current: Int, total: Int, freq: Int)
-
-    val learning =  mutable.Map.empty[String, mutable.Map[String, ClassToWeightLearner]]
-    var seen: Int = 0
-
-    def current(w: WeightLearner): Double =  w.current
-    def average(w: WeightLearner): Double = (w.current * (seen - w.freq) + w.total) / seen
-
-    def score(features: Map[Feature, Score], scoreMethod: WeightLearner => Double): ClassVector = {
-      features
-        .filter { case (_, e2) => e2 != 0 case _ => false }
-        .foldLeft(Vector.fill(nClasses)(0: Double)) {
-          case (acc, (Feature(name, data), score)) =>
-            learning
-              .getOrElse(name, Map[String,ClassToWeightLearner]())
-              .getOrElse(data, Map[ClassNum, WeightLearner]())
-              .foldLeft(acc) { (accForFeature, classNumAndWeights) =>
-                val classNum: ClassNum = classNumAndWeights._1
-                val weightLearner: WeightLearner = classNumAndWeights._2
-                println("accForFeature: " + accForFeature)
-                println("classNum: " + classNum)
-                println("weightLearner:" + weightLearner)
-                accForFeature.updated(classNum, accForFeature(classNum) + score * scoreMethod(weightLearner))
-              }
-        }
-    }
-
-    override def toString: String = {
-      s"perceptron.seen=[$seen]\n" +
-        learning.map({ case (featureName, m1) => {
-          m1.map({ case (featureData, cnFeature) => {
-            cnFeature.map({ case (cn, feature) => {
-              s"$cn:${feature.current},${feature.total},${feature.freq}"
-            }}).mkString(s"$featureData[","|","]\n")
-          }}).mkString(s"$featureName{\n","","}\n")
-        }}).mkString("perceptron.learning={\n","","}\n")
-    }
-
-    def load(lines: Iterator[String]): Unit = {
-      val perceptronSeen     = """perceptron.seen=\[(.*)\]""".r
-      val perceptronFeatN   = """(.*)\{""".r
-      val perceptronFeatD   = """(.*)\[(.*)\]""".r
-      def parse(lines: Iterator[String]): Unit = if (lines.hasNext) lines.next match {
-        case perceptronSeen(data) =>
-          seen = data.toInt
-          parse(lines)
-        case "perceptron.learning={" =>
-          parseFeatureName(lines)
-          parse(lines)
-        case _ =>
-      }
-
-      def parseFeatureName(lines: Iterator[String]): Unit = if (lines.hasNext) lines.next match {
-        case perceptronFeatN(featureName) =>
-          learning.getOrElseUpdate(featureName, mutable.Map[FeatureData, ClassToWeightLearner]())
-          parseFeatureData(featureName, lines)
-          parseFeatureName(lines)
-        case _ =>
-      }
-
-      def parseFeatureData(featureName: String, lines: Iterator[String]): Unit = if (lines.hasNext) lines.next match {
-        case perceptronFeatD(featureData, classnumWeight) =>
-          learning(featureName).getOrElseUpdate(featureData, mutable.Map[ClassNum, WeightLearner]() )
-          classnumWeight.split('|').map( cw => {
-            val cnWt = cw.split(':').map(_.split(',').map(_.toInt))
-            learning(featureName)(featureData) += (( cnWt(0)(0), WeightLearner(cnWt(1)(0), cnWt(1)(1), cnWt(1)(2)) ))
-          })
-          parseFeatureData(featureName, lines)
-        case _ =>
-      }
-      parse(lines)
-    }
-  }
-
-  class Parser {
+  class DependencyMaker {
     val SHIFT: Move = 0
     val RIGHT: Move = 1
     val LEFT: Move = 2
@@ -296,9 +197,7 @@ class GreedyTransitionApproach {
 
     }
 
-    def parse(sentence: Sentence): List[Int] = {
-      val words = sentence.map( _.norm ).toVector
-      val tags = sentence.map(s => s.pos).toVector
+    def predictHeads(sentence: Sentence): List[Int] = {
       val goldHeads = sentence.map( _.dep ).toVector
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
@@ -306,9 +205,8 @@ class GreedyTransitionApproach {
         if (validMoves.isEmpty) {
           state
         } else {
-          val features = state.extractFeatures(words, tags)
-          val score = perceptron.score(features, perceptron.average)
-          val guess = validMoves.map( m => (-score(m), m) ).toList.minBy { _._1 }._2
+          val goldMoves = state.getGoldMoves(goldHeads)
+          val guess = goldMoves.toList.head
           moveThroughSentenceFrom( state.transition(guess) )
         }
       }
@@ -319,7 +217,7 @@ class GreedyTransitionApproach {
     }
 
     override def toString: String = {
-      perceptron.toString
+      perceptron.toString()
     }
   }
 }
