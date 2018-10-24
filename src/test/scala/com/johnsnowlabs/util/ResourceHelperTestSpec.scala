@@ -9,7 +9,7 @@ import org.scalatest.FlatSpec
 
 class ResourceHelperTestSpec extends FlatSpec {
   // Access spark to avoid creating in ResourceHelper
-  val spark = SparkAccessor.spark
+  private val spark = SparkAccessor.spark
 
   "List directory" should "correctly list file inside resource directory" in {
     val files = ResourceHelper.listResourceDirectory("ner-dl").toList
@@ -25,7 +25,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   "ResourceHelper" should "transform files' content in an array of string representation" in {
 
-    val externalResource = ExternalResource("/Users/dburbano/tmp/test_files", ReadAs.LINE_BY_LINE,
+    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
     val stringRepresentation = ResourceHelper.getFilesContentAsArray(externalResource)
     val expectedStringRepresentation = Array("Hello\nWorld", "Bye\nWorld")
@@ -35,13 +35,30 @@ class ResourceHelperTestSpec extends FlatSpec {
   }
 
   it should "raise an error when SPARK_DATASET is set in RedAs parameter" in {
-    val externalResource = ExternalResource("/Users/dburbano/tmp/test_files", ReadAs.SPARK_DATASET,
+    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK_DATASET,
       Map("format"->"text"))
 
     val caught = intercept[Exception] {
       ResourceHelper.getFilesContentAsArray(externalResource)
     }
     assert(caught.getMessage == "Unsupported readAs")
+  }
+
+  it should "raise FileNotFound exception when a wrong path is sent" in {
+    val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
+      Map.empty[String, String])
+    val expectedMessage = "folder: wrong/path/ not found"
+
+    assertThrows[FileNotFoundException]{
+      ResourceHelper.getFilesContentAsArray(externalResource)
+    }
+
+    val caught = intercept[FileNotFoundException] {
+      ResourceHelper.getFilesContentAsArray(externalResource)
+    }
+
+    assert(caught.getMessage == expectedMessage)
+
   }
 
 }
