@@ -32,7 +32,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
     if ($(includeEmbeddings)) {
 
-      val clusterEmbeddings = EmbeddingsHelper.loadEmbeddings(
+      val clusterEmbeddings = EmbeddingsHelper.load(
         src.toUri.toString,
         spark,
         WordEmbeddingsFormat.SPARKNLP.toString,
@@ -41,12 +41,12 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
       )
 
       /** Set embeddings ref */
-      EmbeddingsHelper.setEmbeddingsRef($(embeddingsRef), clusterEmbeddings)
+      EmbeddingsHelper.setRef($(embeddingsRef), clusterEmbeddings)
 
     } else if (isSet(embeddingsRef)) {
 
       val clusterEmbeddings = EmbeddingsHelper
-        .getEmbeddingsByRef($(embeddingsRef))
+        .getByRef($(embeddingsRef))
         .getOrElse(throw new NoSuchElementException(
           s"Embeddings for stage $uid not included and not found in embeddings cache by ref '${$(embeddingsRef)}'. " +
           s"Please load embeddings first using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() by '${$(embeddingsRef)}'"
@@ -66,7 +66,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
       val dst = getEmbeddingsSerializedPath(path)
 
-      EmbeddingsHelper.saveEmbeddings(fs, index, dst)
+      EmbeddingsHelper.save(fs, index, dst)
     }
   }
 

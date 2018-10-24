@@ -13,17 +13,17 @@ object EmbeddingsHelper {
 
   private var embeddingsCache = spark.sparkContext.broadcast(Map.empty[String, ClusterWordEmbeddings])
 
-  def setEmbeddingsRef(ref: String, embeddings: ClusterWordEmbeddings): Unit = {
+  def setRef(ref: String, embeddings: ClusterWordEmbeddings): Unit = {
     val current = embeddingsCache.value
     embeddingsCache.destroy()
     embeddingsCache = spark.sparkContext.broadcast(current ++ Map(ref -> embeddings))
   }
 
-  def getEmbeddingsByRef(ref: String): Option[ClusterWordEmbeddings] = {
+  def getByRef(ref: String): Option[ClusterWordEmbeddings] = {
     embeddingsCache.value.get(ref)
   }
 
-  def loadEmbeddings(
+  def load(
                       path: String,
                       spark: SparkSession,
                       format: String,
@@ -48,13 +48,13 @@ object EmbeddingsHelper {
     }
   }
 
-  def loadEmbeddings(
+  def load(
                     path: String,
                     spark: SparkSession,
                     format: WordEmbeddingsFormat.Format,
                     nDims: Int,
                     caseSensitiveEmbeddings: Boolean): ClusterWordEmbeddings = {
-    loadEmbeddings(
+    load(
       path,
       spark,
       format.toString,
@@ -63,7 +63,7 @@ object EmbeddingsHelper {
     )
   }
 
-  def loadEmbeddings(
+  def load(
                     indexPath: String,
                     nDims: Int,
                     caseSensitive: Boolean
@@ -71,25 +71,25 @@ object EmbeddingsHelper {
     new ClusterWordEmbeddings(indexPath, nDims, caseSensitive)
   }
 
-  def getEmbeddingsFromAnnotator(annotator: ModelWithWordEmbeddings): ClusterWordEmbeddings = {
+  def getFromAnnotator(annotator: ModelWithWordEmbeddings): ClusterWordEmbeddings = {
     annotator.getClusterEmbeddings
   }
 
-  protected def saveEmbeddings(path: String, spark: SparkSession, indexPath: String): Unit = {
+  protected def save(path: String, spark: SparkSession, indexPath: String): Unit = {
     val index = new Path(SparkFiles.get(indexPath))
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dst = new Path(path)
 
-    saveEmbeddings(fs, index, dst)
+    save(fs, index, dst)
   }
 
-  def saveEmbeddings(path: String, embeddings: ClusterWordEmbeddings, spark: SparkSession): Unit = {
-    EmbeddingsHelper.saveEmbeddings(path, spark, embeddings.clusterFilePath.toString)
+  def save(path: String, embeddings: ClusterWordEmbeddings, spark: SparkSession): Unit = {
+    EmbeddingsHelper.save(path, spark, embeddings.clusterFilePath.toString)
   }
 
-  def saveEmbeddings(fs: FileSystem, index: Path, dst: Path): Unit = {
+  def save(fs: FileSystem, index: Path, dst: Path): Unit = {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 

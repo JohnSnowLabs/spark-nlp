@@ -1,4 +1,26 @@
 ========
+1.7.2
+========
+---------------
+Overview
+---------------
+Quick release with another hotfix, due to a new found bug when deserializing word embeddings in a distributed fs. Also introduces changes in application.conf reader in order
+to allow run-time changes. Also introduces renaming from EmbeddingsHelper API.
+
+---------------
+Bugfixes
+---------------
+* Fixed embeddings deserialization from distributed filesystem (caused due to windows pathfix)
+* Fixed application.conf not reading changes in runtime
+* Added missing remote_locs argument in python pretrained() functions
+* Fixed wrong build version introduced in 1.7.1 to detect proper pretrained models version
+
+---------------
+Developer API
+---------------
+* Renamed EmbeddingsHelper functions for more convenience
+
+========
 1.7.1
 ========
 ---------------
