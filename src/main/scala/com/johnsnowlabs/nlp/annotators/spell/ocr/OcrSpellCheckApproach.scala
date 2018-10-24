@@ -87,7 +87,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
     scala.io.Source.fromFile(path + ".freq").getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
-       println(lineFields(0))
+
        vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
 
     }
