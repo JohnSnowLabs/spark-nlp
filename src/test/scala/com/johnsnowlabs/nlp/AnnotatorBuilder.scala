@@ -161,8 +161,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      //.setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
-      .setDependencyTreeBank("/src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
       .fit(df)
       .transform(df)
   }

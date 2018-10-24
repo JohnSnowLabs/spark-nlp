@@ -7,19 +7,32 @@ import com.johnsnowlabs.nlp.annotators.parser.TagDictionary
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
+import org.slf4j.LoggerFactory
 
 class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
-  override val description: String = "Dependency Parser Estimator used to train"
+
+  override val description: String = "Dependency Parser used to train an unlabeled parser"
+
+  private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "dependency treebank source files")
 
+  val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
+
   def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
+
+  def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
+
+  setDefault(numberOfIterations, 10)
+
+  def getNumberOfIterations: Int = $(numberOfIterations)
 
   override val annotatorType:String = DEPENDENCY
 
@@ -56,10 +69,10 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     val tagger = new Tagger(classes, tagDictionary)
 
-    val performanceProgress = (0 until 10).map { seed =>
+    val performanceProgress = (0 until getNumberOfIterations).map { seed =>
         tagger.train(trainingSentences, seed) //Iterates to increase accuracy
     }
-    println(s"Tagger Performance = $performanceProgress")
+    logger.info(s"Tagger Performance = $performanceProgress")
 
     val perceptronAsArray = tagger.getPerceptronAsArray
 

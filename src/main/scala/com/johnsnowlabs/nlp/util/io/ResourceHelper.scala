@@ -312,15 +312,14 @@ object ResourceHelper {
     }
   }
 
-  def wordCount(
-                 er: ExternalResource,
-                 m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
-                 p: Option[PipelineModel] = None
+  def wordCount(externalResource: ExternalResource,
+                m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                p: Option[PipelineModel] = None
                ): MMap[String, Long] = {
-    er.readAs match {
+    externalResource.readAs match {
       case LINE_BY_LINE =>
-        val sourceStream = SourceStream(er.path)
-        val regex = er.options("tokenPattern").r
+        val sourceStream = SourceStream(externalResource.path)
+        val regex = externalResource.options("tokenPattern").r
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
             words.foreach(w => {
@@ -329,11 +328,13 @@ object ResourceHelper {
             })
         })
         sourceStream.close()
-        if (m.isEmpty) throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
+        if (m.isEmpty)
+          throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         m
       case SPARK_DATASET =>
         import spark.implicits._
-        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
+                      .load(externalResource.path)
         val transformation = {
           if (p.isDefined) {
             p.get.transform(dataset)
@@ -343,7 +344,7 @@ object ResourceHelper {
             val tokenizer = new Tokenizer()
               .setInputCols("document")
               .setOutputCol("token")
-              .setTargetPattern(er.options("tokenPattern"))
+              .setTargetPattern(externalResource.options("tokenPattern"))
             val finisher = new Finisher()
               .setInputCols("token")
               .setOutputCols("finished")
@@ -368,12 +369,18 @@ object ResourceHelper {
   def getFilesContentAsArray(externalResource: ExternalResource): Array[String] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-        val filesPath = new File(externalResource.path).listFiles().toList.sorted
-        val filesContent = filesPath.map(filePath => Source.fromFile(filePath).mkString)
+        val sortedFiles = getSortedFiles(externalResource.path)
+        val filesContent = sortedFiles.map(filePath => Source.fromFile(filePath).mkString)
         filesContent.toArray
       case _ =>
         throw new Exception("Unsupported readAs")
     }
+  }
+
+  def getSortedFiles(path: String): List[File] ={
+    val filesPath = Option(new File(path).listFiles())
+    val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
+    files.toList.sorted
   }
 
 }

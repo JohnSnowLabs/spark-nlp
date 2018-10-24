@@ -90,7 +90,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    .setDependencyTreeBank("/src/test/resources/parser/dependency_treebank")
+    .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
 
   private val emptyDataset = PipelineModels.dummyDataset
 
@@ -139,6 +139,27 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   "A dependency parser model" should "transform a test dataset" in {
     dependencyParserPipeline()
+  }
+
+  "A dependency parser with explicit number of iterations" should "train a model" in {
+    val dependencyParser = new DependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setNumberOfIterations(5)
+
+    val model = new Pipeline().setStages(
+      Array(documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser
+      )).fit(emptyDataset)
+
+     val smallModel = model.stages.last.asInstanceOf[DependencyParserModel]
+
+    assert(smallModel.isInstanceOf[DependencyParserModel])
+
   }
 
 }
