@@ -33,10 +33,12 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
                     train(Seq.empty[String].toDF("text"))
 
     val result = ocrspell.annotate(Seq(
-      Annotation("swelling than his baseline. He states ha's teen compliant with his medications." +
-        " Although he stales he ran out of his Eliquis & few wesks ago. He denies having any blood" +
-        " in his stools or meiena, although he does 1ake iron pills and states his stools arc" +
-        " frequently black His hemoglobin is a1 baseline.")))
+      Annotation("swelling than his baseline . he states ha's teen compliant with his medications ." +
+        " although he stales he ran out of his Eliquis & few wesks ago . he denies having any blood" +
+        " in his stools or meiena , although he does 1ake iron pills and states his stools arc" +
+        " frequently black his hemoglobin is a1 baseline .")))
+
+    result.map(_.result).foreach(println)
 
   }
 
@@ -63,18 +65,16 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
     }
 
-
     "a parser" should "recognize special tokens" in {
       DictWord.setDict(Seq())
       val result = BaseParser.parse("(08/10/1982),")
       result.foreach(println)
-    }*/
+    }
 
-/*
-  "jsl" should "handle commas at the end" in {
-    //DictWord.setDict(null)
-    val result = BaseParser.parse("thermalis,")
-    result.foreach(println)
+    "a parser" should "handle commas at the end" in {
+      //DictWord.setDict(null)
+      val result = BaseParser.parse("thermalis,")
+      result.foreach(println)
   }*/
 
 }
