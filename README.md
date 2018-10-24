@@ -14,18 +14,18 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.7.1` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.7.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.7.1
+spark-shell --packages JohnSnowLabs:spark-nlp:1.7.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.7.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.7.1
+spark-submit --packages JohnSnowLabs:spark-nlp:1.7.2
 ```
 
 ## Jupyter Notebook
@@ -35,23 +35,23 @@ export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:1.7.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
 ```
 
 ## Apache Zeppelin
 This way will work for both Scala and Python
 ```
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.7.1"
+export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.7.2"
 ```
 Alternatively, add the following Maven Coordinates to the interpreter's library list
 ```
-com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.1
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.2
 ```
 
 ## Python without explicit Spark installation
 If you installed pyspark through pip, you can now install sparknlp through pip
 ```
-pip install spark-nlp==1.7.1
+pip install spark-nlp==1.7.2
 ```
 Then you'll have to create a SparkSession manually, for example:
 ```
@@ -84,11 +84,11 @@ sparknlp {
 
 ## Pre-compiled Spark-NLP and Spark-NLP-OCR
 You may download fat-jar from here:
-[Spark-NLP 1.7.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.1.jar)
+[Spark-NLP 1.7.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.2.jar)
 or non-fat from here
-[Spark-NLP 1.7.1 PKG JAR](http://repo1.maven.org/maven2/com/johnsnowlabs/nlp/spark-nlp_2.11/1.7.1/spark-nlp_2.11-1.7.1.jar)
+[Spark-NLP 1.7.2 PKG JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-1.7.2.jar)
 Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 1.7.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.1.jar)
+[Spark-NLP-OCR 1.7.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.2.jar)
 
 ## Maven central
 
@@ -100,19 +100,19 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
   <groupId>com.johnsnowlabs.nlp</groupId>
   <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.7.1</version>
+  <version>1.7.2</version>
 </dependency>
 ```
 
 #### SBT
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.7.1"
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.7.2"
 ```
 
 If you are using `scala 2.11`
 
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.7.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.7.2"
 ```
 
 ## Using the jar manually 
@@ -133,7 +133,7 @@ The preferred way to use the library when running spark programs is using the `-
 
 If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
 If there is any older than current version of a model, it means they still work for current versions.
-### Updated for 1.7.1
+### Updated for 1.7.2
 ### Pipelines
 * [Basic Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.6.1_2_1533856444797.zip)
 * [Advanced Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.7.0_2_1539460910585.zip)
