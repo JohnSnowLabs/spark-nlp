@@ -11,7 +11,7 @@ import org.apache.spark.sql.Dataset
 class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel]{
 
   override val description: String =
-    "Typed Dependency Parser is a parser that labels the relationship between word in a document"
+    "Typed Dependency Parser is a labeled parser that shows the relationship between words in a document"
   override val annotatorType:String = DEPENDENCY
   override val requiredAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
@@ -44,8 +44,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
 
     require(!dataset.rdd.isEmpty(), "Training file with CoNLL 2009 format is required")
-
-    val dependencyParserModel = this.loadPretrainedModel()
 
     new TypedDependencyParserModel()
   }
