@@ -14,7 +14,8 @@ import org.slf4j.LoggerFactory
 
 class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
 
-  override val description: String = "Dependency Parser used to train an unlabeled parser"
+  override val description: String =
+    "Dependency Parser is an unlabeled parser that assigns a head value to words in a document"
 
   private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
