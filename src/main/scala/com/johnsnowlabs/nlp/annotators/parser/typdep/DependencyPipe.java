@@ -114,6 +114,8 @@ public class DependencyPipe implements Serializable {
         dictionaries.setCounters();
 
         DependencyReader reader = DependencyReader.createDependencyReader(options);
+
+        //TODO Use a local file through ExternalResource path parameter
         reader.startReading(file);
         DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
 
