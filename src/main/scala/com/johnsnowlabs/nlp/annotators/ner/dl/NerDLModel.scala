@@ -47,7 +47,7 @@ class NerDLModel(override val uid: String)
   @transient
   private var _model: TensorflowNer = null
 
-  lazy val model: TensorflowNer = {
+  def getModelIfNotSet: TensorflowNer = {
     if (_model == null) {
       require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
       require(datasetParams.isSet, "datasetParams must be set before usage")
@@ -65,7 +65,7 @@ class NerDLModel(override val uid: String)
 
   def tag(tokenized: Array[TokenizedSentence]): Array[NerTaggedSentence] = {
     // Predict
-    val labels = model.predict(tokenized)
+    val labels = getModelIfNotSet.predict(tokenized)
 
     // Combine labels with sentences tokens
     tokenized.indices.map { i =>
