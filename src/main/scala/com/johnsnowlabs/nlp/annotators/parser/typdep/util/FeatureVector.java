@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
-import com.johnsnowlabs.nlp.annotators.parser.Collector;
 import gnu.trove.map.hash.TIntDoubleHashMap;
 
 public class FeatureVector implements Collector {

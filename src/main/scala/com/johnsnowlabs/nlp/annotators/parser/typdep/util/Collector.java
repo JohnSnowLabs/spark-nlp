@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.parser;
+package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
 public interface Collector {
     void addEntry(int x);
