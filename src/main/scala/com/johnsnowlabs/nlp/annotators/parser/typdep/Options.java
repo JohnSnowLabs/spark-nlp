@@ -4,13 +4,17 @@ public class Options {
 
     String unimapFile = null;
 
-    int numberOfPreTrainingIterations;
-    int numberOfTrainingIterations;
-    boolean initTensorWithPretrain;
-    float regularization ;
-    float gammaLabel;
-    int rankFirstOrderTensor;
-    int rankSecondOrderTensor;
+    int numberOfPreTrainingIterations = 2;
+    int numberOfTrainingIterations = 10;
+    boolean initTensorWithPretrain = true;
+    float regularization = 0.01f;
+    float gammaLabel = 0;
+    int rankFirstOrderTensor = 50;
+    int rankSecondOrderTensor = 30;
+
+    public Options() {
+
+    }
 
     //TODO remove this attribute, the model should be saved in TypedDepdencyApproach
     public String modelFile = "example.model";
