@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -50,7 +50,10 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   setDefault(conll2009FilePath, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
 
-  private lazy val trainFile = $(conll2009FilePath).path
+  private lazy val trainFile = {
+    ResourceHelper.validFile($(conll2009FilePath).path)
+    $(conll2009FilePath).path
+  }
 
   case class TrainingOptions(numberOfPreTrainingIterations: Int, numberOfTrainingIterations: Int,
                              initTensorWithPreTrain: Boolean, regularization: Float, gammaLabel: Float,

@@ -120,6 +120,7 @@ public class DependencyPipe implements Serializable {
         DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
 
         while (dependencyInstance != null) {
+            //This loop sets values in dictionaries for later use
             dependencyInstance.setInstIds(dictionaries, coarseMap, conjWord);
 
             dependencyInstance = reader.nextInstance(coarseMap);

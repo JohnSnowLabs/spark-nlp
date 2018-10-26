@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
+import java.io.FileNotFoundException
+
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
@@ -33,12 +35,18 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   private val typedDependencyParser = new TypedDependencyParserApproach()
     .setInputCols(Array("dependency"))
     .setOutputCol("labdep")
+    .setConll2009FilePath("src")
 
   private val emptyDataset = PipelineModels.dummyDataset
 
   "A typed dependency parser approach that does not use Conll2009FilePath parameter" should "raise an error message" in {
 
+    val typedDependencyParser = new TypedDependencyParserApproach()
+      .setInputCols(Array("dependency"))
+      .setOutputCol("labdep")
+
     val expectedErrorMessage = "Training file with CoNLL 2009 format is required"
+
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
@@ -64,6 +72,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       .setConll2009FilePath("")
 
     val expectedErrorMessage = "Training file with CoNLL 2009 format is required"
+
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
@@ -78,6 +87,29 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       pipeline.fit(emptyDataset)
     }
     assert(caught.getMessage == "requirement failed: " + expectedErrorMessage)
+
+  }
+
+  "A typed dependency parser approach with an invalid file path or file name" should "raise FileNotFound exception" in {
+
+    val typedDependencyParser = new TypedDependencyParserApproach()
+      .setInputCols(Array("dependency"))
+      .setOutputCol("labdep")
+      .setConll2009FilePath("wrong/path")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+
+    assertThrows[FileNotFoundException]{
+      pipeline.fit(emptyDataset)
+    }
 
   }
 
