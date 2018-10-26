@@ -23,7 +23,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     assertThrows[FileNotFoundException](ResourceHelper.listResourceDirectory("not-exists"))
   }
 
-  "ResourceHelper" should "transform files' content in an array of string representation" in {
+  "Resource helper" should "transform files' content in an array of string representation" in {
 
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
@@ -35,16 +35,18 @@ class ResourceHelperTestSpec extends FlatSpec {
   }
 
   it should "raise an error when SPARK_DATASET is set in RedAs parameter" in {
+
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK_DATASET,
       Map("format"->"text"))
-
     val caught = intercept[Exception] {
       ResourceHelper.getFilesContentAsArray(externalResource)
     }
+
     assert(caught.getMessage == "Unsupported readAs")
   }
 
   it should "raise FileNotFound exception when a wrong path is sent" in {
+
     val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
       Map.empty[String, String])
     val expectedMessage = "folder: wrong/path/ not found"
@@ -58,6 +60,39 @@ class ResourceHelperTestSpec extends FlatSpec {
     }
 
     assert(caught.getMessage == expectedMessage)
+
+  }
+
+  "Resource helper" should "valid a file" in {
+    val rightFilePath = "src/test/resources/parser/dependency_treebank/wsj_0001.dp"
+    val isValid = ResourceHelper.validFile(rightFilePath)
+
+    assert(isValid)
+
+  }
+
+  it should "also valid a directory" in {
+    val rightDirectoryPath = "src/test/resources/parser/dependency_treebank"
+    val isValid = ResourceHelper.validFile(rightDirectoryPath)
+
+    assert(isValid)
+  }
+
+  it should "raise FileNotFound exception when an invalid file name is used" in {
+    val rightFilePath = "src/test/resources/parser/dependency_treebank/invalid_file_name.dp"
+
+    assertThrows[FileNotFoundException]{
+      ResourceHelper.validFile(rightFilePath)
+    }
+
+  }
+
+  it should "raise FileNotFound exception when an invalid directory path is used" in {
+    val rightFilePath = "wrong/path//wsj_0001.dp"
+
+    assertThrows[FileNotFoundException]{
+      ResourceHelper.validFile(rightFilePath)
+    }
 
   }
 

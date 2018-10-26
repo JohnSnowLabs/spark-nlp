@@ -36,9 +36,9 @@ public class LowRankTensor {
 
         double eps = 1e-6;
         for (int i = 0; i < rank; ++i) {
-            ArrayList<float[]> a = new ArrayList<>();
+            ArrayList<float[]> aArrayVariable = new ArrayList<>();
             for (int k = 0; k < dim; ++k) {
-                a.add(Utils.getRandomUnitVector(N[k]));
+                aArrayVariable.add(Utils.getRandomUnitVector(N[k]));
             }
 
             int iter;
@@ -47,21 +47,22 @@ public class LowRankTensor {
 
             for (iter = 0; iter < MAX_ITER; ++iter) {
                 for (int k = 0; k < dim; ++k) {
-                    float[] b = a.get(k);
+                    float[] b = aArrayVariable.get(k);
                     for (int j = 0; j < N[k]; ++j)
                         b[j] = 0;
-                    for (MatEntry e : list) {
-                        double s = e.val;
+                    for (MatEntry matentry : list) {
+                        double s = matentry.val;
                         for (int l = 0; l < dim; ++l)
-                            if (l != k)
-                                s *= a.get(l)[e.x[l]];
-                        b[e.x[k]] += s;
+                            if (l != k){
+                                s *= aArrayVariable.get(l)[matentry.x[l]];
+                            }
+                        b[matentry.x[k]] += s;
                     }
                     for (int j = 0; j < i; ++j) {
                         double dot = 1;
                         for (int l = 0; l < dim; ++l)
                             if (l != k)
-                                dot *= Utils.dot(a.get(l), param2.get(l)[j]);
+                                dot *= Utils.dot(aArrayVariable.get(l), param2.get(l)[j]);
                         for (int p = 0; p < N[k]; ++p)
                             b[p] -= dot*param2.get(k)[j][p];
                     }
@@ -85,7 +86,7 @@ public class LowRankTensor {
             }
             System.out.printf("\t%.2f", norm);
             for (int k = 0; k < dim; ++k)
-                param2.get(k)[i] = a.get(k);
+                param2.get(k)[i] = aArrayVariable.get(k);
         }
 
         for (int i = 0; i < param.size(); ++i) {

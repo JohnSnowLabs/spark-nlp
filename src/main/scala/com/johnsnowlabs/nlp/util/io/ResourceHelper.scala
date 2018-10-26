@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.io._
 import java.net.{URL, URLDecoder}
+import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -377,10 +378,21 @@ object ResourceHelper {
     }
   }
 
-  def getSortedFiles(path: String): List[File] ={
+  def getSortedFiles(path: String): List[File] = {
     val filesPath = Option(new File(path).listFiles())
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList.sorted
+  }
+
+  def validFile(path: String): Boolean = {
+    val isValid = Files.exists(Paths.get(path))
+
+    if (isValid) {
+      isValid
+    } else {
+      throw new FileNotFoundException(path)
+    }
+
   }
 
 }
