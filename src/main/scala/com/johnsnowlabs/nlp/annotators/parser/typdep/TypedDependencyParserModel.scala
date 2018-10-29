@@ -17,7 +17,9 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   def setModel(targetModel: TrainParameters): this.type = set(model, targetModel)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val pruebas = $$(model).options
+    val options = $$(model).options
+    val parameters = $$(model).parameters
+    val dependencyPipe = $$(model).dependencyPipe
     Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
   }
 
