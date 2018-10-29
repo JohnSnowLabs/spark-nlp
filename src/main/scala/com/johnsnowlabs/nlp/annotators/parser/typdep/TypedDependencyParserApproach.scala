@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, POS, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
@@ -14,7 +13,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   override val description: String =
     "Typed Dependency Parser is a labeled parser that shows the relationship between words in a document"
-  override val annotatorType:String = DEPENDENCY
+  override val annotatorType:String = LABELED_DEPENDENCY
   override val requiredAnnotatorTypes = Array(DEPENDENCY)
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
@@ -55,10 +54,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     $(conll2009FilePath).path
   }
 
-  case class TrainingOptions(numberOfPreTrainingIterations: Int, numberOfTrainingIterations: Int,
-                             initTensorWithPreTrain: Boolean, regularization: Float, gammaLabel: Float,
-                             rankFirstOrderTensor: Int, rankSecondOrderTensor: Int)
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
 
     //require(!dataset.rdd.isEmpty(), "Training file with CoNLL 2009 format is required")
@@ -66,25 +61,37 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     require(!trainFile.equals(""), "Training file with CoNLL 2009 format is required")
 
     val options = getOptionsInstance
-    val typedDependencyParser = getDependencyParserInstance
+    val typedDependencyParser = getTypedDependencyParserInstance
     typedDependencyParser.setOptions(options)
+
     val dependencyPipe = getDependencyPipeInstance(options)
     typedDependencyParser.setPipe(dependencyPipe)
-    println("works til here")
-    //pipe.createAlphabets(options.trainFile)
+    dependencyPipe.createAlphabets(trainFile)
+
+    val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
+    trainDependencies.startTraining()
+    val trainParameters = TrainParameters(options)
+    println("Before setting")
     new TypedDependencyParserModel()
+      .setModel(trainParameters)
   }
 
   private def getOptionsInstance: Options = {
     new Options()
   }
 
-  private def getDependencyParserInstance: DependencyParser = {
-    new DependencyParser
+  private def getTypedDependencyParserInstance: TypedDependencyParser = {
+    new TypedDependencyParser
   }
 
   private def getDependencyPipeInstance(options: Options): DependencyPipe = {
     new DependencyPipe(options)
+  }
+
+  private def getTrainDependenciesInstance(trainFile: String, dependencyPipe: DependencyPipe,
+                                           typedDependencyParser: TypedDependencyParser,
+                                           options: Options): TrainDependencies = {
+    new TrainDependencies(trainFile, dependencyPipe, typedDependencyParser, options)
   }
 
 }

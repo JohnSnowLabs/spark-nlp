@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
-import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
@@ -15,13 +15,15 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val requiredAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
-  val perceptronAsArray: ArrayFeature[String] = new ArrayFeature[String](this, "perceptronAsArray")
+  val perceptronAsArray: StringArrayParam = new StringArrayParam(this, "perceptronAsArray",
+    "List of features for perceptron")
 
   def setPerceptronAsArray(perceptron: Array[String]): this.type = set(perceptronAsArray, perceptron)
 
   def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    val dependencyParsedSentence = model.parse(sentence, $$(perceptronAsArray))
+    //val perceptronTemp = $(perceptronAsArray)
+    val dependencyParsedSentence = model.parse(sentence, $(perceptronAsArray))
     dependencyParsedSentence
   }
 

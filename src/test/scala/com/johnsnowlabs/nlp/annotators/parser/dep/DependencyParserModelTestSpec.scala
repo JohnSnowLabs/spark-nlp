@@ -162,4 +162,19 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   }
 
+  "A dependency parser with a model loaded" should "show results" in {
+    val dependencyParserModel = DependencyParserModel.read.load("./tmp/dp_model")
+
+    val model = new Pipeline().setStages(
+      Array(documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParserModel
+      )).fit(emptyDataset)
+
+    val result = model.transform(testDataset)
+    result.show()
+  }
+
 }

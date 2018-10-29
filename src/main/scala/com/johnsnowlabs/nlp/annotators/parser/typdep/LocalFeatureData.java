@@ -33,7 +33,7 @@ public class LocalFeatureData {
     private float[][][] labelScores;
 
     LocalFeatureData(DependencyInstance dependencyInstance,
-                     DependencyParser parser) {
+                     TypedDependencyParser parser) {
         this.dependencyInstance = dependencyInstance;
         pipe = parser.getPipe();
         synFactory = pipe.getSynFactory();
