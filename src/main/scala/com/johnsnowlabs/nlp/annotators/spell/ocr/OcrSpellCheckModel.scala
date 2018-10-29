@@ -27,10 +27,10 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   // the score for the EOS (end of sentence), and BOS (begining of sentence)
   private val eosScore = .01
   private val bosScore = 1.0
-  private val gamma = 100.0
+  private val gamma = 60.0
 
   /* limit to the number of candidates we generate for each word */
-  private val kBest = 7
+  private val kBest = 5
 
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
@@ -83,8 +83,12 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   def decodeViterbi(trellis: Array[Array[(String, Double)]]):(Array[Int], Double) = {
 
+    // delete this
+    //val line = Array("_BOS_", "frequently", "black" ,"his", "hemoglobin", "is", "at",  "baseline", ".", "_EOS_").map(vocabIds.get).map(_.get)
+    //model.predict(Array(line, line))
+
     // encode words with ids
-    val encTrellis = Array(Array((vocabIds("_BOS_"), 1.0))) ++
+    val encTrellis = Array(Array((vocabIds("_BOS_"), bosScore))) ++
           trellis.map(_.map{case (word, weight) =>
             // at this point we keep only those candidates that are in the vocabulary
             (vocabIds.get(word), weight)}.filter(_._1.isDefined).map{case (x,y) => (x.get, y)}) ++
@@ -99,15 +103,27 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
       var newPaths:Array[Array[Int]] = Array()
       var newCosts = Array[Double]()
 
-      for {(state, wcost) <- encTrellis(i)} {
+      val expPaths = encTrellis(i).flatMap{ case (state, _) =>
+        paths.map { path =>
+          path :+ state
+        }
+      }
+
+      val expPathsCosts = model.predict(expPaths).toArray
+
+      for {((state, wcost), idx) <- encTrellis(i).zipWithIndex} {
         var minCost = Double.MaxValue
         var minPath = Array[Int]()
 
-        for ((path, pathCost) <- (paths, costs).zipped) {
+        val z = (paths, costs).zipped.toList
+
+        for (((path, pathCost), pi) <- z.zipWithIndex) {
           // compute cost to arrive to this 'state' coming from that 'path'
-          val ppl = model.predict(Array(path :+ state))
-          val dppl = ppl
-          val cost = pathCost + dppl * wcost
+          // val ppl = model.predict(Array(path :+ state))
+          val mult = if (i > 1) kBest else 0
+          val ppl = expPathsCosts(idx * mult + pi)
+
+          val cost = pathCost + ppl * wcost
           if (cost < minCost){
             minCost = cost
             minPath = path :+ state

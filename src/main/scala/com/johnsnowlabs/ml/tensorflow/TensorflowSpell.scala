@@ -19,7 +19,7 @@ class TensorflowSpell(
   val tensors = new TensorResources()
 
   /* returns the loss associated with the last word */
-  def predict(dataset: Array[Array[Int]]): Float = {
+  def predict(dataset: Array[Array[Int]]) = {
     val inputTensor = tensors.createTensor(dataset)
 
     tensorflow.session.runner
@@ -33,7 +33,9 @@ class TensorflowSpell(
       .fetch(validWords)
       .run()
 
-    val loss = extractFloats(lossWords.get(0),lossWords.get(0).numElements)
-    loss.last
+    val result = extractFloats(lossWords.get(0),lossWords.get(0).numElements)
+    val width = inputTensor.shape()(1)
+    result.grouped(width.toInt - 1).map(_.last)
+
   }
 }
