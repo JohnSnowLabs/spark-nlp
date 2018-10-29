@@ -176,6 +176,9 @@ If there is any older than current version of a model, it means they still work 
 * [LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.6.1_2_1533854538211.zip)
 * [AssertionDLModel (Assertion)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.7.0_2_1539653960749.zip)
 
+# FAQ
+[Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
+
 # Special community aknowledgments
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
 Community has been key in the last releases with feedback in various Spark based environments.
