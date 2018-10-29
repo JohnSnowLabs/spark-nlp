@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 # Set TRAIN to true will build a new model
-TRAIN = True 
+TRAIN = False 
 
 # If VERBOSE is true, then print the ppl of every sequence when we
 # are testing.
@@ -47,7 +47,7 @@ def create_model(sess):
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
                   num_layers=1,
-                  num_hidden_units=100,
+                  num_hidden_units=300,
                   initial_learning_rate=.7,
                   final_learning_rate=0.0005,
                   max_gradient_norm=5.0,
@@ -73,7 +73,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     saver = tf.train.Saver()
     saver.restore(sess, "model/best_model.ckpt")
 
-    model.save('bundle', sess)
+    #model.save('bundle', sess)
 
     predict_id_file = os.path.join(data_path, test_file.split("/")[-1]+".ids")
     if not os.path.isfile(predict_id_file):

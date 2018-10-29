@@ -72,7 +72,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       setVocabFreq(vocabFreq.toMap).
       setVocabIds(vocabIds.toMap).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
-      setSpecialClassesTransducers(specialClassesTransducers).
+      //setSpecialClassesTransducers(specialClassesTransducers).
       setTensorflow(tf).
       readModel("../auxdata/good_model", dataset.sparkSession, "").
       setInputCols(getOrDefault(inputCols))

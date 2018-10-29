@@ -34,9 +34,11 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
     val result = ocrspell.annotate(Seq(
       Annotation("swelling than his baseline . he states ha's teen compliant with his medications ." +
-        " although he stales he ran out of his Eliquis & few wesks ago . he denies having any blood" +
-        " in his stools or meiena , although he does 1ake iron pills and states his stools arc" +
-        " frequently black his hemoglobin is a1 baseline .")))
+                " although he stales he ran out of his Eliquis & few wesks ago . he denies having any blood" +
+                " in his stools or meiena , although he does 1ake iron pills and states his stools arc" +
+                " frequently black his hemoglobin is a1 baseline .")))
+
+    //model.predict(Array(Array("frequently", "black" ,"his", "hemoglobin", "is", "a1",  "baseline", ".").map(vocabIds.get).map(_.get)))
 
     result.map(_.result).foreach(println)
 
