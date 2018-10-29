@@ -10,9 +10,12 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 # Usage
 
-## spark-packages
+## Command line
+### with internet connection
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
+
+Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
 To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.7.2` to you spark command
 
@@ -28,28 +31,32 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
 spark-submit --packages JohnSnowLabs:spark-nlp:1.7.2
 ```
 
-## Jupyter Notebook
+### offline mode using jars
 
-```
-export SPARK_HOME=/path/to/your/spark/folder
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS=notebook
-
-pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
-```
+Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
 ## Apache Zeppelin
-This way will work for both Scala and Python
-```
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:1.7.2"
-```
-Alternatively, add the following Maven Coordinates to the interpreter's library list
+Use either one of the following options
+
+* Add the following Maven Coordinates to the interpreter's library list
 ```
 com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.2
 ```
+* Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
+
+### Python in Zeppelin
+Apart from previous step, install python module through pip
+```
+pip install spark-nlp==1.7.2
+```
+Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
+
+Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and installed the pip library with (e.g. `python3`).
+
+An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier, since it includes both scala and python side installation.
 
 ## Python without explicit Spark installation
-If you installed pyspark through pip, you can now install sparknlp through pip
+If you installed pyspark through pip, you can install sparknlp through pip as well
 ```
 pip install spark-nlp==1.7.2
 ```
@@ -61,9 +68,28 @@ spark = SparkSession.builder \
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
     .config("spark.driver.extraClassPath", "lib/sparknlp.jar")\
+    .config("spark.executor.extraClassPath", "lib/sparknlp.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
+For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
+
+## Jupyter Notebook (Python)
+
+Easiest way to get this done is by making Jupyter Notebook run using pyspark as follows:
+
+```
+export SPARK_HOME=/path/to/your/spark/folder
+export PYSPARK_PYTHON=python3
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
+```
+
+Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
+
+If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-spark-installation)
 
 ## S3 Cluster with no hadoop configuration
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
