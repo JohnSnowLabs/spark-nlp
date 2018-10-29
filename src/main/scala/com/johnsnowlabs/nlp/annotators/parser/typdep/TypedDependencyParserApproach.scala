@@ -56,8 +56,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
 
-    //require(!dataset.rdd.isEmpty(), "Training file with CoNLL 2009 format is required")
-
     require(!trainFile.equals(""), "Training file with CoNLL 2009 format is required")
 
     val options = getOptionsInstance
@@ -65,13 +63,15 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     typedDependencyParser.setOptions(options)
 
     val dependencyPipe = getDependencyPipeInstance(options)
-    typedDependencyParser.setPipe(dependencyPipe)
+    typedDependencyParser.setDependencyPipe(dependencyPipe)
     dependencyPipe.createAlphabets(trainFile)
 
     val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
     trainDependencies.startTraining()
-    val trainParameters = TrainParameters(options)
-    println("Before setting")
+    val trainParameters = TrainParameters(trainDependencies.getOptions,
+                                          trainDependencies.getParameters,
+                                          trainDependencies.getDependencyPipe)
+
     new TypedDependencyParserModel()
       .setModel(trainParameters)
   }
