@@ -18,7 +18,11 @@ public class DictionarySet implements Serializable {
         TYPE_END
     }
 
-    private Dictionary[] dicts;
+    private Dictionary[] dictionaries;
+
+    public Dictionary[] getDictionaries() {
+        return dictionaries;
+    }
 
     private boolean isCounting;
     private TIntIntMap[] counters;
@@ -28,15 +32,15 @@ public class DictionarySet implements Serializable {
     {
         isCounting = false;
         int indexDictionaryTypes = DictionaryTypes.TYPE_END.ordinal();
-        dicts = new Dictionary[indexDictionaryTypes];
-        for (int i = 0; i < dicts.length; ++i) {
-            dicts[i] = new Dictionary();
+        dictionaries = new Dictionary[indexDictionaryTypes];
+        for (int i = 0; i < dictionaries.length; ++i) {
+            dictionaries[i] = new Dictionary();
         }
     }
 
     public int lookupIndex(DictionaryTypes tag, String item)
     {
-        int id = dicts[tag.ordinal()].lookupIndex(item);
+        int id = dictionaries[tag.ordinal()].lookupIndex(item);
 
         if (isCounting && id > 0) {
             counters[tag.ordinal()].putIfAbsent(id, 0);
@@ -49,24 +53,24 @@ public class DictionarySet implements Serializable {
     public int getDictionarySize(DictionaryTypes tag)
     {
         int indexTag = tag.ordinal();
-        return dicts[indexTag].dictionarySize();
+        return dictionaries[indexTag].dictionarySize();
     }
 
     public void stopGrowth(DictionaryTypes tag)
     {
-        dicts[tag.ordinal()].stopGrowth();
+        dictionaries[tag.ordinal()].stopGrowth();
     }
 
     public Dictionary getDictionary(DictionaryTypes tag)
     {
-        return dicts[tag.ordinal()];
+        return dictionaries[tag.ordinal()];
     }
 
     public void setCounters()
     {
         isCounting = true;
-        counters = new TIntIntHashMap[dicts.length];
-        for (int i = 0; i < dicts.length; ++i)
+        counters = new TIntIntHashMap[dictionaries.length];
+        for (int i = 0; i < dictionaries.length; ++i)
             counters[i] = new TIntIntHashMap();
     }
 

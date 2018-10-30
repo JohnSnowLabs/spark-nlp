@@ -25,7 +25,7 @@ public class DependencyPipe implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Options options;
-    private DictionarySet dictionaries;
+    private DictionarySet dictionariesSet;
     private SyntacticFeatureFactory synFactory;
 
     public Options getOptions() {
@@ -34,6 +34,10 @@ public class DependencyPipe implements Serializable {
 
     public void setOptions(Options options) {
         this.options = options;
+    }
+
+    public DictionarySet getDictionariesSet() {
+        return dictionariesSet;
     }
 
     SyntacticFeatureFactory getSynFactory() {
@@ -61,7 +65,7 @@ public class DependencyPipe implements Serializable {
 
     DependencyPipe(Options options)
     {
-        dictionaries = new DictionarySet();
+        dictionariesSet = new DictionarySet();
         synFactory = new SyntacticFeatureFactory();
 
         this.options = options;
@@ -99,7 +103,7 @@ public class DependencyPipe implements Serializable {
     }
 
     /***F
-     * Build dictionaries that maps word strings, POS strings, etc into
+     * Build dictionariesSet that maps word strings, POS strings, etc into
      * corresponding integer IDs. This method is called before creating
      * the feature alphabets and before training a dependency model.
      *
@@ -109,9 +113,9 @@ public class DependencyPipe implements Serializable {
     {
 
         long start = System.currentTimeMillis();
-        System.out.println("Creating dictionaries ... ");
+        System.out.println("Creating dictionariesSet ... ");
 
-        dictionaries.setCounters();
+        dictionariesSet.setCounters();
 
         DependencyReader reader = DependencyReader.createDependencyReader(options);
 
@@ -119,30 +123,30 @@ public class DependencyPipe implements Serializable {
         DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
 
         while (dependencyInstance != null) {
-            //This loop sets values in dictionaries for later use
-            dependencyInstance.setInstIds(dictionaries, coarseMap, conjWord);
+            //This loop sets values in dictionariesSet for later use
+            dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
             dependencyInstance = reader.nextInstance(coarseMap);
         }
         reader.close();
 
-        dictionaries.closeCounters();
+        dictionariesSet.closeCounters();
 
-        synFactory.setTokenStart(dictionaries.lookupIndex(POS, "#TOKEN_START#"));
-        synFactory.setTokenEnd(dictionaries.lookupIndex(POS, "#TOKEN_END#"));
-        synFactory.setTokenMid(dictionaries.lookupIndex(POS, "#TOKEN_MID#"));
+        synFactory.setTokenStart(dictionariesSet.lookupIndex(POS, "#TOKEN_START#"));
+        synFactory.setTokenEnd(dictionariesSet.lookupIndex(POS, "#TOKEN_END#"));
+        synFactory.setTokenMid(dictionariesSet.lookupIndex(POS, "#TOKEN_MID#"));
 
-        dictionaries.stopGrowth(DEP_LABEL);
-        dictionaries.stopGrowth(POS);
-        dictionaries.stopGrowth(WORD);
+        dictionariesSet.stopGrowth(DEP_LABEL);
+        dictionariesSet.stopGrowth(POS);
+        dictionariesSet.stopGrowth(WORD);
 
-        synFactory.setWordNumBits(Utils.log2((long) dictionaries.getDictionarySize(WORD) + 1));
-        synFactory.setTagNumBits(Utils.log2((long) dictionaries.getDictionarySize(POS) + 1));
-        synFactory.setDepNumBits(Utils.log2((long) dictionaries.getDictionarySize(DEP_LABEL) + 1));
+        synFactory.setWordNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(WORD) + 1));
+        synFactory.setTagNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(POS) + 1));
+        synFactory.setDepNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(DEP_LABEL) + 1));
         synFactory.setFlagBits(2*synFactory.getDepNumBits() + 4);
 
-        types = new String[dictionaries.getDictionarySize(DEP_LABEL)];
-        Dictionary labelDict = dictionaries.getDictionary(DEP_LABEL);
+        types = new String[dictionariesSet.getDictionarySize(DEP_LABEL)];
+        Dictionary labelDict = dictionariesSet.getDictionary(DEP_LABEL);
         Object[] keys = labelDict.toArray();
         for (Object key : keys) {
             int id = labelDict.lookupIndex(key);
@@ -151,10 +155,10 @@ public class DependencyPipe implements Serializable {
 
         System.out.printf("%d %d%n", NUM_WORD_FEAT_BITS, NUM_ARC_FEAT_BITS);
         System.out.printf("Lexical items: %d (%d bits)%n",
-                dictionaries.getDictionarySize(WORD), synFactory.getWordNumBits());
+                dictionariesSet.getDictionarySize(WORD), synFactory.getWordNumBits());
         System.out.printf("Tag/label items: %d (%d bits)  %d (%d bits)%n",
-                dictionaries.getDictionarySize(POS), synFactory.getTagNumBits(),
-                dictionaries.getDictionarySize(DEP_LABEL), synFactory.getDepNumBits());
+                dictionariesSet.getDictionarySize(POS), synFactory.getTagNumBits(),
+                dictionariesSet.getDictionarySize(DEP_LABEL), synFactory.getDepNumBits());
         System.out.printf("Flag Bits: %d%n", synFactory.getFlagBits());
         System.out.printf("Creation took [%d ms]%n", System.currentTimeMillis() - start);
     }
@@ -188,7 +192,7 @@ public class DependencyPipe implements Serializable {
                 if (dependencyInstance.getCpostags() != null) cposTagSet.add(dependencyInstance.getCpostags()[i]);
             }
 
-            dependencyInstance.setInstIds(dictionaries, coarseMap, conjWord);
+            dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
             synFactory.initFeatureAlphabets(dependencyInstance);
 
@@ -231,7 +235,7 @@ public class DependencyPipe implements Serializable {
 
         while(dependencyInstance != null) {
 
-            dependencyInstance.setInstIds(dictionaries, coarseMap, conjWord);
+            dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
             lt.add(new DependencyInstance(dependencyInstance));
 
@@ -256,15 +260,15 @@ public class DependencyPipe implements Serializable {
         DependencyInstance inst = reader.nextInstance(coarseMap);
         if (inst == null) return null;
 
-        inst.setInstIds(dictionaries, coarseMap, conjWord);
+        inst.setInstIds(dictionariesSet, coarseMap, conjWord);
 
         return inst;
     }
 
     public void pruneLabel(DependencyInstance[] dependencyInstances)
     {
-        int numPOS = dictionaries.getDictionarySize(POS) + 1;
-        int numLab = dictionaries.getDictionarySize(DEP_LABEL) + 1;
+        int numPOS = dictionariesSet.getDictionarySize(POS) + 1;
+        int numLab = dictionariesSet.getDictionarySize(DEP_LABEL) + 1;
         this.pruneLabel = new boolean [numPOS][numPOS][numLab];
         int num = 0;
 

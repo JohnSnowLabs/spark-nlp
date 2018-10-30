@@ -1,6 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
-public class Options {
+import java.io.Serializable;
+
+public class Options implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     String unimapFile = null;
 
