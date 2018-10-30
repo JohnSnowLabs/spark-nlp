@@ -12,8 +12,17 @@ public class Dictionary implements Serializable
 
     private TObjectIntHashMap map;
 
+    public TObjectIntHashMap getMap() {
+        return map;
+    }
+
     private int numEntries;
     private boolean growthStopped = false;
+    private String mapAsString;
+
+    public void setMapAsString(String mapAsString) {
+        this.mapAsString = mapAsString;
+    }
 
     private Dictionary (int capacity)
     {
