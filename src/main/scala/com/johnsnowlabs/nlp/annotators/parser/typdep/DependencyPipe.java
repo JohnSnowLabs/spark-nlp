@@ -73,6 +73,12 @@ public class DependencyPipe implements Serializable {
         loadLanguageInfo();
     }
 
+    DependencyPipe(Options options, DictionarySet dictionariesSet, SyntacticFeatureFactory synFactory){
+        options = options;
+        dictionariesSet = dictionariesSet;
+        synFactory = synFactory;
+    }
+
     /***
      * load language specific information
      * conjWord: word considered as a conjunction
