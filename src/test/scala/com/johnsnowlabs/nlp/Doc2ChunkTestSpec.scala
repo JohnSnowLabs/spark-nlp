@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
-class ChunkAssemblerTestSpec extends FlatSpec {
+class Doc2ChunkTestSpec extends FlatSpec {
 
   "a chunk assembler" should "correctly chunk ranges" in {
     import ResourceHelper.spark.implicits._
@@ -23,7 +23,7 @@ class ChunkAssemblerTestSpec extends FlatSpec {
 
     val documentAssembler = new DocumentAssembler().setInputCol("sentence").setOutputCol("document")
 
-    val chunkAssembler = new ChunkAssembler().setInputCols("document").setChunkCol("target").setOutputCol("chunk")
+    val chunkAssembler = new Doc2Chunk().setInputCols("document").setChunkCol("target").setOutputCol("chunk")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, chunkAssembler))
 
@@ -59,7 +59,7 @@ class ChunkAssemblerTestSpec extends FlatSpec {
 
     val documentAssembler = new DocumentAssembler().setInputCol("sentence").setOutputCol("document")
 
-    val chunkAssembler = new ChunkAssembler().setIsArray(true).setInputCols("document").setChunkCol("target").setOutputCol("chunk")
+    val chunkAssembler = new Doc2Chunk().setIsArray(true).setInputCols("document").setChunkCol("target").setOutputCol("chunk")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, chunkAssembler))
 
