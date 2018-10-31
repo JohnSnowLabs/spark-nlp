@@ -44,6 +44,10 @@ public class DependencyPipe implements Serializable {
         return synFactory;
     }
 
+    public void setDictionariesSet(DictionarySet dictionariesSet) {
+        this.dictionariesSet = dictionariesSet;
+    }
+
     private String[] types;					// array that maps label index to label string
 
     public String[] getTypes() {
