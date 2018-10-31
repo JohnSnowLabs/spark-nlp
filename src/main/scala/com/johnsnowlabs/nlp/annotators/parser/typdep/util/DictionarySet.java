@@ -20,11 +20,11 @@ public class DictionarySet implements Serializable {
 
     private Dictionary[] dictionaries;
 
+    private boolean isCounting;
+
     public Dictionary[] getDictionaries() {
         return dictionaries;
     }
-
-    private boolean isCounting;
 
     public boolean isCounting() {
         return isCounting;
@@ -40,11 +40,6 @@ public class DictionarySet implements Serializable {
         for (int i = 0; i < dictionaries.length; ++i) {
             dictionaries[i] = new Dictionary();
         }
-    }
-
-    public DictionarySet(boolean isCOunting, Dictionary[] dictionaries){
-        this.isCounting = isCounting;
-        this.dictionaries = dictionaries;
     }
 
     public int lookupIndex(DictionaryTypes tag, String item)

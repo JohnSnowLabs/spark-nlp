@@ -32,6 +32,14 @@ public class Dictionary implements Serializable
         return growthStopped;
     }
 
+    public void setNumEntries(int numEntries) {
+        this.numEntries = numEntries;
+    }
+
+    public void setGrowthStopped(boolean growthStopped) {
+        this.growthStopped = growthStopped;
+    }
+
     public void setMapAsString(String mapAsString) {
         this.mapAsString = mapAsString;
     }

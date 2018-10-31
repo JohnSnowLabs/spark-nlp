@@ -26,15 +26,15 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
 
     val dictionariesValues = dependencyPipe.getDictionariesSet.getDictionaries.map{ dictionary =>
       val predictionParameters = getPredictionParametersInstance
-      val troveMap = predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+      val troveMap:TObjectIntHashMap[_] = predictionParameters.transformToTroveMap(dictionary.getMapAsString)
       val numEntries = dictionary.getNumEntries
       val growthStopped = dictionary.isGrowthStopped
-//      val dictionaries = dependencyPipe.getDictionariesSet.getDictionaries
-//      dictionaries(index).setMap(troveMap)
       (troveMap, numEntries, growthStopped)
     }
 
-    //val deserializedDependencyPipe = getDependencyPipeInstance(options)
+    val dictionarySet = deserializeDictionaries(dictionariesValues.toList)
+
+    dependencyPipe.setDictionariesSet(dictionarySet)
 
     Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
   }
@@ -48,8 +48,22 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     new DependencyPipe(options, dictionarySet, synFactory)
   }
 
-// private def getDictionary: Dictionary = {
-//   new Dictionary()
-// }
+ private def getDictionarySetInstance: DictionarySet = {
+   new DictionarySet()
+ }
+
+ private def deserializeDictionaries(dictionariesValues: List[(TObjectIntHashMap[_], Int, Boolean)]): DictionarySet = {
+
+   val dictionarySet = getDictionarySetInstance
+
+   dictionariesValues.zipWithIndex.foreach{ case(dictionaryValue, index) =>
+     val dictionaries = dictionarySet.getDictionaries
+     dictionaries(index).setMap(dictionaryValue._1)
+     dictionaries(index).setNumEntries(dictionaryValue._2)
+     dictionaries(index).setGrowthStopped(dictionaryValue._3)
+   }
+
+   dictionarySet
+ }
 
 }
