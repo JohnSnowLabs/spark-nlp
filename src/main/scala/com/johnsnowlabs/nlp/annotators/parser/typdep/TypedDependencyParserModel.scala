@@ -20,7 +20,18 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     val options = $$(model).options
     val parameters = $$(model).parameters
     val dependencyPipe = $$(model).dependencyPipe
+
+    val dictionaries = dependencyPipe.getDictionariesSet.getDictionaries.map{dictionary =>
+      val predictionParameters = getPredictionParametersInstance
+      val troveMap = predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+      troveMap
+    }
+    
     Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
+  }
+
+  private def getPredictionParametersInstance: PredictionParameters = {
+    new PredictionParameters()
   }
 
 }

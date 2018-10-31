@@ -73,12 +73,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
                                           trainDependencies.getDependencyPipe)
 
     val dictionaries = trainDependencies.getDependencyPipe.getDictionariesSet.getDictionaries
-//    val dictionariesMap = dictionaries.map{dictionary =>
-//      val pruebas = dictionary.getMap
-//      println(pruebas.toString)
-//      pruebas.toString
-//    }
-
 
     dictionaries.foreach(dictionary => dictionary.setMapAsString(dictionary.getMap.toString))
 
@@ -91,7 +85,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   }
 
   private def getTypedDependencyParserInstance: TypedDependencyParser = {
-    new TypedDependencyParser
+    new TypedDependencyParser()
   }
 
   private def getDependencyPipeInstance(options: Options): DependencyPipe = {
