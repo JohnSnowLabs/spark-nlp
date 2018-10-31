@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 # Set TRAIN to true will build a new model
-TRAIN = False 
+TRAIN = True 
 
 # If VERBOSE is true, then print the ppl of every sequence when we
 # are testing.
