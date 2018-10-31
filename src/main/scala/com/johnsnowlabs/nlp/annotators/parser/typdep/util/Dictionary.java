@@ -16,9 +16,21 @@ public class Dictionary implements Serializable
         return map;
     }
 
+    public void setMap(TObjectIntHashMap map) {
+        this.map = map;
+    }
+
     private int numEntries;
     private boolean growthStopped = false;
     private String mapAsString;
+
+    public int getNumEntries() {
+        return numEntries;
+    }
+
+    public boolean isGrowthStopped() {
+        return growthStopped;
+    }
 
     public void setMapAsString(String mapAsString) {
         this.mapAsString = mapAsString;
