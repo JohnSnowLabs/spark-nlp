@@ -24,6 +24,10 @@ public class Dictionary implements Serializable
         this.mapAsString = mapAsString;
     }
 
+    public String getMapAsString() {
+        return mapAsString;
+    }
+
     private Dictionary (int capacity)
     {
         this.map = new TObjectIntHashMap(capacity);

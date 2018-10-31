@@ -110,6 +110,9 @@ lazy val dependencyParserDependencies = Seq(
   "net.sf.trove4j" % "trove4j" % "3.0.3"
 )
 
+lazy val typedDependdencyParserDependencies = Seq(
+  "junit" % "junit" % "4.10" % Test
+)
 
 lazy val root = (project in file("."))
   .settings(
@@ -117,7 +120,8 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
-        dependencyParserDependencies
+        dependencyParserDependencies ++
+        typedDependdencyParserDependencies
   )
 
 val ocrMergeRules: String => MergeStrategy  = {
