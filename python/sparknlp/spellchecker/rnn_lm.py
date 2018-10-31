@@ -19,7 +19,14 @@ class RNNLM(object):
                  final_learning_rate=0.001
                  ):
 
+
+
+        self.word_class = self.load_classes('classes.psv')
         self.vocab_size = vocab_size
+        # these are internally defined
+        self.num_classes = 100
+        # here we should dynamically determine max number of words per class
+        self.word_ids = 10000
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.check_point_step = check_point_step
@@ -47,7 +54,6 @@ class RNNLM(object):
         # this tensor holds in-memory data for testing
         self.in_memory_test = tf.placeholder(tf.int32, shape=[None, None], name='in-memory-input')
 
-
         def parse(line):
             line_split = tf.string_split([line])
             input_seq = tf.string_to_number(line_split.values[:-1], out_type=tf.int32)
@@ -57,7 +63,12 @@ class RNNLM(object):
         def parse_row(row):
             return row[:-1], row[1:]
 
-        training_dataset = tf.data.TextLineDataset(self.file_name_train).map(parse).shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None]))
+        # training_dataset = tf.data.TextLineDataset(self.file_name_train).map(parse).shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None]))
+        training_dataset = tf.data.Dataset.from_generator(
+            self.generator, (tf.int64, tf.int64, tf.int64),
+                (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
+            shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
+
         validation_dataset = tf.data.TextLineDataset(self.file_name_validation).map(parse).padded_batch(self.batch_size, padded_shapes=([None], [None]))
         test_dataset = tf.data.TextLineDataset(self.file_name_test).map(parse).batch(1)
         #test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(parse_row).batch(1)
@@ -65,11 +76,11 @@ class RNNLM(object):
         iterator = tf.data.Iterator.from_structure(training_dataset.output_types,
                                               training_dataset.output_shapes)
 
-        self.input_batch, self.output_batch = iterator.get_next("batches")
+        self.input_batch, self.output_batch_cids, self.output_batch_wids = iterator.get_next("batches")
 
         self.trining_init_op = iterator.make_initializer(training_dataset)
-        self.validation_init_op = iterator.make_initializer(validation_dataset)
-        self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
+        #self.validation_init_op = iterator.make_initializer(validation_dataset)
+        #self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
 
         # Input embedding mat
         with tf.device('/cpu:0'):
@@ -81,20 +92,28 @@ class RNNLM(object):
 
         # LSTM cell
         cell = tf.contrib.rnn.LSTMCell(self.num_hidden_units, state_is_tuple=True)
-
         cell = tf.contrib.rnn.DropoutWrapper(cell, input_keep_prob=self.dropout_rate)
         cell = tf.contrib.rnn.MultiRNNCell(cells=[cell]*self.num_layers, state_is_tuple=True)
-
         self.cell = cell
 
-        # Output embedding
-        self.output_embedding_mat = tf.get_variable("output_embedding_mat",
-                                                    [self.vocab_size, self.num_hidden_units],
+        # Output embedding - classes
+        self.output_class_embedding_mat = tf.get_variable("output_class_embedding_mat",
+                                                    [self.num_classes, self.num_hidden_units],
                                                     dtype=tf.float32)
 
-        self.output_embedding_bias = tf.get_variable("output_embedding_bias",
-                                                     [self.vocab_size],
+        self.output_class_embedding_bias = tf.get_variable("output_class_embedding_bias",
+                                                     [self.num_classes],
                                                      dtype=tf.float32)
+
+        # Output embedding - word ids
+        self.output_wordid_embedding_mat = tf.get_variable("output_wordid_embedding_mat",
+                                                    [self.word_ids, self.num_hidden_units],
+                                                    dtype=tf.float32)
+
+        self.output_wordid_embedding_bias = tf.get_variable("output_wordid_embedding_bias",
+                                                     [self.word_ids],
+                                                     dtype=tf.float32)
+
 
         non_zero_weights = tf.sign(self.input_batch)
         self.valid_words = tf.reduce_sum(non_zero_weights, name='valid_words')
@@ -115,28 +134,79 @@ class RNNLM(object):
             dtype=tf.float32
         )
 
-        def output_embedding(current_output):
+        def output_class_embedding(current_output):
             return tf.add(
-                tf.matmul(current_output, tf.transpose(self.output_embedding_mat)), self.output_embedding_bias)
+                tf.matmul(current_output, tf.transpose(self.output_class_embedding_mat)), self.output_class_embedding_bias)
 
-        # To compute the logits
-        logits = tf.map_fn(output_embedding, outputs)
-        logits = tf.reshape(logits, [-1, vocab_size])
-        loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
-                   (labels=tf.reshape(self.output_batch, [-1]), logits=logits, name='loss')\
+        def output_wordid_embedding(current_output):
+            return tf.add(
+                tf.matmul(current_output, tf.transpose(self.output_wordid_embedding_mat)), self.output_wordid_embedding_bias)
+
+        # To compute the logits - classes
+        class_logits = tf.map_fn(output_class_embedding, outputs)
+        class_logits = tf.reshape(class_logits, [-1, self.num_classes])
+        class_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
+                   (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits, name='loss')\
                * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
 
-        self.loss = tf.identity(loss, name='loss')
+        self.class_loss = tf.identity(class_loss, name='class_loss')
+
+        # To compute the logits - word ids
+        wordid_logits = tf.map_fn(output_class_embedding, outputs)
+        wordid_logits = tf.reshape(logits, [-1, self.word_ids])
+        wordid_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
+                   (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits, name='loss')\
+               * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
+
+        self.wordid_loss = tf.identity(wordid_loss, name='wordid_loss')
 
         # Train
         params = tf.trainable_variables()
-
         opt = tf.train.AdagradOptimizer(self.learning_rate)
+
+        # Global loss, we can add here, because we're handling log probabilities
+        self.loss = tf.add(class_loss, wordid_loss)
 
         gradients = tf.gradients(self.loss, params, colocate_gradients_with_ops=True)
         clipped_gradients, _ = tf.clip_by_global_norm(gradients, self.max_gradient_norm)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
 
+    def load_classes(self, file_path):
+        word_class = dict()
+        with open(file_path, 'r') as f:
+            for line in f.readlines():
+                chunks = line.split('|')
+                try:
+                    word_class[chunks[0]] = (int(chunks[1]), int(chunks[2]))
+                except:
+                    pass
+
+        return word_class
+
+    def generator(self):
+
+        with open(self.file_name_train, 'r') as f:
+            for line in f.readlines():
+                ints = [int(k) for k in line.split()]
+                yield (ints[:-1], [i * 2 for i in ints][1:], [i * 4 for i in ints][1:])
+
+
+    def splitClassWid(self, gwids):
+        '''
+        receives one collection with word ids(text), returns two
+        collections one with class ids and another with word ids
+        '''
+
+        # gwid: global word id
+        class_ids = [self.word_class[gwid][0] for gwid in gwids]
+        word_ids = [self.word_class[gwid][1] for gwid in gwids]
+        return class_ids, word_ids
+
+    def to_cid(self, word):
+        return self.word_class[word][0]
+
+    def to_wid(self, word):
+        return self.word_class[word][1]
 
     def save(self, path, sess):
         dropout_rate_info = tf.saved_model.utils.build_tensor_info(self.dropout_rate)
@@ -170,6 +240,7 @@ class RNNLM(object):
                     _loss, _valid_words, global_step, current_learning_rate, _ = sess.run(
                         [self.loss, self.valid_words, self.global_step, self.learning_rate, self.updates],
                         {self.dropout_rate: 0.6})
+
                     train_loss += np.sum(_loss)
                     train_valid_words += _valid_words
 
