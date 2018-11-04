@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS}
-import com.johnsnowlabs.nlp.annotators.common.LabeledDependency
+import com.johnsnowlabs.nlp.annotators.common.{Conll2009, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
@@ -37,7 +37,18 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     dependencyPipe.setDictionariesSet(dictionarySet)
 
     //TODO Make a class similar to Tagged to unpack values following a structure similar to example.pred
-    val conll = LabeledDependency.unpack(annotations)
+    val conll2009Sentence = LabeledDependency.unpack(annotations).toArray
+
+    val typedDependencyParser = getTypedDependencyParserInstance
+    typedDependencyParser.setOptions(options)
+    typedDependencyParser.setParameters(parameters)
+    typedDependencyParser.setDependencyPipe(dependencyPipe)
+    typedDependencyParser.getDependencyPipe.closeAlphabets()
+
+    val document = Array(conll2009Sentence, Array(Conll2009("end","sentence","ES","ES","ES",-2)))
+    val documentData = transformToConll09Data(document)
+
+    typedDependencyParser.predictDependency(documentData)
 
     Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
   }
@@ -62,6 +73,18 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     }
 
     dictionarySet
+  }
+
+  private def getTypedDependencyParserInstance: TypedDependencyParser = {
+    new TypedDependencyParser
+  }
+
+  private def transformToConll09Data(document: Array[Array[Conll2009]]): Array[Array[Conll09Data]] = {
+    document.map{sentence =>
+      sentence.map{word =>
+        new Conll09Data(word.form, word.lemma, word.pos, word.depreal, word.head)
+      }
+    }
   }
 
 }
