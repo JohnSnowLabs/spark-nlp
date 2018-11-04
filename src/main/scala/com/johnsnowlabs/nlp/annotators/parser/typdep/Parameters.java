@@ -94,23 +94,23 @@ public class Parameters implements Serializable {
     private float[][] Y2L;
 
 
-    private float[][] totalU;
-    private float[][] totalV;
-    private float[][] totalWL;
-    private float[][] totalU2;
-    private float[][] totalV2;
-    private float[][] totalW2;
-    private float[][] totalX2L;
-    private float[][] totalY2L;
+    private transient float[][] totalU;
+    private transient float[][] totalV;
+    private transient float[][] totalWL;
+    private transient float[][] totalU2;
+    private transient float[][] totalV2;
+    private transient float[][] totalW2;
+    private transient float[][] totalX2L;
+    private transient float[][] totalY2L;
 
-    private FeatureVector[] dU;
-    private FeatureVector[] dV;
-    private FeatureVector[] dWL;
-    private FeatureVector[] dU2;
-    private FeatureVector[] dV2;
-    private FeatureVector[] dW2;
-    private FeatureVector[] dX2L;
-    private FeatureVector[] dY2L;
+    private transient FeatureVector[] dU;
+    private transient FeatureVector[] dV;
+    private transient FeatureVector[] dWL;
+    private transient FeatureVector[] dU2;
+    private transient FeatureVector[] dV2;
+    private transient FeatureVector[] dW2;
+    private transient FeatureVector[] dX2L;
+    private transient FeatureVector[] dY2L;
 
     public Parameters(DependencyPipe pipe, Options options)
     {

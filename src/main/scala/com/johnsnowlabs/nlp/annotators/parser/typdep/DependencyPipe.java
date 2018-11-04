@@ -77,12 +77,6 @@ public class DependencyPipe implements Serializable {
         loadLanguageInfo();
     }
 
-    DependencyPipe(Options options, DictionarySet dictionariesSet, SyntacticFeatureFactory synFactory){
-        options = options;
-        dictionariesSet = dictionariesSet;
-        synFactory = synFactory;
-    }
-
     /***
      * load language specific information
      * conjWord: word considered as a conjunction
@@ -127,16 +121,16 @@ public class DependencyPipe implements Serializable {
 
         dictionariesSet.setCounters();
 
-        DependencyReader reader = DependencyReader.createDependencyReader(options);
+        DependencyReader reader = DependencyReader.createDependencyReader();
 
         reader.startReading(file);
-        DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
+        DependencyInstance dependencyInstance = reader.nextInstance();
 
         while (dependencyInstance != null) {
             //This loop sets values in dictionariesSet for later use
             dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
-            dependencyInstance = reader.nextInstance(coarseMap);
+            dependencyInstance = reader.nextInstance();
         }
         reader.close();
 
@@ -190,10 +184,10 @@ public class DependencyPipe implements Serializable {
 
         HashSet<String> posTagSet = new HashSet<>();
         HashSet<String> cposTagSet = new HashSet<>();
-        DependencyReader reader = DependencyReader.createDependencyReader(options);
+        DependencyReader reader = DependencyReader.createDependencyReader();
         reader.startReading(file);
 
-        DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
+        DependencyInstance dependencyInstance = reader.nextInstance();
 
         while(dependencyInstance != null) {
 
@@ -206,7 +200,7 @@ public class DependencyPipe implements Serializable {
 
             synFactory.initFeatureAlphabets(dependencyInstance);
 
-            dependencyInstance = reader.nextInstance(coarseMap);
+            dependencyInstance = reader.nextInstance();
         }
 
         System.out.printf("[%d ms]%n", System.currentTimeMillis() - start);
@@ -237,11 +231,11 @@ public class DependencyPipe implements Serializable {
         long start = System.currentTimeMillis();
         System.out.print("Creating instances ... ");
 
-        DependencyReader reader = DependencyReader.createDependencyReader(options);
+        DependencyReader reader = DependencyReader.createDependencyReader();
         reader.startReading(file);
 
         LinkedList<DependencyInstance> lt = new LinkedList<>();
-        DependencyInstance dependencyInstance = reader.nextInstance(coarseMap);
+        DependencyInstance dependencyInstance = reader.nextInstance();
 
         while(dependencyInstance != null) {
 
@@ -249,7 +243,7 @@ public class DependencyPipe implements Serializable {
 
             lt.add(new DependencyInstance(dependencyInstance));
 
-            dependencyInstance = reader.nextInstance(coarseMap);
+            dependencyInstance = reader.nextInstance();
         }
 
         reader.close();
@@ -267,7 +261,7 @@ public class DependencyPipe implements Serializable {
     public DependencyInstance createInstance(DependencyReader reader) throws IOException
     {
 
-        DependencyInstance inst = reader.nextInstance(coarseMap);
+        DependencyInstance inst = reader.nextInstance();
         if (inst == null) return null;
 
         inst.setInstIds(dictionariesSet, coarseMap, conjWord);

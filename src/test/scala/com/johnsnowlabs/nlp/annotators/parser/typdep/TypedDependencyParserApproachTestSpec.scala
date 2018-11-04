@@ -33,7 +33,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
 
   private val typedDependencyParser = new TypedDependencyParserApproach()
-    .setInputCols(Array("dependency"))
+    .setInputCols(Array("pos","dependency"))
     .setOutputCol("labdep")
     .setConll2009FilePath("src/test/resources/parser/train/example.train")
 
