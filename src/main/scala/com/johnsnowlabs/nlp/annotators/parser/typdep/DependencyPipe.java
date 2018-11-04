@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 import com.johnsnowlabs.nlp.annotators.parser.typdep.feature.SyntacticFeatureFactory;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.io.Conll09Reader;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.io.DependencyReader;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Dictionary;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet;
@@ -258,15 +259,17 @@ public class DependencyPipe implements Serializable {
         return insts;
     }
 
-    public DependencyInstance createInstance(DependencyReader reader) throws IOException
+    public DependencyInstance nextSentence(Conll09Data[] sentence)
     {
+        Conll09Reader conll09Reader = new Conll09Reader();
+        DependencyInstance dependencyInstance = conll09Reader.nextSentence(sentence);
+        if (dependencyInstance == null) {
+            return null;
+        }
 
-        DependencyInstance inst = reader.nextInstance();
-        if (inst == null) return null;
+        dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
-        inst.setInstIds(dictionariesSet, coarseMap, conjWord);
-
-        return inst;
+        return dependencyInstance;
     }
 
     public void pruneLabel(DependencyInstance[] dependencyInstances)
