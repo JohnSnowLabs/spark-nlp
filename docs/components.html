@@ -17,7 +17,7 @@
 
         gtag('config', 'UA-70312582-2');
     </script>
-    <title>Spark NLP</title>
+    <title>Spark NLP - Documentation and Reference</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +80,7 @@
     <div class="doc-wrapper">
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
-                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_puzzle_alt"></span> SparkNLP- Documentation and Reference
+                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_puzzle_alt"></span> SparkNLP - Documentation and Reference
                 </h1>
                 <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div><!--//doc-header-->
@@ -1030,6 +1030,132 @@ documentAssembler = new DocumentAssembler()
                                     </ul>
                                   </div><!--//code-block--></div>
                               </div>
+                                <h4 id="Doc2Chunk" class="section-block"> Doc2Chunk</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol.
+                                                Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType[StringType] (using isArray Param)
+                                                Useful for annotators that require a CHUNK type input.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">chunker = Doc2Chunk()\
+  .setInputCols(["document"])\
+  .setOutputCol("chunk")\
+  .setIsArray(False)\
+  .setChunkCol("some_column")
+</code></pre>
+
+                                            <b>Settable parameters are:</b>
+                                            <ul>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                                <li>
+                                                    setIsArray()
+                                                </li>
+                                                <li>
+                                                    setChunkCol
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Converts document type annotations into CHUNK type with the contents of a chunkCol.
+                                                Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType[StringType] (using isArray Param)
+                                                Useful for annotators that require a CHUNK type input.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">val chunker = new Doc2Chunk()
+  .setInputCols("document")
+  .setOutputCol("chunk")
+  .setIsArray(false)
+  .setChunkCol("some_column")
+</code></pre>
+
+                                            <b>Settable parameters are:</b>
+                                            <ul>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                                <li>
+                                                    setIsArray()
+                                                </li>
+                                                <li>
+                                                    setChunkCol
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <h4 id="Chunk2Doc" class="section-block"> Chunk2Doc</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">chunk_doc = Chunk2Doc()\
+  .setInputCols(["chunk_output"])\
+  .setOutputCol("new_document")\
+</code></pre>
+
+                                            <b>Settable parameters are:</b>
+                                            <ul>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.
+                                                <br><b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">val chunk_doc = new Chunk2Doc()
+  .setInputCols("chunk_output")
+  .setOutputCol("new_document")
+</code></pre>
+
+                                            <b>Settable parameters are:</b>
+                                            <ul>
+                                                <li>
+                                                    setInputCol()
+                                                </li>
+                                                <li>
+                                                    setOutputCol()
+                                                </li>
+                                            </ul>
+                                        </div><!--//code-block--></div>
+                                </div>
                               <h4 id="Finisher" class="section-block"> Finisher: Getting data out </h4>
                               <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#python" aria-controls="home"
@@ -2701,8 +2827,10 @@ val assertionStatus = new AssertionStatusApproach()
                 <div class="doc-sidebar hidden-xs">
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu" style="overflow-y: auto;height: 100%;padding-top: 20px;padding-bottom: 30px" data-spy="affix">
+                            <li style="font-size: 25px"><b>Index</b></li>
                             <li>
-                                <a class="scrollto" href="#concepts">Concepts</a>
+                                <input type="checkbox" class="collapsable" id="ii1" checked>
+                                <label class="hover-label" for="ii1">Concepts</label>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#Imports">Spark NLP Imports</a></li>
                                     <li><a class="scrollto" href="#MLPipeline">Spark ML Pipelines</a></li>
@@ -2717,7 +2845,8 @@ val assertionStatus = new AssertionStatusApproach()
                                 </ul><!--//nav-->
                             </li>
                             <li>
-                                <a class="scrollto" href="#pipelines">Pretrained Pipelines</a>
+                                <input type="checkbox"  class="collapsable" id="ii2">
+                                <label class="hover-label" for="ii2">Pretrained Pipelines</label>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#BasicPipeline">Basic Pipeline</a></li>
                                     <li><a class="scrollto" href="#AdvancedPipeline">Advanced Pipeline</a></li>
@@ -2726,7 +2855,8 @@ val assertionStatus = new AssertionStatusApproach()
                                 </ul><!--//nav-->
                             </li>
                             <li>
-                                <a class="scrollto" href="#models">Pretrained Models</a>
+                                <input type="checkbox"  class="collapsable" id="ii3">
+                                <label class="hover-label" for="ii3">Pretrained Models</label>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#LemmaFast">Fast Lemmatizer</a></li>
                                     <li><a class="scrollto" href="#SpellFast">Fast Norvig Spell Checker</a></li>
@@ -2740,7 +2870,8 @@ val assertionStatus = new AssertionStatusApproach()
                                 </ul><!--//nav-->
                             </li>
                             <li>
-                              <a class="scrollto" href="#transformers">Transformers</a>
+                              <input type="checkbox"  class="collapsable" id="ii4">
+                                <label class="hover-label" for="ii4">Transformers</label>
                               <ul class="nav doc-sub-menu">
                                 <li><a class="scrollto" href="#DocumentAssembler">Document Assembler</a></li>
                                 <li><a class="scrollto" href="#TokenAssembler">Token Assembler</a></li>
@@ -2749,7 +2880,8 @@ val assertionStatus = new AssertionStatusApproach()
                               </ul><!--//nav-->
                             </li>
                             <li>
-                                <a class="scrollto" href="#annotators">Annotators</a>
+                                <input type="checkbox"  class="collapsable" id="ii5">
+                                <label class="hover-label" for="ii5">Annotators</label>
                                 <ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#Tokenizer">Tokenizer</a></li>
                                     <li><a class="scrollto" href="#Normalizer">Normalizer</a></li>
@@ -2769,6 +2901,14 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#SymmChecker">Symmetric Spell Checker</a></li>
                                     <li><a class="scrollto" href="#AssertionStatus">Assertion Status</a></li>
                                     <li><a class="scrollto" href="#AssertionStatusDL">Assertion Status Deep Learning</a></li>
+                                </ul><!--//nav-->
+                            </li>
+                            <li style="padding-bottom: 75px">
+                                <input type="checkbox" class="collapsable" id="ii6">
+                                <label class="hover-label" for="ii6">License and feedback</label>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="link" href="contribute.html">Feedback & Contribute</a></li>
+                                    <li><a class="link" href="license.html">Licence information</a></li>
                                 </ul><!--//nav-->
                             </li>
                         </ul>

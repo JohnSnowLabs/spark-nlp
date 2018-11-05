@@ -229,17 +229,17 @@ class TokenAssembler(AnnotatorTransformer):
         return self._set(outputCol=value)
 
 
-class ChunkAssembler(AnnotatorTransformer):
+class Doc2Chunk(AnnotatorTransformer):
 
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
     isArray = Param(Params._dummy(), "isArray", "whether the chunkCol is an array of strings", typeConverter=TypeConverters.toBoolean)
-    name = "ChunkAssembler"
+    name = "Doc2Chunk"
 
     @keyword_only
     def __init__(self):
-        super(ChunkAssembler, self).__init__(classname="com.johnsnowlabs.nlp.ChunkAssembler")
+        super(Doc2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.Doc2Chunk")
         self._setDefault(
             isArray=False
         )
@@ -260,6 +260,28 @@ class ChunkAssembler(AnnotatorTransformer):
 
     def setIsArray(self, value):
         return self._set(isArray=value)
+
+
+class Chunk2Doc(AnnotatorTransformer):
+
+    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
+    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
+    name = "Chunk2Doc"
+
+    @keyword_only
+    def __init__(self):
+        super(Chunk2Doc, self).__init__(classname="com.johnsnowlabs.nlp.Chunk2Doc")
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, value):
+        return self._set(inputCols=value)
+
+    def setOutputCol(self, value):
+        return self._set(outputCol=value)
 
 
 class Finisher(AnnotatorTransformer):

@@ -242,7 +242,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCol("sentence")
       .setOutputCol("document")
 
-    val chunkAssembler = new ChunkAssembler()
+    val chunkAssembler = new Doc2Chunk()
       .setInputCols("document")
       .setChunkCol("target")
       .setOutputCol("chunk")
