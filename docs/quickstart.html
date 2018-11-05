@@ -17,7 +17,7 @@
 
         gtag('config', 'UA-70312582-2');
     </script>
-    <title>Spark NLP</title>
+    <title>Spark NLP - Quick Start</title>
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,7 +44,7 @@
     <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
     <script>
         function getTasks() {
-            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/faqs.html",
+            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/articles.html",
                     function (data) {
                         var dateObject = new Date(data[0].commit.author.date);
                         $(".wrapper").html(dateObject.toDateString());

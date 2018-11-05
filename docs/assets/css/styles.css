@@ -1268,3 +1268,28 @@ select {
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */
+
+.collapsable[type="checkbox"]{
+  position: absolute;
+  left: -9999px;
+}
+
+.collapsable[type="checkbox"] ~ ul{
+  height: 0;
+  transform: scaleY(0);
+}
+
+.collapsable[type="checkbox"]:checked ~ ul{
+  height: 100%;
+  transform-origin: top;
+  transition: transform .2s ease-out;
+  transform: scaleY(1);
+}
+
+.collapsable[type="checkbox"]:checked + label{
+  border-bottom: 1px solid #99ccff;
+}
+
+.hover-label:hover{
+    background: #c9d9e8
+}
