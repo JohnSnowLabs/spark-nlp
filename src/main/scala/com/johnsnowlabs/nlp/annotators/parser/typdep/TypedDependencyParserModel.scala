@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS}
-import com.johnsnowlabs.nlp.annotators.common.{Conll2009, LabeledDependency}
+import com.johnsnowlabs.nlp.annotators.common.{Conll2009Sentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
@@ -45,11 +45,11 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     typedDependencyParser.setDependencyPipe(dependencyPipe)
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
-    val document = Array(conll2009Sentence, Array(Conll2009("end","sentence","ES","ES","ES",-2)))
+    val document = Array(conll2009Sentence, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0)))
     val documentData = transformToConll09Data(document)
 
-    typedDependencyParser.predictDependency(documentData)
-
+    val dependencyLabels = typedDependencyParser.predictDependency(documentData)
+    println(dependencyLabels.length)
     Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
   }
 
@@ -79,10 +79,10 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     new TypedDependencyParser
   }
 
-  private def transformToConll09Data(document: Array[Array[Conll2009]]): Array[Array[Conll09Data]] = {
+  private def transformToConll09Data(document: Array[Array[Conll2009Sentence]]): Array[Array[Conll09Data]] = {
     document.map{sentence =>
       sentence.map{word =>
-        new Conll09Data(word.form, word.lemma, word.pos, word.depreal, word.head)
+        new Conll09Data(word.form, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
       }
     }
   }

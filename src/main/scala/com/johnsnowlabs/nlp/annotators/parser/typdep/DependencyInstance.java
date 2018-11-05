@@ -43,6 +43,17 @@ public class DependencyInstance implements Serializable {
     // DEPREL: the dependency relations, e.g. "SUBJ"
     private String[] deprels;
 
+    private int[] begins;
+    private int[] ends;
+
+    public int[] getBegins() {
+        return begins;
+    }
+
+    public int[] getEnds() {
+        return ends;
+    }
+
     public int getLength() {
         return length;
     }
@@ -137,11 +148,14 @@ public class DependencyInstance implements Serializable {
     }
 
     public DependencyInstance(String[] forms, String[] lemmas, String[] cpostags, String[] postags,
-                              String[][] feats, int[] heads, String[] deprels) {
+                              String[][] feats, int[] heads, String[] deprels,
+                              int[] begins, int[] ends) {
         this(forms, postags, heads, deprels);
         this.lemmas = lemmas;
         this.feats = feats;
         this.cpostags = cpostags;
+        this.begins = begins;
+        this.ends = ends;
     }
 
     DependencyInstance(DependencyInstance dependencyInstance) {
