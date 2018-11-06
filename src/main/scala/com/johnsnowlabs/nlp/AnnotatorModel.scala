@@ -4,7 +4,6 @@ import org.apache.spark.ml.Model
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.MetadataBuilder
 
 /**
  * This trait implements logic that applies nlp using Spark ML Pipeline transformers
@@ -52,11 +51,6 @@ abstract class AnnotatorModel[M <: Model[M]]
     require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid. " +
       s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns have following annotator types: " +
       s"${requiredAnnotatorTypes.mkString(", ")}")
-    this match {
-        // Preload embeddings once
-      case withEmbeddings: HasWordEmbeddings => withEmbeddings.embeddings
-      case _ =>
-    }
 
     val inputDataset = beforeAnnotate(dataset)
 

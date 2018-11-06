@@ -44,7 +44,7 @@
     <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
     <script>
         function getTasks() {
-            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/faqs.html",
+            $.get("https://api.github.com/repos/JohnSnowLabs/spark-nlp/commits?path=docs/videos.html",
                     function (data) {
                         var dateObject = new Date(data[0].commit.author.date);
                         $(".wrapper").html(dateObject.toDateString());
@@ -67,7 +67,7 @@
             <div id="includedHeader"></div>
             <ol class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
-                <li class="active">FAQs &amp; Additional Resources</li>
+                <li class="active">Videos & Podcasts</li>
             </ol>
         </div>
     </header>
@@ -75,7 +75,7 @@
     <div class="doc-wrapper">
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
-                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_lifesaver"></span> SparkNLP - FAQs &amp; Additional Resources</h1>
+                <h1 class="doc-title"><span aria-hidden="true" class="icon icon_lifesaver"></span> SparkNLP - Videos &amp; Podcasts</h1>
                 <div class="meta"><i class="fa fa-clock-o"></i> Last updated: <span class="wrapper"></span></div>
             </div>
             <div class="doc-body">
@@ -83,7 +83,7 @@
                     <div class="content-inner">
 						<section id="resources" class="doc-section">
                             <h2 class="section-title">Additonal Resources</h2>
-                                <p>Browse through our collection of videos, blogs to deepen your knowledge and experience with spark-nlp</p>
+                            <div>Browse through our collection of videos to deepen your knowledge and experience with spark-nlp</div>
                         </section>
 						<section id="videos" class="doc-section">
                             <h3><i class="fa fa-youtube"></i> Videos/Webinars</h3>
@@ -99,82 +99,15 @@
                                 <b><a href="https://www.oreilly.com/ideas/building-a-natural-language-processing-library-for-apache-spark?twitter=@bigdata" target="_blank">Building a Natural Language Processing Library for Apache Spark</a></b>
 								<p> In this O'Reilly Data Show Podcast, Ben Lorica spoke with David Talby of Pacific.AI on a new NLP library for Spark, and why model development starts after a model gets deployed to production… </p>
                         </section>
-						<section id="blogs" class="doc-section">
-                            <h3><i class="fa fa-edit"></i> Blogs</h3>
-                            <b><a href="https://www.oreilly.com/ideas/comparing-production-grade-nlp-libraries-training-spark-nlp-and-spacy-pipelines" target="_blank">Comparing production-grade NLP libraries: Training Spark-NLP and spaCy pipelines</a></b>
-                            <p> By Saif Addin Ellafi|February 28, 2018 </p>
-                            <b><a href="https://www.oreilly.com/ideas/comparing-production-grade-nlp-libraries-running-spark-nlp-and-spacy-pipelines" target="_blank">Comparing production-grade NLP libraries: Running Spark-NLP and spaCy pipelines</a></b>
-                            <p> By Saif Addin Ellafi|February 28, 2018 </p>
-                            <b><a href="https://www.oreilly.com/ideas/comparing-production-grade-nlp-libraries-accuracy-performance-and-scalability" target="_blank">Comparing production-grade NLP libraries: Accuracy, performance, and scalability</a></b>
-                            <p> By Saif Addin Ellafi|February 28, 2018 </p>
-                            <b><a href="https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html" target="_blank">Introducing the Natural Language Processing Library for Apache Spark</a></b>
-                            <p> By David Talby|October 19, 2017 </p>
-                        </section>
-                        <section id="general" class="doc-section">
-                            <h2 class="section-title">General</h2>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What are the requirements of
-                                    SparkNLP?</h3>
-                                <div class="answer">The library works on top of Spark, and nothing else. Make sure you
-                                    have a <b>working Spark environment</b> and supply SparkNLP as a jar to the Spark
-                                    JVM <b>classpath</b>.
-                                </div>
-                            </div>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> Does SparkNLP rely on any NLP
-                                    library?</h3>
-                                <div class="answer">No, SparkNLP is self contained and all algorithms are developed
-                                    within the code base.
-                                </div>
-                            </div>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What do I need to learn in
-                                    order to use the library?</h3>
-                                <div class="answer">Either <b>Scala</b> or <b>Python</b>, and then, mostly <b>Spark</b>
-                                    and <b>SparkML</b>. SparkNLP uses the same logic and syntax than any other machine
-                                    learning transformer in Spark, and can be included within the same pipelines. So
-                                    only some review on the examples and you can get going.
-                                </div>
-                            </div>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> What are annotator types?
-                                </h3>
-                                <div class="answer">Each annotator has a <b>type</b> that may be shared with other
-                                    annotators. Whenever an annotator requires another annotator by a type, it means you
-                                    can provide in <b>inputCols</b> any annotator’s output column that has such type,
-                                    for instance Normalizer or SpellChecker are both <b>token</b> type annotators and
-                                    either or both may be used for a Sentiment Analysis model.
-                                </div>
-                            </div>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> Can I save trained models or
-                                    pipelines?</h3>
-                                <div class="answer">Yes, the same way you would do it for any other Spark ML
-                                    component.
-                                </div>
-                            </div>
-                            <div class="section-block">
-                                <h3 class="question"><i class="fa fa-question-circle"></i> Can I contribute?</h3>
-                                <div class="answer">Yes! Any kind of contribution is welcome, feedback, ideas,
-                                    management, documentation, testing, corpus for training and testing, development or
-                                    even code review. Refer to the contribute page for more information.
-                                </div>
-                            </div>
-                        </section>
                     </div>
                 </div>
                 <div class="doc-sidebar">
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
-                            <li><a class="scrollto" href="#general">FAQs</a></li>
-							<ul class="nav doc-sub-menu">
-                                    <li><a class="scrollto" href="#general">General</a></li>
-                            </ul>
-							<li><a class="scrollto" href="#resources">Additional Resources</a></li>
+							<li><a class="scrollto" href="#resources">Resources</a></li>
 							<ul class="nav doc-sub-menu">
                                     <li><a class="scrollto" href="#videos">Videos/Webinars</a></li>
 									<li><a class="scrollto" href="#podcasts">Podcasts</a></li>
-									<li><a class="scrollto" href="#blogs">Blogs</a></li>
                             </ul>
                         </ul>
                     </nav>

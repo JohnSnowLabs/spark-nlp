@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowWrapper}
-import com.johnsnowlabs.nlp.embeddings.{SparkWordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.{ClusterWordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -39,8 +40,8 @@ object NerDLModelPythonReader {
                               embeddingsDim: Int,
                               normalize: Boolean,
                               format: WordEmbeddingsFormat.Format
-                            ): SparkWordEmbeddings = {
-    SparkWordEmbeddings(
+                            ): ClusterWordEmbeddings = {
+    ClusterWordEmbeddings(
       spark.sparkContext,
       Paths.get(folder, embeddingsFile).toString,
       embeddingsDim,
@@ -56,7 +57,7 @@ object NerDLModelPythonReader {
             useBundle: Boolean = false,
             tags: Array[String] = Array.empty[String]): NerDLModel = {
 
-    val uri = new java.net.URI(folder)
+    val uri = new java.net.URI(folder.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_bundle")
@@ -69,7 +70,7 @@ object NerDLModelPythonReader {
     val labels = readTags(folder)
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
-    val encoder = new NerDatasetEncoder(embeddings.wordEmbeddings.getEmbeddings, settings)
+    val encoder = new NerDatasetEncoder(embeddings.getOrCreateLocalRetriever.getEmbeddingsVector, settings)
     val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
 
     FileHelper.delete(tmpFolder)
@@ -77,8 +78,7 @@ object NerDLModelPythonReader {
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(encoder.params)
-      .setDims(embeddingsDim)
-      .setIndexPath(embeddings.clusterFilePath.toString)
-      .setUseNormalizedTokensForEmbeddings(normalize)
+      .setEmbeddingsDim(embeddingsDim)
+      .setCaseSensitiveEmbeddings(normalize)
   }
 }

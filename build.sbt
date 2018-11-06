@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.6.3"
+version := "1.7.2"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -95,6 +95,7 @@ lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+    exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
@@ -138,7 +139,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.6.2",
+    version := "1.7.2",
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,

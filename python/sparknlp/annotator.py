@@ -52,7 +52,49 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
-class ApproachWithEmbeddings(Params):
+class AnnotatorWithEmbeddings(Params):
+    embeddingsDim = Param(Params._dummy(),
+                             "embeddingsDim",
+                             "Number of embedding dimensions",
+                             typeConverter=TypeConverters.toInt)
+
+    caseSensitiveEmbeddings = Param(Params._dummy(),
+                          "caseSensitiveEmbeddings",
+                          "whether to ignore case in tokens for embeddings matching",
+                          typeConverter=TypeConverters.toBoolean)
+
+    includeEmbeddings = Param(Params._dummy(),
+                                    "includeEmbeddings",
+                                    "whether to include embeddings when saving annotator",
+                                    typeConverter=TypeConverters.toBoolean)
+
+    embeddingsRef = Param(Params._dummy(),
+                              "embeddingsRef",
+                              "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                              typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(AnnotatorWithEmbeddings, self).__init__()
+        self._setDefault(
+            caseSensitiveEmbeddings=False,
+            includeEmbeddings=True
+        )
+
+    def setEmbeddingsDim(self, value):
+        return self._set(embeddingsDim=value)
+
+    def setCaseSensitiveEmbeddings(self, value):
+        return self._set(caseSensitiveEmbeddings=value)
+
+    def setIncludeEmbeddings(self, value):
+        return self._set(includeEmbeddings=value)
+
+    def setEmbeddingsRef(self, value):
+        return self._set(embeddingsRef=value)
+
+
+class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
     sourceEmbeddingsPath = Param(Params._dummy(),
                                  "sourceEmbeddingsPath",
                                  "Word embeddings file",
@@ -61,40 +103,16 @@ class ApproachWithEmbeddings(Params):
                              "embeddingsFormat",
                              "Word vectors file format",
                              typeConverter=TypeConverters.toInt)
-    embeddingsNDims = Param(Params._dummy(),
-                            "embeddingsNDims",
-                            "Number of dimensions for word vectors",
-                            typeConverter=TypeConverters.toInt)
-
-    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
-                                             "useNormalizedTokensForEmbeddings",
-                                             "whether to use embeddings of normalized tokens (if not already normalized)",
-                                             typeConverter=TypeConverters.toBoolean)
-
-    def setUseNormalizedTokensForEmbeddings(self, value):
-        return self._set(useNormalizedTokensForEmbeddings=value)
 
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
         self._set(embeddingsFormat=format)
-        return self._set(embeddingsNDims=nDims)
+        return self._set(embeddingsDim=nDims)
 
 
-class ModelWithEmbeddings(Params):
-    indexPath = Param(Params._dummy(),
-                                 "indexPath",
-                                 "File that stores Index",
-                                 typeConverter=TypeConverters.toString)
-
-    nDims = Param(Params._dummy(),
-                            "nDims",
-                            "Number of dimensions for word vectors",
-                            typeConverter=TypeConverters.toInt)
-
-    useNormalizedTokensForEmbeddings = Param(Params._dummy(),
-                                             "useNormalizedTokensForEmbeddings",
-                                             "whether to use embeddings of normalized tokens (if not already normalized)",
-                                             typeConverter=TypeConverters.toBoolean)
+class ModelWithEmbeddings(AnnotatorWithEmbeddings):
+    def getClusterEmbeddings(self):
+        return self._java_obj.getClusterEmbeddings()
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
@@ -320,6 +338,36 @@ class NormalizerModel(AnnotatorModel):
     name = "NormalizerModel"
 
 
+class DeIdentification(AnnotatorApproach):
+
+    regexPatternsDictionary = Param(Params._dummy(),
+                                    "regexPatternsDictionary",
+                                    "dictionary with regular expression patterns that match some protected entity",
+                                    typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(DeIdentification, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentification")
+
+    def setRegexPatternsDictionary(self, path, read_as=ReadAs.LINE_BY_LINE, options={"delimiter": " "}):
+        opts = options.copy()
+        return self._set(regexPatternsDictionary=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return DeIdentificationModel(java_model)
+
+
+class DeIdentificationModel(AnnotatorModel):
+
+    name = "DeIdentificationModel"
+
+    def __init__(self, java_model=None):
+        if java_model:
+            super(JavaModel, self).__init__(java_model)
+        else:
+            super(DeIdentificationModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel")
+
+
 class RegexMatcher(AnnotatorApproach):
 
     strategy = Param(Params._dummy(),
@@ -395,9 +443,9 @@ class LemmatizerModel(AnnotatorModel):
             super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
 
     @staticmethod
-    def pretrained(name="lemma_fast", language="en"):
+    def pretrained(name="lemma_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LemmatizerModel, name, language)
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, language, remote_loc)
 
 
 class DateMatcher(AnnotatorModel):
@@ -543,9 +591,9 @@ class PerceptronModel(AnnotatorModel):
             super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
 
     @staticmethod
-    def pretrained(name="pos_fast", language="en"):
+    def pretrained(name="pos_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language)
+        return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
 
 class SentenceDetector(AnnotatorModel):
@@ -614,7 +662,7 @@ class SentimentDetector(AnnotatorApproach):
     decrementMultiplier = Param(Params._dummy(),
                                "decrementMultiplier",
                                "multiplier for decrement sentiments. Defaults -2.0",
-                               typeConverter=TypeConverters.toInt)
+                               typeConverter=TypeConverters.toFloat)
 
     reverseMultiplier = Param(Params._dummy(),
                                "reverseMultiplier",
@@ -623,7 +671,7 @@ class SentimentDetector(AnnotatorApproach):
 
     def __init__(self):
         super(SentimentDetector, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
-        self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0, decrementMultiplier=-2, reverseMultiplier=-1.0)
+        self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0, decrementMultiplier=-2.0, reverseMultiplier=-1.0)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format':'text'}):
         opts = options.copy()
@@ -738,9 +786,9 @@ class ViveknSentimentModel(AnnotatorModel):
             super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
 
     @staticmethod
-    def pretrained(name="vivekn_fast", language="en"):
+    def pretrained(name="vivekn_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language)
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remote_loc)
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -835,9 +883,9 @@ class NorvigSweetingModel(AnnotatorModel):
             super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
 
     @staticmethod
-    def pretrained(name="spell_fast", language="en"):
+    def pretrained(name="spell_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language, remote_loc)
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
@@ -890,9 +938,9 @@ class SymmetricDeleteModel(AnnotatorModel):
             super(SymmetricDeleteModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel")
 
     @staticmethod
-    def pretrained(name="spell_sd_fast", language="en"):
+    def pretrained(name="spell_sd_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language)
+        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remote_loc)
 
 
 class NerApproach(Params):
@@ -976,7 +1024,7 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(AnnotatorModel):
+class NerCrfModel(AnnotatorModel, ModelWithEmbeddings):
     name = "NerCrfModel"
 
     def __init__(self, java_model=None):
@@ -986,9 +1034,9 @@ class NerCrfModel(AnnotatorModel):
             super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
 
     @staticmethod
-    def pretrained(name="ner_fast", language="en"):
+    def pretrained(name="ner_fast", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerCrfModel, name, language)
+        return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
 
 class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
@@ -1060,9 +1108,9 @@ class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
             super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
 
     @staticmethod
-    def pretrained(name="as_fast_lg", language="en"):
+    def pretrained(name="as_fast_lg", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language)
+        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remote_loc)
 
 
 class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
@@ -1129,9 +1177,9 @@ class NerDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
 
     @staticmethod
-    def pretrained(name="ner_precise", language="en"):
+    def pretrained(name="ner_precise", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, language)
+        return ResourceDownloader.downloadModel(NerDLModel, name, language, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
@@ -1197,6 +1245,6 @@ class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
             super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
 
     @staticmethod
-    def pretrained(name="as_fast_dl", language="en"):
+    def pretrained(name="as_fast_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionDLModel, name, language)
+        return ResourceDownloader.downloadModel(AssertionDLModel, name, language, remote_loc)
