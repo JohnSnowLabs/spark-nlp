@@ -19,14 +19,12 @@ class RNNLM(object):
                  final_learning_rate=0.001
                  ):
 
-
-
         self.word_class = self.load_classes('classes.psv')
         self.vocab_size = vocab_size
         # these are internally defined
-        self.num_classes = 100
+        self.num_classes = 4000
         # here we should dynamically determine max number of words per class
-        self.word_ids = 10000
+        self.word_ids = 17500
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.check_point_step = check_point_step
@@ -51,8 +49,8 @@ class RNNLM(object):
         self.file_name_validation = tf.placeholder(tf.string)
         self.file_name_test = tf.placeholder(tf.string, name='file_name')
 
-        # this tensor holds in-memory data for testing
-        self.in_memory_test = tf.placeholder(tf.int32, shape=[None, None], name='in-memory-input')
+        # this tensor holds in-memory data for testing, dimensions : {batch_size, sentence_len, (wordid, classid, class_wid)}
+        self.in_memory_test = tf.placeholder(tf.int32, shape=[None, None, None], name='in-memory-input')
 
         def parse(line):
             line_split = tf.string_split([line])
@@ -60,18 +58,33 @@ class RNNLM(object):
             output_seq = tf.string_to_number(line_split.values[1:], out_type=tf.int32)
             return input_seq, output_seq
 
-        def parse_row(row):
-            return row[:-1], row[1:]
+        def split_row(row):
+            pids = row[0, :]
+            cids = row[1, :]
+            wids = row[2, :]
+
+            return pids[:-1], cids[1:], wids[1:]
 
         # training_dataset = tf.data.TextLineDataset(self.file_name_train).map(parse).shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None]))
         training_dataset = tf.data.Dataset.from_generator(
-            self.generator, (tf.int64, tf.int64, tf.int64),
+            self.train_generator, (tf.int32, tf.int32, tf.int32),
                 (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
             shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
 
-        validation_dataset = tf.data.TextLineDataset(self.file_name_validation).map(parse).padded_batch(self.batch_size, padded_shapes=([None], [None]))
-        test_dataset = tf.data.TextLineDataset(self.file_name_test).map(parse).batch(1)
-        #test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(parse_row).batch(1)
+        # validation_dataset = tf.data.TextLineDataset(self.file_name_validation).map(parse).padded_batch(self.batch_size, padded_shapes=([None], [None]))
+        validation_dataset = tf.data.Dataset.from_generator(
+            self.valid_generator, (tf.int32, tf.int32, tf.int32),
+                (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
+            padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
+
+        '''
+        test_dataset = tf.data.Dataset.from_generator(
+            self.test_generator, (tf.int64, tf.int64, tf.int64),
+                (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
+            shuffle(256).batch(250)
+        '''
+
+        test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(split_row).batch(36)
 
         iterator = tf.data.Iterator.from_structure(training_dataset.output_types,
                                               training_dataset.output_shapes)
@@ -79,16 +92,16 @@ class RNNLM(object):
         self.input_batch, self.output_batch_cids, self.output_batch_wids = iterator.get_next("batches")
 
         self.trining_init_op = iterator.make_initializer(training_dataset)
-        #self.validation_init_op = iterator.make_initializer(validation_dataset)
-        #self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
+        self.validation_init_op = iterator.make_initializer(validation_dataset)
+        self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
 
         # Input embedding mat
-        with tf.device('/cpu:0'):
-            self.input_embedding_mat = tf.get_variable("input_embedding_mat",
+        # with tf.device('/cpu:0'):
+        self.input_embedding_mat = tf.get_variable("input_embedding_mat",
                                                    [self.vocab_size, self.num_hidden_units],
                                                    dtype=tf.float32)
 
-            self.input_embedded = tf.nn.embedding_lookup(self.input_embedding_mat, self.input_batch)
+        self.input_embedded = tf.nn.embedding_lookup(self.input_embedding_mat, self.input_batch)
 
         # LSTM cell
         cell = tf.contrib.rnn.LSTMCell(self.num_hidden_units, state_is_tuple=True)
@@ -152,8 +165,8 @@ class RNNLM(object):
         self.class_loss = tf.identity(class_loss, name='class_loss')
 
         # To compute the logits - word ids
-        wordid_logits = tf.map_fn(output_class_embedding, outputs)
-        wordid_logits = tf.reshape(logits, [-1, self.word_ids])
+        wordid_logits = tf.map_fn(output_wordid_embedding, outputs)
+        wordid_logits = tf.reshape(wordid_logits, [-1, self.word_ids])
         wordid_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
                    (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits, name='loss')\
                * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
@@ -177,18 +190,30 @@ class RNNLM(object):
             for line in f.readlines():
                 chunks = line.split('|')
                 try:
-                    word_class[chunks[0]] = (int(chunks[1]), int(chunks[2]))
+                    word_class[int(chunks[0])] = (int(chunks[1]), int(chunks[2]))
                 except:
                     pass
 
         return word_class
 
-    def generator(self):
-
-        with open(self.file_name_train, 'r') as f:
+    def train_generator(self):
+        with open(self.train_path, 'r') as f:
             for line in f.readlines():
                 ints = [int(k) for k in line.split()]
-                yield (ints[:-1], [i * 2 for i in ints][1:], [i * 4 for i in ints][1:])
+                yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
+
+    def valid_generator(self):
+        with open(self.valid_path, 'r') as f:
+            for line in f.readlines():
+                ints = [int(k) for k in line.split()]
+                yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
+
+    def test_generator(self):
+        sentence_matrix = [225096, 225100, 356360, 416817, 231370, 292951, 225100, 225099,
+                                     327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
+        ints = sentence_matrix
+        while True:
+            yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
 
 
     def splitClassWid(self, gwids):
@@ -225,12 +250,14 @@ class RNNLM(object):
     def batch_train(self, sess, saver, train_path, valid_path):
 
         best_score = np.inf
-        patience = 5
+        patience = 15
         epoch = 0
+        self.train_path = train_path
+        self.valid_path = valid_path
 
         while epoch < self.num_epochs:
 
-            sess.run(self.trining_init_op, {self.file_name_train: train_path})
+            sess.run(self.trining_init_op)
             print ('epoch %d' % epoch)
             train_loss = 0.0
             train_valid_words = 0
@@ -254,51 +281,55 @@ class RNNLM(object):
 
                         train_loss = 0.0
                         train_valid_words = 0
+                        #break
+
+                        # run validation
+                        sess.run(self.validation_init_op)
+                        dev_loss = 0.0
+                        dev_valid_words = 0
+                        while True:
+                            try:
+                                _dev_loss, _dev_valid_words = sess.run(
+                                    [self.loss, self.valid_words],
+                                    {self.dropout_rate: 1.0})
+
+                                dev_loss += np.sum(_dev_loss)
+                                dev_valid_words += _dev_valid_words
+
+                            except tf.errors.OutOfRangeError:
+                                dev_loss /= dev_valid_words
+                                dev_ppl = math.exp(dev_loss)
+                                print("Validation PPL: {}".format(dev_ppl))
+                                if dev_ppl < best_score:
+                                    patience = 15
+                                    saver.save(sess, "model/best_model.ckpt")
+                                    best_score = dev_ppl
+                                else:
+                                    patience -= 1
+
+                                if patience == 0:
+                                    epoch = self.num_epochs
+
+                                break
 
                 except tf.errors.OutOfRangeError:
                     # The end of one epoch
-                    break
+                    # break
+                    pass
 
-            sess.run(self.validation_init_op, {self.file_name_validation: valid_path})
-            dev_loss = 0.0
-            dev_valid_words = 0
-            while True:
-                try:
-                    _dev_loss, _dev_valid_words = sess.run(
-                        [self.loss, self.valid_words],
-                        {self.dropout_rate: 1.0})
-
-                    dev_loss += np.sum(_dev_loss)
-                    dev_valid_words += _dev_valid_words
-
-                except tf.errors.OutOfRangeError:
-                    dev_loss /= dev_valid_words
-                    dev_ppl = math.exp(dev_loss)
-                    print("Validation PPL: {}".format(dev_ppl))
-                    if dev_ppl < best_score:
-                        patience = 5
-                        saver.save(sess, "model/best_model.ckpt")
-                        best_score = dev_ppl
-                    else:
-                        patience -= 1
-
-                    #if patience == 0:
-                    epoch = self.num_epochs
-
-                    break
 
     def predict(self, sess, input_file, raw_file, verbose=False):
         # if verbose is true, then we print the ppl of every sequence
 
-        sess.run(self.test_init_op, {self.file_name_test: input_file})
+        wids = [225096, 225100, 356360, 416817, 231370, 292951, 225100, 225099,
+                                     327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
 
-        #sentence_matrix = np.array([[1, 8008, 3358, 4902, 5324, 3008, 845, 2],
-        #                            [1, 8008, 9663, 4902, 5324, 3008, 845, 2]])
+        cids = [self.word_class[i][0] for i in wids]
+        wcids = [self.word_class[i][1] for i in wids]
 
-        #sess.run(self.test_init_op, {self.in_memory_test: sentence_matrix})
+        sess.run(self.test_init_op, {self.in_memory_test: np.array([[wids, cids, wcids]])})
 
         with open(raw_file) as fp:
-
             global_dev_loss = 0.0
             global_dev_valid_words = 0
 
