@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 # Set TRAIN to true will build a new model
-TRAIN = True 
+TRAIN = False
 
 # If VERBOSE is true, then print the ppl of every sequence when we
 # are testing.
@@ -21,7 +21,7 @@ data_path= '../../../../auxdata/spell_dataset/vocab/'
 
 # To indicate your test/train corpora
 test_file = "gap_filling_exercise"
-train_file = "spell_corpus_400.ids"
+train_file = "spell_corpus.txt.ids"
 valid_file = "valid.ids"
 #if not os.path.isfile("../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"):
 #    gen_vocab("ptb/train")
@@ -41,9 +41,9 @@ with open(vocab_path) as vocab:
 
 def create_model(sess):
     model = RNNLM(vocab_size=vocab_size,
-                  batch_size=4,
-                  num_epochs=1,
-                  check_point_step=100,
+                  batch_size=2,
+                  num_epochs=10,
+                  check_point_step=10000,
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
                   num_layers=1,
@@ -57,7 +57,8 @@ def create_model(sess):
 
 if TRAIN:
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.99)
-    with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True, device_count = {'GPU': 0})) as sess:
+    # device_count = {'GPU': 0}
+    with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
         model = create_model(sess)
         saver = tf.train.Saver()
         train_ids = data_path + train_file
@@ -73,7 +74,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     saver = tf.train.Saver()
     saver.restore(sess, "model/best_model.ckpt")
 
-    #model.save('bundle', sess)
+    model.save('bundle', sess)
 
     predict_id_file = os.path.join(data_path, test_file.split("/")[-1]+".ids")
     if not os.path.isfile(predict_id_file):
