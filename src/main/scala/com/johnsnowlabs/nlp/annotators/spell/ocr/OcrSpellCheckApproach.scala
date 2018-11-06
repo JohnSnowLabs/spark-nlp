@@ -99,6 +99,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   def computeAndPersistClasses(vocab: mutable.HashMap[String, Double], total:Double, k:Int) = {
 
     val sorted = vocab.toList.sortBy(_._2).reverse
+    val word2id = vocab.toList.sortBy(_._1).map(_._1).zipWithIndex.toMap
     val binMass = total / k
 
     var acc = 0.0
@@ -125,14 +126,15 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
         maxWid = currWordId
     }
     // TODO hardcoded stuff!!
-    val classesFile = new File("clases.psv")
+    val classesFile = new File("classes.psv")
     val bwClassesFile = new BufferedWriter(new FileWriter(classesFile))
 
     classes.foreach{case (word, (cid, wid)) =>
-      bwClassesFile.write(s"""$word|$cid|$wid""")
+      bwClassesFile.write(s"""${word2id.get(word).get}|$cid|$wid""")
       bwClassesFile.newLine
     }
     bwClassesFile.close
+    classes
   }
 
   def genVocab(rawDataPath: String):List[(String, Double)] = {
@@ -196,7 +198,9 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     // compute frequencies - logarithmic
     var totalCount = vocab.values.reduce(_ + _) + eosBosCount * 2 + unknownCount
 
-    val classes = computeAndPersistClasses(vocab, totalCount, 1000)
+
+    // TODO hard-coded number of classes
+    computeAndPersistClasses(vocab, totalCount, 4000)
 
     totalCount = math.log(totalCount)
     for (key <- vocab.keys){
@@ -204,7 +208,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     }
 
     // ("_PAD_", 1.0),
-    vocab.toList
+    vocab.toList.sortBy(_._1)
+
   }
 
 
