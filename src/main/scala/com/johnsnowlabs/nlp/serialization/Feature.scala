@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.serialization
 
+import java.io.File
+
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.ConfigLoader

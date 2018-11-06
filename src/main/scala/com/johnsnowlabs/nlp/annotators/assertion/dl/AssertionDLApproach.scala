@@ -140,7 +140,7 @@ class AssertionDLApproach(override val uid: String)
     val session = new Session(graph, config)
 
     val graphStream = getClass.
-      getResourceAsStream(s"/assertion_dl/blstm_34_32_30_${getOrDefault(embeddingsNDims)}_${getOrDefault(classes)}.pb")
+      getResourceAsStream(s"/assertion_dl/blstm_34_32_30_${getOrDefault(embeddingsDim)}_${getOrDefault(classes)}.pb")
     require(graphStream != null, "Graph not found for input parameters")
 
     val graphBytesDef = IOUtils.toByteArray(graphStream)
@@ -148,7 +148,7 @@ class AssertionDLApproach(override val uid: String)
 
     val tf = new TensorflowWrapper(session, graph)
     val params = DatasetEncoderParams(labelMappings.toList, List.empty)
-    val encoder = new AssertionDatasetEncoder(embeddings.get.getEmbeddings, params)
+    val encoder = new AssertionDatasetEncoder(getClusterEmbeddings.getOrCreateLocalRetriever.getEmbeddingsVector, params)
 
     val model = new TensorflowAssertion(tf, encoder, getOrDefault(batchSize), Verbose.All)
 

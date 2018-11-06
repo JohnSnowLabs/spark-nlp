@@ -4,7 +4,7 @@ import java.io.File
 
 import com.johnsnowlabs.ml.common.EvaluationMetrics
 import com.johnsnowlabs.nlp.annotators.assertion.logreg.{NegexDatasetReader, SimpleTokenizer, Tokenizer, Windowing}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsIndexer}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -33,14 +33,15 @@ object NegexDatasetLogRegTest extends App with Windowing with EvaluationMetrics 
   val embeddingsFile = s"PubMed-shuffle-win-2.bin"
   val fileDb = embeddingsFile + ".db"
 
-  override lazy val wordVectors: Option[WordEmbeddings] = Option(embeddingsFile).map {
+  override lazy val wordVectors: WordEmbeddingsRetriever = Option(embeddingsFile).map {
     wordEmbeddingsFile =>
       require(new File(embeddingsFile).exists())
       val fileDb = wordEmbeddingsFile + ".db"
       if (!new File(fileDb).exists())
         WordEmbeddingsIndexer.indexBinary(wordEmbeddingsFile, fileDb)
   }.filter(_ => new File(fileDb).exists())
-    .map(_ => WordEmbeddings(fileDb, embeddingsDims, normalize = true))
+    .map(_ => WordEmbeddingsRetriever(fileDb, embeddingsDims, caseSensitive = true))
+    .getOrElse(throw new Exception("Embeddings file not found"))
 
   val mappings = Map("Affirmed" -> 0.0, "Negated" -> 1.0)
   val reader = new NegexDatasetReader()
