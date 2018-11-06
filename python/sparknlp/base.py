@@ -11,7 +11,7 @@ import os
 import sys
 
 
-class SparkNLP:
+class SparkNlp:
 
     def __init__(self):
 
