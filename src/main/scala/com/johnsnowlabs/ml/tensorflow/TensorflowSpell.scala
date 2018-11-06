@@ -13,14 +13,19 @@ class TensorflowSpell(
   val fileNameTest = "file_name"
   val inMemoryInput = "in-memory-input"
   val batchesKey = "batches"
-  val lossKey = "loss/loss"
+  val lossKey = "Add:0"
   val dropoutRate = "dropout_rate"
 
   val tensors = new TensorResources()
 
   /* returns the loss associated with the last word */
-  def predict(dataset: Array[Array[Int]]) = {
-    val inputTensor = tensors.createTensor(dataset)
+  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = {
+
+    val packed = dataset.zip(cids).zip(cwids).map {
+      case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
+    }
+
+    val inputTensor = tensors.createTensor(packed)
 
     tensorflow.session.runner
       .feed(inMemoryInput, inputTensor)
@@ -34,7 +39,7 @@ class TensorflowSpell(
       .run()
 
     val result = extractFloats(lossWords.get(0),lossWords.get(0).numElements)
-    val width = inputTensor.shape()(1)
+    val width = inputTensor.shape()(2)
     result.grouped(width.toInt - 1).map(_.last)
 
   }

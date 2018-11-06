@@ -24,13 +24,27 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var idsVocab: Predef.Map[Int, String] = null
 
+  /* TODO get rid of this crap */
+  def loadClasses(path:String): Map[Int, (Int, Int)] = {
+
+    scala.io.Source.fromFile(path).getLines.map{line =>
+      val chunks = line.split("\\|")
+      val key = chunks(0).toInt
+      val cid = chunks(1).toInt
+      val wcid = chunks(2).toInt
+      (key, (cid, wcid))
+    }.toMap
+  }
+
+  private val classes : Map[Int, (Int, Int)] = loadClasses("classes.psv")
+
   // the score for the EOS (end of sentence), and BOS (begining of sentence)
   private val eosScore = .01
   private val bosScore = 1.0
   private val gamma = 60.0
 
   /* limit to the number of candidates we generate for each word */
-  private val kBest = 5
+  private val kBest = 6
 
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
@@ -109,7 +123,10 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         }
       }
 
-      val expPathsCosts = model.predict(expPaths).toArray
+      val cids = expPaths.map(_.map{id => classes.get(id).get._1})
+      val cwids = expPaths.map(_.map{id => classes.get(id).get._2})
+
+      val expPathsCosts = model.predict(expPaths, cids, cwids).toArray
 
       for {((state, wcost), idx) <- encTrellis(i).zipWithIndex} {
         var minCost = Double.MaxValue
@@ -120,7 +137,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         for (((path, pathCost), pi) <- z.zipWithIndex) {
           // compute cost to arrive to this 'state' coming from that 'path'
           // val ppl = model.predict(Array(path :+ state))
-          val mult = if (i > 1) kBest else 0
+          val mult = if (i > 1) costs.length else 0
           val ppl = expPathsCosts(idx * mult + pi)
 
           val cost = pathCost + ppl * wcost
@@ -134,6 +151,12 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
       }
       paths = newPaths
       costs = newCosts
+
+      paths.zip(costs).foreach{ case (path, cost) =>
+          println(path.map(idsVocab.get).map(_.get).toList, cost)
+
+      }
+      println("----------")
     }
     // return the path with the lowest cost, and the cost
     paths.zip(costs).minBy(_._2)
