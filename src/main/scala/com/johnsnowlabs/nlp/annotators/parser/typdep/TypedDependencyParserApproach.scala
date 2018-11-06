@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{POS, DEPENDENCY, LABELED_DEPENDENCY}
+import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, POS, DEPENDENCY, LABELED_DEPENDENCY}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
@@ -14,7 +14,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   override val description: String =
     "Typed Dependency Parser is a labeled parser that shows the relationship between words in a document"
   override val annotatorType:String = LABELED_DEPENDENCY
-  override val requiredAnnotatorTypes = Array(POS, DEPENDENCY)
+  override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 

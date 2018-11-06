@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS}
+import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{Conll2009Sentence, LabeledDependency}
-import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, DictionarySet}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import gnu.trove.map.hash.TObjectIntHashMap
@@ -13,7 +13,7 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
   override val annotatorType: String = LABELED_DEPENDENCY
-  override val requiredAnnotatorTypes = Array(POS, DEPENDENCY)
+  override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
   val model: StructFeature[TrainParameters] = new StructFeature[TrainParameters](this, "TDP model")
 
@@ -36,21 +36,26 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
 
     dependencyPipe.setDictionariesSet(dictionarySet)
 
-    //TODO Make a class similar to Tagged to unpack values following a structure similar to example.pred
-    val conll2009Sentence = LabeledDependency.unpack(annotations).toArray
-
     val typedDependencyParser = getTypedDependencyParserInstance
     typedDependencyParser.setOptions(options)
     typedDependencyParser.setParameters(parameters)
     typedDependencyParser.setDependencyPipe(dependencyPipe)
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
-    val document = Array(conll2009Sentence, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0)))
+    val conll2009Document = LabeledDependency.unpack(annotations).toArray
+
+    val document = Array(conll2009Document, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0, 0)))
     val documentData = transformToConll09Data(document)
 
     val dependencyLabels = typedDependencyParser.predictDependency(documentData)
-    println(dependencyLabels.length)
-    Seq(Annotation(annotatorType, 0, 1, "annotate", Map("sentence" -> "protected")))
+
+    val labeledSentences = dependencyLabels.map{dependencyLabel =>
+        getDependencyLabelValues(dependencyLabel)
+    }
+
+    val labeledDependencies = LabeledDependency.pack(labeledSentences)
+    println(labeledDependencies.size)
+    labeledDependencies
   }
 
   private def getPredictionParametersInstance: PredictionParameters = {
@@ -85,6 +90,17 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
         new Conll09Data(word.form, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
       }
     }
+  }
+
+  private def getDependencyLabelValues(dependencyLabel: DependencyLabel): Conll2009Sentence = {
+    //TODO: Verify if sentence id is required to send to dependency label as well
+    if (dependencyLabel != null){
+      Conll2009Sentence(dependencyLabel.getToken, "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
+        0, dependencyLabel.getBegin, dependencyLabel.getEnd)
+    } else {
+      Conll2009Sentence("ROOT", "root", "", "ROOT", -1, 0, -1, 0)
+    }
+
   }
 
 }
