@@ -24,18 +24,6 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var idsVocab: Predef.Map[Int, String] = null
 
-  /* TODO get rid of this crap */
-  def loadClasses(path:String): Map[Int, (Int, Int)] = {
-
-    scala.io.Source.fromFile(path).getLines.map{line =>
-      val chunks = line.split("\\|")
-      val key = chunks(0).toInt
-      val cid = chunks(1).toInt
-      val wcid = chunks(2).toInt
-      (key, (cid, wcid))
-    }.toMap
-  }
-
   private val classes : Map[Int, (Int, Int)] = loadClasses("classes.psv")
 
   // the score for the EOS (end of sentence), and BOS (begining of sentence)
@@ -96,10 +84,6 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   }
 
   def decodeViterbi(trellis: Array[Array[(String, Double)]]):(Array[Int], Double) = {
-
-    // delete this
-    //val line = Array("_BOS_", "frequently", "black" ,"his", "hemoglobin", "is", "at",  "baseline", ".", "_EOS_").map(vocabIds.get).map(_.get)
-    //model.predict(Array(line, line))
 
     // encode words with ids
     val encTrellis = Array(Array((vocabIds("_BOS_"), bosScore))) ++
