@@ -28,20 +28,30 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
   def setMinCount(threshold: Double): this.type = set(minCount, threshold)
 
-  setDefault(minCount -> 3.0)
+  val specialClasses = new Param[List[TokenParser]](this, "specialClasses", "Min number of times a token should appear to be included in vocab.")
+  def setSpecialClasses(parsers: List[TokenParser]):this.type = set(specialClasses, parsers)
 
-  // TODO make params
-  val blackList = Seq("&amp;gt;")
-  val suffixes = Array(".", ":", "%", ",", ";", "?", "'")
-  val prefixes = Array[String]("'")
+  val languageModelClasses = new Param[Int](this, "languageModelClasses", "Number of classes to use during factorization of the softmax output in the LM.")
+  def setLMClasses(k: Int):this.type = set(languageModelClasses, k)
 
-  val openClose = Array(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
+  val prefixes = new Param[Array[String]](this, "prefixes", "Prefix tokens to split during corpus tokenization.")
+  def setPrefixes(p: Array[String]):this.type = set(prefixes, p)
 
-  private val firstPass = Seq(SuffixedToken(suffixes ++ openClose.map(_.close)),
-    PrefixedToken(prefixes ++ openClose.map(_.open)))
+  val suffixes = new Param[Array[String]](this, "suffixes", "Suffix tokens to split during corpus tokenization.")
+  def setPrefixes(s: Array[String]):this.type = set(suffixes, s)
 
-  // Special token classes, TODO: make Params
-  val specialClasses = Seq(DateToken, NumberToken)
+
+  setDefault(minCount -> 3.0,
+    specialClasses -> List(DateToken, NumberToken),
+    prefixes -> Array("'"),
+    suffixes -> Array(".", ":", "%", ",", ";", "?", "'")
+  )
+
+
+  val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
+
+  private val firstPass = Seq(SuffixedToken(getOrDefault(suffixes) ++ openClose.map(_.close)),
+    PrefixedToken(getOrDefault(prefixes) ++ openClose.map(_.open)))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
 
@@ -65,13 +75,14 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       }
 
     // create transducers for special classes
-    val specialClassesTransducers = specialClasses.par.map(_.generateTransducer).seq
+    val specialClassesTransducers = getOrDefault(specialClasses).
+      par.map(_.generateTransducer).seq
 
     new OcrSpellCheckModel().
       setVocabFreq(vocabFreq.toMap).
       setVocabIds(vocabIds.toMap).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
-      //setSpecialClassesTransducers(specialClassesTransducers).
+      setSpecialClassesTransducers(specialClassesTransducers).
       setTensorflow(tf).
       readModel("../auxdata/good_model", dataset.sparkSession, "").
       setInputCols(getOrDefault(inputCols))
@@ -154,7 +165,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
           tmp = tmp.flatMap(_.split(" ").map(_.trim)).map(parser.separate).flatMap(_.split(" "))
         }
 
-        specialClasses.foreach { specialClass =>
+        getOrDefault(specialClasses).foreach { specialClass =>
           tmp = tmp.map(specialClass.replaceWithLabel)
         }
 
@@ -267,7 +278,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val bw = new BufferedWriter(new FileWriter(new File(rawTextPath + ".ids")))
 
     scala.io.Source.fromFile(rawTextPath).getLines.foreach { line =>
-      // TODO removing crazy encodings of space and replacing with standard one
+      // TODO removing crazy encodings of space and replacing with standard one - should be done outside Scala
       val text  = line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").flatMap { token =>
         var tmp = token
         firstPass.foreach{ parser =>
