@@ -11,7 +11,6 @@ import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.tensorflow.{Graph, Session}
-
 import scala.collection.mutable
 
 case class OpenClose(open:String, close:String)
@@ -21,9 +20,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
   val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
   def setTrainCorpusPath(path: String): this.type = set(trainCorpusPath, path)
-
-  val vocabPath = new Param[String](this, "vocabPath", "Path to the training corpus text file.")
-  def setVocabPath(path: String): this.type = set(vocabPath, path)
 
   val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
   def setMinCount(threshold: Double): this.type = set(minCount, threshold)
@@ -38,16 +34,20 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   def setPrefixes(p: Array[String]):this.type = set(prefixes, p)
 
   val suffixes = new Param[Array[String]](this, "suffixes", "Suffix tokens to split during corpus tokenization.")
-  def setPrefixes(s: Array[String]):this.type = set(suffixes, s)
+  def setSuffixes(s: Array[String]):this.type = set(suffixes, s)
+
+  val wordMaxDistance = new Param[Int](this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
+  def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
 
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
     prefixes -> Array("'"),
-    suffixes -> Array(".", ":", "%", ",", ";", "?", "'")
+    suffixes -> Array(".", ":", "%", ",", ";", "?", "'"),
+    wordMaxDistance -> 2
   )
 
-
+  // TODO: hard coded
   val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
 
   private val firstPass = Seq(SuffixedToken(getOrDefault(suffixes) ++ openClose.map(_.close)),
@@ -63,15 +63,18 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     // extract vocabulary
     require(isDefined(trainCorpusPath), "Train corpus must be set before training")
     val rawTextPath = getOrDefault(trainCorpusPath)
-    val vPath = getOrDefault(vocabPath)
+    val vPath = s"${getOrDefault(trainCorpusPath)}.vocab"
 
-    val (vocabFreq, vocabIds) =
+    val (vocabFreq, vocabIds, classes) =
+      // either we load vocab, word2id and classes, or create them from scratch
       if (new File(vPath).exists())
         loadVocab(vPath)
       else {
-        val v = persistVocab(genVocab(rawTextPath), vPath)
-        val ids = encodeCorpus(rawTextPath, v.map(_._1))
-        (v.toMap, ids)
+        val (vocabulary, classes) = genVocab(rawTextPath)
+        persistVocab(vocabulary, vPath)
+        val w2i = vocabulary.map(_._1).sorted.zipWithIndex.toMap
+        encodeCorpus(rawTextPath, w2i)
+        (vocabulary.toMap, w2i, classes)
       }
 
     // create transducers for special classes
@@ -98,17 +101,22 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     scala.io.Source.fromFile(path + ".freq").getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
        vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
-    }
-    // TODO: remove this, retrieve everything from the .freq file
-    scala.io.Source.fromFile(path).getLines.zipWithIndex.foreach { case (line, idx) =>
-      vocabIdxs += (line-> idx)
+       vocabIdxs += (line-> idx)
     }
 
-    (vocabFreq, vocabIdxs)
+    val classes = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes").getLines.map{line =>
+      val chunks = line.split("\\|")
+      val key = chunks(0).toInt
+      val cid = chunks(1).toInt
+      val wcid = chunks(2).toInt
+      (key, (cid, wcid))
+    }.toMap
+
+    (vocabFreq, vocabIdxs, classes)
   }
 
   def computeAndPersistClasses(vocab: mutable.HashMap[String, Double], total:Double, k:Int) = {
-
+    val filePath = s"${getOrDefault(trainCorpusPath)}.classes"
     val sorted = vocab.toList.sortBy(_._2).reverse
     val word2id = vocab.toList.sortBy(_._1).map(_._1).zipWithIndex.toMap
     val binMass = total / k
@@ -136,8 +144,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       if (currWordId > maxWid)
         maxWid = currWordId
     }
-    // TODO hardcoded stuff!!
-    val classesFile = new File("classes.psv")
+
+    val classesFile = new File(filePath)
     val bwClassesFile = new BufferedWriter(new FileWriter(classesFile))
 
     classes.foreach{case (word, (cid, wid)) =>
@@ -148,16 +156,15 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     classes
   }
 
-  def genVocab(rawDataPath: String):List[(String, Double)] = {
+  def genVocab(rawDataPath: String) = {
     var vocab = mutable.HashMap[String, Double]()
 
     // for every sentence we have one end and one begining
     val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
 
-    // TODO: Spark implementation?
     scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
       // second pass identify tokens that belong to special classes, and replace with a label
-      // TODO removing crazy encodings of space and replacing with standard one
+      // TODO remove crazy encodings of space and replacing with standard one
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
 
@@ -179,11 +186,12 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     // words appearing less that minCount times will be unknown
     val unknownCount = vocab.filter(_._2 < getOrDefault(minCount)).map(_._2).sum
 
-    // remove 'rare' tokens, those appearing less than minCount times
+    // remove unknown tokens
     vocab = vocab.filter(_._2 >= getOrDefault(minCount))
 
-    // Blacklists
-    // words that appear with first letter capitalized, at the beginning of sentence
+    // Blacklists {fwis, hyphen, slash}
+    // TODO: transform these in special classes, and accept user defined ones
+    // words that appear with first letter capitalized (e.g., at the beginning of sentence)
     val fwis = vocab.filter(_._1.length > 1).filter(_._1.head.isUpper).
       filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).map(_._1)
 
@@ -206,49 +214,39 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     vocab.update("_EOS_", eosBosCount)
     vocab.update("_UNK_", unknownCount)
 
-    // compute frequencies - logarithmic
+    // count all occurrences of all tokens
     var totalCount = vocab.values.reduce(_ + _) + eosBosCount * 2 + unknownCount
+    val classes = computeAndPersistClasses(vocab, totalCount, getOrDefault(languageModelClasses))
 
-
-    // TODO hard-coded number of classes
-    computeAndPersistClasses(vocab, totalCount, 4000)
-
+    // compute frequencies - logarithmic
     totalCount = math.log(totalCount)
     for (key <- vocab.keys){
       vocab.update(key, math.log(vocab(key)) - totalCount)
     }
 
-    // ("_PAD_", 1.0),
-    vocab.toList.sortBy(_._1)
-
+    (vocab.toList.sortBy(_._1), classes)
   }
 
 
   private def persistVocab(v: List[(String, Double)], fileName:String) = {
-    // both the vocabulary, and vocabulary + frequencies
-    val freqFile = new File(fileName + ".freq")
+    // vocabulary + frequencies
     val vocabFile = new File(fileName)
-
-    val bwVocabFreq = new BufferedWriter(new FileWriter(freqFile))
     val bwVocab = new BufferedWriter(new FileWriter(vocabFile))
 
     v.foreach{case (word, freq) =>
-      bwVocabFreq.write(s"""$word|$freq""")
-      bwVocabFreq.newLine
-
-      bwVocab.write(word)
+      bwVocab.write(s"""$word|$freq""")
       bwVocab.newLine
     }
     bwVocab.close
-    bwVocabFreq.close
     v
   }
 
-
+  /*
+  * creates the transducer for the vocabulary
+  *
+  * */
   private def createTransducer(vocab:List[String]) = {
     import scala.collection.JavaConversions._
-
-    // Create Levenshtein Automata
     new TransducerBuilder().
       dictionary(vocab.sorted, true).
       algorithm(Algorithm.STANDARD).
@@ -257,7 +255,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       build[Candidate]
   }
 
-  /* TODO keeping this for reference now, we could relocate it somewhere else */
   private def persistTransducer(transducer:ITransducer[Candidate]) = {
     import com.github.liblevenshtein.serialization.ProtobufSerializer
     import java.nio.file.Files
@@ -272,9 +269,9 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     }
   }
 
-  private def encodeCorpus(rawTextPath: String, sorted: List[String]) = {
+  private def encodeCorpus(rawTextPath: String, vMap: Map[String, Int]) = {
 
-    val vMap: Map[String, Int] = sorted.zipWithIndex.toMap
+    // path to the encoded corpus
     val bw = new BufferedWriter(new FileWriter(new File(rawTextPath + ".ids")))
 
     scala.io.Source.fromFile(rawTextPath).getLines.foreach { line =>
@@ -285,7 +282,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
           tmp = parser.separate(tmp)
         }
         // second pass identify tokens that belong to special classes, and replace with a label
-        specialClasses.foreach { specialClass =>
+        getOrDefault(specialClasses).foreach { specialClass =>
           tmp = specialClass.replaceWithLabel(tmp)
         }
 
@@ -304,8 +301,5 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val requiredAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
   override val annotatorType: AnnotatorType = AnnotatorType.TOKEN
-
-  /* this is a list of functions that return the distance of a string to a particular regex */
-  private var tokenClasses = List[(String) => Tuple2[String, Float]]()
 
 }
