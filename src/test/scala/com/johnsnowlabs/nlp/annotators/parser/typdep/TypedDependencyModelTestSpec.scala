@@ -51,7 +51,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with a sentence input" should
-    "predict a labeled relationship between words in the sentence" in {
+    "predict a labeled relationship between words in the sentence" ignore {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -76,7 +76,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
 
   "A typed dependency parser model with a document input" should
-    "predict a labeled relationship between words in each sentence" ignore {
+    "predict a labeled relationship between words in each sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -96,7 +96,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     val helloDataset = Seq(document).toDS.toDF("text")
     //helloDataset.show(1, false)
     val result = model.transform(helloDataset)
-    result.show()
+    result.show(1, false)
 
   }
 
