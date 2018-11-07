@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, 
 import com.johnsnowlabs.nlp.annotators.common.{Conll2009Sentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, DictionarySet}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.util.Identifiable
 
@@ -18,6 +18,8 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   val model: StructFeature[TrainParameters] = new StructFeature[TrainParameters](this, "TDP model")
 
   def setModel(targetModel: TrainParameters): this.type = set(model, targetModel)
+
+  var sentenceId = 1
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val options = $$(model).options
@@ -43,19 +45,27 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
     val conll2009Document = LabeledDependency.unpack(annotations).toArray
+    var conll2009Sentence = conll2009Document.filter(_.sentence == sentenceId)
+    var labeledDependenciesDocument = Seq[Annotation]()
 
-    val document = Array(conll2009Document, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0, 0)))
-    val documentData = transformToConll09Data(document)
+    while (conll2009Sentence.length > 0){
 
-    val dependencyLabels = typedDependencyParser.predictDependency(documentData)
+      val document = Array(conll2009Sentence, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0, 0)))
+      val documentData = transformToConll09Data(document)
+      val dependencyLabels = typedDependencyParser.predictDependency(documentData)
 
-    val labeledSentences = dependencyLabels.map{dependencyLabel =>
+      val labeledSentences = dependencyLabels.map{dependencyLabel =>
         getDependencyLabelValues(dependencyLabel)
+      }
+
+      val labeledDependenciesSentence = LabeledDependency.pack(labeledSentences)
+      labeledDependenciesDocument = labeledDependenciesDocument ++ labeledDependenciesSentence
+      sentenceId += 1
+      conll2009Sentence = conll2009Document.filter(_.sentence == sentenceId)
     }
 
-    val labeledDependencies = LabeledDependency.pack(labeledSentences)
-    println(labeledDependencies.size)
-    labeledDependencies
+    labeledDependenciesDocument
+    //Seq(Annotation(AnnotatorType.LABELED_DEPENDENCY, 0, 0, "", Map("key"->"value")))
   }
 
   private def getPredictionParametersInstance: PredictionParameters = {

@@ -107,11 +107,8 @@ lazy val utilDependencies = Seq(
   //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
 )
 
-lazy val dependencyParserDependencies = Seq(
-  "net.sf.trove4j" % "trove4j" % "3.0.3"
-)
-
-lazy val typedDependdencyParserDependencies = Seq(
+lazy val typedDependencyParserDependencies = Seq(
+  "net.sf.trove4j" % "trove4j" % "3.0.3",
   "junit" % "junit" % "4.10" % Test
 )
 
@@ -121,8 +118,7 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
-        dependencyParserDependencies ++
-        typedDependdencyParserDependencies
+        typedDependencyParserDependencies
   )
 
 val ocrMergeRules: String => MergeStrategy  = {
