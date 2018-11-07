@@ -1,13 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
-import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.util.PipelineModels
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.DataFrame
 import org.scalatest.FlatSpec
 
 class TypedDependencyModelTestSpec extends FlatSpec {
@@ -51,7 +52,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with a sentence input" should
-    "predict a labeled relationship between words in the sentence" ignore {
+    "predict a labeled relationship between words in the sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -68,9 +69,11 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
     val sentence =
       "The most troublesome report may be the August merchandise trade deficit due out tomorrow."
-    val helloDataset = Seq(sentence).toDS.toDF("text")
-    val result = model.transform(helloDataset)
-    result.show()
+    val testDataSet = Seq(sentence).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
 
@@ -93,10 +96,40 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
     val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
                    "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
-    val helloDataset = Seq(document).toDS.toDF("text")
-    //helloDataset.show(1, false)
-    val result = model.transform(helloDataset)
-    result.show(1, false)
+    val testDataSet = Seq(document).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A typed dependency parser model with finisher in its pipeline" should
+    "predict a labeled relationship between words in each sentence" in {
+    import SparkAccessor.spark.implicits._
+
+    val finisher = new Finisher().setInputCols("labdep")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser,
+        finisher
+      ))
+
+    val model = pipeline.fit(emptyDataset)
+
+    val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
+    val testDataSet = Seq(document).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
 
