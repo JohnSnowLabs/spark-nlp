@@ -65,7 +65,6 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     }
 
     labeledDependenciesDocument
-    //Seq(Annotation(AnnotatorType.LABELED_DEPENDENCY, 0, 0, "", Map("key"->"value")))
   }
 
   private def getPredictionParametersInstance: PredictionParameters = {

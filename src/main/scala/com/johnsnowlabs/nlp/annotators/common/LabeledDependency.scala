@@ -35,9 +35,9 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
       val head = conll2009Sentence.head
       if (head != ROOT_HEAD) {
         val headWord = conll2009Sentences(head).form
-        val label = conll2009Sentence.deprel
+        val label = conll2009Sentence.deprel+s"($headWord, ${conll2009Sentence.form})"
         Annotation(AnnotatorType.LABELED_DEPENDENCY, conll2009Sentence.begin, conll2009Sentence.end,
-          label, Map(headWord -> conll2009Sentence.form))
+          label, Map(conll2009Sentence.form -> headWord))
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
