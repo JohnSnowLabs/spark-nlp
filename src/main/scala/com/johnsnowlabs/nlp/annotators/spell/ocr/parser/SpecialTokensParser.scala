@@ -158,9 +158,11 @@ object DateToken extends TokenParser with TokenClasses{
 
 object NumberToken extends TokenParser {
 
+  /* used to parse corpus - potentially infite*/
   private val numRegex =
     """(\-|#)?([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)""".r
 
+  /* used during candidate generation(correction) - must be finite*/
   override val regex =
     "([0-9]{1,4}\\.[0-9]{1,2}|[0-9]{1,2})"
 
@@ -179,7 +181,6 @@ object NumberToken extends TokenParser {
     val matcher = numRegex.pattern.matcher(word)
     if(matcher.matches) {
       val result = word.replace(matcher.group(0), "_NUM_")
-      //println(s"$word -> $result")
       result
     }
     else

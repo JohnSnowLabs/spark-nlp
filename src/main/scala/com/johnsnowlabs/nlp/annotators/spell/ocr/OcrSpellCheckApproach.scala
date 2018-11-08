@@ -168,15 +168,17 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
 
     scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
-      // second pass identify tokens that belong to special classes, and replace with a label
+
       // TODO remove crazy encodings of space and replacing with standard one
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
 
+        // first pass: separate suffixes, prefixes, etc
         firstPass.foreach{ parser =>
           tmp = tmp.flatMap(_.split(" ").map(_.trim)).map(parser.separate).flatMap(_.split(" "))
         }
 
+        // second pass: identify tokens that belong to special classes, and replace with a label
         getOrDefault(specialClasses).foreach { specialClass =>
           tmp = tmp.map(specialClass.replaceWithLabel)
         }
