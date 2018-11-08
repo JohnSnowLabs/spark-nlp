@@ -41,7 +41,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def setSuffixPattern(value: String): this.type = set(suffixPattern, value)
 
-  def setCompositeTokens(value: Array[String]): this.type = set(compositeTokens, value)
+  def setCompositeTokensPatterns(value: Array[String]): this.type = set(compositeTokens, value)
 
   def getCompositeTokens: Array[String] = $(compositeTokens)
 
