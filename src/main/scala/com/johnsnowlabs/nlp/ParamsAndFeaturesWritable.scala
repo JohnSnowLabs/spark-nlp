@@ -24,10 +24,12 @@ trait ParamsAndFeaturesWritable extends DefaultParamsWritable with Params with H
 
   def onWrite(path: String, spark: SparkSession): Unit = {}
 
-  override def write: MLWriter = new FeaturesWriter(
-    this,
-    super.write,
-    (path: String, spark: SparkSession) => onWrite(path, spark)
-  )
+  override def write: MLWriter = {
+    new FeaturesWriter(
+      this,
+      super.write,
+      (path: String, spark: SparkSession) => onWrite(path, spark)
+    )
+  }
 
 }

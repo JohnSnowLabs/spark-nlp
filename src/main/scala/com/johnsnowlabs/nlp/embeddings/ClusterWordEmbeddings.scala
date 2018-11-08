@@ -15,39 +15,39 @@ import org.apache.spark.{SparkContext, SparkFiles}
   3. Copy Index to cluster
   4. Open RocksDb based Embeddings on local index (lazy)
  */
-class SparkWordEmbeddings(val clusterFilePath: String, val dim: Int, val normalize: Boolean) extends Serializable {
+class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
   @transient
-  private var wordEmbeddingsValue: WordEmbeddings = null
+  private var localRetriever: Option[WordEmbeddingsRetriever] = None
 
-  def wordEmbeddings: WordEmbeddings = {
-    // Have to copy file because RockDB changes it and Spark rises Exception
-    val src = SparkFiles.get(clusterFilePath)
-    val workPath = src + "_work"
+  def getOrCreateLocalRetriever: WordEmbeddingsRetriever = {
 
-    synchronized {
-      if (wordEmbeddingsValue == null) {
-        if (!new File(workPath).exists()) {
-          require(new File(src).exists(), s"file $src must be added to sparkContext")
-          FileUtil.deepCopy(new File(src), new File(workPath), null, false)
-        }
+    /** Synchronized removed. Verify */
+    if (localRetriever.isEmpty) {
+      // Have to copy file because RockDB changes it and Spark rises Exception
+      val src = SparkFiles.get(clusterFilePath)
+      val workPath = src + "_work"
 
-        wordEmbeddingsValue = WordEmbeddings(workPath, dim, normalize)
+      if (!new File(workPath).exists()) {
+        require(new File(src).exists(), s"indexed embeddings at $src not found")
+        FileUtil.deepCopy(new File(src), new File(workPath), null, false)
       }
 
-      wordEmbeddingsValue
+      localRetriever = Some(WordEmbeddingsRetriever(workPath, dim, caseSensitive))
     }
+
+    localRetriever.get
   }
 }
 
-object SparkWordEmbeddings {
+object ClusterWordEmbeddings {
 
   private def indexEmbeddings(sourceEmbeddingsPath: String,
                               localFile: String,
                               format: WordEmbeddingsFormat.Format,
                               spark: SparkContext): Unit = {
 
-    val uri = new java.net.URI(sourceEmbeddingsPath)
+    val uri = new java.net.URI(sourceEmbeddingsPath.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
     if (format == WordEmbeddingsFormat.TEXT) {
@@ -75,8 +75,7 @@ object SparkWordEmbeddings {
   }
 
   private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
-    val uri = new java.net.URI(localFile)
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
     val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
     val clusterTmpLocation = {
@@ -98,8 +97,8 @@ object SparkWordEmbeddings {
   def apply(spark: SparkContext,
             sourceEmbeddingsPath: String,
             dim: Int,
-            normalize: Boolean,
-            format: WordEmbeddingsFormat.Format): SparkWordEmbeddings = {
+            caseSensitive: Boolean,
+            format: WordEmbeddingsFormat.Format): ClusterWordEmbeddings = {
 
     val localFile = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
@@ -119,6 +118,6 @@ object SparkWordEmbeddings {
     FileHelper.delete(localFile.toString)
 
     // 3. Create Spark Embeddings
-    new SparkWordEmbeddings(clusterFilePath, dim, normalize)
+    new ClusterWordEmbeddings(clusterFilePath, dim, caseSensitive)
   }
 }

@@ -40,7 +40,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.6.2',  # Required
+    version='1.6.3',  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -91,14 +91,14 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
 
         # Pick your license as you wish
-        'License :: Apache 2.0 License',
+        'License :: OSI Approved :: Apache Software License',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -124,16 +124,9 @@ setup(
     # called `my_module.py` to exist:
     #
     #   py_modules=["my_module"],
-    #
-    packages=find_packages(exclude=['test']),  # Required
 
-    # This field lists other packages that your project depends on to run.
-    # Any package you put here will be installed by pip when your project is
-    # installed, so they must be valid existing projects.
-    #
-    # For an analysis of "install_requires" vs pip's requirements files see:
-    # https://packaging.python.org/en/latest/requirements.html
-    # install_requires=['pyspark>=2.3.0'],  # Optional
-    # dependency_links=["https://pypi.org/project/pyspark/2.3.0/"],
+    packages=find_packages(exclude=['test']),
+
+    include_package_data=True  # Needed to install jar file
 
 )
