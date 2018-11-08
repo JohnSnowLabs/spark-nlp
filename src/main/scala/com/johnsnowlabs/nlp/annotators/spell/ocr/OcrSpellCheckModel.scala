@@ -17,30 +17,19 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   private var tensorflow:TensorflowWrapper = null
 
   val transducer = new StructFeature[ITransducer[Candidate]](this, "The transducer for the main vocabulary.")
-  def setVocabTransducer(trans:ITransducer[Candidate]) = {
-    transducer = trans
-    allTransducers = allTransducers :+ trans
-    this
-  }
+  def setVocabTransducer(trans:ITransducer[Candidate]) = set(transducer, trans)
 
   val specialTransducers = new StructFeature[Seq[ITransducer[Candidate]]](this, "The transducers for special classes.")
-  def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = {
-    set(specialTransducers, transducers)
-    this
-  }
+  def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = set(specialTransducers, transducers)
 
   val vocabFreq  = new MapFeature[String, Double](this, "vocabFreq")
-  def setVocabFreq(v: Map[String, Double]) = {
-    set(vocabFreq,v)
-    this
-  }
+  def setVocabFreq(v: Map[String, Double]) = set(vocabFreq,v)
 
   val idsVocab = new MapFeature[Int, String](this, "idsVocab")
   val vocabIds = new MapFeature[String, Int](this, "vocabIds")
   def setVocabIds(v: Map[String, Int]) = {
     set(idsVocab, v.map(_.swap))
     set(vocabIds, v)
-    this
   }
 
   val classes: MapFeature[Int, (Int, Int)] = new MapFeature(this, "classes")
@@ -82,14 +71,15 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   def decodeViterbi(trellis: Array[Array[(String, Double)]]):(Array[Int], Double) = {
 
     // encode words with ids
-    val encTrellis = Array(Array((vocabIds("_BOS_"), bosScore))) ++
+    val encTrellis = Array(Array(($$(vocabIds)("_BOS_"), bosScore))) ++
           trellis.map(_.map{case (word, weight) =>
+
             // at this point we keep only those candidates that are in the vocabulary
-            (vocabIds.get(word), weight)}.filter(_._1.isDefined).map{case (x,y) => (x.get, y)}) ++
-          Array(Array((vocabIds("_EOS_"), eosScore)))
+            ($$(vocabIds).get(word), weight)}.filter(_._1.isDefined).map{case (x,y) => (x.get, y)}) ++
+          Array(Array(($$(vocabIds)("_EOS_"), eosScore)))
 
     // init
-    var paths = Array(Array(vocabIds("_BOS_")))
+    var paths = Array(Array($$(vocabIds)("_BOS_")))
     var costs = Array(bosScore) // cost for each of the paths
 
     for(i <- 1 to encTrellis.length - 1) {
@@ -132,9 +122,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
       paths = newPaths
       costs = newCosts
 
+      /* TODO: create an optional log with this */
       paths.zip(costs).foreach{ case (path, cost) =>
-          println(path.map(idsVocab.get).map(_.get).toList, cost)
-
+          println(path.map($$(idsVocab).get).map(_.get).toList, cost)
       }
       println("----------")
     }
@@ -149,6 +139,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val allTransducers = $$(specialTransducers) :+ $$(transducer)
     import scala.collection.JavaConversions._
     annotations.map{ annotation =>
       val trellis:Array[Array[(String, Double)]] = annotation.result.split(" ").map { token =>
@@ -157,7 +148,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         val min = candidates.map(_.distance).min
 
         val candW = candidates.map{ c =>
-          val weight =  - vocabFreq.getOrElse(c.term, 0.0) / gamma +
+          val weight =  - $$(vocabFreq).getOrElse(c.term, 0.0) / gamma +
                           c.distance.toDouble / token.size
           (c.term, weight)
         }.sortBy(_._2).take(getOrDefault(maxCandidates))
@@ -168,7 +159,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
       val (decodedPath, cost) = decodeViterbi(trellis)
 
-      annotation.copy(result = decodedPath.map(idsVocab.get).map(_.get).mkString(" "),
+      annotation.copy(result = decodedPath.map($$(idsVocab).get).map(_.get).mkString(" "),
         metadata = annotation.metadata + ("score" -> cost.toString))
     }
   }
