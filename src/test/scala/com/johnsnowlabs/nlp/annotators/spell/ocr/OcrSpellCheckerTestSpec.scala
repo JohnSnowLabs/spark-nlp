@@ -29,8 +29,9 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     val ocrspell = new OcrSpellCheckApproach().
                     setInputCols("text").
                     setTrainCorpusPath(trainCorpusPath).
-                    setVocabPath(vocabPath).
-                    train(Seq.empty[String].toDF("text"))
+
+
+      train(Seq.empty[String].toDF("text"))
 
     val result = ocrspell.annotate(Seq(
       Annotation("swelling than his baseline . he states ha's teen compliant with his medications ." +
