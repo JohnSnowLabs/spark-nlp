@@ -4,7 +4,9 @@ import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.assertion.dl.ReadTensorflowModel
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -14,26 +16,43 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   private var tensorflow:TensorflowWrapper = null
 
-  private var transducer:ITransducer[Candidate] = null
+  val transducer = new StructFeature[ITransducer[Candidate]](this, "The transducer for the main vocabulary.")
+  def setVocabTransducer(trans:ITransducer[Candidate]) = {
+    transducer = trans
+    allTransducers = allTransducers :+ trans
+    this
+  }
 
-  private var allTransducers: Seq[ITransducer[Candidate]] = Seq.empty
+  val specialTransducers = new StructFeature[Seq[ITransducer[Candidate]]](this, "The transducers for special classes.")
+  def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = {
+    set(specialTransducers, transducers)
+    this
+  }
 
-  private var vocabFreq: Predef.Map[String, Double] = null
+  val vocabFreq  = new MapFeature[String, Double](this, "vocabFreq")
+  def setVocabFreq(v: Map[String, Double]) = {
+    set(vocabFreq,v)
+    this
+  }
 
-  private var vocabIds: Predef.Map[String, Int] = null
+  val idsVocab = new MapFeature[Int, String](this, "idsVocab")
+  val vocabIds = new MapFeature[String, Int](this, "vocabIds")
+  def setVocabIds(v: Map[String, Int]) = {
+    set(idsVocab, v.map(_.swap))
+    set(vocabIds, v)
+    this
+  }
 
-  private var idsVocab: Predef.Map[Int, String] = null
+  val classes: MapFeature[Int, (Int, Int)] = new MapFeature(this, "classes")
+  def setClasses(c:Map[Int, (Int, Int)]) = set(classes, c)
 
-  private val classes : Map[Int, (Int, Int)] = loadClasses("classes.psv")
+
+  val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
 
   // the score for the EOS (end of sentence), and BOS (begining of sentence)
   private val eosScore = .01
   private val bosScore = 1.0
   private val gamma = 60.0
-
-  /* limit to the number of candidates we generate for each word */
-  private val kBest = 6
-
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -60,29 +79,6 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }
 
-
-  def setVocabTransducer(trans:ITransducer[Candidate]) = {
-    transducer = trans
-    allTransducers = allTransducers :+ trans
-    this
-  }
-
-  def setVocabFreq(v: Map[String, Double]) = {
-    vocabFreq = v
-    this
-  }
-
-  def setVocabIds(v: Map[String, Int]) = {
-    idsVocab = v.map(_.swap)
-    vocabIds = v
-    this
-  }
-
-  def setSpecialClassesTransducers(transducers: Seq[ITransducer[Candidate]]) = {
-    allTransducers = allTransducers ++ transducers
-    this
-  }
-
   def decodeViterbi(trellis: Array[Array[(String, Double)]]):(Array[Int], Double) = {
 
     // encode words with ids
@@ -101,15 +97,15 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
       var newPaths:Array[Array[Int]] = Array()
       var newCosts = Array[Double]()
 
+      /* compute all the costs for all transitions in current step - use a batch */
       val expPaths = encTrellis(i).flatMap{ case (state, _) =>
         paths.map { path =>
           path :+ state
         }
       }
 
-      val cids = expPaths.map(_.map{id => classes.get(id).get._1})
-      val cwids = expPaths.map(_.map{id => classes.get(id).get._2})
-
+      val cids = expPaths.map(_.map{id => $$(classes).get(id).get._1})
+      val cwids = expPaths.map(_.map{id => $$(classes).get(id).get._2})
       val expPathsCosts = model.predict(expPaths, cids, cwids).toArray
 
       for {((state, wcost), idx) <- encTrellis(i).zipWithIndex} {
@@ -164,9 +160,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
           val weight =  - vocabFreq.getOrElse(c.term, 0.0) / gamma +
                           c.distance.toDouble / token.size
           (c.term, weight)
-        }.sortBy(_._2).take(kBest)
+        }.sortBy(_._2).take(getOrDefault(maxCandidates))
 
-        println(s"""$token -> ${candW.toList.take(kBest)}""")
+        println(s"""$token -> ${candW.toList.take(getOrDefault(maxCandidates))}""")
         candW.toArray
       }
 

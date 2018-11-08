@@ -39,12 +39,16 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val wordMaxDistance = new Param[Int](this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
   def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
 
+  val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
+  def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
+
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
     prefixes -> Array("'"),
     suffixes -> Array(".", ":", "%", ",", ";", "?", "'"),
-    wordMaxDistance -> 2
+    wordMaxDistance -> 2,
+    maxCandidates -> 6
   )
 
   // TODO: hard coded
@@ -65,7 +69,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val rawTextPath = getOrDefault(trainCorpusPath)
     val vPath = s"${getOrDefault(trainCorpusPath)}.vocab"
 
-    val (vocabFreq, vocabIds, classes) =
+    val (vocabFreq, word2ids, classes) =
       // either we load vocab, word2id and classes, or create them from scratch
       if (new File(vPath).exists())
         loadVocab(vPath)
@@ -74,7 +78,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
         persistVocab(vocabulary, vPath)
         val w2i = vocabulary.map(_._1).sorted.zipWithIndex.toMap
         encodeCorpus(rawTextPath, w2i)
-        (vocabulary.toMap, w2i, classes)
+        (vocabulary.toMap, w2i, classes.map{case (k,v) => w2i.get(k).get -> v})
       }
 
     // create transducers for special classes
@@ -83,7 +87,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
     new OcrSpellCheckModel().
       setVocabFreq(vocabFreq.toMap).
-      setVocabIds(vocabIds.toMap).
+      setVocabIds(word2ids.toMap).
+      setClasses(classes).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
       setTensorflow(tf).
