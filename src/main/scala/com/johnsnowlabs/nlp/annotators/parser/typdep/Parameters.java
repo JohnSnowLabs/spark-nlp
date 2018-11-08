@@ -2,12 +2,15 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.FeatureVector;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
 public class Parameters implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private float regularization;
     private float gammaLabel;
@@ -240,30 +243,31 @@ public class Parameters implements Serializable {
 
     private void printStat(float[][] a, String s)
     {
-        int n = a.length;
-        float sum = 0;
-        float min = Float.POSITIVE_INFINITY, max = Float.NEGATIVE_INFINITY;
-        for (int i = 0; i < n; ++i) {
-            sum += Utils.squaredSum(a[i]);
-            min = Math.min(min, Utils.min(a[i]));
-            max = Math.max(max, Utils.max(a[i]));
+        if(logger.isDebugEnabled()) {
+            float sum = 0;
+            float min = Float.POSITIVE_INFINITY;
+            float max = Float.NEGATIVE_INFINITY;
+            for (float[] anA : a) {
+                sum += Utils.squaredSum(anA);
+                min = Math.min(min, Utils.min(anA));
+                max = Math.max(max, Utils.max(anA));
+            }
+            logger.debug(String.format(" |%s|^2: %f min: %f\tmax: %f%n", s, sum, min, max));
         }
-        System.out.printf(" |%s|^2: %f min: %f\tmax: %f%n", s, sum, min, max);
     }
 
     public void printStat()
     {
-        printStat(U, "U");
-        printStat(V, "V");
-        printStat(WL, "WL");
-
-
-        printStat(U2, "U2");
-        printStat(V2, "V2");
-        printStat(W2, "W2");
-        printStat(X2L, "X2L");
-        printStat(Y2L, "Y2L");
-
+        if(logger.isDebugEnabled()) {
+            printStat(U, "U");
+            printStat(V, "V");
+            printStat(WL, "WL");
+            printStat(U2, "U2");
+            printStat(V2, "V2");
+            printStat(W2, "W2");
+            printStat(X2L, "X2L");
+            printStat(Y2L, "Y2L");
+        }
     }
 
     private void projectMat(float[][] mat, FeatureVector fv, float[] proj)
