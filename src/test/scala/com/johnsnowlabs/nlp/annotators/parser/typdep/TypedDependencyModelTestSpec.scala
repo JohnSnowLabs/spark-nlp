@@ -79,7 +79,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
 
   "A typed dependency parser model with a document input" should
-    "predict a labeled relationship between words in each sentence" in {
+    "predict a labeled relationship between words in each sentence" ignore {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -105,7 +105,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" in {
+    "predict a labeled relationship between words in each sentence" ignore {
     import SparkAccessor.spark.implicits._
 
     val finisher = new Finisher().setInputCols("labdep")
@@ -126,6 +126,34 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
       "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
     val testDataSet = Seq(document).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A typed dependency parser model with an input of more than one row" should
+    "predict a labeled relationship between words in each sentence" ignore {
+    import SparkAccessor.spark.implicits._
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataset)
+
+    val document = Seq(
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward.",
+      "I solved the problem with statistics.")
+    val testDataSet = document.toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     typedDependencyParserDataFrame.collect()
     //typedDependencyParserDataFrame.show(false)

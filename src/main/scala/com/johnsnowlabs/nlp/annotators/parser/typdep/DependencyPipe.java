@@ -6,6 +6,8 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.io.DependencyReader;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Dictionary;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,6 +26,7 @@ import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.D
 public class DependencyPipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private Options options;
     private DictionarySet dictionariesSet;
@@ -97,7 +100,7 @@ public class DependencyPipe implements Serializable {
 
             coarseMap.put("<root-POS>", "ROOT");
         } catch (Exception e) {
-            System.out.println("Warning: couldn't find coarse POS map for this language");
+            logger.warn("Couldn't find coarse POS map for this language");
         }
 
         // fill conj word
@@ -116,9 +119,8 @@ public class DependencyPipe implements Serializable {
      */
     private void createDictionaries(String file) throws IOException
     {
-
         long start = System.currentTimeMillis();
-        System.out.println("Creating dictionariesSet ... ");
+        logger.debug("Creating dictionariesSet ... ");
 
         dictionariesSet.setCounters();
 
@@ -158,14 +160,17 @@ public class DependencyPipe implements Serializable {
             types[id - 1] = (String) key;
         }
 
-        System.out.printf("%d %d%n", NUM_WORD_FEAT_BITS, NUM_ARC_FEAT_BITS);
-        System.out.printf("Lexical items: %d (%d bits)%n",
-                dictionariesSet.getDictionarySize(WORD), synFactory.getWordNumBits());
-        System.out.printf("Tag/label items: %d (%d bits)  %d (%d bits)%n",
-                dictionariesSet.getDictionarySize(POS), synFactory.getTagNumBits(),
-                dictionariesSet.getDictionarySize(DEP_LABEL), synFactory.getDepNumBits());
-        System.out.printf("Flag Bits: %d%n", synFactory.getFlagBits());
-        System.out.printf("Creation took [%d ms]%n", System.currentTimeMillis() - start);
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("%d %d %n", NUM_WORD_FEAT_BITS, NUM_ARC_FEAT_BITS));
+            logger.debug(String.format("Lexical items: %d (%d bits)%n",
+                    dictionariesSet.getDictionarySize(WORD), synFactory.getWordNumBits()));
+            logger.debug(String.format("Tag/label items: %d (%d bits)  %d (%d bits)%n",
+                    dictionariesSet.getDictionarySize(POS), synFactory.getTagNumBits(),
+                    dictionariesSet.getDictionarySize(DEP_LABEL), synFactory.getDepNumBits()));
+            logger.debug(String.format("Flag Bits: %d%n", synFactory.getFlagBits()));
+            logger.debug(String.format("Creation took [%d ms]%n", System.currentTimeMillis() - start));
+        }
+
     }
 
     /***
@@ -181,7 +186,7 @@ public class DependencyPipe implements Serializable {
         createDictionaries(file);
 
         long start = System.currentTimeMillis();
-        System.out.print("Creating Alphabet ... ");
+        logger.debug("Creating Alphabet ... ");
 
         HashSet<String> posTagSet = new HashSet<>();
         HashSet<String> cposTagSet = new HashSet<>();
@@ -204,17 +209,21 @@ public class DependencyPipe implements Serializable {
             dependencyInstance = reader.nextInstance();
         }
 
-        System.out.printf("[%d ms]%n", System.currentTimeMillis() - start);
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("[%d ms]%n", System.currentTimeMillis() - start));
+        }
 
         closeAlphabets();
         reader.close();
 
         synFactory.checkCollisions();
-        System.out.printf("Num of CONLL fine POS tags: %d%n", posTagSet.size());
-        System.out.printf("Num of CONLL coarse POS tags: %d%n", cposTagSet.size());
-        System.out.printf("Num of labels: %d%n", types.length);
-        System.out.printf("Num of Syntactic Features: %d %d%n",
-                synFactory.getNumberWordFeatures(), synFactory.getNumberLabeledArcFeatures());
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("Num of CONLL fine POS tags: %d%n", posTagSet.size()));
+            logger.debug(String.format("Num of CONLL coarse POS tags: %d%n", cposTagSet.size()));
+            logger.debug(String.format("Num of labels: %d%n", types.length));
+            logger.debug(String.format("Num of Syntactic Features: %d %d%n",
+                    synFactory.getNumberWordFeatures(), synFactory.getNumberLabeledArcFeatures()));
+        }
         numCPOS = cposTagSet.size();
     }
 
@@ -229,8 +238,7 @@ public class DependencyPipe implements Serializable {
     public DependencyInstance[] createInstances(String file) throws IOException
     {
 
-        long start = System.currentTimeMillis();
-        System.out.print("Creating instances ... ");
+        logger.debug("Creating instances ... ");
 
         DependencyReader reader = DependencyReader.createDependencyReader();
         reader.startReading(file);
@@ -291,7 +299,10 @@ public class DependencyPipe implements Serializable {
             }
         }
 
-        System.out.println("Prune label: " + num + "/" + numCPOS*numCPOS*numLab);
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("Prune label: %d/%d", num, numCPOS*numCPOS*numLab));
+        }
+
     }
 
 }

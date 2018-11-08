@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{Conll2009Sentence, LabeledDependency}
-import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, DictionarySet}
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import gnu.trove.map.hash.TObjectIntHashMap
@@ -19,16 +19,17 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
 
   def setModel(targetModel: TrainParameters): this.type = set(model, targetModel)
 
+  private lazy val options = $$(model).options
+  private lazy val parameters = $$(model).parameters
+  private lazy val dependencyPipe = $$(model).dependencyPipe
+
   var sentenceId = 1
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val options = $$(model).options
-    val parameters = $$(model).parameters
-    val dependencyPipe = $$(model).dependencyPipe
 
     val dictionariesValues = dependencyPipe.getDictionariesSet.getDictionaries.map { dictionary =>
       val predictionParameters = getPredictionParametersInstance
-      val troveMap: TObjectIntHashMap[_] = predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+      val troveMap = getTroveMap(predictionParameters, dictionary)
       val numEntries = dictionary.getNumEntries
       val growthStopped = dictionary.isGrowthStopped
       (troveMap, numEntries, growthStopped)
@@ -71,8 +72,12 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     new PredictionParameters()
   }
 
-  private def getDictionarySetInstance: DictionarySet = {
-    new DictionarySet()
+  private def getTroveMap(predictionParameters: PredictionParameters, dictionary: Dictionary): TObjectIntHashMap[_] = {
+    if (dictionary.getMapAsString != null){
+      predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+    } else {
+      dictionary.getMap
+    }
   }
 
   private def deserializeDictionaries(dictionariesValues: List[(TObjectIntHashMap[_], Int, Boolean)]): DictionarySet = {
@@ -89,6 +94,10 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     dictionarySet
   }
 
+  private def getDictionarySetInstance: DictionarySet = {
+    new DictionarySet()
+  }
+
   private def getTypedDependencyParserInstance: TypedDependencyParser = {
     new TypedDependencyParser
   }
@@ -102,7 +111,6 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   }
 
   private def getDependencyLabelValues(dependencyLabel: DependencyLabel): Conll2009Sentence = {
-    //TODO: Verify if sentence id is required to send to dependency label as well
     if (dependencyLabel != null){
       Conll2009Sentence(dependencyLabel.getToken, "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
         0, dependencyLabel.getBegin, dependencyLabel.getEnd)

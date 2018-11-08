@@ -8,6 +8,8 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Alphabet;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.FeatureVector;
 import gnu.trove.set.hash.TIntHashSet;
 import gnu.trove.set.hash.TLongHashSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -17,6 +19,7 @@ import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTempl
 public class SyntacticFeatureFactory implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private static final int BITS = 30;
 
@@ -114,11 +117,13 @@ public class SyntacticFeatureFactory implements Serializable {
             else
                 idhash.add(id);
         }
-        System.out.printf("Hash collision: %.4f%% (%d / %d)%n",
-                ncols / (nfeats + 1e-30) * 100,
-                ncols,
-                nfeats
-        );
+
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("Hash collision: %.4f%% (%d / %d)%n",
+                    ncols / (nfeats + 1e-30) * 100,
+                    ncols,
+                    nfeats));
+        }
     }
 
     /************************************************************************

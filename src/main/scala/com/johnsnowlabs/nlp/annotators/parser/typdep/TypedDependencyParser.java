@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 import com.johnsnowlabs.nlp.annotators.parser.typdep.io.Conll09Writer;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DependencyLabel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 public class TypedDependencyParser implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private Options options;
     private DependencyPipe dependencyPipe;
@@ -54,20 +57,19 @@ public class TypedDependencyParser implements Serializable {
             parameters.setRankSecondOrderTensor(options.rankSecondOrderTensor);
             parameters.setGammaLabel(options.gammaLabel);
 
-            System.out.printf("Pre-training:%n");
+            logger.debug("Pre-training:%n");
 
             start = System.currentTimeMillis();
 
-            System.out.println("Running MIRA ... ");
+            logger.debug("Running MIRA ... ");
             trainIterations(dependencyInstances);
-            System.out.println();
 
             options = optionsBackup;
             parameters.setRankFirstOrderTensor(options.rankFirstOrderTensor);
             parameters.setRankSecondOrderTensor(options.rankSecondOrderTensor);
             parameters.setGammaLabel(options.gammaLabel);
 
-            System.out.println("Init tensor ... ");
+            logger.debug("Init tensor ... ");
             int n = parameters.getNumberWordFeatures();
             int d = parameters.getDL();
             LowRankTensor tensor = new LowRankTensor(new int[] {n, n, d}, options.rankFirstOrderTensor);
@@ -89,35 +91,36 @@ public class TypedDependencyParser implements Serializable {
             parameters.assignTotal();
             parameters.printStat();
 
-            System.out.println();
             end = System.currentTimeMillis();
-            System.out.println();
-            System.out.printf("Pre-training took %d ms.%n", end-start);
-            System.out.println();
+            if(logger.isDebugEnabled()) {
+                logger.debug(String.format("Pre-training took %d ms.%n", end - start));
+            }
 
         } else {
             parameters.randomlyInit();
         }
 
-        System.out.printf(" Training:%n");
+        logger.debug(" Training:%n");
 
         start = System.currentTimeMillis();
 
-        System.out.println("Running MIRA ... ");
+        logger.debug("Running MIRA ... ");
         trainIterations(dependencyInstances);
-        System.out.println();
 
         end = System.currentTimeMillis();
 
-        System.out.printf("Training took %d ms.%n", end-start);
-        System.out.println();
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("Training took %d ms.%n", end - start));
+        }
     }
 
     private void trainIterations(DependencyInstance[] dependencyInstances)
     {
         int printPeriod = 10000 < dependencyInstances.length ? dependencyInstances.length/10 : 1000;
 
-        System.out.println("***************************************************** Number of Training Iterations: "+options.numberOfTrainingIterations);
+        if(logger.isDebugEnabled()) {
+            logger.debug(String.format("Number of Training Iterations: %d", options.numberOfTrainingIterations));
+        }
 
         for (int iIter = 0; iIter < options.numberOfTrainingIterations; ++iIter) {
 
@@ -129,9 +132,9 @@ public class TypedDependencyParser implements Serializable {
 
             for (int i = 0; i < dependencyInstances.length; ++i) {
 
-                if ((i + 1) % printPeriod == 0) {
-                    System.out.printf("  %d (time=%ds)", (i+1),
-                            (System.currentTimeMillis()-start)/1000);
+                if ((i + 1) % printPeriod == 0 && logger.isDebugEnabled()) {
+                    logger.debug(String.format("  %d (time=%ds)", (i+1),
+                            (System.currentTimeMillis()-start)/1000));
                 }
 
                 DependencyInstance dependencyInstance = dependencyInstances[i];
@@ -154,12 +157,11 @@ public class TypedDependencyParser implements Serializable {
 
             tot = tot == 0 ? 1 : tot;
 
-            System.out.printf("%n  Iter %d\tloss=%.4f\ttotalNUmberCorrectMatches" +
+            logger.debug("%n  Iter %d\tloss=%.4f\ttotalNUmberCorrectMatches" +
                             "=%.4f\t[%ds]%n", iIter+1,
                     loss, totalNUmberCorrectMatches
                             /(tot +0.0),
                     (System.currentTimeMillis() - start)/1000);
-            System.out.println();
 
             parameters.printStat();
         }
