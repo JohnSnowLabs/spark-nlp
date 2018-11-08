@@ -82,11 +82,11 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    import org.apache.spark.sql.functions.{col, explode}
+    import org.apache.spark.sql.functions.{col, explode, array}
     if ($(explodeSentences)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)
-        .withColumn(getOutputCol, col("_tmp").as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .withColumn(getOutputCol, array(col("_tmp")).as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
         .drop("_tmp")
     }
     else dataset

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
   * Created by saif on 06/07/17.
   */
 
-class ChunkAssembler(override val uid: String) extends RawAnnotator[ChunkAssembler]{
+class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -87,4 +87,4 @@ class ChunkAssembler(override val uid: String) extends RawAnnotator[ChunkAssembl
   }
 
 }
-object ChunkAssembler extends DefaultParamsReadable[ChunkAssembler]
+object Doc2Chunk extends DefaultParamsReadable[Doc2Chunk]

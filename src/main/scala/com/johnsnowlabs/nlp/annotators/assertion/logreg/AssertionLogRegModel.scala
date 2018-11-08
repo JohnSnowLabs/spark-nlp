@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.assertion.logreg
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, WordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.ml.classification.LogisticRegressionModel
@@ -18,12 +18,12 @@ import scala.collection.immutable.Map
   */
 
 class AssertionLogRegModel(override val uid: String) extends RawAnnotator[AssertionLogRegModel]
-  with Windowing with HasWordEmbeddings  {
+  with Windowing with ModelWithWordEmbeddings  {
 
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
   override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
-  override lazy val wordVectors: Option[WordEmbeddings] = embeddings
+  override lazy val wordVectors: WordEmbeddingsRetriever = getClusterEmbeddings.getOrCreateLocalRetriever
 
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
