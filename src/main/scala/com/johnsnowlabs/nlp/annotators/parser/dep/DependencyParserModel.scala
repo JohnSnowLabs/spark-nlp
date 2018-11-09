@@ -29,8 +29,8 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val posTaggedSentences = PosTagged.unpack(annotations)
     val sentencesWithDependency = posTaggedSentences.map{sentence => getDependencyParsedSentence(sentence)}
-    val pruebas = DependencyParsed.pack(sentencesWithDependency)
-    pruebas
+    val dependencyParser = DependencyParsed.pack(sentencesWithDependency)
+    dependencyParser
   }
 }
 
