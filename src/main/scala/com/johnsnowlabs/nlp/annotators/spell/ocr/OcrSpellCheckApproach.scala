@@ -42,7 +42,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
   def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
-
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
     prefixes -> Array("'"),
@@ -83,7 +82,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
     // create transducers for special classes
     val specialClassesTransducers = getOrDefault(specialClasses).
-      par.map(_.generateTransducer).seq
+      par.map(t =>(t.generateTransducer, t.label)).seq
 
     new OcrSpellCheckModel().
       setVocabFreq(vocabFreq.toMap).

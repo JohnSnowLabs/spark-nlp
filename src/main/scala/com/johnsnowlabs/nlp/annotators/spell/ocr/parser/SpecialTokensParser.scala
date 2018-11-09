@@ -9,6 +9,8 @@ trait TokenParser {
 
   val regex:String
 
+  val label:String
+
   def generateTransducer: ITransducer[Candidate] = {
     import scala.collection.JavaConversions._
 
@@ -26,7 +28,6 @@ trait TokenParser {
   }
 
   def replaceWithLabel(tmp: String): String
-
 
   def belongs(token:String):Boolean
   def splits(token:String):Seq[CandidateSplit]
@@ -46,6 +47,8 @@ case class CandidateSplit(candidates:Seq[Seq[String]], cost:Float=0f) {
 
 
 class SuffixedToken(suffixes:Array[String]) extends TokenParser {
+
+  override val label = "_SUFFIXED_"
 
   private def parse(token:String)  =
     (token.dropRight(1), token.last.toString)
@@ -86,6 +89,8 @@ object SuffixedToken {
 
 class PrefixedToken(prefixes:Array[String]) extends TokenParser {
 
+  override val label = "_PREFIXED_"
+
   private def parse(token:String)  =
     (token.head.toString, token.tail)
 
@@ -123,6 +128,8 @@ object PrefixedToken {
 
 object DateToken extends TokenParser with TokenClasses{
 
+  override val label = "_DATE_"
+
   val dateRegex = "\\(?(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}\\)?".r
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/[0-1][0-9]\\/(1|2)[0-9]{3}"
 
@@ -144,7 +151,7 @@ object DateToken extends TokenParser with TokenClasses{
   override def separate(word: String): String = {
     val matcher = dateRegex.pattern.matcher(word)
     if (matcher.matches) {
-      val result = word.replace(matcher.group(0), "_DATE_")
+      val result = word.replace(matcher.group(0), label)
       //println(s"$word -> $result")
       result
     }
@@ -158,7 +165,9 @@ object DateToken extends TokenParser with TokenClasses{
 
 object NumberToken extends TokenParser {
 
-  /* used to parse corpus - potentially infite*/
+  override val label = "_NUM_"
+
+  /* used to parse corpus - potentially infite */
   private val numRegex =
     """(\-|#)?([0-9]+\.[0-9]+\-[0-9]+\.[0-9]+|[0-9]+/[0-9]+|[0-9]+\-[0-9]+|[0-9]+\.[0-9]+|[0-9]+,[0-9]+|[0-9]+\-[0-9]+\-[0-9]+|[0-9]+)""".r
 
@@ -180,7 +189,7 @@ object NumberToken extends TokenParser {
   override def separate(word: String): String = {
     val matcher = numRegex.pattern.matcher(word)
     if(matcher.matches) {
-      val result = word.replace(matcher.group(0), "_NUM_")
+      val result = word.replace(matcher.group(0), label)
       result
     }
     else
