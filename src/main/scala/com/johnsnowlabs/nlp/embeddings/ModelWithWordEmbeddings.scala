@@ -32,30 +32,16 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
     if ($(includeEmbeddings)) {
 
-      val clusterEmbeddings = EmbeddingsHelper.load(
+      EmbeddingsHelper.load(
         src.toUri.toString,
         spark,
         WordEmbeddingsFormat.SPARKNLP.toString,
         $(embeddingsDim),
-        $(caseSensitiveEmbeddings)
+        $(caseSensitiveEmbeddings),
+        get(embeddingsRef)
       )
 
-      /** Set embeddings ref */
-      EmbeddingsHelper.setRef($(embeddingsRef), clusterEmbeddings)
-
-    } else if (isSet(embeddingsRef)) {
-
-      val clusterEmbeddings = EmbeddingsHelper
-        .getByRef($(embeddingsRef))
-        .getOrElse(throw new NoSuchElementException(
-          s"Embeddings for stage $uid not included and not found in embeddings cache by ref '${$(embeddingsRef)}'. " +
-          s"Please load embeddings first using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() by '${$(embeddingsRef)}'"
-        ))
-      setEmbeddingsDim(clusterEmbeddings.dim)
-      setCaseSensitiveEmbeddings(clusterEmbeddings.caseSensitive)
-
-    } else throw new IllegalArgumentException("Annotator requires embeddings. They're either not included or ref is not defined")
-
+    }
   }
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
