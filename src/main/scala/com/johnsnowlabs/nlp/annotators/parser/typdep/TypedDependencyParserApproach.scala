@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, POS, DEPENDENCY, LABELED_DEPENDENCY}
+import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel]{
@@ -89,3 +89,5 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   }
 
 }
+
+object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]
