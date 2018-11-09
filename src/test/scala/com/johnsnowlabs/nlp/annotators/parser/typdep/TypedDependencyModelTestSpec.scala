@@ -161,4 +161,36 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   }
 
+  "A typed dependency parser model whit few numberOfTrainingIterations" should
+    "predict a labeled relationship between words in the sentence" in {
+    import SparkAccessor.spark.implicits._
+
+    val typedDependencyParser = new TypedDependencyParserApproach()
+      .setInputCols(Array("token", "pos", "dependency"))
+      .setOutputCol("labdep")
+      .setConll2009FilePath("src/test/resources/parser/train/example.train")
+      .setNumberOfTrainingIterations(5)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataset)
+
+    val sentence =
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow."
+    val testDataSet = Seq(sentence).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
 }

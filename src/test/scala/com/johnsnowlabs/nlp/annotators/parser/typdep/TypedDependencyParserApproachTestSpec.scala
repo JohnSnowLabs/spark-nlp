@@ -33,17 +33,17 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
 
   private val typedDependencyParser = new TypedDependencyParserApproach()
-    .setInputCols(Array("pos","dependency"))
+    .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
     .setConll2009FilePath("src/test/resources/parser/train/example.train")
 
   private val emptyDataset = PipelineModels.dummyDataset
 
   "A typed dependency parser approach that does not use Conll2009FilePath parameter" should
-    "raise an error message" ignore {
+    "raise an error message" in {
 
     val typedDependencyParser = new TypedDependencyParserApproach()
-      .setInputCols(Array("dependency"))
+      .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
 
     val expectedErrorMessage = "Training file with CoNLL 2009 format is required"
@@ -65,10 +65,10 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
   }
 
-  "A typed dependency parser approach with an empty CoNLL training file" should "raise an error message" ignore {
+  "A typed dependency parser approach with an empty CoNLL training file" should "raise an error message" in {
 
     val typedDependencyParser = new TypedDependencyParserApproach()
-      .setInputCols(Array("dependency"))
+      .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
       .setConll2009FilePath("")
 
@@ -92,10 +92,10 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   }
 
   "A typed dependency parser approach with an invalid file path or file name" should
-    "raise FileNotFound exception" ignore {
+    "raise FileNotFound exception" in {
 
     val typedDependencyParser = new TypedDependencyParserApproach()
-      .setInputCols(Array("dependency"))
+      .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
       .setConll2009FilePath("wrong/path")
 
@@ -112,17 +112,6 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     assertThrows[FileNotFoundException]{
       pipeline.fit(emptyDataset)
     }
-
-  }
-
-  "A typed dependency parser approach with a nonempty dataset" should "not raise an error message" ignore {
-
-    val helloDataset = Seq("Hello World!").toDS.toDF("text")
-    val typedDependencyParserApproach = new TypedDependencyParserApproach()
-    val model = typedDependencyParserApproach.fit(helloDataset)
-
-    assert(typedDependencyParserApproach.isInstanceOf[TypedDependencyParserApproach])
-    assert(model.isInstanceOf[TypedDependencyParserModel])
 
   }
 

@@ -88,7 +88,7 @@ public class LowRankTensor {
                 logger.warn(String.format("Power method has nearly-zero sigma. rankFirstOrderTensor=%d%n",i));
             }
             if (logger.isDebugEnabled()){
-                logger.debug(String.format("%.2f", norm));
+                logger.debug(String.format("norm: %.2f", norm));
             }
             for (int k = 0; k < dim; ++k)
                 param2.get(k)[i] = aArrayVariable.get(k);
