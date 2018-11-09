@@ -1,11 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 public class LowRankTensor {
 
+    private Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
     private int dim;
     private int rank;
     private int[] N;
@@ -78,13 +81,15 @@ public class LowRankTensor {
                 lastnorm = norm;
             }
             if (iter >= MAX_ITER) {
-                System.out.printf("\tWARNING: Power method didn't converge." +
+                logger.warn("Power method didn't converge." +
                         "rankFirstOrderTensor=%d sigma=%f%n", i, norm);
             }
-            if (Math.abs(norm) <= eps) {
-                System.out.printf("\tWARNING: Power method has nearly-zero sigma. rankFirstOrderTensor=%d%n",i);
+            if (Math.abs(norm) <= eps && logger.isDebugEnabled()) {
+                logger.warn(String.format("Power method has nearly-zero sigma. rankFirstOrderTensor=%d%n",i));
             }
-            System.out.printf("\t%.2f", norm);
+            if (logger.isDebugEnabled()){
+                logger.debug(String.format("%.2f", norm));
+            }
             for (int k = 0; k < dim; ++k)
                 param2.get(k)[i] = aArrayVariable.get(k);
         }
@@ -97,7 +102,6 @@ public class LowRankTensor {
                 for (int v = 0; v < rank; ++v)
                     x[u][v] = y[v][u];
         }
-        System.out.println();
     }
 
 }
