@@ -52,7 +52,7 @@ public class TypedDependencyParser implements Serializable {
             options.rankFirstOrderTensor = 0;
             options.rankSecondOrderTensor = 0;
             options.gammaLabel = 1.0f;
-            optionsBackup.numberOfTrainingIterations = options.numberOfPreTrainingIterations;
+            optionsBackup.setNumberOfTrainingIterations(options.numberOfPreTrainingIterations);
             parameters.setRankFirstOrderTensor(options.rankFirstOrderTensor);
             parameters.setRankSecondOrderTensor(options.rankSecondOrderTensor);
             parameters.setGammaLabel(options.gammaLabel);
@@ -119,10 +119,11 @@ public class TypedDependencyParser implements Serializable {
         int printPeriod = 10000 < dependencyInstances.length ? dependencyInstances.length/10 : 1000;
 
         if(logger.isDebugEnabled()) {
-            logger.debug(String.format("Number of Training Iterations: %d", options.numberOfTrainingIterations));
+            logger.debug(String.format("Number of Training Iterations: %d",
+                    options.getNumberOfTrainingIterations()));
         }
 
-        for (int iIter = 0; iIter < options.numberOfTrainingIterations; ++iIter) {
+        for (int iIter = 0; iIter < options.getNumberOfTrainingIterations(); ++iIter) {
 
             long start;
             double loss = 0;
@@ -157,11 +158,12 @@ public class TypedDependencyParser implements Serializable {
 
             tot = tot == 0 ? 1 : tot;
 
-            logger.debug("%n  Iter %d\tloss=%.4f\ttotalNUmberCorrectMatches" +
-                            "=%.4f\t[%ds]%n", iIter+1,
-                    loss, totalNUmberCorrectMatches
-                            /(tot +0.0),
-                    (System.currentTimeMillis() - start)/1000);
+            if (logger.isDebugEnabled()){
+                logger.debug(String.format("%n Iter %d loss=%.4f totalNUmberCorrectMatches=%.4f [%ds]%n",
+                        iIter+1, loss,
+                        totalNUmberCorrectMatches /(tot +0.0),
+                        (System.currentTimeMillis() - start)/1000));
+            }
 
             parameters.printStat();
         }

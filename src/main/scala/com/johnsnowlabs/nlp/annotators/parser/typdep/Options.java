@@ -9,19 +9,24 @@ public class Options implements Serializable {
     String unimapFile = null;
 
     int numberOfPreTrainingIterations = 2;
-    int numberOfTrainingIterations = 10;
+    private int numberOfTrainingIterations;
     boolean initTensorWithPretrain = true;
     float regularization = 0.01f;
     float gammaLabel = 0;
     int rankFirstOrderTensor = 50;
     int rankSecondOrderTensor = 30;
 
+    public int getNumberOfTrainingIterations() {
+        return numberOfTrainingIterations;
+    }
+
+    public void setNumberOfTrainingIterations(int numberOfTrainingIterations) {
+        this.numberOfTrainingIterations = numberOfTrainingIterations;
+    }
+
     public Options() {
 
     }
-
-    //TODO remove this attribute, the model should be saved in TypedDepdencyApproach
-    public String modelFile = "example.model";
 
     private Options(Options options) {
         this.numberOfPreTrainingIterations = options.numberOfPreTrainingIterations;

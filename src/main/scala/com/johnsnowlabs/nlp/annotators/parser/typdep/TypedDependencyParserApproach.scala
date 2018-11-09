@@ -18,36 +18,23 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
-  val numberOfPreTrainingIterations = new IntParam(this, "numberOfPreTrainingIterations",
-    "Number of iterations used in a pre-training phase, converges to better accuracy")
-
   val numberOfTrainingIterations = new IntParam(this, "numberOfTrainingIterations",
     "Number of iterations in training, converges to better accuracy")
 
-  val initTensorWithPreTrain: BooleanParam = new BooleanParam(this, "initTensorWithPretrain",
-    "whether to include tensor with pre-training. Defaults to true.")
-
-  val regularization: FloatParam = new FloatParam(this, "regularization",
-    "Run the model with regularization. In math formulas is known as variable C")
-
-  val gammaLabel: FloatParam = new FloatParam(this, "gammaLabel",
-    "wWight of the traditional features in the scoring function ")
-
-  val rankFirstOrderTensor = new IntParam(this, "rankFirstOrderTensor",
-    "Rank of the first-order tensor. In math formulas is know as R")
-
-  val rankSecondOrderTensor = new IntParam(this, "rankSecondOrderTensor",
-    "Rank of the second-order tensor. In math formulas is know as R2")
-
   val conll2009FilePath = new ExternalResourceParam(this, "conll2009FilePath",
       "Path to file with CoNLL 2009 format")
+
+  //TODO: Enable more training parameters from Options
 
   def setConll2009FilePath(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                            options: Map[String, String] = Map.empty[String, String]): this.type = {
     set(conll2009FilePath, ExternalResource(path, readAs, options))
   }
 
+  def setNumberOfTrainingIterations(value: Int): this.type  = set(numberOfTrainingIterations, value)
+
   setDefault(conll2009FilePath, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(numberOfTrainingIterations, 10)
 
   private lazy val trainFile = {
     ResourceHelper.validFile($(conll2009FilePath).path)
@@ -59,6 +46,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     require(!trainFile.equals(""), "Training file with CoNLL 2009 format is required")
 
     val options = getOptionsInstance
+    options.setNumberOfTrainingIterations($(numberOfTrainingIterations))
     val typedDependencyParser = getTypedDependencyParserInstance
     typedDependencyParser.setOptions(options)
 
