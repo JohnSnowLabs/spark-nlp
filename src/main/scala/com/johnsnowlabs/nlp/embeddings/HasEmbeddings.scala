@@ -11,7 +11,6 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   val caseSensitiveEmbeddings = new BooleanParam(this, "caseSensitiveEmbeddings", "whether to ignore case in tokens for embeddings matching")
 
   setDefault(includeEmbeddings, true)
-  setDefault(embeddingsRef, this.uid)
   setDefault(caseSensitiveEmbeddings, false)
 
   def setIncludeEmbeddings(value: Boolean): this.type = set(this.includeEmbeddings, value)
@@ -19,19 +18,21 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
   def setCaseSensitiveEmbeddings(value: Boolean): this.type = set(this.caseSensitiveEmbeddings, value)
 
+  protected def preloadedEmbeddings: ClusterWordEmbeddings =
+    EmbeddingsHelper.load(EmbeddingsHelper.getClusterPath($(embeddingsRef)), $(embeddingsDim), $(caseSensitiveEmbeddings))
+
   def getClusterEmbeddings: ClusterWordEmbeddings = {
     get(embeddingsRef)
-      .orElse(getDefault(embeddingsRef))
-      .flatMap(ref => EmbeddingsHelper.getByRef(ref))
+      .map(_ => preloadedEmbeddings)
       .getOrElse(throw new NoSuchElementException(
-        s"embeddings not set in $uid for ref ${get(embeddingsRef).orElse(getDefault(embeddingsRef)).getOrElse("-ref not provided-")}")
+        s"embeddings not set in $uid for ref ${get(embeddingsRef).orElse(getDefault(embeddingsRef)).getOrElse("-ref not set-")}")
       )
   }
 
   override def close(): Unit = {
     get(embeddingsRef)
-      .flatMap(EmbeddingsHelper.getByRef)
-      .foreach(_.getOrCreateLocalRetriever.close())
+      .map(_ => preloadedEmbeddings)
+      .foreach(_.getLocalRetriever.close())
   }
 
 }

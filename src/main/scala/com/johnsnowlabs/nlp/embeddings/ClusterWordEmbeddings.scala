@@ -5,6 +5,7 @@ import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -17,26 +18,20 @@ import org.apache.spark.{SparkContext, SparkFiles}
  */
 class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
-  @transient
-  private var localRetriever: Option[WordEmbeddingsRetriever] = None
-
-  def getOrCreateLocalRetriever: WordEmbeddingsRetriever = {
+  def getLocalRetriever: WordEmbeddingsRetriever = {
 
     /** Synchronized removed. Verify */
-    if (localRetriever.isEmpty) {
-      // Have to copy file because RockDB changes it and Spark rises Exception
-      val src = SparkFiles.get(clusterFilePath)
-      val workPath = src + "_work"
+    // Have to copy file because RockDB changes it and Spark rises Exception
+    val src = SparkFiles.get(clusterFilePath)
+    val workPath = src + "_work"
 
-      if (!new File(workPath).exists()) {
-        require(new File(src).exists(), s"indexed embeddings at $src not found")
-        FileUtil.deepCopy(new File(src), new File(workPath), null, false)
-      }
+    //if (!new File(workPath).exists()) {
+      require(new File(src).exists(), s"indexed embeddings at $src not found")
+      FileUtils.deleteDirectory(new File(workPath))
+      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
+    //}
 
-      localRetriever = Some(WordEmbeddingsRetriever(workPath, dim, caseSensitive))
-    }
-
-    localRetriever.get
+    WordEmbeddingsRetriever(workPath, dim, caseSensitive)
   }
 }
 
@@ -98,24 +93,25 @@ object ClusterWordEmbeddings {
             sourceEmbeddingsPath: String,
             dim: Int,
             caseSensitive: Boolean,
-            format: WordEmbeddingsFormat.Format): ClusterWordEmbeddings = {
+            format: WordEmbeddingsFormat.Format,
+            embeddingsRef: Option[String] = None): ClusterWordEmbeddings = {
 
-    val localFile = {
+    val localDestination = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
         .toAbsolutePath
     }
 
     val clusterFilePath: String = {
-      val name = localFile.toFile.getName
-      Path.mergePaths(new Path("/embeddings"), new Path(name)).toString
+      lazy val name = localDestination.toFile.getName
+      EmbeddingsHelper.getClusterPath(embeddingsRef.getOrElse(name))
     }
 
     // 1 and 2.  Copy to local and Index Word Embeddings
-    indexEmbeddings(sourceEmbeddingsPath, localFile.toString, format, spark)
+    indexEmbeddings(sourceEmbeddingsPath, localDestination.toString, format, spark)
 
     // 2. Copy WordEmbeddings to cluster
-    copyIndexToCluster(localFile.toString, clusterFilePath, spark)
-    FileHelper.delete(localFile.toString)
+    copyIndexToCluster(localDestination.toString, clusterFilePath, spark)
+    FileHelper.delete(localDestination.toString)
 
     // 3. Create Spark Embeddings
     new ClusterWordEmbeddings(clusterFilePath, dim, caseSensitive)

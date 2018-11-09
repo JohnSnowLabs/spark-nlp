@@ -71,11 +71,10 @@ class NerCrfApproachTestSpec extends FlatSpec {
       "src/test/resources/random_embeddings_dim4.txt",
       spark,
       "TEXT",
+      "random_embeddings",
       4,
       false
     )
-
-    EmbeddingsHelper.setRef("random_embeddings", smallEmbeddings)
 
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
