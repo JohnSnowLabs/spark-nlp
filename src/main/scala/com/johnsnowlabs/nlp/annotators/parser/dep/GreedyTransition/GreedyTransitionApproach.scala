@@ -197,7 +197,7 @@ class GreedyTransitionApproach {
 
     }
 
-    def predictHeads(sentence: Sentence): List[Int] = {
+    def predictHeadsOld(sentence: Sentence): List[Int] = {
       val goldHeads = sentence.map( _.dep ).toVector
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
@@ -207,6 +207,28 @@ class GreedyTransitionApproach {
         } else {
           val goldMoves = state.getGoldMoves(goldHeads)
           val guess = goldMoves.toList.head
+          moveThroughSentenceFrom( state.transition(guess) )
+        }
+      }
+
+      val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParserState(sentence.length)) )
+
+      finalState.parse.heads.toList
+    }
+
+    def predictHeads(sentence: Sentence): List[Int] = {
+      val words = sentence.map( _.norm ).toVector
+      val tags = sentence.map(s => s.pos).toVector
+      val goldHeads = sentence.map( _.dep ).toVector
+
+      def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
+        val validMoves = state.validMoves
+        if (validMoves.isEmpty) {
+          state
+        } else {
+          val features = state.extractFeatures(words, tags)
+          val score = perceptron.score(features, perceptron.average)
+          val guess = validMoves.map( m => (-score(m), m) ).toList.minBy { _._1 }._2
           moveThroughSentenceFrom( state.transition(guess) )
         }
       }

@@ -39,6 +39,22 @@ class Perceptron(numberOfClasses: Int) {
   def average(w: WeightLearner): Double = (w.current * (seen - w.ts) + w.total) / seen // This is dynamically calculated
   // No need for average_weights() function - it's all done dynamically
 
+  def score(features: Map[Feature, Score], scoreMethod: WeightLearner => Double): ClassVector = {
+    features
+      .filter { case (_, e2) => e2 != 0 case _ => false }
+      .foldLeft(Vector.fill(numberOfClasses)(0: Double)) {
+        case (acc, (Feature(name, data), score)) =>
+          learning
+            .getOrElse(name, Map[String,ClassToWeightLearner]())
+            .getOrElse(data, Map[ClassNum, WeightLearner]())
+            .foldLeft(acc) { (accForFeature, cnWl) =>
+              val classnum: ClassNum = cnWl._1
+              val weightLearner: WeightLearner = cnWl._2
+              accForFeature.updated(classnum, accForFeature(classnum) + score * scoreMethod(weightLearner))
+            }
+      }
+  }
+
   def dotProductScore(features: Map[Feature, Score], scoreMethod: WeightLearner => Double): ClassVector = {
     // Return 'dot-product' score for all classes
     //  This is the mutable version : 2493ms for 1 train_all, and 0.45ms for a sentence
