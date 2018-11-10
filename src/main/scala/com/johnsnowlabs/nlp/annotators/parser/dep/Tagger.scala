@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 
+import scala.io.Source
+
 
 class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum])  {
 
@@ -79,6 +81,12 @@ class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum])  {
   def getPerceptronAsArray: Array[String] = {
       //val pruebas = perceptron.toString()
       perceptron.toString().split("\\n")
+  }
+
+  def getHarcodedPerceptron: Array[String] = {
+    val filename = "src/test/resources/models/dep-model-small.txt"
+    val fileContents = Source.fromFile(filename).mkString
+    fileContents.split("\\n")
   }
 
 }
