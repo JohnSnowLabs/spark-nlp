@@ -44,7 +44,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
         WordEmbeddingsFormat($(embeddingsFormat)).toString,
         $(embeddingsDim),
         $(caseSensitiveEmbeddings),
-        get(embeddingsRef)
+        $(embeddingsRef)
       )
     } else if (isSet(embeddingsRef)) {
       preloadedEmbeddings

@@ -24,7 +24,7 @@ object EmbeddingsHelper {
       str2frm(format),
       nDims,
       caseSensitiveEmbeddings,
-      Option(embeddingsRef)
+      embeddingsRef
     )
   }
 
@@ -34,7 +34,7 @@ object EmbeddingsHelper {
                     format: WordEmbeddingsFormat.Format,
                     nDims: Int,
                     caseSensitiveEmbeddings: Boolean,
-                    embeddingsRef: Option[String]): ClusterWordEmbeddings = {
+                    embeddingsRef: String): ClusterWordEmbeddings = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)

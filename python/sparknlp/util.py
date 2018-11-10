@@ -15,7 +15,7 @@ class AnnotatorJavaMLReadable(JavaMLReadable):
     @classmethod
     def read(cls):
         """Returns an MLReader instance for this class."""
-        return AnnotatorJavaMLReader(cls)
+        return AnnotatorJavaMLReader(cls())
 
 
 class AnnotatorJavaMLReader(JavaMLReader):

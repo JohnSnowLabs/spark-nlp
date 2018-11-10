@@ -38,7 +38,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
         WordEmbeddingsFormat.SPARKNLP.toString,
         $(embeddingsDim),
         $(caseSensitiveEmbeddings),
-        get(embeddingsRef)
+        $(embeddingsRef)
       )
 
     }

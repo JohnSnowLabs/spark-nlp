@@ -78,7 +78,8 @@ class AnnotatorWithEmbeddings(Params):
         super(AnnotatorWithEmbeddings, self).__init__()
         self._setDefault(
             caseSensitiveEmbeddings=False,
-            includeEmbeddings=True
+            includeEmbeddings=True,
+            embeddingsRef=self.uid
         )
 
     def setEmbeddingsDim(self, value):
