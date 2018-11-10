@@ -76,9 +76,10 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     logger.info(s"Tagger Performance = $performanceProgress")
 
     val perceptronAsArray = tagger.getPerceptronAsArray
+    val harcodedPerceptron = tagger.getHarcodedPerceptron
 
     new DependencyParserModel()
-      .setPerceptronAsArray(perceptronAsArray)
+      .setPerceptronAsArray(harcodedPerceptron)
   }
 
 }

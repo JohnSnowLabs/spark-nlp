@@ -91,16 +91,16 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     //.setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
-    .setNumberOfIterations(40)
-    .setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank")
+    .setNumberOfIterations(10)
+    .setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
 
   private val emptyDataset = PipelineModels.dummyDataset
 
   private val testDataset = Seq(
    // "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know."
     //"Set the volume to zero when I 'm in a meeting unless John 's school calls",
-    //"I solved the problem with statistics",
-    "I saw a girl with a telescope"
+    "I solved the problem with statistics"
+    //"I saw a girl with a telescope"
     //"The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
     //"MSNBC reported that Facebook bought WhatsApp for 16bn"
   ).toDS.toDF("text")
