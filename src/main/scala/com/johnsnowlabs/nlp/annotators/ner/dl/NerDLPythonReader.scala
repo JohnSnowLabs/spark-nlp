@@ -46,7 +46,9 @@ object NerDLModelPythonReader {
       Paths.get(folder, embeddingsFile).toString,
       embeddingsDim,
       normalize,
-      format)
+      format,
+      "python_tf_model"
+    )
   }
 
   def read(

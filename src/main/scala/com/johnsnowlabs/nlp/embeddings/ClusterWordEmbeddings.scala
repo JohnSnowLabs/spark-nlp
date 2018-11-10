@@ -25,11 +25,10 @@ class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseS
     val src = SparkFiles.get(clusterFilePath)
     val workPath = src + "_work"
 
-    //if (!new File(workPath).exists()) {
+    if (!new File(workPath).exists()) {
       require(new File(src).exists(), s"indexed embeddings at $src not found")
-      FileUtils.deleteDirectory(new File(workPath))
-      FileUtil.deepCopy(new File(src), new File(workPath), null, false)
-    //}
+      FileUtil.deepCopy(new File(src), new File(workPath), null, true)
+    }
 
     WordEmbeddingsRetriever(workPath, dim, caseSensitive)
   }
@@ -94,7 +93,7 @@ object ClusterWordEmbeddings {
             dim: Int,
             caseSensitive: Boolean,
             format: WordEmbeddingsFormat.Format,
-            embeddingsRef: Option[String] = None): ClusterWordEmbeddings = {
+            embeddingsRef: String): ClusterWordEmbeddings = {
 
     val localDestination = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
@@ -102,8 +101,7 @@ object ClusterWordEmbeddings {
     }
 
     val clusterFilePath: String = {
-      lazy val name = localDestination.toFile.getName
-      EmbeddingsHelper.getClusterPath(embeddingsRef.getOrElse(name))
+      EmbeddingsHelper.getClusterPath(embeddingsRef)
     }
 
     // 1 and 2.  Copy to local and Index Word Embeddings

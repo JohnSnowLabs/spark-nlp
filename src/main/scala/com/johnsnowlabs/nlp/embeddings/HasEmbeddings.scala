@@ -12,21 +12,18 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
 
   setDefault(includeEmbeddings, true)
   setDefault(caseSensitiveEmbeddings, false)
+  setDefault(embeddingsRef, this.uid)
 
   def setIncludeEmbeddings(value: Boolean): this.type = set(this.includeEmbeddings, value)
   def setEmbeddingsRef(value: String): this.type = set(this.embeddingsRef, value)
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
   def setCaseSensitiveEmbeddings(value: Boolean): this.type = set(this.caseSensitiveEmbeddings, value)
 
-  protected def preloadedEmbeddings: ClusterWordEmbeddings =
+  protected lazy val preloadedEmbeddings: ClusterWordEmbeddings =
     EmbeddingsHelper.load(EmbeddingsHelper.getClusterPath($(embeddingsRef)), $(embeddingsDim), $(caseSensitiveEmbeddings))
 
   def getClusterEmbeddings: ClusterWordEmbeddings = {
-    get(embeddingsRef)
-      .map(_ => preloadedEmbeddings)
-      .getOrElse(throw new NoSuchElementException(
-        s"embeddings not set in $uid for ref ${get(embeddingsRef).orElse(getDefault(embeddingsRef)).getOrElse("-ref not set-")}")
-      )
+    preloadedEmbeddings
   }
 
   override def close(): Unit = {
