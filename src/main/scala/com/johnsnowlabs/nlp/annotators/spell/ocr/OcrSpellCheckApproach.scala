@@ -47,7 +47,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     prefixes -> Array("'"),
     suffixes -> Array(".", ":", "%", ",", ";", "?", "'"),
     wordMaxDistance -> 2,
-    maxCandidates -> 6
+    maxCandidates -> 6,
+    languageModelClasses -> 5000
   )
 
   // TODO: hard coded

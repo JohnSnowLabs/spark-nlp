@@ -57,7 +57,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     val ocrspell = new OcrSpellCheckApproach().
       setMinCount(1.0)
     val vocab = ocrspell.genVocab("src/main/resources/spell_corpus.txt")
-    assert(vocab.size == 10)
+    assert(vocab._1.size == 10)
 
   }
 
