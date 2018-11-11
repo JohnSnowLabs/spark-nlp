@@ -92,9 +92,9 @@ class _OcrCreateMap(ExtendedJavaWrapper):
 
 
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
-    def __init__(self, path, spark, embformat, ndims, case):
+    def __init__(self, path, spark, embformat, ref, ndims, case):
         super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load")
-        self._java_obj = self._new_java_obj(self._java_obj, path, spark._jsparkSession, embformat, ndims, case)
+        self._java_obj = self._new_java_obj(self._java_obj, path, spark._jsparkSession, embformat, ref, ndims, case)
 
 
 class _EmbeddingsHelperSave(ExtendedJavaWrapper):
@@ -103,25 +103,7 @@ class _EmbeddingsHelperSave(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, path, embeddings.jembeddings, spark._jsparkSession)
 
 
-class _EmbeddingsHelperClear(ExtendedJavaWrapper):
-    def __init__(self):
-        super(_EmbeddingsHelperClear, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.clearCache")
-        self._java_obj = self._new_java_obj(self._java_obj)
-
-
 class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
     def __init__(self, annotator):
         super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getFromAnnotator")
         self._java_obj = self._new_java_obj(self._java_obj, annotator._java_obj)
-
-
-class _EmbeddingsHelperByRef(ExtendedJavaWrapper):
-    def __init__(self, ref):
-        super(_EmbeddingsHelperByRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getByRef")
-        self._java_obj = self._new_java_obj(self._java_obj, ref)
-
-
-class _EmbeddingsHelperSetRef(ExtendedJavaWrapper):
-    def __init__(self, ref, embeddings):
-        super(_EmbeddingsHelperSetRef, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.setRef")
-        self._java_obj = self._new_java_obj(self._java_obj, ref, embeddings.jembeddings)

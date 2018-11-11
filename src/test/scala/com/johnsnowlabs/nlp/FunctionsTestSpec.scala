@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotator.Tokenizer
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, Tokenizer}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -19,7 +19,9 @@ class FunctionsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val pos = PerceptronModel.pretrained()
+    val pos = new PerceptronApproach()
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setNIterations(3)
       .setInputCols("document", "token")
       .setOutputCol("pos")
 

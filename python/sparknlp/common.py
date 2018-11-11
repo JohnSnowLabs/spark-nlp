@@ -1,14 +1,16 @@
 import sparknlp.internal as _internal
-from pyspark.ml.param import *
+from pyspark.ml.param import Params
 import re
 
 
 def RegexRule(rule, identifier):
     return _internal._RegexRule(rule, identifier).apply()
 
+
 class ReadAs(object):
     LINE_BY_LINE = "LINE_BY_LINE"
     SPARK_DATASET = "SPARK_DATASET"
+
 
 def ExternalResource(path, read_as=ReadAs.LINE_BY_LINE, options={}):
     return _internal._ExternalResource(path, read_as, options).apply()

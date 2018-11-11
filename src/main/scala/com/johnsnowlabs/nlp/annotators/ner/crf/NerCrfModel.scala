@@ -41,7 +41,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
     val crf = $$(model)
 
-    val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)), getClusterEmbeddings.getOrCreateLocalRetriever)
+    val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)), getClusterEmbeddings.getLocalRetriever)
     sentences.map{sentence =>
       val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)
