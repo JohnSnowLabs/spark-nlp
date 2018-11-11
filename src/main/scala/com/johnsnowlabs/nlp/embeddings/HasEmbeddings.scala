@@ -19,6 +19,11 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def setEmbeddingsDim(value: Int): this.type = set(this.embeddingsDim, value)
   def setCaseSensitiveEmbeddings(value: Boolean): this.type = set(this.caseSensitiveEmbeddings, value)
 
+  def getIncludeEmbeddings: Boolean = $(includeEmbeddings)
+  def getEmbeddingsRef: String = $(embeddingsRef)
+  def getEmbeddingsDim: Int = $(embeddingsDim)
+  def getCaseSensitiveEmbeddings: Boolean = $(caseSensitiveEmbeddings)
+
   protected lazy val preloadedEmbeddings: ClusterWordEmbeddings =
     EmbeddingsHelper.load(EmbeddingsHelper.getClusterPath($(embeddingsRef)), $(embeddingsDim), $(caseSensitiveEmbeddings))
 

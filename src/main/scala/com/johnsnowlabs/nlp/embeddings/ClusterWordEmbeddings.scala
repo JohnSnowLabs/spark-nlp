@@ -5,7 +5,6 @@ import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
-import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -112,6 +111,6 @@ object ClusterWordEmbeddings {
     FileHelper.delete(localDestination.toString)
 
     // 3. Create Spark Embeddings
-    new ClusterWordEmbeddings(clusterFilePath, dim, caseSensitive)
+    new ClusterWordEmbeddings(embeddingsRef, dim, caseSensitive)
   }
 }
