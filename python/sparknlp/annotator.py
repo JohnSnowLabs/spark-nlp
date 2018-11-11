@@ -231,7 +231,7 @@ class Tokenizer(AnnotatorModel):
     def setSuffixPattern(self, value):
         return self._set(suffixPattern=value)
 
-    def setCompositeTokens(self, value):
+    def setCompositeTokensPatterns(self, value):
         return self._set(compositeTokens=value)
 
     def setInfixPatterns(self, value):
