@@ -1,51 +1,31 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.{File, FileNotFoundException}
+import java.io.FileNotFoundException
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.SparkFiles
 
 object EmbeddingsHelper {
 
-  private val spark = ResourceHelper.spark
-
-  private var embeddingsCache = spark.sparkContext.broadcast(Map.empty[String, ClusterWordEmbeddings])
-
-  def setRef(ref: String, embeddings: ClusterWordEmbeddings): Unit = {
-    val current = embeddingsCache.value
-    embeddingsCache.destroy()
-    embeddingsCache = spark.sparkContext.broadcast(current ++ Map(ref -> embeddings))
-  }
-
-  def getByRef(ref: String): Option[ClusterWordEmbeddings] = {
-    embeddingsCache.value.get(ref)
-  }
 
   def load(
                       path: String,
                       spark: SparkSession,
                       format: String,
+                      embeddingsRef: String,
                       nDims: Int,
                       caseSensitiveEmbeddings: Boolean
                     ): ClusterWordEmbeddings = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val src = new Path(path)
-
-    if (fs.exists(src)) {
-      import WordEmbeddingsFormat._
-      ClusterWordEmbeddings(
-        spark.sparkContext,
-        src.toUri.toString,
-        nDims,
-        caseSensitiveEmbeddings,
-        str2frm(format)
-      )
-    } else {
-      throw new FileNotFoundException(s"embeddings not found in $path")
-    }
+    import WordEmbeddingsFormat._
+    load(
+      path,
+      spark,
+      str2frm(format),
+      nDims,
+      caseSensitiveEmbeddings,
+      embeddingsRef
+    )
   }
 
   def load(
@@ -53,14 +33,26 @@ object EmbeddingsHelper {
                     spark: SparkSession,
                     format: WordEmbeddingsFormat.Format,
                     nDims: Int,
-                    caseSensitiveEmbeddings: Boolean): ClusterWordEmbeddings = {
-    load(
-      path,
-      spark,
-      format.toString,
-      nDims,
-      caseSensitiveEmbeddings
-    )
+                    caseSensitiveEmbeddings: Boolean,
+                    embeddingsRef: String): ClusterWordEmbeddings = {
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val src = new Path(path)
+
+    if (fs.exists(src)) {
+      ClusterWordEmbeddings(
+        spark.sparkContext,
+        src.toUri.toString,
+        nDims,
+        caseSensitiveEmbeddings,
+        format,
+        embeddingsRef
+      )
+    } else {
+      throw new FileNotFoundException(s"embeddings not found in $path")
+    }
+
   }
 
   def load(
@@ -73,6 +65,10 @@ object EmbeddingsHelper {
 
   def getFromAnnotator(annotator: ModelWithWordEmbeddings): ClusterWordEmbeddings = {
     annotator.getClusterEmbeddings
+  }
+
+  def getClusterPath(embeddingsRef: String): String = {
+    Path.mergePaths(new Path("/embd_"), new Path(embeddingsRef)).toString
   }
 
   protected def save(path: String, spark: SparkSession, indexPath: String): Unit = {
@@ -91,11 +87,6 @@ object EmbeddingsHelper {
 
   def save(fs: FileSystem, index: Path, dst: Path): Unit = {
     fs.copyFromLocalFile(false, true, index, dst)
-  }
-
-  def clearCache(): Unit = {
-    embeddingsCache.destroy()
-    embeddingsCache = spark.sparkContext.broadcast(Map.empty[String, ClusterWordEmbeddings])
   }
 
 }

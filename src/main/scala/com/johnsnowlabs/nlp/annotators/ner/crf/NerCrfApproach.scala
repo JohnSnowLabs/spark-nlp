@@ -130,7 +130,7 @@ class NerCrfApproach(override val uid: String)
 
     val extraFeatures = get(externalFeatures)
     val dictFeatures = DictionaryFeatures.read(extraFeatures)
-    val crfDataset = FeatureGenerator(dictFeatures, getClusterEmbeddings.getOrCreateLocalRetriever)
+    val crfDataset = FeatureGenerator(dictFeatures, getClusterEmbeddings.getLocalRetriever)
       .generateDataset(trainDataset)
 
     val params = CrfParams(

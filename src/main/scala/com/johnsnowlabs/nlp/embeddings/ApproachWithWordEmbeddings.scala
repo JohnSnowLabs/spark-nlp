@@ -37,42 +37,31 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
-    val clusterEmbeddings = {
-      if (isDefined(sourceEmbeddingsPath)) {
-        EmbeddingsHelper.load(
-          $(sourceEmbeddingsPath),
-          spark,
-          WordEmbeddingsFormat($(embeddingsFormat)).toString,
-          $(embeddingsDim),
-          $(caseSensitiveEmbeddings)
-        )
-      } else if (isSet(embeddingsRef)) {
-        EmbeddingsHelper.getByRef($(embeddingsRef))
-          .map(clusterEmbeddings => {
-            set(embeddingsDim, clusterEmbeddings.dim)
-            set(caseSensitiveEmbeddings, clusterEmbeddings.caseSensitive)
-            clusterEmbeddings
-          }).getOrElse(throw new NoSuchElementException(s"embeddings by ref ${$(embeddingsRef)} not found"))
-      } else
-        throw new IllegalArgumentException(
-          s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
-            s" or not in cache by ref: ${get(embeddingsRef).getOrElse("-embeddingsRef not set-")}. " +
-            s"Load using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() to make them available."
-        )
-    }
-
-    /** Set embeddings ref */
-    EmbeddingsHelper.setRef($(embeddingsRef), clusterEmbeddings)
+    if (isDefined(sourceEmbeddingsPath)) {
+      EmbeddingsHelper.load(
+        $(sourceEmbeddingsPath),
+        spark,
+        WordEmbeddingsFormat($(embeddingsFormat)).toString,
+        $(embeddingsDim),
+        $(caseSensitiveEmbeddings),
+        $(embeddingsRef)
+      )
+    } else if (isSet(embeddingsRef)) {
+      preloadedEmbeddings
+    } else
+      throw new IllegalArgumentException(
+        s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
+          s" or not in cache by ref: ${get(embeddingsRef).getOrElse("-embeddingsRef not set-")}. " +
+          s"Load using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() to make them available."
+      )
 
   }
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
-    val clusterEmbeddings = EmbeddingsHelper.getByRef($(embeddingsRef))
-      .getOrElse(throw new NoSuchElementException("Embeddings not found after training"))
 
     model.setIncludeEmbeddings($(includeEmbeddings))
-    model.setEmbeddingsDim(clusterEmbeddings.dim)
-    model.setCaseSensitiveEmbeddings(clusterEmbeddings.caseSensitive)
+    model.setEmbeddingsDim($(embeddingsDim))
+    model.setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
 
     if (isSet(embeddingsRef)) model.setEmbeddingsRef($(embeddingsRef))
 
