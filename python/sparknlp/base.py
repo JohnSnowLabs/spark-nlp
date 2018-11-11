@@ -11,11 +11,11 @@ import os
 import sys
 
 
-class SparkNlp:
+class SparkNLP:
 
     def __init__(self):
 
-        files_finder = SparkNlp._JarFinder('site-packages')
+        files_finder = SparkNLP._JarFinder('site-packages')
         jar_path = files_finder.find_jar_path()
 
         self.spark_session = SparkSession.builder \
