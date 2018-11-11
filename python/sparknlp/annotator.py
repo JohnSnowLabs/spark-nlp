@@ -123,6 +123,8 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
         if classname and not java_model:
             self.__class__._java_class_name = classname
             self._java_obj = self._new_java_obj(classname, self.uid)
+        if java_model is not None:
+            self._transfer_params_from_java()
 
 
 class ModelWithEmbeddings(AnnotatorModel):
@@ -150,9 +152,6 @@ class ModelWithEmbeddings(AnnotatorModel):
     @keyword_only
     def __init__(self, classname, java_model=None):
         super(ModelWithEmbeddings, self).__init__(classname=classname, java_model=java_model)
-        ParamsGettersSetters.__init__(self)
-        if java_model is not None:
-            self._transfer_params_from_java()
 
     def getClusterEmbeddings(self):
         return self._java_obj.getClusterEmbeddings()
@@ -356,6 +355,11 @@ class NormalizerModel(AnnotatorModel):
                       "lowercase",
                       "whether to convert strings to lowercase")
 
+    slangDictionary = Param(Params._dummy(),
+                            "slangDictionary",
+                            "slang dictionary is a delimited text. needs 'delimiter' in options",
+                            typeConverter=TypeConverters.identity)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.NormalizerModel", java_model=None):
         super(NormalizerModel, self).__init__(
             classname=classname,
@@ -387,6 +391,11 @@ class DeIdentification(AnnotatorApproach):
 class DeIdentificationModel(AnnotatorModel):
 
     name = "DeIdentificationModel"
+
+    regexPatternsDictionary = Param(Params._dummy(),
+                                    "regexPatternsDictionary",
+                                    "dictionary with regular expression patterns that match some protected entity",
+                                    typeConverter=TypeConverters.identity)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel", java_model=None):
         super(DeIdentificationModel, self).__init__(

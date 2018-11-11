@@ -25,7 +25,7 @@ class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseS
     val workPath = src + "_work"
 
     if (!new File(workPath).exists()) {
-      require(new File(src).exists(), s"indexed embeddings at $src not found")
+      require(new File(src).exists(), s"Indexed embeddings at $src not found or not included. Call EmbeddingsHelper.load()")
       FileUtil.deepCopy(new File(src), new File(workPath), null, true)
     }
 
