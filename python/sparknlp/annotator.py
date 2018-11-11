@@ -119,9 +119,8 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
 
     @keyword_only
     def __init__(self, classname, java_model=None):
-        super(AnnotatorModel, self).__init__(java_model)
-        ParamsGettersSetters.__init__(self)
-        if classname:
+        super(AnnotatorModel, self).__init__(java_model=java_model)
+        if classname and not java_model:
             self.__class__._java_class_name = classname
             self._java_obj = self._new_java_obj(classname, self.uid)
 
@@ -343,7 +342,7 @@ class Normalizer(AnnotatorApproach):
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return NormalizerModel(java_model)
+        return NormalizerModel(java_model=java_model)
 
 
 class NormalizerModel(AnnotatorModel):
@@ -382,7 +381,7 @@ class DeIdentification(AnnotatorApproach):
         return self._set(regexPatternsDictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return DeIdentificationModel(java_model)
+        return DeIdentificationModel(java_model=java_model)
 
 
 class DeIdentificationModel(AnnotatorModel):
@@ -425,7 +424,7 @@ class RegexMatcher(AnnotatorApproach):
         return self._set(externalRules=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return RegexMatcherModel(java_model)
+        return RegexMatcherModel(java_model=java_model)
 
 
 class RegexMatcherModel(AnnotatorModel):
@@ -450,7 +449,7 @@ class Lemmatizer(AnnotatorApproach):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
 
     def _create_model(self, java_model):
-        return LemmatizerModel(java_model)
+        return LemmatizerModel(java_model=java_model)
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -514,7 +513,7 @@ class TextMatcher(AnnotatorApproach):
         self._setDefault(inputCols=["token"], caseSensitive=True)
 
     def _create_model(self, java_model):
-        return TextMatcherModel(java_model)
+        return TextMatcherModel(java_model=java_model)
 
     def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
@@ -568,7 +567,7 @@ class PerceptronApproach(AnnotatorApproach):
         return self._set(nIterations=value)
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return PerceptronModel(java_model=java_model)
 
 
 class PerceptronApproachLegacy(AnnotatorApproach):
@@ -606,7 +605,7 @@ class PerceptronApproachLegacy(AnnotatorApproach):
         return self._set(nIterations=value)
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return PerceptronModel(java_model=java_model)
 
 
 class PerceptronModel(AnnotatorModel):
@@ -708,7 +707,7 @@ class SentimentDetector(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return SentimentDetectorModel(java_model)
+        return SentimentDetectorModel(java_model=java_model)
 
 
 class SentimentDetectorModel(AnnotatorModel):
@@ -786,7 +785,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
         return self._set(pruneCorpus=value)
 
     def _create_model(self, java_model):
-        return ViveknSentimentModel(java_model)
+        return ViveknSentimentModel(java_model=java_model)
 
 
 class ViveknSentimentModel(AnnotatorModel):
@@ -898,7 +897,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return self._set(shortCircuit=value)
 
     def _create_model(self, java_model):
-        return NorvigSweetingModel(java_model)
+        return NorvigSweetingModel(java_model=java_model)
 
 
 class NorvigSweetingModel(AnnotatorModel):
@@ -953,7 +952,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(maxEditDistance=v)
 
     def _create_model(self, java_model):
-        return SymmetricDeleteModel(java_model)
+        return SymmetricDeleteModel(java_model=java_model)
 
 
 class SymmetricDeleteModel(AnnotatorModel):
@@ -1037,7 +1036,7 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return NerCrfModel(java_model)
+        return NerCrfModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1111,7 +1110,7 @@ class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
         return self._set(targetNerLabels = v)
 
     def _create_model(self, java_model):
-        return AssertionLogRegModel(java_model)
+        return AssertionLogRegModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1179,7 +1178,7 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def _create_model(self, java_model):
-        return NerDLModel(java_model)
+        return NerDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1253,7 +1252,7 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
         return self._set(dropout = rate)
 
     def _create_model(self, java_model):
-        return AssertionDLModel(java_model)
+        return AssertionDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
