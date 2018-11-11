@@ -19,7 +19,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer()\
             .setOutputCol("token") \
-            .setCompositeTokens(["New York"]) \
+            .setCompositeTokensPatterns(["New York"]) \
             .addInfixPattern("(%\\d+)") \
             .setIncludeDefaults(True)
         stemmer = Stemmer() \
