@@ -108,4 +108,21 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(latinBodyData)
 
+  "a tokenizer" should "handle composite tokens with special chars" in {
+
+    val data = DataBuilder.basicDataBuild("Are you kidding me ?!?! what is this for !?")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+
+    val assembled = documentAssembler.transform(data)
+
+    val tokenizer = new Tokenizer()
+      .setOutputCol("token")
+      .setCompositeTokens(Array("Are you"))
+
+    val tokenized = tokenizer.transform(assembled)
+    val result = tokenized.collect()
+
+  }
+
 }
