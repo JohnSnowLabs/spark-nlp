@@ -69,26 +69,24 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
 
     val tagger = new Tagger(classes, tagDictionary)
-    println("Before performanceProgress")
-    val taggerPerformanceProgress = (0 until getNumberOfIterations).map { seed =>
+    val taggerNumberOfIterations = getNumberOfIterations
+    val dependencyMakerNumberOfIterations = getNumberOfIterations+5
+
+    val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
         tagger.train(trainingSentences, seed) //Iterates to increase accuracy
-        println("WTF")
     }
     logger.info(s"Tagger Performance = $taggerPerformanceProgress")
 
     var perceptronAsArray = tagger.getPerceptronAsArray
-    val harcodedPerceptron = tagger.getHarcodedPerceptron
 
     val greedyTransition = new GreedyTransitionApproach()
     val dependencyMaker = greedyTransition.loadPerceptronInTraining(perceptronAsArray)
 
-    val dependencyMakerPerformanceProgress = (0 until 15).map{ seed =>
+    val dependencyMakerPerformanceProgress = (0 until dependencyMakerNumberOfIterations).map{ seed =>
       dependencyMaker.train(trainingSentences, seed, tagger)
-      println("WTF")
     }
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
-    //TODO: get perceptronAsArrayFrom Dependency Maker
     perceptronAsArray = dependencyMaker.getPerceptronAsArray
 
     new DependencyParserModel()

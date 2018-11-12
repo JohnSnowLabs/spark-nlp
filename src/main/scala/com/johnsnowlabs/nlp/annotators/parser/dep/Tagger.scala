@@ -2,8 +2,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 
-import scala.io.Source
-
 
 class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum])  {
 
@@ -63,7 +61,6 @@ class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum])  {
       wordsNorm.foldLeft( (2:Int, List[ClassName]("%START%","%PAD%")) ) { case ( (i, tags), word_norm ) =>
         val guess = tagDict.getOrElse(word_norm, {   // Don't do the feature scoring if we already 'know' the right PoS
           val features = getFeatures(words, tags, i)
-          println("*********** Before dotProductScore in Tagger.process")
           val score = perceptron.dotProductScore(features, if(train) perceptron.current else perceptron.average)
           val guessed = perceptron.predict( score )
 
@@ -80,14 +77,13 @@ class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum])  {
   def tagSentence(sentence: Sentence): List[ClassName] = process(sentence, train = false)
 
   def getPerceptronAsArray: Array[String] = {
-      //val pruebas = perceptron.toString()
       perceptron.toString().split("\\n")
   }
 
-  def getHarcodedPerceptron: Array[String] = {
-    val filename = "src/test/resources/models/dep-model-small.txt"
-    val fileContents = Source.fromFile(filename).mkString
-    fileContents.split("\\n")
-  }
+//  def getHarcodedPerceptron: Array[String] = {
+//    val filename = "src/test/resources/models/dep-model-small.txt"
+//    val fileContents = Source.fromFile(filename).mkString
+//    fileContents.split("\\n")
+//  }
 
 }

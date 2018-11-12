@@ -77,21 +77,6 @@ class GreedyTransitionApproach {
       def apply(n: Int) = new ParserState(n)
     }
 
-//    case class ParseState(n:Int, heads:Vector[Int], lefts:Vector[List[Int]], rights:Vector[List[Int]]) { // NB: Insert at start, not at end...
-//
-//      def this(n: Int) = this(n, Vector.fill(n)(0: Int), Vector.fill(n + 1)(List[Int]()), Vector.fill(n + 1)(List[Int]()))
-//
-//      // This makes the word at 'child' point to head and adds the child to the appropriate left/right list of head
-//      def addArc(head:Int, child:Int) = {
-//        if(child<head) {
-//          ParseState(n, heads.updated(child, head), lefts.updated(head, child :: lefts(head)), rights)
-//        }
-//        else {
-//          ParseState(n, heads.updated(child, head), lefts, rights.updated(head, child :: rights(head)))
-//        }
-//      }
-//    }
-
     def ParseStateInit(n:Int) = {
       // heads are the dependencies for each word in the sentence, except the last one (the ROOT)
       val heads = Vector.fill(n)(0:Int) // i.e. (0, .., n-1)
@@ -276,8 +261,6 @@ class GreedyTransitionApproach {
       val tags       = tagger.tagSentence(sentence).toVector
       val gold_heads = sentence.map( _.dep ).toVector
 
-      //print "train_one(n=%d, %s)" % (n, words, )
-      //print " gold_heads = %s" % (gold_heads, )
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
         val validMoves = state.validMoves
@@ -288,17 +271,15 @@ class GreedyTransitionApproach {
           val features = state.extractFeatures(words, tags)
 
           // This will produce scores for features that aren't valid too
-          println("***************** Before dotProductScore in DependencyMaker.process "+ perceptron.numberOfClasses)
           val score = perceptron.dotProductScore(features, perceptron.current)
 
           // Sort valid_moves scores into descending order, and pick the best move
-          val guess = validMoves.map(m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
-
+          val guess = validMoves.map(m => (-score(m), m)).toList.minBy(_._1)._2
 
           val gold_moves = state.getGoldMoves(gold_heads)
-          if(gold_moves.size == 0) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+          if(gold_moves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
 
-          val best = gold_moves.map( m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
+          val best = gold_moves.map(m => (-score(m), m)).toList.minBy(_._1)._2
           perceptron.update(best, guess, features.keys)
 
 
@@ -312,29 +293,9 @@ class GreedyTransitionApproach {
       finalState.parse.heads.toList
     }
 
-//    def predictHeads(sentence: Sentence): List[Int] = {
-//      val goldHeads = sentence.map( _.dep ).toVector
-//
-//      def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
-//        val validMoves = state.validMoves
-//        if (validMoves.isEmpty) {
-//          state
-//        } else {
-//          val goldMoves = state.getGoldMoves(goldHeads)
-//          val guess = goldMoves.toList.head
-//          moveThroughSentenceFrom( state.transition(guess) )
-//        }
-//      }
-//
-//      val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
-//
-//      finalState.parse.heads.toList
-//    }
-
     def predictHeads(sentence: Sentence): List[Int] = {
       val words = sentence.map( _.norm ).toVector
       val tags = sentence.map(s => s.pos).toVector
-      val goldHeads = sentence.map( _.dep ).toVector
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
         val validMoves = state.validMoves
@@ -354,12 +315,8 @@ class GreedyTransitionApproach {
     }
 
     def getPerceptronAsArray: Array[String] = {
-      //val pruebas = perceptron.toString()
       perceptron.toString().split("\\n")
     }
 
-//    override def toString: String = {
-//      perceptron.toString()
-//    }
   }
 }
