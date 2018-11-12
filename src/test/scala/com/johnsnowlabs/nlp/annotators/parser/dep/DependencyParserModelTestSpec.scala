@@ -99,8 +99,8 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val testDataset = Seq(
    // "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know."
     //"Set the volume to zero when I 'm in a meeting unless John 's school calls",
-    "I solved the problem with statistics"
-    //"I saw a girl with a telescope"
+    //"I solved the problem with statistics"
+    "I saw a girl with a telescope"
     //"The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
     //"MSNBC reported that Facebook bought WhatsApp for 16bn"
   ).toDS.toDF("text")
@@ -142,7 +142,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser model" should "transform a test dataset" ignore {
+  "A dependency parser model" should "transform a test dataset" in {
     dependencyParserPipeline()
   }
 
