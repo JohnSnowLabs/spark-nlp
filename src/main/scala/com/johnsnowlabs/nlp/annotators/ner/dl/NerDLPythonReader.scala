@@ -46,7 +46,9 @@ object NerDLModelPythonReader {
       Paths.get(folder, embeddingsFile).toString,
       embeddingsDim,
       normalize,
-      format)
+      format,
+      "python_tf_model"
+    )
   }
 
   def read(
@@ -70,7 +72,7 @@ object NerDLModelPythonReader {
     val labels = readTags(folder)
     val chars = readChars(folder)
     val settings = DatasetEncoderParams(labels, chars)
-    val encoder = new NerDatasetEncoder(embeddings.getOrCreateLocalRetriever.getEmbeddingsVector, settings)
+    val encoder = new NerDatasetEncoder(embeddings.getLocalRetriever.getEmbeddingsVector, settings)
     val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
 
     FileHelper.delete(tmpFolder)

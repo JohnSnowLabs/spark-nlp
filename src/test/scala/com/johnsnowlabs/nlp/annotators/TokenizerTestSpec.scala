@@ -33,7 +33,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" in {
     val data = DataBuilder.basicDataBuild(targetText)
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
     val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setCleanAnnotations(false).setOutputCols("output")
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, finisher))
     val pip = pipeline.fit(data).transform(data)
@@ -58,7 +58,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val data = DataBuilder.basicDataBuild(targetText)
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
     val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token").setCompositeTokens(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
     val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setOutputCols("output")
     val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, finisher))
     val result = pipeline.fit(data).transform(data).select("output").as[Array[String]]
@@ -74,7 +74,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
     val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token").setTargetPattern("\\w+").setCompositeTokens(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token").setTargetPattern("\\w+").setCompositeTokensPatterns(Array("New York"))
     val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setOutputCols("output")
     val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, finisher))
     val result = pipeline.fit(data).transform(data).select("output").as[Array[String]]
@@ -107,5 +107,22 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
   "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(latinBodyData)
+
+  "a tokenizer" should "handle composite tokens with special chars" in {
+
+    val data = DataBuilder.basicDataBuild("Are you kidding me ?!?! what is this for !?")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+
+    val assembled = documentAssembler.transform(data)
+
+    val tokenizer = new Tokenizer()
+      .setOutputCol("token")
+      .setCompositeTokensPatterns(Array("Are you"))
+
+    val tokenized = tokenizer.transform(assembled)
+    val result = tokenized.collect()
+
+  }
 
 }

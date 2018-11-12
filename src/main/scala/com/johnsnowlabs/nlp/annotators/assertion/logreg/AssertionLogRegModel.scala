@@ -23,7 +23,7 @@ class AssertionLogRegModel(override val uid: String) extends RawAnnotator[Assert
   override val tokenizer: Tokenizer = new SimpleTokenizer
   override val annotatorType: AnnotatorType = ASSERTION
   override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
-  override lazy val wordVectors: WordEmbeddingsRetriever = getClusterEmbeddings.getOrCreateLocalRetriever
+  override lazy val wordVectors: WordEmbeddingsRetriever = getClusterEmbeddings.getLocalRetriever
 
   val beforeParam = new IntParam(this, "beforeParam", "Length of the context before the target")
   val afterParam = new IntParam(this, "afterParam", "Length of the context after the target")
