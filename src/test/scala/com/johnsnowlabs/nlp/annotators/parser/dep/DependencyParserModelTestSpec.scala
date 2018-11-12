@@ -90,9 +90,9 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    //.setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+    .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
     .setNumberOfIterations(10)
-    .setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
+    //.setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
 
   private val emptyDataset = PipelineModels.dummyDataset
 
@@ -132,7 +132,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   }
 
-  "A dependency parser annotator" should "save a trained model to local disk" ignore {
+  "A dependency parser annotator" should "save a trained model to local disk" in {
     val dependencyParserModel = trainDependencyParserModel()
     saveModel(dependencyParserModel.write, "./tmp/dp_model")
   }
@@ -142,7 +142,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser model" should "transform a test dataset" in {
+  "A dependency parser model" should "transform a test dataset" ignore {
     dependencyParserPipeline()
   }
 

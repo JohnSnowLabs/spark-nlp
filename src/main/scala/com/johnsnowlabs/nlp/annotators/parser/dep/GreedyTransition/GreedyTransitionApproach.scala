@@ -2,16 +2,18 @@ package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
-import com.johnsnowlabs.nlp.annotators.parser.dep.Perceptron
+import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
+import com.sun.org.apache.bcel.internal.util.ClassVector
+
+import scala.collection.mutable
 
 /**
   * Parser based on the code of Matthew Honnibal and Martin Andrews
   */
 class GreedyTransitionApproach {
 
-  def parse(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
-    val dependencyMaker = new DependencyMaker()
-    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
+  def parseInTraining(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
+    val dependencyMaker = loadPerceptronInTraining(trainedPerceptron)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
     val dependencies = dependencyMaker.predictHeads(sentence)
@@ -23,6 +25,34 @@ class GreedyTransitionApproach {
       }
 
     DependencyParsedSentence(words)
+  }
+
+  def parseInPrediction(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
+    val dependencyMaker = loadPerceptronInPrediction(trainedPerceptron)
+    val sentence: Sentence = posTagged.indexedTaggedWords
+      .map { item => WordData(item.word, item.tag) }.toList
+    val dependencies = dependencyMaker.predictHeads(sentence)
+    val words = posTagged.indexedTaggedWords
+      .zip(dependencies)
+      .map{
+        case (word, dependency) =>
+          WordWithDependency(word.word, word.begin, word.end, dependency)
+      }
+
+    DependencyParsedSentence(words)
+  }
+
+  def loadPerceptronInTraining(trainedPerceptron: Array[String]): DependencyMaker = {
+    val dependencyMaker = new DependencyMaker()
+    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
+    dependencyMaker.perceptron.resetLearning()
+    dependencyMaker
+  }
+
+  def loadPerceptronInPrediction(trainedPerceptron: Array[String]): DependencyMaker = {
+    val dependencyMaker = new DependencyMaker()
+    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
+    dependencyMaker
   }
 
   class DependencyMaker {
@@ -45,6 +75,32 @@ class GreedyTransitionApproach {
 
     object ParserState {
       def apply(n: Int) = new ParserState(n)
+    }
+
+//    case class ParseState(n:Int, heads:Vector[Int], lefts:Vector[List[Int]], rights:Vector[List[Int]]) { // NB: Insert at start, not at end...
+//
+//      def this(n: Int) = this(n, Vector.fill(n)(0: Int), Vector.fill(n + 1)(List[Int]()), Vector.fill(n + 1)(List[Int]()))
+//
+//      // This makes the word at 'child' point to head and adds the child to the appropriate left/right list of head
+//      def addArc(head:Int, child:Int) = {
+//        if(child<head) {
+//          ParseState(n, heads.updated(child, head), lefts.updated(head, child :: lefts(head)), rights)
+//        }
+//        else {
+//          ParseState(n, heads.updated(child, head), lefts, rights.updated(head, child :: rights(head)))
+//        }
+//      }
+//    }
+
+    def ParseStateInit(n:Int) = {
+      // heads are the dependencies for each word in the sentence, except the last one (the ROOT)
+      val heads = Vector.fill(n)(0:Int) // i.e. (0, .., n-1)
+
+      // Each possible head (including ROOT) has a (lefts) and (rights) list, initially none
+      // Entries (0, ..., n-1) are words, (n) is the 'ROOT'  ('to' is INCLUSIVE)
+      val lefts  = (0 to n).map( i => List[Int]() ).toVector
+      val rights = (0 to n).map( i => List[Int]() ).toVector
+      ParserState(n, heads, lefts, rights)
     }
 
     case class CurrentState(i: Int, stack: List[Int], parse: ParserState) {
@@ -197,24 +253,83 @@ class GreedyTransitionApproach {
 
     }
 
-    def predictHeadsOld(sentence: Sentence): List[Int] = {
-      val goldHeads = sentence.map( _.dep ).toVector
+    def train(sentences:List[Sentence], seed:Int, tagger: Tagger):Double = {
+      val rand = new util.Random(seed)
+      rand.shuffle(sentences).map( sentence =>trainOne(sentence, tagger) ).sum / sentences.length
+    }
+
+    def trainOne(sentence:Sentence, tagger: Tagger):Double = goodness(sentence, process(sentence, tagger))
+
+    def goodness(sentence:Sentence, fit:List[Int]):Double = {
+      val gold = sentence.map( _.dep ).toVector
+      val correct = fit.zip( gold ).count( pair => pair._1 == pair._2)  / gold.length.toFloat
+      //println(s"Dependency score : ${pct_fit_fmt_str(correct)}")
+      correct
+    }
+
+    def process(sentence:Sentence, tagger: Tagger):List[Int] = {
+      // NB: Our structure just has a 'pure' list of sentences.  The root will point to (n)
+      // Previously it was assumed that the sentence has 1 entry pre-pended, and the stack starts at {1}
+
+      // These should be Vectors, since we're going to be accessing them at random (not sequentially)
+      val words      = sentence.map( _.norm ).toVector
+      val tags       = tagger.tagSentence(sentence).toVector
+      val gold_heads = sentence.map( _.dep ).toVector
+
+      //print "train_one(n=%d, %s)" % (n, words, )
+      //print " gold_heads = %s" % (gold_heads, )
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
         val validMoves = state.validMoves
-        if (validMoves.isEmpty) {
-          state
-        } else {
-          val goldMoves = state.getGoldMoves(goldHeads)
-          val guess = goldMoves.toList.head
+        if(validMoves.isEmpty) {
+          state // This the answer!
+        }
+        else {
+          val features = state.extractFeatures(words, tags)
+
+          // This will produce scores for features that aren't valid too
+          println("***************** Before dotProductScore in DependencyMaker.process "+ perceptron.numberOfClasses)
+          val score = perceptron.dotProductScore(features, perceptron.current)
+
+          // Sort valid_moves scores into descending order, and pick the best move
+          val guess = validMoves.map(m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
+
+
+          val gold_moves = state.getGoldMoves(gold_heads)
+          if(gold_moves.size == 0) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+
+          val best = gold_moves.map( m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
+          perceptron.update(best, guess, features.keys)
+
+
           moveThroughSentenceFrom( state.transition(guess) )
         }
       }
 
-      val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParserState(sentence.length)) )
+      // This annotates the list of words so that parse.heads is its best guess when it finishes
+      val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
 
       finalState.parse.heads.toList
     }
+
+//    def predictHeads(sentence: Sentence): List[Int] = {
+//      val goldHeads = sentence.map( _.dep ).toVector
+//
+//      def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
+//        val validMoves = state.validMoves
+//        if (validMoves.isEmpty) {
+//          state
+//        } else {
+//          val goldMoves = state.getGoldMoves(goldHeads)
+//          val guess = goldMoves.toList.head
+//          moveThroughSentenceFrom( state.transition(guess) )
+//        }
+//      }
+//
+//      val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
+//
+//      finalState.parse.heads.toList
+//    }
 
     def predictHeads(sentence: Sentence): List[Int] = {
       val words = sentence.map( _.norm ).toVector
@@ -238,8 +353,13 @@ class GreedyTransitionApproach {
       finalState.parse.heads.toList
     }
 
-    override def toString: String = {
-      perceptron.toString()
+    def getPerceptronAsArray: Array[String] = {
+      //val pruebas = perceptron.toString()
+      perceptron.toString().split("\\n")
     }
+
+//    override def toString: String = {
+//      perceptron.toString()
+//    }
   }
 }
