@@ -42,31 +42,31 @@ class DependencyParserModelTestSpec extends FlatSpec {
     }
   }
 
-  "A DependencyParser" should "add annotations" ignore {
+  "A DependencyParser" should "add annotations" in {
     val f = fixture
     assert(f.dependencies.count > 0, "Annotations count should be greater than 0")
   }
 
-  it should "add annotations with the correct annotationType" ignore {
+  it should "add annotations with the correct annotationType" in {
     val f = fixture
     f.depAnnotations.foreach { a =>
       assert(a.annotatorType == AnnotatorType.DEPENDENCY, s"Annotation type should ${AnnotatorType.DEPENDENCY}")
     }
   }
 
-  it should "annotate each token" ignore {
+  it should "annotate each token" in {
     val f = fixture
     assert(f.tokenAnnotations.size == f.depAnnotations.size, s"Every token should be annotated")
   }
 
-  it should "annotate each word with a head" ignore {
+  it should "annotate each word with a head" in {
     val f = fixture
     f.depAnnotations.foreach { a =>
       assert(a.result.nonEmpty, s"Result should have a head")
     }
   }
 
-  it should "annotate each word with the correct indexes" ignore {
+  it should "annotate each word with the correct indexes" in {
     val f = fixture
     f.depAnnotations
       .zip(f.tokenAnnotations)
@@ -92,32 +92,15 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setOutputCol("dependency")
     .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
     .setNumberOfIterations(10)
-    //.setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank_small")
 
-  private val emptyDataset = PipelineModels.dummyDataset
+  private val emptyDataSet = PipelineModels.dummyDataset
 
-  private val testDataset = Seq(
+  private val testDataSet = Seq(
    // "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know."
     //"Set the volume to zero when I 'm in a meeting unless John 's school calls",
-    //"I solved the problem with statistics"
     "I saw a girl with a telescope"
-    //"The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
     //"MSNBC reported that Facebook bought WhatsApp for 16bn"
   ).toDS.toDF("text")
-
-  def dependencyParserPipeline(): Unit = {
-
-    val model = new Pipeline().setStages(
-      Array(documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser
-      )).fit(emptyDataset)
-
-    val dependencyParserDataset = model.transform(testDataset)
-    dependencyParserDataset.show(false)
-  }
 
   def trainDependencyParserModel(): DependencyParserModel = {
     val model = new Pipeline().setStages(
@@ -126,7 +109,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
         tokenizer,
         posTagger,
         dependencyParser
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
     model.stages.last.asInstanceOf[DependencyParserModel]
 
@@ -142,11 +125,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser model" should "transform a test dataset" in {
-    dependencyParserPipeline()
-  }
-
-  "A dependency parser with explicit number of iterations" should "train a model" ignore {
+  "A dependency parser with explicit number of iterations" should "train a model" in {
     val dependencyParser = new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
@@ -159,15 +138,19 @@ class DependencyParserModelTestSpec extends FlatSpec {
         tokenizer,
         posTagger,
         dependencyParser
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
-     val smallModel = model.stages.last.asInstanceOf[DependencyParserModel]
-
+    val smallModel = model.stages.last.asInstanceOf[DependencyParserModel]
     assert(smallModel.isInstanceOf[DependencyParserModel])
+
+    val dependencyParserDataFrame = model.transform(testDataSet)
+    dependencyParserDataFrame.collect()
+    //dependencyParserDataFrame.show(false)
+    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
 
-  "A dependency parser with a model loaded" should "show results" in {
+  "A dependency parser with a sentence input" should "predict a relationship between words in the sentence" in {
     val dependencyParserModel = DependencyParserModel.read.load("./tmp/dp_model")
 
     val model = new Pipeline().setStages(
@@ -176,10 +159,64 @@ class DependencyParserModelTestSpec extends FlatSpec {
         tokenizer,
         posTagger,
         dependencyParserModel
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
-    val result = model.transform(testDataset)
-    result.show()
+    val dependencyParserDataFrame = model.transform(testDataSet)
+    dependencyParserDataFrame.collect()
+    //dependencyParserDataFrame.show(false)
+    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
+  }
+
+  "A dependency parser model with a document input" should
+    "predict a relationship between words in each sentence" in {
+    import SparkAccessor.spark.implicits._
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+
+    val document = "I solved the problem with statistics. " +
+      "I saw a girl with a telescope"
+    val testDataSet = Seq(document).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A dependency parser model with an input of more than one row" should
+    "predict a relationship between words in each sentence" in {
+    import SparkAccessor.spark.implicits._
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+
+    val document = Seq(
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward.",
+      "I solved the problem with statistics.")
+    val testDataSet = document.toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
   }
 
 }
