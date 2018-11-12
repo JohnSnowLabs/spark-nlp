@@ -7,8 +7,10 @@ case class DependencyParsedSentence(tokens: Array[WordWithDependency])
 
 case class WordWithDependency(word: String, begin: Int, end: Int, head: Int)
 
-
 object DependencyParsed extends Annotated[DependencyParsedSentence]{
+
+  val ROOT_INDEX = 0
+
   override def annotatorType: String = AnnotatorType.DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[DependencyParsedSentence] = {
@@ -58,7 +60,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   }
 
   def updateHeadsWithRootIndex(head: Int, sizeSentence: Int): Int = {
-    var newHead = 0
+    var newHead = ROOT_INDEX
     if (head != sizeSentence) {
       newHead = head + 1
     }
