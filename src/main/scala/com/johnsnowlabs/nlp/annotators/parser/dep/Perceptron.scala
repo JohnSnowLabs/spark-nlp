@@ -105,14 +105,14 @@ class Perceptron(var numberOfClasses: Int) {
 
   override def toString(): String = {
     s"perceptron.seen=[$seen]\n" +
-      learning.map({ case (feature_name, m1) => {
-        m1.map({ case (feature_data, cn_feature) => {
-          cn_feature.map({ case (cn, feature) => {
+      learning.map({ case (featureName, m1) => {
+        m1.map({ case (featureData, cnFeature) => {
+          cnFeature.map({ case (cn, feature) => {
             s"$cn:${feature.current},${feature.total},${feature.ts}"
           }
-          }).mkString(s"$feature_data[", "|", "]\n")
+          }).mkString(s"$featureData[", "|", "]\n")
         }
-        }).mkString(s"$feature_name{\n", "", "}\n")
+        }).mkString(s"$featureName{\n", "", "}\n")
       }
       }).mkString("perceptron.learning={\n", "", "}\n")
   }
@@ -143,14 +143,16 @@ class Perceptron(var numberOfClasses: Int) {
       case _ => () // line not understood : Finished with featurename
     }
 
-    def parseFeatureData(feature_name: String, lines: Iterator[String]): Unit = if (lines.hasNext) lines.next match {
-      case perceptronFeatD(feature_data, classnum_weight) => {
-        learning(feature_name).getOrElseUpdate(feature_data, mutable.Map[ClassNum, WeightLearner]())
-        classnum_weight.split('|').map(cw => {
-          val cn_wt = cw.split(':').map(_.split(',').map(_.toInt))
-          learning(feature_name)(feature_data) += ((cn_wt(0)(0), WeightLearner(cn_wt(1)(0), cn_wt(1)(1), cn_wt(1)(2))))
+    def parseFeatureData(featureName: String, lines:
+    Iterator[String]): Unit = if (lines.hasNext) lines.next match {
+      case perceptronFeatD(feature_data, classNumWeights) => {
+        learning(featureName).getOrElseUpdate(feature_data, mutable.Map[ClassNum, WeightLearner]())
+        classNumWeights.split('|').map(classNumWeight => {
+          val classNumWeightArray = classNumWeight.split(':').map(_.split(',').map(_.toInt))
+          learning(featureName)(feature_data) += ((classNumWeightArray(0)(0), WeightLearner(classNumWeightArray(1)(0),
+                                                  classNumWeightArray(1)(1), classNumWeightArray(1)(2))))
         })
-        parseFeatureData(feature_name, lines) // Go back for more featuredata lines
+        parseFeatureData(featureName, lines) // Go back for more featuredata lines
       }
       case _ => () // line not understood : Finished with featuredata
     }

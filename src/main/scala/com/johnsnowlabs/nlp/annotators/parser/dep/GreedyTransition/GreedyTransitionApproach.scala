@@ -3,9 +3,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
-import com.sun.org.apache.bcel.internal.util.ClassVector
-
-import scala.collection.mutable
 
 /**
   * Parser based on the code of Matthew Honnibal and Martin Andrews
@@ -259,7 +256,7 @@ class GreedyTransitionApproach {
       // These should be Vectors, since we're going to be accessing them at random (not sequentially)
       val words      = sentence.map( _.norm ).toVector
       val tags       = tagger.tagSentence(sentence).toVector
-      val gold_heads = sentence.map( _.dep ).toVector
+      val goldheads = sentence.map( _.dep ).toVector
 
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
@@ -274,15 +271,13 @@ class GreedyTransitionApproach {
           val score = perceptron.dotProductScore(features, perceptron.current)
 
           // Sort valid_moves scores into descending order, and pick the best move
-          val guess = validMoves.map(m => (-score(m), m)).toList.minBy(_._1)._2
+          val guess = validMoves.map(validMove => (-score(validMove), validMove)).toList.minBy(_._1)._2
 
-          val gold_moves = state.getGoldMoves(gold_heads)
-          if(gold_moves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+          val goldMoves = state.getGoldMoves(goldheads)
+          if(goldMoves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
 
-          val best = gold_moves.map(m => (-score(m), m)).toList.minBy(_._1)._2
+          val best = goldMoves.map(goldMove => (-score(goldMove), goldMove)).toList.minBy(_._1)._2
           perceptron.update(best, guess, features.keys)
-
-
           moveThroughSentenceFrom( state.transition(guess) )
         }
       }
@@ -304,7 +299,7 @@ class GreedyTransitionApproach {
         } else {
           val features = state.extractFeatures(words, tags)
           val score = perceptron.score(features, perceptron.average)
-          val guess = validMoves.map( m => (-score(m), m) ).toList.minBy { _._1 }._2
+          val guess = validMoves.map( validMove => (-score(validMove), validMove) ).toList.minBy { _._1 }._2
           moveThroughSentenceFrom( state.transition(guess) )
         }
       }
