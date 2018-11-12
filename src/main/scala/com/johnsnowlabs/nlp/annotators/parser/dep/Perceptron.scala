@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 
 import scala.collection.mutable
 
-class Perceptron(numberOfClasses: Int) {
+class Perceptron(var numberOfClasses: Int) {
   // These need not be visible outside the class
   type TimeStamp = Int
 
@@ -17,7 +17,7 @@ class Perceptron(numberOfClasses: Int) {
   type ClassToWeightLearner = mutable.Map[ClassNum, WeightLearner] // tells us the stats of each class (if present)
 
   // The following are keyed on feature (to keep tally of total numbers into each, and when)(for the TRAINING phase)
-  val learning = mutable.Map.empty[
+  var learning = mutable.Map.empty[
     String, // Corresponds to Feature.name
     mutable.Map[
       String, // Corresponds to Feature.data
@@ -27,6 +27,16 @@ class Perceptron(numberOfClasses: Int) {
 
   // Number of instances seen - used to measure how 'old' each total is
   var seen: TimeStamp = 0
+
+  def resetLearning(): Unit = {
+    learning = mutable.Map.empty[
+    String, // Corresponds to Feature.name
+    mutable.Map[
+    String, // Corresponds to Feature.data
+    ClassToWeightLearner
+    ]
+    ] // This is hairy and mutable...
+  }
 
   type ClassVector = Vector[Score]
 
@@ -50,6 +60,7 @@ class Perceptron(numberOfClasses: Int) {
             .foldLeft(acc) { (accForFeature, cnWl) =>
               val classnum: ClassNum = cnWl._1
               val weightLearner: WeightLearner = cnWl._2
+              println(s"classnum: $classnum, weightLearner: $weightLearner")
               accForFeature.updated(classnum, accForFeature(classnum) + score * scoreMethod(weightLearner))
             }
       }
@@ -59,13 +70,22 @@ class Perceptron(numberOfClasses: Int) {
     // Return 'dot-product' score for all classes
     //  This is the mutable version : 2493ms for 1 train_all, and 0.45ms for a sentence
     val scores = new Array[Score](numberOfClasses) // All 0?
-
+    //var indexTemp = 0
     features
       .filter(pair => pair._2 != 0) // if the 'score' multiplier is zero, skip
       .foreach { case (Feature(name, data), score) => { // Ok, so given a particular feature, and score to weight it by
       if (learning.contains(name) && learning(name).contains(data)) {
-        learning(name)(data).foreach { case (classnum, weight_learner) => {
-          scores(classnum) += score * scoreMethod(weight_learner)
+        learning(name)(data).foreach { case (classNum, weightLearner) => {
+
+          if (classNum == 32 && numberOfClasses == 3){
+            //println(s"classnum: $classNum, weightLearner: $weightLearner, index: $indexTemp")
+            println(s"classnum: $classNum, weightLearner: $weightLearner")
+            println("numberOfClasses: "+ numberOfClasses)
+            println("scores(classNum): "+scores(classNum))
+            println("scoreMethod(weightLearner): "+scoreMethod(weightLearner))
+          }
+          scores(classNum) += score * scoreMethod(weightLearner)
+          //indexTemp += 1
         }
         }
       }
