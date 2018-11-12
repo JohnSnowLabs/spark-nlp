@@ -60,7 +60,6 @@ class Perceptron(var numberOfClasses: Int) {
             .foldLeft(acc) { (accForFeature, cnWl) =>
               val classnum: ClassNum = cnWl._1
               val weightLearner: WeightLearner = cnWl._2
-              println(s"classnum: $classnum, weightLearner: $weightLearner")
               accForFeature.updated(classnum, accForFeature(classnum) + score * scoreMethod(weightLearner))
             }
       }
@@ -76,16 +75,7 @@ class Perceptron(var numberOfClasses: Int) {
       .foreach { case (Feature(name, data), score) => { // Ok, so given a particular feature, and score to weight it by
       if (learning.contains(name) && learning(name).contains(data)) {
         learning(name)(data).foreach { case (classNum, weightLearner) => {
-
-          if (classNum == 32 && numberOfClasses == 3){
-            //println(s"classnum: $classNum, weightLearner: $weightLearner, index: $indexTemp")
-            println(s"classnum: $classNum, weightLearner: $weightLearner")
-            println("numberOfClasses: "+ numberOfClasses)
-            println("scores(classNum): "+scores(classNum))
-            println("scoreMethod(weightLearner): "+scoreMethod(weightLearner))
-          }
           scores(classNum) += score * scoreMethod(weightLearner)
-          //indexTemp += 1
         }
         }
       }
