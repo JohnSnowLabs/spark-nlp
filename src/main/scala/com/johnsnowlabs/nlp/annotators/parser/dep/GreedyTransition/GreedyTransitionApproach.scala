@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
 class GreedyTransitionApproach {
 
   def parse(posTagged: PosTaggedSentence, trainedPerceptron: Array[String]): DependencyParsedSentence = {
-    val dependencyMaker = loadPerceptron(trainedPerceptron)
+    val dependencyMaker = loadPerceptronInPrediction(trainedPerceptron)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
     val dependencies = dependencyMaker.predictHeads(sentence)
@@ -27,11 +27,11 @@ class GreedyTransitionApproach {
   def loadPerceptronInTraining(trainedPerceptron: Array[String]): DependencyMaker = {
     val dependencyMaker = new DependencyMaker()
     dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
-    dependencyMaker.perceptron.resetLearning()
+    dependencyMaker.perceptron.cleanLearning()
     dependencyMaker
   }
 
-  def loadPerceptron(trainedPerceptron: Array[String]): DependencyMaker = {
+  def loadPerceptronInPrediction(trainedPerceptron: Array[String]): DependencyMaker = {
     val dependencyMaker = new DependencyMaker()
     dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
     dependencyMaker

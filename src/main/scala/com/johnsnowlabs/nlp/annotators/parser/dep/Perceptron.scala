@@ -28,7 +28,7 @@ class Perceptron(var numberOfClasses: Int) {
   // Number of instances seen - used to measure how 'old' each total is
   var seen: TimeStamp = 0
 
-  def resetLearning(): Unit = {
+  def cleanLearning(): Unit = {
     learning = mutable.Map.empty[
     String, // Corresponds to Feature.name
     mutable.Map[

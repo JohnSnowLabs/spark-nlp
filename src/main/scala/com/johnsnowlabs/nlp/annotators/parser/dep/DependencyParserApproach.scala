@@ -70,7 +70,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     val tagger = new Tagger(classes, tagDictionary)
     val taggerNumberOfIterations = getNumberOfIterations
-    val dependencyMakerNumberOfIterations = getNumberOfIterations+5
+    val dependencyMakerNumberOfIterations = getNumberOfIterations + 5
 
     val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
         tagger.train(trainingSentences, seed) //Iterates to increase accuracy
