@@ -43,7 +43,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
       sentence.tokens.map { token =>
         val headWord = getHeadWord(token.head, sentence)
         val word = token.word
-        val relatedWords = s"($headWord,$word)"
+        val relatedWords = s"($headWord, $word)"
         val realHead = updateHeadsWithRootIndex(token.head, sizeSentence)
         Annotation(annotatorType, token.begin, token.end, relatedWords, Map("head" -> realHead.toString))
       }

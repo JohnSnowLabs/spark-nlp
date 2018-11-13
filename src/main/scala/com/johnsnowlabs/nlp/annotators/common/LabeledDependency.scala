@@ -15,6 +15,7 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
     val conll2009 = unlabeledDependencies.zipWithIndex.map{ case(unlabeledDependency, index) =>
+      //val form = getForm(unlabeledDependency.result)
       val form = unlabeledDependency.result
       val lemma = unlabeledDependency.result.toLowerCase
       val pos = posTagged(index).result
@@ -34,10 +35,15 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
     val annotations = arrangedSentences.map{conll2009Sentence =>
       val head = conll2009Sentence.head
       if (head != ROOT_HEAD) {
-        val headWord = conll2009Sentences(head).form
-        val label = conll2009Sentence.deprel+s"($headWord, ${conll2009Sentence.form})"
+        println("head: "+ head)
+        val dependency = conll2009Sentences(head).dependency
+        println("dependency: " + dependency)
+        //val label = conll2009Sentence.deprel+s"($headWord, ${conll2009Sentence.form})"
+        val label = conll2009Sentence.deprel + dependency
+        val relation = getRelation(dependency)
+        //Map(conll2009Sentence.form -> headWord)
         Annotation(AnnotatorType.LABELED_DEPENDENCY, conll2009Sentence.begin, conll2009Sentence.end,
-          label, Map(conll2009Sentence.form -> headWord))
+          label, relation)
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
@@ -48,6 +54,14 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
       case (as, h::bs) => h :: as ++ bs
       case _           => xs
     }
+  }
+
+  def getRelation(dependency: String): Map[String, String] = {
+    println("dependency: " + dependency)
+    val beginIndex = dependency.indexOf("(") + 1
+    val endIndex = dependency.indexOf(")")
+    val relation = dependency.substring(beginIndex, endIndex).split(",")
+    Map(relation.head -> relation.last)
   }
 
 }

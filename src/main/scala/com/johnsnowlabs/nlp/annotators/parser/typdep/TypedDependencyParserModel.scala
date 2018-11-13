@@ -8,7 +8,8 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.util.Identifiable
 
-class TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
+class
+TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
@@ -105,7 +106,7 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   private def transformToConll09Data(document: Array[Array[Conll2009Sentence]]): Array[Array[Conll09Data]] = {
     document.map{sentence =>
       sentence.map{word =>
-        new Conll09Data(word.form, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
+        new Conll09Data(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
       }
     }
   }
