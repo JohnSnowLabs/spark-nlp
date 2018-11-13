@@ -10,7 +10,7 @@ import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel] with ReadTensorflowModel {
+class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel] with ReadTensorflowModel with TokenClasses {
 
   override val tfFile: String = "good_model"
 
@@ -38,10 +38,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
 
+  setDefault(maxCandidates -> 6)
   // the score for the EOS (end of sentence), and BOS (begining of sentence)
   private val eosScore = .01
   private val bosScore = 1.0
-  private val gamma = 60.0
+  private val gamma = 5.0
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
     tensorflow = readTensorflowModel(path, spark, suffix)
@@ -73,9 +74,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
     // encode words with ids
     val encTrellis = Array(Array(($$(vocabIds)("_BOS_"), bosScore, "_BOS_"))) ++
-          trellis.map(_.map{case (word, weight, cand) =>
+          trellis.map(_.map{case (label, weight, cand) =>
             // at this point we keep only those candidates that are in the vocabulary
-            ($$(vocabIds).get(word), weight, cand)}.filter(_._1.isDefined).map{case (x,y,z) => (x.get, y, z)}) ++
+            ($$(vocabIds).get(label), weight, cand)}.filter(_._1.isDefined).map{case (x,y,z) => (x.get, y, z)}) ++
           Array(Array(($$(vocabIds)("_EOS_"), eosScore, "_EOS_")))
 
     // init
@@ -113,7 +114,9 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
           val mult = if (i > 1) costs.length else 0
           val ppl = expPathsCosts(idx * mult + pi)
 
-          val cost = pathCost + ppl * wcost
+          println(s"${$$(idsVocab).get(path.last).get} -> $cand, $ppl")
+
+          val cost = pathCost + ppl
           if (cost < minCost){
             minCost = cost
             minPath = path :+ state
@@ -122,15 +125,15 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         }
         newPaths = newPaths :+ minPath
         newWords = newWords :+ minWords
-        newCosts = newCosts :+ minCost
+        newCosts = newCosts :+ minCost + math.log(wcost)
       }
       pathsIds = newPaths
       pathWords = newWords
       costs = newCosts
 
       /* TODO: create an optional log with this */
-      pathsIds.zip(costs).foreach{ case (path, cost) =>
-          println(path.map($$(idsVocab).get).map(_.get).toList, cost)
+      pathWords.zip(costs).foreach{ case (path, cost) =>
+          println(path.toList, cost)
       }
       println("----------")
     }
@@ -152,16 +155,22 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
         // ask each token class for candidates, keep the one with lower cost
         val candLabel = $$(specialTransducers).flatMap { case (transducer, label) =>
-          // TODO: hardcoded maxDistance!
-          transducer.transduce(token, 2).map((_, label))
+          // TODO: hardcoded maxDistance, only 1 candidate from special classes!
+          transducer.transduce(token, 1).map((_, label)).take(1)
         } ++ $$(transducer).transduce(token, 2).
           map { case cand => (cand, cand.term)}
 
+        // optional re-ranking of candidates according to special distance
+        val candLabelDist = candLabel.map {case (cand, label) =>
+          val weight = wLevenshteinDist(cand.term, token)
+          (cand.term, label, weight)
+        }
+
         //label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
-        val labelWeightCand = candLabel.map{ case (c, l) =>
-          val weight =  - $$(vocabFreq).getOrElse(c.term, 0.0) / gamma +
-                          c.distance.toDouble / token.size
-          (l, weight, c.term)
+        val labelWeightCand = candLabelDist.map{ case (term, label, dist) =>
+
+          val weight =  (dist.toDouble / token.size) * 10 + 0.00001
+          (label, weight, term)
         }.sortBy(_._2).take(getOrDefault(maxCandidates))
 
         println(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")

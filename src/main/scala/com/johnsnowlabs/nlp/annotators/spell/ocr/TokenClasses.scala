@@ -7,13 +7,13 @@ import scala.math.min
 trait TokenClasses {
 
   def levenshteinDist(s1: String, s2: String)(cost:(Char, Char) => Float): Float = {
-    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i else if (i == 0) j else 0.0f }
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.5f else if (i == 0) j * 1.5f else 0.0f }
 
     for (j <- 1 to s2.length; i <- 1 to s1.length)
       dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1,
-        dist(j)(i - 1) + 1,
-        dist(j - 1)(i - 1) + cost(s2(j - 1), s1(j - 1)))
+      else minimum(dist(j - 1)(i) + 1.5f,
+        dist(j)(i - 1) + 1.5f,
+        dist(j - 1)(i - 1) + cost(s2(j - 1), s1(i - 1)))
 
     dist(s2.length)(s1.length)
   }
@@ -33,7 +33,9 @@ trait TokenClasses {
 
    */
 
-  var weights = Map[Char, Map[Char, Float]]()
+  var weights = Map[Char, Map[Char, Float]](
+    '1' -> Map('t' -> 0.9f),
+    'c' -> Map('e' -> 0.9f), 'l' -> Map('1' -> 0.9f, 't' -> 0.9f), 'a' -> Map('e' -> 0.9f))
 
   private def genCost(a:Char, b:Char): Float = {
     if (weights.contains(a) && weights(a).contains(b))
