@@ -103,10 +103,10 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     // store word ids
     val vocabIdxs = mutable.HashMap[String, Int]()
 
-    scala.io.Source.fromFile(path + ".freq").getLines.zipWithIndex.foreach { case (line, idx) =>
+    scala.io.Source.fromFile(path).getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
        vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
-       vocabIdxs += (line-> idx)
+       vocabIdxs += (lineFields(0)-> idx)
     }
 
     val classes = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes").getLines.map{line =>
