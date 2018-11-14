@@ -67,8 +67,8 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
     val model = pipeline.fit(emptyDataset)
 
-    val sentence = "I saw a girl with a telescope"
-      //"The most troublesome report may be the August merchandise trade deficit due out tomorrow"
+    val sentence = //"I saw a girl with a telescope"
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow"
     val testDataSet = Seq(sentence).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     //typedDependencyParserDataFrame.collect()

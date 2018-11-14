@@ -32,17 +32,12 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
     val root = conll2009Sentences.last
     val arrangedSentences = moveToFront(root, conll2009Sentences.toList)
 
-    val annotations = arrangedSentences.map{conll2009Sentence =>
-      val head = conll2009Sentence.head
+    val annotations = arrangedSentences.map{arrangedSentence =>
+      val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
-        println("head: "+ head)
-        val dependency = conll2009Sentences(head).dependency
-        println("dependency: " + dependency)
-        //val label = conll2009Sentence.deprel+s"($headWord, ${conll2009Sentence.form})"
-        val label = conll2009Sentence.deprel + dependency
-        val relation = getRelation(dependency)
-        //Map(conll2009Sentence.form -> headWord)
-        Annotation(AnnotatorType.LABELED_DEPENDENCY, conll2009Sentence.begin, conll2009Sentence.end,
+        val label = arrangedSentence.deprel + arrangedSentence.dependency
+        val relation = getRelation(arrangedSentence.dependency)
+        Annotation(AnnotatorType.LABELED_DEPENDENCY, arrangedSentence.begin, arrangedSentence.end,
           label, relation)
       }
     }
@@ -57,7 +52,6 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
   }
 
   def getRelation(dependency: String): Map[String, String] = {
-    println("dependency: " + dependency)
     val beginIndex = dependency.indexOf("(") + 1
     val endIndex = dependency.indexOf(")")
     val relation = dependency.substring(beginIndex, endIndex).split(",")
