@@ -5,12 +5,13 @@ import java.io.FileNotFoundException
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
@@ -28,7 +29,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger = PerceptronModel.pretrained()
+  private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
   private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
 
@@ -37,7 +38,22 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     .setOutputCol("labdep")
     .setConll2009FilePath("src/test/resources/parser/train/example.train")
 
-  private val emptyDataset = PipelineModels.dummyDataset
+  private val emptyDataSet = PipelineModels.dummyDataset
+
+  def getPerceptronModel: PerceptronModel = {
+    val perceptronTagger = new PerceptronApproach()
+      .setNIterations(1)
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
+        ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("pos")
+      .fit(DataBuilder.basicDataBuild("dummy"))
+    val path = "./test-output-tmp/perceptrontagger"
+
+    perceptronTagger.write.overwrite.save(path)
+    val perceptronTaggerRead = PerceptronModel.read.load(path)
+    perceptronTaggerRead
+  }
 
   "A typed dependency parser approach that does not use Conll2009FilePath parameter" should
     "raise an error message" in {
@@ -59,7 +75,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       ))
 
     val caught = intercept[IllegalArgumentException]{
-      pipeline.fit(emptyDataset)
+      pipeline.fit(emptyDataSet)
     }
     assert(caught.getMessage == "requirement failed: " + expectedErrorMessage)
 
@@ -85,7 +101,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       ))
 
     val caught = intercept[IllegalArgumentException]{
-      pipeline.fit(emptyDataset)
+      pipeline.fit(emptyDataSet)
     }
     assert(caught.getMessage == "requirement failed: " + expectedErrorMessage)
 
@@ -110,29 +126,8 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       ))
 
     assertThrows[FileNotFoundException]{
-      pipeline.fit(emptyDataset)
+      pipeline.fit(emptyDataSet)
     }
 
   }
-
-  "A typed dependency parser with the right pipeline" should "output a labeled dependency parser" in {
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser,
-        typedDependencyParser
-      ))
-
-    val model = pipeline.fit(emptyDataset)
-
-    val helloDataset = Seq("Hello World!").toDS.toDF("text")
-    val result = model.transform(helloDataset)
-    result.show()
-
-  }
-
 }
