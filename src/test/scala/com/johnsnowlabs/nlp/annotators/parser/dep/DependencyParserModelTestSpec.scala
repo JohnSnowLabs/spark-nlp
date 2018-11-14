@@ -128,11 +128,11 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   "A dependency parser annotator" should "save a trained model to local disk" in {
     val dependencyParserModel = trainDependencyParserModel()
-    saveModel(dependencyParserModel.write, "./tmp/dp_model")
+    saveModel(dependencyParserModel.write, "./test-output-tmp/dp_model")
   }
 
   it should "load a pre-trained model from disk" in {
-    val dependencyParserModel = DependencyParserModel.read.load("./tmp/dp_model")
+    val dependencyParserModel = DependencyParserModel.read.load("./test-output-tmp/dp_model")
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 

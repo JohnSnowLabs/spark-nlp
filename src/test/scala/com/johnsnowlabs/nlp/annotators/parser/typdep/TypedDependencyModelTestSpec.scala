@@ -27,7 +27,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   private val posTagger =  getPerceptronModel //PerceptronModel.pretrained()
 
-  private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
+  private val dependencyParser = DependencyParserModel.read.load("./test-output-tmp/dp_model")
 
   private val typedDependencyParser = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
