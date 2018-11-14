@@ -113,12 +113,28 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
   private def getDependencyLabelValues(dependencyLabel: DependencyLabel): Conll2009Sentence = {
     if (dependencyLabel != null){
-      Conll2009Sentence(dependencyLabel.getToken, "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
+      val label = getLabel(dependencyLabel.getLabel, dependencyLabel.getDependency)
+      Conll2009Sentence(dependencyLabel.getDependency, "", "", label, dependencyLabel.getHead,
         0, dependencyLabel.getBegin, dependencyLabel.getEnd)
     } else {
       Conll2009Sentence("ROOT", "root", "", "ROOT", -1, 0, -1, 0)
     }
+  }
 
+  def getLabel(label: String, dependency: String): String = {
+    val head = getHead(dependency)
+    if (label == "<no-type>" && head == "ROOT"){
+      "ROOT"
+    } else {
+      label
+    }
+  }
+
+  def getHead(dependency: String): String = {
+    val beginIndex = dependency.indexOf("(") + 1
+    val endIndex = dependency.indexOf(",")
+    val head = dependency.substring(beginIndex, endIndex)
+    head
   }
 
 }

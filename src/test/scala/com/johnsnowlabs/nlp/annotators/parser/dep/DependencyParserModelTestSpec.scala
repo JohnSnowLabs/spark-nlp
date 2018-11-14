@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -11,6 +11,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.util.MLWriter
 
 import scala.language.reflectiveCalls
@@ -85,7 +86,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger = PerceptronModel.pretrained()
+  private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
   private val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
@@ -95,12 +96,22 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   private val emptyDataSet = PipelineModels.dummyDataset
 
-  private val testDataSet = Seq(
-   // "One morning I shot an elephant in my pajamas. How he got into my pajamas I’ll never know."
-    //"Set the volume to zero when I 'm in a meeting unless John 's school calls",
-    "I saw a girl with a telescope"
-    //"MSNBC reported that Facebook bought WhatsApp for 16bn"
-  ).toDS.toDF("text")
+  private val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
+
+  def getPerceptronModel: PerceptronModel = {
+    val perceptronTagger = new PerceptronApproach()
+      .setNIterations(1)
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
+        ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("pos")
+      .fit(DataBuilder.basicDataBuild("dummy"))
+    val path = "./test-output-tmp/perceptrontagger"
+
+    perceptronTagger.write.overwrite.save(path)
+    val perceptronTaggerRead = PerceptronModel.read.load(path)
+    perceptronTaggerRead
+  }
 
   def trainDependencyParserModel(): DependencyParserModel = {
     val model = new Pipeline().setStages(
@@ -140,12 +151,11 @@ class DependencyParserModelTestSpec extends FlatSpec {
         dependencyParser
       )).fit(emptyDataSet)
 
-    val smallModel = model.stages.last.asInstanceOf[DependencyParserModel]
-    assert(smallModel.isInstanceOf[DependencyParserModel])
-
+    val dependencyParserModel = model.stages.last.asInstanceOf[DependencyParserModel]
     val dependencyParserDataFrame = model.transform(testDataSet)
     dependencyParserDataFrame.collect()
     //dependencyParserDataFrame.show(false)
+    assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
     assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
@@ -208,14 +218,42 @@ class DependencyParserModelTestSpec extends FlatSpec {
     val model = pipeline.fit(emptyDataSet)
 
     val document = Seq(
-      "The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
-      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward.",
-      "I solved the problem with statistics.")
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow",
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward",
+      "I solved the problem with statistics")
     val testDataSet = document.toDS.toDF("text")
-    val typedDependencyParserDataFrame = model.transform(testDataSet)
-    typedDependencyParserDataFrame.collect()
-    //typedDependencyParserDataFrame.show(false)
-    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+    val dependencyParserDataFrame = model.transform(testDataSet)
+    dependencyParserDataFrame.collect()
+    //dependencyParserDataFrame.show(false)
+    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A dependency parser model with finisher in its pipeline" should
+    "predict a relationship between words in each sentence" in  {
+    import SparkAccessor.spark.implicits._
+
+    val finisher = new Finisher().setInputCols("dependency")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        finisher
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+
+    val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
+    val testDataSet = Seq(document).toDS.toDF("text")
+    val dependencyParserDataFrame = model.transform(testDataSet)
+    dependencyParserDataFrame.collect()
+    //dependencyParserDataFrame.show(false)
+    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
 

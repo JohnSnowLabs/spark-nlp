@@ -2,14 +2,14 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
 public class DependencyLabel {
 
-    private String token;
+    private String dependency;
     private String label;
     private int head;
     private int begin;
     private int end;
 
-    public String getToken() {
-        return token;
+    public String getDependency() {
+        return dependency;
     }
 
     public String getLabel() {
@@ -28,8 +28,8 @@ public class DependencyLabel {
         return end;
     }
 
-    public DependencyLabel(String token, String label, int head, int begin, int end) {
-        this.token = token;
+    public DependencyLabel(String dependency, String label, int head, int begin, int end) {
+        this.dependency = dependency;
         this.label = label;
         this.head = head;
         this.begin = begin;
