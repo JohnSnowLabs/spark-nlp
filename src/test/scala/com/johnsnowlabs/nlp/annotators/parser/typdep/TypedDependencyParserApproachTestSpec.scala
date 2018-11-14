@@ -30,12 +30,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
   private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
-  private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
-
-  private val typedDependencyParser = new TypedDependencyParserApproach()
-    .setInputCols(Array("token", "pos", "dependency"))
-    .setOutputCol("labdep")
-    .setConll2009FilePath("src/test/resources/parser/train/example.train")
+  private val dependencyParser = DependencyParserModel.read.load("./test-output-tmp/dp_model")
 
   private val emptyDataSet = PipelineModels.dummyDataset
 
