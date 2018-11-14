@@ -10,7 +10,6 @@ import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
-import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
