@@ -25,7 +25,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger = getPerceptronModel
+  private val posTagger =  getPerceptronModel //PerceptronModel.pretrained()
 
   private val dependencyParser = DependencyParserModel.read.load("./tmp/dp_model")
 
@@ -34,7 +34,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     .setOutputCol("labdep")
     .setConll2009FilePath("src/test/resources/parser/train/example.train")
 
-  private val emptyDataset = PipelineModels.dummyDataset
+  private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
     val perceptronTagger = new PerceptronApproach()
@@ -65,21 +65,21 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         typedDependencyParser
       ))
 
-    val model = pipeline.fit(emptyDataset)
-
-    val sentence = //"I saw a girl with a telescope"
-      "The most troublesome report may be the August merchandise trade deficit due out tomorrow"
+    val model = pipeline.fit(emptyDataSet)
+    val typedDependencyParserModel = model.stages.last.asInstanceOf[TypedDependencyParserModel]
+    val sentence = "I saw a girl with a telescope"
     val testDataSet = Seq(sentence).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
-    //typedDependencyParserDataFrame.collect()
-    typedDependencyParserDataFrame.show(false)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserModel.isInstanceOf[TypedDependencyParserModel])
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
 
 
   "A typed dependency parser model with a document input" should
-    "predict a labeled relationship between words in each sentence" ignore {
+    "predict a labeled relationship between words in each sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -92,7 +92,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         typedDependencyParser
       ))
 
-    val model = pipeline.fit(emptyDataset)
+    val model = pipeline.fit(emptyDataSet)
 
     val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
                    "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
@@ -105,7 +105,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" ignore  {
+    "predict a labeled relationship between words in each sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val finisher = new Finisher().setInputCols("labdep")
@@ -121,7 +121,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         finisher
       ))
 
-    val model = pipeline.fit(emptyDataset)
+    val model = pipeline.fit(emptyDataSet)
 
     val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
       "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
@@ -134,7 +134,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with an input of more than one row" should
-    "predict a labeled relationship between words in each sentence" ignore  {
+    "predict a labeled relationship between words in each sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -147,12 +147,12 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         typedDependencyParser
       ))
 
-    val model = pipeline.fit(emptyDataset)
+    val model = pipeline.fit(emptyDataSet)
 
     val document = Seq(
-      "The most troublesome report may be the August merchandise trade deficit due out tomorrow.",
-      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward.",
-      "I solved the problem with statistics.")
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow",
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward",
+      "I solved the problem with statistics")
     val testDataSet = document.toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     typedDependencyParserDataFrame.collect()
@@ -162,7 +162,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model whit few numberOfTrainingIterations" should
-    "predict a labeled relationship between words in the sentence" ignore  {
+    "predict a labeled relationship between words in the sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val typedDependencyParser = new TypedDependencyParserApproach()
@@ -181,10 +181,10 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         typedDependencyParser
       ))
 
-    val model = pipeline.fit(emptyDataset)
+    val model = pipeline.fit(emptyDataSet)
 
     val sentence =
-      "The most troublesome report may be the August merchandise trade deficit due out tomorrow."
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow"
     val testDataSet = Seq(sentence).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     typedDependencyParserDataFrame.collect()
