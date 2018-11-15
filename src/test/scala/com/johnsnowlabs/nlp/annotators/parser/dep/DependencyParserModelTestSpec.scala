@@ -92,6 +92,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+    //.setDependencyTreeBank("/Users/dburbano/tmp/dependency_treebank")
     .setNumberOfIterations(10)
 
   private val emptyDataSet = PipelineModels.dummyDataset
@@ -252,7 +253,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     val testDataSet = Seq(document).toDS.toDF("text")
     val dependencyParserDataFrame = model.transform(testDataSet)
     dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.show(false)
+    //dependencyParserDataFrame.select("text","finished_dependency").show(false)
     assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
