@@ -56,11 +56,6 @@ object annotator {
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
   object NerCrfModel extends EmbeddingsReadable[NerCrfModel] with PretrainedNerCrf
 
-  type DependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-  object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]
-  type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-  object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
-
   type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
   object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]
   type PerceptronApproachDistributed = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
@@ -108,5 +103,15 @@ object annotator {
   object DeIdentification extends DefaultParamsReadable[DeIdentification]
   type DeIdentificationModel = com.johnsnowlabs.nlp.annotators.DeIdentificationModel
   object DeIdentificationModel extends DefaultParamsReadable[DeIdentificationModel]
+
+  type DependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
+  object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]
+  type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+  object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
+
+  type TypedDependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach
+  object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]
+  type TypedDependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
+  object TypedDependencyParserModel extends DefaultParamsReadable[TypedDependencyParserModel]
 
 }
