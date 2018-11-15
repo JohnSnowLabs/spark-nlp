@@ -35,7 +35,7 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
     val annotations = arrangedSentences.map{arrangedSentence =>
       val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
-        val label = arrangedSentence.deprel + arrangedSentence.dependency
+        val label = arrangedSentence.deprel
         val relation = getRelation(arrangedSentence.dependency)
         Annotation(AnnotatorType.LABELED_DEPENDENCY, arrangedSentence.begin, arrangedSentence.end,
           label, relation)
