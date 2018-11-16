@@ -1,5 +1,4 @@
 import unittest
-import os
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
@@ -17,7 +16,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        tokenizer = Tokenizer()\
+        tokenizer = Tokenizer() \
             .setOutputCol("token") \
             .setCompositeTokensPatterns(["New York"]) \
             .addInfixPattern("(%\\d+)") \
@@ -55,7 +54,8 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
             .setStrategy("MATCH_ALL") \
-            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt", delimiter=",") \
+            .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt",
+                              delimiter=",") \
             .setOutputCol("regex")
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
@@ -75,7 +75,8 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt", key_delimiter="->", value_delimiter="\t")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt",
+                           key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
@@ -256,9 +257,45 @@ class DeIdentificationTestSpec(unittest.TestCase):
         ner_converted = ner_converter.transform(ner_tagged)
         de_identified = de_identification.fit(ner_converted).transform(ner_converted)
         de_identified.show()
-        # pos_sentence_format = pos_tagger.transform(tokenized)
-        # chunk_phrases = chunker.transform(pos_sentence_format)
-        # chunk_phrases.show()
+
+
+class DependencyParserTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(path="file:///" + os.getcwd() +
+                            "/../../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
+            .setIterations(1)
+
+        dependency_parser = DependencyParserApproach() \
+            .setInputCols(["sentence", "pos", "token"]) \
+            .setOutputCol("dependency") \
+            .setDependencyTreeBank(path=os.getcwd() + "/../../src/test/resources/parser/dependency_treebank") \
+            .setNumberOfIterations(10)
+
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
+        dependency_parsed.show()
 
 
 class PragmaticSBDTestSpec(unittest.TestCase):
@@ -296,11 +333,14 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt", key_delimiter="->", value_delimiter="\t")
+            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt",
+                           key_delimiter="->", value_delimiter="\t")
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt", delimiter=",")
+            .setDictionary(
+            "file:///" + os.getcwd() + "/../src/test/resources/sentiment-corpus/default-sentiment-dict.txt",
+            delimiter=",")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -322,7 +362,8 @@ class PipelineTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/simple.txt", key_delimiter="->", value_delimiter="\t")
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/simple.txt",
+                           key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
             .setOutputCols(["token_views", "lemma_views"])
@@ -408,25 +449,26 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
-        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach, Tokenizer]
+        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach,
+                      Tokenizer]
         for annotator in annotators:
             a = annotator()
             for param in a.params:
                 param_name = param.name
                 camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
-                assert(hasattr(a, param_name))
+                assert (hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
-                assert(param_value is None or param_value is not None)
+                assert (param_value is None or param_value is not None)
         # Try a getter
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
-        assert(sentence_detector.getOutputCol() == "sentence")
-        assert(sentence_detector.getCustomBounds() == ["%%"])
+        assert (sentence_detector.getOutputCol() == "sentence")
+        assert (sentence_detector.getCustomBounds() == ["%%"])
         # Try a default getter
         document_assembler = DocumentAssembler()
-        assert(document_assembler.getOutputCol() == "document")
+        assert (document_assembler.getOutputCol() == "document")
 
 
 class OcrTestSpec(unittest.TestCase):

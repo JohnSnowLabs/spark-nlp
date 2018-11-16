@@ -1284,3 +1284,44 @@ class AssertionDLModel(ModelWithEmbeddings):
     def pretrained(name="as_fast_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language, remote_loc)
+
+
+class DependencyParserApproach(AnnotatorApproach):
+
+    dependencyTreeBank = Param(Params._dummy(),
+                               "dependencyTreeBank",
+                               "dependency treebank source files",
+                               typeConverter=TypeConverters.identity)
+
+    numberOfIterations = Param(Params._dummy(),
+                               "numberOfIterations",
+                               "Number of iterations in training, converges to better accuracy",
+                               typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(DependencyParserApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach")
+        self._setDefault(
+            numberOfIterations=10
+        )
+
+    def setNumberOfIterations(self, value):
+        return self._set(numberOfIterations=value)
+
+    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return DependencyParserModel(java_model=java_model)
+
+
+class DependencyParserModel(AnnotatorModel):
+
+    name = "DependencyParserModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
+        super(DependencyParserModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
