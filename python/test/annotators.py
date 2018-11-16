@@ -302,7 +302,6 @@ class TypedDependencyParserTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = DataForTest.data_tdp
-        self.data.show()
 
     def runTest(self):
         document_assembler = DocumentAssembler() \

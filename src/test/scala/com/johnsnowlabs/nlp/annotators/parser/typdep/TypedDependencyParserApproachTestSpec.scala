@@ -30,7 +30,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
   private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
-  private val dependencyParser = DependencyParserModel.read.load("./test-output-tmp/dp_model")
+  private val dependencyParser = DependencyParserModel.read.load("./tmp_dp_model")
 
   private val emptyDataSet = PipelineModels.dummyDataset
 
@@ -42,7 +42,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("pos")
       .fit(DataBuilder.basicDataBuild("dummy"))
-    val path = "./test-output-tmp/perceptrontagger"
+    val path = "./tmp_perceptrontagger"
 
     perceptronTagger.write.overwrite.save(path)
     val perceptronTaggerRead = PerceptronModel.read.load(path)
