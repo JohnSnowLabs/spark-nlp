@@ -4,10 +4,9 @@
 ---------------
 Overview
 ---------------
-Release 1.7.x was a difficult one. A few delicate changes on word embeddings handling and various cluster-level issues raised up.
-This hotfix release focuses on fixing those problems, while keeping 1.7.x performance benefits. Various YARN based clusters have been tested, databricks cloud among them to test this hotfix.
-Aside of that, multiple improvements have been commited towards a better support of PySpark-NLP, fixing diverse technical issues in the API that help consistency in heritance.
-Finally, PIP installation has been made easier with a SparkNLP class that creates SparkSession automatically, for those who are learning.
+This hotfix release focuses on fixing word-embeddings cluster problems on some frameworks such as Databricsk, while keeping 1.7.x performance benefits. Various YARN based clusters have been tested, databricks cloud among them to test this hotfix.
+Aside of that, multiple improvements have been commited towards a better support of PySpark-NLP, fixing diverse technical issues in the API that help consistency in Annotator's super classes.
+Finally, PIP installation has been made easier with a SparkNLP class that creates SparkSession automatically, for those who are learning Python Spark on their local computers.
 Thanks to all the community for reporting issues.
 
 ---------------
