@@ -169,7 +169,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
       .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
       .setConll2009FilePath("src/test/resources/parser/train/example.train")
-      .setNumberOfTrainingIterations(5)
+      .setNumberOfIterations(5)
 
     val pipeline = new Pipeline()
       .setStages(Array(

@@ -5,11 +5,12 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel]{
+
 
   override val description: String =
     "Typed Dependency Parser is a labeled parser that shows the relationship between words in a document"
@@ -18,7 +19,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
-  val numberOfTrainingIterations = new IntParam(this, "numberOfTrainingIterations",
+  val numberOfIterations = new IntParam(this, "numberOfIterations",
     "Number of iterations in training, converges to better accuracy")
 
   val conll2009FilePath = new ExternalResourceParam(this, "conll2009FilePath",
@@ -31,10 +32,10 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     set(conll2009FilePath, ExternalResource(path, readAs, options))
   }
 
-  def setNumberOfTrainingIterations(value: Int): this.type  = set(numberOfTrainingIterations, value)
+  def setNumberOfIterations(value: Int): this.type  = set(numberOfIterations, value)
 
   setDefault(conll2009FilePath, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
-  setDefault(numberOfTrainingIterations, 10)
+  setDefault(numberOfIterations, 10)
 
   private lazy val trainFile = {
     ResourceHelper.validFile($(conll2009FilePath).path)
@@ -46,7 +47,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     require(!trainFile.equals(""), "Training file with CoNLL 2009 format is required")
 
     val options = getOptionsInstance
-    options.setNumberOfTrainingIterations($(numberOfTrainingIterations))
+    options.setNumberOfTrainingIterations($(numberOfIterations))
     val typedDependencyParser = getTypedDependencyParserInstance
     typedDependencyParser.setOptions(options)
 
