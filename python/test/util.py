@@ -27,3 +27,23 @@ class SparkContextForNER:
         .limit(100)
     data.cache()
     data.count()
+
+
+class SparkContextForTDP:
+    spark = SparkSession.builder \
+        .master("local[1]") \
+        .config("spark.driver.memory", "4G") \
+        .config("spark.driver.maxResultSize", "1G") \
+        .config("spark.executor.memory", "4G") \
+        .config("spark.driver.extraJavaOptions", "-Xms1G -Xss1M") \
+        .config("spark.executor.extraJavaOptions", "-Xms1G -Xss1M") \
+        .getOrCreate()
+
+    data = spark.sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")
+
+# --conf spark.driver.extraJavaOptions="-Xss10m -XX:MaxPermSize=1024M "
+# --conf spark.executor.extraJavaOptions="-Xss10m -XX:MaxPermSize=512M"
+# .config("spark.driver.extraJavaOptions=",
+#         "-Xms1G -Xmx4G -Xss1M -XX:+CMSClassUnloadingEnabled") \
+# .config("spark.executor.extraJavaOptions=",
+#         "-Xms1G -Xmx4G -Xss1M -XX:+CMSClassUnloadingEnabled") \
