@@ -10,7 +10,7 @@ class SparkContextForTest:
         .getOrCreate()
     data = spark. \
         read \
-        .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \
+        .parquet("file:///" + os.getcwd() + "/../../src/test/resources/sentiment.parquet") \
         .limit(100)
     data.cache()
     data.count()
@@ -23,7 +23,7 @@ class SparkContextForNER:
         .getOrCreate()
     data = spark. \
         read \
-        .csv("file:///" + os.getcwd() + "/../src/test/resources/ner-corpus/icdtest.txt") \
+        .csv("file:///" + os.getcwd() + "/../../src/test/resources/ner-corpus/icdtest.txt") \
         .limit(100)
     data.cache()
     data.count()
