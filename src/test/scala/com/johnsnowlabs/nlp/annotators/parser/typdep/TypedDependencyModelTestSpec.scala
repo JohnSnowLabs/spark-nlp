@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.util.PipelineModels
@@ -27,7 +27,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   private val posTagger =  getPerceptronModel //PerceptronModel.pretrained()
 
-  private val dependencyParser = DependencyParserModel.read.load("./tmp_dp_model")
+  private val dependencyParser = getDependencyParserModel
 
   private val typedDependencyParser = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
@@ -49,6 +49,19 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     perceptronTagger.write.overwrite.save(path)
     val perceptronTaggerRead = PerceptronModel.read.load(path)
     perceptronTaggerRead
+  }
+
+  def getDependencyParserModel: DependencyParserModel = {
+    val dependencyParser = new DependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setNumberOfIterations(10)
+      .fit(emptyDataSet)
+
+    val path = "./tmp_dp_model"
+    dependencyParser.write.overwrite.save(path)
+    DependencyParserModel.read.load(path)
   }
 
   "A typed dependency parser model with a sentence input" should

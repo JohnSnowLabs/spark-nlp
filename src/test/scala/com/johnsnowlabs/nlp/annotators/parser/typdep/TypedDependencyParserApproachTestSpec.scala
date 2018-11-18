@@ -4,7 +4,7 @@ import java.io.FileNotFoundException
 
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.util.PipelineModels
@@ -30,11 +30,12 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
   private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
-  private val dependencyParser = DependencyParserModel.read.load("./tmp_dp_model")
+  private val dependencyParser = getDependencyParserModel
 
   private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
+
     val perceptronTagger = new PerceptronApproach()
       .setNIterations(1)
       .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
@@ -42,11 +43,23 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("pos")
       .fit(DataBuilder.basicDataBuild("dummy"))
-    val path = "./tmp_perceptrontagger"
 
+    val path = "./tmp_perceptrontagger"
     perceptronTagger.write.overwrite.save(path)
-    val perceptronTaggerRead = PerceptronModel.read.load(path)
-    perceptronTaggerRead
+    PerceptronModel.read.load(path)
+  }
+
+  def getDependencyParserModel: DependencyParserModel = {
+    val dependencyParser = new DependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setNumberOfIterations(10)
+      .fit(emptyDataSet)
+
+    val path = "./tmp_dp_model"
+    dependencyParser.write.overwrite.save(path)
+    DependencyParserModel.read.load(path)
   }
 
   "A typed dependency parser approach that does not use Conll2009FilePath parameter" should
