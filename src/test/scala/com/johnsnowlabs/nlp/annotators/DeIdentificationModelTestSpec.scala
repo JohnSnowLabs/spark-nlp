@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators
 
 import org.scalatest.FlatSpec
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, RecursivePipeline, SparkAccessor}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.ner.NerConverter
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
@@ -14,6 +14,7 @@ import org.apache.spark.sql.DataFrame
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 
 class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehaviors {
@@ -72,7 +73,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   def trainNerCRFModel(trainDatasetPath: String): NerCrfModel = {
 
-    val posTagger = PerceptronModel.pretrained()
+    val posTagger = getPerceptronModel //PerceptronModel.pretrained()
 
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos")
@@ -101,37 +102,51 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
+  def getPerceptronModel: PerceptronModel = {
+    val perceptronTagger = new PerceptronApproach()
+      .setNIterations(1)
+      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
+        ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("pos")
+      .fit(DataBuilder.basicDataBuild("dummy"))
+    val path = "./tmp_perceptrontagger"
+
+    perceptronTagger.write.overwrite.save(path)
+    PerceptronModel.read.load(path)
+  }
+
   "An NER with DL model" should "train de-identification entities" in  {
     nerDlModel = trainNerDlModel("src/test/resources/de-identification/train_dataset_main_small.csv")
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
   it should "be serializable" in  {
-    saveModel(nerDlModel.write, "./tmp/ner_dl_model")
+    saveModel(nerDlModel.write, "./tmp_ner_dl_model")
   }
 
   it should "be loaded from disk" in {
-    nerDlModel = NerDLModel.read.load("./tmp/ner_dl_model")
+    nerDlModel = NerDLModel.read.load("./tmp_ner_dl_model")
     assert(nerDlModel.isInstanceOf[NerDLModel])
   }
 
-  "A NER with CRF model" should "train de-identification entities" ignore {
+  "A NER with CRF model" should "train de-identification entities" in {
     nerCrfModel = trainNerCRFModel("src/test/resources/de-identification/train_dataset_main_small.csv")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
-  it should "be serializable" ignore {
-    saveModel(nerCrfModel.write, "./tmp/ner_crf_model")
+  it should "be serializable" in {
+    saveModel(nerCrfModel.write, "./tmp_ner_crf_model")
   }
 
-  it should "be loaded from disk" ignore {
-    nerCrfModel = NerCrfModel.read.load("./tmp/ner_crf_model")
+  it should "be loaded from disk" in {
+    nerCrfModel = NerCrfModel.read.load("./tmp_ner_crf_model")
     assert(nerCrfModel.isInstanceOf[NerCrfModel])
   }
 
   def getDeIdentificationCRFPipeline: Pipeline = {
-    val posTagger = PerceptronModel.pretrained()
-    val nerCRFTagger = NerCrfModel.pretrained()
+    val posTagger = getPerceptronModel //PerceptronModel.pretrained()
+    //val nerCRFTagger = NerCrfModel.pretrained()
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
@@ -142,7 +157,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         sentenceDetector,
         tokenizer,
         posTagger,
-        nerCRFTagger,
+        //nerCRFTagger,
+        nerCrfModel,
         nerConverter,
         deIdentification
       ))
@@ -150,7 +166,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   def getDeIdentificationDLPipeline: Pipeline = {
-    val nerDlTagger = NerDLModel.pretrained()
+
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
@@ -160,7 +176,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         documentAssembler,
         sentenceDetector,
         tokenizer,
-        nerDlTagger,
+        nerDlModel,
         nerConverter,
         deIdentification
       ))
@@ -168,7 +184,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   def getDeIdentificationDLPipelineWithDictionary: Pipeline = {
-    val nerDlTagger = NerDLModel.pretrained()
+
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
@@ -179,7 +195,8 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         documentAssembler,
         sentenceDetector,
         tokenizer,
-        nerDlTagger,
+        //nerDlTagger,
+        nerDlModel,
         nerConverter,
         deIdentification
       ))
@@ -474,7 +491,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   private var deIdentificationDataFrame = PipelineModels.dummyDataset
 
-  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" ignore {
+  "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" in {
 
     val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
 
@@ -484,7 +501,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" ignore {
+  "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
 
     val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
 
@@ -494,7 +511,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   }
 
-  "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" ignore {
+  "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" in {
 
     val pipeline = getDeIdentificationDLPipelineWithDictionary.fit(emptyDataset)
 
@@ -505,6 +522,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
   "A de-identification annotator with an NER DL trained with i2b2 dataset" should "transform data" in {
+
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
@@ -534,8 +552,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   }
 
 
-  "A de-identification annotator with an NER CRF trained with i2b2 dataset" should "transform data" ignore {
-    val posTagger = PerceptronModel.pretrained()
+  "A de-identification annotator with an NER CRF trained with i2b2 dataset" should "transform data" in {
+
+    val posTagger = getPerceptronModel //PerceptronModel.pretrained()
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")

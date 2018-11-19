@@ -109,8 +109,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     val path = "./tmp_perceptrontagger"
 
     perceptronTagger.write.overwrite.save(path)
-    val perceptronTaggerRead = PerceptronModel.read.load(path)
-    perceptronTaggerRead
+    PerceptronModel.read.load(path)
   }
 
   def trainDependencyParserModel(): DependencyParserModel = {
