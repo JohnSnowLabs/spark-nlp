@@ -55,7 +55,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
       .setOutputCol("dependency")
       .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
       .setNumberOfIterations(10)
-      .fit(emptyDataSet)
+      .fit(DataBuilder.basicDataBuild("dummy"))
 
     val path = "./tmp_dp_model"
     dependencyParser.write.overwrite.save(path)
