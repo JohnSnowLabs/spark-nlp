@@ -116,14 +116,15 @@ class NormalizerTestSpec(unittest.TestCase):
             .setOutputCol("document")
         tokenizer = Tokenizer() \
             .setOutputCol("token")
-        lemmatizer = Normalizer() \
+        normalizer = Normalizer() \
             .setInputCols(["token"]) \
             .setOutputCol("normalized_token") \
             .setLowercase(False)
 
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        normalized = normalizer.fit(tokenized).transform(tokenized)
+        normalized.show()
 
 
 class DateMatcherTestSpec(unittest.TestCase):
