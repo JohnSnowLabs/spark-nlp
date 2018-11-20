@@ -20,6 +20,8 @@ unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserTestSpec())
+unittest.TextTestRunner().run(DeIdentificationCRFTestSpec())
+unittest.TextTestRunner().run(DeIdentificationDLTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

@@ -363,6 +363,7 @@ class NormalizerModel(AnnotatorModel):
 
 
 class DeIdentification(AnnotatorApproach):
+
     regexPatternsDictionary = Param(Params._dummy(),
                                     "regexPatternsDictionary",
                                     "dictionary with regular expression patterns that match some protected entity",
@@ -381,12 +382,8 @@ class DeIdentification(AnnotatorApproach):
 
 
 class DeIdentificationModel(AnnotatorModel):
-    name = "DeIdentificationModel"
 
-    regexPatternsDictionary = Param(Params._dummy(),
-                                    "regexPatternsDictionary",
-                                    "dictionary with regular expression patterns that match some protected entity",
-                                    typeConverter=TypeConverters.identity)
+    name = "DeIdentificationModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel", java_model=None):
         super(DeIdentificationModel, self).__init__(

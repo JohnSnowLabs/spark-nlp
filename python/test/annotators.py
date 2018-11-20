@@ -221,10 +221,17 @@ class ChunkerTestSpec(unittest.TestCase):
         chunk_phrases.show()
 
 
-class DeIdentificationTestSpec(unittest.TestCase):
+class DeIdentificationCRFTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = DataForTest.data
+        self.embeddings_path = "file:///" + os.getcwd() + \
+                               "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
+        self.dictionary_path = "file:///" + os.getcwd() + \
+                               "/../src/test/resources/de-identification/dic_regex_patterns_sub_categories.txt"
+        self.corpus_path = "file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
+        self.external_data_set = "file:///" + os.getcwd() + \
+                                 "/../src/test/resources/de-identification/train_dataset_main_small.csv"
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -233,13 +240,33 @@ class DeIdentificationTestSpec(unittest.TestCase):
 
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
-            .setOutputCol("sentence")
+            .setOutputCol("sentence") \
+            .setUseAbbreviations(True)
 
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        ner_tagger = NerCrfModel.pretrained()
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(self.corpus_path, delimiter="|") \
+            .setIterations(1)
+
+        # NerCrfModel.pretrained()
+        ner_tagger = NerCrfApproach() \
+            .setInputCols(["sentence", "token", "pos"]) \
+            .setLabelColumn("label") \
+            .setOutputCol("ner") \
+            .setMinEpochs(5) \
+            .setMaxEpochs(10) \
+            .setLossEps(1e-3) \
+            .setEmbeddingsSource(self.embeddings_path, 100, 2) \
+            .setExternalDataset(self.external_data_set) \
+            .setL2(1) \
+            .setC0(1250000) \
+            .setRandomSeed(0) \
+            .setVerbose(2)
 
         ner_converter = NerConverter() \
             .setInputCols(["sentence", "token", "ner"]) \
@@ -248,12 +275,66 @@ class DeIdentificationTestSpec(unittest.TestCase):
         de_identification = DeIdentification() \
             .setInputCols(["ner_con", "token", "document"]) \
             .setOutputCol("dei") \
-            .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
+            .setRegexPatternsDictionary(self.dictionary_path)
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        ner_tagged = ner_tagger.transform(tokenized)
+        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        ner_tagged = ner_tagger.fit(pos_tagged).transform(pos_tagged)
+        ner_converted = ner_converter.transform(ner_tagged)
+        de_identified = de_identification.fit(ner_converted).transform(ner_converted)
+        de_identified.show()
+
+
+class DeIdentificationDLTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = DataForTest.data
+        self.embeddings_path = "file:///" + os.getcwd() + \
+                               "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
+        self.dictionary_path = "file:///" + os.getcwd() + \
+                               "/../src/test/resources/de-identification/dic_regex_patterns_sub_categories.txt"
+        self.external_data_set = "file:///" + os.getcwd() + \
+                                 "/../src/test/resources/de-identification/train_dataset_main_small.csv"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence") \
+            .setUseAbbreviations(True)
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        ner_tagger = NerDLApproach() \
+            .setInputCols(["sentence", "token"]) \
+            .setLabelColumn("label") \
+            .setOutputCol("ner") \
+            .setMaxEpochs(10) \
+            .setEmbeddingsSource(self.embeddings_path, 100, 2) \
+            .setExternalDataset(self.external_data_set) \
+            .setRandomSeed(0) \
+            .setVerbose(2)
+
+        ner_converter = NerConverter() \
+            .setInputCols(["sentence", "token", "ner"]) \
+            .setOutputCol("ner_con")
+
+        de_identification = DeIdentification() \
+            .setInputCols(["ner_con", "token", "document"]) \
+            .setOutputCol("dei") \
+            .setRegexPatternsDictionary(self.dictionary_path)
+
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        ner_tagged = ner_tagger.fit(tokenized).transform(tokenized)
         ner_converted = ner_converter.transform(ner_tagged)
         de_identified = de_identification.fit(ner_converted).transform(ner_converted)
         de_identified.show()

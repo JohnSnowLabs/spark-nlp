@@ -19,7 +19,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehaviors {
 
-  private val emptyDataset = PipelineModels.dummyDataset
+  private val emptyDataSet = PipelineModels.dummyDataset
   private var nerDlModel = new NerDLModel()
   private var nerCrfModel = new NerCrfModel()
 
@@ -40,7 +40,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_con")
 
-  private val testDataset = Seq(
+  private val testDataSet = Seq(
     "Bob visited Switzerland a couple of years ago",
     "Rapunzel let down her long golden hair",
     "money market fund in Canada"
@@ -65,7 +65,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         sentenceDetector,
         tokenizer,
         nerTagger
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
     pipeline.stages.last.asInstanceOf[NerDLModel]
 
@@ -96,7 +96,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         tokenizer,
         posTagger,
         nerTagger
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
     pipeline.stages.last.asInstanceOf[NerCrfModel]
 
@@ -146,7 +146,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   def getDeIdentificationCRFPipeline: Pipeline = {
     val posTagger = getPerceptronModel //PerceptronModel.pretrained()
-    //val nerCRFTagger = NerCrfModel.pretrained()
+
     val deIdentification = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
@@ -439,7 +439,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
   private val deIdentificationModel = new DeIdentification()
       .setInputCols(Array("ner_con", "token", "document"))
       .setOutputCol("dei")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt").fit(emptyDataset)
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt").fit(emptyDataSet)
 
   //Act
   "A de-identification model when NER does not identify an entity on sentence" should behave like
@@ -493,9 +493,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   "A de-identification annotator (using NER trained with CRF)" should "return a spark dataframe" in {
 
-    val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataset)
+    val pipeline = getDeIdentificationCRFPipeline.fit(emptyDataSet)
 
-    deIdentificationDataFrame = pipeline.transform(testDataset)
+    deIdentificationDataFrame = pipeline.transform(testDataSet)
     //deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
@@ -503,9 +503,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   "A de-identification annotator (using NER trained with DL)" should "return a spark dataframe" in {
 
-    val pipeline = getDeIdentificationDLPipeline.fit(emptyDataset)
+    val pipeline = getDeIdentificationDLPipeline.fit(emptyDataSet)
 
-    deIdentificationDataFrame = pipeline.transform(testDataset)
+    deIdentificationDataFrame = pipeline.transform(testDataSet)
     //deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
@@ -513,9 +513,9 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
 
   "A de-identification annotator setting regex pattern dictionary" should "return a spark dataframe" in {
 
-    val pipeline = getDeIdentificationDLPipelineWithDictionary.fit(emptyDataset)
+    val pipeline = getDeIdentificationDLPipelineWithDictionary.fit(emptyDataSet)
 
-    deIdentificationDataFrame = pipeline.transform(testDataset)
+    deIdentificationDataFrame = pipeline.transform(testDataSet)
     //deIdentificationDataFrame.show(false)
     assert(deIdentificationDataFrame.isInstanceOf[DataFrame])
 
@@ -536,7 +536,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         nerDlModel,
         nerConverter,
         deIdentification
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
 
     val testDataset = Seq(
@@ -569,7 +569,7 @@ class DeIdentificationModelTestSpec extends FlatSpec with DeIdentificationBehavi
         nerCrfModel,
         nerConverter,
         deIdentification
-      )).fit(emptyDataset)
+      )).fit(emptyDataSet)
 
 
     val testDataset = Seq(
