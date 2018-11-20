@@ -15,6 +15,7 @@ class SparkNLP:
 
     def __init__(self):
 
+        del os.environ["SPARK_HOME"]
         files_finder = SparkNLP._JarFinder('site-packages')
         jar_path = files_finder.find_jar_path()
 
