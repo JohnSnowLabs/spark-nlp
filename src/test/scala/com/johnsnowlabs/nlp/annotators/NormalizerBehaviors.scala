@@ -11,7 +11,7 @@ import SparkAccessor.spark.implicits._
 trait NormalizerBehaviors { this: FlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
-    "A Normalizer Annotator" should "successfully transform data" in {
+    it should "successfully transform data" in {
     AnnotatorBuilder.withFullNormalizer(dataset)
       .collect().foreach {
       row =>
@@ -81,7 +81,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
 
       val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
       val transform = model.transform(dataset)
-      transform.show()
+      //transform.show()
       val normalizedWords = transform.select("normalized_gt",
         "finished_normalized").map(r => (r.getString(0), r.getString(1))).collect.toSeq
 
@@ -125,7 +125,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
 
       val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
       val transform = model.transform(dataset)
-      transform.show()
+      //transform.show()
       val normalizedWords = transform.select("normalized_gt",
         "finished_normalized").map(r => (r.getString(0), r.getString(1))).collect.toSeq
 

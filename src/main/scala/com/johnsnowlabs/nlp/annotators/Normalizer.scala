@@ -15,6 +15,8 @@ import org.apache.spark.sql.Dataset
   */
 class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerModel] {
 
+  def this() = this(Identifiable.randomUID("NORMALIZER"))
+
   override val description: String = "Cleans out tokens"
   override val annotatorType: AnnotatorType = TOKEN
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -48,20 +50,23 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
                          options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  def this() = this(Identifiable.randomUID("NORMALIZER"))
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NormalizerModel = {
-
-    val loadSlangs = if (get(slangDictionary).isDefined)
-      ResourceHelper.parseKeyValueText($(slangDictionary))
-    else
-      Map.empty[String, String]
 
     new NormalizerModel()
       .setPatterns($(patterns))
       .setLowercase($(lowercase))
-      .setSlangDict(loadSlangs)
+      .setSlangDict(loadedSlang)
   }
+
+  def loadSlangDictionary: Map[String, String] = {
+    if (get(slangDictionary).isDefined){
+      ResourceHelper.parseKeyValueText($(slangDictionary))
+    } else {
+      Map.empty[String, String]
+    }
+  }
+
+  private lazy val loadedSlang = loadSlangDictionary
 
 }
 
