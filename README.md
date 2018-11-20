@@ -8,6 +8,9 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 # Slack community channel
 Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
+# Apache Spark Support
+As of *1.7.x* Spark-NLP does _NOT_ yet work with Spark 2.4.x 
+
 # Usage
 
 ## Command line
