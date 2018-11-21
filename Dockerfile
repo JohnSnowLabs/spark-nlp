@@ -1,5 +1,8 @@
 FROM openjdk:8-alpine
 
+ENV JAVA_OPTS="-Xmx3500m"
+CMD printenv JAVA_OPTS
+
 RUN apk add --no-cache --virtual=.dependencies tar wget bash rsync
 
 ARG SBT_VERSION=0.13.16
