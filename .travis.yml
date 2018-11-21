@@ -23,7 +23,7 @@ jobs:
     - stage: scala
       install: skip
       language: scala
-      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt test
+      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 4000 test
     - stage: python
       install: skip
       language: python
