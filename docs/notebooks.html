@@ -205,16 +205,16 @@
                                     In the following example, we walk-through our straight forward Text Matcher
                                 </p>
                                 <p>
-                                    This annotator will take a list of sentences in a text file and lookup them in the target dataset.
+                                    This annotator will take a list of sentences in a text file and look them up in the target dataset.
                                 </p>
                                 <p>
-                                    This annotator is an AnnotatorModel and does not require training.
+                                    This annotator is an Annotator Model and does not require training.
                                 </p>
                                 <p>
                                     <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
-                            <div>
+                           <!--  <div>
                                 <h4 id="assertion-notebook" class="section-block"> Assertion Status with LogReg</h4>
                                 <p>
                                     In the following example, we walk-through a negation LogReg based annotator, which will
@@ -228,8 +228,8 @@
                                 <p>
                                     <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/logreg-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
-                            </div>
-                            <div>
+                            </div> -->
+                           <!--  <div>
                                 <h4 id="dlassertion-notebook" class="section-block"> Deep Learning Assertion Status</h4>
                                 <p>
                                     In the following example, we walk-through a Deep Learning based annotator, which will
@@ -243,14 +243,17 @@
                                 <p>
                                     <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/dl-assertion/assertion.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
-                            </div>
+                            </div> -->
                             <div>
-                                <h4 id="downloader-notebook" class="section-block"> Retrieving Pretrained models</h4>
+                                <h4 id="downloader-notebook" class="section-block"> Runing Pretrained models</h4>
                                 <p>
-                                    In the following example, we walk-through different use cases of our newest
-                                    resource downloader.
+                                    In the following example, we walk-through different use cases of some of our Pretrained models and pipelines which could be used off the shelf.
                                 </p>
+                                There is BasicPipeline which will return tokens, normalized tokens, lemmas and part of speech tags. The AdvancedPipeline will return same as the BasicPipeline plus Stems, Spell Checked tokens and NER entities using the CRF model. All the pipelines and pre trained models are downloaded from internet at run time hence would require internet access.
                                 <p>
+
+                                </p>
+                               <!--  <p>
                                     Some of our models may be retrieved by using the AnnotatorModel class, such as
                                     the PerceptronModel for retrieveing a POS model. For Pipelines, we have
                                     Basic and AdvancedPipelines which are predesigned, but we also allow
@@ -258,13 +261,13 @@
                                 </p>
                                 <p>
                                     Such components may then be injected seamlessly into further pipelines, and so on.
-                                </p>
+                                </p> -->
                                 <p>
                                     <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                         </section>
-                    </div>
+                   </div>
                 </div>
                 <div class="doc-sidebar">
                     <nav id="doc-nav">
@@ -282,8 +285,8 @@
                                     <li><a class="scrollto" href="#crfner-notebook">CRF Named Entity Recognition</a></li>
                                     <li><a class="scrollto" href="#dlner-notebook">CNN Deep Learning NER</a></li>
                                     <li><a class="scrollto" href="#text-notebook">Simple Text Matching</a></li>
-                                    <li><a class="scrollto" href="#assertion-notebook">Assertion Status with LogReg</a></li>
-                                    <li><a class="scrollto" href="#dlassertion-notebook">Deep Learning Assertion Status</a></li>
+                                    <!-- <li><a class="scrollto" href="#assertion-notebook">Assertion Status with LogReg</a></li>
+                                    <li><a class="scrollto" href="#dlassertion-notebook">Deep Learning Assertion Status</a></li> -->
                                     <li><a class="scrollto" href="#downloader-notebook">Retrieving Pretrained models</a></li>
                                 </ul>
                             </li>
