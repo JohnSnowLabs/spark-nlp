@@ -22,7 +22,7 @@ jobs:
       install: skip
       language: scala
       script:
-        - docker run --rm -e JAVA_OPTS='-Xmx3500m' tomcat
+        - docker run --rm -e JAVA_OPTS='-Xmx3500m'
         - docker exec container printenv JAVA_OPTS
         - docker run "$DOCKER_SPARK_NLP_SCALA" sbt test
     - stage: python
