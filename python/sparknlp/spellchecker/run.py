@@ -21,9 +21,9 @@ data_path= '../../../../auxdata/spell_dataset/vocab/'
 
 # To indicate your test/train corpora
 test_file = "gap_filling_exercise"
-train_file = "spell_corpus.txt.ids"
-classes_file = "spell_corpus.txt.classes"
-vocab_file = "spell_corpus.txt.vocab"
+train_file = "bigone.txt.ids"
+classes_file = "bigone.txt.classes"
+vocab_file = "bigone.txt.vocab"
 valid_file = "valid.ids"
 #if not os.path.isfile("../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"):
 #    gen_vocab("ptb/train")
@@ -41,10 +41,12 @@ vocab_path = data_path + vocab_file
 with open(vocab_path) as vocab:
     vocab_size = len(vocab.readlines())
 
+
 def create_model(sess):
-    model = RNNLM(vocab_size=vocab_size,
+
+    _model = RNNLM(vocab_size=vocab_size,
                   batch_size=2,
-                  num_epochs=10,
+                  num_epochs=20,
                   check_point_step=20000,
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
@@ -55,14 +57,14 @@ def create_model(sess):
                   max_gradient_norm=5.0,
                   )
     sess.run(tf.global_variables_initializer())
-    return model
+    return _model
 
 if TRAIN:
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.99)
-    # device_count = {'GPU': 0}
     with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
         model = create_model(sess)
         model.load_classes(data_path + classes_file)
+        model.load_vocab(vocab_path)
         train_ids = data_path + train_file
         valid_ids = data_path + valid_file
         saver = tf.train.Saver()
@@ -74,6 +76,8 @@ gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.99)
 
 with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     model = create_model(sess)
+    model.load_classes(data_path + classes_file)
+    model.load_vocab(vocab_path)
     saver = tf.train.Saver()
     saver.restore(sess, "model/best_model.ckpt")
 

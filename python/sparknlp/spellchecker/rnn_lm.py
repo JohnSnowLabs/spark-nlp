@@ -22,9 +22,9 @@ class RNNLM(object):
         #self.word_class = self.load_classes('classes.psv')
         self.vocab_size = vocab_size
         # these are internally defined
-        self.num_classes = 5000
+        self.num_classes = 2000
         # here we should dynamically determine max number of words per class
-        self.word_ids = 14000
+        self.word_ids = 900
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.check_point_step = check_point_step
@@ -39,7 +39,7 @@ class RNNLM(object):
         # We set a dynamic learning rate, it decays every time the model has gone through 150 batches.
         # A minimum learning rate has also been set.
         self.learning_rate = tf.train.exponential_decay(initial_learning_rate, self.global_step,
-                                           150, 0.96, staircase=True)
+                                           1500, 0.96, staircase=True)
         self.learning_rate = tf.cond(tf.less(self.learning_rate, final_learning_rate), lambda: tf.constant(final_learning_rate),
                                      lambda: self.learning_rate)
 
@@ -159,7 +159,7 @@ class RNNLM(object):
         class_logits = tf.map_fn(output_class_embedding, outputs)
         class_logits = tf.reshape(class_logits, [-1, self.num_classes])
         class_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
-                   (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits, name='loss')\
+                   (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits)\
                * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
 
         self.class_loss = tf.identity(class_loss, name='class_loss')
@@ -168,7 +168,7 @@ class RNNLM(object):
         wordid_logits = tf.map_fn(output_wordid_embedding, outputs)
         wordid_logits = tf.reshape(wordid_logits, [-1, self.word_ids])
         wordid_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
-                   (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits, name='loss')\
+                   (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits)\
                * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
 
         self.wordid_loss = tf.identity(wordid_loss, name='wordid_loss')
@@ -197,6 +197,16 @@ class RNNLM(object):
         self.word_class = word_class
         return word_class
 
+    def load_vocab(self, file_path):
+        word_id = dict()
+        with open(file_path, 'r') as f:
+            for i, line in enumerate(f.readlines()):
+                chunks = line.split('|')
+                word_id[chunks[0]] = i
+
+        self.word_ids = word_id
+        return word_id
+
     def train_generator(self):
         with open(self.train_path, 'r') as f:
             for line in f.readlines():
@@ -211,11 +221,10 @@ class RNNLM(object):
 
     def test_generator(self):
         sentence_matrix = [225096, 225100, 356360, 416817, 231370, 292951, 225100, 225099,
-                                     327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
+            327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
         ints = sentence_matrix
         while True:
             yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
-
 
     def splitClassWid(self, gwids):
         '''
@@ -259,7 +268,7 @@ class RNNLM(object):
         while epoch < self.num_epochs:
 
             sess.run(self.trining_init_op)
-            print ('epoch %d' % epoch)
+            print('epoch %d' % epoch)
             train_loss = 0.0
             train_valid_words = 0
             while True:
@@ -288,7 +297,8 @@ class RNNLM(object):
                         sess.run(self.validation_init_op)
                         dev_loss = 0.0
                         dev_valid_words = 0
-                        while True:
+                        true = True
+                        while true:
                             try:
                                 _dev_loss, _dev_valid_words = sess.run(
                                     [self.loss, self.valid_words],
@@ -311,24 +321,17 @@ class RNNLM(object):
                                 if patience == 0:
                                     epoch = self.num_epochs
 
-                                break
+                                true = False
 
                 except tf.errors.OutOfRangeError:
                     # The end of one epoch
-                    # break
-                    pass
+                    break
 
+
+            epoch += 1
 
     def predict(self, sess, input_file, raw_file, verbose=False):
         # if verbose is true, then we print the ppl of every sequence
-
-        wids = [225096, 225100, 356360, 416817, 231370, 292951, 225100, 225099,
-                                     327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
-
-        cids = [self.word_class[i][0] for i in wids]
-        wcids = [self.word_class[i][1] for i in wids]
-
-        sess.run(self.test_init_op, {self.in_memory_test: np.array([[wids, cids, wcids]])})
 
         with open(raw_file) as fp:
             global_dev_loss = 0.0
@@ -336,8 +339,15 @@ class RNNLM(object):
 
             for raw_line in fp.readlines():
 
-                raw_line = raw_line.strip()
+                splits = raw_line.split()
+                wids = [self.word_ids[token] for token in splits]
 
+                cids = [self.word_class[i][0] for i in wids]
+                wcids = [self.word_class[i][1] for i in wids]
+
+                sess.run(self.test_init_op, {self.in_memory_test: np.array([[wids, cids, wcids]])})
+
+                raw_line = raw_line.strip()
                 _dev_loss, _dev_valid_words, input_line = sess.run(
                     [self.loss, self.valid_words, self.input_batch],
                     {self.dropout_rate: 1.0})
