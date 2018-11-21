@@ -46,7 +46,7 @@ def create_model(sess):
 
     _model = RNNLM(vocab_size=vocab_size,
                   batch_size=2,
-                  num_epochs=20,
+                  num_epochs=5,
                   check_point_step=20000,
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,

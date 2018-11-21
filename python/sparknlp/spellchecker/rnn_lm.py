@@ -284,49 +284,49 @@ class RNNLM(object):
                     if global_step % self.check_point_step == 0:
                         import gc
                         gc.collect()
-                        train_loss /= train_valid_words
-                        train_ppl = math.exp(train_loss)
-                        print ("Training Step: {}, LR: {}".format(global_step, current_learning_rate))
-                        print ("    Training PPL: {}".format(train_ppl))
-
-                        train_loss = 0.0
-                        train_valid_words = 0
-                        #break
-
-                        # run validation
-                        sess.run(self.validation_init_op)
-                        dev_loss = 0.0
-                        dev_valid_words = 0
-                        true = True
-                        while true:
-                            try:
-                                _dev_loss, _dev_valid_words = sess.run(
-                                    [self.loss, self.valid_words],
-                                    {self.dropout_rate: 1.0})
-
-                                dev_loss += np.sum(_dev_loss)
-                                dev_valid_words += _dev_valid_words
-
-                            except tf.errors.OutOfRangeError:
-                                dev_loss /= dev_valid_words
-                                dev_ppl = math.exp(dev_loss)
-                                print("Validation PPL: {}".format(dev_ppl))
-                                if dev_ppl < best_score:
-                                    patience = 15
-                                    saver.save(sess, "model/best_model.ckpt")
-                                    best_score = dev_ppl
-                                else:
-                                    patience -= 1
-
-                                if patience == 0:
-                                    epoch = self.num_epochs
-
-                                true = False
 
                 except tf.errors.OutOfRangeError:
                     # The end of one epoch
-                    break
+                    train_loss /= train_valid_words
+                    train_ppl = math.exp(train_loss)
+                    print("Training Step: {}, LR: {}".format(global_step, current_learning_rate))
+                    print("    Training PPL: {}".format(train_ppl))
 
+                    train_loss = 0.0
+                    train_valid_words = 0
+                    # break
+
+                    # run validation
+                    sess.run(self.validation_init_op)
+                    dev_loss = 0.0
+                    dev_valid_words = 0
+
+                    while True:
+                        try:
+                            _dev_loss, _dev_valid_words = sess.run(
+                                [self.loss, self.valid_words],
+                                {self.dropout_rate: 1.0})
+
+                            dev_loss += np.sum(_dev_loss)
+                            dev_valid_words += _dev_valid_words
+
+                        except tf.errors.OutOfRangeError:
+                            dev_loss /= dev_valid_words
+                            dev_ppl = math.exp(dev_loss)
+                            print("Validation PPL: {}".format(dev_ppl))
+                            if dev_ppl < best_score:
+                                patience = 15
+                                saver.save(sess, "model/best_model.ckpt")
+                                best_score = dev_ppl
+                            else:
+                                patience -= 1
+
+                            if patience == 0:
+                                epoch = self.num_epochs
+
+                            break
+                    # The end of one validation, go to next epoch
+                    break
 
             epoch += 1
 
