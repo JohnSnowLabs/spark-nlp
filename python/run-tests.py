@@ -19,7 +19,7 @@ unittest.TextTestRunner().run(SpellCheckerTestSpec())
 unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTestSpec())
-unittest.TextTestRunner().run(TypedDependencyParserTestSpec())
+# unittest.TextTestRunner().run(TypedDependencyParserTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
