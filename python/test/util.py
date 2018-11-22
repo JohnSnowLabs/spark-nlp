@@ -8,23 +8,9 @@ class SparkContextForTest:
         .master("local[4]") \
         .config("spark.jars", 'lib/sparknlp.jar,lib/sparknlp-ocr.jar') \
         .getOrCreate()
-    # .config("spark.driver.memory", "3500M") \
-
-
-class DataForTest:
-    data = SparkContextForTest.spark. \
+    data = spark. \
         read \
         .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \
         .limit(100)
     data.cache()
     data.count()
-
-    data_ner = SparkContextForTest.spark. \
-        read \
-        .csv("file:///" + os.getcwd() + "/../src/test/resources/ner-corpus/icdtest.txt") \
-        .limit(100)
-    data.cache()
-    data.count()
-
-    data_tdp = SparkContextForTest.spark. \
-        sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")

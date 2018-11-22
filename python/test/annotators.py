@@ -2,7 +2,7 @@ import unittest
 import re
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest, DataForTest
+from test.util import SparkContextForTest
 from sparknlp.ocr import OcrHelper
 
 
@@ -10,7 +10,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
 
     def setUp(self):
         # This implicitly sets up py4j for us
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -46,7 +46,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
         # This implicitly sets up py4j for us
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -64,7 +64,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
 class LemmatizerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -108,7 +108,7 @@ class TokenizerTestSpec(unittest.TestCase):
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -129,7 +129,7 @@ class NormalizerTestSpec(unittest.TestCase):
 class DateMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -145,7 +145,7 @@ class DateMatcherTestSpec(unittest.TestCase):
 class TextMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -164,7 +164,7 @@ class TextMatcherTestSpec(unittest.TestCase):
 class PerceptronApproachTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -191,7 +191,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
 class ChunkerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -224,7 +224,7 @@ class ChunkerTestSpec(unittest.TestCase):
 class DeIdentificationTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -262,7 +262,7 @@ class DeIdentificationTestSpec(unittest.TestCase):
 class PragmaticSBDTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -279,7 +279,7 @@ class PragmaticSBDTestSpec(unittest.TestCase):
 class PragmaticScorerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -312,7 +312,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
 class PipelineTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -365,7 +365,7 @@ class PipelineTestSpec(unittest.TestCase):
 class SpellCheckerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -388,7 +388,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
 class SymmetricDeleteTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data
+        self.data = SparkContextForTest.data
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -453,7 +453,8 @@ class OcrTestSpec(unittest.TestCase):
 class DependencyParserTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data_tdp
+        self.data = SparkContextForTest.spark \
+                .sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
 
@@ -493,7 +494,8 @@ class DependencyParserTestSpec(unittest.TestCase):
 class TypedDependencyParserTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = DataForTest.data_tdp
+        self.data = SparkContextForTest.spark \
+            .sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
         self.conll2009_file = os.getcwd() + "/../src/test/resources/parser/train/example.train"
