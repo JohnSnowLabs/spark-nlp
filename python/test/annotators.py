@@ -259,91 +259,6 @@ class DeIdentificationTestSpec(unittest.TestCase):
         de_identified.show()
 
 
-class DependencyParserTestSpec(unittest.TestCase):
-
-    def setUp(self):
-        self.data = DataForTest.data_tdp
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-
-        sentence_detector = SentenceDetector() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-
-        pos_tagger = PerceptronApproach() \
-            .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(path="file:///" + os.getcwd() +
-                            "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
-            .setIterations(1)
-
-        dependency_parser = DependencyParserApproach() \
-            .setInputCols(["sentence", "pos", "token"]) \
-            .setOutputCol("dependency") \
-            .setDependencyTreeBank(path=os.getcwd() + "/../src/test/resources/parser/dependency_treebank") \
-            .setNumberOfIterations(10)
-
-        assembled = document_assembler.transform(self.data)
-        sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
-        dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
-        dependency_parsed.show()
-
-
-class TypedDependencyParserTestSpec(unittest.TestCase):
-
-    def setUp(self):
-        self.data = DataForTest.data_tdp
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-
-        sentence_detector = SentenceDetector() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-
-        pos_tagger = PerceptronApproach() \
-            .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(path="file:///" + os.getcwd() +
-                            "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
-            .setIterations(1)
-
-        dependency_parser = DependencyParserApproach() \
-            .setInputCols(["sentence", "pos", "token"]) \
-            .setOutputCol("dependency") \
-            .setDependencyTreeBank(path=os.getcwd() + "/../src/test/resources/parser/dependency_treebank") \
-            .setNumberOfIterations(10)
-
-        typed_dependency_parser = TypedDependencyParserApproach() \
-            .setInputCols(["token", "pos", "dependency"]) \
-            .setOutputCol("labdep") \
-            .setConll2009FilePath(path=os.getcwd() + "/../src/test/resources/parser/train/example.train") \
-            # .setNumberOfIterations(10)
-
-        assembled = document_assembler.transform(self.data)
-        sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
-        dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
-        typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
-        typed_dependency_parsed.show()
-
-
 class PragmaticSBDTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -522,7 +437,8 @@ class OcrTestSpec(unittest.TestCase):
     def runTest():
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path="../ocr/src/test/resources/pdfs/",
+            input_path="file:///" + os.getcwd() +
+                       "../ocr/src/test/resources/pdfs/",
             output_col="region",
             metadata_col="metadata")
         data.show()
@@ -532,3 +448,91 @@ class OcrTestSpec(unittest.TestCase):
             .setInputCol("region") \
             .setOutputCol("document")
         document_assembler.transform(data).show()
+
+
+class DependencyParserTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = DataForTest.data_tdp
+        self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
+        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(self.corpus, delimiter="|") \
+            .setIterations(1)
+
+        dependency_parser = DependencyParserApproach() \
+            .setInputCols(["sentence", "pos", "token"]) \
+            .setOutputCol("dependency") \
+            .setDependencyTreeBank(self.tree_bank) \
+            .setNumberOfIterations(10)
+
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
+        dependency_parsed.show()
+
+
+class TypedDependencyParserTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = DataForTest.data_tdp
+        self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
+        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
+        self.conll2009_file = os.getcwd() + "/../src/test/resources/parser/train/example.train"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setCorpus(self.corpus, delimiter="|") \
+            .setIterations(1)
+
+        dependency_parser = DependencyParserApproach() \
+            .setInputCols(["sentence", "pos", "token"]) \
+            .setOutputCol("dependency") \
+            .setDependencyTreeBank(self.tree_bank) \
+            .setNumberOfIterations(10)
+
+        typed_dependency_parser = TypedDependencyParserApproach() \
+            .setInputCols(["token", "pos", "dependency"]) \
+            .setOutputCol("labdep") \
+            .setConll2009FilePath(self.conll2009_file) \
+            .setNumberOfIterations(10)
+
+        assembled = document_assembler.transform(self.data)
+        sentenced = sentence_detector.transform(assembled)
+        tokenized = tokenizer.transform(sentenced)
+        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
+        typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
+        typed_dependency_parsed.show()
