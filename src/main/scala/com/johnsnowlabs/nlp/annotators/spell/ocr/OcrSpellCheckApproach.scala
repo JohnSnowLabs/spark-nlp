@@ -1,21 +1,24 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
 import java.io.{BufferedWriter, File, FileWriter}
+
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.tensorflow.{Graph, Session}
+
 import scala.collection.mutable
 
 case class OpenClose(open:String, close:String)
 
-class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[OcrSpellCheckModel]{
+class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[OcrSpellCheckModel] with HasFeatures {
   override val description: String = "Ocr specific Spell Checking"
 
   val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
@@ -24,16 +27,16 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
   def setMinCount(threshold: Double): this.type = set(minCount, threshold)
 
-  val specialClasses = new Param[List[TokenParser]](this, "specialClasses", "Min number of times a token should appear to be included in vocab.")
-  def setSpecialClasses(parsers: List[TokenParser]):this.type = set(specialClasses, parsers)
+  val specialClasses = new Param[List[SpecialClassParser]](this, "specialClasses", "Min number of times a token should appear to be included in vocab.")
+  def setSpecialClasses(parsers: List[SpecialClassParser]):this.type = set(specialClasses, parsers)
 
   val languageModelClasses = new Param[Int](this, "languageModelClasses", "Number of classes to use during factorization of the softmax output in the LM.")
   def setLMClasses(k: Int):this.type = set(languageModelClasses, k)
 
-  val prefixes = new Param[Array[String]](this, "prefixes", "Prefix tokens to split during corpus tokenization.")
+  val prefixes = new ArrayFeature[String](this, "prefixes")
   def setPrefixes(p: Array[String]):this.type = set(prefixes, p)
 
-  val suffixes = new Param[Array[String]](this, "suffixes", "Suffix tokens to split during corpus tokenization.")
+  val suffixes = new ArrayFeature[String](this, "suffixes")
   def setSuffixes(s: Array[String]):this.type = set(suffixes, s)
 
   val wordMaxDistance = new Param[Int](this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
@@ -42,20 +45,24 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
   def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
+  val blacklistMinFreq = new Param[Int](this, "blacklistMinFreq", "Minimun number of occurrences for a word not to be blacklisted.")
+  def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
+
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
-    prefixes -> Array("'"),
-    suffixes -> Array(".", ":", "%", ",", ";", "?", "'"),
     wordMaxDistance -> 2,
     maxCandidates -> 6,
-    languageModelClasses -> 5000
+    languageModelClasses -> 2000
   )
+
+  setDefault(prefixes, () => Array("'"))
+  setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'"))
 
   // TODO: hard coded
   val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
 
-  private val firstPass = Seq(SuffixedToken(getOrDefault(suffixes) ++ openClose.map(_.close)),
-    PrefixedToken(getOrDefault(prefixes) ++ openClose.map(_.open)))
+  private val firstPass = Seq(SuffixedToken($$(suffixes) ++ openClose.map(_.close)),
+    PrefixedToken($$(prefixes) ++ openClose.map(_.open)))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
 
@@ -161,6 +168,10 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     classes
   }
 
+  /*
+  *  here we do some preprocessing of the training data, and generate the vocabulary
+  * */
+
   def genVocab(rawDataPath: String) = {
     var vocab = mutable.HashMap[String, Double]()
 
@@ -169,7 +180,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
     scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
 
-      // TODO remove crazy encodings of space and replacing with standard one
+      // TODO remove crazy encodings of space(clean the dataset itself before input it here)
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
 
@@ -183,6 +194,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
           tmp = tmp.map(specialClass.replaceWithLabel)
         }
 
+        // count frequencies
         tmp.foreach {cleanToken =>
           val currCount = vocab.getOrElse(cleanToken, 0.0)
           vocab.update(cleanToken, currCount + 1.0)
@@ -198,6 +210,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
     // Blacklists {fwis, hyphen, slash}
     // TODO: transform these in special classes, and accept user defined ones
+
     // words that appear with first letter capitalized (e.g., at the beginning of sentence)
     val fwis = vocab.filter(_._1.length > 1).filter(_._1.head.isUpper).
       filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).map(_._1)
@@ -205,13 +218,15 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val hyphen = vocab.filter {
       case (word, weight) =>
         val splits = word.split("-")
-        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1))
+        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
+          vocab.get(word).map(_ < getOrDefault(blacklistMinFreq)).getOrElse(true)
     }.map(_._1)
 
     val slash = vocab.filter {
       case (word, weight) =>
         val splits = word.split("/")
-        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1))
+        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
+          vocab.get(word).map(_ < getOrDefault(blacklistMinFreq)).getOrElse(true)
     }.map(_._1)
 
     val blacklist = fwis ++ hyphen ++ slash
@@ -257,7 +272,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     new TransducerBuilder().
       dictionary(vocab.sorted, true).
       algorithm(Algorithm.STANDARD).
-      defaultMaxDistance(2).
+      defaultMaxDistance(3).
       includeDistance(true).
       build[Candidate]
   }

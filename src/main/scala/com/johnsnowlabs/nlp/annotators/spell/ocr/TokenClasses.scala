@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
+import scala.collection.mutable
 import scala.math.min
 
 
@@ -7,12 +8,12 @@ import scala.math.min
 trait TokenClasses {
 
   def levenshteinDist(s1: String, s2: String)(cost:(Char, Char) => Float): Float = {
-    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.5f else if (i == 0) j * 1.5f else 0.0f }
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
 
     for (j <- 1 to s2.length; i <- 1 to s1.length)
       dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1.5f,
-        dist(j)(i - 1) + 1.5f,
+      else minimum(dist(j - 1)(i) + 1.0f,
+        dist(j)(i - 1) + 1.0f,
         dist(j - 1)(i - 1) + cost(s2(j - 1), s1(i - 1)))
 
     dist(s2.length)(s1.length)
@@ -21,21 +22,22 @@ trait TokenClasses {
   /* weighted levenshtein distance */
   def wLevenshteinDist(s1:String, s2:String) = levenshteinDist(s1, s2)(genCost)
 
-  /* weighted levenshtein distance to the 'dates' regular language */
-  def wLevenshteinDateDist(s1:String) = levenshteinDist(s1, "NN/NN/NNNN")(dateCost)
+  def loadWeights(filename: String): mutable.Map[Char, mutable.Map[Char, Float]] = {
 
-  /* weights for char ('k' -> Map('m' -> w))
+    // store word ids
+    val vocabIdxs = mutable.HashMap[Char, mutable.Map[Char, Float]]()
 
-     w = total / ccount
+    scala.io.Source.fromFile(filename).getLines.foreach { case line =>
+      val lineFields = line.split("\\|")
+      val dist = vocabIdxs.getOrElse(lineFields(0).head, mutable.Map[Char, Float]()).updated(lineFields(1).head, lineFields(2).toFloat)
+      vocabIdxs.update(lineFields(0).head, dist)
+    }
 
-     total: number of times 'k' is mistaken by something else
-     ccount: number of times 'k' is mistaken by 'm'
+    vocabIdxs
+  }
 
-   */
-
-  var weights = Map[Char, Map[Char, Float]](
-    '1' -> Map('t' -> 0.9f),
-    'c' -> Map('e' -> 0.9f), 'l' -> Map('1' -> 0.9f, 't' -> 0.9f), 'a' -> Map('e' -> 0.9f))
+  /* not implemented at this time */
+  var weights = mutable.Map[Char, Map[Char, Float]]()
 
   private def genCost(a:Char, b:Char): Float = {
     if (weights.contains(a) && weights(a).contains(b))
@@ -47,19 +49,6 @@ trait TokenClasses {
       1.0f
   }
 
-  val digits = (0 to 9).map(_.toString.head)
-
-  private def dateCost(b:Char, a:Char): Float = {
-    if (b == 'N')
-      digits.map(n => genCost(a, n)).min
-    else
-      genCost(a, b)
-  }
-
   private def minimum(i1: Float, i2: Float, i3: Float) = min(min(i1, i2), i3)
 
-  val dateClass = (token:String) => {
-
-
-  }
 }
