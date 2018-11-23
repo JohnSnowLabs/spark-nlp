@@ -7,7 +7,7 @@ class SparkContextForTest:
     spark = SparkSession.builder \
         .master("local[4]") \
         .config("spark.jars", 'lib/sparknlp.jar,lib/sparknlp-ocr.jar') \
-        .config("spark.driver.memory", "3500M") \
+        .config("spark.driver.memory", "4500") \
         .getOrCreate()
     data = spark. \
         read \
