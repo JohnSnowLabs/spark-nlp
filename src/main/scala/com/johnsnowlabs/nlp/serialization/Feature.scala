@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.serialization
 
 import java.io.File
 
+import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
+import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.ConfigLoader
@@ -255,6 +257,57 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
       Some(spark.read.parquet(dataPath.toString).as[TValue].collect.toSet)
+    } else {
+      None
+    }
+  }
+
+}
+
+class TransducerFeature(model: HasFeatures, override val name: String)
+  extends Feature[ITransducer[Candidate], ITransducer[Candidate], ITransducer[Candidate]](model, name) {
+
+  import com.github.liblevenshtein.serialization.ProtobufSerializer
+
+  override def serializeObject(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
+    import spark.implicits._
+    /* experimental */
+    val dataPath = getFieldPath(path, field)
+    val serializer = new ProtobufSerializer
+    val bytes = serializer.serialize(trans)
+    spark.sparkContext.parallelize(bytes.toSeq).saveAsObjectFile(dataPath.toString)
+
+  }
+
+  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    val serializer = new ProtobufSerializer
+    if (fs.exists(dataPath)) {
+      val bytes = spark.sparkContext.objectFile[Byte](dataPath.toString).collect()
+      val deserialized = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+      Some(deserialized)
+
+    } else {
+      None
+    }
+  }
+
+  override def serializeDataset(spark: SparkSession, path: String, field: String, value: ITransducer[Candidate]): Unit = {
+    import spark.implicits._
+    val dataPath = getFieldPath(path, field)
+    //spark.createDataset(Seq(value)).write.mode("overwrite").parquet(dataPath.toString)
+  }
+
+  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    if (fs.exists(dataPath)) {
+      //Some(spark.read.parquet(dataPath.toString).as[ITransducer[Candidate]].first)
+      None
     } else {
       None
     }

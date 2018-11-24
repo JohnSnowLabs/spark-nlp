@@ -15,6 +15,8 @@ object MedicationClass extends VocabParser {
 
   override val label: String = "_MED_"
 
+  override val maxDist: Int = 3
+
 }
 
 object AgeToken extends RegexParser {
@@ -24,6 +26,8 @@ object AgeToken extends RegexParser {
   override val transducer: ITransducer[Candidate] = generateTransducer
 
   override val label: String = "_AGE_"
+
+  override val maxDist: Int = 2
 
 }
 
@@ -37,6 +41,8 @@ object UnitToken extends VocabParser {
   override val transducer: ITransducer[Candidate] = generateTransducer
 
   override val label: String = "_UNIT_"
+
+  override val maxDist: Int = 3
 
 }
 
@@ -55,57 +61,42 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("Fatient", "Patient") < wLevenshteinDist("Aatient", "Patient"))
   }
 
-  "weighted Levenshtein distance" should "properly compute distance to a regular language - dates" in new Scope {
-    assert(wLevenshteinDateDist("10/0772018") == 1.0f)
-  }
 
-
-  "a model" should "serialize properly" ignore {
+  "a model" should "serialize properly" in {
 
     val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
+    val langModelPath = "../auxdata/"
 
     import SparkAccessor.spark.implicits._
     val ocrSpellModel = new OcrSpellCheckApproach().
       setInputCols("text").
       setTrainCorpusPath(trainCorpusPath).
-      setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
+      //setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
+      setSpecialClasses(List.empty).
       train(Seq.empty[String].toDF("text"))
 
-    ocrSpellModel.write.overwrite.save("./test_ner_dl")
-    val loadedNer = OcrSpellCheckModel.read.load("./test_ner_dl")
+    ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "")
+    ocrSpellModel.write.overwrite.save("./test_spell_checker")
+    OcrSpellCheckModel.read.load("./test_spell_checker")
   }
 
-
+  // TODO: move this logic to spark-nlp-models
   "a model" should "train and predict" in {
 
     val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
+    val langModelPath = "../auxdata/spell_dataset"
 
     import SparkAccessor.spark.implicits._
     val ocrspell = new OcrSpellCheckApproach().
                     setInputCols("text").
                     setTrainCorpusPath(trainCorpusPath).
                     setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
-                    train(Seq.empty[String].toDF("text"))
-/*
-    val result1 = ocrspell.annotate(Seq(
-      Annotation("swelling than his baseline . he states ha's teen compliant with his medications ." +
-                " although he stales he ran out of his Eliquis & few wesks ago . he denies having any blood" +
-                " in his stools or meiena , although he does 1ake iron pills and states his stools arc" +
-                " frequently black his hemoglobin is a1 baseline ."))) */
+                    fit(Seq.empty[String].toDF("text"))
 
-    val result2 = ocrspell.annotate(Seq(
-      Annotation("fibrillation on Aliquis , history of Gi bleed , CR-M3 , and anemia who presents with ull wegks oi" +
-                 " generalized fatigue and fecling umvell . He also notes some shortness of breath and worsening" +
-                 " dyspnea wilh minimal éxerlion . His major complaints are shoulder and joint pains , diffusely ." +
-                 " He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
-                 " any chest pain , palpitalicns , He denies any worse sxtramity")))
+    ocrspell.readModel(langModelPath, SparkAccessor.spark, "")
 
-    //model.predict(Array(Array("frequently", "black" ,"his", "hemoglobin", "is", "a1",  "baseline", ".").map(vocabIds.get).map(_.get)))
-
-    //result1.map(_.result).foreach(println)
-
-    result2.map(_.result).foreach(println)
-
+    ocrspell.annotate(Seq(Annotation(" He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
+                 " any chest pain , palpitalicns , He denies any worse sxtramity"))).foreach(println)
   }
 
 

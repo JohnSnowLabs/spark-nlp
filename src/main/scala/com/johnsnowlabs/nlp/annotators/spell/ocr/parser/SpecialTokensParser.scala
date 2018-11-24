@@ -19,6 +19,8 @@ trait SpecialClassParser {
 
   val transducer : ITransducer[Candidate]
 
+  val maxDist: Int
+
   def generateTransducer: ITransducer[Candidate]
 
   def replaceWithLabel(tmp: String): String = {
@@ -44,7 +46,7 @@ trait RegexParser extends SpecialClassParser {
     new TransducerBuilder().
       dictionary(matches.toList.sorted, true).
       algorithm(Algorithm.STANDARD).
-      defaultMaxDistance(2).
+      defaultMaxDistance(maxDist).
       includeDistance(true).
       build[Candidate]
   }
@@ -62,7 +64,7 @@ trait VocabParser extends SpecialClassParser {
     new TransducerBuilder().
       dictionary(vocab.toList.sorted, true).
       algorithm(Algorithm.STANDARD).
-      defaultMaxDistance(3).
+      defaultMaxDistance(maxDist).
       includeDistance(true).
       build[Candidate]
   }
@@ -132,6 +134,7 @@ object DateToken extends RegexParser with TokenClasses{
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
   override val transducer: ITransducer[Candidate] = generateTransducer
   override val label = "_DATE_"
+  override val maxDist: Int = 2
 
   val dateRegex = "(01|02|03|04|05|06|07|08|09|10|11|12)/[0-3][0-9]/(1|2)[0-9]{3}".r
 
@@ -156,6 +159,8 @@ object NumberToken extends RegexParser {
   override val transducer: ITransducer[Candidate] = generateTransducer
 
   override val label = "_NUM_"
+
+  override val maxDist: Int = 2
 
   /* used to parse corpus - potentially infite */
   private val numRegex =

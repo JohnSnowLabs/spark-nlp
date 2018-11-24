@@ -24,9 +24,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
   def setTrainCorpusPath(path: String): this.type = set(trainCorpusPath, path)
 
-  val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
-  def setMinCount(threshold: Double): this.type = set(minCount, threshold)
-
   val specialClasses = new Param[List[SpecialClassParser]](this, "specialClasses", "Min number of times a token should appear to be included in vocab.")
   def setSpecialClasses(parsers: List[SpecialClassParser]):this.type = set(specialClasses, parsers)
 
@@ -45,20 +42,28 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
   def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
+  //maybe unify the following two?
+  val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
+  def setMinCount(threshold: Double): this.type = set(minCount, threshold)
+
   val blacklistMinFreq = new Param[Int](this, "blacklistMinFreq", "Minimun number of occurrences for a word not to be blacklisted.")
-  def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
+  def setBlackListMinFreq(k: Int):this.type = set(blacklistMinFreq, k)
+
+  val tradeoff = new Param[Float](this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
+  def setTradeoff(alpha: Float):this.type = set(tradeoff, alpha)
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
-    wordMaxDistance -> 2,
+    wordMaxDistance -> 3,
     maxCandidates -> 6,
-    languageModelClasses -> 2000
+    languageModelClasses -> 2000,
+    blacklistMinFreq -> 5
   )
 
   setDefault(prefixes, () => Array("'"))
   setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'"))
 
-  // TODO: hard coded
+  // TODO: hard coded.
   val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
 
   private val firstPass = Seq(SuffixedToken($$(suffixes) ++ openClose.map(_.close)),
@@ -99,7 +104,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
       setTensorflow(tf).
-      readModel("../auxdata/good_model", dataset.sparkSession, "").
       setInputCols(getOrDefault(inputCols))
   }
 
@@ -245,7 +249,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     for (key <- vocab.keys){
       vocab.update(key, math.log(vocab(key)) - totalCount)
     }
-
     (vocab.toList.sortBy(_._1), classes)
   }
 
@@ -272,24 +275,11 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     new TransducerBuilder().
       dictionary(vocab.sorted, true).
       algorithm(Algorithm.STANDARD).
-      defaultMaxDistance(3).
+      defaultMaxDistance(getOrDefault(wordMaxDistance)).
       includeDistance(true).
       build[Candidate]
   }
 
-  private def persistTransducer(transducer:ITransducer[Candidate]) = {
-    import com.github.liblevenshtein.serialization.ProtobufSerializer
-    import java.nio.file.Files
-    import java.nio.file.Paths
-    val serializedDictionaryPath = Paths.get("transducer.protobuf.bytes")
-    try {
-      val stream = Files.newOutputStream(serializedDictionaryPath)
-      try {
-        val serializer = new ProtobufSerializer
-        serializer.serialize(transducer, stream)
-      } finally if (stream != null) stream.close()
-    }
-  }
 
   private def encodeCorpus(rawTextPath: String, vMap: Map[String, Int]) = {
 
