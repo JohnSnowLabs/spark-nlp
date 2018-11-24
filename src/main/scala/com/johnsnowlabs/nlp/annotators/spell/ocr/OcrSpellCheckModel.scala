@@ -4,24 +4,28 @@ import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.assertion.dl.{ReadTensorflowModel, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
+import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature, TransducerFeature}
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel]
-  with ReadTensorflowModel
+  with ReadTensorflowModel // --> remove
   with TokenClasses
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable {
 
-  override val tfFile: String = "good_model"
+  override val tfFile: String = "bigone"
 
   private var tensorflow:TensorflowWrapper = null
 
-  val transducer = new StructFeature[ITransducer[Candidate]](this, "The transducer for the main vocabulary.")
-  def setVocabTransducer(trans:ITransducer[Candidate]) = set(transducer, trans)
+  val transducer = new TransducerFeature(this, "The transducer for the main vocabulary.")
+  def setVocabTransducer(trans:ITransducer[Candidate]) = {
+    transducer.setValue(Some(trans))
+    this
+  }
+
   val specialTransducers = new StructFeature[Seq[(ITransducer[Candidate], String)]](this, "The transducers for special classes.")
   def setSpecialClassesTransducers(transducers: Seq[(ITransducer[Candidate], String)]) = set(specialTransducers, transducers)
 
@@ -30,6 +34,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   val idsVocab = new MapFeature[Int, String](this, "idsVocab")
   val vocabIds = new MapFeature[String, Int](this, "vocabIds")
+
   def setVocabIds(v: Map[String, Int]) = {
     set(idsVocab, v.map(_.swap))
     set(vocabIds, v)
@@ -38,8 +43,8 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   val classes: MapFeature[Int, (Int, Int)] = new MapFeature(this, "classes")
   def setClasses(c:Map[Int, (Int, Int)]) = set(classes, c)
 
-
   val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
+  val tradeoff = new Param[Float](this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
 
 
   // the scores for the EOS (end of sentence), and BOS (begining of sentence)
@@ -49,7 +54,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   private val gamma = 120.0
 
   def readModel(path: String, spark: SparkSession, suffix: String): this.type = {
-    tensorflow = readTensorflowModel(path, spark, suffix)
+    tensorflow = readTensorflowModel(path, spark, suffix, false)
     this
   }
 
@@ -128,7 +133,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         }
         newPaths = newPaths :+ minPath
         newWords = newWords :+ minWords
-        newCosts = newCosts :+ minCost + wcost * 18 // math.log(wcost) / 0.01 // math.log(2.0)
+        newCosts = newCosts :+ minCost + wcost * getOrDefault(tradeoff)
       }
       pathsIds = newPaths
       pathWords = newWords
@@ -178,11 +183,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         // ask each token class for candidates, keep the one with lower cost
         var candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
             getClassCandidates(transducer, token, k = 2, label)
-        } ++ getVocabCandidates($$(transducer), token)
+        } ++ getVocabCandidates(transducer.getOrDefault, token)
 
         // quick and dirty patch
         if (token.length > 4 && candLabelWeight.isEmpty)
-          candLabelWeight = getVocabCandidates($$(transducer), token, 3)
+          candLabelWeight = getVocabCandidates(transducer.getOrDefault, token, 3)
 
         // quick and dirty patch
         if (candLabelWeight.isEmpty)
@@ -220,12 +225,17 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   override val requiredAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
   override val annotatorType: AnnotatorType = AnnotatorType.TOKEN
 
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    super.onWrite(path, spark)
+    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl")
+  }
+
 }
 
 
 trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[OcrSpellCheckModel] with ReadTensorflowModel {
 
-  override val tfFile = "tensorflow"
+  override val tfFile = "bigone"
 
   def readLanguageModelGraph(instance: OcrSpellCheckModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_langmodeldl")
