@@ -12,9 +12,7 @@ object MedicationClass extends VocabParser {
   override val vocab = loadCSV("meds_wcase.txt")
 
   override val transducer: ITransducer[Candidate] = generateTransducer
-
   override val label: String = "_MED_"
-
   override val maxDist: Int = 3
 
 }
@@ -24,9 +22,7 @@ object AgeToken extends RegexParser {
   override val regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
 
   override val transducer: ITransducer[Candidate] = generateTransducer
-
   override val label: String = "_AGE_"
-
   override val maxDist: Int = 2
 
 }
@@ -39,9 +35,7 @@ object UnitToken extends VocabParser {
     "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG")
 
   override val transducer: ITransducer[Candidate] = generateTransducer
-
   override val label: String = "_UNIT_"
-
   override val maxDist: Int = 3
 
 }
@@ -73,18 +67,21 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       setTrainCorpusPath(trainCorpusPath).
       //setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
       setSpecialClasses(List.empty).
-      train(Seq.empty[String].toDF("text"))
+      fit(Seq.empty[String].toDF("text"))
 
-    ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "")
+    ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
-    OcrSpellCheckModel.read.load("./test_spell_checker")
+    val loadedModel = OcrSpellCheckModel.read.load("./test_spell_checker")
+
+    loadedModel.annotate(Seq(Annotation("He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
+      " any chest pain , palpitalicns , He denies any worse sxtramity"))).foreach(println)
   }
 
-  // TODO: move this logic to spark-nlp-models
+  // TODO: move this training logic to spark-nlp-models
   "a model" should "train and predict" in {
 
     val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
-    val langModelPath = "../auxdata/spell_dataset"
+    val langModelPath = "../auxdata/"
 
     import SparkAccessor.spark.implicits._
     val ocrspell = new OcrSpellCheckApproach().
@@ -93,24 +90,27 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
                     setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
                     fit(Seq.empty[String].toDF("text"))
 
-    ocrspell.readModel(langModelPath, SparkAccessor.spark, "")
+    ocrspell.readModel(langModelPath, SparkAccessor.spark, "", true)
 
-    ocrspell.annotate(Seq(Annotation(" He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
+    ocrspell.annotate(Seq(Annotation("He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
                  " any chest pain , palpitalicns , He denies any worse sxtramity"))).foreach(println)
   }
 
 
-  "a spell checker" should "handle commas and dates" ignore {
-    //Annotation("(01712/1982),"), Annotation("duodenojejunostom1,")
-    //assert(result.exists(_.result == "duodenojejunostomy,"))
-    //assert(result.exists(_.result == "(01/12/1982)"))
-  }
-
-  "a spell checker" should "correclty parse training data" ignore {
+  "a spell checker" should "correclty parse training data" in {
     val ocrspell = new OcrSpellCheckApproach().
       setMinCount(1.0)
-    val vocab = ocrspell.genVocab("src/main/resources/spell_corpus.txt")
-    assert(vocab._1.size == 10)
+    val trainCorpusPath = "src/main/resources/spell_corpus.txt"
+    ocrspell.setTrainCorpusPath(trainCorpusPath)
+    val (vocab, classes) = ocrspell.genVocab(trainCorpusPath)
+    val vMap = vocab.toMap
+    val totalTokenCount = 55.0
+    assert(vocab.size == 35)
+    assert(vMap.getOrElse("_EOS_", 0.0) == math.log(3.0) - math.log(totalTokenCount), "Three sentences should cause three _BOS_ markers")
+    assert(vMap.getOrElse("_BOS_", 0.0) == math.log(3.0) - math.log(totalTokenCount), "Three sentences should cause three _EOS_ markers")
+
+    assert(classes.size == 35, "")
+
   }
 
 
@@ -139,7 +139,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "number classes" should "recognize different medications patterns" in {
+  "number classes" should "recognize different number patterns" in {
     import scala.collection.JavaConversions._
     val transducer = NumberToken.generateTransducer
 
@@ -156,25 +156,17 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(DateToken.separate("10/25/1982").equals(DateToken.label))
   }
 
+  "suffixes and prefixes" should "recognized and handled properly" in {
+    val suffixedToken = SuffixedToken(Array(")", ","))
+    val prefixedToken = PrefixedToken(Array("("))
 
+    var tmp = suffixedToken.separate("People,")
+    assert(tmp.equals("People ,"))
 
-  /*
-    "double quotes" should "be parsed correctly" in {
-      val result = DoubleQuotes.splits("\"aspirin\"")
-      result.foreach(println)
+    tmp = prefixedToken.separate(suffixedToken.separate("(08/10/1982)"))
+    assert(tmp.equals("( 08/10/1982 )"))
 
-    }
+  }
 
-    "a parser" should "recognize special tokens" in {
-      DictWord.setDict(Seq())
-      val result = BaseParser.parse("(08/10/1982),")
-      result.foreach(println)
-    }
-
-    "a parser" should "handle commas at the end" in {
-      //DictWord.setDict(null)
-      val result = BaseParser.parse("thermalis,")
-      result.foreach(println)
-  }*/
 
 }

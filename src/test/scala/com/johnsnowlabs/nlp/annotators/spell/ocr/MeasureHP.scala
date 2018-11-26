@@ -10,6 +10,7 @@ object MeasureHP extends App with OcrTestData {
   val (correct, raw) = loadDataSets()
 
   val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
+  val langModelPath = "../auxdata/"
 
   import SparkAccessor.spark.implicits._
   val ocrspellModel = new OcrSpellCheckApproach().
@@ -17,6 +18,8 @@ object MeasureHP extends App with OcrTestData {
     setTrainCorpusPath(trainCorpusPath).
     setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
     fit(Seq.empty[String].toDF("text"))
+
+  ocrspellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
 
   val time = System.nanoTime()
   val corrected = raw.map { tokens =>
