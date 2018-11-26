@@ -2,14 +2,14 @@ package com.johnsnowlabs.nlp.annotators.spell.ocr
 
 import java.io.{BufferedWriter, File, FileWriter}
 
-import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
+import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.tensorflow.{Graph, Session}
@@ -36,10 +36,13 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   val suffixes = new ArrayFeature[String](this, "suffixes")
   def setSuffixes(s: Array[String]):this.type = set(suffixes, s)
 
-  val wordMaxDistance = new Param[Int](this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
-  def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
+  val wordMaxDistance = new IntParam(this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
+  def setWordMaxDist(k: Int):this.type = {
+    require(k >= 1, "Please provided a minumum candidate distance of at least 1.")
+    set(wordMaxDistance, k)
+  }
 
-  val maxCandidates = new Param[Int](this, "maxCandidates", "Maximum number of candidates for every word.")
+  val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
   def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
   //maybe unify the following two?
@@ -176,6 +179,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   *  here we do some preprocessing of the training data, and generate the vocabulary
   * */
 
+  // TODO: we could ommit the 'rawDataPath' parameter
   def genVocab(rawDataPath: String) = {
     var vocab = mutable.HashMap[String, Double]()
 
