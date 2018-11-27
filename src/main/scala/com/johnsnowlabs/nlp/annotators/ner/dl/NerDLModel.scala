@@ -96,7 +96,7 @@ class NerDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_nerdl")
+    writeTensorflowModel(path, spark, tensorflow, "_nerdl", NerDLModel.tfFile)
   }
 }
 

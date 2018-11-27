@@ -237,7 +237,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl")
+    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", OcrSpellCheckModel.tfFile)
   }
 
 }
