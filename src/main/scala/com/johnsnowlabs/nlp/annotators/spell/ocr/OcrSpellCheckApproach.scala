@@ -60,7 +60,8 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     wordMaxDistance -> 3,
     maxCandidates -> 6,
     languageModelClasses -> 2000,
-    blacklistMinFreq -> 5
+    blacklistMinFreq -> 5,
+    tradeoff -> 18.0f
   )
 
   setDefault(prefixes, () => Array("'"))

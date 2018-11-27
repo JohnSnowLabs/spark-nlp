@@ -70,6 +70,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       fit(Seq.empty[String].toDF("text"))
 
     ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
+
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = OcrSpellCheckModel.read.load("./test_spell_checker")
 

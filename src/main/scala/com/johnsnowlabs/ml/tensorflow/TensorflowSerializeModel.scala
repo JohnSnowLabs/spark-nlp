@@ -1,10 +1,9 @@
-package com.johnsnowlabs.nlp.annotators.assertion.dl
+package com.johnsnowlabs.ml.tensorflow
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.spell.ocr.OcrSpellCheckModel
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
@@ -43,7 +42,7 @@ trait WriteTensorflowModel{
 trait ReadTensorflowModel {
   val tfFile: String
 
-  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true, useBundle:Boolean = false): TensorflowWrapper = {
+  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true, useBundle:Boolean = false, tags:Array[String]=Array.empty): TensorflowWrapper = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -55,10 +54,9 @@ trait ReadTensorflowModel {
     // 2. Copy to local dir
     fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
 
-    // TODO remove hardcoded tags
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = Array("our-graph"), useBundle = useBundle)
+        zipped, tags = tags, useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
