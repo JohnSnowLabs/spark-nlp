@@ -100,7 +100,7 @@ class AssertionDLModel(override val uid: String) extends AnnotatorModel[Assertio
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_assertiondl")
+    writeTensorflowModel(path, spark, tensorflow, "_assertiondl", AssertionDLModel.tfFile)
   }
 
 }

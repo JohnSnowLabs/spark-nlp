@@ -16,7 +16,7 @@ import org.apache.spark.sql.SparkSession
 trait WriteTensorflowModel{
 
 
-  def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String): Unit = {
+  def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String, filename:String): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -24,8 +24,8 @@ trait WriteTensorflowModel{
     // 1. Create tmp folder
     val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
-    // TODO fix this hardcoded tfFile stuff
-    val tfFile = Paths.get(tmpFolder, OcrSpellCheckModel.tfFile).toString
+
+    val tfFile = Paths.get(tmpFolder, filename).toString
 
     // 2. Save Tensorflow state
     tensorflow.saveToFile(tfFile)
