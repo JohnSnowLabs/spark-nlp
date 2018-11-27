@@ -1,20 +1,22 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
-import com.johnsnowlabs.nlp.annotators.assertion.dl.{ReadTensorflowModel, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSpell, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature, TransducerFeature}
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.{FloatParam, IntParam, Param}
+import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.slf4j.LoggerFactory
 
 class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel]
-  with ReadTensorflowModel // --> remove
+  with ReadTensorflowModel
   with TokenClasses
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable {
+
+  private val logger = LoggerFactory.getLogger("OcrSpellModel")
 
   override val tfFile: String = "bigone"
 
@@ -48,17 +50,18 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
   val tradeoff = new FloatParam(this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
+  val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
 
+  setDefault(tradeoff -> 18.0f, gamma -> 90.0f)
 
-  setDefault(tradeoff -> 18.0f)
-  // the scores for the EOS (end of sentence), and BOS (begining of sentence)
+  // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
   private val eosScore = .01
   private val bosScore = 1.0
 
-  private val gamma = 120.0
 
+  /* reads the external TF model, keeping this until we can train from within spark */
   def readModel(path: String, spark: SparkSession, suffix: String, useBundle:Boolean): this.type = {
-    tensorflow = readTensorflowModel(path, spark, suffix, false, useBundle)
+    tensorflow = readTensorflowModel(path, spark, suffix, false, useBundle, tags = Array("our-graph"))
     this
   }
 
@@ -126,7 +129,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
           val mult = if (i > 1) costs.length else 0
           val ppl = expPathsCosts(idx * mult + pi)
 
-          println(s"${$$(idsVocab).get(path.last).get} -> $cand, $ppl")
+          logger.debug(s"${$$(idsVocab).get(path.last).get} -> $cand, $ppl")
 
           val cost = pathCost + ppl
           if (cost < minCost){
@@ -143,11 +146,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
       pathWords = newWords
       costs = newCosts
 
-      /* TODO: create an optional log with this */
+      // log paths and costs
       pathWords.zip(costs).foreach{ case (path, cost) =>
-          println(path.toList, cost)
+        logger.debug(s"${path.toList}, $cost\n-----\n")
       }
-      println("----------")
+
     }
     // return the path with the lowest cost, and the cost
     pathWords.zip(costs).minBy(_._2)
@@ -190,9 +193,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
             getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance) - 1)
         } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
 
-        // quick and dirty patch
+        // now try to relax distance requirements for candidates
         if (token.length > 4 && candLabelWeight.isEmpty)
-          candLabelWeight = getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
+          candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
+            getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance))
+          } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
 
         // quick and dirty patch
         if (candLabelWeight.isEmpty)
@@ -208,8 +213,8 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         //label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
         val labelWeightCand = candLabelDist.map{ case (term, label, dist) =>
 
-          val weight =  - $$(vocabFreq).getOrElse(label, 0.0) / gamma + dist.toDouble
-          (label, weight, term)
+          val weight =  dist.toDouble - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
+            (label, weight, term)
         }.sortBy(_._2).take(getOrDefault(maxCandidates))
 
         println(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
