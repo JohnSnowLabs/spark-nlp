@@ -43,7 +43,7 @@ trait WriteTensorflowModel{
 trait ReadTensorflowModel {
   val tfFile: String
 
-  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true): TensorflowWrapper = {
+  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true, useBundle:Boolean = false): TensorflowWrapper = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -55,9 +55,10 @@ trait ReadTensorflowModel {
     // 2. Copy to local dir
     fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
 
-    // TODO remove hardcoded useBundle, tags
+    // TODO remove hardcoded tags
     // 3. Read Tensorflow state
-    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString, zipped, tags = Array("our-graph"), useBundle = true)
+    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
+      zipped, tags = Array("our-graph"), useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
