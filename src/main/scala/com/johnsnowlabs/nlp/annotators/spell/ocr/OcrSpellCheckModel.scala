@@ -5,7 +5,7 @@ import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSpell, Ten
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature, TransducerFeature}
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.{FloatParam, IntParam, Param}
+import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory

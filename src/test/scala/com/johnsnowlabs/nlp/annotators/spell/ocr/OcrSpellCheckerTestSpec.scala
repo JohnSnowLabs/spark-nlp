@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
-import com.johnsnowlabs.nlp.{Annotation, SparkAccessor}
+import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
+import org.apache.spark.ml.Pipeline
 import org.scalatest._
-
-//import scala.collection.mutable.Map
 
 
 object MedicationClass extends VocabParser {
@@ -55,6 +56,36 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
   }
 
+  // TODO complete when we have a generic pre-trained model.
+  "a Spell Checker" should "work in a pipeline with Tokenizer" ignore {
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = OcrHelper.createDataset(spark,
+      "ocr/src/test/resources/pdfs/h_p.pdf",
+      "region", "metadata")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("region").
+        setMetadataCol("metadata")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val normalizer: Normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("region"))
+    /*
+    val result = pipeline.transform(raw.values.toArray)
+
+    assert(raw.size == 2 && result.nonEmpty)
+    println(result.mkString(","))
+    succeed*/
+  }
 
   "a model" should "serialize properly" in {
 
