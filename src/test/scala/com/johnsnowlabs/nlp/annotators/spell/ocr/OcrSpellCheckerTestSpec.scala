@@ -45,14 +45,14 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
 
   /* TODO  Note some test cases should be moved to internal repo */
 
-  trait Scope extends TokenClasses {
-    weights += ('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
+  trait Scope extends WeightedLevenshtein {
+    val weights = Map('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
   }
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
-    assert(wLevenshteinDist("c1ean", "clean") > wLevenshteinDist("c!ean", "clean"))
-    assert(wLevenshteinDist("crean", "clean") > wLevenshteinDist("c!ean", "clean"))
-    assert(wLevenshteinDist("Fatient", "Patient") < wLevenshteinDist("Aatient", "Patient"))
+    assert(wLevenshteinDist("c1ean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
+    assert(wLevenshteinDist("crean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
+    assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
   }
 
 

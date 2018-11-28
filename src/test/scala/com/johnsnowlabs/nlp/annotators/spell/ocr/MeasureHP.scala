@@ -14,6 +14,7 @@ object MeasureHP extends App with OcrTestData {
 
   import SparkAccessor.spark.implicits._
   val ocrspellModel = new OcrSpellCheckApproach().
+    setWeights("distance.psv").
     setInputCols("text").
     setTrainCorpusPath(trainCorpusPath).
     setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).

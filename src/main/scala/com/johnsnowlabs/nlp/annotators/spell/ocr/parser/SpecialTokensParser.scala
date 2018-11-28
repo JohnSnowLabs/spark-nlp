@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.ocr.parser
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
-import com.johnsnowlabs.nlp.annotators.spell.ocr.TokenClasses
+import com.johnsnowlabs.nlp.annotators.spell.ocr.WeightedLevenshtein
 import com.navigamez.greex.GreexGenerator
 
 import scala.collection.JavaConversions._
@@ -129,7 +129,7 @@ object PrefixedToken {
 }
 
 
-object DateToken extends RegexParser with TokenClasses{
+object DateToken extends RegexParser with WeightedLevenshtein{
 
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
   override val transducer: ITransducer[Candidate] = generateTransducer

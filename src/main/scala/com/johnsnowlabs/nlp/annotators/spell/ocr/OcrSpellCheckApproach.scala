@@ -6,7 +6,7 @@ import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
-import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
@@ -18,7 +18,11 @@ import scala.collection.mutable
 
 case class OpenClose(open:String, close:String)
 
-class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[OcrSpellCheckModel] with HasFeatures {
+class OcrSpellCheckApproach(override val uid: String) extends
+  AnnotatorApproach[OcrSpellCheckModel]
+  with HasFeatures
+  with WeightedLevenshtein {
+
   override val description: String = "Ocr specific Spell Checking"
 
   val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
@@ -54,6 +58,9 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
 
   val tradeoff = new Param[Float](this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
   def setTradeoff(alpha: Float):this.type = set(tradeoff, alpha)
+
+  val weightedDistPath = new Param[String](this, "weightedDistPath", "The path to the file containing the weights for the levenshtein distance.")
+  def setWeights(filePath:String):this.type = set(weightedDistPath, filePath)
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
@@ -101,7 +108,7 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     val specialClassesTransducers = getOrDefault(specialClasses).
       par.map(t =>(t.generateTransducer, t.label)).seq
 
-    new OcrSpellCheckModel().
+    val model = new OcrSpellCheckModel().
       setVocabFreq(vocabFreq.toMap).
       setVocabIds(word2ids.toMap).
       setClasses(classes).
@@ -109,6 +116,9 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
       setSpecialClassesTransducers(specialClassesTransducers).
       setTensorflow(tf).
       setInputCols(getOrDefault(inputCols))
+
+    get(weightedDistPath).map(path => model.setWeights(loadWeights(path))).
+    getOrElse(model)
   }
 
   private def loadVocab(path: String) = {
@@ -180,7 +190,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
   *  here we do some preprocessing of the training data, and generate the vocabulary
   * */
 
-  // TODO: we could ommit the 'rawDataPath' parameter
   def genVocab(rawDataPath: String) = {
     var vocab = mutable.HashMap[String, Double]()
 
@@ -218,8 +227,6 @@ class OcrSpellCheckApproach(override val uid: String) extends AnnotatorApproach[
     vocab = vocab.filter(_._2 >= getOrDefault(minCount))
 
     // Blacklists {fwis, hyphen, slash}
-    // TODO: transform these in special classes, and accept user defined ones
-
     // words that appear with first letter capitalized (e.g., at the beginning of sentence)
     val fwis = vocab.filter(_._1.length > 1).filter(_._1.head.isUpper).
       filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).map(_._1)
