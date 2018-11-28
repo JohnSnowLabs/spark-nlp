@@ -18,7 +18,7 @@ class AssertionLogRegApproach(val uid: String)
   override val requiredAnnotatorTypes = Array(DOCUMENT, CHUNK)
   val description: String = "Clinical Text Status Assertion"
   override val tokenizer: Tokenizer = new SimpleTokenizer
-  override def wordVectors(): WordEmbeddingsRetriever = getClusterEmbeddings.getOrCreateLocalRetriever
+  override def wordVectors(): WordEmbeddingsRetriever = getClusterEmbeddings.getLocalRetriever
 
   lazy override val (before, after) = (getOrDefault(beforeParam), getOrDefault(afterParam))
 

@@ -8,6 +8,9 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 # Slack community channel
 Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
+# Apache Spark Support
+As of *1.7.x* Spark-NLP does _NOT_ yet work with Spark 2.4.x 
+
 # Usage
 
 ## Command line
@@ -17,18 +20,18 @@ This library has been uploaded to the spark-packages repository https://spark-pa
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.7.2` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.7.3` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.7.2
+spark-shell --packages JohnSnowLabs:spark-nlp:1.7.3
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.3
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.7.2
+spark-submit --packages JohnSnowLabs:spark-nlp:1.7.3
 ```
 
 ### offline mode using jars
@@ -40,14 +43,14 @@ Use either one of the following options
 
 * Add the following Maven Coordinates to the interpreter's library list
 ```
-com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.2
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.7.3
 ```
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
 
 ### Python in Zeppelin
 Apart from previous step, install python module through pip
 ```
-pip install spark-nlp==1.7.2
+pip install spark-nlp==1.7.3
 ```
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
@@ -58,7 +61,7 @@ An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) a
 ## Python without explicit Spark installation
 If you installed pyspark through pip, you can install sparknlp through pip as well
 ```
-pip install spark-nlp==1.7.2
+pip install spark-nlp==1.7.3
 ```
 Then you'll have to create a SparkSession manually, for example:
 ```
@@ -84,7 +87,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:1.7.2
+pyspark --packages JohnSnowLabs:spark-nlp:1.7.3
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -110,11 +113,11 @@ sparknlp {
 
 ## Pre-compiled Spark-NLP and Spark-NLP-OCR
 You may download fat-jar from here:
-[Spark-NLP 1.7.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.2.jar)
+[Spark-NLP 1.7.3 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.7.3.jar)
 or non-fat from here
-[Spark-NLP 1.7.2 PKG JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-1.7.2.jar)
+[Spark-NLP 1.7.3 PKG JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-1.7.3.jar)
 Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 1.7.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.2.jar)
+[Spark-NLP-OCR 1.7.3 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.7.3.jar)
 
 ## Maven central
 
@@ -126,19 +129,19 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
   <groupId>com.johnsnowlabs.nlp</groupId>
   <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.7.2</version>
+  <version>1.7.3</version>
 </dependency>
 ```
 
 #### SBT
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.7.2"
+libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.7.3"
 ```
 
 If you are using `scala 2.11`
 
 ```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.7.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.7.3"
 ```
 
 ## Using the jar manually 
@@ -159,7 +162,7 @@ The preferred way to use the library when running spark programs is using the `-
 
 If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
 If there is any older than current version of a model, it means they still work for current versions.
-### Updated for 1.7.2
+### Updated for 1.7.3
 ### Pipelines
 * [Basic Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.6.1_2_1533856444797.zip)
 * [Advanced Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.7.0_2_1539460910585.zip)
@@ -170,12 +173,11 @@ If there is any older than current version of a model, it means they still work 
 * [ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.6.2_2_1534781337758.zip)
 * [SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.6.2_2_1534781178138.zip)
 * [NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.6.2_2_1534781328404.zip)
-* [AssertionDLModel (Assertion Status)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.6.1_2_1533855787457.zip)
 * [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.7.0_2_1539896043754.zip)
 * [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.7.0_2_1539623388047.zip)
 * [LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.6.1_2_1533854538211.zip)
 * [AssertionDLModel (Assertion)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/as_fast_dl_en_1.7.0_2_1539653960749.zip)
-
+``
 # FAQ
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
 

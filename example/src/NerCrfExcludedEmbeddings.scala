@@ -71,7 +71,8 @@ object NerCrfExcludedEmbeddings extends App {
   EmbeddingsHelper.load(
     "./glove.6B.100d.txt",
     spark,
-    WordEmbeddingsFormat.TEXT,
+    WordEmbeddingsFormat.TEXT.toString,
+    "glove6b",
     200,
     true
   )
