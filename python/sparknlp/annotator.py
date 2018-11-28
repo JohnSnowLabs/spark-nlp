@@ -52,49 +52,27 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
-class AnnotatorWithEmbeddings(Params):
+class ApproachWithEmbeddings(Params):
     embeddingsDim = Param(Params._dummy(),
-                             "embeddingsDim",
-                             "Number of embedding dimensions",
-                             typeConverter=TypeConverters.toInt)
+                          "embeddingsDim",
+                          "Number of embedding dimensions",
+                          typeConverter=TypeConverters.toInt)
 
     caseSensitiveEmbeddings = Param(Params._dummy(),
-                          "caseSensitiveEmbeddings",
-                          "whether to ignore case in tokens for embeddings matching",
-                          typeConverter=TypeConverters.toBoolean)
-
-    includeEmbeddings = Param(Params._dummy(),
-                                    "includeEmbeddings",
-                                    "whether to include embeddings when saving annotator",
+                                    "caseSensitiveEmbeddings",
+                                    "whether to ignore case in tokens for embeddings matching",
                                     typeConverter=TypeConverters.toBoolean)
 
+    includeEmbeddings = Param(Params._dummy(),
+                              "includeEmbeddings",
+                              "whether to include embeddings when saving annotator",
+                              typeConverter=TypeConverters.toBoolean)
+
     embeddingsRef = Param(Params._dummy(),
-                              "embeddingsRef",
-                              "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                              typeConverter=TypeConverters.toString)
+                          "embeddingsRef",
+                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                          typeConverter=TypeConverters.toString)
 
-    @keyword_only
-    def __init__(self):
-        super(AnnotatorWithEmbeddings, self).__init__()
-        self._setDefault(
-            caseSensitiveEmbeddings=False,
-            includeEmbeddings=True
-        )
-
-    def setEmbeddingsDim(self, value):
-        return self._set(embeddingsDim=value)
-
-    def setCaseSensitiveEmbeddings(self, value):
-        return self._set(caseSensitiveEmbeddings=value)
-
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
-
-    def setEmbeddingsRef(self, value):
-        return self._set(embeddingsRef=value)
-
-
-class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
     sourceEmbeddingsPath = Param(Params._dummy(),
                                  "sourceEmbeddingsPath",
                                  "Word embeddings file",
@@ -109,10 +87,25 @@ class ApproachWithEmbeddings(AnnotatorWithEmbeddings):
         self._set(embeddingsFormat=format)
         return self._set(embeddingsDim=nDims)
 
+    def setEmbeddingsDim(self, value):
+        return self._set(embeddingsDim=value)
 
-class ModelWithEmbeddings(AnnotatorWithEmbeddings):
-    def getClusterEmbeddings(self):
-        return self._java_obj.getClusterEmbeddings()
+    def setCaseSensitiveEmbeddings(self, value):
+        return self._set(caseSensitiveEmbeddings=value)
+
+    def setIncludeEmbeddings(self, value):
+        return self._set(includeEmbeddings=value)
+
+    def setEmbeddingsRef(self, value):
+        return self._set(embeddingsRef=value)
+
+    def __init__(self):
+        super(ApproachWithEmbeddings, self).__init__()
+        self._setDefault(
+            caseSensitiveEmbeddings=False,
+            includeEmbeddings=True,
+            embeddingsRef=self.uid
+        )
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
@@ -125,16 +118,49 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
         return self._set(**kwargs)
 
     @keyword_only
-    def __init__(self, classname):
-        super(JavaTransformer, self).__init__()
-        self.__class__._java_class_name = classname
-        self._java_obj = self._new_java_obj(classname, self.uid)
+    def __init__(self, classname, java_model=None):
+        super(AnnotatorModel, self).__init__(java_model=java_model)
+        if classname and not java_model:
+            self.__class__._java_class_name = classname
+            self._java_obj = self._new_java_obj(classname, self.uid)
+        if java_model is not None:
+            self._transfer_params_from_java()
+
+
+class ModelWithEmbeddings(AnnotatorModel):
+
+    embeddingsDim = Param(Params._dummy(),
+                          "embeddingsDim",
+                          "Number of embedding dimensions",
+                          typeConverter=TypeConverters.toInt)
+
+    caseSensitiveEmbeddings = Param(Params._dummy(),
+                                    "caseSensitiveEmbeddings",
+                                    "whether to ignore case in tokens for embeddings matching",
+                                    typeConverter=TypeConverters.toBoolean)
+
+    includeEmbeddings = Param(Params._dummy(),
+                              "includeEmbeddings",
+                              "whether to include embeddings when saving annotator",
+                              typeConverter=TypeConverters.toBoolean)
+
+    embeddingsRef = Param(Params._dummy(),
+                          "embeddingsRef",
+                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                          typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self, classname, java_model=None):
+        super(ModelWithEmbeddings, self).__init__(classname=classname, java_model=java_model)
+
+    def getClusterEmbeddings(self):
+        return self._java_obj.getClusterEmbeddings()
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties, ParamsGettersSetters):
     @keyword_only
     def __init__(self, classname):
-        super(AnnotatorApproach, self).__init__()
+        ParamsGettersSetters.__init__(self)
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
 
@@ -205,7 +231,7 @@ class Tokenizer(AnnotatorModel):
     def setSuffixPattern(self, value):
         return self._set(suffixPattern=value)
 
-    def setCompositeTokens(self, value):
+    def setCompositeTokensPatterns(self, value):
         return self._set(compositeTokens=value)
 
     def setInfixPatterns(self, value):
@@ -315,7 +341,7 @@ class Normalizer(AnnotatorApproach):
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return NormalizerModel(java_model)
+        return NormalizerModel(java_model=java_model)
 
 
 class NormalizerModel(AnnotatorModel):
@@ -329,11 +355,16 @@ class NormalizerModel(AnnotatorModel):
                       "lowercase",
                       "whether to convert strings to lowercase")
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(NormalizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NormalizerModel")
+    slangDictionary = Param(Params._dummy(),
+                            "slangDictionary",
+                            "slang dictionary is a delimited text. needs 'delimiter' in options",
+                            typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.NormalizerModel", java_model=None):
+        super(NormalizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     name = "NormalizerModel"
 
@@ -354,18 +385,23 @@ class DeIdentification(AnnotatorApproach):
         return self._set(regexPatternsDictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return DeIdentificationModel(java_model)
+        return DeIdentificationModel(java_model=java_model)
 
 
 class DeIdentificationModel(AnnotatorModel):
 
     name = "DeIdentificationModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(DeIdentificationModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel")
+    regexPatternsDictionary = Param(Params._dummy(),
+                                    "regexPatternsDictionary",
+                                    "dictionary with regular expression patterns that match some protected entity",
+                                    typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel", java_model=None):
+        super(DeIdentificationModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
 
 class RegexMatcher(AnnotatorApproach):
@@ -397,15 +433,15 @@ class RegexMatcher(AnnotatorApproach):
         return self._set(externalRules=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return RegexMatcherModel(java_model)
+        return RegexMatcherModel(java_model=java_model)
 
 
 class RegexMatcherModel(AnnotatorModel):
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(RegexMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
+        super(RegexMatcherModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     name = "RegexMatcherModel"
 
@@ -422,7 +458,7 @@ class Lemmatizer(AnnotatorApproach):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
 
     def _create_model(self, java_model):
-        return LemmatizerModel(java_model)
+        return LemmatizerModel(java_model=java_model)
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -436,11 +472,11 @@ class Lemmatizer(AnnotatorApproach):
 class LemmatizerModel(AnnotatorModel):
     name = "LemmatizerModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(LemmatizerModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel", java_model=None):
+        super(LemmatizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="lemma_fast", language="en", remote_loc=None):
@@ -486,7 +522,7 @@ class TextMatcher(AnnotatorApproach):
         self._setDefault(inputCols=["token"], caseSensitive=True)
 
     def _create_model(self, java_model):
-        return TextMatcherModel(java_model)
+        return TextMatcherModel(java_model=java_model)
 
     def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
@@ -498,11 +534,11 @@ class TextMatcher(AnnotatorApproach):
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(TextMatcherModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
+        super(TextMatcherModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -540,7 +576,7 @@ class PerceptronApproach(AnnotatorApproach):
         return self._set(nIterations=value)
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return PerceptronModel(java_model=java_model)
 
 
 class PerceptronApproachLegacy(AnnotatorApproach):
@@ -578,17 +614,17 @@ class PerceptronApproachLegacy(AnnotatorApproach):
         return self._set(nIterations=value)
 
     def _create_model(self, java_model):
-        return PerceptronModel(java_model)
+        return PerceptronModel(java_model=java_model)
 
 
 class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(PerceptronModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel", java_model=None):
+        super(PerceptronModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="pos_fast", language="en", remote_loc=None):
@@ -680,7 +716,7 @@ class SentimentDetector(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return SentimentDetectorModel(java_model)
+        return SentimentDetectorModel(java_model=java_model)
 
 
 class SentimentDetectorModel(AnnotatorModel):
@@ -691,11 +727,11 @@ class SentimentDetectorModel(AnnotatorModel):
                                "multiplier for positive sentiments. Defaults 1.0",
                                typeConverter=TypeConverters.toFloat)
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(SentimentDetectorModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel", java_model=None):
+        super(SentimentDetectorModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
@@ -758,7 +794,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
         return self._set(pruneCorpus=value)
 
     def _create_model(self, java_model):
-        return ViveknSentimentModel(java_model)
+        return ViveknSentimentModel(java_model=java_model)
 
 
 class ViveknSentimentModel(AnnotatorModel):
@@ -779,11 +815,11 @@ class ViveknSentimentModel(AnnotatorModel):
                          "content feature limit, to boost performance in very dirt text. Default disabled with -1",
                          typeConverter=TypeConverters.toInt)
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(ViveknSentimentModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel", java_model=None):
+        super(ViveknSentimentModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="vivekn_fast", language="en", remote_loc=None):
@@ -870,17 +906,17 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return self._set(shortCircuit=value)
 
     def _create_model(self, java_model):
-        return NorvigSweetingModel(java_model)
+        return NorvigSweetingModel(java_model=java_model)
 
 
 class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(NorvigSweetingModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel", java_model=None):
+        super(NorvigSweetingModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="spell_fast", language="en", remote_loc=None):
@@ -925,17 +961,17 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(maxEditDistance=v)
 
     def _create_model(self, java_model):
-        return SymmetricDeleteModel(java_model)
+        return SymmetricDeleteModel(java_model=java_model)
 
 
 class SymmetricDeleteModel(AnnotatorModel):
     name = "SymmetricDeleteModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(SymmetricDeleteModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel", java_model=None):
+        super(SymmetricDeleteModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="spell_sd_fast", language="en", remote_loc=None):
@@ -1009,7 +1045,7 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
-        return NerCrfModel(java_model)
+        return NerCrfModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1024,14 +1060,14 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(AnnotatorModel, ModelWithEmbeddings):
+class NerCrfModel(ModelWithEmbeddings):
     name = "NerCrfModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(NerCrfModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel", java_model=None):
+        super(NerCrfModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="ner_fast", language="en", remote_loc=None):
@@ -1083,7 +1119,7 @@ class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
         return self._set(targetNerLabels = v)
 
     def _create_model(self, java_model):
-        return AssertionLogRegModel(java_model)
+        return AssertionLogRegModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1091,7 +1127,7 @@ class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
         self._setDefault(label="label", beforeParam=11, afterParam=13)
 
 
-class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
+class AssertionLogRegModel(ModelWithEmbeddings):
     name = "AssertionLogRegModel"
 
     beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
@@ -1101,11 +1137,11 @@ class AssertionLogRegModel(AnnotatorModel, ModelWithEmbeddings):
     nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
     targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(AssertionLogRegModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel", java_model=None):
+        super(AssertionLogRegModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="as_fast_lg", language="en", remote_loc=None):
@@ -1151,7 +1187,7 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def _create_model(self, java_model):
-        return NerDLModel(java_model)
+        return NerDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1167,14 +1203,14 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel, ModelWithEmbeddings):
+class NerDLModel(ModelWithEmbeddings):
     name = "NerDLModel"
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(NerDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
+        super(NerDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="ner_precise", language="en", remote_loc=None):
@@ -1225,7 +1261,7 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
         return self._set(dropout = rate)
 
     def _create_model(self, java_model):
-        return AssertionDLModel(java_model)
+        return AssertionDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -1233,16 +1269,16 @@ class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
         self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
 
 
-class AssertionDLModel(AnnotatorModel, ModelWithEmbeddings):
+class AssertionDLModel(ModelWithEmbeddings):
     name = "AssertionDLModel"
 
     targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
 
-    def __init__(self, java_model=None):
-        if java_model:
-            super(JavaModel, self).__init__(java_model)
-        else:
-            super(AssertionDLModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel", java_model=None):
+        super(AssertionDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
     @staticmethod
     def pretrained(name="as_fast_dl", language="en", remote_loc=None):

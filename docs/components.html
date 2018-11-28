@@ -398,16 +398,10 @@ val recursivePipeline = new RecursivePipeline()
                                             <b>Functions (not all of them listed):</b>
                                             <ul>
                                                 <li>
-                                                    load(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
-                                                </li>
-                                                <li>
-                                                    setRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                    load(path, spark, format, reference, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'. Makes embeddings available for Annotators without included embeddings.
                                                 </li>
                                                 <li>
                                                     save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
-                                                </li>
-                                                <li>
-                                                    clearCache() -> clears reference and cached embeddings
                                                 </li>
                                             </ul>
                                         </div><!--//code-block--></div>
@@ -419,16 +413,10 @@ val recursivePipeline = new RecursivePipeline()
                                             <b>Functions (not all of them listed):</b>
                                             <ul>
                                                 <li>
-                                                    load(path, spark, format, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'
-                                                </li>
-                                                <li>
-                                                    setRef(ref, embeddings) -> Sets some previously loaded embeddings to be available through the provided 'ref' name by user
+                                                    load(path, spark, format, reference, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'. Makes embeddings available for Annotators without included embeddings.
                                                 </li>
                                                 <li>
                                                     save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
-                                                </li>
-                                                <li>
-                                                    clearCache() -> clears reference and cached embeddings
                                                 </li>
                                             </ul>
                                         </div><!--//code-block--></div>
@@ -1288,9 +1276,10 @@ documentAssembler = new DocumentAssembler()
                                             addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).
                                           </li>
                                           <li>
-                                            setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                            setCompositeTokensPatterns: Adds a list of compound words to mark for ignore. E.g., adding "New York" so it doesn't get split into "New" and "York".
                                           </li>
                                             </ul>
+<b>Note:</b> all these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions.
                                             <br>
                                             <b>Example:</b><br>
                                             </p>
@@ -1324,9 +1313,10 @@ documentAssembler = new DocumentAssembler()
                                               addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).
                                             </li>
                                             <li>
-                                              setCompositeTokens: Adds a list of compound words to mark for ignore. E.G. New York so it doesnt get split in New and York
+                                              setCompositeTokensPatterns: Adds a list of compound words to mark for ignore. E.g., adding "New York" so it doesn't get split into "New" and "York".
                                             </li>
                                           </ul>
+<b>Note:</b> all these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions.
                                             <br>
                                             <b>Example:</b><br>
                                             </p>

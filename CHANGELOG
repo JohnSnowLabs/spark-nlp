@@ -1,4 +1,39 @@
 ========
+1.7.3
+========
+---------------
+Overview
+---------------
+This hotfix release focuses on fixing word-embeddings cluster problems on some frameworks such as Databricsk, while keeping 1.7.x performance benefits. Various YARN based clusters have been tested, databricks cloud among them to test this hotfix.
+Aside of that, multiple improvements have been commited towards a better support of PySpark-NLP, fixing diverse technical issues in the API that help consistency in Annotator's super classes.
+Finally, PIP installation has been made easier with a SparkNLP class that creates SparkSession automatically, for those who are learning Python Spark on their local computers.
+Thanks to all the community for reporting issues.
+
+---------------
+Bugfixes
+---------------
+* Fixed 'RocksDB not serializable' when running LightPipeline scenarios or using _.functions implicits
+* Fixed dependency with apache.commons.codec causing Apache Zeppelin 0.8.0 not to work in %pyspark
+* Fixed Python pretrained() downloader not correctly setting Params and incorrectly creating new Model UIDs
+* Fixed error 'JavaPackage not callable' when using AnnotatorModel.load() API without instantiating the class first
+* Fixed Spark addFiles missing local file causing Word Embeddings not properly work in some Cluster-based frameworks
+* Fixed broadcast NoSuchElementException `Failed to get broadcast_6_piece0 of broadcast_6` causing pretrained models not work in cluster frameworks (thanks @EnricoMi)
+
+---------------
+Developer API
+---------------
+* EmbeddingsHelper.setRef() has been removed. Reference is now set implicitly through EmbeddingsHelper.load(). Does not need to be loaded before deserializing models.
+* Fixed and properly renamed chunk2doc and dock2chunk transformers, should now be working as expected
+* Renamed setCompositeTokens to setCompositeTokensPatterns to help user remind that regex are being used in such Param
+* Fixed PySpark automatic getter and setter Param generation when using pretrained() or load() models
+* Simplified cluster path resolution for word embeddings
+
+---------------
+Other
+---------------
+* sparknlp.base now contains SparkNLP() classs which automatically cretes SparkSession using appropriate jar settings. Helps newcomers get started in PySpark NLP.
+
+========
 1.7.2
 ========
 ---------------
