@@ -3,9 +3,7 @@ package com.johnsnowlabs.nlp.annotators.spell.ocr
 import scala.collection.mutable
 import scala.math.min
 
-
-/* computes the distance from a String to a set of predefined token classes */
-trait TokenClasses {
+trait WeightedLevenshtein {
 
   def levenshteinDist(s1: String, s2: String)(cost:(Char, Char) => Float): Float = {
     val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
@@ -20,10 +18,9 @@ trait TokenClasses {
   }
 
   /* weighted levenshtein distance */
-  def wLevenshteinDist(s1:String, s2:String) = levenshteinDist(s1, s2)(genCost)
+  def wLevenshteinDist(s1:String, s2:String, weights:Map[Char, Map[Char, Float]]) = levenshteinDist(s1, s2)(genCost(weights))
 
-  def loadWeights(filename: String): mutable.Map[Char, mutable.Map[Char, Float]] = {
-
+  def loadWeights(filename: String): Map[Char, Map[Char, Float]] = {
     // store word ids
     val vocabIdxs = mutable.HashMap[Char, mutable.Map[Char, Float]]()
 
@@ -32,14 +29,11 @@ trait TokenClasses {
       val dist = vocabIdxs.getOrElse(lineFields(0).head, mutable.Map[Char, Float]()).updated(lineFields(1).head, lineFields(2).toFloat)
       vocabIdxs.update(lineFields(0).head, dist)
     }
-
-    vocabIdxs
+    vocabIdxs.toMap.mapValues(_.toMap)
   }
 
-  /* not implemented at this time */
-  var weights = mutable.Map[Char, Map[Char, Float]]()
 
-  private def genCost(a:Char, b:Char): Float = {
+  private def genCost(weights: Map[Char, Map[Char, Float]])(a:Char, b:Char): Float = {
     if (weights.contains(a) && weights(a).contains(b))
       weights(a)(b)
     else if (a == b) {
