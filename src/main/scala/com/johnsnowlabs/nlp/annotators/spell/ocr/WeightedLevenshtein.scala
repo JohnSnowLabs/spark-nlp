@@ -45,4 +45,37 @@ trait WeightedLevenshtein {
 
   private def minimum(i1: Float, i2: Float, i3: Float) = min(min(i1, i2), i3)
 
+
+  def learnDist(s1: String, s2: String): Seq[(String, String)] = {
+    val acc: Seq[(String, String)] = Seq.empty
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
+
+    for (j <- 1 to s2.length; i <- 1 to s1.length)
+      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
+      else minimum(
+        dist(j - 1)(i) + 1.0f,
+        dist(j)(i - 1) + 1.0f,
+        dist(j - 1)(i - 1) + 1.0f)
+
+    backTrack(dist, s2, s1, s2.length, s1.length, acc)
+  }
+
+  def backTrack(dist: Array[Array[Float]], s2:String, s1:String,
+                j:Int, i:Int, acc:Seq[(String, String)]): Seq[(String, String)]= {
+
+    if (s2(j-1) == s1(i-1))
+      if(j==1 && i==1)
+         acc
+        else
+        backTrack(dist, s2, s1, j - 1, i - 1, acc)
+    else {
+      val pSteps = Map(dist(j - 1)(i) -> ("", s2(j - 1).toString, j - 1, i),
+        dist(j)(i - 1) -> (s1(i - 1).toString, "", j, i - 1),
+        dist(j - 1)(i - 1) -> (s1(i - 1).toString, s2(j - 1).toString, j - 1, i - 1))
+
+      val best = pSteps.minBy(_._1)._2
+      backTrack(dist, s2, s1, best._3, best._4, acc :+ (best._1, best._2))
+    }
+  }
+
 }
