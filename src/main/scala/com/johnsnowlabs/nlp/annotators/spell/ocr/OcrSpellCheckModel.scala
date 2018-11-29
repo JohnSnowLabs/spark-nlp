@@ -193,8 +193,10 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     import scala.collection.JavaConversions._
-    annotations.map{ annotation =>
-      val trellis:Array[Array[(String, Double, String)]] = annotation.result.split(" ").map { token =>
+
+      val trellis:Array[Array[(String, Double, String)]] = annotations.map { annotation =>
+        val token = annotation.result
+
 
         // ask each token class for candidates, keep the one with lower cost
         var candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
@@ -220,14 +222,13 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
         logger.info(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
         labelWeightCand.toArray
-      }
+      }.toArray
 
       val (decodedPath, cost) = decodeViterbi(trellis)
 
-      annotation.copy(result = decodedPath.tail.dropRight(1) // get rid of BOS and EOS
-        .mkString(" "),
-        metadata = annotation.metadata + ("score" -> cost.toString))
-    }
+    decodedPath.tail.dropRight(1). // get rid of BOS and EOS
+    map { word => Annotation(word)}
+
   }
 
   def this() = this(Identifiable.randomUID("SPELL"))
