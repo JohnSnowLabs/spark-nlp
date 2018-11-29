@@ -432,12 +432,23 @@ class ParamsGettersTestSpec(unittest.TestCase):
 class OcrTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
+        OcrHelper.setMinTextLayer(8)
+        print("text layer is: " + str(OcrHelper.getMinTextLayer()))
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
             input_path="../ocr/src/test/resources/pdfs/",
             output_col="region",
             metadata_col="metadata")
         data.show()
+        OcrHelper.setMinTextLayer(0)
+        print("Text layer disabled")
+        data = OcrHelper.createDataset(
+            spark=SparkContextForTest.spark,
+            input_path="../ocr/src/test/resources/pdfs/",
+            output_col="region",
+            metadata_col="metadata")
+        data.show()
+        OcrHelper.setMinTextLayer(10)
         content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs/")
         print(content)
         document_assembler = DocumentAssembler() \
