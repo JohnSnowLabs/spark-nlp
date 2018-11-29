@@ -1,8 +1,6 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
-import com.johnsnowlabs.nlp.annotators.assertion.dl.{PretrainedDLAssertionStatus, ReadsAssertionGraph}
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.PretrainedAssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
@@ -46,11 +44,6 @@ object annotator {
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
   object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer
 
-  type AssertionLogRegApproach = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
-  object AssertionLogRegApproach extends DefaultParamsReadable[AssertionLogRegApproach]
-  type AssertionLogRegModel = com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
-  object AssertionLogRegModel extends EmbeddingsReadable[AssertionLogRegModel] with PretrainedAssertionLogRegModel
-
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -91,18 +84,8 @@ object annotator {
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
   object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
 
-  type AssertionDLApproach = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach
-  object AssertionDLApproach extends DefaultParamsReadable[AssertionDLApproach]
-  type AssertionDLModel = com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel
-  object AssertionDLModel extends EmbeddingsReadable[AssertionDLModel] with ReadsAssertionGraph with PretrainedDLAssertionStatus
-
   type NerConverter = com.johnsnowlabs.nlp.annotators.ner.NerConverter
   object NerConverter extends ParamsAndFeaturesReadable[NerConverter]
-
-  type DeIdentification = com.johnsnowlabs.nlp.annotators.DeIdentification
-  object DeIdentification extends DefaultParamsReadable[DeIdentification]
-  type DeIdentificationModel = com.johnsnowlabs.nlp.annotators.DeIdentificationModel
-  object DeIdentificationModel extends DefaultParamsReadable[DeIdentificationModel]
 
   type DependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
   object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]
