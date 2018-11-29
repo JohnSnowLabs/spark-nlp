@@ -1,12 +1,10 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach
-import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproachDistributed, PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
@@ -236,29 +234,5 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     filename
   }
 
-  def getAssertionLogregModel(dataset: Dataset[Row]) = {
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("sentence")
-      .setOutputCol("document")
-
-    val chunkAssembler = new Doc2Chunk()
-      .setInputCols("document")
-      .setChunkCol("target")
-      .setOutputCol("chunk")
-
-    val assertion = new AssertionLogRegApproach()
-      .setLabelCol("label")
-      .setInputCols("document", "chunk")
-      .setOutputCol("assertion")
-      .setReg(0.01)
-      .setBefore(11)
-      .setAfter(13)
-      .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, WordEmbeddingsFormat.TEXT)
-      .setStartCol("start")
-      .setEndCol("end")
-
-    new Pipeline().setStages(Array(documentAssembler, chunkAssembler, assertion)).fit(dataset)
-  }
 }
 
