@@ -2,9 +2,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials}
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.AssertionDLModel
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
@@ -168,8 +166,6 @@ object PythonResourceDownloader {
     "SentimentDetectorModel" -> SentimentDetectorModel,
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
-    "AssertionLogRegModel" -> AssertionLogRegModel,
-    "AssertionDLModel" -> AssertionDLModel,
     "NerDLModel" -> NerDLModel
     )
 
