@@ -4,7 +4,6 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.nlp.annotators.spell.ocr.OcrSpellCheckModel
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -13,7 +12,7 @@ import org.apache.spark.sql.SparkSession
 /**
   * Created by jose on 23/03/18.
   */
-trait WriteTensorflowModel{
+trait WriteTensorflowModel {
 
 
   def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String, filename:String): Unit = {
@@ -56,7 +55,7 @@ trait ReadTensorflowModel {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-        zipped, tags = tags, useBundle = useBundle)
+      zipped, tags = tags, useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
