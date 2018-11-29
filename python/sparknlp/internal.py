@@ -79,6 +79,11 @@ class _LightPipeline(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, pipelineModel._to_java())
 
 
+# ============
+# OCR SECTION
+# ============
+
+
 class _OcrCreateDataset(ExtendedJavaWrapper):
     def __init__(self, spark, input_path, output_col, metadata_col):
         super(_OcrCreateDataset, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createDataset")
@@ -89,6 +94,71 @@ class _OcrCreateMap(ExtendedJavaWrapper):
     def __init__(self, input_path):
         super(_OcrCreateMap, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createMap")
         self._java_obj = self._new_java_obj(self._java_obj, input_path)
+        
+        
+class _OcrSetMinTextLayer(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetMinTextLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setMinTextLayer")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetMinTextLayer(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetMinTextLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getMinTextLayer")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetPageSegMode(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetPageSegMode, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setPageSegMode")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetPageSegMode(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetPageSegMode, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getPageSegMode")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetEngineMode(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetEngineMode, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setEngineMode")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetEngineMode(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetEngineMode, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getEngineMode")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetPageIteratorLevel(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetPageIteratorLevel, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setPageIteratorLevel")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetPageIteratorLevel(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetPageIteratorLevel, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getPageIteratorLevel")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetScalingFactor(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetScalingFactor, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setScalingFactor")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrUseErosion(ExtendedJavaWrapper):
+    def __init__(self, use, k_size, k_shape):
+        super(_OcrUseErosion, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.useErosion")
+        self._java_obj = self._new_java_obj(self._java_obj, use, k_size, k_shape)
+
+
+# ==================
+# Embeddings Helper
+# ==================
 
 
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
