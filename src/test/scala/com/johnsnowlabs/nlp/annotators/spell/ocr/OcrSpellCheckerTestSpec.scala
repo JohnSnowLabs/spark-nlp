@@ -57,12 +57,12 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
   }
 
   // TODO complete when we have a generic pre-trained model.
-  "a Spell Checker" should "work in a pipeline with Tokenizer" ignore {
+  "a Spell Checker" should "work in a pipeline with Tokenizer" in {
     import SparkAccessor.spark
     import spark.implicits._
 
     val data = OcrHelper.createDataset(spark,
-      "ocr/src/test/resources/pdfs/h_p.pdf",
+      "ocr/src/test/resources/pdfs/h_and_p.pdf",
       "region", "metadata")
 
     val documentAssembler =
@@ -79,12 +79,8 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("normalized")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("region"))
-    /*
-    val result = pipeline.transform(raw.values.toArray)
+    pipeline.transform(data).show()
 
-    assert(raw.size == 2 && result.nonEmpty)
-    println(result.mkString(","))
-    succeed*/
   }
 
   "a model" should "serialize properly" in {

@@ -1,11 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.ocr
 
-import com.johnsnowlabs.nlp.SparkAccessor.spark
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.ocr.parser.{DateToken, NumberToken}
-import com.johnsnowlabs.nlp.util.io.OcrHelper
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
-import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.nlp.{Annotation, SparkAccessor}
 import SparkAccessor.spark.implicits._
 
 object MeasureHP extends App with OcrTestData {
@@ -17,39 +13,21 @@ object MeasureHP extends App with OcrTestData {
   val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
   val langModelPath = "../auxdata/"
 
-  val data = OcrHelper.createDataset(spark,
-    "ocr/src/test/resources/pdfs/h_and_p.pdf",
-    "region", "metadata")
-
-  val documentAssembler =
-    new DocumentAssembler().
-      setInputCol("region").
-      setMetadataCol("metadata").
-      setOutputCol("text")
-
-  val tokenizer: Tokenizer = new Tokenizer()
-    .setInputCols(Array("text"))
-    .setOutputCol("token")
-
-  val normalizer: Normalizer = new Normalizer()
-    .setInputCols(Array("token"))
-    .setOutputCol("normalized")
-
   val ocrspellModel = new OcrSpellCheckApproach().
     setWeights("distance.psv").
     setInputCols("normalized").
+    setOutputCol("spell_checked").
     setTrainCorpusPath(trainCorpusPath).
     setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
     fit(Seq.empty[String].toDF("text"))
 
   ocrspellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
 
-  val pipeline = new Pipeline().
-    setStages(Array(documentAssembler, tokenizer, normalizer, ocrspellModel)).
-    fit(Seq.empty[String].toDF("region"))
-
   val time = System.nanoTime()
-  val corrected = pipeline.transform(data).as[Seq[Annotation]].map(_.head.result).collect()
+  val corrected = raw.map { tokens =>
+    ocrspellModel.annotate(tokens.map(t => Annotation(t))).map(_.result)
+  }
+
   print(s"Done, ${(System.nanoTime() - time) / 1e9}")
 
   var destroyed = 0
