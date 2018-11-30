@@ -84,18 +84,14 @@ case class CandidateSplit(candidates:Seq[Seq[String]], cost:Float=0f) {
 
 class SuffixedToken(suffixes:Array[String]) extends PreprocessingParser {
 
-  def belongs(token: String): Boolean =
-    if(token.length > 1)
-       suffixes.map(token.endsWith).reduce(_ || _)
-    else
-       false
+  def belongs(token: String): Option[String] =
+    suffixes.find(token.endsWith)
+
 
   override def separate(token:String): String = {
-    if(belongs(token)) {
-      s"""${separate(token.dropRight(1))} ${token.last}"""
-    }
-    else
-      token
+    belongs(token).map { suffix  =>
+      s"""${separate(token.dropRight(suffix.length))} $suffix"""
+    }.getOrElse(token)
   }
 
 }
