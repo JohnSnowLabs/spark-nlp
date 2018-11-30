@@ -35,10 +35,10 @@ class OcrSpellCheckApproach(override val uid: String) extends
   def setLMClasses(k: Int):this.type = set(languageModelClasses, k)
 
   val prefixes = new ArrayFeature[String](this, "prefixes")
-  def setPrefixes(p: Array[String]):this.type = set(prefixes, p)
+  def setPrefixes(p: Array[String]):this.type = set(prefixes, p.sortBy(_.size).reverse)
 
   val suffixes = new ArrayFeature[String](this, "suffixes")
-  def setSuffixes(s: Array[String]):this.type = set(suffixes, s)
+  def setSuffixes(s: Array[String]):this.type = set(suffixes, s.sortBy(_.size).reverse)
 
   val wordMaxDistance = new IntParam(this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
   def setWordMaxDist(k: Int):this.type = {
@@ -77,7 +77,7 @@ class OcrSpellCheckApproach(override val uid: String) extends
   // TODO: hard coded.
   val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
 
-  private val firstPass = Seq(SuffixedToken($$(suffixes) ++ openClose.map(_.close)),
+  private lazy val firstPass = Seq(SuffixedToken($$(suffixes) ++ openClose.map(_.close)),
     PrefixedToken($$(prefixes) ++ openClose.map(_.open)))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {

@@ -56,6 +56,23 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
   }
 
+
+  "a Spell Checker" should "correctly preprocess training data" in {
+
+    val path = "src/test/resources/test.txt"
+    val spellChecker = new OcrSpellCheckApproach().
+      setTrainCorpusPath("src/test/resources/test.txt").
+      setSuffixes(Array(".", ":", "%", ",", ";", "?", "'", "!”", "”", "!”", ",”", ".”")).
+      setPrefixes(Array("'", "“", "“‘")).
+      setMinCount(1.0)
+
+    val (map, _) = spellChecker.genVocab(path)
+    assert(map.contains("seed"))
+    assert(map.contains("”"))
+    assert(map.contains("“"))
+
+  }
+
   // TODO complete when we have a generic pre-trained model.
   "a Spell Checker" should "work in a pipeline with Tokenizer" in {
     import SparkAccessor.spark
