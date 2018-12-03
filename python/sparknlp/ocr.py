@@ -42,5 +42,13 @@ class OcrHelper:
         return _int._OcrSetScalingFactor(factor).apply()
 
     @staticmethod
+    def setSplitPages(value):
+        return _int._OcrSetSplitPages(value).apply()
+
+    @staticmethod
+    def getSplitPages():
+        return _int._OcrGetSplitPages().apply()
+
+    @staticmethod
     def useErosion(use, k_size=2, k_shape=0):
         return _int._OcrUseErosion(use, k_size, k_shape).apply()

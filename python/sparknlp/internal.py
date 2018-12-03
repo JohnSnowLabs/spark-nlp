@@ -150,6 +150,18 @@ class _OcrSetScalingFactor(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, value)
 
 
+class _OcrGetSplitPages(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetSplitPages, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getSplitPages")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetSplitPages(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetSplitPages, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setSplitPages")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
 class _OcrUseErosion(ExtendedJavaWrapper):
     def __init__(self, use, k_size, k_shape):
         super(_OcrUseErosion, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.useErosion")

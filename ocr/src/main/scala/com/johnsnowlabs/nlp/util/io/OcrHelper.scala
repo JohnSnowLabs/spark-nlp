@@ -11,7 +11,7 @@ import net.sourceforge.tess4j.util.LoadLibs
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 /*
@@ -62,6 +62,7 @@ object OcrHelper {
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
   private var kernelSize:Option[Int] = None
+  private var splitPages: Boolean = false
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -106,6 +107,10 @@ object OcrHelper {
       scalingFactor = Some(factor)
   }
 
+  def setSplitPages(value: Boolean): Unit = splitPages = value
+
+  def getSplitPages: Boolean = splitPages
+
   def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
       kernelSize = None
@@ -113,9 +118,7 @@ object OcrHelper {
       kernelSize = Some(kSize)
   }
 
-  var extractTextLayer: Boolean = true
-
-  case class OcrRow(region: String, metadata: Map[String, String])
+  case class OcrRow(region: String, filename: String, pagenum: Int)
 
   private def getListOfFiles(dir: String): List[(String, FileInputStream)] = {
     val path = new File(dir)
@@ -128,14 +131,15 @@ object OcrHelper {
     }
   }
 
-  def createDataset(spark: SparkSession, inputPath: String, outputCol: String, metadataCol: String): DataFrame = {
+  def createDataset(spark: SparkSession, inputPath: String): Dataset[OcrRow] = {
     import spark.implicits._
     val sc = spark.sparkContext
 
     val files = sc.binaryFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doOcr(stream.open).map{case (pageN, region) => OcrRow(region, Map("source" -> fileName, "pagenum" -> pageN.toString))}
-    }.filter(_.region.nonEmpty).toDF(outputCol, metadataCol)
+      doOcr(stream.open).map{case (pageN, region) => OcrRow(region, fileName, pageN)}
+    }.filter(_.region.nonEmpty).toDS
+
   }
 
   def createMap(inputPath: String): Map[String, String] = {
@@ -219,26 +223,16 @@ object OcrHelper {
       (integer - 255).toByte
   }
 
-
-  /*
-   * fileStream: a stream to PDF files
-   * returns sequence of (pageNumber:Int, textRegion:String)
-   *
-   * */
-  private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
+  private def pageOcr(tesseract: Tesseract, pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String)] = {
     import scala.collection.JavaConversions._
-    val pdfDoc = PDDocument.load(fileStream)
-    val numPages = pdfDoc.getNumberOfPages
-    val api = initTesseract()
 
-    /* try to extract a text layer from each page, default to OCR if not present */
-    val result = Range(1, numPages + 1).flatMap { pageNum =>
-      lazy val textContent = extractText(pdfDoc, pageNum)
-      lazy val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
-      // if no text layer present, do the OCR
-      if ((minTextLayerSize == 0 || textContent.length <= minTextLayerSize) && renderedImage.isDefined) {
+    lazy val textContent = extractText(pdfDoc, startPage, endPage)
+    lazy val renderedImage = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
+    // if no text layer present, do the OCR
+    if ((minTextLayerSize == 0 || textContent.length <= minTextLayerSize) && renderedImage.nonEmpty) {
 
-        val image = PlanarImage.wrapRenderedImage(renderedImage.get)
+      val imageContent = renderedImage.map(render => {
+        val image = PlanarImage.wrapRenderedImage(render)
 
         // rescale if factor provided
         val scaledImage = scalingFactor.map { factor =>
@@ -254,17 +248,42 @@ object OcrHelper {
         val regions = {
           /** Some ugly image scenarios cause a null pointer in tesseract. Avoid here.*/
           try {
-            api.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
+            tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
           } catch {
             case _: NullPointerException => List()
           }
         }
         regions.flatMap(_.map { rectangle =>
-          (pageNum, api.doOCR(dilatedImage, rectangle))
+          tesseract.doOCR(dilatedImage, rectangle)
         })
+      }).mkString(System.lineSeparator())
+
+      Seq((startPage - endPage + 1, imageContent))
+
+    }
+    else
+      Seq((startPage - endPage + 1, textContent))
+  }
+
+  /*
+   * fileStream: a stream to PDF files
+   * returns sequence of (pageNumber:Int, textRegion:String)
+   *
+   * */
+  private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
+    val pdfDoc = PDDocument.load(fileStream)
+    val numPages = pdfDoc.getNumberOfPages
+    val tesseract = initTesseract()
+
+    require(numPages >= 1, "pdf input stream cannot be empty")
+
+    /* try to extract a text layer from each page, default to OCR if not present */
+    val result = if (splitPages) {
+      Range(1, numPages + 1).flatMap { pageNum =>
+        pageOcr(tesseract, pdfDoc, pageNum, pageNum)
       }
-      else
-        Seq((pageNum, textContent))
+    } else {
+      pageOcr(tesseract, pdfDoc, 1, numPages)
     }
 
     /* TODO: beware PDF box may have a potential memory leak according to,
@@ -277,19 +296,21 @@ object OcrHelper {
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(document: PDDocument, pageNum:Int):String = {
+  private def extractText(document: PDDocument, startPage: Int, endPage: Int):String = {
     import org.apache.pdfbox.text.PDFTextStripper
     val pdfTextStripper = new PDFTextStripper
-    pdfTextStripper.setStartPage(pageNum)
-    pdfTextStripper.setEndPage(pageNum)
+    pdfTextStripper.setStartPage(startPage)
+    pdfTextStripper.setEndPage(endPage)
     pdfTextStripper.getText(document)
   }
 
   /* TODO refactor, assuming single image */
-  private def getImageFromPDF(document: PDDocument, pageNumber:Int): Option[RenderedImage] = {
+  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[RenderedImage] = {
     import scala.collection.JavaConversions._
-    val page = document.getPages.get(pageNumber)
-    getImagesFromResources(page.getResources).headOption
+    Range(startPage, endPage + 1).flatMap(numPage => {
+      val page = document.getPage(numPage)
+      getImagesFromResources(page.getResources).headOption
+    })
   }
 
   private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {

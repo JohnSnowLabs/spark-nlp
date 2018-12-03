@@ -13,9 +13,9 @@ class OcrExample extends FlatSpec {
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/", "region", "metadata")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
       data.show(10)
-      val documentAssembler = new DocumentAssembler().setInputCol("region").setMetadataCol("metadata")
+      val documentAssembler = new DocumentAssembler().setInputCol("region")
       documentAssembler.transform(data).show()
       val raw = OcrHelper.createMap("ocr/src/test/resources/pdfs/")
       val pipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("region")))
@@ -30,7 +30,7 @@ class OcrExample extends FlatSpec {
       val spark = getSpark
       OcrHelper.setScalingFactor(3.0f)
       OcrHelper.useErosion(true, kSize = 2)
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/problematic", "region", "metadata")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/problematic")
       val results = data.select("region").collect.flatMap(_.getString(0).split("\n")).toSet
       assert(results.contains("1.5"))
       assert(results.contains("223.5"))
