@@ -54,7 +54,10 @@ object OcrHelper {
   @transient
   private var tesseractAPI : Tesseract = _
 
-  var minTextLayerSize: Int = 10
+  /** minTextLayer is amount of text minimum to accept PDFbox's text layer output
+    * set to 0 to disable text layer completely
+    * */
+  private var minTextLayerSize: Int = 10
   private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
@@ -63,26 +66,47 @@ object OcrHelper {
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
 
-  def setPageSegMode(mode: Int) = {
+  def setMinTextLayer(value: Int): Unit = {
+    require(value >= 0, "MinTextLayer must be equal or greater than 0. Represents minimum amount of text to accept PDF's text layer")
+    minTextLayerSize = value
+  }
+
+  def getMinTextLayer: Int = {
+    minTextLayerSize
+  }
+
+  def setPageSegMode(mode: Int): Unit = {
     pageSegmentationMode = mode
   }
 
-  def setEngineMode(mode: Int) = {
+  def getPageSegMode: Int = {
+    pageSegmentationMode
+  }
+
+  def setEngineMode(mode: Int): Unit = {
     engineMode = mode
   }
 
-  def setPageIteratorLevel(mode: Int) = {
-    pageIteratorLevel = mode
+  def getEngineMode: Int = {
+    engineMode
   }
 
-  def setScalingFactor(factor:Float) = {
+  def setPageIteratorLevel(level: Int): Unit = {
+    pageIteratorLevel = level
+  }
+
+  def getPageIteratorLevel: Int = {
+    pageIteratorLevel
+  }
+
+  def setScalingFactor(factor:Float): Unit = {
     if (factor == 1.0f)
       scalingFactor = None
     else
       scalingFactor = Some(factor)
   }
 
-  def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED) = {
+  def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
       kernelSize = None
     else
@@ -209,10 +233,10 @@ object OcrHelper {
 
     /* try to extract a text layer from each page, default to OCR if not present */
     val result = Range(1, numPages + 1).flatMap { pageNum =>
-      val textContent = extractText(pdfDoc, pageNum)
+      lazy val textContent = extractText(pdfDoc, pageNum)
       lazy val renderedImage = getImageFromPDF(pdfDoc, pageNum - 1)
       // if no text layer present, do the OCR
-      if (textContent.length < minTextLayerSize && renderedImage.isDefined) {
+      if ((minTextLayerSize == 0 || textContent.length <= minTextLayerSize) && renderedImage.isDefined) {
 
         val image = PlanarImage.wrapRenderedImage(renderedImage.get)
 

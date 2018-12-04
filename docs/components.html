@@ -775,7 +775,7 @@ NerCrfModel.pretrained()
 NerCrfModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-                                <h4 id="NerDL" class="section-block"> Fast Deep Learning NER</h4>
+                                <h4 id="FastNerDL" class="section-block"> Fast Deep Learning NER</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -803,66 +803,6 @@ NerDLModel.pretrained()
                                             </p>
                                             <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.NerDLModel
 NerDLModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="AsFastLG" class="section-block"> Logistic Regression Assertion Status</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Logistic Regression based assertion status model on top of Glove word embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import AssertionLogRegModel
-AssertionLogRegModel.pretrained()
-</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Logistic Regression based assertion status model on top of Glove word embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.AssertionLogRegModel
-AssertionLogRegModel.pretrained()</code></pre>
-                                        </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="AsFast" class="section-block"> Fast Bi-LSTM Assertion Status</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Assertion status trained on TensorFlow and Spark-NLP utilizing Glove word embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">from sparknlp.annotator import AssertionDLModel
-AssertionDLModel.pretrained()
-</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Assertion status trained on TensorFlow and Spark-NLP utilizing Glove word embeddings
-                                                <br><b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-javascript">import com.johnsnowlabs.nlp.annotator.AssertionDLModel
-AssertionDLModel.pretrained()</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
                             </div>
@@ -2622,194 +2562,7 @@ documentAssembler = new DocumentAssembler()
   .setCorpus("./sherlockholmes.txt")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
-                                <h4 id="AssertionStatus" class="section-block"> AssertionStatus: Assertion Status Classifier</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
-                                                <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
-                                                    You don't need to specify them explicitly.
-                                                </li>
-                                                <li>
-                                                    setInputCol(document): sets the name of the column that contains the text to be analyzed.
-                                                </li>
-                                                <li>
-                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
-                                                </li>
-                                                <li>
-                                                    setBefore(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
-                                                </li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> a document as output by the Document Assembler.<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">
-assertion_status = AssertionStatusApproach() \
-.setLabelCol("label") \
-      .setInputCols("document") \
-      .setOutputCol("assertion") \
-      .setBefore(11) \
-      .setAfter(13) \
-      .setEmbeddingsSource(embeddingsFile, 200, 3)</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane active" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
-                                                <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
-                                                    You don't need to specify them explicitly.
-                                                </li>
-                                                <li>
-                                                    setInputCol(document): sets the name of the column that contains the text to be analyzed.
-                                                </li>
-                                                <li>
-                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
-                                                </li>
-                                                <li>
-                                                    setBefore(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setAfter(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
-                                                </li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> a document as output by the Document Assembler.<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-javascript">
-val assertionStatus = new AssertionStatusApproach() 
-.setLabelCol("label") 
-      .setInputCols("document") 
-      .setOutputCol("assertion") 
-      .setBefore(11) 
-      .setAfter(13)
-      .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)</code></pre>
-                                </div><!--//code-block--></div>
-                                </div>
-                                <h4 id="AssertionStatusDL" class="section-block"> Assertion Status: Assertion Status Deep Learning Classifier</h4>
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
-                                                                              role="tab" data-toggle="tab">Python</a>
-                                    </li>
-                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
-                                                               data-toggle="tab">Scala</a></li>
-                                </ul>	
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane" id="python">
-                                        <div class="code-block">
-                                            <p>
-                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
-                                                <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
-                                                    You don't need to specify them explicitly.
-                                                </li>
-                                                <li>
-                                                    setInputCols(document): sets the name of the column that contains the text to be analyzed.
-                                                </li>
-                                                <li>
-                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
-                                                </li>
-                                                <li>
-                                                    setBatchSize(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEpochs(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
-                                                </li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> a document as output by the Document Assembler.<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-python">
-assertion_status = AssertionStatusApproach() \
-.setLabelCol("label") \
-      .setInputCols("document") \
-      .setOutputCol("assertion") \
-      .setBatchSize(16) \
-      .setEpochs(5) \
-      .setEmbeddingsSource(embeddingsFile, 200, 3)</code></pre>
-                                        </div><!--//code-block-->
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane active" id="scala">
-                                        <div class="code-block">
-                                            <p>
-                                                Assigns an assertion status to a target within a sentence. For example, in the sentence "there's no intention to evacuate the area", considering "intention to evacuate the area" as a target, a possible status could be "Negated". This annotator allows you to specify a text, a target, and a set of possible labels describing the assertion status.<br>
-                                                <b>Type:</b> assertion<br>
-                                                <b>Requires:</b> Document<br>
-                                                <b>Functions:</b>
-                                            <ul>
-                                                <li>
-                                                    setLabelCol(name): sets the name of the column that contains the label for the assertion. The set of labels is inferred from the values present in this column.
-                                                    You don't need to specify them explicitly.
-                                                </li>
-                                                <li>
-                                                    setInputCols(document): sets the name of the column that contains the text to be analyzed.
-                                                </li>
-                                                <li>
-                                                    setOutputCol(name): this is where the annotations with the label will be after the algorithm runs.
-                                                </li>
-                                                <li>
-                                                    setBatchSize(n): specifies the number of context tokens before the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEpochs(m): specifies the number of context tokens after the first token of the target term(s) that will be used in the algorithm.
-                                                </li>
-                                                <li>
-                                                    setEmbeddingsSource(path, size, format): specifies the path to the embeddings file(string), the size of the vectors(integer), and the format of the file(one of the constants Text, Binary, SparkNlp). An example embeddings file is provided in the appropriate python notebook.
-                                                </li></li>
-                                            </ul>
-                                            <br>
-                                            <b>Input:</b> a document as output by the Document Assembler.<br>
-                                            <b>Example:</b><br>
-                                            </p>
-                                            <pre><code class="language-javascript">
-val assertionStatus = new AssertionStatusApproach() 
-.setLabelCol("label") 
-      .setInputCols("document") 
-      .setOutputCol("assertion") 
-      .setBatchSize(16) 
-      .setEpochs(5)
-      .setEmbeddingsSource(embeddingsFile, 200, WordEmbeddingsFormat.Binary)</code></pre>
-                                        </div><!--//code-block-->
 
-                                    </div>
-                                </div>
                             </div>
                         </section>
                     </div>
@@ -2854,8 +2607,6 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#PosFast">Fast Part of Speech</a></li>
                                     <li><a class="scrollto" href="#NerFast">Fast CRF NER</a></li>
                                     <li><a class="scrollto" href="#NerDL">Fast DL NER</a></li>
-                                    <li><a class="scrollto" href="#AsFastLG">Fast LogReg Assertion</a></li>
-                                    <li><a class="scrollto" href="#AsFast">Fast Bi-LSTM Assertion</a></li>
 
                                 </ul><!--//nav-->
                             </li>
@@ -2889,8 +2640,6 @@ val assertionStatus = new AssertionStatusApproach()
                                     <li><a class="scrollto" href="#NerDL">Named Entity Recognition DL</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Norvig Spell Checker</a></li>
                                     <li><a class="scrollto" href="#SymmChecker">Symmetric Spell Checker</a></li>
-                                    <li><a class="scrollto" href="#AssertionStatus">Assertion Status</a></li>
-                                    <li><a class="scrollto" href="#AssertionStatusDL">Assertion Status Deep Learning</a></li>
                                 </ul><!--//nav-->
                             </li>
                             <li style="padding-bottom: 75px">

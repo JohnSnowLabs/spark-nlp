@@ -21,7 +21,6 @@ pos = sys.modules[__name__]
 perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
 crf = sys.modules[__name__]
-assertion = sys.modules[__name__]
 dl = sys.modules[__name__]
 logreg = sys.modules[__name__]
 regex = sys.modules[__name__]
@@ -368,41 +367,6 @@ class NormalizerModel(AnnotatorModel):
         )
 
     name = "NormalizerModel"
-
-
-class DeIdentification(AnnotatorApproach):
-
-    regexPatternsDictionary = Param(Params._dummy(),
-                                    "regexPatternsDictionary",
-                                    "dictionary with regular expression patterns that match some protected entity",
-                                    typeConverter=TypeConverters.identity)
-
-    @keyword_only
-    def __init__(self):
-        super(DeIdentification, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DeIdentification")
-
-    def setRegexPatternsDictionary(self, path, read_as=ReadAs.LINE_BY_LINE, options={"delimiter": " "}):
-        opts = options.copy()
-        return self._set(regexPatternsDictionary=ExternalResource(path, read_as, opts))
-
-    def _create_model(self, java_model):
-        return DeIdentificationModel(java_model=java_model)
-
-
-class DeIdentificationModel(AnnotatorModel):
-
-    name = "DeIdentificationModel"
-
-    regexPatternsDictionary = Param(Params._dummy(),
-                                    "regexPatternsDictionary",
-                                    "dictionary with regular expression patterns that match some protected entity",
-                                    typeConverter=TypeConverters.identity)
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.DeIdentificationModel", java_model=None):
-        super(DeIdentificationModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
 
 
 class RegexMatcher(AnnotatorApproach):
@@ -1076,80 +1040,6 @@ class NerCrfModel(ModelWithEmbeddings):
         return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
 
-class AssertionLogRegApproach(AnnotatorApproach, ApproachWithEmbeddings):
-
-    label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-    maxIter = Param(Params._dummy(), "maxIter", "Max number of iterations for algorithm", TypeConverters.toInt)
-    regParam = Param(Params._dummy(), "regParam", "Regularization parameter", TypeConverters.toFloat)
-    eNetParam = Param(Params._dummy(), "eNetParam", "Elastic net parameter", TypeConverters.toFloat)
-    beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
-    afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
-    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
-    nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
-    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
-
-    def setLabelCol(self, label):
-        return self._set(label = label)
-
-    def setMaxIter(self, maxiter):
-        return self._set(maxIter = maxiter)
-
-    def setReg(self, lamda):
-        return self._set(regParam = lamda)
-
-    def setEnet(self, enet):
-        return self._set(eNetParam = enet)
-
-    def setBefore(self, before):
-        return self._set(beforeParam = before)
-
-    def setAfter(self, after):
-        return self._set(afterParam = after)
-
-    def setStartCol(self, s):
-        return self._set(startCol = s)
-
-    def setEndCol(self, e):
-        return self._set(endCol = e)
-
-    def setNerCol(self, n):
-        return self._set(nerCol = n)
-
-    def setTargetNerLabels(self, v):
-        return self._set(targetNerLabels = v)
-
-    def _create_model(self, java_model):
-        return AssertionLogRegModel(java_model=java_model)
-
-    @keyword_only
-    def __init__(self):
-        super(AssertionLogRegApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach")
-        self._setDefault(label="label", beforeParam=11, afterParam=13)
-
-
-class AssertionLogRegModel(ModelWithEmbeddings):
-    name = "AssertionLogRegModel"
-
-    beforeParam = Param(Params._dummy(), "beforeParam", "Length of the context before the target", TypeConverters.toInt)
-    afterParam = Param(Params._dummy(), "afterParam", "Length of the context after the target", TypeConverters.toInt)
-    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
-    nerCol = Param(Params._dummy(), "nerCol", "Column with NER type annotation output, use either nerCol or startCol and endCol", typeConverter=TypeConverters.toString)
-    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel", java_model=None):
-        super(AssertionLogRegModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
-    @staticmethod
-    def pretrained(name="as_fast_lg", language="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionLogRegModel, name, language, remote_loc)
-
-
 class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -1401,3 +1291,4 @@ class ContextSpellCheckerModel(AnnotatorModel):
     def pretrained(name="context_spell_gen", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)
+
