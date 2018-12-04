@@ -1,10 +1,9 @@
 package com.johnsnowlabs.nlp.serialization
 
-import java.io.File
-
 import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.ConfigLoader
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -295,6 +294,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
     }
   }
 
+  // What are these methods for?
   override def serializeDataset(spark: SparkSession, path: String, field: String, value: ITransducer[Candidate]): Unit = {
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
@@ -312,6 +312,85 @@ class TransducerFeature(model: HasFeatures, override val name: String)
       None
     }
   }
+}
+
+
+class TransducerSeqFeature(model: HasFeatures, override val name: String)
+  extends Feature[Seq[SpecialClassParser], Seq[SpecialClassParser], Seq[SpecialClassParser]](model, name) {
+
+  import com.github.liblevenshtein.serialization.ProtobufSerializer
+  implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
+
+  override def serializeObject(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
+    import spark.implicits._
+    val dataPath = getFieldPath(path, field)
+    specialClasses.foreach { case specialClass =>
+      val serializer = new ProtobufSerializer
+
+      val transducer = specialClass.transducer
+      specialClass.setTransducer(null)
+      // the object per se
+      spark.sparkContext.parallelize(Seq(specialClass.transducer)).
+        saveAsObjectFile(s"${dataPath.toString}/${specialClass.label}")
+
+
+      // we handle the transducer separately
+      val transBytes = serializer.serialize(transducer)
+      spark.sparkContext.parallelize(transBytes.toSeq).
+        saveAsObjectFile(s"${dataPath.toString}/${specialClass.label}transducer")
+
+    }
+  }
+
+  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Seq[SpecialClassParser]] = {
+    import scala.collection.JavaConversions._
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    val serializer = new ProtobufSerializer
+
+    if (fs.exists(dataPath)) {
+      val elements = fs.listFiles(dataPath, false)
+      var result = Seq[SpecialClassParser]()
+      while(elements.hasNext) {
+          val next = elements.next
+          val path = next.getPath.toString
+          if(path.contains("transducer")) {
+            // take care of transducer
+            val bytes = spark.sparkContext.objectFile[Byte](path).collect()
+            val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+            // the object
+            val sc = spark.sparkContext.objectFile[SpecialClassParser](path.dropRight(10)).collect().head
+            sc.setTransducer(trans)
+            result = result :+ sc
+          }
+      }
+
+      Some(result)
+    } else {
+      None
+    }
+  }
+
+  // What are these methods for?
+  override def serializeDataset(spark: SparkSession, path: String, field: String, value: Seq[SpecialClassParser]): Unit = {
+    import spark.implicits._
+    val dataPath = getFieldPath(path, field)
+    //spark.createDataset(Seq(value)).write.mode("overwrite").parquet(dataPath.toString)
+  }
+
+  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldPath(path, field)
+    if (fs.exists(dataPath)) {
+      //Some(spark.read.parquet(dataPath.toString).as[ITransducer[Candidate]].first)
+      None
+    } else {
+      None
+    }
+  }
+
 
 }
 

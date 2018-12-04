@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
+package com.johnsnowlabs.nlp.annotators.spell.context
 
 import scala.collection.mutable
 import scala.math.min

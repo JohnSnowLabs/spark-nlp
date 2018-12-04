@@ -1,34 +1,37 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
+package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.io.{BufferedWriter, File, FileWriter}
 
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
-import com.johnsnowlabs.nlp.serialization.{ArrayFeature, MapFeature}
+import com.johnsnowlabs.nlp.annotators.spell.context.parser._
+import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
+import org.slf4j.LoggerFactory
 import org.tensorflow.{Graph, Session}
 
 import scala.collection.mutable
 
 case class OpenClose(open:String, close:String)
 
-class OcrSpellCheckApproach(override val uid: String) extends
-  AnnotatorApproach[OcrSpellCheckModel]
+class ContextSpellCheckerApproach(override val uid: String) extends
+  AnnotatorApproach[ContextSpellCheckerModel]
   with HasFeatures
   with WeightedLevenshtein {
 
   override val description: String = "Ocr specific Spell Checking"
 
+  private val logger = LoggerFactory.getLogger("ContextSpellCheckerApproach")
+
   val trainCorpusPath = new Param[String](this, "trainCorpusPath", "Path to the training corpus text file.")
   def setTrainCorpusPath(path: String): this.type = set(trainCorpusPath, path)
 
-  val specialClasses = new Param[List[SpecialClassParser]](this, "specialClasses", "Min number of times a token should appear to be included in vocab.")
+  val specialClasses = new Param[List[SpecialClassParser]](this, "specialClasses", "List of parsers for special classes.")
   def setSpecialClasses(parsers: List[SpecialClassParser]):this.type = set(specialClasses, parsers)
 
   val languageModelClasses = new Param[Int](this, "languageModelClasses", "Number of classes to use during factorization of the softmax output in the LM.")
@@ -49,7 +52,6 @@ class OcrSpellCheckApproach(override val uid: String) extends
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
   def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
-  //maybe unify the following two?
   val minCount = new Param[Double](this, "minCount", "Min number of times a token should appear to be included in vocab.")
   def setMinCount(threshold: Double): this.type = set(minCount, threshold)
 
@@ -61,6 +63,7 @@ class OcrSpellCheckApproach(override val uid: String) extends
 
   val weightedDistPath = new Param[String](this, "weightedDistPath", "The path to the file containing the weights for the levenshtein distance.")
   def setWeights(filePath:String):this.type = set(weightedDistPath, filePath)
+
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
@@ -74,13 +77,12 @@ class OcrSpellCheckApproach(override val uid: String) extends
   setDefault(prefixes, () => Array("'"))
   setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'"))
 
-  // TODO: hard coded.
   val openClose = List(OpenClose("(", ")"), OpenClose("[", "]"), OpenClose("\"", "\""))
 
   private lazy val firstPass = Seq(SuffixedToken($$(suffixes) ++ openClose.map(_.close)),
     PrefixedToken($$(prefixes) ++ openClose.map(_.open)))
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): OcrSpellCheckModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ContextSpellCheckerModel = {
 
     val graph = new Graph()
     val config = Array[Byte](56, 1)
@@ -106,9 +108,9 @@ class OcrSpellCheckApproach(override val uid: String) extends
 
     // create transducers for special classes
     val specialClassesTransducers = getOrDefault(specialClasses).
-      par.map(t =>(t.generateTransducer, t.label)).seq
+      par.map{t => t.setTransducer(t.generateTransducer)}.seq
 
-    val model = new OcrSpellCheckModel().
+    val model = new ContextSpellCheckerModel().
       setVocabFreq(vocabFreq.toMap).
       setVocabIds(word2ids.toMap).
       setClasses(classes).
@@ -174,6 +176,9 @@ class OcrSpellCheckApproach(override val uid: String) extends
       if (currWordId > maxWid)
         maxWid = currWordId
     }
+
+    logger.info(s"Max num of words per class: ${maxWid}")
+
 
     val classesFile = new File(filePath)
     val bwClassesFile = new BufferedWriter(new FileWriter(classesFile))

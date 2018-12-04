@@ -1,50 +1,13 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
-import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
+package com.johnsnowlabs.nlp.annotators.spell.context
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.spell.ocr.parser._
-import com.johnsnowlabs.nlp.util.io.OcrHelper
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
+import com.johnsnowlabs.nlp.annotators.spell.context.parser._
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 
-object MedicationClass extends VocabParser {
+class ContextSpellCheckerTestSpec extends FlatSpec {
 
-  override val vocab = loadCSV("meds_wcase.txt")
-
-  override val transducer: ITransducer[Candidate] = generateTransducer
-  override val label: String = "_MED_"
-  override val maxDist: Int = 3
-
-}
-
-object AgeToken extends RegexParser {
-
-  override val regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
-
-  override val transducer: ITransducer[Candidate] = generateTransducer
-  override val label: String = "_AGE_"
-  override val maxDist: Int = 2
-
-}
-
-
-object UnitToken extends VocabParser {
-
-  override val vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
-    "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
-    "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG")
-
-  override val transducer: ITransducer[Candidate] = generateTransducer
-  override val label: String = "_UNIT_"
-  override val maxDist: Int = 3
-
-}
-
-
-class OcrSpellCheckerTestSpec extends FlatSpec {
-
-  /* TODO  Note some test cases should be moved to internal repo */
 
   trait Scope extends WeightedLevenshtein {
     val weights = Map('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
@@ -60,43 +23,47 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
   "a Spell Checker" should "correctly preprocess training data" in {
 
     val path = "src/test/resources/test.txt"
-    val spellChecker = new OcrSpellCheckApproach().
+    val spellChecker = new ContextSpellCheckerApproach().
       setTrainCorpusPath("src/test/resources/test.txt").
       setSuffixes(Array(".", ":", "%", ",", ";", "?", "'", "!”", "”", "!”", ",”", ".”")).
       setPrefixes(Array("'", "“", "“‘")).
       setMinCount(1.0)
 
     val (map, _) = spellChecker.genVocab(path)
-    assert(map.contains("seed"))
-    assert(map.contains("”"))
-    assert(map.contains("“"))
+    assert(map.exists(_._1.equals("seed")))
+    assert(map.exists(_._1.equals("”")))
+    assert(map.exists(_._1.equals("“")))
 
   }
 
-  // TODO complete when we have a generic pre-trained model.
+
   "a Spell Checker" should "work in a pipeline with Tokenizer" in {
     import SparkAccessor.spark
     import spark.implicits._
 
-    val data = OcrHelper.createDataset(spark,
-      "ocr/src/test/resources/pdfs/h_and_p.pdf",
-      "region", "metadata")
+    val data = Seq("It was a cold , dreary day and the country was white with smow .",
+      "He wos re1uctant to clange .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
-        setInputCol("region").
-        setMetadataCol("metadata")
+        setInputCol("text").
+        setOutputCol("doc")
 
     val tokenizer: Tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
+      .setInputCols(Array("doc"))
       .setOutputCol("token")
 
     val normalizer: Normalizer = new Normalizer()
       .setInputCols(Array("token"))
       .setOutputCol("normalized")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("region"))
-    pipeline.transform(data).show()
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("checked")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    pipeline.transform(data).show(truncate=false)
 
   }
 
@@ -106,44 +73,23 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     val langModelPath = "../auxdata/"
 
     import SparkAccessor.spark.implicits._
-    val ocrSpellModel = new OcrSpellCheckApproach().
+    val ocrSpellModel = new ContextSpellCheckerApproach().
       setInputCols("text").
       setTrainCorpusPath(trainCorpusPath).
-      //setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
-      setSpecialClasses(List.empty).
+      setSpecialClasses(List(DateToken, NumberToken)).
       fit(Seq.empty[String].toDF("text"))
 
     ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
 
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
-    val loadedModel = OcrSpellCheckModel.read.load("./test_spell_checker")
-
-    loadedModel.annotate(Seq(Annotation("He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
-      " any chest pain , palpitalicns , He denies any worse sxtramity"))).foreach(println)
+    val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
+    val testStr = "He deries having any chest pain , palpitalicns , He denies any worse sxtramity"
+    val annotations = testStr.split(" ").map(Annotation(_)).toSeq
+    loadedModel.annotate(annotations).foreach(println)
   }
-
-  // TODO: move this training logic to spark-nlp-models
-  "a model" should "train and predict" in {
-
-    val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
-    val langModelPath = "../auxdata/"
-
-    import SparkAccessor.spark.implicits._
-    val ocrspell = new OcrSpellCheckApproach().
-                    setInputCols("text").
-                    setTrainCorpusPath(trainCorpusPath).
-                    setSpecialClasses(List(DateToken, NumberToken, AgeToken, UnitToken, MedicationClass)).
-                    fit(Seq.empty[String].toDF("text"))
-
-    ocrspell.readModel(langModelPath, SparkAccessor.spark, "", true)
-
-    ocrspell.annotate(Seq(Annotation("He also complains of \" bene pain ’ . He denies having any fevers or chills . He deries having" +
-                 " any chest pain , palpitalicns , He denies any worse sxtramity"))).foreach(println)
-  }
-
 
   "a spell checker" should "correclty parse training data" in {
-    val ocrspell = new OcrSpellCheckApproach().
+    val ocrspell = new ContextSpellCheckerApproach().
       setMinCount(1.0)
     val trainCorpusPath = "src/main/resources/spell_corpus.txt"
     ocrspell.setTrainCorpusPath(trainCorpusPath)
@@ -155,10 +101,9 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(vMap.getOrElse("_BOS_", 0.0) == math.log(3.0) - math.log(totalTokenCount), "Three sentences should cause three _EOS_ markers")
 
     assert(classes.size == 35, "")
-
   }
 
-
+/*
   "age classes" should "recognize different age patterns" in {
     import scala.collection.JavaConversions._
     val transducer = AgeToken.generateTransducer
@@ -183,7 +128,7 @@ class OcrSpellCheckerTestSpec extends FlatSpec {
     assert(transducer.transduce("Percocet").toList.exists(_.distance == 0))
 
   }
-
+*/
   "number classes" should "recognize different number patterns" in {
     import scala.collection.JavaConversions._
     val transducer = NumberToken.generateTransducer

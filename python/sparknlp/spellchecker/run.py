@@ -17,13 +17,14 @@ TRAIN = False
 VERBOSE = True
 
 # this is the path where all data files live
-data_path= '../../../../auxdata/spell_dataset/vocab/'
+#data_path= '../../../../auxdata/spell_dataset/vocab/'
+data_path= '../../../../spark-nlp-models/data/'
 
 # To indicate your test/train corpora
 test_file = "gap_filling_exercise"
-train_file = "bigone.txt.ids"
-classes_file = "bigone.txt.classes"
-vocab_file = "bigone.txt.vocab"
+train_file = "gutenberg_65.txt.ids"
+classes_file = "gutenberg_65.txt.classes"
+vocab_file = "gutenberg_65.txt.vocab"
 valid_file = "valid.ids"
 #if not os.path.isfile("../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"):
 #    gen_vocab("ptb/train")
