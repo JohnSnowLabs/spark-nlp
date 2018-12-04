@@ -1117,65 +1117,6 @@ class NerConverter(AnnotatorModel):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
 
 
-class AssertionDLApproach(AnnotatorApproach, ApproachWithEmbeddings):
-
-    label = Param(Params._dummy(), "label", "Column with one label per document", typeConverter=TypeConverters.toString)
-
-    startCol = Param(Params._dummy(), "startCol", "Column that contains the token number for the start of the target", typeConverter=TypeConverters.toString)
-    endCol = Param(Params._dummy(), "endCol", "Column that contains the token number for the end of the target", typeConverter=TypeConverters.toString)
-
-    batchSize = Param(Params._dummy(), "batchSize", "Size for each batch in the optimization process", TypeConverters.toInt)
-    epochs = Param(Params._dummy(), "epochs", "Number of epochs for the optimization process", TypeConverters.toInt)
-
-    learningRate = Param(Params._dummy(), "learningRate", "Learning rate for the optimization process", TypeConverters.toFloat)
-    dropout = Param(Params._dummy(), "dropout", "Dropout at the output of each layer", TypeConverters.toFloat)
-
-    def setLabelCol(self, label):
-        return self._set(label = label)
-
-    def setStartCol(self, s):
-        return self._set(startCol = s)
-
-    def setEndCol(self, e):
-        return self._set(endCol = e)
-
-    def setBatchSize(self, size):
-        return self._set(batchSize = size)
-
-    def setEpochs(self, number):
-        return self._set(epochs = number)
-
-    def setLearningRate(self, lamda):
-        return self._set(learningRate = lamda)
-
-    def setDropout(self, rate):
-        return self._set(dropout = rate)
-
-    def _create_model(self, java_model):
-        return AssertionDLModel(java_model=java_model)
-
-    @keyword_only
-    def __init__(self):
-        super(AssertionDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach")
-        self._setDefault(label="label", batchSize=64, epochs=5, learningRate=0.0012, dropout=0.05)
-
-
-class AssertionDLModel(ModelWithEmbeddings):
-    name = "AssertionDLModel"
-
-    targetNerLabels = Param(Params._dummy(), "targetNerLabels", "List of NER labels to mark as target for assertion, must match NER output", typeConverter=TypeConverters.toListString)
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel", java_model=None):
-        super(AssertionDLModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
-    @staticmethod
-    def pretrained(name="as_fast_dl", language="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AssertionDLModel, name, language, remote_loc)
-
 class ContextSpellCheckerApproach(AnnotatorApproach):
 
     trainCorpusPath = Param(Params._dummy(),
@@ -1220,7 +1161,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
                             typeConverter=TypeConverters.toInt)
 
     def setWordMaxDist(self, k):
-        #require(k >= 1, "Please provided a minumum candidate distance of at least 1.")
         return self._set(wordMaxDistance=k)
 
     maxCandidates = Param(Params._dummy(),
