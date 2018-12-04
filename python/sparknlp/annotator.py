@@ -31,6 +31,7 @@ pragmatic = sys.modules[__name__]
 vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
+contextspell = sys.modules[__name__]
 ocr = sys.modules[__name__]
 
 
@@ -1284,3 +1285,119 @@ class AssertionDLModel(ModelWithEmbeddings):
     def pretrained(name="as_fast_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AssertionDLModel, name, language, remote_loc)
+
+class ContextSpellCheckerApproach(AnnotatorApproach):
+
+    trainCorpusPath = Param(Params._dummy(),
+                            "trainCorpusPath",
+                            "Path to the training corpus text file.",
+                            typeConverter=TypeConverters.toString)
+
+    def setTrainCorpusPath(self, path):
+        return self._set(trainCorpusPath=path)
+
+    #specialClasses =  Param(Params._dummy(), "specialClasses", "List of parsers for special classes.", typeConverter=TypeConverters.toString) 
+    #def setSpecialClasses(self, parsers:):
+    #    return self._set(specialClasses = parsers)
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    def setLMClasses(self, k):
+        return self._set(languageModelClasses=k)
+
+    prefixes = Param(Params._dummy(),
+                     "prefixes",
+                     "Prefixes to separate during parsing of training corpus.",
+                     typeConverter=TypeConverters.identity)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=list(reversed(sorted(p, key=len))))
+
+    suffixes = Param(Params._dummy(),
+                     "suffixes",
+                     "Suffixes to separate during parsing of training corpus.",
+                     typeConverter=TypeConverters.identity)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=list(reversed(sorted(s, key=len))))
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    def setWordMaxDist(self, k):
+        #require(k >= 1, "Please provided a minumum candidate distance of at least 1.")
+        return self._set(wordMaxDistance=k)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    def setMaxCandidates(self, k):
+        return self._set(maxCandidates=k)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "Min number of times a token should appear to be included in vocab.",
+                     typeConverter=TypeConverters.toFloat)
+
+    def setMinCount(self, threshold):
+        return self._set(minCount=threshold)
+
+    blacklistMinFreq = Param(Params._dummy(),
+                             "blacklistMinFreq",
+                             "Minimun number of occurrences for a word not to be blacklisted.",
+                             typeConverter=TypeConverters.toInt)
+
+    def setBlackListMinFreq(self, k):
+        return self._set(blacklistMinFreq=k)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    def setTradeoff(self, alpha):
+        return self._set(tradeoff=alpha)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    def setWeights(self, filePath):
+        return self._set(weightedDistPath=filePath)
+
+    @keyword_only
+    def __init__(self):
+        super(ContextSpellCheckerApproach, self).\
+            __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
+        self._setDefault(minCount=3.0,
+         wordMaxDistance=3,
+         maxCandidates=6,
+         languageModelClasses=2000,
+         blacklistMinFreq=5,
+         tradeoff=18.0)
+
+    def _create_model(self, java_model):
+        return ContextSpellCheckerModel(java_model=java_model)
+
+
+class ContextSpellCheckerModel(AnnotatorModel):
+    name = "ContextSpellCheckerModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
+        super(ContextSpellCheckerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="context_spell_gen", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)

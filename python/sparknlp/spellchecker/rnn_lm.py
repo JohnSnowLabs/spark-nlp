@@ -22,9 +22,9 @@ class RNNLM(object):
         #self.word_class = self.load_classes('classes.psv')
         self.vocab_size = vocab_size
         # these are internally defined
-        self.num_classes = 2000
+        self.num_classes = 1500 
         # here we should dynamically determine max number of words per class
-        self.word_ids = 900
+        self.word_ids = 1150
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.check_point_step = check_point_step

@@ -1,23 +1,25 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
+package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSpell, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature, TransducerFeature}
+import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory
 
 
-class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel]
+class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel]
   with ReadTensorflowModel
   with WeightedLevenshtein
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable {
 
-  private val logger = LoggerFactory.getLogger("OcrSpellModel")
+  private val logger = LoggerFactory.getLogger("ContextSpellCheckerModel")
 
   override val tfFile: String = "bigone"
 
@@ -29,8 +31,11 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }
 
-  val specialTransducers = new StructFeature[Seq[(ITransducer[Candidate], String)]](this, "The transducers for special classes.")
-  def setSpecialClassesTransducers(transducers: Seq[(ITransducer[Candidate], String)]) = set(specialTransducers, transducers)
+  val specialTransducers = new TransducerSeqFeature(this, "The transducers for special classes.")
+  def setSpecialClassesTransducers(transducers: Seq[SpecialClassParser]) = {
+    specialTransducers.setValue(Some(transducers))
+    this
+  }
 
   val vocabFreq  = new MapFeature[String, Double](this, "vocabFreq")
   def setVocabFreq(v: Map[String, Double]) = set(vocabFreq,v)
@@ -50,13 +55,16 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
 
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
+
   val tradeoff = new FloatParam(this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
+  def setTradeOfft(lambda: Float):this.type = set(tradeoff, lambda)
+
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
 
   val weights: MapFeature[Char, Map[Char, Float]] = new MapFeature[Char, Map[Char, Float]](this, "levenshteinWeights")
   def setWeights(w:Map[Char, Map[Char, Float]]): this.type = set(weights, w)
 
-  setDefault(tradeoff -> 18.0f, gamma -> 90.0f)
+  setDefault(tradeoff -> 18.0f, gamma -> 120.0f)
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
   private val eosScore = .01
@@ -84,7 +92,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   }
 
 
-  def setTensorflow(tf: TensorflowWrapper): OcrSpellCheckModel = {
+  def setTensorflow(tf: TensorflowWrapper): ContextSpellCheckerModel = {
     tensorflow = tf
     this
   }
@@ -199,14 +207,14 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
 
         // ask each token class for candidates, keep the one with lower cost
-        var candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
-            getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance) - 1)
+        var candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+            getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
         } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
 
         // now try to relax distance requirements for candidates
         if (token.length > 4 && candLabelWeight.isEmpty)
-          candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
-            getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance))
+          candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+            getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
           } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
 
         if (candLabelWeight.isEmpty)
@@ -239,16 +247,16 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", OcrSpellCheckModel.tfFile)
+    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile)
   }
 }
 
 
-trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[OcrSpellCheckModel] with ReadTensorflowModel {
+trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellCheckerModel] with ReadTensorflowModel {
 
   override val tfFile = "bigone"
 
-  def readLanguageModelGraph(instance: OcrSpellCheckModel, path: String, spark: SparkSession): Unit = {
+  def readLanguageModelGraph(instance: ContextSpellCheckerModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_langmodeldl")
     instance.setTensorflow(tf)
   }
@@ -256,4 +264,9 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[OcrSpellCheckMod
   addReader(readLanguageModelGraph)
 }
 
-object OcrSpellCheckModel extends ReadsLanguageModelGraph
+trait PretrainedSpellModel {
+  def pretrained(name: String = "context_spell_gen", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
+    ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remoteLoc)
+}
+
+object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel

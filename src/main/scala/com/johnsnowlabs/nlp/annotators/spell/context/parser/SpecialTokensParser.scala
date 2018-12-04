@@ -1,8 +1,8 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr.parser
+package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
-import com.johnsnowlabs.nlp.annotators.spell.ocr.WeightedLevenshtein
+import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
 import com.navigamez.greex.GreexGenerator
 
 import scala.collection.JavaConversions._
@@ -17,7 +17,8 @@ trait SpecialClassParser {
 
   val label:String
 
-  val transducer : ITransducer[Candidate]
+  @transient
+  var transducer : ITransducer[Candidate]
 
   val maxDist: Int
 
@@ -28,6 +29,11 @@ trait SpecialClassParser {
       tmp
     else
       label
+  }
+
+  def setTransducer(t: ITransducer[Candidate]) = {
+    transducer = t
+    this
   }
 }
 
@@ -128,7 +134,8 @@ object PrefixedToken {
 object DateToken extends RegexParser with WeightedLevenshtein{
 
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  override val transducer: ITransducer[Candidate] = generateTransducer
+  @transient
+  override var transducer: ITransducer[Candidate] = generateTransducer
   override val label = "_DATE_"
   override val maxDist: Int = 2
 
@@ -152,7 +159,8 @@ object NumberToken extends RegexParser {
   /* used during candidate generation(correction) - must be finite */
   override val regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
 
-  override val transducer: ITransducer[Candidate] = generateTransducer
+  @transient
+  override var transducer: ITransducer[Candidate] = generateTransducer
 
   override val label = "_NUM_"
 
