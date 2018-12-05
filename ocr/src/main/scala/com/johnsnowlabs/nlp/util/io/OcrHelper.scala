@@ -118,7 +118,7 @@ object OcrHelper {
       kernelSize = Some(kSize)
   }
 
-  case class OcrRow(region: String, filename: String, pagenum: Int)
+  case class OcrRow(text: String, filename: String, pagenum: Int)
 
   private def getListOfFiles(dir: String): List[(String, FileInputStream)] = {
     val path = new File(dir)
@@ -138,7 +138,7 @@ object OcrHelper {
     val files = sc.binaryFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
       doOcr(stream.open).map{case (pageN, region) => OcrRow(region, fileName, pageN)}
-    }.filter(_.region.nonEmpty).toDS
+    }.filter(_.text.nonEmpty).toDS
 
   }
 
@@ -231,7 +231,7 @@ object OcrHelper {
     // if no text layer present, do the OCR
     if ((minTextLayerSize == 0 || textContent.length <= minTextLayerSize) && renderedImage.nonEmpty) {
 
-      val imageContent = renderedImage.map(render => {
+      val imageContent = renderedImage.flatMap(render => {
         val image = PlanarImage.wrapRenderedImage(render)
 
         // rescale if factor provided
