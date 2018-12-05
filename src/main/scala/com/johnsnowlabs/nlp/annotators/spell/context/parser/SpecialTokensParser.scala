@@ -131,7 +131,7 @@ object PrefixedToken {
 }
 
 
-object DateToken extends RegexParser with WeightedLevenshtein{
+object DateToken extends RegexParser with WeightedLevenshtein with Serializable {
 
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
   @transient
@@ -154,7 +154,7 @@ object DateToken extends RegexParser with WeightedLevenshtein{
 
 }
 
-object NumberToken extends RegexParser {
+object NumberToken extends RegexParser with Serializable {
 
   /* used during candidate generation(correction) - must be finite */
   override val regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
