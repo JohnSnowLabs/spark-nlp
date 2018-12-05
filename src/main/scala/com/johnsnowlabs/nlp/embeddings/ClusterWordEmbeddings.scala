@@ -16,7 +16,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
  */
 class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
-  lazy val getLocalRetriever: WordEmbeddingsRetriever = {
+  def getLocalRetriever: WordEmbeddingsRetriever = {
     WordEmbeddingsRetriever(SparkFiles.get(clusterFilePath), dim, caseSensitive)
   }
 }
