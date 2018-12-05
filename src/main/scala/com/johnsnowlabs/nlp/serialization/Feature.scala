@@ -267,9 +267,8 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
 class TransducerFeature(model: HasFeatures, override val name: String)
   extends Feature[ITransducer[Candidate], ITransducer[Candidate], ITransducer[Candidate]](model, name) {
 
-  val serializer = new PlainTextSerializer
-
   override def serializeObject(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
+    val serializer = new PlainTextSerializer
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
     val bytes = serializer.serialize(trans)
@@ -278,6 +277,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
   }
 
   override def deserializeObject(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+    val serializer = new PlainTextSerializer
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
@@ -292,6 +292,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
 
 
   override def serializeDataset(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
+    val serializer = new PlainTextSerializer
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
     val bytes = serializer.serialize(trans)
@@ -299,6 +300,8 @@ class TransducerFeature(model: HasFeatures, override val name: String)
   }
 
   override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+    val serializer = new PlainTextSerializer
+    implicit val encoder: Encoder[Byte] = Encoders.kryo[Byte]
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
@@ -316,7 +319,6 @@ class TransducerFeature(model: HasFeatures, override val name: String)
 class TransducerSeqFeature(model: HasFeatures, override val name: String)
   extends Feature[Seq[SpecialClassParser], Seq[SpecialClassParser], Seq[SpecialClassParser]](model, name) {
 
-  import com.github.liblevenshtein.serialization.ProtobufSerializer
   implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
 
   override def serializeObject(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
@@ -328,7 +330,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       val transducer = specialClass.transducer
       specialClass.setTransducer(null)
       // the object per se
-      spark.sparkContext.parallelize(Seq(specialClass.transducer)).
+      spark.sparkContext.parallelize(Seq(specialClass)).
         saveAsObjectFile(s"${dataPath.toString}/${specialClass.label}")
 
 
@@ -371,6 +373,8 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
   }
 
   override def serializeDataset(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
+    implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
+
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
     specialClasses.foreach { case specialClass =>
@@ -379,7 +383,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       val transducer = specialClass.transducer
       specialClass.setTransducer(null)
       // the object per se
-      spark.createDataset(Seq(specialClass.transducer)).
+      spark.createDataset(Seq(specialClass)).
       write.mode("overwrite").
         parquet(s"${dataPath.toString}/${specialClass.label}")
 
@@ -393,7 +397,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
   }
 
   override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[Seq[SpecialClassParser]] = {
-    import scala.collection.JavaConversions._
+    import spark.implicits._
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
