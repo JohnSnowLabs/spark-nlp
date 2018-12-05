@@ -94,8 +94,32 @@ class _OcrCreateMap(ExtendedJavaWrapper):
     def __init__(self, input_path):
         super(_OcrCreateMap, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createMap")
         self._java_obj = self._new_java_obj(self._java_obj, input_path)
-        
-        
+
+
+class _OcrSetPreferImageLayer(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetPreferImageLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setPreferImageLayer")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetPreferImageLayer(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetPreferImageLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getPreferImageLayer")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetFallbackToText(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetFallbackToText, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setFallbackToText")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetFallbackToText(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetFallbackToText, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getFallbackToText")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
 class _OcrSetMinTextLayer(ExtendedJavaWrapper):
     def __init__(self, value):
         super(_OcrSetMinTextLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setMinTextLayer")
