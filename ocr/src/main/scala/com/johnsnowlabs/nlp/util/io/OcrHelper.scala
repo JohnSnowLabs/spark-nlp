@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
 import org.apache.spark.sql.{Dataset, SparkSession}
+import org.slf4j.LoggerFactory
 
 
 /*
@@ -51,12 +52,16 @@ object Kernels {
 
 object OcrHelper {
 
+  private val logger = LoggerFactory.getLogger("OcrHelper")
+
   @transient
   private var tesseractAPI : Tesseract = _
 
   /** minTextLayer is amount of text minimum to accept PDFbox's text layer output
     * set to 0 to disable text layer completely
     * */
+  private var preferImageLayer: Boolean = false
+  private var fallbackToText: Boolean = true
   private var minTextLayerSize: Int = 10
   private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
@@ -66,6 +71,18 @@ object OcrHelper {
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
+
+  def setPreferImageLayer(value: Boolean): Unit = {
+    preferImageLayer = value
+  }
+
+  def getPreferImageLayer: Boolean = preferImageLayer
+
+  def setFallbackToText(value: Boolean): Unit = {
+    fallbackToText = value
+  }
+
+  def getFallbackToText: Boolean = fallbackToText
 
   def setMinTextLayer(value: Int): Unit = {
     require(value >= 0, "MinTextLayer must be equal or greater than 0. Represents minimum amount of text to accept PDF's text layer")
@@ -228,10 +245,11 @@ object OcrHelper {
 
     lazy val textContent = extractText(pdfDoc, startPage, endPage)
     lazy val renderedImage = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
+    lazy val processedTextContent = Seq((endPage - startPage + 1, textContent))
     // if no text layer present, do the OCR
-    if ((minTextLayerSize == 0 || textContent.length <= minTextLayerSize) && renderedImage.nonEmpty) {
+    if ((preferImageLayer || textContent.length <= minTextLayerSize) && renderedImage.nonEmpty) {
 
-      val imageContent = renderedImage.flatMap(render => {
+      val imageRegions = renderedImage.flatMap(render => {
         val image = PlanarImage.wrapRenderedImage(render)
 
         // rescale if factor provided
@@ -250,19 +268,26 @@ object OcrHelper {
           try {
             tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
           } catch {
-            case _: NullPointerException => List()
+            case _: NullPointerException =>
+              logger.info(s"Tesseract failed to process a document. Falling back to text layer.")
+              List()
           }
         }
         regions.flatMap(_.map { rectangle =>
           tesseract.doOCR(dilatedImage, rectangle)
         })
-      }).mkString(System.lineSeparator())
+      })
 
-      Seq((endPage - startPage + 1, imageContent))
+      val imageContent = imageRegions.mkString(System.lineSeparator())
+
+      if (imageContent.isEmpty && fallbackToText)
+        processedTextContent
+      else
+        Seq((endPage - startPage + 1, imageContent))
 
     }
     else
-      Seq((endPage - startPage + 1, textContent))
+      processedTextContent
   }
 
   /*

@@ -12,6 +12,22 @@ class OcrHelper:
     @staticmethod
     def createMap(input_path):
         return _int._OcrCreateMap(input_path).apply()
+
+    @staticmethod
+    def setFallbackToText(value):
+        return _int._OcrSetFallbackToText(value).apply()
+
+    @staticmethod
+    def getFallbackToText():
+        return _int._OcrGetFallbackToText().apply()
+
+    @staticmethod
+    def setPreferImageLayer(value):
+        return _int._OcrSetPreferImageLayer(value).apply()
+
+    @staticmethod
+    def getPreferImageLayer():
+        return _int._OcrGetPreferImageLayer().apply()
     
     @staticmethod
     def setMinTextLayer(value):
