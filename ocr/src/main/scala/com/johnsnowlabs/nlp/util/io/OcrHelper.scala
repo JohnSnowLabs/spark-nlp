@@ -258,11 +258,11 @@ object OcrHelper {
         })
       }).mkString(System.lineSeparator())
 
-      Seq((startPage - endPage + 1, imageContent))
+      Seq((endPage - startPage + 1, imageContent))
 
     }
     else
-      Seq((startPage - endPage + 1, textContent))
+      Seq((endPage - startPage + 1, textContent))
   }
 
   /*

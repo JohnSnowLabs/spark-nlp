@@ -4,10 +4,10 @@ from pyspark.sql import SparkSession, DataFrame
 
 class OcrHelper:
     @staticmethod
-    def createDataset(spark, input_path, output_col, metadata_col):
+    def createDataset(spark, input_path):
         if type(spark) != SparkSession:
             raise Exception("spark must be SparkSession")
-        return DataFrame(_int._OcrCreateDataset(spark._jsparkSession, input_path, output_col, metadata_col).apply(), spark)
+        return DataFrame(_int._OcrCreateDataset(spark._jsparkSession, input_path).apply(), spark)
 
     @staticmethod
     def createMap(input_path):
@@ -28,6 +28,14 @@ class OcrHelper:
     @staticmethod
     def getEngineMode():
         return _int._OcrGetEngineMode().apply()
+
+    @staticmethod
+    def setPageSegMode(mode):
+        return _int._OcrSetPageSegMode(mode).apply()
+
+    @staticmethod
+    def getPageSegMode():
+        return _int._OcrGetPageSegMode().apply()
 
     @staticmethod
     def setPageIteratorLevel(level):
