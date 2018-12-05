@@ -14,33 +14,33 @@ class OcrHelper:
         return _int._OcrCreateMap(input_path).apply()
 
     @staticmethod
-    def setFallbackToText(value):
-        return _int._OcrSetFallbackToText(value).apply()
+    def setPreferredMethod(value):
+        return _int._OcrSetPreferredMethod(value).apply()
 
     @staticmethod
-    def getFallbackToText():
-        return _int._OcrGetFallbackToText().apply()
+    def getPreferredMethod():
+        return _int._OcrGetPreferredMethod().apply()
 
     @staticmethod
-    def setPreferImageLayer(value):
-        return _int._OcrSetPreferImageLayer(value).apply()
+    def setFallbackMethod(value):
+        return _int._OcrSetFallbackMethod(value).apply()
 
     @staticmethod
-    def getPreferImageLayer():
-        return _int._OcrGetPreferImageLayer().apply()
-    
-    @staticmethod
-    def setMinTextLayer(value):
-        return _int._OcrSetMinTextLayer(value).apply()
+    def getFallbackMethod():
+        return _int._OcrGetFallbackMethod().apply()
 
     @staticmethod
-    def getMinTextLayer():
-        return _int._OcrGetMinTextLayer().apply()
-    
+    def setMinSizeBeforeFallback(value):
+        return _int._OcrSetMinSizeBeforeFallback(value).apply()
+
+    @staticmethod
+    def getMinSizeBeforeFallback():
+        return _int._OcrGetMinSizeBeforeFallback().apply()
+
     @staticmethod
     def setEngineMode(mode):
         return _int._OcrSetEngineMode(mode).apply()
-    
+
     @staticmethod
     def getEngineMode():
         return _int._OcrGetEngineMode().apply()

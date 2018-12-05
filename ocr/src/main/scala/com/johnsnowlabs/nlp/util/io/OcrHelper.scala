@@ -49,6 +49,11 @@ object Kernels {
   val SQUARED = 0
 }
 
+object OCRMethod {
+  val PDFBOXIO = "pdfbox-imageio"
+  val TESSERACT = "tesseract"
+}
+
 
 object OcrHelper {
 
@@ -57,12 +62,11 @@ object OcrHelper {
   @transient
   private var tesseractAPI : Tesseract = _
 
-  /** minTextLayer is amount of text minimum to accept PDFbox's text layer output
-    * set to 0 to disable text layer completely
-    * */
-  private var preferImageLayer: Boolean = false
-  private var fallbackToText: Boolean = true
-  private var minTextLayerSize: Int = 10
+  private var preferredMethod: String = OCRMethod.PDFBOXIO
+  private var fallbackMethod: Boolean = true
+  private var minSizeBeforeFallback: Int = 0
+
+  /** Tesseract exclusive settings */
   private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
@@ -72,26 +76,25 @@ object OcrHelper {
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
 
-  def setPreferImageLayer(value: Boolean): Unit = {
-    preferImageLayer = value
+  def setPreferredMethod(value: String): Unit = {
+    require(value == OCRMethod.PDFBOXIO || value == OCRMethod.TESSERACT, s"OCR Method must be either" +
+      s"${OCRMethod.PDFBOXIO} or ${OCRMethod.TESSERACT}")
+    preferredMethod = value
   }
 
-  def getPreferImageLayer: Boolean = preferImageLayer
+  def getPreferredMethod: String = preferredMethod
 
-  def setFallbackToText(value: Boolean): Unit = {
-    fallbackToText = value
+  def setFallbackMethod(value: Boolean): Unit = {
+    fallbackMethod = value
   }
 
-  def getFallbackToText: Boolean = fallbackToText
+  def getFallbackMethod: Boolean = fallbackMethod
 
-  def setMinTextLayer(value: Int): Unit = {
-    require(value >= 0, "MinTextLayer must be equal or greater than 0. Represents minimum amount of text to accept PDF's text layer")
-    minTextLayerSize = value
+  def setMinSizeBeforeFallback(value: Int): Unit = {
+    minSizeBeforeFallback = value
   }
 
-  def getMinTextLayer: Int = {
-    minTextLayerSize
-  }
+  def getMinSizeBeforeFallback: Int = minSizeBeforeFallback
 
   def setPageSegMode(mode: Int): Unit = {
     pageSegmentationMode = mode
@@ -135,7 +138,7 @@ object OcrHelper {
       kernelSize = Some(kSize)
   }
 
-  case class OcrRow(text: String, filename: String, pagenum: Int)
+  case class OcrRow(text: String, filename: String, pagenum: Int, method: String)
 
   private def getListOfFiles(dir: String): List[(String, FileInputStream)] = {
     val path = new File(dir)
@@ -154,7 +157,7 @@ object OcrHelper {
 
     val files = sc.binaryFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doOcr(stream.open).map{case (pageN, region) => OcrRow(region, fileName, pageN)}
+      doOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
     }.filter(_.text.nonEmpty).toDS
 
   }
@@ -162,7 +165,7 @@ object OcrHelper {
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doOcr(stream).map{case (_, region) => (fileName, region)}
+      doOcr(stream).map{case (_, region, _) => (fileName, region)}
     }.filter(_._2.nonEmpty).toMap
   }
 
@@ -240,54 +243,74 @@ object OcrHelper {
       (integer - 255).toByte
   }
 
-  private def pageOcr(tesseract: Tesseract, pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String)] = {
+  private def tesseractMethod(
+                               pdfDoc: PDDocument,
+                               startPage: Int,
+                               endPage: Int) = {
     import scala.collection.JavaConversions._
 
-    lazy val textContent = extractText(pdfDoc, startPage, endPage)
-    lazy val renderedImage = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
-    lazy val processedTextContent = Seq((endPage - startPage + 1, textContent))
-    // if no text layer present, do the OCR
-    if ((preferImageLayer || textContent.length <= minTextLayerSize) && renderedImage.nonEmpty) {
+    val renderedImages = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
 
-      val imageRegions = renderedImage.flatMap(render => {
-        val image = PlanarImage.wrapRenderedImage(render)
+    val imageRegions = renderedImages.flatMap(render => {
+      val image = PlanarImage.wrapRenderedImage(render)
 
-        // rescale if factor provided
-        val scaledImage = scalingFactor.map { factor =>
-          reScaleImage(image, factor)
-        }.getOrElse(image.getAsBufferedImage)
+      // rescale if factor provided
+      val scaledImage = scalingFactor.map { factor =>
+        reScaleImage(image, factor)
+      }.getOrElse(image.getAsBufferedImage)
 
-        // erode if kernel provided
-        val dilatedImage = kernelSize.map {kernelRadio =>
-          erode(scaledImage, kernelRadio)
-        }.getOrElse(scaledImage)
+      // erode if kernel provided
+      val dilatedImage = kernelSize.map {kernelRadio =>
+        erode(scaledImage, kernelRadio)
+      }.getOrElse(scaledImage)
 
-        // obtain regions and run OCR on each region
-        val regions = {
-          /** Some ugly image scenarios cause a null pointer in tesseract. Avoid here.*/
-          try {
-            tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
-          } catch {
-            case _: NullPointerException =>
-              logger.info(s"Tesseract failed to process a document. Falling back to text layer.")
-              List()
-          }
+      // obtain regions and run OCR on each region
+      val regions = {
+        /** Some ugly image scenarios cause a null pointer in tesseract. Avoid here.*/
+        try {
+          tesseract.getSegmentedRegions(scaledImage, pageIteratorLevel).map(Some(_)).toList
+        } catch {
+          case _: NullPointerException =>
+            logger.info(s"Tesseract failed to process a document. Falling back to text layer.")
+            List()
         }
-        regions.flatMap(_.map { rectangle =>
-          tesseract.doOCR(dilatedImage, rectangle)
-        })
+      }
+      regions.flatMap(_.map { rectangle =>
+        tesseract.doOCR(dilatedImage, rectangle)
       })
+    })
 
-      val imageContent = imageRegions.mkString(System.lineSeparator())
+    Option(imageRegions.mkString(System.lineSeparator()))
 
-      if (imageContent.isEmpty && fallbackToText)
-        processedTextContent
-      else
-        Seq((endPage - startPage + 1, imageContent))
 
+  }
+
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int) = {
+
+    Option(extractText(pdfDoc, startPage, endPage))
+
+  }
+
+  private def pageOcr(tesseract: Tesseract, pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
+
+    // Seq((endPage - startPage + 1, textContent, OCRMethod.PDFBOXIO))
+
+    val result = preferredMethod match {
+
+      case OCRMethod.TESSERACT => tesseractMethod(pdfDoc, startPage, endPage)
+        .map(_.trim)
+        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
+        .orElse(if (fallbackMethod) pdfboxMethod(pdfDoc, startPage, endPage) else None)
+
+      case OCRMethod.PDFBOXIO => pdfboxMethod(pdfDoc, startPage, endPage)
+        .map(_.trim)
+        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
+        .orElse(if (fallbackMethod) tesseractMethod(pdfDoc, startPage, endPage) else None)
+
+      case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be ${OCRMethod.PDFBOXIO} or ${OCRMethod.TESSERACT}")
     }
-    else
-      processedTextContent
+
+    result.map(content => Seq((endPage - startPage + 1, content, OCRMethod.PDFBOXIO))).getOrElse(Seq.empty[(Int, String, String)])
   }
 
   /*
@@ -295,7 +318,7 @@ object OcrHelper {
    * returns sequence of (pageNumber:Int, textRegion:String)
    *
    * */
-  private def doOcr(fileStream:InputStream):Seq[(Int, String)] = {
+  private def doOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
     val tesseract = initTesseract()
