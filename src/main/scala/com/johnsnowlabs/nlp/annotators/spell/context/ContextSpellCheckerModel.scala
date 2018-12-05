@@ -57,9 +57,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
 
   val tradeoff = new FloatParam(this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
-  def setTradeOfft(lambda: Float):this.type = set(tradeoff, lambda)
+  def setTradeOff(lambda: Float):this.type = set(tradeoff, lambda)
 
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
+  def setGamma(g: Float):this.type = set(tradeoff, g)
 
   val weights: MapFeature[Char, Map[Char, Float]] = new MapFeature[Char, Map[Char, Float]](this, "levenshteinWeights")
   def setWeights(w:Map[Char, Map[Char, Float]]): this.type = set(weights, w)
@@ -77,7 +78,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     this
   }
 
-  @transient
   private var _model: TensorflowSpell = null
 
   def model: TensorflowSpell = {
@@ -160,7 +160,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
       // log paths and costs
       pathWords.zip(costs).foreach{ case (path, cost) =>
-        logger.debug(s"${path.toList}, $cost\n-----\n")
+        logger.debug(s"${path.toList}, $cost")
       }
 
     }
@@ -168,7 +168,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     pathWords.zip(costs).minBy(_._2)
   }
 
-  def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int) = {
+  def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int, limit:Int = 2) = {
     import scala.collection.JavaConversions._
     transducer.transduce(token, maxDist).map {case cand =>
 
@@ -178,7 +178,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         getOrElse(cand.distance.toFloat)
 
       (cand.term, label, weight)
-    }.toSeq.sortBy(_._3).take(2) //getOrDefault(maxCandidates)
+    }.toSeq.sortBy(_._3).take(limit)
   }
 
   def getVocabCandidates(trans: ITransducer[Candidate], token: String, maxDist:Int) = {
@@ -228,7 +228,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
             (label, weight, term)
         }.sortBy(_._2).take(getOrDefault(maxCandidates))
 
-        logger.info(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
+        logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
         labelWeightCand.toArray
       }.toArray
 

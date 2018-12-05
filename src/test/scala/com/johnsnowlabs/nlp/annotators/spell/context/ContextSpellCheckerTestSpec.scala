@@ -42,7 +42,8 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     import spark.implicits._
 
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
-      "He wos re1uctant to clange .").toDF("text")
+      "He wos re1uctant to clange .",
+      "he is gane .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
@@ -59,11 +60,12 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     val spellChecker = ContextSpellCheckerModel
       .pretrained()
+      .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
-    pipeline.transform(data).show(truncate=false)
+    pipeline.transform(data).select("checked").show(truncate=false)
 
   }
 

@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.io.{BufferedWriter, File, FileWriter}
-
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
@@ -24,7 +23,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   with HasFeatures
   with WeightedLevenshtein {
 
-  override val description: String = "Ocr specific Spell Checking"
+  override val description: String = "Context Spell Checker"
 
   private val logger = LoggerFactory.getLogger("ContextSpellCheckerApproach")
 
@@ -179,7 +178,6 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     logger.info(s"Max num of words per class: ${maxWid}")
 
-
     val classesFile = new File(filePath)
     val bwClassesFile = new BufferedWriter(new FileWriter(classesFile))
 
@@ -192,7 +190,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   }
 
   /*
-  *  here we do some preprocessing of the training data, and generate the vocabulary
+  *  here we do some pre-processing of the training data, and generate the vocabulary
   * */
 
   def genVocab(rawDataPath: String) = {
@@ -202,7 +200,6 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
 
     scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
-
       // TODO remove crazy encodings of space(clean the dataset itself before input it here)
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
