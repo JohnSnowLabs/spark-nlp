@@ -50,8 +50,8 @@ object Kernels {
 }
 
 object OCRMethod {
-  val PDFBOXIO = "pdfbox-imageio"
-  val TESSERACT = "tesseract"
+  val TEXT_LAYER = "text"
+  val IMAGE_LAYER = "image"
 }
 
 
@@ -62,7 +62,7 @@ object OcrHelper {
   @transient
   private var tesseractAPI : Tesseract = _
 
-  private var preferredMethod: String = OCRMethod.PDFBOXIO
+  private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
   private var minSizeBeforeFallback: Int = 0
 
@@ -77,8 +77,8 @@ object OcrHelper {
   var scalingFactor: Option[Float] = None
 
   def setPreferredMethod(value: String): Unit = {
-    require(value == OCRMethod.PDFBOXIO || value == OCRMethod.TESSERACT, s"OCR Method must be either" +
-      s"${OCRMethod.PDFBOXIO} or ${OCRMethod.TESSERACT}")
+    require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
+      s"'${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     preferredMethod = value
   }
 
@@ -293,24 +293,24 @@ object OcrHelper {
 
   private def pageOcr(tesseract: Tesseract, pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
 
-    // Seq((endPage - startPage + 1, textContent, OCRMethod.PDFBOXIO))
+    var decidedMethod = preferredMethod
 
     val result = preferredMethod match {
 
-      case OCRMethod.TESSERACT => tesseractMethod(pdfDoc, startPage, endPage)
+      case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
         .map(_.trim)
         .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
-        .orElse(if (fallbackMethod) pdfboxMethod(pdfDoc, startPage, endPage) else None)
+        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
-      case OCRMethod.PDFBOXIO => pdfboxMethod(pdfDoc, startPage, endPage)
+      case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
         .map(_.trim)
         .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
-        .orElse(if (fallbackMethod) tesseractMethod(pdfDoc, startPage, endPage) else None)
+        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(pdfDoc, startPage, endPage)} else None)
 
-      case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be ${OCRMethod.PDFBOXIO} or ${OCRMethod.TESSERACT}")
+      case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
 
-    result.map(content => Seq((endPage - startPage + 1, content, OCRMethod.PDFBOXIO))).getOrElse(Seq.empty[(Int, String, String)])
+    result.map(content => Seq((endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
   }
 
   /*
