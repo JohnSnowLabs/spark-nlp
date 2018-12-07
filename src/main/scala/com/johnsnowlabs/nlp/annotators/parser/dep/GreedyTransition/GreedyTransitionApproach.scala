@@ -13,6 +13,7 @@ class GreedyTransitionApproach {
     val dependencyMaker = loadPerceptronInPrediction(trainedPerceptron)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
+    getDependencies(sentence, dependencyMaker)
     val dependencies = dependencyMaker.predictHeads(sentence)
     val words = posTagged.indexedTaggedWords
       .zip(dependencies)
@@ -24,16 +25,28 @@ class GreedyTransitionApproach {
     DependencyParsedSentence(words)
   }
 
+  def loadPerceptronInPrediction(trainedPerceptron: Array[String]): DependencyMaker = {
+    val dependencyMaker = new DependencyMaker()
+    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
+    dependencyMaker
+  }
+
+  def getDependencies(sentence: Sentence, dependencyMaker: DependencyMaker): List[Int] = {
+    val dependencies = dependencyMaker.predictHeads(sentence)
+    val headOccurrences = dependencies.groupBy(identity).mapValues(_.size)
+    val numberOfPredictedRoots = headOccurrences.get(dependencies.size)
+
+    if (numberOfPredictedRoots.get > 1) {
+      println("numberOfPredictedRoots: " + numberOfPredictedRoots)
+      //getDependencies(sentence, dependencyMaker)
+    }
+    dependencies
+  }
+
   def loadPerceptronInTraining(trainedPerceptron: Array[String]): DependencyMaker = {
     val dependencyMaker = new DependencyMaker()
     dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
     dependencyMaker.perceptron.cleanLearning()
-    dependencyMaker
-  }
-
-  def loadPerceptronInPrediction(trainedPerceptron: Array[String]): DependencyMaker = {
-    val dependencyMaker = new DependencyMaker()
-    dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
     dependencyMaker
   }
 
@@ -45,13 +58,29 @@ class GreedyTransitionApproach {
 
     val perceptron = new Perceptron(3)
 
-    case class ParserState(n: Int, heads: Vector[Int], lefts: Vector[List[Int]], rights: Vector[List[Int]]) {
+    case class ParserState(sentenceLength: Int, heads: Vector[Int], lefts: Vector[List[Int]], rights: Vector[List[Int]]) {
 
-      def this(n: Int) = this(n, Vector.fill(n)(0: Int), Vector.fill(n + 1)(List[Int]()), Vector.fill(n + 1)(List[Int]()))
+      def this(sentenceLength: Int) = this(sentenceLength, Vector.fill(sentenceLength)(0: Int),
+        Vector.fill(sentenceLength + 1)(List[Int]()),
+        Vector.fill(sentenceLength + 1)(List[Int]()))
 
-      def addArc(head: Int, child: Int): ParserState = {
-        if (child < head) ParserState(n, heads.updated(child, head), lefts.updated(head, child :: lefts(head)), rights)
-        else ParserState(n, heads.updated(child, head), lefts, rights.updated(head, child :: rights(head)))
+      def addArc(head: Int, child: Int, flag:String, move: Move): ParserState = {
+        if (flag == "train"){
+          if (child < head) {
+            ParserState(sentenceLength, heads.updated(child, head), lefts.updated(head, child :: lefts(head)), rights)
+          }
+          else {
+            ParserState(sentenceLength, heads.updated(child, head), lefts, rights.updated(head, child :: rights(head)))
+          }
+        } else {
+          if (move == LEFT) {
+            ParserState(sentenceLength, heads.updated(head-1, child-1), lefts.updated(head, child :: lefts(head)), rights)
+          }
+          else {
+            ParserState(sentenceLength, heads.updated(child-1, head-1), lefts, rights.updated(head, child :: rights(head)))
+          }
+        }
+
       }
     }
 
@@ -59,67 +88,205 @@ class GreedyTransitionApproach {
       def apply(n: Int) = new ParserState(n)
     }
 
-    def ParseStateInit(n:Int) = {
+    def ParseStateInit(sentenceLength:Int) = {
       // heads are the dependencies for each word in the sentence, except the last one (the ROOT)
-      val heads = Vector.fill(n)(0:Int) // i.e. (0, .., n-1)
+      val heads = Vector.fill(sentenceLength)(0:Int) // i.e. (0, .., n-1)
 
       // Each possible head (including ROOT) has a (lefts) and (rights) list, initially none
       // Entries (0, ..., n-1) are words, (n) is the 'ROOT'  ('to' is INCLUSIVE)
-      val lefts  = (0 to n).map( i => List[Int]() ).toVector
-      val rights = (0 to n).map( i => List[Int]() ).toVector
-      ParserState(n, heads, lefts, rights)
+      val lefts  = (0 to sentenceLength).map(_ => List[Int]() ).toVector
+      val rights = (0 to sentenceLength).map(_ => List[Int]() ).toVector
+      ParserState(sentenceLength, heads, lefts, rights)
     }
 
-    case class CurrentState(i: Int, stack: List[Int], parse: ParserState) {
-      def transition(move: Move): CurrentState = move match {
-        case SHIFT => CurrentState(i+1, i :: stack, parse)
-        case RIGHT => CurrentState(i, stack.tail, parse.addArc(stack.tail.head, stack.head))
-        case LEFT  => CurrentState(i, stack.tail, parse.addArc(i, stack.head))
+    case class CurrentState(step: Int, stack: List[Int], parse: ParserState) {
+
+      def transition(move: Move, flag: String): CurrentState = move match {
+        //TODO: Verify correct values in stack after LFT or RIGHT
+        case SHIFT => CurrentState(step+1, step :: stack, parse)
+        case RIGHT => if (flag == "train") {
+          CurrentState(step, stack.tail, parse.addArc(stack.tail.head, stack.head, flag, move))
+        } else {
+          val dependency = stack.take(2).head
+          var newStack = stack.filter(_ != dependency)
+          if (dependency == 0) {
+            newStack = stack //Root is always on stack
+          }
+          CurrentState(step, newStack, parse.addArc(stack.tail.head, stack.head, flag, move))
+        }
+        case LEFT  => if (flag == "train") {
+          CurrentState(step, stack.tail, parse.addArc(step, stack.head, flag, move))
+        } else {
+          val dependency = stack.take(2).last
+          val newStack = stack.filter(_!=dependency)
+          CurrentState(step, newStack, parse.addArc(stack.tail.head, stack.head, flag, move))
+        }
       }
 
-      lazy val validMoves: Set[Move] = {
-        ((if (i < parse.n) Some(SHIFT) else None) ::
-        (if (stack.length >= 2) Some(RIGHT) else None) ::
-        (if (stack.nonEmpty) Some(LEFT) else None) ::
-        Nil).flatten.toSet
+      lazy val validMovesOld: Set[Move] = {
+        ((if (step < parse.sentenceLength) Some(SHIFT) else None) ::
+          (if (stack.length >= 2) Some(RIGHT) else None) ::
+          (if (stack.nonEmpty) Some(LEFT) else None) ::
+          Nil).flatten.toSet
       }
+
+      lazy val validMovesNew: Set[Move] = {
+        (verifyShiftMove :: verifyRightMove :: verifyLeftMove :: Nil).flatten.toSet
+      }
+
+      def verifyShiftMove: Option[Move] = {
+        var shiftMove: Option[Move] = Some(SHIFT)
+        val processedWords = getNumberOfProcessedWords
+        if (processedWords == parse.sentenceLength) {
+          shiftMove = None
+        }
+
+        if (processedWords+stack.size-1 == parse.sentenceLength) {
+          shiftMove = None //There are no more words to process
+        }
+
+        if (step > parse.sentenceLength) {
+          shiftMove = None
+        }
+
+        shiftMove
+      }
+
+      def getNumberOfProcessedWords: Int = {
+        val numberOfLeftWords = parse.lefts.flatten.size //parse.lefts.count(_.nonEmpty)
+        val numberOfRightWords = parse.rights.flatten.size //parse.rights.count(_.nonEmpty)
+        numberOfLeftWords+numberOfRightWords
+      }
+
+      def verifyRightMove: Option[Move] = {
+        var rightMove: Option[Move] = Some(RIGHT)
+        if (stack.length >= 2) {
+          //          if (rightDependencyHasHead()) {
+          //            rightMove = None //A dependency can have only one head
+          //          } else {
+          //            rightMove = Some(RIGHT)
+          //          }
+          rightMove = Some(RIGHT)
+        } else{
+          rightMove = None
+        }
+
+        if (rootHasDependency) {
+          rightMove = None
+        }
+
+        if (stack.size == 2 && !isLastWord) { //Verifies if root can be assigned
+          rightMove = None
+        }
+
+        rightMove
+      }
+
+      def rootHasDependency: Boolean = {
+        parse.heads.contains(-1)
+      }
+
+      def isLastWord: Boolean = {
+        val processedWords = getNumberOfProcessedWords
+        processedWords == parse.sentenceLength-1
+      }
+
+      def verifyLeftMove: Option[Move] = {
+        var leftMove: Option[Move] = Some(LEFT)
+
+        if (stack.nonEmpty){
+          if (stack.length == 1 && stack.head == 0) {
+            leftMove = None
+          }
+          if (stack.length == 2 && stack.last == 0) {
+            leftMove = None // Root cannot be a dependency
+          }
+          if (stack.length > 2){
+            val leftDependency = stack.take(2).last
+            if (leftDependency == 0) {
+              leftMove = None //Root cannot have incoming arcs
+            }
+
+            //            if (leftDependencyHasHead()) {
+            //              leftMove = None //A dependency can have only one head
+            //            }
+
+          }
+
+        } else {
+          leftMove = None
+        }
+        leftMove
+      }
+
+      //      def rightDependencyHasHead(): Boolean = {
+      //        var hasHead = false
+      //        val rightDependency = stack.take(2).head
+      //        if (parse.lefts(rightDependency).nonEmpty || parse.rights(rightDependency).nonEmpty){
+      //          hasHead = true
+      //        }
+      //        hasHead
+      //      }
+      //
+      //      def leftDependencyHasHead(): Boolean = {
+      //        var hasHead = false
+      //        val leftDependency = stack.take(2).last
+      //        if (parse.lefts(leftDependency).nonEmpty || parse.rights(leftDependency).nonEmpty){
+      //          hasHead = true
+      //        }
+      //        hasHead
+      //      }
+
 
       def getGoldMoves(goldHeads: Vector[Int]) = {
         def findDepsBetween(target: Int, others: List[Int]) = {
           others.exists( word => goldHeads(word)==target || goldHeads(target) == word)
         }
 
-        if (stack.isEmpty || ( validMoves.contains(SHIFT) && goldHeads(i) == stack.head )) {
+        if (stack.isEmpty || ( validMovesOld.contains(SHIFT) && goldHeads(step) == stack.head )) {
           Set(SHIFT)
-        } else if ( goldHeads(stack.head) == i ) {
+        } else if ( goldHeads(stack.head) == step ) {
           Set(LEFT)
         } else {
           val leftIncorrect = stack.length >= 2 && goldHeads(stack.head) == stack.tail.head
-          val dontPushI    = validMoves.contains(SHIFT) && findDepsBetween(i, stack)
-          val dontPopStack = findDepsBetween(stack.head, ((i+1) until parse.n).toList)
+          val dontPushI    = validMovesOld.contains(SHIFT) && findDepsBetween(step, stack)
+          val dontPopStack = findDepsBetween(stack.head, ((step+1) until parse.sentenceLength).toList)
           val nonGold = (
             (if (leftIncorrect) Some(LEFT) else None) ::
-            (if (dontPushI) Some(SHIFT) else None) ::
-            (if (dontPopStack)  Some(LEFT) else None) ::
-            (if (dontPopStack)  Some(RIGHT) else None) ::
-            Nil
-          ).flatten.toSet
+              (if (dontPushI) Some(SHIFT) else None) ::
+              (if (dontPopStack)  Some(LEFT) else None) ::
+              (if (dontPopStack)  Some(RIGHT) else None) ::
+              Nil
+            ).flatten.toSet
 
-          validMoves -- nonGold
+          validMovesOld -- nonGold
         }
       }
 
-      def extractFeatures(words: Vector[Word], tags: Vector[ClassName]): Map[Feature, Score] = {
-        def getStackContext[T <: String](data: Vector[T]): (T, T, T) = (
-          if (stack.nonEmpty) data(stack.head) else "".asInstanceOf[T],
-          if (stack.length > 1) data(stack(1)) else "".asInstanceOf[T],
-          if (stack.length > 2) data(stack(2)) else "".asInstanceOf[T]
-        )
+      def extractFeatures(words: Vector[Word], tags: Vector[ClassName], flag: String): Map[Feature, Score] = {
+
+        def getStackContext[T <: String](data: Vector[T]): (T, T, T) = {
+          var firstElement = "".asInstanceOf[T]
+          if (flag == "train"){
+            firstElement = if (stack.nonEmpty) data(stack.head) else "".asInstanceOf[T]
+          } else {
+            if (stack.head == 0){
+              firstElement = "".asInstanceOf[T]
+            } else {
+              firstElement = if (stack.nonEmpty) data(stack.head-1) else "".asInstanceOf[T]
+            }
+          }
+
+          (firstElement,
+            if (stack.length > 1) data(stack(1)) else "".asInstanceOf[T],
+            if (stack.length > 2) data(stack(2)) else "".asInstanceOf[T]
+          )
+        }
 
         def getBufferContext[T <: String](data: Vector[T]): (T, T, T) = (
-          if (i + 0 < parse.n) data(i + 0) else "".asInstanceOf[T],
-          if (i + 1 < parse.n) data(i + 1) else "".asInstanceOf[T],
-          if (i + 2 < parse.n) data(i + 2) else "".asInstanceOf[T]
+          if (step + 0 < parse.sentenceLength) data(step + 0) else "".asInstanceOf[T],
+          if (step + 1 < parse.sentenceLength) data(step + 1) else "".asInstanceOf[T],
+          if (step + 2 < parse.sentenceLength) data(step + 2) else "".asInstanceOf[T]
         )
 
         def getParseContext[T <: String](idx: Int, deps: Vector[List[Int]], data: Vector[T]): (Int, T, T) = {
@@ -128,15 +295,31 @@ class GreedyTransitionApproach {
           } else {
             val dependencies = deps(idx)
             val valency = dependencies.length
+            var secondElement = "".asInstanceOf[T]
+            if (flag == "train") {
+              secondElement = if (valency > 0) data(dependencies.head) else "".asInstanceOf[T]
+            } else {
+              if (valency > 0 && dependencies.head == 0){
+                secondElement = "".asInstanceOf[T]
+              } else {
+                secondElement = if (valency > 0) data(dependencies.head-1) else "".asInstanceOf[T]
+              }
+            }
             (
               valency,
-              if (valency > 0) data(dependencies.head) else "".asInstanceOf[T],
+              secondElement,
               if (valency > 1) data(dependencies(1)) else "".asInstanceOf[T]
             )
           }
         }
 
-        val n0 = i
+        var n0 = 0
+        if (flag == "train"){
+          n0 = step
+        } else {
+          n0 = stack.head
+        }
+
         val s0 = if (stack.isEmpty) -1 else stack.head
 
         val (ws0, ws1, ws2) = getStackContext(words)
@@ -225,7 +408,7 @@ class GreedyTransitionApproach {
       rand.shuffle(sentences).map( sentence =>trainOne(sentence, tagger) ).sum / sentences.length
     }
 
-    def trainOne(sentence:Sentence, tagger: Tagger):Double = goodness(sentence, process(sentence, tagger))
+    def trainOne(sentence:Sentence, tagger: Tagger):Double = goodness(sentence, processTrain(sentence, tagger))
 
     def goodness(sentence:Sentence, fit:List[Int]):Double = {
       val gold = sentence.map( _.dep ).toVector
@@ -234,7 +417,7 @@ class GreedyTransitionApproach {
       correct
     }
 
-    def process(sentence:Sentence, tagger: Tagger):List[Int] = {
+    def processTrain(sentence:Sentence, tagger: Tagger):List[Int] = {
       // NB: Our structure just has a 'pure' list of sentences.  The root will point to (n)
       // Previously it was assumed that the sentence has 1 entry pre-pended, and the stack starts at {1}
 
@@ -245,12 +428,12 @@ class GreedyTransitionApproach {
 
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
-        val validMoves = state.validMoves
+        val validMoves = state.validMovesOld
         if(validMoves.isEmpty) {
           state // This the answer!
         }
         else {
-          val features = state.extractFeatures(words, tags)
+          val features = state.extractFeatures(words, tags, "train")
 
           // This will produce scores for features that aren't valid too
           val score = perceptron.dotProductScore(features, perceptron.current)
@@ -259,11 +442,11 @@ class GreedyTransitionApproach {
           val guess = validMoves.map(validMove => (-score(validMove), validMove)).toList.minBy(_._1)._2
 
           val goldMoves = state.getGoldMoves(goldheads)
-          if(goldMoves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+          if(goldMoves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.step}/${state.parse.sentenceLength}!") }
 
           val best = goldMoves.map(goldMove => (-score(goldMove), goldMove)).toList.minBy(_._1)._2
           perceptron.update(best, guess, features.keys)
-          moveThroughSentenceFrom( state.transition(guess) )
+          moveThroughSentenceFrom( state.transition(guess, "train") )
         }
       }
 
@@ -278,14 +461,31 @@ class GreedyTransitionApproach {
       val tags = sentence.map(s => s.pos).toVector
 
       def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
-        val validMoves = state.validMoves
+        val validMoves = state.validMovesNew
         if (validMoves.isEmpty) {
           state
         } else {
-          val features = state.extractFeatures(words, tags)
+          //println("Heads 1: "+ state.parse.heads)
+          //          if (state.step == 6){ //TODO: Remove
+          //            println("Debug....")
+          //          }
+          val features = state.extractFeatures(words, tags, "prediction")
+          //println("Heads 2: "+ state.parse.heads)
           val score = perceptron.score(features, perceptron.average)
-          val guess = validMoves.map( validMove => (-score(validMove), validMove) ).toList.minBy { _._1 }._2
-          moveThroughSentenceFrom( state.transition(guess) )
+          //val pruebas = validMoves.map( validMove => (-score(validMove), validMove) )
+          //Choose the min score (_1) and gets the corresponding move (_2)
+          val move = validMoves.map( validMove => (-score(validMove), validMove) ).toList.minBy { _._1 }._2
+          println("Move: " + move)
+          println("Heads Before transition: "+ state.parse.heads)
+          println("Stack Before transition: "+ state.stack)
+          //          println("Lefts Before transition:"+ state.parse.lefts)
+          //          println("Rights Before transition:"+ state.parse.lefts)
+          val nextState = state.transition(move, "prediction")
+          println("Heads After transition: "+ nextState.parse.heads)
+          println("Stack After transition: "+ nextState.stack)
+          //          println("Lefts After transition:"+ nextState.parse.lefts)
+          //          println("Rights After transition:"+ nextState.parse.lefts)
+          moveThroughSentenceFrom(nextState)
         }
       }
 

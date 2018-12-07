@@ -43,31 +43,31 @@ class DependencyParserModelTestSpec extends FlatSpec {
     }
   }
 
-  "A DependencyParser" should "add annotations" in {
+  "A DependencyParser" should "add annotations" ignore {
     val f = fixture
     assert(f.dependencies.count > 0, "Annotations count should be greater than 0")
   }
 
-  it should "add annotations with the correct annotationType" in {
+  it should "add annotations with the correct annotationType" ignore {
     val f = fixture
     f.depAnnotations.foreach { a =>
       assert(a.annotatorType == AnnotatorType.DEPENDENCY, s"Annotation type should ${AnnotatorType.DEPENDENCY}")
     }
   }
 
-  it should "annotate each token" in {
+  it should "annotate each token" ignore {
     val f = fixture
     assert(f.tokenAnnotations.size == f.depAnnotations.size, s"Every token should be annotated")
   }
 
-  it should "annotate each word with a head" in {
+  it should "annotate each word with a head" ignore {
     val f = fixture
     f.depAnnotations.foreach { a =>
       assert(a.result.nonEmpty, s"Result should have a head")
     }
   }
 
-  it should "annotate each word with the correct indexes" in {
+  it should "annotate each word with the correct indexes" ignore {
     val f = fixture
     f.depAnnotations
       .zip(f.tokenAnnotations)
@@ -136,7 +136,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser with explicit number of iterations" should "train a model" in {
+  "A dependency parser with explicit number of iterations" should "train a model" ignore {
     val dependencyParser = new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
@@ -160,7 +160,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
   }
 
-  "A dependency parser with a sentence input" should "predict a relationship between words in the sentence" in {
+  "A dependency parser with a sentence input" should "predict a relationship between words in the sentence" ignore {
     val dependencyParserModel = DependencyParserModel.read.load("./tmp_dp_model")
 
     val model = new Pipeline().setStages(
@@ -178,7 +178,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
   }
 
   "A dependency parser model with a document input" should
-    "predict a relationship between words in each sentence" in {
+    "predict a relationship between words in each sentence" ignore {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -203,7 +203,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
   }
 
   "A dependency parser model with an input of more than one row" should
-    "predict a relationship between words in each sentence" in {
+    "predict a relationship between words in each sentence" ignore {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -247,12 +247,16 @@ class DependencyParserModelTestSpec extends FlatSpec {
 
     val model = pipeline.fit(emptyDataSet)
 
-    val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
-      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
-    val testDataSet = Seq(document).toDS.toDF("text")
+//    val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
+//      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
+
+    val errorDocument = "The most troublesome report may be the August merchandise trade deficit due out tomorrow"
+    //val document = "I prefer the morning flight through Denver"
+    //val document = "Book me the morning flight"
+    val testDataSet = Seq(errorDocument).toDS.toDF("text")
     val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.select("text","finished_dependency").show(false)
+    //dependencyParserDataFrame.collect()
+    dependencyParserDataFrame.select("text","finished_dependency").show(false)
     assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
