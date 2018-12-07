@@ -15,7 +15,6 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
     val conll2009 = unlabeledDependencies.zipWithIndex.map{ case(unlabeledDependency, index) =>
-      //val form = getForm(unlabeledDependency.result)
       val form = unlabeledDependency.result
       val lemma = unlabeledDependency.result.toLowerCase
       val pos = posTagged(index).result
