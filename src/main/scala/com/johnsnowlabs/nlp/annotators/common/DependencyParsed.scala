@@ -9,7 +9,7 @@ case class WordWithDependency(word: String, begin: Int, end: Int, head: Int)
 
 object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
-  val ROOT_INDEX = 0
+  private val ROOT_INDEX = -1
 
   override def annotatorType: String = AnnotatorType.DEPENDENCY
 
@@ -39,12 +39,12 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
     items.flatMap{sentence =>
-      val sizeSentence = sentence.tokens.length
+      //val sizeSentence = sentence.tokens.length
       sentence.tokens.map { token =>
         val headWord = getHeadWord(token.head, sentence)
         val word = token.word
         val relatedWords = s"($headWord, $word)"
-        val realHead = updateHeadsWithRootIndex(token.head, sizeSentence)
+        val realHead = token.head + 1 //updateHeadsWithRootIndex(token.head, sizeSentence)
         Annotation(annotatorType, token.begin, token.end, relatedWords, Map("head" -> realHead.toString))
       }
     }
@@ -52,19 +52,18 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
   def getHeadWord(head: Int, sentence: DependencyParsedSentence): String = {
     var headWord = "ROOT"
-    val sizeSentence = sentence.tokens.length
-    if (head != sizeSentence) {
+    if (head != ROOT_INDEX) {
       headWord = sentence.tokens(head).word
     }
     headWord
   }
 
-  def updateHeadsWithRootIndex(head: Int, sizeSentence: Int): Int = {
-    var newHead = ROOT_INDEX
-    if (head != sizeSentence) {
-      newHead = head + 1
-    }
-    newHead
-  }
+//  def updateHeadsWithRootIndex(head: Int, sizeSentence: Int): Int = {
+//    var newHead = ROOT_INDEX
+//    if (head != sizeSentence) {
+//      newHead = head + 1
+//    }
+//    newHead
+//  }
 
 }

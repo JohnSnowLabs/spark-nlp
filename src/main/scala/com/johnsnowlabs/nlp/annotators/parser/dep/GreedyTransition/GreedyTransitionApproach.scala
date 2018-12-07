@@ -13,7 +13,6 @@ class GreedyTransitionApproach {
     val dependencyMaker = loadPerceptronInPrediction(trainedPerceptron)
     val sentence: Sentence = posTagged.indexedTaggedWords
       .map { item => WordData(item.word, item.tag) }.toList
-    getDependencies(sentence, dependencyMaker)
     val dependencies = dependencyMaker.predictHeads(sentence)
     val words = posTagged.indexedTaggedWords
       .zip(dependencies)
@@ -29,18 +28,6 @@ class GreedyTransitionApproach {
     val dependencyMaker = new DependencyMaker()
     dependencyMaker.perceptron.load(trainedPerceptron.toIterator)
     dependencyMaker
-  }
-
-  def getDependencies(sentence: Sentence, dependencyMaker: DependencyMaker): List[Int] = {
-    val dependencies = dependencyMaker.predictHeads(sentence)
-    val headOccurrences = dependencies.groupBy(identity).mapValues(_.size)
-    val numberOfPredictedRoots = headOccurrences.get(dependencies.size)
-
-    if (numberOfPredictedRoots.get > 1) {
-      println("numberOfPredictedRoots: " + numberOfPredictedRoots)
-      //getDependencies(sentence, dependencyMaker)
-    }
-    dependencies
   }
 
   def loadPerceptronInTraining(trainedPerceptron: Array[String]): DependencyMaker = {
@@ -161,17 +148,8 @@ class GreedyTransitionApproach {
       def verifyRightMove: Option[Move] = {
         var rightMove: Option[Move] = Some(RIGHT)
         if (stack.length >= 2) {
-          //          if (rightDependencyHasHead()) {
-          //            rightMove = None //A dependency can have only one head
-          //          } else {
-          //            rightMove = Some(RIGHT)
-          //          }
           rightMove = Some(RIGHT)
         } else{
-          rightMove = None
-        }
-
-        if (rootHasDependency) {
           rightMove = None
         }
 
@@ -180,10 +158,6 @@ class GreedyTransitionApproach {
         }
 
         rightMove
-      }
-
-      def rootHasDependency: Boolean = {
-        parse.heads.contains(-1)
       }
 
       def isLastWord: Boolean = {
@@ -207,10 +181,6 @@ class GreedyTransitionApproach {
               leftMove = None //Root cannot have incoming arcs
             }
 
-            //            if (leftDependencyHasHead()) {
-            //              leftMove = None //A dependency can have only one head
-            //            }
-
           }
 
         } else {
@@ -218,24 +188,6 @@ class GreedyTransitionApproach {
         }
         leftMove
       }
-
-      //      def rightDependencyHasHead(): Boolean = {
-      //        var hasHead = false
-      //        val rightDependency = stack.take(2).head
-      //        if (parse.lefts(rightDependency).nonEmpty || parse.rights(rightDependency).nonEmpty){
-      //          hasHead = true
-      //        }
-      //        hasHead
-      //      }
-      //
-      //      def leftDependencyHasHead(): Boolean = {
-      //        var hasHead = false
-      //        val leftDependency = stack.take(2).last
-      //        if (parse.lefts(leftDependency).nonEmpty || parse.rights(leftDependency).nonEmpty){
-      //          hasHead = true
-      //        }
-      //        hasHead
-      //      }
 
 
       def getGoldMoves(goldHeads: Vector[Int]) = {
@@ -465,26 +417,17 @@ class GreedyTransitionApproach {
         if (validMoves.isEmpty) {
           state
         } else {
-          //println("Heads 1: "+ state.parse.heads)
-          //          if (state.step == 6){ //TODO: Remove
-          //            println("Debug....")
-          //          }
+
           val features = state.extractFeatures(words, tags, "prediction")
-          //println("Heads 2: "+ state.parse.heads)
           val score = perceptron.score(features, perceptron.average)
-          //val pruebas = validMoves.map( validMove => (-score(validMove), validMove) )
           //Choose the min score (_1) and gets the corresponding move (_2)
           val move = validMoves.map( validMove => (-score(validMove), validMove) ).toList.minBy { _._1 }._2
           println("Move: " + move)
           println("Heads Before transition: "+ state.parse.heads)
           println("Stack Before transition: "+ state.stack)
-          //          println("Lefts Before transition:"+ state.parse.lefts)
-          //          println("Rights Before transition:"+ state.parse.lefts)
           val nextState = state.transition(move, "prediction")
           println("Heads After transition: "+ nextState.parse.heads)
           println("Stack After transition: "+ nextState.stack)
-          //          println("Lefts After transition:"+ nextState.parse.lefts)
-          //          println("Rights After transition:"+ nextState.parse.lefts)
           moveThroughSentenceFrom(nextState)
         }
       }
