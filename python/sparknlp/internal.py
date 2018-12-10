@@ -85,26 +85,50 @@ class _LightPipeline(ExtendedJavaWrapper):
 
 
 class _OcrCreateDataset(ExtendedJavaWrapper):
-    def __init__(self, spark, input_path, output_col, metadata_col):
+    def __init__(self, spark, input_path):
         super(_OcrCreateDataset, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createDataset")
-        self._java_obj = self._new_java_obj(self._java_obj, spark, input_path, output_col, metadata_col)
+        self._java_obj = self._new_java_obj(self._java_obj, spark, input_path)
 
 
 class _OcrCreateMap(ExtendedJavaWrapper):
     def __init__(self, input_path):
         super(_OcrCreateMap, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.createMap")
         self._java_obj = self._new_java_obj(self._java_obj, input_path)
-        
-        
-class _OcrSetMinTextLayer(ExtendedJavaWrapper):
+
+
+class _OcrSetPreferredMethod(ExtendedJavaWrapper):
     def __init__(self, value):
-        super(_OcrSetMinTextLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setMinTextLayer")
+        super(_OcrSetPreferredMethod, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setPreferredMethod")
         self._java_obj = self._new_java_obj(self._java_obj, value)
 
 
-class _OcrGetMinTextLayer(ExtendedJavaWrapper):
+class _OcrGetPreferredMethod(ExtendedJavaWrapper):
     def __init__(self):
-        super(_OcrGetMinTextLayer, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getMinTextLayer")
+        super(_OcrGetPreferredMethod, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getPreferredMethod")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetFallbackMethod(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetFallbackMethod, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setFallbackMethod")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetFallbackMethod(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetFallbackMethod, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getFallbackMethod")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetMinSizeBeforeFallback(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetMinSizeBeforeFallback, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setMinSizeBeforeFallback")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetMinSizeBeforeFallback(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetMinSizeBeforeFallback, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getMinSizeBeforeFallback")
         self._java_obj = self._new_java_obj(self._java_obj)
 
 
@@ -147,6 +171,18 @@ class _OcrGetPageIteratorLevel(ExtendedJavaWrapper):
 class _OcrSetScalingFactor(ExtendedJavaWrapper):
     def __init__(self, value):
         super(_OcrSetScalingFactor, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setScalingFactor")
+        self._java_obj = self._new_java_obj(self._java_obj, value)
+
+
+class _OcrGetSplitPages(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_OcrGetSplitPages, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.getSplitPages")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _OcrSetSplitPages(ExtendedJavaWrapper):
+    def __init__(self, value):
+        super(_OcrSetSplitPages, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper.setSplitPages")
         self._java_obj = self._new_java_obj(self._java_obj, value)
 
 
