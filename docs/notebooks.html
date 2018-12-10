@@ -103,7 +103,7 @@
                                     Since we are dealing with small amounts of data, we put in practice LightPipelines.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/example/src/TrainViveknSentiment.scala" target="_blank"> Take me to code!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/example/src/TrainViveknSentiment.scala" target="_blank"> Take me to code!</a>
                                 </p>
                             </div>
                         </section>
@@ -135,7 +135,7 @@
                                     better Sentiment Analysis accuracy
                                   </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/vivekn-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/vivekn-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -157,7 +157,7 @@
                                 Each of these sentences will be used for giving a score to text
                             </p>
                                 </p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/dictionary-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/dictionary-sentiment/sentiment.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -177,7 +177,7 @@
                                     approach to use the same pipeline for tagging external resources.
                                 </p>
                                 <p>
-                                <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/crf-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/crf-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -196,7 +196,7 @@
                                     and it will leverage batch-based distributed calls to native TensorFlow libraries during prediction.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/dl-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/dl-ner/ner.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
@@ -205,36 +205,30 @@
                                     In the following example, we walk-through our straight forward Text Matcher
                                 </p>
                                 <p>
-                                    This annotator will take a list of sentences in a text file and lookup them in the target dataset.
+                                    This annotator will take a list of sentences in a text file and look them up in the target dataset.
                                 </p>
                                 <p>
-                                    This annotator is an AnnotatorModel and does not require training.
+                                    This annotator is an Annotator Model and does not require training.
                                 </p>
                                 <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/text-matcher/extractor.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                             <div>
                                 <h4 id="downloader-notebook" class="section-block"> Retrieving Pretrained models</h4>
                                 <p>
-                                    In the following example, we walk-through different use cases of our newest
-                                    resource downloader.
+                                    In the following example, we walk-through different use cases of some of our Pretrained models and pipelines which could be used off the shelf.
+                                </p>
+                                There is BasicPipeline which will return tokens, normalized tokens, lemmas and part of speech tags. The AdvancedPipeline will return same as the BasicPipeline plus Stems, Spell Checked tokens and NER entities using the CRF model. All the pipelines and pre trained models are downloaded from internet at run time hence would require internet access.
+                                <p>
+
                                 </p>
                                 <p>
-                                    Some of our models may be retrieved by using the AnnotatorModel class, such as
-                                    the PerceptronModel for retrieveing a POS model. For Pipelines, we have
-                                    Basic and AdvancedPipelines which are predesigned, but we also allow
-                                    downloading other models and Pipelines by name.
-                                </p>
-                                <p>
-                                    Such components may then be injected seamlessly into further pipelines, and so on.
-                                </p>
-                                <p>
-                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.0/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
+                                    <a class="btn btn-warning btn-cta" style="float: center;margin-top: 10px;" href="https://github.com/JohnSnowLabs/spark-nlp/blob/1.7.3/python/example/model-downloader/ModelDownloaderExample.ipynb" target="_blank"> Take me to notebook!</a>
                                 </p>
                             </div>
                         </section>
-                    </div>
+                   </div>
                 </div>
                 <div class="doc-sidebar">
                     <nav id="doc-nav">
