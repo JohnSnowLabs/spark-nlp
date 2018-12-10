@@ -1138,3 +1138,80 @@ class NerConverter(AnnotatorModel):
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
 
+
+class DependencyParserApproach(AnnotatorApproach):
+    dependencyTreeBank = Param(Params._dummy(),
+                               "dependencyTreeBank",
+                               "dependency treebank source files",
+                               typeConverter=TypeConverters.identity)
+
+    numberOfIterations = Param(Params._dummy(),
+                               "numberOfIterations",
+                               "Number of iterations in training, converges to better accuracy",
+                               typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(DependencyParserApproach,
+              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach")
+        self._setDefault(numberOfIterations=10)
+
+    def setNumberOfIterations(self, value):
+        return self._set(numberOfIterations=value)
+
+    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return DependencyParserModel(java_model=java_model)
+
+
+class DependencyParserModel(AnnotatorModel):
+    name = "DependencyParserModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
+        super(DependencyParserModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+
+class TypedDependencyParserApproach(AnnotatorApproach):
+
+    conll2009FilePath = Param(Params._dummy(),
+                              "conll2009FilePath",
+                              "Path to file with CoNLL 2009 format",
+                              typeConverter=TypeConverters.identity)
+
+    numberOfIterations = Param(Params._dummy(),
+                               "numberOfIterations",
+                               "Number of iterations in training, converges to better accuracy",
+                               typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(TypedDependencyParserApproach,
+              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
+
+    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
+
+    def setNumberOfIterations(self, value):
+        return self._set(numberOfIterations=value)
+
+    def _create_model(self, java_model):
+        return TypedDependencyParserModel(java_model=java_model)
+
+
+class TypedDependencyParserModel(AnnotatorModel):
+
+    name = "TypedDependencyParserModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel",
+                 java_model=None):
+        super(TypedDependencyParserModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
