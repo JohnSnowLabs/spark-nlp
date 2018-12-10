@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
@@ -18,18 +17,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
 class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
   def getLocalRetriever: WordEmbeddingsRetriever = {
-
-    /** Synchronized removed. Verify */
-    // Have to copy file because RockDB changes it and Spark rises Exception
-    val src = SparkFiles.get(clusterFilePath)
-    val workPath = src + "_work"
-
-    if (!new File(workPath).exists()) {
-      require(new File(src).exists(), s"Indexed embeddings at $src not found or not included. Call EmbeddingsHelper.load()")
-      FileUtil.deepCopy(new File(src), new File(workPath), null, true)
-    }
-
-    WordEmbeddingsRetriever(workPath, dim, caseSensitive)
+    WordEmbeddingsRetriever(SparkFiles.get(clusterFilePath), dim, caseSensitive)
   }
 }
 
