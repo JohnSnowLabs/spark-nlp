@@ -4,7 +4,7 @@ FROM $from
 RUN sbt assemblyAndCopy
 RUN apt-get -y update
 RUN apt-get -y install python-pip
-RUN pip2 install pyspark
+RUN pip2 install pyspark==2.3.2
 RUN pip2 install numpy
 
 WORKDIR python/
