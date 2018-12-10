@@ -159,7 +159,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setSource(ExternalResource("src/test/resources/models/dep-model.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
       .fit(df)
       .transform(df)
   }

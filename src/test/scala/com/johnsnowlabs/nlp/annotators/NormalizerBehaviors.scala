@@ -6,7 +6,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 import SparkAccessor.spark.implicits._
-import com.johnsnowlabs.nlp.pretrained.pipelines.en.BasicPipeline
+
 
 trait NormalizerBehaviors { this: FlatSpec =>
 
@@ -135,52 +135,5 @@ trait NormalizerBehaviors { this: FlatSpec =>
     }
   }
 
-  def testLoadModel(): Unit = {
-    s"a Normalizer annotator with a load model" should
-      "successfully normalize words" in {
-      val data = Seq("gr8").toDS.toDF("text")
-      data.show()
-      val path = "./tmp_normalizer"
-
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-      val tokenizer = new Tokenizer()
-        .setInputCols(Array("document"))
-        .setOutputCol("token")
-
-      val normalizer = new Normalizer()
-        .setInputCols(Array("token"))
-        .setOutputCol("normal")
-        .setSlangDictionary("src/test/resources/spell/slangs.txt",",")
-
-      val trainNormalizer = normalizer.fit(data)
-      trainNormalizer.write.overwrite.save(path)
-
-      val loadedNormalizer = Normalizer.load(path)
-
-      val finisher = new Finisher()
-        .setInputCols("normal")
-        .setOutputAsArray(false)
-        .setIncludeMetadata(false)
-        .setAnnotationSplitSymbol("@")
-        .setValueSplitSymbol("#")
-
-      val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          loadedNormalizer,
-          finisher
-        ))
-
-      val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
-      val transform = model.transform(data)
-      transform.show()
-      val normalizedWords = transform.select("finished_normal").map(r => r.getString(0)).collect.toList
-      assert("great" == normalizedWords.head)
-    }
-  }
 
 }
