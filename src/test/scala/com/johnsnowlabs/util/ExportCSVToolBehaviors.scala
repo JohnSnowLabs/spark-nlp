@@ -56,9 +56,9 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
       val model = this.testPOSModelBuilder(dataset)
       val POSdataset = model.transform(dataset)
       POSdataset.show()
-      POSdataset.select("finished_token_md").show(false)
+      POSdataset.select("finished_token_metadata").show(false)
 
-      val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_md").
+      val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_metadata").
                                 as[(Array[String], Array[String], Array[(String, String)])]
       newPOSDataset.show()
 
@@ -106,7 +106,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
         val model = this.testPOSModelBuilder(data)
         val POSdataset = model.transform(data)
 
-        val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_md").
+        val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_metadata").
           as[(Array[String], Array[String], Array[(String, String)])]
 
         val CoNLLDataset = newPOSDataset.flatMap(row => {

@@ -1,4 +1,5 @@
 from pyspark import SparkContext
+from pyspark.ml import PipelineModel
 from pyspark.ml.wrapper import JavaWrapper
 
 
@@ -193,7 +194,7 @@ class _OcrUseErosion(ExtendedJavaWrapper):
 
 
 # ==================
-# Embeddings Helper
+# Utils
 # ==================
 
 
@@ -213,3 +214,12 @@ class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
     def __init__(self, annotator):
         super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getFromAnnotator")
         self._java_obj = self._new_java_obj(self._java_obj, annotator._java_obj)
+
+
+class _CoNLLGeneratorExport(ExtendedJavaWrapper):
+    def __init__(self, spark, files_path, pipeline, output_path):
+        super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles")
+        if type(pipeline) == PipelineModel:
+            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline._to_java(), output_path)
+        else:
+            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline, output_path)
