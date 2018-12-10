@@ -399,9 +399,10 @@ class OcrTestSpec(unittest.TestCase):
     def runTest():
         OcrHelper.setMinTextLayer(8)
         print("text layer is: " + str(OcrHelper.getMinTextLayer()))
+        pdf_path = "file:///" + os.getcwd() + "/../ocr/src/test/resources/pdfs/"
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path="../ocr/src/test/resources/pdfs/",
+            input_path=pdf_path,
             output_col="region",
             metadata_col="metadata")
         data.show()
@@ -409,12 +410,12 @@ class OcrTestSpec(unittest.TestCase):
         print("Text layer disabled")
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path="../ocr/src/test/resources/pdfs/",
+            input_path=pdf_path,
             output_col="region",
             metadata_col="metadata")
         data.show()
         OcrHelper.setMinTextLayer(10)
-        content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs/")
+        content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs")
         print(content)
         document_assembler = DocumentAssembler() \
             .setInputCol("region") \
