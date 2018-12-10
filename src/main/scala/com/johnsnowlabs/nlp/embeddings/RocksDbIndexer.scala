@@ -8,7 +8,7 @@ import org.rocksdb._
 private [embeddings] case class RocksDbIndexer(dbFile: String, autoFlashAfter: Option[Integer] = None) extends Closeable{
   val options = new Options()
   options.setCreateIfMissing(true)
-  options.setCompressionType(CompressionType.LZ4_COMPRESSION)
+  options.setCompressionType(CompressionType.NO_COMPRESSION)
   options.setWriteBufferSize(20 * 1 << 20)
 
   RocksDB.loadLibrary()
