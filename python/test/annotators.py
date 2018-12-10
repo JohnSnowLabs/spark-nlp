@@ -221,44 +221,6 @@ class ChunkerTestSpec(unittest.TestCase):
         chunk_phrases.show()
 
 
-class DeIdentificationTestSpec(unittest.TestCase):
-
-    def setUp(self):
-        self.data = SparkContextForTest.data
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-
-        sentence_detector = SentenceDetector() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-
-        ner_tagger = NerCrfModel.pretrained()
-
-        ner_converter = NerConverter() \
-            .setInputCols(["sentence", "token", "ner"]) \
-            .setOutputCol("ner_con")
-
-        de_identification = DeIdentification() \
-            .setInputCols(["ner_con", "token", "document"]) \
-            .setOutputCol("dei") \
-            .setRegexPatternsDictionary("src/test/resources/de-identification/DicRegexPatterns.txt")
-
-        assembled = document_assembler.transform(self.data)
-        sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
-        ner_tagged = ner_tagger.transform(tokenized)
-        ner_converted = ner_converter.transform(ner_tagged)
-        de_identified = de_identification.fit(ner_converted).transform(ner_converted)
-        de_identified.show()
-
-
 class PragmaticSBDTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -417,31 +379,41 @@ class ParamsGettersTestSpec(unittest.TestCase):
             for param in a.params:
                 param_name = param.name
                 camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
-                assert (hasattr(a, param_name))
+                assert(hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
-                assert (param_value is None or param_value is not None)
+                assert(param_value is None or param_value is not None)
         # Try a getter
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
-        assert (sentence_detector.getOutputCol() == "sentence")
-        assert (sentence_detector.getCustomBounds() == ["%%"])
+        assert(sentence_detector.getOutputCol() == "sentence")
+        assert(sentence_detector.getCustomBounds() == ["%%"])
         # Try a default getter
         document_assembler = DocumentAssembler()
-        assert (document_assembler.getOutputCol() == "document")
+        assert(document_assembler.getOutputCol() == "document")
 
 
 class OcrTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
+        OcrHelper.setMinTextLayer(8)
+        print("text layer is: " + str(OcrHelper.getMinTextLayer()))
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path="file:///" + os.getcwd() +
-                       "../ocr/src/test/resources/pdfs/",
+            input_path="../ocr/src/test/resources/pdfs/",
             output_col="region",
             metadata_col="metadata")
         data.show()
+        OcrHelper.setMinTextLayer(0)
+        print("Text layer disabled")
+        data = OcrHelper.createDataset(
+            spark=SparkContextForTest.spark,
+            input_path="../ocr/src/test/resources/pdfs/",
+            output_col="region",
+            metadata_col="metadata")
+        data.show()
+        OcrHelper.setMinTextLayer(10)
         content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs/")
         print(content)
         document_assembler = DocumentAssembler() \
