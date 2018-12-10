@@ -70,6 +70,14 @@ object ResourceDownloader {
   var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
 
   /**
+    * Reset the cache and recreate ResourceDownloader S3 credentials
+    */
+  def resetResourceDownloader(): Unit ={
+    cache.empty
+    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+  }
+
+  /**
     * Loads resource to path
     * @param name Name of Resource
     * @param folder Subfolder in s3 where to search model (e.g. medicine)
