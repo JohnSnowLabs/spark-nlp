@@ -25,13 +25,13 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   private var tensorflow:TensorflowWrapper = null
 
-  val transducer = new TransducerFeature(this, "The transducer for the main vocabulary.")
+  val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
   def setVocabTransducer(trans:ITransducer[Candidate]) = {
     transducer.setValue(Some(trans))
     this
   }
 
-  val specialTransducers = new TransducerSeqFeature(this, "The transducers for special classes.")
+  val specialTransducers = new TransducerSeqFeature(this, "specialClassesTransducers")
   def setSpecialClassesTransducers(transducers: Seq[SpecialClassParser]) = {
     specialTransducers.setValue(Some(transducers))
     this
