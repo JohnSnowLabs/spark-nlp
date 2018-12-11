@@ -2562,7 +2562,123 @@ documentAssembler = new DocumentAssembler()
   .setCorpus("./sherlockholmes.txt")</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
+                                <!--Begin Dependency Parser Doc -->
+                                <h4 id="DependencyParser" class="section-block">Dependency Parser: Unlabeled grammatical relation</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.<br>
+                                                <b>Type:</b> Dependency<br>
+                                                <b>Requires:</b> Document, POS, Token<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setNumberOfIterations: Number of iterations in training, converges to better accuracy
+                                                </li>
+                                                <li>
+                                                    setDependencyTreeBank: Dependency treebank source files in <a href="http://www.nltk.org/nltk_data/"> Penn Treebank format</a>
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">dependency_parser = DependencyParserApproach() \
+            .setInputCols(["sentence", "pos", "token"]) \
+            .setOutputCol("dependency") \
+            .setDependencyTreeBank("file://parser/dependency_treebank") \
+            .setNumberOfIterations(10)</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.<br>
+                                                <b>Type:</b> Dependency<br>
+                                                <b>Requires:</b> Document, POS, Token<br>
+                                            <ul>
+                                                <li>
+                                                    setNumberOfIterations: Number of iterations in training, converges to better accuracy
+                                                </li>
+                                                <li>
+                                                    setDependencyTreeBank: Dependency treebank source files in <a href="http://www.nltk.org/nltk_data/"> Penn Treebank format</a>
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">val dependencyParser = new DependencyParserApproach()
+    .setInputCols(Array("sentence", "pos", "token"))
+    .setOutputCol("dependency")
+    .setDependencyTreeBank("parser/dependency_treebank")
+    .setNumberOfIterations(10)</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
 
+                                <!--Begin Typed Dependency Parser Doc -->
+                                <h4 id="TypedDependencyParser" class="section-block">Typed Dependency Parser: Labeled grammatical relation</h4>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#python" aria-controls="home"
+                                                                              role="tab" data-toggle="tab">Python</a>
+                                    </li>
+                                    <li role="presentation"><a href="#scala" aria-controls="profile" role="tab"
+                                                               data-toggle="tab">Scala</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="python">
+                                        <div class="code-block">
+                                            <p>
+                                                Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 dataset.<br>
+                                                <b>Type:</b> Labeled Dependency<br>
+                                                <b>Requires:</b> Token, POS, Dependency<br>
+                                                <b>Functions:</b>
+                                            <ul>
+                                                <li>
+                                                    setNumberOfIterations: Number of iterations in training, converges to better accuracy
+                                                </li>
+                                                <li>
+                                                    setConll2009FilePath: Path to a file in <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html"> CoNLL 2009 format</a>
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-python">typed_dependency_parser = TypedDependencyParserApproach() \
+            .setInputCols(["token", "pos", "dependency"]) \
+            .setOutputCol("labdep") \
+            .setConll2009FilePath("file://conll2009/eng.train") \
+            .setNumberOfIterations(10)</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="scala">
+                                        <div class="code-block">
+                                            <p>
+                                                Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files<br>
+                                                <b>Type:</b> Labeled Dependency<br>
+                                                <b>Requires:</b> Token, POS, Dependency<br>
+                                            <ul>
+                                                <li>
+                                                    setNumberOfIterations: Number of iterations in training, converges to better accuracy
+                                                </li>
+                                                <li>
+                                                    setDependencyTreeBank: Dependency treebank source files in <a href="http://www.nltk.org/nltk_data/"> Penn Treebank format</a>
+                                                </li>
+                                            </ul>
+                                            <b>Example:</b><br>
+                                            </p>
+                                            <pre><code class="language-javascript">val typedDependencyParser = new TypedDependencyParserApproach()
+    .setInputCols(Array("token", "pos", "dependency"))
+    .setOutputCol("labdep")
+    .setConll2009FilePath("conll2009/eng.train"))</code></pre>
+                                        </div><!--//code-block--></div>
+                                </div>
+                                <!--End Annotators-->
                             </div>
                         </section>
                     </div>
@@ -2640,6 +2756,8 @@ documentAssembler = new DocumentAssembler()
                                     <li><a class="scrollto" href="#NerDL">Named Entity Recognition DL</a></li>
                                     <li><a class="scrollto" href="#SpellChecker">Norvig Spell Checker</a></li>
                                     <li><a class="scrollto" href="#SymmChecker">Symmetric Spell Checker</a></li>
+                                    <li><a class="scrollto" href="#DependencyParser">Dependency Parser</a></li>
+                                    <li><a class="scrollto" href="#TypedDependencyParser">Typed Dependency Parser</a></li>
                                 </ul><!--//nav-->
                             </li>
                             <li style="padding-bottom: 75px">
