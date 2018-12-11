@@ -17,7 +17,6 @@ trait SpecialClassParser {
 
   val label:String
 
-  @transient
   var transducer : ITransducer[Candidate]
 
   val maxDist: Int
@@ -61,7 +60,7 @@ trait RegexParser extends SpecialClassParser {
 
 trait VocabParser extends SpecialClassParser {
 
-  val vocab: Set[String]
+  var vocab: Set[String]
 
   def generateTransducer: ITransducer[Candidate] = {
     import scala.collection.JavaConversions._
@@ -181,5 +180,43 @@ object NumberToken extends RegexParser with Serializable {
   }
 
   override def replaceWithLabel(tmp: String): String = separate(tmp)
+
+}
+
+object MedicationClass extends VocabParser with Serializable {
+
+  @transient
+  override var vocab = Set.empty[String]
+  override var transducer: ITransducer[Candidate] = null
+  override val label: String = "_MED_"
+  override val maxDist: Int = 3
+
+  def apply(path: String) = {
+    vocab = loadCSV(path)
+    transducer = generateTransducer
+    this
+  }
+
+}
+
+object AgeToken extends RegexParser with Serializable {
+
+  override val regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
+  override var transducer: ITransducer[Candidate] = generateTransducer
+  override val label: String = "_AGE_"
+  override val maxDist: Int = 2
+
+}
+
+
+object UnitToken extends VocabParser with Serializable {
+
+  override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
+    "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
+    "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG")
+
+  override var transducer: ITransducer[Candidate] = generateTransducer
+  override val label: String = "_UNIT_"
+  override val maxDist: Int = 3
 
 }
