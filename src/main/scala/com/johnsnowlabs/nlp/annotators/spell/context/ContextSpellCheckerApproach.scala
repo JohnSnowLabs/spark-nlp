@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.io.{BufferedWriter, File, FileWriter}
+
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
+import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
