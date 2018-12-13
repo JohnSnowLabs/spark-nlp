@@ -8,9 +8,6 @@ import com.navigamez.greex.GreexGenerator
 import scala.collection.JavaConversions._
 
 
-trait PreprocessingParser {
-  def separate(token:String): String
-}
 
 
 trait SpecialClassParser {
@@ -77,56 +74,6 @@ trait VocabParser extends SpecialClassParser {
   def loadCSV(path:String, col:Option[String] = None) = {
     scala.io.Source.fromFile(path).getLines.toSet
   }
-}
-
-
-case class CandidateSplit(candidates:Seq[Seq[String]], cost:Float=0f) {
-  def appendLeft(token: String) = {
-    CandidateSplit(candidates :+ Seq(token))
-  }
-}
-
-
-class SuffixedToken(suffixes:Array[String]) extends PreprocessingParser {
-
-  def belongs(token: String): Option[String] =
-    suffixes.find(token.endsWith)
-
-
-  override def separate(token:String): String = {
-    belongs(token).map { suffix  =>
-      s"""${separate(token.dropRight(suffix.length))} $suffix"""
-    }.getOrElse(token)
-  }
-
-}
-
-object SuffixedToken {
-  def apply(suffixes:Array[String]) = new SuffixedToken(suffixes)
-}
-
-
-class PrefixedToken(prefixes:Array[String]) extends PreprocessingParser {
-
-  private def parse(token:String)  =
-    (token.head.toString, token.tail)
-
-  def belongs(token: String): Boolean =
-    if(token.length > 1)
-      prefixes.map(token.head.toString.equals).reduce(_ || _)
-    else
-      false
-
-  override def separate(token:String): String = {
-    if (belongs(token))
-        s"""${token.head} ${separate(token.tail)}"""
-    else
-        token
-  }
-}
-
-object PrefixedToken {
-  def apply(prefixes:Array[String]) = new PrefixedToken(prefixes)
 }
 
 

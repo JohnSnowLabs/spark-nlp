@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import org.apache.spark.ml.param.{FloatParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory
@@ -65,7 +65,11 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   val weights: MapFeature[Char, Map[Char, Float]] = new MapFeature[Char, Map[Char, Float]](this, "levenshteinWeights")
   def setWeights(w:Map[Char, Map[Char, Float]]): this.type = set(weights, w)
 
-  setDefault(tradeoff -> 18.0f, gamma -> 120.0f)
+  val useNewLines = new BooleanParam(this, "trim", "When set to true new lines will be treated as any other character, when set to false" +
+    " correction is applied on paragraphs as defined by newline characters.")
+  def setUseNewLines(useIt: Boolean):this.type = set(useNewLines, useIt)
+
+  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false)
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
   private val eosScore = .01
@@ -165,7 +169,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
     }
     // return the path with the lowest cost, and the cost
-    pathWords.zip(costs).minBy(_._2)
+    val (minPath, minCost) = pathWords.zip(costs).minBy(_._2)
+
+    (minPath.tail.dropRight(1), minCost)
   }
 
   def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int, limit:Int = 2) = {
@@ -202,42 +208,64 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     import scala.collection.JavaConversions._
 
-      val trellis:Array[Array[(String, Double, String)]] = annotations.map { annotation =>
-        val token = annotation.result
+    val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { case _ =>
+      val idxs = Seq(-1) ++ annotations.zipWithIndex.filter{case (a, _) => a.result.equals("\n") || a.result.equals("\n\n")}.
+        map(_._2) ++ Seq(annotations.length)
+      idxs.zip(idxs.tail).map {case (s, e) =>
+            decodeViterbi(computeTrellis(annotations.slice(s + 1, e)))
+        }.reduceLeft[(Array[String], Double)]({ case ((dPathA, pCostA), (dPathB, pCostB)) =>
+          (dPathA ++ Seq("\n") ++ dPathB, pCostA + pCostB)
+      })
+    }.getOrElse(decodeViterbi(computeTrellis(annotations)))
 
 
-        // ask each token class for candidates, keep the one with lower cost
-        var candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
-            getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
-        } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
-
-        // now try to relax distance requirements for candidates
-        if (token.length > 4 && candLabelWeight.isEmpty)
-          candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
-            getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
-          } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
-
-        if (candLabelWeight.isEmpty)
-          candLabelWeight = Seq((token, "_UNK_", 3.0f))
-
-        // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
-        val labelWeightCand = candLabelWeight.map{ case (term, label, dist) =>
-          // optional re-ranking of candidates according to special distance
-          val d = get(weights).map{w => wLevenshteinDist(term, token, w)}.getOrElse(dist)
-          val weight =  d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
-            (label, weight, term)
-        }.sortBy(_._2).take(getOrDefault(maxCandidates))
-
-        logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
-        labelWeightCand.toArray
-      }.toArray
-
-      val (decodedPath, cost) = decodeViterbi(trellis)
-
-    decodedPath.tail.dropRight(1). // get rid of BOS and EOS
+    decodedPath. // get rid of BOS and EOS
     map { word => Annotation(word)}
 
   }
+
+  def toOption(boolean:Boolean) = {
+    if(boolean)
+      Some(boolean)
+    else
+      None
+  }
+
+
+  def computeTrellis(annotations:Seq[Annotation]) = {
+
+    annotations.map { annotation =>
+      val token = annotation.result
+
+
+      // ask each token class for candidates, keep the one with lower cost
+      var candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+        getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
+      } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
+
+      // now try to relax distance requirements for candidates
+      if (token.length > 4 && candLabelWeight.isEmpty)
+        candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+          getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
+        } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
+
+      if (candLabelWeight.isEmpty)
+        candLabelWeight = Seq((token, "_UNK_", 3.0f))
+
+      // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
+      val labelWeightCand = candLabelWeight.map{ case (term, label, dist) =>
+        // optional re-ranking of candidates according to special distance
+        val d = get(weights).map{w => wLevenshteinDist(term, token, w)}.getOrElse(dist)
+        val weight =  d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
+        (label, weight, term)
+      }.sortBy(_._2).take(getOrDefault(maxCandidates))
+
+      logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
+      labelWeightCand.toArray
+    }.toArray
+
+  }
+
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
