@@ -47,7 +47,7 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
         $(embeddingsRef)
       )
     } else if (isSet(embeddingsRef)) {
-      preloadedEmbeddings
+      getClusterEmbeddings
     } else
       throw new IllegalArgumentException(
         s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
@@ -64,6 +64,8 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
     model.setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
 
     if (isSet(embeddingsRef)) model.setEmbeddingsRef($(embeddingsRef))
+
+    getClusterEmbeddings.getLocalRetriever.close()
 
   }
 

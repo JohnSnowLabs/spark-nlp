@@ -67,12 +67,16 @@ object EmbeddingsHelper {
     annotator.getClusterEmbeddings
   }
 
-  def getClusterPath(embeddingsRef: String): String = {
+  def getClusterFilename(embeddingsRef: String): String = {
     Path.mergePaths(new Path("/embd_"), new Path(embeddingsRef)).toString
   }
 
-  protected def save(path: String, spark: SparkSession, indexPath: String): Unit = {
-    val index = new Path(SparkFiles.get(indexPath))
+  def getLocalEmbeddingsPath(fileName: String): String = {
+    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path(fileName)).toString
+  }
+
+  protected def save(path: String, spark: SparkSession, fileName: String): Unit = {
+    val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(fileName))
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -82,7 +86,7 @@ object EmbeddingsHelper {
   }
 
   def save(path: String, embeddings: ClusterWordEmbeddings, spark: SparkSession): Unit = {
-    EmbeddingsHelper.save(path, spark, embeddings.clusterFilePath.toString)
+    EmbeddingsHelper.save(path, spark, embeddings.fileName.toString)
   }
 
   def save(fs: FileSystem, index: Path, dst: Path): Unit = {
