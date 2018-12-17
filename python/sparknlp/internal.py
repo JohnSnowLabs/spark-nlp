@@ -197,7 +197,6 @@ class _OcrUseErosion(ExtendedJavaWrapper):
 # Utils
 # ==================
 
-
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
     def __init__(self, path, spark, embformat, ref, ndims, case):
         super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load")
@@ -223,3 +222,4 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
             self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline._to_java(), output_path)
         else:
             self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline, output_path)
+

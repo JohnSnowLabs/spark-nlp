@@ -79,6 +79,11 @@ object annotator {
   type SymmetricDeleteModel = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
   object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete
 
+  type ContextSpellCheckerApproach = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
+  object ContextSpellCheckerApproach extends DefaultParamsReadable[ContextSpellCheckerApproach]
+  type ContextSpellCheckerModel = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
+  object ContextSpellCheckerModel extends ParamsAndFeaturesReadable[ContextSpellCheckerModel] with PretrainedSymmetricDelete
+
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
