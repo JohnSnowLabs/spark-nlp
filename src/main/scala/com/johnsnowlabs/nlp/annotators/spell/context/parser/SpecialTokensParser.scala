@@ -160,7 +160,7 @@ object UnitToken extends VocabParser with Serializable {
 
   override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
     "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
-    "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG")
+    "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG", "mcg/inh")
 
   override var transducer: ITransducer[Candidate] = generateTransducer
   override val label: String = "_UNIT_"

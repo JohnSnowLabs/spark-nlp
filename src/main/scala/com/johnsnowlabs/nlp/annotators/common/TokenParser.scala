@@ -54,8 +54,12 @@ class InfixToken(tokens:Array[String]) extends PreprocessingParser {
     (token.head.toString, token.tail)
 
   def belongs(token: String): Boolean = {
-    val indideChunk = token.tail.dropRight(1)
-    tokens.exists(token.tail.dropRight(1).contains)
+    if(token.length > 2) {
+      val insideChunk = token.tail.dropRight(1)
+      tokens.exists(insideChunk.contains)
+    }else{
+      false
+    }
   }
 
   override def separate(token:String): String = {

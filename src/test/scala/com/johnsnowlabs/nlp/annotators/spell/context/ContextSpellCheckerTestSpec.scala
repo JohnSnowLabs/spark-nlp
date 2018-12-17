@@ -1,4 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
+import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
@@ -68,6 +69,42 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     pipeline.transform(data).select("checked").show(truncate=false)
 
   }
+
+  "a Spell Checker" should "correctly handle paragraphs defined by newlines" in {
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = Seq("Incruse Ellipta, 1 PUFF, Inhalation,\nQAM\n\nlevothyroxine 50 meg (0.05 mg) oral\ntablet, See Instructions\n\nlisinopril 20 mg oral tablet, See\nInstructions, 5 refills\n\nloratadine 10 mg oral tablet, 10 MG=\n1 TAB, PO, Dally\n\nPercocet 10/325 oral tablet, 2 TAB,\nPO, TID, PRN").toDF("text")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc").
+        setTrimAndClearNewLines(false)
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+      .setIncludeDefaults(false)
+      .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
+
+    val normalizer: Normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setUseNewLines(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    pipeline.transform(data).select("checked").show(truncate=false)
+
+  }
+
+
 
   "a model" should "serialize properly" in {
 
