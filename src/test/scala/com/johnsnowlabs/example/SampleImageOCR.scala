@@ -1,30 +1,52 @@
 package com.johnsnowlabs.example
 
+import java.io.{File, PrintWriter}
+
 import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.{Tokenizer}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 import com.johnsnowlabs.nlp.SparkAccessor.spark
+import org.apache.spark.ml.Pipeline
 
-object SampleImageOCR extends App with Spark{
+object SampleImageOCR extends App {
 
   import spark.implicits._
 
-  val data = OcrHelper.createDataset(spark,"./data/hps/","region","metadata")
+  val srcPath = "/home/jose/Downloads/ocr_images/images/"
+  val dstPath = "/home/jose/Downloads/ocr_evaluation/sparknlp_output"
+
+  OcrHelper.setScalingFactor(3.5f)
+  OcrHelper.useErosion(true, 2)
+  val data = OcrHelper.createDataset(spark,srcPath).cache
 
   val documentAssembler = new DocumentAssembler().
     setTrimAndClearNewLines(false).
-    setInputCol("region").
-    setOutputCol("document").
-    setMetadataCol("metadata")
+    setInputCol("text").
+    setOutputCol("document")
 
   val tokenizer: Tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  val spellChecker = ContextSpellCheckerModel.read
-    .load("models/med_spell_checker")
-    .setInputCols("token")
-    .setOutputCol("checked")
-    .setUseNewLines(true)
+  val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+  val fitPipeline = pipeline.fit(data)
+  val fnames = fitPipeline.transform(data).select("filename").as[String]
+    .collect().sorted.map(_.split("/").takeRight(1).head).toSet
 
+  val allFiles = new File(srcPath).listFiles.filter(_.isFile).map(_.getName).toSet
+
+  val diff = allFiles -- fnames
+  val recognizedTexts = fitPipeline.transform(data)
+  val texts = fitPipeline.transform(data).select("text").as[String].collect
+  val names = fitPipeline.transform(data).select("filename").as[String].collect.
+    map(_.split("/").takeRight(1).head).map(name => s"""$name""").toList
+
+  texts.zip(names).foreach { case (text, name) =>
+    val file = new File(s"""$dstPath/$name.txt""")
+    val pw = new PrintWriter(file)
+    pw.write(text)
+    pw.close
+  }
+
+  print(names.map(name => s"""\"$name\""""))
 }
