@@ -30,6 +30,7 @@ pragmatic = sys.modules[__name__]
 vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
+contextspell = sys.modules[__name__]
 ocr = sys.modules[__name__]
 
 
@@ -1137,6 +1138,119 @@ class NerConverter(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
+
+
+class ContextSpellCheckerApproach(AnnotatorApproach):
+
+    trainCorpusPath = Param(Params._dummy(),
+                            "trainCorpusPath",
+                            "Path to the training corpus text file.",
+                            typeConverter=TypeConverters.toString)
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    prefixes = Param(Params._dummy(),
+                     "prefixes",
+                     "Prefixes to separate during parsing of training corpus.",
+                     typeConverter=TypeConverters.identity)
+
+    def setSuffixes(self, s):
+        return self._set(prefixes=list(reversed(sorted(s, key=len))))
+
+    suffixes = Param(Params._dummy(),
+                     "suffixes",
+                     "Suffixes to separate during parsing of training corpus.",
+                     typeConverter=TypeConverters.identity)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=list(reversed(sorted(s, key=len))))
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "Min number of times a token should appear to be included in vocab.",
+                     typeConverter=TypeConverters.toFloat)
+
+    blacklistMinFreq = Param(Params._dummy(),
+                             "blacklistMinFreq",
+                             "Minimun number of occurrences for a word not to be blacklisted.",
+                             typeConverter=TypeConverters.toInt)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    gamma = Param(Params._dummy(),
+                     "gamma",
+                     "Controls the influence of individual word frequency in the decision.",
+                     typeConverter=TypeConverters.toFloat)
+
+    @keyword_only
+    def __init__(self):
+        super(ContextSpellCheckerApproach, self).\
+            __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
+        self._setDefault(minCount=3.0,
+            wordMaxDistance=3,
+            maxCandidates=6,
+            languageModelClasses=2000,
+            blacklistMinFreq=5,
+            tradeoff=18.0)
+
+    def _create_model(self, java_model):
+        return ContextSpellCheckerModel(java_model=java_model)
+
+
+class ContextSpellCheckerModel(AnnotatorModel):
+    name = "ContextSpellCheckerModel"
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    gamma = Param(Params._dummy(),
+                     "gamma",
+                     "Controls the influence of individual word frequency in the decision.",
+                     typeConverter=TypeConverters.toFloat)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
+        super(ContextSpellCheckerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="context_spell_gen", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)
 
 
 class DependencyParserApproach(AnnotatorApproach):

@@ -16,16 +16,19 @@ class RNNLM(object):
                  num_hidden_units,
                  max_gradient_norm,
                  initial_learning_rate=1,
-                 final_learning_rate=0.001
+                 final_learning_rate=0.001,
+                 test_batch_size=36
                  ):
 
-        #self.word_class = self.load_classes('classes.psv')
         self.vocab_size = vocab_size
         # these are internally defined
-        self.num_classes = 2000
-        # here we should dynamically determine max number of words per class
-        self.word_ids = 900
+        self.num_classes = 1500 
+        # here we should dynamically determine max number of words per class - this is the max for Gutenberg corpus
+        self.word_ids = 1150
+        # this is the batch for training
         self.batch_size = batch_size
+        # this is the batch for testing
+        self.test_batch_size = test_batch_size
         self.num_epochs = num_epochs
         self.check_point_step = check_point_step
         self.num_train_samples = num_train_samples
@@ -36,10 +39,9 @@ class RNNLM(object):
 
         self.global_step = tf.Variable(0, trainable=False)
 
-        # We set a dynamic learning rate, it decays every time the model has gone through 150 batches.
-        # A minimum learning rate has also been set.
+        # dynamic learning rate, decay every 1500 batches
         self.learning_rate = tf.train.exponential_decay(initial_learning_rate, self.global_step,
-                                           1500, 0.96, staircase=True)
+                                                        1500, 0.96, staircase=True)
         self.learning_rate = tf.cond(tf.less(self.learning_rate, final_learning_rate), lambda: tf.constant(final_learning_rate),
                                      lambda: self.learning_rate)
 
@@ -49,7 +51,8 @@ class RNNLM(object):
         self.file_name_validation = tf.placeholder(tf.string)
         self.file_name_test = tf.placeholder(tf.string, name='file_name')
 
-        # this tensor holds in-memory data for testing, dimensions : {batch_size, sentence_len, (wordid, classid, class_wid)}
+        # this tensor holds in-memory data for testing, dimensions:
+        # {batch_size, sentence_len, (wordid, classid, class_wid)}
         self.in_memory_test = tf.placeholder(tf.int32, shape=[None, None, None], name='in-memory-input')
 
         def parse(line):
@@ -59,36 +62,34 @@ class RNNLM(object):
             return input_seq, output_seq
 
         def split_row(row):
+            # this one is used during test, we receive row containing ids, class ids, and word ids
+            # this function receives a single sample, test batches are built later in the test_dataset
+
             pids = row[0, :]
             cids = row[1, :]
             wids = row[2, :]
 
+            # notice how inputs are arranged to predict the last word,
+            # cids and wids are one position 'ahead', the network should approximate,
+            # the extra word from {cids, wids} by using pids
             return pids[:-1], cids[1:], wids[1:]
 
-        # training_dataset = tf.data.TextLineDataset(self.file_name_train).map(parse).shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None]))
         training_dataset = tf.data.Dataset.from_generator(
             self.train_generator, (tf.int32, tf.int32, tf.int32),
                 (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
             shuffle(256).padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
 
-        # validation_dataset = tf.data.TextLineDataset(self.file_name_validation).map(parse).padded_batch(self.batch_size, padded_shapes=([None], [None]))
         validation_dataset = tf.data.Dataset.from_generator(
             self.valid_generator, (tf.int32, tf.int32, tf.int32),
                 (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
             padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
-
-        '''
-        test_dataset = tf.data.Dataset.from_generator(
-            self.test_generator, (tf.int64, tf.int64, tf.int64),
-                (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
-            shuffle(256).batch(250)
-        '''
 
         test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(split_row).batch(36)
 
         iterator = tf.data.Iterator.from_structure(training_dataset.output_types,
                                               training_dataset.output_shapes)
 
+        # the input batch, the class ids for the output batch, and the word ids(within class) for each word
         self.input_batch, self.output_batch_cids, self.output_batch_wids = iterator.get_next("batches")
 
         self.trining_init_op = iterator.make_initializer(training_dataset)
@@ -96,7 +97,6 @@ class RNNLM(object):
         self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
 
         # Input embedding mat
-        # with tf.device('/cpu:0'):
         self.input_embedding_mat = tf.get_variable("input_embedding_mat",
                                                    [self.vocab_size, self.num_hidden_units],
                                                    dtype=tf.float32)
@@ -126,7 +126,6 @@ class RNNLM(object):
         self.output_wordid_embedding_bias = tf.get_variable("output_wordid_embedding_bias",
                                                      [self.word_ids],
                                                      dtype=tf.float32)
-
 
         non_zero_weights = tf.sign(self.input_batch)
         self.valid_words = tf.reduce_sum(non_zero_weights, name='valid_words')
@@ -219,36 +218,12 @@ class RNNLM(object):
                 ints = [int(k) for k in line.split()]
                 yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
 
-    def test_generator(self):
-        sentence_matrix = [225096, 225100, 356360, 416817, 231370, 292951, 225100, 225099,
-            327507, 351443, 2781, 400121, 2781, 288790, 335410, 392524, 2781, 225098]
-        ints = sentence_matrix
-        while True:
-            yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
-
-    def splitClassWid(self, gwids):
-        '''
-        receives one collection with word ids(text), returns two
-        collections one with class ids and another with word ids
-        '''
-
-        # gwid: global word id
-        class_ids = [self.word_class[gwid][0] for gwid in gwids]
-        word_ids = [self.word_class[gwid][1] for gwid in gwids]
-        return class_ids, word_ids
-
-    def to_cid(self, word):
-        return self.word_class[word][0]
-
-    def to_wid(self, word):
-        return self.word_class[word][1]
-
     def save(self, path, sess):
         dropout_rate_info = tf.saved_model.utils.build_tensor_info(self.dropout_rate)
         loss_info = tf.saved_model.utils.build_tensor_info(self.loss)
 
         model_xy_sig = tf.saved_model.signature_def_utils.build_signature_def(
-        inputs={'dropout_rate' : dropout_rate_info},  outputs={'ppl': loss_info}, method_name='predict')
+        inputs={'dropout_rate': dropout_rate_info},  outputs={'ppl': loss_info}, method_name='predict')
 
         builder = tf.saved_model.builder.SavedModelBuilder(path)
         builder.add_meta_graph_and_variables(sess,
@@ -266,7 +241,6 @@ class RNNLM(object):
         self.valid_path = valid_path
 
         while epoch < self.num_epochs:
-
             sess.run(self.trining_init_op)
             print('epoch %d' % epoch)
             train_loss = 0.0
@@ -291,10 +265,6 @@ class RNNLM(object):
                     train_ppl = math.exp(train_loss)
                     print("Training Step: {}, LR: {}".format(global_step, current_learning_rate))
                     print("    Training PPL: {}".format(train_ppl))
-
-                    train_loss = 0.0
-                    train_valid_words = 0
-                    # break
 
                     # run validation
                     sess.run(self.validation_init_op)
@@ -331,7 +301,6 @@ class RNNLM(object):
             epoch += 1
 
     def predict(self, sess, input_file, raw_file, verbose=False):
-        # if verbose is true, then we print the ppl of every sequence
 
         with open(raw_file) as fp:
             global_dev_loss = 0.0

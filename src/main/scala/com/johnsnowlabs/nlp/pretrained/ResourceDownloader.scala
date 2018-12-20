@@ -13,6 +13,7 @@ import org.apache.spark.ml.util.DefaultParamsReadable
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
+import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import org.apache.hadoop.fs.FileSystem
 
@@ -174,7 +175,8 @@ object PythonResourceDownloader {
     "SentimentDetectorModel" -> SentimentDetectorModel,
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
-    "NerDLModel" -> NerDLModel
+    "NerDLModel" -> NerDLModel,
+    "ContextSpellCheckerModel" -> ContextSpellCheckerModel
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String  = null): PipelineStage = {

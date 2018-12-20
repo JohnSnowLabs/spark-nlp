@@ -1,23 +1,20 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr.parser
+package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
-import com.johnsnowlabs.nlp.annotators.spell.ocr.WeightedLevenshtein
+import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
 import com.navigamez.greex.GreexGenerator
 
 import scala.collection.JavaConversions._
 
 
-trait PreprocessingParser {
-  def separate(token:String): String
-}
 
 
 trait SpecialClassParser {
 
   val label:String
 
-  val transducer : ITransducer[Candidate]
+  var transducer : ITransducer[Candidate]
 
   val maxDist: Int
 
@@ -28,6 +25,11 @@ trait SpecialClassParser {
       tmp
     else
       label
+  }
+
+  def setTransducer(t: ITransducer[Candidate]) = {
+    transducer = t
+    this
   }
 }
 
@@ -55,7 +57,7 @@ trait RegexParser extends SpecialClassParser {
 
 trait VocabParser extends SpecialClassParser {
 
-  val vocab: Set[String]
+  var vocab: Set[String]
 
   def generateTransducer: ITransducer[Candidate] = {
     import scala.collection.JavaConversions._
@@ -75,64 +77,11 @@ trait VocabParser extends SpecialClassParser {
 }
 
 
-case class CandidateSplit(candidates:Seq[Seq[String]], cost:Float=0f) {
-  def appendLeft(token: String) = {
-    CandidateSplit(candidates :+ Seq(token))
-  }
-}
-
-
-class SuffixedToken(suffixes:Array[String]) extends PreprocessingParser {
-
-  def belongs(token: String): Boolean =
-    if(token.length > 1)
-       suffixes.map(token.endsWith).reduce(_ || _)
-    else
-       false
-
-  override def separate(token:String): String = {
-    if(belongs(token)) {
-      s"""${separate(token.dropRight(1))} ${token.last}"""
-    }
-    else
-      token
-  }
-
-}
-
-object SuffixedToken {
-  def apply(suffixes:Array[String]) = new SuffixedToken(suffixes)
-}
-
-
-class PrefixedToken(prefixes:Array[String]) extends PreprocessingParser {
-
-  private def parse(token:String)  =
-    (token.head.toString, token.tail)
-
-  def belongs(token: String): Boolean =
-    if(token.length > 1)
-      prefixes.map(token.head.toString.equals).reduce(_ || _)
-    else
-      false
-
-  override def separate(token:String): String = {
-    if (belongs(token))
-        s"""${token.head} ${separate(token.tail)}"""
-    else
-        token
-  }
-}
-
-object PrefixedToken {
-  def apply(prefixes:Array[String]) = new PrefixedToken(prefixes)
-}
-
-
-object DateToken extends RegexParser with WeightedLevenshtein{
+object DateToken extends RegexParser with WeightedLevenshtein with Serializable {
 
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  override val transducer: ITransducer[Candidate] = generateTransducer
+  @transient
+  override var transducer: ITransducer[Candidate] = generateTransducer
   override val label = "_DATE_"
   override val maxDist: Int = 2
 
@@ -151,12 +100,13 @@ object DateToken extends RegexParser with WeightedLevenshtein{
 
 }
 
-object NumberToken extends RegexParser {
+object NumberToken extends RegexParser with Serializable {
 
   /* used during candidate generation(correction) - must be finite */
   override val regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
 
-  override val transducer: ITransducer[Candidate] = generateTransducer
+  @transient
+  override var transducer: ITransducer[Candidate] = generateTransducer
 
   override val label = "_NUM_"
 
@@ -177,5 +127,43 @@ object NumberToken extends RegexParser {
   }
 
   override def replaceWithLabel(tmp: String): String = separate(tmp)
+
+}
+
+object MedicationClass extends VocabParser with Serializable {
+
+  @transient
+  override var vocab = Set.empty[String]
+  override var transducer: ITransducer[Candidate] = null
+  override val label: String = "_MED_"
+  override val maxDist: Int = 3
+
+  def apply(path: String) = {
+    vocab = loadCSV(path)
+    transducer = generateTransducer
+    this
+  }
+
+}
+
+object AgeToken extends RegexParser with Serializable {
+
+  override val regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
+  override var transducer: ITransducer[Candidate] = generateTransducer
+  override val label: String = "_AGE_"
+  override val maxDist: Int = 2
+
+}
+
+
+object UnitToken extends VocabParser with Serializable {
+
+  override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
+    "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
+    "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG", "mcg/inh")
+
+  override var transducer: ITransducer[Candidate] = generateTransducer
+  override val label: String = "_UNIT_"
+  override val maxDist: Int = 3
 
 }

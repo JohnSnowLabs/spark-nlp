@@ -122,7 +122,26 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
     val tokenized = tokenizer.transform(assembled)
     val result = tokenized.collect()
-
   }
 
+  "a silly tokenizer" should "split suffixes" in {
+
+    val data = DataBuilder.basicDataBuild("One, after the\n\nOther, (and) again.\nPO, QAM,")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("doc")
+      .setTrimAndClearNewLines(false)
+
+    val assembled = documentAssembler.transform(data)
+
+    val tokenizer = new SimpleTokenizer()
+      .setInputCols("doc")
+      .setOutputCol("token")
+
+    val tokenized = tokenizer.transform(assembled)
+    val result = tokenized.select("token").as[Seq[Annotation]].collect.head.map(_.result)
+    val expected = Seq("One", ",", "after", "the", "\n", "\n", "Other", ",", "(", "and", ")", "again", ".", "\n", "PO", ",", "QAM", ",")
+    assert(result.equals(expected))
+
+  }
 }

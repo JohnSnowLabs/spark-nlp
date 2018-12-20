@@ -1,36 +1,41 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
+package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSpell, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature, TransducerFeature}
+import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.param.{FloatParam, IntParam}
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory
 
 
-class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpellCheckModel]
+class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel]
   with ReadTensorflowModel
   with WeightedLevenshtein
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable {
 
-  private val logger = LoggerFactory.getLogger("OcrSpellModel")
+  private val logger = LoggerFactory.getLogger("ContextSpellCheckerModel")
 
   override val tfFile: String = "bigone"
 
   private var tensorflow:TensorflowWrapper = null
 
-  val transducer = new TransducerFeature(this, "The transducer for the main vocabulary.")
+  val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
   def setVocabTransducer(trans:ITransducer[Candidate]) = {
     transducer.setValue(Some(trans))
     this
   }
 
-  val specialTransducers = new StructFeature[Seq[(ITransducer[Candidate], String)]](this, "The transducers for special classes.")
-  def setSpecialClassesTransducers(transducers: Seq[(ITransducer[Candidate], String)]) = set(specialTransducers, transducers)
+  val specialTransducers = new TransducerSeqFeature(this, "specialClassesTransducers")
+  def setSpecialClassesTransducers(transducers: Seq[SpecialClassParser]) = {
+    specialTransducers.setValue(Some(transducers))
+    this
+  }
 
   val vocabFreq  = new MapFeature[String, Double](this, "vocabFreq")
   def setVocabFreq(v: Map[String, Double]) = set(vocabFreq,v)
@@ -50,13 +55,21 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
 
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
+
   val tradeoff = new FloatParam(this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
+  def setTradeOff(lambda: Float):this.type = set(tradeoff, lambda)
+
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
+  def setGamma(g: Float):this.type = set(tradeoff, g)
 
   val weights: MapFeature[Char, Map[Char, Float]] = new MapFeature[Char, Map[Char, Float]](this, "levenshteinWeights")
   def setWeights(w:Map[Char, Map[Char, Float]]): this.type = set(weights, w)
 
-  setDefault(tradeoff -> 18.0f, gamma -> 90.0f)
+  val useNewLines = new BooleanParam(this, "trim", "When set to true new lines will be treated as any other character, when set to false" +
+    " correction is applied on paragraphs as defined by newline characters.")
+  def setUseNewLines(useIt: Boolean):this.type = set(useNewLines, useIt)
+
+  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false)
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
   private val eosScore = .01
@@ -69,7 +82,6 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     this
   }
 
-  @transient
   private var _model: TensorflowSpell = null
 
   def model: TensorflowSpell = {
@@ -84,7 +96,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
   }
 
 
-  def setTensorflow(tf: TensorflowWrapper): OcrSpellCheckModel = {
+  def setTensorflow(tf: TensorflowWrapper): ContextSpellCheckerModel = {
     tensorflow = tf
     this
   }
@@ -152,15 +164,17 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
       // log paths and costs
       pathWords.zip(costs).foreach{ case (path, cost) =>
-        logger.debug(s"${path.toList}, $cost\n-----\n")
+        logger.debug(s"${path.toList}, $cost")
       }
 
     }
     // return the path with the lowest cost, and the cost
-    pathWords.zip(costs).minBy(_._2)
+    val (minPath, minCost) = pathWords.zip(costs).minBy(_._2)
+
+    (minPath.tail.dropRight(1), minCost)
   }
 
-  def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int) = {
+  def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int, limit:Int = 2) = {
     import scala.collection.JavaConversions._
     transducer.transduce(token, maxDist).map {case cand =>
 
@@ -170,7 +184,7 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
         getOrElse(cand.distance.toFloat)
 
       (cand.term, label, weight)
-    }.toSeq.sortBy(_._3).take(2) //getOrDefault(maxCandidates)
+    }.toSeq.sortBy(_._3).take(limit)
   }
 
   def getVocabCandidates(trans: ITransducer[Candidate], token: String, maxDist:Int) = {
@@ -193,42 +207,65 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     import scala.collection.JavaConversions._
-    annotations.map{ annotation =>
-      val trellis:Array[Array[(String, Double, String)]] = annotation.result.split(" ").map { token =>
 
-        // ask each token class for candidates, keep the one with lower cost
-        var candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
-            getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance) - 1)
-        } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
+    val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { case _ =>
+      val idxs = Seq(-1) ++ annotations.zipWithIndex.filter{case (a, _) => a.result.equals("\n") || a.result.equals("\n\n")}.
+        map(_._2) ++ Seq(annotations.length)
+      idxs.zip(idxs.tail).map {case (s, e) =>
+            decodeViterbi(computeTrellis(annotations.slice(s + 1, e)))
+        }.reduceLeft[(Array[String], Double)]({ case ((dPathA, pCostA), (dPathB, pCostB)) =>
+          (dPathA ++ Seq("\n") ++ dPathB, pCostA + pCostB)
+      })
+    }.getOrElse(decodeViterbi(computeTrellis(annotations)))
 
-        // now try to relax distance requirements for candidates
-        if (token.length > 4 && candLabelWeight.isEmpty)
-          candLabelWeight = $$(specialTransducers).flatMap { case (transducer, label) =>
-            getClassCandidates(transducer, token, label, getOrDefault(wordMaxDistance))
-          } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
 
-        if (candLabelWeight.isEmpty)
-          candLabelWeight = Seq((token, "_UNK_", 3.0f))
+    decodedPath. // get rid of BOS and EOS
+    map { word => Annotation(word)}
 
-        // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
-        val labelWeightCand = candLabelWeight.map{ case (term, label, dist) =>
-          // optional re-ranking of candidates according to special distance
-          val d = get(weights).map{w => wLevenshteinDist(term, token, w)}.getOrElse(dist)
-          val weight =  d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
-            (label, weight, term)
-        }.sortBy(_._2).take(getOrDefault(maxCandidates))
-
-        logger.info(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
-        labelWeightCand.toArray
-      }
-
-      val (decodedPath, cost) = decodeViterbi(trellis)
-
-      annotation.copy(result = decodedPath.tail.dropRight(1) // get rid of BOS and EOS
-        .mkString(" "),
-        metadata = annotation.metadata + ("score" -> cost.toString))
-    }
   }
+
+  def toOption(boolean:Boolean) = {
+    if(boolean)
+      Some(boolean)
+    else
+      None
+  }
+
+
+  def computeTrellis(annotations:Seq[Annotation]) = {
+
+    annotations.map { annotation =>
+      val token = annotation.result
+
+
+      // ask each token class for candidates, keep the one with lower cost
+      var candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+        getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
+      } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
+
+      // now try to relax distance requirements for candidates
+      if (token.length > 4 && candLabelWeight.isEmpty)
+        candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+          getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
+        } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
+
+      if (candLabelWeight.isEmpty)
+        candLabelWeight = Seq((token, "_UNK_", 3.0f))
+
+      // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
+      val labelWeightCand = candLabelWeight.map{ case (term, label, dist) =>
+        // optional re-ranking of candidates according to special distance
+        val d = get(weights).map{w => wLevenshteinDist(term, token, w)}.getOrElse(dist)
+        val weight =  d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
+        (label, weight, term)
+      }.sortBy(_._2).take(getOrDefault(maxCandidates))
+
+      logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
+      labelWeightCand.toArray
+    }.toArray
+
+  }
+
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
@@ -238,16 +275,16 @@ class OcrSpellCheckModel(override val uid: String) extends AnnotatorModel[OcrSpe
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", OcrSpellCheckModel.tfFile)
+    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile)
   }
 }
 
 
-trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[OcrSpellCheckModel] with ReadTensorflowModel {
+trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellCheckerModel] with ReadTensorflowModel {
 
   override val tfFile = "bigone"
 
-  def readLanguageModelGraph(instance: OcrSpellCheckModel, path: String, spark: SparkSession): Unit = {
+  def readLanguageModelGraph(instance: ContextSpellCheckerModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_langmodeldl")
     instance.setTensorflow(tf)
   }
@@ -255,4 +292,9 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[OcrSpellCheckMod
   addReader(readLanguageModelGraph)
 }
 
-object OcrSpellCheckModel extends ReadsLanguageModelGraph
+trait PretrainedSpellModel {
+  def pretrained(name: String = "context_spell_gen", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
+    ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remoteLoc)
+}
+
+object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel

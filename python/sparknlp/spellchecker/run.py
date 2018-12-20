@@ -1,10 +1,7 @@
-from data_prepare import gen_vocab
-from data_prepare import gen_id_seqs
 from rnn_lm import RNNLM
 import os
-# It seems that there are some little bugs in tensorflow 1.4.1.
-# You can find more details in
-# https://github.com/tensorflow/tensorflow/issues/12414
+
+# due to https://github.com/tensorflow/tensorflow/issues/12414
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import tensorflow as tf
@@ -17,24 +14,19 @@ TRAIN = False
 VERBOSE = True
 
 # this is the path where all data files live
-data_path= '../../../../auxdata/spell_dataset/vocab/'
+data_path= '../../../../spark-nlp-models/data/'
 
 # To indicate your test/train corpora
 test_file = "gap_filling_exercise"
-train_file = "bigone.txt.ids"
-classes_file = "bigone.txt.classes"
-vocab_file = "bigone.txt.vocab"
+train_file = "gutenberg_65.txt.ids"
+classes_file = "gutenberg_65.txt.classes"
+vocab_file = "gutenberg_65.txt.vocab"
 valid_file = "valid.ids"
-#if not os.path.isfile("../../../../auxdata/spell_dataset/vocab/spell_corpus.txt.ids"):
-#    gen_vocab("ptb/train")
-#if not os.path.isfile("data/train.ids"):
-#    gen_id_seqs("ptb/train")
-#    gen_id_seqs("ptb/valid")
 
 
 with open(data_path + train_file) as fp:
     num_train_samples = len(fp.readlines())
-with open(data_path + "valid.ids") as fp:
+with open(data_path + valid_file) as fp:
     num_valid_samples = len(fp.readlines())
 
 vocab_path = data_path + vocab_file
@@ -80,11 +72,6 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     model.load_vocab(vocab_path)
     saver = tf.train.Saver()
     saver.restore(sess, "model/best_model.ckpt")
-
     model.save('bundle', sess)
 
-    predict_id_file = os.path.join(data_path, test_file.split("/")[-1]+".ids")
-    if not os.path.isfile(predict_id_file):
-        gen_id_seqs(data_path + test_file, vocab_path)
-    model.predict(sess, predict_id_file, data_path + test_file, verbose=VERBOSE)
 
