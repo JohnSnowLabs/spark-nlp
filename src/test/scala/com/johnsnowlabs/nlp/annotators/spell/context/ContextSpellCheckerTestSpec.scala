@@ -105,6 +105,32 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
+  "a model" should "serialize properly" in {
+
+    import SparkAccessor.spark.implicits._
+    import scala.collection.JavaConversions._
+
+    val ocrSpellModel = ContextSpellCheckerModel
+      .pretrained()
+
+    ocrSpellModel.write.overwrite.save("./test_spell_checker")
+    val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
+
+    assert(loadedModel.specialTransducers.getOrDefault.size == 2, "default pretrained should come with 2 classes")
+
+    assert(loadedModel.specialTransducers.getOrDefault(0).label == "_DATE_")
+    assert(loadedModel.specialTransducers.getOrDefault(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+
+    assert(loadedModel.specialTransducers.getOrDefault(1).label == "_NUM_")
+    assert(loadedModel.specialTransducers.getOrDefault(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
+
+    val trellis = Array(Array.fill(6)(("the", 0.8, "the")),
+      Array.fill(6)(("end", 1.2, "end")), Array.fill(6)((".", 1.2, ".")))
+    val (decoded, cost) = loadedModel.decodeViterbi(trellis)
+    assert(decoded.deep.equals(Array("the", "end", ".").deep))
+
+  }
+
   "a spell checker" should "correclty parse training data" in {
     val ocrspell = new ContextSpellCheckerApproach().
       setMinCount(1.0)
