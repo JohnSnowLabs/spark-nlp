@@ -331,11 +331,9 @@ class Finisher(AnnotatorTransformer):
     def __init__(self):
         super(Finisher, self).__init__(classname="com.johnsnowlabs.nlp.Finisher")
         self._setDefault(
-            valueSplitSymbol="#",
-            annotationSplitSymbol="@",
             cleanAnnotations=True,
             includeMetadata=False,
-            outputAsArray=False
+            outputAsArray=True
         )
 
     @keyword_only

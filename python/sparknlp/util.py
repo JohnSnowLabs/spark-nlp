@@ -25,3 +25,9 @@ class AnnotatorJavaMLReader(JavaMLReader):
             return clazz._java_class_name
         else:
             return JavaMLReader._java_loader_class(clazz)
+
+
+class CoNLLGenerator:
+    @staticmethod
+    def exportConllFiles(spark, files_path, pipeline, output_path):
+        _internal._CoNLLGeneratorExport(spark, files_path, pipeline, output_path).apply()

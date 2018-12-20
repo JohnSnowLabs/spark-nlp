@@ -57,4 +57,3 @@ class SerializersTestSpec(unittest.TestCase):
         self.serialize_them(ViveknSentimentApproach, "vivekn")
         self.serialize_them(NorvigSweetingApproach, "norvig")
         self.serialize_them(NerCrfApproach, "ner_crf")
-        self.serialize_them(AssertionLogRegApproach, "assertion_log")

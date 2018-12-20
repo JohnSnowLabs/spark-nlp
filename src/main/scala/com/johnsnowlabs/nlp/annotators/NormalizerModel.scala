@@ -63,6 +63,8 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
         if ($(lowercase)) token.result.toLowerCase
         else token.result
 
+      val slangDictTemp = getSlangDict
+
       val correctedWords = $$(slangDict).getOrElse(cased, cased)
 
       val finalWords = correctedWords.split(" ").map(word => applyRegexPatterns(word))
