@@ -2,12 +2,6 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.io.FileNotFoundException
 
-import com.amazonaws.ClientConfiguration
-import com.amazonaws.auth.{AnonymousAWSCredentials, BasicAWSCredentials}
-import com.amazonaws.regions.RegionUtils
-import com.amazonaws.services.s3.AmazonS3Client
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-
 import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
@@ -92,22 +86,26 @@ object EmbeddingsHelper {
     annotator.getClusterEmbeddings
   }
 
-  def getClusterPath(embeddingsRef: String): String = {
+  def getClusterFilename(embeddingsRef: String): String = {
     Path.mergePaths(new Path("/embd_"), new Path(embeddingsRef)).toString
   }
 
-  def save(path: String, embeddings: ClusterWordEmbeddings, spark: SparkSession): Unit = {
-    EmbeddingsHelper.save(path, spark, embeddings.clusterFilePath.toString)
+  def getLocalEmbeddingsPath(fileName: String): String = {
+    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path(fileName)).toString
   }
 
-  protected def save(path: String, spark: SparkSession, indexPath: String): Unit = {
-    val index = new Path(SparkFiles.get(indexPath))
+  protected def save(path: String, spark: SparkSession, fileName: String): Unit = {
+    val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(fileName))
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dst = new Path(path)
 
     save(fs, index, dst)
+  }
+
+  def save(path: String, embeddings: ClusterWordEmbeddings, spark: SparkSession): Unit = {
+    EmbeddingsHelper.save(path, spark, embeddings.fileName.toString)
   }
 
   def save(fs: FileSystem, index: Path, dst: Path): Unit = {
