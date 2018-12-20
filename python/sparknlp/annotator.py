@@ -1216,7 +1216,7 @@ class TypedDependencyParserModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
-=======
+
 class ContextSpellCheckerApproach(AnnotatorApproach):
 
     trainCorpusPath = Param(Params._dummy(),

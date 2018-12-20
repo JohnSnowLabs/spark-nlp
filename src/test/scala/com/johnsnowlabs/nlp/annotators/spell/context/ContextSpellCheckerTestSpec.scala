@@ -11,13 +11,38 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
+    val weights = Map('1' -> Map('l' -> 0.5f), '!' -> Map('l' -> 0.4f),
+      'F' -> Map('P' -> 0.2f),
+      'm' -> Map('Ɛ' -> 0.99f),  // deletion of an 'm'
+      'Ɛ' -> Map('h' -> 0.99f))  // insertion of an 'h'
   }
 
+  trait distFile extends WeightedLevenshtein {
+    val weights = loadWeights("src/test/resources/dist.psv")
+  }
+
+  "weighted Levenshtein distance" should "work from file" in new distFile {
+    var d = wLevenshteinDist("water", "Water", weights)
+    d = wLevenshteinDist("50,000", "50,C00", weights)
+    d = wLevenshteinDist("live", "l!ve", weights)
+    d = wLevenshteinDist("1OO", "100", weights)
+    d = wLevenshteinDist("Halienl", "Patient", weights)
+    d = wLevenshteinDist("Halenol", "Patient", weights)
+  }
+
+
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
-    assert(wLevenshteinDist("c1ean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
-    assert(wLevenshteinDist("crean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
-    assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
+    assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
+    assert(wLevenshteinDist("clean", "crean", weights) > wLevenshteinDist("clean", "c!ean", weights))
+    assert(wLevenshteinDist("Patient", "Fatient", weights) < wLevenshteinDist("Patient", "Aatient", weights))
+  }
+
+  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+    // inserting an 'h' should be cheaper than inserting a 'b'
+    assert(wLevenshteinDist("cleanh", "clean", weights) < wLevenshteinDist("cleanb", "clean", weights))
+    // deleting an 'm' should be cheaper than deleting an 'n'
+    assert(wLevenshteinDist("albu", "album", weights) < wLevenshteinDist("clea", "clean", weights))
+
   }
 
 
