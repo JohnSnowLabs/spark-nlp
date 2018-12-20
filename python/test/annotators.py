@@ -289,7 +289,10 @@ class PipelineTestSpec(unittest.TestCase):
                            key_delimiter="->", value_delimiter="\t")
         finisher = Finisher() \
             .setInputCols(["token", "lemma"]) \
-            .setOutputCols(["token_views", "lemma_views"])
+            .setOutputCols(["token_views", "lemma_views"]) \
+            .setOutputAsArray(False) \
+            .setAnnotationSplitSymbol('@') \
+            .setValueSplitSymbol('#')
         pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer, finisher])
         model = pipeline.fit(self.data)
         token_before_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
@@ -397,28 +400,24 @@ class ParamsGettersTestSpec(unittest.TestCase):
 class OcrTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
-        OcrHelper.setMinTextLayer(8)
-        print("text layer is: " + str(OcrHelper.getMinTextLayer()))
+        OcrHelper.setPreferredMethod('text')
+        print("text layer is: " + str(OcrHelper.getPreferredMethod()))
         pdf_path = "file:///" + os.getcwd() + "/../ocr/src/test/resources/pdfs/"
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path=pdf_path,
-            output_col="region",
-            metadata_col="metadata")
+            input_path=pdf_path)
         data.show()
-        OcrHelper.setMinTextLayer(0)
+        OcrHelper.setPreferredMethod('image')
         print("Text layer disabled")
         data = OcrHelper.createDataset(
             spark=SparkContextForTest.spark,
-            input_path=pdf_path,
-            output_col="region",
-            metadata_col="metadata")
+            input_path=pdf_path)
         data.show()
-        OcrHelper.setMinTextLayer(10)
+        OcrHelper.setPreferredMethod('text')
         content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs")
         print(content)
         document_assembler = DocumentAssembler() \
-            .setInputCol("region") \
+            .setInputCol("text") \
             .setOutputCol("document")
         document_assembler.transform(data).show()
 
@@ -427,7 +426,7 @@ class DependencyParserTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.spark \
-                .sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")
+                .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
 
@@ -468,7 +467,7 @@ class TypedDependencyParserTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.spark \
-            .sparkContext.parallelize([["I saw a girl with a telescope"]]).toDF().toDF("text")
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
         self.conll2009_file = os.getcwd() + "/../src/test/resources/parser/train/example.train"
