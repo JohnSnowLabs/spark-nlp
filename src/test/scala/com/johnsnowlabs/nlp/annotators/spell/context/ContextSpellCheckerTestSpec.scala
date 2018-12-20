@@ -105,28 +105,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-
-  "a model" should "serialize properly" in {
-
-    val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
-    val langModelPath = "../auxdata/"
-
-    import SparkAccessor.spark.implicits._
-    val ocrSpellModel = new ContextSpellCheckerApproach().
-      setInputCols("text").
-      setTrainCorpusPath(trainCorpusPath).
-      setSpecialClasses(List(DateToken, NumberToken)).
-      fit(Seq.empty[String].toDF("text"))
-
-    ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
-
-    ocrSpellModel.write.overwrite.save("./test_spell_checker")
-    val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
-    val testStr = "He deries having any chest pain , palpitalicns , He denies any worse sxtramity"
-    val annotations = testStr.split(" ").map(Annotation(_)).toSeq
-    loadedModel.annotate(annotations).foreach(println)
-  }
-
   "a spell checker" should "correclty parse training data" in {
     val ocrspell = new ContextSpellCheckerApproach().
       setMinCount(1.0)
