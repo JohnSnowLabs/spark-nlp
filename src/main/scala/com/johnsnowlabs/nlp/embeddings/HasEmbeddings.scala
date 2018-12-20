@@ -24,16 +24,26 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def getEmbeddingsDim: Int = $(embeddingsDim)
   def getCaseSensitiveEmbeddings: Boolean = $(caseSensitiveEmbeddings)
 
-  protected lazy val preloadedEmbeddings: ClusterWordEmbeddings =
-    EmbeddingsHelper.load(EmbeddingsHelper.getClusterPath($(embeddingsRef)), $(embeddingsDim), $(caseSensitiveEmbeddings))
+  private var preloadedEmbeddings: Option[ClusterWordEmbeddings] = None
 
   def getClusterEmbeddings: ClusterWordEmbeddings = {
-    preloadedEmbeddings
+    if (preloadedEmbeddings.isDefined && preloadedEmbeddings.get.fileName == $(embeddingsRef))
+      return preloadedEmbeddings.get
+    else {
+      preloadedEmbeddings.foreach(_.getLocalRetriever.close())
+      preloadedEmbeddings = Some(EmbeddingsHelper.load(
+        EmbeddingsHelper.getClusterFilename($(embeddingsRef)),
+        $(embeddingsDim),
+        $(caseSensitiveEmbeddings)
+      ))
+    }
+    preloadedEmbeddings.get
+
   }
 
   override def close(): Unit = {
     get(embeddingsRef)
-      .map(_ => preloadedEmbeddings)
+      .flatMap(_ => preloadedEmbeddings)
       .foreach(_.getLocalRetriever.close())
   }
 

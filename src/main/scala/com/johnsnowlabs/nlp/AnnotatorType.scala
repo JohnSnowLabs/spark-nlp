@@ -11,5 +11,6 @@ object AnnotatorType {
   val NAMED_ENTITY = "named_entity"
   val NEGEX = "negex"
   val DEPENDENCY = "dependency"
+  val LABELED_DEPENDENCY = "labeled_dependency"
   val DUMMY = "dummy"
 }

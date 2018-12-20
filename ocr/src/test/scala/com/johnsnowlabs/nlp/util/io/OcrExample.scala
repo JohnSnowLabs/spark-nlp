@@ -13,12 +13,12 @@ class OcrExample extends FlatSpec {
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/", "region", "metadata")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
       data.show(10)
-      val documentAssembler = new DocumentAssembler().setInputCol("region").setMetadataCol("metadata")
+      val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
       val raw = OcrHelper.createMap("ocr/src/test/resources/pdfs/")
-      val pipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("region")))
+      val pipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("text")))
       val result = pipeline.annotate(raw.values.toArray)
 
       assert(raw.size == 2 && result.nonEmpty)
@@ -30,8 +30,8 @@ class OcrExample extends FlatSpec {
       val spark = getSpark
       OcrHelper.setScalingFactor(3.0f)
       OcrHelper.useErosion(true, kSize = 2)
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/problematic", "region", "metadata")
-      val results = data.select("region").collect.flatMap(_.getString(0).split("\n")).toSet
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/problematic")
+      val results = data.select("text").collect.flatMap(_.getString(0).split("\n")).toSet
       assert(results.contains("1.5"))
       assert(results.contains("223.5"))
       assert(results.contains("22.5"))
@@ -41,7 +41,7 @@ class OcrExample extends FlatSpec {
   def getSpark = {
         SparkSession.builder()
           .appName("SparkNLP-OCR-Default-Spark")
-          .master("local[1]")
+          .master("local[*]")
           .config("spark.driver.memory", "4G")
           .config("spark.driver.maxResultSize", "2G")
           .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")

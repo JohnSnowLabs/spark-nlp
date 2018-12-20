@@ -4,7 +4,6 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -46,7 +45,7 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
     if ($(includeEmbeddings)) {
-      val index = new Path(SparkFiles.get(getClusterEmbeddings.clusterFilePath))
+      val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(getClusterEmbeddings.fileName))
 
       val uri = new java.net.URI(path)
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -54,6 +53,9 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
 
       EmbeddingsHelper.save(fs, index, dst)
     }
+    else
+      require(isSet(embeddingsRef), "Models with word embeddings require 'embeddingsRef' param set if 'includedEmbeddings' is false." +
+        " Please use setEmbeddingsRef()")
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

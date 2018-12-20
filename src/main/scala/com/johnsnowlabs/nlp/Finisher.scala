@@ -66,7 +66,7 @@ class Finisher(override val uid: String)
     }
     val metadataFields =  getOutputCols.flatMap(outputCol => {
       if ($(outputAsArray))
-        Some(StructField(outputCol + "_md", MapType(StringType, StringType), nullable = false))
+        Some(StructField(outputCol + "_metadata", MapType(StringType, StringType), nullable = false))
       else
         None
     })
@@ -109,7 +109,7 @@ class Finisher(override val uid: String)
     if ($(outputAsArray) && $(includeMetadata))
       cols.foreach { case (inputCol, outputCol) =>
         flattened = flattened.withColumn(
-          outputCol + "_md",
+          outputCol + "_metadata",
           Annotation.flattenArrayMetadata(flattened.col(inputCol))
         )
       }

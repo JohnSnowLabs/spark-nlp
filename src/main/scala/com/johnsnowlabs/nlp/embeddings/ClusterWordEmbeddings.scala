@@ -15,22 +15,20 @@ import org.apache.spark.{SparkContext, SparkFiles}
   3. Copy Index to cluster
   4. Open RocksDb based Embeddings on local index (lazy)
  */
-class ClusterWordEmbeddings(val clusterFilePath: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
+class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
   def getLocalRetriever: WordEmbeddingsRetriever = {
-
-    /** Synchronized removed. Verify */
-    // Have to copy file because RockDB changes it and Spark rises Exception
-    val src = SparkFiles.get(clusterFilePath)
-    val workPath = src + "_work"
-
-    if (!new File(workPath).exists()) {
-      require(new File(src).exists(), s"Indexed embeddings at $src not found or not included. Call EmbeddingsHelper.load()")
-      FileUtil.deepCopy(new File(src), new File(workPath), null, true)
+    val localPath = EmbeddingsHelper.getLocalEmbeddingsPath(fileName)
+    if (new File(localPath).exists())
+      WordEmbeddingsRetriever(localPath, dim, caseSensitive)
+    else {
+      val localFromClusterPath = SparkFiles.get(fileName)
+      require(new File(localFromClusterPath).exists(), s"Embeedings not found under given ref." +
+        s" Make sure they are properly loaded using EmbeddingsHelper and pointing towards 'embeddingsRef' param")
+      WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
     }
-
-    WordEmbeddingsRetriever(workPath, dim, caseSensitive)
   }
+
 }
 
 object ClusterWordEmbeddings {
@@ -67,16 +65,9 @@ object ClusterWordEmbeddings {
     }
   }
 
-  private def copyIndexToCluster(localFile: String, clusterFilePath: String, spark: SparkContext): String = {
+  private def copyIndexToCluster(localFile: String, dst: Path, spark: SparkContext): String = {
     val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
-    val cfs = FileSystem.get(spark.hadoopConfiguration)
     val src = new Path(localFile)
-    val clusterTmpLocation = {
-      ConfigHelper.getConfigValue(ConfigHelper.embeddingsTmpDir).map(new Path(_)).getOrElse(
-        new Path(cfs.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir"))
-      )
-    }
-    val dst = Path.mergePaths(clusterTmpLocation, new Path(clusterFilePath))
 
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
@@ -86,7 +77,6 @@ object ClusterWordEmbeddings {
     dst.toString
   }
 
-
   def apply(spark: SparkContext,
             sourceEmbeddingsPath: String,
             dim: Int,
@@ -94,23 +84,37 @@ object ClusterWordEmbeddings {
             format: WordEmbeddingsFormat.Format,
             embeddingsRef: String): ClusterWordEmbeddings = {
 
-    val localDestination = {
+    val tmpLocalDestination = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
         .toAbsolutePath
     }
 
-    val clusterFilePath: String = {
-      EmbeddingsHelper.getClusterPath(embeddingsRef)
+    val clusterFileName: String = {
+      EmbeddingsHelper.getClusterFilename(embeddingsRef)
     }
 
-    // 1 and 2.  Copy to local and Index Word Embeddings
-    indexEmbeddings(sourceEmbeddingsPath, localDestination.toString, format, spark)
+    val destinationScheme = new Path(clusterFileName).getFileSystem(spark.hadoopConfiguration).getScheme
+    val fileSystem = FileSystem.get(spark.hadoopConfiguration)
 
-    // 2. Copy WordEmbeddings to cluster
-    copyIndexToCluster(localDestination.toString, clusterFilePath, spark)
-    FileHelper.delete(localDestination.toString)
+    val clusterTmpLocation = {
+      ConfigHelper.getConfigValue(ConfigHelper.embeddingsTmpDir).map(new Path(_)).getOrElse(
+        new Path(fileSystem.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir"))
+      )
+    }
+    val clusterFilePath = Path.mergePaths(clusterTmpLocation, new Path(clusterFileName))
+
+    // 1 and 2.  Copy to local and Index Word Embeddings
+    indexEmbeddings(sourceEmbeddingsPath, tmpLocalDestination.toString, format, spark)
+
+    if (destinationScheme == "file") {
+      new File(tmpLocalDestination.toString).renameTo(new File(EmbeddingsHelper.getLocalEmbeddingsPath(clusterFileName)))
+    } else {
+      // 2. Copy WordEmbeddings to cluster
+      copyIndexToCluster(tmpLocalDestination.toString, clusterFilePath, spark)
+      FileHelper.delete(tmpLocalDestination.toString)
+    }
 
     // 3. Create Spark Embeddings
-    new ClusterWordEmbeddings(embeddingsRef, dim, caseSensitive)
+    new ClusterWordEmbeddings(clusterFileName, dim, caseSensitive)
   }
 }

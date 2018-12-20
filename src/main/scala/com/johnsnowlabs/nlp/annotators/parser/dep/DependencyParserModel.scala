@@ -4,9 +4,8 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
@@ -14,21 +13,24 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val annotatorType: String = DEPENDENCY
 
-  override val requiredAnnotatorTypes =  Array[String](DOCUMENT, POS, TOKEN)
+  override val requiredAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
-  val source = new ExternalResourceParam(this, "source", "source file for dependency model")
+  val perceptronAsArray: StringArrayParam = new StringArrayParam(this, "perceptronAsArray",
+    "List of features for perceptron")
 
-  def setSourcePath(value: ExternalResource): this.type = set(source, value)
+  def setPerceptronAsArray(perceptron: Array[String]): this.type = set(perceptronAsArray, perceptron)
 
-  def tag(sentence: PosTaggedSentence): DependencyParsedSentence = {
+  def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    model.parse(sentence, $(source))
+    val dependencyParsedSentence = model.predict(sentence, $(perceptronAsArray))
+    dependencyParsedSentence
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val posTaggedSentences = PosTagged.unpack(annotations)
-    val sentencesWithDependency = posTaggedSentences.map{sentence => tag(sentence)}
-    DependencyParsed.pack(sentencesWithDependency)
+    val sentencesWithDependency = posTaggedSentences.map{sentence => getDependencyParsedSentence(sentence)}
+    val dependencyParser = DependencyParsed.pack(sentencesWithDependency)
+    dependencyParser
   }
 }
 
