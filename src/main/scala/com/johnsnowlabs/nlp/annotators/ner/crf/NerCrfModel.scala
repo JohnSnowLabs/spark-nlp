@@ -82,3 +82,4 @@ trait PretrainedNerCrf {
 }
 
 object NerCrfModel extends EmbeddingsReadable[NerCrfModel] with PretrainedNerCrf
+

@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.spell.ocr
+package com.johnsnowlabs.nlp.annotators.spell.context
 
 trait OcrTestData {
 

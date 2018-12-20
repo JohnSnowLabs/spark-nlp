@@ -18,7 +18,7 @@ class TensorflowSpell(
 
   val tensors = new TensorResources()
 
-  /* returns the loss associated with the last word */
+  /* returns the loss associated with the last word, given previous history  */
   def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = {
 
     val packed = dataset.zip(cids).zip(cwids).map {
