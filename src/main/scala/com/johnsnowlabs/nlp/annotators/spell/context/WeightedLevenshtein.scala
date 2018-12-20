@@ -10,8 +10,8 @@ trait WeightedLevenshtein {
 
     for (j <- 1 to s2.length; i <- 1 to s1.length)
       dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1.0f,
-        dist(j)(i - 1) + 1.0f,
+      else minimum(dist(j - 1)(i) + cost(s2(j - 1), 'Ɛ'),  // insertion
+        dist(j)(i - 1) + cost('Ɛ', s1(i - 1)), // deletion
         dist(j - 1)(i - 1) + cost(s2(j - 1), s1(i - 1)))
 
     dist(s2.length)(s1.length)
@@ -63,11 +63,12 @@ trait WeightedLevenshtein {
   def backTrack(dist: Array[Array[Float]], s2:String, s1:String,
                 j:Int, i:Int, acc:Seq[(String, String)]): Seq[(String, String)]= {
 
-    if (s2(j-1) == s1(i-1))
-      if(j==1 && i==1)
-         acc
-        else
+    if (s2(j-1) == s1(i-1)) {
+      if (j == 1 && i == 1)
+        acc
+      else
         backTrack(dist, s2, s1, j - 1, i - 1, acc)
+    }
     else {
       val pSteps = Map(dist(j - 1)(i) -> ("", s2(j - 1).toString, j - 1, i),
         dist(j)(i - 1) -> (s1(i - 1).toString, "", j, i - 1),
