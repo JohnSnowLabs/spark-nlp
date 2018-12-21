@@ -32,6 +32,9 @@ object CoNLLGenerator {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
       val columns = (row._1 zip row._2 zip row._3.map(_._2.toInt)).map{case (a,b) => (a._1, a._2, b)}
       var sentenceId = 1
+      newColumns.append(("", "", "", ""))
+      newColumns.append(("-DOCSTART-", "-X-", "-X-", "O"))
+      newColumns.append(("", "", "", ""))
       columns.foreach(a => {
         if (a._3 != sentenceId){
           newColumns.append(("", "", "", ""))
