@@ -118,11 +118,14 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     assert(loadedModel.specialTransducers.getOrDefault.size == 2, "default pretrained should come with 2 classes")
 
-    assert(loadedModel.specialTransducers.getOrDefault(0).label == "_DATE_")
-    assert(loadedModel.specialTransducers.getOrDefault(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+    // cope with potential change in element order in list
+    val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
 
-    assert(loadedModel.specialTransducers.getOrDefault(1).label == "_NUM_")
-    assert(loadedModel.specialTransducers.getOrDefault(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
+    assert(sortedTransducers(0).label == "_DATE_")
+    assert(sortedTransducers(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+
+    assert(sortedTransducers(1).label == "_NUM_")
+    assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
 
     val trellis = Array(Array.fill(6)(("the", 0.8, "the")),
       Array.fill(6)(("end", 1.2, "end")), Array.fill(6)((".", 1.2, ".")))
