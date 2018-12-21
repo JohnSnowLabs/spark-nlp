@@ -9,7 +9,9 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 # Apache Spark Support
-As of *1.7.x* Spark-NLP does _NOT_ yet work with Spark 2.4.x 
+Spark-NLP *1.8.0* has been built on top of Apache Spark 2.4.0
+
+Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work 
 
 # Usage
 
