@@ -11,23 +11,26 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map('1' -> Map('l' -> 0.5f), '!' -> Map('l' -> 0.4f),
-      'F' -> Map('P' -> 0.2f),
-      'm' -> Map('Ɛ' -> 0.99f),  // deletion of an 'm'
-      'Ɛ' -> Map('h' -> 0.99f))  // insertion of an 'h'
+    val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
+      "F" -> Map("P" -> 0.2f),
+      "em" -> Map("eƐ" -> 0.99f),  // deletion of an 'm'
+      "mƐ" -> Map("mt" -> 0.99f))  // insertion of an 'h'
   }
+
+
 
   trait distFile extends WeightedLevenshtein {
     val weights = loadWeights("src/test/resources/dist.psv")
   }
 
   "weighted Levenshtein distance" should "work from file" in new distFile {
-    var d = wLevenshteinDist("water", "Water", weights)
-    d = wLevenshteinDist("50,000", "50,C00", weights)
-    d = wLevenshteinDist("live", "l!ve", weights)
-    d = wLevenshteinDist("1OO", "100", weights)
-    d = wLevenshteinDist("Halienl", "Patient", weights)
-    d = wLevenshteinDist("Halenol", "Patient", weights)
+    assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
+    assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
+  }
+
+  "weighted Levenshtein distance" should "work from file" in new distFile {
+    assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
+    assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
 
 
