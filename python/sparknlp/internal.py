@@ -220,9 +220,9 @@ class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):
     def __init__(self, spark, target, pipeline, output_path):
         super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles")
-        if type(target) == DataFrame:
-            target = target._jdf
         if type(pipeline) == PipelineModel:
-            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline._to_java(), output_path)
+            pipeline = pipeline._to_java()
+        if type(target) == DataFrame:
+            self._java_obj = self._new_java_obj(self._java_obj, target._jdf, pipeline, output_path)
         else:
             self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline, output_path)
