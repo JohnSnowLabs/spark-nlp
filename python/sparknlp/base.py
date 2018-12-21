@@ -216,7 +216,7 @@ class DocumentAssembler(AnnotatorTransformer):
     @keyword_only
     def __init__(self):
         super(DocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.DocumentAssembler")
-        self._setDefault(outputCol="document")
+        self._setDefault(outputCol="document", trimAndClearNewLines=True)
 
     @keyword_only
     def setParams(self):
