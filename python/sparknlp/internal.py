@@ -10,6 +10,9 @@ class ExtendedJavaWrapper(JavaWrapper):
         self.sc = SparkContext._active_spark_context
         self.java_obj = self._java_obj
 
+    def __del__(self):
+        pass
+
     def apply(self):
         return self._java_obj
 
