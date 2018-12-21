@@ -15,6 +15,11 @@ object CoNLLGenerator {
     exportConllFiles(data, pipelineModel, outputPath)
   }
 
+  def exportConllFiles(spark: SparkSession, filesPath: String, pipelinePath: String, outputPath: String): Unit = {
+    val model = PipelineModel.load(pipelinePath)
+    exportConllFiles(spark, filesPath, model, outputPath)
+  }
+
   def exportConllFiles(data: DataFrame, pipelineModel: PipelineModel, outputPath: String): Unit = {
     import data.sparkSession.implicits._ // for row casting
 
@@ -41,9 +46,9 @@ object CoNLLGenerator {
       save(outputPath)
   }
 
-  def exportConllFiles(spark: SparkSession, filesPath: String, pipelinePath: String, outputPath: String): Unit = {
+  def exportConllFiles(data: DataFrame, pipelinePath: String, outputPath: String): Unit = {
     val model = PipelineModel.load(pipelinePath)
-    exportConllFiles(spark, filesPath, model, outputPath)
+    exportConllFiles(data, model, outputPath)
   }
 
 }
