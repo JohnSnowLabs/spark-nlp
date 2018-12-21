@@ -1,7 +1,7 @@
 package com.johnsnowlabs.util
 
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -11,6 +11,12 @@ object CoNLLGenerator {
     import spark.implicits._ //for toDS and toDF
 
     val data = spark.sparkContext.wholeTextFiles(filesPath).toDS.toDF("filename", "text")
+
+    exportConllFiles(data, pipelineModel, outputPath)
+  }
+
+  def exportConllFiles(data: DataFrame, pipelineModel: PipelineModel, outputPath: String): Unit = {
+    import data.sparkSession.implicits._ // for row casting
 
     val POSdataset = pipelineModel.transform(data)
 

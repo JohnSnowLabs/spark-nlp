@@ -1,6 +1,7 @@
 from pyspark import SparkContext
 from pyspark.ml import PipelineModel
 from pyspark.ml.wrapper import JavaWrapper
+from pyspark.sql.dataframe import DataFrame
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -217,9 +218,11 @@ class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):
-    def __init__(self, spark, files_path, pipeline, output_path):
+    def __init__(self, spark, target, pipeline, output_path):
         super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles")
+        if type(target) == DataFrame:
+            target = target._jdf
         if type(pipeline) == PipelineModel:
-            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline._to_java(), output_path)
+            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline._to_java(), output_path)
         else:
-            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline, output_path)
+            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline, output_path)
