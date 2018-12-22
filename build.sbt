@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.8.0"
+version := "1.7.3"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -151,7 +151,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.8.0",
+    version := "1.7.3",
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
