@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.scalatest.FlatSpec
 
 
-class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors {
+class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -24,13 +24,13 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
     .setInputCols("document", "token")
     .setLabelColumn("label")
     .setOutputCol("ner")
-    .setMaxEpochs(100)
+    .setMaxEpochs(200)
     .setPo(0.01f)
     .setLr(0.1f)
-    .setBatchSize(9)
+    .setBatchSize(15)
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
       100, WordEmbeddingsFormat.TEXT)
-    .setExternalDataset("src/test/resources/ner-corpus/sentence_detector.txt")
+    .setExternalDataset("src/test/resources/ner-corpus/sentence_detectorv2.txt")
     .setRandomSeed(0)
     //.setVerbose(2)
 
@@ -38,10 +38,22 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
     .setInputCols(Array("document", "token", "ner"))
     .setOutputCol("ner_con")
 
-  private val sentenceDetectorML = new SentenceDetectorML()
+  private val sentenceDetectorML = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
 
+  private val finisher = new Finisher()
+    .setInputCols("seg_sentence")
+    .setOutputCols("sentence")
+
+  private val pipeline = new RecursivePipeline().setStages(
+    Array(documentAssembler,
+      tokenizer,
+      nerTagger,
+      nerConverter,
+      sentenceDetectorML,
+      finisher
+    ))
 
   private val annotations = Seq(
     Annotation(DOCUMENT, 0, 27, "I am Batman I live in Gotham", Map()),
@@ -67,7 +79,7 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
 //
 //  private val labeledDataSet = labeledDocument.toDS.toDF("text","label")
 
-  "A Deep Sentence Detector" should "retrieve NER entities from annotations" ignore {
+  "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
     val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
                                Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
@@ -78,7 +90,7 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
 
   }
 
-  it should "retrieve a sentence from annotations" ignore {
+  it should "retrieve a sentence from annotations" in {
 
     val expectedSentence = "I am Batman I live in Gotham"
 
@@ -88,7 +100,7 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
 
   }
 
-  it should "segment sentences" ignore {
+  it should "segment sentences" in {
     val entities = sentenceDetectorML.getNerEntities(annotations)
     val sentence = sentenceDetectorML.retrieveSentence(annotations)
     val expectedSentence1 = "I am Batman"
@@ -114,28 +126,15 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
       ))
 
     val sentenceDetectorModel = pipeline.fit(testDataSet)
-    val model = sentenceDetectorModel.stages.last.asInstanceOf[SentenceDetectorML]
+    val model = sentenceDetectorModel.stages.last.asInstanceOf[DeepSentenceDetector]
 
-    assert(model.isInstanceOf[SentenceDetectorML])
+    assert(model.isInstanceOf[DeepSentenceDetector])
   }
 
   "A Deep Sentence Detector with unpunctuated sentences" should behave like {
 
     val testDataSet = Seq("I am Batman I live in Gotham",
-      "i love deep learning winter is coming").toDS.toDF("text")
-
-    val finisher = new Finisher()
-      .setInputCols("seg_sentence")
-      .setOutputCols("sentence")
-
-    val pipeline = new RecursivePipeline().setStages(
-      Array(documentAssembler,
-        tokenizer,
-        nerTagger,
-        nerConverter,
-        sentenceDetectorML,
-        finisher
-      ))
+                          "i love deep learning winter is coming").toDS.toDF("text")
 
     val expectedResult = Seq(
       Seq("I am Batman", "I live in Gotham"),
@@ -145,6 +144,28 @@ class SentenceDetectorMLTestSpec extends FlatSpec with SentenceDetectorBehaviors
     transformDataSet(testDataSet, pipeline, expectedResult)
   }
 
+  "A Deep Sentence Detector with punctuated sentences" should behave like {
 
+    val testDataSet = Seq("This is a sentence. This is another sentence").toDS.toDF("text")
+
+    val expectedResult = Seq(
+      Seq("This is a sentence.", "This is another sentence")
+    )
+
+    transformDataSet(testDataSet, pipeline, expectedResult)
+  }
+
+  "A Deep Sentence Detector with punctuated and unpunctuated sentences" should behave like {
+
+    val testDataSet = Seq("This is a sentence. This is another sentence",
+                          "I love deep learning Winter is coming").toDS.toDF("text")
+
+    val expectedResult = Seq(
+      Seq("This is a sentence.", "This is another sentence"),
+      Seq("I love deep learning", "Winter is coming")
+    )
+
+    transformDataSet(testDataSet, pipeline, expectedResult)
+  }
 
 }

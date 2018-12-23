@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import org.apache.spark.ml.util.Identifiable
 
-class SentenceDetectorML(override val uid: String) extends AnnotatorModel[SentenceDetectorML]{
+class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
 
   def this() = this(Identifiable.randomUID("SENTENCE ML"))
 

@@ -6,7 +6,7 @@ import org.scalatest.FlatSpec
 
 import scala.collection.mutable
 
-trait SentenceDetectorBehaviors { this: FlatSpec =>
+trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
 
   def transformDataSet(dataSet: Dataset[_], pipeline: RecursivePipeline,
                        expectedResult: Seq[Seq[String]]): Unit = {
@@ -18,7 +18,7 @@ trait SentenceDetectorBehaviors { this: FlatSpec =>
       assert(resultDataSet.isInstanceOf[DataFrame])
     }
 
-    it should "transform a dataset" in {
+    it should "transform to a dataset with segmented sentences" in {
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
       val result = getDataFrameAsArray(resultDataSet)
       assert(result == expectedResult)
