@@ -4,9 +4,9 @@
 ---------------
 Overview
 ---------------
-This release is huge! We are glad to announce we finally support Spark 2.4.0, although having the challenge of not having everyone yet on board on Spark 2.4.0 (i.e. Zeppelin doesn't yet support it).
-In this installment we release three new NLP annotators. Two for dependency parsing processes and one for contextual deep learning based spell checking.
-We also significantly improved OCR functionality, fine-tuning capabilities and general output performance.
+This release is huge! Spark-NLP made the leap into Spark 2.4.0, even with the challenge of not having everyone yet on board there (i.e. Zeppelin doesn't yet support it).
+In this version we release three new NLP annotators. Two for dependency parsing processes and one for contextual deep learning based spell checking.
+We also significantly improved OCR functionality, fine-tuning capabilities and general output performance, particularly on tesseract.
 Finally, there's plenty of bug fixes and improvements in the word embeddings field, along with performance boosts and reduced disk IO.
 Feel free to shoot us with any feedback you have! Particularly on your Spark 2.4.x experience.
 
@@ -37,6 +37,7 @@ Bugfixes
 * Fixed application.conf reading bug which didn't properly refresh AWS credentials
 * RocksDB index no longer uses compression, in order to support Windows without native RocksDB compression libraries
 * Solved various python default parameter settings
+* Fixed circular dependency with jbig pdfbox image OCR
 
 ---------------
 Deprecations
