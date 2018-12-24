@@ -36,11 +36,16 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
       val pragmaticSentenceDetector = new SentenceDetector().annotate(document)
 
-      if (pragmaticSentenceDetector.head.metadata == document.head.metadata){
+      if (pragmaticSentenceDetector.length == 1 && pragmaticSentenceDetector.head.metadata == document.head.metadata){
         deepSentenceDetector(annotations)
       }
       else {
-        Seq(Annotation(annotatorType, 0 , 0, "under construction", Map()))
+
+        pragmaticSentenceDetector
+
+        //val tests = pragmaticSentenceDetector.map(sentence => deepSentenceDetector(Seq(sentence)))
+        //Seq(Annotation(annotatorType, 0 , 0, "under construction", Map()))
+
       }
     } else {
       deepSentenceDetector(annotations)
