@@ -2,7 +2,10 @@ package com.johnsnowlabs.nlp.annotators.sbd.deep
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
@@ -13,6 +16,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
   override val annotatorType: AnnotatorType = DOCUMENT
 
+  val includeRules = new BooleanParam(this, "includeRules",
+    "Includes rule-based sentence detector as first filter")
+
+  def setIncludeRules(value: Boolean): this.type = set(includeRules, value)
+  setDefault(includeRules, false)
+
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
@@ -21,10 +30,32 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
+    if ($(includeRules)) {
+
+      val document = getDocument(annotations)
+
+      val pragmaticSentenceDetector = new SentenceDetector().annotate(document)
+
+      if (pragmaticSentenceDetector.head.metadata == document.head.metadata){
+        deepSentenceDetector(annotations)
+      }
+      else {
+        Seq(Annotation(annotatorType, 0 , 0, "under construction", Map()))
+      }
+    } else {
+      deepSentenceDetector(annotations)
+    }
+
+  }
+
+  def getDocument(annotations: Seq[Annotation]): Seq[Annotation] = {
+    annotations.filter(annotation => annotation.annotatorType == DOCUMENT)
+  }
+
+  def deepSentenceDetector(annotations: Seq[Annotation]): Seq[Annotation] = {
     val nerEntities = getNerEntities(annotations)
     val sentence = retrieveSentence(annotations)
     segmentSentence(nerEntities, sentence)
-
   }
 
   def getNerEntities(annotations: Seq[Annotation]): Seq[Annotation] = {
