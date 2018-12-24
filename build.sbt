@@ -1,6 +1,6 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.3.0"
+val sparkVer = "2.4.0"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.7.3"
+version := "1.8.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -103,7 +103,11 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
-  "org.tensorflow" % "tensorflow" % "1.8.0"
+  "org.tensorflow" % "tensorflow" % "1.8.0",
+  "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
+  exclude("com.google.guava", "guava"),
+  "com.navigamez" % "greex" % "1.0"
+
   /** Enable the following for tensorflow GPU support */
   //"org.tensorflow" % "libtensorflow" % "1.8.0",
   //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
@@ -147,7 +151,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.7.3",
+    version := "1.8.0",
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
