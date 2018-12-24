@@ -30,7 +30,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setBatchSize(15)
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
       100, WordEmbeddingsFormat.TEXT)
-    .setExternalDataset("src/test/resources/ner-corpus/sentence_detectorv2.txt")
+    .setExternalDataset("src/test/resources/ner-corpus/sentence_detector.txt")
     .setRandomSeed(0)
     //.setVerbose(2)
 
@@ -67,17 +67,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
     Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent"))
   )
-
-  //  private val labeledDocument = Seq(
-//    ("I","B-sent"),
-//    ("am", "O"),
-//    ("Batman","O"),
-//    ("I","B-sent"),
-//    ("live","O"),
-//    ("in","O"),
-//    ("Gotham","O"))
-//
-//  private val labeledDataSet = labeledDocument.toDS.toDF("text","label")
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
