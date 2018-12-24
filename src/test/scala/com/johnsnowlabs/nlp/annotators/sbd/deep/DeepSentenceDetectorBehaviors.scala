@@ -15,12 +15,14 @@ trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
 
     it should "transform a model into a spark dataframe" in {
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
+
       assert(resultDataSet.isInstanceOf[DataFrame])
     }
 
     it should "transform to a dataset with segmented sentences" in {
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
       val result = getDataFrameAsArray(resultDataSet)
+
       assert(result == expectedResult)
     }
 

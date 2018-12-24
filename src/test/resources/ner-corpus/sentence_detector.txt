@@ -1,0 +1,27 @@
+-DOCSTART- -X- -X- O
+
+I -X- -X- B-sent
+am -X- -X- O
+Batman -X- -X- O
+I -X- -X- B-sent
+live -X- -X- O
+in -X- -X- O
+Gotham -X- -X- O
+
+i -X- -X- B-sent
+love -X- -X- O
+deep -X- -X- O
+learning -X- -X- O
+winter -X- -X- B-sent
+is -X- -X- O
+coming -X- -X- O
+
+This -X- -X- B-sent
+is -X- -X- O
+a -X- -X- O
+sentence -X- -X- O
+. -X- -X- O
+This -X- -X- B-sent
+is -X- -X- O
+another -X- -X- O
+sentence -X- -X- O
