@@ -13,7 +13,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
 
   override val description: String =
-    "Typed Dependency Parser is a labeled parser that shows the relationship between words in a document"
+    "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
   override val annotatorType:String = LABELED_DEPENDENCY
   override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 

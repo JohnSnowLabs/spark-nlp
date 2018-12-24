@@ -15,13 +15,13 @@ import org.slf4j.LoggerFactory
 class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
 
   override val description: String =
-    "Dependency Parser is an unlabeled parser that assigns a head value to words in a document"
+    "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
 
   private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
-  val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "dependency treebank source files")
+  val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
 
   val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
 

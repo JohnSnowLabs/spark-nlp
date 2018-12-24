@@ -1,7 +1,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.LongBuffer
+import java.nio.{FloatBuffer, LongBuffer}
+
 import org.tensorflow.Tensor
+
 import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
@@ -36,5 +38,11 @@ object TensorResources {
     val buffer = LongBuffer.allocate(size)
     source.writeTo(buffer)
     buffer.array().map(item => item.toInt)
+  }
+
+  def extractFloats(source: Tensor[_], size: Int): Array[Float] = {
+    val buffer = FloatBuffer.allocate(size)
+    source.writeTo(buffer)
+    buffer.array().map(item => item.toFloat)
   }
 }
