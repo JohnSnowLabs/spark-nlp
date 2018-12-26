@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.sbd.deep
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
+import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.SparkSession
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
 
@@ -41,8 +41,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       }
       else {
 
-        pragmaticSentenceDetector
-
+//        val segmentedSentences = pragmaticSentenceDetector.map(sentences =>
+//
+//        )
+//
+        val pruebas = pragmaticSentenceDetector
+        pruebas
         //val tests = pragmaticSentenceDetector.map(sentence => deepSentenceDetector(Seq(sentence)))
         //Seq(Annotation(annotatorType, 0 , 0, "under construction", Map()))
 
@@ -90,6 +94,40 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
           Map("sentence" -> sentenceNumber.toString))
       }
     }
+  }
+
+  def sentenceHasPunctuation(sentence: String): Boolean = {
+    //https://www.grammarly.com/blog/end-sentence-punctuation/
+    val endOfSentencePunctuation = List(".", "!", "?")
+    var hasPunctuation = false
+
+    endOfSentencePunctuation.foreach(punctuation =>
+      if (sentence.contains(punctuation)){
+        hasPunctuation = true
+      }
+    )
+    hasPunctuation
+  }
+
+  def retrieveValidNerEntities(annotations: Seq[Annotation], pragmaticSentenceDetector: Seq[Annotation]): Seq[Annotation] = {
+
+    val unpunctuatedSentences = pragmaticSentenceDetector.filterNot(annotatedSentence =>
+      sentenceHasPunctuation(annotatedSentence.result))
+
+    val validNerEntities = annotations.filter{annotation =>
+      //TODO: Filter chunks first
+      val beginSentence = unpunctuatedSentences.head.begin
+      val endSentence = unpunctuatedSentences.head.end
+
+      if (beginSentence >= annotation.begin && endSentence <= annotation.end){
+
+      }
+
+      sentenceHasPunctuation(annotation.result)
+    }
+
+
+    Seq(Annotation(DOCUMENT, 0, 0, "under construction", Map()))
   }
 
 }
