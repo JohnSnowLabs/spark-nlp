@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.sbd.deep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
 
@@ -34,23 +33,19 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
       val document = getDocument(annotations)
 
-      val pragmaticSentenceDetector = new SentenceDetector().annotate(document)
+      val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
 
-      if (pragmaticSentenceDetector.length == 1 && pragmaticSentenceDetector.head.metadata == document.head.metadata){
-        deepSentenceDetector(annotations)
-      }
-      else {
+        val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
-//        val segmentedSentences = pragmaticSentenceDetector.map(sentences =>
-//
-//        )
-//
-        val pruebas = pragmaticSentenceDetector
-        pruebas
-        //val tests = pragmaticSentenceDetector.map(sentence => deepSentenceDetector(Seq(sentence)))
-        //Seq(Annotation(annotatorType, 0 , 0, "under construction", Map()))
+        if (unpunctuatedSentences.isEmpty){
+          pragmaticSegmentedSentences
+        } else {
+          val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
+          val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+          val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
+          mergedSegmentedSentences
+        }
 
-      }
     } else {
       deepSentenceDetector(annotations)
     }
@@ -78,22 +73,32 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   }
 
   def segmentSentence(nerEntities: Seq[Annotation], sentence: String): Seq[Annotation] = {
-    var sentenceNumber = 0
     nerEntities.zipWithIndex.map{case (nerEntity, index) =>
-      sentenceNumber += 1
       if (index != nerEntities.length-1){
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index+1).begin-1
         val segmentedSentence = sentence.substring(beginIndex, endIndex)
         Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
-                   Map("sentence" -> sentenceNumber.toString))
+                   Map("sentence" -> ""))
       } else {
         val beginIndex = nerEntity.begin
         val segmentedSentence = sentence.substring(beginIndex)
         Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
-          Map("sentence" -> sentenceNumber.toString))
+          Map("sentence" -> ""))
       }
     }
+  }
+
+  def deepSentenceDetector(unpunctuatedSentences: Seq[Annotation], nerEntities: Seq[Seq[Annotation]]):
+  Seq[Annotation] = {
+    unpunctuatedSentences.zipWithIndex.flatMap{ case (unpunctuatedSentence, index) =>
+      segmentSentence(nerEntities(index), unpunctuatedSentence.result)
+    }
+  }
+
+  def getUnpunctuatedSentences(pragmaticSentenceDetector: Seq[Annotation]): Seq[Annotation] = {
+    pragmaticSentenceDetector.filterNot(annotatedSentence =>
+      sentenceHasPunctuation(annotatedSentence.result))
   }
 
   def sentenceHasPunctuation(sentence: String): Boolean = {
@@ -109,25 +114,48 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     hasPunctuation
   }
 
-  def retrieveValidNerEntities(annotations: Seq[Annotation], pragmaticSentenceDetector: Seq[Annotation]): Seq[Annotation] = {
+  def retrieveValidNerEntities(annotations: Seq[Annotation], unpunctuatedSentences: Seq[Annotation]):
+  Seq[Seq[Annotation]] = {
 
-    val unpunctuatedSentences = pragmaticSentenceDetector.filterNot(annotatedSentence =>
-      sentenceHasPunctuation(annotatedSentence.result))
-
-    val validNerEntities = annotations.filter{annotation =>
-      //TODO: Filter chunks first
-      val beginSentence = unpunctuatedSentences.head.begin
-      val endSentence = unpunctuatedSentences.head.end
-
-      if (beginSentence >= annotation.begin && endSentence <= annotation.end){
-
+    def updateIndex(validNerEntities: Seq[Seq[Annotation]]): Seq[Seq[Annotation]] = {
+      validNerEntities.map{ validNerEntity =>
+        val offset = validNerEntity.head.begin
+        validNerEntity.map(nerEntity =>
+          Annotation(nerEntity.annotatorType, nerEntity.begin-offset, nerEntity.end-offset,
+            nerEntity.result, nerEntity.metadata)
+        )
       }
-
-      sentenceHasPunctuation(annotation.result)
     }
 
+    val nerEntities = getNerEntities(annotations)
 
-    Seq(Annotation(DOCUMENT, 0, 0, "under construction", Map()))
+    val validNerEntities = unpunctuatedSentences.map{ unpunctuatedSentence =>
+      nerEntities.filter{entity =>
+        val beginSentence = unpunctuatedSentence.begin
+        val endSentence = unpunctuatedSentence.end
+        entity.begin >= beginSentence && entity.end <= endSentence
+      }
+    }
+
+    updateIndex(validNerEntities)
+  }
+
+  def mergeSentenceDetectors(pragmaticSegmentedSentences: Seq[Annotation], deepSegmentedSentences: Seq[Annotation]):
+  Seq[Annotation] = {
+    var mergeSentences = Seq[Annotation]()
+    pragmaticSegmentedSentences.foreach{ pragmaticSegmentedSentence =>
+      if (sentenceHasPunctuation(pragmaticSegmentedSentence.result)) {
+        mergeSentences = mergeSentences ++ Seq(pragmaticSegmentedSentence)
+      } else {
+        mergeSentences = mergeSentences ++ deepSegmentedSentences
+      }
+    }
+    var sentenceNumber = 0
+    mergeSentences.map{mergeSentence =>
+      sentenceNumber += 1
+      Annotation(mergeSentence.annotatorType, mergeSentence.begin, mergeSentence.end, mergeSentence.result,
+        Map("sentence"->sentenceNumber.toString))
+    }
   }
 
 }

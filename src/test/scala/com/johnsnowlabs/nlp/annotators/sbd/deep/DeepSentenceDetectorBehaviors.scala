@@ -15,7 +15,6 @@ trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
 
     it should "transform a model into a spark dataframe" in {
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
-
       assert(resultDataSet.isInstanceOf[DataFrame])
     }
 
@@ -29,8 +28,8 @@ trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
   }
 
   def getDataFrameAsArray(dataSet: Dataset[_]): Seq[Seq[String]] = {
-    val results = dataSet.select("sentence").collect().flatMap(_.toSeq)
 
+    val results = dataSet.select("sentence").collect().flatMap(_.toSeq)
     results.map{result =>
       val resultWrappedArray: mutable.WrappedArray[String] = result.asInstanceOf[mutable.WrappedArray[String]]
       val resultSeq: Seq[String] = resultWrappedArray
