@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sbd.deep
 
-import com.johnsnowlabs.nlp.RecursivePipeline
-import org.apache.spark.sql.{DataFrame, Dataset}
+import com.johnsnowlabs.nlp.{Annotation, RecursivePipeline}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
 
 import scala.collection.mutable

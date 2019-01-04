@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.sbd.deep
 
-import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, SentenceDetector, Tokenizer}
@@ -93,6 +93,13 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     documentAnnotation++tokenAnnotations++nerConverterAnnotations
   }
 
+  def getAnnotationsWithTokens(paragraph: String): Seq[Annotation] = {
+    val testDataSet = Seq(paragraph).toDS.toDF("text")
+    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer))
+    val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
+    documentAnnotation ++ tokenAnnotations
+  }
+
   private def getAnnotations(dataset: Dataset[_], pipeline: RecursivePipeline, annotator: String) = {
     val annotations = pipeline.fit(dataset).transform(dataset).select(annotator).rdd.map(_.getSeq[Row](0))
     annotations.flatMap(_.map{
@@ -157,93 +164,102 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(result == expectedResult)
   }
 
-  it should "get an unpuncutated sentence from a paragraph with one unpunctuated sentence" in {
+  var paragraph = ""
+  private var documentAnnotation = Seq[Annotation]()
+  private var pragmaticSegmentedSentences = Seq[Annotation]()
+  private var unpunctuatedSentences = Seq[Annotation]()
 
-    val paragraph = "This is a sentence. I love deep learning Winter is coming"
-    val document = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
-    val pragmaticSentenceDetector = new SentenceDetector().annotate(document)
+  "A Deep Sentence Detector with a paragraph of one punctuated and one unpunctuated sentence" should
+    "get an unpuncutated sentence" in {
+
+    paragraph = "This is a sentence. I love deep learning Winter is coming"
+    documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
+    pragmaticSegmentedSentences = new SentenceDetector().annotate(documentAnnotation)
     val expectedUnpunctuatedSentences = Seq(Annotation(DOCUMENT, 20, 56, "I love deep learning Winter is coming", Map()))
 
-    val unpunctuatedSentence = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSentenceDetector)
-
-    assert(unpunctuatedSentence == expectedUnpunctuatedSentences)
-
-  }
-
-  it should "get an unpuncutated sentences from a paragraph with several unpunctuated sentences" in {
-
-    val paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"
-    val document = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
-    val pragmaticSentenceDetector = new SentenceDetector().annotate(document)
-    val expectedUnpunctuatedSentences = Seq(
-      Annotation(DOCUMENT, 20, 57, "I love deep learning Winter is coming;", Map()),
-      Annotation(DOCUMENT, 59, 86, "I am Batman I live in Gotham", Map())
-      )
-
-    val unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSentenceDetector)
+    unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
     assert(unpunctuatedSentences == expectedUnpunctuatedSentences)
 
   }
 
-  it should "retrieve valid NER entities from a paragraph with one punctuated and one unpunctuated sentence" in {
+  private var validNerEntities = Seq[Seq[Annotation]]()
 
-    val paragraph = "This is a sentence. I love deep learning Winter is coming"
-    val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, nerTagger, nerConverter))
-    val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
-    val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
-    val nerConverterAnnotations = getAnnotations(testDataSet, pipeline, "ner_con")
-    val annotations  = documentAnnotation ++ tokenAnnotations ++ nerConverterAnnotations
-    val pragmaticSentenceDetector = new SentenceDetector().annotate(documentAnnotation)
-    val unpunctuatedSentence = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSentenceDetector)
-    val expectedResult = Seq(Seq(
+  it should "retrieve valid NER entities" in {
+
+    val nerConverterAnnotations = Seq(
+      Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")),
+      Annotation(CHUNK, 20, 20, "I", Map("entity"->"sent")),
+      Annotation(CHUNK, 41, 46, "Winter", Map("entity"->"sent"))
+    )
+    val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
+    val expectedValidNerEntities = Seq(Seq(
       Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
       Annotation(CHUNK, 21, 26, "Winter", Map("entity"->"sent")))
     )
 
-    val result = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentence)
-
-    assert(result == expectedResult)
-
-  }
-
-  it should "retrieve valid NER entities from a paragraph with one punctuated and several unpunctuated sentences" in {
-
-    val paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"
-    val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, nerTagger, nerConverter))
-    val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
-    val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
-    val nerConverterAnnotations = Seq(
-      Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")),
-      Annotation(CHUNK, 5, 6, "is", Map("entity"->"sent")),
-      Annotation(CHUNK, 20, 20, "I", Map("entity"->"sent")),
-      Annotation(CHUNK, 41, 46, "Winter", Map("entity"->"sent")),
-      Annotation(CHUNK, 59, 59, "I", Map("entity"->"sent")),
-      Annotation(CHUNK, 70, 70, "I", Map("entity"->"sent"))
-    )
-    val annotations  = documentAnnotation ++ tokenAnnotations ++ nerConverterAnnotations
-    val pragmaticSentenceDetector = new SentenceDetector().annotate(documentAnnotation)
-    val unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSentenceDetector)
-    val expectedValidNerEntities = Seq(
-      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-          Annotation(CHUNK, 21, 26, "Winter", Map("entity"->"sent"))),
-      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-          Annotation(CHUNK, 11, 11, "I", Map("entity"->"sent")))
-    )
-
-    val validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
+    validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
 
     assert(validNerEntities == expectedValidNerEntities)
+
   }
 
-  it should "detect sentences from a paragraph with one punctuated and several unpunctuated sentences  in one row" in {
-    val paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"
-    val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, nerTagger, nerConverter))
-    val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
-    val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
+  it should
+    "detect sentences" in {
+
+    val sentence1 = "I love deep learning"
+    val sentence2 = "Winter is coming"
+    val expectedDetectedSentences = Seq(
+      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"")),
+      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->""))
+    )
+
+    val detectedSentences = deepSentenceDetector.deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+
+    assert(detectedSentences == expectedDetectedSentences)
+  }
+
+  it should
+    "merge pragmatic and deep sentence detector outputs" in {
+
+    val sentence1 = "This is a sentence."
+    val sentence2 = "I love deep learning"
+    val sentence3 = "Winter is coming"
+    val expectedMergedSentences = Seq(
+      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"1")),
+      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"2")),
+      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3"))
+    )
+    val deepSegmentedSentences = Seq(
+      Annotation(DOCUMENT, 0 , 19, "I love deep learning", Map("sentence"->"")),
+      Annotation(DOCUMENT, 0 , 15, "Winter is coming", Map("sentence"->""))
+    )
+    val mergedSegmentedSentences = deepSentenceDetector.mergeSentenceDetectors(pragmaticSegmentedSentences,
+      deepSegmentedSentences)
+
+    assert(mergedSegmentedSentences == expectedMergedSentences)
+
+  }
+
+  "A Deep Sentence Detector with a paragraph of one sentence and several unpunctuated sentences in one row" should
+    "get unpuncutated sentences" in {
+
+    paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"
+    documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
+    pragmaticSegmentedSentences = new SentenceDetector().annotate(documentAnnotation)
+    val expectedUnpunctuatedSentences = Seq(
+      Annotation(DOCUMENT, 20, 57, "I love deep learning Winter is coming;", Map()),
+      Annotation(DOCUMENT, 59, 86, "I am Batman I live in Gotham", Map())
+      )
+
+    unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSegmentedSentences)
+
+    assert(unpunctuatedSentences == expectedUnpunctuatedSentences)
+
+  }
+
+  it should "retrieve valid NER entities" in {
+
     val nerConverterAnnotations = Seq(
       Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")),
       Annotation(CHUNK, 5, 6, "is", Map("entity"->"sent")),
@@ -252,10 +268,22 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Annotation(CHUNK, 59, 59, "I", Map("entity"->"sent")),
       Annotation(CHUNK, 71, 71, "I", Map("entity"->"sent"))
     )
-    val annotations  = documentAnnotation ++ tokenAnnotations ++ nerConverterAnnotations
-    val pragmaticSegmentedSentences = new SentenceDetector().annotate(documentAnnotation)
-    val unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSegmentedSentences)
-    val validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
+    val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
+    val expectedValidNerEntities = Seq(
+      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
+          Annotation(CHUNK, 21, 26, "Winter", Map("entity"->"sent"))),
+      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
+          Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+    )
+
+    validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
+
+    assert(validNerEntities == expectedValidNerEntities)
+  }
+
+  it should
+    "detect sentences" in {
+
     val sentence1 = "I love deep learning"
     val sentence2 = "Winter is coming;"
     val sentence3 = "I am Batman"
@@ -273,23 +301,22 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   it should
-    "merge pragmatic and deep sentence detector outputs of a paragraph with punctuated and unpunctuated sentences" in {
+    "merge pragmatic and deep sentence detector outputs" in {
 
-    val paragraph = "This is a sentence. I love deep learning Winter is coming"
-    val document = Seq(Annotation(DOCUMENT, 0 , paragraph.length-1, paragraph, Map()))
-    val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
-    val sentence1 = "This is a sentence."
+    val deepSegmentedSentences = deepSentenceDetector.deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+    val sentence1= "This is a sentence."
     val sentence2 = "I love deep learning"
-    val sentence3 = "Winter is coming"
+    val sentence3 = "Winter is coming;"
+    val sentence4 = "I am Batman"
+    val sentence5 = "I live in Gotham"
     val expectedMergedSentences = Seq(
       Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"1")),
       Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"2")),
-      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3"))
+      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3")),
+      Annotation(DOCUMENT, 0, sentence4.length-1, sentence4, Map("sentence"->"4")),
+      Annotation(DOCUMENT, 0, sentence5.length-1, sentence5, Map("sentence"->"5"))
     )
-    val deepSegmentedSentences = Seq(
-      Annotation(DOCUMENT, 0 , 19, "I love deep learning", Map("sentence"->"")),
-      Annotation(DOCUMENT, 0 , 15, "Winter is coming", Map("sentence"->""))
-    )
+
     val mergedSegmentedSentences = deepSentenceDetector.mergeSentenceDetectors(pragmaticSegmentedSentences,
       deepSegmentedSentences)
 

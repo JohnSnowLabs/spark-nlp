@@ -96,8 +96,8 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     }
   }
 
-  def getUnpunctuatedSentences(pragmaticSentenceDetector: Seq[Annotation]): Seq[Annotation] = {
-    pragmaticSentenceDetector.filterNot(annotatedSentence =>
+  def getUnpunctuatedSentences(pragmaticSegmentedSentences: Seq[Annotation]): Seq[Annotation] = {
+    pragmaticSegmentedSentences.filterNot(annotatedSentence =>
       sentenceHasPunctuation(annotatedSentence.result))
   }
 
@@ -146,10 +146,9 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     pragmaticSegmentedSentences.foreach{ pragmaticSegmentedSentence =>
       if (sentenceHasPunctuation(pragmaticSegmentedSentence.result)) {
         mergeSentences = mergeSentences ++ Seq(pragmaticSegmentedSentence)
-      } else {
-        mergeSentences = mergeSentences ++ deepSegmentedSentences
       }
     }
+    mergeSentences = mergeSentences ++ deepSegmentedSentences
     var sentenceNumber = 0
     mergeSentences.map{mergeSentence =>
       sentenceNumber += 1
