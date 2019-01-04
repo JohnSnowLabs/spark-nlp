@@ -9,14 +9,14 @@ import org.apache.spark.ml.util.Identifiable
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
 
-  def this() = this(Identifiable.randomUID("SENTENCE ML"))
+  def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
   override val annotatorType: AnnotatorType = DOCUMENT
 
   val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter",
-    "Includes rule-based sentence detector as first filter")
+    "Whether to include rule-based sentence detector as first filter")
 
   val endPunctuation = new StringArrayParam(this, "endPunctuation",
     "An array of symbols that deep sentence detector will consider as end of sentence punctuation")
