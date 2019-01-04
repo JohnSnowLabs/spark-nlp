@@ -53,12 +53,14 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val deepSentenceDetector = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
-    .setIncludeRules(false)
+    .setIncludePragmaticSegmenter(false)
+    .setEndPunctuation(Array(".", "?"))
 
   private val deepSentenceDetectorSmallEpochs = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
-    .setIncludeRules(true)
+    .setIncludePragmaticSegmenter(true)
+    .setEndPunctuation(Array(".", "?"))
 
   private val finisher = new Finisher()
     .setInputCols("seg_sentence")
@@ -241,7 +243,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  "A Deep Sentence Detector with a paragraph of one sentence and several unpunctuated sentences in one row" should
+  "A Deep Sentence Detector with a paragraph of one sentence and several unpunctuated sentences" should
     "get unpuncutated sentences" in {
 
     paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"

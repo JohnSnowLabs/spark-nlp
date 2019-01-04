@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
@@ -15,11 +15,19 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
   override val annotatorType: AnnotatorType = DOCUMENT
 
-  val includeRules = new BooleanParam(this, "includeRules",
+  val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter",
     "Includes rule-based sentence detector as first filter")
 
-  def setIncludeRules(value: Boolean): this.type = set(includeRules, value)
-  setDefault(includeRules, false)
+  val endPunctuation = new StringArrayParam(this, "endPunctuation",
+    "An array of symbols that deep sentence detector will consider as end of sentence punctuation")
+
+  def setIncludePragmaticSegmenter(value: Boolean): this.type = set(includesPragmaticSegmenter, value)
+    setDefault(includesPragmaticSegmenter, false)
+
+  def setEndPunctuation(value: Array[String]): this.type = set(endPunctuation, value)
+  setDefault(endPunctuation, Array(".", "!", "?"))
+
+  private lazy val endOfSentencePunctuation = $(endPunctuation)
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -29,7 +37,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    if ($(includeRules)) {
+      if ($(includesPragmaticSegmenter)) {
 
       val document = getDocument(annotations)
 
@@ -102,8 +110,6 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   }
 
   def sentenceHasPunctuation(sentence: String): Boolean = {
-    //https://www.grammarly.com/blog/end-sentence-punctuation/
-    val endOfSentencePunctuation = List(".", "!", "?")
     var hasPunctuation = false
 
     endOfSentencePunctuation.foreach(punctuation =>
