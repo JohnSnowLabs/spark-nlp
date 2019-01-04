@@ -516,6 +516,33 @@ class SentenceDetector(AnnotatorModel):
                          explodeSentences=False)
 
 
+class DeepSentenceDetector(AnnotatorModel):
+
+    includesPragmaticSegmenter = Param(Params._dummy(),
+                                       "includesPragmaticSegmenter",
+                                       "Whether to include rule-based sentence detector as first filter",
+                                       typeConverter=TypeConverters.toBoolean)
+
+    endPunctuation = Param(
+        Params._dummy(), "endPunctuation",
+        "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
+        typeConverter=TypeConverters.toListString)
+
+    name = "DeepSentenceDetector"
+
+    def setIncludePragmaticSegmenter(self, value):
+        return self._set(includesPragmaticSegmenter=value)
+
+    def setEndPunctuation(self, value):
+        return self._set(endPunctuation=value)
+
+    @keyword_only
+    def __init__(self):
+        super(DeepSentenceDetector, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
+        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
+
+
 class SentimentDetector(AnnotatorApproach):
     dictionary = Param(Params._dummy(),
                        "dictionary",

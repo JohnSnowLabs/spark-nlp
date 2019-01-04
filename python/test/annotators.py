@@ -238,6 +238,44 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector.transform(assembled).show()
 
 
+class DeepSentenceDetectorTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
+        self.external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        ner_tagger = NerDLApproach() \
+            .setInputCols(["document", "token"]) \
+            .setLabelColumn("label") \
+            .setOutputCol("ner") \
+            .setMaxEpochs(100) \
+            .setPo(0.01) \
+            .setLr(0.1) \
+            .setBatchSize(9) \
+            .setEmbeddingsSource(self.embeddings, 100, 2) \
+            .setExternalDataset(self.external_dataset) \
+            .setRandomSeed(0)
+        ner_converter = NerConverter() \
+            .setInputCols(["document", "token", "ner"]) \
+            .setOutputCol("ner_con")
+        deep_sentence_detector = DeepSentenceDetector() \
+            .setInputCols(["document", "token", "ner_con"]) \
+            .setOutputCol("seg_sentence")
+        assembled = document_assembler.transform(self.data)
+        tokenized = tokenizer.transform(assembled)
+        ner_tagged = ner_tagger.fit(tokenized).transform(tokenized)
+        ner_converted = ner_converter.transform(ner_tagged)
+        deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
+        deep_sentence_detected.show()
+
+
 class PragmaticScorerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -409,6 +447,7 @@ class ContextSpellCheckerTestSpec(unittest.TestCase):
         checked_data = pipeline.fit(self.data).transform(self.data)
         checked_data.select("finished_spell_checked").show(truncate=False)
         assert(checked_data.collect.size == 2)
+
 
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
