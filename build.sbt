@@ -72,6 +72,7 @@ developers := List(
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
   Developer(id="albertoandreottiATgmail", name="Alberto Andreotti", email="alberto@pacific.ai", url=url("https://github.com/albertoandreottiATgmail")),
+  Developer(id="rohit13k", name="Rohit Kumar", email="rohit@johnsnowlabs.com", url=url("https://github.com/rohit13k")),
   Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
 )
 
@@ -96,6 +97,11 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
+  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+    exclude("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude("com.fasterxml.jackson.core", "jackson-databind")
+    exclude("commons-configuration","commons-configuration")
+  exclude("org.apache.hadoop" ,"hadoop-common"),
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
