@@ -20,7 +20,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  private val nerTagger = new NerDLApproach()
+  private val strongNerTagger = new NerDLApproach()
     .setInputCols("document", "token")
     .setLabelColumn("label")
     .setOutputCol("ner")
@@ -33,7 +33,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setExternalDataset("src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt")
     .setRandomSeed(0)
 
-  private val nerTaggerSmallEpochs = new NerDLApproach()
+  private val weakNerTagger = new NerDLApproach()
     .setInputCols("document", "token")
     .setLabelColumn("label")
     .setOutputCol("ner")
@@ -66,19 +66,19 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols("seg_sentence")
     .setOutputCols("sentence")
 
-  private val pipeline = new RecursivePipeline().setStages(
+  private val strongPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
-      nerTagger,
+      strongNerTagger,
       nerConverter,
       deepSentenceDetector,
       finisher
     ))
 
-  private val pipelineSmallEpochs = new RecursivePipeline().setStages(
+  private val weakPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
-      nerTaggerSmallEpochs,
+      weakNerTagger,
       nerConverter,
       deepSentenceDetectorSmallEpochs,
       finisher
@@ -87,8 +87,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private lazy val annotations = {
     val paragraph = "I am Batman I live in Gotham"
     val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer,
-                                                           nerTaggerSmallEpochs, nerConverter))
+    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, weakNerTagger, nerConverter))
     val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
     val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
     val nerConverterAnnotations = getAnnotations(testDataSet, pipeline, "ner_con")
@@ -102,8 +101,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     documentAnnotation ++ tokenAnnotations
   }
 
-  private def getAnnotations(dataset: Dataset[_], pipeline: RecursivePipeline, annotator: String) = {
-    val annotations = pipeline.fit(dataset).transform(dataset).select(annotator).rdd.map(_.getSeq[Row](0))
+  private def getAnnotations(dataset: Dataset[_], pipeline: RecursivePipeline, column: String) = {
+    val annotations = pipeline.fit(dataset).transform(dataset).select(column).rdd.map(_.getSeq[Row](0))
     annotations.flatMap(_.map{
       case Row(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String]) =>
         Annotation(annotatorType, begin, end, result, metadata)
@@ -170,6 +169,86 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private var documentAnnotation = Seq[Annotation]()
   private var pragmaticSegmentedSentences = Seq[Annotation]()
   private var unpunctuatedSentences = Seq[Annotation]()
+
+  "A Deep Sentence Detector with none end of sentence punctuation" should "get an unpuncutated sentence" in {
+    paragraph = "This is a sentence. This is another sentence."
+
+    val deepSentenceDetector = new DeepSentenceDetector()
+      .setInputCols(Array("document", "token", "ner_con"))
+      .setOutputCol("seg_sentence")
+      .setIncludePragmaticSegmenter(true)
+      .setEndPunctuation(Array(""))
+    documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
+    pragmaticSegmentedSentences = new SentenceDetector().annotate(documentAnnotation)
+    val expectedUnpunctuatedSentences = Seq(
+      Annotation(DOCUMENT, 0, 18, "This is a sentence.", Map()),
+      Annotation(DOCUMENT, 20, 44, "This is another sentence.", Map())
+    )
+
+    unpunctuatedSentences = deepSentenceDetector.getUnpunctuatedSentences(pragmaticSegmentedSentences)
+
+    assert(unpunctuatedSentences == expectedUnpunctuatedSentences)
+
+  }
+
+  it should "retrieve empty valid NER entities when NER converter does not find entities" in {
+    val deepSentenceDetector = new DeepSentenceDetector()
+      .setInputCols(Array("document", "token", "ner_con"))
+      .setOutputCol("seg_sentence")
+      .setIncludePragmaticSegmenter(true)
+      .setEndPunctuation(Array(""))
+    val nerConverterAnnotations = Array[Annotation]()
+    val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
+
+    validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
+
+    assert(validNerEntities.isEmpty)
+  }
+
+  it should "retrieve valid NER entities when NER converter finds entities" in {
+    val deepSentenceDetector = new DeepSentenceDetector()
+      .setInputCols(Array("document", "token", "ner_con"))
+      .setOutputCol("seg_sentence")
+      .setIncludePragmaticSegmenter(true)
+      .setEndPunctuation(Array(""))
+    val nerConverterAnnotations = Seq(
+      Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")),
+      Annotation(CHUNK, 20, 23, "This", Map("entity"->"sent"))
+    )
+    val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
+    val expectedValidNetEntities = Seq(
+      Seq(Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent"))),
+      Seq(Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")))
+    )
+
+    validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
+
+    assert(validNerEntities == expectedValidNetEntities)
+  }
+
+  it should "fit a sentence detector model" in {
+
+    val testDataSet = Seq("This is a sentence. This is another sentence.",
+      "I love deep learning Winter is coming").toDS.toDF("text")
+    val deepSentenceDetector = new DeepSentenceDetector()
+      .setInputCols(Array("document", "token", "ner_con"))
+      .setOutputCol("seg_sentence")
+      .setIncludePragmaticSegmenter(true)
+      .setEndPunctuation(Array(""))
+    val weakPipeline = new RecursivePipeline().setStages(
+      Array(documentAssembler,
+        tokenizer,
+        weakNerTagger,
+        nerConverter,
+        deepSentenceDetector
+      ))
+
+    val sentenceDetectorModel = weakPipeline.fit(testDataSet)
+    val model = sentenceDetectorModel.stages.last.asInstanceOf[DeepSentenceDetector]
+
+    assert(model.isInstanceOf[DeepSentenceDetector])
+  }
+
 
   "A Deep Sentence Detector with a paragraph of one punctuated and one unpunctuated sentence" should
     "get an unpuncutated sentence" in {
@@ -328,21 +407,21 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   it should "fit a sentence detector model" in {
     val testDataSet = Seq("dummy").toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(
+    val strongPipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
-        nerTagger,
+        strongNerTagger,
         nerConverter,
         deepSentenceDetector
       ))
 
-    val sentenceDetectorModel = pipeline.fit(testDataSet)
+    val sentenceDetectorModel = strongPipeline.fit(testDataSet)
     val model = sentenceDetectorModel.stages.last.asInstanceOf[DeepSentenceDetector]
 
     assert(model.isInstanceOf[DeepSentenceDetector])
   }
 
-  "A Deep Sentence Detector that receives a dataset of unpunctuated sentences" should behave like {
+  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of unpunctuated sentences" should behave like {
 
     val testDataSet = Seq("I am Batman I live in Gotham",
                           "i love deep learning winter is coming").toDS.toDF("text")
@@ -352,10 +431,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("i love deep learning", "winter is coming")
     )
 
-    transformDataSet(testDataSet, pipeline, expectedResult)
+    transformDataSet(testDataSet, strongPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector that receives a dataset of punctuated sentences" should behave like {
+  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of punctuated sentences" should behave like {
 
     val testDataSet = Seq("This is a sentence. This is another sentence.").toDS.toDF("text")
 
@@ -363,23 +442,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is a sentence.", "This is another sentence.")
     )
 
-    transformDataSet(testDataSet, pipeline, expectedResult)
+    transformDataSet(testDataSet, strongPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector that receives a dataset of punctuated and unpunctuated sentences" should behave like {
-
-    val testDataSet = Seq("This is a sentence. This is another sentence.",
-                          "I love deep learning Winter is coming").toDS.toDF("text")
-
-    val expectedResult = Seq(
-      Seq("This is a sentence.", "This is another sentence."),
-      Seq("I love deep learning", "Winter is coming")
-    )
-
-    transformDataSet(testDataSet, pipeline, expectedResult)
-  }
-
-  "A Deep Sentence Detector (trained with small epochs) that receives a dataset of unpunctuated sentences" should
+  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of unpunctuated sentences" should
     behave like {
 
     val testDataSet = Seq("I am Batman I live in Gotham",
@@ -390,10 +456,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("i love deep learning", "winter is coming")
     )
 
-    transformDataSet(testDataSet, pipelineSmallEpochs, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector (trained with small epochs) that receives a dataset of punctuated sentences" should
+  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated sentences" should
     behave like {
 
     val testDataSet = Seq("This is a sentence. This is another sentence.").toDS.toDF("text")
@@ -402,10 +468,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is a sentence.", "This is another sentence.")
     )
 
-    transformDataSet(testDataSet, pipelineSmallEpochs, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector (trained with small epochs) that receives a dataset of punctuated and unpunctuated sentences" should
+  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences" should
     behave like {
 
     val testDataSet = Seq("This is a sentence. This is another sentence.",
@@ -416,10 +482,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("I love deep learning", "Winter is coming")
     )
 
-    transformDataSet(testDataSet, pipelineSmallEpochs, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector (trained with small epochs) that receives a dataset of punctuated and unpunctuated sentences in one row" should
+  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences in one row" should
     behave like {
 
     val testDataSet = Seq("This is a sentence. I love deep learning Winter is coming",
@@ -429,7 +495,47 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is another sentence.")
     )
 
-    transformDataSet(testDataSet, pipelineSmallEpochs, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult)
+  }
+
+  "A Deep Sentence Detector (trained with a strong NER) that sets end of sentence punctuation as null" should behave like {
+
+    val testDataSet = Seq("This is a sentence. This is another sentence.",
+      "I love deep learning Winter is coming").toDS.toDF("text")
+    val deepSentenceDetector = new DeepSentenceDetector()
+      .setInputCols(Array("document", "token", "ner_con"))
+      .setOutputCol("seg_sentence")
+      .setIncludePragmaticSegmenter(true)
+      .setEndPunctuation(Array(""))
+    val pipeline = new RecursivePipeline().setStages(
+      Array(documentAssembler,
+        tokenizer,
+        strongNerTagger,
+        nerConverter,
+        deepSentenceDetector,
+        finisher
+      ))
+    val expectedResult = Seq(
+      Seq("This is a sentence.", "This is another sentence."),
+      Seq("I love deep learning", "Winter is coming")
+    )
+
+    transformDataSet(testDataSet, pipeline, expectedResult)
+
+  }
+
+  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of punctuated and unpunctuated sentences" should
+    behave like {
+
+    val testDataSet = Seq("This is a sentence. This is another sentence.",
+      "I love deep learning Winter is coming").toDS.toDF("text")
+
+    val expectedResult = Seq(
+      Seq("This is a sentence.", "This is another sentence."),
+      Seq("I love deep learning", "Winter is coming")
+    )
+
+    transformDataSet(testDataSet, strongPipeline, expectedResult)
   }
 
 }

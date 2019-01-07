@@ -19,7 +19,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     "Whether to include rule-based sentence detector as first filter")
 
   val endPunctuation = new StringArrayParam(this, "endPunctuation",
-    "An array of symbols that deep sentence detector will consider as end of sentence punctuation")
+    "An array of symbols that deep sentence detector will consider as an end of sentence punctuation")
 
   def setIncludePragmaticSegmenter(value: Boolean): this.type = set(includesPragmaticSegmenter, value)
     setDefault(includesPragmaticSegmenter, false)
@@ -39,9 +39,9 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
       if ($(includesPragmaticSegmenter)) {
 
-      val document = getDocument(annotations)
+        val document = getDocument(annotations)
 
-      val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
+        val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
 
         val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
@@ -49,9 +49,13 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
           pragmaticSegmentedSentences
         } else {
           val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
-          val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
-          val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
-          mergedSegmentedSentences
+          if (validNerEntities.nonEmpty){
+            val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+            val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
+            mergedSegmentedSentences
+          } else {
+            pragmaticSegmentedSentences
+          }
         }
 
     } else {
@@ -112,11 +116,15 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def sentenceHasPunctuation(sentence: String): Boolean = {
     var hasPunctuation = false
 
-    endOfSentencePunctuation.foreach(punctuation =>
-      if (sentence.contains(punctuation)){
+    endOfSentencePunctuation.foreach { punctuation =>
+      if (sentence.contains(punctuation)) {
         hasPunctuation = true
       }
-    )
+      if (punctuation == "") {
+        hasPunctuation = false
+      }
+    }
+
     hasPunctuation
   }
 
@@ -135,15 +143,19 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
     val nerEntities = getNerEntities(annotations)
 
-    val validNerEntities = unpunctuatedSentences.map{ unpunctuatedSentence =>
-      nerEntities.filter{entity =>
-        val beginSentence = unpunctuatedSentence.begin
-        val endSentence = unpunctuatedSentence.end
-        entity.begin >= beginSentence && entity.end <= endSentence
+    if (nerEntities.nonEmpty) {
+      val validNerEntities = unpunctuatedSentences.map{ unpunctuatedSentence =>
+        nerEntities.filter{entity =>
+          val beginSentence = unpunctuatedSentence.begin
+          val endSentence = unpunctuatedSentence.end
+          entity.begin >= beginSentence && entity.end <= endSentence
+        }
       }
-    }
 
-    updateIndex(validNerEntities)
+      updateIndex(validNerEntities)
+    } else {
+      Seq[Seq[Annotation]]()
+    }
   }
 
   def mergeSentenceDetectors(pragmaticSegmentedSentences: Seq[Annotation], deepSegmentedSentences: Seq[Annotation]):
