@@ -37,26 +37,17 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-      if ($(includesPragmaticSegmenter)) {
+    if ($(includesPragmaticSegmenter)) {
 
-        val document = getDocument(annotations)
+      val document = getDocument(annotations)
+      val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
+      val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
-        val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
-
-        val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
-
-        if (unpunctuatedSentences.isEmpty){
-          pragmaticSegmentedSentences
-        } else {
-          val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
-          if (validNerEntities.nonEmpty){
-            val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
-            val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
-            mergedSegmentedSentences
-          } else {
-            pragmaticSegmentedSentences
-          }
-        }
+      if (unpunctuatedSentences.isEmpty){
+        pragmaticSegmentedSentences
+      } else {
+        getDeepSegmentedSentences(annotations, unpunctuatedSentences, pragmaticSegmentedSentences)
+      }
 
     } else {
       deepSentenceDetector(annotations)
@@ -66,6 +57,20 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
   def getDocument(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.filter(annotation => annotation.annotatorType == DOCUMENT)
+  }
+
+  def getDeepSegmentedSentences(annotations: Seq[Annotation], unpunctuatedSentences: Seq[Annotation],
+                                pragmaticSegmentedSentences: Seq[Annotation] ): Seq[Annotation] = {
+
+    val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
+    if (validNerEntities.nonEmpty){
+      val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+      val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
+      mergedSegmentedSentences
+    } else {
+      //When NER does not find entities, it will use just pragmatic sentence
+      pragmaticSegmentedSentences
+    }
   }
 
   def deepSentenceDetector(annotations: Seq[Annotation]): Seq[Annotation] = {
