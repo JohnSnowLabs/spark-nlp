@@ -32,7 +32,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
     assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
-
+/*
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
     assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
@@ -48,7 +48,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-
+*/
   "a Spell Checker" should "correctly preprocess training data" in {
 
     val path = "src/test/resources/test.txt"

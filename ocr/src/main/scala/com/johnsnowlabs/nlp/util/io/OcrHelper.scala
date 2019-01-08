@@ -196,7 +196,7 @@ object OcrHelper {
     val width = image.getWidth * factor
     val height = image.getHeight * factor
     val scaledImg = image.getAsBufferedImage().
-    getScaledInstance(width.toInt, height.toInt, Image.SCALE_AREA_AVERAGING)
+    getScaledInstance(width.toInt, height.toInt, Image.SCALE_SMOOTH)
     toBufferedImage(scaledImg)
   }
 
@@ -250,20 +250,57 @@ object OcrHelper {
       (integer - 255).toByte
   }
 
+  def binarize(bi: BufferedImage):BufferedImage = {
+
+    // convert to grayscale
+    val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
+    val g = gray.createGraphics()
+    g.drawImage(bi, 0, 0, null)
+    g.dispose()
+
+    // init
+    val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
+    val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+
+    // handle the unsigned type
+    val converted = inputData.map(fromUnsigned)
+
+    // convolution and nonlinear op (minimum)
+    outputData.indices.par.foreach { idx =>
+      if (converted(idx) < 170) {
+        outputData(idx) = fromSigned(2)
+
+      }
+      else
+        outputData(idx) = fromSigned(250)
+    }
+    dest
+  }
+
   private def tesseractMethod(renderedImages:Seq[RenderedImage]) = {
     import scala.collection.JavaConversions._
     val imageRegions = renderedImages.flatMap(render => {
       val image = PlanarImage.wrapRenderedImage(render)
 
       // rescale if factor provided
-      val scaledImage = scalingFactor.map { factor =>
+      var scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
       }.getOrElse(image.getAsBufferedImage)
+
+      dumpImage(scaledImage, "scaledImg.png")
+
+      //scaledImage = binarize(scaledImage)
+
+      dumpImage(scaledImage, "binarizedImg.png")
+
 
       // erode if kernel provided
       val dilatedImage = kernelSize.map {kernelRadio =>
         erode(scaledImage, kernelRadio)
       }.getOrElse(scaledImage)
+
+      dumpImage(dilatedImage, "dilatedImg.png")
 
       // obtain regions and run OCR on each region
       val regions = {
@@ -283,6 +320,12 @@ object OcrHelper {
 
     Option(imageRegions.mkString(System.lineSeparator()))
 
+  }
+
+  private def dumpImage(bi:BufferedImage, filename:String) = {
+    import javax.imageio.ImageIO
+    val outputfile = new File(filename)
+    ImageIO.write(bi, "png", outputfile)
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int) = {
