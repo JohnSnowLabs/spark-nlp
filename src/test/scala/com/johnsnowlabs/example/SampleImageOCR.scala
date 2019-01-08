@@ -15,8 +15,8 @@ object SampleImageOCR extends App {
   val srcPath = "/home/jose/Downloads/ocr_images/images/"
   val dstPath = "/home/jose/Downloads/ocr_evaluation/sparknlp_output"
 
-  OcrHelper.setScalingFactor(3.5f)
-  OcrHelper.useErosion(true, 2)
+  OcrHelper.setScalingFactor(1.0f)
+  OcrHelper.useErosion(false, 1)
   val data = OcrHelper.createDataset(spark,srcPath).cache
 
   val documentAssembler = new DocumentAssembler().
