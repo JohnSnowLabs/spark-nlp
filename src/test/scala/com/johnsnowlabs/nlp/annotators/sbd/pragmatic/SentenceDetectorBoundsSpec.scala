@@ -47,7 +47,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
   "SentenceDetector" should "correct process custom delimiters in with dots" in {
     val model = new MixedPragmaticMethod(false, Array("\n\n"))
-    val bounds = model.extractBounds(ContentProvider.conllSevenSentences)
+    val bounds = model.extractBounds(ContentProvider.conllEightSentences)
 
     assert(bounds.length == 8)
   }
