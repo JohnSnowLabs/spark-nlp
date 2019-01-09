@@ -323,7 +323,7 @@ object PragmaticContentFormatter {
 
     // http://rubular.com/r/2YFrKWQUYi
     //between single quotes
-    .addRule(new RegexRule("'[\\w\\s?!\\.,']+'", "betweenPunctuations-singleQuot"))
+    .addRule(new RegexRule("(?<=\\s|^)'(?:[^']|'\\w)+'(\\W)", "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
     //between double quotes
     //numbers and decimals
