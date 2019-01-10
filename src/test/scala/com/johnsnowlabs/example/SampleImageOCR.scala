@@ -6,17 +6,19 @@ import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 import com.johnsnowlabs.nlp.SparkAccessor.spark
+import net.sourceforge.tess4j.ITessAPI.TessPageSegMode
 import org.apache.spark.ml.Pipeline
 
 object SampleImageOCR extends App {
 
   import spark.implicits._
 
-  val srcPath = "/home/jose/Downloads/ocr_images/images/"
+  val srcPath = "/home/jose/Downloads/ocr_evaluation/test_set_images"
   val dstPath = "/home/jose/Downloads/ocr_evaluation/sparknlp_output"
 
   OcrHelper.setScalingFactor(1.0f)
   OcrHelper.useErosion(false, 1)
+  OcrHelper.setPageSegMode(TessPageSegMode.PSM_SINGLE_BLOCK)
   val data = OcrHelper.createDataset(spark,srcPath).cache
 
   val documentAssembler = new DocumentAssembler().
