@@ -240,7 +240,9 @@ class PragmaticSBDTestSpec(unittest.TestCase):
 
 class DeepSentenceDetectorTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkContextForTest.data
+        # self.data = SparkContextForTest.data
+        self.data = SparkContextForTest.spark \
+            .createDataFrame([["This is a sentence. I love deep learning Winter is coming"]]).toDF("text")
         self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
         self.external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
 
@@ -267,7 +269,9 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setOutputCol("ner_con")
         deep_sentence_detector = DeepSentenceDetector() \
             .setInputCols(["document", "token", "ner_con"]) \
-            .setOutputCol("seg_sentence")
+            .setOutputCol("sentence") \
+            .setIncludePragmaticSegmenter(True) \
+            .setEndPunctuation([".", "?"])
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         ner_tagged = ner_tagger.fit(tokenized).transform(tokenized)
