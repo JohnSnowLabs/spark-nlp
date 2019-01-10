@@ -56,7 +56,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setIncludePragmaticSegmenter(false)
     .setEndPunctuation(Array(".", "?"))
 
-  private val deepSentenceDetectorSmallEpochs = new DeepSentenceDetector()
+  private val pureDeepSentenceDetector = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
     .setIncludePragmaticSegmenter(true)
@@ -80,7 +80,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       tokenizer,
       weakNerTagger,
       nerConverter,
-      deepSentenceDetectorSmallEpochs,
+      pureDeepSentenceDetector,
       finisher
     ))
 

@@ -21,6 +21,7 @@ unittest.TextTestRunner().run(ContextSpellCheckerTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserTestSpec())
+unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
