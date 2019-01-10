@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -11,13 +11,24 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map('l' -> Map('1' -> 0.5f, '!' -> 0.2f), 'P' -> Map('F' -> 0.2f))
+    val weights = Map("l" -> Map("1" -> 0.5f, "!" -> 0.2f), "P" -> Map("F" -> 0.2f))
   }
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
     assert(wLevenshteinDist("c1ean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
     assert(wLevenshteinDist("crean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
     assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
+  }
+
+
+  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+    override val weights = loadWeights("src/test/resources/distance.psv")
+
+    val cost1 = weights("F")("P") + weights("a")("e")
+    assert(wLevenshteinDist("Procedure", "Frocedura", weights) == cost1)
+
+    val cost2 = weights("v")("y") + weights("iƐ")("if")
+    assert(wLevenshteinDist("qualifying", "qualiving", weights) == cost2)
   }
 
 

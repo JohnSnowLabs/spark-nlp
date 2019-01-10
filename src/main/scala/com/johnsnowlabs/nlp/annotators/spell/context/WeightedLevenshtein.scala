@@ -5,35 +5,42 @@ import scala.math.min
 
 trait WeightedLevenshtein {
 
-  def levenshteinDist(s1: String, s2: String)(cost:(Char, Char) => Float): Float = {
-    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
+  def levenshteinDist(s11: String, s22: String)(cost:(String, String) => Float): Float = {
 
-    for (j <- 1 to s2.length; i <- 1 to s1.length)
-      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1.0f,
-        dist(j)(i - 1) + 1.0f,
-        dist(j - 1)(i - 1) + cost(s2(j - 1), s1(i - 1)))
+    // cope with start of string
+    val s1 = s"^${s11}_"
+    val s2 = s"^${s22}_"
 
-    dist(s2.length)(s1.length)
+    val dist = Array.tabulate(s22.length + 1, s11.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
+
+    for (j <- 1 to s22.length; i <- 1 to s11.length)
+      dist(j)(i) = if (s22(j - 1) == s11(i - 1)) dist(j - 1)(i - 1)
+      else {
+        minimum(dist(j - 1)(i) + cost(s2.substring(j - 1, j + 1), s1(i) + "Ɛ"),   //insert in s1
+          dist(j)(i - 1) + cost(s2(j) + "Ɛ", s1.substring(i - 1, i + 1)),         //insert in s2
+          dist(j - 1)(i - 1) + cost(s22(j - 1).toString, s11(i - 1).toString))
+      }
+
+    dist(s22.length)(s11.length)
   }
 
   /* weighted levenshtein distance */
-  def wLevenshteinDist(s1:String, s2:String, weights:Map[Char, Map[Char, Float]]) = levenshteinDist(s1, s2)(genCost(weights))
+  def wLevenshteinDist(s1:String, s2:String, weights:Map[String, Map[String, Float]]) = levenshteinDist(s1, s2)(genCost(weights))
 
-  def loadWeights(filename: String): Map[Char, Map[Char, Float]] = {
+  def loadWeights(filename: String): Map[String, Map[String, Float]] = {
     // store word ids
-    val vocabIdxs = mutable.HashMap[Char, mutable.Map[Char, Float]]()
+    val vocabIdxs = mutable.HashMap[String, mutable.Map[String, Float]]()
 
     scala.io.Source.fromFile(filename).getLines.foreach { case line =>
       val lineFields = line.split("\\|")
-      val dist = vocabIdxs.getOrElse(lineFields(0).head, mutable.Map[Char, Float]()).updated(lineFields(1).head, lineFields(2).toFloat)
-      vocabIdxs.update(lineFields(0).head, dist)
+      val dist = vocabIdxs.getOrElse(lineFields(0), mutable.Map[String, Float]()).updated(lineFields(1), lineFields(2).toFloat)
+      vocabIdxs.update(lineFields(0), dist)
     }
     vocabIdxs.toMap.mapValues(_.toMap)
   }
 
 
-  private def genCost(weights: Map[Char, Map[Char, Float]])(a:Char, b:Char): Float = {
+  private def genCost(weights: Map[String, Map[String, Float]])(a:String, b:String): Float = {
     if (weights.contains(a) && weights(a).contains(b))
       weights(a)(b)
     else if (a == b) {
