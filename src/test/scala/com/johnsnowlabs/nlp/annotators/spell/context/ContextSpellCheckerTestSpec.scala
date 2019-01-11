@@ -133,26 +133,33 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-
   "a model" should "serialize properly" in {
 
-    val trainCorpusPath = "../auxdata/spell_dataset/vocab/bigone.txt"
-    val langModelPath = "../auxdata/"
-
     import SparkAccessor.spark.implicits._
-    val ocrSpellModel = new ContextSpellCheckerApproach().
-      setInputCols("text").
-      setTrainCorpusPath(trainCorpusPath).
-      setSpecialClasses(List(DateToken, NumberToken)).
-      fit(Seq.empty[String].toDF("text"))
+    import scala.collection.JavaConversions._
 
-    ocrSpellModel.readModel(langModelPath, SparkAccessor.spark, "", useBundle=true)
+    val ocrSpellModel = ContextSpellCheckerModel
+      .pretrained()
 
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
-    val testStr = "He deries having any chest pain , palpitalicns , He denies any worse sxtramity"
-    val annotations = testStr.split(" ").map(Annotation(_)).toSeq
-    loadedModel.annotate(annotations).foreach(println)
+
+    assert(loadedModel.specialTransducers.getOrDefault.size == 2, "default pretrained should come with 2 classes")
+
+    // cope with potential change in element order in list
+    val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
+
+    assert(sortedTransducers(0).label == "_DATE_")
+    assert(sortedTransducers(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+
+    assert(sortedTransducers(1).label == "_NUM_")
+    assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
+
+    val trellis = Array(Array.fill(6)(("the", 0.8, "the")),
+      Array.fill(6)(("end", 1.2, "end")), Array.fill(6)((".", 1.2, ".")))
+    val (decoded, cost) = loadedModel.decodeViterbi(trellis)
+    assert(decoded.deep.equals(Array("the", "end", ".").deep))
+
   }
 
   "a spell checker" should "correclty parse training data" in {

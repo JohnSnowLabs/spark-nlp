@@ -1,6 +1,7 @@
 from pyspark import SparkContext
 from pyspark.ml import PipelineModel
 from pyspark.ml.wrapper import JavaWrapper
+from pyspark.sql.dataframe import DataFrame
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -8,6 +9,9 @@ class ExtendedJavaWrapper(JavaWrapper):
         super(ExtendedJavaWrapper, self).__init__(java_obj)
         self.sc = SparkContext._active_spark_context
         self.java_obj = self._java_obj
+
+    def __del__(self):
+        pass
 
     def apply(self):
         return self._java_obj
@@ -197,6 +201,7 @@ class _OcrUseErosion(ExtendedJavaWrapper):
 # Utils
 # ==================
 
+
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
     def __init__(self, path, spark, embformat, ref, ndims, case):
         super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load")
@@ -216,10 +221,12 @@ class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):
-    def __init__(self, spark, files_path, pipeline, output_path):
+    def __init__(self, spark, target, pipeline, output_path):
         super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles")
         if type(pipeline) == PipelineModel:
-            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline._to_java(), output_path)
+            pipeline = pipeline._to_java()
+        if type(target) == DataFrame:
+            self._java_obj = self._new_java_obj(self._java_obj, target._jdf, pipeline, output_path)
         else:
-            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, files_path, pipeline, output_path)
+            self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline, output_path)
 

@@ -4,11 +4,7 @@
 
 import sys
 from pyspark import keyword_only
-from pyspark.ml.util import JavaMLWritable
-from pyspark.ml.wrapper import JavaTransformer, JavaModel, JavaEstimator
-from pyspark.ml.param.shared import Param, Params, TypeConverters
-from sparknlp.common import ExternalResource, ParamsGettersSetters, ReadAs
-from sparknlp.util import AnnotatorJavaMLReadable
+from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -22,7 +18,6 @@ perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
 crf = sys.modules[__name__]
 dl = sys.modules[__name__]
-logreg = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
 sda = sys.modules[__name__]
@@ -33,137 +28,13 @@ norvig = sys.modules[__name__]
 contextspell = sys.modules[__name__]
 ocr = sys.modules[__name__]
 
-
-class AnnotatorProperties(Params):
-
-    inputCols = Param(Params._dummy(),
-                      "inputCols",
-                      "previous annotations columns, if renamed",
-                      typeConverter=TypeConverters.toListString)
-    outputCol = Param(Params._dummy(),
-                      "outputCol",
-                      "output annotation column. can be left default.",
-                      typeConverter=TypeConverters.toString)
-
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
-
-    def setOutputCol(self, value):
-        return self._set(outputCol=value)
-
-
-class ApproachWithEmbeddings(Params):
-    embeddingsDim = Param(Params._dummy(),
-                          "embeddingsDim",
-                          "Number of embedding dimensions",
-                          typeConverter=TypeConverters.toInt)
-
-    caseSensitiveEmbeddings = Param(Params._dummy(),
-                                    "caseSensitiveEmbeddings",
-                                    "whether to ignore case in tokens for embeddings matching",
-                                    typeConverter=TypeConverters.toBoolean)
-
-    includeEmbeddings = Param(Params._dummy(),
-                              "includeEmbeddings",
-                              "whether to include embeddings when saving annotator",
-                              typeConverter=TypeConverters.toBoolean)
-
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
-
-    sourceEmbeddingsPath = Param(Params._dummy(),
-                                 "sourceEmbeddingsPath",
-                                 "Word embeddings file",
-                                 typeConverter=TypeConverters.toString)
-    embeddingsFormat = Param(Params._dummy(),
-                             "embeddingsFormat",
-                             "Word vectors file format",
-                             typeConverter=TypeConverters.toInt)
-
-    def setEmbeddingsSource(self, path, nDims, format):
-        self._set(sourceEmbeddingsPath=path)
-        self._set(embeddingsFormat=format)
-        return self._set(embeddingsDim=nDims)
-
-    def setEmbeddingsDim(self, value):
-        return self._set(embeddingsDim=value)
-
-    def setCaseSensitiveEmbeddings(self, value):
-        return self._set(caseSensitiveEmbeddings=value)
-
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
-
-    def setEmbeddingsRef(self, value):
-        return self._set(embeddingsRef=value)
-
-    def __init__(self):
-        super(ApproachWithEmbeddings, self).__init__()
-        self._setDefault(
-            caseSensitiveEmbeddings=False,
-            includeEmbeddings=True,
-            embeddingsRef=self.uid
-        )
-
-
-class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
-
-    column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
-
-    @keyword_only
-    def setParams(self):
-        kwargs = self._input_kwargs
-        return self._set(**kwargs)
-
-    @keyword_only
-    def __init__(self, classname, java_model=None):
-        super(AnnotatorModel, self).__init__(java_model=java_model)
-        if classname and not java_model:
-            self.__class__._java_class_name = classname
-            self._java_obj = self._new_java_obj(classname, self.uid)
-        if java_model is not None:
-            self._transfer_params_from_java()
-
-
-class ModelWithEmbeddings(AnnotatorModel):
-
-    embeddingsDim = Param(Params._dummy(),
-                          "embeddingsDim",
-                          "Number of embedding dimensions",
-                          typeConverter=TypeConverters.toInt)
-
-    caseSensitiveEmbeddings = Param(Params._dummy(),
-                                    "caseSensitiveEmbeddings",
-                                    "whether to ignore case in tokens for embeddings matching",
-                                    typeConverter=TypeConverters.toBoolean)
-
-    includeEmbeddings = Param(Params._dummy(),
-                              "includeEmbeddings",
-                              "whether to include embeddings when saving annotator",
-                              typeConverter=TypeConverters.toBoolean)
-
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
-
-    @keyword_only
-    def __init__(self, classname, java_model=None):
-        super(ModelWithEmbeddings, self).__init__(classname=classname, java_model=java_model)
-
-    def getClusterEmbeddings(self):
-        return self._java_obj.getClusterEmbeddings()
-
-
-class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,
-                        ParamsGettersSetters):
-    @keyword_only
-    def __init__(self, classname):
-        ParamsGettersSetters.__init__(self)
-        self.__class__._java_class_name = classname
-        self._java_obj = self._new_java_obj(classname, self.uid)
+try:
+    import jsl_sparknlp.annotator
+    assertion = sys.modules[jsl_sparknlp.annotator.__name__]
+    resolution = sys.modules[jsl_sparknlp.annotator.__name__]
+    deid = sys.modules[jsl_sparknlp.annotator.__name__]
+except ImportError:
+    pass
 
 
 class Tokenizer(AnnotatorModel):
@@ -1140,83 +1011,6 @@ class NerConverter(AnnotatorModel):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
 
 
-class DependencyParserApproach(AnnotatorApproach):
-    dependencyTreeBank = Param(Params._dummy(),
-                               "dependencyTreeBank",
-                               "dependency treebank source files",
-                               typeConverter=TypeConverters.identity)
-
-    numberOfIterations = Param(Params._dummy(),
-                               "numberOfIterations",
-                               "Number of iterations in training, converges to better accuracy",
-                               typeConverter=TypeConverters.toInt)
-
-    @keyword_only
-    def __init__(self):
-        super(DependencyParserApproach,
-              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach")
-        self._setDefault(numberOfIterations=10)
-
-    def setNumberOfIterations(self, value):
-        return self._set(numberOfIterations=value)
-
-    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
-        opts = options.copy()
-        return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
-
-    def _create_model(self, java_model):
-        return DependencyParserModel(java_model=java_model)
-
-
-class DependencyParserModel(AnnotatorModel):
-    name = "DependencyParserModel"
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
-        super(DependencyParserModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
-
-class TypedDependencyParserApproach(AnnotatorApproach):
-
-    conll2009FilePath = Param(Params._dummy(),
-                              "conll2009FilePath",
-                              "Path to file with CoNLL 2009 format",
-                              typeConverter=TypeConverters.identity)
-
-    numberOfIterations = Param(Params._dummy(),
-                               "numberOfIterations",
-                               "Number of iterations in training, converges to better accuracy",
-                               typeConverter=TypeConverters.toInt)
-
-    @keyword_only
-    def __init__(self):
-        super(TypedDependencyParserApproach,
-              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
-
-    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
-        opts = options.copy()
-        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
-
-    def setNumberOfIterations(self, value):
-        return self._set(numberOfIterations=value)
-
-    def _create_model(self, java_model):
-        return TypedDependencyParserModel(java_model=java_model)
-
-
-class TypedDependencyParserModel(AnnotatorModel):
-
-    name = "TypedDependencyParserModel"
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel",
-                 java_model=None):
-        super(TypedDependencyParserModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
 class ContextSpellCheckerApproach(AnnotatorApproach):
 
     trainCorpusPath = Param(Params._dummy(),
@@ -1328,4 +1122,82 @@ class ContextSpellCheckerModel(AnnotatorModel):
     def pretrained(name="context_spell_gen", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)
+
+
+class DependencyParserApproach(AnnotatorApproach):
+    dependencyTreeBank = Param(Params._dummy(),
+                               "dependencyTreeBank",
+                               "dependency treebank source files",
+                               typeConverter=TypeConverters.identity)
+
+    numberOfIterations = Param(Params._dummy(),
+                               "numberOfIterations",
+                               "Number of iterations in training, converges to better accuracy",
+                               typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(DependencyParserApproach,
+              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach")
+        self._setDefault(numberOfIterations=10)
+
+    def setNumberOfIterations(self, value):
+        return self._set(numberOfIterations=value)
+
+    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return DependencyParserModel(java_model=java_model)
+
+
+class DependencyParserModel(AnnotatorModel):
+    name = "DependencyParserModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
+        super(DependencyParserModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+
+class TypedDependencyParserApproach(AnnotatorApproach):
+
+    conll2009FilePath = Param(Params._dummy(),
+                              "conll2009FilePath",
+                              "Path to file with CoNLL 2009 format",
+                              typeConverter=TypeConverters.identity)
+
+    numberOfIterations = Param(Params._dummy(),
+                               "numberOfIterations",
+                               "Number of iterations in training, converges to better accuracy",
+                               typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(TypedDependencyParserApproach,
+              self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
+
+    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
+
+    def setNumberOfIterations(self, value):
+        return self._set(numberOfIterations=value)
+
+    def _create_model(self, java_model):
+        return TypedDependencyParserModel(java_model=java_model)
+
+
+class TypedDependencyParserModel(AnnotatorModel):
+
+    name = "TypedDependencyParserModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel",
+                 java_model=None):
+        super(TypedDependencyParserModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
