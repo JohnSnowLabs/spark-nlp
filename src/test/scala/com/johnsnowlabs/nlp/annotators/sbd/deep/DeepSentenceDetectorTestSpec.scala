@@ -538,4 +538,5 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, strongPipeline, expectedResult)
   }
 
+
 }

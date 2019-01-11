@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
+import org.slf4j.LoggerFactory
 
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
 
