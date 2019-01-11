@@ -29,6 +29,9 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     val cost2 = weights("v")("y") + weights("iƐ")("if")
     assert(wLevenshteinDist("qualifying", "qualiving", weights) == cost2)
+
+    val cost3 = weights("a")("o") + weights("^Ɛ")("^t")
+    assert(wLevenshteinDist("to", "a", weights) == cost3)
   }
 
 

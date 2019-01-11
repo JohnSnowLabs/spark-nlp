@@ -11,17 +11,20 @@ trait WeightedLevenshtein {
     val s1 = s"^${s11}_"
     val s2 = s"^${s22}_"
 
-    val dist = Array.tabulate(s22.length + 1, s11.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
+    val s1_ = s"_^${s11}_"
+    val s2_ = s"_^${s22}_"
 
-    for (j <- 1 to s22.length; i <- 1 to s11.length)
-      dist(j)(i) = if (s22(j - 1) == s11(i - 1)) dist(j - 1)(i - 1)
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i * 1.0f else if (i == 0) j * 1.0f else 0.0f }
+
+    for (j <- 1 to s2.length; i <- 1 to s1.length)
+      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
       else {
-        minimum(dist(j - 1)(i) + cost(s2.substring(j - 1, j + 1), s1(i) + "Ɛ"),   //insert in s1
-          dist(j)(i - 1) + cost(s2(j) + "Ɛ", s1.substring(i - 1, i + 1)),         //insert in s2
-          dist(j - 1)(i - 1) + cost(s22(j - 1).toString, s11(i - 1).toString))
+        minimum(dist(j - 1)(i) + cost(s2_.substring(j - 1, j + 1), s1(i - 1) + "Ɛ"),   //insert in s1
+          dist(j)(i - 1) + cost(s2(j - 1) + "Ɛ", s1_.substring(i - 1, i + 1)),         //insert in s2
+          dist(j - 1)(i - 1) + cost(s2(j - 1).toString, s1(i - 1).toString))
       }
 
-    dist(s22.length)(s11.length)
+    dist(s2.length)(s1.length)
   }
 
   /* weighted levenshtein distance */
