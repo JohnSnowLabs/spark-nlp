@@ -1833,7 +1833,7 @@ documentAssembler = new DocumentAssembler()
                                 </div>
                                 
                                 <!--Begin Deep Sentence Detector-->
-                                <h4 id="DeepSentenceDetector" class="section-block"> DeepSentenceDetector: Sentence Detector with Machine Learning</h4>
+                                <h4 id="DeepSentenceDetector" class="section-block"> DeepSentenceDetector: Sentence Boundary Detector with Machine Learning</h4>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#python" aria-controls="home"
                                                                               role="tab" data-toggle="tab">Python</a>
@@ -1861,7 +1861,9 @@ documentAssembler = new DocumentAssembler()
                                             </p>
                                             <pre><code class="language-python">deep_sentence_detector = DeepSentenceDetector() \
   .setInputCols(["document", "token", "ner_con"]) \
-  .setOutputCol("sentence")</code></pre>
+  .setOutputCol("sentence") \
+  .setIncludePragmaticSegmenter(True) \
+  .setEndPunctuation([".", "?"])</code></pre>
                                         </div><!--//code-block-->
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="scala">
@@ -2839,6 +2841,7 @@ documentAssembler = new DocumentAssembler()
                                     <li><a class="scrollto" href="#Chunker">Chunker</a></li>
                                     <li><a class="scrollto" href="#DateMatcher">Date Matcher</a></li>
                                     <li><a class="scrollto" href="#SentenceDetector">Sentence Detector</a></li>
+                                    <li><a class="scrollto" href="#SentenceDetector">Deep Sentence Detector</a></li>
                                     <li><a class="scrollto" href="#POSTagger">Part of Speech Tagger</a></li>
                                     <li><a class="scrollto" href="#ViveknSentimentDetector">Vivekn Sentiment Detector</a></li>
                                     <li><a class="scrollto" href="#SentimentDetector">Rule based Sentiment Detector</a></li>
