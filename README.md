@@ -177,7 +177,7 @@ If there is any older than current version of a model, it means they still work 
 * [PerceptronModel (POS)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)
 * [ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.8.0_2.4_1545435741623.zip)
 * [SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.8.0_2.4_1545435558025.zip)
-* ContextSpellCheckerModel (Spell Checker)
+* [ContextSpellCheckerModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/context_spell_gen_en_1.8.0_2.4_1546979465177.zip)
 * [NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.8.0_2.4_1545435732032.zip)
 * [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)
 * [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)
