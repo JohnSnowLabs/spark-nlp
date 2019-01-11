@@ -240,9 +240,7 @@ class PragmaticSBDTestSpec(unittest.TestCase):
 
 class DeepSentenceDetectorTestSpec(unittest.TestCase):
     def setUp(self):
-        # self.data = SparkContextForTest.data
-        self.data = SparkContextForTest.spark \
-            .createDataFrame([["This is a sentence. I love deep learning Winter is coming"]]).toDF("text")
+        self.data = SparkContextForTest.data
         self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
         self.external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
 
