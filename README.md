@@ -182,7 +182,7 @@ If there is any older than current version of a model, it means they still work 
 * [NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)
 * [NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)
 * [LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)
-``
+
 # FAQ
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
 
