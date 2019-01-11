@@ -1,0 +1,3 @@
+Structure is used as structure and composition in something called structure-composition, structure/composition or SC123.
+Also, we use 123structure, and we want to keep things like 1-crazy-compound-3-organic.
+Numbers like 123 or 12.34 or even 12.4-12.6 should be replaced by a label.

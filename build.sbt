@@ -1,6 +1,6 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.3.0"
+val sparkVer = "2.4.0"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "1.7.3"
+version := "1.8.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -151,7 +151,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.7.3",
+    version := "1.8.0",
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
