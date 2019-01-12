@@ -16,24 +16,14 @@ import org.apache.spark.ml.util.MLWriter
 
 import scala.language.reflectiveCalls
 
-class DependencyParserModelTestSpec extends FlatSpec {
+class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehaviors {
 
-  def fixture = new {
-    val df: Dataset[Row] = AnnotatorBuilder.withDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
-    val dependencies: DataFrame = df.select("dependency")
-    val depAnnotations: Seq[Annotation] = dependencies
-      .collect
-      .flatMap { r => r.getSeq[Row](0) }
-      .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
-      }
-    val tokens: DataFrame = df.select("token")
-    val tokenAnnotations: Seq[Annotation] = tokens
-      .collect
-      .flatMap { r => r.getSeq[Row](0) }
-      .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
-      }
+  //TODO: Identify behaviors that we can use for testing using dependency tree bank or UD
+
+  "A Dependency Parser trained with TreeBank format file" should behave like {
+    val testDataSet: Dataset[Row] =
+      AnnotatorBuilder.withTreeBankDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
+    initialAnnotations(testDataSet)
   }
 
   def saveModel(model: MLWriter, modelFilePath: String): Unit = {
@@ -41,37 +31,6 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assertResult(true){
       Files.exists(Paths.get(modelFilePath))
     }
-  }
-
-  "A DependencyParser" should "add annotations" in {
-    val f = fixture
-    assert(f.dependencies.count > 0, "Annotations count should be greater than 0")
-  }
-
-  it should "add annotations with the correct annotationType" in {
-    val f = fixture
-    f.depAnnotations.foreach { a =>
-      assert(a.annotatorType == AnnotatorType.DEPENDENCY, s"Annotation type should ${AnnotatorType.DEPENDENCY}")
-    }
-  }
-
-  it should "annotate each token" in {
-    val f = fixture
-    assert(f.tokenAnnotations.size == f.depAnnotations.size, s"Every token should be annotated")
-  }
-
-  it should "annotate each word with a head" in {
-    val f = fixture
-    f.depAnnotations.foreach { a =>
-      assert(a.result.nonEmpty, s"Result should have a head")
-    }
-  }
-
-  it should "annotate each word with the correct indexes" in {
-    val f = fixture
-    f.depAnnotations
-      .zip(f.tokenAnnotations)
-      .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
   }
 
   private val documentAssembler = new DocumentAssembler()
@@ -94,9 +53,16 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
     .setNumberOfIterations(10)
 
-  private val emptyDataSet = PipelineModels.dummyDataset
+  private val pipeline = new Pipeline()
+    .setStages(Array(
+      documentAssembler,
+      sentenceDetector,
+      tokenizer,
+      posTagger,
+      dependencyParser
+    ))
 
-  private val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
+  private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
     val perceptronTagger = new PerceptronApproach()
@@ -114,13 +80,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
   }
 
   def trainDependencyParserModel(): DependencyParserModel = {
-    val model = new Pipeline().setStages(
-      Array(documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser
-      )).fit(emptyDataSet)
+    val model = pipeline.fit(emptyDataSet)
 
     model.stages.last.asInstanceOf[DependencyParserModel]
 
@@ -136,106 +96,40 @@ class DependencyParserModelTestSpec extends FlatSpec {
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser with explicit number of iterations" should "train a model" in {
-    val dependencyParser = new DependencyParserApproach()
-      .setInputCols(Array("sentence", "pos", "token"))
-      .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
-      .setNumberOfIterations(5)
+  "A dependency parser with an input text of one sentence" should behave like {
 
-    val model = new Pipeline().setStages(
-      Array(documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser
-      )).fit(emptyDataSet)
+    val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
 
-    val dependencyParserModel = model.stages.last.asInstanceOf[DependencyParserModel]
-    val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.show(false)
-    assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
-    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
+    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
+  }
+
+  "A dependency parser model with input text of two sentences" should
+    behave like {
+
+    val text = "I solved the problem with statistics. I saw a girl with a telescope"
+    val testDataSet = Seq(text).toDS.toDF("text")
+
+    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
 
   }
 
-  "A dependency parser with a sentence input" should "predict a relationship between words in the sentence" in {
-    val dependencyParserModel = DependencyParserModel.read.load("./tmp_dp_model")
+  "A dependency parser model with an input text of several rows" should
+   behave like {
 
-    val model = new Pipeline().setStages(
-      Array(documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParserModel
-      )).fit(emptyDataSet)
-
-    val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.show(false)
-    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
-  }
-
-  "A dependency parser model with a document input" should
-    "predict a relationship between words in each sentence" in {
-    import SparkAccessor.spark.implicits._
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser
-      ))
-
-    val model = pipeline.fit(emptyDataSet)
-
-    val document = "I solved the problem with statistics. " +
-      "I saw a girl with a telescope"
-    val testDataSet = Seq(document).toDS.toDF("text")
-    val typedDependencyParserDataFrame = model.transform(testDataSet)
-    typedDependencyParserDataFrame.collect()
-    //typedDependencyParserDataFrame.show(false)
-    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
-
-  }
-
-  "A dependency parser model with an input of more than one row" should
-    "predict a relationship between words in each sentence" in {
-    import SparkAccessor.spark.implicits._
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser
-      ))
-
-    val model = pipeline.fit(emptyDataSet)
-
-    val document = Seq(
+    val text = Seq(
       "The most troublesome report may be the August merchandise trade deficit due out tomorrow",
       "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward",
       "Book me the morning flight",
       "I solved the problem with statistics")
-    val testDataSet = document.toDS.toDF("text")
-    val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.show(false)
-    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
+    val testDataSet = text.toDS.toDF("text")
 
+    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
   }
 
   "A dependency parser model with finisher in its pipeline" should
-    "predict a relationship between words in each sentence" in  {
-    import SparkAccessor.spark.implicits._
+    "find relationships" in  {
 
     val finisher = new Finisher().setInputCols("dependency")
-
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
@@ -245,17 +139,12 @@ class DependencyParserModelTestSpec extends FlatSpec {
         dependencyParser,
         finisher
       ))
-
+    val text = "I prefer the morning flight through Denver"
+    val testDataSet = Seq(text).toDS.toDF("text")
     val model = pipeline.fit(emptyDataSet)
-
-
-    val document = "I prefer the morning flight through Denver"
-    val testDataSet = Seq(document).toDS.toDF("text")
     val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.select("text","finished_dependency").show(false)
-    assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
-
+    dependencyParserDataFrame.select("text","finished_dependency").show(false)
+    assert(1==1)
   }
 
 }
