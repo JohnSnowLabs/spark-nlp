@@ -28,7 +28,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
+  private val posTagger = getPerceptronModel
 
   private val dependencyParser = getDependencyParserModel
 
@@ -53,7 +53,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     val dependencyParser = new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .setNumberOfIterations(10)
       .fit(DataBuilder.basicDataBuild("dummy"))
 

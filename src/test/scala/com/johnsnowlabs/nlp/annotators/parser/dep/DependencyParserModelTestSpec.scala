@@ -86,12 +86,12 @@ class DependencyParserModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger = getPerceptronModel //PerceptronModel.pretrained()
+  private val posTagger = getPerceptronModel
 
   private val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+    .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
     .setNumberOfIterations(10)
 
   private val emptyDataSet = PipelineModels.dummyDataset
@@ -140,7 +140,7 @@ class DependencyParserModelTestSpec extends FlatSpec {
     val dependencyParser = new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .setNumberOfIterations(5)
 
     val model = new Pipeline().setStages(
