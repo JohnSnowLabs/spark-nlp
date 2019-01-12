@@ -154,7 +154,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
   }
 
-  def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
+  def withTreeBankDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
