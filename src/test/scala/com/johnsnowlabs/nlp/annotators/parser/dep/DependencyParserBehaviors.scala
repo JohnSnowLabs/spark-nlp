@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 import com.johnsnowlabs.nlp._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
-import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 
@@ -70,7 +69,7 @@ trait DependencyParserBehaviors { this: FlatSpec =>
     val dependencyParserDataFrame = dependencyParserModel.transform(testDataSet)
     dependencyParserDataFrame.collect()
 
-    it should "predict a relationship between words" in {
+    it should "predict relationships between words" in {
       assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
     }
 

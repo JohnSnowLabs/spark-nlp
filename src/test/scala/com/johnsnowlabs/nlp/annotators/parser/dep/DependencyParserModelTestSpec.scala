@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
@@ -17,21 +17,6 @@ import org.apache.spark.ml.util.MLWriter
 import scala.language.reflectiveCalls
 
 class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehaviors {
-
-  //TODO: Identify behaviors that we can use for testing using dependency tree bank or UD
-
-  "A Dependency Parser trained with TreeBank format file" should behave like {
-    val testDataSet: Dataset[Row] =
-      AnnotatorBuilder.withTreeBankDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
-    initialAnnotations(testDataSet)
-  }
-
-  def saveModel(model: MLWriter, modelFilePath: String): Unit = {
-    model.overwrite().save(modelFilePath)
-    assertResult(true){
-      Files.exists(Paths.get(modelFilePath))
-    }
-  }
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -47,19 +32,19 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
 
   private val posTagger = getPerceptronModel
 
-  private val dependencyParser = new DependencyParserApproach()
+  private val dependencyParserTreeBank = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
     .setNumberOfIterations(10)
 
-  private val pipeline = new Pipeline()
+  private val pipelineTreeBank = new Pipeline()
     .setStages(Array(
       documentAssembler,
       sentenceDetector,
       tokenizer,
       posTagger,
-      dependencyParser
+      dependencyParserTreeBank
     ))
 
   private val emptyDataSet = PipelineModels.dummyDataset
@@ -79,15 +64,26 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
     perceptronTaggerRead
   }
 
-  def trainDependencyParserModel(): DependencyParserModel = {
-    val model = pipeline.fit(emptyDataSet)
-
+  def trainDependencyParserModelTreeBank(): DependencyParserModel = {
+    val model = pipelineTreeBank.fit(emptyDataSet)
     model.stages.last.asInstanceOf[DependencyParserModel]
-
   }
 
-  "A dependency parser annotator" should "save a trained model to local disk" in {
-    val dependencyParserModel = trainDependencyParserModel()
+  def saveModel(model: MLWriter, modelFilePath: String): Unit = {
+    model.overwrite().save(modelFilePath)
+    assertResult(true){
+      Files.exists(Paths.get(modelFilePath))
+    }
+  }
+
+  "A Dependency Parser (trained through TreeBank format file)" should behave like {
+    val testDataSet: Dataset[Row] =
+      AnnotatorBuilder.withTreeBankDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
+    initialAnnotations(testDataSet)
+  }
+
+  it should "save a trained model to local disk" in {
+    val dependencyParserModel = trainDependencyParserModelTreeBank()
     saveModel(dependencyParserModel.write, "./tmp_dp_model")
   }
 
@@ -96,24 +92,24 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
     assert(dependencyParserModel.isInstanceOf[DependencyParserModel])
   }
 
-  "A dependency parser with an input text of one sentence" should behave like {
+  "A dependency parser (trained through TreeBank format file) with an input text of one sentence" should behave like {
 
     val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
 
-    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
+    relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
   }
 
-  "A dependency parser model with input text of two sentences" should
+  "A dependency parser (trained through TreeBank format file) with input text of two sentences" should
     behave like {
 
     val text = "I solved the problem with statistics. I saw a girl with a telescope"
     val testDataSet = Seq(text).toDS.toDF("text")
 
-    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
+    relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
 
   }
 
-  "A dependency parser model with an input text of several rows" should
+  "A dependency parser (trained through TreeBank format file) with an input text of several rows" should
    behave like {
 
     val text = Seq(
@@ -123,28 +119,60 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
       "I solved the problem with statistics")
     val testDataSet = text.toDS.toDF("text")
 
-    relationshipsBetweenWordsPredictor(testDataSet, pipeline)
+    relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
   }
 
-  "A dependency parser model with finisher in its pipeline" should
-    "find relationships" in  {
+//  "A dependency parser (trained through TreeBank format file) with finisher in its pipeline" should
+//    "find relationships" in  {
+//
+//    val finisher = new Finisher().setInputCols("dependency")
+//    val pipeline = new Pipeline()
+//      .setStages(Array(
+//        documentAssembler,
+//        sentenceDetector,
+//        tokenizer,
+//        posTagger,
+//        dependencyParserTreeBank,
+//        finisher
+//      ))
+//    val text = "I prefer the morning flight through Denver"
+//    val testDataSet = Seq(text).toDS.toDF("text")
+//    val model = pipeline.fit(emptyDataSet)
+//    val dependencyParserDataFrame = model.transform(testDataSet)
+//    dependencyParserDataFrame.select("text","finished_dependency").show(false)
+//    assert(1==1)
+//  }
 
-    val finisher = new Finisher().setInputCols("dependency")
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser,
-        finisher
-      ))
-    val text = "I prefer the morning flight through Denver"
-    val testDataSet = Seq(text).toDS.toDF("text")
-    val model = pipeline.fit(emptyDataSet)
-    val dependencyParserDataFrame = model.transform(testDataSet)
-    dependencyParserDataFrame.select("text","finished_dependency").show(false)
-    assert(1==1)
+  "A dependency parser that sets TreeBank and CoNLL-U format files " should "raise an error" in {
+
+    val pipeline = new DependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
+      .setConllU("src/test/resources/parser/unlabeled/conll-u")
+      .setNumberOfIterations(10)
+    val expectedErrorMessage = "Use either TreeBank or CoNLL-U format file both are not allowed."
+
+    val caught = intercept[IllegalArgumentException]{
+      pipeline.fit(emptyDataSet)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+  }
+
+  "A dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" in {
+
+    val pipeline = new DependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setNumberOfIterations(10)
+    val expectedErrorMessage = "Either TreeBank or CoNLL-U format file is required."
+
+    val caught = intercept[IllegalArgumentException]{
+      pipeline.fit(emptyDataSet)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
   }
 
 }
