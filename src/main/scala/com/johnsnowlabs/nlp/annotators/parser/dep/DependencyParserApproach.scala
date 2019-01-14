@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.annotators.parser.TagDictionary
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
@@ -22,15 +21,21 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
-
+  val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
   val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
 
   def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
+  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                options: Map[String, String] = Map.empty[String, String]): this.type =
+    set(conllU, ExternalResource(path, readAs, options))
+
   def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
 
+  setDefault(dependencyTreeBank, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(conllU, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
   def getNumberOfIterations: Int = $(numberOfIterations)
@@ -66,6 +71,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
 
+    validateTrainingFiles()
+
     val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
 
     val tagger = new Tagger(classes, tagDictionary)
@@ -73,7 +80,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val dependencyMakerNumberOfIterations = getNumberOfIterations + 5
 
     val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
-        tagger.train(trainingSentences, seed) //Iterates to increase accuracy
+        tagger.train(trainingSentences, seed) //Iterates to increase accuracy getFilesContentAsArray
     }
     logger.info(s"Tagger Performance = $taggerPerformanceProgress")
 
@@ -91,6 +98,15 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     new DependencyParserModel()
       .setPerceptronAsArray(perceptronAsArray)
+  }
+
+  def validateTrainingFiles(): Unit = {
+    if ($(dependencyTreeBank).path != "" && $(conllU).path != "") {
+      throw new IllegalArgumentException("Use either TreeBank or CoNLL-U format file both are not allowed.")
+    }
+    if ($(dependencyTreeBank).path == "" && $(conllU).path == "") {
+      throw new IllegalArgumentException("Either TreeBank or CoNLL-U format file is required.")
+    }
   }
 
 }
