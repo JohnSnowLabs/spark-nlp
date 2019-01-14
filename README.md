@@ -186,6 +186,16 @@ If there is any older than current version of a model, it means they still work 
 # FAQ
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
 
+# Troubleshooting
+
+### OCR
+* Q: I am getting a Java Core Dump when running OCR transformation
+  * A: Add `LC_ALL=C` environment variable
+  
+* Q: Getting `org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed` when running an OCR transformation
+  * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark-NLP dependency by default
+
+
 # Special community aknowledgments
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
 Community has been key in the last releases with feedback in various Spark based environments.

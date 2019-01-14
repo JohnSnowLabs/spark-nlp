@@ -97,7 +97,7 @@
                             <p> By David Talby|October 19, 2017 </p>
                         </section>
                         <section id="general" class="doc-section">
-                            <h2 class="section-title">Spark-NLP Components</h2>
+                            <h2 class="section-title">Spark-NLP FAQ</h2>
                             <div class="section-block">
                                 <h3 class="question"><i class="fa fa-question-circle"></i> What are the requirements of
                                     SparkNLP?</h3>
@@ -219,6 +219,21 @@
                                 </h3>
                                 <div class="answer">We use Slack. Check our homepage for requesting an invite. John Snow Labs offers commercial support for the library with data,
                                     pretrained models and infrastructure help (Big Data and Security). Find out more in https://www.johnsnowlabs.com
+                                </div>
+                            </div>
+                        </section>
+                        <section class="doc-section">
+                            <h2 class="section-title">Troubleshooting</h2>
+                            <div class="section-block">
+                                <h3 class="question"><i class="fa fa-question-circle"></i> I am getting a Java Core Dump when running OCR transformation using Tesseract
+                                </h3>
+                                <div class="answer">Add LC_ALL=C environment variable
+                                </div>
+                            </div>
+                            <div class="section-block">
+                                <h3 class="question"><i class="fa fa-question-circle"></i> Getting 'org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed' when running an OCR transformation
+                                </h3>
+                                <div class="answer">add '--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0' to your Spark job. This library is non-free thus we can't include it as a Spark-NLP dependency by default
                                 </div>
                             </div>
                         </section>
