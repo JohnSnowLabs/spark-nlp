@@ -21,6 +21,7 @@ is -X- -X- O
 a -X- -X- O
 sentence -X- -X- O
 . -X- -X- O
+
 This -X- -X- B-sent
 is -X- -X- O
 another -X- -X- O
