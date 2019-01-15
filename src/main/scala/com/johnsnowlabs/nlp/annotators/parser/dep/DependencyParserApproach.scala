@@ -46,7 +46,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   private lazy val filesContent = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
 
-  private lazy val trainingSentences = filesContent.flatMap(fileContent => readCONLL(fileContent)).toList
+  private lazy val trainingSentences: List[Sentence] =
+    filesContent.flatMap(fileContent => readCONLL(fileContent)).toList
 
   def readCONLL(filesContent: String): List[Sentence] = {
 

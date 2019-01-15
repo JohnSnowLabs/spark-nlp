@@ -25,4 +25,8 @@ class DependencyParserApproachTestSpec extends FlatSpec{
     assert(expectedResult == result)
   }
 
+  //TODO: Add a Unit Test that load CoNLL UD, it seems we will require a new method.
+
+
+
 }
