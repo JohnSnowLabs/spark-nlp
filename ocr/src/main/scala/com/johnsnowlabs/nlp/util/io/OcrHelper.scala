@@ -55,7 +55,7 @@ object OCRMethod {
 }
 
 
-object OcrHelper {
+object OcrHelper extends ImageProcessing {
 
   private val logger = LoggerFactory.getLogger("OcrHelper")
 
