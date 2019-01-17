@@ -2,9 +2,8 @@ package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
-object TokenizedWithSentence extends Annotated[TokenizedSentence] {
 
-  override def annotatorType = AnnotatorType.TOKEN
+trait ITokenizedWithSentence extends Annotated[TokenizedSentence] {
 
   override def unpack(annotations: Seq[Annotation]): Seq[TokenizedSentence] = {
     val tokens = annotations
@@ -30,4 +29,14 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
           Map("sentence" -> sentenceIndex.toString))
     }}
   }
+}
+
+
+object TokenizedWithSentence extends ITokenizedWithSentence {
+  override def annotatorType: String = AnnotatorType.TOKEN
+}
+
+
+object WordpieceTokenized extends ITokenizedWithSentence {
+  override def annotatorType: String = AnnotatorType.WORDPIECE
 }
