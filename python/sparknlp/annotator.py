@@ -27,6 +27,7 @@ spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
 contextspell = sys.modules[__name__]
 ocr = sys.modules[__name__]
+wordpiece = sys.modules[__name__]
 
 try:
     import jsl_sparknlp.annotator
@@ -143,6 +144,60 @@ class Tokenizer(AnnotatorModel):
                 return self.prefixDefault
         else:
             return self.getOrDefault("prefixPattern")
+
+
+class WordpieceTokenizer(AnnotatorApproach):
+
+    vocabulary = Param(Params._dummy(),
+                            "vocabulary",
+                            "vocabulary is list of tokens",
+                            typeConverter=TypeConverters.identity)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
+
+    @keyword_only
+    def __init__(self):
+        super(WordpieceTokenizer, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceTokenizer")
+        self._setDefault(
+            lowercase=True
+        )
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
+    def setVocabulary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        opts = options.copy()
+        if "delimiter" not in opts:
+            opts["delimiter"] = delimiter
+        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+
+    def _create_model(self, java_model):
+        return WordpieceTokenizerModel(java_model=java_model)
+
+
+class WordpieceTokenizerModel(AnnotatorModel):
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
+    vocabulary = Param(Params._dummy(),
+                            "vocabulary",
+                            "Wordpiece vocabulary",
+                            typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceTokenizerModel", java_model=None):
+        super(WordpieceTokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    name = "WordpieceTokenizerModel"
+
 
 
 class Stemmer(AnnotatorModel):
