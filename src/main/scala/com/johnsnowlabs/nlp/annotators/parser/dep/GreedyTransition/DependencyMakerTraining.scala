@@ -220,6 +220,11 @@ class DependencyMakerTraining {
     val tags       = tagger.tagSentence(sentence).toVector
     val goldheads = sentence.map( _.dep ).toVector
 
+    println(words(0)+" "+words(1))
+
+    if (words(0) == "The"){
+      println("DEBUG")
+    }
 
     def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
       val validMoves = state.validMoves
