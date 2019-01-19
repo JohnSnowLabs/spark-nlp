@@ -44,10 +44,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   override val requiredAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
-  private lazy val filesContent = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
-
-  private lazy val trainingSentences: List[Sentence] =
-    filesContent.flatMap(fileContent => readCONLL(fileContent)).toList
+  private lazy val filesContentTreeBank = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
+  private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))
 
   def readCONLL(filesContent: String): List[Sentence] = {
 
@@ -73,9 +71,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
 
     validateTrainingFiles()
-
+    val trainingSentences = getTrainingSentences
     val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
-
     val tagger = new Tagger(classes, tagDictionary)
     val taggerNumberOfIterations = getNumberOfIterations
     val dependencyMakerNumberOfIterations = getNumberOfIterations + 5
@@ -108,6 +105,64 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     if ($(dependencyTreeBank).path == "" && $(conllU).path == "") {
       throw new IllegalArgumentException("Either TreeBank or CoNLL-U format file is required.")
     }
+  }
+
+  def getTrainingSentences: List[Sentence] = {
+    if ($(dependencyTreeBank).path != ""){
+      filesContentTreeBank.flatMap(fileContent => readCONLL(fileContent)).toList
+    } else {
+      getTrainingSentencesFromConllU(conllUAsArray)
+    }
+  }
+
+  def getTrainingSentencesFromConllU(conllUAsArray: Array[String]): List[Sentence] = {
+
+    val conllUSentences = conllUAsArray.filterNot(line => lineIsComment(line))
+    val indexSentenceBoundaries = conllUSentences.zipWithIndex.filter(_._1 == "").map(_._2)
+    val cleanConllUSentences = indexSentenceBoundaries.zipWithIndex.map{case (indexSentenceBoundary, index) =>
+      if (index == 0){
+        conllUSentences.slice(index, indexSentenceBoundary)
+      } else {
+        conllUSentences.slice(indexSentenceBoundaries(index-1)+1, indexSentenceBoundary)
+      }
+    }
+    val sentences = cleanConllUSentences.map{cleanConllUSentence =>
+      transformToSentences(cleanConllUSentence)
+    }
+    sentences.toList
+  }
+
+  def lineIsComment(line: String): Boolean = {
+    if (line.nonEmpty){
+      line(0) == '#'
+    } else {
+      false
+    }
+  }
+
+  def transformToSentences(cleanConllUSentence: Array[String]): Sentence = {
+    val ID_INDEX = 0
+    val WORD_INDEX = 1
+    val POS_INDEX = 3
+    val HEAD_INDEX = 6
+    val SEPARATOR = "\\t"
+
+    val sentences = cleanConllUSentence.map{conllUWord =>
+      val wordArray = conllUWord.split(SEPARATOR)
+      if (!wordArray(ID_INDEX).contains(".")){
+        var head = wordArray(HEAD_INDEX).toInt
+        if (head == 0){
+          head = cleanConllUSentence.length
+        } else {
+          head = head-1
+        }
+        WordData(wordArray(WORD_INDEX), wordArray(POS_INDEX), head)
+      } else {
+        WordData("", "", -1)
+      }
+    }
+
+    sentences.filter(word => word.dep != -1).toList
   }
 
 }
