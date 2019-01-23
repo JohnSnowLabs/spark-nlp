@@ -1,11 +1,31 @@
 package com.johnsnowlabs.nlp.util.io
 
+import java.io.File
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
+import javax.imageio.ImageIO
 
-class OcrExample extends FlatSpec {
+class OcrExample extends FlatSpec with ImageProcessing {
+
+  "Sign convertions" should "map all the values back and forwards" in {
+    (-128 to 127).map(_.toByte).foreach { b=>
+      assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))
+    }
+  }
+
+  "OcrHelper" should "correctly detect and correct skew angles" in {
+    val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
+    val correctedImg = correctSkew(img)
+    dumpImage(correctedImg, "skew_corrected.png")
+  }
+
+  "OcrHelper" should "correctly threshold and invert images" in {
+      val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
+      val tresImg = OcrHelper.thresholdAndInvert(img, 205, 255)
+      OcrHelper.dumpImage(tresImg, "thresholded_binarized.png")
+  }
 
   "OcrExample with Spark" should "successfully create a dataset" in {
 

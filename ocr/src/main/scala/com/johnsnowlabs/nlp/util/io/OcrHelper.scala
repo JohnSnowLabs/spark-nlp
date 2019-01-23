@@ -243,6 +243,8 @@ object OcrHelper extends ImageProcessing {
       (integer - 255).toByte
   }
 
+
+
   private def tesseractMethod(
                                pdfDoc: PDDocument,
                                startPage: Int,
