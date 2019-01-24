@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -34,4 +35,10 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
   }
 }
 
-object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
+trait PretrainedDependencyParserModel {
+  def pretrained(name: String = "dp_fast", language: Option[String] = Some("en"),
+                 remoteLoc: String = ResourceDownloader.publicLoc): DependencyParserModel =
+    ResourceDownloader.downloadModel(DependencyParserModel, name, language, remoteLoc)
+}
+
+object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel] with PretrainedDependencyParserModel

@@ -58,16 +58,18 @@ class DependencyMakerTraining {
         Nil).flatten.toSet
     }
 
-    def getGoldMoves(goldHeads: Vector[Int]) = {
+    def getGoldMoves(goldHeads: Vector[Int]): Set[Move] = {
+
+      var move: Set[Move] = Set()
 
       def findDepsBetween(target: Int, others: List[Int]) = {
         others.exists( word => goldHeads(word)==target || goldHeads(target) == word)
       }
 
       if (stack.isEmpty || ( validMoves.contains(SHIFT) && goldHeads(step) == stack.head )) {
-        Set(SHIFT)
+        move = Set(SHIFT)
       } else if ( goldHeads(stack.head) == step ) {
-        Set(LEFT)
+        move = Set(LEFT)
       } else {
         val leftIncorrect = stack.length >= 2 && goldHeads(stack.head) == stack.tail.head
         val dontPushI    = validMoves.contains(SHIFT) && findDepsBetween(step, stack)
@@ -80,8 +82,12 @@ class DependencyMakerTraining {
             Nil
           ).flatten.toSet
 
-        validMoves -- nonGold
+        move = validMoves -- nonGold
       }
+      if (move.isEmpty) { //TODO: Test if this change works
+        move = Set(SHIFT)
+      }
+      move
     }
 
     def extractFeatures(words: Vector[Word], tags: Vector[ClassName]): Map[Feature, Score] = {
@@ -220,11 +226,6 @@ class DependencyMakerTraining {
     val tags       = tagger.tagSentence(sentence).toVector
     val goldheads = sentence.map( _.dep ).toVector
 
-    println(words(0)+" "+words(1))
-
-    if (words(0) == "The"){
-      println("DEBUG")
-    }
 
     def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
       val validMoves = state.validMoves
@@ -239,9 +240,11 @@ class DependencyMakerTraining {
 
         // Sort valid_moves scores into descending order, and pick the best move
         val guess = validMoves.map(validMove => (-score(validMove), validMove)).toList.minBy(_._1)._2
-
         val goldMoves = state.getGoldMoves(goldheads)
-        if(goldMoves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.step}/${state.parse.sentenceLength}!") }
+
+        if(goldMoves.isEmpty) {
+          throw new Exception(s"No Gold Moves at ${state.step}/${state.parse.sentenceLength}!")
+        }
 
         val best = goldMoves.map(goldMove => (-score(goldMove), goldMove)).toList.minBy(_._1)._2
         perceptron.update(best, guess, features.keys)
