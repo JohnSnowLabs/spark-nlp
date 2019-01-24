@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
+import com.johnsnowlabs.nlp.annotators.parser.dep.PretrainedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
@@ -95,7 +96,7 @@ object annotator {
   type DependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
   object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]
   type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-  object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel]
+  object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel] with PretrainedDependencyParserModel
 
   type TypedDependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach
   object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]
