@@ -7,7 +7,7 @@ val scalaTestVersion = "3.0.0"
 /** Package attributes */
 name := "spark-nlp"
 
-organization := "com.johnsnowlabs.nlp"
+organization in ThisBuild:= "com.johnsnowlabs.nlp"
 
 version := "1.8.0"
 
@@ -20,9 +20,9 @@ spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
 sparkComponents in ThisBuild ++= Seq("mllib")
 
-licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+licenses in ThisBuild += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-spIncludeMaven := false
+spIncludeMaven in ThisBuild:= false
 
 spAppendScalaVersion := false
 
@@ -32,14 +32,14 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
+credentials in ThisBuild += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
 ivyScala := ivyScala.value map {
   _.copy(overrideScalaVersion = true)
 }
 
 /** Bintray settings */
-bintrayPackageLabels := Seq("nlp", "nlu",
+bintrayPackageLabels in ThisBuild:= Seq("nlp", "nlu",
   "natural-language-processing", "natural-language-understanding",
   "spark", "spark-ml", "pyspark", "machine-learning",
   "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
@@ -47,9 +47,9 @@ bintrayPackageLabels := Seq("nlp", "nlu",
 
 bintrayRepository := "spark-nlp"
 
-bintrayOrganization := Some("johnsnowlabs")
+bintrayOrganization in ThisBuild:= Some("johnsnowlabs")
 
-sonatypeProfileName := "com.johnsnowlabs"
+sonatypeProfileName in ThisBuild:= "com.johnsnowlabs"
 
 publishTo := Some(
   if (isSnapshot.value)
@@ -58,16 +58,16 @@ publishTo := Some(
     Opts.resolver.sonatypeStaging
 )
 
-homepage := Some(url("https://nlp.johnsnowlabs.com"))
+homepage in ThisBuild:= Some(url("https://nlp.johnsnowlabs.com"))
 
-scmInfo := Some(
+scmInfo in ThisBuild:= Some(
   ScmInfo(
     url("https://github.com/JohnSnowLabs/spark-nlp"),
     "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
   )
 )
 
-developers := List(
+developers in ThisBuild:= List(
   Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
@@ -158,6 +158,8 @@ lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
     version := "1.8.0",
+    bintrayRepository := "spark-nlp",
+
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
