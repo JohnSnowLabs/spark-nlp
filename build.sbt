@@ -98,10 +98,14 @@ lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+    exclude("commons-codec", "commons-codec")
+    exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("commons-configuration","commons-configuration")
-  exclude("org.apache.hadoop" ,"hadoop-common"),
+    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
+    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda")
+    exclude("org.apache.hadoop" ,"hadoop-common"),
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
