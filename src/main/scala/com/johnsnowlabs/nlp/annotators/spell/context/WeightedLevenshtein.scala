@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import scala.collection.mutable
+import scala.io.Codec
 import scala.math.min
 
 trait WeightedLevenshtein {
@@ -34,6 +35,8 @@ trait WeightedLevenshtein {
     // store word ids
     val vocabIdxs = mutable.HashMap[String, mutable.Map[String, Float]]()
 
+    implicit val codec: Codec = Codec.UTF8
+ re
     scala.io.Source.fromFile(filename).getLines.foreach { case line =>
       val lineFields = line.split("\\|")
       val dist = vocabIdxs.getOrElse(lineFields(0), mutable.Map[String, Float]()).updated(lineFields(1), lineFields(2).toFloat)
