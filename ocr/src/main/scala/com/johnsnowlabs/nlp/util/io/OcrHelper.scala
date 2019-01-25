@@ -71,7 +71,7 @@ object OcrHelper {
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
   private var kernelSize:Option[Int] = None
-  private var splitPages: Boolean = false
+  private var splitPages: Boolean = true
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -246,7 +246,7 @@ object OcrHelper {
   private def tesseractMethod(
                                pdfDoc: PDDocument,
                                startPage: Int,
-                               endPage: Int) = {
+                               endPage: Int): Option[Seq[String]] = {
     import scala.collection.JavaConversions._
 
     val renderedImages = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
@@ -280,12 +280,15 @@ object OcrHelper {
       })
     })
 
-    Option(imageRegions.mkString(System.lineSeparator()))
+    if (splitPages)
+      Option(imageRegions)
+    else
+      Option(Seq(imageRegions.mkString(System.lineSeparator())))
 
 
   }
 
-  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int) = {
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[String]] = {
 
     Option(extractText(pdfDoc, startPage, endPage))
 
@@ -298,19 +301,19 @@ object OcrHelper {
     val result = preferredMethod match {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
-        .map(_.trim)
-        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
+        .map(_.map(_.trim))
+        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
-        .map(_.trim)
-        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
+        .map(_.map(_.trim))
+        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(pdfDoc, startPage, endPage)} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
 
-    result.map(content => Seq((endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
+    result.map(_.map(content => (endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
   }
 
   /*
@@ -344,12 +347,12 @@ object OcrHelper {
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(document: PDDocument, startPage: Int, endPage: Int):String = {
+  private def extractText(document: PDDocument, startPage: Int, endPage: Int): Seq[String] = {
     import org.apache.pdfbox.text.PDFTextStripper
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(startPage)
     pdfTextStripper.setEndPage(endPage)
-    pdfTextStripper.getText(document)
+    Seq(pdfTextStripper.getText(document))
   }
 
   /* TODO refactor, assuming single image */
