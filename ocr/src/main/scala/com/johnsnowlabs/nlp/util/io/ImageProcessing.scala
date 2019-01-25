@@ -134,7 +134,6 @@ trait ImageProcessing {
         val rotImageData = rotImage.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
         val (imgW, imgH) = (rotImage.getWidth, rotImage.getHeight)
 
-        //dumpImage(rotImage, angle.toString + ".png")
         Range(0, imgW).foreach { i =>
           var j: Int = 0
           Range(0, imgH).foreach { j =>
