@@ -1,4 +1,45 @@
 ========
+1.8.1
+========
+---------------
+Overview
+---------------
+
+---------------
+New Features
+---------------
+* New DeepSentenceDetector annotator takes Spark-NLP's NER Deep Learning models as a base to improve sentence detection
+
+---------------
+Enhancements
+---------------
+* PragmaticSentenceDetector now should properly identify sentence bounds in apostrophe cases (Thanks @haimco10 for this contribution!)
+* Improved accuracy of ContextSpellChecker by enabling re-ranking of candidate words according to a weighted levenshtein distance
+* OCR process now defaults to split content in rows whether paragraphs or pages are identified for improved parallelism. May be turned off
+
+---------------
+Examples and use cases
+---------------
+* Added Scala examples for Sentiment analysis and Lemmatizer in Italian (Thanks Vincenzo Gaudenzi from DXC.technology for dataset and model contribution!!!)
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in Norvig and Symmetric SpellCheckers where the pattern parameter was not provided properly in Scala side (Thanks @johnmccain for reporting!)
+
+---------------
+Framework
+---------------
+* Added hadoop-aws dependency for remote download capabilities (e.g. word embeddings sets)
+
+---------------
+Other
+---------------
+* Metadata files for pretrained model downloads code is now included. This may be useful if anyone wants to setup their own private local model downloader service
+* NerDL Graphs generation code is now included in the library. This allows the usage of custom word embedding dimensions and feature counts.
+
+
+========
 1.8.0
 ========
 ---------------
