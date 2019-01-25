@@ -42,7 +42,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
         select("text").collect.map(_.getString(0)).mkString
 
     val correct = Source.fromFile("ocr/src/test/resources/pdfs/rotated/400.txt").mkString
-    assert(score(normal, correct) < score(skewCorrected, correct))
+    assert(score(correct, normal) < score(correct, skewCorrected))
   }
 
 
