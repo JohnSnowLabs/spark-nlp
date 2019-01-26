@@ -13,25 +13,29 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Apache Spark Support](#apache-spark-support)
     * [Spark Packages](#spark-packages)
     * [Compiled JARs](#compiled-jars)
-    * [Maven](#maven)
-    * [SBT](#sbt)
+    * [Scala](#scala)
+      * [Maven](#maven)
+      * [SBT](#sbt)
+    * [Python](#python)
+    * [Apache Zeppelin](#apache-zeppelin)
 
 ## Usage
 
 ### Apache Spark Support
 Spark-NLP *1.8.1* has been built on top of Apache Spark 2.4.0
 
-Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work
+Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark 2.3.x 
 
 | Spark NLP   |   Spark 2.0.0 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
-| 1.8.0       |Partially (without pretrained models)|YES           |
+| 1.8.x       |Partially (without pretrained models)|YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
 | 1.5.0       |YES                                  |N/A           |
+
 Find out more about `Spark-NLP` versions from our [release notes]().
 
 
@@ -60,7 +64,9 @@ spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
-### Maven
+### Scala
+
+#### Maven
 
 ```
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -82,7 +88,7 @@ and
 ```
 Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
-### SBT
+#### SBT
 
 ```
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -97,27 +103,8 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.0"
 ```
 Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
-## Apache Zeppelin
-Use either one of the following options
-
-* Add the following Maven Coordinates to the interpreter's library list
-```
-com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
-```
-* Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
-
-### Python in Zeppelin
-Apart from previous step, install python module through pip
-```
-pip install spark-nlp==1.8.1
-```
-Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
-
-Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and installed the pip library with (e.g. `python3`).
-
-An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier, since it includes both scala and python side installation.
-
-## Python without explicit Spark installation
+### Python
+#### Python without explicit Spark installation
 If you installed pyspark through pip, you can install sparknlp through pip as well
 ```
 pip install spark-nlp==1.8.1
@@ -135,6 +122,26 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
+
+### Apache Zeppelin
+Use either one of the following options
+
+* Add the following Maven Coordinates to the interpreter's library list
+```
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
+```
+* Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
+
+#### Python in Zeppelin
+Apart from previous step, install python module through pip
+```
+pip install spark-nlp==1.8.1
+```
+Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
+
+Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and installed the pip library with (e.g. `python3`).
+
+An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier, since it includes both scala and python side installation.
 
 ## Jupyter Notebook (Python)
 
