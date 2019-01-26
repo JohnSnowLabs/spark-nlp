@@ -40,7 +40,7 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 
 | Spark NLP   |   Spark 2.0.0 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
-| 1.8.x       |Partially (without pretrained models)|YES           |
+| 1.8.x       |Partially                            |YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
 | 1.5.0       |YES                                  |N/A           |
