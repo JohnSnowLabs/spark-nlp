@@ -45,7 +45,7 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 | 1.6.3       |YES                                  |N/A           |
 | 1.5.0       |YES                                  |N/A           |
 
-Find out more about `Spark-NLP` versions from our [release notes]().
+Find out more about `Spark-NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
 
 ## Spark Packages
