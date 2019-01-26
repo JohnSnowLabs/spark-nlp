@@ -7,7 +7,7 @@ val scalaTestVersion = "3.0.0"
 /** Package attributes */
 name := "spark-nlp"
 
-organization in ThisBuild:= "com.johnsnowlabs.nlp"
+organization:= "com.johnsnowlabs.nlp"
 
 version := "1.8.1"
 
@@ -20,7 +20,7 @@ spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
 sparkComponents in ThisBuild ++= Seq("mllib")
 
-licenses in ThisBuild += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 spIncludeMaven in ThisBuild:= false
 
@@ -32,14 +32,14 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
 
-credentials in ThisBuild += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
+credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
 ivyScala := ivyScala.value map {
   _.copy(overrideScalaVersion = true)
 }
 
 /** Bintray settings */
-bintrayPackageLabels in ThisBuild:= Seq("nlp", "nlu",
+bintrayPackageLabels := Seq("nlp", "nlu",
   "natural-language-processing", "natural-language-understanding",
   "spark", "spark-ml", "pyspark", "machine-learning",
   "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
@@ -47,9 +47,9 @@ bintrayPackageLabels in ThisBuild:= Seq("nlp", "nlu",
 
 bintrayRepository := "spark-nlp"
 
-bintrayOrganization in ThisBuild:= Some("johnsnowlabs")
+bintrayOrganization:= Some("johnsnowlabs")
 
-sonatypeProfileName in ThisBuild:= "com.johnsnowlabs"
+sonatypeProfileName := "com.johnsnowlabs"
 
 publishTo := Some(
   if (isSnapshot.value)
@@ -58,9 +58,9 @@ publishTo := Some(
     Opts.resolver.sonatypeStaging
 )
 
-homepage in ThisBuild:= Some(url("https://nlp.johnsnowlabs.com"))
+homepage:= Some(url("https://nlp.johnsnowlabs.com"))
 
-scmInfo in ThisBuild:= Some(
+scmInfo:= Some(
   ScmInfo(
     url("https://github.com/JohnSnowLabs/spark-nlp"),
     "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
@@ -162,12 +162,37 @@ lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
     version := "1.8.1",
-    bintrayRepository := "spark-nlp",
+
 
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
-    assemblyMergeStrategy in assembly := ocrMergeRules
+    assemblyMergeStrategy in assembly := ocrMergeRules,
+    sonatypeProfileName := "com.johnsnowlabs",
+
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
+
+    homepage := Some(url("https://nlp.johnsnowlabs.com")),
+
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/JohnSnowLabs/spark-nlp"),
+        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+      )
+    ),
+    credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials"),
+
+    ivyScala := ivyScala.value map {
+      _.copy(overrideScalaVersion = true)
+    },
+    organization := "com.johnsnowlabs.nlp",
+
+    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
   )
   .dependsOn(root % "test")
 
