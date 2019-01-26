@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.tensorflow.{Graph, Session}
 
 import scala.collection.mutable
+import scala.io.Codec
 
 case class OpenClose(open:String, close:String)
 
@@ -197,6 +198,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
   def genVocab(rawDataPath: String) = {
     var vocab = mutable.HashMap[String, Double]()
+
+    implicit val codec: Codec = Codec.UTF8
 
     // for every sentence we have one end and one begining
     val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
