@@ -21,6 +21,12 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Jupyter Notebook](#jupyter-notebook-python)
     * [S3 Cluster](#s3-cluster)
  * [Offline Models](#offline-models)
+ * [FAQ](#faq)
+ * [Troubleshooting](#troubleshooting)
+ * [Aknowledgments](#aknowledgments)
+ * [Contributing](#contributing)
+ * [Contact](#contact)
+ * [John Snow Labs](#john-snow-labs)
 
 ## Usage
 
@@ -239,8 +245,8 @@ If there is any older than current version of a model, it means they still work 
 * Q: Getting `org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed` when running an OCR transformation
   * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark-NLP dependency by default
 
-
-# Special community aknowledgments
+# Aknowledgments
+### Special community aknowledgments
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
 Community has been key in the last releases with feedback in various Spark based environments.
 
@@ -248,7 +254,7 @@ Here a few specific mentions for recurring feedback and slack participation
 * @maziyarpanahi (https://github.com/maziyarpanahi) - For contributing with testing and valuable feedback
 * @easimadi (https://github.com/easimadi) - For contributing with documentation and valuable feedback
 
-# Contribute
+# Contributing
 We appreciate any sort of contributions:
 * ideas
 * feedback
