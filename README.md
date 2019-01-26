@@ -11,6 +11,10 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 # Table of contents
 * [Using Spark-NLP](#usage)
     * [Apache Spark Support](#apache-spark-support)
+    * [Spark Packages](#spark-packages)
+    * [Compiled JARs](#compiled-jars)
+    * [Maven](#maven)
+    * [SBT](#sbt)
 
 ## Usage
 
@@ -31,8 +35,8 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 Find out more about `Spark-NLP` versions from our [release notes]().
 
 
-## Command line
-### with internet connection
+### Spark Packages
+#### Command line (requires internet connection)
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
 
@@ -51,19 +55,47 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.8.1
 ```sh
 spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
 ```
-
-### offline mode using jars
+### Compiled JARs
+#### offline mode using jars
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
-### Maven coordinates
+### Maven
+
 ```
-com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>1.8.0</version>
+</dependency>
 ```
 and
+
 ```
-com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:1.8.1
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-ocr_2.11</artifactId>
+    <version>1.8.0</version>
+</dependency>
 ```
+Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
+
+### SBT
+
+```
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.0"
+
+```
+and
+
+```
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.0"
+```
+Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
 ## Apache Zeppelin
 Use either one of the following options
