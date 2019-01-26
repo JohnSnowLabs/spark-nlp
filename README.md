@@ -18,6 +18,8 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
       * [SBT](#sbt)
     * [Python](#python)
     * [Apache Zeppelin](#apache-zeppelin)
+    * [Jupyter Notebook](#jupyter-notebook-python)
+ * [Offline Models](#offline-models)
 
 ## Usage
 
@@ -203,7 +205,7 @@ sparknlp {
 }
 ```
 
-## Downloading models for offline use
+## Offline Models
 
 If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
 If there is any older than current version of a model, it means they still work for current versions.
