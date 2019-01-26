@@ -125,7 +125,6 @@ and
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.1"
-
 ```
 and
 
