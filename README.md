@@ -19,6 +19,7 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Python](#python)
     * [Apache Zeppelin](#apache-zeppelin)
     * [Jupyter Notebook](#jupyter-notebook-python)
+    * [S3 Cluster](#s3-cluster)
  * [Offline Models](#offline-models)
 
 ## Usage
@@ -62,11 +63,11 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.8.1
 spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
 ```
 ## Compiled JARs
-#### Offline mode using jars
+### Offline mode using jars
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
-#### Pre-compiled Spark-NLP and Spark-NLP-OCR
+### Pre-compiled Spark-NLP and Spark-NLP-OCR
 Spark-NLP FAT-JAR from here (Does NOT include Spark):
 [Spark-NLP 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1.jar)
 
@@ -76,7 +77,7 @@ Spark-NLP GPU Enhanced Tensorflow FAT-JAR:
 Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
 [Spark-NLP-OCR 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.8.1.jar)
 
-#### Using the jar manually 
+### Using the jar manually 
 
 If for some reason you need to use the jar, you can download the jar from the project's website: http://nlp.johnsnowlabs.com/
 
@@ -94,7 +95,7 @@ The preferred way to use the library when running spark programs is using the `-
 
 Our package is deployed to maven central. In order to add this package as a dependency in your application:
 
-#### Maven
+### Maven
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -115,7 +116,7 @@ and
 </dependency>
 ```
 
-#### SBT
+### SBT
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -132,7 +133,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.1"
 Maven centeral: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
 ## Python
-#### Python without explicit Spark installation
+### Python without explicit Spark installation
 If you installed pyspark through pip, you can install sparknlp through pip as well
 ```
 pip install spark-nlp==1.8.1
@@ -160,7 +161,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
 ```
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
 
-#### Python in Zeppelin
+### Python in Zeppelin
 Apart from previous step, install python module through pip
 ```
 pip install spark-nlp==1.8.1
@@ -188,7 +189,8 @@ Alternatively, you can mix in using `--jars` option for pyspark + `pip install s
 
 If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-spark-installation)
 
-## S3 Cluster with no hadoop configuration
+## S3 Cluster
+### With no hadoop configuration
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
 You need to specify where in the cluster distributed storage you want to store Spark-NLP's tmp files.
 First, decide where you want to put your *application.conf* file
