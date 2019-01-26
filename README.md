@@ -43,6 +43,15 @@ spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
+### Maven coordinates
+```
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
+```
+and
+```
+com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:1.8.1
+```
+
 ## Apache Zeppelin
 Use either one of the following options
 

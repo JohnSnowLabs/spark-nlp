@@ -4,6 +4,10 @@
 ---------------
 Overview
 ---------------
+This hotfix version of Spark-NLP improves framework support by adding Maven coordinates for OCR and allowing S3 retrieval of files.
+We also included code for generating Graphs for NerDL and also for creating your own metadata files for a private model downloader.
+As new features, we are including a new experimental machine learning based sentence detector, which uses NER for bounds detections.
+Aside from this, we are including a few bug fixes and ocr improvements. Enjoy! and thanks again for community contributions!
 
 ---------------
 New Features
@@ -13,7 +17,6 @@ New Features
 ---------------
 Enhancements
 ---------------
-* PragmaticSentenceDetector now should properly identify sentence bounds in apostrophe cases (Thanks @haimco10 for this contribution!)
 * Improved accuracy of ContextSpellChecker by enabling re-ranking of candidate words according to a weighted levenshtein distance
 * OCR process now defaults to split content in rows whether paragraphs or pages are identified for improved parallelism. May be turned off
 
@@ -38,6 +41,14 @@ Other
 * Metadata files for pretrained model downloads code is now included. This may be useful if anyone wants to setup their own private local model downloader service
 * NerDL Graphs generation code is now included in the library. This allows the usage of custom word embedding dimensions and feature counts.
 
+---------------
+Special mentions
+---------------
+* Vincenzo Gaudenzi (DXC.technology) for contributing italian datasets and models. @maziyar for creating examples with them.
+* @correlator from Deep6.ai for contributing feedback in slack and features feedback in general
+* @johnmccain for reporting bugs in spell checker
+* @rohit-nlp for delivering maven coordinates for OCR
+* @haimco10 for contributing a sentence detector improvement with apostrophe's use case. Not merged due specific issues involved.
 
 ========
 1.8.0
