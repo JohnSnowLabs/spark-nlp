@@ -8,7 +8,13 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 # Slack community channel
 Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
-# Apache Spark Support
+# Table of contents
+* [Using Spark-NLP](#usage)
+    * [Apache Spark Support](#apache-spark-support)
+
+## Usage
+
+### Apache Spark Support
 Spark-NLP *1.8.1* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work
@@ -16,7 +22,14 @@ Note that Spark is not retrocompatible with Spark 2.3.x, so models and environme
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark 2.3.x 
 
-# Usage
+| Spark NLP   |   Spark 2.0.0 / Spark 2.3.x         | Spark 2.4    |
+|-------------|-------------------------------------|--------------|
+| 1.8.0       |Partially (without pretrained models)|YES           |
+| 1.7.3       |YES                                  |N/A           |
+| 1.6.3       |YES                                  |N/A           |
+| 1.5.0       |YES                                  |N/A           |
+Find out more about `Spark-NLP` versions from our [release notes]().
+
 
 ## Command line
 ### with internet connection
