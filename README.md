@@ -85,11 +85,9 @@ Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does n
 
 ### Using the jar manually 
 
-If for some reason you need to use the jar, you can download the jar from the project's website: http://nlp.johnsnowlabs.com/
+If for some reason you need to use the JAR, you can either download the Fat JARs provided here or download it from [Maven Central](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp).
 
-From there you can use it in your project setting the `--classpath`
-
-To add jars to spark programs use the `--jars` option
+To add JARs to spark programs use the `--jars` option:
 
 ```sh
 spark-shell --jars spark-nlp.jar
@@ -127,7 +125,6 @@ and
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.1"
-
 ```
 and
 
@@ -136,7 +133,7 @@ and
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.1"
 ```
 
-Maven centeral: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
+Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
 ## Python
 ### Python without explicit Spark installation
