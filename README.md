@@ -21,7 +21,7 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 ## Usage
 
-### Apache Spark Support
+## Apache Spark Support
 Spark-NLP *1.8.1* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
@@ -39,7 +39,7 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 Find out more about `Spark-NLP` versions from our [release notes]().
 
 
-### Spark Packages
+## Spark Packages
 #### Command line (requires internet connection)
 
 This library has been uploaded to the spark-packages repository https://spark-packages.org/package/JohnSnowLabs/spark-nlp .
@@ -59,51 +59,77 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.8.1
 ```sh
 spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
 ```
-### Compiled JARs
-#### offline mode using jars
+## Compiled JARs
+#### Offline mode using jars
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
-### Scala
+#### Pre-compiled Spark-NLP and Spark-NLP-OCR
+Spark-NLP FAT-JAR from here (Does NOT include Spark):
+[Spark-NLP 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1.jar)
+
+Spark-NLP GPU Enhanced Tensorflow FAT-JAR:
+[Spark-NLP 1.8.1-gpu FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1-gpu.jar)
+
+Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
+[Spark-NLP-OCR 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.8.1.jar)
+
+#### Using the jar manually 
+
+If for some reason you need to use the jar, you can download the jar from the project's website: http://nlp.johnsnowlabs.com/
+
+From there you can use it in your project setting the `--classpath`
+
+To add jars to spark programs use the `--jars` option
+
+```sh
+spark-shell --jars spark-nlp.jar
+```
+
+The preferred way to use the library when running spark programs is using the `--packages` option as specified in the `spark-packages` section.
+
+## Scala
+
+Our package is deployed to maven central. In order to add this package as a dependency in your application:
 
 #### Maven
 
-```
+```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 </dependency>
 ```
 and
 
-```
+```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 </dependency>
 ```
-Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
 #### SBT
 
-```
+```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.1"
 
 ```
 and
 
-```
+```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.1"
 ```
-Maven repository: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
-### Python
+Maven centeral: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
+
+## Python
 #### Python without explicit Spark installation
 If you installed pyspark through pip, you can install sparknlp through pip as well
 ```
@@ -123,7 +149,7 @@ spark = SparkSession.builder \
 ```
 For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
 
-### Apache Zeppelin
+## Apache Zeppelin
 Use either one of the following options
 
 * Add the following Maven Coordinates to the interpreter's library list
@@ -176,53 +202,6 @@ sparknlp {
   }
 }
 ```
-
-## Pre-compiled Spark-NLP and Spark-NLP-OCR
-Spark-NLP FAT-JAR from here (Does NOT include Spark):
-[Spark-NLP 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1.jar)
-Spark-NLP GPU Enhanced Tensorflow FAT-JAR:
-[Spark-NLP 1.8.1-gpu FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1-gpu.jar)
-Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.8.1.jar)
-
-## Maven central
-
-Our package is deployed to maven central. In order to add this package as a dependency in your application:
-
-#### Maven
-
-```xml
-<dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp_2.11</artifactId>
-  <version>1.8.1</version>
-</dependency>
-```
-
-#### SBT
-```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" % "spark-nlp_2.11" % "1.8.1"
-```
-
-If you are using `scala 2.11`
-
-```sbtshell
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.1"
-```
-
-## Using the jar manually 
-
-If for some reason you need to use the jar, you can download the jar from the project's website: http://nlp.johnsnowlabs.com/
-
-From there you can use it in your project setting the `--classpath`
-
-To add jars to spark programs use the `--jars` option
-
-```sh
-spark-shell --jars spark-nlp.jar
-```
-
-The preferred way to use the library when running spark programs is using the `--packages` option as specified in the `spark-packages` section.
 
 ## Downloading models for offline use
 
