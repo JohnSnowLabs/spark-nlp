@@ -7,7 +7,7 @@ import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 
 class WordpieceTokenizer(override val uid: String) extends AnnotatorApproach[WordpieceTokenizerModel] {
@@ -17,10 +17,17 @@ class WordpieceTokenizer(override val uid: String) extends AnnotatorApproach[Wor
 
   setDefault(lowercase, true)
 
+  def setLowercase(value: Boolean): this.type = set(lowercase, value)
+
+  def setVocabulary(path: String,
+                           readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                           options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(vocabulary, ExternalResource(path, readAs, options))
+
+
   def this() = this(Identifiable.randomUID("WORDPIECE_TOKENIZER"))
 
   override val description: String = "Wordpiece tokenizer"
-
   override val annotatorType: AnnotatorType = WORDPIECE
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */

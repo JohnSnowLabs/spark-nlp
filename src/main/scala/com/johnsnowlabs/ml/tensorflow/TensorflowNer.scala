@@ -55,7 +55,7 @@ class TensorflowNer
 
       tensors.clearTensors()
 
-      val tagIds = TensorResources.extractInts(calculated.get(0), batchSize * batchInput.maxLength)
+      val tagIds = TensorResources.extractInts(calculated.get(0))
       val tags = encoder.decodeOutputData(tagIds)
       val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
 

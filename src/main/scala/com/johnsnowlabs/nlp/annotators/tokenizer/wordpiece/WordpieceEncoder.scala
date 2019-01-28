@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
-import com.johnsnowlabs.nlp.annotators.common.IndexedToken
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 import scala.collection.mutable.ArrayBuffer
 
 
@@ -12,11 +12,15 @@ private[wordpiece] class WordpieceEncoder
   partPrefix: String = "##"
 ) {
 
-  def encode(token: IndexedToken): Array[IndexedToken] = {
-    if (token.token.length > maxInputCharsPerWord)
-      return Array(IndexedToken(unkToken, token.begin, token.end))
+  require(vocabulary.contains(unkToken), "token " + unkToken + " not found in vocabulary")
 
-    val result = ArrayBuffer[IndexedToken]()
+  def encode(token: IndexedToken): Array[TokenPiece] = {
+    val unkId = vocabulary(unkToken)
+
+    if (token.token.length > maxInputCharsPerWord)
+      return Array(TokenPiece(unkToken, token.token, unkId, true, token.begin, token.end))
+
+    val result = ArrayBuffer[TokenPiece]()
 
     val text = token.token
     var start = 0
@@ -28,7 +32,8 @@ private[wordpiece] class WordpieceEncoder
 
       val found = vocabulary.get(toFind)
       if (found.nonEmpty) {
-        val subToken = IndexedToken(toFind, token.begin + start, token.begin + end - 1)
+        val subToken = TokenPiece(toFind, token.token, found.get, start == 0,
+          token.begin + start, token.begin + end - 1)
         result.append(subToken)
         start = end
         end = text.length
@@ -37,7 +42,7 @@ private[wordpiece] class WordpieceEncoder
 
         if (end == start) {
           // Not Found anything in vocabulary
-          return Array(IndexedToken(unkToken, token.begin, token.end))
+          return Array(TokenPiece(unkToken, token.token, unkId, true, token.begin, token.end))
         }
       }
     }

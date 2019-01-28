@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, WORDPIECE}
-import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, TokenizedSentence, TokenizedWithSentence, WordpieceTokenized}
+import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
@@ -32,8 +32,8 @@ class WordpieceTokenizerModel(override val uid: String) extends AnnotatorModel[W
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = sentences.map {s =>
       val tokens = basicTokenizer.tokenize(s)
-      val wordpieceTokens = tokens.map(token => encoder.encode(token)).flatten
-      TokenizedSentence(wordpieceTokens)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token))
+      WordpieceTokenizedSentence(wordpieceTokens)
     }
 
     WordpieceTokenized.pack(tokenized)
