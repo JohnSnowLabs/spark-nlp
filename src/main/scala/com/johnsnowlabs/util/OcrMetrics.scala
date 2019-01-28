@@ -8,7 +8,7 @@ trait OcrMetrics extends LevenshteinDistance {
    * https://csce.ucmss.com/cr/books/2018/LFS/CSREA2018/IPC3481.pdf */
   def score(correct:String, detected:String):Double = {
     val cError = levenshteinDistance(correct, detected).toDouble
-    val cCorrect = correct.size.toDouble
+    val cCorrect = correct.size.toDouble - cError
     val precision = cCorrect / detected.length
     val recall = cCorrect / correct.length
     // fscore

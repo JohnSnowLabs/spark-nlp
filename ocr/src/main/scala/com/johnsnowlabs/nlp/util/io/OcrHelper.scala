@@ -191,8 +191,6 @@ object OcrHelper extends ImageProcessing {
       this.halfAngle = None
       this.resolution = None
     }
-
-
   }
 
   private def tesseract:Tesseract = {
