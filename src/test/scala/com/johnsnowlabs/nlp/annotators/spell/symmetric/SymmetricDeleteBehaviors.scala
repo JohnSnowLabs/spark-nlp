@@ -578,4 +578,41 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
     }
   }
 
+  def testDefaultTokenCorpusParameter(): Unit = {
+    s"using a corpus with default token parameter" should "successfully correct words" in {
+      val data = ContentProvider.parquetData.limit(3000)
+      val corpusData = Seq.empty[String].toDS
+
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("token"))
+        .setOutputCol("spell")
+        .setCorpus("src/test/resources/spell/sherlockholmes.txt")
+        .setDictionary("src/test/resources/spell/words.txt")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
+
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
+
+      assert(model.transform(data).isInstanceOf[DataFrame])
+
+    }
+  }
+
 }
