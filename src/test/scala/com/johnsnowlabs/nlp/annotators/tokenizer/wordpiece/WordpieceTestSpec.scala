@@ -1,8 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
-import com.johnsnowlabs.nlp.SparkAccessor
+import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
+import com.johnsnowlabs.nlp
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit, WordpieceTokenized}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel
+import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
+import org.spark_project.dmg.pmml.True
 
 class WordpieceTestSpec extends FlatSpec {
   import SparkAccessor.spark.implicits._
@@ -10,7 +16,7 @@ class WordpieceTestSpec extends FlatSpec {
   val basicTokenizer = new BasicTokenizer()
 
   // Test vocabulary
-  val pieces = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "!")
+  val pieces = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "!", "[UNK]", "[CLS]", "[SEP]")
   val vocabulary = pieces.zipWithIndex.toMap
 
   "isPunctuation" should "detect punctuation chars" in {
@@ -128,10 +134,17 @@ class WordpieceTestSpec extends FlatSpec {
     val source = SentenceSplit.pack(Seq(sentence))
     val annotations = tokenizer.annotate(source)
 
-    val tokens = WordpieceTokenized.unpack(annotations ++ source).head.indexedTokens
+    val tokens = WordpieceTokenized.unpack(annotations ++ source).head.tokens
 
     for ((token, correct) <- tokens zip expected) {
-      assert(token.token == correct)
+      // Check wordpiece
+      assert(token.wordpiece == correct)
+      assert(token.pieceId == vocabulary(token.wordpiece))
+
+      // Check isWordStart
+      val isWordStart = !correct.startsWith("##")
+      assert(token.isWordStart == isWordStart)
     }
   }
+
 }
