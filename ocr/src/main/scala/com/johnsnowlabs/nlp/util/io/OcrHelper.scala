@@ -187,7 +187,12 @@ object OcrHelper extends ImageProcessing {
     if(useIt) {
       this.halfAngle = Some(halfAngle)
       this.resolution = Some(resolution)
+    } else {
+      this.halfAngle = None
+      this.resolution = None
     }
+
+
   }
 
   private def tesseract:Tesseract = {
