@@ -62,8 +62,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
   def setGamma(g: Float):this.type = set(tradeoff, g)
 
-  val weights: MapFeature[Char, Map[Char, Float]] = new MapFeature[Char, Map[Char, Float]](this, "levenshteinWeights")
-  def setWeights(w:Map[Char, Map[Char, Float]]): this.type = set(weights, w)
+  val weights: MapFeature[String, Map[String, Float]] = new MapFeature[String, Map[String, Float]](this, "levenshteinWeights")
+  def setWeights(w:Map[String, Map[String, Float]]): this.type = set(weights, w)
 
   val useNewLines = new BooleanParam(this, "trim", "When set to true new lines will be treated as any other character, when set to false" +
     " correction is applied on paragraphs as defined by newline characters.")
