@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowBert, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{WordpieceEmbeddingsSentence, WordpieceTokenized}
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
@@ -22,7 +21,6 @@ class BertEmbeddingsModel(override val uid: String) extends
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
   val dim = new IntParam(this, "dim", "Dimension of embeddings")
-
 
   setDefault(
     dim -> 768,
@@ -77,7 +75,6 @@ class BertEmbeddingsModel(override val uid: String) extends
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val requiredAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.WORDPIECE)
   override val annotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
-
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)

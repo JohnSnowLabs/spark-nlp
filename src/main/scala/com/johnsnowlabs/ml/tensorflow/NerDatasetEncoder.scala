@@ -1,8 +1,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
+
 class NerDatasetEncoder
 (
-  val embeddingsResolver: Function[String, Array[Float]],
   val params: DatasetEncoderParams
 ) {
 
@@ -23,10 +24,6 @@ class NerDatasetEncoder
 
   val char2Id = params.chars.zip(1 to params.chars.length).toMap
 
-  def normalize(word: String): String = {
-      word.trim().toLowerCase()
-  }
-
   def getOrElse[T](source: Array[T], i: Int, value: => T): T = {
     if (i < source.length)
       source(i)
@@ -34,13 +31,14 @@ class NerDatasetEncoder
       value
   }
 
-  def encodeInputData(sentences: Array[Array[String]]): NerBatch = {
+  def encodeInputData(sentences: Array[WordpieceEmbeddingsSentence]): NerBatch = {
+
     val batchSize = sentences.length
-    val sentenceLengths = sentences.map(s => s.length)
+    val sentenceLengths = sentences.map(s => s.tokens.length)
     val maxSentenceLength = sentenceLengths.max
     val wordLengths = sentences.map{
       sentence =>
-        val lengths = sentence.map(word => word.length)
+        val lengths = sentence.tokens.map(word => word.wordpiece.length)
         Range(0, maxSentenceLength)
           .map{idx => getOrElse(lengths, idx, 0)}
           .toArray
@@ -52,8 +50,11 @@ class NerDatasetEncoder
     Range(0, batchSize).map{i =>
       val sentence = sentences(i)
       Range(0, maxSentenceLength).map{j =>
-        val word = getOrElse(sentence, j, "")
-        embeddingsResolver(word)
+        if (j < sentence.tokens.length)
+          sentence.tokens(j).embeddings
+        else
+          params.emptyEmbeddings
+
       }.toArray
     }.toArray
 
@@ -61,7 +62,11 @@ class NerDatasetEncoder
       Range(0, batchSize).map { i =>
         val sentence = sentences(i)
         Range(0, maxSentenceLength).map { j =>
-          val word = getOrElse(sentence, j, "").toCharArray
+          val word = (if (j < sentence.tokens.length)
+            sentence.tokens(j).wordpiece
+          else
+            "").toCharArray
+
           Range(0, maxWordLength).map { k =>
             val char = getOrElse(word, k, Char.MinValue)
             char2Id.getOrElse(char, 0)
@@ -69,12 +74,22 @@ class NerDatasetEncoder
         }.toArray
       }.toArray
 
+    val isWordStart = sentences.map { sentence =>
+      Range(0, maxSentenceLength).map { j =>
+        if (j < sentence.tokens.length)
+          sentence.tokens(j).isWordStart
+        else
+          false
+      }.toArray
+    }
+
     new NerBatch(
       wordEmbeddings,
       charIds,
       wordLengths,
       sentenceLengths,
-      maxSentenceLength
+      maxSentenceLength,
+      isWordStart
     )
   }
 
@@ -136,7 +151,10 @@ class NerBatch (
   val sentenceLengths: Array[Int],
 
   // Max length of sentence
-  val maxLength: Int
+  val maxLength: Int,
+
+  // Is current wordpiece is token start? Shape: Batch x Max Sentence Length
+  val isWordStart: Array[Array[Boolean]]
 )
 
 
@@ -144,5 +162,9 @@ case class DatasetEncoderParams
 (
   tags: List[String],
   chars: List[Char],
+  emptyVector: List[Float],
+  embeddingsDim: Int,
   defaultTag: String = "O"
-)
+) {
+  val emptyEmbeddings = emptyVector.toArray
+}

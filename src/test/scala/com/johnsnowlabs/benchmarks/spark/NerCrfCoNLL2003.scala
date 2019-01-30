@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
@@ -53,18 +53,21 @@ object CoNLL2003PipelineTest extends App {
   }
 
   def getNerStages(): Array[_ <: PipelineStage] = {
+    val embeddings = new WordEmbeddingsLookup()
+      .setInputCols("sentence", "token", "pos")
+      .setOutputCol("embeddings")
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
     val nerTagger = new NerCrfApproach()
-      .setInputCols("sentence", "token", "pos")
+      .setInputCols("sentence", "token", "pos", "embeddings")
       .setLabelColumn("label")
       .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")))
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(10)
       .setOutputCol("ner")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
-    getPosStages() :+ nerTagger
+    getPosStages() ++ Array(embeddings, nerTagger)
   }
 
   def trainPosModel(er: ExternalResource): PipelineModel = {

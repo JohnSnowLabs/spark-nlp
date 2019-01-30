@@ -4,8 +4,15 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import scala.collection.Map
 
 
-case class WordpieceEmbeddingsSentence(tokens: Array[TokenPieceEmbeddings], sentenceEmbeddings: Array[Float])
-case class TokenPieceEmbeddings(wordpiece: String, token: String, pieceId: Int, isWordStart: Boolean, embeddings: Array[Float], begin: Int, end: Int)
+case class WordpieceEmbeddingsSentence
+(
+  tokens: Array[TokenPieceEmbeddings],
+  sentenceEmbeddings: Option[Array[Float]] = None
+)
+
+case class TokenPieceEmbeddings(wordpiece: String, token: String, pieceId: Int,
+                                isWordStart: Boolean,
+                                embeddings: Array[Float], begin: Int, end: Int)
 
 object TokenPieceEmbeddings {
   def apply(piece: TokenPiece, embeddings: Array[Float]): TokenPieceEmbeddings = {
@@ -28,34 +35,26 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       .filter(_.annotatorType == annotatorType)
       .toArray
 
-    SentenceSplit.unpack(annotations).flatMap{sentence: Sentence =>
+    SentenceSplit.unpack(annotations).map{sentence: Sentence =>
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
       )
 
       val sentenceEmbeddings = sentenceTokens.flatMap(t => t.calculations.get("sentence_embeddings")).headOption
 
-      val tokensWithSentence = sentenceTokens.map(token =>
+      val tokensWithSentence = sentenceTokens.map { token =>
         new TokenPieceEmbeddings(
           wordpiece = token.result,
           token = token.metadata("token"),
           pieceId = token.metadata("pieceId").toInt,
           isWordStart = token.metadata("isWordStart").toBoolean,
-          embeddings = token.calculations("embeddings"),
+          embeddings = token.getCalculations("embeddings"),
           begin = token.begin,
           end = token.end
         )
-      )
+      }
 
-      // Return only nonempty sentences
-      if (tokensWithSentence.nonEmpty) {
-        require(sentenceEmbeddings.nonEmpty, "sentence embeddings aren't found")
-        val result = WordpieceEmbeddingsSentence(tokensWithSentence, sentenceEmbeddings.get)
-        Some(result)
-      }
-      else {
-        None
-      }
+      WordpieceEmbeddingsSentence(tokensWithSentence, sentenceEmbeddings)
     }
   }
 
@@ -71,8 +70,10 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
 
         // Store sentence embeddings only in one token
         val calculations =
-          if (isFirstToken) embeddings ++ Map("sentence_embeddings" -> sentence.sentenceEmbeddings)
-          else embeddings
+          if (isFirstToken && sentence.sentenceEmbeddings.isDefined)
+            embeddings ++ Map("sentence_embeddings" -> sentence.sentenceEmbeddings.get)
+          else
+            embeddings
 
         isFirstToken = false
         Annotation(annotatorType, token.begin, token.end, token.wordpiece,

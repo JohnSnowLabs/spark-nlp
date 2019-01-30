@@ -7,10 +7,10 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPieceEmbeddings, TokenizedSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
 import org.tensorflow.{Graph, Session}
@@ -31,15 +31,16 @@ object NerDLCoNLL2003 extends App {
   val embeddings = WordEmbeddingsRetriever(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
 
   val reader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
-  val trainDataset = toTrain(reader.readDocs(trainFile))
-  val testDatasetA = toTrain(reader.readDocs(testFileA))
-  val testDatasetB = toTrain(reader.readDocs(testFileB))
+  val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
+  val testDatasetA = toTrain(reader.readDocs(testFileA), embeddings)
+  val testDatasetB = toTrain(reader.readDocs(testFileB), embeddings)
 
   val tags = trainDataset.flatMap(s => s._1.labels).distinct
-  val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.toCharArray)).distinct
+  val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.wordpiece.toCharArray)).distinct
 
-  val settings = new DatasetEncoderParams(tags.toList, chars.toList)
-  val encoder = new NerDatasetEncoder(embeddings.getEmbeddingsVector, settings)
+  val settings = DatasetEncoderParams(tags.toList, chars.toList,
+    embeddings.zeroArray.toList, embeddings.nDims)
+  val encoder = new NerDatasetEncoder(settings)
 
   val graph = new Graph()
   //Use CPU
@@ -75,10 +76,17 @@ object NerDLCoNLL2003 extends App {
       throw e
   }
 
-  def toTrain(source: Seq[(String, Seq[NerTaggedSentence])]): Array[(TextSentenceLabels, TokenizedSentence)] = {
+  def toTrain(source: Seq[(String, Seq[NerTaggedSentence])], embeddings: WordEmbeddingsRetriever):
+      Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
+
     source.flatMap{s =>
       s._2.map { sentence =>
-        val tokenized = TokenizedSentence(sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end)))
+        val tokens = sentence.indexedTaggedWords.map {t =>
+          TokenPieceEmbeddings(t.word, t.word, -1, true,
+            embeddings.getEmbeddingsVector(t.word),
+            t.begin, t.end)
+        }
+        val tokenized = WordpieceEmbeddingsSentence(tokens)
         val labels = TextSentenceLabels(sentence.tags)
 
         (labels, tokenized)

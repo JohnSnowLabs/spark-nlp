@@ -5,7 +5,7 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions.udf
 
-import scala.collection.Map
+import scala.collection.{Map, mutable}
 
 /**
   * represents annotator's output parts and their details
@@ -15,10 +15,20 @@ import scala.collection.Map
   * @param metadata associated metadata for this annotation
   */
 case class Annotation(annotatorType: String,
-                      begin: Int, end:
-                      Int, result: String,
+                      begin: Int,
+                      end: Int,
+                      result: String,
                       metadata: Map[String, String],
-                      calculations: Map[String, Array[Float]] = Map.empty)
+                      calculations: Map[String, Array[Float]] = Map.empty) {
+
+  def getCalculations(key: String): Array[Float] = {
+    val result = calculations.get(key)
+    if (result.isInstanceOf[Option[mutable.WrappedArray[Float]]])
+      result.asInstanceOf[Option[mutable.WrappedArray[Float]]].get.toArray
+    else
+      result.get
+  }
+}
 
 case class JavaAnnotation(annotatorType: String,
                           begin: Int,
@@ -55,7 +65,7 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("computations", MapType(StringType, ArrayType(FloatType, false)), nullable = true)
+    StructField("computations", MapType(StringType, ArrayType(FloatType, true)), nullable = true)
   ))
 
 

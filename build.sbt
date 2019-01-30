@@ -95,7 +95,6 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "5.1.4",
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
@@ -104,6 +103,7 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
   "org.tensorflow" % "tensorflow" % "1.12.0",
+  "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
   exclude("com.google.guava", "guava"),
   "com.navigamez" % "greex" % "1.0"
