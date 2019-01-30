@@ -4,10 +4,10 @@ import java.io.File
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
-import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler, HasRecursiveFit}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TokenizedSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -25,7 +25,7 @@ import scala.util.Random
 
 
 class NerDLApproach(override val uid: String)
-  extends ApproachWithWordEmbeddings[NerDLApproach, NerDLModel]
+  extends AnnotatorApproach[NerDLModel]
     with HasRecursiveFit[NerDLModel]
     with NerApproach[NerDLApproach]
     with Logging {
@@ -34,7 +34,7 @@ class NerDLApproach(override val uid: String)
 
   override def getLogName: String = "NerDL"
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
+  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
   override val annotatorType = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
@@ -137,31 +137,37 @@ class NerDLApproach(override val uid: String)
     (train, valid, test)
   }
 
+  def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
+    sentences.find(s => s.tokens.nonEmpty)
+      .map(s => s.tokens.head.embeddings.length)
+      .getOrElse(1)
+  }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
-    require(isDefined(sourceEmbeddingsPath), "embeddings must be set before training")
 
     val (train, valid, test) = getTrainDataframe(dataset, recursivePipeline)
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
 
     val validationDataset =
-      if (valid.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
+      if (valid.isEmpty) Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
     else
       NerTagged.collectTrainingInstances(valid.get, getInputCols, $(labelColumn))
 
     val testDataset =
-      if (test.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
+      if (test.isEmpty) Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
       else
         NerTagged.collectTrainingInstances(test.get, getInputCols, $(labelColumn))
 
+    val trainSentences = trainDataset.map(r => r._2)
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
-    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.toCharArray)).distinct
+    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.wordpiece.toCharArray)).distinct
+    val embeddingsDim = calculateEmbeddingsDim(trainSentences)
 
-    val settings = DatasetEncoderParams(labels.toList, chars.toList)
+    val settings = DatasetEncoderParams(labels.toList, chars.toList,
+      Array.fill(embeddingsDim)(0f).toList, embeddingsDim)
     val encoder = new NerDatasetEncoder(
-      getClusterEmbeddings.getLocalRetriever.getEmbeddingsVector,
       settings
     )
 
@@ -172,7 +178,7 @@ class NerDLApproach(override val uid: String)
     val config = Array[Byte](56, 1)
     val session = new Session(graph, config)
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsDim), chars.length)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
 
     val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
@@ -200,7 +206,6 @@ class NerDLApproach(override val uid: String)
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(ner.encoder.params)
-      .setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
       .setBatchSize($(batchSize))
   }
 }

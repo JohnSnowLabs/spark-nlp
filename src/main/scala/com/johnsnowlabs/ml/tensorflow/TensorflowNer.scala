@@ -1,8 +1,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
+import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -31,14 +32,12 @@ class TensorflowNer
   private val trainingKey = "training_1/Momentum"
   private val predictKey = "context_repr/predicted_labels"
 
-  def predict(dataset: Array[TokenizedSentence]): Array[Array[String]] = {
+  def predict(dataset: Array[WordpieceEmbeddingsSentence]): Array[Array[String]] = {
 
     val result = ArrayBuffer[Array[String]]()
 
     for (slice <- dataset.grouped(batchSize)) {
-      val sentences = slice.map(r => r.tokens)
-
-      val batchInput = encoder.encodeInputData(sentences)
+      val batchInput = encoder.encodeInputData(slice)
 
       val tensors = new TensorResources()
 
@@ -65,15 +64,15 @@ class TensorflowNer
     result.toArray
   }
 
-  def train(trainDataset: Array[(TextSentenceLabels, TokenizedSentence)],
+  def train(trainDataset: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
             lr: Float,
             po: Float,
             batchSize: Int,
             dropout: Float,
             startEpoch: Int,
             endEpoch: Int,
-            validation: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty,
-            test: Array[(TextSentenceLabels, TokenizedSentence)] = Array.empty
+            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
+            test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -96,7 +95,7 @@ class TensorflowNer
       var batches = 0
       var loss = 0f
       for (slice <- epochDataset.grouped(batchSize)) {
-        val sentences = slice.map(r => r._2.tokens)
+        val sentences = slice.map(r => r._2)
         val tags = slice.map(r => r._1.labels.toArray)
 
         val batchInput = encoder.encodeInputData(sentences)
@@ -154,7 +153,7 @@ class TensorflowNer
     (prec, rec, f1)
   }
 
-  def measure(labeled: Array[(TextSentenceLabels, TokenizedSentence)],
+  def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
                   log: (String => Unit),
                   extended: Boolean = false,
                   nErrorsToPrint: Int = 0
@@ -166,18 +165,21 @@ class TensorflowNer
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val sentence = labeled.map(pair => pair._2).toList
+    val sentenceTokens = labeled.map(pair => pair._2.tokens
+      .filter(t => t.isWordStart)
+      .map(t => t.token)
+    ).toList
     val sentenceLabels = labeled.map(pair => pair._1.labels.toArray).toList
     val sentencePredictedTags = labeled.map(pair => predict(Array(pair._2)).head).toList
 
     var errorsPrinted = 0
     var linePrinted = false
-    (sentence, sentenceLabels, sentencePredictedTags).zipped.foreach {
+    (sentenceTokens, sentenceLabels, sentencePredictedTags).zipped.foreach {
       case (tokens, labels, tags) =>
         for (i <- 0 until labels.length) {
           val label = labels(i)
           val tag = tags(i)
-          val iWord = tokens.indexedTokens(i)
+          val iWord = tokens(i)
 
           correct(label) = correct.getOrElse(label, 0) + 1
           predicted(tag) = predicted.getOrElse(tag, 0) + 1

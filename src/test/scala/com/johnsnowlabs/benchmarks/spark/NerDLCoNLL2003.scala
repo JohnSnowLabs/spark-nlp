@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 
@@ -35,8 +35,13 @@ object NerDLPipeline extends App {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val nerTagger = new NerDLApproach()
+    val embeddings = new WordEmbeddingsLookup()
+      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
+      .setOutputCol("glove")
+
+    val nerTagger = new NerDLApproach()
+      .setInputCols("sentence", "token", "glove")
       .setLabelColumn("label")
       .setMaxEpochs(1)
       .setRandomSeed(0)
@@ -45,7 +50,6 @@ object NerDLPipeline extends App {
       .setDropout(0.5f)
       .setBatchSize(9)
       .setOutputCol("ner")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
       .setExternalDataset(trainFile)
       .setValidationDataset(testFileA)
       .setTestDataset(testFileB)

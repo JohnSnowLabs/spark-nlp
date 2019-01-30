@@ -54,7 +54,7 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
           val tokenLength = sentence.tokens.length
           // Sentence Embeddings are at first place (token [CLS]
-          val sentenceEmbeddings = tokenVectors(0)
+          val sentenceEmbeddings = tokenVectors.headOption
 
           // All wordpiece embeddings
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)

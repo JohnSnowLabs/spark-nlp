@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsHelper}
 import org.scalatest.FlatSpec
 
 class NerCrfApproachTestSpec extends FlatSpec {
@@ -11,7 +11,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
   // Dataset ready for NER tagger
-  val nerInputDataset = AnnotatorBuilder.withFullPOSTagger(nerSentence)
+  val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
   System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
@@ -75,15 +75,11 @@ class NerCrfApproachTestSpec extends FlatSpec {
       4,
       false
     )
-
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))
       .setModel(nerModel.model.getOrDefault)
       .setOutputCol(nerModel.getOutputCol)
       .setInputCols(nerModel.getInputCols)
-      .setEmbeddingsDim(smallEmbeddings.dim)
-      .setEmbeddingsRef("random_embeddings")
-      .setCaseSensitiveEmbeddings(smallEmbeddings.caseSensitive)
 
     val tagged = restrictedModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten

@@ -40,7 +40,6 @@ public class PredictionParametersTest {
     }
 
     @Test
-    @Ignore
     public void shouldTransformToTroveMapWhenStringRepresentationHasWrongFormat() {
 
         String mapAsString = "{}";

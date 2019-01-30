@@ -1,18 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.nlp
-import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit, WordpieceTokenized}
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel
-import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
-import org.spark_project.dmg.pmml.True
 
 class WordpieceTestSpec extends FlatSpec {
-  import SparkAccessor.spark.implicits._
-
   val basicTokenizer = new BasicTokenizer()
 
   // Test vocabulary
@@ -146,5 +137,4 @@ class WordpieceTestSpec extends FlatSpec {
       assert(token.isWordStart == isWordStart)
     }
   }
-
 }

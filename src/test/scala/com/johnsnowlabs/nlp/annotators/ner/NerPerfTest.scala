@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
@@ -27,14 +27,18 @@ class NerPerfTest extends FlatSpec {
       setInputCols("document", "token").
       setOutputCol("pos")
 
+    val embeddings = new WordEmbeddingsLookup()
+      .setInputCols("document", "token", "pos")
+      .setOutputCol("embeddings")
+      .setEmbeddingsSource("./glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
+
     val ner = new NerCrfApproach().
-      setInputCols("document", "token", "pos").
+      setInputCols("document", "token", "pos", "embeddings").
       setOutputCol("ner").
       setLabelColumn("label").
       setOutputCol("ner").
       setMinEpochs(1).
       setMaxEpochs(5).
-      setEmbeddingsSource("./glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT).
       //setExternalFeatures("/src/test/resources/ner-corpus/dict.txt", ",").
       setExternalDataset("./eng_small.train", "SPARK_DATASET").
       setC0(1250000).
@@ -49,6 +53,7 @@ class NerPerfTest extends FlatSpec {
         documentAssembler,
         tokenizer,
         pos,
+        embeddings,
         ner,
         finisher
       ))
@@ -75,14 +80,18 @@ class NerPerfTest extends FlatSpec {
       setInputCols(Array("document")).
       setOutputCol("token")
 
+    val embeddings = new WordEmbeddingsLookup()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setEmbeddingsSource("./embeddings.bin", 200, WordEmbeddingsFormat.BINARY)
+
     val ner = new NerDLApproach().
-      setInputCols("document", "token").
+      setInputCols("document", "token", "embeddings").
       setOutputCol("ner").
       setLabelColumn("label").
       setOutputCol("ner").
       setMinEpochs(1).
       setMaxEpochs(30).
-      setEmbeddingsSource("./embeddings.bin", 200, WordEmbeddingsFormat.BINARY).
       setExternalDataset("./eng_big.train", "SPARK_DATASET").
       setRandomSeed(0).
       setVerbose(2).
@@ -96,6 +105,7 @@ class NerPerfTest extends FlatSpec {
       setStages(Array(
         documentAssembler,
         tokenizer,
+        embeddings,
         ner,
         finisher
       ))

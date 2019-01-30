@@ -69,10 +69,12 @@ object NerDLModelPythonReader {
 
     val embeddingsDim = readEmbeddingsHead(folder, spark)
     val embeddings = readEmbeddings(folder, spark, embeddingsDim, normalize, format)
+    val dim = embeddings.dim
     val labels = readTags(folder)
     val chars = readChars(folder)
-    val settings = DatasetEncoderParams(labels, chars)
-    val encoder = new NerDatasetEncoder(embeddings.getLocalRetriever.getEmbeddingsVector, settings)
+    val settings = DatasetEncoderParams(labels, chars,
+      Array.fill(dim)(0f).toList, dim)
+    val encoder = new NerDatasetEncoder(settings)
     val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
 
     FileHelper.delete(tmpFolder)
@@ -80,7 +82,5 @@ object NerDLModelPythonReader {
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(encoder.params)
-      .setEmbeddingsDim(embeddingsDim)
-      .setCaseSensitiveEmbeddings(normalize)
   }
 }

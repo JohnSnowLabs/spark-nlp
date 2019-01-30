@@ -4,9 +4,10 @@ import java.io.File
 
 import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, TextSentenceLabels}
 import com.johnsnowlabs.nlp.AnnotatorType
-import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
+import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsFormat, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.ExternalResource
 
 /**
@@ -46,16 +47,34 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   }
 
   private val fg = FeatureGenerator(
-    DictionaryFeatures.read(possibleExternalDictionary),
-    wordEmbeddings
+    DictionaryFeatures.read(possibleExternalDictionary)
   )
 
-  private def readDataset(er: ExternalResource): Seq[(TextSentenceLabels, TaggedSentence)] = {
+  private def resolveEmbeddings(sentences: Seq[PosTaggedSentence]): Seq[WordpieceEmbeddingsSentence] = {
+    sentences.map { s =>
+      val tokens = s.indexedTaggedWords.map{token =>
+        val vector = wordEmbeddings.getEmbeddingsVector(token.word)
+        new TokenPieceEmbeddings(token.word, token.word,
+          -1, true, vector,
+          token.begin, token.end)
+      }
+
+      WordpieceEmbeddingsSentence(tokens)
+    }
+  }
+
+  private def readDataset(er: ExternalResource)
+  : Seq[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)] = {
+
     val labels = nerReader.readDocs(er).flatMap(_._2)
       .map(sentence => TextSentenceLabels(sentence.tags))
 
     val posTaggedSentences = posReader.readDocs(er).flatMap(_._2)
-    labels.zip(posTaggedSentences)
+
+    val withEmbeddings = resolveEmbeddings(posTaggedSentences)
+
+    labels.zip(posTaggedSentences.zip(withEmbeddings))
+      .map{case(l, (p, w)) => (l, p, w)}
   }
 
   def readNerDataset(er: ExternalResource, metadata: Option[DatasetMetadata] = None): CrfDataset = {
@@ -64,7 +83,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
       fg.generateDataset(lines)
     else {
       val labeledInstances = lines.map { line =>
-        val instance = fg.generate(line._2, metadata.get)
+        val instance = fg.generate(line._2, line._3, metadata.get)
         val labels = InstanceLabels(line._1.labels.map(l => metadata.get.label2Id.getOrElse(l, -1)))
         (labels, instance)
       }
