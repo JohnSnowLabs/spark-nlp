@@ -28,6 +28,8 @@ spAppendScalaVersion := false
 
 resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
 
+resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
+
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
@@ -82,7 +84,8 @@ lazy val ocrDependencies = Seq(
     exclude("org.slf4j", "slf4j-log4j12")
     exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.13",
-  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2"
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
+  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3" % "provided"
 )
 
 lazy val analyticsDependencies = Seq(
