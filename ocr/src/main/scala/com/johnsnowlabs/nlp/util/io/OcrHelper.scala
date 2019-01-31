@@ -55,7 +55,7 @@ object OCRMethod {
 }
 
 
-object OcrHelper {
+object OcrHelper extends ImageProcessing {
 
   private val logger = LoggerFactory.getLogger("OcrHelper")
 
@@ -75,6 +75,10 @@ object OcrHelper {
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
+
+  /* skew correction parameters */
+  private var halfAngle: Option[Double] = None
+  private var resolution: Option[Double] = None
 
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
@@ -169,6 +173,26 @@ object OcrHelper {
     }.filter(_._2.nonEmpty).toMap
   }
 
+  /*
+  * Enable/disable automatic skew(rotation) correction,
+  *
+  * @halfAngle, half the angle(in degrees) that will be considered for correction.
+  * @resolution, the step size(in degrees) that will be used for generating correction
+  * angle candidates.
+  *
+  * For example, for halfAngle = 2.0, and resolution 0.5,
+  * candidates {-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2} will be evaluated.
+  * */
+  def setAutomaticSkewCorrection(useIt:Boolean, halfAngle:Double = 5.0, resolution:Double = 1.0) = {
+    if(useIt) {
+      this.halfAngle = Some(halfAngle)
+      this.resolution = Some(resolution)
+    } else {
+      this.halfAngle = None
+      this.resolution = None
+    }
+  }
+
   private def tesseract:Tesseract = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
@@ -254,10 +278,15 @@ object OcrHelper {
     val imageRegions = renderedImages.flatMap(render => {
       val image = PlanarImage.wrapRenderedImage(render)
 
+      // correct skew if parameters are provided
+      val skewCorrected = halfAngle.flatMap{angle => resolution.map {res =>
+        correctSkew(image.getAsBufferedImage, angle, res)
+      }}.getOrElse(image.getAsBufferedImage)
+
       // rescale if factor provided
       val scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
-      }.getOrElse(image.getAsBufferedImage)
+      }.getOrElse(skewCorrected)
 
       // erode if kernel provided
       val dilatedImage = kernelSize.map {kernelRadio =>
