@@ -60,7 +60,7 @@ object annotator {
   object SentenceDetector extends DefaultParamsReadable[SentenceDetector]
 
   type DeepSentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector
-  object DeepSentenceDetector extends DefaultParamsReadable[DeepSentenceDetector]
+  object DeepSentenceDetector extends ParamsAndFeaturesReadable[DeepSentenceDetector]
 
   type SentimentDetector = com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
   object SentimentDetector extends DefaultParamsReadable[SentimentDetector]
