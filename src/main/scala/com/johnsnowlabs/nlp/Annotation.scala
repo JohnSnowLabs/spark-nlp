@@ -65,7 +65,7 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("computations", MapType(StringType, ArrayType(FloatType, true)), nullable = true)
+    StructField("calculations", MapType(StringType, ArrayType(FloatType, false), true), nullable = true)
   ))
 
 
