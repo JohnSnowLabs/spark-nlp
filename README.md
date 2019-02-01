@@ -20,13 +20,12 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Apache Zeppelin](#apache-zeppelin)
     * [Jupyter Notebook](#jupyter-notebook-python)
     * [S3 Cluster](#s3-cluster)
- * [Offline Models](#offline-models)
+ * [Models](#models)
  * [FAQ](#faq)
  * [Troubleshooting](#troubleshooting)
  * [Aknowledgments](#aknowledgments)
  * [Contributing](#contributing)
  * [Contact](#contact)
- * [John Snow Labs](#john-snow-labs)
 
 ## Usage
 
@@ -210,7 +209,9 @@ sparknlp {
 }
 ```
 
-## Offline Models
+## Models
+
+### Offline Models
 
 If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
 If there is any older than current version of a model, it means they still work for current versions.
@@ -223,18 +224,19 @@ If there is any older than current version of a model, it means they still work 
 |[Advanced Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.8.0_2.4_1545436028146.zip)|
 |[Vivekn Sentiment Pipeline](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.8.0_2.4_1545436008101.zip)|
 
-### Models
+### Models (Annotators)
 
-|English                      |
-|-----------------------------|
-|[PerceptronModel (POS)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)|
-|[ViveknSentimentModel (Sentiment)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.8.0_2.4_1545435741623.zip)|
-|[SymmetricDeleteModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.8.0_2.4_1545435558025.zip)|
-|[ContextSpellCheckerModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/context_spell_gen_en_1.8.0_2.4_1546979465177.zip)|
-|[NorvigSweetingModel (Spell Checker)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.8.0_2.4_1545435732032.zip)|
-|[NerCRFModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)|
-|[NerDLModel (NER)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)|
-|[LemmatizerModel (Lemmatizer)](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)|
+| Models                                 |   English     |   Italian    |
+|----------------------------------------|---------------|--------------|
+|LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)  |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/models/lemma/dxc.technology/lemma-it_dxc-1.8.0.zip)  |
+|PerceptronModel (POS)                   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)  |N/A           |
+|ViveknSentimentModel (Sentiment)        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.8.0_2.4_1545435741623.zip)  |N/A           |
+|SentimentDetector (Sentiment)           |     N/A       |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/models/sentiment/dxc.technology/sentiment-it_dxc-1.8.0.zip)  |
+|NerCRFModel (NER)                       | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)  |N/A           |
+|NerDLModel (NER)                        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)  |N/A           |
+|SymmetricDeleteModel (Spell Checker)    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.8.0_2.4_1545435558025.zip)  |N/A           |
+|ContextSpellCheckerModel (Spell Checker)| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/context_spell_gen_en_1.8.0_2.4_1546979465177.zip)  |N/A           |
+|NorvigSweetingModel (Spell Checker)     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.8.0_2.4_1545435732032.zip)  |N/A           |
 
 # FAQ
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
