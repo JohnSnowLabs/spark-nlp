@@ -33,17 +33,25 @@ object TrainSentimentDetectorModel extends App {
     .setInputCols("token")
     .setOutputCol("normal")
 
+  /*
+  * Here how you can download the dataset used in this example:
+  * https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/it/lemma/dxc.technology/lemma_italian.txt
+  * */
   val lemmatizer = new Lemmatizer()
     .setInputCols("normal")
     .setOutputCol("lemma")
     .setDictionary(
       ExternalResource(
-        path = "/tmp/dxc.technology/lemmi_italian.txt",
+        path = "/tmp/dxc.technology/lemma_italian.txt",
         readAs = "LINE_BY_LINE",
         Map("valueDelimiter" -> "\\s+" , "keyDelimiter" -> "->")
       )
     )
 
+  /*
+  * Here how you can download the dataset used in this example:
+  * https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/it/sentiment/dxc.technology/sentiment_italian.txt
+  * */
   val sentiment = new SentimentDetector()
     .setInputCols("lemma","sentence")
     .setOutputCol("sentiment_score")
@@ -51,7 +59,7 @@ object TrainSentimentDetectorModel extends App {
     .setIncrementMultiplier(1.5)
     .setDictionary(
       ExternalResource(
-        "/tmp/dxc.technology/dictionary_italian.txt",
+        "/tmp/dxc.technology/sentiment_italian.txt",
         readAs = "LINE_BY_LINE",
         Map("delimiter" -> ",")
       )

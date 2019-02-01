@@ -33,12 +33,16 @@ object TrainLemmatizerModel extends App {
     .setInputCols("token")
     .setOutputCol("normal")
 
+  /*
+  * Here how you can download the dataset used in this example:
+  * https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/it/lemma/dxc.technology/lemma_italian.txt
+  * */
   val lemmatizer = new Lemmatizer()
     .setInputCols("normal")
     .setOutputCol("lemma")
     .setDictionary(
       ExternalResource(
-        path = "/tmp/dxc.technology/data/lemmi_italian.txt",
+        path = "/tmp/dxc.technology/data/lemma_italian.txt",
         readAs = "LINE_BY_LINE",
         Map("valueDelimiter" -> "\\s+" , "keyDelimiter" -> "->")
       )
