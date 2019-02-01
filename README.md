@@ -238,6 +238,23 @@ If there is any older than current version of a model, it means they still work 
 |ContextSpellCheckerModel (Spell Checker)| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/context_spell_gen_en_1.8.0_2.4_1546979465177.zip)  |N/A           |
 |NorvigSweetingModel (Spell Checker)     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.8.0_2.4_1545435732032.zip)  |N/A           |
 
+### Using Offline Models and Pipelines
+After downloading offline models/pipelines and extracting them, here is how you can use them:
+
+* Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
+```Scala
+val pos = annotator.PerceptronModel.load("/tmp/pos_fast_en_1.8.0_2.4_1545434653742/")
+      .setInputCols("document", "normal")
+      .setOutputCol("pos")
+      .asInstanceOf[PerceptronModel]
+```
+* Loading `Advanced Pipeline`
+```Scala
+val advancedPipeline = PipelineModel.load("/tmp/pipeline_advanced_en_1.8.0_2.4_1545436028146/")
+// To use the loaded Pipeline for prediction
+advancedPipeline.transform(predictionDF)
+```
+
 # FAQ
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
 
