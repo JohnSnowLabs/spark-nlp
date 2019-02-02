@@ -14,6 +14,13 @@ import scala.io.Source
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
+  "OcrHelper" should "correctly detect font size" in {
+
+    val img = ImageIO.read(new File("ocr/src/test/resources/images/paragraph_2.jpg"))
+    print(correctScale(img, 32))
+
+  }
+
   "Sign convertions" should "map all the values back and forwards" in {
     (-128 to 127).map(_.toByte).foreach { b=>
       assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))

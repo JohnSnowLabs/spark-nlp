@@ -209,13 +209,7 @@ object OcrHelper extends ImageProcessing {
     api
   }
 
-  def reScaleImage(image: PlanarImage, factor: Float) = {
-    val width = image.getWidth * factor
-    val height = image.getHeight * factor
-    val scaledImg = image.getAsBufferedImage().
-    getScaledInstance(width.toInt, height.toInt, Image.SCALE_AREA_AVERAGING)
-    toBufferedImage(scaledImg)
-  }
+
 
   /* erode the image */
   def erode(bi: BufferedImage, kernelSize: Int) = {

@@ -3,7 +3,10 @@ package com.johnsnowlabs.nlp.util.io
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
 import java.io.File
-import java.awt.Color
+import java.awt.{Color, Image}
+
+import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
+import javax.media.jai.PlanarImage
 
 
 trait ImageProcessing {
@@ -16,8 +19,33 @@ trait ImageProcessing {
     rotate(image, correctionAngle.toDouble, true)
   }
 
+
   /*
-  * angle is in degrees
+    * adaptive scaling of image according to font size
+    * image will be scaled up or down so that letters have desired size
+    * fontSize: in pixels
+    * */
+  protected def correctScale(image: BufferedImage, desiredFontSize:Int): BufferedImage = {
+    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255))
+    val scaleFactor = desiredFontSize.toFloat / detectedFontSize
+    reScaleImage(image, scaleFactor)
+  }
+
+  def reScaleImage(image: PlanarImage, factor: Float):BufferedImage = {
+    reScaleImage(image.getAsBufferedImage(), factor)
+  }
+
+  def reScaleImage(image: BufferedImage, factor: Float):BufferedImage = {
+    val width = image.getWidth * factor
+    val height = image.getHeight * factor
+    val scaledImg = image.
+      getScaledInstance(width.toInt, height.toInt, Image.SCALE_AREA_AVERAGING)
+    toBufferedImage(scaledImg)
+  }
+
+
+  /*
+  * rotate an image, angle is in degrees
   *
   * adapted from https://stackoverflow.com/questions/30204114/rotating-an-image-object
   * */
@@ -87,10 +115,10 @@ trait ImageProcessing {
 
     outputData.indices.par.foreach { idx =>
       if (converted(idx) < threshold) {
-        outputData(idx) = maxVal.toByte
+        outputData(idx) = 0.toByte
       }
       else
-        outputData(idx) = 0.toByte
+        outputData(idx) = maxVal.toByte
     }
     dest
   }
@@ -117,13 +145,22 @@ trait ImageProcessing {
   private def criterionFunc(projections: Array[Int]): Double =
     projections.map(col => Math.pow(col, 2)).sum
 
-  private def minAreaRect(pointList: List[(Int, Int)]): (Int, Int) = {
+  private def minAreaRectShape(pointList: List[(Int, Int)]): (Int, Int) = {
     val maxX = pointList.maxBy(_._2)._2
     val minX = pointList.minBy(_._2)._2
 
     val maxY = pointList.maxBy(_._1)._1
     val minY = pointList.minBy(_._1)._1
     (maxX - minX, maxY - minY)
+  }
+
+  private def minAreaRectCoordinates(pointList: List[(Int, Int)]): (Int, Int, Int, Int) = {
+    val maxX = pointList.maxBy(_._2)._2
+    val minX = pointList.minBy(_._2)._2
+
+    val maxY = pointList.maxBy(_._1)._1
+    val minY = pointList.minBy(_._1)._1
+    (minX, minY, maxX, maxY)
   }
 
   private def detectSkewAngle(image: BufferedImage, halfAngle:Double, resolution:Double): Double = {
@@ -135,7 +172,6 @@ trait ImageProcessing {
         val (imgW, imgH) = (rotImage.getWidth, rotImage.getHeight)
 
         Range(0, imgW).foreach { i =>
-          var j: Int = 0
           Range(0, imgH).foreach { j =>
             val pixVal = rotImageData(j * imgW + i) // check best way to access data here
             if (pixVal == -1) {
@@ -144,11 +180,46 @@ trait ImageProcessing {
             }
           }
         }
-        val (w, h) = minAreaRect(pointList)
+        val (w, h) = minAreaRectShape(pointList)
         val score = criterionFunc(projections) / (w * h).toDouble
         (angle, score)
     }.toMap
 
   angle_score.maxBy(_._2)._1
   }
+
+  def autocorrelation(projections: Array[Int]) = {
+   // possible sizes
+   Range(5, 64).map { shift =>
+     (shift, projections.drop(shift).zip(projections.dropRight(shift)).map{case (x,y) => x * y / 4}.sum)
+   }.maxBy(_._2)._1
+  }
+
+  def detectFontSize(image: BufferedImage) = {
+    val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    var pointList: List[(Int, Int)] = List.empty
+    val projections: Array[Int] = Array.fill(image.getHeight)(0)
+    val (imgW, imgH) = (image.getWidth, image.getHeight)
+
+
+    // detect square surrounding text
+    Range(0, imgW).foreach { i =>
+      Range(0, imgH).foreach { j =>
+        val pixVal = imageData(j * imgW + i) // check best way to access data here
+        if (pixVal == -1) {
+          pointList =  (j, i) :: pointList
+          projections(j) += 1
+        }
+      }
+    }
+
+    // TODO horizontal projections over cropped area
+    val (minX, minY, maxX, maxY) = minAreaRectCoordinates(pointList)
+
+    autocorrelation(projections)
+
+  }
+
+
+
 }
