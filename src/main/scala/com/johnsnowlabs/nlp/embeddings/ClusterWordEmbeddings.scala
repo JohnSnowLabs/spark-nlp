@@ -17,15 +17,22 @@ import org.apache.spark.{SparkContext, SparkFiles}
  */
 class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
+  var embds: WordEmbeddingsRetriever = null
+
   def getLocalRetriever: WordEmbeddingsRetriever = {
     val localPath = EmbeddingsHelper.getLocalEmbeddingsPath(fileName)
-    if (new File(localPath).exists())
-      WordEmbeddingsRetriever(localPath, dim, caseSensitive)
+    if (Option(embds).isDefined)
+      embds
+    else if (new File(localPath).exists()) {
+      embds = WordEmbeddingsRetriever(localPath, dim, caseSensitive)
+      embds
+    }
     else {
       val localFromClusterPath = SparkFiles.get(fileName)
       require(new File(localFromClusterPath).exists(), s"Embeedings not found under given ref." +
         s" Make sure they are properly loaded using EmbeddingsHelper and pointing towards 'embeddingsRef' param")
-      WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
+      embds = WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
+      embds
     }
   }
 
