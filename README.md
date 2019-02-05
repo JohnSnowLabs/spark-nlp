@@ -258,10 +258,10 @@ If there is any older than current version of a model, it means they still work 
 
 | Models                                 |   English     |   Italian    |
 |----------------------------------------|---------------|--------------|
-|LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)  |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/models/lemma/dxc.technology/lemma-it_dxc-1.8.0.zip)  |
+|LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)  |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/lemma/dxc.technology/lemma-it_dxc-1.8.0.zip)  |
 |PerceptronModel (POS)                   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)  |N/A           |
 |ViveknSentimentModel (Sentiment)        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.8.0_2.4_1545435741623.zip)  |N/A           |
-|SentimentDetector (Sentiment)           |     N/A       |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/models/sentiment/dxc.technology/sentiment-it_dxc-1.8.0.zip)  |
+|SentimentDetector (Sentiment)           |     N/A       |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/sentiment/dxc.technology/sentiment-it_dxc-1.8.0.zip)  |
 |NerCRFModel (NER)                       | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)  |N/A           |
 |NerDLModel (NER)                        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)  |N/A           |
 |SymmetricDeleteModel (Spell Checker)    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.8.0_2.4_1545435558025.zip)  |N/A           |
