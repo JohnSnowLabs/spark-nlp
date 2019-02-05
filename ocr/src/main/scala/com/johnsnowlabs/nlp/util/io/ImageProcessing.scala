@@ -190,9 +190,19 @@ trait ImageProcessing {
 
   def autocorrelation(projections: Array[Int]) = {
    // possible sizes
-   Range(5, 64).map { shift =>
+   Range(5, 104).map { shift =>
      (shift, projections.drop(shift).zip(projections.dropRight(shift)).map{case (x,y) => x * y / 4}.sum)
-   }.maxBy(_._2)._1
+   }
+  }
+
+  def findLocalMax(shifts:List[(Int, Int)]) = {
+    val gtBefore = shifts.zip(shifts.tail).map{case (x, y) => y._2 > x._2}
+    val gtAfter = shifts.zip(shifts.tail).map{case (x, y) => x._2 > y._2}.tail
+
+    val combined = gtBefore.zip(gtAfter).map{case (x,y) => x && y}
+    val winnerIdx = combined.indexWhere(identity)
+    shifts(winnerIdx + 1)._1
+
   }
 
   def detectFontSize(image: BufferedImage) = {
@@ -216,10 +226,6 @@ trait ImageProcessing {
     // TODO horizontal projections over cropped area
     val (minX, minY, maxX, maxY) = minAreaRectCoordinates(pointList)
 
-    autocorrelation(projections)
-
+    findLocalMax(autocorrelation(projections).toList)
   }
-
-
-
 }
