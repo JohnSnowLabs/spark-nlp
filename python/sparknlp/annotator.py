@@ -494,6 +494,11 @@ class SentenceDetector(AnnotatorModel):
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "length at which sentences will be forcibly split. Defaults to 240",
+                      typeConverter=TypeConverters.toInt)
+
     name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
@@ -507,6 +512,9 @@ class SentenceDetector(AnnotatorModel):
 
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     @keyword_only
     def __init__(self):
