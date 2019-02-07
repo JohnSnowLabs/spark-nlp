@@ -1033,6 +1033,16 @@ class NerDLModel(ModelWithEmbeddings):
 class NerConverter(AnnotatorModel):
     name = 'Tokenizer'
 
+    whiteList = Param(
+        Params._dummy(),
+        "whiteList",
+        "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels",
+        typeConverter=TypeConverters.toListString
+    )
+
+    def setWhiteList(self, entities):
+        return self._set(whiteList=entities)
+
     @keyword_only
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
