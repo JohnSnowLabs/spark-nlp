@@ -5,6 +5,7 @@ from test.misc import *
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
 unittest.TextTestRunner().run(RegexMatcherTestSpec())
 unittest.TextTestRunner().run(TokenizerTestSpec())
+unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())

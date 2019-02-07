@@ -15,6 +15,9 @@ object annotator {
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
 
+  type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
+  object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
+
   type Normalizer = com.johnsnowlabs.nlp.annotators.Normalizer
   object Normalizer extends DefaultParamsReadable[Normalizer]
   type NormalizerModel = com.johnsnowlabs.nlp.annotators.NormalizerModel
