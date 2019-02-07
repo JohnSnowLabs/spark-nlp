@@ -28,6 +28,13 @@ object functions {
     }
   }
 
+  implicit class EachAnnotations(dataset: DataFrame) {
+    import dataset.sparkSession.implicits._
+    def eachAnnotations[T: TypeTag](column: String, function: Seq[Annotation] => Unit): Unit = {
+      dataset.select(column).as[Array[Annotation]].foreach(function(_))
+    }
+  }
+
   implicit class ExplodeAnnotations(dataset: DataFrame) {
     def explodeAnnotations[T: TypeTag](column: String, outputCol:String): DataFrame = {
       val meta = dataset.schema(column).metadata
