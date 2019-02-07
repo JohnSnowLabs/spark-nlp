@@ -34,13 +34,30 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
       s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
       val pragmaticApproach = new MixedPragmaticMethod(true, customBounds)
-      val result = pragmaticApproach.extractBounds(input).map(_.content)
+      val result = pragmaticApproach.extractBounds(input)
+      val diffInResult = result.map(_.content).diff(correctAnswer)
+      val diffInCorrect = correctAnswer.diff(result.map(_.content))
+      assert(
+        result.map(_.content).sameElements(correctAnswer),
+        s"\n--------------\nSENTENCE IS WRONG:\n--------------\n$input" +
+        s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${diffInResult.mkString("\n@@")}" +
+          s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${diffInCorrect.mkString("\n@@")}")
+      assert(result.forall(sentence => {
+        sentence.end == sentence.start + sentence.content.length - 1
+      }), "because length mismatch")
+    }
+  }
+
+  def isolatedPDReadAndMatchResultTag(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
+    s"pragmatic boundaries detector with ${input.take(10)}...:" should
+      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
+      val result = new SentenceDetector().tag(input).map(_.content)
       val diffInResult = result.diff(correctAnswer)
       val diffInCorrect = correctAnswer.diff(result)
       assert(
         result.sameElements(correctAnswer),
         s"\n--------------\nSENTENCE IS WRONG:\n--------------\n$input" +
-        s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${diffInResult.mkString("\n@@")}" +
+          s"\n--------------\nBECAUSE RESULT:\n--------------\n@@${diffInResult.mkString("\n@@")}" +
           s"\n--------------\nIS NOT EXPECTED:\n--------------\n@@${diffInCorrect.mkString("\n@@")}")
     }
   }
