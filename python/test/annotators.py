@@ -93,6 +93,7 @@ class TokenizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token") \
             .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
         finisher = Finisher() \
@@ -105,6 +106,35 @@ class TokenizerTestSpec(unittest.TestCase):
         self.assertEqual(len(finished.first()['token_out']), 6)
 
 
+class ChunkTokenizerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        entity_extractor = TextMatcher() \
+            .setOutputCol("entity") \
+            .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
+        chunk_tokenizer = ChunkTokenizer() \
+            .setInputCols(['entity']) \
+            .setOutputCol('chunk_token')
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, entity_extractor, chunk_tokenizer])
+
+        data = self.session.createDataFrame([
+            ["Hello world, my name is Michael, I am an artist and I work at Benezar"],
+            ["Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."]
+        ]).toDF("text")
+
+        pipeline.fit(data).transform(data).show()
+
+
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -115,6 +145,7 @@ class NormalizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Normalizer() \
             .setInputCols(["token"]) \
@@ -152,6 +183,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
             .setOutputCol("entity") \
@@ -321,6 +353,7 @@ class PipelineTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
@@ -377,6 +410,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
@@ -400,6 +434,7 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         spell_checker = SymmetricDeleteApproach() \
             .setInputCols(["token"]) \
