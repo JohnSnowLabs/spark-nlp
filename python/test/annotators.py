@@ -414,10 +414,10 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
 
 class ContextSpellCheckerTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkContextForTest.spark.sparkContext.parallelize([
+        self.data = SparkContextForTest.spark.createDataFrame([
                      ["Yesterday I lost my blue unikorn ."],
-                     ["he is gane ."]]).\
-                     toDF().toDF("region").cache()
+                     ["he is gane ."]]) \
+                     .toDF("region").cache()
 
     def runTest(self):
 
@@ -448,7 +448,7 @@ class ContextSpellCheckerTestSpec(unittest.TestCase):
 
         checked_data = pipeline.fit(self.data).transform(self.data)
         checked_data.select("finished_spell_checked").show(truncate=False)
-        assert(checked_data.collect.size == 2)
+        assert(len(checked_data.collect()) == 2)
 
 
 class ParamsGettersTestSpec(unittest.TestCase):
