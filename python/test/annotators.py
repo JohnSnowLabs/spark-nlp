@@ -265,7 +265,8 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
-            .setCustomBounds(["%%"])
+            .setCustomBounds(["%%"]) \
+            .setMaxLength(235)
         assembled = document_assembler.transform(self.data)
         sentence_detector.transform(assembled).show()
 
