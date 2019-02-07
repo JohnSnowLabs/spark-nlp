@@ -7,11 +7,12 @@ import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.annotators.spell.common.LevenshteinDistance
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.sql.DataFrame
 
 
-trait SymmetricDeleteBehaviors { this: FlatSpec =>
+trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
 
   private val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
