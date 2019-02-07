@@ -8,11 +8,30 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import javax.imageio.ImageIO
-
 import scala.io.Source
 
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
+
+
+  trait Scope extends ImageProcessing
+
+  "OcrHelper" should "correctly analyze window" in new Scope {
+
+    val window1 = Array(1, 1, 1, 1, 5, 5, 5, 1, 1, 1, 1)
+    assert(analyzeWindow(window1)._2 == 1)
+
+    val window2 = Array(1, 1, 1, 5, 5, 5, 5, 5, 1, 1, 1)
+    assert(analyzeWindow(window2)._2 == 2)
+
+    val window3 = Array(1, 1, 1, 1, 5, 5, 1, 1, 1, 1)
+    assert(analyzeWindow(window3)._2 == 1)
+
+    val window4 = Array(1, 1, 1, 5, 5, 5, 5, 1, 1, 1)
+    assert(analyzeWindow(window4)._2 == 2)
+
+  }
+
 
   "OcrHelper" should "correctly detect font size" in {
 

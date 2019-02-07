@@ -2,11 +2,11 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
-import java.io.File
 import java.awt.{Color, Image}
-
-import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
+import java.io.File
 import javax.media.jai.PlanarImage
+import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
+
 
 
 trait ImageProcessing {
@@ -190,7 +190,7 @@ trait ImageProcessing {
 
   def autocorrelation(projections: Array[Int]) = {
    // possible sizes
-   Range(5, 104).map { shift =>
+   Range(5, 604).map { shift =>
      (shift, projections.drop(shift).zip(projections.dropRight(shift)).map{case (x,y) => x * y / 4}.sum)
    }
   }
@@ -200,10 +200,53 @@ trait ImageProcessing {
     val gtAfter = shifts.zip(shifts.tail).map{case (x, y) => x._2 > y._2}.tail
 
     val combined = gtBefore.zip(gtAfter).map{case (x,y) => x && y}
-    val winnerIdx = combined.indexWhere(identity)
-    shifts(winnerIdx + 1)._1
+    val maxs = combined.zipWithIndex.filter(_._1)
+
+    // TODO replace with some outlier removal technique
+    maxs(2)._2 - maxs(1)._2
+  }
+
+
+
+  private def findHighEnergyLen(projections: Array[Int], periodSize: Int) = {
+    val result = Range(0, periodSize).map { shift =>
+      analyzeWindow(projections.slice(shift, periodSize + shift))
+    }
+
+      result.maxBy(_._1)
+  }
+
+  protected def analyzeWindow(ints: Array[Int]): (Double, Int) = {
+    /* max size of the central lobe */
+    val maxPossibleRadio = ints.length / 4
+
+    var lowerB = ints.length / 2 - 1
+    var higherB = ints.length / 2 + 1
+
+    var sumLow = ints.slice(0, lowerB).sum + ints.slice(higherB + 1, ints.length).sum
+    var sumHigh = ints.slice(lowerB, higherB + 1).sum
+
+    var scoresRadios: Seq[(Double, Int)] = Seq.empty
+
+    Range(1, maxPossibleRadio + 1).foreach { radius =>
+      val Eh = sumHigh.toDouble / (2.0 * radius + ints.size % 2)
+      val El = sumLow.toDouble / (ints.length - 2.0 * radius)
+
+      lowerB -= 1; higherB += 1
+
+      /* reuse previous sums, don't recompute */
+      sumLow -= ints(lowerB) + ints(higherB)
+      sumHigh += ints(lowerB) + ints(higherB)
+
+      scoresRadios = scoresRadios :+ (Eh / El, radius)
+    }
+
+    /* return low energy len + score */
+    scoresRadios.maxBy(_._1)
 
   }
+
+
 
   def detectFontSize(image: BufferedImage) = {
     val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
@@ -226,6 +269,10 @@ trait ImageProcessing {
     // TODO horizontal projections over cropped area
     val (minX, minY, maxX, maxY) = minAreaRectCoordinates(pointList)
 
-    findLocalMax(autocorrelation(projections).toList)
+    // now we get font size + interlining
+    val periodSize = findLocalMax(autocorrelation(projections).toList)
+
+    val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
+    periodSize - highEnLen
   }
 }
