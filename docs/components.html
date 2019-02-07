@@ -1132,7 +1132,7 @@ documentAssembler = new DocumentAssembler()
                                     </p>
                                     <pre><code class="language-python">finisher = Finisher() \
   .setInputCols(["sentiment"]) \
-  .setIncludeKeys(True)
+  .setIncludeMetadata(True)
 </code></pre>
 
                                     <b>Settable parameters are:</b>
@@ -1177,6 +1177,7 @@ documentAssembler = new DocumentAssembler()
                                     </p>
                                     <pre><code class="language-javascript">val finisher = new Finisher()
   .setInputCols("token")
+  .setIncludeMetadata(true)
 </code></pre>
 
                                     <b>Settable parameters are:</b>
