@@ -6,9 +6,10 @@ import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, SentenceDetector, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
-
+import java.nio.file.{Files, Paths}
 
 class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
 
@@ -524,19 +525,29 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of punctuated and unpunctuated sentences" should
-    behave like {
 
-    val testDataSet = Seq("This is a sentence. This is another sentence.",
-      "I love deep learning Winter is coming").toDS.toDF("text")
+  "A Deep Sentence Detector" should "be serializable" in {
+    val emptyDataset = PipelineModels.dummyDataset
+    val pipeline = new RecursivePipeline().setStages(
+      Array(documentAssembler,
+        tokenizer,
+        strongNerTagger,
+        nerConverter,
+        deepSentenceDetector
+      )).fit(emptyDataset)
 
-    val expectedResult = Seq(
-      Seq("This is a sentence.", "This is another sentence."),
-      Seq("I love deep learning", "Winter is coming")
-    )
+    val deepSentenceDetectorModel = pipeline.stages.last.asInstanceOf[DeepSentenceDetector]
 
-    transformDataSet(testDataSet, strongPipeline, expectedResult)
+    deepSentenceDetectorModel.write.overwrite().save("./tmp_deep_sd_model")
+    assertResult(true) {
+      Files.exists(Paths.get("./tmp_deep_sd_model"))
+
+    }
   }
 
+  it should "be loaded from disk" in {
+    val deepSentenceDetectorModel = DeepSentenceDetector.read.load("./tmp_deep_sd_model")
+    assert(deepSentenceDetectorModel.isInstanceOf[DeepSentenceDetector])
+  }
 
 }
