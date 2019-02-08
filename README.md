@@ -36,7 +36,7 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 ## Apache Spark Support
 
-Spark-NLP *1.8.1* has been built on top of Apache Spark 2.4.0
+Spark-NLP *1.8.2* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
@@ -60,18 +60,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.8.1` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:1.8.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:1.8.1
+spark-shell --packages JohnSnowLabs:spark-nlp:1.8.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:1.8.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.8.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:1.8.1
+spark-submit --packages JohnSnowLabs:spark-nlp:1.8.2
 ```
 
 ## Compiled JARs
@@ -83,13 +83,13 @@ Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-n
 ### Pre-compiled Spark-NLP and Spark-NLP-OCR
 
 Spark-NLP FAT-JAR from here (Does NOT include Spark):
-[Spark-NLP 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1.jar)
+[Spark-NLP 1.8.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.2.jar)
 
 Spark-NLP GPU Enhanced Tensorflow FAT-JAR:
-[Spark-NLP 1.8.1-gpu FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.1-gpu.jar)
+[Spark-NLP 1.8.2-gpu FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.2-gpu.jar)
 
 Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 1.8.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.8.1.jar)
+[Spark-NLP-OCR 1.8.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-1.8.2.jar)
 
 ### Using the jar manually
 
@@ -114,7 +114,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>1.8.1</version>
+    <version>1.8.2</version>
 </dependency>
 ```
 
@@ -125,7 +125,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>1.8.1</version>
+    <version>1.8.2</version>
 </dependency>
 ```
 
@@ -133,14 +133,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.8.2"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.2"
 ```
 
 Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
@@ -152,7 +152,7 @@ Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 If you installed pyspark through pip, you can install sparknlp through pip as well.
 
 ```bash
-pip install spark-nlp==1.8.1
+pip install spark-nlp==1.8.2
 ```
 
 Then you'll have to create a SparkSession manually, for example:
@@ -178,7 +178,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```
-com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
+com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.2
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -188,7 +188,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.1
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==1.8.1
+pip install spark-nlp==1.8.2
 ```
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
@@ -207,7 +207,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:1.8.1
+pyspark --packages JohnSnowLabs:spark-nlp:1.8.2
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -244,7 +244,7 @@ sparknlp {
 If you have troubles using pretrained() models in your environment, here a list to various models (only valid for latest versions).
 If there is any older than current version of a model, it means they still work for current versions.
 
-### Updated for 1.8.1
+### Updated for 1.8.2
 
 ### Pipelines
 
