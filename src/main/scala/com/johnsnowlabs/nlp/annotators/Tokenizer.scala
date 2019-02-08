@@ -57,7 +57,6 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def setIncludeDefaults(value: Boolean): this.type = set(includeDefaults, value)
 
-  setDefault(inputCols, Array(DOCUMENT))
   setDefault(includeDefaults, true)
   setDefault(targetPattern, "\\S+")
   setDefault(infixPatterns, Array.empty[String])
