@@ -218,6 +218,13 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val singleQuot = "She turned to him, 'This is great.' she said."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(singleQuot, singleQuotAns)
 
+  /*
+  //Don't protect period between two words that contain apostrophes
+  val twoApostrophesAns = Array("We don't want to ignore this period.", "Isn't it right?")
+  val twoApostrophes = "We don't want to ignore this period. Isn't it right?"
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoApostrophes, twoApostrophesAns)
+  */
+
   //Double quotations inside sentence
   val doubleQuotAns = Array("She turned to him, \"This is great.\" she said.")
   val doubleQuot = "She turned to him, \"This is great.\" she said."
@@ -362,6 +369,16 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val listPeriodMarkEndAns = Array("1. The first item.", "2. The second item.")
   val listPeriodMarkEnd = "1. The first item. 2. The second item."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listPeriodMarkEnd, listPeriodMarkEndAns)
+
+  //List (period to mark list and period to end item)
+  val veryLongAns = Array("This is a so long sentence that it will end up being cut off in different pieces because otherwise " +
+    "I don't know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long time although",
+    " we should be almost there this part should become the second sentence, thanks."
+  )
+  val veryLong = "This is a so long sentence that it will end up being cut off in different pieces because otherwise I don't " +
+    "know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long " +
+    "time although we should be almost there this part should become the second sentence, thanks."
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns)
 
   /*
   //List with bullet

@@ -72,23 +72,28 @@ class Tokenizer(AnnotatorModel):
 
     name = 'Tokenizer'
 
+    infixDefaults = [
+        "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
+        "((?:\\p{L}\\.)+)",
+        "(\\p{L}+)(n't\\b)",
+        "(\\p{L}+)('{1}\\p{L}+)",
+        "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
+        "([\\p{L}\\w]+)"
+    ]
+
+    prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
+
+    suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
-        self.infixDefaults = [
-            "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-            "((?:\\p{L}\\.)+)",
-            "(\\p{L}+)(n't\\b)",
-            "(\\p{L}+)('{1}\\p{L}+)",
-            "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-            "([\\p{L}\\w]+)"
-        ]
-        self.prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
-        self.suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+        self.infixDefaults = Tokenizer.infixDefaults
+        self.prefixDefault = Tokenizer.prefixDefault
+        self.suffixDefault = Tokenizer.suffixDefault
 
         self._setDefault(
-            inputCols=["document"],
             targetPattern="\\S+",
             infixPatterns=[],
             includeDefaults=True
@@ -143,6 +148,24 @@ class Tokenizer(AnnotatorModel):
                 return self.prefixDefault
         else:
             return self.getOrDefault("prefixPattern")
+
+
+class ChunkTokenizer(Tokenizer):
+    name = 'ChunkTokenizer'
+
+    @keyword_only
+    def __init__(self):
+        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
+
+        self.infixDefaults = Tokenizer.infixDefaults
+        self.prefixDefault = Tokenizer.prefixDefault
+        self.suffixDefault = Tokenizer.suffixDefault
+
+        self._setDefault(
+            targetPattern="\\S+",
+            infixPatterns=[],
+            includeDefaults=True
+        )
 
 
 class Stemmer(AnnotatorModel):
@@ -494,6 +517,11 @@ class SentenceDetector(AnnotatorModel):
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "length at which sentences will be forcibly split. Defaults to 240",
+                      typeConverter=TypeConverters.toInt)
+
     name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
@@ -508,12 +536,42 @@ class SentenceDetector(AnnotatorModel):
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
 
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
+
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
         self._setDefault(inputCols=["document"], useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
                          explodeSentences=False)
+
+
+class DeepSentenceDetector(AnnotatorModel):
+
+    includesPragmaticSegmenter = Param(Params._dummy(),
+                                       "includesPragmaticSegmenter",
+                                       "Whether to include rule-based sentence detector as first filter",
+                                       typeConverter=TypeConverters.toBoolean)
+
+    endPunctuation = Param(
+        Params._dummy(), "endPunctuation",
+        "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
+        typeConverter=TypeConverters.toListString)
+
+    name = "DeepSentenceDetector"
+
+    def setIncludePragmaticSegmenter(self, value):
+        return self._set(includesPragmaticSegmenter=value)
+
+    def setEndPunctuation(self, value):
+        return self._set(endPunctuation=value)
+
+    @keyword_only
+    def __init__(self):
+        super(DeepSentenceDetector, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
+        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -1005,6 +1063,16 @@ class NerDLModel(ModelWithEmbeddings):
 
 class NerConverter(AnnotatorModel):
     name = 'Tokenizer'
+
+    whiteList = Param(
+        Params._dummy(),
+        "whiteList",
+        "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels",
+        typeConverter=TypeConverters.toListString
+    )
+
+    def setWhiteList(self, entities):
+        return self._set(whiteList=entities)
 
     @keyword_only
     def __init__(self):

@@ -96,6 +96,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val assembled = documentAssembler.transform(data)
 
     val tokenizer = new Tokenizer()
+      .setInputCols("document")
       .setOutputCol("token")
     val tokenized = tokenizer.transform(assembled)
 
@@ -117,6 +118,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val assembled = documentAssembler.transform(data)
 
     val tokenizer = new Tokenizer()
+      .setInputCols("document")
       .setOutputCol("token")
       .setCompositeTokensPatterns(Array("Are you"))
 

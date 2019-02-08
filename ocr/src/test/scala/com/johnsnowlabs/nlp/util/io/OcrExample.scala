@@ -1,11 +1,50 @@
 package com.johnsnowlabs.nlp.util.io
 
+import java.io.File
+
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
+import com.johnsnowlabs.util.OcrMetrics
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
+import javax.imageio.ImageIO
 
-class OcrExample extends FlatSpec {
+import scala.io.Source
+
+
+class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
+
+  "Sign convertions" should "map all the values back and forwards" in {
+    (-128 to 127).map(_.toByte).foreach { b=>
+      assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))
+    }
+  }
+
+  "OcrHelper" should "correctly threshold and invert images" in {
+    val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
+    val tresImg = thresholdAndInvert(img, 205, 255)
+    dumpImage(tresImg, "thresholded_binarized.png")
+  }
+
+  "OcrHelper" should "correctly detect and correct skew angles" in {
+    val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
+    val correctedImg = correctSkew(img, 2.0, 1.0)
+    dumpImage(correctedImg, "skew_corrected.png")
+  }
+
+ "OcrHelper" should "automatically correct skew and improve accuracy" in {
+    val spark = getSpark
+    val normal = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/rotated/400").
+       select("text").collect.map(_.getString(0)).mkString
+
+    OcrHelper.setAutomaticSkewCorrection(true)
+    val skewCorrected = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/rotated/400").
+        select("text").collect.map(_.getString(0)).mkString
+
+    val correct = Source.fromFile("ocr/src/test/resources/pdfs/rotated/400.txt").mkString
+    assert(score(correct, normal) < score(correct, skewCorrected))
+  }
+
 
   "OcrExample with Spark" should "successfully create a dataset" in {
 

@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -27,6 +27,8 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     "characters used to explicitly mark sentence bounds"
   )
 
+  val maxLength: IntParam = new IntParam(this, "maxLength", "length at which sentences will be forcibly split. Defaults to 240")
+
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
   def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
@@ -37,6 +39,10 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
 
+  def setMaxLength(value: Int): this.type = set(maxLength, value)
+
+  def getMaxLength: Int = $(maxLength)
+
   override val annotatorType: AnnotatorType = DOCUMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
@@ -46,6 +52,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     useAbbrevations -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
+    maxLength -> 240,
     customBounds -> Array.empty[String]
   )
 
@@ -60,7 +67,11 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   def tag(document: String): Array[Sentence] = {
     model.extractBounds(
       document
-    )
+    ).flatMap(sentence => {
+      sentence.content.grouped($(maxLength)).map(limitedSentence => {
+        Sentence(limitedSentence, sentence.start, sentence.start + limitedSentence.length - 1)
+      })
+    })
   }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {

@@ -72,4 +72,45 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     }
   }
 
+  def testDefaultTokenCorpusParameter(): Unit = {
+    s"using a corpus with default token parameter" should "successfully correct words" in {
+      val data = ContentProvider.parquetData.limit(1000)
+      val corpusData = SparkAccessor.spark.read.textFile("src/test/resources/spell/sherlockholmes.txt")
+
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val normalizer = new Normalizer()
+        .setInputCols(Array("token"))
+        .setOutputCol("normal")
+
+      val spell = new NorvigSweetingApproach()
+        .setInputCols(Array("normal"))
+        .setOutputCol("spell")
+        .setDictionary("src/test/resources/spell/words.txt")
+        .setCorpus("src/test/resources/spell/sherlockholmes.txt")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          normalizer,
+          spell,
+          finisher
+        ))
+
+      /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
+      model.transform(data).show()
+    }
+  }
+
 }
