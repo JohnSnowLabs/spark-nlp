@@ -4,7 +4,7 @@
 ---------------
 Overview
 ---------------
-This tiny but big hotfix release is potentially target to improve performance and resource usage in pipelines that use word embeddings, it also comes
+This tiny but big hotfix release is potentially target to improve performance and resource usage in some pipelines that use word embeddings, it also comes
 together with a very interesting autorotation feature in OCR, and a couple of new annotators to solve particular needs, including the ChunkTokenizer
 or a Param to limit sentence lengths. Finally, we are starting to organize our multilingual store of models and data for training models.
 Check the examples for some italian notebooks!. Thanks again to all community for such quick feedback all the time.
@@ -34,6 +34,7 @@ Framework
 ---------------
 * Added missing artifact resolution dependencies for OCR Module
 * Started adding and organizing multilanguage models (Thanks @Maziyar)
+* Updated RocksDB to 5.17.2
 
 ========
 1.8.1
