@@ -74,13 +74,15 @@ pyspark --packages JohnSnowLabs:spark-nlp:1.8.2
 spark-submit --packages JohnSnowLabs:spark-nlp:1.8.2
 ```
 
+This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
+
 ## Compiled JARs
 
 ### Offline mode using jars
 
 Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
 
-### Pre-compiled Spark-NLP and Spark-NLP-OCR
+### Pre-compiled Spark-NLP and Spark-NLP-OCR (Does NOT include Apache Spark)
 
 Spark-NLP FAT-JAR from here (Does NOT include Spark):
 [Spark-NLP 1.8.2 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-1.8.2.jar)
@@ -147,7 +149,7 @@ Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
 
 ## Python
 
-### Python without explicit Spark installation
+### Python without explicit Pyspark installation
 
 If you installed pyspark through pip, you can install sparknlp through pip as well.
 
@@ -163,13 +165,13 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.driver.extraClassPath", "lib/sparknlp.jar")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp:1.8.2")\
     .config("spark.executor.extraClassPath", "lib/sparknlp.jar")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
 
-For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
+If using local jars, you can use `spark.jars` instead for a comma delimited jar files. For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
 
 ## Apache Zeppelin
 
