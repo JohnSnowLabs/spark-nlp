@@ -17,7 +17,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
  */
 class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitive: Boolean) extends Serializable {
 
-  var embds: WordEmbeddingsRetriever = null
+  @transient private var embds: WordEmbeddingsRetriever = null
 
   def getLocalRetriever: WordEmbeddingsRetriever = {
     val localPath = EmbeddingsHelper.getLocalEmbeddingsPath(fileName)
