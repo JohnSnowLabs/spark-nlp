@@ -1,4 +1,42 @@
 ========
+1.8.2
+========
+---------------
+Overview
+---------------
+This release potentially targets to improve performance and resource usage in some pipelines that use word embeddings, it also comes
+together with a very interesting autorotation feature in OCR, and a couple of new annotators to solve particular needs, including the ChunkTokenizer
+or a Param to limit sentence lengths. Finally, we are starting to organize our multilingual store of models and data for training models.
+Check the examples for some italian notebooks!. Thanks again to all community for such quick feedback all the time.
+
+---------------
+New Features
+---------------
+* OCR now capable of automatic rotation, significantly improving accuracy in some scenarios
+* ChunkTokenizer is a new annotator that Tokenizes CHUNK type annotations. Extends Tokenizer algorithm and stores chunk ID for reference.
+* SentenceDetector new Param maxLength now cuts off sentences longer than (by default) 240 characters. It avoids Deep Learning annotator issues and may improve performance in some scenarios.
+* NerConverter new Param whiteList now allows a list of NER labels to be considered, while discarding the rest. May be useful for selective CHUNKing pipelines.
+
+---------------
+Enhancements
+---------------
+* Pipelines using Word Embeddings should now perform faster due to a group of RocksDB optimizations allowing annotators to reuse current open connections to DB
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug where DeepSentenceDetector was missing the load() interface (Thanks @Tshimanga from Deep6!)
+* Fixed a bug where RocksDB opened too many files at once causing pipelines to fail or to work very slowly
+* Fixed NerCrfModel when prefetching RocksDB causing slower performance
+
+---------------
+Framework
+---------------
+* Added missing artifact resolution dependencies for OCR Module
+* Started adding and organizing multilanguage models (Thanks @Maziyar)
+* Updated RocksDB to 5.17.2
+
+========
 1.8.1
 ========
 ---------------
