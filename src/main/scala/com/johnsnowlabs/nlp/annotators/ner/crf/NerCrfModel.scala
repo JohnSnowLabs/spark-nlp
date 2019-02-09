@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.StringArrayParam
@@ -31,6 +31,17 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
+  @transient private var wembeddings: WordEmbeddingsRetriever = null
+
+  private def getPrefetchedEmbeddings: WordEmbeddingsRetriever = {
+    if (Option(wembeddings).isDefined)
+      wembeddings
+    else {
+      wembeddings = getClusterEmbeddings.getLocalRetriever
+      wembeddings
+    }
+  }
+
   /**
   Predicts Named Entities in input sentences
     * @param sentences POS tagged sentences.
@@ -41,7 +52,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
     val crf = $$(model)
 
-    val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)), getClusterEmbeddings.getLocalRetriever)
+    val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)), getPrefetchedEmbeddings)
     sentences.map{sentence =>
       val instance = fg.generate(sentence, crf.metadata)
       val labelIds = crf.predict(instance)

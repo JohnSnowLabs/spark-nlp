@@ -17,6 +17,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token") \
             .setCompositeTokensPatterns(["New York"]) \
             .addInfixPattern("(%\\d+)") \
@@ -71,6 +72,7 @@ class LemmatizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
