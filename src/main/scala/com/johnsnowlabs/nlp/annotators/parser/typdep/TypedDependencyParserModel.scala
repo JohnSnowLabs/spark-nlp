@@ -103,10 +103,10 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     new TypedDependencyParser
   }
 
-  private def transformToConll09Data(document: Array[Array[Conll2009Sentence]]): Array[Array[Conll09Data]] = {
+  private def transformToConll09Data(document: Array[Array[Conll2009Sentence]]): Array[Array[ConllData]] = {
     document.map{sentence =>
       sentence.map{word =>
-        new Conll09Data(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
+        new ConllData(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
       }
     }
   }

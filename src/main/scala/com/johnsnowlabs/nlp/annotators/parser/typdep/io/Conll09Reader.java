@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep.io;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.Conll09Data;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.ConllData;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 
 import java.io.IOException;
@@ -86,7 +86,7 @@ public class Conll09Reader extends DependencyReader{
         return new DependencyInstance(forms, lemmas, cpos, pos, feats, heads, deprels, null, null);
     }
 
-    public DependencyInstance nextSentence(Conll09Data[] sentence) {
+    public DependencyInstance nextSentence(ConllData[] sentence) {
 
         if (sentence[0].getHead() == END_OF_SENTENCE) {
             return null;
@@ -115,7 +115,7 @@ public class Conll09Reader extends DependencyReader{
         boolean hasLemma = false;
 
         for (int i = 1; i < length + 1; ++i) {
-            Conll09Data conll09Values = sentence[i-1];
+            ConllData conll09Values = sentence[i-1];
             begins[i] = conll09Values.getBegin();
             ends[i] = conll09Values.getEnd();
             forms[i] = conll09Values.getForm();

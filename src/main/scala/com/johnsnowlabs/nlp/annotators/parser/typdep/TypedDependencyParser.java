@@ -180,13 +180,13 @@ public class TypedDependencyParser implements Serializable {
         return nCorrect;
     }
 
-    DependencyLabel[] predictDependency(Conll09Data[][] document){
+    DependencyLabel[] predictDependency(ConllData[][] document){
 
         Conll09Writer conll09Writer = new Conll09Writer(options, dependencyPipe);
 
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
-        for (Conll09Data[] sentence : document) {
+        for (ConllData[] sentence : document) {
             DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence);
             if (dependencyInstance == null) {
                 break;
