@@ -22,30 +22,35 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   val numberOfIterations = new IntParam(this, "numberOfIterations",
     "Number of iterations in training, converges to better accuracy")
 
-  val conll2009FilePath = new ExternalResourceParam(this, "conll2009FilePath",
+  val conll2009 = new ExternalResourceParam(this, "conll2009FilePath",
       "Path to file with CoNLL 2009 format")
+
+  val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
 
   //TODO: Enable more training parameters from Options
 
-  def setConll2009FilePath(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                           options: Map[String, String] = Map.empty[String, String]): this.type = {
-    set(conll2009FilePath, ExternalResource(path, readAs, options))
+  def setConll2009(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                   options: Map[String, String] = Map.empty[String, String]): this.type = {
+    set(conll2009, ExternalResource(path, readAs, options))
   }
+
+  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                options: Map[String, String] = Map.empty[String, String]): this.type =
+    set(conllU, ExternalResource(path, readAs, options))
 
   def setNumberOfIterations(value: Int): this.type  = set(numberOfIterations, value)
 
-  setDefault(conll2009FilePath, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(conll2009, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(conllU, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
   private lazy val trainFile = {
-    ResourceHelper.validFile($(conll2009FilePath).path)
-    $(conll2009FilePath).path
+    getTrainingFile
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
 
-    require(!trainFile.equals(""), "Training file with CoNLL 2009 format is required")
-
+    validateTrainingFiles()
     val options = getOptionsInstance
     options.setNumberOfTrainingIterations($(numberOfIterations))
     val typedDependencyParser = getTypedDependencyParserInstance
@@ -53,7 +58,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
     val dependencyPipe = getDependencyPipeInstance(options)
     typedDependencyParser.setDependencyPipe(dependencyPipe)
-    dependencyPipe.createAlphabets(trainFile)
+    dependencyPipe.createAlphabets(trainFile, "09")
 
     val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
     trainDependencies.startTraining()
@@ -69,6 +74,23 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
     new TypedDependencyParserModel()
       .setModel(trainParameters)
+  }
+
+  def validateTrainingFiles(): Unit = {
+    if ($(conll2009).path != "" && $(conllU).path != "") {
+      throw new IllegalArgumentException("Use either CoNLL-2009 or CoNLL-U format file both are not allowed.")
+    }
+    if ($(conll2009).path == "" && $(conllU).path == "") {
+      throw new IllegalArgumentException("Either CoNLL-2009 or CoNLL-U format file is required.")
+    }
+  }
+
+  def getTrainingFile: String = {
+    if ($(conll2009).path != ""){
+      $(conll2009).path
+    } else {
+      $(conllU).path
+    }
   }
 
   private def getOptionsInstance: Options = {

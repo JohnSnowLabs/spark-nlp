@@ -117,14 +117,14 @@ public class DependencyPipe implements Serializable {
      *
      * @param file file path of the training data
      */
-    private void createDictionaries(String file) throws IOException
+    private void createDictionaries(String file, String conllFormat) throws IOException
     {
         long start = System.currentTimeMillis();
         logger.debug("Creating dictionariesSet ... ");
 
         dictionariesSet.setCounters();
 
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = getReader(conllFormat);
 
         reader.startReading(file);
         DependencyInstance dependencyInstance = reader.nextInstance();
@@ -173,6 +173,14 @@ public class DependencyPipe implements Serializable {
 
     }
 
+    private static DependencyReader getReader(String conllFormat) {
+        if (conllFormat.equals("09")) {
+            return DependencyReader.createDependencyReader();
+        } else {
+            return DependencyReader.createDependencyReaderUniversal();
+        }
+    }
+
     /***
      * Create feature alphabets, which maps 64-bit feature code into
      * its integer index (starting from index 0). This method is called
@@ -180,10 +188,10 @@ public class DependencyPipe implements Serializable {
      *
      * @param file  file path of the training data
      */
-    public void createAlphabets(String file) throws IOException
+    public void createAlphabets(String file, String conllFormat) throws IOException
     {
 
-        createDictionaries(file);
+        createDictionaries(file, conllFormat);
 
         long start = System.currentTimeMillis();
         logger.debug("Creating Alphabet ... ");
@@ -267,7 +275,7 @@ public class DependencyPipe implements Serializable {
         return insts;
     }
 
-    public DependencyInstance nextSentence(Conll09Data[] sentence)
+    public DependencyInstance nextSentence(ConllData[] sentence)
     {
         Conll09Reader conll09Reader = new Conll09Reader();
         DependencyInstance dependencyInstance = conll09Reader.nextSentence(sentence);

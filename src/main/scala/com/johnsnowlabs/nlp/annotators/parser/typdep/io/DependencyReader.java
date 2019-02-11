@@ -11,10 +11,13 @@ import java.nio.charset.StandardCharsets;
 public abstract class DependencyReader {
 
     BufferedReader reader;
-    boolean isLabeled=true;
 
     public static DependencyReader createDependencyReader() {
         return new Conll09Reader();
+    }
+
+    public static DependencyReader createDependencyReaderUniversal() {
+        return new ConllUReader();
     }
 
     public abstract DependencyInstance nextInstance() throws IOException;
