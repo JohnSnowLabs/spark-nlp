@@ -22,6 +22,8 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Maven](#maven)
     * [SBT](#sbt)
   * [Python](#python)
+    * [pip](#pip)
+    * [conda](#conda)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [S3 Cluster](#s3-cluster)
@@ -145,17 +147,31 @@ and
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.2"
 ```
 
-Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
+Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
 ## Python
 
 ### Python without explicit Pyspark installation
 
-If you installed pyspark through pip, you can install sparknlp through pip as well.
+### Pip
+
+If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
 pip install spark-nlp==1.8.2
 ```
+
+PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
+
+### Conda
+
+If you are using Anaconda/Conda for managing Python packages, you can install `spark-nlp` as follow:
+
+```bash
+conda install -c johnsnowlabs spark-nlp
+```
+
+Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
 
 Then you'll have to create a SparkSession manually, for example:
 
@@ -165,8 +181,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp:1.8.2")\
-    .config("spark.executor.extraClassPath", "lib/sparknlp.jar")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:1.8.2")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -179,7 +194,7 @@ Use either one of the following options
 
 * Add the following Maven Coordinates to the interpreter's library list
 
-```
+```bash
 com.johnsnowlabs.nlp:spark-nlp_2.11:1.8.2
 ```
 
@@ -192,6 +207,13 @@ Apart from previous step, install python module through pip
 ```bash
 pip install spark-nlp==1.8.2
 ```
+
+Or you can install `spark-nlp` from inside Zeppelin by using Conda:
+
+```bash
+%python.conda install -c johnsnowlabs spark-nlp
+```
+
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
