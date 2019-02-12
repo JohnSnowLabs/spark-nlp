@@ -22,6 +22,8 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
     * [Maven](#maven)
     * [SBT](#sbt)
   * [Python](#python)
+    * [pip](#pip)
+    * [conda](#conda)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [S3 Cluster](#s3-cluster)
@@ -145,16 +147,26 @@ and
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "1.8.2"
 ```
 
-Maven Central: https://mvnrepository.com/artifact/com.johnsnowlabs.nlp
+Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
 ## Python
 
 ### Python without explicit Pyspark installation
 
-If you installed pyspark through pip, you can install sparknlp through pip as well.
+### Pip
+
+If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
 pip install spark-nlp==1.8.2
+```
+
+### Conda
+
+If you are using Anaconda/Conda for managing Python packages, you can install `spark-nlp` as follow:
+
+```bash
+conda install -c johnsnowlabs spark-nlp
 ```
 
 Then you'll have to create a SparkSession manually, for example:
