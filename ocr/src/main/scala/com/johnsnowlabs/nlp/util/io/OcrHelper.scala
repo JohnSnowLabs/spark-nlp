@@ -389,14 +389,24 @@ object OcrHelper extends ImageProcessing {
     import scala.collection.JavaConversions._
     Range(startPage, endPage + 1).flatMap(numPage => {
       val page = document.getPage(numPage)
-      getImagesFromResources(page.getResources).headOption
+      //getImagesFromResources(page.getResources).headOption
+      val multiImage = new MultiImagePDFPage(page)
+
+      dumpImage(multiImage.getMergedImages.get, "merged.png")
+        multiImage.getMergedImages
     })
   }
+
+
+
+  /* if the document contains multiple images we merge them as a single one */
+  // private def mergeMultipleImages(Seq)
 
   private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
     val images = new java.util.ArrayList[RenderedImage]
     import scala.collection.JavaConversions._
     for (xObjectName <- resources.getXObjectNames) {
+
       val xObject = resources.getXObject(xObjectName)
       xObject match {
         case _: PDFormXObject => images.addAll(getImagesFromResources(xObject.asInstanceOf[PDFormXObject].getResources))
