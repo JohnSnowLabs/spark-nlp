@@ -346,6 +346,17 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
 
+class DeepSentenceDetectorPipelinePersistenceTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        pipeline = Pipeline(stages=[DeepSentenceDetector()])
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
+        pipeline.write().overwrite().save(pipe_path)
+        loaded_pipeline = Pipeline.read().load(pipe_path)
+        if loaded_pipeline:
+            assert True
+
+
 class PipelineTestSpec(unittest.TestCase):
 
     def setUp(self):
