@@ -109,7 +109,7 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda")
     exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+  "com.amazonaws" % "aws-java-sdk" % "1.11.495"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
@@ -156,6 +156,7 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
+  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
