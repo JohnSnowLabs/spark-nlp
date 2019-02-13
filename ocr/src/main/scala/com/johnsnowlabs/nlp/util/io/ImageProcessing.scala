@@ -139,7 +139,6 @@ trait ImageProcessing {
         var rightMost = 0
 
         Range(0, imgW).foreach { i =>
-          var j: Int = 0
           Range(0, imgH).foreach { j =>
             val pixVal = rotImageData(j * imgW + i) // check best way to access data here
             if (pixVal == -1) {
