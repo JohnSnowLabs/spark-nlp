@@ -4,8 +4,10 @@ import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
 import java.awt.{Color, Image}
 import java.io.File
+
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
 
 
 
@@ -166,6 +168,7 @@ trait ImageProcessing {
   private def detectSkewAngle(image: BufferedImage, halfAngle:Double, resolution:Double): Double = {
     val angle_score = Range.Double(-halfAngle, halfAngle + resolution, resolution).par.map { angle =>
         val rotImage = rotate(image, angle)
+        var pointList: List[(Int, Int)] = List.empty
         val projections: Array[Int] = Array.fill(rotImage.getWidth)(0)
         val rotImageData = rotImage.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
         val (imgW, imgH) = (rotImage.getWidth, rotImage.getHeight)
@@ -180,6 +183,7 @@ trait ImageProcessing {
             val pixVal = rotImageData(j * imgW + i) // check best way to access data here
             if (pixVal == -1) {
               projections(i) += 1
+              pointList =  (j, i) :: pointList
 
               // find min area rectangle in-situ
               if (i < leftMost)
@@ -198,8 +202,9 @@ trait ImageProcessing {
         }
 
 
+        val (w_, h_) = minAreaRectShape(pointList)
         val (w, h) = (rightMost- leftMost, downMost - upMost)
-        val score = criterionFunc(projections) / (w * h).toDouble
+        val score = criterionFunc(projections) / (w_ * h_).toDouble
         (angle, score)
     }.toMap
 
@@ -213,18 +218,22 @@ trait ImageProcessing {
    }
   }
 
-  def findLocalMax(shifts:List[(Int, Int)]) = {
+  def findLocalMax(shifts:List[(Int, Int)]):Int = {
     val gtBefore = shifts.zip(shifts.tail).map{case (x, y) => y._2 > x._2}
     val gtAfter = shifts.zip(shifts.tail).map{case (x, y) => x._2 > y._2}.tail
 
     val combined = gtBefore.zip(gtAfter).map{case (x,y) => x && y}
-    val maxs = combined.zipWithIndex.filter(_._1)
+    val maxLocations = combined.zipWithIndex.filter(_._1).map(_._2.toDouble)
+    val strideLens = maxLocations.zip(maxLocations.tail).map{case (x1, x2) => x2 - x1}
 
-    // TODO replace with some outlier removal technique
-    maxs(2)._2 - maxs(1)._2
+    val mean = strideLens.sum / strideLens.length
+    val stdCalc = new StandardDeviation()
+    val std = stdCalc.evaluate(strideLens.toArray)
+
+    /* remove the ones far from the mean*/
+    val filtered = strideLens.filter(len => Math.abs(len - mean) < std)
+    filtered.head.toInt
   }
-
-
 
   private def findHighEnergyLen(projections: Array[Int], periodSize: Int) = {
     val result = Range(0, periodSize).map { shift =>

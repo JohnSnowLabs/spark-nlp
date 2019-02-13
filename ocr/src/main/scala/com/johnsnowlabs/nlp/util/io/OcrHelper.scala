@@ -279,7 +279,7 @@ object OcrHelper extends ImageProcessing {
 
       // rescale if factor provided
       val scaledImage = scalingFactor.map { factor =>
-        reScaleImage(image, factor)
+        reScaleImage(skewCorrected, factor)
       }.getOrElse(skewCorrected)
 
       // erode if kernel provided
