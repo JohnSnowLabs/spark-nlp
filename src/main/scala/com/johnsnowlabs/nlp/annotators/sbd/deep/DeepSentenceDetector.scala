@@ -31,7 +31,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   setDefault(endPunctuation, Array(".", "!", "?"))
 
   def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
-  setDefault(explodeSentences, false
+  setDefault(explodeSentences, false)
 
   private lazy val endOfSentencePunctuation = $(endPunctuation)
 
