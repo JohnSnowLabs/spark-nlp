@@ -98,7 +98,7 @@ trait ImageProcessing {
   * */
 
   protected def thresholdAndInvert(bi: BufferedImage, threshold:Int, maxVal:Int):BufferedImage = {
-
+    // TODO this is redundant, remove after merge
     // convert to grayscale
     val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
     val g = gray.createGraphics()
@@ -247,18 +247,16 @@ trait ImageProcessing {
   }
 
 
-
   def detectFontSize(image: BufferedImage) = {
     val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
     var pointList: List[(Int, Int)] = List.empty
     val projections: Array[Int] = Array.fill(image.getHeight)(0)
     val (imgW, imgH) = (image.getWidth, image.getHeight)
 
-
     // detect square surrounding text
     Range(0, imgW).foreach { i =>
       Range(0, imgH).foreach { j =>
-        val pixVal = imageData(j * imgW + i) // check best way to access data here
+        val pixVal = imageData(j * imgW + i)
         if (pixVal == -1) {
           pointList =  (j, i) :: pointList
           projections(j) += 1

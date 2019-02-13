@@ -32,12 +32,14 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   }
 
-
   "OcrHelper" should "correctly detect font size" in {
+    val img1 = ImageIO.read(new File("ocr/src/test/resources/images/big_font.jpg"))
+    val bigSize = detectFontSize(thresholdAndInvert(img1, 205, 255))
+    assert(bigSize > 70 && bigSize < 90)
 
-    val img = ImageIO.read(new File("ocr/src/test/resources/images/paragraph_2.jpg"))
-    print(correctScale(img, 32))
-
+    val img2 = ImageIO.read(new File("ocr/src/test/resources/images/small_font.jpg"))
+    val smallSize = detectFontSize(thresholdAndInvert(img2, 205, 255))
+    assert(smallSize > 35 && smallSize < 45)
   }
 
   "Sign convertions" should "map all the values back and forwards" in {
