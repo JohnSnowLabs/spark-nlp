@@ -14,6 +14,7 @@ import scala.io.Source
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
+
   "Sign convertions" should "map all the values back and forwards" in {
     (-128 to 127).map(_.toByte).foreach { b=>
       assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.Image
+import java.awt.{Color, Image}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
 
@@ -391,18 +391,5 @@ object OcrHelper extends ImageProcessing {
       val multiImage = new MultiImagePDFPage(page)
       multiImage.getMergedImages
     })
-  }
-
-  def toBufferedImage(img: Image): BufferedImage = {
-    if (img.isInstanceOf[BufferedImage]) return img.asInstanceOf[BufferedImage]
-
-    // Create a buffered image with transparency
-    val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
-    // Draw the image on to the buffered image
-    val bGr = bimage.createGraphics
-    bGr.drawImage(img, 0, 0, null)
-    bGr.dispose()
-    // Return the buffered image
-    bimage
   }
 }

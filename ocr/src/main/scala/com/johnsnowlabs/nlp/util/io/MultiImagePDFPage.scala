@@ -31,13 +31,15 @@ class MultiImagePDFPage(page: PDPage) extends PDFStreamEngine with ImageProcessi
   addOperator(new Restore)
   addOperator(new SetMatrix)
 
+
   def getMergedImages() : Option[BufferedImage] = mergedImage.orElse{
     processPage(page)
 
     if(imageChunks.size > 1)
         mergedImage = Some(mergeChunks)
     else
-        mergedImage = imageChunks.headOption.map(_._1)
+        mergedImage = imageChunks.headOption.
+          map(_._1).map(convertToGrayScale)
 
     mergedImage
   }
