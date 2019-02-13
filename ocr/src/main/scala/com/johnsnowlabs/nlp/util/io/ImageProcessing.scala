@@ -117,10 +117,10 @@ trait ImageProcessing {
 
     outputData.indices.par.foreach { idx =>
       if (converted(idx) < threshold) {
-        outputData(idx) = 0.toByte
+        outputData(idx) = maxVal.toByte
       }
       else
-        outputData(idx) = maxVal.toByte
+        outputData(idx) = 0.toByte
     }
     dest
   }
