@@ -48,7 +48,6 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
   "OcrHelper" should "correctly handle PDFs with multiple images" in {
 
     val spark = getSpark
-    import spark.implicits._
     OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
     OcrHelper.setSplitPages(false)
 
