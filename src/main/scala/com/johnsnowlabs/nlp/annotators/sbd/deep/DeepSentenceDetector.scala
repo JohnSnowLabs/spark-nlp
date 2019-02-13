@@ -21,11 +21,17 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   val endPunctuation = new StringArrayParam(this, "endPunctuation",
     "An array of symbols that deep sentence detector will consider as an end of sentence punctuation")
 
+  val explodeSentences = new BooleanParam(this, "explodeSentences",
+    "whether to explode each sentence into a different row, for better parallelization. Defaults to false.")
+
   def setIncludePragmaticSegmenter(value: Boolean): this.type = set(includesPragmaticSegmenter, value)
-    setDefault(includesPragmaticSegmenter, false)
+  setDefault(includesPragmaticSegmenter, false)
 
   def setEndPunctuation(value: Array[String]): this.type = set(endPunctuation, value)
   setDefault(endPunctuation, Array(".", "!", "?"))
+
+  def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
+  setDefault(explodeSentences, false
 
   private lazy val endOfSentencePunctuation = $(endPunctuation)
 
@@ -53,6 +59,17 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       deepSentenceDetector(annotations)
     }
 
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    import org.apache.spark.sql.functions.{col, explode, array}
+    if ($(explodeSentences)) {
+      dataset
+        .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)
+        .withColumn(getOutputCol, array(col("_tmp")).as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .drop("_tmp")
+    }
+    else dataset
   }
 
   def getDocument(annotations: Seq[Annotation]): Seq[Annotation] = {
