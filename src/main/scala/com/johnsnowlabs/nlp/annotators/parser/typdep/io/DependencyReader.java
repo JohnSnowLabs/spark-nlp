@@ -12,12 +12,12 @@ public abstract class DependencyReader {
 
     BufferedReader reader;
 
-    public static DependencyReader createDependencyReader() {
-        return new Conll09Reader();
-    }
-
-    public static DependencyReader createDependencyReaderUniversal() {
-        return new ConllUReader();
+    public static DependencyReader createDependencyReader(String conllFormat) {
+        if (conllFormat.equals("2009")) {
+            return new Conll09Reader();
+        } else {
+            return new ConllUReader();
+        }
     }
 
     public abstract DependencyInstance nextInstance() throws IOException;

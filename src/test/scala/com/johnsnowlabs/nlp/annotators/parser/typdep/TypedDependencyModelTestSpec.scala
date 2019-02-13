@@ -34,6 +34,11 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     .setOutputCol("labdep")
     .setConll2009("src/test/resources/parser/labeled/conll/example.train.conll2009")
 
+  private val typedDependencyParserConllU = new TypedDependencyParserApproach()
+    .setInputCols(Array("token", "pos", "dependency"))
+    .setOutputCol("labdep")
+    .setConllU("src/test/resources/parser/labeled/conll/train_small.conllu.txt")
+
   private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
@@ -90,6 +95,31 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   }
 
+  "A typed dependency parser (trained with CoNLL-U) model with a sentence input" should
+    "predict a labeled relationship between words in the sentence" in {
+    import SparkAccessor.spark.implicits._
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParserConllU
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+    val typedDependencyParserModel = model.stages.last.asInstanceOf[TypedDependencyParserModel]
+    val sentence = "I saw a girl with a telescope"
+    val testDataSet = Seq(sentence).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserModel.isInstanceOf[TypedDependencyParserModel])
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
 
   "A typed dependency parser model with a document input" should
     "predict a labeled relationship between words in each sentence" in {

@@ -58,7 +58,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
     val dependencyPipe = getDependencyPipeInstance(options)
     typedDependencyParser.setDependencyPipe(dependencyPipe)
-    dependencyPipe.createAlphabets(trainFile, "09")
+    dependencyPipe.createAlphabets(trainFile.path, trainFile.conllFormat)
 
     val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
     trainDependencies.startTraining()
@@ -85,11 +85,11 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     }
   }
 
-  def getTrainingFile: String = {
+  def getTrainingFile: TrainFile = {
     if ($(conll2009).path != ""){
-      $(conll2009).path
+      TrainFile($(conll2009).path, "2009")
     } else {
-      $(conllU).path
+      TrainFile($(conllU).path, "U")
     }
   }
 
@@ -105,7 +105,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     new DependencyPipe(options)
   }
 
-  private def getTrainDependenciesInstance(trainFile: String, dependencyPipe: DependencyPipe,
+  private def getTrainDependenciesInstance(trainFile: TrainFile, dependencyPipe: DependencyPipe,
                                            typedDependencyParser: TypedDependencyParser,
                                            options: Options): TrainDependencies = {
     new TrainDependencies(trainFile, dependencyPipe, typedDependencyParser, options)

@@ -124,7 +124,7 @@ public class DependencyPipe implements Serializable {
 
         dictionariesSet.setCounters();
 
-        DependencyReader reader = getReader(conllFormat);
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
 
         reader.startReading(file);
         DependencyInstance dependencyInstance = reader.nextInstance();
@@ -173,14 +173,6 @@ public class DependencyPipe implements Serializable {
 
     }
 
-    private static DependencyReader getReader(String conllFormat) {
-        if (conllFormat.equals("09")) {
-            return DependencyReader.createDependencyReader();
-        } else {
-            return DependencyReader.createDependencyReaderUniversal();
-        }
-    }
-
     /***
      * Create feature alphabets, which maps 64-bit feature code into
      * its integer index (starting from index 0). This method is called
@@ -198,7 +190,7 @@ public class DependencyPipe implements Serializable {
 
         HashSet<String> posTagSet = new HashSet<>();
         HashSet<String> cposTagSet = new HashSet<>();
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
         reader.startReading(file);
 
         DependencyInstance dependencyInstance = reader.nextInstance();
@@ -243,12 +235,12 @@ public class DependencyPipe implements Serializable {
         synFactory.closeAlphabets();
     }
 
-    public DependencyInstance[] createInstances(String file) throws IOException
+    public DependencyInstance[] createInstances(String file, String conllFormat) throws IOException
     {
 
         logger.debug("Creating instances ... ");
 
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
         reader.startReading(file);
 
         LinkedList<DependencyInstance> lt = new LinkedList<>();

@@ -2,14 +2,14 @@ package com.johnsnowlabs.nlp.annotators.common
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 
-object LabeledDependency extends Annotated[Conll2009Sentence] {
+object LabeledDependency extends Annotated[ConllSentence] {
 
   val ROOT_HEAD: Int = -1
   val ROOT_INDEX: Int = 1
 
   override def annotatorType: String = AnnotatorType.POS
 
-  override def unpack(annotations: Seq[Annotation]): Seq[Conll2009Sentence] = {
+  override def unpack(annotations: Seq[Annotation]): Seq[ConllSentence] = {
     val posTagged = annotations.filter(_.annotatorType == annotatorType).toArray
     val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN).toArray
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
@@ -20,16 +20,16 @@ object LabeledDependency extends Annotated[Conll2009Sentence] {
       val pos = posTagged(index).result
       val head = unlabeledDependency.metadata.getOrElse("head", "-1").toInt
       val sentence = tokens(index).metadata.getOrElse("sentence", "0").toInt
-      Conll2009Sentence(form, lemma, pos, "_", head, sentence, unlabeledDependency.begin, unlabeledDependency.end)
+      ConllSentence(form, lemma, pos, "_", head, sentence, unlabeledDependency.begin, unlabeledDependency.end)
     }
 
    conll2009
   }
 
-  override def pack(conll2009Sentences: Seq[Conll2009Sentence]): Seq[Annotation] = {
+  override def pack(conllSentences: Seq[ConllSentence]): Seq[Annotation] = {
 
-    val root = conll2009Sentences.last
-    val arrangedSentences = moveToFront(root, conll2009Sentences.toList)
+    val root = conllSentences.last
+    val arrangedSentences = moveToFront(root, conllSentences.toList)
 
     val annotations = arrangedSentences.map{arrangedSentence =>
       val head = arrangedSentence.head
