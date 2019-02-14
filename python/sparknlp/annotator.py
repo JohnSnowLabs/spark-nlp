@@ -514,9 +514,9 @@ class SentenceDetector(AnnotatorModel):
                                 typeConverter=TypeConverters.toBoolean)
 
     explodeSentences = Param(Params._dummy(),
-                             "explodeSentences",
-                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
-                             typeConverter=TypeConverters.toBoolean)
+        "explodeSentences",
+        "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+        typeConverter=TypeConverters.toBoolean)
 
     maxLength = Param(Params._dummy(),
                       "maxLength",
@@ -560,6 +560,12 @@ class DeepSentenceDetector(AnnotatorModel):
         "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
         typeConverter=TypeConverters.toListString)
 
+    explodeSentences = Param(
+        Params._dummy(),
+        "explodeSentences",
+        "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+        typeConverter=TypeConverters.toBoolean)
+
     name = "DeepSentenceDetector"
 
     def setIncludePragmaticSegmenter(self, value):
@@ -568,11 +574,15 @@ class DeepSentenceDetector(AnnotatorModel):
     def setEndPunctuation(self, value):
         return self._set(endPunctuation=value)
 
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
+
     @keyword_only
     def __init__(self):
         super(DeepSentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
+        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
+                         explodeSentences=False)
 
 
 class SentimentDetector(AnnotatorApproach):
