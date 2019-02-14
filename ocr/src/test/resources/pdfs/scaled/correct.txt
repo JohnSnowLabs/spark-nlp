@@ -1,0 +1,56 @@
+400 IDEAS FOR DESIGN
+COMPUTER AND PULSE CIRCUITS (cont. )
+
+RC Pair Sately Sets Initial State of Relay Driver... .................. 74
+Delayved-Pulse Generator Uses Fewer Components. . ................. 75
+SCR Drives Cold Cathode Counter Tube... ......................... 75
+Simple Gates Provide Binary Scale-ot-Ten Counter... ................. 76
+Mercury Relay Makes Fast-Rise Pulse Generator. .................... 76
+Blocking Oscillator-And Gate Produces Standard Output Pulse... ....... 7
+Transistorized Voltage-Frequency Converter Operates Linearly...  .... 77
+Delay-Line Discriminator Detects Sequences of Pulse. ............... 78
+FM Preserves Pulse Polarity in Ultrasonic Delay Lines. ............... 78
+Indicating Shift Register Uses Silicon-Controlled Rectifiers... ......... 78
+Tunnel Diode Triggers Avalanche Pulse Generator................... 79
+Fixed Interval Timer Gates Random Pulse Stream... ................. 79
+Transistor Stage Yields Polarity-Controlled Output... ................ 80
+SCR Charge-Discharge Circuit Samples Slow Rep-Rate Pulses. . ........ 80
+Variable-Width Pulse Generator Provides Fast Rise/Fall Times. ...... .. 81
+Root Taker Using Biased Diode Networks. .......................... 81
+Gate Circuit Inhibits Pulses on Command... ....................... 82
+Two-Transistors, Feedback Produce Free-Running Pulser. ............. 82
+Inverted Exclusive-OR Circuit Compares Binary Bits. ................ 83
+Zener, Diode Bridge Forms Double-Ended Clipper... ................ 83
+Circuit Squares DC Input Voltage. . ................ ................ 83
+Cascode Circuit Compensates for Heater-Voltage Sensitivity. .......... 84
+Simple Transistor Circuits Generate Phantastron Sweeps. ............. 84
+Biased-On AC Amplifier Boosts Low-Level Pulses. . .................. 85
+TD, Current-Mode Switch Deliver Fast 1-w Pulse... ................. 85
+Photoelectric Elements Help Analog Circuits Divide, Multiply. ....... 86
+Extra Triode Unloads Analog Computer Signal Source. ............... 87
+Exclusive OR Circuit Uses Three Transistors. . ......... ......... ..... 87
+Difterential "Exclusive OR” Reduces Logic Modules... ........... .... 88
+Majority-Logic Adder Cuts Component Needs. ...................... 88
+Diode Sets Flip-Flops tor Initial State at Turn-On. ................... 89
+Direct-Coupled Transistors Provide Simple Parity Check... ...... .... 90
+Exclusive-OR Needs No Complement... ................... .......... 90
+Mousetrap Generator Builds a Better Pulse... ....................... 91
+Magnetic Tape Detects Sections of Rotating Wheel... ................ 91
+Neon Driver Circuit Uses Low Voltage Transistor. ................... 92
+Zener Diode Reduces Schmitt Trigger Hysteresis. .................... 93
+Short-Duration Pulses Drive Visual Indicators. .................... .. 93
+Starter Circuit Guides Counter-Tube Beam... ....... ................ 94
+Simplified Pulse Circuit Has Low Output Impedance. .............. 94
+Temperature Sensitive Resistors Are Low Cost Function Inverters. . . . . 95
+Modified NOR Circuit Automatically Presets Flip-Flop............... 95
+Fast Squaring Circuit Preserves Phase Information. ................... 96
+
+CONTROL CIRCUITS
+
+Quotient Circuit Substitutes tor Dilterence Variable... ............... 97
+Transistor Improves Response and Speed Regulation of DC Motor. . . . .. 97
+Bridge Circuit Temperature Stabilizes Relay Operation. ............... 98
+Filament Voltage Controls Thyratron Cut-Off. ...... ................ 98
+Diodes Allow Two-Wire Control of Limit-Switched Motor... ..... 99
+
+xii

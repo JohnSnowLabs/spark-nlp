@@ -4,11 +4,9 @@ import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
 import java.awt.{Color, Image}
 import java.io.File
-
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
-
 
 
 trait ImageProcessing {
@@ -26,12 +24,14 @@ trait ImageProcessing {
     * adaptive scaling of image according to font size
     * image will be scaled up or down so that letters have desired size
     * fontSize: in pixels
-    * */
-  protected def correctScale(image: BufferedImage, desiredFontSize:Int, maxSize:Int): BufferedImage = {
-    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255), maxSize)
-    val scaleFactor = desiredFontSize.toFloat / detectedFontSize
-    reScaleImage(image, scaleFactor)
-  }
+    *
+  protected def correctScale(image: BufferedImage, desiredFontSize:Int): BufferedImage = {
+    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255))
+    detectedFontSize.map { size =>
+      val scaleFactor = desiredFontSize.toFloat / size
+      reScaleImage(image, scaleFactor)
+    }.getOrElse(image)
+  }*/
 
   def reScaleImage(image: PlanarImage, factor: Float):BufferedImage = {
     reScaleImage(image.getAsBufferedImage(), factor)
@@ -100,7 +100,6 @@ trait ImageProcessing {
   * */
 
   protected def thresholdAndInvert(bi: BufferedImage, threshold:Int, maxVal:Int):BufferedImage = {
-    // TODO this is redundant, remove after merge
     // convert to grayscale
     val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
     val g = gray.createGraphics()
@@ -199,7 +198,6 @@ trait ImageProcessing {
           }
         }
 
-
         val (w, h) = (rightMost- leftMost, downMost - upMost)
         val score = criterionFunc(projections) / (w * h).toDouble
         (angle, score)
@@ -208,14 +206,15 @@ trait ImageProcessing {
   angle_score.maxBy(_._2)._1
   }
 
-  def autocorrelation(projections: Array[Int], maxFontSize:Int) = {
+  def autocorrelation(projections: Array[Int]) = {
    // possible sizes
-   Range(1, 6 * maxFontSize).map { shift =>
+   val limit = 0.3 * projections.length
+   Range(5, limit.toInt).map { shift =>
      (shift, projections.drop(shift).zip(projections.dropRight(shift)).map{case (x,y) => x * y / 4}.sum)
    }
   }
 
-  def findLocalMax(shifts:List[(Int, Int)]):Int = {
+  def findLocalMax(shifts:List[(Int, Int)]):Option[Int] = {
     val gtBefore = shifts.zip(shifts.tail).map{case (x, y) => y._2 > x._2}
     val gtAfter = shifts.zip(shifts.tail).map{case (x, y) => x._2 > y._2}.tail
 
@@ -229,14 +228,13 @@ trait ImageProcessing {
 
     /* remove the ones far from the mean*/
     val filtered = strideLens.filter(len => Math.abs(len - mean) < std)
-    filtered.head.toInt
+    filtered.headOption.map(_.toInt)
   }
 
   private def findHighEnergyLen(projections: Array[Int], periodSize: Int) = {
     val result = Range(0, periodSize).map { shift =>
       analyzeWindow(projections.slice(shift, periodSize + shift))
     }
-
       result.maxBy(_._1)
   }
 
@@ -271,25 +269,54 @@ trait ImageProcessing {
   }
 
 
-  def detectFontSize(image: BufferedImage, maxSize:Int) = {
+  def detectFontSize(image: BufferedImage) = {
     val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
     val projections: Array[Int] = Array.fill(image.getHeight)(0)
     val (imgW, imgH) = (image.getWidth, image.getHeight)
 
-    // detect square surrounding text
+    // obtain horizontal projections
     Range(0, imgW).foreach { i =>
       Range(0, imgH).foreach { j =>
         val pixVal = imageData(j * imgW + i)
-        if (pixVal == -1) {
+        if (signedByte2UnsignedInt(pixVal) > 205) {
           projections(j) += 1
         }
       }
     }
 
     // now we get font size + interlining
-    val periodSize = findLocalMax(autocorrelation(projections, 150).toList)
-
-    val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
-    periodSize - highEnLen
+    findLocalMax(autocorrelation(projections).toList).map { periodSize =>
+      val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
+      periodSize - highEnLen
+    }
   }
+
+  /* convert image to grayscale bufferedImage */
+  protected def toBufferedImage(img: Image): BufferedImage = img match {
+    case image: BufferedImage =>
+      image
+    case _ =>
+      val bimage = new BufferedImage(img.getWidth(null),
+        img.getHeight(null), BufferedImage.TYPE_BYTE_GRAY)
+
+      // draw the image on to the buffered image
+      val g2d = bimage.createGraphics
+      g2d.drawImage(img, 0, 0, Color.WHITE, null)
+      g2d.dispose()
+      bimage
+  }
+
+  protected def convertToGrayScale(img: BufferedImage): BufferedImage = {
+    if(img.getType != BufferedImage.TYPE_BYTE_GRAY) {
+      val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_BYTE_GRAY)
+      // draw the image on to the buffered image
+      val g2d = bimage.createGraphics
+      g2d.drawImage(img, 0, 0, Color.WHITE, null)
+      g2d.dispose()
+      bimage
+    }
+    else
+      img
+  }
+
 }

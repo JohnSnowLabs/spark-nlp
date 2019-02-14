@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.Image
+import java.awt.{Color, Image}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
 
@@ -210,8 +210,8 @@ object OcrHelper extends ImageProcessing {
       this.desiredSize = Some(desiredSize)
       this.maxFontSize = Some(maxFontSize)
     } else {
-      this.halfAngle = None
-      this.resolution = None
+      this.desiredSize = None
+      this.maxFontSize = None
     }
   }
 
@@ -230,8 +230,6 @@ object OcrHelper extends ImageProcessing {
     api.setOcrEngineMode(engineMode)
     api
   }
-
-
 
   /* erode the image */
   def erode(bi: BufferedImage, kernelSize: Int) = {
@@ -300,8 +298,10 @@ object OcrHelper extends ImageProcessing {
       }}.getOrElse(image.getAsBufferedImage)
 
       // rescale if factor provided, or automatic scaling enabled
+
       val factor = scalingFactor.orElse(
-        desiredSize.map(size => detectFontSize(skewCorrected, maxFontSize.get).toFloat))
+        desiredSize.flatMap(size => detectFontSize(skewCorrected).map(_.toFloat).map(size / _)))
+
       val scaledImage = factor.map { factor =>
         reScaleImage(skewCorrected, factor)
       }.getOrElse(skewCorrected)
@@ -402,39 +402,12 @@ object OcrHelper extends ImageProcessing {
     Seq(pdfTextStripper.getText(document))
   }
 
-  /* TODO refactor, assuming single image */
-  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[RenderedImage] = {
+  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[BufferedImage] = {
     import scala.collection.JavaConversions._
     Range(startPage, endPage + 1).flatMap(numPage => {
       val page = document.getPage(numPage)
-      getImagesFromResources(page.getResources).headOption
+      val multiImage = new MultiImagePDFPage(page)
+      multiImage.getMergedImages
     })
-  }
-
-  private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
-    val images = new java.util.ArrayList[RenderedImage]
-    import scala.collection.JavaConversions._
-    for (xObjectName <- resources.getXObjectNames) {
-      val xObject = resources.getXObject(xObjectName)
-      xObject match {
-        case _: PDFormXObject => images.addAll(getImagesFromResources(xObject.asInstanceOf[PDFormXObject].getResources))
-        case _: PDImageXObject => images.add(xObject.asInstanceOf[PDImageXObject].getImage)
-        case _ =>
-      }
-    }
-    images
-  }
-
-  def toBufferedImage(img: Image): BufferedImage = {
-    if (img.isInstanceOf[BufferedImage]) return img.asInstanceOf[BufferedImage]
-
-    // Create a buffered image with transparency
-    val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
-    // Draw the image on to the buffered image
-    val bGr = bimage.createGraphics
-    bGr.drawImage(img, 0, 0, null)
-    bGr.dispose()
-    // Return the buffered image
-    bimage
   }
 }

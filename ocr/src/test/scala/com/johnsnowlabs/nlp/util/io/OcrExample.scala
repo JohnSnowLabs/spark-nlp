@@ -29,17 +29,30 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
     val window4 = Array(1, 1, 1, 5, 5, 5, 5, 1, 1, 1)
     assert(analyzeWindow(window4)._2 == 2)
-
   }
 
   "OcrHelper" should "correctly detect font size" in {
     val img1 = ImageIO.read(new File("ocr/src/test/resources/images/big_font.jpg"))
-    val bigSize = detectFontSize(img1, 200)
+    val bigSize = detectFontSize(convertToGrayScale(img1)).get
     assert(bigSize > 70 && bigSize < 90)
 
     val img2 = ImageIO.read(new File("ocr/src/test/resources/images/small_font.jpg"))
-    val smallSize = detectFontSize(thresholdAndInvert(img2, 205, 255), 100)
+    val smallSize = detectFontSize(convertToGrayScale(img2)).get
     assert(smallSize > 35 && smallSize < 45)
+  }
+
+  "OcrHelper" should "improve accuracy with automatic scaling" in {
+    val spark = getSpark
+
+    val small = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/scaled/toosmall").
+      select("text").collect.map(_.getString(0)).mkString
+
+    OcrHelper.setAutomaticSizeCorrection(true)
+    val sizeCorrected = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/scaled/toosmall").
+      select("text").collect.map(_.getString(0)).mkString
+
+    val correct = Source.fromFile("ocr/src/test/resources/pdfs/scaled/correct.txt").mkString
+    assert(score(correct, small) < score(correct, sizeCorrected))
   }
 
   "Sign convertions" should "map all the values back and forwards" in {
@@ -61,6 +74,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
   }
 
  "OcrHelper" should "automatically correct skew and improve accuracy" in {
+    OcrHelper.setAutomaticSizeCorrection(false)
     val spark = getSpark
     val normal = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/rotated/400").
        select("text").collect.map(_.getString(0)).mkString
@@ -73,6 +87,21 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     assert(score(correct, normal) < score(correct, skewCorrected))
   }
 
+  "OcrHelper" should "correctly handle PDFs with multiple images" in {
+
+    val spark = getSpark
+    OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    OcrHelper.setSplitPages(false)
+
+    val multiple = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple").
+      select("text").collect.map(_.getString(0)).mkString
+
+    val single = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
+      select("text").collect.map(_.getString(0)).mkString
+
+    assert(levenshteinDistance(multiple, single) < 100)
+
+  }
 
   "OcrExample with Spark" should "successfully create a dataset" in {
 
@@ -80,7 +109,8 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple")
+      OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
       data.show(10)
       val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
