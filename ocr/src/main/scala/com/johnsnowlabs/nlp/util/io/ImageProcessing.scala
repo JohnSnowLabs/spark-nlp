@@ -4,9 +4,11 @@ import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
 import java.awt.{Color, Image}
 import java.io.File
+
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
+import org.math.plot.Plot2DPanel
 
 
 trait ImageProcessing {
@@ -19,19 +21,6 @@ trait ImageProcessing {
     rotate(image, correctionAngle.toDouble, true)
   }
 
-
-  /*
-    * adaptive scaling of image according to font size
-    * image will be scaled up or down so that letters have desired size
-    * fontSize: in pixels
-    *
-  protected def correctScale(image: BufferedImage, desiredFontSize:Int): BufferedImage = {
-    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255))
-    detectedFontSize.map { size =>
-      val scaleFactor = desiredFontSize.toFloat / size
-      reScaleImage(image, scaleFactor)
-    }.getOrElse(image)
-  }*/
 
   def reScaleImage(image: PlanarImage, factor: Float):BufferedImage = {
     reScaleImage(image.getAsBufferedImage(), factor)
@@ -284,6 +273,8 @@ trait ImageProcessing {
       }
     }
 
+    plotArray(projections.map(_ / 100))
+
     // now we get font size + interlining
     findLocalMax(autocorrelation(projections).toList).map { periodSize =>
       val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
@@ -319,4 +310,16 @@ trait ImageProcessing {
       img
   }
 
+  def plotArray(array:Array[Int]) = {
+    val panel = new Plot2DPanel()
+    //panel.addLinePlot("Line", array.map(_.toDouble))
+    panel.addLinePlot("Line", Range(0, array.size).toArray.map(_.toDouble), array.map(_.toDouble))
+    import javax.swing.JFrame
+    val frame = new JFrame("Histogram")
+    frame.setContentPane(panel)
+    frame.setSize(800, 400)
+    frame.setVisible(true)
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+
+  }
 }

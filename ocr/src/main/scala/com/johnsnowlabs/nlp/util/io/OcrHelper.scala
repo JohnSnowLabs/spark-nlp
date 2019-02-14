@@ -80,9 +80,8 @@ object OcrHelper extends ImageProcessing {
   private var halfAngle: Option[Double] = None
   private var resolution: Option[Double] = None
 
-  /* adaptive scaling parameters */
+  /* adaptive scaling parameter */
   private var desiredSize: Option[Int] = None
-  private var maxFontSize: Option[Int] = None
 
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
@@ -205,13 +204,11 @@ object OcrHelper extends ImageProcessing {
   * angle candidates.
   *
   * */
-  def setAutomaticSizeCorrection(useIt:Boolean, desiredSize:Int = 34, maxFontSize:Int = 150) = {
+  def setAutomaticSizeCorrection(useIt:Boolean, desiredSize:Int = 34) = {
     if(useIt) {
       this.desiredSize = Some(desiredSize)
-      this.maxFontSize = Some(maxFontSize)
     } else {
       this.desiredSize = None
-      this.maxFontSize = None
     }
   }
 

@@ -156,7 +156,6 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
-  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
