@@ -272,8 +272,6 @@ trait ImageProcessing {
       }
     }
 
-    plotArray(projections.map(_ / 100))
-
     // now we get font size + interlining
     findLocalMax(autocorrelation(projections).toList).map { periodSize =>
       val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
