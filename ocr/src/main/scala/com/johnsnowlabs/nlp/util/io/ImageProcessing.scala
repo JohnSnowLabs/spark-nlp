@@ -8,7 +8,6 @@ import java.io.File
 import javax.media.jai.PlanarImage
 import com.johnsnowlabs.nlp.util.io.OcrHelper.toBufferedImage
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
-import org.math.plot.Plot2DPanel
 
 
 trait ImageProcessing {
@@ -310,16 +309,4 @@ trait ImageProcessing {
       img
   }
 
-  def plotArray(array:Array[Int]) = {
-    val panel = new Plot2DPanel()
-    //panel.addLinePlot("Line", array.map(_.toDouble))
-    panel.addLinePlot("Line", Range(0, array.size).toArray.map(_.toDouble), array.map(_.toDouble))
-    import javax.swing.JFrame
-    val frame = new JFrame("Histogram")
-    frame.setContentPane(panel)
-    frame.setSize(800, 400)
-    frame.setVisible(true)
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-
-  }
 }
