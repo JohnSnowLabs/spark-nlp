@@ -34,11 +34,11 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   "OcrHelper" should "correctly detect font size" in {
     val img1 = ImageIO.read(new File("ocr/src/test/resources/images/big_font.jpg"))
-    val bigSize = detectFontSize(thresholdAndInvert(img1, 205, 255))
+    val bigSize = detectFontSize(img1, 200)
     assert(bigSize > 70 && bigSize < 90)
 
     val img2 = ImageIO.read(new File("ocr/src/test/resources/images/small_font.jpg"))
-    val smallSize = detectFontSize(thresholdAndInvert(img2, 205, 255))
+    val smallSize = detectFontSize(thresholdAndInvert(img2, 205, 255), 100)
     assert(smallSize > 35 && smallSize < 45)
   }
 

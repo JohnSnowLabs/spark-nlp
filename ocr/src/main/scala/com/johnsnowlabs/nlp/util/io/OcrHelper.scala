@@ -80,6 +80,10 @@ object OcrHelper extends ImageProcessing {
   private var halfAngle: Option[Double] = None
   private var resolution: Option[Double] = None
 
+  /* adaptive scaling parameters */
+  private var desiredSize: Option[Int] = None
+  private var maxFontSize: Option[Int] = None
+
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
       s"'${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
@@ -193,6 +197,24 @@ object OcrHelper extends ImageProcessing {
     }
   }
 
+  /*
+  * Enable/disable automatic font size correction,
+  *
+  * @desiredSize, the desired height of the font in pixels.
+  * @maxSize, max possible font size you expect your documents will contain.
+  * angle candidates.
+  *
+  * */
+  def setAutomaticSizeCorrection(useIt:Boolean, desiredSize:Int = 34, maxFontSize:Int = 150) = {
+    if(useIt) {
+      this.desiredSize = Some(desiredSize)
+      this.maxFontSize = Some(maxFontSize)
+    } else {
+      this.halfAngle = None
+      this.resolution = None
+    }
+  }
+
   private def tesseract:Tesseract = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
@@ -277,8 +299,10 @@ object OcrHelper extends ImageProcessing {
         correctSkew(image.getAsBufferedImage, angle, res)
       }}.getOrElse(image.getAsBufferedImage)
 
-      // rescale if factor provided
-      val scaledImage = scalingFactor.map { factor =>
+      // rescale if factor provided, or automatic scaling enabled
+      val factor = scalingFactor.orElse(
+        desiredSize.map(size => detectFontSize(skewCorrected, maxFontSize.get).toFloat))
+      val scaledImage = factor.map { factor =>
         reScaleImage(skewCorrected, factor)
       }.getOrElse(skewCorrected)
 

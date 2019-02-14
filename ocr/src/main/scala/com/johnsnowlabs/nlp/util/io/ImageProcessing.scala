@@ -27,8 +27,8 @@ trait ImageProcessing {
     * image will be scaled up or down so that letters have desired size
     * fontSize: in pixels
     * */
-  protected def correctScale(image: BufferedImage, desiredFontSize:Int): BufferedImage = {
-    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255))
+  protected def correctScale(image: BufferedImage, desiredFontSize:Int, maxSize:Int): BufferedImage = {
+    val detectedFontSize = detectFontSize(thresholdAndInvert(image, 205, 255), maxSize)
     val scaleFactor = desiredFontSize.toFloat / detectedFontSize
     reScaleImage(image, scaleFactor)
   }
@@ -168,7 +168,6 @@ trait ImageProcessing {
   private def detectSkewAngle(image: BufferedImage, halfAngle:Double, resolution:Double): Double = {
     val angle_score = Range.Double(-halfAngle, halfAngle + resolution, resolution).par.map { angle =>
         val rotImage = rotate(image, angle)
-        var pointList: List[(Int, Int)] = List.empty
         val projections: Array[Int] = Array.fill(rotImage.getWidth)(0)
         val rotImageData = rotImage.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
         val (imgW, imgH) = (rotImage.getWidth, rotImage.getHeight)
@@ -183,7 +182,6 @@ trait ImageProcessing {
             val pixVal = rotImageData(j * imgW + i) // check best way to access data here
             if (pixVal == -1) {
               projections(i) += 1
-              pointList =  (j, i) :: pointList
 
               // find min area rectangle in-situ
               if (i < leftMost)
@@ -202,18 +200,17 @@ trait ImageProcessing {
         }
 
 
-        val (w_, h_) = minAreaRectShape(pointList)
         val (w, h) = (rightMost- leftMost, downMost - upMost)
-        val score = criterionFunc(projections) / (w_ * h_).toDouble
+        val score = criterionFunc(projections) / (w * h).toDouble
         (angle, score)
     }.toMap
 
   angle_score.maxBy(_._2)._1
   }
 
-  def autocorrelation(projections: Array[Int]) = {
+  def autocorrelation(projections: Array[Int], maxFontSize:Int) = {
    // possible sizes
-   Range(5, 604).map { shift =>
+   Range(1, 6 * maxFontSize).map { shift =>
      (shift, projections.drop(shift).zip(projections.dropRight(shift)).map{case (x,y) => x * y / 4}.sum)
    }
   }
@@ -274,9 +271,8 @@ trait ImageProcessing {
   }
 
 
-  def detectFontSize(image: BufferedImage) = {
+  def detectFontSize(image: BufferedImage, maxSize:Int) = {
     val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
-    var pointList: List[(Int, Int)] = List.empty
     val projections: Array[Int] = Array.fill(image.getHeight)(0)
     val (imgW, imgH) = (image.getWidth, image.getHeight)
 
@@ -285,17 +281,13 @@ trait ImageProcessing {
       Range(0, imgH).foreach { j =>
         val pixVal = imageData(j * imgW + i)
         if (pixVal == -1) {
-          pointList =  (j, i) :: pointList
           projections(j) += 1
         }
       }
     }
 
-    // TODO horizontal projections over cropped area
-    val (minX, minY, maxX, maxY) = minAreaRectCoordinates(pointList)
-
     // now we get font size + interlining
-    val periodSize = findLocalMax(autocorrelation(projections).toList)
+    val periodSize = findLocalMax(autocorrelation(projections, 150).toList)
 
     val highEnLen = findHighEnergyLen(projections, periodSize)._2 * 2 + periodSize % 2
     periodSize - highEnLen
