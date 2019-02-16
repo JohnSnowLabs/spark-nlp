@@ -86,7 +86,6 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
       mergedSegmentedSentences
     } else {
-      //When NER does not find entities, it will use just pragmatic sentence
       pragmaticSegmentedSentences
     }
   }
@@ -109,16 +108,16 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
   def segmentSentence(nerEntities: Seq[Annotation], sentence: String): Seq[Annotation] = {
     nerEntities.zipWithIndex.map{case (nerEntity, index) =>
-      if (index != nerEntities.length-1){
+      if (index != nerEntities.length - 1){
         val beginIndex = nerEntity.begin
-        val endIndex = nerEntities(index+1).begin-1
+        val endIndex = nerEntities(index + 1).begin - 1
         val segmentedSentence = sentence.substring(beginIndex, endIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        Annotation(annotatorType, 0, segmentedSentence.length - 1, segmentedSentence,
                    Map("sentence" -> ""))
       } else {
         val beginIndex = nerEntity.begin
         val segmentedSentence = sentence.substring(beginIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        Annotation(annotatorType, 0, segmentedSentence.length - 1, segmentedSentence,
           Map("sentence" -> ""))
       }
     }
@@ -158,7 +157,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       validNerEntities.map{ validNerEntity =>
           val offset = validNerEntity.head.begin
           validNerEntity.map(nerEntity =>
-            Annotation(nerEntity.annotatorType, nerEntity.begin-offset, nerEntity.end-offset,
+            Annotation(nerEntity.annotatorType, nerEntity.begin - offset, nerEntity.end-offset,
               nerEntity.result, nerEntity.metadata)
           )
       }
