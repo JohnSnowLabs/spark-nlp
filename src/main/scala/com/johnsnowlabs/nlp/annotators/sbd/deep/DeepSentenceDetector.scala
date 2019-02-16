@@ -8,7 +8,7 @@ import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
+class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector] {
 
   def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
@@ -50,7 +50,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
       val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
-      if (unpunctuatedSentences.isEmpty){
+      if (unpunctuatedSentences.isEmpty) {
         pragmaticSegmentedSentences
       } else {
         getDeepSegmentedSentences(annotations, unpunctuatedSentences, pragmaticSegmentedSentences)
@@ -81,7 +81,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
                                 pragmaticSegmentedSentences: Seq[Annotation] ): Seq[Annotation] = {
 
     val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
-    if (validNerEntities.nonEmpty && unpunctuatedSentences.length == validNerEntities.length ){
+    if (validNerEntities.nonEmpty && unpunctuatedSentences.length == validNerEntities.length ) {
       val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
       val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
       mergedSegmentedSentences
@@ -157,7 +157,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       validNerEntities.map{ validNerEntity =>
           val offset = validNerEntity.head.begin
           validNerEntity.map(nerEntity =>
-            Annotation(nerEntity.annotatorType, nerEntity.begin - offset, nerEntity.end-offset,
+            Annotation(nerEntity.annotatorType, nerEntity.begin - offset, nerEntity.end - offset,
               nerEntity.result, nerEntity.metadata)
           )
       }
@@ -166,7 +166,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     val nerEntities = getNerEntities(annotations)
 
     if (nerEntities.nonEmpty) {
-      val validNerEntities = unpunctuatedSentences.map{ unpunctuatedSentence =>
+      val validNerEntities = unpunctuatedSentences.map{unpunctuatedSentence =>
         nerEntities.filter{entity =>
           val beginSentence = unpunctuatedSentence.begin
           val endSentence = unpunctuatedSentence.end
@@ -183,7 +183,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def mergeSentenceDetectors(pragmaticSegmentedSentences: Seq[Annotation], deepSegmentedSentences: Seq[Annotation]):
   Seq[Annotation] = {
     var mergeSentences = Seq[Annotation]()
-    pragmaticSegmentedSentences.foreach{ pragmaticSegmentedSentence =>
+    pragmaticSegmentedSentences.foreach{pragmaticSegmentedSentence =>
       if (sentenceHasPunctuation(pragmaticSegmentedSentence.result)) {
         mergeSentences = mergeSentences ++ Seq(pragmaticSegmentedSentence)
       }
@@ -193,7 +193,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     mergeSentences.map{mergeSentence =>
       sentenceNumber += 1
       Annotation(mergeSentence.annotatorType, mergeSentence.begin, mergeSentence.end, mergeSentence.result,
-        Map("sentence"->sentenceNumber.toString))
+        Map("sentence" -> sentenceNumber.toString))
     }
   }
 
