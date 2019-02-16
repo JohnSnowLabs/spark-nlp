@@ -73,6 +73,11 @@ public class ConllUReader extends DependencyReader{
                 feats[i] = parts[5].split("\\|");
             }
 
+            if (parts[6].equals("_")) {
+                System.out.println("Error in sentence:\n");
+                System.out.println(parts[0] + parts[1] + " " +  parts[2] + " " + parts[3]);
+            }
+
             heads[i] = Integer.parseInt(parts[6]);
             deprels[i] = parts[7];
 
