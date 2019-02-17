@@ -11,6 +11,7 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
 import java.nio.file.{Files, Paths}
 
+
 class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
 
   private val documentAssembler = new DocumentAssembler()
@@ -139,7 +140,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val expectedSentence2 = "I live in Gotham"
     val expectedSegmentedSentences =
       Seq(Annotation(DOCUMENT, 0, expectedSentence1.length-1, expectedSentence1, Map("sentence"->"")),
-          Annotation(DOCUMENT, 0, expectedSentence2.length-1, expectedSentence2, Map("sentence"->"")))
+          Annotation(DOCUMENT, expectedSentence1.length+1, sentence.length-1, expectedSentence2, Map("sentence"->"")))
 
     val segmentedSentence = deepSentenceDetector.segmentSentence(entities, sentence)
 
@@ -147,7 +148,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "identify punctuation in a sentence with punctuation" in {
+  it should "identify punctuation in a sentence with punctuation" in  {
 
     val sentence = "That is your answer?"
     val expectedResult = true
@@ -219,7 +220,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
     val expectedValidNetEntities = Seq(
       Seq(Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent"))),
-      Seq(Annotation(CHUNK, 0, 3, "This", Map("entity"->"sent")))
+      Seq(Annotation(CHUNK, 20, 23, "This", Map("entity"->"sent")))
     )
 
     validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
@@ -276,8 +277,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     )
     val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
     val expectedValidNerEntities = Seq(Seq(
-      Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-      Annotation(CHUNK, 21, 26, "Winter", Map("entity"->"sent")))
+      Annotation(CHUNK, 20, 20, "I", Map("entity"->"sent")),
+      Annotation(CHUNK, 41, 46, "Winter", Map("entity"->"sent")))
     )
 
     validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
@@ -286,17 +287,16 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should
-    "detect sentences" in {
-
+  it should "detect sentences" in {
     val sentence1 = "I love deep learning"
     val sentence2 = "Winter is coming"
+    val offset = 20
     val expectedDetectedSentences = Seq(
-      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"")),
-      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->""))
+      Annotation(DOCUMENT, offset, sentence1.length-1 + offset, sentence1, Map("sentence"->"")),
+      Annotation(DOCUMENT, sentence1.length+1 + offset, paragraph.length-1, sentence2, Map("sentence"->""))
     )
 
-    val detectedSentences = deepSentenceDetector.deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+    val detectedSentences = deepSentenceDetector.deepSentenceDetector(paragraph, unpunctuatedSentences, validNerEntities)
 
     assert(detectedSentences == expectedDetectedSentences)
   }
@@ -352,10 +352,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     )
     val annotations  = getAnnotationsWithTokens(paragraph) ++ nerConverterAnnotations
     val expectedValidNerEntities = Seq(
-      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-          Annotation(CHUNK, 21, 26, "Winter", Map("entity"->"sent"))),
-      Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-          Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+      Seq(Annotation(CHUNK, 20, 20, "I", Map("entity"->"sent")),
+          Annotation(CHUNK, 41, 46, "Winter", Map("entity"->"sent"))),
+      Seq(Annotation(CHUNK, 59, 59, "I", Map("entity"->"sent")),
+          Annotation(CHUNK, 71, 71, "I", Map("entity"->"sent")))
     )
 
     validNerEntities = deepSentenceDetector.retrieveValidNerEntities(annotations, unpunctuatedSentences)
@@ -371,13 +371,14 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val sentence3 = "I am Batman"
     val sentence4 = "I live in Gotham"
     val expectedDetectedSentences = Seq(
-      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"")),
-      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"")),
-      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"")),
-      Annotation(DOCUMENT, 0, sentence4.length-1, sentence4, Map("sentence"->""))
+      Annotation(DOCUMENT, 20, 39, sentence1, Map("sentence"->"")),
+      Annotation(DOCUMENT, 41, 57, sentence2, Map("sentence"->"")),
+      Annotation(DOCUMENT, 59, 69, sentence3, Map("sentence"->"")),
+      Annotation(DOCUMENT, 71, 86, sentence4, Map("sentence"->""))
     )
 
-    val detectedSentences = deepSentenceDetector.deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+    val detectedSentences = deepSentenceDetector.deepSentenceDetector(paragraph,
+      unpunctuatedSentences, validNerEntities)
 
     assert(detectedSentences == expectedDetectedSentences)
   }
@@ -385,18 +386,19 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   it should
     "merge pragmatic and deep sentence detector outputs" in {
 
-    val deepSegmentedSentences = deepSentenceDetector.deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+    val deepSegmentedSentences = deepSentenceDetector.deepSentenceDetector(paragraph,
+      unpunctuatedSentences, validNerEntities)
     val sentence1= "This is a sentence."
     val sentence2 = "I love deep learning"
     val sentence3 = "Winter is coming;"
     val sentence4 = "I am Batman"
     val sentence5 = "I live in Gotham"
     val expectedMergedSentences = Seq(
-      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"1")),
-      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"2")),
-      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3")),
-      Annotation(DOCUMENT, 0, sentence4.length-1, sentence4, Map("sentence"->"4")),
-      Annotation(DOCUMENT, 0, sentence5.length-1, sentence5, Map("sentence"->"5"))
+      Annotation(DOCUMENT, 0, 18, sentence1, Map("sentence"->"1")),
+      Annotation(DOCUMENT, 20, 39, sentence2, Map("sentence"->"2")),
+      Annotation(DOCUMENT, 41, 57, sentence3, Map("sentence"->"3")),
+      Annotation(DOCUMENT, 59, 69, sentence4, Map("sentence"->"4")),
+      Annotation(DOCUMENT, 71, 86, sentence5, Map("sentence"->"5"))
     )
 
     val mergedSegmentedSentences = deepSentenceDetector.mergeSentenceDetectors(pragmaticSegmentedSentences,
@@ -422,7 +424,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(model.isInstanceOf[DeepSentenceDetector])
   }
 
-  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of unpunctuated sentences" should behave like {
+  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of unpunctuated sentences" should
+    behave like {
 
     val testDataSet = Seq("I am Batman I live in Gotham",
                           "i love deep learning winter is coming").toDS.toDF("text")
@@ -430,17 +433,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val expectedResult = Seq(
       Seq("I am Batman", "I live in Gotham"),
       Seq("i love deep learning", "winter is coming")
-    )
-
-    transformDataSet(testDataSet, strongPipeline, expectedResult)
-  }
-
-  "A Deep Sentence Detector (trained with strong NER) that receives a dataset of punctuated sentences" should behave like {
-
-    val testDataSet = Seq("This is a sentence. This is another sentence.").toDS.toDF("text")
-
-    val expectedResult = Seq(
-      Seq("This is a sentence.", "This is another sentence.")
     )
 
     transformDataSet(testDataSet, strongPipeline, expectedResult)
