@@ -108,8 +108,15 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     }
   }
 
-  def segmentSentenceForEachCurrentSentence(nerEntities: Seq[Annotation], originalSentence: String,
-                                            currentSentence: Annotation):
+  def deepSentenceDetector(originalSentence: String, unpunctuatedSentences: Seq[Annotation],
+                           nerEntities: Seq[Seq[Annotation]]):
+  Seq[Annotation] = {
+    unpunctuatedSentences.zipWithIndex.flatMap{ case (unpunctuatedSentence, index) =>
+      segmentSentence(nerEntities(index), originalSentence, unpunctuatedSentence)
+    }
+  }
+
+  def segmentSentence(nerEntities: Seq[Annotation], originalSentence: String, currentSentence: Annotation):
   Seq[Annotation] = {
     nerEntities.zipWithIndex.map{case (nerEntity, index) =>
       if (index != nerEntities.length-1){
@@ -125,14 +132,6 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         Annotation(annotatorType, beginIndex, endIndex, segmentedSentence,
           Map("sentence" -> ""))
       }
-    }
-  }
-
-  def deepSentenceDetector(originalSentence: String, unpunctuatedSentences: Seq[Annotation],
-                           nerEntities: Seq[Seq[Annotation]]):
-  Seq[Annotation] = {
-    unpunctuatedSentences.zipWithIndex.flatMap{ case (unpunctuatedSentence, index) =>
-      segmentSentenceForEachCurrentSentence(nerEntities(index), originalSentence, unpunctuatedSentence)
     }
   }
 
