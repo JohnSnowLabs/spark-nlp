@@ -27,18 +27,11 @@ public class Conll09Reader extends DependencyReader{
 		    14... APREDn
 	   	*/
 
-    private static final int END_OF_SENTENCE = -2;
 
     @Override
     public DependencyInstance nextInstance() throws IOException {
 
-        ArrayList<String[]> lstLines = new ArrayList<>();
-
-        String line = reader.readLine();
-        while (line != null && !line.equals("") && !line.startsWith("*")) {
-            lstLines.add(line.trim().split("\t"));
-            line = reader.readLine();
-        }
+        ArrayList<String[]> lstLines = getFileContentAsArray();
 
         if (lstLines.isEmpty()) {
             return null;
@@ -86,59 +79,16 @@ public class Conll09Reader extends DependencyReader{
         return new DependencyInstance(forms, lemmas, cpos, pos, feats, heads, deprels, null, null);
     }
 
-    public DependencyInstance nextSentence(ConllData[] sentence) {
+    private ArrayList<String[]> getFileContentAsArray() throws IOException {
 
-        if (sentence[0].getHead() == END_OF_SENTENCE) {
-            return null;
+        ArrayList<String[]> lstLines = new ArrayList<>();
+
+        String line = reader.readLine();
+        while (line != null && !line.equals("") && !line.startsWith("*")) {
+            lstLines.add(line.trim().split("\t"));
+            line = reader.readLine();
         }
-
-        int length = sentence.length;
-        String[] forms = new String[length + 1];
-        String[] lemmas = new String[length + 1];
-        String[] cpos = new String[length + 1];
-        String[] pos = new String[length + 1];
-        String[][] feats = new String[length + 1][];
-        String[] deprels = new String[length + 1];
-        int[] heads = new int[length + 1];
-        int[] begins = new int[length + 1];
-        int[] ends = new int[length + 1];
-
-        forms[0] = "<root>";
-        lemmas[0] = "<root-LEMMA>";
-        pos[0] = "<root-POS>";
-        cpos[0] = pos[0];
-        deprels[0] = "<no-type>";
-        heads[0] = -1;
-        begins[0] = -1;
-        ends[0] = -1;
-
-        boolean hasLemma = false;
-
-        for (int i = 1; i < length + 1; ++i) {
-            ConllData conll09Values = sentence[i-1];
-            begins[i] = conll09Values.getBegin();
-            ends[i] = conll09Values.getEnd();
-            forms[i] = conll09Values.getForm();
-
-            if (!conll09Values.getLemma().equals("_")) {
-                lemmas[i] = conll09Values.getLemma();
-                hasLemma = true;
-            }
-
-            pos[i] = conll09Values.getPos();
-            cpos[i] = pos[i];
-
-            //TODO: Add feats
-
-            heads[i] = conll09Values.getHead();
-            deprels[i] = conll09Values.getDeprel();
-
-        }
-        if (!hasLemma){
-            lemmas = null;
-        }
-
-        return new DependencyInstance(forms, lemmas, cpos, pos, feats, heads, deprels, begins, ends);
+        return lstLines;
     }
 
 }

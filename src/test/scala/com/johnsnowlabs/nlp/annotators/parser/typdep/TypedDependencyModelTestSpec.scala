@@ -38,8 +38,8 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   private val typedDependencyParserConllU = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
-    //.setConllU("src/test/resources/parser/labeled/conll/train_small.conllu.txt")
-    .setConllU("/Users/dburbano/IdeaProjects/spark-nlp-models/src/main/resources/parser/unlabeled/en_ewt-ud-train.conllu.txt")
+    .setConllU("src/test/resources/parser/labeled/conll/train_small.conllu.txt")
+    //.setConllU("/Users/dburbano/IdeaProjects/spark-nlp-models/src/main/resources/parser/unlabeled/en_ewt-ud-train.conllu.txt")
     .setNumberOfIterations(10)
 
   private val emptyDataSet = PipelineModels.dummyDataset
@@ -73,7 +73,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with a sentence input" should
-    "predict a labeled relationship between words in the sentence" ignore {
+    "predict a labeled relationship between words in the sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -111,7 +111,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         dependencyParser,
         typedDependencyParserConllU
       ))
-
+    "pruebas".contains()
     val model = pipeline.fit(emptyDataSet)
     val typedDependencyParserModel = model.stages.last.asInstanceOf[TypedDependencyParserModel]
     val sentence = "I saw a girl with a telescope"
@@ -125,7 +125,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with a document input" should
-    "predict a labeled relationship between words in each sentence" ignore {
+    "predict a labeled relationship between words in each sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -151,7 +151,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" ignore  {
+    "predict a labeled relationship between words in each sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val finisher = new Finisher().setInputCols("labdep")
@@ -180,7 +180,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model with an input of more than one row" should
-    "predict a labeled relationship between words in each sentence" ignore  {
+    "predict a labeled relationship between words in each sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -208,7 +208,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model whit few numberOfTrainingIterations" should
-    "predict a labeled relationship between words in the sentence" ignore  {
+    "predict a labeled relationship between words in the sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val typedDependencyParser = new TypedDependencyParserApproach()
@@ -241,7 +241,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser (trained with CoNLLU) model whit few numberOfTrainingIterations" should
-    "predict a labeled relationship between words in the sentence" ignore  {
+    "predict a labeled relationship between words in the sentence" in  {
     import SparkAccessor.spark.implicits._
 
     val typedDependencyParser = new TypedDependencyParserApproach()
