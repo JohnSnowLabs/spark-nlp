@@ -46,7 +46,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       if (unpunctuatedSentences.isEmpty){
         pragmaticSegmentedSentences
       } else {
-        getDeepSegmentedSentences(annotations, unpunctuatedSentences, pragmaticSegmentedSentences)
+        getDeepSegmentedSentences(annotations, document.head.result, unpunctuatedSentences, pragmaticSegmentedSentences)
       }
 
     } else {
@@ -59,12 +59,13 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     annotations.filter(annotation => annotation.annotatorType == DOCUMENT)
   }
 
-  def getDeepSegmentedSentences(annotations: Seq[Annotation], unpunctuatedSentences: Seq[Annotation],
-                                pragmaticSegmentedSentences: Seq[Annotation] ): Seq[Annotation] = {
+  def getDeepSegmentedSentences(annotations: Seq[Annotation], originalSentence: String,
+                                unpunctuatedSentences: Seq[Annotation], pragmaticSegmentedSentences: Seq[Annotation] ):
+  Seq[Annotation] = {
 
     val validNerEntities = retrieveValidNerEntities(annotations, unpunctuatedSentences)
     if (validNerEntities.nonEmpty && unpunctuatedSentences.length == validNerEntities.length ){
-      val deepSegmentedSentences = deepSentenceDetector(unpunctuatedSentences, validNerEntities)
+      val deepSegmentedSentences = deepSentenceDetector(originalSentence, unpunctuatedSentences, validNerEntities)
       val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
       mergedSegmentedSentences
     } else {
@@ -89,27 +90,49 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     sentence.mkString(" ")
   }
 
-  def segmentSentence(nerEntities: Seq[Annotation], sentence: String): Seq[Annotation] = {
+  def segmentSentence(nerEntities: Seq[Annotation], originalSentence: String):
+  Seq[Annotation] = {
     nerEntities.zipWithIndex.map{case (nerEntity, index) =>
       if (index != nerEntities.length-1){
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index+1).begin-1
-        val segmentedSentence = sentence.substring(beginIndex, endIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        val segmentedSentence = originalSentence.substring(beginIndex, endIndex)
+        Annotation(annotatorType, beginIndex, endIndex-1, segmentedSentence,
                    Map("sentence" -> ""))
       } else {
         val beginIndex = nerEntity.begin
-        val segmentedSentence = sentence.substring(beginIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        val segmentedSentence = originalSentence.substring(beginIndex)
+        Annotation(annotatorType, beginIndex, originalSentence.length-1, segmentedSentence,
           Map("sentence" -> ""))
       }
     }
   }
 
-  def deepSentenceDetector(unpunctuatedSentences: Seq[Annotation], nerEntities: Seq[Seq[Annotation]]):
+  def segmentSentenceForEachCurrentSentence(nerEntities: Seq[Annotation], originalSentence: String,
+                                            currentSentence: Annotation):
+  Seq[Annotation] = {
+    nerEntities.zipWithIndex.map{case (nerEntity, index) =>
+      if (index != nerEntities.length-1){
+        val beginIndex = nerEntity.begin
+        val endIndex = nerEntities(index+1).begin-1
+        val segmentedSentence = originalSentence.substring(beginIndex, endIndex)
+        Annotation(annotatorType, beginIndex, endIndex-1, segmentedSentence,
+          Map("sentence" -> ""))
+      } else {
+        val beginIndex = nerEntity.begin
+        val endIndex = currentSentence.end
+        val segmentedSentence = originalSentence.substring(beginIndex, endIndex+1)
+        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence,
+          Map("sentence" -> ""))
+      }
+    }
+  }
+
+  def deepSentenceDetector(originalSentence: String, unpunctuatedSentences: Seq[Annotation],
+                           nerEntities: Seq[Seq[Annotation]]):
   Seq[Annotation] = {
     unpunctuatedSentences.zipWithIndex.flatMap{ case (unpunctuatedSentence, index) =>
-      segmentSentence(nerEntities(index), unpunctuatedSentence.result)
+      segmentSentenceForEachCurrentSentence(nerEntities(index), originalSentence, unpunctuatedSentence)
     }
   }
 
@@ -138,9 +161,8 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
     def updateIndex(validNerEntities: Seq[Seq[Annotation]]): Seq[Seq[Annotation]] = {
       validNerEntities.map{ validNerEntity =>
-          val offset = validNerEntity.head.begin
           validNerEntity.map(nerEntity =>
-            Annotation(nerEntity.annotatorType, nerEntity.begin-offset, nerEntity.end-offset,
+            Annotation(nerEntity.annotatorType, nerEntity.begin, nerEntity.end,
               nerEntity.result, nerEntity.metadata)
           )
       }
