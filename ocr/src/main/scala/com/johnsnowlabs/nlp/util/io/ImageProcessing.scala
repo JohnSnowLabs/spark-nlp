@@ -208,15 +208,20 @@ trait ImageProcessing {
 
     val combined = gtBefore.zip(gtAfter).map{case (x,y) => x && y}
     val maxLocations = combined.zipWithIndex.filter(_._1).map(_._2.toDouble)
-    val strideLens = maxLocations.zip(maxLocations.tail).map{case (x1, x2) => x2 - x1}
 
-    val mean = strideLens.sum / strideLens.length
-    val stdCalc = new StandardDeviation()
-    val std = stdCalc.evaluate(strideLens.toArray)
+    if (maxLocations.size >= 2) {
+      val strideLens = maxLocations.zip(maxLocations.tail).map { case (x1, x2) => x2 - x1 }
 
-    /* remove the ones far from the mean*/
-    val filtered = strideLens.filter(len => Math.abs(len - mean) < std)
-    filtered.headOption.map(_.toInt)
+      val mean = strideLens.sum / strideLens.length
+      val stdCalc = new StandardDeviation()
+      val std = stdCalc.evaluate(strideLens.toArray)
+
+      /* remove the ones far from the mean*/
+      val filtered = strideLens.filter(len => Math.abs(len - mean) < std)
+      filtered.headOption.map(_.toInt)
+    }
+    else
+      None
   }
 
   private def findHighEnergyLen(projections: Array[Int], periodSize: Int) = {
@@ -271,8 +276,6 @@ trait ImageProcessing {
         }
       }
     }
-
-    plotArray(projections.map(_ / 100))
 
     // now we get font size + interlining
     findLocalMax(autocorrelation(projections).toList).map { periodSize =>
