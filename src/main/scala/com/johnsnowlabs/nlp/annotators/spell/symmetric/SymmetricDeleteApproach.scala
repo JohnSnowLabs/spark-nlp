@@ -34,7 +34,7 @@ class SymmetricDeleteApproach(override val uid: String)
   }
 
   def setCorpus(path: String,
-                tokenPattern: String,
+                tokenPattern: String = "\\S+",
                 readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
                 options: Map[String, String] = Map("format" -> "text")): this.type =
     set(corpus, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))

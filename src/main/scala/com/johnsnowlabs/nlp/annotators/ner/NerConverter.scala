@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.Identifiable
 
 import scala.collection.Map
@@ -16,12 +17,14 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
 
   def this() = this(Identifiable.randomUID("NER_CONVERTER"))
 
+  val whiteList: StringArrayParam = new StringArrayParam(this, "whiteList", "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels")
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
     val docs = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT)
     val entities = sentences.zip(docs).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc)}
 
-    entities.map{entity =>
+    entities.filter(entity => get(whiteList).forall(validEntity => validEntity.contains(entity.entity))).map{entity =>
       Annotation(annotatorType, entity.start, entity.end, entity.text, Map("entity" -> entity.entity))
     }
   }

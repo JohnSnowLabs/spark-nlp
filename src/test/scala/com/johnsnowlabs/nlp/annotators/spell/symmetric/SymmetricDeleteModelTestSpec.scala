@@ -10,6 +10,8 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   //testLevenshteinDistance()
 
+  "A symmetric delete approach" should behave like testDefaultTokenCorpusParameter
+
   "a lower case word " should behave like obtainLowerCaseTypeFromALowerCaseWord
 
   it should behave like transformLowerCaseTypeWordIntoLowerCase
