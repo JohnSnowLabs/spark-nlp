@@ -14,9 +14,6 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
 
-  val externalDataset = new ExternalResourceParam(this, "externalDataset", "Path to dataset. " +
-    "If not provided will use dataset passed to train as usual Spark Pipeline stage")
-
   def setLabelColumn(column: String) = set(labelColumn, column).asInstanceOf[T]
   def setEntities(tags: Array[String]) = set(entities, tags).asInstanceOf[T]
   def setMinEpochs(epochs: Int) = set(minEpochs, epochs).asInstanceOf[T]
@@ -24,13 +21,6 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
   def setVerbose(verbose: Int) = set(this.verbose, verbose).asInstanceOf[T]
   def setVerbose(verbose: Verbose.Level) = set(this.verbose, verbose.id).asInstanceOf[T]
   def setRandomSeed(seed: Int) = set(randomSeed, seed).asInstanceOf[T]
-
-  def setExternalDataset(path: ExternalResource) = set(externalDataset, path).asInstanceOf[T]
-
-  def setExternalDataset(path: String,
-                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                         options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(externalDataset, ExternalResource(path, readAs, options))
 }
 
 object Verbose extends Enumeration {

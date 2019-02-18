@@ -26,14 +26,13 @@ import scala.util.Random
 
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
-    with HasRecursiveFit[NerDLModel]
     with NerApproach[NerDLApproach]
     with Logging {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
   override def getLogName: String = "NerDL"
-  override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
+  override val description = "Trains Tensorflow based-BLSTM model"
   override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
   override val annotatorType = NAMED_ENTITY
 
@@ -42,100 +41,23 @@ class NerDLApproach(override val uid: String)
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
 
-  val validationDataset = new ExternalResourceParam(this, "validationDataset", "Path to validation dataset. " +
-    "If set used to calculate statistic on it during training.")
-  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
-    "If set used to calculate statistic on it during training.")
-
   def setLr(lr: Float) = set(this.lr, lr)
   def setPo(po: Float) = set(this.po, po)
   def setBatchSize(batch: Int) = set(this.batchSize, batch)
   def setDropout(dropout: Float) = set(this.dropout, dropout)
 
-  def setValidationDataset(path: String,
-                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                         options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(validationDataset, ExternalResource(path, readAs, options))
-
-  def setValidationDataset(er: ExternalResource) = set(validationDataset, er)
-
-  def setTestDataset(path: String,
-                            readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                            options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(testDataset, ExternalResource(path, readAs, options))
-
-  def setTestDataset(er: ExternalResource) = set(testDataset, er)
-
   setDefault(
     minEpochs -> 0,
-    maxEpochs -> 50,
-    lr -> 0.2f,
-    po -> 0.05f,
-    batchSize -> 9,
+    maxEpochs -> 70,
+    lr -> 1e-3f,
+    po -> 0.005f,
+    batchSize -> 32,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id
   )
 
   override val verboseLevel = Verbose($(verbose))
 
-  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
-    :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
-
-    lazy val pipelineModel = recursivePipeline.map(rp => {
-      rp.stages.foreach {
-        case d: DocumentAssembler => d.setTrimAndClearNewLines(false)
-        case _ =>
-      }
-      rp
-    }).getOrElse {
-
-      logger.warn("NER DL not in a RecursivePipeline. " +
-        "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
-        "better performance during training")
-
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-        .setTrimAndClearNewLines(false)
-
-      val sentenceDetector = new SentenceDetector()
-        .setCustomBounds(Array("\n\n", "\n\r\n\r"))
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
-
-      val tokenizer = new Tokenizer()
-        .setInputCols(Array("document"))
-        .setOutputCol("token")
-
-      val pipeline = new Pipeline().setStages(
-        Array(
-          documentAssembler,
-          sentenceDetector,
-          tokenizer)
-      )
-
-      pipeline.fit(dataset)
-    }
-
-    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-
-    val train = if (!isDefined(externalDataset))
-      dataset.toDF()
-    else
-      pipelineModel.transform(reader.readDataset($(externalDataset), dataset.sparkSession).toDF)
-
-    val valid = if (!isDefined(validationDataset))
-      None
-    else
-      Some(pipelineModel.transform(reader.readDataset($(validationDataset), dataset.sparkSession).toDF))
-
-    val test = if (!isDefined(testDataset))
-      None
-    else
-      Some(pipelineModel.transform(reader.readDataset($(testDataset), dataset.sparkSession).toDF))
-
-    (train, valid, test)
-  }
 
   def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
     sentences.find(s => s.tokens.nonEmpty)
@@ -145,20 +67,9 @@ class NerDLApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
-    val (train, valid, test) = getTrainDataframe(dataset, recursivePipeline)
+    val train = dataset.toDF()
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
-
-    val validationDataset =
-      if (valid.isEmpty) Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
-    else
-      NerTagged.collectTrainingInstances(valid.get, getInputCols, $(labelColumn))
-
-    val testDataset =
-      if (test.isEmpty) Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
-      else
-        NerTagged.collectTrainingInstances(test.get, getInputCols, $(labelColumn))
-
     val trainSentences = trainDataset.map(r => r._2)
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
@@ -192,7 +103,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), validationDataset, testDataset)
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs))
       model
     }
 

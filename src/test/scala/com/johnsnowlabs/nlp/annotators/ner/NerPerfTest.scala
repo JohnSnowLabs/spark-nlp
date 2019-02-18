@@ -12,7 +12,6 @@ class NerPerfTest extends FlatSpec {
 
   "NerCRF Approach" should "be fast to train" ignore {
 
-    ResourceHelper.spark
     import ResourceHelper.spark.implicits._
 
     val documentAssembler = new DocumentAssembler().
@@ -39,8 +38,6 @@ class NerPerfTest extends FlatSpec {
       setOutputCol("ner").
       setMinEpochs(1).
       setMaxEpochs(5).
-      //setExternalFeatures("/src/test/resources/ner-corpus/dict.txt", ",").
-      setExternalDataset("./eng_small.train", "SPARK_DATASET").
       setC0(1250000).
       setRandomSeed(0).
       setVerbose(2)
@@ -69,7 +66,6 @@ class NerPerfTest extends FlatSpec {
 
   "NerDL Approach" should "be fast to train" ignore {
 
-    ResourceHelper.spark
     import ResourceHelper.spark.implicits._
 
     val documentAssembler = new DocumentAssembler().
@@ -92,7 +88,6 @@ class NerPerfTest extends FlatSpec {
       setOutputCol("ner").
       setMinEpochs(1).
       setMaxEpochs(30).
-      setExternalDataset("./eng_big.train", "SPARK_DATASET").
       setRandomSeed(0).
       setVerbose(2).
       setDropout(0.8f).
@@ -123,7 +118,6 @@ class NerPerfTest extends FlatSpec {
 
   "NerDL Model" should "label correctly" ignore {
 
-    ResourceHelper.spark
     import ResourceHelper.spark.implicits._
 
     val documentAssembler = new DocumentAssembler().
@@ -177,7 +171,6 @@ class NerPerfTest extends FlatSpec {
 
   "NerCRF Model" should "label correctly" ignore {
 
-    ResourceHelper.spark
     import ResourceHelper.spark.implicits._
 
     val documentAssembler = new DocumentAssembler().

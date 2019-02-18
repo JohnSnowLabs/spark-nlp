@@ -50,9 +50,6 @@ object NerDLPipeline extends App {
       .setDropout(0.5f)
       .setBatchSize(9)
       .setOutputCol("ner")
-      .setExternalDataset(trainFile)
-      .setValidationDataset(testFileA)
-      .setTestDataset(testFileB)
       .setVerbose(Verbose.Epochs)
 
     val converter = new NerConverter()
