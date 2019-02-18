@@ -71,8 +71,7 @@ class TensorflowNer
             dropout: Float,
             startEpoch: Int,
             endEpoch: Int,
-            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
-            test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -133,11 +132,6 @@ class TensorflowNer
       if (validation.nonEmpty) {
         log("Quality on validation dataset: ", Verbose.Epochs)
         measure(validation, (s: String) => log(s, Verbose.Epochs))
-      }
-
-      if (test.nonEmpty) {
-        log("Quality on test dataset: ", Verbose.Epochs)
-        measure(test, (s: String) => log(s, Verbose.Epochs))
       }
     }
   }

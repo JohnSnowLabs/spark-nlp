@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproachDistributed, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
@@ -41,8 +41,7 @@ object CoNLL2003PipelineTest extends App {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val posTagger = new PerceptronApproachDistributed()
-      .setNIterations(10)
+    val posTagger = PerceptronModel.pretrained()
       .setInputCols("token", "document")
       .setOutputCol("pos")
 
@@ -53,21 +52,20 @@ object CoNLL2003PipelineTest extends App {
   }
 
   def getNerStages(): Array[_ <: PipelineStage] = {
-    val embeddings = new WordEmbeddingsLookup()
-      .setInputCols("sentence", "token", "pos")
-      .setOutputCol("embeddings")
+    val glove = new WordEmbeddingsLookup()
+      .setInputCols("sentence", "token")
+      .setOutputCol("glove")
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
 
     val nerTagger = new NerCrfApproach()
-      .setInputCols("sentence", "token", "pos", "embeddings")
+      .setInputCols("sentence", "token", "pos", "glove")
       .setLabelColumn("label")
-      .setExternalFeatures(ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")))
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(10)
       .setOutputCol("ner")
 
-    getPosStages() ++ Array(embeddings, nerTagger)
+    getPosStages() ++ Array(glove, nerTagger)
   }
 
   def trainPosModel(er: ExternalResource): PipelineModel = {

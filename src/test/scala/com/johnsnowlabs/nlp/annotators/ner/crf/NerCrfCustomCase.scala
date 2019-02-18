@@ -41,7 +41,6 @@ class NerCrfCustomCase extends FlatSpec {
     val nerCrf = new NerCrfApproach()
       .setInputCols("pos", "token", "sentence", "embeddings")
       .setOutputCol("ner")
-      .setExternalDataset("/extcnll")
       .setMinEpochs(50)
       .setMaxEpochs(80)
       .setLabelColumn("label")
