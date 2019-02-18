@@ -15,6 +15,9 @@ object annotator {
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
 
+  type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
+  object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
+
   type Normalizer = com.johnsnowlabs.nlp.annotators.Normalizer
   object Normalizer extends DefaultParamsReadable[Normalizer]
   type NormalizerModel = com.johnsnowlabs.nlp.annotators.NormalizerModel
@@ -58,6 +61,9 @@ object annotator {
 
   type SentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
   object SentenceDetector extends DefaultParamsReadable[SentenceDetector]
+
+  type DeepSentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector
+  object DeepSentenceDetector extends DefaultParamsReadable[DeepSentenceDetector]
 
   type SentimentDetector = com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
   object SentimentDetector extends DefaultParamsReadable[SentimentDetector]

@@ -4,6 +4,7 @@ import com.johnsnowlabs.ml.crf.LinearChainCrfModel
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
@@ -29,6 +30,8 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
   setDefault(dictionaryFeatures, () => Map.empty[String, String])
 
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
+
+
 
   /**
   Predicts Named Entities in input sentences

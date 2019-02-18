@@ -20,6 +20,17 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
   def getEmbeddingsDim: Int = $(embeddingsDim)
   def getCaseSensitiveEmbeddings: Boolean = $(caseSensitiveEmbeddings)
 
+  @transient private var wembeddings: WordEmbeddingsRetriever = null
+
+  def getEmbeddings: WordEmbeddingsRetriever = {
+    if (Option(wembeddings).isDefined)
+      wembeddings
+    else {
+      wembeddings = getClusterEmbeddings.getLocalRetriever
+      wembeddings
+    }
+  }
+
   private var preloadedEmbeddings: Option[ClusterWordEmbeddings] = None
 
   def getClusterEmbeddings: ClusterWordEmbeddings = {
