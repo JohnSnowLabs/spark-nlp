@@ -6,8 +6,9 @@ import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.{DataFrame, Dataset}
 
-class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector]{
+class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector] {
 
   def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
@@ -21,11 +22,17 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   val endPunctuation = new StringArrayParam(this, "endPunctuation",
     "An array of symbols that deep sentence detector will consider as an end of sentence punctuation")
 
+  val explodeSentences = new BooleanParam(this, "explodeSentences",
+    "whether to explode each sentence into a different row, for better parallelization. Defaults to false.")
+
   def setIncludePragmaticSegmenter(value: Boolean): this.type = set(includesPragmaticSegmenter, value)
-    setDefault(includesPragmaticSegmenter, false)
+  setDefault(includesPragmaticSegmenter, false)
 
   def setEndPunctuation(value: Array[String]): this.type = set(endPunctuation, value)
   setDefault(endPunctuation, Array(".", "!", "?"))
+
+  def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
+  setDefault(explodeSentences, false)
 
   private lazy val endOfSentencePunctuation = $(endPunctuation)
 
@@ -43,7 +50,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       val pragmaticSegmentedSentences = new SentenceDetector().annotate(document)
       val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
-      if (unpunctuatedSentences.isEmpty){
+      if (unpunctuatedSentences.isEmpty) {
         pragmaticSegmentedSentences
       } else {
         getDeepSegmentedSentences(annotations, document.head.result, unpunctuatedSentences, pragmaticSegmentedSentences)
@@ -53,6 +60,18 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       deepSentenceDetector(annotations)
     }
 
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    import org.apache.spark.sql.functions.{col, explode, array}
+    if ($(explodeSentences)) {
+      dataset
+        .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)
+        .withColumn(getOutputCol, array(col("_tmp"))
+          .as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .drop("_tmp")
+    }
+    else dataset
   }
 
   def getDocument(annotations: Seq[Annotation]): Seq[Annotation] = {
@@ -69,7 +88,6 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
       val mergedSegmentedSentences = mergeSentenceDetectors(pragmaticSegmentedSentences, deepSegmentedSentences)
       mergedSegmentedSentences
     } else {
-      //When NER does not find entities, it will use just pragmatic sentence
       pragmaticSegmentedSentences
     }
   }
@@ -93,11 +111,11 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def segmentSentence(nerEntities: Seq[Annotation], originalSentence: String):
   Seq[Annotation] = {
     nerEntities.zipWithIndex.map{case (nerEntity, index) =>
-      if (index != nerEntities.length-1){
+      if (index != nerEntities.length - 1){
         val beginIndex = nerEntity.begin
-        val endIndex = nerEntities(index+1).begin-1
+        val endIndex = nerEntities(index + 1).begin - 1
         val segmentedSentence = originalSentence.substring(beginIndex, endIndex)
-        Annotation(annotatorType, beginIndex, endIndex-1, segmentedSentence,
+        Annotation(annotatorType, beginIndex, endIndex - 1, segmentedSentence,
                    Map("sentence" -> ""))
       } else {
         val beginIndex = nerEntity.begin
@@ -170,7 +188,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     val nerEntities = getNerEntities(annotations)
 
     if (nerEntities.nonEmpty) {
-      val validNerEntities = unpunctuatedSentences.map{ unpunctuatedSentence =>
+      val validNerEntities = unpunctuatedSentences.map{unpunctuatedSentence =>
         nerEntities.filter{entity =>
           val beginSentence = unpunctuatedSentence.begin
           val endSentence = unpunctuatedSentence.end
@@ -187,7 +205,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def mergeSentenceDetectors(pragmaticSegmentedSentences: Seq[Annotation], deepSegmentedSentences: Seq[Annotation]):
   Seq[Annotation] = {
     var mergeSentences = Seq[Annotation]()
-    pragmaticSegmentedSentences.foreach{ pragmaticSegmentedSentence =>
+    pragmaticSegmentedSentences.foreach{pragmaticSegmentedSentence =>
       if (sentenceHasPunctuation(pragmaticSegmentedSentence.result)) {
         mergeSentences = mergeSentences ++ Seq(pragmaticSegmentedSentence)
       }
@@ -197,7 +215,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     mergeSentences.map{mergeSentence =>
       sentenceNumber += 1
       Annotation(mergeSentence.annotatorType, mergeSentence.begin, mergeSentence.end, mergeSentence.result,
-        Map("sentence"->sentenceNumber.toString))
+        Map("sentence" -> sentenceNumber.toString))
     }
   }
 
