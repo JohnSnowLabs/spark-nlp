@@ -464,20 +464,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, weakPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences" should
-    behave like {
-
-    val testDataSet = Seq("This is a sentence. This is another sentence.",
-      "I love deep learning Winter is coming").toDS.toDF("text")
-
-    val expectedResult = Seq(
-      Seq("This is a sentence.", "This is another sentence."),
-      Seq("I love deep learning", "Winter is coming")
-    )
-
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
-  }
-
   "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences in one row" should
     behave like {
 
@@ -516,7 +502,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, pipeline, expectedResult)
 
   }
-
 
   "A Deep Sentence Detector" should "be serializable" in {
     val emptyDataset = PipelineModels.dummyDataset
