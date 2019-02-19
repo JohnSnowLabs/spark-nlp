@@ -346,7 +346,7 @@ object OcrHelper extends ImageProcessing {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
         .map(_.map(_.trim))
-        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
+        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)

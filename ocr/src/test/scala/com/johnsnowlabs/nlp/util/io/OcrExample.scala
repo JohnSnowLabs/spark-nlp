@@ -13,7 +13,6 @@ import scala.io.Source
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
-
   trait Scope extends ImageProcessing
 
   "OcrHelper" should "correctly analyze window" in new Scope {
@@ -85,7 +84,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
     val correct = Source.fromFile("ocr/src/test/resources/pdfs/rotated/400.txt").mkString
     assert(score(correct, normal) < score(correct, skewCorrected))
-  }
+  } 
 
   "OcrHelper" should "correctly handle PDFs with multiple images" in {
 
