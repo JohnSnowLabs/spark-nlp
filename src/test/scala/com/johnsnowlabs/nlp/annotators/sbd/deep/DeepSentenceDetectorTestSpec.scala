@@ -477,32 +477,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, weakPipeline, expectedResult)
   }
 
-  "A Deep Sentence Detector (trained with a strong NER) that sets end of sentence punctuation as null" should behave like {
-
-    val testDataSet = Seq("This is a sentence. This is another sentence.",
-      "I love deep learning Winter is coming").toDS.toDF("text")
-    val deepSentenceDetector = new DeepSentenceDetector()
-      .setInputCols(Array("document", "token", "ner_con"))
-      .setOutputCol("seg_sentence")
-      .setIncludePragmaticSegmenter(true)
-      .setEndPunctuation(Array(""))
-    val pipeline = new RecursivePipeline().setStages(
-      Array(documentAssembler,
-        tokenizer,
-        strongNerTagger,
-        nerConverter,
-        deepSentenceDetector,
-        finisher
-      ))
-    val expectedResult = Seq(
-      Seq("This is a sentence.", "This is another sentence."),
-      Seq("I love deep learning", "Winter is coming")
-    )
-
-    transformDataSet(testDataSet, pipeline, expectedResult)
-
-  }
-
   "A Deep Sentence Detector" should "be serializable" in {
     val emptyDataset = PipelineModels.dummyDataset
     val pipeline = new RecursivePipeline().setStages(
