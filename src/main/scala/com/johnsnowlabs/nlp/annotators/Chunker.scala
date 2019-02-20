@@ -48,6 +48,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
   }
 
   private def getPhrase(indexAnnotation: List[Int], annotations: Seq[Annotation]): Seq[Annotation] = {
+    // TODO: why not annotations(index) ??
     val annotation = indexAnnotation.map(index => annotations.apply(index))
     annotation
   }
@@ -77,7 +78,14 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
       val result = phrase.map(annotation => annotation.metadata("word")).mkString(" ")
       val start = phrase.map(_.begin).min
       val end = phrase.map(_.end).max
-      Annotation(annotatorType, start, end, result, Map("chunk" -> index.toString))
+
+      val sentId = phrase.headOption.flatMap{case a => a.metadata.get("sentence")}
+      val metadata = sentId match {
+        case Some(id) => Map("chunk" -> index.toString, "sentence" -> id)
+        case _ => Map("chunk" -> index.toString)
+      }
+
+      Annotation(annotatorType, start, end, result, metadata)
     }}
 
     chunkAnnotations

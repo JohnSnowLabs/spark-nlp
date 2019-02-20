@@ -44,7 +44,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.begin,
         tag.end,
         tag.tag,
-        Map("word" -> tag.word))
+        Map("word" -> tag.word, "sentence" -> tag.sentenceid.getOrElse("1")))
     ))
   }
 

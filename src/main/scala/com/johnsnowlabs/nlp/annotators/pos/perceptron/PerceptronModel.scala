@@ -40,7 +40,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
     var prev2 = START(1)
     tokenizedSentences.map(sentence => {
       val context: Array[String] = START ++: sentence.tokens.map(normalized) ++: END
-      sentence.indexedTokens.zipWithIndex.map { case (IndexedToken(word, begin, end), i) =>
+      sentence.indexedTokens.zipWithIndex.map { case (IndexedToken(word, begin, end, sid), i) =>
         val tag = $$(model).getTaggedBook.getOrElse(word.toLowerCase,
           {
             val features = getFeatures(i, word, context, prev, prev2)
@@ -49,7 +49,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
         )
         prev2 = prev
         prev = tag
-        IndexedTaggedWord(word, tag, begin, end)
+        IndexedTaggedWord(word, tag, begin, end, sid)
       }
     }).map(TaggedSentence(_))
   }
