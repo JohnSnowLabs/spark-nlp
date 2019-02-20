@@ -20,6 +20,7 @@ trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
 
     it should "transform to a dataset with segmented sentences" in {
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
+      resultDataSet.show(false)
       val result = getDataFrameAsArray(resultDataSet)
 
       assert(result == expectedResult)

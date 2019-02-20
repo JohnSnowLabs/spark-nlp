@@ -55,13 +55,13 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val deepSentenceDetector = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
-    .setIncludePragmaticSegmenter(false)
+    .setIncludePragmaticSegmenter(true)
     .setEndPunctuation(Array(".", "?"))
 
   private val pureDeepSentenceDetector = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("seg_sentence")
-    .setIncludePragmaticSegmenter(true)
+    .setIncludePragmaticSegmenter(false)
     .setEndPunctuation(Array(".", "?"))
 
   private val finisher = new Finisher()
@@ -82,14 +82,13 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       tokenizer,
       weakNerTagger,
       nerConverter,
-      pureDeepSentenceDetector,
+      deepSentenceDetector,
       finisher
     ))
 
-  private lazy val annotations = {
-    val paragraph = "I am Batman I live in Gotham"
+  def getAnnotationsWithNerConverter(paragraph: String, nerTagger: NerDLApproach): Seq[Annotation] = {
     val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, weakNerTagger, nerConverter))
+    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, nerTagger, nerConverter))
     val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
     val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
     val nerConverterAnnotations = getAnnotations(testDataSet, pipeline, "ner_con")
@@ -111,10 +110,108 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     } ).collect()
   }
 
+  private def getNerTagger(trainingFile: String) : NerDLApproach ={
+    val nerTagger = new NerDLApproach()
+      .setInputCols("document", "token")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setMaxEpochs(100)
+      .setPo(0.01f)
+      .setLr(0.1f)
+      .setBatchSize(9)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
+        100, WordEmbeddingsFormat.TEXT)
+      .setExternalDataset(trainingFile)
+      .setRandomSeed(0)
+    nerTagger
+  }
+
+  "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
+
+    val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 4, "Hello", Map("entity"->"sent")),
+      Annotation(CHUNK, 32, 35, "This", Map("entity"->"sent")))
+    val paragraph = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
+
+    val entities = deepSentenceDetector.getNerEntities(annotations)
+
+    assert(entities == expectedEntities)
+
+  }
+
+  it should "retrieve a sentence from annotations" in {
+
+    val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
+    val expectedSentence = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(expectedSentence, nerTagger)
+
+    val sentence = deepSentenceDetector.retrieveSentence(annotations)
+
+    assert(sentence == expectedSentence)
+
+  }
+
+  it should "segment sentences" in {
+
+    val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
+    val paragraph = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
+    val entities = deepSentenceDetector.getNerEntities(annotations)
+    val sentence = deepSentenceDetector.retrieveSentence(annotations)
+    val expectedSentence1 = "Hello world this is a sentence."
+    val expectedSentence2 = "This is another one."
+    val expectedSegmentedSentences =
+      Seq(Annotation(DOCUMENT, 0, expectedSentence1.length-1, expectedSentence1, Map("sentence"->"1")),
+        Annotation(DOCUMENT, expectedSentence1.length+1, sentence.length-1, expectedSentence2, Map("sentence"->"2")))
+
+    val segmentedSentence = deepSentenceDetector.segmentSentence(entities, sentence)
+
+    assert(segmentedSentence == expectedSegmentedSentences)
+
+  }
+
+  it should behave like {
+
+    val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
+    val purePipeline = new RecursivePipeline().setStages(
+        Array(documentAssembler,
+          tokenizer,
+          nerTagger,
+          nerConverter,
+          pureDeepSentenceDetector,
+          finisher
+        ))
+
+    val testDataSet = Seq("Hello world this is a sentence. This is another one.").toDS.toDF("text")
+
+    val expectedResult = Seq(
+        Seq("Hello world this is a sentence.", "This is another one.")
+      )
+
+    transformDataSet(testDataSet, purePipeline, expectedResult)
+  }
+
+  "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" in {
+
+    val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 4, "Hello", Map("entity"->"sent")),
+      Annotation(CHUNK, 32, 35, "This", Map("entity"->"sent")))
+    val paragraph = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
+
+    val entities = deepSentenceDetector.getNerEntities(annotations)
+
+    assert(entities == expectedEntities)
+
+  }
+
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
     val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
                                Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+    val paragraph = "I am Batman I live in Gotham"
+    val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
 
     val entities = deepSentenceDetector.getNerEntities(annotations)
 
@@ -125,6 +222,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   it should "retrieve a sentence from annotations" in {
 
     val expectedSentence = "I am Batman I live in Gotham"
+    val paragraph = "I am Batman I live in Gotham"
+    val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
 
     val sentence = deepSentenceDetector.retrieveSentence(annotations)
 
@@ -134,13 +233,15 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   it should "segment sentences" in {
 
+    val paragraph = "I am Batman I live in Gotham"
+    val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
     val entities = deepSentenceDetector.getNerEntities(annotations)
     val sentence = deepSentenceDetector.retrieveSentence(annotations)
     val expectedSentence1 = "I am Batman"
     val expectedSentence2 = "I live in Gotham"
     val expectedSegmentedSentences =
-      Seq(Annotation(DOCUMENT, 0, expectedSentence1.length-1, expectedSentence1, Map("sentence"->"")),
-          Annotation(DOCUMENT, expectedSentence1.length+1, sentence.length-1, expectedSentence2, Map("sentence"->"")))
+      Seq(Annotation(DOCUMENT, 0, expectedSentence1.length-1, expectedSentence1, Map("sentence"->"1")),
+          Annotation(DOCUMENT, expectedSentence1.length+1, sentence.length-1, expectedSentence2, Map("sentence"->"2")))
 
     val segmentedSentence = deepSentenceDetector.segmentSentence(entities, sentence)
 
@@ -292,8 +393,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val sentence2 = "Winter is coming"
     val offset = 20
     val expectedDetectedSentences = Seq(
-      Annotation(DOCUMENT, offset, sentence1.length-1 + offset, sentence1, Map("sentence"->"")),
-      Annotation(DOCUMENT, sentence1.length+1 + offset, paragraph.length-1, sentence2, Map("sentence"->""))
+      Annotation(DOCUMENT, offset, sentence1.length-1 + offset, sentence1, Map.empty),
+      Annotation(DOCUMENT, sentence1.length+1 + offset, paragraph.length-1, sentence2, Map.empty)
     )
 
     val detectedSentences = deepSentenceDetector.deepSentenceDetector(paragraph, unpunctuatedSentences, validNerEntities)
@@ -313,8 +414,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3"))
     )
     val deepSegmentedSentences = Seq(
-      Annotation(DOCUMENT, 0 , 19, "I love deep learning", Map("sentence"->"")),
-      Annotation(DOCUMENT, 0 , 15, "Winter is coming", Map("sentence"->""))
+      Annotation(DOCUMENT, 0 , 19, "I love deep learning", Map("sentence"->"1")),
+      Annotation(DOCUMENT, 0 , 15, "Winter is coming", Map("sentence"->"2"))
     )
     val mergedSegmentedSentences = deepSentenceDetector.mergeSentenceDetectors(pragmaticSegmentedSentences,
       deepSegmentedSentences)
@@ -371,10 +472,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val sentence3 = "I am Batman"
     val sentence4 = "I live in Gotham"
     val expectedDetectedSentences = Seq(
-      Annotation(DOCUMENT, 20, 39, sentence1, Map("sentence"->"")),
-      Annotation(DOCUMENT, 41, 57, sentence2, Map("sentence"->"")),
-      Annotation(DOCUMENT, 59, 69, sentence3, Map("sentence"->"")),
-      Annotation(DOCUMENT, 71, 86, sentence4, Map("sentence"->""))
+      Annotation(DOCUMENT, 20, 39, sentence1, Map.empty),
+      Annotation(DOCUMENT, 41, 57, sentence2, Map.empty),
+      Annotation(DOCUMENT, 59, 69, sentence3, Map.empty),
+      Annotation(DOCUMENT, 71, 86, sentence4, Map.empty)
     )
 
     val detectedSentences = deepSentenceDetector.deepSentenceDetector(paragraph,
