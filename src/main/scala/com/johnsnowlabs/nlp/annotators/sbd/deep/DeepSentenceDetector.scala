@@ -98,11 +98,15 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
 
   def getNerEntities(annotations: Seq[Annotation]): Seq[Annotation] = {
     val nerEntities = annotations.filter(annotation => annotation.annotatorType == CHUNK)
-    if (nerEntities.head.begin != 0) {
-      val documentHead = annotations.filter(annotation => annotation.annotatorType == TOKEN).head
-      documentHead +: nerEntities
+    val documentHead = annotations.filter(annotation => annotation.annotatorType == TOKEN).head
+    if (nerEntities.nonEmpty) {
+      if (nerEntities.head.begin != 0) {
+        documentHead +: nerEntities
+      } else {
+        nerEntities
+      }
     } else {
-      nerEntities
+      Seq(documentHead)
     }
   }
 
