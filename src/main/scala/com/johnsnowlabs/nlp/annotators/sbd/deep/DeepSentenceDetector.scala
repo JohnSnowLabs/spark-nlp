@@ -116,12 +116,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         val endIndex = nerEntities(index + 1).begin - 1
         val segmentedSentence = originalSentence.substring(beginIndex, endIndex)
         Annotation(annotatorType, beginIndex, endIndex - 1, segmentedSentence,
-                   Map("sentence" -> ""))
+                   Map("sentence" -> (index+1).toString))
       } else {
         val beginIndex = nerEntity.begin
         val segmentedSentence = originalSentence.substring(beginIndex)
         Annotation(annotatorType, beginIndex, originalSentence.length-1, segmentedSentence,
-          Map("sentence" -> ""))
+          Map("sentence" -> (index+1).toString))
       }
     }
   }
@@ -141,14 +141,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index+1).begin-1
         val segmentedSentence = originalSentence.substring(beginIndex, endIndex)
-        Annotation(annotatorType, beginIndex, endIndex-1, segmentedSentence,
-          Map("sentence" -> ""))
+        Annotation(annotatorType, beginIndex, endIndex-1, segmentedSentence, Map.empty)
       } else {
         val beginIndex = nerEntity.begin
         val endIndex = currentSentence.end
         val segmentedSentence = originalSentence.substring(beginIndex, endIndex+1)
-        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence,
-          Map("sentence" -> ""))
+        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence, Map.empty)
       }
     }
   }
