@@ -2,18 +2,14 @@ package com.johnsnowlabs.benchmarks.spark
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproachDistributed, PerceptronModel}
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
-
 import scala.collection.mutable
 
 
@@ -24,32 +20,7 @@ object CoNLL2003PipelineTest extends App {
   val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
   val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
 
-  val nerReader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
-  val posReader = CoNLL(targetColumn = 1, annotatorType = AnnotatorType.POS)
-
-  def getPosStages(): Array[_ <: PipelineStage] = {
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentenceDetector = new SentenceDetector()
-      .setCustomBounds(Array("\n\n"))
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
-    val posTagger = PerceptronModel.pretrained()
-      .setInputCols("token", "document")
-      .setOutputCol("pos")
-
-    Array(documentAssembler,
-      sentenceDetector,
-      tokenizer,
-      posTagger)
-  }
+  val nerReader = CoNLL()
 
   def getNerStages(): Array[_ <: PipelineStage] = {
     val glove = new WordEmbeddingsLookup()
@@ -65,23 +36,7 @@ object CoNLL2003PipelineTest extends App {
       .setMaxEpochs(10)
       .setOutputCol("ner")
 
-    getPosStages() ++ Array(glove, nerTagger)
-  }
-
-  def trainPosModel(er: ExternalResource): PipelineModel = {
-    System.out.println("Dataset Reading")
-    val time = System.nanoTime()
-    val dataset = posReader.readDataset(er, SparkAccessor.spark)
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
-
-    System.out.println("Start fitting")
-
-    val stages = getPosStages()
-
-    val pipeline = new RecursivePipeline()
-      .setStages(stages)
-
-    pipeline.fit(dataset)
+    Array(glove, nerTagger)
   }
 
   def trainNerModel(er: ExternalResource): PipelineModel = {
@@ -180,20 +135,6 @@ object CoNLL2003PipelineTest extends App {
     }
   }
 
-  def measurePos(): PipelineModel = {
-    val model = trainPosModel(trainFile)
-
-    System.out.println("\n\nQuality on train data")
-    testDataset(trainFile, model, "pos", posReader, collectPosLabeled)
-
-    System.out.println("\n\nQuality on test A data")
-    testDataset(testFileA, model, "pos", posReader, collectPosLabeled)
-
-    System.out.println("\n\nQuality on test B data")
-    testDataset(testFileB, model, "pos", posReader, collectPosLabeled)
-
-    model
-  }
 
   def measureNer(): PipelineModel = {
     val model = trainNerModel(trainFile)
@@ -209,9 +150,6 @@ object CoNLL2003PipelineTest extends App {
 
     model
   }
-
-  val posModel = measurePos()
-  posModel.write.overwrite().save("pos_model")
 
   val nerModel = measureNer()
   nerModel.write.overwrite().save("ner_model")

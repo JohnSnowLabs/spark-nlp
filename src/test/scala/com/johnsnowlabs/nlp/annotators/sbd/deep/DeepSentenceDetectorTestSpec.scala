@@ -17,7 +17,7 @@ import org.apache.spark.ml.Pipeline
 
 class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
 
-  private val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
+  private val nerReader = CoNLL()
 
   private val strongNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt"
   private val strongNerDatasetResource = ExternalResource(strongNerDatasetFile,
@@ -85,16 +85,16 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setOutputCols("sentence")
 
   private val strongNerTagger = new Pipeline().setStages(
-    Array(documentAssembler,
-      tokenizer,
+    Array(glove,
       strongNer)
     ).fit(strongNerDataset)
-    .stages(2)
+    .stages(1)
     .asInstanceOf[NerDLModel]
 
   private val strongPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
+      glove,
       strongNerTagger,
       nerConverter,
       deepSentenceDetector,
@@ -102,16 +102,16 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     ))
 
   private val weakNerTagger = new Pipeline().setStages(
-    Array(documentAssembler,
-      tokenizer,
+    Array(glove,
       strongNerTagger)
   ).fit(weakNerDataset)
-    .stages(2)
+    .stages(1)
     .asInstanceOf[NerDLModel]
 
   private val weakPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
+      glove,
       weakNerTagger,
       nerConverter,
       pureDeepSentenceDetector,
@@ -121,7 +121,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private lazy val annotations = {
     val paragraph = "I am Batman I live in Gotham"
     val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, weakNerTagger, nerConverter))
+    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, glove, weakNerTagger, nerConverter))
     val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
     val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
     val nerConverterAnnotations = getAnnotations(testDataSet, pipeline, "ner_con")
@@ -136,11 +136,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   private def getAnnotations(dataset: Dataset[_], pipeline: RecursivePipeline, column: String) = {
-    val annotations = pipeline.fit(dataset).transform(dataset).select(column).rdd.map(_.getSeq[Row](0))
-    annotations.flatMap(_.map{
-      case Row(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String]) =>
-        Annotation(annotatorType, begin, end, result, metadata)
-    } ).collect()
+    val result = pipeline.fit(dataset).transform(dataset)
+    Annotation.collect(result, column).flatten
   }
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
@@ -444,6 +441,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val strongPipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         strongNerTagger,
         nerConverter,
         deepSentenceDetector

@@ -42,6 +42,4 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
 
   /** requirement for annotators copies */
   override def copy(extra: ParamMap): M = defaultCopy(extra)
-
-
 }

@@ -68,10 +68,10 @@ class NerDLSpec extends FlatSpec {
 
   "NerDLApproach" should "correct search for suitable graphs" in {
     val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 100)
-    assert(smallGraphFile.endsWith("char_cnn_blstm_10_100_100_25_30.pb"))
+    assert(smallGraphFile.endsWith("blstm_10_100_128_100.pb"))
 
-    val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 100, 100)
-    assert(bigGraphFile.endsWith("char_cnn_blstm_30_100_100_25_30.pb"))
+    val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 300, 100)
+    assert(bigGraphFile.endsWith("blstm_25_300_128_100.pb"))
 
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(10, 101, 100))
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(10, 100, 101))

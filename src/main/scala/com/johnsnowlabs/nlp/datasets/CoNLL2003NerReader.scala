@@ -20,8 +20,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          embeddingsFormat: WordEmbeddingsFormat.Format,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
-  private val nerReader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-  private val posReader = CoNLL(1, AnnotatorType.POS)
+  private val nerReader = CoNLL()
 
   private var wordEmbeddings: WordEmbeddingsRetriever = _
 
@@ -66,11 +65,11 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   private def readDataset(er: ExternalResource)
   : Seq[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)] = {
 
-    val labels = nerReader.readDocs(er).flatMap(_._2)
+    val docs = nerReader.readDocs(er)
+    val labels = docs.flatMap(_.nerTagged)
       .map(sentence => TextSentenceLabels(sentence.tags))
 
-    val posTaggedSentences = posReader.readDocs(er).flatMap(_._2)
-
+    val posTaggedSentences = docs.flatMap(_.posTagged)
     val withEmbeddings = resolveEmbeddings(posTaggedSentences)
 
     labels.zip(posTaggedSentences.zip(withEmbeddings))

@@ -145,7 +145,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
                                sentenceCols: Seq[String],
                                labelColumn: String): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
-    dataset
+    val result = dataset
       .select(labelColumn, sentenceCols:_*)
       .collect()
       .flatMap{row =>
@@ -155,6 +155,9 @@ object NerTagged extends Tagged[NerTaggedSentence]{
         val labels = getLabelsFromSentences(sentences, labelAnnotations)
         labels.zip(sentences)
       }
+    System.gc()
+
+    result
   }
 
 }
