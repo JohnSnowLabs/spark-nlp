@@ -82,18 +82,14 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graph = new Graph()
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
     val config = Array[Byte](56, 1)
-    val session = new Session(graph, config)
-
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
+    val graph = TensorflowWrapper.readGraph(graphFile)
 
-    val graphStream = ResourceHelper.getResourceStream(graphFile)
-    val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
+    val session = new Session(graph, config)
 
     val tf = new TensorflowWrapper(session, graph)
 
@@ -130,10 +126,10 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      if (name.startsWith("char_cnn_blstm_")) {
-        val clean = name.replace("char_cnn_blstm_", "").replace(".pb", "")
-        val graphParams = clean.split("_").take(3).map(s => s.toInt)
-        val Array(fileTags, fileEmbeddingsNDims, fileNChars) = graphParams
+      if (name.startsWith("blstm_")) {
+        val clean = name.replace("blstm_", "").replace(".pb", "")
+        val graphParams = clean.split("_").take(4).map(s => s.toInt)
+        val Array(fileTags, fileEmbeddingsNDims, _, fileNChars) = graphParams
 
         if (embeddingsNDims == fileEmbeddingsNDims)
           Some((fileTags, fileEmbeddingsNDims, fileNChars))

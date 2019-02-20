@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{FloatBuffer, LongBuffer}
+import java.nio.{FloatBuffer, IntBuffer, LongBuffer}
 
 import org.tensorflow.Tensor
 
@@ -44,9 +44,9 @@ object TensorResources {
 
   def extractInts(source: Tensor[_], size: Option[Int] = None): Array[Int] = {
     val realSize = calculateTensorSize(source ,size)
-    val buffer = LongBuffer.allocate(realSize)
+    val buffer = IntBuffer.allocate(realSize)
     source.writeTo(buffer)
-    buffer.array().map(item => item.toInt)
+    buffer.array()
   }
 
   def extractFloats(source: Tensor[_], size: Option[Int] = None): Array[Float] = {

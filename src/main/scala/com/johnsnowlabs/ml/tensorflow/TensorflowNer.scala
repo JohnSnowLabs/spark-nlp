@@ -1,12 +1,14 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.reflect.ClassTag
 import scala.util.Random
+
 
 
 class TensorflowNer
@@ -19,25 +21,37 @@ class TensorflowNer
 
   override def getLogName: String = "NerDL"
 
-  private val charIdsKey = "char_repr/char_ids"
-  private val wordLengthsKey = "char_repr/word_lengths"
-  private val wordEmbeddingsKey = "word_repr_1/word_embeddings"
-  private val sentenceLengthsKey = "word_repr/sentence_lengths"
-  private val dropoutKey = "training/dropout"
+  private val charIdsKey = "char_repr/char_ids:0"
+  private val wordLengthsKey = "char_repr/word_lengths:0"
+  private val wordEmbeddingsKey = "word_repr_1/word_embeddings:0"
+  private val sentenceLengthsKey = "word_repr/sentence_lengths:0"
+  private val dropoutKey = "training/dropout:0"
 
-  private val learningRateKey = "training/lr"
-  private val labelsKey = "training/labels"
+  private val learningRateKey = "training/lr:0"
+  private val labelsKey = "training/labels:0"
 
-  private val lossKey = "inference/loss"
-  private val trainingKey = "training_1/Momentum"
-  private val predictKey = "context_repr/predicted_labels"
+  private val lossKey = "inference/Mean:0"
+  private val trainingKey = "training_1/Adam"
+  private val predictKey = "inference/cond_2/Merge:0"
+
+  private val initKey = "training_1/init"
+
+  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
+    val gr = SentenceGrouper[T](getLen)
+    gr.slice(dataset, batchSize)
+  }
+
+  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
+      Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
+  }
 
   def predict(dataset: Array[WordpieceEmbeddingsSentence]): Array[Array[String]] = {
 
     val result = ArrayBuffer[Array[String]]()
 
-    for (slice <- dataset.grouped(batchSize)) {
-      val batchInput = encoder.encodeInputData(slice)
+    for (batch <- dataset.grouped(batchSize)) {
+      val batchInput = encoder.encodeInputData(batch)
 
       val tensors = new TensorResources()
 
@@ -80,12 +94,13 @@ class TensorflowNer
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.session.runner.addTarget("training_1/init").run()
+      tensorflow.session.runner.addTarget(initKey).run()
 
+    val trainDatasetSeq = trainDataset.toSeq
     // Train
     for (epoch <- startEpoch until endEpoch) {
 
-      val epochDataset = Random.shuffle(trainDataset.toList).toArray
+      val epochDataset = Random.shuffle(trainDatasetSeq)
       val learningRate = lr / (1 + po * epoch)
 
       log(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", Verbose.Epochs)
@@ -93,9 +108,9 @@ class TensorflowNer
       val time = System.nanoTime()
       var batches = 0
       var loss = 0f
-      for (slice <- epochDataset.grouped(batchSize)) {
-        val sentences = slice.map(r => r._2)
-        val tags = slice.map(r => r._1.labels.toArray)
+      for (batch <- slice(epochDataset, batchSize)) {
+        val sentences = batch.map(r => r._2)
+        val tags = batch.map(r => r._1.labels.toArray)
 
         val batchInput = encoder.encodeInputData(sentences)
         val batchTags = encoder.encodeTags(tags)
@@ -150,7 +165,8 @@ class TensorflowNer
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
                   log: (String => Unit),
                   extended: Boolean = false,
-                  nErrorsToPrint: Int = 0
+                  nErrorsToPrint: Int = 0,
+                  batchSize: Int = 20
                  ): Unit = {
 
     val started = System.nanoTime()
@@ -159,38 +175,42 @@ class TensorflowNer
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val sentenceTokens = labeled.map(pair => pair._2.tokens
-      .filter(t => t.isWordStart)
-      .map(t => t.token)
-    ).toList
-    val sentenceLabels = labeled.map(pair => pair._1.labels.toArray).toList
-    val sentencePredictedTags = labeled.map(pair => predict(Array(pair._2)).head).toList
-
     var errorsPrinted = 0
     var linePrinted = false
-    (sentenceTokens, sentenceLabels, sentencePredictedTags).zipped.foreach {
-      case (tokens, labels, tags) =>
-        for (i <- 0 until labels.length) {
-          val label = labels(i)
-          val tag = tags(i)
-          val iWord = tokens(i)
 
-          correct(label) = correct.getOrElse(label, 0) + 1
-          predicted(tag) = predicted.getOrElse(tag, 0) + 1
+    for (batch <- slice(labeled, batchSize)) {
 
-          if (label == tag)
-            predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
-          else if (errorsPrinted < nErrorsToPrint) {
-            log(s"label: $label, predicted: $tag, word: $iWord")
-            linePrinted = false
-            errorsPrinted += 1
+      val sentenceTokens = batch.map(pair => pair._2.tokens
+        .filter(t => t.isWordStart)
+        .map(t => t.token)
+      ).toList
+      val sentenceLabels = batch.map(pair => pair._1.labels.toArray).toList
+      val sentencePredictedTags = predict(batch.map(_._2))
+
+      (sentenceTokens, sentenceLabels, sentencePredictedTags).zipped.foreach {
+        case (tokens, labels, tags) =>
+          for (i <- 0 until labels.length) {
+            val label = labels(i)
+            val tag = tags(i)
+            val iWord = tokens(i)
+
+            correct(label) = correct.getOrElse(label, 0) + 1
+            predicted(tag) = predicted.getOrElse(tag, 0) + 1
+
+            if (label == tag)
+              predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
+            else if (errorsPrinted < nErrorsToPrint) {
+              log(s"label: $label, predicted: $tag, word: $iWord")
+              linePrinted = false
+              errorsPrinted += 1
+            }
           }
-        }
 
-        if (errorsPrinted < nErrorsToPrint && !linePrinted) {
-          log("")
-          linePrinted = true
-        }
+          if (errorsPrinted < nErrorsToPrint && !linePrinted) {
+            log("")
+            linePrinted = true
+          }
+      }
     }
 
     if (extended)
@@ -221,7 +241,4 @@ class TensorflowNer
       log(s"$label\t$prec\t$rec\t$f1")
     }
   }
-
 }
-
-

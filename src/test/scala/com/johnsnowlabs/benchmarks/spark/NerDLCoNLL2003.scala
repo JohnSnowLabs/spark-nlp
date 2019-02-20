@@ -15,11 +15,12 @@ import org.apache.spark.ml.PipelineModel
 object NerDLPipeline extends App {
   val folder = "./"
 
-  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  //val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
   val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
   val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val trainFile = testFileA
 
-  val nerReader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
+  val nerReader = CoNLL()
 
   def createPipeline() = {
     val documentAssembler = new DocumentAssembler()
@@ -35,7 +36,7 @@ object NerDLPipeline extends App {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = new WordEmbeddingsLookup()
+    val glove = new WordEmbeddingsLookup()
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
@@ -63,6 +64,7 @@ object NerDLPipeline extends App {
     Array(documentAssembler,
       sentenceDetector,
       tokenizer,
+      glove,
       nerTagger,
       converter,
       labelConverter
