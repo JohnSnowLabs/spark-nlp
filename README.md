@@ -332,7 +332,7 @@ advancedPipeline.transform(predictionDF)
 * Q: Getting `org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed` when running an OCR transformation
   * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark-NLP dependency by default
 
-## Aknowledgments
+## Acknowledgments
 
 ### Special community aknowledgments
 
