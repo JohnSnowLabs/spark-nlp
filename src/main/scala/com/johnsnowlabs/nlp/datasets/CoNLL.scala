@@ -50,7 +50,7 @@ case class CoNLL(targetColumn: Int = 3,
 
     val docs = lines
       .flatMap{line =>
-        val items = line.split(" ")
+        val items = line.trim.split(" ")
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
           addSentence()
 
@@ -149,14 +149,13 @@ case class CoNLL(targetColumn: Int = 3,
     val sentence = getAnnotationType(sentenceColumn, AnnotatorType.DOCUMENT)
     val token = getAnnotationType(tokenColumn, AnnotatorType.TOKEN)
     val pos = getAnnotationType(posTaggedColumn, AnnotatorType.POS)
-    val label = getAnnotationType(labelColumn, AnnotatorType.NAMED_ENTITY, false)
+    val label = getAnnotationType(labelColumn, AnnotatorType.NAMED_ENTITY)
 
     StructType(Seq(text, doc, sentence, token, pos, label))
   }
 
   def packDocs(docs: Seq[CoNLLDocument], spark: SparkSession): Dataset[_] = {
     import spark.implicits._
-
 
     val rows = docs.map { doc =>
       val text = doc.text

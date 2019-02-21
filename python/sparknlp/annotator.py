@@ -980,7 +980,7 @@ class NerApproach(Params):
         return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
 
-class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
+class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
@@ -1041,7 +1041,7 @@ class NerCrfModel(ModelWithEmbeddings):
         return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
 
-class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
+class NerDLApproach(AnnotatorApproach, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)",
@@ -1050,12 +1050,6 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
     minProba = Param(Params._dummy(), "minProba",
                      "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
-    validationDataset = Param(Params._dummy(), "validationDataset",
-                              "Path to validation dataset. If set used to calculate statistic on it during training.",
-                              TypeConverters.identity)
-    testDataset = Param(Params._dummy(), "testDataset",
-                        "Path to test dataset. If set used to calculate statistic on it during training.",
-                        TypeConverters.identity)
 
     def setLr(self, v):
         self._set(lr=v)
@@ -1077,12 +1071,6 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         self._set(minProba=v)
         return self
 
-    def setValidationDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(validationDataset=ExternalResource(path, read_as, options.copy()))
-
-    def setTestDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
-
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
@@ -1092,9 +1080,9 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         self._setDefault(
             minEpochs=0,
             maxEpochs=50,
-            lr=float(0.2),
-            po=float(0.05),
-            batchSize=9,
+            lr=float(0.001),
+            po=float(0.005),
+            batchSize=32,
             dropout=float(0.5),
             verbose=4
         )
