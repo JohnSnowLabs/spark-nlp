@@ -30,10 +30,10 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         else
           emptyTag
 
-        IndexedTaggedWord(token.token, tag, token.begin, token.end)
+        IndexedTaggedWord(token.token, tag, token.begin, token.end, token.sentenceId)
       }
 
-      new TaggedSentence(tokens)
+      new TaggedSentence(tokens, sentence.id)
     }
   }
 
@@ -44,7 +44,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.begin,
         tag.end,
         tag.tag,
-        Map("word" -> tag.word, "sentence" -> tag.sentenceid.getOrElse("1")))
+        Map("word" -> tag.word, "sentence" -> tag.sentenceId.toString))
     ))
   }
 
@@ -56,7 +56,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     */
   def collectLabeledInstances(dataset: Dataset[Row],
                           taggedCols: Seq[String],
-                          labelColumn: String): Array[(TextSentenceLabels, NerTaggedSentence)] = {
+                          labelColumn: String): Array[(TextSentenceLabels, T)] = {
 
     dataset
       .select(labelColumn, taggedCols:_*)

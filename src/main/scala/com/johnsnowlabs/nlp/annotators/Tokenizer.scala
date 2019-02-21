@@ -106,7 +106,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   private lazy val SPLIT_PATTERN = "[^" + BREAK_CHAR + "]+"
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
-    sentences.map{text =>
+    sentences.zipWithIndex.map{ case (text, sentenceId) =>
       /** Step 1, define breaks from non breaks */
       val protectedText = {
         get(compositeTokens).map(_.foldRight(text.content)((compositeToken, currentText) => {
@@ -123,7 +123,8 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
           Seq(IndexedToken(
             text.content.slice(text.start + candidate.start, text.start + candidate.end),
             text.start + candidate.start,
-            text.start + candidate.end - 1
+            text.start + candidate.end - 1,
+            sentenceId
           ))
         }
         else {
@@ -136,7 +137,8 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
               val it = IndexedToken(
                 target,
                 text.start + candidate.start + curPos,
-                text.start + candidate.start + curPos + target.length - 1
+                text.start + candidate.start + curPos + target.length - 1,
+                sentenceId
               )
               curPos += target.length
               it
@@ -145,10 +147,11 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
           }.getOrElse(Seq(IndexedToken(
             candidate.matched,
             text.start + candidate.start,
-            text.start + candidate.end - 1
+            text.start + candidate.end - 1,
+            sentenceId
         )))
       }}.toArray.filter(t => t.token.nonEmpty)
-      TokenizedSentence(tokens)
+      TokenizedSentence(tokens, sentenceId)
     }
   }
 

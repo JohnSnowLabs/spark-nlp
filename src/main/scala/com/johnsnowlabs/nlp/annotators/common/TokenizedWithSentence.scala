@@ -18,20 +18,17 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
       val sentenceTokens = tokens.filter(token =>
         // TODO: replaced &, don't need evaluation of second condition when first is false
         token.begin >= sentence.start && token.end <= sentence.end
-      ).map(token => IndexedToken(token.result, token.begin, token.end, token.metadata.get("sentence")))
-      sentenceTokens
-    }).filter(_.nonEmpty).map(indexedTokens => TokenizedSentence(indexedTokens))
+      ).map(token => IndexedToken(token.result, token.begin, token.end, token.metadata("sentence").toInt))
+      (sentenceTokens, sentence.id)
+    }).filter(_._1.nonEmpty).map(indexedTokens => TokenizedSentence(indexedTokens._1, indexedTokens._2))
 
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {
-    var sentenceIndex = 0
-    // TODO: don't access global state from inside a map!! - use zipWithindex instead
     sentences.flatMap{sentence =>
-      sentenceIndex += 1
         sentence.indexedTokens.map{token =>
         Annotation(annotatorType, token.begin, token.end, token.token,
-          Map("sentence" -> sentenceIndex.toString))
+          Map("sentence" -> token.sentenceId.toString))
     }}
   }
 }

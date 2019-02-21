@@ -24,7 +24,8 @@ class PragmaticSentenceExtractor(text: String, sourceText: String) {
       sentences(i) = Sentence(
         sentence,
         startPad,
-        startPad + sentence.length() - 1
+        startPad + sentence.length() - 1,
+        i
       )
       lastCharPosition = sentences(i).end + 1
       i = i + 1

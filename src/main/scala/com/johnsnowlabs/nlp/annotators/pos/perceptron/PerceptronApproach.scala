@@ -100,10 +100,12 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
           case (annotations, posTags) =>
             lazy val strTokens = annotations.map(_.result).mkString("#")
             lazy val strPosTags = posTags.mkString("#")
+            lazy val sentenceId = 0
             require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
               s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
             TaggedSentence(annotations.zip(posTags)
-              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
+              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end, sentenceId)},
+              id = sentenceId
             )
         }.collect
     } else {

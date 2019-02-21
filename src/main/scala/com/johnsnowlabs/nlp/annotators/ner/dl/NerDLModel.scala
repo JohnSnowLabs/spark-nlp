@@ -74,10 +74,10 @@ class NerDLModel(override val uid: String)
       val tokens = sentence.tokens.indices.map { j =>
         val token = sentence.indexedTokens(j)
         val label = labels(i)(j)
-        IndexedTaggedWord(token.token, label, token.begin, token.end)
+        IndexedTaggedWord(token.token, label, token.begin, token.end, token.sentenceId)
       }.toArray
 
-      new TaggedSentence(tokens)
+      new TaggedSentence(tokens, sentence.id)
     }.toArray
   }
 

@@ -51,7 +51,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
         prev = tag
         IndexedTaggedWord(word, tag, begin, end, sid)
       }
-    }).map(TaggedSentence(_))
+    }).map(TaggedSentence(_, 0))
   }
 
   def this() = this(Identifiable.randomUID("POS"))

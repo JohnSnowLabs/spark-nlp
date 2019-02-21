@@ -7,6 +7,6 @@ package com.johnsnowlabs.nlp.annotators.common
 /** Word tag pair */
 case class TaggedWord(word: String, tag: String)
 
-case class IndexedTaggedWord(word: String, tag: String, begin: Int = 0, end: Int = 0, sentenceid:Option[String] = None) {
+case class IndexedTaggedWord(word: String, tag: String, begin: Int = 0, end: Int = 0, sentenceId: Int) {
   def toTaggedWord: TaggedWord = TaggedWord(this.word, this.tag)
 }

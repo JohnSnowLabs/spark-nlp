@@ -8,8 +8,16 @@ package com.johnsnowlabs.nlp.annotators.common
   * Structure to hold Sentences as list of words and POS-tags
   * @param taggedWords Word tag pairs
   */
-case class TaggedSentence(taggedWords: Array[TaggedWord], indexedTaggedWords: Array[IndexedTaggedWord] = Array()) {
-  def this(indexedTaggedWords: Array[IndexedTaggedWord]) = this(indexedTaggedWords.map(_.toTaggedWord), indexedTaggedWords)
+case class TaggedSentence(
+                           taggedWords: Array[TaggedWord],
+                           id: Int,
+                           indexedTaggedWords: Array[IndexedTaggedWord] = Array()
+                         ) {
+  def this(
+            indexedTaggedWords: Array[IndexedTaggedWord],
+            sentenceId: Int
+          ) = this(indexedTaggedWords.map(_.toTaggedWord), sentenceId, indexedTaggedWords)
+
   /** Recurrently needed to access all words */
   val words: Array[String] = taggedWords.map(_.word)
   /** Recurrently needed to access all tags */
@@ -20,5 +28,5 @@ case class TaggedSentence(taggedWords: Array[TaggedWord], indexedTaggedWords: Ar
 }
 
 object TaggedSentence {
-  def apply(indexedTaggedWords: Array[IndexedTaggedWord]) = new TaggedSentence(indexedTaggedWords.map(_.toTaggedWord), indexedTaggedWords)
+  def apply(indexedTaggedWords: Array[IndexedTaggedWord], id: Int) = new TaggedSentence(indexedTaggedWords.map(_.toTaggedWord), id, indexedTaggedWords)
 }

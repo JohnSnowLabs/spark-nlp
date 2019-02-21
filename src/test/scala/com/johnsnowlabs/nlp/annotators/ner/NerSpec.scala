@@ -17,13 +17,13 @@ class NerSpec extends FlatSpec {
 
     var idx = 0
     for (i <- 0 until words.length) {
-      val token = IndexedTaggedWord(words(i), tags(i), idx, idx + words(i).length - 1)
+      val token = IndexedTaggedWord(words(i), tags(i), idx, idx + words(i).length - 1, 0)
       tokens.append(token)
 
       idx = idx + words(i).length + 1
     }
 
-    new NerTaggedSentence(tokens.toArray)
+    new NerTaggedSentence(tokens.toArray, 0)
   }
 
   private def createEntities(doc: String, entities: (String, Int)*): Seq[NamedEntity] = {
@@ -42,7 +42,7 @@ class NerSpec extends FlatSpec {
 
       wordIdx = wordIdx + cnt
       if (entity != "O") {
-        val extracted = NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1))
+        val extracted = NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1), 0)
         result.append(extracted)
       }
     }

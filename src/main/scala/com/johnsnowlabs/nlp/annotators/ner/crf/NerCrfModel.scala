@@ -62,14 +62,14 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
           val label = crf.metadata.labels(labelId)
 
           if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label)) {
-            Some(IndexedTaggedWord(word.word, label, word.begin, word.end))
+            Some(IndexedTaggedWord(word.word, label, word.begin, word.end, sentence.id))
           }
           else {
             None
           }
         }
 
-      TaggedSentence(words)
+      TaggedSentence(words, sentence.id)
     }
   }
 

@@ -23,10 +23,12 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
     val doc = new StringBuilder()
     val lastSentence = new ArrayBuffer[IndexedTaggedWord]()
     val sentences = new ArrayBuffer[TaggedSentence]()
+    var sentenceId = 0
 
     def addSentence(): Unit = {
       if (lastSentence.nonEmpty) {
-        sentences.append(TaggedSentence(lastSentence.toArray))
+        sentences.append(TaggedSentence(lastSentence.toArray, sentenceId))
+        sentenceId += 1
         lastSentence.clear()
       }
     }
@@ -40,6 +42,7 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
           val result = (doc.toString, sentences.toList)
           doc.clear()
           sentences.clear()
+          sentenceId = 0
 
           if (result._1.nonEmpty)
             Some(result._1, result._2)
@@ -59,7 +62,7 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
           doc.append(items(0))
           val end = doc.length - 1
           val tag = items(targetColumn)
-          lastSentence.append(IndexedTaggedWord(items(0), tag, begin, end))
+          lastSentence.append(IndexedTaggedWord(items(0), tag, begin, end, sentenceId))
           None
         }
         else {
