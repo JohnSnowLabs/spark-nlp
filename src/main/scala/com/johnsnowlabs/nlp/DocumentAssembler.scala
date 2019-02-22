@@ -74,22 +74,22 @@ class DocumentAssembler(override val uid: String)
 
   private def dfAssemble: UserDefinedFunction = udf {
     (text: String, id: String, metadata: Map[String, String]) =>
-      assemble(text, metadata ++ Map("id" -> id, "sentence" -> "0"))
+      assemble(text, metadata ++ Map("id" -> id))
   }
 
   private def dfAssembleOnlyId: UserDefinedFunction = udf {
     (text: String, id: String) =>
-      assemble(text, Map("id" -> id, "sentence" -> "0"))
+      assemble(text, Map("id" -> id))
   }
 
   private def dfAssembleNoId: UserDefinedFunction = udf {
     (text: String, metadata: Map[String, String]) =>
-      assemble(text, metadata ++ Map("sentence" -> "0"))
+      assemble(text, metadata)
   }
 
   private def dfAssembleNoExtras: UserDefinedFunction = udf {
     text: String =>
-      assemble(text, Map("sentence" -> "0"))
+      assemble(text, Map.empty[String, String])
   }
 
   private def dfAssemblyFromArray: UserDefinedFunction = udf {

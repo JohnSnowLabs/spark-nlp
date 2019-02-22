@@ -49,7 +49,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
     val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
-    sentences.foreach(sentence => {
+    sentences.zipWithIndex.foreach{case (sentence, sentenceIndex) => {
 
       val tokens = annotations.filter( token =>
         token.annotatorType == AnnotatorType.TOKEN &&
@@ -69,12 +69,12 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
           firstTokenBegin,
           lastTokenEnd,
           normalizedText,
-          Map("sentence" -> sentence.metadata("sentence"))
+          Map("sentence" -> sentenceIndex.toString)
         )
 
         result.append(annotation)
       }
-    })
+    }}
 
     result
   }

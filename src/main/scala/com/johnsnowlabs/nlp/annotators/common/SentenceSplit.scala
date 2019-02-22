@@ -32,13 +32,7 @@ object SentenceSplit extends Annotated[Sentence] {
   }
 
   override def pack(items: Seq[Sentence]): Seq[Annotation] = {
-    items.zipWithIndex.map{case (item, index) => Annotation(
-      annotatorType,
-      item.start,
-      item.end,
-      item.content,
-      Map("sentence" -> index.toString)
-    )}
+    items.map(item => Annotation(annotatorType, item.start, item.end, item.content, Map.empty[String, String]))
   }
 }
 
