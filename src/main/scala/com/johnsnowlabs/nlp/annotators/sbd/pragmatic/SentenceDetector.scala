@@ -43,9 +43,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def getMaxLength: Int = $(maxLength)
 
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   setDefault(
     inputCols -> Array(DOCUMENT),

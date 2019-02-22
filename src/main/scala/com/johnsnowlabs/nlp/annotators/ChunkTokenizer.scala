@@ -9,7 +9,7 @@ class ChunkTokenizer(override val uid: String) extends Tokenizer {
 
   def this() = this(Identifiable.randomUID("CHUNK_TOKENIZER"))
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](CHUNK)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](CHUNK)
 
   /** one to many annotation */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

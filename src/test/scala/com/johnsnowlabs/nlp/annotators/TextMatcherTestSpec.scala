@@ -12,7 +12,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
   "An TextMatcher" should s"be of type $CHUNK" in {
     val entityExtractor = new TextMatcherModel
-    assert(entityExtractor.annotatorType == CHUNK)
+    assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
   "An TextMatcher" should "extract entities with and without sentences" in {

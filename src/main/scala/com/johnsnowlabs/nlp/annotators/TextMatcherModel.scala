@@ -17,9 +17,9 @@ import scala.collection.mutable.ArrayBuffer
   */
 class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] {
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
   val parsedEntities = new ArrayFeature[Array[String]](this, "parsedEntities")
 
@@ -65,7 +65,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
         val normalizedText = sentence.result.substring(firstTokenBegin  - sentence.begin, lastTokenEnd - sentence.begin + 1)
 
         val annotation = Annotation(
-          annotatorType,
+          outputAnnotatorType,
           firstTokenBegin,
           lastTokenEnd,
           normalizedText,

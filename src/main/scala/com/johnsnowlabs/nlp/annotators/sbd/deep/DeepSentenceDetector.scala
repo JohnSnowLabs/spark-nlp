@@ -12,8 +12,8 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
   val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter",
     "Whether to include rule-based sentence detector as first filter")
@@ -95,12 +95,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index+1).begin-1
         val segmentedSentence = sentence.substring(beginIndex, endIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        Annotation(outputAnnotatorType, 0, segmentedSentence.length-1, segmentedSentence,
                    Map("sentence" -> ""))
       } else {
         val beginIndex = nerEntity.begin
         val segmentedSentence = sentence.substring(beginIndex)
-        Annotation(annotatorType, 0, segmentedSentence.length-1, segmentedSentence,
+        Annotation(outputAnnotatorType, 0, segmentedSentence.length-1, segmentedSentence,
           Map("sentence" -> ""))
       }
     }
