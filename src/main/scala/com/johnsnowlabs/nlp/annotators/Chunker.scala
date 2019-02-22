@@ -82,7 +82,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
       val chunkPhrases = POSTagPatterns.flatMap(POSTagPattern =>
         getChunkPhrases(POSTagPattern, POSFormatSentence, sentencePos)).flatten
 
-      val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) =>
+      val chunkAnnotations = chunkPhrases.map{ phrase =>
         val result = sentence.result.substring(
             phrase.head.begin,
             phrase.last.end + 1
