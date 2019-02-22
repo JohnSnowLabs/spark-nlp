@@ -51,7 +51,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   /** one-to-many annotation that returns matches as annotations*/
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.flatMap { annotation =>
+    annotations.zipWithIndex.flatMap { case (annotation, annotationIndex) =>
       matchFactory
         .findMatch(annotation.result).map { matched =>
           Annotation(
@@ -59,7 +59,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
             matched.content.start,
             matched.content.end - 1,
             matched.content.matched,
-            Map("identifier" -> matched.identifier, "sentence" -> annotation.metadata("sentence"))
+            Map("identifier" -> matched.identifier, "sentence" -> annotationIndex.toString)
           )
         }
     }

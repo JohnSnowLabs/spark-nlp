@@ -21,10 +21,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {
-    var sentenceIndex = 0
-
-    sentences.flatMap{sentence =>
-      sentenceIndex += 1
+    sentences.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
         sentence.indexedTokens.map{token =>
         Annotation(annotatorType, token.begin, token.end, token.token,
           Map("sentence" -> sentenceIndex.toString))
