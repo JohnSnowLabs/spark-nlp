@@ -69,7 +69,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
       document
     ).flatMap(sentence => {
       sentence.content.grouped($(maxLength)).map(limitedSentence => {
-        Sentence(limitedSentence, sentence.start, sentence.start + limitedSentence.length - 1)
+        Sentence(limitedSentence, sentence.start, sentence.start + limitedSentence.length - 1, 0)
       })
     })
   }

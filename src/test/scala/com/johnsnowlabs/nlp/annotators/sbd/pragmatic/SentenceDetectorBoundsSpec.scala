@@ -13,8 +13,8 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     val bounds = model.extractBounds(text)
 
     assert(bounds.length == 2)
-    assert(bounds(0) == Sentence("Hello World!!", 0, 12))
-    assert(bounds(1) == Sentence("New Sentence", 14, 25))
+    assert(bounds(0) == Sentence("Hello World!!", 0, 12, 0))
+    assert(bounds(1) == Sentence("New Sentence", 14, 25, 1))
 
     checkBounds(text, bounds)
   }
@@ -25,9 +25,9 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     val bounds = model.extractBounds(text)
 
     assert(bounds.length == 3)
-    assert(bounds(0) == Sentence("Hello World!!", 1, 13))
-    assert(bounds(1) == Sentence(".", 15, 15))
-    assert(bounds(2) == Sentence("New Sentence", 18, 29))
+    assert(bounds(0) == Sentence("Hello World!!", 1, 13, 0))
+    assert(bounds(1) == Sentence(".", 15, 15, 1))
+    assert(bounds(2) == Sentence("New Sentence", 18, 29, 2))
 
     checkBounds(text, bounds)
   }
@@ -38,9 +38,9 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     val bounds = model.extractBounds(" Hello World.\n\nNew Sentence\n\nThird")
 
     assert(bounds.length == 3)
-    assert(bounds(0) == Sentence("Hello World.", 1, 12))
-    assert(bounds(1) == Sentence("New Sentence", 15, 26))
-    assert(bounds(2) == Sentence("Third", 29, 33))
+    assert(bounds(0) == Sentence("Hello World.", 1, 12, 0))
+    assert(bounds(1) == Sentence("New Sentence", 15, 26, 1))
+    assert(bounds(2) == Sentence("Third", 29, 33, 2))
 
     checkBounds(text, bounds)
   }

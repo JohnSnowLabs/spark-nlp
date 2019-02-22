@@ -148,7 +148,7 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
             text.start + candidate.end - 1
         )))
       }}.toArray.filter(t => t.token.nonEmpty)
-      TokenizedSentence(tokens)
+      TokenizedSentence(tokens, text.index)
     }
   }
 
