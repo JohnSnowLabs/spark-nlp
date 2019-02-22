@@ -112,8 +112,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
-    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-                               Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent", "sentence" -> "0")),
+                               Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent", "sentence" -> "0")))
 
     val entities = deepSentenceDetector.getNerEntities(annotations)
 

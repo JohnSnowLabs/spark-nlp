@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
-import com.johnsnowlabs.nlp.annotators.common.{ChunkSplit, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.annotators.common.ChunkSplit
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class ChunkTokenizer(override val uid: String) extends Tokenizer {
@@ -11,11 +11,19 @@ class ChunkTokenizer(override val uid: String) extends Tokenizer {
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](CHUNK)
 
+  override val outputAnnotatorType: AnnotatorType = TOKEN_CHUNK
+
   /** one to many annotation */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = ChunkSplit.unpack(annotations)
     val tokenized = tag(sentences)
-    TokenizedWithSentence.pack(tokenized)
+
+    tokenized.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
+      sentence.indexedTokens.map{token =>
+        Annotation(outputAnnotatorType, token.begin, token.end, token.token,
+          Map("chunk" -> sentenceIndex.toString, "sentence" -> sentence.sentenceIndex.toString))
+      }}
+
   }
 
 }
