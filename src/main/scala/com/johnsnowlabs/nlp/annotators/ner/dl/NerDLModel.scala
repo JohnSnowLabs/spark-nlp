@@ -24,8 +24,8 @@ class NerDLModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
-  override val annotatorType = NAMED_ENTITY
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN)
+  override val outputAnnotatorType = NAMED_ENTITY
 
 
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")

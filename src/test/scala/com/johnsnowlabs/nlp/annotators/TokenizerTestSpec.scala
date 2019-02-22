@@ -18,7 +18,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   val regexTokenizer = new Tokenizer
 
   "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
-    assert(regexTokenizer.annotatorType == AnnotatorType.TOKEN)
+    assert(regexTokenizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
 

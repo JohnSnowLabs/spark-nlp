@@ -20,9 +20,9 @@ import org.apache.spark.ml.util.Identifiable
   */
 class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] {
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   val rules: ArrayFeature[(String, String)] = new ArrayFeature[(String, String)](this, "rules")
 
@@ -55,7 +55,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
       matchFactory
         .findMatch(annotation.result).map { matched =>
           Annotation(
-            annotatorType,
+            outputAnnotatorType,
             matched.content.start,
             matched.content.end - 1,
             matched.content.matched,

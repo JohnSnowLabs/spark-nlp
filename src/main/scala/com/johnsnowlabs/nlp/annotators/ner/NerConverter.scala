@@ -17,9 +17,9 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
 
   def this() = this(Identifiable.randomUID("NER_CONVERTER"))
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
   val whiteList: StringArrayParam = new StringArrayParam(this, "whiteList", "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels")
 
@@ -30,7 +30,7 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
 
     entities.filter(entity => get(whiteList).forall(validEntity => validEntity.contains(entity.entity))).map{entity =>
       Annotation(
-        annotatorType,
+        outputAnnotatorType,
         entity.start,
         entity.end,
         entity.text,

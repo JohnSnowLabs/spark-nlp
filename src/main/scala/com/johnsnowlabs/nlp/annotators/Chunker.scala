@@ -11,8 +11,8 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
-  override val annotatorType: AnnotatorType = CHUNK
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
+  override val outputAnnotatorType: AnnotatorType = CHUNK
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
 
   def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
   def addRegexParser(value: String): Chunker = {
@@ -90,7 +90,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
         val start = phrase.head.begin
         val end = phrase.last.end
         Annotation(
-          annotatorType,
+          outputAnnotatorType,
           start,
           end,
           result,

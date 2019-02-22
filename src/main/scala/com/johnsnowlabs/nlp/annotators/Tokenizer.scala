@@ -24,10 +24,10 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
   val includeDefaults: BooleanParam = new BooleanParam(this, "includeDefaults", "whether to include default patterns or only use user provided ones. Defaults to true.")
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
   /** A Tokenizer could require only for now a SentenceDetector annotator */
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
   def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
 

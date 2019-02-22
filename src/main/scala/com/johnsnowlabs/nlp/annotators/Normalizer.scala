@@ -16,9 +16,9 @@ import org.apache.spark.sql.Dataset
 class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerModel] {
 
   override val description: String = "Cleans out tokens"
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
   val patterns = new StringArrayParam(this, "patterns",
     "normalization regex patterns which match will be replaced with a space")

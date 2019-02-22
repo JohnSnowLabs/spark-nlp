@@ -46,9 +46,9 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
   def this() = this(Identifiable.randomUID("POS"))
 
-  override val annotatorType: AnnotatorType = POS
+  override val outputAnnotatorType: AnnotatorType = POS
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   /**
     * Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters

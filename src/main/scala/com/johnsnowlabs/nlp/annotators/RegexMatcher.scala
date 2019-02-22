@@ -13,9 +13,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   override val description: String = "Matches described regex rules that come in tuples in a text file"
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   val rules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
 

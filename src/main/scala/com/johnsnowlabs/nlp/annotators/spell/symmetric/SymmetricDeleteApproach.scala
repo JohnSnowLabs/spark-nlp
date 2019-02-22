@@ -52,9 +52,9 @@ class SymmetricDeleteApproach(override val uid: String)
 
 
   // AnnotatorType shows the structure of the result, we can have annotators with the same result
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
 
   def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
