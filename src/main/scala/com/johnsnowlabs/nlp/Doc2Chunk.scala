@@ -58,7 +58,7 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
         beginning,
         ending,
         chunk,
-        Map.empty[String, String]
+        annotation.metadata
       ))
     }
   }

@@ -53,13 +53,13 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.flatMap { annotation =>
       matchFactory
-        .findMatch(annotation.result).map { m =>
+        .findMatch(annotation.result).map { matched =>
           Annotation(
             annotatorType,
-            m.content.start,
-            m.content.end - 1,
-            m.content.matched,
-            Map("identifier" -> m.identifier)
+            matched.content.start,
+            matched.content.end - 1,
+            matched.content.matched,
+            Map("identifier" -> matched.identifier, "sentence" -> annotation.metadata("sentence"))
           )
         }
     }

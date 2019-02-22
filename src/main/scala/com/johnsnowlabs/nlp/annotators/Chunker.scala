@@ -94,7 +94,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
           start,
           end,
           result,
-          Map("sentence" -> sentence.metadata("sentence"), "chunk" -> index.toString)
+          Map("sentence" -> sentence.metadata("sentence"))
         )
       }
 
