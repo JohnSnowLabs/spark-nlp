@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import scala.util.matching.Regex
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -12,7 +12,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
   val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
   override val annotatorType: AnnotatorType = CHUNK
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(POS)
+  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
 
   def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
   def addRegexParser(value: String): Chunker = {
@@ -67,20 +67,39 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    val POSFormatSentence = annotations.map(annotation => "<"+annotation.result+">")
-                                        .mkString(" ").replaceAll("\\s","")
+    val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
-    val chunkPhrases = POSTagPatterns.flatMap(POSTagPattern =>
-      getChunkPhrases(POSTagPattern, POSFormatSentence, annotations)).flatten
+    sentences.flatMap {sentence => {
 
-    val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) => {
-      val result = phrase.map(annotation => annotation.metadata("word")).mkString(" ")
-      val start = phrase.map(_.begin).min
-      val end = phrase.map(_.end).max
-      Annotation(annotatorType, start, end, result, Map("chunk" -> index.toString))
+      val sentencePos = annotations.filter(pos =>
+        pos.annotatorType == AnnotatorType.POS &&
+          pos.begin >= sentence.begin &&
+            pos.end <= sentence.end)
+
+      val POSFormatSentence = sentencePos.map(annotation => "<"+annotation.result+">")
+        .mkString(" ").replaceAll("\\s","")
+
+      val chunkPhrases = POSTagPatterns.flatMap(POSTagPattern =>
+        getChunkPhrases(POSTagPattern, POSFormatSentence, sentencePos)).flatten
+
+      val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, index) =>
+        val result = sentence.result.substring(
+            phrase.head.begin,
+            phrase.last.end + 1
+        )
+        val start = phrase.head.begin
+        val end = phrase.last.end
+        Annotation(
+          annotatorType,
+          start,
+          end,
+          result,
+          Map("sentence" -> sentence.metadata("sentence"), "chunk" -> index.toString)
+        )
+      }
+
+      chunkAnnotations
     }}
-
-    chunkAnnotations
 
   }
 

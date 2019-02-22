@@ -33,7 +33,8 @@ object NerTagsEncoding {
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,
         lastTag.get,
-        doc.result.substring(start, end + 1)
+        doc.result.substring(start, end + 1),
+        doc.metadata("sentence")
       )
 
       result.append(entity)
@@ -61,4 +62,4 @@ object NerTagsEncoding {
 
 }
 
-case class NamedEntity(start: Int, end: Int, entity: String, text: String)
+case class NamedEntity(start: Int, end: Int, entity: String, text: String, sentenceId: String)

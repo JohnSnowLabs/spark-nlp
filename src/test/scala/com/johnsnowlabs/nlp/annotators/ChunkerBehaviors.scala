@@ -32,7 +32,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val POSdataset = trainedTagger.transform(tokenized)
 
       val chunker = new Chunker()
-        .setInputCols(Array("pos"))
+        .setInputCols(Array("document", "pos"))
         .setOutputCol("chunk")
         .setRegexParsers(Array("(?:<JJ|DT>)(?:<NN|VBG>)+"))
         .transform(POSdataset)
@@ -64,7 +64,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
           ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
 
       val chunker = new Chunker()
-        .setInputCols(Array("pos"))
+        .setInputCols(Array("document", "pos"))
         .setOutputCol("chunk")
         .setRegexParsers(Array("(<NN>)+"))
 
@@ -101,7 +101,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       .setPosColumn("tags")
 
     val chunker = new Chunker()
-      .setInputCols(Array("pos"))
+      .setInputCols(Array("document", "pos"))
       .setOutputCol("chunks")
       .setRegexParsers(regexParser)
 
