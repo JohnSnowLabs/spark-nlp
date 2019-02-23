@@ -128,23 +128,39 @@ trait ImageProcessing {
 
   private def detectSkewAngle(image: BufferedImage, halfAngle:Double, resolution:Double): Double = {
     val angle_score = Range.Double(-halfAngle, halfAngle + resolution, resolution).par.map { angle =>
-        var pointList: List[(Int, Int)] = List.empty
         val rotImage = rotate(image, angle)
         val projections: Array[Int] = Array.fill(rotImage.getWidth)(0)
         val rotImageData = rotImage.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
         val (imgW, imgH) = (rotImage.getWidth, rotImage.getHeight)
 
+        var upMost = imgH
+        var downMost = 0
+        var leftMost = imgW
+        var rightMost = 0
+
         Range(0, imgW).foreach { i =>
-          var j: Int = 0
           Range(0, imgH).foreach { j =>
             val pixVal = rotImageData(j * imgW + i) // check best way to access data here
             if (pixVal == -1) {
-              pointList =  (j, i) :: pointList
               projections(i) += 1
+
+              // find min area rectangle in-situ
+              if (i < leftMost)
+                leftMost = i
+
+              if (i > rightMost)
+                rightMost = i
+
+              if (j > downMost)
+                downMost = j
+
+              if (j < upMost)
+                upMost = j
             }
           }
         }
-        val (w, h) = minAreaRect(pointList)
+
+        val (w, h) = (rightMost- leftMost, downMost - upMost)
         val score = criterionFunc(projections) / (w * h).toDouble
         (angle, score)
     }.toMap

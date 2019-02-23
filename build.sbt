@@ -166,6 +166,7 @@ lazy val ocr = (project in file("ocr"))
     name := "spark-nlp-ocr",
     version := "1.8.2",
 
+    test in assembly := {},
 
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
