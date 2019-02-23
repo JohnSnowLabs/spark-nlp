@@ -11,6 +11,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.pos'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.pos.perceptron'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sbd'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sbd.pragmatic'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.sbd.deep'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sda'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sda.pragmatic'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sda.vivekn'] = annotator
