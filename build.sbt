@@ -85,7 +85,7 @@ lazy val ocrDependencies = Seq(
     exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.13",
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
-  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3" % "provided"
+  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3"
 )
 
 lazy val analyticsDependencies = Seq(
