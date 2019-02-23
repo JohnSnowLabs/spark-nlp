@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproachDistributed, PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronApproachDistributed, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
@@ -15,14 +16,14 @@ trait ChunkerBehaviors { this:FlatSpec =>
   def testChunkingWithTrainedPOS(document: Array[String]): Unit = {
     it should "successfully transform a trained POS tagger annotator" in {
       import SparkAccessor.spark.implicits._
-      val data = AnnotatorBuilder.withDocumentAssembler(
+      val data = AnnotatorBuilder.withFullPragmaticSentenceDetector(AnnotatorBuilder.withDocumentAssembler(
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
-      )
+      ))
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       val trainedTagger: PerceptronModel =
         new PerceptronApproach()
-          .setInputCols("document", "token")
+          .setInputCols("sentence", "token")
           .setOutputCol("pos")
           .setNIterations(3)
           .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
@@ -32,7 +33,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val POSdataset = trainedTagger.transform(tokenized)
 
       val chunker = new Chunker()
-        .setInputCols(Array("document", "pos"))
+        .setInputCols(Array("sentence", "pos"))
         .setOutputCol("chunk")
         .setRegexParsers(Array("(?:<JJ|DT>)(?:<NN|VBG>)+"))
         .transform(POSdataset)
@@ -52,19 +53,23 @@ trait ChunkerBehaviors { this:FlatSpec =>
         .setInputCol("text")
         .setOutputCol("document")
 
+      val sentence = new SentenceDetector()
+        .setInputCols("document")
+        .setOutputCol("sentence")
+
       val tokenizer = new Tokenizer()
-        .setInputCols(Array("document"))
+        .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
       val POSTag = new PerceptronApproach()
-        .setInputCols("document", "token")
+        .setInputCols("sentence", "token")
         .setOutputCol("pos")
         .setNIterations(3)
         .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
           ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
 
       val chunker = new Chunker()
-        .setInputCols(Array("document", "pos"))
+        .setInputCols(Array("sentence", "pos"))
         .setOutputCol("chunk")
         .setRegexParsers(Array("(<NN>)+"))
 
@@ -74,6 +79,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val pipeline = new Pipeline()
         .setStages(Array(
           documentAssembler,
+          sentence,
           tokenizer,
           POSTag,
           chunker,
@@ -91,17 +97,21 @@ trait ChunkerBehaviors { this:FlatSpec =>
       .setInputCol("text")
       .setOutputCol("document")
 
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
     val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
     val manualTrainedPos = new PerceptronApproach()
-      .setInputCols("document", "token")
+      .setInputCols("sentence", "token")
       .setOutputCol("pos")
       .setPosColumn("tags")
 
     val chunker = new Chunker()
-      .setInputCols(Array("document", "pos"))
+      .setInputCols(Array("sentence", "pos"))
       .setOutputCol("chunks")
       .setRegexParsers(regexParser)
 
@@ -111,6 +121,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
+        sentence,
         tokenizer,
         manualTrainedPos,
         chunker,

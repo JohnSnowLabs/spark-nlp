@@ -69,7 +69,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
     val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
-    sentences.zipWithIndex.flatMap { case(sentence, sentenceIndex) => {
+    sentences.zipWithIndex.flatMap { case(sentence, sentenceIndex) =>
 
       val sentencePos = annotations.filter(pos =>
         pos.annotatorType == AnnotatorType.POS &&
@@ -84,8 +84,8 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
       val chunkAnnotations = chunkPhrases.map{ phrase =>
         val result = sentence.result.substring(
-            phrase.head.begin,
-            phrase.last.end + 1
+            phrase.head.begin - sentence.begin,
+            phrase.last.end - sentence.begin + 1
         )
         val start = phrase.head.begin
         val end = phrase.last.end
@@ -99,7 +99,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
       }
 
       chunkAnnotations
-    }}
+    }
 
   }
 
