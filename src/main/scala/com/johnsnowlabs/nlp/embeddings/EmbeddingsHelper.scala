@@ -1,7 +1,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.FileNotFoundException
+import java.io.File
+import java.nio.file.{Files, Paths, StandardCopyOption}
 
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
@@ -38,29 +40,54 @@ object EmbeddingsHelper {
             embeddingsRef: String): ClusterWordEmbeddings = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    //if the path contains s3a setup the aws credentials from config if not already present
-    if(path.startsWith("s3a")){
-      if(spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")==null) {
+    var src = new Path(path)
+    //if the path contains s3a download to local cache if not present
+    if (uri.getScheme != null) {
+      if (uri.getScheme.equals("s3a")) {
         val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
         val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-
-
         if (accessKeyId.isEmpty || secretAccessKey.isEmpty)
           throw new SecurityException("AWS credentials not set in config")
         else {
+          var old_key = ""
+          var old_secret = ""
+          if (spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+            old_key = spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+            old_secret = spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+          }
+          try {
+            //download s3 resource locally using config keys
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+            val s3fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+            val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
+            val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
+            if (!Files.exists(Paths.get(dst.toUri.getPath))) {
 
-          spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
-          spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+              s3fs.copyToLocalFile(src, dst_tmp)
+              // rename to original file
+              val path = Files.move(
+                Paths.get(dst_tmp.toUri.getRawPath),
+                Paths.get(dst.toUri.getRawPath),
+                StandardCopyOption.REPLACE_EXISTING
+              )
+
+             // new File(dst_tmp.toUri.getPath).renameTo(new File(dst.toUri.getPath))
+
+            }
+            src = new Path(dst.toUri.getPath)
+          }
+          finally {
+            //reset the keys
+            //  if (!old_key.equals("")) {
+            //  spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", old_key)
+            //spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
+            //}
+          }
         }
-
       }
     }
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-
-    val src = new Path(path)
-
-    if (fs.exists(src)) {
-      ClusterWordEmbeddings(
+    ClusterWordEmbeddings(
         spark.sparkContext,
         src.toUri.toString,
         nDims,
@@ -68,10 +95,6 @@ object EmbeddingsHelper {
         format,
         embeddingsRef
       )
-    } else {
-      throw new FileNotFoundException(s"embeddings not found in $path")
-    }
-
   }
 
   def load(
@@ -111,5 +134,6 @@ object EmbeddingsHelper {
   def save(fs: FileSystem, index: Path, dst: Path): Unit = {
     fs.copyFromLocalFile(false, true, index, dst)
   }
+
 
 }
