@@ -33,8 +33,12 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     model.extractBounds(
       document
     ).flatMap(sentence => {
+      var currentStart = sentence.start
       sentence.content.grouped($(maxLength)).map(limitedSentence => {
-        Sentence(limitedSentence, sentence.start, sentence.start + limitedSentence.length - 1)
+        val currentEnd = currentStart + limitedSentence.length - 1
+        val result = Sentence(limitedSentence, currentStart, currentEnd)
+        currentStart = currentEnd + 1
+        result
       })
     })
   }
