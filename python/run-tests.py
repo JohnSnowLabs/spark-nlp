@@ -12,6 +12,7 @@ unittest.TextTestRunner().run(TextMatcherTestSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
+unittest.TextTestRunner().run(ChunkDocSerializingTestSpec())
 
 unittest.TextTestRunner().run(PragmaticSBDTestSpec())
 unittest.TextTestRunner().run(PragmaticScorerTestSpec())
