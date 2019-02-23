@@ -54,6 +54,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
+            .setInputCols(['document']) \
             .setStrategy("MATCH_ALL") \
             .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt",
                               delimiter=",") \
@@ -121,6 +122,7 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
         chunk_tokenizer = ChunkTokenizer() \
@@ -169,6 +171,7 @@ class DateMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         date_matcher = DateMatcher() \
+            .setInputCols(['document']) \
             .setOutputCol("date") \
             .setDateFormat("yyyyMM")
         assembled = document_assembler.transform(self.data)
@@ -188,6 +191,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
@@ -244,7 +248,7 @@ class ChunkerTestSpec(unittest.TestCase):
             .setIterations(2) \
             .fit(self.data)
         chunker = Chunker() \
-            .setInputCols(["pos"]) \
+            .setInputCols(["sentence", "pos"]) \
             .setOutputCol("chunk") \
             .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
         assembled = document_assembler.transform(self.data)

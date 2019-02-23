@@ -279,7 +279,6 @@ class RegexMatcher(AnnotatorApproach):
     def __init__(self):
         super(RegexMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcher")
         self._setDefault(
-            inputCols=["document"],
             strategy="MATCH_ALL"
         )
 
@@ -357,7 +356,6 @@ class DateMatcher(AnnotatorModel):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            inputCols=["document"],
             dateFormat="yyyy/MM/dd"
         )
 
@@ -380,7 +378,7 @@ class TextMatcher(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
-        self._setDefault(inputCols=["token"], caseSensitive=True)
+        self._setDefault(caseSensitive=True)
 
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
@@ -543,7 +541,7 @@ class SentenceDetector(AnnotatorModel):
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
+        self._setDefault(useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
                          explodeSentences=False)
 
 
@@ -571,7 +569,7 @@ class DeepSentenceDetector(AnnotatorModel):
     def __init__(self):
         super(DeepSentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
+        self._setDefault(includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
 
 
 class SentimentDetector(AnnotatorApproach):
