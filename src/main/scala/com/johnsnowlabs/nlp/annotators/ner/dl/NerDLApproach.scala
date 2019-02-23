@@ -99,7 +99,7 @@ class NerDLApproach(override val uid: String)
         .setTrimAndClearNewLines(false)
 
       val sentenceDetector = new SentenceDetector()
-        .setCustomBounds(Array("\n\n", "\n\r\n\r"))
+        .setCustomBounds(Array(System.lineSeparator()*2))
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
