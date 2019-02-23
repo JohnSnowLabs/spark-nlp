@@ -308,9 +308,9 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val sentence2 = "I love deep learning"
     val sentence3 = "Winter is coming"
     val expectedMergedSentences = Seq(
-      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"1")),
-      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"2")),
-      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3"))
+      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"0")),
+      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"1")),
+      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"2"))
     )
     val deepSegmentedSentences = Seq(
       Annotation(DOCUMENT, 0 , 19, "I love deep learning", Map("sentence"->"")),
@@ -392,11 +392,11 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val sentence4 = "I am Batman"
     val sentence5 = "I live in Gotham"
     val expectedMergedSentences = Seq(
-      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"1")),
-      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"2")),
-      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"3")),
-      Annotation(DOCUMENT, 0, sentence4.length-1, sentence4, Map("sentence"->"4")),
-      Annotation(DOCUMENT, 0, sentence5.length-1, sentence5, Map("sentence"->"5"))
+      Annotation(DOCUMENT, 0, sentence1.length-1, sentence1, Map("sentence"->"0")),
+      Annotation(DOCUMENT, 0, sentence2.length-1, sentence2, Map("sentence"->"1")),
+      Annotation(DOCUMENT, 0, sentence3.length-1, sentence3, Map("sentence"->"2")),
+      Annotation(DOCUMENT, 0, sentence4.length-1, sentence4, Map("sentence"->"3")),
+      Annotation(DOCUMENT, 0, sentence5.length-1, sentence5, Map("sentence"->"4"))
     )
 
     val mergedSegmentedSentences = deepSentenceDetector.mergeSentenceDetectors(pragmaticSegmentedSentences,
