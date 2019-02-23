@@ -85,7 +85,7 @@ lazy val ocrDependencies = Seq(
     exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.13",
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
-  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3" % "provided"
+  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3"
 )
 
 lazy val analyticsDependencies = Seq(
@@ -109,7 +109,7 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda")
     exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+  "com.amazonaws" % "aws-java-sdk" % "1.11.502"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
@@ -156,6 +156,7 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
+  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
