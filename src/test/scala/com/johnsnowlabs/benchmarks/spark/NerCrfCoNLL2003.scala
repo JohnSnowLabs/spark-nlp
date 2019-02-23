@@ -33,7 +33,7 @@ object CoNLL2003PipelineTest extends App {
       .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
-      .setCustomBounds(Array("\n\n"))
+      .setCustomBounds(Array(System.lineSeparator()*2))
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
