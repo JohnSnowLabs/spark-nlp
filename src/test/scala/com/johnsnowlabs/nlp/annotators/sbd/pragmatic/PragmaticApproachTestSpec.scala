@@ -218,12 +218,10 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val singleQuot = "She turned to him, 'This is great.' she said."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(singleQuot, singleQuotAns)
 
-  /*
   //Don't protect period between two words that contain apostrophes
   val twoApostrophesAns = Array("We don't want to ignore this period.", "Isn't it right?")
   val twoApostrophes = "We don't want to ignore this period. Isn't it right?"
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoApostrophes, twoApostrophesAns)
-  */
 
   //Double quotations inside sentence
   val doubleQuotAns = Array("She turned to him, \"This is great.\" she said.")
