@@ -56,13 +56,15 @@ object EmbeddingsHelper {
             old_secret = spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
           }
           try {
+            val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
+            if (!Files.exists(Paths.get(dst.toUri.getPath))) {
             //download s3 resource locally using config keys
             spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
             spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
             val s3fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-            val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
+
             val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
-            if (!Files.exists(Paths.get(dst.toUri.getPath))) {
+
 
               s3fs.copyToLocalFile(src, dst_tmp)
               // rename to original file
@@ -72,17 +74,15 @@ object EmbeddingsHelper {
                 StandardCopyOption.REPLACE_EXISTING
               )
 
-             // new File(dst_tmp.toUri.getPath).renameTo(new File(dst.toUri.getPath))
-
             }
             src = new Path(dst.toUri.getPath)
           }
           finally {
             //reset the keys
-            //  if (!old_key.equals("")) {
-            //  spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", old_key)
-            //spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
-            //}
+              if (!old_key.equals("")) {
+                spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", old_key)
+                spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
+            }
           }
         }
       }
