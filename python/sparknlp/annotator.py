@@ -498,8 +498,7 @@ class PerceptronModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
 
-class SentenceDetector(AnnotatorModel):
-
+class SentenceDetectorParams:
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
                              "whether to apply abbreviations at sentence detection",
@@ -516,14 +515,17 @@ class SentenceDetector(AnnotatorModel):
                                 typeConverter=TypeConverters.toBoolean)
 
     explodeSentences = Param(Params._dummy(),
-        "explodeSentences",
-        "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
-        typeConverter=TypeConverters.toBoolean)
+                             "explodeSentences",
+                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                             typeConverter=TypeConverters.toBoolean)
 
     maxLength = Param(Params._dummy(),
                       "maxLength",
                       "length at which sentences will be forcibly split. Defaults to 240",
                       typeConverter=TypeConverters.toInt)
+
+
+class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     name = 'SentenceDetector'
 
@@ -550,7 +552,7 @@ class SentenceDetector(AnnotatorModel):
                          explodeSentences=False)
 
 
-class DeepSentenceDetector(AnnotatorModel):
+class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     includesPragmaticSegmenter = Param(Params._dummy(),
                                        "includesPragmaticSegmenter",
@@ -562,12 +564,6 @@ class DeepSentenceDetector(AnnotatorModel):
         "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
         typeConverter=TypeConverters.toListString)
 
-    explodeSentences = Param(
-        Params._dummy(),
-        "explodeSentences",
-        "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
-        typeConverter=TypeConverters.toBoolean)
-
     name = "DeepSentenceDetector"
 
     def setIncludePragmaticSegmenter(self, value):
@@ -578,6 +574,18 @@ class DeepSentenceDetector(AnnotatorModel):
 
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
+
+    def setCustomBounds(self, value):
+        return self._set(customBounds=value)
+
+    def setUseAbbreviations(self, value):
+        return self._set(useAbbreviations=value)
+
+    def setUseCustomBoundsOnly(self, value):
+        return self._set(useCustomBoundsOnly=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     @keyword_only
     def __init__(self):
