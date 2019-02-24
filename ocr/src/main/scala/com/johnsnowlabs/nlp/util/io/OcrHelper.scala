@@ -299,8 +299,8 @@ object OcrHelper extends ImageProcessing {
       val factor = scalingFactor.orElse(
         desiredSize.flatMap(size => detectFontSize(skewCorrected).map(_.toFloat).map(size / _)))
 
-      val scaledImage = factor.map { factor =>
-        reScaleImage(skewCorrected, factor)
+      val scaledImage = factor.map { f =>
+        reScaleImage(skewCorrected, f)
       }.getOrElse(skewCorrected)
 
       // erode if kernel provided
