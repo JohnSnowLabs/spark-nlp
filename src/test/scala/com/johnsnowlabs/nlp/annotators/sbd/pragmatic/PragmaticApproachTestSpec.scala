@@ -28,8 +28,10 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
+      .setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
       .setOutputCol("my_sbd_sentences")
 
     val assembled = documentAssembler.transform(mergedSentences)
