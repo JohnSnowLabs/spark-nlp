@@ -75,7 +75,7 @@ Bugfixes
 Framework
 ---------------
 * Added missing artifact resolution dependencies for OCR Module
-* Started adding and organizing multilanguage models (Thanks @Maziyar)
+* Started adding and organizing multilanguage models (Thanks @maziyarpanahi)
 * Updated RocksDB to 5.17.2
 
 ========
