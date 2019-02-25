@@ -7,9 +7,9 @@ val scalaTestVersion = "3.0.0"
 /** Package attributes */
 name := "spark-nlp"
 
-organization := "com.johnsnowlabs.nlp"
+organization:= "com.johnsnowlabs.nlp"
 
-version := "1.8.0"
+version := "1.8.3"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -20,13 +20,15 @@ spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
 sparkComponents in ThisBuild ++= Seq("mllib")
 
-licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-spIncludeMaven := false
+spIncludeMaven in ThisBuild:= false
 
 spAppendScalaVersion := false
 
 resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
+
+resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -47,7 +49,7 @@ bintrayPackageLabels := Seq("nlp", "nlu",
 
 bintrayRepository := "spark-nlp"
 
-bintrayOrganization := Some("johnsnowlabs")
+bintrayOrganization:= Some("johnsnowlabs")
 
 sonatypeProfileName := "com.johnsnowlabs"
 
@@ -58,20 +60,21 @@ publishTo := Some(
     Opts.resolver.sonatypeStaging
 )
 
-homepage := Some(url("https://nlp.johnsnowlabs.com"))
+homepage:= Some(url("https://nlp.johnsnowlabs.com"))
 
-scmInfo := Some(
+scmInfo:= Some(
   ScmInfo(
     url("https://github.com/JohnSnowLabs/spark-nlp"),
     "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
   )
 )
 
-developers := List(
+developers in ThisBuild:= List(
   Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
   Developer(id="albertoandreottiATgmail", name="Alberto Andreotti", email="alberto@pacific.ai", url=url("https://github.com/albertoandreottiATgmail")),
+  Developer(id="rohit13k", name="Rohit Kumar", email="rohit@johnsnowlabs.com", url=url("https://github.com/rohit13k")),
   Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
 )
 
@@ -81,7 +84,8 @@ lazy val ocrDependencies = Seq(
     exclude("org.slf4j", "slf4j-log4j12")
     exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.13",
-  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2"
+  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
+  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3"
 )
 
 lazy val analyticsDependencies = Seq(
@@ -95,7 +99,16 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "5.1.4",
+  "org.rocksdb" % "rocksdbjni" % "5.17.2",
+  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+    exclude("commons-codec", "commons-codec")
+    exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude("com.fasterxml.jackson.core", "jackson-databind")
+    exclude("commons-configuration","commons-configuration")
+    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
+    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda")
+    exclude("org.apache.hadoop" ,"hadoop-common"),
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
@@ -143,6 +156,7 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
+  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
@@ -151,11 +165,39 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.8.0",
+    version := "1.8.3",
+
+    test in assembly := {},
+
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
       testDependencies,
-    assemblyMergeStrategy in assembly := ocrMergeRules
+    assemblyMergeStrategy in assembly := ocrMergeRules,
+    sonatypeProfileName := "com.johnsnowlabs",
+
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
+
+    homepage := Some(url("https://nlp.johnsnowlabs.com")),
+
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/JohnSnowLabs/spark-nlp"),
+        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+      )
+    ),
+    credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials"),
+
+    ivyScala := ivyScala.value map {
+      _.copy(overrideScalaVersion = true)
+    },
+    organization := "com.johnsnowlabs.nlp",
+
+    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
   )
   .dependsOn(root % "test")
 
