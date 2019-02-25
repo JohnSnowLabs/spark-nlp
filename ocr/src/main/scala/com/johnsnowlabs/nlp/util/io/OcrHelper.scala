@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.util.io
 import java.awt.Image
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
-
 import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
@@ -170,7 +169,6 @@ object OcrHelper extends ImageProcessing {
       case (fileName, stream) =>
           doPDFOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
     }.filter(_.text.nonEmpty).toDS
-
   }
 
   def createMap(inputPath: String): Map[String, String] = {
@@ -220,7 +218,7 @@ object OcrHelper extends ImageProcessing {
     val width = image.getWidth * factor
     val height = image.getHeight * factor
     val scaledImg = image.getAsBufferedImage().
-    getScaledInstance(width.toInt, height.toInt, Image.SCALE_SMOOTH)
+    getScaledInstance(width.toInt, height.toInt, Image.SCALE_AREA_AVERAGING)
     toBufferedImage(scaledImg)
   }
 
@@ -258,7 +256,6 @@ object OcrHelper extends ImageProcessing {
     }
     dest
   }
-
 
   def fromUnsigned(byte:Byte): Int = {
     if (byte > 0)
@@ -303,11 +300,8 @@ object OcrHelper extends ImageProcessing {
     dest
   }
 
-
-  private def tesseractMethod(
-                               pdfDoc: PDDocument,
-                               startPage: Int,
-                               endPage: Int): Option[Seq[String]] = {
+  // TODO: Sequence return type should be enough
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = {
     import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.flatMap(render => {
@@ -356,6 +350,7 @@ object OcrHelper extends ImageProcessing {
     if (splitPages)
       Option(imageRegions)
     else
+      // this merges regions across multiple images
       Option(Seq(imageRegions.mkString(System.lineSeparator())))
 
   }
@@ -378,7 +373,7 @@ object OcrHelper extends ImageProcessing {
 
     val result = preferredMethod match {
 
-      case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
+      case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
         .map(_.map(_.trim))
         .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
@@ -386,7 +381,7 @@ object OcrHelper extends ImageProcessing {
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
         .map(_.map(_.trim))
         .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(pdfDoc, startPage, endPage)} else None)
+        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
@@ -422,11 +417,11 @@ object OcrHelper extends ImageProcessing {
 
   private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
     val image = ImageIO.read(fileStream)
-    val result = tesseractMethod(Seq(image)).getOrElse("")
-    Seq((1, result, OCRMethod.IMAGE_FILE))
+    tesseractMethod(Seq(image)).map { _.map { region =>
+         (1, region, OCRMethod.IMAGE_FILE)
+       }
+    }.getOrElse(Seq.empty)
   }
-
-
 
   /*
   * extracts a text layer from a PDF.
