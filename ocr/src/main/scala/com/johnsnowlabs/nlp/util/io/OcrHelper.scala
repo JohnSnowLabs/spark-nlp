@@ -301,7 +301,7 @@ object OcrHelper extends ImageProcessing {
   }
 
   // TODO: Sequence return type should be enough
-  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = {
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = this.synchronized {
     import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.flatMap(render => {
@@ -317,19 +317,10 @@ object OcrHelper extends ImageProcessing {
         reScaleImage(image, factor)
       }.getOrElse(skewCorrected)
 
-      dumpImage(scaledImage, "scaledImg.png")
-
-      //scaledImage = binarize(scaledImage)
-
-      dumpImage(scaledImage, "binarizedImg.png")
-
-
       // erode if kernel provided
       val dilatedImage = kernelSize.map {kernelRadio =>
         erode(scaledImage, kernelRadio)
       }.getOrElse(scaledImage)
-
-      dumpImage(dilatedImage, "dilatedImg.png")
 
       // obtain regions and run OCR on each region
       val regions = {
@@ -353,12 +344,6 @@ object OcrHelper extends ImageProcessing {
       // this merges regions across multiple images
       Option(Seq(imageRegions.mkString(System.lineSeparator())))
 
-  }
-
-  private def dumpImage(bi:BufferedImage, filename:String) = {
-    import javax.imageio.ImageIO
-    val outputfile = new File(filename)
-    ImageIO.write(bi, "png", outputfile)
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[String]] = {

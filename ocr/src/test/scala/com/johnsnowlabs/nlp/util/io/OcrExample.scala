@@ -11,7 +11,7 @@ import scala.io.Source
 
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
-
+/*
   "Sign convertions" should "map all the values back and forwards" in {
     (-128 to 127).map(_.toByte).foreach { b=>
       assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))
@@ -44,14 +44,13 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
   }
 
 
-  "OcrExample with Spark" should "successfully create a dataset" in {
+  "OcrExample with Spark" should "successfully create a dataset - PDFs" in {
 
       val spark = getSpark
       import spark.implicits._
 
       // point to test/resources/pdfs
       val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
-      data.show(10)
       val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
       val raw = OcrHelper.createMap("ocr/src/test/resources/pdfs/")
@@ -61,7 +60,21 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       assert(raw.size == 2 && result.nonEmpty)
       println(result.mkString(","))
       succeed
+  } */
+
+  "OcrExample with Spark" should "successfully create a dataset - images" in {
+
+    val spark = getSpark
+    import spark.implicits._
+    OcrHelper.setSplitPages(false)
+
+    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/images/").
+      select("text").collect().mkString(" ")
+
+    val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
+    assert(levenshteinDistance(correct, data) < 10)
   }
+
 
   "OcrExample with Spark" should "improve results when preprocessing images" in {
       val spark = getSpark
@@ -78,7 +91,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
   def getSpark = {
         SparkSession.builder()
           .appName("SparkNLP-OCR-Default-Spark")
-          .master("local[*]")
+          .master("local[1]")
           .config("spark.driver.memory", "4G")
           .config("spark.driver.maxResultSize", "2G")
           .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
