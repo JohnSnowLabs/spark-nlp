@@ -32,6 +32,30 @@ object SentenceSplit extends Annotated[Sentence] {
   }
 
   override def pack(items: Seq[Sentence]): Seq[Annotation] = {
+    items.zipWithIndex.map{case (item, index) => Annotation(
+      annotatorType,
+      item.start,
+      item.end,
+      item.content,
+      Map("sentence" -> index.toString)
+    )}
+  }
+}
+
+/**
+  * Helper object to work work with Chunks
+  */
+object ChunkSplit extends Annotated[Sentence] {
+  override def annotatorType: String = AnnotatorType.CHUNK
+
+  override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
+    annotations.filter(_.annotatorType == annotatorType)
+      .map(annotation =>
+        Sentence(annotation.result, annotation.begin, annotation.end)
+      )
+  }
+
+  override def pack(items: Seq[Sentence]): Seq[Annotation] = {
     items.map(item => Annotation(annotatorType, item.start, item.end, item.content, Map.empty[String, String]))
   }
 }

@@ -1,3 +1,4 @@
 alias assemblyAndCopy=;assembly;copyAssembledJar
 alias assemblyOcrAndCopy=;ocr/assembly;copyAssembledOcrJar
 alias assemblyAndCopyForPyPi=;assembly;copyAssembledJarForPyPi
+alias publishSignedOcr=;ocr/assembly;ocr/publishSigned

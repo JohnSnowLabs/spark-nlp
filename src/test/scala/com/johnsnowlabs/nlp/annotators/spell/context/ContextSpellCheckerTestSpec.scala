@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -11,13 +11,8 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
-      "F" -> Map("P" -> 0.2f),
-      "em" -> Map("eƐ" -> 0.99f),  // deletion of an 'm'
-      "mƐ" -> Map("mt" -> 0.99f))  // insertion of an 'h'
+    val weights = Map("l" -> Map("1" -> 0.5f, "!" -> 0.2f), "P" -> Map("F" -> 0.2f))
   }
-
-
 
   trait distFile extends WeightedLevenshtein {
     val weights = loadWeights("src/test/resources/dist.psv")
@@ -32,7 +27,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
     assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
-/*
+
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
     assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
@@ -48,7 +43,20 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-*/
+  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+    override val weights = loadWeights("src/test/resources/distance.psv")
+
+    val cost1 = weights("F")("P") + weights("a")("e")
+    assert(wLevenshteinDist("Procedure", "Frocedura", weights) == cost1)
+
+    val cost2 = weights("v")("y") + weights("iƐ")("if")
+    assert(wLevenshteinDist("qualifying", "qualiving", weights) == cost2)
+
+    val cost3 = weights("a")("o") + weights("^Ɛ")("^t")
+    assert(wLevenshteinDist("to", "a", weights) == cost3)
+  }
+
+
   "a Spell Checker" should "correctly preprocess training data" in {
 
     val path = "src/test/resources/test.txt"
@@ -185,7 +193,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(NumberToken.separate("$40,000").equals(NumberToken.label))
   }
 
-
   "date classes" should "recognize different date and time formats" in {
     import scala.collection.JavaConversions._
     val transducer = DateToken.generateTransducer
@@ -203,8 +210,5 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     tmp = prefixedToken.separate(suffixedToken.separate("(08/10/1982)"))
     assert(tmp.equals("( 08/10/1982 )"))
-
   }
-
-
 }

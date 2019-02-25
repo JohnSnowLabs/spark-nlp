@@ -17,6 +17,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token") \
             .setCompositeTokensPatterns(["New York"]) \
             .addInfixPattern("(%\\d+)") \
@@ -71,6 +72,7 @@ class LemmatizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
@@ -93,6 +95,7 @@ class TokenizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token") \
             .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
         finisher = Finisher() \
@@ -105,6 +108,35 @@ class TokenizerTestSpec(unittest.TestCase):
         self.assertEqual(len(finished.first()['token_out']), 6)
 
 
+class ChunkTokenizerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        entity_extractor = TextMatcher() \
+            .setOutputCol("entity") \
+            .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
+        chunk_tokenizer = ChunkTokenizer() \
+            .setInputCols(['entity']) \
+            .setOutputCol('chunk_token')
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, entity_extractor, chunk_tokenizer])
+
+        data = self.session.createDataFrame([
+            ["Hello world, my name is Michael, I am an artist and I work at Benezar"],
+            ["Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."]
+        ]).toDF("text")
+
+        pipeline.fit(data).transform(data).show()
+
+
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -115,6 +147,7 @@ class NormalizerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Normalizer() \
             .setInputCols(["token"]) \
@@ -152,6 +185,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
             .setOutputCol("entity") \
@@ -233,9 +267,50 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
-            .setCustomBounds(["%%"])
+            .setCustomBounds(["%%"]) \
+            .setMaxLength(235)
         assembled = document_assembler.transform(self.data)
         sentence_detector.transform(assembled).show()
+
+
+class DeepSentenceDetectorTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
+        self.external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        ner_tagger = NerDLApproach() \
+            .setInputCols(["document", "token"]) \
+            .setLabelColumn("label") \
+            .setOutputCol("ner") \
+            .setMaxEpochs(100) \
+            .setPo(0.01) \
+            .setLr(0.1) \
+            .setBatchSize(9) \
+            .setEmbeddingsSource(self.embeddings, 100, 2) \
+            .setExternalDataset(self.external_dataset) \
+            .setRandomSeed(0)
+        ner_converter = NerConverter() \
+            .setInputCols(["document", "token", "ner"]) \
+            .setOutputCol("ner_con")
+        deep_sentence_detector = DeepSentenceDetector() \
+            .setInputCols(["document", "token", "ner_con"]) \
+            .setOutputCol("sentence") \
+            .setIncludePragmaticSegmenter(True) \
+            .setEndPunctuation([".", "?"])
+        assembled = document_assembler.transform(self.data)
+        tokenized = tokenizer.transform(assembled)
+        ner_tagged = ner_tagger.fit(tokenized).transform(tokenized)
+        ner_converted = ner_converter.transform(ner_tagged)
+        deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
+        deep_sentence_detected.show()
 
 
 class PragmaticScorerTestSpec(unittest.TestCase):
@@ -271,6 +346,17 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
 
+class DeepSentenceDetectorPipelinePersistenceTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        pipeline = Pipeline(stages=[DeepSentenceDetector()])
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
+        pipeline.write().overwrite().save(pipe_path)
+        loaded_pipeline = Pipeline.read().load(pipe_path)
+        if loaded_pipeline:
+            assert True
+
+
 class PipelineTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -281,6 +367,7 @@ class PipelineTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
@@ -337,6 +424,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
@@ -360,6 +448,7 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
             .setOutputCol("token")
         spell_checker = SymmetricDeleteApproach() \
             .setInputCols(["token"]) \
@@ -374,10 +463,10 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
 
 class ContextSpellCheckerTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkContextForTest.spark.sparkContext.parallelize([
+        self.data = SparkContextForTest.spark.createDataFrame([
                      ["Yesterday I lost my blue unikorn ."],
-                     ["he is gane ."]]).\
-                     toDF().toDF("region").cache()
+                     ["he is gane ."]]) \
+                     .toDF("region").cache()
 
     def runTest(self):
 
@@ -408,7 +497,8 @@ class ContextSpellCheckerTestSpec(unittest.TestCase):
 
         checked_data = pipeline.fit(self.data).transform(self.data)
         checked_data.select("finished_spell_checked").show(truncate=False)
-        assert(checked_data.collect.size == 2)
+        assert(len(checked_data.collect()) == 2)
+
 
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
@@ -548,3 +638,39 @@ class TypedDependencyParserTestSpec(unittest.TestCase):
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
         typed_dependency_parsed.show()
+
+
+class ChunkDocSerializingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark \
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        entity_extractor = TextMatcher() \
+            .setOutputCol("entity") \
+            .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
+        chunk2doc = Chunk2Doc() \
+            .setInputCols(['entity']) \
+            .setOutputCol('entity_doc')
+        doc2chunk = Doc2Chunk() \
+            .setInputCols(['entity_doc']) \
+            .setOutputCol('entity_rechunk')
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            entity_extractor,
+            chunk2doc,
+            doc2chunk
+        ])
+
+        model = pipeline.fit(self.data)
+        pipe_path = "file:///" + os.getcwd() + "/tmp_chunkdoc"
+        model.write().overwrite().save(pipe_path)
+        PipelineModel.load(pipe_path)

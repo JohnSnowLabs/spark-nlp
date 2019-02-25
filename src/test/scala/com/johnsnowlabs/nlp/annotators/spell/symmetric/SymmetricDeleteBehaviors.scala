@@ -7,11 +7,12 @@ import org.scalatest._
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.annotators.spell.common.LevenshteinDistance
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.sql.DataFrame
 
 
-trait SymmetricDeleteBehaviors { this: FlatSpec =>
+trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
 
   private val spellChecker = new SymmetricDeleteApproach()
     .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt",
@@ -573,6 +574,43 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val isNoisy = spellChecker.isNoisyWord(word)
 
       assert(!isNoisy)
+
+    }
+  }
+
+  def testDefaultTokenCorpusParameter(): Unit = {
+    s"using a corpus with default token parameter" should "successfully correct words" in {
+      val data = ContentProvider.parquetData.limit(3000)
+      val corpusData = Seq.empty[String].toDS
+
+      val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+      val tokenizer = new Tokenizer()
+        .setInputCols(Array("document"))
+        .setOutputCol("token")
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("token"))
+        .setOutputCol("spell")
+        .setCorpus("src/test/resources/spell/sherlockholmes.txt")
+        .setDictionary("src/test/resources/spell/words.txt")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
+
+      val model = pipeline.fit(corpusData.select(corpusData.col("value").as("text")))
+
+      assert(model.transform(data).isInstanceOf[DataFrame])
 
     }
   }

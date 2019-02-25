@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.ContentProvider
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, DocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.common.Sentence
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.scalatest.FlatSpec
 
 
@@ -47,9 +48,41 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
   "SentenceDetector" should "correct process custom delimiters in with dots" in {
     val model = new MixedPragmaticMethod(false, Array("\n\n"))
-    val bounds = model.extractBounds(ContentProvider.conllSevenSentences)
+    val bounds = model.extractBounds(ContentProvider.conllEightSentences)
 
     assert(bounds.length == 8)
+  }
+
+  "SentenceDetector" should "successfully split long sentences" in {
+
+    import ResourceHelper.spark.implicits._
+
+    val sentence = "Hello world, this is a long sentence"
+
+    val df = Seq(sentence).toDF("text")
+
+    val expected = sentence.grouped(12).toArray
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sd = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setMaxLength(12)
+
+    val doc = document.transform(df)
+    val sentenced = sd.transform(doc)
+      .select("sentence")
+      .as[Array[Annotation]].first
+
+    assert(sentenced.length == expected.length)
+    assert(sentenced.zip(expected).forall(r => r._1.result == r._2))
+    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
+    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 12, 23, " this is a l", Map("sentence" -> "1")))
+    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 24, 35, "ong sentence", Map("sentence" -> "2")))
+
   }
 
 

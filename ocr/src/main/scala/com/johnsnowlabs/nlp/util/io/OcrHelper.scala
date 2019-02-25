@@ -57,7 +57,7 @@ object OCRMethod {
 }
 
 
-object OcrHelper {
+object OcrHelper extends ImageProcessing {
 
   private val logger = LoggerFactory.getLogger("OcrHelper")
   private val imageFormats = Seq(".png", ".jpg")
@@ -74,10 +74,14 @@ object OcrHelper {
   private var engineMode: Int = TessOcrEngineMode.OEM_LSTM_ONLY
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
   private var kernelSize:Option[Int] = None
-  private var splitPages: Boolean = false
+  private var splitPages: Boolean = true
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
+
+  /* skew correction parameters */
+  private var halfAngle: Option[Double] = None
+  private var resolution: Option[Double] = None
 
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
@@ -176,6 +180,26 @@ object OcrHelper {
     }.filter(_._2.nonEmpty).toMap
   }
 
+  /*
+  * Enable/disable automatic skew(rotation) correction,
+  *
+  * @halfAngle, half the angle(in degrees) that will be considered for correction.
+  * @resolution, the step size(in degrees) that will be used for generating correction
+  * angle candidates.
+  *
+  * For example, for halfAngle = 2.0, and resolution 0.5,
+  * candidates {-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2} will be evaluated.
+  * */
+  def setAutomaticSkewCorrection(useIt:Boolean, halfAngle:Double = 5.0, resolution:Double = 1.0) = {
+    if(useIt) {
+      this.halfAngle = Some(halfAngle)
+      this.resolution = Some(resolution)
+    } else {
+      this.halfAngle = None
+      this.resolution = None
+    }
+  }
+
   private def tesseract:Tesseract = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
@@ -250,6 +274,7 @@ object OcrHelper {
       (integer - 255).toByte
   }
 
+
   def binarize(bi: BufferedImage):BufferedImage = {
 
     // convert to grayscale
@@ -278,15 +303,25 @@ object OcrHelper {
     dest
   }
 
-  private def tesseractMethod(renderedImages:Seq[RenderedImage]) = {
+
+  private def tesseractMethod(
+                               pdfDoc: PDDocument,
+                               startPage: Int,
+                               endPage: Int): Option[Seq[String]] = {
     import scala.collection.JavaConversions._
+
     val imageRegions = renderedImages.flatMap(render => {
       val image = PlanarImage.wrapRenderedImage(render)
+
+      // correct skew if parameters are provided
+      val skewCorrected = halfAngle.flatMap{angle => resolution.map {res =>
+        correctSkew(image.getAsBufferedImage, angle, res)
+      }}.getOrElse(image.getAsBufferedImage)
 
       // rescale if factor provided
       var scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
-      }.getOrElse(image.getAsBufferedImage)
+      }.getOrElse(skewCorrected)
 
       dumpImage(scaledImage, "scaledImg.png")
 
@@ -318,7 +353,10 @@ object OcrHelper {
       })
     })
 
-    Option(imageRegions.mkString(System.lineSeparator()))
+    if (splitPages)
+      Option(imageRegions)
+    else
+      Option(Seq(imageRegions.mkString(System.lineSeparator())))
 
   }
 
@@ -328,7 +366,7 @@ object OcrHelper {
     ImageIO.write(bi, "png", outputfile)
   }
 
-  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int) = {
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[String]] = {
 
     Option(extractText(pdfDoc, startPage, endPage))
 
@@ -340,23 +378,20 @@ object OcrHelper {
 
     val result = preferredMethod match {
 
-      case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
-        .map(_.trim)
-        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
+      case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
+        .map(_.map(_.trim))
+        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
-        .map(_.trim)
-        .filter(content => content.nonEmpty && (minSizeBeforeFallback == 0 || content.length >= minSizeBeforeFallback))
-        .orElse(if (fallbackMethod) {
-          decidedMethod = OCRMethod.IMAGE_LAYER
-          val renderedImages = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
-          tesseractMethod(renderedImages)} else None)
+        .map(_.map(_.trim))
+        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
+        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(pdfDoc, startPage, endPage)} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
 
-    result.map(content => Seq((endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
+    result.map(_.map(content => (endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
   }
 
   /*
@@ -396,12 +431,12 @@ object OcrHelper {
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(document: PDDocument, startPage: Int, endPage: Int):String = {
+  private def extractText(document: PDDocument, startPage: Int, endPage: Int): Seq[String] = {
     import org.apache.pdfbox.text.PDFTextStripper
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(startPage)
     pdfTextStripper.setEndPage(endPage)
-    pdfTextStripper.getText(document)
+    Seq(pdfTextStripper.getText(document))
   }
 
   /* TODO refactor, assuming single image */
