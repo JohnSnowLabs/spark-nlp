@@ -9,7 +9,6 @@ import org.scalatest._
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
 
-
   trait Scope extends WeightedLevenshtein {
     val weights = Map("l" -> Map("1" -> 0.5f, "!" -> 0.2f), "P" -> Map("F" -> 0.2f))
   }
