@@ -45,7 +45,6 @@ trait HasEmbeddings extends AutoCloseable with ParamsAndFeaturesWritable {
       ))
     }
     preloadedEmbeddings.get
-
   }
 
   override def close(): Unit = {

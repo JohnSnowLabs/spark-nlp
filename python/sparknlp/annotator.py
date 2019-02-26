@@ -5,6 +5,7 @@
 import sys
 from pyspark import keyword_only
 from sparknlp.common import *
+from sparknlp.internal import _BertLoader
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -178,7 +179,7 @@ class WordpieceTokenizer(AnnotatorApproach):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
-        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+        return self._set(vocabulary=ExternalResource(path, read_as, opts))
 
     def _create_model(self, java_model):
         return WordpieceTokenizerModel(java_model=java_model)
@@ -270,6 +271,70 @@ class WordEmbeddingsLookupModel(ModelWithEmbeddings):
             classname=classname,
             java_model=java_model
         )
+
+
+class BertEmbeddingsModel(AnnotatorModel):
+
+    sentenceStartTokenId = Param(Params._dummy(),
+                                 "sentenceStartTokenId",
+                                 "Id of token that must be placed at the begin of every sentence.",
+                                 typeConverter=TypeConverters.toInt)
+
+    sentenceEndTokenId = Param(Params._dummy(),
+                               "sentenceEndTokenId",
+                               "Id of token that must be placed at the end of every sentence.",
+                               typeConverter=TypeConverters.toInt)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    dim = Param(Params._dummy(),
+                "dim",
+                "Dimension of embeddings",
+                typeConverter=TypeConverters.toInt)
+
+    def setSentenceStartTokenId(self, value):
+        return self._set(sentenceStartTokenId=value)
+
+    def setSentenceEndTokenId(self, value):
+        return self._set(sentenceEndTokenId=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setDim(self, value):
+        return self._set(dim=value)
+
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel", java_model=None):
+        super(BertEmbeddingsModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dim = 768,
+            batchSize = 5,
+            sentenceStartTokenId = 103,
+            sentenceEndTokenId = 104,
+            maxSentenceLength = 100
+        )
+
+
+    @staticmethod
+    def loadFromPython(folder):
+        jModel = _BertLoader(folder)._java_obj
+        return BertEmbeddingsModel(java_model = jModel)
 
 
 class Normalizer(AnnotatorApproach):
