@@ -32,6 +32,10 @@ case class CoNLL(targetColumn: Int = 3,
     readLines(lines)
   }
 
+  def clearTokens(tokens: Array[IndexedTaggedWord]): Array[IndexedTaggedWord] = {
+    tokens.filter(t => t.word.trim().nonEmpty)
+  }
+
   def readLines(lines: Array[String]): Seq[CoNLLDocument] = {
     val doc = new StringBuilder()
     val lastSentence = new ArrayBuffer[(IndexedTaggedWord, IndexedTaggedWord)]()
@@ -39,9 +43,14 @@ case class CoNLL(targetColumn: Int = 3,
     val sentences = new ArrayBuffer[(TaggedSentence, TaggedSentence)]()
 
     def addSentence(): Unit = {
-      if (lastSentence.nonEmpty) {
-        val ner = TaggedSentence(lastSentence.map(t => t._1).toArray)
-        val pos = TaggedSentence(lastSentence.map(t => t._2).toArray)
+      val nerTokens = clearTokens(lastSentence.map(t => t._1).toArray)
+      val posTokens = clearTokens(lastSentence.map(t => t._2).toArray)
+
+      if (nerTokens.nonEmpty) {
+        assert(posTokens.nonEmpty)
+
+        val ner = TaggedSentence(nerTokens)
+        val pos = TaggedSentence(posTokens)
 
         sentences.append((ner, pos))
         lastSentence.clear()

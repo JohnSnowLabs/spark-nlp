@@ -13,6 +13,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   override def unpack(annotations: Seq[Annotation]): Seq[T] = {
 
     val tokenized = TokenizedWithSentence.unpack(annotations)
+
     val tagAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
       .sortBy(a => a.begin)
@@ -133,7 +134,12 @@ object NerTagged extends Tagged[NerTaggedSentence]{
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations  = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = PosTagged.unpack(sentenceAnnotations)
+          .filter(s => s.indexedTaggedWords.nonEmpty)
+          .sortBy(s => s.indexedTaggedWords.head.begin)
+
         val withEmbeddings = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+          .filter(s => s.tokens.nonEmpty)
+          .sortBy(s => s.tokens.head.begin)
 
         val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
         labels.zip(sentences zip withEmbeddings)

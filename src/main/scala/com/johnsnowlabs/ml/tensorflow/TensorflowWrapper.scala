@@ -109,13 +109,21 @@ object TensorflowWrapper {
         // trying to add library
         println("Problem with loading graph. Trying to add .so library")
 
-        val resource = ResourceHelper.getResourceFile("ner-dl/_sparse_feature_cross_op.so")
+        val resource = ResourceHelper.copyResourceToTmp("ner-dl/_sparse_feature_cross_op.so")
         TensorFlow.loadLibrary(resource.getPath)
+        resource.delete()
 
-        val resource2 = ResourceHelper.getResourceFile("ner-dl/_lstm_ops.so")
+        val resource2 = ResourceHelper.copyResourceToTmp("ner-dl/_lstm_ops.so")
         TensorFlow.loadLibrary(resource2.getPath)
+        resource2.delete()
 
-        readGraph(graphFile, false)
+        println("Added .so library")
+
+        val graph = readGraph(graphFile, false)
+
+        println("Graph loaded")
+
+        graph
       }
     }
   }

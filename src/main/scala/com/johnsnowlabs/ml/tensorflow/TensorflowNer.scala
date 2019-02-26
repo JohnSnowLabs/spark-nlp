@@ -50,29 +50,35 @@ class TensorflowNer
 
     val result = ArrayBuffer[Array[String]]()
 
-    for (batch <- dataset.grouped(batchSize)) {
+    for (batch <- dataset.grouped(batchSize); if batch.length > 0) {
       val batchInput = encoder.encodeInputData(batch)
 
-      val tensors = new TensorResources()
+      if (batchInput.sentenceLengths.length == 0)
+        for (_ <- batch) {
+          result.append(Array.empty[String])
+        }
+      else {
+        val tensors = new TensorResources()
 
-      val calculated = tensorflow.session.runner
-        .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
-        .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
+        val calculated = tensorflow.session.runner
+          .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
+          .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
-        .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
-        .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
+          .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
+          .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
 
-        .feed(dropoutKey, tensors.createTensor(1.0f))
-        .fetch(predictKey)
-        .run()
+          .feed(dropoutKey, tensors.createTensor(1.0f))
+          .fetch(predictKey)
+          .run()
 
-      tensors.clearTensors()
+        tensors.clearTensors()
 
-      val tagIds = TensorResources.extractInts(calculated.get(0))
-      val tags = encoder.decodeOutputData(tagIds)
-      val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
+        val tagIds = TensorResources.extractInts(calculated.get(0))
+        val tags = encoder.decodeOutputData(tagIds)
+        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
 
-      result.appendAll(sentenceTags)
+        result.appendAll(sentenceTags)
+      }
     }
 
     result.toArray

@@ -253,6 +253,25 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
+class WordEmbeddingsLookup(AnnotatorApproach, ApproachWithEmbeddings):
+    @keyword_only
+    def __init__(self):
+        super(WordEmbeddingsLookup, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookup")
+
+    def _create_model(self, java_model):
+        return WordEmbeddingsLookupModel(java_model=java_model)
+
+
+class WordEmbeddingsLookupModel(ModelWithEmbeddings):
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookupModel", java_model=None):
+        super(WordEmbeddingsLookupModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+
 class Normalizer(AnnotatorApproach):
 
     patterns = Param(Params._dummy(),
@@ -954,10 +973,6 @@ class NerApproach(Params):
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
-    externalDataset = Param(Params._dummy(), "externalDataset",
-                            "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage",
-                            TypeConverters.identity)
-
     def setLabelColumn(self, value):
         return self._set(labelColumn=value)
 
@@ -975,9 +990,6 @@ class NerApproach(Params):
 
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
-
-    def setExternalDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
@@ -1026,7 +1038,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
         )
 
 
-class NerCrfModel(ModelWithEmbeddings):
+class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel", java_model=None):
@@ -1084,11 +1096,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             po=float(0.005),
             batchSize=32,
             dropout=float(0.5),
-            verbose=4
+            verbose=2
         )
 
 
-class NerDLModel(ModelWithEmbeddings):
+class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
