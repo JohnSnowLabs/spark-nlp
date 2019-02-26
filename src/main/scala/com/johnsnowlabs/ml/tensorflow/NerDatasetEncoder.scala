@@ -34,12 +34,17 @@ class NerDatasetEncoder
   def encodeInputData(sentences: Array[WordpieceEmbeddingsSentence]): NerBatch = {
 
     val batchSize = sentences.length
+
     if (batchSize == 0)
       return NerBatch.empty
 
     val sentenceLengths = sentences.map(s => s.tokens.length)
     val maxSentenceLength = sentenceLengths.max
-    val wordLengths = sentences.map{
+
+    if (maxSentenceLength == 0)
+      return NerBatch.empty
+
+    val wordLengths = sentences.map {
       sentence =>
         val lengths = sentence.tokens.map(word => word.wordpiece.length)
         Range(0, maxSentenceLength)
@@ -47,6 +52,8 @@ class NerDatasetEncoder
           .toArray
     }
 
+
+    assert(wordLengths.flatten.nonEmpty, "")
     if (wordLengths.flatten.isEmpty) {
       return NerBatch.empty
     }

@@ -2,14 +2,16 @@ package com.johnsnowlabs.benchmarks.spark
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, PosTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.{PipelineModel, PipelineStage}
+import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
+
 import scala.collection.mutable
 
 
@@ -31,10 +33,11 @@ object CoNLL2003PipelineTest extends App {
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos", "glove")
       .setLabelColumn("label")
+      .setOutputCol("ner")
       .setC0(2250000)
       .setRandomSeed(100)
       .setMaxEpochs(10)
-      .setOutputCol("ner")
+      .setVerbose(Verbose.All)
 
     Array(glove, nerTagger)
   }
@@ -49,8 +52,7 @@ object CoNLL2003PipelineTest extends App {
 
     val stages = getNerStages()
 
-    val pipeline = new RecursivePipeline()
-      .setStages(stages)
+    val pipeline = new Pipeline().setStages(stages)
 
     pipeline.fit(dataset)
   }
@@ -69,14 +71,6 @@ object CoNLL2003PipelineTest extends App {
     NerTagged.collectLabeledInstances(
       df,
       Seq("sentence", "token", "ner"),
-      "label"
-    )
-  }
-
-  def collectPosLabeled(df: DataFrame): Seq[(TextSentenceLabels, PosTaggedSentence)] = {
-    PosTagged.collectLabeledInstances(
-      df,
-      Seq("sentence", "token", "pos"),
       "label"
     )
   }

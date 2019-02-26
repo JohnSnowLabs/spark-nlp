@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import org.apache.spark.ml.util.DefaultParamsReadable
 
-object annotator {
+package object annotator {
 
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
