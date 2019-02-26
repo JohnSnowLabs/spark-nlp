@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import java.io.File
+
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowBert, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{WordpieceEmbeddingsSentence, WordpieceTokenized}
@@ -99,7 +101,14 @@ object BertEmbeddingsModel extends ParamsAndFeaturesReadable[BertEmbeddingsModel
   }
 
   addReader(readTensorflow)
+
+
+  def loadFromPython(folder: String): BertEmbeddingsModel = {
+    val f = new File(folder)
+    require(f.exists, s"Folder ${folder} not found")
+    require(f.isDirectory, s"File ${folder} is not folder")
+
+    val wrapper = TensorflowWrapper.read(folder, zipped = false)
+    new BertEmbeddingsModel().setTensorflow(wrapper)
+  }
 }
-
-
-

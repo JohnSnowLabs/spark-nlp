@@ -3,11 +3,11 @@ package com.johnsnowlabs.benchmarks.spark
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence, TokenPiece, WordpieceTokenizedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddingsModel, WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
@@ -16,6 +16,8 @@ import scala.collection.mutable
 
 
 object CoNLL2003PipelineTest extends App {
+  val spark = SparkAccessor.benchmarkSpark
+
   val folder = "./"
 
   val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))

@@ -2,24 +2,17 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
 
-import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler, HasRecursiveFit}
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TokenizedSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.apache.commons.io.IOUtils
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{DataFrame, Dataset}
-import org.tensorflow.{Graph, Session}
+import org.apache.spark.sql.Dataset
+import org.tensorflow.Session
 
 import scala.util.Random
 

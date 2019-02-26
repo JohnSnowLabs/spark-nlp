@@ -29,6 +29,7 @@ class CoNLL(ExtendedJavaWrapper):
     def readDataset(self, path, read_as=ReadAs.LINE_BY_LINE, opts={}):
         resource = ExternalResource(path, read_as, opts)
 
+        # ToDo Replace with std pyspark
         session = SparkSession(self.sc)
         jSession = session._jsparkSession
 
