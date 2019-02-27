@@ -59,7 +59,7 @@ class ChunkTokenizerTestSpec extends FlatSpec {
       val entities = column._1
       val chunkTokens = column._2
       chunkTokens.foreach{annotation => {
-        val index = annotation.metadata("sentence").toInt - 1
+        val index = annotation.metadata("sentence").toInt
         require(entities.apply(index).result.contains(annotation.result), s"because ${entities(index)} does not contain ${annotation.result}")
       }}
       require(chunkTokens.flatMap(_.metadata.values).distinct.length == entities.length, s"because amount of chunks ${entities.length} does not equal to amount of token belongers")
