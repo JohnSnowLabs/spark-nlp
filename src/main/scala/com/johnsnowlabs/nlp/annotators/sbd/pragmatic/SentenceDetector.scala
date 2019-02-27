@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
+import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -11,50 +11,15 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * @param uid internal constructor requirement for serialization of params
   * @@ model: Model to use for boundaries detection
   */
-class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] {
+class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with SentenceDetectorParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
-
-  val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
-
-  val explodeSentences = new BooleanParam(this, "explodeSentences", "whether to explode each sentence into a different row, for better parallelization. Defaults to false.")
-
-  val customBounds: StringArrayParam = new StringArrayParam(
-    this,
-    "customBounds",
-    "characters used to explicitly mark sentence bounds"
-  )
-
-  val maxLength: IntParam = new IntParam(this, "maxLength", "length at which sentences will be forcibly split. Defaults to 240")
-
   def this() = this(Identifiable.randomUID("SENTENCE"))
-
-  def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
-
-  def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
-
-  def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
-
-  def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
-
-  def setMaxLength(value: Int): this.type = set(maxLength, value)
-
-  def getMaxLength: Int = $(maxLength)
 
   override val annotatorType: AnnotatorType = DOCUMENT
 
   override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
-
-  setDefault(
-    inputCols -> Array(DOCUMENT),
-    useAbbrevations -> true,
-    useCustomBoundsOnly -> false,
-    explodeSentences -> false,
-    maxLength -> 240,
-    customBounds -> Array.empty[String]
-  )
 
   lazy val model: PragmaticMethod =
     if ($(customBounds).nonEmpty && $(useCustomBoundsOnly))
@@ -68,8 +33,12 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     model.extractBounds(
       document
     ).flatMap(sentence => {
+      var currentStart = sentence.start
       sentence.content.grouped($(maxLength)).map(limitedSentence => {
-        Sentence(limitedSentence, sentence.start, sentence.start + limitedSentence.length - 1)
+        val currentEnd = currentStart + limitedSentence.length - 1
+        val result = Sentence(limitedSentence, currentStart, currentEnd)
+        currentStart = currentEnd + 1
+        result
       })
     })
   }

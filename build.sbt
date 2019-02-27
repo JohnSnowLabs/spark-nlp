@@ -9,7 +9,7 @@ name := "spark-nlp"
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "1.8.2"
+version := "1.8.3"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -85,7 +85,7 @@ lazy val ocrDependencies = Seq(
     exclude("org.apache.logging", "log4j"),
   "org.apache.pdfbox" % "pdfbox" % "2.0.13",
   "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
-  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3" % "provided"
+  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3"
 )
 
 lazy val analyticsDependencies = Seq(
@@ -156,6 +156,7 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
+  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
@@ -164,8 +165,9 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "1.8.2",
+    version := "1.8.3",
 
+    test in assembly := {},
 
     libraryDependencies ++= ocrDependencies ++
       analyticsDependencies ++
