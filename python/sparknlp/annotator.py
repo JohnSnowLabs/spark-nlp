@@ -28,7 +28,7 @@ spell = sys.modules[__name__]
 norvig = sys.modules[__name__]
 contextspell = sys.modules[__name__]
 ocr = sys.modules[__name__]
-wordpiece = sys.modules[__name__]
+embeddings = sys.modules[__name__]
 
 try:
     import jsl_sparknlp.annotator
@@ -152,59 +152,6 @@ class Tokenizer(AnnotatorModel):
             return self.getOrDefault("prefixPattern")
 
 
-class WordpieceTokenizer(AnnotatorApproach):
-
-    vocabulary = Param(Params._dummy(),
-                            "vocabulary",
-                            "vocabulary is list of tokens",
-                            typeConverter=TypeConverters.identity)
-
-    lowercase = Param(Params._dummy(),
-                      "lowercase",
-                      "whether to convert strings to lowercase")
-
-
-    @keyword_only
-    def __init__(self):
-        super(WordpieceTokenizer, self).__init__(
-            classname="com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceTokenizer")
-        self._setDefault(
-            lowercase=True
-        )
-
-    def setLowercase(self, value):
-        return self._set(lowercase=value)
-
-    def setVocabulary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "delimiter" not in opts:
-            opts["delimiter"] = delimiter
-        return self._set(vocabulary=ExternalResource(path, read_as, opts))
-
-    def _create_model(self, java_model):
-        return WordpieceTokenizerModel(java_model=java_model)
-
-
-class WordpieceTokenizerModel(AnnotatorModel):
-
-    lowercase = Param(Params._dummy(),
-                      "lowercase",
-                      "whether to convert strings to lowercase")
-
-    vocabulary = Param(Params._dummy(),
-                            "vocabulary",
-                            "Wordpiece vocabulary",
-                            typeConverter=TypeConverters.identity)
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceTokenizerModel", java_model=None):
-        super(WordpieceTokenizerModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
-    name = "WordpieceTokenizerModel"
-
-
 class ChunkTokenizer(Tokenizer):
     name = 'ChunkTokenizer'
 
@@ -275,15 +222,7 @@ class WordEmbeddingsLookupModel(ModelWithEmbeddings):
 
 class BertEmbeddingsModel(AnnotatorModel):
 
-    sentenceStartTokenId = Param(Params._dummy(),
-                                 "sentenceStartTokenId",
-                                 "Id of token that must be placed at the begin of every sentence.",
-                                 typeConverter=TypeConverters.toInt)
-
-    sentenceEndTokenId = Param(Params._dummy(),
-                               "sentenceEndTokenId",
-                               "Id of token that must be placed at the end of every sentence.",
-                               typeConverter=TypeConverters.toInt)
+    name = "BertEmbeddingsModel"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -295,16 +234,14 @@ class BertEmbeddingsModel(AnnotatorModel):
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
     dim = Param(Params._dummy(),
                 "dim",
                 "Dimension of embeddings",
                 typeConverter=TypeConverters.toInt)
-
-    def setSentenceStartTokenId(self, value):
-        return self._set(sentenceStartTokenId=value)
-
-    def setSentenceEndTokenId(self, value):
-        return self._set(sentenceEndTokenId=value)
 
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
@@ -312,9 +249,11 @@ class BertEmbeddingsModel(AnnotatorModel):
     def setBatchSize(self, value):
         return self._set(batchSize=value)
 
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
     def setDim(self, value):
         return self._set(dim=value)
-
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel", java_model=None):
@@ -325,16 +264,21 @@ class BertEmbeddingsModel(AnnotatorModel):
         self._setDefault(
             dim = 768,
             batchSize = 5,
-            sentenceStartTokenId = 103,
-            sentenceEndTokenId = 104,
-            maxSentenceLength = 100
+            maxSentenceLength = 100,
+            lowercase = True
         )
-
 
     @staticmethod
     def loadFromPython(folder):
         jModel = _BertLoader(folder)._java_obj
         return BertEmbeddingsModel(java_model = jModel)
+
+
+    @staticmethod
+    def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertEmbeddingsModel, name, language, remote_loc)
+
 
 
 class Normalizer(AnnotatorApproach):

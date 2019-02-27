@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 import scala.collection.mutable.ArrayBuffer
 
 
-private[wordpiece] class WordpieceEncoder
+private[nlp] class WordpieceEncoder
 (
   vocabulary: Map[String, Int],
   unkToken: String = "[UNK]",
