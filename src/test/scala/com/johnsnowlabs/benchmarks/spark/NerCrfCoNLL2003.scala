@@ -17,7 +17,6 @@ import scala.collection.mutable
 
 object CoNLL2003PipelineTest extends App {
   val spark = SparkAccessor.benchmarkSpark
-
   val folder = "./"
 
   val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))

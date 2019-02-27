@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
 
-private [wordpiece] class BasicTokenizer(lowerCase: Boolean = true) {
+private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
