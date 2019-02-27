@@ -47,6 +47,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setOutputCol("glove")
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
       100, WordEmbeddingsFormat.TEXT)
+    .setCaseSensitiveEmbeddings(false)
 
   private val strongNer = new NerDLApproach()
     .setInputCols("document", "token", "glove")
@@ -151,10 +152,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setInputCols("document", "token", "glove")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(100)
+      .setMaxEpochs(400)
       .setPo(0.01f)
       .setLr(0.1f)
-      .setBatchSize(9)
+      .setBatchSize(15)
       .setRandomSeed(0)
     nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
   }
@@ -353,45 +354,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val entities = deepSentenceDetector.getNerEntities(annotations)
 
     assert(entities == expectedEntities)
-
-  }
-
-  it should behave like {
-    import ResourceHelper.spark.implicits._
-
-    val sentence = "Hello world, this is a long sentence"
-
-    val df = Seq(sentence).toDF("text")
-
-    val expected = sentence.grouped(12).toArray
-
-    val dsd = new DeepSentenceDetector()
-      .setInputCols(Array("document", "token", "ner_con"))
-      .setOutputCol("sentence")
-      .setMaxLength(12)
-
-    val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val purePipeline = new RecursivePipeline().setStages(
-      Array(documentAssembler,
-        tokenizer,
-        glove,
-        nerTagger,
-        nerConverter,
-        dsd
-      ))
-
-    val sentenced = purePipeline.fit(df).transform(df)
-      .select("sentence")
-      .as[Array[Annotation]].first
-
-    assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => {
-      println(s"XX r1 is ${r._1.result} and r2 is ${r._2}")
-      r._1.result == r._2
-    }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 12, 23, " this is a l", Map("sentence" -> "1")))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 24, 35, "ong sentence", Map("sentence" -> "2")))
 
   }
 
