@@ -29,7 +29,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val strongNerDataset = nerReader.readDataset(strongNerDatasetResource, SparkAccessor.spark)
 
   private val weakNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
-  private val weakNerDatasetResource = ExternalResource(strongNerDatasetFile,
+  private val weakNerDatasetResource = ExternalResource(weakNerDatasetFile,
     ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
   private val weakNerDataset = nerReader.readDataset(weakNerDatasetResource, SparkAccessor.spark)
 
@@ -107,7 +107,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   private val weakNerTagger = new Pipeline().setStages(
     Array(glove,
-      strongNerTagger)
+      weakNer)
   ).fit(weakNerDataset)
     .stages(1)
     .asInstanceOf[NerDLModel]
@@ -222,7 +222,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("Hello world this is a sentence.", "This is another one.")
     )
 
-    transformDataSet(testDataSet, purePipeline, expectedResult)
+    transformDataSet(testDataSet, purePipeline, expectedResult, 1)
   }
 
   it should "retrieve a sentence from annotations from half right" ignore {
@@ -314,7 +314,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("Hello world this is a sentence.", "This is another one.")
     )
 
-    transformDataSet(testDataSet, purePipeline, expectedResult)
+    transformDataSet(testDataSet, purePipeline, expectedResult, 2)
   }
 
   "A pure Deep Sentence Detector with a bad training file" should "retrieve NER entities from annotations" ignore {
@@ -385,7 +385,10 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .as[Array[Annotation]].first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => r._1.result == r._2))
+    assert(sentenced.zip(expected).forall(r => {
+      println(s"XX r1 is ${r._1.result} and r2 is ${r._2}")
+      r._1.result == r._2
+    }))
     assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
     assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 12, 23, " this is a l", Map("sentence" -> "1")))
     assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 24, 35, "ong sentence", Map("sentence" -> "2")))
@@ -735,7 +738,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("i love deep learning", "winter is coming")
     )
 
-    transformDataSet(testDataSet, strongPipeline, expectedResult)
+    transformDataSet(testDataSet, strongPipeline, expectedResult, 3)
   }
 
   "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated sentences" should
@@ -747,7 +750,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is a sentence.", "This is another sentence.")
     )
 
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult, 4)
   }
 
   "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences in one row" should
@@ -759,7 +762,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is another sentence.")
     )
 
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult, 5)
   }
 
   "A Deep Sentence Detector" should "be serializable" ignore {
