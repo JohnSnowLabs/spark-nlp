@@ -148,7 +148,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         }
       }
       var currentStart = segmentedSentence.start
-      val annotatedSentenceWithLimit = segmentedSentence.content.grouped($(maxLength)).map{limitedSentence =>
+      val annotatedSentenceWithLimit = segmentedSentence.content.grouped($(maxLength)).map{limitedSentence => {
         val currentEnd = currentStart + limitedSentence.length - 1
         val result = Annotation(
           annotatorType,
@@ -160,7 +160,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         currentStart = currentEnd + 1
         sentenceIndex += 1
         result
-      }
+      }}
       annotatedSentenceWithLimit
     }
   }
