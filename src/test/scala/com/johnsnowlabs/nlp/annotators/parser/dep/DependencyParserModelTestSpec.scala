@@ -171,7 +171,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
     relationshipsBetweenWordsPredictor(testDataSet, pipelineConllU)
   }
 
-  "A pre-trained dependency parser" should "find relationships between words" ignore {
+  "A pre-trained dependency parser" should "find relationships between words" in {
 
     import com.johnsnowlabs.nlp.annotator.PerceptronModel
 
