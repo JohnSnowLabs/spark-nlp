@@ -32,8 +32,8 @@ class NerCrfApproach(override val uid: String)
   private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   override val description = "CRF based Named Entity Recognition Tagger"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
-  override val annotatorType = NAMED_ENTITY
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+  override val outputAnnotatorType = NAMED_ENTITY
 
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")

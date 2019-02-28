@@ -42,7 +42,7 @@ class NerSpec extends FlatSpec {
 
       wordIdx = wordIdx + cnt
       if (entity != "O") {
-        val extracted = NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1))
+        val extracted = NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1), "0")
         result.append(extracted)
       }
     }

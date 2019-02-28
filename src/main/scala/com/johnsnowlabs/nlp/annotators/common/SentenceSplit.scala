@@ -5,13 +5,13 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 /**
   * structure representing a sentence and its boundaries
   */
-case class Sentence(content: String, start: Int, end: Int)
+case class Sentence(content: String, start: Int, end: Int, index: Int)
 
 object Sentence {
   def fromTexts(texts: String*): Seq[Sentence] = {
     var idx = 0
-    texts.map{ text =>
-      val sentence = Sentence(text, idx, idx + text.length - 1)
+    texts.zipWithIndex.map{ case(text, textIndex) =>
+      val sentence = Sentence(text, idx, idx + text.length - 1, textIndex)
       idx += text.length + 1
       sentence
     }
@@ -26,9 +26,9 @@ object SentenceSplit extends Annotated[Sentence] {
 
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
-      .map(annotation =>
-        Sentence(annotation.result, annotation.begin, annotation.end)
-      )
+      .zipWithIndex.map { case (annotation, index) =>
+      Sentence(annotation.result, annotation.begin, annotation.end, index)
+    }
   }
 
   override def pack(items: Seq[Sentence]): Seq[Annotation] = {
@@ -51,7 +51,7 @@ object ChunkSplit extends Annotated[Sentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .map(annotation =>
-        Sentence(annotation.result, annotation.begin, annotation.end)
+        Sentence(annotation.result, annotation.begin, annotation.end, annotation.metadata("sentence").toInt)
       )
   }
 

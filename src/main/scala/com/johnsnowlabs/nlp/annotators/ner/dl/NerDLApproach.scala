@@ -25,9 +25,9 @@ class NerDLApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("NerDL"))
 
   override def getLogName: String = "NerDL"
-  override val description = "Trains Tensorflow based-BLSTM model"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val annotatorType = NAMED_ENTITY
+  override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val outputAnnotatorType = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")

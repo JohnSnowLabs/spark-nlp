@@ -16,7 +16,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
   val lemmatizer = new Lemmatizer
   "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" in {
-    assert(lemmatizer.annotatorType == AnnotatorType.TOKEN)
+    assert(lemmatizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

@@ -12,10 +12,10 @@ class WordEmbeddingsLookup(override val uid: String)
   def this() = this(Identifiable.randomUID("EMBEDDINGS_LOOKUP"))
 
   override val description: String = "Indexes embeddings for fast lookup"
-  override val annotatorType: AnnotatorType = WORD_EMBEDDINGS
+  override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordEmbeddingsLookupModel = {
     new WordEmbeddingsLookupModel()

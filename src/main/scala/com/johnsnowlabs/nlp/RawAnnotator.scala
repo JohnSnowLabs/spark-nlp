@@ -10,7 +10,7 @@ import org.apache.spark.sql.types._
   */
 trait RawAnnotator[M<:Model[M]] extends Model[M]
     with ParamsAndFeaturesWritable
-    with HasAnnotatorType
+    with HasOutputAnnotatorType
     with HasInputAnnotationCols
     with HasOutputAnnotationCol {
 
@@ -19,7 +19,7 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
 
   protected def wrapColumnMetadata(col: Column) = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     col.as(getOutputCol, metadataBuilder.build)
   }
 
@@ -33,7 +33,7 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
   override final def transformSchema(schema: StructType): StructType = {
     require(extraValidate(schema), extraValidateMsg)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
       StructField(getOutputCol, outputDataType, nullable = false, metadataBuilder.build)
     StructType(outputFields)

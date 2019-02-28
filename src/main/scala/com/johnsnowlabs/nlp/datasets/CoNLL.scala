@@ -115,21 +115,21 @@ case class CoNLL(targetColumn: Int = 3,
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val indexedSentences = sentences.map{sentence =>
+    val indexedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
       val start = sentence.indexedTaggedWords.map(t => t.begin).min
       val end = sentence.indexedTaggedWords.map(t => t.end).max
       val sentenceText = text.substring(start, end + 1)
-      new Sentence(sentenceText, start, end)}
+      new Sentence(sentenceText, start, end, index)}
 
     SentenceSplit.pack(indexedSentences)
   }
 
   def packTokenized(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val tokenizedSentences = sentences.map{sentence =>
+    val tokenizedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
       val tokens = sentence.indexedTaggedWords.map(t =>
         IndexedToken(t.word, t.begin, t.end)
       )
-      TokenizedSentence(tokens)
+      TokenizedSentence(tokens, index)
     }
 
     TokenizedWithSentence.pack(tokenizedSentences)
