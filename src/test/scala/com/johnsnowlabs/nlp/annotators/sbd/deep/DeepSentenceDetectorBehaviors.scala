@@ -9,18 +9,18 @@ import scala.collection.mutable
 trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
 
   def transformDataSet(dataSet: Dataset[_], pipeline: RecursivePipeline,
-                       expectedResult: Seq[Seq[String]], id: Int): Unit = {
+                       expectedResult: Seq[Seq[String]], testId: Int): Unit = {
 
     val sentenceDetectorModel = pipeline.fit(dataSet)
 
     it should "transform a model into a spark dataframe" in {
-      println(id)
+      info(s"DeepSentenceDetectorBehavior from testSpec id: $testId")
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
       assert(resultDataSet.isInstanceOf[DataFrame])
     }
 
     it should "transform to a dataset with segmented sentences" in {
-      println(id)
+      info(s"DeepSentenceDetectorBehavior from testSpec id: $testId")
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
       val result = getDataFrameAsArray(resultDataSet)
 

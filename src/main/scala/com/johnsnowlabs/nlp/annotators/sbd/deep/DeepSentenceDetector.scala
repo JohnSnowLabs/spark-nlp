@@ -136,8 +136,10 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     var sentenceIndex = 0
     nerEntities.flatMap{nerEntity =>
       val segmentedSentence = {
-        if (sentenceIndex != nerEntities.length - 1){
+        if (sentenceIndex < nerEntities.length - 1){
           val beginIndex = nerEntity.begin
+          println(s"sentenceIndex $sentenceIndex with entities ${nerEntities.length}")
+          println(nerEntities.map(_.result).mkString("<>"))
           val endIndex = nerEntities(sentenceIndex + 1).begin - 1
           val segmentedSentence = originalText.substring(beginIndex, endIndex)
           Sentence(segmentedSentence, beginIndex, endIndex - 1)
@@ -148,7 +150,9 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         }
       }
       var currentStart = segmentedSentence.start
+      println(s"entire sentence before grouping is ${segmentedSentence.content}")
       val annotatedSentenceWithLimit = segmentedSentence.content.grouped($(maxLength)).map{limitedSentence => {
+        println(s"limited sentence is ${limitedSentence} with length ${limitedSentence.length}")
         val currentEnd = currentStart + limitedSentence.length - 1
         val result = Annotation(
           annotatorType,
