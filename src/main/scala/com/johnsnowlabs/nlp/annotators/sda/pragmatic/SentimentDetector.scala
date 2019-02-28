@@ -11,9 +11,9 @@ import org.apache.spark.sql.Dataset
 
 class SentimentDetector(override val uid: String) extends AnnotatorApproach[SentimentDetectorModel] {
 
-  override val annotatorType: AnnotatorType = SENTIMENT
+  override val outputAnnotatorType: AnnotatorType = SENTIMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   override val description: String = "Rule based sentiment detector"
 

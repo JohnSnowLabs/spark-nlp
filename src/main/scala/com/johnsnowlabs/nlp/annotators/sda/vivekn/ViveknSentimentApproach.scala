@@ -52,9 +52,9 @@ class ViveknSentimentApproach(override val uid: String)
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
-  override val annotatorType: AnnotatorType = SENTIMENT
+  override val outputAnnotatorType: AnnotatorType = SENTIMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   def setSentimentCol(value: String): this.type = set(sentimentCol, value)
 
