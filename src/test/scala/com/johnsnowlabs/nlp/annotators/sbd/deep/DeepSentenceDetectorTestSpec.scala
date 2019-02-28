@@ -164,7 +164,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent")),
+    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent", "sentence" -> "0")),
       Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity" -> "sent", "sentence" -> "0")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
