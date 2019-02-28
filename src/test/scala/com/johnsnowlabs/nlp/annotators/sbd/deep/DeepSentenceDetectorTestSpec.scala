@@ -3,11 +3,11 @@ package com.johnsnowlabs.nlp.annotators.sbd.deep
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
-import com.johnsnowlabs.nlp.annotator.{NerConverter, SentenceDetector, Tokenizer}
+import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
 import com.johnsnowlabs.util.PipelineModels
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
 import java.nio.file.{Files, Paths}
 
@@ -33,7 +33,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
   private val weakNerDataset = nerReader.readDataset(weakNerDatasetResource, SparkAccessor.spark)
 
-
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
@@ -53,10 +52,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols("document", "token", "glove")
     .setLabelColumn("label")
     .setOutputCol("ner")
-    .setMaxEpochs(400)
-    .setPo(0.01f)
-    .setLr(0.1f)
-    .setBatchSize(15)
+    .setMaxEpochs(100)
     .setRandomSeed(0)
 
   private val weakNer = new NerDLApproach()
@@ -64,9 +60,6 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setLabelColumn("label")
     .setOutputCol("ner")
     .setMaxEpochs(100)
-    .setPo(0.01f)
-    .setLr(0.1f)
-    .setBatchSize(9)
     .setRandomSeed(0)
 
   private val nerConverter = new NerConverter()
@@ -152,15 +145,12 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setInputCols("document", "token", "glove")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setMaxEpochs(400)
-      .setPo(0.01f)
-      .setLr(0.1f)
-      .setBatchSize(15)
+      .setMaxEpochs(100)
       .setRandomSeed(0)
     nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
   }
 
-  "An empty document" should "raise exception" ignore {
+  "An empty document" should "raise exception" in {
     val annotations = Seq.empty[Annotation]
     val expectedErrorMessage = "Document is empty, please check."
 
@@ -171,7 +161,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(caught.getMessage == expectedErrorMessage)
   }
 
-  "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" ignore {
+  "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent")),
@@ -185,7 +175,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "segment sentences from right" ignore {
+  it should "segment sentences from right" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -226,7 +216,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, purePipeline, expectedResult, 1)
   }
 
-  it should "retrieve a sentence from annotations from half right" ignore {
+  it should "retrieve a sentence from annotations from half right" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val expectedSentence = "Hello world this is a sentence. This is another one."
@@ -238,7 +228,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "segment sentences from half right" ignore {
+  it should "segment sentences from half right" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -281,6 +271,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
         dsd
       ))
 
+    purePipeline.fit(df).transform(df).select("ner_con").show(false)
+
     val sentenced = purePipeline.fit(df).transform(df)
       .select("sentence")
       .as[Array[Annotation]].first
@@ -318,7 +310,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, purePipeline, expectedResult, 2)
   }
 
-  "A pure Deep Sentence Detector with a bad training file" should "retrieve NER entities from annotations" ignore {
+  "A pure Deep Sentence Detector with a bad training file" should "retrieve NER entities from annotations" in {
 
     val paragraph = "Hello world this is a sentence. This is another one."
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_bad.txt")
@@ -331,7 +323,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve a sentence from annotations from right" ignore {
+  it should "retrieve a sentence from annotations from right" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val expectedSentence = "Hello world this is a sentence. This is another one."
@@ -343,7 +335,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" ignore {
+  "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0")),
@@ -357,7 +349,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve a sentence from annotations from bad" ignore {
+  it should "retrieve a sentence from annotations from bad" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_bad.txt")
     val expectedSentence = "Hello world this is a sentence. This is another one."
@@ -369,7 +361,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "segment sentences from bad" ignore {
+  it should "segment sentences from bad" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_bad.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -386,7 +378,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  "A Deep Sentence Detector" should "retrieve NER entities from annotations" ignore {
+  "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
     val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
       Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
@@ -399,7 +391,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve a sentence from annotations" ignore {
+  it should "retrieve a sentence from annotations" in {
 
     val expectedSentence = "I am Batman I live in Gotham"
     val paragraph = "I am Batman I live in Gotham"
@@ -411,7 +403,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "identify punctuation in a sentence with punctuation" ignore {
+  it should "identify punctuation in a sentence with punctuation" in {
 
     val sentence = "That is your answer?"
     val expectedResult = true
@@ -421,7 +413,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(result == expectedResult)
   }
 
-  it should "not identify punctuation in a sentence without punctuation" ignore {
+  it should "not identify punctuation in a sentence without punctuation" in {
     val sentence = "I love deep learning Winter is coming;"
     val expectedResult = false
 
@@ -435,7 +427,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private var pragmaticSegmentedSentences = Seq[Annotation]()
   private var unpunctuatedSentences = Seq[Annotation]()
 
-  "A Deep Sentence Detector with none end of sentence punctuation" should "get an unpuncutated sentence" ignore {
+  "A Deep Sentence Detector with none end of sentence punctuation" should "get an unpuncutated sentence" in {
     paragraph = "This is a sentence. This is another sentence."
 
     val deepSentenceDetector = new DeepSentenceDetector()
@@ -456,7 +448,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve empty valid NER entities when NER converter does not find entities" ignore {
+  it should "retrieve empty valid NER entities when NER converter does not find entities" in {
     val deepSentenceDetector = new DeepSentenceDetector()
       .setInputCols(Array("document", "token", "ner_con"))
       .setOutputCol("seg_sentence")
@@ -470,7 +462,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(validNerEntities.isEmpty)
   }
 
-  it should "retrieve valid NER entities when NER converter finds entities" ignore {
+  it should "retrieve valid NER entities when NER converter finds entities" in {
     val deepSentenceDetector = new DeepSentenceDetector()
       .setInputCols(Array("document", "token", "ner_con"))
       .setOutputCol("seg_sentence")
@@ -491,7 +483,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     assert(validNerEntities == expectedValidNetEntities)
   }
 
-  it should "fit a sentence detector model" ignore {
+  it should "fit a sentence detector model" in {
 
     val testDataSet = Seq("This is a sentence. This is another sentence.",
       "I love deep learning Winter is coming").toDS.toDF("text")
@@ -517,7 +509,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
 
   "A Deep Sentence Detector with a paragraph of one punctuated and one unpunctuated sentence" should
-    "get an unpuncutated sentence" ignore {
+    "get an unpuncutated sentence" in {
 
     paragraph = "This is a sentence. I love deep learning Winter is coming"
     documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
@@ -532,7 +524,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   private var validNerEntities = Seq[Seq[Annotation]]()
 
-  it should "retrieve valid NER entities" ignore {
+  it should "retrieve valid NER entities" in {
 
     val nerConverterAnnotations = Seq(
       Annotation(CHUNK, begin = 0, end = 3, "This", Map("entity"->"sent")),
@@ -551,7 +543,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "detect sentences" ignore {
+  it should "detect sentences" in {
     val sentence1 = "I love deep learning"
     val sentence2 = "Winter is coming"
     val offset = 20
@@ -566,7 +558,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   it should
-    "merge pragmatic and deep sentence detector outputs" ignore {
+    "merge pragmatic and deep sentence detector outputs" in {
 
     val sentence1 = "This is a sentence."
     val sentence2 = "I love deep learning"
@@ -588,7 +580,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   "A Deep Sentence Detector with a paragraph of one sentence and several unpunctuated sentences" should
-    "get unpuncutated sentences" ignore {
+    "get unpuncutated sentences" in {
 
     paragraph = "This is a sentence. I love deep learning Winter is coming; I am Batman I live in Gotham"
     documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
@@ -604,7 +596,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve valid NER entities" ignore {
+  it should "retrieve valid NER entities" in {
 
     val nerConverterAnnotations = Seq(
       Annotation(CHUNK, begin = 0, end = 3, "This", Map("entity"->"sent")),
@@ -628,7 +620,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   it should
-    "detect sentences" ignore {
+    "detect sentences" in {
 
     val sentence1 = "I love deep learning"
     val sentence2 = "Winter is coming;"
@@ -648,7 +640,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   it should
-    "merge pragmatic and deep sentence detector outputs" ignore {
+    "merge pragmatic and deep sentence detector outputs" in {
 
     val deepSegmentedSentences = deepSentenceDetector.deepSentenceDetector(paragraph,
       unpunctuatedSentences, validNerEntities)
@@ -672,7 +664,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "fit a sentence detector model" ignore {
+  it should "fit a sentence detector model" in {
     val testDataSet = Seq("dummy").toDS.toDF("text")
     val strongPipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
@@ -727,7 +719,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     transformDataSet(testDataSet, weakPipeline, expectedResult, 5)
   }
 
-  "A Deep Sentence Detector" should "be serializable" ignore {
+  "A Deep Sentence Detector" should "be serializable" in {
     val emptyDataset = PipelineModels.dummyDataset
     val pipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
@@ -747,7 +739,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     }
   }
 
-  it should "be loaded from disk" ignore {
+  it should "be loaded from disk" in {
     val deepSentenceDetectorModel = DeepSentenceDetector.read.load("./tmp_deep_sd_model")
     assert(deepSentenceDetectorModel.isInstanceOf[DeepSentenceDetector])
   }
