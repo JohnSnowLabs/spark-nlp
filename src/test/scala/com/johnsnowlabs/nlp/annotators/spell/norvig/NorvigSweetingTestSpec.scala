@@ -5,6 +5,7 @@ import org.scalatest._
 
 class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
 
+  "A norvig sweeting approach" should behave like testDefaultTokenCorpusParameter
 
  "an isolated spell checker" should behave like isolatedNorvigChecker(
     Seq(

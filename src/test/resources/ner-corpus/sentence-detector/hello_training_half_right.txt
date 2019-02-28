@@ -1,0 +1,14 @@
+-DOCSTART- -X- -X- O
+
+Hello -X- -X- O
+world -X- -X- O
+This -X- -X- O
+is -X- -X- O
+a -X- -X- O
+sentence -X- -X- O
+. -X- -X- O
+This -X- -X- B-sent
+is -X- -X- O
+another -X- -X- O
+one -X- -X- O
+. -X- -X- O

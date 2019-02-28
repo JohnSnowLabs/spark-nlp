@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions.udf
 
-import scala.collection.Map
+import scala.collection.{Map, mutable}
 
 /**
   * represents annotator's output parts and their details
@@ -15,8 +14,29 @@ import scala.collection.Map
   * @param end the index after the last character under this annotation
   * @param metadata associated metadata for this annotation
   */
-case class Annotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
-case class JavaAnnotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: java.util.Map[String, String])
+case class Annotation(annotatorType: String,
+                      begin: Int,
+                      end: Int,
+                      result: String,
+                      metadata: Map[String, String],
+                      calculations: Map[String, Array[Float]] = Map.empty) {
+
+  def getCalculations(key: String): Array[Float] = {
+    val result = calculations.get(key)
+    if (result.isInstanceOf[Option[mutable.WrappedArray[Float]]])
+      result.asInstanceOf[Option[mutable.WrappedArray[Float]]].get.toArray
+    else
+      result.get
+  }
+}
+
+case class JavaAnnotation(annotatorType: String,
+                          begin: Int,
+                          end: Int,
+                          result: String,
+                          metadata: java.util.Map[String, String],
+                          calculations: java.util.Map[String, Array[Float]] = new java.util.HashMap[String, Array[Float]]()
+                         )
 
 object Annotation {
 
@@ -44,7 +64,8 @@ object Annotation {
     StructField("begin", IntegerType, nullable = false),
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
-    StructField("metadata", MapType(StringType, StringType), nullable = true)
+    StructField("metadata", MapType(StringType, StringType), nullable = true),
+    StructField("calculations", MapType(StringType, ArrayType(FloatType, false), true), nullable = true)
   ))
 
 
@@ -59,7 +80,8 @@ object Annotation {
       row.getInt(1),
       row.getInt(2),
       row.getString(3),
-      row.getMap[String, String](4)
+      row.getMap[String, String](4),
+      row.getMap[String, Array[Float]](5)
     )
   }
   def apply(rawText: String): Annotation = Annotation(
@@ -67,7 +89,8 @@ object Annotation {
     0,
     rawText.length - 1,
     rawText,
-    Map.empty[String, String]
+    Map.empty[String, String],
+    Map.empty[String, Array[Float]]
   )
 
   /** dataframe collect of a specific annotation column*/

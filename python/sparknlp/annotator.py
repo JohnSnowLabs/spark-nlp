@@ -5,6 +5,7 @@
 import sys
 from pyspark import keyword_only
 from sparknlp.common import *
+from sparknlp.internal import _BertLoader
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -14,19 +15,23 @@ else:
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
-perceptron = sys.modules[__name__]
+pos.perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
-crf = sys.modules[__name__]
-dl = sys.modules[__name__]
+ner.crf = sys.modules[__name__]
+ner.dl = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
+sbd.pragmatic = sys.modules[__name__]
+sbd.deep = sys.modules[__name__]
 sda = sys.modules[__name__]
-pragmatic = sys.modules[__name__]
-vivekn = sys.modules[__name__]
+sda.pragmatic = sys.modules[__name__]
+sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
-norvig = sys.modules[__name__]
-contextspell = sys.modules[__name__]
+spell.norvig = sys.modules[__name__]
+spell.contextspell = sys.modules[__name__]
+spell.symmetric = sys.modules[__name__]
 ocr = sys.modules[__name__]
+embeddings = sys.modules[__name__]
 
 try:
     import jsl_sparknlp.annotator
@@ -72,23 +77,28 @@ class Tokenizer(AnnotatorModel):
 
     name = 'Tokenizer'
 
+    infixDefaults = [
+        "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
+        "((?:\\p{L}\\.)+)",
+        "(\\p{L}+)(n't\\b)",
+        "(\\p{L}+)('{1}\\p{L}+)",
+        "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
+        "([\\p{L}\\w]+)"
+    ]
+
+    prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
+
+    suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
-        self.infixDefaults = [
-            "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-            "((?:\\p{L}\\.)+)",
-            "(\\p{L}+)(n't\\b)",
-            "(\\p{L}+)('{1}\\p{L}+)",
-            "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-            "([\\p{L}\\w]+)"
-        ]
-        self.prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
-        self.suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
+        self.infixDefaults = Tokenizer.infixDefaults
+        self.prefixDefault = Tokenizer.prefixDefault
+        self.suffixDefault = Tokenizer.suffixDefault
 
         self._setDefault(
-            inputCols=["document"],
             targetPattern="\\S+",
             infixPatterns=[],
             includeDefaults=True
@@ -145,6 +155,24 @@ class Tokenizer(AnnotatorModel):
             return self.getOrDefault("prefixPattern")
 
 
+class ChunkTokenizer(Tokenizer):
+    name = 'ChunkTokenizer'
+
+    @keyword_only
+    def __init__(self):
+        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
+
+        self.infixDefaults = Tokenizer.infixDefaults
+        self.prefixDefault = Tokenizer.prefixDefault
+        self.suffixDefault = Tokenizer.suffixDefault
+
+        self._setDefault(
+            targetPattern="\\S+",
+            infixPatterns=[],
+            includeDefaults=True
+        )
+
+
 class Stemmer(AnnotatorModel):
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
@@ -174,6 +202,86 @@ class Chunker(AnnotatorModel):
 
     def setRegexParsers(self, value):
         return self._set(regexParsers=value)
+
+
+class WordEmbeddingsLookup(AnnotatorApproach, ApproachWithEmbeddings):
+    @keyword_only
+    def __init__(self):
+        super(WordEmbeddingsLookup, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookup")
+
+    def _create_model(self, java_model):
+        return WordEmbeddingsLookupModel(java_model=java_model)
+
+
+class WordEmbeddingsLookupModel(ModelWithEmbeddings):
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookupModel", java_model=None):
+        super(WordEmbeddingsLookupModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+
+class BertEmbeddingsModel(AnnotatorModel):
+
+    name = "BertEmbeddingsModel"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase")
+
+    dim = Param(Params._dummy(),
+                "dim",
+                "Dimension of embeddings",
+                typeConverter=TypeConverters.toInt)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
+    def setDim(self, value):
+        return self._set(dim=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel", java_model=None):
+        super(BertEmbeddingsModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dim = 768,
+            batchSize = 5,
+            maxSentenceLength = 100,
+            lowercase = True
+        )
+
+    @staticmethod
+    def loadFromPython(folder):
+        jModel = _BertLoader(folder)._java_obj
+        return BertEmbeddingsModel(java_model = jModel)
+
+
+    @staticmethod
+    def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertEmbeddingsModel, name, language, remote_loc)
+
 
 
 class Normalizer(AnnotatorApproach):
@@ -472,8 +580,7 @@ class PerceptronModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
 
-class SentenceDetector(AnnotatorModel):
-
+class SentenceDetectorParams:
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
                              "whether to apply abbreviations at sentence detection",
@@ -494,6 +601,14 @@ class SentenceDetector(AnnotatorModel):
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "length at which sentences will be forcibly split. Defaults to 240",
+                      typeConverter=TypeConverters.toInt)
+
+
+class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
+
     name = 'SentenceDetector'
 
     def setCustomBounds(self, value):
@@ -508,11 +623,57 @@ class SentenceDetector(AnnotatorModel):
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
 
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
+
     @keyword_only
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
         self._setDefault(inputCols=["document"], useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
+                         explodeSentences=False)
+
+
+class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
+
+    includesPragmaticSegmenter = Param(Params._dummy(),
+                                       "includesPragmaticSegmenter",
+                                       "Whether to include rule-based sentence detector as first filter",
+                                       typeConverter=TypeConverters.toBoolean)
+
+    endPunctuation = Param(
+        Params._dummy(), "endPunctuation",
+        "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
+        typeConverter=TypeConverters.toListString)
+
+    name = "DeepSentenceDetector"
+
+    def setIncludePragmaticSegmenter(self, value):
+        return self._set(includesPragmaticSegmenter=value)
+
+    def setEndPunctuation(self, value):
+        return self._set(endPunctuation=value)
+
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
+
+    def setCustomBounds(self, value):
+        return self._set(customBounds=value)
+
+    def setUseAbbreviations(self, value):
+        return self._set(useAbbreviations=value)
+
+    def setUseCustomBoundsOnly(self, value):
+        return self._set(useCustomBoundsOnly=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
+
+    @keyword_only
+    def __init__(self):
+        super(DeepSentenceDetector, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
+        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
                          explodeSentences=False)
 
 
@@ -842,10 +1003,6 @@ class NerApproach(Params):
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
-    externalDataset = Param(Params._dummy(), "externalDataset",
-                            "Path to dataset. If path is empty will use dataset passed to train as usual Spark Pipeline stage",
-                            TypeConverters.identity)
-
     def setLabelColumn(self, value):
         return self._set(labelColumn=value)
 
@@ -864,11 +1021,8 @@ class NerApproach(Params):
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
 
-    def setExternalDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(externalDataset=ExternalResource(path, read_as, options.copy()))
 
-
-class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
+class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
@@ -914,7 +1068,7 @@ class NerCrfApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         )
 
 
-class NerCrfModel(ModelWithEmbeddings):
+class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel", java_model=None):
@@ -929,7 +1083,7 @@ class NerCrfModel(ModelWithEmbeddings):
         return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
 
-class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
+class NerDLApproach(AnnotatorApproach, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)",
@@ -938,12 +1092,6 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
     minProba = Param(Params._dummy(), "minProba",
                      "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
-    validationDataset = Param(Params._dummy(), "validationDataset",
-                              "Path to validation dataset. If set used to calculate statistic on it during training.",
-                              TypeConverters.identity)
-    testDataset = Param(Params._dummy(), "testDataset",
-                        "Path to test dataset. If set used to calculate statistic on it during training.",
-                        TypeConverters.identity)
 
     def setLr(self, v):
         self._set(lr=v)
@@ -965,12 +1113,6 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         self._set(minProba=v)
         return self
 
-    def setValidationDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(validationDataset=ExternalResource(path, read_as, options.copy()))
-
-    def setTestDataset(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
-
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
@@ -980,15 +1122,15 @@ class NerDLApproach(AnnotatorApproach, ApproachWithEmbeddings, NerApproach):
         self._setDefault(
             minEpochs=0,
             maxEpochs=50,
-            lr=float(0.2),
-            po=float(0.05),
-            batchSize=9,
+            lr=float(0.001),
+            po=float(0.005),
+            batchSize=32,
             dropout=float(0.5),
-            verbose=4
+            verbose=2
         )
 
 
-class NerDLModel(ModelWithEmbeddings):
+class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1005,6 +1147,16 @@ class NerDLModel(ModelWithEmbeddings):
 
 class NerConverter(AnnotatorModel):
     name = 'Tokenizer'
+
+    whiteList = Param(
+        Params._dummy(),
+        "whiteList",
+        "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels",
+        typeConverter=TypeConverters.toListString
+    )
+
+    def setWhiteList(self, entities):
+        return self._set(whiteList=entities)
 
     @keyword_only
     def __init__(self):

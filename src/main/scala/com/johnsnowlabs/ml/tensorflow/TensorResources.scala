@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{FloatBuffer, LongBuffer}
+import java.nio.{FloatBuffer, IntBuffer, LongBuffer}
 
 import org.tensorflow.Tensor
 
@@ -34,15 +34,25 @@ class TensorResources {
 
 object TensorResources {
 
-  def extractInts(source: Tensor[_], size: Int): Array[Int] = {
-    val buffer = LongBuffer.allocate(size)
-    source.writeTo(buffer)
-    buffer.array().map(item => item.toInt)
+  def calculateTensorSize(source: Tensor[_], size: Option[Int]): Int = {
+    size.getOrElse{
+      // Calculate real size from tensor shape
+      val shape = source.shape()
+      shape.foldLeft(1l)(_*_).toInt
+    }
   }
 
-  def extractFloats(source: Tensor[_], size: Int): Array[Float] = {
-    val buffer = FloatBuffer.allocate(size)
+  def extractInts(source: Tensor[_], size: Option[Int] = None): Array[Int] = {
+    val realSize = calculateTensorSize(source ,size)
+    val buffer = IntBuffer.allocate(realSize)
     source.writeTo(buffer)
-    buffer.array().map(item => item.toFloat)
+    buffer.array()
+  }
+
+  def extractFloats(source: Tensor[_], size: Option[Int] = None): Array[Float] = {
+    val realSize = calculateTensorSize(source ,size)
+    val buffer = FloatBuffer.allocate(realSize)
+    source.writeTo(buffer)
+    buffer.array().map(item => item)
   }
 }

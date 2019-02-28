@@ -13,6 +13,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   override def unpack(annotations: Seq[Annotation]): Seq[T] = {
 
     val tokenized = TokenizedWithSentence.unpack(annotations)
+
     val tagAnnotations = annotations
       .filter(a => a.annotatorType == annotatorType)
       .sortBy(a => a.begin)
@@ -75,11 +76,14 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
 
-  protected def getLabelsFromSentences(sentences: Seq[TokenizedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+  protected def getLabelsFromSentences(sentences: Seq[WordpieceEmbeddingsSentence],
+                                       labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
 
     sentences.map{sentence =>
-      val labels = sentence.indexedTokens.map { w =>
+      // Extract labels only for wordpiece that are at the begin of tokens
+      val tokens = sentence.tokens.filter(t => t.isWordStart)
+      val labels = tokens.map { w =>
         val tag = Annotation.searchCoverage(sortedLabels, w.begin, w.end)
           .map(a => a.result)
           .headOption
@@ -118,7 +122,9 @@ object NerTagged extends Tagged[NerTaggedSentence]{
 
   def collectTrainingInstancesWithPos(dataset: Dataset[Row],
                                       posTaggedCols: Seq[String],
-                                      labelColumn: String): Array[(TextSentenceLabels, PosTaggedSentence)] = {
+                                      labelColumn: String):
+  Array[(TextSentenceLabels, PosTaggedSentence, WordpieceEmbeddingsSentence)] = {
+
     val annotations = dataset
       .select(labelColumn, posTaggedCols:_*)
       .collect()
@@ -128,25 +134,36 @@ object NerTagged extends Tagged[NerTaggedSentence]{
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations  = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = PosTagged.unpack(sentenceAnnotations)
+          .filter(s => s.indexedTaggedWords.nonEmpty)
+          .sortBy(s => s.indexedTaggedWords.head.begin)
+
+        val withEmbeddings = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+          .filter(s => s.tokens.nonEmpty)
+          .sortBy(s => s.tokens.head.begin)
+
         val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
-        labels.zip(sentences)
+        labels.zip(sentences zip withEmbeddings)
+          .map{case (l, (s, w)) => (l, s, w)}
       }
   }
 
   def collectTrainingInstances(dataset: Dataset[Row],
                                sentenceCols: Seq[String],
-                               labelColumn: String): Array[(TextSentenceLabels, TokenizedSentence)] = {
+                               labelColumn: String): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
-    dataset
+    val result = dataset
       .select(labelColumn, sentenceCols:_*)
       .collect()
       .flatMap{row =>
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations  = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
-        val sentences = TokenizedWithSentence.unpack(sentenceAnnotations)
+        val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
         val labels = getLabelsFromSentences(sentences, labelAnnotations)
         labels.zip(sentences)
       }
+    System.gc()
+
+    result
   }
 
 }
