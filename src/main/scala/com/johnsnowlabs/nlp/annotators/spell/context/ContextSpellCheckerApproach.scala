@@ -330,7 +330,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   def this() = this(Identifiable.randomUID("SPELL"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
-  override val annotatorType: AnnotatorType = AnnotatorType.TOKEN
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
 
 }

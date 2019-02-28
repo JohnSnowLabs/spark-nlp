@@ -61,7 +61,7 @@ class WordpieceTestSpec extends FlatSpec {
     val text = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). " +
       "Give me my horse! or $100\" +\n    \" bucks 'He said', I'll defeat markus-crassus. You understand. Goodbye George E. Bush. www.google.com."
 
-    val sentence = Sentence(text, 10, text.length + 9)
+    val sentence = Sentence(text, 10, text.length + 9, 0)
     val result = Array("Hello", ",", "I", "won", "'", "t", "be", "from", "New", "York", "in", "the", "U", ".", "S", ".",
       "A", ".", "(", "and", "you", "know","it","heroe", ")", ".", "Give", "me", "my", "horse", "!", "or",
       "$", "100", "\"", "+", "\"", "bucks", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus",
@@ -100,7 +100,7 @@ class WordpieceTestSpec extends FlatSpec {
 
   "tokenization" should "tokenize chinese text correct" in {
     val text = "Hello注形声sd,~ and bye!"
-    val sentence = Sentence(text, 0, text.length - 1)
+    val sentence = Sentence(text, 0, text.length - 1, 0)
     val result = Array("Hello", "注", "形", "声", "sd", ",", "~", "and", "bye", "!")
 
     val tokenizer = new BasicTokenizer(lowerCase = false)
@@ -114,7 +114,7 @@ class WordpieceTestSpec extends FlatSpec {
 
   "wordpiece" should "encode words correct" in {
     val text = "I unambigouosly good 3Asd!"
-    val sentence = Sentence(text, 0, text.length - 1)
+    val sentence = Sentence(text, 0, text.length - 1, 0)
 
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 

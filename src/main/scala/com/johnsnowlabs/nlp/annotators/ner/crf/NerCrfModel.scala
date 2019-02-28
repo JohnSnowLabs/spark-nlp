@@ -73,9 +73,9 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def shrink(minW: Float): NerCrfModel = set(model, $$(model).shrink(minW))
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
 
-  override val annotatorType: AnnotatorType = NAMED_ENTITY
+  override val outputAnnotatorType: AnnotatorType = NAMED_ENTITY
 
 }
 

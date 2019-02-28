@@ -40,10 +40,10 @@ class WordpieceTokenizerModel(override val uid: String) extends AnnotatorModel[W
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
 
-  override val annotatorType: AnnotatorType = WORDPIECE
+  override val outputAnnotatorType: AnnotatorType = WORDPIECE
 }
 
 object WordpieceTokenizerModel extends ParamsAndFeaturesReadable[WordpieceTokenizerModel]

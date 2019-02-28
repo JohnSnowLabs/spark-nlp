@@ -75,8 +75,8 @@ class BertEmbeddingsModel(override val uid: String) extends
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.WORDPIECE)
-  override val annotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+  override val inputAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.WORDPIECE)
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)

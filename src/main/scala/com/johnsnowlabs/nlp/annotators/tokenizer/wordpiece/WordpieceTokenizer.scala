@@ -28,10 +28,10 @@ class WordpieceTokenizer(override val uid: String) extends AnnotatorApproach[Wor
   def this() = this(Identifiable.randomUID("WORDPIECE_TOKENIZER"))
 
   override val description: String = "Wordpiece tokenizer"
-  override val annotatorType: AnnotatorType = WORDPIECE
+  override val outputAnnotatorType: AnnotatorType = WORDPIECE
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordpieceTokenizerModel = {
     val words = ResourceHelper.parseLines($(vocabulary)).zipWithIndex.toMap

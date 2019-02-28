@@ -15,7 +15,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 class DocumentAssembler(override val uid: String)
   extends Transformer
     with DefaultParamsWritable
-    with HasAnnotatorType
+    with HasOutputAnnotatorType
     with HasOutputAnnotationCol {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -35,7 +35,7 @@ class DocumentAssembler(override val uid: String)
     trimAndClearNewLines -> true //mdba original is set to true
   )
 
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
   def setInputCol(value: String): this.type = set(inputCol, value)
 
@@ -60,10 +60,10 @@ class DocumentAssembler(override val uid: String)
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
     if ($(trimAndClearNewLines)) {
       val cleanText = text.replaceAll(System.lineSeparator(), " ").trim.replaceAll("\\s+", " ")
-      Seq(Annotation(annotatorType, 0, cleanText.length - 1, cleanText, metadata))
+      Seq(Annotation(outputAnnotatorType, 0, cleanText.length - 1, cleanText, metadata))
     }
     else
-      Seq(Annotation(annotatorType, 0, text.length - 1, text, metadata))
+      Seq(Annotation(outputAnnotatorType, 0, text.length - 1, text, metadata))
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
@@ -99,7 +99,7 @@ class DocumentAssembler(override val uid: String)
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
       StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
     StructType(outputFields)
@@ -107,7 +107,7 @@ class DocumentAssembler(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
       if (dataset.schema.fields.find(_.name == getInputCol)
           .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))

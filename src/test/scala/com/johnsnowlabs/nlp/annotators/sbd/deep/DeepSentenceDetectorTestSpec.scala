@@ -164,8 +164,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent")))
+    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent", "sentence" -> "0")),
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity" -> "sent", "sentence" -> "0")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
 
@@ -339,7 +339,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent")))
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent", "sentence" -> "0")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
 
@@ -380,8 +380,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
-    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-      Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent", "sentence" -> "0")),
+      Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent", "sentence" -> "0")))
     val paragraph = "I am Batman I live in Gotham"
     val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
 
