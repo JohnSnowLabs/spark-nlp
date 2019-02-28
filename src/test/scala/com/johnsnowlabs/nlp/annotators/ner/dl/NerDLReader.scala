@@ -14,9 +14,8 @@ class NerDLReaderTestSpec extends FlatSpec {
 
     val model = NerDLModelPythonReader.read(
       "./source_model",
-      ResourceHelper.spark,
-      normalize = true,
-      WordEmbeddingsFormat.BINARY
+      100,
+      ResourceHelper.spark
     )
     model.write.overwrite().save("./some_model")
 

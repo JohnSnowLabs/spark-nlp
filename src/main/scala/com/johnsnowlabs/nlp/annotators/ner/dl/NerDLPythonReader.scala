@@ -4,7 +4,8 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.embeddings.{ClusterWordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -29,7 +30,7 @@ object NerDLModelPythonReader {
     lines.toList.head.toCharArray.toList
   }
 
-  private def readEmbeddingsHead(folder: String, spark: SparkSession): Int = {
+  private def readEmbeddingsHead(folder: String): Int = {
     val metaFile = Paths.get(folder, embeddingsMetaFile).toString
     Source.fromFile(metaFile).getLines().toList.head.toInt
   }
@@ -51,11 +52,26 @@ object NerDLModelPythonReader {
     )
   }
 
+  def readLocal(folder: String,
+                dim: Int,
+                useBundle: Boolean = false,
+                verbose: Verbose.Level = Verbose.All,
+                tags: Array[String] = Array.empty[String]): TensorflowNer = {
+
+    val labels = readTags(folder)
+    val chars = readChars(folder)
+    val settings = DatasetEncoderParams(labels, chars,
+      Array.fill(dim)(0f).toList, dim)
+    val encoder = new NerDatasetEncoder(settings)
+    val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
+
+    new TensorflowNer(tf, encoder, 32, verbose)
+  }
+
   def read(
             folder: String,
+            dim: Int,
             spark: SparkSession,
-            normalize: Boolean,
-            format: WordEmbeddingsFormat.Format = WordEmbeddingsFormat.BINARY,
             useBundle: Boolean = false,
             tags: Array[String] = Array.empty[String]): NerDLModel = {
 
@@ -67,20 +83,11 @@ object NerDLModelPythonReader {
 
     fs.copyToLocalFile(new Path(folder), new Path(tmpFolder))
 
-    val embeddingsDim = readEmbeddingsHead(folder, spark)
-    val embeddings = readEmbeddings(folder, spark, embeddingsDim, normalize, format)
-    val labels = readTags(folder)
-    val chars = readChars(folder)
-    val settings = DatasetEncoderParams(labels, chars)
-    val encoder = new NerDatasetEncoder(embeddings.getLocalRetriever.getEmbeddingsVector, settings)
-    val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
-
+    val nerModel = readLocal(tmpFolder, dim, useBundle, tags = tags)
     FileHelper.delete(tmpFolder)
 
     new NerDLModel()
-      .setTensorflow(tf)
-      .setDatasetParams(encoder.params)
-      .setEmbeddingsDim(embeddingsDim)
-      .setCaseSensitiveEmbeddings(normalize)
+      .setTensorflow(nerModel.tensorflow)
+      .setDatasetParams(nerModel.encoder.params)
   }
 }
