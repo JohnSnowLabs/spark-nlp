@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, TextSentenceLabels}
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, POS, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
@@ -12,7 +12,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.CoNLL
 import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, DocumentAssembler, HasRecursiveFit}
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -23,8 +23,7 @@ import org.slf4j.LoggerFactory
   Algorithm for training Named Entity Recognition Model.
    */
 class NerCrfApproach(override val uid: String)
-  extends ApproachWithWordEmbeddings[NerCrfApproach, NerCrfModel]
-    with HasRecursiveFit[NerCrfModel]
+  extends AnnotatorApproach[NerCrfModel]
     with NerApproach[NerCrfApproach]
 {
 
@@ -33,7 +32,7 @@ class NerCrfApproach(override val uid: String)
   private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   override val description = "CRF based Named Entity Recognition Tagger"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS)
+  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
   override val annotatorType = NAMED_ENTITY
 
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
@@ -71,66 +70,16 @@ class NerCrfApproach(override val uid: String)
   )
 
 
-  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
-
-    if (!isDefined(externalDataset))
-      return dataset.toDF()
-
-    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-    val dataframe = reader.readDataset($(externalDataset), dataset.sparkSession).toDF
-
-    if (recursivePipeline.isDefined) {
-      val rp = recursivePipeline.get
-      /** Disable trim and clear in order to properly read CONLL */
-      rp.stages.foreach {
-        case d: DocumentAssembler => d.setTrimAndClearNewLines(false)
-        case _ =>
-      }
-      return rp.transform(dataframe)
-    }
-
-    logger.warn("NER CRF not in a RecursivePipeline. " +
-      "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
-      "better performance during training")
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-      .setTrimAndClearNewLines(false)
-
-    val sentenceDetector = new SentenceDetector()
-      .setCustomBounds(Array(System.lineSeparator+System.lineSeparator))
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
-    val posTagger = PerceptronModel.pretrained()
-      .setInputCols("token", "document")
-      .setOutputCol("pos")
-
-    val pipeline = new Pipeline().setStages(
-      Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger)
-    )
-
-    pipeline.fit(dataframe).transform(dataframe)
-  }
-
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerCrfModel = {
 
-    val rows = getTrainDataframe(dataset, recursivePipeline)
+    val rows = dataset.toDF()
 
-    val trainDataset: Array[(TextSentenceLabels, PosTaggedSentence)] = NerTagged.collectTrainingInstancesWithPos(rows, getInputCols, $(labelColumn))
+    val trainDataset =
+      NerTagged.collectTrainingInstancesWithPos(rows, getInputCols, $(labelColumn))
 
     val extraFeatures = get(externalFeatures)
     val dictFeatures = DictionaryFeatures.read(extraFeatures)
-    val crfDataset = FeatureGenerator(dictFeatures, getClusterEmbeddings.getLocalRetriever)
+    val crfDataset = FeatureGenerator(dictFeatures)
       .generateDataset(trainDataset)
 
     val params = CrfParams(

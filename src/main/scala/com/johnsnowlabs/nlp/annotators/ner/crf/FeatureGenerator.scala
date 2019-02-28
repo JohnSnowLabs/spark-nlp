@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf._
-import com.johnsnowlabs.nlp.annotators.common.TaggedSentence
+import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever
 
 import scala.collection.mutable
@@ -10,12 +10,7 @@ import scala.collection.mutable
 /**
   * Generates features for CrfBasedNer
   */
-case class FeatureGenerator(dictFeatures: DictionaryFeatures,
-                            embeddings: WordEmbeddingsRetriever) {
-
-  def getEmbeddings(token: String): Array[Float] = {
-    embeddings.getEmbeddingsVector(token)
-  }
+case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   val shapeEncoding = Map(
     '.' -> '.', ',' -> '.',
@@ -135,25 +130,15 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
     token.length == 2 && token(0).isUpper && token(1) == '.'
   }
 
-  def containsUpper(token: String) = {
-    !token.forall(c => !c.isUpper)
-  }
+  def containsUpper(token: String) = token.exists(c => c.isUpper)
 
-  def containsLower(token: String) = {
-    !token.forall(c => !c.isLower)
-  }
+  def containsLower(token: String) = token.exists(c => c.isLower)
 
-  def containsLetter(token: String) = {
-    !token.forall(c => !c.isLetter)
-  }
+  def containsLetter(token: String) = token.exists(c => c.isLetter)
 
-  def containsDigit(token: String) = {
-    !token.forall(c => !c.isDigit)
-  }
+  def containsDigit(token: String) = token.exists(c => c.isDigit)
 
-  def containsSymbol(token: String) = {
-    !token.forall(c => !c.isLetterOrDigit)
-  }
+  def containsSymbol(token: String) = token.exists(c => c.isLetterOrDigit)
 
   def getSuffix(token: String, size: Int, default: String = "") = {
     if (token.length >= size)
@@ -220,7 +205,9 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
     getName(source, idx1) + "|" + getName(source, idx2)
   }
 
-  def generate(taggedSentence: TaggedSentence): TextSentenceAttrs = {
+  def generate(taggedSentence: TaggedSentence,
+               wordpieceEmbeddingsSentence: WordpieceEmbeddingsSentence): TextSentenceAttrs = {
+
     val wordFeatures = taggedSentence.words
       .zip(taggedSentence.tags)
       .map{case (word, tag) =>
@@ -232,6 +219,11 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
     val words = wordFeatures.length
 
     var wordsList = taggedSentence.words.toList
+    val embeddings = wordpieceEmbeddingsSentence.tokens
+      .filter(t => t.isWordStart)
+      .map(t => t.embeddings)
+
+    assert(embeddings.length == wordsList.length)
 
     val attrs = (0 until words).map { i =>
       val pairAttrs = (-window until window)
@@ -263,7 +255,7 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
 
       val binAttrs = pairAttrs ++ unoAttrs ++ dictAttrs ++ addition
 
-      val numAttrs = getEmbeddings(taggedSentence.words(i))
+      val numAttrs = embeddings(i)
 
       WordAttrs(binAttrs, numAttrs)
     }
@@ -271,19 +263,23 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures,
     TextSentenceAttrs(attrs)
   }
 
-  def generateDataset(sentences: TraversableOnce[(TextSentenceLabels, TaggedSentence)]): CrfDataset = {
+  def generateDataset(sentences:
+                      TraversableOnce[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)])
+  : CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
-      .map{case (labels, sentence) => {
-        val textSentence = generate(sentence)
+      .map{case (labels, sentence, withEmbeddings) => {
+        val textSentence = generate(sentence, withEmbeddings)
         (labels, textSentence)
       }}
 
     DatasetReader.encodeDataset(textDataset)
   }
 
-  def generate(sentence: TaggedSentence, metadata: DatasetMetadata): Instance = {
-    val attrSentence = generate(sentence)
+  def generate(sentence: TaggedSentence,
+               withEmbeddings: WordpieceEmbeddingsSentence,
+               metadata: DatasetMetadata): Instance = {
+    val attrSentence = generate(sentence, withEmbeddings)
 
     DatasetReader.encodeSentence(attrSentence, metadata)
   }

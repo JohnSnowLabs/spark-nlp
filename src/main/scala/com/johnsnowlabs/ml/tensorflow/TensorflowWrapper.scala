@@ -3,9 +3,13 @@ package com.johnsnowlabs.ml.tensorflow
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
+
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, SavedModelBundle, Session}
+import org.apache.commons.io.{FileUtils, IOUtils}
+import org.tensorflow._
+import org.tensorflow.TensorFlowException
+
 
 
 class TensorflowWrapper
@@ -83,6 +87,48 @@ class TensorflowWrapper
 
 object TensorflowWrapper {
 
+  def readGraph(graphFile: String, handleException: Boolean = true): Graph = {
+    val graphStream = ResourceHelper.getResourceStream(graphFile)
+    val graphBytesDef = if (graphStream != null)
+      IOUtils.toByteArray(graphStream)
+    else
+      FileUtils.readFileToByteArray(new File(graphFile))
+
+    val graph = new Graph()
+    if (!handleException) {
+      graph.importGraphDef(graphBytesDef)
+      return graph
+    }
+
+    try {
+      graph.importGraphDef(graphBytesDef)
+      graph
+    }
+    catch {
+      case ex: TensorFlowException => {
+        // trying to add library
+        println("Problem with loading graph. Trying to add .so library")
+
+        val resource = ResourceHelper.copyResourceToTmp("ner-dl/_sparse_feature_cross_op.so")
+        TensorFlow.loadLibrary(resource.getPath)
+        resource.delete()
+
+        val resource2 = ResourceHelper.copyResourceToTmp("ner-dl/_lstm_ops.so")
+        TensorFlow.loadLibrary(resource2.getPath)
+        resource2.delete()
+
+        println("Added .so library")
+
+        val graph = readGraph(graphFile, false)
+
+        println("Graph loaded")
+
+        graph
+      }
+    }
+  }
+
+
   def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
     val t = new TensorResources()
 
@@ -108,9 +154,7 @@ object TensorflowWrapper {
       val session = model.session()
       (graph, session)
     } else {
-      val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
-      val graph = new Graph()
-      graph.importGraphDef(graphDef)
+      val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
       val session = new Session(graph, config)
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))

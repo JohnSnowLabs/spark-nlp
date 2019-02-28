@@ -29,33 +29,25 @@ trait ModelWithWordEmbeddings extends HasEmbeddings {
   def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
     val src = getEmbeddingsSerializedPath(path)
 
-    if ($(includeEmbeddings)) {
 
-      EmbeddingsHelper.load(
-        src.toUri.toString,
-        spark,
-        WordEmbeddingsFormat.SPARKNLP.toString,
-        $(embeddingsDim),
-        $(caseSensitiveEmbeddings),
-        $(embeddingsRef)
-      )
-
-    }
+    EmbeddingsHelper.load(
+      src.toUri.toString,
+      spark,
+      WordEmbeddingsFormat.SPARKNLP.toString,
+      $(embeddingsDim),
+      $(caseSensitiveEmbeddings),
+      $(embeddingsRef)
+    )
   }
 
   def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    if ($(includeEmbeddings)) {
-      val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(getClusterEmbeddings.fileName))
+    val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(getClusterEmbeddings.fileName))
 
-      val uri = new java.net.URI(path)
-      val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-      val dst = getEmbeddingsSerializedPath(path)
+    val uri = new java.net.URI(path)
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dst = getEmbeddingsSerializedPath(path)
 
-      EmbeddingsHelper.save(fs, index, dst)
-    }
-    else
-      require(isSet(embeddingsRef), "Models with word embeddings require 'embeddingsRef' param set if 'includedEmbeddings' is false." +
-        " Please use setEmbeddingsRef()")
+    EmbeddingsHelper.save(fs, index, dst)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

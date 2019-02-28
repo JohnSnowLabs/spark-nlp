@@ -100,15 +100,6 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
-  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
-    exclude("commons-codec", "commons-codec")
-    exclude("com.fasterxml.jackson.core", "jackson-core")
-    exclude("com.fasterxml.jackson.core", "jackson-annotations")
-    exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("commons-configuration","commons-configuration")
-    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
-    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda")
-    exclude("org.apache.hadoop" ,"hadoop-common"),
   "com.amazonaws" % "aws-java-sdk" % "1.7.4"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
@@ -116,14 +107,16 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
-  "org.tensorflow" % "tensorflow" % "1.8.0",
+
+  "org.tensorflow" % "tensorflow" % "1.12.0",
+
+  /** Enable the following for tensorflow GPU support */
+  //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0",
+
+  "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
   exclude("com.google.guava", "guava"),
   "com.navigamez" % "greex" % "1.0"
-
-  /** Enable the following for tensorflow GPU support */
-  //"org.tensorflow" % "libtensorflow" % "1.8.0",
-  //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.8.0",
 )
 
 lazy val typedDependencyParserDependencies = Seq(

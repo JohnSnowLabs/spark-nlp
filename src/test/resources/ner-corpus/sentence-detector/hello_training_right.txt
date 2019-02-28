@@ -5,6 +5,7 @@ world -X- -X- O
 This -X- -X- O
 is -X- -X- O
 a -X- -X- O
+long -X- -X- O
 sentence -X- -X- O
 . -X- -X- O
 This -X- -X- B-sent
