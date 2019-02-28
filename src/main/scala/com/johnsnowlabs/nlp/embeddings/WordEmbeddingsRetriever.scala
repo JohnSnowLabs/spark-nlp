@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io._
 import com.johnsnowlabs.nlp.util.LruMap
 import org.rocksdb._
 
@@ -8,10 +7,19 @@ import org.rocksdb._
 case class WordEmbeddingsRetriever(dbFile: String,
                                    nDims: Int,
                                    caseSensitive: Boolean,
-                                   lruCacheSize: Int = 100000) extends Closeable{
-  RocksDB.loadLibrary()
+                                   lruCacheSize: Int = 100000) extends AutoCloseable {
 
-  val db: RocksDB = RocksDB.openReadOnly(dbFile)
+  @transient private var prefetchedDB: RocksDB = null
+
+  private def db: RocksDB = {
+    if (Option(prefetchedDB).isDefined)
+      prefetchedDB
+    else {
+      RocksDB.loadLibrary()
+      prefetchedDB = RocksDB.openReadOnly(dbFile)
+      prefetchedDB
+    }
+  }
 
   val zeroArray: Array[Float] = Array.fill[Float](nDims)(0f)
 
@@ -39,6 +47,9 @@ case class WordEmbeddingsRetriever(dbFile: String,
   }
 
   override def close(): Unit = {
-    db.close()
+    if (Option(prefetchedDB).isDefined) {
+      db.close()
+      prefetchedDB = null
+    }
   }
 }

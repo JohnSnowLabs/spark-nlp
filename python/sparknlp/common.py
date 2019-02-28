@@ -37,11 +37,6 @@ class ApproachWithEmbeddings(Params):
                                     "whether to ignore case in tokens for embeddings matching",
                                     typeConverter=TypeConverters.toBoolean)
 
-    includeEmbeddings = Param(Params._dummy(),
-                              "includeEmbeddings",
-                              "whether to include embeddings when saving annotator",
-                              typeConverter=TypeConverters.toBoolean)
-
     embeddingsRef = Param(Params._dummy(),
                           "embeddingsRef",
                           "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
@@ -67,9 +62,6 @@ class ApproachWithEmbeddings(Params):
     def setCaseSensitiveEmbeddings(self, value):
         return self._set(caseSensitiveEmbeddings=value)
 
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
-
     def setEmbeddingsRef(self, value):
         return self._set(embeddingsRef=value)
 
@@ -77,7 +69,6 @@ class ApproachWithEmbeddings(Params):
         super(ApproachWithEmbeddings, self).__init__()
         self._setDefault(
             caseSensitiveEmbeddings=False,
-            includeEmbeddings=True,
             embeddingsRef=self.uid
         )
 

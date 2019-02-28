@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._

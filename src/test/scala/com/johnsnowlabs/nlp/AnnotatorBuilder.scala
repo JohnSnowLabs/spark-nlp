@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup, WordEmbeddingsLookupModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -165,37 +165,52 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     getNerCrfModel(dataset).transform(df)
   }
 
   def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     new NerCrfApproach()
-      .setInputCols("sentence", "token", "pos")
+      .setInputCols("sentence", "token", "pos", "embeddings")
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
       .fit(df)
   }
 
-  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+  def withGlove(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(dataset)
+
+    getGLoveEmbeddings(dataset).transform(df)
+  }
+
+  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsLookupModel = {
+    val df = withFullPOSTagger(dataset)
+
+    new WordEmbeddingsLookup()
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+      .fit(df)
+  }
+
+  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withGlove(dataset)
 
     getNerDLModel(dataset).transform(df)
   }
 
   def getNerDLModel(dataset: Dataset[Row]): NerDLModel = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     new NerDLApproach()
-      .setInputCols("sentence", "token")
+      .setInputCols("sentence", "token", "embeddings")
       .setLabelColumn("label")
       .setMaxEpochs(100)
       .setRandomSeed(0)
@@ -203,7 +218,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLr(0.1f)
       .setBatchSize(9)
       .setOutputCol("ner")
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .fit(df)
   }
 
