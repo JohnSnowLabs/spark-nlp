@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit, WordpieceTokenized}
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel
 import org.scalatest.FlatSpec
 
 class WordpieceTestSpec extends FlatSpec {
@@ -118,14 +119,12 @@ class WordpieceTestSpec extends FlatSpec {
 
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 
-    val tokenizer = new WordpieceTokenizerModel()
+    val tokenizer = new BertEmbeddingsModel()
         .setLowercase(false)
         .setVocabulary(vocabulary)
 
-    val source = SentenceSplit.pack(Seq(sentence))
-    val annotations = tokenizer.annotate(source)
-
-    val tokens = WordpieceTokenized.unpack(annotations ++ source).head.tokens
+    val tokenized = tokenizer.tokenize(Seq(sentence))
+    val tokens = tokenized.head.tokens
 
     for ((token, correct) <- tokens zip expected) {
       // Check wordpiece
