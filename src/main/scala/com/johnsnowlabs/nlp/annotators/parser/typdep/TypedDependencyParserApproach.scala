@@ -3,7 +3,8 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}

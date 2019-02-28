@@ -3,10 +3,11 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import gnu.trove.map.hash.TObjectIntHashMap
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class
 TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
@@ -136,5 +137,12 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     val head = dependency.substring(beginIndex, endIndex)
     head
   }
-
 }
+
+trait PretrainedTypedDependencyParserModel {
+  def pretrained(name: String = "tdp_fast", language: Option[String] = Some("en"),
+                 remoteLoc: String = ResourceDownloader.publicLoc): TypedDependencyParserModel =
+    ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remoteLoc)
+}
+
+object TypedDependencyParserModel extends DefaultParamsReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
