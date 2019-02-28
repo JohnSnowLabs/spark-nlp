@@ -73,12 +73,12 @@ case class CoNLL(targetColumn: Int = 3,
             None
         } else if (items.length <= 1) {
           if (doc.nonEmpty && !doc.endsWith(System.lineSeparator) && lastSentence.nonEmpty) {
-            doc.append(System.lineSeparator + System.lineSeparator)
+            doc.append(System.lineSeparator * 2)
           }
           addSentence()
           None
         } else if (items.length > targetColumn) {
-          if (doc.nonEmpty && doc.last != '\n')
+          if (doc.nonEmpty && !doc.endsWith(System.lineSeparator()))
             doc.append(" ")
 
           val begin = doc.length

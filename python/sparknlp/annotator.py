@@ -15,18 +15,21 @@ else:
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
-perceptron = sys.modules[__name__]
+pos.perceptron = sys.modules[__name__]
 ner = sys.modules[__name__]
-crf = sys.modules[__name__]
-dl = sys.modules[__name__]
+ner.crf = sys.modules[__name__]
+ner.dl = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
+sbd.pragmatic = sys.modules[__name__]
+sbd.deep = sys.modules[__name__]
 sda = sys.modules[__name__]
-pragmatic = sys.modules[__name__]
-vivekn = sys.modules[__name__]
+sda.pragmatic = sys.modules[__name__]
+sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
-norvig = sys.modules[__name__]
-contextspell = sys.modules[__name__]
+spell.norvig = sys.modules[__name__]
+spell.contextspell = sys.modules[__name__]
+spell.symmetric = sys.modules[__name__]
 ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
 
@@ -577,8 +580,7 @@ class PerceptronModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
 
-class SentenceDetector(AnnotatorModel):
-
+class SentenceDetectorParams:
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
                              "whether to apply abbreviations at sentence detection",
@@ -603,6 +605,9 @@ class SentenceDetector(AnnotatorModel):
                       "maxLength",
                       "length at which sentences will be forcibly split. Defaults to 240",
                       typeConverter=TypeConverters.toInt)
+
+
+class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     name = 'SentenceDetector'
 
@@ -629,7 +634,7 @@ class SentenceDetector(AnnotatorModel):
                          explodeSentences=False)
 
 
-class DeepSentenceDetector(AnnotatorModel):
+class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     includesPragmaticSegmenter = Param(Params._dummy(),
                                        "includesPragmaticSegmenter",
@@ -649,11 +654,27 @@ class DeepSentenceDetector(AnnotatorModel):
     def setEndPunctuation(self, value):
         return self._set(endPunctuation=value)
 
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
+
+    def setCustomBounds(self, value):
+        return self._set(customBounds=value)
+
+    def setUseAbbreviations(self, value):
+        return self._set(useAbbreviations=value)
+
+    def setUseCustomBoundsOnly(self, value):
+        return self._set(useCustomBoundsOnly=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
+
     @keyword_only
     def __init__(self):
         super(DeepSentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"])
+        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
+                         explodeSentences=False)
 
 
 class SentimentDetector(AnnotatorApproach):
