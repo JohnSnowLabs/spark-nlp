@@ -2,39 +2,31 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
 
-import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
-import com.johnsnowlabs.nlp.{AnnotatorType, DocumentAssembler, HasRecursiveFit}
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TokenizedSentence}
+import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.ApproachWithWordEmbeddings
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.apache.commons.io.IOUtils
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{DataFrame, Dataset}
-import org.tensorflow.{Graph, Session}
+import org.apache.spark.sql.Dataset
+import org.tensorflow.Session
 
 import scala.util.Random
 
 
 class NerDLApproach(override val uid: String)
-  extends ApproachWithWordEmbeddings[NerDLApproach, NerDLModel]
-    with HasRecursiveFit[NerDLModel]
+  extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
     with Logging {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
   override def getLogName: String = "NerDL"
-  override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
+  override val description = "Trains Tensorflow based-BLSTM model"
+  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
   override val annotatorType = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
@@ -42,141 +34,55 @@ class NerDLApproach(override val uid: String)
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
 
-  val validationDataset = new ExternalResourceParam(this, "validationDataset", "Path to validation dataset. " +
-    "If set used to calculate statistic on it during training.")
-  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
-    "If set used to calculate statistic on it during training.")
-
   def setLr(lr: Float) = set(this.lr, lr)
   def setPo(po: Float) = set(this.po, po)
   def setBatchSize(batch: Int) = set(this.batchSize, batch)
   def setDropout(dropout: Float) = set(this.dropout, dropout)
 
-  def setValidationDataset(path: String,
-                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                         options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(validationDataset, ExternalResource(path, readAs, options))
-
-  def setValidationDataset(er: ExternalResource) = set(validationDataset, er)
-
-  def setTestDataset(path: String,
-                            readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                            options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(testDataset, ExternalResource(path, readAs, options))
-
-  def setTestDataset(er: ExternalResource) = set(testDataset, er)
-
   setDefault(
     minEpochs -> 0,
-    maxEpochs -> 50,
-    lr -> 0.2f,
-    po -> 0.05f,
-    batchSize -> 9,
+    maxEpochs -> 70,
+    lr -> 1e-3f,
+    po -> 0.005f,
+    batchSize -> 32,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id
   )
 
   override val verboseLevel = Verbose($(verbose))
 
-  private def getTrainDataframe(dataset: Dataset[_], recursivePipeline: Option[PipelineModel])
-    :(DataFrame, Option[DataFrame], Option[DataFrame]) = {
 
-    lazy val pipelineModel = recursivePipeline.map(rp => {
-      rp.stages.foreach {
-        case d: DocumentAssembler => d.setTrimAndClearNewLines(false)
-        case _ =>
-      }
-      rp
-    }).getOrElse {
-
-      logger.warn("NER DL not in a RecursivePipeline. " +
-        "It is recommended to use a com.jonsnowlabs.nlp.RecursivePipeline for " +
-        "better performance during training")
-
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-        .setTrimAndClearNewLines(false)
-
-      val sentenceDetector = new SentenceDetector()
-        .setCustomBounds(Array(System.lineSeparator()*2))
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
-
-      val tokenizer = new Tokenizer()
-        .setInputCols(Array("document"))
-        .setOutputCol("token")
-
-      val pipeline = new Pipeline().setStages(
-        Array(
-          documentAssembler,
-          sentenceDetector,
-          tokenizer)
-      )
-
-      pipeline.fit(dataset)
-    }
-
-    val reader = CoNLL(3, AnnotatorType.NAMED_ENTITY)
-
-    val train = if (!isDefined(externalDataset))
-      dataset.toDF()
-    else
-      pipelineModel.transform(reader.readDataset($(externalDataset), dataset.sparkSession).toDF)
-
-    val valid = if (!isDefined(validationDataset))
-      None
-    else
-      Some(pipelineModel.transform(reader.readDataset($(validationDataset), dataset.sparkSession).toDF))
-
-    val test = if (!isDefined(testDataset))
-      None
-    else
-      Some(pipelineModel.transform(reader.readDataset($(testDataset), dataset.sparkSession).toDF))
-
-    (train, valid, test)
+  def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
+    sentences.find(s => s.tokens.nonEmpty)
+      .map(s => s.tokens.head.embeddings.length)
+      .getOrElse(1)
   }
 
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
-    require(isDefined(sourceEmbeddingsPath), "embeddings must be set before training")
 
-    val (train, valid, test) = getTrainDataframe(dataset, recursivePipeline)
+    val train = dataset.toDF()
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
-
-    val validationDataset =
-      if (valid.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
-    else
-      NerTagged.collectTrainingInstances(valid.get, getInputCols, $(labelColumn))
-
-    val testDataset =
-      if (test.isEmpty) Array.empty[(TextSentenceLabels, TokenizedSentence)]
-      else
-        NerTagged.collectTrainingInstances(test.get, getInputCols, $(labelColumn))
-
+    val trainSentences = trainDataset.map(r => r._2)
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
-    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.toCharArray)).distinct
+    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.wordpiece.toCharArray)).distinct
+    val embeddingsDim = calculateEmbeddingsDim(trainSentences)
 
-    val settings = DatasetEncoderParams(labels.toList, chars.toList)
+    val settings = DatasetEncoderParams(labels.toList, chars.toList,
+      Array.fill(embeddingsDim)(0f).toList, embeddingsDim)
     val encoder = new NerDatasetEncoder(
-      getClusterEmbeddings.getLocalRetriever.getEmbeddingsVector,
       settings
     )
 
-    val graph = new Graph()
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
     val config = Array[Byte](56, 1)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
+    val graph = TensorflowWrapper.readGraph(graphFile)
+
     val session = new Session(graph, config)
-
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, $(embeddingsDim), chars.length)
-
-    val graphStream = ResourceHelper.getResourceStream(graphFile)
-    val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
 
     val tf = new TensorflowWrapper(session, graph)
 
@@ -186,7 +92,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), validationDataset, testDataset)
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs))
       model
     }
 
@@ -200,7 +106,6 @@ class NerDLApproach(override val uid: String)
     new NerDLModel()
       .setTensorflow(tf)
       .setDatasetParams(ner.encoder.params)
-      .setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
       .setBatchSize($(batchSize))
   }
 }
@@ -214,10 +119,10 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      if (name.startsWith("char_cnn_blstm_")) {
-        val clean = name.replace("char_cnn_blstm_", "").replace(".pb", "")
-        val graphParams = clean.split("_").take(3).map(s => s.toInt)
-        val Array(fileTags, fileEmbeddingsNDims, fileNChars) = graphParams
+      if (name.startsWith("blstm_")) {
+        val clean = name.replace("blstm_", "").replace(".pb", "")
+        val graphParams = clean.split("_").take(4).map(s => s.toInt)
+        val Array(fileTags, fileEmbeddingsNDims, _, fileNChars) = graphParams
 
         if (embeddingsNDims == fileEmbeddingsNDims)
           Some((fileTags, fileEmbeddingsNDims, fileNChars))

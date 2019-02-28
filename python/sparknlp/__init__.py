@@ -3,6 +3,8 @@ from sparknlp import annotator
 from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.regex'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.crf'] = annotator

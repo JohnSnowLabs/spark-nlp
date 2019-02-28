@@ -5,17 +5,18 @@ import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedSentence}
+import com.johnsnowlabs.nlp.SparkAccessor
+import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsRetriever, WordEmbeddingsIndexer}
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModelPythonReader
+import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLLDocument}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.{AnnotatorType, SparkAccessor}
-import org.tensorflow.{Graph, Session}
+import org.tensorflow.{Graph, Session, TensorFlow}
+
 
 object NerDLCoNLL2003 extends App {
+
   val spark = SparkAccessor.spark
 
   val trainFile = ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
@@ -30,41 +31,41 @@ object NerDLCoNLL2003 extends App {
 
   val embeddings = WordEmbeddingsRetriever(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
 
-  val reader = CoNLL(annotatorType = AnnotatorType.NAMED_ENTITY)
-  val trainDataset = toTrain(reader.readDocs(trainFile))
-  val testDatasetA = toTrain(reader.readDocs(testFileA))
-  val testDatasetB = toTrain(reader.readDocs(testFileB))
+  val reader = CoNLL()
+  val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
+  val testDatasetA = toTrain(reader.readDocs(testFileA), embeddings)
+  val testDatasetB = toTrain(reader.readDocs(testFileB), embeddings)
 
   val tags = trainDataset.flatMap(s => s._1.labels).distinct
-  val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.toCharArray)).distinct
+  val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.wordpiece.toCharArray)).distinct
 
-  val settings = new DatasetEncoderParams(tags.toList, chars.toList)
-  val encoder = new NerDatasetEncoder(embeddings.getEmbeddingsVector, settings)
+  val settings = DatasetEncoderParams(tags.toList, chars.toList,
+    embeddings.zeroArray.toList, embeddings.nDims)
+  val encoder = new NerDatasetEncoder(settings)
 
-  val graph = new Graph()
   //Use CPU
   //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
   //Use GPU
   val config = Array[Byte](56, 1)
+  val graph = TensorflowWrapper.readGraph("ner-dl/blstm_10_100_128_100.pb")
   val session = new Session(graph, config)
 
-  graph.importGraphDef(Files.readAllBytes(Paths.get("src/main/resources/ner-dl/char_cnn_blstm_10_100_100_25_30.pb")))
 
   val tf = new TensorflowWrapper(session, graph)
 
   val ner = try {
-    val model = new TensorflowNer(tf, encoder, 9, Verbose.All)
+    val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
     for (epoch <- 0 until 150) {
-      model.train(trainDataset, 0.2f, 0.05f, 9, 0.5f, epoch, epoch + 1)
+      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1)
 
       System.out.println("\n\nQuality on train data")
-      model.measure(trainDataset, (s: String) => System.out.println(s))
+      model.measure(trainDataset, (s: String) => System.out.println(s), extended = true)
 
       System.out.println("\n\nQuality on test A data")
-      model.measure(testDatasetA, (s: String) => System.out.println(s))
+      model.measure(testDatasetA, (s: String) => System.out.println(s), extended = true)
 
       System.out.println("\n\nQuality on test B data")
-      model.measure(testDatasetB, (s: String) => System.out.println(s))
+      model.measure(testDatasetB, (s: String) => System.out.println(s), extended = true)
     }
     model
   }
@@ -75,10 +76,17 @@ object NerDLCoNLL2003 extends App {
       throw e
   }
 
-  def toTrain(source: Seq[(String, Seq[NerTaggedSentence])]): Array[(TextSentenceLabels, TokenizedSentence)] = {
+  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsRetriever):
+      Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
+
     source.flatMap{s =>
-      s._2.map { sentence =>
-        val tokenized = TokenizedSentence(sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end)))
+      s.nerTagged.map { sentence =>
+        val tokens = sentence.indexedTaggedWords.map {t =>
+          TokenPieceEmbeddings(t.word, t.word, -1, true,
+            embeddings.getEmbeddingsVector(t.word),
+            t.begin, t.end)
+        }
+        val tokenized = WordpieceEmbeddingsSentence(tokens)
         val labels = TextSentenceLabels(sentence.tags)
 
         (labels, tokenized)
