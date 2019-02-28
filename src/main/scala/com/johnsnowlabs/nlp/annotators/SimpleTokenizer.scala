@@ -51,8 +51,8 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
       tmp
   }.filter(!_.equals(""))
 
-  override val annotatorType: AnnotatorType = AnnotatorType.TOKEN
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
 }

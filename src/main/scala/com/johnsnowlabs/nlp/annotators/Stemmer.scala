@@ -21,9 +21,9 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
   val language: Param[String] = new Param(this, "language", "this is the language of the text")
   setDefault(language, "english")
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def setLanguage(value: String): Stemmer = set(language, value)
 
@@ -36,7 +36,7 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
     annotations.map { tokenAnnotation =>
         val stem = EnglishStemmer.stem(tokenAnnotation.result)
         Annotation(
-          annotatorType,
+          outputAnnotatorType,
           tokenAnnotation.begin,
           tokenAnnotation.end,
           stem,

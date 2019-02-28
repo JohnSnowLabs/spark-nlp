@@ -11,9 +11,9 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
-  override val annotatorType: String = DEPENDENCY
+  override val outputAnnotatorType: String = DEPENDENCY
 
-  override val requiredAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
+  override val inputAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
   val perceptronAsArray: StringArrayParam = new StringArrayParam(this, "perceptronAsArray",
     "List of features for perceptron")

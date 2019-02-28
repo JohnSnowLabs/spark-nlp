@@ -32,9 +32,9 @@ class WordEmbeddingsLookupModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
-  override val annotatorType: AnnotatorType = WORD_EMBEDDINGS
+  override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 }
 
 object WordEmbeddingsLookupModel extends DefaultParamsReadable[WordEmbeddingsLookupModel]

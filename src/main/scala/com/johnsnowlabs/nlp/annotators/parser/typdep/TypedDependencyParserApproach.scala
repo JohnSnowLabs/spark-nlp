@@ -14,8 +14,8 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   override val description: String =
     "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
-  override val annotatorType:String = LABELED_DEPENDENCY
-  override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
+  override val outputAnnotatorType:String = LABELED_DEPENDENCY
+  override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
