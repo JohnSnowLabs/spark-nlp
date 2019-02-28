@@ -59,7 +59,6 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
 
   override def onTrained(model: M, spark: SparkSession): Unit = {
 
-    model.setIncludeEmbeddings($(includeEmbeddings))
     model.setEmbeddingsDim($(embeddingsDim))
     model.setCaseSensitiveEmbeddings($(caseSensitiveEmbeddings))
 
@@ -68,7 +67,6 @@ abstract class ApproachWithWordEmbeddings[A <: ApproachWithWordEmbeddings[A, M],
     getClusterEmbeddings.getLocalRetriever.close()
 
   }
-
 }
 
 

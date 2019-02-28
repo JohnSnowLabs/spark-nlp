@@ -38,7 +38,7 @@ class TensorflowSpell(
       .fetch(validWords)
       .run()
 
-    val result = extractFloats(lossWords.get(0),lossWords.get(0).numElements)
+    val result = extractFloats(lossWords.get(0))
     val width = inputTensor.shape()(2)
     result.grouped(width.toInt - 1).map(_.last)
 
