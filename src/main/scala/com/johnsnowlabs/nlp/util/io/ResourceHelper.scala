@@ -451,8 +451,8 @@ object ResourceHelper {
 
     val tempArray: ArrayBuffer[String] = ArrayBuffer()
 
-    for ((e, i) <- tokensTags.zipWithIndex) {
-      val splittedTokenTag: Array[String] = e.split(delimiter.mkString)
+    for (e <- tokensTags.zipWithIndex) {
+      val splittedTokenTag: Array[String] = e._1.split(delimiter.mkString)
       if(splittedTokenTag.length > 1){
         condition.mkString match {
           case "token" =>
