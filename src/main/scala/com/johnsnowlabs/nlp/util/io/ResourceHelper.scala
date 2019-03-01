@@ -416,7 +416,7 @@ object ResourceHelper {
 
 
   /*
-  * This section is to help users to convert text files in token\tag style into DataFrame
+  * This section is to help users to convert text files in token|tag style into DataFrame
   * with POS Annotation for training PerceptronApproach
   * */
 
