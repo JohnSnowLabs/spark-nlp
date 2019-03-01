@@ -11,7 +11,9 @@ import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.functions.{udf, split, concat_ws, lit}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
@@ -410,6 +412,72 @@ object ResourceHelper {
       throw new FileNotFoundException(path)
     }
 
+  }
+
+
+  /*
+  * This section is to help users to convert text files in token\tag style into DataFrame
+  * with POS Annotation for training PerceptronApproach
+  * */
+
+  case class posTagAnnotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
+
+  private def annotateTokensTags: UserDefinedFunction = udf { (tokens: Seq[String], tags: Seq[String], text: String) =>
+
+    lazy val strTokens = tokens.mkString("#")
+    lazy val strPosTags = tags.mkString("#")
+
+    require(tokens.length == tags.length, s"Cannot train from DataFrame since there" +
+      s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+
+    val tokenTagAnnotation: ArrayBuffer[posTagAnnotation] = ArrayBuffer()
+
+    var lastIndex = 0
+
+    for ((e, i) <- tokens.zipWithIndex) {
+
+      val beginOfToken = text.indexOfSlice(e, lastIndex)
+      val endOfToken = (beginOfToken + e.length) - 1
+
+      tokenTagAnnotation += posTagAnnotation("pos", beginOfToken, endOfToken, tags(i), Map("word" -> e))
+
+      lastIndex = text.indexOfSlice(e, lastIndex)
+
+    }
+    tokenTagAnnotation
+  }
+
+  private def extractTokensAndTags: UserDefinedFunction = udf { (tokensTags: Seq[String], delimiter: String, condition: String) =>
+
+    val tempArray: ArrayBuffer[String] = ArrayBuffer()
+
+    for ((e, i) <- tokensTags.zipWithIndex) {
+      val splittedTokenTag: Array[String] = e.split(delimiter.mkString)
+      if(splittedTokenTag.length > 1){
+        condition.mkString match {
+          case "token" =>
+            tempArray += splittedTokenTag(0)
+
+          case "tag" =>
+            tempArray += splittedTokenTag(1)
+        }
+      }
+    }
+    tempArray
+  }
+
+  def annotateTokenTagTextFiles(path: String, delimiter: String): DataFrame = {
+    import spark.implicits._
+
+    spark.read.text(path).toDF
+      .filter(row => !(row.mkString("").isEmpty && row.length>0))
+      .withColumn("token_tags", split($"value", " "))
+      .select("token_tags")
+      .withColumn("tokens", extractTokensAndTags($"token_tags", lit(delimiter), lit("token")))
+      .withColumn("tags", extractTokensAndTags($"token_tags", lit(delimiter), lit("tag")))
+      .withColumn("text",  concat_ws(" ", $"tokens"))
+      .withColumn("pos", annotateTokensTags($"tokens", $"tags", $"text"))
+      .select("pos") // this will also generate ("text", "tokens", "tags")
   }
 
 }
