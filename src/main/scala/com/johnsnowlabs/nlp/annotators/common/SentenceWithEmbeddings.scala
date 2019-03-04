@@ -59,10 +59,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {
-    var sentenceIndex = 0
-
-    sentences.flatMap{sentence =>
-      sentenceIndex += 1
+    sentences.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
       var isFirstToken = true
       sentence.tokens.map{token =>
         // Store embeddings for token
