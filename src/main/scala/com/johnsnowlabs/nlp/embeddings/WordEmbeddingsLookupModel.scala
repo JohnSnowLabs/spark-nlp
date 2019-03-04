@@ -21,12 +21,12 @@ class WordEmbeddingsLookupModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
-    val withEmbeddings = sentences.map{s =>
+    val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
         val vector = this.getEmbeddings.getEmbeddingsVector(token.token)
         new TokenPieceEmbeddings(token.token, token.token, -1, true, vector, token.begin, token.end)
       }
-      WordpieceEmbeddingsSentence(tokens)
+      WordpieceEmbeddingsSentence(tokens, idx)
     }
 
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
