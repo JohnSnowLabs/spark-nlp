@@ -117,8 +117,12 @@ object Annotation {
       }
   }
 
-  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+  def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+  }
+
+  def getAnnotations(row: Row, colName: String): Seq[Annotation] = {
+    row.getAs[Seq[Row]](colName).map(obj => Annotation(obj))
   }
 
   /** dataframe take of a specific annotation column */
@@ -201,6 +205,14 @@ object Annotation {
    */
   def searchCoverage(annotations: Array[Annotation], begin: Int, end: Int): Seq[Annotation] = {
     searchLabel(annotations, 0, annotations.length - 1, begin, end)
+  }
+
+  def getColumnByType(dataset: Dataset[_], inputCols: Array[String], annotatorType: String): StructField = {
+    dataset.schema.fields
+      .find(field => inputCols.contains(field.name) &&
+        field.metadata.contains("annotatorType") &&
+        field.metadata.getString("annotatorType") == annotatorType)
+      .getOrElse(throw new IllegalArgumentException(s"Could not find a column of type $annotatorType in inputCols"))
   }
 
 }
