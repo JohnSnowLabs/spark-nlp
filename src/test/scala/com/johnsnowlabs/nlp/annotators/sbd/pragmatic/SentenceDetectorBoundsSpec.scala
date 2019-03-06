@@ -57,11 +57,11 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val sentence = "Hello world, this is a long sentence"
+    val sentence = "Hello world, this is a long sentence longerThanMaxLength"
 
     val df = Seq(sentence).toDF("text")
 
-    val expected = sentence.grouped(12).toArray
+    val expected = Array("Hello world,", "this is a", "long", "sentence", "longerThanMaxLength")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -78,10 +78,16 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
       .as[Array[Annotation]].first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => r._1.result == r._2))
+    assert(sentenced.zip(expected).forall(r => {
+      println(r._1.result)
+      println(r._2)
+      r._1.result == r._2
+    }))
     assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 12, 23, " this is a l", Map("sentence" -> "1")))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 24, 35, "ong sentence", Map("sentence" -> "2")))
+    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1")))
+    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2")))
+    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3")))
+    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4")))
 
   }
 
