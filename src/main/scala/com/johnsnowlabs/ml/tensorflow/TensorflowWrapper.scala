@@ -7,16 +7,17 @@ import java.util.UUID
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.{FileUtils, IOUtils}
+import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import org.tensorflow.TensorFlowException
-
 
 
 class TensorflowWrapper
 (
   var session: Session,
   var graph: Graph
-)  extends Serializable {
+) extends Serializable {
+
 
   /** For Deserialization */
   def this() = {
@@ -86,6 +87,7 @@ class TensorflowWrapper
 }
 
 object TensorflowWrapper {
+  private[TensorflowWrapper] val logger: Logger = LoggerFactory.getLogger("TensorflowWrapper")
 
   def readGraph(graphFile: String, handleException: Boolean = true): Graph = {
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -107,21 +109,34 @@ object TensorflowWrapper {
     catch {
       case ex: TensorFlowException => {
         // trying to add library
-        println("Problem with loading graph. Trying to add .so library")
+        logger.info("Problem with loading graph. Trying to add .so library")
+        val os = System.getProperty("os.name").toLowerCase()
+        logger.debug("os name: "+os)
+        val (path1, path2): (String, String) =
+          if (os.contains("mac")) {
+            ("ner-dl/mac/_sparse_feature_cross_op.so", "ner-dl/mac/_lstm_ops.so")
+          } else if (os.contains("nix") || os.contains("nux") || os.contains("aux")) {
+            ("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so")
+          } else {
+            ("", "")
+          }
+        if (!path1.equals("")) {
 
-        val resource = ResourceHelper.copyResourceToTmp("ner-dl/_sparse_feature_cross_op.so")
-        TensorFlow.loadLibrary(resource.getPath)
-        resource.delete()
+          val resource = ResourceHelper.copyResourceToTmp(path1)
+          TensorFlow.loadLibrary(resource.getPath)
+          resource.delete()
 
-        val resource2 = ResourceHelper.copyResourceToTmp("ner-dl/_lstm_ops.so")
-        TensorFlow.loadLibrary(resource2.getPath)
-        resource2.delete()
+          val resource2 = ResourceHelper.copyResourceToTmp(path2)
+          TensorFlow.loadLibrary(resource2.getPath)
+          resource2.delete()
 
-        println("Added .so library")
+          logger.info("Added .so library")
+        }
+
 
         val graph = readGraph(graphFile, false)
 
-        println("Graph loaded")
+        logger.info("Graph loaded")
 
         graph
       }
@@ -149,7 +164,7 @@ object TensorflowWrapper {
 
     // 3. Read file as SavedModelBundle
     val (graph, session) = if (useBundle) {
-      val model = SavedModelBundle.load(folder, tags:_*)
+      val model = SavedModelBundle.load(folder, tags: _*)
       val graph = model.graph()
       val session = model.session()
       (graph, session)
