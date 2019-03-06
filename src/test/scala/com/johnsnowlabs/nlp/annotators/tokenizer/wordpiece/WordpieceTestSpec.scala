@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit, WordpieceTokenized}
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel
+import com.johnsnowlabs.nlp.annotators.common.Sentence
+import com.johnsnowlabs.nlp.embeddigs.BertEmbeddings
 import org.scalatest.FlatSpec
 
 class WordpieceTestSpec extends FlatSpec {
@@ -69,7 +69,7 @@ class WordpieceTestSpec extends FlatSpec {
       "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www", ".",
       "google", ".", "com", ".")
 
-    val tokenizer = new BasicTokenizer(lowerCase = false)
+    val tokenizer = new BasicTokenizer(caseSensitive = false)
     val tokens = tokenizer.tokenize(sentence)
     // 1. Check number of tokens
     assert(tokens.length == result.length)
@@ -104,7 +104,7 @@ class WordpieceTestSpec extends FlatSpec {
     val sentence = Sentence(text, 0, text.length - 1, 0)
     val result = Array("Hello", "注", "形", "声", "sd", ",", "~", "and", "bye", "!")
 
-    val tokenizer = new BasicTokenizer(lowerCase = false)
+    val tokenizer = new BasicTokenizer(caseSensitive = false)
     val tokens = tokenizer.tokenize(sentence)
 
     assert(tokens.length == result.length)
@@ -119,8 +119,8 @@ class WordpieceTestSpec extends FlatSpec {
 
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 
-    val tokenizer = new BertEmbeddingsModel()
-        .setLowercase(false)
+    val tokenizer = new BertEmbeddings()
+        .setCaseSensitive(false)
         .setVocabulary(vocabulary)
 
     val tokenized = tokenizer.tokenize(Seq(sentence))
