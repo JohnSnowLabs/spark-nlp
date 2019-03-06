@@ -8,11 +8,11 @@ import java.util.jar.JarFile
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
-import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler, Finisher}
 import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{udf, split, concat_ws, lit}
+import org.apache.spark.sql.functions.{concat_ws, lit, split, udf}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
@@ -49,7 +49,7 @@ object ResourceHelper {
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val pipe: Option[InputStream] =
-        /** Check whether it exists in file system */
+    /** Check whether it exists in file system */
       Option {
         val path = new Path(resource)
         val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
@@ -115,8 +115,8 @@ object ResourceHelper {
       /* A file path: easy enough */
       return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
     } else if (dirURL == null) {
-        /* path not in resources and not in disk */
-        throw new FileNotFoundException(path)
+      /* path not in resources and not in disk */
+      throw new FileNotFoundException(path)
     }
 
     if (dirURL.getProtocol.equals("jar")) {
@@ -158,7 +158,7 @@ object ResourceHelper {
     */
   def parseKeyValueText(
                          er: ExternalResource
-                        ): Map[String, String] = {
+                       ): Map[String, String] = {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -189,8 +189,8 @@ object ResourceHelper {
     * @return
     */
   def parseLines(
-                      er: ExternalResource
-                     ): Array[String] = {
+                  er: ExternalResource
+                ): Array[String] = {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -211,8 +211,8 @@ object ResourceHelper {
     * @return
     */
   def parseTupleText(
-                         er: ExternalResource
-                       ): Array[(String, String)] = {
+                      er: ExternalResource
+                    ): Array[(String, String)] = {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -244,8 +244,8 @@ object ResourceHelper {
     * @return
     */
   def parseTupleSentences(
-                      er: ExternalResource
-                    ): Array[TaggedSentence] = {
+                           er: ExternalResource
+                         ): Array[TaggedSentence] = {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
@@ -279,8 +279,8 @@ object ResourceHelper {
   }
 
   def parseTupleSentencesDS(
-                           er: ExternalResource
-                         ): Dataset[TaggedSentence] = {
+                             er: ExternalResource
+                           ): Dataset[TaggedSentence] = {
     er.readAs match {
       case SPARK_DATASET =>
         import spark.implicits._
@@ -342,10 +342,10 @@ object ResourceHelper {
         val regex = externalResource.options("tokenPattern").r
         sourceStream.content.getLines.foreach(line => {
           val words = regex.findAllMatchIn(line).map(_.matched).toList
-            words.foreach(w => {
-              // Creates a Map of frequency words: word -> frequency based on ExternalResource
-              m(w) += 1
-            })
+          words.foreach(w => {
+            // Creates a Map of frequency words: word -> frequency based on ExternalResource
+            m(w) += 1
+          })
         })
         sourceStream.close()
         if (m.isEmpty)
@@ -354,7 +354,7 @@ object ResourceHelper {
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
-                      .load(externalResource.path)
+          .load(externalResource.path)
         val transformation = {
           if (p.isDefined) {
             p.get.transform(dataset)
@@ -420,18 +420,15 @@ object ResourceHelper {
   * with POS Annotation for training PerceptronApproach
   * */
 
-  case class posTagAnnotation(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String])
-
   private def annotateTokensTags: UserDefinedFunction = udf { (tokens: Seq[String], tags: Seq[String], text: String) =>
-
     lazy val strTokens = tokens.mkString("#")
     lazy val strPosTags = tags.mkString("#")
 
     require(tokens.length == tags.length, s"Cannot train from DataFrame since there" +
       s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
 
-    val tokenTagAnnotation: ArrayBuffer[posTagAnnotation] = ArrayBuffer()
-
+    val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
+    def annotatorType: String = AnnotatorType.POS
     var lastIndex = 0
 
     for ((e, i) <- tokens.zipWithIndex) {
@@ -439,10 +436,15 @@ object ResourceHelper {
       val beginOfToken = text.indexOfSlice(e, lastIndex)
       val endOfToken = (beginOfToken + e.length) - 1
 
-      tokenTagAnnotation += posTagAnnotation("pos", beginOfToken, endOfToken, tags(i), Map("word" -> e))
-
+      val fullPOSAnnotatorStruct = new Annotation(
+        annotatorType = annotatorType,
+        begin=beginOfToken,
+        end=endOfToken,
+        result=tags(i),
+        metadata=Map("word" -> e)
+      )
+      tokenTagAnnotation += fullPOSAnnotatorStruct
       lastIndex = text.indexOfSlice(e, lastIndex)
-
     }
     tokenTagAnnotation
   }
@@ -479,5 +481,4 @@ object ResourceHelper {
       .withColumn("pos", annotateTokensTags($"tokens", $"tags", $"text"))
       .select("pos") // this will also generate ("text", "tokens", "tags")
   }
-
 }
