@@ -91,19 +91,20 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
       */
     val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
       import ResourceHelper.spark.implicits._
-      val tokenColumn = dataset.schema.fields
-        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
+      val dataFrameSchemaField = dataset.schema.fields(0).metadata
+
+      require(dataFrameSchemaField.contains("annotatorType"), s"Cannot train from DataFrame without POS annotatorType")
+      require(dataFrameSchemaField.getString("annotatorType")== AnnotatorType.POS, s"Cannot train from DataFrame without POS annotatorType")
+      val posColumn = dataset.schema.fields
+        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.POS)
         .map(_.name).get
-      dataset.select(tokenColumn, $(posCol))
-        .as[(Array[Annotation], Array[String])]
+
+      dataset.select(posColumn)
+        .as[Array[Annotation]]
         .map{
-          case (annotations, posTags) =>
-            lazy val strTokens = annotations.map(_.result).mkString("#")
-            lazy val strPosTags = posTags.mkString("#")
-            require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
-              s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
-            TaggedSentence(annotations.zip(posTags)
-              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
+          annotations =>
+            TaggedSentence(annotations
+              .map{annotation => IndexedTaggedWord(annotation.metadata("word"), annotation.result, annotation.begin, annotation.end)}
             )
         }.collect
     } else {
