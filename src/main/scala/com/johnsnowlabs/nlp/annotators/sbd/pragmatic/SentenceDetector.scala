@@ -34,12 +34,14 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
       document
     ).flatMap(sentence => {
       var currentStart = sentence.start
-      sentence.content.grouped($(maxLength)).map(limitedSentence => {
-        val currentEnd = currentStart + limitedSentence.length - 1
-        val result = Sentence(limitedSentence, currentStart, currentEnd)
-        currentStart = currentEnd + 1
-        result
-      })
+      get(maxLength).map(maxLength => truncateSentence(sentence.content, maxLength)).getOrElse(Array(sentence.content))
+        .map{ truncatedSentence =>
+          val currentEnd = currentStart + truncatedSentence.length - 1
+          val result = Sentence(truncatedSentence, currentStart, currentEnd)
+          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+          currentStart = currentEnd + 2
+          result
+      }
     })
   }
 
