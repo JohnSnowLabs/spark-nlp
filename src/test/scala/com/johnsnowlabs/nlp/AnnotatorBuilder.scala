@@ -9,9 +9,8 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup, WordEmbeddingsLookupModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -188,14 +187,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     getGLoveEmbeddings(dataset).transform(df)
   }
 
-  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsLookupModel = {
+  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddings = {
     val df = withFullPOSTagger(dataset)
 
-    new WordEmbeddingsLookup()
+    new WordEmbeddings()
       .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
-      .fit(df)
   }
 
   def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {

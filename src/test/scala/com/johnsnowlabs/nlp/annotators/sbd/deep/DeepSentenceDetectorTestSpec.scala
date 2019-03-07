@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
@@ -41,12 +41,12 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  private val glove = new WordEmbeddingsLookup()
+  private val glove = new WordEmbeddings()
     .setInputCols("document", "token")
     .setOutputCol("glove")
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
       100, WordEmbeddingsFormat.TEXT)
-    .setCaseSensitiveEmbeddings(false)
+    .setCaseSensitive(true)
 
   private val strongNer = new NerDLApproach()
     .setInputCols("document", "token", "glove")
@@ -147,7 +147,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
-    nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
+    nerTagger.fit(glove.transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {

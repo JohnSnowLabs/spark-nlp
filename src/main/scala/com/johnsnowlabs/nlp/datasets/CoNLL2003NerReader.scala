@@ -50,7 +50,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   )
 
   private def resolveEmbeddings(sentences: Seq[PosTaggedSentence]): Seq[WordpieceEmbeddingsSentence] = {
-    sentences.map { s =>
+    sentences.zipWithIndex.map { case (s, idx) =>
       val tokens = s.indexedTaggedWords.map{token =>
         val vector = wordEmbeddings.getEmbeddingsVector(token.word)
         new TokenPieceEmbeddings(token.word, token.word,
@@ -58,7 +58,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
           token.begin, token.end)
       }
 
-      WordpieceEmbeddingsSentence(tokens)
+      WordpieceEmbeddingsSentence(tokens, idx)
     }
   }
 
