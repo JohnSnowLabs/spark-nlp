@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
@@ -26,7 +26,7 @@ class NerPerfTest extends FlatSpec {
       setInputCols("document", "token").
       setOutputCol("pos")
 
-    val embeddings = new WordEmbeddingsLookup()
+    val embeddings = new WordEmbeddings()
       .setInputCols("document", "token", "pos")
       .setOutputCol("embeddings")
       .setEmbeddingsSource("./glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
@@ -76,7 +76,7 @@ class NerPerfTest extends FlatSpec {
       setInputCols(Array("document")).
       setOutputCol("token")
 
-    val embeddings = new WordEmbeddingsLookup()
+    val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setEmbeddingsSource("./embeddings.bin", 200, WordEmbeddingsFormat.BINARY)

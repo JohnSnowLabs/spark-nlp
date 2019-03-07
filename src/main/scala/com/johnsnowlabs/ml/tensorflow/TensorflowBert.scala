@@ -46,13 +46,13 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
     // ToDo What to do with longer sentences?
 
     // Run embeddings calculation by batches
-    sentences.grouped(batchSize).flatMap{batch =>
-      val encoded = batch.map(s => encode(s))
+    sentences.zipWithIndex.grouped(batchSize).flatMap{batch =>
+      val encoded = batch.map(s => encode(s._1))
       val vectors = tag(encoded)
 
       // Combine tokens and calculated embeddings
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
-          val tokenLength = sentence.tokens.length
+          val tokenLength = sentence._1.tokens.length
           // Sentence Embeddings are at first place (token [CLS]
           val sentenceEmbeddings = tokenVectors.headOption
 
@@ -60,7 +60,7 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
           // Leave embeddings only for word start
-          val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap{
+          val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
             case (token, tokenEmbedding) =>
               if (token.isWordStart) {
                 val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
@@ -70,7 +70,7 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
                 None
           }
 
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceEmbeddings)
+        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2, sentenceEmbeddings)
       }
     }.toSeq
   }
