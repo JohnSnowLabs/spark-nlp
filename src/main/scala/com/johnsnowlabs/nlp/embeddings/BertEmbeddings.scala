@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.embeddings
+package com.johnsnowlabs.nlp.embeddigs
 
 import java.io.File
 
@@ -6,30 +6,30 @@ import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowBert, Tens
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.HasEmbeddings
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.param.{BooleanParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 
-class BertEmbeddingsModel(override val uid: String) extends
-  AnnotatorModel[BertEmbeddingsModel]
-  with WriteTensorflowModel {
+class BertEmbeddings(override val uid: String) extends
+  AnnotatorModel[BertEmbeddings]
+  with WriteTensorflowModel
+  with HasEmbeddings
+{
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
-  val dim = new IntParam(this, "dim", "Dimension of embeddings")
 
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-  val lowercase = new BooleanParam(this, name = "lowercase", "Should be lowercased")
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-  def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
   def sentenceStartTokenId: Int = {
     require(vocabulary.isSet)
@@ -42,10 +42,9 @@ class BertEmbeddingsModel(override val uid: String) extends
   }
 
   setDefault(
-    dim -> 768,
+    dimension -> 768,
     batchSize -> 5,
-    maxSentenceLength -> 256,
-    lowercase -> true
+    maxSentenceLength -> 256
   )
 
   var tensorflow: TensorflowWrapper = null
@@ -57,7 +56,7 @@ class BertEmbeddingsModel(override val uid: String) extends
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
 
-  def setDim(value: Int): this.type = set(dim, value)
+  def setDim(value: Int): this.type = set(dimension, value)
 
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
 
@@ -79,7 +78,7 @@ class BertEmbeddingsModel(override val uid: String) extends
   }
 
   def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(lowercase))
+    val basicTokenizer = new BasicTokenizer($(caseSensitive))
     val encoder = new WordpieceEncoder(vocabulary.getOrDefault)
 
     sentences.map { s =>
@@ -102,28 +101,32 @@ class BertEmbeddingsModel(override val uid: String) extends
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
+  override def afterAnnotate(dataset: DataFrame): DataFrame = {
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension)))
+  }
+
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes = Array(AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_bert", BertEmbeddingsModel.tfFile)
+    writeTensorflowModel(path, spark, tensorflow, "_bert", BertEmbeddings.tfFile)
   }
 }
 
 trait PretrainedBertModel {
-  def pretrained(name: String = "bert_uncased_base", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddingsModel =
-    ResourceDownloader.downloadModel(BertEmbeddingsModel, name, language, remoteLoc)
+  def pretrained(name: String = "bert_uncased_base", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
+    ResourceDownloader.downloadModel(BertEmbeddings, name, language, remoteLoc)
 }
 
-object BertEmbeddingsModel extends ParamsAndFeaturesReadable[BertEmbeddingsModel]
+object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
   with PretrainedBertModel
   with ReadTensorflowModel {
 
   override val tfFile: String = "bert_tensorflow"
 
-  def readTensorflow(instance: BertEmbeddingsModel, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_bert_tf")
     instance.setTensorflow(tf)
   }
@@ -131,7 +134,7 @@ object BertEmbeddingsModel extends ParamsAndFeaturesReadable[BertEmbeddingsModel
   addReader(readTensorflow)
 
 
-  def loadFromPython(folder: String): BertEmbeddingsModel = {
+  def loadFromPython(folder: String): BertEmbeddings = {
     val f = new File(folder)
     val vocab = new File(folder, "vocab.txt")
     require(f.exists, s"Folder ${folder} not found")
@@ -143,7 +146,7 @@ object BertEmbeddingsModel extends ParamsAndFeaturesReadable[BertEmbeddingsModel
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.LINE_BY_LINE, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    new BertEmbeddingsModel()
+    new BertEmbeddings()
       .setTensorflow(wrapper)
       .setVocabulary(words)
   }
