@@ -7,6 +7,7 @@ import scala.collection.Map
 case class WordpieceEmbeddingsSentence
 (
   tokens: Array[TokenPieceEmbeddings],
+  sentenceId: Int,
   sentenceEmbeddings: Option[Array[Float]] = None
 )
 
@@ -35,7 +36,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       .filter(_.annotatorType == annotatorType)
       .toArray
 
-    SentenceSplit.unpack(annotations).map{sentence: Sentence =>
+    SentenceSplit.unpack(annotations).zipWithIndex.map{case (sentence: Sentence, idx: Int) =>
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
       )
@@ -54,15 +55,12 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
         )
       }
 
-      WordpieceEmbeddingsSentence(tokensWithSentence, sentenceEmbeddings)
+      WordpieceEmbeddingsSentence(tokensWithSentence, idx, sentenceEmbeddings)
     }
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {
-    var sentenceIndex = 0
-
-    sentences.flatMap{sentence =>
-      sentenceIndex += 1
+    sentences.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
       var isFirstToken = true
       sentence.tokens.map{token =>
         // Store embeddings for token

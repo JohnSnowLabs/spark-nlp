@@ -204,28 +204,46 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
-class WordEmbeddingsLookup(AnnotatorApproach, ApproachWithEmbeddings):
+class WordEmbeddings(AnnotatorModel, HasEmbeddings):
+
+    name = "WordEmbeddings"
+
+    embeddingsRef = Param(Params._dummy(),
+                          "embeddingsRef",
+                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                          typeConverter=TypeConverters.toString)
+
+    sourceEmbeddingsPath = Param(Params._dummy(),
+                                 "sourceEmbeddingsPath",
+                                 "Word embeddings file",
+                                 typeConverter=TypeConverters.toString)
+
+    embeddingsFormat = Param(Params._dummy(),
+                             "embeddingsFormat",
+                             "Word vectors file format",
+                             typeConverter=TypeConverters.toInt)
+
+    def setEmbeddingsSource(self, path, nDims, format):
+        self._set(sourceEmbeddingsPath=path)
+        self._set(embeddingsFormat=format)
+        return self._set(dimension=nDims)
+
+    def setEmbeddingsRef(self, value):
+        return self._set(embeddingsRef=value)
+
     @keyword_only
     def __init__(self):
-        super(WordEmbeddingsLookup, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookup")
-
-    def _create_model(self, java_model):
-        return WordEmbeddingsLookupModel(java_model=java_model)
-
-
-class WordEmbeddingsLookupModel(ModelWithEmbeddings):
-
-    @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookupModel", java_model=None):
-        super(WordEmbeddingsLookupModel, self).__init__(
-            classname=classname,
-            java_model=java_model
+        super(WordEmbeddings, self).__init__(
+            classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings"
+        )
+        self._setDefault(
+            caseSensitive=False
         )
 
 
-class BertEmbeddingsModel(AnnotatorModel):
+class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
-    name = "BertEmbeddingsModel"
+    name = "BertEmbeddings"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -237,51 +255,35 @@ class BertEmbeddingsModel(AnnotatorModel):
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
-    lowercase = Param(Params._dummy(),
-                      "lowercase",
-                      "whether to convert strings to lowercase")
-
-    dim = Param(Params._dummy(),
-                "dim",
-                "Dimension of embeddings",
-                typeConverter=TypeConverters.toInt)
-
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
 
-    def setLowercase(self, value):
-        return self._set(lowercase=value)
-
-    def setDim(self, value):
-        return self._set(dim=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel", java_model=None):
-        super(BertEmbeddingsModel, self).__init__(
-            classname=classname,
-            java_model=java_model
+    def __init__(self):
+        super(BertEmbeddings, self).__init__(
+            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings"
         )
         self._setDefault(
-            dim = 768,
-            batchSize = 5,
-            maxSentenceLength = 100,
-            lowercase = True
+            dim=768,
+            batchSize=5,
+            maxSentenceLength=100,
+            caseSensitive=False
         )
 
     @staticmethod
     def loadFromPython(folder):
         jModel = _BertLoader(folder)._java_obj
-        return BertEmbeddingsModel(java_model = jModel)
+        return BertEmbeddings(java_model = jModel)
 
 
     @staticmethod
     def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertEmbeddingsModel, name, language, remote_loc)
-
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
 
 
 class Normalizer(AnnotatorApproach):

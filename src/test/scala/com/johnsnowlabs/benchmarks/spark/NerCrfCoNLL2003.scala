@@ -3,11 +3,11 @@ package com.johnsnowlabs.benchmarks.spark
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence, TokenPiece, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{BertEmbeddingsModel, WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
@@ -26,7 +26,7 @@ object CoNLL2003PipelineTest extends App {
   val nerReader = CoNLL()
 
   def getNerStages(): Array[_ <: PipelineStage] = {
-    val glove = new WordEmbeddingsLookup()
+    val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)

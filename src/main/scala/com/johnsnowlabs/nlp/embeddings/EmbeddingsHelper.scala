@@ -105,7 +105,7 @@ object EmbeddingsHelper {
     new ClusterWordEmbeddings(indexPath, nDims, caseSensitive)
   }
 
-  def getFromAnnotator(annotator: ModelWithWordEmbeddings): ClusterWordEmbeddings = {
+  def getFromAnnotator(annotator: WordEmbeddings): ClusterWordEmbeddings = {
     annotator.getClusterEmbeddings
   }
 
