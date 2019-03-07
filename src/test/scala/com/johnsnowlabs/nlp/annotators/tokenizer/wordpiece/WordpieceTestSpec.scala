@@ -69,7 +69,7 @@ class WordpieceTestSpec extends FlatSpec {
       "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www", ".",
       "google", ".", "com", ".")
 
-    val tokenizer = new BasicTokenizer(caseSensitive = false)
+    val tokenizer = new BasicTokenizer(caseSensitive = true)
     val tokens = tokenizer.tokenize(sentence)
     // 1. Check number of tokens
     assert(tokens.length == result.length)
@@ -104,7 +104,7 @@ class WordpieceTestSpec extends FlatSpec {
     val sentence = Sentence(text, 0, text.length - 1, 0)
     val result = Array("Hello", "注", "形", "声", "sd", ",", "~", "and", "bye", "!")
 
-    val tokenizer = new BasicTokenizer(caseSensitive = false)
+    val tokenizer = new BasicTokenizer(caseSensitive = true)
     val tokens = tokenizer.tokenize(sentence)
 
     assert(tokens.length == result.length)
@@ -120,7 +120,7 @@ class WordpieceTestSpec extends FlatSpec {
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 
     val tokenizer = new BertEmbeddings()
-        .setCaseSensitive(false)
+        .setCaseSensitive(true)
         .setVocabulary(vocabulary)
 
     val tokenized = tokenizer.tokenize(Seq(sentence))
