@@ -1,3 +1,4 @@
+
 import sbtassembly.MergeStrategy
 
 val sparkVer = "2.4.0"
