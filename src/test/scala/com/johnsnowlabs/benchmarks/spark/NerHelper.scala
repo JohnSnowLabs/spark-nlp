@@ -33,7 +33,7 @@ object NerHelper {
     bw.write(s"start\tend\ttag\ttext\n")
     for (i <- 0 until annotations.length) {
       for (a <- annotations(i))
-        bw.write(s"${a.begin}\t${a.end}\t${a.result}\t${a.metadata("text").replace("\n", " ")}\n")
+        bw.write(s"${a.begin}\t${a.end}\t${a.result}\t${a.metadata("entity").replace("\n", " ")}\n")
     }
     bw.close()
   }
@@ -64,17 +64,20 @@ object NerHelper {
       val labels = NerTagged.getAnnotations(row, 1).filter(a => a.result != "O")
 
       for (p <- predictions) {
-        predicted(p.result) = predicted.getOrElse(p.result, 0) + 1
+        val tag = p.metadata("entity")
+        predicted(tag) = predicted.getOrElse(tag, 0) + 1
       }
 
       for (l <- labels) {
-        correct(l.result) = correct.getOrElse(l.result, 0) + 1
+        val tag = l.metadata("entity")
+        correct(tag) = correct.getOrElse(tag, 0) + 1
       }
 
       val correctPredictions = labels.toSet.intersect(predictions.toSet)
 
       for (a <- correctPredictions) {
-        correctPredicted(a.result) = correctPredicted.getOrElse(a.result, 0) + 1
+        val tag = a.metadata("entity")
+        correctPredicted(tag) = correctPredicted.getOrElse(tag, 0) + 1
       }
 
       if (toPrintErrors > 0) {

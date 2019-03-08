@@ -28,9 +28,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   /**
     * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
     */
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   protected val derivedWords: MapFeature[String, (List[String], Long)] =
     new MapFeature(this, "derivedWords")
@@ -64,7 +64,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token => {
       Annotation(
-        annotatorType,
+        outputAnnotatorType,
         token.begin,
         token.end,
         check(token.result).getOrElse(token.result),

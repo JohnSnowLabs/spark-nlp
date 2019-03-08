@@ -54,6 +54,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         regex_matcher = RegexMatcher() \
+            .setInputCols(['document']) \
             .setStrategy("MATCH_ALL") \
             .setExternalRules(path="file:///" + os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt",
                               delimiter=",") \
@@ -121,6 +122,7 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
         chunk_tokenizer = ChunkTokenizer() \
@@ -169,6 +171,7 @@ class DateMatcherTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
         date_matcher = DateMatcher() \
+            .setInputCols(['document']) \
             .setOutputCol("date") \
             .setDateFormat("yyyyMM")
         assembled = document_assembler.transform(self.data)
@@ -188,6 +191,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
@@ -244,7 +248,7 @@ class ChunkerTestSpec(unittest.TestCase):
             .setIterations(2) \
             .fit(self.data)
         chunker = Chunker() \
-            .setInputCols(["pos"]) \
+            .setInputCols(["sentence", "pos"]) \
             .setOutputCol("chunk") \
             .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
         assembled = document_assembler.transform(self.data)
@@ -275,9 +279,11 @@ class PragmaticSBDTestSpec(unittest.TestCase):
 
 class DeepSentenceDetectorTestSpec(unittest.TestCase):
     def setUp(self):
+        from sparknlp.dataset import CoNLL
         self.data = SparkContextForTest.data
         self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
-        self.external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
+        external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
+        self.training_set = CoNLL().readDataset(external_dataset)
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -286,16 +292,18 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        ner_tagger = NerDLApproach() \
+        glove = WordEmbeddings() \
             .setInputCols(["document", "token"]) \
+            .setOutputCol("glove") \
+            .setEmbeddingsSource(self.embeddings, 100, 2)
+        ner_tagger = NerDLApproach() \
+            .setInputCols(["document", "token", "glove"]) \
             .setLabelColumn("label") \
             .setOutputCol("ner") \
             .setMaxEpochs(100) \
             .setPo(0.01) \
             .setLr(0.1) \
             .setBatchSize(9) \
-            .setEmbeddingsSource(self.embeddings, 100, 2) \
-            .setExternalDataset(self.external_dataset) \
             .setRandomSeed(0)
         ner_converter = NerConverter() \
             .setInputCols(["document", "token", "ner"]) \
@@ -307,7 +315,9 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setEndPunctuation([".", "?"])
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        ner_tagged = ner_tagger.fit(tokenized).transform(tokenized)
+        embedded = glove.transform(tokenized)
+        embedded_training_set = glove.transform(self.training_set)
+        ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
         deep_sentence_detected.show()
@@ -344,6 +354,17 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         tokenized = tokenizer.transform(sentenced)
         lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
+
+
+class DeepSentenceDetectorPipelinePersistenceTestSpec(unittest.TestCase):
+    @staticmethod
+    def runTest():
+        pipeline = Pipeline(stages=[DeepSentenceDetector()])
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
+        pipeline.write().overwrite().save(pipe_path)
+        loaded_pipeline = Pipeline.read().load(pipe_path)
+        if loaded_pipeline:
+            assert True
 
 
 class PipelineTestSpec(unittest.TestCase):
@@ -627,3 +648,39 @@ class TypedDependencyParserTestSpec(unittest.TestCase):
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
         typed_dependency_parsed.show()
+
+
+class ChunkDocSerializingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark \
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        entity_extractor = TextMatcher() \
+            .setOutputCol("entity") \
+            .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
+        chunk2doc = Chunk2Doc() \
+            .setInputCols(['entity']) \
+            .setOutputCol('entity_doc')
+        doc2chunk = Doc2Chunk() \
+            .setInputCols(['entity_doc']) \
+            .setOutputCol('entity_rechunk')
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            entity_extractor,
+            chunk2doc,
+            doc2chunk
+        ])
+
+        model = pipeline.fit(self.data)
+        pipe_path = "file:///" + os.getcwd() + "/tmp_chunkdoc"
+        model.write().overwrite().save(pipe_path)
+        PipelineModel.load(pipe_path)

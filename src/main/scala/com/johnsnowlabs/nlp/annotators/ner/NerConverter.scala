@@ -17,21 +17,28 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
 
   def this() = this(Identifiable.randomUID("NER_CONVERTER"))
 
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
+
+  override val outputAnnotatorType: AnnotatorType = CHUNK
+
   val whiteList: StringArrayParam = new StringArrayParam(this, "whiteList", "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels")
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
     val docs = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT)
-    val entities = sentences.zip(docs).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc)}
+    val entities = sentences.zip(docs.zipWithIndex).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex=doc._2)}
 
     entities.filter(entity => get(whiteList).forall(validEntity => validEntity.contains(entity.entity))).map{entity =>
-      Annotation(annotatorType, entity.start, entity.end, entity.text, Map("entity" -> entity.entity))
+      Annotation(
+        outputAnnotatorType,
+        entity.start,
+        entity.end,
+        entity.text,
+        Map("entity" -> entity.entity, "sentence" -> entity.sentenceId)
+      )
     }
   }
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
-
-  override val annotatorType: AnnotatorType = CHUNK
 }
 
 object NerConverter extends ParamsAndFeaturesReadable[NerConverter]

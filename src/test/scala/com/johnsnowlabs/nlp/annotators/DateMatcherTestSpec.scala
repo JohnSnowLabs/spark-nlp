@@ -13,7 +13,7 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new DateMatcher
   "a DateMatcher" should s"be of type ${AnnotatorType.DATE}" in {
-    assert(dateMatcher.annotatorType == AnnotatorType.DATE)
+    assert(dateMatcher.outputAnnotatorType == AnnotatorType.DATE)
   }
 
   val dateData: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
