@@ -123,7 +123,7 @@ trait WithGraphResolver  {
       val graphPrefix = if (SystemUtils.IS_OS_WINDOWS) "blstm-noncontrib_" else "blstm_"
 
       if (name.startsWith(graphPrefix)) {
-        val clean = name.replace("blstm_", "").replace(".pb", "")
+        val clean = name.replace(graphPrefix, "").replace(".pb", "")
         val graphParams = clean.split("_").take(4).map(s => s.toInt)
         val Array(fileTags, fileEmbeddingsNDims, _, fileNChars) = graphParams
 
