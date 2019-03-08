@@ -14,7 +14,7 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
   "A normalizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     val normalizer = new Normalizer
-    assert(normalizer.annotatorType == AnnotatorType.TOKEN)
+    assert(normalizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
