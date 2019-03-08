@@ -373,12 +373,12 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   //List (period to mark list and period to end item)
   val veryLongAns = Array("This is a so long sentence that it will end up being cut off in different pieces because otherwise " +
     "I don't know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long time although",
-    " we should be almost there this part should become the second sentence, thanks."
+    "we should be almost there this part should become the second sentence, thanks."
   )
   val veryLong = "This is a so long sentence that it will end up being cut off in different pieces because otherwise I don't " +
     "know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long " +
     "time although we should be almost there this part should become the second sentence, thanks."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns, maxLength = Some(240))
 
   /*
   //List with bullet
