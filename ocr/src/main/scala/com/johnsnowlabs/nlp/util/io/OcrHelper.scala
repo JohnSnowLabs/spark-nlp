@@ -283,9 +283,19 @@ object OcrHelper extends ImageProcessing {
         correctSkew(image.getAsBufferedImage, angle, res)
       }}.getOrElse(image.getAsBufferedImage)
 
+<<<<<<< HEAD
       // rescale if factor provided
       val scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
+=======
+      // rescale if factor provided, or automatic scaling enabled
+
+      val factor = scalingFactor.orElse(
+        desiredSize.flatMap(size => detectFontSize(skewCorrected).map(_.toFloat).map(size / _)))
+
+      val scaledImage = factor.map { factor =>
+        reScaleImage(skewCorrected, factor)
+>>>>>>> parent of 08734703... change variable name
       }.getOrElse(skewCorrected)
 
       // erode if kernel provided
