@@ -3,16 +3,19 @@ package com.johnsnowlabs.ml.tensorflow
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
+
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
-import org.tensorflow.{Graph, SavedModelBundle, Session}
+import org.apache.commons.io.{FileUtils, IOUtils}
+import org.slf4j.{Logger, LoggerFactory}
+import org.tensorflow._
+import org.tensorflow.TensorFlowException
 
 
-class TensorflowWrapper
-(
+class TensorflowWrapper(
   var session: Session,
   var graph: Graph
-)  extends Serializable {
+) extends Serializable {
 
   /** For Deserialization */
   def this() = {
@@ -82,6 +85,57 @@ class TensorflowWrapper
 }
 
 object TensorflowWrapper {
+  private[TensorflowWrapper] val logger: Logger = LoggerFactory.getLogger("TensorflowWrapper")
+
+  def readGraph(graphFile: String, handleException: Boolean = true): Graph = {
+    val graphStream = ResourceHelper.getResourceStream(graphFile)
+    val graphBytesDef = if (graphStream != null)
+      IOUtils.toByteArray(graphStream)
+    else
+      FileUtils.readFileToByteArray(new File(graphFile))
+
+    val graph = new Graph()
+    if (!handleException) {
+      graph.importGraphDef(graphBytesDef)
+      return graph
+    }
+
+    try {
+      graph.importGraphDef(graphBytesDef)
+      graph
+    }
+    catch {
+      case _: TensorFlowException =>
+        // trying to add library
+        logger.info("Problem with loading graph. Trying to add .so library")
+        val os = System.getProperty("os.name").toLowerCase()
+        logger.debug("os name: "+os)
+        val (path1, path2): (String, String) =
+          if (os.contains("mac")) {
+            ("ner-dl/mac/_sparse_feature_cross_op.so", "ner-dl/mac/_lstm_ops.so")
+          } else if (os.contains("nix") || os.contains("nux") || os.contains("aux")) {
+            ("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so")
+          } else {
+            throw new UnsupportedOperationException(s"$os not supported in this annotator. Please report it.")
+          }
+
+        val resource = ResourceHelper.copyResourceToTmp(path1)
+        TensorFlow.loadLibrary(resource.getPath)
+        resource.delete()
+
+        val resource2 = ResourceHelper.copyResourceToTmp(path2)
+        TensorFlow.loadLibrary(resource2.getPath)
+        resource2.delete()
+
+        logger.info("Added .so library")
+
+        val graph = readGraph(graphFile, false)
+
+        logger.info("Graph loaded")
+
+        graph
+    }
+  }
 
   def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
     val t = new TensorResources()
@@ -103,14 +157,12 @@ object TensorflowWrapper {
 
     // 3. Read file as SavedModelBundle
     val (graph, session) = if (useBundle) {
-      val model = SavedModelBundle.load(folder, tags:_*)
+      val model = SavedModelBundle.load(folder, tags: _*)
       val graph = model.graph()
       val session = model.session()
       (graph, session)
     } else {
-      val graphDef = Files.readAllBytes(Paths.get(folder, "saved_model.pb"))
-      val graph = new Graph()
-      graph.importGraphDef(graphDef)
+      val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
       val session = new Session(graph, config)
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))

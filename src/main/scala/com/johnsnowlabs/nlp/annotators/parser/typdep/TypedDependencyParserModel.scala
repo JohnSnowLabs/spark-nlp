@@ -14,8 +14,8 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
   def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
 
-  override val annotatorType: String = LABELED_DEPENDENCY
-  override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
+  override val outputAnnotatorType: String = LABELED_DEPENDENCY
+  override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
   val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "TDP options")
   val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "TDP parameters")

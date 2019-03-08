@@ -3,11 +3,11 @@ package com.johnsnowlabs.nlp.annotators.sbd.deep
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
-import com.johnsnowlabs.nlp.annotator.{NerConverter, SentenceDetector, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.util.PipelineModels
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
 import java.nio.file.{Files, Paths}
 
@@ -15,7 +15,23 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 
+import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import org.apache.spark.ml.Pipeline
+
 class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
+
+  private val nerReader = CoNLL()
+
+  private val strongNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt"
+  private val strongNerDatasetResource = ExternalResource(strongNerDatasetFile,
+    ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
+  private val strongNerDataset = nerReader.readDataset(strongNerDatasetResource, SparkAccessor.spark)
+
+  private val weakNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
+  private val weakNerDatasetResource = ExternalResource(weakNerDatasetFile,
+    ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
+  private val weakNerDataset = nerReader.readDataset(weakNerDatasetResource, SparkAccessor.spark)
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -25,30 +41,25 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  private val strongNerTagger = new NerDLApproach()
+  private val glove = new WordEmbeddings()
     .setInputCols("document", "token")
-    .setLabelColumn("label")
-    .setOutputCol("ner")
-    .setMaxEpochs(400)
-    .setPo(0.01f)
-    .setLr(0.1f)
-    .setBatchSize(15)
+    .setOutputCol("glove")
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
       100, WordEmbeddingsFormat.TEXT)
-    .setExternalDataset("src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt")
-    .setRandomSeed(0)
+    .setCaseSensitive(true)
 
-  private val weakNerTagger = new NerDLApproach()
-    .setInputCols("document", "token")
+  private val strongNer = new NerDLApproach()
+    .setInputCols("document", "token", "glove")
     .setLabelColumn("label")
     .setOutputCol("ner")
     .setMaxEpochs(100)
-    .setPo(0.01f)
-    .setLr(0.1f)
-    .setBatchSize(9)
-    .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
-      100, WordEmbeddingsFormat.TEXT)
-    .setExternalDataset("src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt")
+    .setRandomSeed(0)
+
+  private val weakNer = new NerDLApproach()
+    .setInputCols("document", "token", "glove")
+    .setLabelColumn("label")
+    .setOutputCol("ner")
+    .setMaxEpochs(100)
     .setRandomSeed(0)
 
   private val nerConverter = new NerConverter()
@@ -71,28 +82,44 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols("seg_sentence")
     .setOutputCols("sentence")
 
+  private val strongNerTagger = new Pipeline().setStages(
+    Array(glove,
+      strongNer)
+    ).fit(strongNerDataset)
+    .stages(1)
+    .asInstanceOf[NerDLModel]
+
   private val strongPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
+      glove,
       strongNerTagger,
       nerConverter,
       deepSentenceDetector,
       finisher
     ))
 
+  private val weakNerTagger = new Pipeline().setStages(
+    Array(glove,
+      weakNer)
+  ).fit(weakNerDataset)
+    .stages(1)
+    .asInstanceOf[NerDLModel]
+
   private val weakPipeline = new RecursivePipeline().setStages(
     Array(documentAssembler,
       tokenizer,
+      glove,
       weakNerTagger,
       nerConverter,
       deepSentenceDetector,
       finisher
     ))
 
-  def getAnnotationsWithNerConverter(paragraph: String, nerTagger: NerDLApproach): Seq[Annotation] = {
+  def getAnnotationsWithNerConverter(paragraph: String, nerDLModel: NerDLModel): Seq[Annotation] = {
     //TODO: Consider hardcoded or a better way to mock nerConverterAnnotations result since is uncertain due tu NER
     val testDataSet = Seq(paragraph).toDS.toDF("text")
-    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, nerTagger, nerConverter))
+    val pipeline = new RecursivePipeline().setStages(Array(documentAssembler, tokenizer, glove, nerDLModel, nerConverter))
     val documentAnnotation = Seq(Annotation(DOCUMENT, 0, paragraph.length-1, paragraph, Map()))
     val tokenAnnotations = getAnnotations(testDataSet, pipeline, "token")
     val nerConverterAnnotations = getAnnotations(testDataSet, pipeline, "ner_con")
@@ -107,27 +134,20 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   private def getAnnotations(dataset: Dataset[_], pipeline: RecursivePipeline, column: String) = {
-    val annotations = pipeline.fit(dataset).transform(dataset).select(column).rdd.map(_.getSeq[Row](0))
-    annotations.flatMap(_.map{
-      case Row(annotatorType: String, begin: Int, end: Int, result: String, metadata: Map[String, String]) =>
-        Annotation(annotatorType, begin, end, result, metadata)
-    } ).collect()
+    val result = pipeline.fit(dataset).transform(dataset)
+    Annotation.collect(result, column).flatten
   }
 
-  private def getNerTagger(trainingFile: String) : NerDLApproach ={
+  private def getNerTagger(trainingFile: String) : NerDLModel ={
+    val nerDataset = nerReader.readDataset(ExternalResource(trainingFile,
+      ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")), SparkAccessor.spark)
     val nerTagger = new NerDLApproach()
-      .setInputCols("document", "token")
+      .setInputCols("document", "token", "glove")
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMaxEpochs(100)
-      .setPo(0.01f)
-      .setLr(0.1f)
-      .setBatchSize(9)
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
-        100, WordEmbeddingsFormat.TEXT)
-      .setExternalDataset(trainingFile)
       .setRandomSeed(0)
-    nerTagger
+    nerTagger.fit(glove.transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {
@@ -144,8 +164,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent")))
+    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent", "sentence" -> "0")),
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity" -> "sent", "sentence" -> "0")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
 
@@ -155,19 +175,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve a sentence from annotations" in {
-
-    val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val expectedSentence = "Hello world this is a sentence. This is another one."
-    val annotations = getAnnotationsWithNerConverter(expectedSentence, nerTagger)
-
-    val sentence = deepSentenceDetector.retrieveSentence(annotations)
-
-    assert(sentence == expectedSentence)
-
-  }
-
-  it should "segment sentences" in {
+  it should "segment sentences from right" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -190,38 +198,25 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val purePipeline = new RecursivePipeline().setStages(
-        Array(documentAssembler,
-          tokenizer,
-          nerTagger,
-          nerConverter,
-          pureDeepSentenceDetector,
-          finisher
-        ))
+      Array(documentAssembler,
+        tokenizer,
+        glove,
+        nerTagger,
+        nerConverter,
+        pureDeepSentenceDetector,
+        finisher
+      ))
 
     val testDataSet = Seq("Hello world this is a sentence. This is another one.").toDS.toDF("text")
 
     val expectedResult = Seq(
-        Seq("Hello world this is a sentence.", "This is another one.")
-      )
+      Seq("Hello world this is a sentence.", "This is another one.")
+    )
 
-    transformDataSet(testDataSet, purePipeline, expectedResult)
+    transformDataSet(testDataSet, purePipeline, expectedResult, 1)
   }
 
-  "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" in {
-
-    val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
-    val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent")))
-    val paragraph = "Hello world this is a sentence. This is another one."
-    val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
-
-    val entities = deepSentenceDetector.getNerEntities(annotations)
-
-    assert(entities == expectedEntities)
-
-  }
-
-  it should "retrieve a sentence from annotations" in {
+  it should "retrieve a sentence from annotations from half right" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val expectedSentence = "Hello world this is a sentence. This is another one."
@@ -233,7 +228,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "segment sentences" in {
+  it should "segment sentences from half right" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -255,11 +250,11 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   it should behave like {
     import ResourceHelper.spark.implicits._
 
-    val sentence = "Hello world, this is a long sentence"
+    val sentence = "Hello world, this is a long sentence longerThanMaxLength"
 
     val df = Seq(sentence).toDF("text")
 
-    val expected = sentence.grouped(12).toArray
+    val expected = Array("Hello world,", "this is a", "long", "sentence", "longerThanMaxLength")
 
     val dsd = new DeepSentenceDetector()
       .setInputCols(Array("document", "token", "ner_con"))
@@ -270,29 +265,38 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val purePipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         nerTagger,
         nerConverter,
         dsd
       ))
+
+    purePipeline.fit(df).transform(df).select("ner_con").show(false)
 
     val sentenced = purePipeline.fit(df).transform(df)
       .select("sentence")
       .as[Array[Annotation]].first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => r._1.result == r._2))
+    assert(sentenced.zip(expected).forall(r => {
+      println(s"r1 is ${r._1.result} and r2 is ${r._2}")
+      r._1.result == r._2
+    }))
     assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 12, 23, " this is a l", Map("sentence" -> "1")))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 24, 35, "ong sentence", Map("sentence" -> "2")))
+    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1")))
+    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2")))
+    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3")))
+    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4")))
 
   }
 
-  it should behave like {
+  "a half right trained deep sentence detector" should behave like {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
     val purePipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         nerTagger,
         nerConverter,
         pureDeepSentenceDetector,
@@ -305,7 +309,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("Hello world this is a sentence.", "This is another one.")
     )
 
-    transformDataSet(testDataSet, purePipeline, expectedResult)
+    transformDataSet(testDataSet, purePipeline, expectedResult, 2)
   }
 
   "A pure Deep Sentence Detector with a bad training file" should "retrieve NER entities from annotations" in {
@@ -321,7 +325,33 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "retrieve a sentence from annotations" in {
+  it should "retrieve a sentence from annotations from right" in {
+
+    val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
+    val expectedSentence = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(expectedSentence, nerTagger)
+
+    val sentence = deepSentenceDetector.retrieveSentence(annotations)
+
+    assert(sentence == expectedSentence)
+
+  }
+
+  "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" in {
+
+    val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
+    val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0")),
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent", "sentence" -> "0")))
+    val paragraph = "Hello world this is a sentence. This is another one."
+    val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
+
+    val entities = deepSentenceDetector.getNerEntities(annotations)
+
+    assert(entities == expectedEntities)
+
+  }
+
+  it should "retrieve a sentence from annotations from bad" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_bad.txt")
     val expectedSentence = "Hello world this is a sentence. This is another one."
@@ -333,7 +363,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "segment sentences" in {
+  it should "segment sentences from bad" in {
 
     val nerTagger =getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_bad.txt")
     val paragraph = "Hello world this is a sentence. This is another one."
@@ -352,8 +382,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
-    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent")),
-                               Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent")))
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent", "sentence" -> "0")),
+      Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent", "sentence" -> "0")))
     val paragraph = "I am Batman I live in Gotham"
     val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
 
@@ -375,7 +405,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   }
 
-  it should "identify punctuation in a sentence with punctuation" in  {
+  it should "identify punctuation in a sentence with punctuation" in {
 
     val sentence = "That is your answer?"
     val expectedResult = true
@@ -467,6 +497,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val weakPipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         weakNerTagger,
         nerConverter,
         deepSentenceDetector
@@ -640,6 +671,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val strongPipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         strongNerTagger,
         nerConverter,
         deepSentenceDetector
@@ -662,21 +694,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("i love deep learning", "winter is coming")
     )
 
-    transformDataSet(testDataSet, strongPipeline, expectedResult)
-  }
-
-  "A Deep Sentence Detector (trained with weak NER) that receives a dataset of unpunctuated sentences" should
-    behave like {
-
-    val testDataSet = Seq("I am Batman I live in Gotham",
-      "i love deep learning winter is coming").toDS.toDF("text")
-
-    val expectedResult = Seq(
-      Seq("I am Batman", "I live in Gotham"),
-      Seq("i love deep learning", "winter is coming")
-    )
-
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
+    transformDataSet(testDataSet, strongPipeline, expectedResult, 3)
   }
 
   "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated sentences" should
@@ -688,7 +706,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is a sentence.", "This is another sentence.")
     )
 
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult, 4)
   }
 
   "A Deep Sentence Detector (trained with weak NER) that receives a dataset of punctuated and unpunctuated sentences in one row" should
@@ -700,7 +718,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       Seq("This is another sentence.")
     )
 
-    transformDataSet(testDataSet, weakPipeline, expectedResult)
+    transformDataSet(testDataSet, weakPipeline, expectedResult, 5)
   }
 
   "A Deep Sentence Detector" should "be serializable" in {
@@ -708,6 +726,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val pipeline = new RecursivePipeline().setStages(
       Array(documentAssembler,
         tokenizer,
+        glove,
         strongNerTagger,
         nerConverter,
         deepSentenceDetector

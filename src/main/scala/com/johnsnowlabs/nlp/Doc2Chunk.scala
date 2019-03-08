@@ -15,9 +15,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
@@ -54,11 +54,11 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
       None
     } else {
       Some(Annotation(
-        annotatorType,
+        outputAnnotatorType,
         beginning,
         ending,
         chunk,
-        Map.empty[String, String]
+        annotation.metadata
       ))
     }
   }

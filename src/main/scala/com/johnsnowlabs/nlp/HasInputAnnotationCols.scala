@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.StructType
 trait HasInputAnnotationCols extends Params {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  val requiredAnnotatorTypes: Array[String]
+  val inputAnnotatorTypes: Array[String]
 
   /**
     * columns that contain annotations necessary to run this annotator
@@ -21,7 +21,7 @@ trait HasInputAnnotationCols extends Params {
     * @param schema to be validated
     * @return True if all the required types are present, else false
     */
-  protected def validate(schema: StructType): Boolean = requiredAnnotatorTypes.forall {
+  protected def validate(schema: StructType): Boolean = inputAnnotatorTypes.forall {
     requiredAnnotatorType =>
       schema.exists {
         field => {
@@ -35,10 +35,10 @@ trait HasInputAnnotationCols extends Params {
   /** Overrides required annotators column if different than default */
   final def setInputCols(value: Array[String]): this.type = {
     require(
-      value.length == requiredAnnotatorTypes.length,
-      s"setInputCols in ${this.uid} expecting ${requiredAnnotatorTypes.length} columns. " +
+      value.length == inputAnnotatorTypes.length,
+      s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +
         s"Provided column amount: ${value.length}. " +
-        s"Which should be columns from the following annotators: ${requiredAnnotatorTypes.mkString(", ")}"
+        s"Which should be columns from the following annotators: ${inputAnnotatorTypes.mkString(", ")}"
     )
     set(inputCols, value)
   }
@@ -49,5 +49,5 @@ trait HasInputAnnotationCols extends Params {
   final def getInputCols: Array[String] =
     get(inputCols).orElse(getDefault(inputCols))
       .getOrElse(throw new Exception(s"inputCols not provided." +
-      s" Requires columns for ${requiredAnnotatorTypes.mkString(", ")} annotators"))
+      s" Requires columns for ${inputAnnotatorTypes.mkString(", ")} annotators"))
 }

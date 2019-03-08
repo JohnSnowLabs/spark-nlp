@@ -10,13 +10,13 @@ import org.scalatest._
 
 class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DummyAnnotatorModel] {
   import AnnotatorType._
-  override val annotatorType: AnnotatorType = DUMMY
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array.empty[AnnotatorType]
+  override val outputAnnotatorType: AnnotatorType = DUMMY
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array.empty[AnnotatorType]
   def this() = this(Identifiable.randomUID("DUMMY"))
   setDefault(inputCols, Array.empty[String])
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     Seq(Annotation(
-      annotatorType,
+      outputAnnotatorType,
       0,
       25,
       "dummy result",
@@ -27,8 +27,8 @@ object DummyAnnotatorModel extends DefaultParamsReadable[DummyAnnotatorModel]
 
 class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DemandingDummyAnnotatorModel] {
   import AnnotatorType._
-  override val annotatorType: AnnotatorType = DUMMY
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DUMMY)
+  override val outputAnnotatorType: AnnotatorType = DUMMY
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DUMMY)
   def this() = this(Identifiable.randomUID("DEMANDING_DUMMY"))
   setDefault(inputCols, Array(DUMMY))
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
@@ -97,18 +97,18 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     val result = demandingDummyAnnotator.transform(dummyAnnotator.transform(dummyData))
     val schemaMetadata = result.select("result").schema.fields.head.metadata
     assert(schemaMetadata.contains("annotatorType") &&
-      schemaMetadata.getString("annotatorType") == demandingDummyAnnotator.annotatorType
+      schemaMetadata.getString("annotatorType") == demandingDummyAnnotator.outputAnnotatorType
     )
     import org.apache.spark.sql.Row
     val contentMeta = result.select("demand", "result").take(1).head.getSeq[Row](0)
     val contentAnnotation = contentMeta.map(Annotation(_)).head
-    assert(contentAnnotation.annotatorType == dummyAnnotator.annotatorType)
+    assert(contentAnnotation.annotatorType == dummyAnnotator.outputAnnotatorType)
     assert(contentAnnotation.begin == 0)
     assert(contentAnnotation.end == 25)
     assert(contentAnnotation.metadata.contains("a") && contentAnnotation.metadata("a") == "b")
     val demandContentMeta = result.select("demand", "result").take(1).head.getSeq[Row](1)
     val demandContentAnnotation = demandContentMeta.map(Annotation(_)).head
-    assert(demandContentAnnotation.annotatorType == demandingDummyAnnotator.annotatorType)
+    assert(demandContentAnnotation.annotatorType == demandingDummyAnnotator.outputAnnotatorType)
     assert(demandContentAnnotation.begin == 11)
     assert(demandContentAnnotation.end == 18)
     assert(demandContentAnnotation.metadata.contains("aa") && demandContentAnnotation.metadata("aa") == "bb")

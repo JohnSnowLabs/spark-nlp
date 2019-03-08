@@ -8,10 +8,9 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import org.apache.spark.ml.util.DefaultParamsReadable
 
-object annotator {
+package object annotator {
 
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
@@ -51,7 +50,7 @@ object annotator {
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
-  object NerCrfModel extends EmbeddingsReadable[NerCrfModel] with PretrainedNerCrf
+  object NerCrfModel extends ParamsAndFeaturesReadable[NerCrfModel] with PretrainedNerCrf
 
   type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
   object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]
@@ -94,7 +93,7 @@ object annotator {
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
-  object NerDLModel extends EmbeddingsReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
+  object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
 
   type NerConverter = com.johnsnowlabs.nlp.annotators.ner.NerConverter
   object NerConverter extends ParamsAndFeaturesReadable[NerConverter]

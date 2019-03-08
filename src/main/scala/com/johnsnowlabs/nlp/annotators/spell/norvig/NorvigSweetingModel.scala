@@ -16,9 +16,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   /**
     * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
     */
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
   private val vowels = "aeiouy".toCharArray
@@ -236,7 +236,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token =>
         Annotation(
-          annotatorType,
+          outputAnnotatorType,
           token.begin,
           token.end,
           check(token.result),

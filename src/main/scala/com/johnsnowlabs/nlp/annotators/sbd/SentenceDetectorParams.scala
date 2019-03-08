@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.annotators.sbd
 
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Params, StringArrayParam}
 
+import scala.collection.mutable.ArrayBuffer
+
 trait SentenceDetectorParams extends Params {
 
   val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
@@ -22,7 +24,6 @@ trait SentenceDetectorParams extends Params {
     useAbbrevations -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
-    maxLength -> 240,
     customBounds -> Array.empty[String]
   )
 
@@ -37,5 +38,32 @@ trait SentenceDetectorParams extends Params {
   def setMaxLength(value: Int): this.type = set(maxLength, value)
 
   def getMaxLength: Int = $(maxLength)
+
+  def truncateSentence(sentence: String, maxLength: Int): Array[String] = {
+    var currentLength = 0
+    val allSentences = ArrayBuffer.empty[String]
+    val currentSentence = ArrayBuffer.empty[String]
+
+    def addWordToSentence(word: String): Unit = {
+      /** Adds +1 because of the space joining words */
+      currentLength += word.length + 1
+      currentSentence.append(word)
+    }
+
+    sentence.split(" ").foreach(word => {
+      if (currentLength + word.length > maxLength) {
+        allSentences.append(currentSentence.mkString(" "))
+        currentSentence.clear()
+        currentLength = 0
+        addWordToSentence(word)
+      }
+      else {
+        addWordToSentence(word)
+      }
+    })
+    /** add leftovers */
+    allSentences.append(currentSentence.mkString(" "))
+    allSentences.toArray
+  }
 
 }

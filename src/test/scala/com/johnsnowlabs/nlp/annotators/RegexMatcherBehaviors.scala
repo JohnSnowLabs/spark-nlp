@@ -21,9 +21,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
     "A RegexMatcher Annotator with custom rules" should s"successfuly match ${rules.map(_._1).mkString(",")}" in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
-        assert(a.metadata.values.forall(m => {
-          Seq("followed by 'the'", "ceremony").contains(m)
-        }))
+        assert(Seq("followed by 'the'", "ceremony").contains(a.metadata("identifier")))
       }
     }
 
