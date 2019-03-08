@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntParam
@@ -63,9 +62,6 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
     val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
     trainDependencies.startTraining()
-    val trainParameters = TrainParameters(trainDependencies.getOptions,
-                                          trainDependencies.getParameters,
-                                          trainDependencies.getDependencyPipe)
 
     val dictionaries = trainDependencies.getDependencyPipe.getDictionariesSet.getDictionaries
 
@@ -74,7 +70,8 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
     new TypedDependencyParserModel()
-      .setModel(trainParameters)
+      .setOptions(trainDependencies.getOptions)
+      .setDependencyPipe(trainDependencies.getDependencyPipe)
   }
 
   def validateTrainingFiles(): Unit = {

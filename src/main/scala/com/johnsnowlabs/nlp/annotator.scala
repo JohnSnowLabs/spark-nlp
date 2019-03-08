@@ -107,6 +107,6 @@ object annotator {
   type TypedDependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach
   object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]
   type TypedDependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
-  object TypedDependencyParserModel extends DefaultParamsReadable[TypedDependencyParserModel]
+  object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel]
 
 }

@@ -5,9 +5,9 @@ import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 
 class
 TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
@@ -17,13 +17,16 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   override val annotatorType: String = LABELED_DEPENDENCY
   override val requiredAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
-  val model: StructFeature[TrainParameters] = new StructFeature[TrainParameters](this, "TDP model")
+  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "TDP options")
+  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "TDP parameters")
+  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "TDP dependency pipe")
 
-  def setModel(targetModel: TrainParameters): this.type = set(model, targetModel)
+  def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
+  def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
 
-  private lazy val options = $$(model).options
-  private lazy val parameters = $$(model).parameters
-  private lazy val dependencyPipe = $$(model).dependencyPipe
+  private lazy val options = $$(trainOptions)
+  private lazy val dependencyPipe = $$(trainDependencyPipe)
+  private lazy val parameters = new Parameters(dependencyPipe, options)
 
   var sentenceId = 1
 
@@ -145,4 +148,4 @@ trait PretrainedTypedDependencyParserModel {
     ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remoteLoc)
 }
 
-object TypedDependencyParserModel extends DefaultParamsReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
+object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
