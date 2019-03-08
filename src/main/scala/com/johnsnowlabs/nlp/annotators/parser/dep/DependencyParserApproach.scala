@@ -40,9 +40,9 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def getNumberOfIterations: Int = $(numberOfIterations)
 
-  override val annotatorType:String = DEPENDENCY
+  override val outputAnnotatorType:String = DEPENDENCY
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
+  override val inputAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
   private lazy val filesContentTreeBank = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
   private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))

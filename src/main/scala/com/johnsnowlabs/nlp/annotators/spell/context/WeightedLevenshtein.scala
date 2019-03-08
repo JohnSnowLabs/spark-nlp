@@ -76,11 +76,12 @@ trait WeightedLevenshtein {
   def backTrack(dist: Array[Array[Float]], s2:String, s1:String,
                 j:Int, i:Int, acc:Seq[(String, String)]): Seq[(String, String)]= {
 
-    if (s2(j-1) == s1(i-1))
-      if(j==1 && i==1)
-         acc
-        else
+    if (s2(j-1) == s1(i-1)) {
+      if (j == 1 && i == 1)
+        acc
+      else
         backTrack(dist, s2, s1, j - 1, i - 1, acc)
+    }
     else {
       val pSteps = Map(dist(j - 1)(i) -> ("", s2(j - 1).toString, j - 1, i),
         dist(j)(i - 1) -> (s1(i - 1).toString, "", j, i - 1),

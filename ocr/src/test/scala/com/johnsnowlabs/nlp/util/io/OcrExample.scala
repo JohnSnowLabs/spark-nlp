@@ -1,14 +1,12 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io.File
-
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.util.OcrMetrics
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import javax.imageio.ImageIO
-
 import scala.io.Source
 
 
@@ -45,6 +43,21 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     assert(score(correct, normal) < score(correct, skewCorrected))
   }
 
+  "OcrHelper" should "correctly handle PDFs with multiple images" in {
+
+    val spark = getSpark
+    OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    OcrHelper.setSplitPages(false)
+
+    val multiple = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple").
+      select("text").collect.map(_.getString(0)).mkString
+
+    val single = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
+      select("text").collect.map(_.getString(0)).mkString
+
+    assert(levenshteinDistance(multiple, single) < 100)
+
+  }
 
   "OcrExample with Spark" should "successfully create a dataset" in {
 
@@ -52,7 +65,8 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple")
+      OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
       data.show(10)
       val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
@@ -64,6 +78,20 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       println(result.mkString(","))
       succeed
   }
+
+  "OcrExample with Spark" should "successfully create a dataset - images" in {
+
+    val spark = getSpark
+    import spark.implicits._
+    OcrHelper.setSplitPages(false)
+
+    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/images/").
+      select("text").collect().mkString(" ")
+
+    val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
+    assert(levenshteinDistance(correct, data) < 10)
+  }
+
 
   "OcrExample with Spark" should "improve results when preprocessing images" in {
       val spark = getSpark

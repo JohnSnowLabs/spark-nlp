@@ -9,9 +9,8 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -50,7 +49,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalized")
       .setLowercase(lowerCase)
     val tokenized = withTokenizer(dataset)
-    normalizer.fit(dataset).transform(tokenized).show(5)
     normalizer.fit(dataset).transform(tokenized)
   }
 
@@ -60,7 +58,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalized")
       .setLowercase(false)
     val tokenized = withTokenizer(dataset)
-    normalizer.fit(dataset).transform(tokenized).show(5)
     normalizer.fit(dataset).transform(tokenized)
   }
 
@@ -73,13 +70,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullTextMatcher(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+  def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
-      .setInputCols("normalized")
+      .setInputCols(if (sbd) "sentence" else "document", "token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
-      .setOutputCol("entity")
-    val data = withFullNormalizer(
-      withTokenizer(dataset, sbd), lowerCase)
+      .setOutputCol("entity").
+      setCaseSensitive(caseSensitive)
+    val data = withTokenizer(dataset, sbd)
     entityExtractor.fit(data).transform(data)
   }
 
@@ -165,37 +162,51 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withNerCrfTagger(dataset: Dataset[Row]): Dataset[Row] = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     getNerCrfModel(dataset).transform(df)
   }
 
   def getNerCrfModel(dataset: Dataset[Row]): NerCrfModel = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     new NerCrfApproach()
-      .setInputCols("sentence", "token", "pos")
+      .setInputCols("sentence", "token", "pos", "embeddings")
       .setLabelColumn("label")
       .setMinEpochs(1)
       .setMaxEpochs(3)
-      .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.TEXT)
       .setC0(34)
       .setL2(3.0)
       .setOutputCol("ner")
       .fit(df)
   }
 
-  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+  def withGlove(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(dataset)
+
+    getGLoveEmbeddings(dataset).transform(df)
+  }
+
+  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddings = {
+    val df = withFullPOSTagger(dataset)
+
+    new WordEmbeddings()
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+  }
+
+  def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
+    val df = withGlove(dataset)
 
     getNerDLModel(dataset).transform(df)
   }
 
   def getNerDLModel(dataset: Dataset[Row]): NerDLModel = {
-    val df = withFullPOSTagger(dataset)
+    val df = withGlove(dataset)
 
     new NerDLApproach()
-      .setInputCols("sentence", "token")
+      .setInputCols("sentence", "token", "embeddings")
       .setLabelColumn("label")
       .setMaxEpochs(100)
       .setRandomSeed(0)
@@ -203,7 +214,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLr(0.1f)
       .setBatchSize(9)
       .setOutputCol("ner")
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .fit(df)
   }
 

@@ -30,17 +30,13 @@ class ChunkTokenizerTestSpec extends FlatSpec {
       .setOutputCol("token")
 
     val entityExtractor = new TextMatcher()
-      .setInputCols("token")
+      .setInputCols("sentence", "token")
       .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
 
     val chunkTokenizer = new ChunkTokenizer()
       .setInputCols("entity")
       .setOutputCol("chunk_token")
-
-    val finisher = new Finisher()
-      .setInputCols("entity", "chunk_token")
-      .setIncludeMetadata(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -56,13 +52,13 @@ class ChunkTokenizerTestSpec extends FlatSpec {
     result.show(truncate=true)
 
     result.select("entity", "chunk_token").as[(Array[Annotation], Array[Annotation])].foreach(column => {
-      val entities = column._1
+      val chunks = column._1
       val chunkTokens = column._2
-      chunkTokens.foreach{annotation => {
-        val index = annotation.metadata("sentence").toInt
-        require(entities.apply(index).result.contains(annotation.result), s"because ${entities(index)} does not contain ${annotation.result}")
+      chunkTokens.foreach{chunkToken => {
+        val index = chunkToken.metadata("chunk").toInt
+        require(chunks.apply(index).result.contains(chunkToken.result), s"because ${chunks(index)} does not contain ${chunkToken.result}")
       }}
-      require(chunkTokens.flatMap(_.metadata.values).distinct.length == entities.length, s"because amount of chunks ${entities.length} does not equal to amount of token belongers")
+      require(chunkTokens.flatMap(_.metadata.values).distinct.length == chunks.length, s"because amount of chunks ${chunks.length} does not equal to amount of token belongers")
     })
 
     succeed

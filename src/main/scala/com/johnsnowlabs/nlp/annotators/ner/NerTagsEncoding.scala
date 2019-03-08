@@ -18,7 +18,7 @@ object NerTagsEncoding {
     * @param doc Source doc text
     * @return Extracted Named Entities
     */
-  def fromIOB(sentence: NerTaggedSentence, doc: Annotation): Seq[NamedEntity] = {
+  def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0): Seq[NamedEntity] = {
     val result = ArrayBuffer[NamedEntity]()
 
     val words = sentence.words.length
@@ -33,7 +33,8 @@ object NerTagsEncoding {
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,
         lastTag.get,
-        doc.result.substring(start, end + 1)
+        doc.result.substring(start, end + 1),
+        sentenceIndex.toString
       )
 
       result.append(entity)
@@ -61,4 +62,4 @@ object NerTagsEncoding {
 
 }
 
-case class NamedEntity(start: Int, end: Int, entity: String, text: String)
+case class NamedEntity(start: Int, end: Int, entity: String, text: String, sentenceId: String)

@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.Image
+import java.awt.{Color, Image}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
-
+import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
 import net.sourceforge.tess4j.Tesseract
@@ -52,12 +52,14 @@ object Kernels {
 object OCRMethod {
   val TEXT_LAYER = "text"
   val IMAGE_LAYER = "image"
+  val IMAGE_FILE = "image_file"
 }
 
 
 object OcrHelper extends ImageProcessing {
 
   private val logger = LoggerFactory.getLogger("OcrHelper")
+  private val imageFormats = Seq(".png", ".jpg")
 
   @transient
   private var tesseractAPI : Tesseract = _
@@ -158,18 +160,21 @@ object OcrHelper extends ImageProcessing {
   def createDataset(spark: SparkSession, inputPath: String): Dataset[OcrRow] = {
     import spark.implicits._
     val sc = spark.sparkContext
-
     val files = sc.binaryFiles(inputPath)
-    files.flatMap {case (fileName, stream) =>
-      doOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
-    }.filter(_.text.nonEmpty).toDS
+    files.flatMap {
+      // here we handle images directly
+      case (fileName, stream) if imageFormats.exists(fileName.endsWith)=>
+          doImageOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
 
+      case (fileName, stream) =>
+          doPDFOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+    }.filter(_.text.nonEmpty).toDS
   }
 
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doOcr(stream).map{case (_, region, _) => (fileName, region)}
+      doPDFOcr(stream).map{case (_, region, _) => (fileName, region)}
     }.filter(_._2.nonEmpty).toMap
   }
 
@@ -252,7 +257,6 @@ object OcrHelper extends ImageProcessing {
     dest
   }
 
-
   def fromUnsigned(byte:Byte): Int = {
     if (byte > 0)
       byte
@@ -267,13 +271,38 @@ object OcrHelper extends ImageProcessing {
       (integer - 255).toByte
   }
 
-  private def tesseractMethod(
-                               pdfDoc: PDDocument,
-                               startPage: Int,
-                               endPage: Int): Option[Seq[String]] = {
-    import scala.collection.JavaConversions._
 
-    val renderedImages = getImageFromPDF(pdfDoc, startPage - 1, endPage - 1)
+  def binarize(bi: BufferedImage):BufferedImage = {
+
+    // convert to grayscale
+    val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
+    val g = gray.createGraphics()
+    g.drawImage(bi, 0, 0, null)
+    g.dispose()
+
+    // init
+    val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
+    val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+
+    // handle the unsigned type
+    val converted = inputData.map(fromUnsigned)
+
+    // convolution and nonlinear op (minimum)
+    outputData.indices.par.foreach { idx =>
+      if (converted(idx) < 170) {
+        outputData(idx) = fromSigned(2)
+
+      }
+      else
+        outputData(idx) = fromSigned(250)
+    }
+    dest
+  }
+
+  // TODO: Sequence return type should be enough
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = this.synchronized {
+    import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.flatMap(render => {
       val image = PlanarImage.wrapRenderedImage(render)
@@ -284,7 +313,7 @@ object OcrHelper extends ImageProcessing {
       }}.getOrElse(image.getAsBufferedImage)
 
       // rescale if factor provided
-      val scaledImage = scalingFactor.map { factor =>
+      var scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
       }.getOrElse(skewCorrected)
 
@@ -312,8 +341,8 @@ object OcrHelper extends ImageProcessing {
     if (splitPages)
       Option(imageRegions)
     else
+      // this merges regions across multiple images
       Option(Seq(imageRegions.mkString(System.lineSeparator())))
-
 
   }
 
@@ -323,13 +352,13 @@ object OcrHelper extends ImageProcessing {
 
   }
 
-  private def pageOcr(tesseract: Tesseract, pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
+  private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
 
     var decidedMethod = preferredMethod
 
     val result = preferredMethod match {
 
-      case OCRMethod.IMAGE_LAYER => tesseractMethod(pdfDoc, startPage, endPage)
+      case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
         .map(_.map(_.trim))
         .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
@@ -337,7 +366,7 @@ object OcrHelper extends ImageProcessing {
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
         .map(_.map(_.trim))
         .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(pdfDoc, startPage, endPage)} else None)
+        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
@@ -350,20 +379,18 @@ object OcrHelper extends ImageProcessing {
    * returns sequence of (pageNumber:Int, textRegion:String)
    *
    * */
-  private def doOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
+  private def doPDFOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
     val pdfDoc = PDDocument.load(fileStream)
     val numPages = pdfDoc.getNumberOfPages
-    val tesseract = initTesseract()
 
     require(numPages >= 1, "pdf input stream cannot be empty")
 
-    /* try to extract a text layer from each page, default to OCR if not present */
     val result = if (splitPages) {
       Range(1, numPages + 1).flatMap { pageNum =>
-        pageOcr(tesseract, pdfDoc, pageNum, pageNum)
+        pageOcr(pdfDoc, pageNum, pageNum)
       }
     } else {
-      pageOcr(tesseract, pdfDoc, 1, numPages)
+      pageOcr(pdfDoc, 1, numPages)
     }
 
     /* TODO: beware PDF box may have a potential memory leak according to,
@@ -371,6 +398,14 @@ object OcrHelper extends ImageProcessing {
      */
     pdfDoc.close()
     result
+  }
+
+  private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
+    val image = ImageIO.read(fileStream)
+    tesseractMethod(Seq(image)).map { _.map { region =>
+         (1, region, OCRMethod.IMAGE_FILE)
+       }
+    }.getOrElse(Seq.empty)
   }
 
   /*
@@ -384,39 +419,12 @@ object OcrHelper extends ImageProcessing {
     Seq(pdfTextStripper.getText(document))
   }
 
-  /* TODO refactor, assuming single image */
-  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[RenderedImage] = {
+  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[BufferedImage] = {
     import scala.collection.JavaConversions._
     Range(startPage, endPage + 1).flatMap(numPage => {
       val page = document.getPage(numPage)
-      getImagesFromResources(page.getResources).headOption
+      val multiImage = new MultiImagePDFPage(page)
+      multiImage.getMergedImages
     })
-  }
-
-  private def getImagesFromResources(resources: PDResources): java.util.ArrayList[RenderedImage]= {
-    val images = new java.util.ArrayList[RenderedImage]
-    import scala.collection.JavaConversions._
-    for (xObjectName <- resources.getXObjectNames) {
-      val xObject = resources.getXObject(xObjectName)
-      xObject match {
-        case _: PDFormXObject => images.addAll(getImagesFromResources(xObject.asInstanceOf[PDFormXObject].getResources))
-        case _: PDImageXObject => images.add(xObject.asInstanceOf[PDImageXObject].getImage)
-        case _ =>
-      }
-    }
-    images
-  }
-
-  def toBufferedImage(img: Image): BufferedImage = {
-    if (img.isInstanceOf[BufferedImage]) return img.asInstanceOf[BufferedImage]
-
-    // Create a buffered image with transparency
-    val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
-    // Draw the image on to the buffered image
-    val bGr = bimage.createGraphics
-    bGr.drawImage(img, 0, 0, null)
-    bGr.dispose()
-    // Return the buffered image
-    bimage
   }
 }

@@ -11,7 +11,7 @@ class StemmerTestSpec extends FlatSpec with StemmerBehaviors {
 
   val stemmer = new Stemmer
   "a Stemmer" should s"be of type ${AnnotatorType.TOKEN}" in {
-    assert(stemmer.annotatorType == AnnotatorType.TOKEN)
+    assert(stemmer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
   val englishPhraseData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.englishPhrase)

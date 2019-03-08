@@ -3,6 +3,9 @@ package com.johnsnowlabs.nlp
 object AnnotatorType {
   val DOCUMENT = "document"
   val TOKEN = "token"
+  val TOKEN_CHUNK = "token_chunk"
+  val WORDPIECE = "wordpiece"
+  val WORD_EMBEDDINGS = "word_embeddings"
   val DATE = "date"
   val ENTITY = "entity"
   val SENTIMENT = "sentiment"
