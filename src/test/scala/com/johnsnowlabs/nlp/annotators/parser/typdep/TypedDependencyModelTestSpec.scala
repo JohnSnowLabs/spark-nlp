@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
+import java.nio.file.{Files, Paths}
+
 import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
@@ -11,6 +13,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
+import org.apache.spark.ml.util.MLWriter
 
 class TypedDependencyModelTestSpec extends FlatSpec {
 
@@ -73,8 +76,47 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     DependencyParserModel.read.load(path)
   }
 
+  def trainTypedDependencyParserModel(): TypedDependencyParserModel = {
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+    model.stages.last.asInstanceOf[TypedDependencyParserModel]
+  }
+
+  def saveModel(model: MLWriter, modelFilePath: String): Unit = {
+    model.overwrite().save(modelFilePath)
+    assertResult(true){
+      Files.exists(Paths.get(modelFilePath))
+    }
+  }
+
+  "A typed dependency parser model" should "save a trained model to local disk" in {
+    //val typedDependencyParserModel = trainTypedDependencyParserModel()
+    val typedDependencyParser = new TypedDependencyParserApproach()
+      .setInputCols(Array("sentence", "pos", "token"))
+      .setOutputCol("dependency")
+      .setConllU("src/test/resources/parser/labeled/conll/train_really_small.txt")
+      .setNumberOfIterations(10)
+
+    val typedDependencyParserModel = typedDependencyParser.fit(emptyDataSet)
+    saveModel(typedDependencyParserModel.write, "./tmp_tdp_model")
+  }
+
+  it should "load a pre-trained model from disk" in {
+    val typedDependencyParserModel = TypedDependencyParserModel.read.load("./tmp_tdp_model")
+    assert(typedDependencyParserModel.isInstanceOf[TypedDependencyParserModel])
+  }
+
   "A typed dependency parser model with a sentence input" should
-    "predict a labeled relationship between words in the sentence" ignore {
+    "predict a labeled relationship between words in the sentence" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -112,7 +154,6 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         dependencyParser,
         typedDependencyParserConllU
       ))
-    "pruebas".contains()
     val model = pipeline.fit(emptyDataSet)
     val typedDependencyParserModel = model.stages.last.asInstanceOf[TypedDependencyParserModel]
     val sentence = "I saw a girl with a telescope"
@@ -276,31 +317,10 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   "A pre-trained typed dependency parser" should "find relationships between words" in {
 
-    import com.johnsnowlabs.nlp.annotator.PerceptronModel
+    //val testDataSet = Seq("The most troublesome report may be the August merchandise trade deficit due out tomorrow").toDS.toDF("text")
 
-    val testDataSet = Seq("The most troublesome report may be the August merchandise trade deficit due out tomorrow").toDS.toDF("text")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentenceDetector = new SentenceDetector()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
-
-    val posTagger = PerceptronModel.pretrained()
-      .setInputCols("document", "token")
-      .setOutputCol("pos")
-
-    val dependencyParser = DependencyParserModel.pretrained()
-      .setInputCols(Array("sentence", "pos", "token"))
-      .setOutputCol("dependency")
-
-    val typedDependencyParser = TypedDependencyParserModel.pretrained()
+    val serializedModelPath = "./tmp_tdp_model"
+    val typedDependencyParser = TypedDependencyParserModel.read.load(serializedModelPath)
       .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
 
@@ -313,12 +333,12 @@ class TypedDependencyModelTestSpec extends FlatSpec {
         dependencyParser,
         typedDependencyParser
       ))
-
     val typedDependencyParserModel = pipeline.fit(emptyDataSet)
+    val sentence = "I saw a girl with a telescope"
+    val testDataSet = Seq(sentence).toDS.toDF("text")
 
     val typedDependencyParserDataFrame = typedDependencyParserModel.transform(testDataSet)
-
-    typedDependencyParserDataFrame.show()
+    typedDependencyParserDataFrame.show(false)
 
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
