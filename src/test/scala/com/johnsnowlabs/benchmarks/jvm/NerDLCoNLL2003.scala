@@ -80,13 +80,13 @@ object NerDLCoNLL2003 extends App {
       Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
     source.flatMap{s =>
-      s.nerTagged.map { sentence =>
+      s.nerTagged.zipWithIndex.map { case (sentence, idx) =>
         val tokens = sentence.indexedTaggedWords.map {t =>
           TokenPieceEmbeddings(t.word, t.word, -1, true,
             embeddings.getEmbeddingsVector(t.word),
             t.begin, t.end)
         }
-        val tokenized = WordpieceEmbeddingsSentence(tokens)
+        val tokenized = WordpieceEmbeddingsSentence(tokens, idx)
         val labels = TextSentenceLabels(sentence.tags)
 
         (labels, tokenized)

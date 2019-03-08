@@ -22,7 +22,7 @@ class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter
 
 trait ParamsAndFeaturesWritable extends DefaultParamsWritable with Params with HasFeatures {
 
-  def onWrite(path: String, spark: SparkSession): Unit = {}
+  protected def onWrite(path: String, spark: SparkSession): Unit = {}
 
   override def write: MLWriter = {
     new FeaturesWriter(

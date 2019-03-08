@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
 
-private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
+private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
@@ -60,10 +60,10 @@ private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
       .filter(c => !isToFilter(c))
       .mkString("")
 
-    if (lowerCase)
-      result.toLowerCase
-    else
+    if (caseSensitive)
       result
+    else
+      result.toLowerCase
   }
 
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
