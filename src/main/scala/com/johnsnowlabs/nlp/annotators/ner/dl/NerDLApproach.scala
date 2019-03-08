@@ -8,6 +8,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -119,7 +120,9 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      if (name.startsWith("blstm_")) {
+      val graphPrefix = if (SystemUtils.IS_OS_WINDOWS) "blstm-noncontrib_" else "blstm_"
+
+      if (name.startsWith(graphPrefix)) {
         val clean = name.replace("blstm_", "").replace(".pb", "")
         val graphParams = clean.split("_").take(4).map(s => s.toInt)
         val Array(fileTags, fileEmbeddingsNDims, _, fileNChars) = graphParams

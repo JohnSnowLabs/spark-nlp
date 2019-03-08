@@ -7,6 +7,7 @@ import java.util.UUID
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.commons.lang.SystemUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import org.tensorflow.TensorFlowException
@@ -110,26 +111,32 @@ object TensorflowWrapper {
         logger.info("Problem with loading graph. Trying to add .so library")
         val os = System.getProperty("os.name").toLowerCase()
         logger.debug("os name: "+os)
-        val (path1, path2): (String, String) =
-          if (os.contains("mac")) {
-            ("ner-dl/mac/_sparse_feature_cross_op.so", "ner-dl/mac/_lstm_ops.so")
-          } else if (os.contains("nix") || os.contains("nux") || os.contains("aux")) {
-            ("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so")
+        val paths: Option[(String, String)] =
+          if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
+            Some(("ner-dl/mac/_sparse_feature_cross_op.so", "ner-dl/mac/_lstm_ops.so"))
+          } else if (SystemUtils.IS_OS_WINDOWS) {
+            None
           } else {
-            throw new UnsupportedOperationException(s"$os not supported in this annotator. Please report it.")
+            Some(("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so"))
           }
 
-        val resource = ResourceHelper.copyResourceToTmp(path1)
-        TensorFlow.loadLibrary(resource.getPath)
-        resource.delete()
+        if (paths.isDefined) {
 
-        val resource2 = ResourceHelper.copyResourceToTmp(path2)
-        TensorFlow.loadLibrary(resource2.getPath)
-        resource2.delete()
+          val resource = ResourceHelper.copyResourceToTmp(paths.get._1)
+          TensorFlow.loadLibrary(resource.getPath)
+          resource.delete()
 
-        logger.info("Added .so library")
+          val resource2 = ResourceHelper.copyResourceToTmp(paths.get._2)
+          TensorFlow.loadLibrary(resource2.getPath)
+          resource2.delete()
 
-        val graph = readGraph(graphFile, false)
+          logger.info("Added contrib .so library")
+        } else {
+          logger.info("Windows detected. Using noncontrib files")
+          logger.warn("Using NON-contrib DL graphs due to Windows OS. Accuracy may be lower than optimal. (Fix me)")
+        }
+
+        val graph = readGraph(graphFile, handleException=false)
 
         logger.info("Graph loaded")
 
