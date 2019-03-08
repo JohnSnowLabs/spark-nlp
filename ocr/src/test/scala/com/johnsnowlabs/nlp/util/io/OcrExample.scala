@@ -1,19 +1,16 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io.File
-
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.util.OcrMetrics
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import javax.imageio.ImageIO
-
 import scala.io.Source
 
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
-
 
   "Sign convertions" should "map all the values back and forwards" in {
     (-128 to 127).map(_.toByte).foreach { b=>
@@ -81,6 +78,20 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       println(result.mkString(","))
       succeed
   }
+
+  "OcrExample with Spark" should "successfully create a dataset - images" in {
+
+    val spark = getSpark
+    import spark.implicits._
+    OcrHelper.setSplitPages(false)
+
+    val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/images/").
+      select("text").collect().mkString(" ")
+
+    val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
+    assert(levenshteinDistance(correct, data) < 10)
+  }
+
 
   "OcrExample with Spark" should "improve results when preprocessing images" in {
       val spark = getSpark
