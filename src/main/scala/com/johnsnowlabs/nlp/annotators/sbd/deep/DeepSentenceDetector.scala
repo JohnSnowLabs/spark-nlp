@@ -43,12 +43,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     if ($(includesPragmaticSegmenter)) {
 
       val document = getDocument(annotations)
-      val pragmaticSegmentedSentences = new SentenceDetector()
+      val pragmaticSentenceDetector = new SentenceDetector()
         .setUseAbbreviations($(useAbbrevations))
         .setUseCustomBoundsOnly($(useCustomBoundsOnly))
-        .setMaxLength($(maxLength))
         .setCustomBounds($(customBounds))
-        .annotate(document)
+      if (get(maxLength).isDefined) pragmaticSentenceDetector.setMaxLength($(maxLength))
+      val pragmaticSegmentedSentences = pragmaticSentenceDetector.annotate(document)
       val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
       if (unpunctuatedSentences.isEmpty) {
@@ -148,18 +148,22 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         }
       }
       var currentStart = segmentedSentence.start
-      val annotatedSentenceWithLimit = segmentedSentence.content.grouped($(maxLength)).map{limitedSentence => {
-        val currentEnd = currentStart + limitedSentence.length - 1
-        val result = Annotation(
-          outputAnnotatorType,
-          currentStart,
-          currentEnd,
-          limitedSentence,
-          Map("sentence" -> sentenceIndex.toString)
-        )
-        currentStart = currentEnd + 1
-        sentenceIndex += 1
-        result
+      val annotatedSentenceWithLimit = get(maxLength)
+        .map(maxLength => truncateSentence(segmentedSentence.content, maxLength))
+        .getOrElse(Array(segmentedSentence.content))
+        .map{truncatedSentence => {
+          val currentEnd = currentStart + truncatedSentence.length - 1
+          val result = Annotation(
+            outputAnnotatorType,
+            currentStart,
+            currentEnd,
+            truncatedSentence,
+            Map("sentence" -> sentenceIndex.toString)
+          )
+          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+          currentStart = currentEnd + 2
+          sentenceIndex += 1
+          result
       }}
       annotatedSentenceWithLimit
     }
