@@ -26,11 +26,11 @@ sys.modules['com.johnsnowlabs.nlp.annotators.embeddings'] = annotator
 annotators = annotator
 
 
-def session():
+def start():
     return SparkSession.builder \
         .appName("spark-nlp") \
         .master("local[*]") \
         .config("spark.driver.memory", "4G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:1.8.2") \
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:1.8.3") \
         .getOrCreate()
