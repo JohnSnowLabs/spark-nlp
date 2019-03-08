@@ -12,12 +12,10 @@ import org.tensorflow._
 import org.tensorflow.TensorFlowException
 
 
-class TensorflowWrapper
-(
+class TensorflowWrapper(
   var session: Session,
   var graph: Graph
 ) extends Serializable {
-
 
   /** For Deserialization */
   def this() = {
@@ -107,7 +105,7 @@ object TensorflowWrapper {
       graph
     }
     catch {
-      case ex: TensorFlowException => {
+      case _: TensorFlowException =>
         // trying to add library
         logger.info("Problem with loading graph. Trying to add .so library")
         val os = System.getProperty("os.name").toLowerCase()
@@ -118,31 +116,26 @@ object TensorflowWrapper {
           } else if (os.contains("nix") || os.contains("nux") || os.contains("aux")) {
             ("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so")
           } else {
-            ("", "")
+            throw new UnsupportedOperationException(s"$os not supported in this annotator. Please report it.")
           }
-        if (!path1.equals("")) {
 
-          val resource = ResourceHelper.copyResourceToTmp(path1)
-          TensorFlow.loadLibrary(resource.getPath)
-          resource.delete()
+        val resource = ResourceHelper.copyResourceToTmp(path1)
+        TensorFlow.loadLibrary(resource.getPath)
+        resource.delete()
 
-          val resource2 = ResourceHelper.copyResourceToTmp(path2)
-          TensorFlow.loadLibrary(resource2.getPath)
-          resource2.delete()
+        val resource2 = ResourceHelper.copyResourceToTmp(path2)
+        TensorFlow.loadLibrary(resource2.getPath)
+        resource2.delete()
 
-          logger.info("Added .so library")
-        }
-
+        logger.info("Added .so library")
 
         val graph = readGraph(graphFile, false)
 
         logger.info("Graph loaded")
 
         graph
-      }
     }
   }
-
 
   def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
     val t = new TensorResources()
