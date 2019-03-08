@@ -24,9 +24,9 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   lazy val model: PragmaticScorer =
     new PragmaticScorer($$(sentimentDict), $(positiveMultiplier), $(negativeMultiplier), $(incrementMultiplier), $(decrementMultiplier), $(reverseMultiplier))
 
-  override val annotatorType: AnnotatorType = SENTIMENT
+  override val outputAnnotatorType: AnnotatorType = SENTIMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
@@ -58,7 +58,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
     val score = model.score(tokenizedSentences.toArray)
 
     Seq(Annotation(
-      annotatorType,
+      outputAnnotatorType,
       0,
       0,
       { if (score >= 0) "positive" else "negative"},

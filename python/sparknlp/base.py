@@ -114,12 +114,13 @@ class JavaRecursiveEstimator(JavaEstimator):
 
 
 class Annotation:
-    def __init__(self, annotator_type, begin, end, result, metadata):
+    def __init__(self, annotator_type, begin, end, result, metadata, calculations = {}):
         self.annotator_type = annotator_type
         self.begin = begin
         self.end = end
         self.result = result
         self.metadata = metadata
+        self.calculations = calculations
 
 
 class LightPipeline:
@@ -134,7 +135,8 @@ class LightPipeline:
                                           annotation.begin(),
                                           annotation.end(),
                                           annotation.result(),
-                                          dict(annotation.metadata()))
+                                          dict(annotation.metadata()),
+                                          dict(annotation.calculations()))
                                )
         return annotations
 
@@ -210,6 +212,7 @@ class DocumentAssembler(AnnotatorTransformer):
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
+    calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
     trimAndClearNewLines = Param(Params._dummy(), "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces", typeConverter=TypeConverters.toBoolean)
     name = 'DocumentAssembler'
 
@@ -234,6 +237,10 @@ class DocumentAssembler(AnnotatorTransformer):
 
     def setMetadataCol(self, value):
         return self._set(metadataCol=value)
+
+    def setCalculationsCol(self, value):
+        return self._set(metadataCol=value)
+
 
     def setTrimAndClearNewLines(self, value):
         return self._set(trimAndClearNewLines=value)

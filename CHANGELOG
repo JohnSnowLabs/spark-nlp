@@ -1,4 +1,46 @@
 ========
+1.8.3
+========
+---------------
+Overview
+---------------
+We're glad to announce a new release for Spark NLP. This one calls the attention of the community who contributed
+immensely towards reporting bugs and feedback to the library. This release focuses in various bugfixes around DeepSentenceDetector
+and also python deserialization of some specific pipelines. It also improves the DeepSentenceDetector allowing further fine-tuning
+and customization. Then, we have embeddings that are being cached in the models folder, and further improvements towards accessing
+them through S3 storage. Finally, we have made serious improvements in noteoboks and documentation around the library.
+Special thanks to @Tshimanga and @haimco10 for very interesting contributions. See you on Slack!
+
+---------------
+Enhancements
+---------------
+* Improved OCR performance in skew detection
+* SentenceDetector now better handles single quote protections (Thanks @haimco10)
+* DeepSentenceDetector now can explodeSentences (Thanks @Tshimanga from Deep6.ai)
+* EmbeddingsHelper now is capable of caching downloaded embeddings to avoid re-downloading
+* Application.conf file may now be read from an s3 location
+* DeepSentenceDetector has now access to all pragmatic SentenceDetector params in order to fine-tune it
+
+---------------
+Bugfixes
+---------------
+* Fixed ambiguous classpath resolution in pyspark, causing errors in deserializing some models
+* Fixed DeepSentenceDetector not being deserializable in PySpark
+* Fixed Chunk2Doc and Doc2Chunk annotators not being loadable in PySpark
+* Fixed a bug where DeepSentenceDetector wouldn't corrent denote start and end offsets (Thanks @Tshimanga from Deep6.ai)
+* Fixed a bug where DeepSentenceDetector would miss sentence parts when NER model missed header sentence (Thanks @Tshimanga from Deep6.ai)
+* Cleaned and optimized DeepSentenceDetector code (Thanks @danilojsl)
+* Fixed a missing dependency for OCR
+
+---------------
+Documentation and notebooks
+---------------
+* Added support and instructions for Anaconda deployment (Thanks @Maziyar)
+* Updated various python notebooks to show utilization of spark packages instead of jars
+* Added a new conference talk with Spark NLP in French at XebiCon'18
+* Updated documentation towards less use of jars in favor of dependency solving
+
+========
 1.8.2
 ========
 ---------------
@@ -33,7 +75,7 @@ Bugfixes
 Framework
 ---------------
 * Added missing artifact resolution dependencies for OCR Module
-* Started adding and organizing multilanguage models (Thanks @Maziyar)
+* Started adding and organizing multilanguage models (Thanks @maziyarpanahi)
 * Updated RocksDB to 5.17.2
 
 ========

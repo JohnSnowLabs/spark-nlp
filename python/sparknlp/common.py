@@ -37,11 +37,6 @@ class ApproachWithEmbeddings(Params):
                                     "whether to ignore case in tokens for embeddings matching",
                                     typeConverter=TypeConverters.toBoolean)
 
-    includeEmbeddings = Param(Params._dummy(),
-                              "includeEmbeddings",
-                              "whether to include embeddings when saving annotator",
-                              typeConverter=TypeConverters.toBoolean)
-
     embeddingsRef = Param(Params._dummy(),
                           "embeddingsRef",
                           "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
@@ -56,28 +51,12 @@ class ApproachWithEmbeddings(Params):
                              "Word vectors file format",
                              typeConverter=TypeConverters.toInt)
 
-    def setEmbeddingsSource(self, path, nDims, format):
-        self._set(sourceEmbeddingsPath=path)
-        self._set(embeddingsFormat=format)
-        return self._set(embeddingsDim=nDims)
 
-    def setEmbeddingsDim(self, value):
-        return self._set(embeddingsDim=value)
-
-    def setCaseSensitiveEmbeddings(self, value):
-        return self._set(caseSensitiveEmbeddings=value)
-
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
-
-    def setEmbeddingsRef(self, value):
-        return self._set(embeddingsRef=value)
 
     def __init__(self):
         super(ApproachWithEmbeddings, self).__init__()
         self._setDefault(
             caseSensitiveEmbeddings=False,
-            includeEmbeddings=True,
             embeddingsRef=self.uid
         )
 
@@ -136,34 +115,22 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
             self._transfer_params_from_java()
 
 
-class ModelWithEmbeddings(AnnotatorModel):
+class HasEmbeddings(Params):
+    dimension = Param(Params._dummy(),
+                      "dimension",
+                      "Number of embedding dimensions",
+                      typeConverter=TypeConverters.toInt)
 
-    embeddingsDim = Param(Params._dummy(),
-                          "embeddingsDim",
-                          "Number of embedding dimensions",
-                          typeConverter=TypeConverters.toInt)
+    caseSensitive = Param(Params._dummy(),
+                                "caseSensitive",
+                                "whether to ignore case in tokens for embeddings matching",
+                                typeConverter=TypeConverters.toBoolean)
 
-    caseSensitiveEmbeddings = Param(Params._dummy(),
-                                    "caseSensitiveEmbeddings",
-                                    "whether to ignore case in tokens for embeddings matching",
-                                    typeConverter=TypeConverters.toBoolean)
+    def setDimension(self, value):
+        return self._set(embeddingsDim=value)
 
-    includeEmbeddings = Param(Params._dummy(),
-                              "includeEmbeddings",
-                              "whether to include embeddings when saving annotator",
-                              typeConverter=TypeConverters.toBoolean)
-
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
-
-    @keyword_only
-    def __init__(self, classname, java_model=None):
-        super(ModelWithEmbeddings, self).__init__(classname=classname, java_model=java_model)
-
-    def getClusterEmbeddings(self):
-        return self._java_obj.getClusterEmbeddings()
+    def setCaseSensitive(self, value):
+        return self._set(setCaseSensitive=value)
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,
