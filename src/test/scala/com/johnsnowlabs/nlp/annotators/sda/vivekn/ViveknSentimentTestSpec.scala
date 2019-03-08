@@ -12,27 +12,58 @@ import org.scalatest._
 
 class ViveknSentimentTestSpec extends FlatSpec {
 
-  "an spark vivekn sentiment analysis annotator" should "process a dataframe successfully" in {
-    val results = Map(
-      "amazing voice acting" -> "positive",
-      "horrible staff" -> "negative",
-      "very bad" -> "negative",
-      "simply fantastic" -> "positive",
-      "incredible!!" -> "positive"
-    )
-    val data = DataBuilder.basicDataBuild(
-      results.keys.toSeq: _*
-    )
+  "A ViveknSentiment" should "should be trained by DataFrame" in {
+    import SparkAccessor.spark.implicits._
 
-    AnnotatorBuilder.withViveknSentimentAnalysis(data)
-      .select("text", "vivekn")
-      .collect().foreach { row => {
-      val content = row.getString(0)
-      val sentiments = row.getSeq[Row](1).map(Annotation(_).result)
-      assert(sentiments.length == 1, "because sentiments per sentence returned more or less than one result?")
-      assert(sentiments.head == results(content), s"because text $content returned ${sentiments.head} when it was ${results(content)}")
-    }
-    }
+    val trainingDataDF = Seq(
+      ("amazing voice acting", "positive"),
+      ("horrible staff", "negative"),
+      ("very bad", "negative"),
+      ("simply fantastic", "positive"),
+      ("incredible!!", "positive")
+    ).toDF("text", "sentiment_label")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val sentimentDetector = new ViveknSentimentApproach()
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+      .setSentimentCol("sentiment_label")
+      .setCorpusPrune(0)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        sentimentDetector
+      ))
+
+    // Train ViveknSentimentApproach inside Pipeline by using DataFrame
+    val model = pipeline.fit(trainingDataDF)
+
+    // Use the same Pipeline to predict a new DataFrame
+    val testDataDF = Seq(
+      "amazing voice acting",
+      "horrible staff",
+      "very bad",
+      "simply fantastic",
+      "incredible!!",
+      "I think this movie is horrible."
+    ).toDF("text")
+
+    model.transform(testDataDF).show(20)
+    succeed
   }
 
   "A ViveknSentiment" should "work under a pipeline framework" in {
@@ -87,4 +118,30 @@ class ViveknSentimentTestSpec extends FlatSpec {
 
     succeed
   }
+
+  "an spark vivekn sentiment analysis annotator" should "process a dataframe successfully" in {
+    val results = Map(
+      "amazing voice acting" -> "positive",
+      "horrible staff" -> "negative",
+      "very bad" -> "negative",
+      "simply fantastic" -> "positive",
+      "incredible!!" -> "positive"
+    )
+    val data = DataBuilder.basicDataBuild(
+      results.keys.toSeq: _*
+    )
+
+    AnnotatorBuilder.withViveknSentimentAnalysis(data)
+      .select("text", "vivekn")
+      .collect().foreach {
+      row => {
+        val content = row.getString(0)
+        val sentiments = row.getSeq[Row](1).map(Annotation(_).result)
+        assert(sentiments.length == 1, "because sentiments per sentence returned more or less than one result?")
+        assert(sentiments.head == results(content), s"because text $content returned ${sentiments.head} when it was ${results(content)}")
+      }
+    }
+  }
+
+
 }
