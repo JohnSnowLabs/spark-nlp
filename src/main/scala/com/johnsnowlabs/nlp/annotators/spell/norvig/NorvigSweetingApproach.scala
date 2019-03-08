@@ -65,9 +65,9 @@ class NorvigSweetingApproach(override val uid: String)
                     options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("SPELL"))
 

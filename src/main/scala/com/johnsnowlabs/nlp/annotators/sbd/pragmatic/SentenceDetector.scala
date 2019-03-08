@@ -17,9 +17,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   lazy val model: PragmaticMethod =
     if ($(customBounds).nonEmpty && $(useCustomBoundsOnly))
@@ -34,12 +34,14 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
       document
     ).flatMap(sentence => {
       var currentStart = sentence.start
-      sentence.content.grouped($(maxLength)).map(limitedSentence => {
-        val currentEnd = currentStart + limitedSentence.length - 1
-        val result = Sentence(limitedSentence, currentStart, currentEnd)
-        currentStart = currentEnd + 1
-        result
-      })
+      get(maxLength).map(maxLength => truncateSentence(sentence.content, maxLength)).getOrElse(Array(sentence.content))
+        .zipWithIndex.map{ case (truncatedSentence, index) =>
+          val currentEnd = currentStart + truncatedSentence.length - 1
+          val result = Sentence(truncatedSentence, currentStart, currentEnd, index)
+          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+          currentStart = currentEnd + 2
+          result
+      }
     })
   }
 

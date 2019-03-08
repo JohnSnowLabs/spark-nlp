@@ -11,9 +11,9 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  override val annotatorType: AnnotatorType = SENTIMENT
+  override val outputAnnotatorType: AnnotatorType = SENTIMENT
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   protected val positive: MapFeature[String, Long] = new MapFeature(this, "positive_sentences")
   protected val negative: MapFeature[String, Long] = new MapFeature(this, "negative_sentences")
@@ -83,7 +83,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
     sentences.filter(s => s.indexedTokens.nonEmpty).map(sentence => {
       Annotation(
-        annotatorType,
+        outputAnnotatorType,
         sentence.indexedTokens.map(t => t.begin).min,
         sentence.indexedTokens.map(t => t.end).max,
         classify(sentence) match {

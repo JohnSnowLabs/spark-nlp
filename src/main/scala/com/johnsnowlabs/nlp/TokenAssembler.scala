@@ -10,9 +10,9 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  override val requiredAnnotatorTypes: Array[String] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 

@@ -14,8 +14,8 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
-  override val annotatorType: AnnotatorType = DOCUMENT
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
   val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter",
     "Whether to include rule-based sentence detector as first filter")
@@ -43,12 +43,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     if ($(includesPragmaticSegmenter)) {
 
       val document = getDocument(annotations)
-      val pragmaticSegmentedSentences = new SentenceDetector()
+      val pragmaticSentenceDetector = new SentenceDetector()
         .setUseAbbreviations($(useAbbrevations))
         .setUseCustomBoundsOnly($(useCustomBoundsOnly))
-        .setMaxLength($(maxLength))
         .setCustomBounds($(customBounds))
-        .annotate(document)
+      if (get(maxLength).isDefined) pragmaticSentenceDetector.setMaxLength($(maxLength))
+      val pragmaticSegmentedSentences = pragmaticSentenceDetector.annotate(document)
       val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
       if (unpunctuatedSentences.isEmpty) {
@@ -136,31 +136,35 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
     var sentenceIndex = 0
     nerEntities.flatMap{nerEntity =>
       val segmentedSentence = {
-        if (sentenceIndex != nerEntities.length - 1){
+        if (sentenceIndex < nerEntities.length - 1){
           val beginIndex = nerEntity.begin
           val endIndex = nerEntities(sentenceIndex + 1).begin - 1
           val segmentedSentence = originalText.substring(beginIndex, endIndex)
-          Sentence(segmentedSentence, beginIndex, endIndex - 1)
+          Sentence(segmentedSentence, beginIndex, endIndex - 1, sentenceIndex)
         } else {
           val beginIndex = nerEntity.begin
           val segmentedSentence = originalText.substring(beginIndex)
-          Sentence(segmentedSentence, beginIndex, originalText.length - 1)
+          Sentence(segmentedSentence, beginIndex, originalText.length - 1, sentenceIndex)
         }
       }
       var currentStart = segmentedSentence.start
-      val annotatedSentenceWithLimit = segmentedSentence.content.grouped($(maxLength)).map{limitedSentence =>
-        val currentEnd = currentStart + limitedSentence.length - 1
-        val result = Annotation(
-          annotatorType,
-          currentStart,
-          currentEnd,
-          limitedSentence,
-          Map("sentence" -> sentenceIndex.toString)
-        )
-        currentStart = currentEnd + 1
-        sentenceIndex += 1
-        result
-      }
+      val annotatedSentenceWithLimit = get(maxLength)
+        .map(maxLength => truncateSentence(segmentedSentence.content, maxLength))
+        .getOrElse(Array(segmentedSentence.content))
+        .map{truncatedSentence => {
+          val currentEnd = currentStart + truncatedSentence.length - 1
+          val result = Annotation(
+            outputAnnotatorType,
+            currentStart,
+            currentEnd,
+            truncatedSentence,
+            Map("sentence" -> sentenceIndex.toString)
+          )
+          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+          currentStart = currentEnd + 2
+          sentenceIndex += 1
+          result
+      }}
       annotatedSentenceWithLimit
     }
   }
@@ -180,12 +184,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index + 1).begin - 1
         val segmentedSentence = originalText.substring(beginIndex, endIndex)
-        Annotation(annotatorType, beginIndex, endIndex - 1, segmentedSentence, Map.empty)
+        Annotation(outputAnnotatorType, beginIndex, endIndex - 1, segmentedSentence, Map.empty)
       } else {
         val beginIndex = nerEntity.begin
         val endIndex = currentSentence.end
         val segmentedSentence = originalText.substring(beginIndex, endIndex + 1)
-        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence, Map.empty)
+        Annotation(outputAnnotatorType, beginIndex, endIndex, segmentedSentence, Map.empty)
       }
     }
   }

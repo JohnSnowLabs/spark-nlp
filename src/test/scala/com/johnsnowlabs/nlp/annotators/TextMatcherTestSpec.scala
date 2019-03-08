@@ -12,29 +12,42 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
   "An TextMatcher" should s"be of type $CHUNK" in {
     val entityExtractor = new TextMatcherModel
-    assert(entityExtractor.annotatorType == CHUNK)
+    assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
   "An TextMatcher" should "extract entities with and without sentences" in {
-    val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua Lorem ipsum dolor sit in laborum")
+    val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset)
     val resultNoSentence = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false)
-    val extracted = Annotation.collect(result, "entity").flatten.toSeq
+    val resultNoSentenceNoCase = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false, caseSensitive = false)
+    val extractedSentenced = Annotation.collect(result, "entity").flatten.toSeq
     val extractedNoSentence = Annotation.collect(resultNoSentence, "entity").flatten.toSeq
+    val extractedNoSentenceNoCase = Annotation.collect(resultNoSentenceNoCase, "entity").flatten.toSeq
 
-    val expected = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map()),
-      Annotation(CHUNK, 26, 46, "lorem ipsum dolor sit", Map()),
-      Annotation(CHUNK, 51, 57, "laborum", Map())
+    val expectedSentenced = Seq(
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "2"))
     )
 
-    assert(extracted == expected)
-    assert(extractedNoSentence == expected)
+    val expectedNoSentence = Seq(
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0"))
+    )
+
+    val expectedNoSentenceNoCase = Seq(
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
+      Annotation(CHUNK, 27, 48, "Lorem ipsum dolor. sit", Map("sentence" -> "0")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0"))
+    )
+
+    assert(extractedSentenced == expectedSentenced)
+    assert(extractedNoSentence == expectedNoSentence)
+    assert(extractedNoSentenceNoCase == expectedNoSentenceNoCase)
   }
 
   "An Entity Extractor" should "search inside sentences" in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
-    val result = AnnotatorBuilder.withFullTextMatcher(dataset, lowerCase = false)
+    val result = AnnotatorBuilder.withFullTextMatcher(dataset, caseSensitive = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
 
     assert(extracted == Seq.empty[Annotation])
@@ -56,7 +69,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
       .setOutputCol("token")
 
     val entityExtractor = new TextMatcher()
-      .setInputCols("token")
+      .setInputCols("sentence", "token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
       .setOutputCol("entity")
 
@@ -75,7 +88,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
         finisher
       ))
 
-    recursivePipeline.fit(data).transform(data).show
+    recursivePipeline.fit(data).transform(data).show(false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 

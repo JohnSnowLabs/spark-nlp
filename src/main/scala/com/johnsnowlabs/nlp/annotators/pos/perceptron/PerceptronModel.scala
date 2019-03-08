@@ -21,9 +21,9 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   val model: StructFeature[AveragedPerceptron] =
     new StructFeature[AveragedPerceptron](this, "POS Model")
 
-  override val annotatorType: AnnotatorType = POS
+  override val outputAnnotatorType: AnnotatorType = POS
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   /**
     * Tags a group of sentences into POS tagged sentences
