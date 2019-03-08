@@ -16,8 +16,8 @@ object SparkAccessor {
   val benchmarkSpark: SparkSession = SparkSession
     .builder()
     .appName("benchmark")
-    .master("local[*]")
-    .config("spark.driver.memory", "6G")
+    .master("local[1]")
+    .config("spark.driver.memory", "8G")
     .config("spark.kryoserializer.buffer.max","200M")
     .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()

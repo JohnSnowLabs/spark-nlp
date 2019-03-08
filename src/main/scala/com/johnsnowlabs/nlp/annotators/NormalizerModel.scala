@@ -9,9 +9,9 @@ import org.apache.spark.ml.util.Identifiable
 
 class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] {
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   val patterns = new StringArrayParam(this, "patterns",
     "normalization regex patterns which match will be replaced with a space")
@@ -40,10 +40,10 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   def getAnnotation(word: String, token: Annotation, finalWords: Array[String], index: Int): Annotation = {
     if (finalWords.length > 1) {
-      Annotation(annotatorType,0,word.length-1,word,Map("sentence"->index.toString))
+      Annotation(outputAnnotatorType,0,word.length-1,word,Map("sentence"->index.toString))
     } else {
       Annotation(
-        annotatorType,
+        outputAnnotatorType,
         token.begin,
         token.end,
         word,

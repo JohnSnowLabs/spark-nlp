@@ -25,9 +25,9 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   val dictionary: ExternalResourceParam = new ExternalResourceParam(this, "dictionary", "lemmatizer external dictionary." +
     " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text")
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))
 
