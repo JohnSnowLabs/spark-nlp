@@ -11,7 +11,7 @@ import scala.io.Source
 
 
 class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
-/*
+
   "Sign convertions" should "map all the values back and forwards" in {
     (-128 to 127).map(_.toByte).foreach { b=>
       assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))
@@ -43,14 +43,31 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     assert(score(correct, normal) < score(correct, skewCorrected))
   }
 
+  "OcrHelper" should "correctly handle PDFs with multiple images" in {
 
-  "OcrExample with Spark" should "successfully create a dataset - PDFs" in {
+    val spark = getSpark
+    OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    OcrHelper.setSplitPages(false)
+
+    val multiple = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple").
+      select("text").collect.map(_.getString(0)).mkString
+
+    val single = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
+      select("text").collect.map(_.getString(0)).mkString
+
+    assert(levenshteinDistance(multiple, single) < 100)
+
+  }
+
+  "OcrExample with Spark" should "successfully create a dataset" in {
 
       val spark = getSpark
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/")
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple")
+      OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+      data.show(10)
       val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
       val raw = OcrHelper.createMap("ocr/src/test/resources/pdfs/")
@@ -60,7 +77,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       assert(raw.size == 2 && result.nonEmpty)
       println(result.mkString(","))
       succeed
-  } */
+  }
 
   "OcrExample with Spark" should "successfully create a dataset - images" in {
 
@@ -91,7 +108,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
   def getSpark = {
         SparkSession.builder()
           .appName("SparkNLP-OCR-Default-Spark")
-          .master("local[1]")
+          .master("local[*]")
           .config("spark.driver.memory", "4G")
           .config("spark.driver.maxResultSize", "2G")
           .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")

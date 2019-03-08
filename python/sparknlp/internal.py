@@ -230,3 +230,8 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
         else:
             self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, target, pipeline, output_path)
 
+
+class _BertLoader(ExtendedJavaWrapper):
+    def __init__(self, path):
+        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel.loadFromPython")
+        self._java_obj = self._new_java_obj(self._java_obj, path)

@@ -1,4 +1,3 @@
-from pyspark.sql import SparkSession
 from pyspark import keyword_only
 from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
@@ -7,51 +6,6 @@ from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGettersSetters
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
-import os
-import sys
-
-
-class SparkNLP:
-
-    def __init__(self):
-
-        files_finder = SparkNLP._JarFinder('site-packages')
-        jar_path = files_finder.find_jar_path()
-
-        self.spark_session = SparkSession.builder \
-            .appName("spark-nlp") \
-            .master("local[*]") \
-            .config("spark.driver.memory", "4G") \
-            .config("spark.driver.maxResultSize", "2G") \
-            .config("spark.driver.extraClassPath", jar_path) \
-            .config("spark.kryoserializer.buffer.max", "500m") \
-            .getOrCreate()
-
-    class _JarFinder:
-
-        def __init__(self, search_word):
-            self.search_word = search_word
-            self.spark_nlp_path = '/sparknlp'
-
-        def find_jar_path(self):
-            directories = self.get_directories()
-            for directory in directories:
-                jar_path = self.get_jar_path(directory+self.spark_nlp_path)
-                if jar_path != '':
-                    return jar_path
-
-        def get_directories(self):
-            return [file_path for file_path in sys.path if file_path.endswith(self.search_word)]
-
-        def get_jar_path(self, package_path):
-            if self.package_is_in_directory(package_path):
-                return package_path+'/lib/sparknlp.jar'
-            else:
-                return ''
-
-        @staticmethod
-        def package_is_in_directory(path):
-            return os.path.isdir(path)
 
 
 class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
@@ -114,12 +68,13 @@ class JavaRecursiveEstimator(JavaEstimator):
 
 
 class Annotation:
-    def __init__(self, annotator_type, begin, end, result, metadata):
+    def __init__(self, annotator_type, begin, end, result, metadata, calculations = {}):
         self.annotator_type = annotator_type
         self.begin = begin
         self.end = end
         self.result = result
         self.metadata = metadata
+        self.calculations = calculations
 
 
 class LightPipeline:
@@ -134,7 +89,8 @@ class LightPipeline:
                                           annotation.begin(),
                                           annotation.end(),
                                           annotation.result(),
-                                          dict(annotation.metadata()))
+                                          dict(annotation.metadata()),
+                                          dict(annotation.calculations()))
                                )
         return annotations
 
@@ -210,6 +166,7 @@ class DocumentAssembler(AnnotatorTransformer):
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
+    calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
     trimAndClearNewLines = Param(Params._dummy(), "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces", typeConverter=TypeConverters.toBoolean)
     name = 'DocumentAssembler'
 
@@ -234,6 +191,10 @@ class DocumentAssembler(AnnotatorTransformer):
 
     def setMetadataCol(self, value):
         return self._set(metadataCol=value)
+
+    def setCalculationsCol(self, value):
+        return self._set(metadataCol=value)
+
 
     def setTrimAndClearNewLines(self, value):
         return self._set(trimAndClearNewLines=value)

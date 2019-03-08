@@ -17,7 +17,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
   extends Estimator[M]
     with HasInputAnnotationCols
     with HasOutputAnnotationCol
-    with HasAnnotatorType
+    with HasOutputAnnotatorType
     with DefaultParamsWritable {
 
   val description: String
@@ -47,7 +47,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
   override final def transformSchema(schema: StructType): StructType = {
     require(extraValidate(schema), extraValidateMsg)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
       StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
     StructType(outputFields)

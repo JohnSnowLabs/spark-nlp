@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.util.io
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.awt.geom.AffineTransform
 import java.io.File
-import java.awt.Color
+import java.awt.{Color, Image}
 
 
 trait ImageProcessing {
@@ -166,5 +166,33 @@ trait ImageProcessing {
     }.toMap
 
   angle_score.maxBy(_._2)._1
+  }
+
+  protected def convertToGrayScale(img: BufferedImage): BufferedImage = {
+    if(img.getType != BufferedImage.TYPE_BYTE_GRAY) {
+      val bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_BYTE_GRAY)
+      // draw the image on to the buffered image
+      val g2d = bimage.createGraphics
+      g2d.drawImage(img, 0, 0, Color.WHITE, null)
+      g2d.dispose()
+      bimage
+    }
+    else
+      img
+  }
+
+  /* convert image to grayscale bufferedImage */
+  protected def toBufferedImage(img: Image): BufferedImage = img match {
+    case image: BufferedImage =>
+      image
+    case _ =>
+      val bimage = new BufferedImage(img.getWidth(null),
+        img.getHeight(null), BufferedImage.TYPE_BYTE_GRAY)
+
+      // draw the image on to the buffered image
+      val g2d = bimage.createGraphics
+      g2d.drawImage(img, 0, 0, Color.WHITE, null)
+      g2d.dispose()
+      bimage
   }
 }
