@@ -2701,6 +2701,9 @@ documentAssembler = new DocumentAssembler()
                                                 <li>
                                                     setDependencyTreeBank: Dependency treebank source files in <a href="http://www.nltk.org/nltk_data/"> Penn Treebank format</a>
                                                 </li>
+                                                <li>
+                                                    conllU: Path to a file in <a href="https://universaldependencies.org/format.html"> CoNLL-U format</a>
+                                                </li>
                                             </ul>
                                             <b>Example:</b><br>
                                             </p>
@@ -2734,7 +2737,10 @@ documentAssembler = new DocumentAssembler()
                                                     setNumberOfIterations: Number of iterations in training, converges to better accuracy
                                                 </li>
                                                 <li>
-                                                    setConll2009FilePath: Path to a file in <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html"> CoNLL 2009 format</a>
+                                                    setConll2009: Path to a file in <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html"> CoNLL 2009 format</a>
+                                                </li>
+                                                <li>
+                                                    setConllU: Path to a file in <a href="https://universaldependencies.org/format.html"> CoNLL-U format</a>
                                                 </li>
                                             </ul>
                                             <br>
@@ -2743,7 +2749,7 @@ documentAssembler = new DocumentAssembler()
                                             <pre><code class="language-python">typed_dependency_parser = TypedDependencyParserApproach() \
             .setInputCols(["token", "pos", "dependency"]) \
             .setOutputCol("labdep") \
-            .setConll2009FilePath("file://conll2009/eng.train") \
+            .setConll2009("file://conll2009/eng.train") \
             .setNumberOfIterations(10)</code></pre>
                                         </div><!--//code-block-->
                                     </div>
@@ -2766,7 +2772,7 @@ documentAssembler = new DocumentAssembler()
                                             <pre><code class="language-javascript">val typedDependencyParser = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
-    .setConll2009FilePath("conll2009/eng.train"))</code></pre>
+    .setConll2009("conll2009/eng.train"))</code></pre>
                                         </div><!--//code-block--></div>
                                 </div>
                                 <!--End Annotators-->
