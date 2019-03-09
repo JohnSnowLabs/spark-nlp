@@ -22,11 +22,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
 
-  "weighted Levenshtein distance" should "work from file" in new distFile {
-    assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
-    assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
-  }
-
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
     assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
