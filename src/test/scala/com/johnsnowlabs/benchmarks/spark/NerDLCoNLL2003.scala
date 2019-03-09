@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 
@@ -21,7 +21,7 @@ object NerDLPipeline extends App {
 
   def createPipeline() = {
 
-    val glove = new WordEmbeddingsLookup()
+    val glove = new WordEmbeddings()
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
