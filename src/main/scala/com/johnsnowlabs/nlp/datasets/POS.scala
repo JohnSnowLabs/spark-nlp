@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{concat_ws, lit, split, udf}
+import org.apache.spark.sql.functions.{concat_ws, lit, split, udf, col}
 import org.apache.spark.sql.types.MetadataBuilder
 
 import scala.collection.mutable.ArrayBuffer
@@ -75,7 +75,7 @@ case class POS() {
     tempArray
   }
 
-  def readDataset(path: String, delimiter: String, outPutColName: String): DataFrame = {
+  def readDataset(path: String, delimiter: String, outPutPosColName: String = "tags", outPutDocColName: String = "text"): DataFrame = {
     import spark.implicits._
     def annotatorType: String = AnnotatorType.POS
 
@@ -85,13 +85,29 @@ case class POS() {
       .select("token_tags")
       .withColumn("tokens", extractTokensAndTags($"token_tags", lit(delimiter), lit("token")))
       .withColumn("tags", extractTokensAndTags($"token_tags", lit(delimiter), lit("tag")))
-      .withColumn("text",  concat_ws(" ", $"tokens"))
-      .withColumn(outPutColName, annotateTokensTags($"tokens", $"tags", $"text"))
-      .select(outPutColName) // this will also generate ("text", "tokens", "tags")
+      .withColumn(outPutDocColName,  concat_ws(" ", $"tokens"))
+      .withColumn(outPutPosColName, annotateTokensTags($"tokens", $"tags", col(outPutDocColName)))
+      .drop("tokens", "token_tags")
 
     tempDataFrame.withColumn(
-      outPutColName,
-      wrapColumnMetadata(tempDataFrame(outPutColName), annotatorType, outPutColName)
+      outPutPosColName,
+      wrapColumnMetadata(tempDataFrame(outPutPosColName), annotatorType, outPutPosColName)
+    )
+  }
+
+  // For testing purposes when there is an array of tokens and an array of labels
+  def readDatframe(posDataframe: DataFrame, tokensCol: String = "tokens", labelsCol: String = "labels",
+                   outPutDocColName: String = "text", outPutPosColName: String = "tags"): DataFrame = {
+    def annotatorType: String = AnnotatorType.POS
+
+    val tempDataFrame = posDataframe
+      .withColumn(outPutDocColName,  concat_ws(" ", col(tokensCol)))
+      .withColumn(outPutPosColName, annotateTokensTags(col(tokensCol), col(labelsCol), col(outPutDocColName)))
+      .drop(tokensCol, labelsCol)
+
+    tempDataFrame.withColumn(
+      outPutPosColName,
+      wrapColumnMetadata(tempDataFrame(outPutPosColName), annotatorType, outPutPosColName)
     )
   }
 
