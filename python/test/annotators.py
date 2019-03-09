@@ -1,5 +1,5 @@
 import unittest
-import re
+import os
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
@@ -566,7 +566,7 @@ class DependencyParserTestSpec(unittest.TestCase):
         self.data = SparkContextForTest.spark \
                 .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
-        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
+        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/unlabeled/dependency_treebank"
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -607,8 +607,8 @@ class TypedDependencyParserTestSpec(unittest.TestCase):
         self.data = SparkContextForTest.spark \
             .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
-        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/dependency_treebank"
-        self.conll2009_file = os.getcwd() + "/../src/test/resources/parser/train/example.train"
+        self.tree_bank = os.getcwd() + "/../src/test/resources/parser/unlabeled/dependency_treebank"
+        self.conll2009_file = os.getcwd() + "/../src/test/resources/parser/labeled/train_small.conllu.txt"
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
