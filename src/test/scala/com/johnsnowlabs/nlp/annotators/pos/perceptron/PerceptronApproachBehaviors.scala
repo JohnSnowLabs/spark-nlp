@@ -17,10 +17,13 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-      val nIterations = 5
+      val nIterations = 1
+      val trainingPerceptronDF = POS().readDataset(trainingSentencesPath, "\\|", "tags")
+
       val tagger = new PerceptronApproach()
-        .setCorpus(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-        .fit(DataBuilder.basicDataBuild("dummy"))
+        .setPosColumn("tags")
+        .setNIterations(nIterations)
+        .fit(trainingPerceptronDF)
       val model = tagger.getModel
       val tagSet: MSet[String] = MSet()
       trainingSentences.foreach{s => {
