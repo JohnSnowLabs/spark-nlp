@@ -148,7 +148,7 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
         self._java_obj = self._new_java_obj(classname, self.uid)
 
     def setTrainingCols(self, cols):
-        self._set(trainingCols=cols)
+        return self._set(trainingCols=cols)
 
     def getTrainingCols(self):
         return self.getOrDefault("trainingCols")

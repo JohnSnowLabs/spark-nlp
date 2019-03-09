@@ -3,7 +3,7 @@ package com.johnsnowlabs.benchmarks.spark
 import java.io.{BufferedWriter, File, FileWriter}
 
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
-import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.{Annotation, SparkAccessor}
 import com.johnsnowlabs.nlp.util.io.ExternalResource
 import org.apache.spark.ml.PipelineModel
