@@ -1,15 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-
-import scala.collection.mutable.{Map => MMap}
 
 /** Inspired on vivekn sentiment analysis algorithm
   * https://github.com/vivekn/sentiment/
