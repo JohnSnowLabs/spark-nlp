@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import com.johnsnowlabs.ml.tensorflow.{WriteTensorflowModel, ReadTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature

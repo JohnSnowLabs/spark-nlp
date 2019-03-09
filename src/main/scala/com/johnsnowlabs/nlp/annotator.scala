@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
