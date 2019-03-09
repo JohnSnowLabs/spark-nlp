@@ -37,7 +37,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+  "weighted Levenshtein distance" should "handle insertions and deletions on procedures" in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
 
     val cost1 = weights("F")("P") + weights("a")("e")
