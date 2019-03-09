@@ -135,11 +135,23 @@ class HasEmbeddings(Params):
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,
                         ParamsGettersSetters):
+
+    trainingCols = Param(Params._dummy(),
+                               "trainingCols",
+                               "the training annotation columns. uses input annotation columns if missing",
+                               typeConverter=TypeConverters.toListString)
+
     @keyword_only
     def __init__(self, classname):
         ParamsGettersSetters.__init__(self)
         self.__class__._java_class_name = classname
         self._java_obj = self._new_java_obj(classname, self.uid)
+
+    def setTrainingCols(self, cols):
+        self._set(trainingCols=cols)
+
+    def getTrainingCols(self):
+        return self.getOrDefault("trainingCols")
 
 
 def RegexRule(rule, identifier):

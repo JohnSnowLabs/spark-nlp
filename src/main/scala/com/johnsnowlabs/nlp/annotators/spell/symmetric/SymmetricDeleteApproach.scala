@@ -144,7 +144,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
       require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
 
-      val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
+      val trainDataset = dataset.select(getInputCols.head).as[Array[Annotation]]
                         .flatMap(_.map(_.result))
       val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
       wordFeatures = derivedWordDistances(wordFrequencies, $(maxEditDistance))
