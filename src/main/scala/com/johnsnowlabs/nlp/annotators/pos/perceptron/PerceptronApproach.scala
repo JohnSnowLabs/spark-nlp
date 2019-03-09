@@ -24,24 +24,11 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
-  val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
 
   setDefault(nIterations, 5)
 
   def setPosColumn(value: String): this.type = set(posCol, value)
-
-  def setCorpus(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
-    set(corpus, value)
-  }
-
-  def setCorpus(path: String,
-                delimiter: String,
-                readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
-
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
   def this() = this(Identifiable.randomUID("POS"))
@@ -89,15 +76,15 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
+    val taggedSentences: Array[TaggedSentence] = {
       import ResourceHelper.spark.implicits._
-      val dataFrameSchemaField = dataset.schema.fields(0).metadata
 
-      require(dataFrameSchemaField.contains("annotatorType"), s"Cannot train from DataFrame without POS annotatorType")
-      require(dataFrameSchemaField.getString("annotatorType")== AnnotatorType.POS, s"Cannot train from DataFrame without POS annotatorType")
-      val posColumn = dataset.schema.fields
+      val datasetSchemaFields = dataset.schema.fields
         .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.POS)
-        .map(_.name).get
+
+      require(datasetSchemaFields.map(_.name).isDefined, s"Cannot train from DataFrame without POS annotatorType by posCol")
+
+      val posColumn = datasetSchemaFields.map(_.name).get
 
       dataset.select(posColumn)
         .as[Array[Annotation]]
@@ -107,9 +94,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
               .map{annotation => IndexedTaggedWord(annotation.metadata("word"), annotation.result, annotation.begin, annotation.end)}
             )
         }.collect
-    } else {
-      ResourceHelper.parseTupleSentences($(corpus))
     }
+
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
