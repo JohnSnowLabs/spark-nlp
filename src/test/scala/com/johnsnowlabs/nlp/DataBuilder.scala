@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.training.CoNLL
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 

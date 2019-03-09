@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.datasets
+package com.johnsnowlabs.nlp.training
 
 import java.io.File
 
@@ -20,7 +20,12 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          embeddingsFormat: WordEmbeddingsFormat.Format,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
-  private val nerReader = CoNLL()
+  private val nerReader = CoNLL(
+    documentCol = "document",
+    sentenceCol = "sentence",
+    tokenCol = "token",
+    posCol = "pos"
+  )
 
   private var wordEmbeddings: WordEmbeddingsRetriever = _
 

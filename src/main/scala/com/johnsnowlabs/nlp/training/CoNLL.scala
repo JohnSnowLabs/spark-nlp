@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.datasets
+package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
@@ -14,14 +14,14 @@ case class CoNLLDocument(text: String,
                          posTagged: Seq[PosTaggedSentence]
                         )
 
-case class CoNLL(targetColumn: Int = 3,
-                 posColumn: Int = 1,
-                 textColumn: String = "text",
-                 docColumn: String = "document",
-                 sentenceColumn: String = "sentence",
-                 tokenColumn: String = "token",
-                 posTaggedColumn: String = "pos",
-                 labelColumn: String = "label"
+case class CoNLL(documentCol: String,
+                 sentenceCol: String,
+                 tokenCol: String,
+                 posCol: String,
+                 conllLabelIndex: Int = 3,
+                 conllPosIndex: Int = 1,
+                 conllTextCol: String = "text",
+                 labelCol: String = "label"
                 ) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
@@ -77,15 +77,15 @@ case class CoNLL(targetColumn: Int = 3,
           }
           addSentence()
           None
-        } else if (items.length > targetColumn) {
+        } else if (items.length > conllLabelIndex) {
           if (doc.nonEmpty && !doc.endsWith(System.lineSeparator()))
             doc.append(" ")
 
           val begin = doc.length
           doc.append(items(0))
           val end = doc.length - 1
-          val tag = items(targetColumn)
-          val posTag = items(posColumn)
+          val tag = items(conllLabelIndex)
+          val posTag = items(conllPosIndex)
           val ner = IndexedTaggedWord(items(0), tag, begin, end)
           val pos = IndexedTaggedWord(items(0), posTag, begin, end)
           lastSentence.append((ner, pos))
@@ -100,8 +100,8 @@ case class CoNLL(targetColumn: Int = 3,
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-    (docs ++ last).map{case(text, sentences) =>
-      val (ner, pos) = sentences.unzip
+    (docs ++ last).map{case(text, textSentences) =>
+      val (ner, pos) = textSentences.unzip
       CoNLLDocument(text, ner, pos)
     }
   }
@@ -152,13 +152,13 @@ case class CoNLL(targetColumn: Int = 3,
     }
   }
 
-  def schema(): StructType = {
-    val text = StructField(textColumn, StringType)
-    val doc = getAnnotationType(docColumn, AnnotatorType.DOCUMENT)
-    val sentence = getAnnotationType(sentenceColumn, AnnotatorType.DOCUMENT)
-    val token = getAnnotationType(tokenColumn, AnnotatorType.TOKEN)
-    val pos = getAnnotationType(posTaggedColumn, AnnotatorType.POS)
-    val label = getAnnotationType(labelColumn, AnnotatorType.NAMED_ENTITY)
+  def schema: StructType = {
+    val text = StructField(conllTextCol, StringType)
+    val doc = getAnnotationType(documentCol, AnnotatorType.DOCUMENT)
+    val sentence = getAnnotationType(sentenceCol, AnnotatorType.DOCUMENT)
+    val token = getAnnotationType(tokenCol, AnnotatorType.TOKEN)
+    val pos = getAnnotationType(posCol, AnnotatorType.POS)
+    val label = getAnnotationType(labelCol, AnnotatorType.NAMED_ENTITY)
 
     StructType(Seq(text, doc, sentence, token, pos, label))
   }
