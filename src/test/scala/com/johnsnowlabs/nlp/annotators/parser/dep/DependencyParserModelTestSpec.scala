@@ -11,6 +11,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.util.MLWriter
 
@@ -99,13 +100,14 @@ class DependencyParserModelTestSpec extends FlatSpec {
   private val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
 
   def getPerceptronModel: PerceptronModel = {
+    val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+
     val perceptronTagger = new PerceptronApproach()
-      .setNIterations(1)
-      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
-        ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("pos")
-      .fit(DataBuilder.basicDataBuild("dummy"))
+      .setPosColumn("tags")
+      .setNIterations(1)
+      .fit(trainingPerceptronDF)
     val path = "./tmp_perceptrontagger"
 
     perceptronTagger.write.overwrite.save(path)
