@@ -66,8 +66,8 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     val typedDependencyParserApproach = new TypedDependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setConll2009("src/test/resources/parser/labeled/conll/example.train.conll2009")
-      .setConllU("src/test/resources/parser/labeled/conll/train_small.conllu.txt")
+      .setConll2009("src/test/resources/parser/labeled/conll-u/example.train.conll2009")
+      .setConllU("src/test/resources/parser/labeled/conll-u/train_small.conllu.txt")
       .setNumberOfIterations(10)
     val expectedErrorMessage = "Use either CoNLL-2009 or CoNLL-U format file both are not allowed."
 

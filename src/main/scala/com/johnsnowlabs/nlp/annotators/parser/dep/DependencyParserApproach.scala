@@ -16,7 +16,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   override val description: String =
     "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
 
-  private val logger = LoggerFactory.getLogger("NerCrfApproach")
+  private val logger = LoggerFactory.getLogger("DependencyParserApproach")
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 

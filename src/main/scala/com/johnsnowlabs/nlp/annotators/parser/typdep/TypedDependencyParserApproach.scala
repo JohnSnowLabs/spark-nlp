@@ -22,7 +22,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   val numberOfIterations = new IntParam(this, "numberOfIterations",
     "Number of iterations in training, converges to better accuracy")
 
-  val conll2009 = new ExternalResourceParam(this, "conll2009FilePath",
+  val conll2009 = new ExternalResourceParam(this, "conll2009",
       "Path to file with CoNLL 2009 format")
 
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
