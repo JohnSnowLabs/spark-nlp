@@ -40,8 +40,7 @@ class LightPipelineTestSpec extends FlatSpec {
     val sentimentDetector: ViveknSentimentApproach = new ViveknSentimentApproach()
       .setInputCols(Array("spell", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setSentimentCol("sentiment_label")
       .setCorpusPrune(0)
 
     val pipeline: Pipeline = new Pipeline()
