@@ -81,9 +81,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     if ($(isArray))
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col($(inputCols).head), col($(chunkCol)))))
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col(getInputCols.head), col($(chunkCol)))))
     else
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col($(inputCols).head), col($(chunkCol)))))
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col(getInputCols.head), col($(chunkCol)))))
   }
 
 }
