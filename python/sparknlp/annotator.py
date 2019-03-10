@@ -1352,3 +1352,4 @@ class TypedDependencyParserModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+
