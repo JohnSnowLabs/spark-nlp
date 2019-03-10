@@ -64,7 +64,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
     * @return True if all the required types are present, else false
     */
   protected def validate(schema: StructType): Boolean = {
-    getTrainingCols.forall {
+    trainingAnnotatorTypes.forall {
       inputAnnotatorType =>
         checkSchema(schema, inputAnnotatorType)
     }
