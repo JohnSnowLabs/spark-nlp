@@ -9,11 +9,10 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-
 import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup, WordEmbeddingsLookupModel}
-
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -94,7 +93,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
+
       val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
+
       posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
@@ -136,14 +137,35 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withViveknSentimentAnalysis(dataset: Dataset[Row]): Dataset[Row] = {
-    new ViveknSentimentApproach()
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setSentimentCol("sentiment_label")
       .setCorpusPrune(0)
-      .fit(dataset)
-      .transform(withTokenizer(dataset))
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        sentimentDetector
+      ))
+
+    pipeline.fit(dataset).transform(dataset)
+
   }
 
   def withFullSpellChecker(dataset: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
