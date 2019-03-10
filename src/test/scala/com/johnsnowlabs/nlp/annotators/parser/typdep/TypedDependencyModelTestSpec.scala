@@ -8,7 +8,6 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, Dep
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.datasets.POS
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame

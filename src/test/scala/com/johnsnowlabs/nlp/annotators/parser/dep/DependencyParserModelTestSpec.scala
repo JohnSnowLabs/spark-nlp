@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import java.nio.file.{Files, Paths}
 
-
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -11,9 +10,8 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.FlatSpec
 import SparkAccessor.spark.implicits._
-import com.johnsnowlabs.nlp.annotator.PerceptronModel
+import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.datasets.POS
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.util.MLWriter
 
 import scala.language.reflectiveCalls
