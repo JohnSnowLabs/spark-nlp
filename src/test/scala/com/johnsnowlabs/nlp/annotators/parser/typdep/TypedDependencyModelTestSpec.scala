@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
@@ -48,13 +49,15 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
+    val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+
     val perceptronTagger = new PerceptronApproach()
-      .setNIterations(1)
-      .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/",
-        ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("pos")
-      .fit(DataBuilder.basicDataBuild("dummy"))
+      .setPosColumn("tags")
+      .setNIterations(1)
+      .fit(trainingPerceptronDF)
+
     val path = "./tmp_perceptrontagger"
 
     perceptronTagger.write.overwrite.save(path)
@@ -181,7 +184,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     val model = pipeline.fit(emptyDataSet)
 
     val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
-                   "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
     val testDataSet = Seq(document).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     typedDependencyParserDataFrame.collect()
