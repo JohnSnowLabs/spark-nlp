@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
+import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
 import org.apache.spark.sql.{Dataset, Row}
@@ -16,10 +17,13 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-      val nIterations = 5
+      val nIterations = 1
+      val trainingPerceptronDF = POS().readDataset(trainingSentencesPath, "\\|", "tags")
+
       val tagger = new PerceptronApproach()
-        .setCorpus(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-        .fit(DataBuilder.basicDataBuild("dummy"))
+        .setPosColumn("tags")
+        .setNIterations(nIterations)
+        .fit(trainingPerceptronDF)
       val model = tagger.getModel
       val tagSet: MSet[String] = MSet()
       trainingSentences.foreach{s => {
@@ -92,18 +96,27 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     }
   }
 
-  def sparkBasedPOSTraining(rows: Array[String], tags: Array[Array[String]]): Unit = {
+  def sparkBasedPOSTraining(path: String, test: String): Unit = {
     it should "successfully train from a POS Column" in {
-      import SparkAccessor.spark.implicits._
-      val data = AnnotatorBuilder.withDocumentAssembler(
-        SparkAccessor.spark.sparkContext.parallelize(rows.zip(tags)).toDF("text", "tags")
-      )
-      val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
+
+      // Convert text token|tag into DataFrame with POS annotation column
+      val pos = POS()
+      val trainingPerceptronDF = pos.readDataset(path, "\\|", "tags")
+
       val trainedPos = new PerceptronApproach()
         .setInputCols("document", "token")
         .setOutputCol("pos")
         .setPosColumn("tags")
-        .fit(tokenized)
+        .fit(trainingPerceptronDF)
+
+      val testDF = SparkAccessor.spark.read.text(test).toDF("text")
+
+      val data = AnnotatorBuilder.withDocumentAssembler(
+        testDF
+      )
+      val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
+
+      println("result of Perceptron trained by DataFrame")
       trainedPos.transform(tokenized).show
     }
   }

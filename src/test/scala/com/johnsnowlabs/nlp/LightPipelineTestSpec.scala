@@ -4,17 +4,20 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.functions.when
 import org.scalatest._
 
 import scala.language.reflectiveCalls
 
 class LightPipelineTestSpec extends FlatSpec {
   def fixture = new {
+    import SparkAccessor.spark.implicits._
+
     val data: Dataset[Row] = ContentProvider.parquetData.limit(1000)
+      .withColumn("sentiment_label", when($"sentiment".isNull or $"sentiment" === 0, "negative").otherwise("positive"))
 
     val documentAssembler: DocumentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -57,12 +60,9 @@ class LightPipelineTestSpec extends FlatSpec {
 
     val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
-    import textDF.sparkSession.implicits._
     val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
     val text = "hello world, this is some sentence"
   }
-
-
 
   "An LightPipeline" should "annotate for each annotator" in {
     val f = fixture

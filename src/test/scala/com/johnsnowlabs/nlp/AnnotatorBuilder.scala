@@ -9,6 +9,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
@@ -92,12 +93,15 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
+
+      val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
+
       posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
+        .setPosColumn("tags")
         .setNIterations(1)
-        .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-        .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+        .fit(trainingPerceptronDF)
     }
 
     posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
