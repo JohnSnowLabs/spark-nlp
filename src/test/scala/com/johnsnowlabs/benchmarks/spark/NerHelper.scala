@@ -49,7 +49,7 @@ object NerHelper {
   }
 
   def measureExact(nerReader: CoNLL, model: PipelineModel, file: ExternalResource, printErrors: Int = 0): Unit = {
-    val df = nerReader.readDataset(file, SparkAccessor.benchmarkSpark).toDF()
+    val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
     val rows = transformed.select("ner_span", "label_span").collect()
 

@@ -5,14 +5,14 @@ from pyspark.sql import SparkSession, DataFrame
 
 class CoNLL(ExtendedJavaWrapper):
     def __init__(self,
-                 documentCol,
-                 sentenceCol,
-                 tokenCol,
-                 posCol,
+                 documentCol = 'document',
+                 sentenceCol = 'sentence',
+                 tokenCol = 'token',
+                 posCol = 'pos',
                  conllLabelIndex = 3,
                  conllPosIndex = 1,
-                 textCol = "text",
-                 labelCol = "label"):
+                 textCol = 'text',
+                 labelCol = 'label'):
         super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL")
 
         self._java_obj = self._new_java_obj(self._java_obj,
@@ -26,8 +26,8 @@ class CoNLL(ExtendedJavaWrapper):
                                             labelCol
                                             )
 
-    def readDataset(self, path, read_as=ReadAs.LINE_BY_LINE, opts={}):
-        resource = ExternalResource(path, read_as, opts)
+    def readDataset(self, path, read_as=ReadAs.LINE_BY_LINE):
+        resource = ExternalResource(path, read_as, {'format': 'text'})
 
         # ToDo Replace with std pyspark
         session = SparkSession(self.sc)
