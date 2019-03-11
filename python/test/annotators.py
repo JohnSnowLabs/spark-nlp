@@ -292,7 +292,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        glove = WordEmbeddings() \
+        glove = WordEmbeddingsModel() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
             .setEmbeddingsSource(self.embeddings, 100, 2)

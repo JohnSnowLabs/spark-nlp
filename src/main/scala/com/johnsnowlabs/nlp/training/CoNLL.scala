@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.training
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -14,10 +14,10 @@ case class CoNLLDocument(text: String,
                          posTagged: Seq[PosTaggedSentence]
                         )
 
-case class CoNLL(documentCol: String,
-                 sentenceCol: String,
-                 tokenCol: String,
-                 posCol: String,
+case class CoNLL(documentCol: String = "document",
+                 sentenceCol: String = "sentence",
+                 tokenCol: String = "token",
+                 posCol: String = "pos",
                  conllLabelIndex: Int = 3,
                  conllPosIndex: Int = 1,
                  conllTextCol: String = "text",
@@ -180,10 +180,12 @@ case class CoNLL(documentCol: String,
     spark.createDataFrame(rows, schema)
   }
 
-  def readDataset(er: ExternalResource,
-                  spark: SparkSession
+  def readDataset(
+                   spark: SparkSession,
+                   path: String,
+                   readAs: ReadAs.Format = ReadAs.LINE_BY_LINE
                  ): Dataset[_] = {
-
+    val er = ExternalResource(path, readAs, Map("format" -> "text"))
     packDocs(readDocs(er), spark)
   }
 

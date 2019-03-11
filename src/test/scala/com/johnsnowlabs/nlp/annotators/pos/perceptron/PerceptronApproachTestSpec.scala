@@ -2,7 +2,8 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.datasets.POS
+import com.johnsnowlabs.nlp.training.POS
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.DataFrame
 import org.scalatest._
@@ -14,7 +15,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("src/test/resources/anc-pos-corpus-small/test-training.txt")
 
-  val trainingPerceptronDF: DataFrame = POS().readDataset("src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")
+  val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")
 
   val trainedTagger: PerceptronModel =
     new PerceptronApproach()
@@ -46,7 +47,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     new PerceptronApproach()
       .setPosColumn("tags")
       .setNIterations(3)
-      .fit(POS().readDataset("src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")),
+      .fit(POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")),
     tokenizedSentenceFromWsj,
     targetSentencesFromWsjResult
   )
@@ -61,7 +62,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   "A Perceptron Tagger" should "be readable and writable" in {
-    val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
 
     val perceptronTagger = new PerceptronApproach()
       .setPosColumn("tags")

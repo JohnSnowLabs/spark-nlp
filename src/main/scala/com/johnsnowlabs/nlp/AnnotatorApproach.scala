@@ -28,7 +28,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   def onTrained(model: M, spark: SparkSession): Unit = {}
 
-  val trainingAnnotatorTypes: Array[String] = inputAnnotatorTypes
+  lazy val trainingAnnotatorTypes: Array[String] = inputAnnotatorTypes
 
   /**
     * columns that contain annotations necessary to train this annotator
@@ -82,7 +82,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns have following annotator types: " +
+      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns exist and have the following annotator types: " +
       s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
