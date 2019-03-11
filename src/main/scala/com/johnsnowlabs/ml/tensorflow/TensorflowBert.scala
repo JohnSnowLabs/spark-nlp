@@ -15,7 +15,7 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
 
-    require(tokens.length <= maxSentenceLength - 2)
+    require(tokens.length <= maxSentenceLength - 2, s"because tokens length is ${tokens.length} and maxSentenceLength is $maxSentenceLength")
     Array(sentenceStartTokenId) ++
       tokens ++
       Array(sentenceEndTokenId) ++

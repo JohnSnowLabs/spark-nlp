@@ -183,7 +183,7 @@ case class CoNLL(documentCol: String = "document",
   def readDataset(
                    spark: SparkSession,
                    path: String,
-                   readAs: ReadAs.Format = ReadAs.LINE_BY_LINE
+                   readAs: String = ReadAs.LINE_BY_LINE.toString
                  ): Dataset[_] = {
     val er = ExternalResource(path, readAs, Map("format" -> "text"))
     packDocs(readDocs(er), spark)

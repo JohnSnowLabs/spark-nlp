@@ -127,10 +127,10 @@ class HasEmbeddings(Params):
                                 typeConverter=TypeConverters.toBoolean)
 
     def setDimension(self, value):
-        return self._set(embeddingsDim=value)
+        return self._set(dimension=value)
 
     def setCaseSensitive(self, value):
-        return self._set(setCaseSensitive=value)
+        return self._set(caseSensitive=value)
 
 
 class HasWordEmbeddings(HasEmbeddings):

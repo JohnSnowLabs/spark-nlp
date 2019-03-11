@@ -26,14 +26,12 @@ class CoNLL(ExtendedJavaWrapper):
                                             labelCol
                                             )
 
-    def readDataset(self, path, read_as=ReadAs.LINE_BY_LINE):
-        resource = ExternalResource(path, read_as, {'format': 'text'})
+    def readDataset(self, spark, path, read_as=ReadAs.LINE_BY_LINE):
 
         # ToDo Replace with std pyspark
-        session = SparkSession(self.sc)
-        jSession = session._jsparkSession
+        jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(resource, jSession)
-        return DataFrame(jdf, session._wrapped)
+        jdf = self._java_obj.readDataset(jSession, path, read_as)
+        return DataFrame(jdf, spark._wrapped)
 
 
