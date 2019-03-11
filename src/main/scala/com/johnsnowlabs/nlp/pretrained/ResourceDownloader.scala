@@ -15,6 +15,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
@@ -176,7 +177,8 @@ object PythonResourceDownloader {
     "ViveknSentimentModel" -> ViveknSentimentModel,
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "NerDLModel" -> NerDLModel,
-    "ContextSpellCheckerModel" -> ContextSpellCheckerModel
+    "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
+    "BertEmbeddings" -> BertEmbeddings
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String  = null): PipelineStage = {

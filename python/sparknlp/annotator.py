@@ -270,12 +270,13 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 
     @keyword_only
-    def __init__(self):
+    def __init__(self, java_model=None):
         super(BertEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings"
+            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings",
+            java_model=java_model
         )
         self._setDefault(
-            dim=768,
+            dimension=768,
             batchSize=5,
             maxSentenceLength=100,
             caseSensitive=False
@@ -284,7 +285,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
     @staticmethod
     def loadFromPython(folder):
         jModel = _BertLoader(folder)._java_obj
-        return BertEmbeddings(java_model = jModel)
+        return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod
