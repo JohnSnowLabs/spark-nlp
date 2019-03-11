@@ -15,11 +15,14 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
 
-    require(tokens.length <= maxSentenceLength - 2, s"because tokens length is ${tokens.length} and maxSentenceLength is $maxSentenceLength")
-    Array(sentenceStartTokenId) ++
-      tokens ++
-      Array(sentenceEndTokenId) ++
-      Array.fill(maxSentenceLength - tokens.length - 2)(0)
+    if(tokens.length <= maxSentenceLength - 2) //s"because tokens length is ${tokens.length} and maxSentenceLength is $maxSentenceLength"
+      Array.fill(maxSentenceLength)(0)
+    else {
+      Array(sentenceStartTokenId) ++
+        tokens ++
+        Array(sentenceEndTokenId) ++
+        Array.fill(maxSentenceLength - tokens.length - 2)(0)
+    }
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
