@@ -29,7 +29,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  private val posTagger =  PerceptronModel.pretrained()
+  private val posTagger = getPerceptronModel
 
   private val dependencyParser = getDependencyParserModel
 
