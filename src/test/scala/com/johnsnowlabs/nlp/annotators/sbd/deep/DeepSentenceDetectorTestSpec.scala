@@ -279,11 +279,11 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       println(s"r1 is ${r._1.result} and r2 is ${r._2}")
       r._1.result == r._2
     }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1")))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2")))
-    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3")))
-    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4")))
+    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4"), Array.emptyFloatArray, Array.emptyFloatArray))
 
   }
 

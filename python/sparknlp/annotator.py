@@ -1287,8 +1287,13 @@ class ContextSpellCheckerModel(AnnotatorModel):
 class DependencyParserApproach(AnnotatorApproach):
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
-                               "dependency treebank source files",
+                               "Dependency treebank source files",
                                typeConverter=TypeConverters.identity)
+
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1308,6 +1313,10 @@ class DependencyParserApproach(AnnotatorApproach):
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
+
     def _create_model(self, java_model):
         return DependencyParserModel(java_model=java_model)
 
@@ -1323,11 +1332,15 @@ class DependencyParserModel(AnnotatorModel):
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
+    conll2009 = Param(Params._dummy(),
+                      "conll2009",
+                      "Path to file with CoNLL 2009 format",
+                      typeConverter=TypeConverters.identity)
 
-    conll2009FilePath = Param(Params._dummy(),
-                              "conll2009FilePath",
-                              "Path to file with CoNLL 2009 format",
-                              typeConverter=TypeConverters.identity)
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1339,9 +1352,13 @@ class TypedDependencyParserApproach(AnnotatorApproach):
         super(TypedDependencyParserApproach,
               self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
 
-    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConll2009(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
         opts = options.copy()
-        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
+        return self._set(conll2009=ExternalResource(path, read_as, opts))
+
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
 
     def setNumberOfIterations(self, value):
         return self._set(numberOfIterations=value)
