@@ -204,14 +204,7 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
-class WordEmbeddings(AnnotatorModel, HasEmbeddings):
-
-    name = "WordEmbeddings"
-
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
+class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
 
     sourceEmbeddingsPath = Param(Params._dummy(),
                                  "sourceEmbeddingsPath",
@@ -223,18 +216,32 @@ class WordEmbeddings(AnnotatorModel, HasEmbeddings):
                              "Word vectors file format",
                              typeConverter=TypeConverters.toInt)
 
+    @keyword_only
+    def __init__(self):
+        super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
+        self._setDefault(
+            embeddingsRef=self.uid,
+            caseSensitive=False
+        )
+
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
         self._set(embeddingsFormat=format)
         return self._set(dimension=nDims)
 
-    def setEmbeddingsRef(self, value):
-        return self._set(embeddingsRef=value)
+    def _create_model(self, java_model):
+        return WordEmbeddingsModel(java_model=java_model)
+
+
+class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+
+    name = "WordEmbeddingsModel"
 
     @keyword_only
-    def __init__(self):
-        super(WordEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings"
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
+        super(WordEmbeddingsModel, self).__init__(
+            classname=classname,
+            java_model=java_model
         )
         self._setDefault(
             caseSensitive=False
@@ -263,12 +270,13 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 
     @keyword_only
-    def __init__(self):
+    def __init__(self, java_model=None):
         super(BertEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings"
+            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings",
+            java_model=java_model
         )
         self._setDefault(
-            dim=768,
+            dimension=768,
             batchSize=5,
             maxSentenceLength=100,
             caseSensitive=False
@@ -277,7 +285,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
     @staticmethod
     def loadFromPython(folder):
         jModel = _BertLoader(folder)._java_obj
-        return BertEmbeddings(java_model = jModel)
+        return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod

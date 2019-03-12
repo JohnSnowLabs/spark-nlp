@@ -17,7 +17,7 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
   /** Shape of annotations at output */
   private def outputDataType: DataType = ArrayType(Annotation.dataType)
 
-  protected def wrapColumnMetadata(col: Column) = {
+  protected def wrapColumnMetadata(col: Column): Column = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     col.as(getOutputCol, metadataBuilder.build)

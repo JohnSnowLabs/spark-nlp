@@ -6,8 +6,9 @@ import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler, Finisher, SparkAcce
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
+import com.johnsnowlabs.nlp.training.POS
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.datasets.POS
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -48,7 +49,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
-    val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
 
     val perceptronTagger = new PerceptronApproach()
       .setInputCols(Array("token", "sentence"))

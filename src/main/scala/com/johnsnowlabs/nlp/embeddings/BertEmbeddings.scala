@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.embeddigs
+package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
 
@@ -6,11 +6,10 @@ import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowBert, Tens
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.embeddings.HasEmbeddings
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.apache.spark.ml.param.{BooleanParam, IntParam}
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 

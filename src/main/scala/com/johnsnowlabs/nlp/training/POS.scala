@@ -1,10 +1,9 @@
-package com.johnsnowlabs.nlp.datasets
+package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{concat_ws, lit, split, udf, col}
+import org.apache.spark.sql.functions.{col, concat_ws, lit, split, udf}
 import org.apache.spark.sql.types.MetadataBuilder
 
 import scala.collection.mutable.ArrayBuffer
@@ -75,23 +74,23 @@ case class POS() {
     tempArray
   }
 
-  def readDataset(path: String, delimiter: String, outPutPosColName: String = "tags", outPutDocColName: String = "text"): DataFrame = {
-    import spark.implicits._
+  def readDataset(sparkSession: SparkSession, path: String, delimiter: String = "|", outputPosCol: String = "tags", outputDocumentCol: String = "text"): DataFrame = {
+    import sparkSession.implicits._
     def annotatorType: String = AnnotatorType.POS
 
-    val tempDataFrame = spark.read.text(path).toDF
+    val tempDataFrame = sparkSession.read.text(path).toDF
       .filter(row => !(row.mkString("").isEmpty && row.length>0))
       .withColumn("token_tags", split($"value", " "))
       .select("token_tags")
       .withColumn("tokens", extractTokensAndTags($"token_tags", lit(delimiter), lit("token")))
       .withColumn("tags", extractTokensAndTags($"token_tags", lit(delimiter), lit("tag")))
-      .withColumn(outPutDocColName,  concat_ws(" ", $"tokens"))
-      .withColumn(outPutPosColName, annotateTokensTags($"tokens", $"tags", col(outPutDocColName)))
+      .withColumn(outputDocumentCol,  concat_ws(" ", $"tokens"))
+      .withColumn(outputPosCol, annotateTokensTags($"tokens", $"tags", col(outputDocumentCol)))
       .drop("tokens", "token_tags")
 
     tempDataFrame.withColumn(
-      outPutPosColName,
-      wrapColumnMetadata(tempDataFrame(outPutPosColName), annotatorType, outPutPosColName)
+      outputPosCol,
+      wrapColumnMetadata(tempDataFrame(outputPosCol), annotatorType, outputPosCol)
     )
   }
 
