@@ -32,10 +32,14 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
  "OcrHelper" should "automatically correct skew and improve accuracy" in {
     val spark = getSpark
+    OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    OcrHelper.setSplitPages(false)
+
     val normal = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/rotated/400").
        select("text").collect.map(_.getString(0)).mkString
 
     OcrHelper.setAutomaticSkewCorrection(true)
+
     val skewCorrected = OcrHelper.createDataset(spark, s"ocr/src/test/resources/pdfs/rotated/400").
         select("text").collect.map(_.getString(0)).mkString
 
@@ -59,17 +63,18 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   }
 
-  "OcrExample with Spark" should "successfully create a dataset" in {
+  "OcrExample with Spark" should "successfully create a dataset - PDFs" in {
 
       val spark = getSpark
       import spark.implicits._
 
       // point to test/resources/pdfs
-      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/multiple")
-      OcrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
-      data.show(10)
+      OcrHelper.setSplitPages(false)
+      OcrHelper.setMinSizeBeforeFallback(10)
+      val data = OcrHelper.createDataset(spark, "ocr/src/test/resources/pdfs")
       val documentAssembler = new DocumentAssembler().setInputCol("text")
       documentAssembler.transform(data).show()
+
       val raw = OcrHelper.createMap("ocr/src/test/resources/pdfs/")
       val pipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler)).fit(Seq.empty[String].toDF("text")))
       val result = pipeline.annotate(raw.values.toArray)

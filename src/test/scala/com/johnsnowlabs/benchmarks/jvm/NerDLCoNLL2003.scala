@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModelPythonReader
-import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLLDocument}
+import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.tensorflow.{Graph, Session, TensorFlow}

@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
-import com.johnsnowlabs.nlp.datasets.POS
+import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
 import org.apache.spark.sql.{Dataset, Row}
@@ -18,7 +18,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
       val nIterations = 1
-      val trainingPerceptronDF = POS().readDataset(trainingSentencesPath, "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, trainingSentencesPath, "\\|", "tags")
 
       val tagger = new PerceptronApproach()
         .setPosColumn("tags")
@@ -101,7 +101,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
 
       // Convert text token|tag into DataFrame with POS annotation column
       val pos = POS()
-      val trainingPerceptronDF = pos.readDataset(path, "\\|", "tags")
+      val trainingPerceptronDF = pos.readDataset(ResourceHelper.spark, path, "\\|", "tags")
 
       val trainedPos = new PerceptronApproach()
         .setInputCols("document", "token")

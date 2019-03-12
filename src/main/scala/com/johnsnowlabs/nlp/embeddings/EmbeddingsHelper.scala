@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.File
 import java.nio.file.{Files, Paths, StandardCopyOption}
 
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -10,7 +9,6 @@ import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 
 object EmbeddingsHelper {
-
 
   def load(
             path: String,
@@ -103,10 +101,6 @@ object EmbeddingsHelper {
             caseSensitive: Boolean
           ): ClusterWordEmbeddings = {
     new ClusterWordEmbeddings(indexPath, nDims, caseSensitive)
-  }
-
-  def getFromAnnotator(annotator: WordEmbeddings): ClusterWordEmbeddings = {
-    annotator.getClusterEmbeddings
   }
 
   def getClusterFilename(embeddingsRef: String): String = {

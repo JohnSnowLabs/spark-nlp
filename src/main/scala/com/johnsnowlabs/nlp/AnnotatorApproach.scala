@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.ParamMap
+import org.apache.spark.ml.param.{ParamMap, StringArrayParam}
 import org.apache.spark.ml.{Estimator, Model, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
@@ -28,6 +28,48 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   def onTrained(model: M, spark: SparkSession): Unit = {}
 
+  lazy val trainingAnnotatorTypes: Array[String] = inputAnnotatorTypes
+
+  /**
+    * columns that contain annotations necessary to train this annotator
+    * AnnotatorType is used in the same way than input and output annotator types
+    */
+  protected final val trainingCols: StringArrayParam =
+    new StringArrayParam(this, "trainingCols", "the training annotation columns. uses input annotation columns if missing")
+
+  /** Overrides required annotators column if different than default */
+  final def setTrainingCols(value: Array[String]): this.type = {
+    set(trainingCols, value)
+  }
+
+  final def setTrainingCols(value: String*): this.type = {
+    require(
+      value.length == trainingAnnotatorTypes.length,
+      s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +
+        s"Provided column amount: ${value.length}. " +
+        s"Which should be columns from the following annotators: ${inputAnnotatorTypes.mkString(", ")}"
+    )
+    set(trainingCols, value.toArray)
+  }
+
+  final def getTrainingCols: Array[String] = $(trainingCols)
+
+  override def getInputCols: Array[String] = {
+    get(trainingCols).getOrElse(super.getInputCols)
+  }
+
+  /**
+    * takes a [[Dataset]] and checks to see if all the required annotation types are present.
+    * @param schema to be validated
+    * @return True if all the required types are present, else false
+    */
+  protected def validate(schema: StructType): Boolean = {
+    trainingAnnotatorTypes.forall {
+      inputAnnotatorType =>
+        checkSchema(schema, inputAnnotatorType)
+    }
+  }
+
   override final def fit(dataset: Dataset[_]): M = {
     beforeTraining(dataset.sparkSession)
     val model = copyValues(train(dataset).setParent(this))
@@ -35,17 +77,13 @@ abstract class AnnotatorApproach[M <: Model[M]]
     model
   }
 
-  /** Override for additional custom schema checks */
-  protected def extraValidateMsg = "Schema validation failed"
-  protected def extraValidate(structType: StructType): Boolean = {
-    true
-  }
-
   override final def copy(extra: ParamMap): Estimator[M] = defaultCopy(extra)
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
-    require(extraValidate(schema), extraValidateMsg)
+    require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
+      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns exist and have the following annotator types: " +
+      s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+

@@ -41,7 +41,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
         token.begin >= sentence.start & token.end <= sentence.end
       )
 
-      val sentenceEmbeddings = sentenceTokens.flatMap(t => t.calculations.get("sentence_embeddings")).headOption
+      val sentenceEmbeddings = sentenceTokens.map(t => t.sentence_embeddings).headOption
 
       val tokensWithSentence = sentenceTokens.map { token =>
         new TokenPieceEmbeddings(
@@ -49,7 +49,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
           token = token.metadata("token"),
           pieceId = token.metadata("pieceId").toInt,
           isWordStart = token.metadata("isWordStart").toBoolean,
-          embeddings = token.getCalculations("embeddings"),
+          embeddings = token.embeddings,
           begin = token.begin,
           end = token.end
         )
@@ -64,14 +64,14 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       var isFirstToken = true
       sentence.tokens.map{token =>
         // Store embeddings for token
-        val embeddings = Map("embeddings" -> token.embeddings)
+        val embeddings = token.embeddings
 
         // Store sentence embeddings only in one token
-        val calculations =
+        val sentenceEmbeddings =
           if (isFirstToken && sentence.sentenceEmbeddings.isDefined)
-            embeddings ++ Map("sentence_embeddings" -> sentence.sentenceEmbeddings.get)
+            sentence.sentenceEmbeddings.get
           else
-            embeddings
+            Array.emptyFloatArray
 
         isFirstToken = false
         Annotation(annotatorType, token.begin, token.end, token.wordpiece,
@@ -80,7 +80,8 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
             "pieceId" -> token.pieceId.toString,
             "isWordStart" -> token.isWordStart.toString
           ),
-          calculations
+          embeddings,
+          sentenceEmbeddings
         )
       }
     }

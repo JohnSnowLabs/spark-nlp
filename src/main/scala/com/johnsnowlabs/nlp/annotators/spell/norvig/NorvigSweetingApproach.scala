@@ -78,7 +78,7 @@ class NorvigSweetingApproach(override val uid: String)
         ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
       } else {
         import ResourceHelper.spark.implicits._
-        dataset.select($(inputCols).head).as[Array[Annotation]]
+        dataset.select(getInputCols.head).as[Array[Annotation]]
           .flatMap(_.map(_.result))
           .groupBy("value").count
           .as[(String, Long)]
