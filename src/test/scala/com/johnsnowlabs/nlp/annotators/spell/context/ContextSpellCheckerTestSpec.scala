@@ -31,14 +31,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
   "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
-    // inserting an 'h' should be cheaper than inserting a 'b'
-    assert(wLevenshteinDist("cleanh", "clean", weights) < wLevenshteinDist("cleanb", "clean", weights))
-    // deleting an 'm' should be cheaper than deleting an 'n'
-    assert(wLevenshteinDist("albu", "album", weights) < wLevenshteinDist("clea", "clean", weights))
-
-  }
-
-  "weighted Levenshtein distance" should "handle insertions and deletions on procedures" in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
 
     val cost1 = weights("F")("P") + weights("a")("e")
