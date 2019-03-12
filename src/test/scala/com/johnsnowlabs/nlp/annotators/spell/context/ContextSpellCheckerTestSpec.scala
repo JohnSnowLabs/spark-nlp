@@ -10,7 +10,8 @@ import org.scalatest._
 class ContextSpellCheckerTestSpec extends FlatSpec {
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map("l" -> Map("1" -> 0.5f, "!" -> 0.2f), "P" -> Map("F" -> 0.2f))
+    val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
+      "F" -> Map("P" -> 0.2f))
   }
 
   trait distFile extends WeightedLevenshtein {
@@ -30,14 +31,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
   "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
-    // inserting an 'h' should be cheaper than inserting a 'b'
-    assert(wLevenshteinDist("cleanh", "clean", weights) < wLevenshteinDist("cleanb", "clean", weights))
-    // deleting an 'm' should be cheaper than deleting an 'n'
-    assert(wLevenshteinDist("albu", "album", weights) < wLevenshteinDist("clea", "clean", weights))
-
-  }
-
-  "weighted Levenshtein distance" should "handle insertions and deletions on procedures" in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
 
     val cost1 = weights("F")("P") + weights("a")("e")
