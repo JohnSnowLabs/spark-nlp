@@ -214,12 +214,9 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        pos_tagger = PerceptronApproach() \
+        pos_tagger = PerceptronModel.pretrained() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(path="file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
-            .setIterations(2) \
-            .fit(self.data)
+            .setOutputCol("pos")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -241,12 +238,9 @@ class ChunkerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        pos_tagger = PerceptronApproach() \
+        pos_tagger = PerceptronModel.pretrained() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(path="file:///" + os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/", delimiter="|") \
-            .setIterations(2) \
-            .fit(self.data)
+            .setOutputCol("pos")
         chunker = Chunker() \
             .setInputCols(["sentence", "pos"]) \
             .setOutputCol("chunk") \
@@ -283,7 +277,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         self.data = SparkContextForTest.data
         self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
         external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
-        self.training_set = CoNLL().readDataset(external_dataset)
+        self.training_set = CoNLL().readDataset(SparkContextForTest.spark, external_dataset)
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -292,7 +286,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        glove = WordEmbeddingsModel() \
+        glove = WordEmbeddings() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
             .setEmbeddingsSource(self.embeddings, 100, 2)
@@ -315,7 +309,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setEndPunctuation([".", "?"])
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
-        embedded = glove.transform(tokenized)
+        embedded = glove.fit(tokenized).transform(tokenized)
         embedded_training_set = glove.transform(self.training_set)
         ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded)
         ner_converted = ner_converter.transform(ner_tagged)
@@ -622,11 +616,9 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        pos_tagger = PerceptronApproach() \
+        pos_tagger = PerceptronModel.pretrained() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(self.corpus, delimiter="|") \
-            .setIterations(1)
+            .setOutputCol("pos")
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -637,7 +629,7 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         dependency_parsed.show()
 
@@ -713,11 +705,9 @@ class TypedDependencyParserConll2009TestSpec(unittest.TestCase):
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        pos_tagger = PerceptronApproach() \
+        pos_tagger = PerceptronModel.pretrained() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos") \
-            .setCorpus(self.corpus, delimiter="|") \
-            .setIterations(1)
+            .setOutputCol("pos")
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -734,7 +724,7 @@ class TypedDependencyParserConll2009TestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
         typed_dependency_parsed.show()

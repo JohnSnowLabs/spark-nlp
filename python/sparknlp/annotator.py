@@ -501,11 +501,6 @@ class PerceptronApproach(AnnotatorApproach):
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
 
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
-
     nIterations = Param(Params._dummy(),
                         "nIterations",
                         "Number of iterations in training, converges to better accuracy",
@@ -522,11 +517,6 @@ class PerceptronApproach(AnnotatorApproach):
     def setPosCol(self, value):
         return self._set(posCol=value)
 
-    def setCorpus(self, path, delimiter, read_as=ReadAs.SPARK_DATASET, options={"format": "text", "repartition": "8"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
-
     def setIterations(self, value):
         return self._set(nIterations=value)
 
@@ -539,11 +529,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
                    "posCol",
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
-
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
@@ -560,11 +545,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
 
     def setPosCol(self, value):
         return self._set(posCol=value)
-
-    def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setIterations(self, value):
         return self._set(nIterations=value)
@@ -754,16 +734,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",
                          typeConverter=TypeConverters.toString)
 
-    positiveSource = Param(Params._dummy(),
-                           "positiveSource",
-                           "positive sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
-    negativeSource = Param(Params._dummy(),
-                           "negativeSource",
-                           "negative sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
                         "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
@@ -792,18 +762,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
-
-    def setPositiveSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(positiveSource=ExternalResource(path, read_as, opts))
-
-    def setNegativeSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(negativeSource=ExternalResource(path, read_as, opts))
 
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
