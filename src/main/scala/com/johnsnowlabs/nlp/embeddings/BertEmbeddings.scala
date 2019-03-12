@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.embeddigs
+package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
 

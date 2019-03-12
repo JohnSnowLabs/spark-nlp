@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.embeddigs.BertEmbeddings
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import org.scalatest.FlatSpec
 
 class WordpieceTestSpec extends FlatSpec {
