@@ -1,14 +1,10 @@
-import numpy as np
-import os
-import tensorflow as tf
 import string
 import random
-import math
-import sys
+
 
 class DatasetEncoder:
     # Each sentence must be array of tuple (word, tag)
-    def __init__(self, word2id, embeddings, tag2id = {'O': 0}):
+    def __init__(self, word2id, embeddings, tag2id={'O': 0}):
         self.word2id = word2id
         self.char2id = {c:i + 1 for i, c in enumerate(string.printable)}
         self.tag2id = tag2id
@@ -66,5 +62,3 @@ class DatasetEncoder:
                         "tag_ids": tag_ids,
                         "word_embeddings": word_embeddings
                     }
-
-    

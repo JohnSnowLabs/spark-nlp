@@ -176,9 +176,6 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
     def setTrainingCols(self, cols):
         return self._set(trainingCols=cols)
 
-    def getTrainingCols(self):
-        return self.getOrDefault("trainingCols")
-
 
 def RegexRule(rule, identifier):
     return _internal._RegexRule(rule, identifier).apply()
