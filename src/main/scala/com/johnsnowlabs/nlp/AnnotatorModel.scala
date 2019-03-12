@@ -4,7 +4,6 @@ import org.apache.spark.ml.Model
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.StructType
 
 /**
  * This trait implements logic that applies nlp using Spark ML Pipeline transformers
@@ -39,18 +38,6 @@ abstract class AnnotatorModel[M <: Model[M]]
   protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = dataset
 
   protected def afterAnnotate(dataset: DataFrame): DataFrame = dataset
-
-  /**
-    * takes a [[Dataset]] and checks to see if all the required annotation types are present.
-    * @param schema to be validated
-    * @return True if all the required types are present, else false
-    */
-  protected def validate(schema: StructType): Boolean = {
-    inputAnnotatorTypes.forall {
-      inputAnnotatorType =>
-        checkSchema(schema, inputAnnotatorType)
-    }
-  }
 
   /**
     * Given requirements are met, this applies ML transformation within a Pipeline or stand-alone

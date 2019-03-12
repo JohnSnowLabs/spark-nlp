@@ -35,3 +35,16 @@ class CoNLL(ExtendedJavaWrapper):
         return DataFrame(jdf, spark._wrapped)
 
 
+class POS(ExtendedJavaWrapper):
+    def __init__(self):
+        super(POS, self).__init__("com.johnsnowlabs.nlp.training.POS")
+
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+    def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="text"):
+
+        # ToDo Replace with std pyspark
+        jSession = spark._jsparkSession
+
+        jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol)
+        return DataFrame(jdf, spark._wrapped)
