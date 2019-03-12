@@ -6,12 +6,12 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.Options;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DependencyLabel;
 
 
-public class Conll09Writer {
+public class ConllWriter {
 
     Options options;
     String[] labels;
 
-    public Conll09Writer(Options options, DependencyPipe pipe) {
+    public ConllWriter(Options options, DependencyPipe pipe) {
         this.options = options;
         this.labels = pipe.getTypes();
     }

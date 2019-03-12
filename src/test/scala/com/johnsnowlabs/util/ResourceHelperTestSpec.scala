@@ -8,8 +8,6 @@ import org.scalatest.FlatSpec
 
 
 class ResourceHelperTestSpec extends FlatSpec {
-  // Access spark to avoid creating in ResourceHelper
-  private val spark = SparkAccessor.spark
 
   "List directory" should "correctly list file inside resource directory" in {
     val files = ResourceHelper.listResourceDirectory("ner-dl").toList
@@ -64,7 +62,7 @@ class ResourceHelperTestSpec extends FlatSpec {
   }
 
   "Resource helper" should "valid a file" in {
-    val rightFilePath = "src/test/resources/parser/dependency_treebank/wsj_0001.dp"
+    val rightFilePath = "src/test/resources/parser/unlabeled/dependency_treebank/wsj_0001.dp"
     val isValid = ResourceHelper.validFile(rightFilePath)
 
     assert(isValid)
@@ -72,14 +70,14 @@ class ResourceHelperTestSpec extends FlatSpec {
   }
 
   it should "also valid a directory" in {
-    val rightDirectoryPath = "src/test/resources/parser/dependency_treebank"
+    val rightDirectoryPath = "src/test/resources/parser/unlabeled/dependency_treebank"
     val isValid = ResourceHelper.validFile(rightDirectoryPath)
 
     assert(isValid)
   }
 
   it should "raise FileNotFound exception when an invalid file name is used" in {
-    val rightFilePath = "src/test/resources/parser/dependency_treebank/invalid_file_name.dp"
+    val rightFilePath = "src/test/resources/parser/unlabeled/dependency_treebank/invalid_file_name.dp"
 
     assertThrows[FileNotFoundException]{
       ResourceHelper.validFile(rightFilePath)

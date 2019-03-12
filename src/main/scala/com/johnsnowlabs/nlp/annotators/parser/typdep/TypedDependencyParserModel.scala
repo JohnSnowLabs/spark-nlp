@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
-import com.johnsnowlabs.nlp.annotators.common.{Conll2009Sentence, LabeledDependency}
+import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.util.Identifiable
 
@@ -16,13 +17,16 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
-  val model: StructFeature[TrainParameters] = new StructFeature[TrainParameters](this, "TDP model")
+  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "TDP options")
+  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "TDP parameters")
+  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "TDP dependency pipe")
 
-  def setModel(targetModel: TrainParameters): this.type = set(model, targetModel)
+  def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
+  def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
 
-  private lazy val options = $$(model).options
-  private lazy val parameters = $$(model).parameters
-  private lazy val dependencyPipe = $$(model).dependencyPipe
+  private lazy val options = $$(trainOptions)
+  private lazy val dependencyPipe = $$(trainDependencyPipe)
+  private lazy val parameters = new Parameters(dependencyPipe, options)
 
   var sentenceId = 1
 
@@ -46,14 +50,14 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     typedDependencyParser.setDependencyPipe(dependencyPipe)
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
-    val conll2009Document = LabeledDependency.unpack(annotations).toArray
-    var conll2009Sentence = conll2009Document.filter(_.sentence == sentenceId)
+    val conllDocument = LabeledDependency.unpack(annotations).toArray
+    var conllSentence = conllDocument.filter(_.sentence == sentenceId)
     var labeledDependenciesDocument = Seq[Annotation]()
 
-    while (conll2009Sentence.length > 0){
+    while (conllSentence.length > 0){
 
-      val document = Array(conll2009Sentence, Array(Conll2009Sentence("end","sentence","ES","ES",-2, 0, 0, 0)))
-      val documentData = transformToConll09Data(document)
+      val document = Array(conllSentence, Array(ConllSentence("end","sentence","ES","ES",-2, 0, 0, 0)))
+      val documentData = transformToConllData(document)
       val dependencyLabels = typedDependencyParser.predictDependency(documentData)
 
       val labeledSentences = dependencyLabels.map{dependencyLabel =>
@@ -63,7 +67,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
       val labeledDependenciesSentence = LabeledDependency.pack(labeledSentences)
       labeledDependenciesDocument = labeledDependenciesDocument ++ labeledDependenciesSentence
       sentenceId += 1
-      conll2009Sentence = conll2009Document.filter(_.sentence == sentenceId)
+      conllSentence = conllDocument.filter(_.sentence == sentenceId)
     }
 
     labeledDependenciesDocument
@@ -103,21 +107,21 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     new TypedDependencyParser
   }
 
-  private def transformToConll09Data(document: Array[Array[Conll2009Sentence]]): Array[Array[Conll09Data]] = {
+  private def transformToConllData(document: Array[Array[ConllSentence]]): Array[Array[ConllData]] = {
     document.map{sentence =>
       sentence.map{word =>
-        new Conll09Data(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
+        new ConllData(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
       }
     }
   }
 
-  private def getDependencyLabelValues(dependencyLabel: DependencyLabel): Conll2009Sentence = {
+  private def getDependencyLabelValues(dependencyLabel: DependencyLabel): ConllSentence = {
     if (dependencyLabel != null){
       val label = getLabel(dependencyLabel.getLabel, dependencyLabel.getDependency)
-      Conll2009Sentence(dependencyLabel.getDependency, "", "", label, dependencyLabel.getHead,
+      ConllSentence(dependencyLabel.getDependency, "", "", label, dependencyLabel.getHead,
         0, dependencyLabel.getBegin, dependencyLabel.getEnd)
     } else {
-      Conll2009Sentence("ROOT", "root", "", "ROOT", -1, 0, -1, 0)
+      ConllSentence("ROOT", "root", "", "ROOT", -1, 0, -1, 0)
     }
   }
 
@@ -136,5 +140,12 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     val head = dependency.substring(beginIndex, endIndex)
     head
   }
-
 }
+
+trait PretrainedTypedDependencyParserModel {
+  def pretrained(name: String = "tdp_fast", language: Option[String] = Some("en"),
+                 remoteLoc: String = ResourceDownloader.publicLoc): TypedDependencyParserModel =
+    ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remoteLoc)
+}
+
+object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel

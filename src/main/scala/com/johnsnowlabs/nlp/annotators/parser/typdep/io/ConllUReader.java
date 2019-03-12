@@ -1,32 +1,24 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep.io;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.ConllData;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Conll09Reader extends DependencyReader{
+public class ConllUReader extends DependencyReader{
 
      /**
-	     *  CoNLL 2009 format:
+	     *  CoNLL Universal Dependency format:
 		    0 ID
 		    1 FORM
-		    2 LEMMA (not used)
-		    3 PLEMMA
-		    4 POS (not used)
-		    5 PPOS
-		    6 FEAT (not used)
-		    7 PFEAT
-		    8 HEAD
-		    9 PHEAD
-		    10 DEPREL
-		    11 PDEPREL
-		    12 FILLPRED
-		    13 PRED
-		    14... APREDn
+		    2 LEMMA
+		    3 UPOS
+		    4 XPOS
+		    5 FEATS
+		    6 HEAD
+		    7 DEPREL
+		    8 MISC
 	   	*/
-
 
     @Override
     public DependencyInstance nextInstance() throws IOException {
@@ -58,20 +50,25 @@ public class Conll09Reader extends DependencyReader{
         for (int i = 1; i < length + 1; ++i) {
             String[] parts = lstLines.get(i-1);
             forms[i] = parts[1];
-            if (!parts[3].equals("_")) {
-                lemmas[i] = parts[3];
+            if (!parts[2].equals("_")) {
+                lemmas[i] = parts[2];
                 hasLemma = true;
             }
 
-            pos[i] = parts[5];
+            pos[i] = parts[3];
             cpos[i] = pos[i];
 
-            if (!parts[7].equals("_")) {
-                feats[i] = parts[7].split("\\|");
+            if (!parts[5].equals("_")) {
+                feats[i] = parts[5].split("\\|");
             }
 
-            heads[i] = Integer.parseInt(parts[8]);
-            deprels[i] = parts[10];
+            if (parts[6].equals("_")) {
+                System.out.println("Error in sentence:\n");
+                System.out.println(parts[0] + " " + parts[1] + " " +  parts[2] + " " + parts[3]);
+            }
+
+            heads[i] = Integer.parseInt(parts[6]);
+            deprels[i] = parts[7];
 
         }
         if (!hasLemma) lemmas = null;
@@ -84,11 +81,18 @@ public class Conll09Reader extends DependencyReader{
         ArrayList<String[]> lstLines = new ArrayList<>();
 
         String line = reader.readLine();
-        while (line != null && !line.equals("") && !line.startsWith("*")) {
-            lstLines.add(line.trim().split("\t"));
+        while (line != null && !line.equals("")) {
+            if (!line.startsWith("#")) {
+                int endIndex = line.indexOf('\t');
+                String id = line.substring(0, endIndex);
+                if (!id.contains(".")) {
+                    lstLines.add(line.trim().split("\t"));
+                }
+            }
             line = reader.readLine();
         }
         return lstLines;
     }
+
 
 }

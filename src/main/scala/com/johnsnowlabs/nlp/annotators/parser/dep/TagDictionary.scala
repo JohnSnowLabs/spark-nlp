@@ -1,7 +1,6 @@
-package com.johnsnowlabs.nlp.annotators.parser
+package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{ClassName, ClassNum, Sentence, Word}
-import com.johnsnowlabs.nlp.annotators.parser.dep.Tagger
 
 import scala.collection.mutable
 
