@@ -360,12 +360,12 @@ object OcrHelper extends ImageProcessing {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
         .map(_.map(_.trim))
-        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
+        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
         .map(_.map(_.trim))
-        .filter(content => content.forall(_.nonEmpty) && (minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback)))
+        .filter(content => minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
