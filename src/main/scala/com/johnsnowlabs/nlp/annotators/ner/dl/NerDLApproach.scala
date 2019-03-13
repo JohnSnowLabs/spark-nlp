@@ -66,7 +66,7 @@ class NerDLApproach(override val uid: String)
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
 
-    val labels = trainDataset.flatMap(r => r._1.labels).distinct
+    val labels = trainDataset.flatMap(r => r._1.labels).distinct ++ Set("X")
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.wordpiece.toCharArray)).distinct
     val embeddingsDim = calculateEmbeddingsDim(trainSentences)
 
