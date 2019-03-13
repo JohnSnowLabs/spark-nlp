@@ -25,7 +25,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     .setOutputCol("normal")
 
   private val spell = new NorvigSweetingApproach()
-    .setInputCols(Array("normal"))
+    .setInputCols(Array("token"))
     .setOutputCol("spell")
     .setDictionary("src/test/resources/spell/words.txt")
 

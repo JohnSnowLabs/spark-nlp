@@ -806,11 +806,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
                        typeConverter=TypeConverters.identity)
 
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
-                   typeConverter=TypeConverters.identity)
-
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
                           "whether to ignore case sensitivty",
@@ -857,12 +852,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6)
-
-    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
