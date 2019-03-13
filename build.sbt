@@ -4,8 +4,14 @@ val sparkVer = "2.4.0"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
+val is_gpu = System.getProperty("is_gpu","false")
 /** Package attributes */
-name := "spark-nlp"
+if(is_gpu.equals("false")){
+  name := "spark-nlp"
+}else{
+  name:="spark-nlp-gpu"
+}
+
 
 organization:= "com.johnsnowlabs.nlp"
 
@@ -107,22 +113,23 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
-
-  "org.tensorflow" % "tensorflow" % "1.12.0",
-
-  /** Enable the following for tensorflow GPU support */
-  //"org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0",
-
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
-  exclude("com.google.guava", "guava"),
-  "com.navigamez" % "greex" % "1.0"
+    exclude("com.google.guava", "guava"),
+  "com.navigamez" % "greex" % "1.0",
+  "org.tensorflow" % "tensorflow" % "1.12.0"
 )
+
 
 lazy val typedDependencyParserDependencies = Seq(
   "net.sf.trove4j" % "trove4j" % "3.0.3",
   "junit" % "junit" % "4.10" % Test
 )
+val tensorflowGpuDependencies: Seq[sbt.ModuleID] =
+  if (is_gpu.equals("true"))
+    Seq("org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0")
+  else
+    Seq.empty
 
 lazy val root = (project in file("."))
   .settings(
@@ -130,8 +137,10 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
+        tensorflowGpuDependencies++
         typedDependencyParserDependencies
   )
+
 
 val ocrMergeRules: String => MergeStrategy  = {
 
@@ -139,7 +148,7 @@ val ocrMergeRules: String => MergeStrategy  = {
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
     if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
-        => MergeStrategy.discard
+  => MergeStrategy.discard
   case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
   case PathList("META-INF", xs @ _*)  => MergeStrategy.first
   case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
@@ -150,10 +159,13 @@ val ocrMergeRules: String => MergeStrategy  = {
 assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
+  case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
 }
+
+
 
 lazy val ocr = (project in file("ocr"))
   .settings(
