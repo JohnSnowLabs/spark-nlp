@@ -29,5 +29,15 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
   )
 
   "a good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
+
+  "a norvig spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+    "mral",
+    "delicatly",
+    "efusive",
+    "lauging",
+    "juuuuuuuuuuuuuuuussssssssssttttttttttt",
+    "screeeeeeeewed",
+    "readampwritepeaceee"
+  ))
   
 }
