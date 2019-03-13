@@ -84,6 +84,26 @@ class TensorflowNer
     result.toArray
   }
 
+  def getPiecesTags(tokenTags: TextSentenceLabels, sentence: WordpieceEmbeddingsSentence): Array[String] = {
+    var i = -1
+
+    sentence.tokens.map{t =>
+      if (t.isWordStart) {
+        i += 1
+        tokenTags.labels(i)
+      }
+      else
+        "X"
+    }
+  }
+
+  def getPiecesTags(tokenTags: Array[TextSentenceLabels], sentences: Array[WordpieceEmbeddingsSentence])
+      :Array[Array[String]] = {
+    tokenTags.zip(sentences).map{
+      case (tags, sentence) => getPiecesTags(tags, sentence)
+    }
+  }
+
   def train(trainDataset: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
             lr: Float,
             po: Float,
@@ -116,7 +136,7 @@ class TensorflowNer
       var loss = 0f
       for (batch <- slice(epochDataset, batchSize)) {
         val sentences = batch.map(r => r._2)
-        val tags = batch.map(r => r._1.labels.toArray)
+        val tags = getPiecesTags(batch.map(r => r._1), sentences)
 
         val batchInput = encoder.encodeInputData(sentences)
         val batchTags = encoder.encodeTags(tags)
@@ -168,6 +188,23 @@ class TensorflowNer
     (prec, rec, f1)
   }
 
+  def tagsForTokens(labels: Array[String], pieces: WordpieceEmbeddingsSentence): Array[String] = {
+    labels.zip(pieces.tokens).flatMap{
+      case(l, p) =>
+        if (p.isWordStart)
+          Some(l)
+        else
+          None
+    }
+  }
+
+  def tagsForTokens(labels: Array[Array[String]], pieces: Array[WordpieceEmbeddingsSentence]):
+    Array[Array[String]] = {
+
+    labels.zip(pieces)
+      .map{case (l, p) => tagsForTokens(l, p)}
+  }
+
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
                   log: (String => Unit),
                   extended: Boolean = false,
@@ -186,14 +223,18 @@ class TensorflowNer
 
     for (batch <- slice(labeled, batchSize)) {
 
+      val sentencePredictedTags = predict(batch.map(_._2))
+
+      val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
+
       val sentenceTokens = batch.map(pair => pair._2.tokens
         .filter(t => t.isWordStart)
         .map(t => t.token)
       ).toList
-      val sentenceLabels = batch.map(pair => pair._1.labels.toArray).toList
-      val sentencePredictedTags = predict(batch.map(_._2))
 
-      (sentenceTokens, sentenceLabels, sentencePredictedTags).zipped.foreach {
+      val sentenceLabels = batch.map(pair => pair._1.labels.toArray).toList
+
+      (sentenceTokens, sentenceLabels, sentenceTokenTags).zipped.foreach {
         case (tokens, labels, tags) =>
           for (i <- 0 until labels.length) {
             val label = labels(i)
