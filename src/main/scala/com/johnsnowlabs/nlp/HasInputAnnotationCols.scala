@@ -16,22 +16,6 @@ trait HasInputAnnotationCols extends Params {
   protected final val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "the input annotation columns")
 
-  /**
-    * takes a [[Dataset]] and checks to see if all the required annotation types are present.
-    * @param schema to be validated
-    * @return True if all the required types are present, else false
-    */
-  protected def validate(schema: StructType): Boolean = inputAnnotatorTypes.forall {
-    requiredAnnotatorType =>
-      schema.exists {
-        field => {
-          field.metadata.contains("annotatorType") &&
-            field.metadata.getString("annotatorType") == requiredAnnotatorType &&
-            $(inputCols).contains(field.name)
-        }
-      }
-  }
-
   /** Overrides required annotators column if different than default */
   final def setInputCols(value: Array[String]): this.type = {
     require(
@@ -43,10 +27,20 @@ trait HasInputAnnotationCols extends Params {
     set(inputCols, value)
   }
 
+  protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
+    schema.exists {
+      field => {
+        field.metadata.contains("annotatorType") &&
+          field.metadata.getString("annotatorType") == inputAnnotatorType &&
+          $(inputCols).contains(field.name)
+      }
+    }
+  }
+
   final def setInputCols(value: String*): this.type = setInputCols(value.toArray)
 
   /** @return input annotations columns currently used */
-  final def getInputCols: Array[String] =
+  def getInputCols: Array[String] =
     get(inputCols).orElse(getDefault(inputCols))
       .getOrElse(throw new Exception(s"inputCols not provided." +
       s" Requires columns for ${inputAnnotatorTypes.mkString(", ")} annotators"))

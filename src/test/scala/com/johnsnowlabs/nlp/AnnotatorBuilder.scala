@@ -9,9 +9,9 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.datasets.POS
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.training.POS
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -94,7 +94,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
 
-      val trainingPerceptronDF = POS().readDataset("src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
 
       posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
@@ -205,12 +205,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     model.transform(predictionDataSet)
   }
 
-  def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
+  def withTreeBankDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .fit(df)
       .transform(df)
   }
@@ -241,13 +241,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     getGLoveEmbeddings(dataset).transform(df)
   }
 
-  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddings = {
+  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     val df = withFullPOSTagger(dataset)
 
     new WordEmbeddings()
       .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+      .fit(df)
   }
 
   def withNerDLTagger(dataset: Dataset[Row]): Dataset[Row] = {
