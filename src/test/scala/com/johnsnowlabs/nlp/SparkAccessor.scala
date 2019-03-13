@@ -10,6 +10,7 @@ object SparkAccessor {
     .config("spark.driver.memory", "1G")
     .config("spark.kryoserializer.buffer.max","200M")
     .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+    .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")
     .getOrCreate()
 
 
