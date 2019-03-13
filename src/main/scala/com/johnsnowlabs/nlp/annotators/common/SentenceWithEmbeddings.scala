@@ -7,6 +7,7 @@ import scala.collection.Map
 case class WordpieceEmbeddingsSentence
 (
   tokens: Array[TokenPieceEmbeddings],
+  sentenceId: Int,
   sentenceEmbeddings: Option[Array[Float]] = None
 )
 
@@ -35,12 +36,12 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       .filter(_.annotatorType == annotatorType)
       .toArray
 
-    SentenceSplit.unpack(annotations).map{sentence: Sentence =>
+    SentenceSplit.unpack(annotations).zipWithIndex.map{case (sentence: Sentence, idx: Int) =>
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
       )
 
-      val sentenceEmbeddings = sentenceTokens.flatMap(t => t.calculations.get("sentence_embeddings")).headOption
+      val sentenceEmbeddings = sentenceTokens.map(t => t.sentence_embeddings).headOption
 
       val tokensWithSentence = sentenceTokens.map { token =>
         new TokenPieceEmbeddings(
@@ -48,32 +49,29 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
           token = token.metadata("token"),
           pieceId = token.metadata("pieceId").toInt,
           isWordStart = token.metadata("isWordStart").toBoolean,
-          embeddings = token.getCalculations("embeddings"),
+          embeddings = token.embeddings,
           begin = token.begin,
           end = token.end
         )
       }
 
-      WordpieceEmbeddingsSentence(tokensWithSentence, sentenceEmbeddings)
+      WordpieceEmbeddingsSentence(tokensWithSentence, idx, sentenceEmbeddings)
     }
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {
-    var sentenceIndex = 0
-
-    sentences.flatMap{sentence =>
-      sentenceIndex += 1
+    sentences.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
       var isFirstToken = true
       sentence.tokens.map{token =>
         // Store embeddings for token
-        val embeddings = Map("embeddings" -> token.embeddings)
+        val embeddings = token.embeddings
 
         // Store sentence embeddings only in one token
-        val calculations =
+        val sentenceEmbeddings =
           if (isFirstToken && sentence.sentenceEmbeddings.isDefined)
-            embeddings ++ Map("sentence_embeddings" -> sentence.sentenceEmbeddings.get)
+            sentence.sentenceEmbeddings.get
           else
-            embeddings
+            Array.emptyFloatArray
 
         isFirstToken = false
         Annotation(annotatorType, token.begin, token.end, token.wordpiece,
@@ -82,7 +80,8 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
             "pieceId" -> token.pieceId.toString,
             "isWordStart" -> token.isWordStart.toString
           ),
-          calculations
+          embeddings,
+          sentenceEmbeddings
         )
       }
     }

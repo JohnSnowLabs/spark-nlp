@@ -5,7 +5,7 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions.udf
 
-import scala.collection.{Map, mutable}
+import scala.collection.Map
 
 /**
   * represents annotator's output parts and their details
@@ -19,14 +19,21 @@ case class Annotation(annotatorType: String,
                       end: Int,
                       result: String,
                       metadata: Map[String, String],
-                      calculations: Map[String, Array[Float]] = Map.empty) {
-
-  def getCalculations(key: String): Array[Float] = {
-    val result = calculations.get(key)
-    if (result.isInstanceOf[Option[mutable.WrappedArray[Float]]])
-      result.asInstanceOf[Option[mutable.WrappedArray[Float]]].get.toArray
-    else
-      result.get
+                      embeddings: Array[Float] = Array.emptyFloatArray,
+                      sentence_embeddings: Array[Float] = Array.emptyFloatArray
+                     ) {
+  override def equals(obj: Any): Boolean = {
+    obj match {
+      case annotation: Annotation =>
+        this.annotatorType == annotation.annotatorType &&
+          this.begin == annotation.begin &&
+          this.end == annotation.end &&
+          this.result == annotation.result &&
+          this.metadata == annotation.metadata &&
+          this.embeddings.sameElements(annotation.embeddings) &&
+          this.sentence_embeddings.sameElements(annotation.sentence_embeddings)
+      case _ => false
+    }
   }
 }
 
@@ -35,7 +42,8 @@ case class JavaAnnotation(annotatorType: String,
                           end: Int,
                           result: String,
                           metadata: java.util.Map[String, String],
-                          calculations: java.util.Map[String, Array[Float]] = new java.util.HashMap[String, Array[Float]]()
+                          embeddings: Array[Float] = Array.emptyFloatArray,
+                          sentenceEmbeddings: Array[Float] = Array.emptyFloatArray
                          )
 
 object Annotation {
@@ -65,7 +73,8 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("calculations", MapType(StringType, ArrayType(FloatType, false), true), nullable = true)
+    StructField("embeddings", ArrayType(FloatType, false), true),
+    StructField("sentence_embeddings", ArrayType(FloatType, false), true)
   ))
 
 
@@ -81,7 +90,8 @@ object Annotation {
       row.getInt(2),
       row.getString(3),
       row.getMap[String, String](4),
-      row.getMap[String, Array[Float]](5)
+      row.getSeq[Float](5).toArray,
+      row.getSeq[Float](6).toArray
     )
   }
   def apply(rawText: String): Annotation = Annotation(
@@ -90,7 +100,8 @@ object Annotation {
     rawText.length - 1,
     rawText,
     Map.empty[String, String],
-    Map.empty[String, Array[Float]]
+    Array.emptyFloatArray,
+    Array.emptyFloatArray
   )
 
   /** dataframe collect of a specific annotation column*/
@@ -117,8 +128,12 @@ object Annotation {
       }
   }
 
-  protected def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
+  def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+  }
+
+  def getAnnotations(row: Row, colName: String): Seq[Annotation] = {
+    row.getAs[Seq[Row]](colName).map(obj => Annotation(obj))
   }
 
   /** dataframe take of a specific annotation column */
@@ -201,6 +216,14 @@ object Annotation {
    */
   def searchCoverage(annotations: Array[Annotation], begin: Int, end: Int): Seq[Annotation] = {
     searchLabel(annotations, 0, annotations.length - 1, begin, end)
+  }
+
+  def getColumnByType(dataset: Dataset[_], inputCols: Array[String], annotatorType: String): StructField = {
+    dataset.schema.fields
+      .find(field => inputCols.contains(field.name) &&
+        field.metadata.contains("annotatorType") &&
+        field.metadata.getString("annotatorType") == annotatorType)
+      .getOrElse(throw new IllegalArgumentException(s"Could not find a column of type $annotatorType in inputCols"))
   }
 
 }

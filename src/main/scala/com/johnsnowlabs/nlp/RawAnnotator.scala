@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types._
 
 /**
@@ -10,17 +10,29 @@ import org.apache.spark.sql.types._
   */
 trait RawAnnotator[M<:Model[M]] extends Model[M]
     with ParamsAndFeaturesWritable
-    with HasAnnotatorType
+    with HasOutputAnnotatorType
     with HasInputAnnotationCols
     with HasOutputAnnotationCol {
 
   /** Shape of annotations at output */
   private def outputDataType: DataType = ArrayType(Annotation.dataType)
 
-  protected def wrapColumnMetadata(col: Column) = {
+  protected def wrapColumnMetadata(col: Column): Column = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     col.as(getOutputCol, metadataBuilder.build)
+  }
+
+  /**
+    * takes a [[Dataset]] and checks to see if all the required annotation types are present.
+    * @param schema to be validated
+    * @return True if all the required types are present, else false
+    */
+  protected def validate(schema: StructType): Boolean = {
+    inputAnnotatorTypes.forall {
+      inputAnnotatorType =>
+        checkSchema(schema, inputAnnotatorType)
+    }
   }
 
   /** Override for additional custom schema checks */
@@ -33,7 +45,7 @@ trait RawAnnotator[M<:Model[M]] extends Model[M]
   override final def transformSchema(schema: StructType): StructType = {
     require(extraValidate(schema), extraValidateMsg)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", annotatorType)
+    metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
       StructField(getOutputCol, outputDataType, nullable = false, metadataBuilder.build)
     StructType(outputFields)

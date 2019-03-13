@@ -8,9 +8,9 @@ import org.apache.spark.ml.util.Identifiable
 
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
 
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")
 
@@ -25,7 +25,7 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
     annotations.map { tokenAnnotation =>
       val token = tokenAnnotation.result
       Annotation(
-        annotatorType,
+        outputAnnotatorType,
         tokenAnnotation.begin,
         tokenAnnotation.end,
         $$(lemmaDict).getOrElse(token, token),

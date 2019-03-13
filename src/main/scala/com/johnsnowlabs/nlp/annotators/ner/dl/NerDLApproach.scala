@@ -8,6 +8,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -25,9 +26,9 @@ class NerDLApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("NerDL"))
 
   override def getLogName: String = "NerDL"
-  override val description = "Trains Tensorflow based-BLSTM model"
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val annotatorType = NAMED_ENTITY
+  override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val outputAnnotatorType = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
@@ -119,8 +120,10 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      if (name.startsWith("blstm_")) {
-        val clean = name.replace("blstm_", "").replace(".pb", "")
+      val graphPrefix = if (SystemUtils.IS_OS_WINDOWS) "blstm-noncontrib_" else "blstm_"
+
+      if (name.startsWith(graphPrefix)) {
+        val clean = name.replace(graphPrefix, "").replace(".pb", "")
         val graphParams = clean.split("_").take(4).map(s => s.toInt)
         val Array(fileTags, fileEmbeddingsNDims, _, fileNChars) = graphParams
 
@@ -163,7 +166,7 @@ trait WithGraphResolver  {
     require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of chars: $nChars. " +
       s"Generate graph by python code before usage.")
 
-    for (i <- 0 until files.length) {
+    for (i <- files.indices) {
       if (charsFiltered(i).nonEmpty)
         return files(i)
     }

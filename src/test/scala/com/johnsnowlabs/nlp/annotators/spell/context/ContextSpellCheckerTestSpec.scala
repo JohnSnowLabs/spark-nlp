@@ -9,17 +9,26 @@ import org.scalatest._
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
 
-
   trait Scope extends WeightedLevenshtein {
-    val weights = Map("l" -> Map("1" -> 0.5f, "!" -> 0.2f), "P" -> Map("F" -> 0.2f))
+    val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
+      "F" -> Map("P" -> 0.2f))
   }
+
+  trait distFile extends WeightedLevenshtein {
+    val weights = loadWeights("src/test/resources/dist.psv")
+  }
+
+  "weighted Levenshtein distance" should "work from file" in new distFile {
+    assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
+    assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
+  }
+
 
   "weighted Levenshtein distance" should "produce weighted results" in new Scope {
-    assert(wLevenshteinDist("c1ean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
-    assert(wLevenshteinDist("crean", "clean", weights) > wLevenshteinDist("c!ean", "clean", weights))
-    assert(wLevenshteinDist("Fatient", "Patient", weights) < wLevenshteinDist("Aatient", "Patient", weights))
+    assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
+    assert(wLevenshteinDist("clean", "crean", weights) > wLevenshteinDist("clean", "c!ean", weights))
+    assert(wLevenshteinDist("Patient", "Fatient", weights) < wLevenshteinDist("Patient", "Aatient", weights))
   }
-
 
   "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
@@ -171,7 +180,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(NumberToken.separate("$40,000").equals(NumberToken.label))
   }
 
-
   "date classes" should "recognize different date and time formats" in {
     import scala.collection.JavaConversions._
     val transducer = DateToken.generateTransducer
@@ -189,8 +197,5 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     tmp = prefixedToken.separate(suffixedToken.separate("(08/10/1982)"))
     assert(tmp.equals("( 08/10/1982 )"))
-
   }
-
-
 }

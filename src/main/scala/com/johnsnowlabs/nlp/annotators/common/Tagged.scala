@@ -57,7 +57,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     */
   def collectLabeledInstances(dataset: Dataset[Row],
                           taggedCols: Seq[String],
-                          labelColumn: String): Array[(TextSentenceLabels, NerTaggedSentence)] = {
+                          labelColumn: String): Array[(TextSentenceLabels, T)] = {
 
     dataset
       .select(labelColumn, taggedCols:_*)
@@ -147,6 +147,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
       }
   }
 
+  /** FIXME: ColNums not always in the given order*/
   def collectTrainingInstances(dataset: Dataset[Row],
                                sentenceCols: Seq[String],
                                labelColumn: String): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {

@@ -3,11 +3,11 @@ package com.johnsnowlabs.benchmarks.spark
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence, TokenPiece, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{BertEmbeddingsModel, WordEmbeddingsFormat, WordEmbeddingsLookup}
+import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
@@ -26,7 +26,7 @@ object CoNLL2003PipelineTest extends App {
   val nerReader = CoNLL()
 
   def getNerStages(): Array[_ <: PipelineStage] = {
-    val glove = new WordEmbeddingsLookup()
+    val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
       .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
@@ -46,7 +46,7 @@ object CoNLL2003PipelineTest extends App {
   def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(er, SparkAccessor.benchmarkSpark)
+    val dataset = nerReader.readDataset(SparkAccessor.benchmarkSpark, er.path)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -88,7 +88,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = reader.readDataset(er, SparkAccessor.benchmarkSpark)
+    val dataset = reader.readDataset(SparkAccessor.benchmarkSpark, er.path)
     val transformed = model.transform(dataset)
 
     val sentences = collect(transformed)

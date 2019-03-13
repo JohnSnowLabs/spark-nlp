@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModelPythonReader
-import com.johnsnowlabs.nlp.datasets.{CoNLL, CoNLLDocument}
+import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.tensorflow.{Graph, Session, TensorFlow}
@@ -80,13 +80,13 @@ object NerDLCoNLL2003 extends App {
       Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
     source.flatMap{s =>
-      s.nerTagged.map { sentence =>
+      s.nerTagged.zipWithIndex.map { case (sentence, idx) =>
         val tokens = sentence.indexedTaggedWords.map {t =>
           TokenPieceEmbeddings(t.word, t.word, -1, true,
             embeddings.getEmbeddingsVector(t.word),
             t.begin, t.end)
         }
-        val tokenized = WordpieceEmbeddingsSentence(tokens)
+        val tokenized = WordpieceEmbeddingsSentence(tokens, idx)
         val labels = TextSentenceLabels(sentence.tags)
 
         (labels, tokenized)

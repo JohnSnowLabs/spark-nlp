@@ -56,9 +56,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   /** Annotator param containing expected output format of parsed date*/
   val dateFormat: Param[String] = new Param(this, "dateFormat", "SimpleDateFormat standard criteria")
 
-  override val annotatorType: AnnotatorType = DATE
+  override val outputAnnotatorType: AnnotatorType = DATE
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   setDefault(
     inputCols -> Array(DOCUMENT),
@@ -299,7 +299,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val simpleDateFormat = new SimpleDateFormat(getFormat)
     annotations.flatMap( annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(
-        annotatorType,
+        outputAnnotatorType,
         matchedDate.start,
         matchedDate.end - 1,
         simpleDateFormat.format(matchedDate.calendar.getTime),

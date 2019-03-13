@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ModelWithWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable
 import com.johnsnowlabs.ml.tensorflow.{WriteTensorflowModel, ReadTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
@@ -23,8 +23,8 @@ class NerDLModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
-  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val annotatorType = NAMED_ENTITY
+  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val outputAnnotatorType = NAMED_ENTITY
 
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)

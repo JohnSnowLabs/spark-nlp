@@ -2,8 +2,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -24,31 +23,18 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
-  val corpus = new ExternalResourceParam(this, "corpus", "POS tags delimited corpus. Needs 'delimiter' in options")
   val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
 
   setDefault(nIterations, 5)
 
   def setPosColumn(value: String): this.type = set(posCol, value)
-
-  def setCorpus(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
-    set(corpus, value)
-  }
-
-  def setCorpus(path: String,
-                delimiter: String,
-                readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
-
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
   def this() = this(Identifiable.randomUID("POS"))
 
-  override val annotatorType: AnnotatorType = POS
+  override val outputAnnotatorType: AnnotatorType = POS
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   /**
     * Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
@@ -89,26 +75,26 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
     /**
       * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
       */
-    val taggedSentences: Array[TaggedSentence] = if (get(posCol).isDefined) {
+    val taggedSentences: Array[TaggedSentence] = {
       import ResourceHelper.spark.implicits._
-      val tokenColumn = dataset.schema.fields
-        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.TOKEN)
-        .map(_.name).get
-      dataset.select(tokenColumn, $(posCol))
-        .as[(Array[Annotation], Array[String])]
+
+      val datasetSchemaFields = dataset.schema.fields
+        .find(f => f.metadata.contains("annotatorType") && f.metadata.getString("annotatorType") == AnnotatorType.POS)
+
+      require(datasetSchemaFields.map(_.name).isDefined, s"Cannot train from DataFrame without POS annotatorType by posCol")
+
+      val posColumn = datasetSchemaFields.map(_.name).get
+
+      dataset.select(posColumn)
+        .as[Array[Annotation]]
         .map{
-          case (annotations, posTags) =>
-            lazy val strTokens = annotations.map(_.result).mkString("#")
-            lazy val strPosTags = posTags.mkString("#")
-            require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
-              s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
-            TaggedSentence(annotations.zip(posTags)
-              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
+          annotations =>
+            TaggedSentence(annotations
+              .map{annotation => IndexedTaggedWord(annotation.metadata("word"), annotation.result, annotation.begin, annotation.end)}
             )
         }.collect
-    } else {
-      ResourceHelper.parseTupleSentences($(corpus))
     }
+
     val taggedWordBook = buildTagBook(taggedSentences)
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct

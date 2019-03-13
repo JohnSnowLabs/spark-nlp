@@ -9,8 +9,9 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddingsLookup, WordEmbeddingsLookupModel}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.training.POS
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -50,7 +51,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalized")
       .setLowercase(lowerCase)
     val tokenized = withTokenizer(dataset)
-    normalizer.fit(dataset).transform(tokenized).show(5)
     normalizer.fit(dataset).transform(tokenized)
   }
 
@@ -60,7 +60,6 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalized")
       .setLowercase(false)
     val tokenized = withTokenizer(dataset)
-    normalizer.fit(dataset).transform(tokenized).show(5)
     normalizer.fit(dataset).transform(tokenized)
   }
 
@@ -73,13 +72,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullTextMatcher(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+  def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
-      .setInputCols("normalized")
+      .setInputCols(if (sbd) "sentence" else "document", "token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
-      .setOutputCol("entity")
-    val data = withFullNormalizer(
-      withTokenizer(dataset, sbd), lowerCase)
+      .setOutputCol("entity").
+      setCaseSensitive(caseSensitive)
+    val data = withTokenizer(dataset, sbd)
     entityExtractor.fit(data).transform(data)
   }
 
@@ -94,12 +93,15 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
-     posTagger = new PerceptronApproach()
+
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
+
+      posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("pos")
+        .setPosColumn("tags")
         .setNIterations(1)
-        .setCorpus(ExternalResource("src/test/resources/anc-pos-corpus-small/110CYL067.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
-        .fit(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
+        .fit(trainingPerceptronDF)
     }
 
     posTagger.transform(withFullPragmaticSentenceDetector(withTokenizer(dataset)))
@@ -135,31 +137,80 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   }
 
   def withViveknSentimentAnalysis(dataset: Dataset[Row]): Dataset[Row] = {
-    new ViveknSentimentApproach()
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val sentimentDetector = new ViveknSentimentApproach()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("vivekn")
-      .setPositiveSource(ExternalResource("src/test/resources/vivekn/positive/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-      .setNegativeSource(ExternalResource("src/test/resources/vivekn/negative/1.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
+      .setSentimentCol("sentiment_label")
       .setCorpusPrune(0)
-      .fit(dataset)
-      .transform(withTokenizer(dataset))
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        sentimentDetector
+      ))
+
+    pipeline.fit(dataset).transform(dataset)
+
   }
 
-  def withFullSpellChecker(dataset: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
+  def withFullSpellChecker(dataSet: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
       .setDictionary("src/test/resources/spell/words.txt")
-      .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-    spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        normalizer,
+        spellChecker
+      ))
+
+    val trainingDataSet = getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+//    println("Training Dataset:")
+//    trainingDataSet.show()
+    val predictionDataSet = withFullNormalizer(dataSet)
+//    println("Prediction Dataset:")
+//    predictionDataSet.show()
+
+    val model = pipeline.fit(trainingDataSet)
+    model.transform(predictionDataSet)
   }
 
-  def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
+  def withTreeBankDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .fit(df)
       .transform(df)
   }
@@ -190,10 +241,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     getGLoveEmbeddings(dataset).transform(df)
   }
 
-  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsLookupModel = {
+  def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     val df = withFullPOSTagger(dataset)
 
-    new WordEmbeddingsLookup()
+    new WordEmbeddings()
       .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
@@ -246,6 +297,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       pw.println(s"$token $randomDoubleArrayStr")
 
     filename
+  }
+
+  def getTrainingDataSet(textFile: String): Dataset[_] = {
+    val trainingDataSet = SparkAccessor.spark.read.textFile(textFile)
+    trainingDataSet.select(trainingDataSet.col("value").as("text"))
   }
 
 }

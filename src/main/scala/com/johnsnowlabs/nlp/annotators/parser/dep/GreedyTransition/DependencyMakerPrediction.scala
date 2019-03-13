@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
-import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
+import com.johnsnowlabs.nlp.annotators.parser.dep.Perceptron
 
 class DependencyMakerPrediction {
 
