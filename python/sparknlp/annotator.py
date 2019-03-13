@@ -501,11 +501,6 @@ class PerceptronApproach(AnnotatorApproach):
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
 
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
-
     nIterations = Param(Params._dummy(),
                         "nIterations",
                         "Number of iterations in training, converges to better accuracy",
@@ -522,11 +517,6 @@ class PerceptronApproach(AnnotatorApproach):
     def setPosCol(self, value):
         return self._set(posCol=value)
 
-    def setCorpus(self, path, delimiter, read_as=ReadAs.SPARK_DATASET, options={"format": "text", "repartition": "8"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
-
     def setIterations(self, value):
         return self._set(nIterations=value)
 
@@ -539,11 +529,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
                    "posCol",
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
-
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
@@ -560,11 +545,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
 
     def setPosCol(self, value):
         return self._set(posCol=value)
-
-    def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setIterations(self, value):
         return self._set(nIterations=value)
@@ -754,16 +734,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",
                          typeConverter=TypeConverters.toString)
 
-    positiveSource = Param(Params._dummy(),
-                           "positiveSource",
-                           "positive sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
-    negativeSource = Param(Params._dummy(),
-                           "negativeSource",
-                           "negative sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
                         "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
@@ -792,18 +762,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
-
-    def setPositiveSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(positiveSource=ExternalResource(path, read_as, opts))
-
-    def setNegativeSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(negativeSource=ExternalResource(path, read_as, opts))
 
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
@@ -847,11 +805,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
                        "dictionary",
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
                        typeConverter=TypeConverters.identity)
-
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
-                   typeConverter=TypeConverters.identity)
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -899,12 +852,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6)
-
-    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -1287,8 +1234,13 @@ class ContextSpellCheckerModel(AnnotatorModel):
 class DependencyParserApproach(AnnotatorApproach):
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
-                               "dependency treebank source files",
+                               "Dependency treebank source files",
                                typeConverter=TypeConverters.identity)
+
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1308,6 +1260,10 @@ class DependencyParserApproach(AnnotatorApproach):
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
+
     def _create_model(self, java_model):
         return DependencyParserModel(java_model=java_model)
 
@@ -1323,11 +1279,15 @@ class DependencyParserModel(AnnotatorModel):
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
+    conll2009 = Param(Params._dummy(),
+                      "conll2009",
+                      "Path to file with CoNLL 2009 format",
+                      typeConverter=TypeConverters.identity)
 
-    conll2009FilePath = Param(Params._dummy(),
-                              "conll2009FilePath",
-                              "Path to file with CoNLL 2009 format",
-                              typeConverter=TypeConverters.identity)
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1339,9 +1299,13 @@ class TypedDependencyParserApproach(AnnotatorApproach):
         super(TypedDependencyParserApproach,
               self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
 
-    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConll2009(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
         opts = options.copy()
-        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
+        return self._set(conll2009=ExternalResource(path, read_as, opts))
+
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
 
     def setNumberOfIterations(self, value):
         return self._set(numberOfIterations=value)

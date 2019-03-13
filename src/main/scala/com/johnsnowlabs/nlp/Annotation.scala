@@ -21,7 +21,21 @@ case class Annotation(annotatorType: String,
                       metadata: Map[String, String],
                       embeddings: Array[Float] = Array.emptyFloatArray,
                       sentence_embeddings: Array[Float] = Array.emptyFloatArray
-                     )
+                     ) {
+  override def equals(obj: Any): Boolean = {
+    obj match {
+      case annotation: Annotation =>
+        this.annotatorType == annotation.annotatorType &&
+          this.begin == annotation.begin &&
+          this.end == annotation.end &&
+          this.result == annotation.result &&
+          this.metadata == annotation.metadata &&
+          this.embeddings.sameElements(annotation.embeddings) &&
+          this.sentence_embeddings.sameElements(annotation.sentence_embeddings)
+      case _ => false
+    }
+  }
+}
 
 case class JavaAnnotation(annotatorType: String,
                           begin: Int,

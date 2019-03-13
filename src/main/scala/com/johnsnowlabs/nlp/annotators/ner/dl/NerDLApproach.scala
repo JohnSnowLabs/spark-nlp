@@ -166,7 +166,7 @@ trait WithGraphResolver  {
     require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of chars: $nChars. " +
       s"Generate graph by python code before usage.")
 
-    for (i <- 0 until files.length) {
+    for (i <- files.indices) {
       if (charsFiltered(i).nonEmpty)
         return files(i)
     }
