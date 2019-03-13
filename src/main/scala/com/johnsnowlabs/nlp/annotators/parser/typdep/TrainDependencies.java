@@ -7,7 +7,7 @@ public class TrainDependencies implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String trainFile;
+    private TrainFile trainFile;
     private DependencyPipe dependencyPipe;
     private TypedDependencyParser typedDependencyParser;
     private Options options;
@@ -37,7 +37,7 @@ public class TrainDependencies implements Serializable {
         this.parameters = parameters;
     }
 
-    public TrainDependencies(String trainFile, DependencyPipe dependencyPipe,
+    public TrainDependencies(TrainFile trainFile, DependencyPipe dependencyPipe,
                              TypedDependencyParser typedDependencyParser, Options options){
         this.trainFile = trainFile;
         this.dependencyPipe = dependencyPipe;
@@ -46,7 +46,8 @@ public class TrainDependencies implements Serializable {
     }
 
     public void startTraining() throws IOException {
-        DependencyInstance[] dependencyInstances = dependencyPipe.createInstances(trainFile);
+        DependencyInstance[] dependencyInstances = dependencyPipe.createInstances(trainFile.path(),
+                trainFile.conllFormat());
         dependencyPipe.pruneLabel(dependencyInstances);
 
         typedDependencyParser.setParameters(new Parameters(dependencyPipe, options));

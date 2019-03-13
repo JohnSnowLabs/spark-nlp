@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
-public class Conll09Data {
+public class ConllData {
 
     private String form;
     private String lemma;
@@ -62,7 +62,7 @@ public class Conll09Data {
         this.end = end;
     }
 
-    public Conll09Data(String form, String lemma, String pos, String deprel, int head, int begin, int end) {
+    public ConllData(String form, String lemma, String pos, String deprel, int head, int begin, int end) {
         this.form = form;
         this.lemma = lemma;
         this.pos = pos;

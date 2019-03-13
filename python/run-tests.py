@@ -21,8 +21,10 @@ unittest.TextTestRunner().run(SpellCheckerTestSpec())
 unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
 unittest.TextTestRunner().run(ContextSpellCheckerTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
-unittest.TextTestRunner().run(DependencyParserTestSpec())
-unittest.TextTestRunner().run(TypedDependencyParserTestSpec())
+# unittest.TextTestRunner().run(DependencyParserTreeBankTestSpec())
+# unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
+# unittest.TextTestRunner().run(TypedDependencyParserConll2009TestSpec())
+# unittest.TextTestRunner().run(TypedDependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
 
 # Misc tests

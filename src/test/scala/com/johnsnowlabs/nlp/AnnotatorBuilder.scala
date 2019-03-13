@@ -168,21 +168,49 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   }
 
-  def withFullSpellChecker(dataset: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
+  def withFullSpellChecker(dataSet: Dataset[Row], inputFormat: String = "TXT"): Dataset[Row] = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val normalizer = new Normalizer()
+      .setInputCols(Array("token"))
+      .setOutputCol("normalized")
+
     val spellChecker = new NorvigSweetingApproach()
       .setInputCols(Array("normalized"))
       .setOutputCol("spell")
       .setDictionary("src/test/resources/spell/words.txt")
-      .setCorpus(ExternalResource("src/test/resources/spell/sherlockholmes.txt", ReadAs.LINE_BY_LINE, Map("tokenPattern" -> "\\S+")))
-    spellChecker.fit(withFullNormalizer(dataset)).transform(withFullNormalizer(dataset))
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        normalizer,
+        spellChecker
+      ))
+
+    val trainingDataSet = getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+//    println("Training Dataset:")
+//    trainingDataSet.show()
+    val predictionDataSet = withFullNormalizer(dataSet)
+//    println("Prediction Dataset:")
+//    predictionDataSet.show()
+
+    val model = pipeline.fit(trainingDataSet)
+    model.transform(predictionDataSet)
   }
 
-  def withDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
+  def withTreeBankDependencyParser(dataset: Dataset[Row]): Dataset[Row] = {
     val df = withFullPOSTagger(withTokenizer(dataset))
     new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
-      .setDependencyTreeBank("src/test/resources/parser/dependency_treebank")
+      .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .fit(df)
       .transform(df)
   }
@@ -269,6 +297,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       pw.println(s"$token $randomDoubleArrayStr")
 
     filename
+  }
+
+  def getTrainingDataSet(textFile: String): Dataset[_] = {
+    val trainingDataSet = SparkAccessor.spark.read.textFile(textFile)
+    trainingDataSet.select(trainingDataSet.col("value").as("text"))
   }
 
 }
