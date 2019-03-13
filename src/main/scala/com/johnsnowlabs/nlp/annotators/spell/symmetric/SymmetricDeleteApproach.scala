@@ -22,22 +22,9 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
 
-  val corpus = new ExternalResourceParam(this, "corpus", "folder or file with text that teaches about the language")
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(maxEditDistance, 3)
-
-  def setCorpus(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "spell checker corpus needs 'tokenPattern' regex for " +
-                                                    "tagging words. e.g. [a-zA-Z]+")
-    set(corpus, value)
-  }
-
-  def setCorpus(path: String,
-                tokenPattern: String = "\\S+",
-                readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
-                options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(corpus, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
@@ -52,9 +39,9 @@ class SymmetricDeleteApproach(override val uid: String)
 
 
   // AnnotatorType shows the structure of the result, we can have annotators with the same result
-  override val annotatorType: AnnotatorType = TOKEN
+  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
 
   def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
@@ -125,31 +112,19 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
+    import ResourceHelper.spark.implicits._
+    import org.apache.spark.sql.functions._
+
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
     var wordFeatures = WordFeatures(MMap.empty, 0)
 
-    if (get(corpus).isDefined) {
+    require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
 
-      val corpusWordCount = ResourceHelper.wordCount($(corpus), p = recursivePipeline).toMap
-      val wordFrequencies = corpusWordCount.flatMap{case (word, wordFrequency) =>
-        List((word, wordFrequency))}
-      wordFeatures = derivedWordDistances(wordFrequencies.toList, $(maxEditDistance))
-      val longestWord = wordFrequencies.keysIterator.reduceLeft((word, nextWord) =>
-        if (word.length > nextWord.length) word else nextWord)
-      wordFeatures.longestWordLength = longestWord.length
-
-    } else {
-      import ResourceHelper.spark.implicits._
-      import org.apache.spark.sql.functions._
-
-      require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
-
-      val trainDataset = dataset.select($(inputCols).head).as[Array[Annotation]]
-                        .flatMap(_.map(_.result))
-      val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
-      wordFeatures = derivedWordDistances(wordFrequencies, $(maxEditDistance))
-      wordFeatures.longestWordLength = trainDataset.agg(max(length(col("value")))).head().getInt(0)
-    }
+    val trainDataset = dataset.select(getInputCols.head).as[Array[Annotation]]
+      .flatMap(_.map(_.result))
+    val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
+    wordFeatures = derivedWordDistances(wordFrequencies, $(maxEditDistance))
+    wordFeatures.longestWordLength = trainDataset.agg(max(length(col("value")))).head().getInt(0)
 
     val model = new SymmetricDeleteModel()
       .setDerivedWords(wordFeatures.derivedWords.mapValues(derivedWords =>

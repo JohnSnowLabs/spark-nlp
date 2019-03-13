@@ -12,24 +12,22 @@ class PragmaticSentenceExtractor(text: String, sourceText: String) {
   private val recoverySymbols = ("([" + PragmaticSymbols.symbolRecovery.keys.mkString + "])").r
 
   /** Goes through all sentences to store length and bounds of sentences */
-  private def buildSentenceProperties(rawSentences: Array[String], sourceText: String) = {
-    val sentences: Array[Sentence] = Array.ofDim[Sentence](rawSentences.length)
+  private def buildSentenceProperties(rawSentences: Array[String], sourceText: String): Array[Sentence] = {
     var lastCharPosition = 0
-    var i = 0
-    while (i < sentences.length) {
-      val rawSentence = rawSentences(i)
-      val sentence = rawSentence.trim()
-      val startPad = sourceText.indexOf(sentence, lastCharPosition)
+    rawSentences.filter(_.nonEmpty).zipWithIndex.map{case (rawSentence, index) =>
+      val trimmed = rawSentence.trim
+      val startPad = sourceText.indexOf(trimmed, lastCharPosition)
 
-      sentences(i) = Sentence(
-        sentence,
+      val sentence = Sentence(
+        trimmed,
         startPad,
-        startPad + sentence.length() - 1
+        startPad + trimmed.length() - 1,
+        index
       )
-      lastCharPosition = sentences(i).end + 1
-      i = i + 1
+      lastCharPosition = sentence.end + 1
+
+      sentence
     }
-    sentences
   }
 
   /**
@@ -50,6 +48,5 @@ class PragmaticSentenceExtractor(text: String, sourceText: String) {
       ))
 
     buildSentenceProperties(splitSentences, sourceText)
-      .filter(_.content.trim.nonEmpty)
   }
 }

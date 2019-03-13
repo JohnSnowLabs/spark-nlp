@@ -5,11 +5,6 @@ import org.scalatest._
 
 class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehaviors {
 
-
-  //testSuggestions()
-
-  //testLevenshteinDistance()
-
   "A symmetric delete approach" should behave like testDefaultTokenCorpusParameter
 
   "a lower case word " should behave like obtainLowerCaseTypeFromALowerCaseWord

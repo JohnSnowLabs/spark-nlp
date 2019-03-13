@@ -1,4 +1,5 @@
 import sys
+from pyspark.sql import SparkSession
 from sparknlp import annotator
 from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
@@ -20,6 +21,17 @@ sys.modules['com.johnsnowlabs.nlp.annotators.sda.vivekn'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.norvig'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.embeddings'] = annotator
+sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 
 annotators = annotator
+embeddings = annotator
+
+
+def start():
+    return SparkSession.builder \
+        .appName("spark-nlp") \
+        .master("local[*]") \
+        .config("spark.driver.memory", "4G") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:1.8.3") \
+        .getOrCreate()

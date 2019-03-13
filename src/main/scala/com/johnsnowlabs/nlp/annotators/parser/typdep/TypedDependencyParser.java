@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.io.Conll09Writer;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.io.ConllWriter;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DependencyLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,8 @@ public class TypedDependencyParser implements Serializable {
         long start;
         long end;
 
-        if ((options.rankFirstOrderTensor > 0 || options.rankSecondOrderTensor > 0) && options.gammaLabel < 1 && options.initTensorWithPretrain) {
+        if ((options.rankFirstOrderTensor > 0 || options.rankSecondOrderTensor > 0) && options.gammaLabel < 1
+                && options.initTensorWithPretrain) {
 
             Options optionsBackup = Options.newInstance(options);
             options.rankFirstOrderTensor = 0;
@@ -170,7 +171,8 @@ public class TypedDependencyParser implements Serializable {
 
     }
 
-    private int getNumberCorrectMatches(int[] actualHeads, int[] actualLabels, int[] predictedHeads, int[] predictedLabels)
+    private int getNumberCorrectMatches(int[] actualHeads, int[] actualLabels, int[] predictedHeads,
+                                        int[] predictedLabels)
     {
         int nCorrect = 0;
         for (int i = 1, N = actualHeads.length; i < N; ++i) {
@@ -180,13 +182,13 @@ public class TypedDependencyParser implements Serializable {
         return nCorrect;
     }
 
-    DependencyLabel[] predictDependency(Conll09Data[][] document){
+    DependencyLabel[] predictDependency(ConllData[][] document){
 
-        Conll09Writer conll09Writer = new Conll09Writer(options, dependencyPipe);
+        ConllWriter conllWriter = new ConllWriter(options, dependencyPipe);
 
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
-        for (Conll09Data[] sentence : document) {
+        for (ConllData[] sentence : document) {
             DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence);
             if (dependencyInstance == null) {
                 break;
@@ -197,7 +199,7 @@ public class TypedDependencyParser implements Serializable {
             int[] predictedLabels = new int [numberOfTokensInSentence];
             localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
 
-            dependencyLabels = conll09Writer.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
+            dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
         }
         return dependencyLabels;
     }

@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
 
-private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
+private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
@@ -60,10 +60,10 @@ private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
       .filter(c => !isToFilter(c))
       .mkString("")
 
-    if (lowerCase)
-      result.toLowerCase
-    else
+    if (caseSensitive)
       result
+    else
+      result.toLowerCase
   }
 
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
@@ -86,20 +86,20 @@ private [nlp] class BasicTokenizer(lowerCase: Boolean = true) {
     var i = 0
     while (i < s.length) {
       // 1. Skip whitespaces
-      while (isWhitespace(s(i)) && !isPunctuation(s(i)) && i < s.length)
+      while (i < s.length && isWhitespace(s(i)) && !isPunctuation(s(i)))
         i = i + 1
 
       // 2. Find Next separator
       var end = i
-      while (!isToFilter(s(end)) && !isPunctuation(s(end)) && !isChinese(s(end))
-        && !isWhitespace(s(end)) && end < s.length)
+      while (end < s.length && !isToFilter(s(end)) && !isPunctuation(s(end)) && !isChinese(s(end))
+        && !isWhitespace(s(end)))
         end += 1
 
       // 3. Detect what tokens to add
       if (end > i)
         append(i, end)
 
-      if (isPunctuation(s(end)) || isChinese(s(end)))
+      if (end < s.length && (isPunctuation(s(end)) || isChinese(s(end))))
         append(end, end + 1)
 
       i = end + 1

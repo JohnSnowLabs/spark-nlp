@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.datasets
+package com.johnsnowlabs.nlp.training
 
 import java.io.File
 
@@ -20,7 +20,12 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          embeddingsFormat: WordEmbeddingsFormat.Format,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
-  private val nerReader = CoNLL()
+  private val nerReader = CoNLL(
+    documentCol = "document",
+    sentenceCol = "sentence",
+    tokenCol = "token",
+    posCol = "pos"
+  )
 
   private var wordEmbeddings: WordEmbeddingsRetriever = _
 
@@ -50,7 +55,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   )
 
   private def resolveEmbeddings(sentences: Seq[PosTaggedSentence]): Seq[WordpieceEmbeddingsSentence] = {
-    sentences.map { s =>
+    sentences.zipWithIndex.map { case (s, idx) =>
       val tokens = s.indexedTaggedWords.map{token =>
         val vector = wordEmbeddings.getEmbeddingsVector(token.word)
         new TokenPieceEmbeddings(token.word, token.word,
@@ -58,7 +63,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
           token.begin, token.end)
       }
 
-      WordpieceEmbeddingsSentence(tokens)
+      WordpieceEmbeddingsSentence(tokens, idx)
     }
   }
 

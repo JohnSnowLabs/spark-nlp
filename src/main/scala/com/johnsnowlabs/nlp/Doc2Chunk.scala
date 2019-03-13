@@ -15,9 +15,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  override val annotatorType: AnnotatorType = CHUNK
+  override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
@@ -54,11 +54,11 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
       None
     } else {
       Some(Annotation(
-        annotatorType,
+        outputAnnotatorType,
         beginning,
         ending,
         chunk,
-        Map.empty[String, String]
+        annotation.metadata
       ))
     }
   }
@@ -81,9 +81,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     if ($(isArray))
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col($(inputCols).head), col($(chunkCol)))))
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col(getInputCols.head), col($(chunkCol)))))
     else
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col($(inputCols).head), col($(chunkCol)))))
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col(getInputCols.head), col($(chunkCol)))))
   }
 
 }

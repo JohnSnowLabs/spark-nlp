@@ -204,28 +204,53 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
-class WordEmbeddingsLookup(AnnotatorApproach, ApproachWithEmbeddings):
+class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
+
+    sourceEmbeddingsPath = Param(Params._dummy(),
+                                 "sourceEmbeddingsPath",
+                                 "Word embeddings file",
+                                 typeConverter=TypeConverters.toString)
+
+    embeddingsFormat = Param(Params._dummy(),
+                             "embeddingsFormat",
+                             "Word vectors file format",
+                             typeConverter=TypeConverters.toInt)
+
     @keyword_only
     def __init__(self):
-        super(WordEmbeddingsLookup, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookup")
+        super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
+        self._setDefault(
+            embeddingsRef=self.uid,
+            caseSensitive=False
+        )
+
+    def setEmbeddingsSource(self, path, nDims, format):
+        self._set(sourceEmbeddingsPath=path)
+        self._set(embeddingsFormat=format)
+        return self._set(dimension=nDims)
 
     def _create_model(self, java_model):
-        return WordEmbeddingsLookupModel(java_model=java_model)
+        return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsLookupModel(ModelWithEmbeddings):
+class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+
+    name = "WordEmbeddingsModel"
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLookupModel", java_model=None):
-        super(WordEmbeddingsLookupModel, self).__init__(
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
+        super(WordEmbeddingsModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(
+            caseSensitive=False
+        )
 
 
-class BertEmbeddingsModel(AnnotatorModel):
+class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
-    name = "BertEmbeddingsModel"
+    name = "BertEmbeddings"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -237,51 +262,36 @@ class BertEmbeddingsModel(AnnotatorModel):
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
-    lowercase = Param(Params._dummy(),
-                      "lowercase",
-                      "whether to convert strings to lowercase")
-
-    dim = Param(Params._dummy(),
-                "dim",
-                "Dimension of embeddings",
-                typeConverter=TypeConverters.toInt)
-
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
 
-    def setLowercase(self, value):
-        return self._set(lowercase=value)
-
-    def setDim(self, value):
-        return self._set(dim=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel", java_model=None):
-        super(BertEmbeddingsModel, self).__init__(
-            classname=classname,
+    def __init__(self, java_model=None):
+        super(BertEmbeddings, self).__init__(
+            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings",
             java_model=java_model
         )
         self._setDefault(
-            dim = 768,
-            batchSize = 5,
-            maxSentenceLength = 100,
-            lowercase = True
+            dimension=768,
+            batchSize=5,
+            maxSentenceLength=100,
+            caseSensitive=False
         )
 
     @staticmethod
     def loadFromPython(folder):
         jModel = _BertLoader(folder)._java_obj
-        return BertEmbeddingsModel(java_model = jModel)
+        return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod
     def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertEmbeddingsModel, name, language, remote_loc)
-
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
 
 
 class Normalizer(AnnotatorApproach):
@@ -364,7 +374,6 @@ class RegexMatcher(AnnotatorApproach):
     def __init__(self):
         super(RegexMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexMatcher")
         self._setDefault(
-            inputCols=["document"],
             strategy="MATCH_ALL"
         )
 
@@ -442,7 +451,6 @@ class DateMatcher(AnnotatorModel):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            inputCols=["document"],
             dateFormat="yyyy/MM/dd"
         )
 
@@ -465,7 +473,7 @@ class TextMatcher(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
-        self._setDefault(inputCols=["token"], caseSensitive=True)
+        self._setDefault(caseSensitive=True)
 
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
@@ -493,11 +501,6 @@ class PerceptronApproach(AnnotatorApproach):
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
 
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
-
     nIterations = Param(Params._dummy(),
                         "nIterations",
                         "Number of iterations in training, converges to better accuracy",
@@ -514,11 +517,6 @@ class PerceptronApproach(AnnotatorApproach):
     def setPosCol(self, value):
         return self._set(posCol=value)
 
-    def setCorpus(self, path, delimiter, read_as=ReadAs.SPARK_DATASET, options={"format": "text", "repartition": "8"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
-
     def setIterations(self, value):
         return self._set(nIterations=value)
 
@@ -531,11 +529,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
                    "posCol",
                    "column of Array of POS tags that match tokens",
                    typeConverter=TypeConverters.toString)
-
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "POS tags delimited corpus. Needs 'delimiter' in options",
-                   typeConverter=TypeConverters.identity)
 
     nIterations = Param(Params._dummy(),
                         "nIterations",
@@ -552,11 +545,6 @@ class PerceptronApproachLegacy(AnnotatorApproach):
 
     def setPosCol(self, value):
         return self._set(posCol=value)
-
-    def setCorpus(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        opts["delimiter"] = delimiter
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setIterations(self, value):
         return self._set(nIterations=value)
@@ -630,7 +618,7 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(inputCols=["document"], useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
+        self._setDefault(useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
                          explodeSentences=False)
 
 
@@ -673,7 +661,7 @@ class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def __init__(self):
         super(DeepSentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(inputCols=["document"], includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
+        self._setDefault(includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
                          explodeSentences=False)
 
 
@@ -746,16 +734,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",
                          typeConverter=TypeConverters.toString)
 
-    positiveSource = Param(Params._dummy(),
-                           "positiveSource",
-                           "positive sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
-    negativeSource = Param(Params._dummy(),
-                           "negativeSource",
-                           "negative sentiment file or folder",
-                           typeConverter=TypeConverters.identity)
-
     pruneCorpus = Param(Params._dummy(),
                         "pruneCorpus",
                         "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1",
@@ -784,18 +762,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     def setSentimentCol(self, value):
         return self._set(sentimentCol=value)
-
-    def setPositiveSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(positiveSource=ExternalResource(path, read_as, opts))
-
-    def setNegativeSource(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(negativeSource=ExternalResource(path, read_as, opts))
 
     def setPruneCorpus(self, value):
         return self._set(pruneCorpus=value)
@@ -839,11 +805,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
                        "dictionary",
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
                        typeConverter=TypeConverters.identity)
-
-    corpus = Param(Params._dummy(),
-                   "corpus",
-                   "spell checker corpus needs 'tokenPattern' regex for tagging words. e.g. [a-zA-Z]+",
-                   typeConverter=TypeConverters.identity)
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -891,12 +852,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6)
-
-    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -1279,8 +1234,13 @@ class ContextSpellCheckerModel(AnnotatorModel):
 class DependencyParserApproach(AnnotatorApproach):
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
-                               "dependency treebank source files",
+                               "Dependency treebank source files",
                                typeConverter=TypeConverters.identity)
+
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1300,6 +1260,10 @@ class DependencyParserApproach(AnnotatorApproach):
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
+
     def _create_model(self, java_model):
         return DependencyParserModel(java_model=java_model)
 
@@ -1315,11 +1279,15 @@ class DependencyParserModel(AnnotatorModel):
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
+    conll2009 = Param(Params._dummy(),
+                      "conll2009",
+                      "Path to file with CoNLL 2009 format",
+                      typeConverter=TypeConverters.identity)
 
-    conll2009FilePath = Param(Params._dummy(),
-                              "conll2009FilePath",
-                              "Path to file with CoNLL 2009 format",
-                              typeConverter=TypeConverters.identity)
+    conllU = Param(Params._dummy(),
+                   "conllU",
+                   "Universal Dependencies source files",
+                   typeConverter=TypeConverters.identity)
 
     numberOfIterations = Param(Params._dummy(),
                                "numberOfIterations",
@@ -1331,9 +1299,13 @@ class TypedDependencyParserApproach(AnnotatorApproach):
         super(TypedDependencyParserApproach,
               self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
 
-    def setConll2009FilePath(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConll2009(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
         opts = options.copy()
-        return self._set(conll2009FilePath=ExternalResource(path, read_as, opts))
+        return self._set(conll2009=ExternalResource(path, read_as, opts))
+
+    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+        opts = options.copy()
+        return self._set(conllU=ExternalResource(path, read_as, opts))
 
     def setNumberOfIterations(self, value):
         return self._set(numberOfIterations=value)
@@ -1352,3 +1324,4 @@ class TypedDependencyParserModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+
