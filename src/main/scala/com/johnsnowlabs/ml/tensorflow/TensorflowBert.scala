@@ -25,7 +25,7 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
 
-    println(s"shape = ${batch.length}, ${batch(0).length}")
+    // println(s"shape = ${batch.length}, ${batch(0).length}")
     val shrink = batch.map {sentence =>
       if (sentence.length > maxSentenceLength) {
         sentence.take(maxSentenceLength - 1) ++ Array(sentenceEndTokenId)
