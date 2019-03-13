@@ -55,8 +55,6 @@ class BertEmbeddings(override val uid: String) extends
 
   def setBatchSize(size: Int): this.type = set(batchSize, size)
 
-  def setDim(value: Int): this.type = set(dimension, value)
-
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
 
   @transient
