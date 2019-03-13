@@ -117,14 +117,14 @@ public class DependencyPipe implements Serializable {
      *
      * @param file file path of the training data
      */
-    private void createDictionaries(String file) throws IOException
+    private void createDictionaries(String file, String conllFormat) throws IOException
     {
         long start = System.currentTimeMillis();
         logger.debug("Creating dictionariesSet ... ");
 
         dictionariesSet.setCounters();
 
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
 
         reader.startReading(file);
         DependencyInstance dependencyInstance = reader.nextInstance();
@@ -180,17 +180,17 @@ public class DependencyPipe implements Serializable {
      *
      * @param file  file path of the training data
      */
-    public void createAlphabets(String file) throws IOException
+    public void createAlphabets(String file, String conllFormat) throws IOException
     {
 
-        createDictionaries(file);
+        createDictionaries(file, conllFormat);
 
         long start = System.currentTimeMillis();
         logger.debug("Creating Alphabet ... ");
 
         HashSet<String> posTagSet = new HashSet<>();
         HashSet<String> cposTagSet = new HashSet<>();
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
         reader.startReading(file);
 
         DependencyInstance dependencyInstance = reader.nextInstance();
@@ -235,12 +235,12 @@ public class DependencyPipe implements Serializable {
         synFactory.closeAlphabets();
     }
 
-    public DependencyInstance[] createInstances(String file) throws IOException
+    public DependencyInstance[] createInstances(String file, String conllFormat) throws IOException
     {
 
         logger.debug("Creating instances ... ");
 
-        DependencyReader reader = DependencyReader.createDependencyReader();
+        DependencyReader reader = DependencyReader.createDependencyReader(conllFormat);
         reader.startReading(file);
 
         LinkedList<DependencyInstance> lt = new LinkedList<>();
@@ -267,7 +267,7 @@ public class DependencyPipe implements Serializable {
         return insts;
     }
 
-    public DependencyInstance nextSentence(Conll09Data[] sentence)
+    public DependencyInstance nextSentence(ConllData[] sentence)
     {
         Conll09Reader conll09Reader = new Conll09Reader();
         DependencyInstance dependencyInstance = conll09Reader.nextSentence(sentence);

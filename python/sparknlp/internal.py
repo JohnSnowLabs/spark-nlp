@@ -233,5 +233,5 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
 
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path):
-        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddingsModel.loadFromPython")
+        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadFromPython")
         self._java_obj = self._new_java_obj(self._java_obj, path)

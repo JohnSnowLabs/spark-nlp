@@ -268,10 +268,10 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
   : CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
-      .map{case (labels, sentence, withEmbeddings) => {
+      .map{case (labels, sentence, withEmbeddings) =>
         val textSentence = generate(sentence, withEmbeddings)
         (labels, textSentence)
-      }}
+      }
 
     DatasetReader.encodeDataset(textDataset)
   }

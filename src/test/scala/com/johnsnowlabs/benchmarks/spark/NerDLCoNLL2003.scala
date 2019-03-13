@@ -4,8 +4,8 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
+import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 
@@ -57,7 +57,7 @@ object NerDLPipeline extends App {
   def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(er, SparkAccessor.benchmarkSpark)
+    val dataset = nerReader.readDataset(SparkAccessor.benchmarkSpark, er.path)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -71,13 +71,13 @@ object NerDLPipeline extends App {
   }
 
   def getUserFriendly(model: PipelineModel, file: ExternalResource): Array[Array[Annotation]] = {
-    val df = model.transform(nerReader.readDataset(file, SparkAccessor.benchmarkSpark))
+    val df = model.transform(nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path))
     Annotation.collect(df, "ner_span")
   }
 
   def measure(model: PipelineModel, file: ExternalResource, extended: Boolean = true, errorsToPrint: Int = 0): Unit = {
     val ner = model.stages.filter(s => s.isInstanceOf[NerDLModel]).head.asInstanceOf[NerDLModel].getModelIfNotSet
-    val df = nerReader.readDataset(file, SparkAccessor.benchmarkSpark).toDF()
+    val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
 
     val labeled = NerTagged.collectTrainingInstances(transformed, Seq("sentence", "token", "glove"), "label")

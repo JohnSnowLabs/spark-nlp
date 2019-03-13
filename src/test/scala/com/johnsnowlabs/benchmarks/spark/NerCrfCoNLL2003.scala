@@ -6,8 +6,8 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.datasets.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
+import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
@@ -46,7 +46,7 @@ object CoNLL2003PipelineTest extends App {
   def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
-    val dataset = nerReader.readDataset(er, SparkAccessor.benchmarkSpark)
+    val dataset = nerReader.readDataset(SparkAccessor.benchmarkSpark, er.path)
     System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
 
     System.out.println("Start fitting")
@@ -88,7 +88,7 @@ object CoNLL2003PipelineTest extends App {
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    val dataset = reader.readDataset(er, SparkAccessor.benchmarkSpark)
+    val dataset = reader.readDataset(SparkAccessor.benchmarkSpark, er.path)
     val transformed = model.transform(dataset)
 
     val sentences = collect(transformed)

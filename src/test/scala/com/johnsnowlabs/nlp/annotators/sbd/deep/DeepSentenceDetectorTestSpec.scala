@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsFormat, WordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
@@ -13,9 +13,7 @@ import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-
-
-import com.johnsnowlabs.nlp.datasets.CoNLL
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
 
@@ -26,12 +24,12 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val strongNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt"
   private val strongNerDatasetResource = ExternalResource(strongNerDatasetFile,
     ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  private val strongNerDataset = nerReader.readDataset(strongNerDatasetResource, SparkAccessor.spark)
+  private val strongNerDataset = nerReader.readDataset(SparkAccessor.spark, strongNerDatasetResource.path)
 
   private val weakNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
   private val weakNerDatasetResource = ExternalResource(weakNerDatasetFile,
     ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  private val weakNerDataset = nerReader.readDataset(weakNerDatasetResource, SparkAccessor.spark)
+  private val weakNerDataset = nerReader.readDataset(SparkAccessor.spark, weakNerDatasetResource.path)
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -139,15 +137,14 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   }
 
   private def getNerTagger(trainingFile: String) : NerDLModel ={
-    val nerDataset = nerReader.readDataset(ExternalResource(trainingFile,
-      ReadAs.LINE_BY_LINE, Map("delimiter" -> " ")), SparkAccessor.spark)
+    val nerDataset = nerReader.readDataset(SparkAccessor.spark, trainingFile)
     val nerTagger = new NerDLApproach()
       .setInputCols("document", "token", "glove")
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
-    nerTagger.fit(glove.transform(nerDataset))
+    nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {
@@ -282,11 +279,11 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       println(s"r1 is ${r._1.result} and r2 is ${r._2}")
       r._1.result == r._2
     }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0")))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1")))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2")))
-    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3")))
-    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4")))
+    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3"), Array.emptyFloatArray, Array.emptyFloatArray))
+    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4"), Array.emptyFloatArray, Array.emptyFloatArray))
 
   }
 

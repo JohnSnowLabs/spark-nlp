@@ -63,7 +63,7 @@ class NorvigSweetingApproach(override val uid: String)
     val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] = {
         import ResourceHelper.spark.implicits._
-        dataset.select($(inputCols).head).as[Array[Annotation]]
+        dataset.select(getInputCols.head).as[Array[Annotation]]
           .flatMap(_.map(_.result))
           .groupBy("value").count
           .as[(String, Long)]

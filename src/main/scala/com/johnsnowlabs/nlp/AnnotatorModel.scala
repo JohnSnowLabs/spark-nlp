@@ -49,7 +49,7 @@ abstract class AnnotatorModel[M <: Model[M]]
     */
   override final def transform(dataset: Dataset[_]): DataFrame = {
     require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns have following annotator types: " +
+      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns exist and the have following annotator types: " +
       s"${inputAnnotatorTypes.mkString(", ")}")
 
     val inputDataset = beforeAnnotate(dataset)
