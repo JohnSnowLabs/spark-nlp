@@ -69,10 +69,15 @@ class NerDLModel(override val uid: String)
     tokenized.indices.map { i =>
       val sentence = tokenized(i)
 
-      val tokens = sentence.tokens.indices.map { j =>
+      val tokens = sentence.tokens.indices.flatMap { j =>
         val token = sentence.tokens(j)
         val label = labels(i)(j)
-        IndexedTaggedWord(token.token, label, token.begin, token.end)
+        if (token.isWordStart) {
+          Some(IndexedTaggedWord(token.token, label, token.begin, token.end))
+        }
+        else {
+          None
+        }
       }.toArray
 
       new TaggedSentence(tokens)
