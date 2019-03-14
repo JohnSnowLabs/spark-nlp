@@ -454,7 +454,7 @@ class DateMatcher(AnnotatorModel):
             dateFormat="yyyy/MM/dd"
         )
 
-    def setDateFormat(self, value):
+    def setFormat(self, value):
         return self._set(dateFormat=value)
 
 
