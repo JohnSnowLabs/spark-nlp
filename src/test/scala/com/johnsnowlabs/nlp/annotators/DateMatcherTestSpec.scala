@@ -95,7 +95,11 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("23:59", setTimeTo(Calendar.getInstance, 23,59,0)),
     ("1988/11/23 6pm", setTimeTo(new Calendar.Builder().setDate(1988, 11-1, 23).build, 18, 0, 0)),
     ("next week at 7.30", setTimeTo(nextCalendar(Calendar.WEEK_OF_MONTH), 19, 0, 0)),
-    ("5 am tomorrow", setTimeTo(tomorrowCalendar, 5, 0, 0))
+    ("5 am tomorrow", setTimeTo(tomorrowCalendar, 5, 0, 0)),
+    ("Let's meet on 20th of February.", new Calendar.Builder().setDate(currentYear, 2-1, 20).build),
+    ("Today is March 14th 2019.", new Calendar.Builder().setDate(2019, 3-1, 14).build),
+    ("10-02-19", new Calendar.Builder().setDate(2019, 10-1, 2).build)
+
   )
 
   dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {
@@ -106,7 +110,7 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
           result.calendar.get(Calendar.MONTH) == dateAnswer._2._2.get(Calendar.MONTH) &&
           result.calendar.get(Calendar.DAY_OF_MONTH) == dateAnswer._2._2.get(Calendar.DAY_OF_MONTH) &&
           result.calendar.get(Calendar.DAY_OF_WEEK) == dateAnswer._2._2.get(Calendar.DAY_OF_WEEK),
-        s"because result ${result.calendar.getTime} is not expected ${dateAnswer._2._2.getTime}")
+        s"because result ${result.calendar.getTime} is not expected ${dateAnswer._2._2.getTime} for string ${dateAnswer._2._1}")
     }
   })
 

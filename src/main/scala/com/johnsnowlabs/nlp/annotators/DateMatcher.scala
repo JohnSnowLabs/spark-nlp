@@ -28,17 +28,17 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     */
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
-  /** Standard formal dates, e.g. 2014/05/17 */
-  private val formalDate = new Regex("(\\b\\d{2,4})[-/](\\d{1,2})[-/](\\d{1,2}\\b)", "year", "month", "day")
-  private val formalDateAlt = new Regex("(\\b\\d{1,2})[-/](\\d{1,2})[-/](\\d{2,4}\\b)", "month", "day", "year")
+  /** Standard formal dates, e.g. 05/17/2014 or 17/05/2014 or 2014/05/17 */
+  private val formalDate = new Regex("\\b([01]{0,1}[0-9])[-/]([0-3]{0,1}[0-9])[-/](\\d{2,4})\\b", "month", "day", "year")
+  private val formalDateAlt = new Regex("\\b([0-3]{0,1}[0-9])[-/]([01]{0,1}[0-9])[-/](\\d{2,4})\\b", "day", "month", "year")
+  private val formalDateAlt2 = new Regex("\\b(\\d{2,4})[-/]([01]{0,1}[0-9])[-/]([0-3]{0,1}[0-9])\\b", "year", "month", "day")
 
   private val months = Seq("january","february","march","april","may","june","july","august","september","october","november","december")
   private val shortMonths = Seq("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec")
 
   /** Relaxed dates, e.g. March 2nd */
   private val relaxedDayNumbered = "\\b(\\d{1,2})(?:st|rd|nd|th)*\\b".r
-  private val relaxedMonths = "(?i)" + months.mkString("|")
-  private val relaxedShortMonths = "(?i)" + shortMonths.mkString("|")
+  private val relaxedMonths = "(?i)" + months.zip(shortMonths).map(m => m._1 + "|" + m._2).mkString("|")
   private val relaxedYear = "\\d{4}\\b|\\B'\\d{2}\\b".r
 
   /** Relative dates, e.g. tomorrow */
@@ -95,6 +95,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   private val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(formalDate, "formal date matcher with year at first")
     .addRule(formalDateAlt, "formal date with year at end")
+    .addRule(formalDateAlt2, "formal date with day at beginning")
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
     formalFactory.findMatchFirstOnly(text).map{ possibleDate =>
       val formalDate = possibleDate.content
@@ -102,8 +103,12 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
       MatchedDateTime(
         calendar.setDate(
           if (formalDate.group("year").toInt > 999)
-            formalDate.group("year").toInt else
-            formalDate.group("year").toInt + 1900,
+            formalDate.group("year").toInt
+            /** If year found is greater than <10> years from now, assume text is talking about 20th century */
+          else if (formalDate.group("year").toInt > Calendar.getInstance.get(Calendar.YEAR).toString.takeRight(2).toInt + 10)
+            formalDate.group("year").toInt + 1900
+          else
+            formalDate.group("year").toInt + 2000,
           formalDate.group("month").toInt - 1,
           formalDate.group("day").toInt
         ).build(),
@@ -121,7 +126,6 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   private val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
-    .addRule(relaxedShortMonths.r, "relaxed months abbreviated exclusive")
     .addRule(relaxedYear, "relaxed year")
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
