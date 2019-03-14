@@ -21,7 +21,8 @@ case class CoNLL(documentCol: String = "document",
                  conllLabelIndex: Int = 3,
                  conllPosIndex: Int = 1,
                  conllTextCol: String = "text",
-                 labelCol: String = "label"
+                 labelCol: String = "label",
+                 explodeSentences: Boolean = false
                 ) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
@@ -38,9 +39,9 @@ case class CoNLL(documentCol: String = "document",
 
   def readLines(lines: Array[String]): Seq[CoNLLDocument] = {
     val doc = new StringBuilder()
-    val lastSentence = new ArrayBuffer[(IndexedTaggedWord, IndexedTaggedWord)]()
+    val lastSentence = ArrayBuffer.empty[(IndexedTaggedWord, IndexedTaggedWord)]
 
-    val sentences = new ArrayBuffer[(TaggedSentence, TaggedSentence)]()
+    val sentences = ArrayBuffer.empty[(TaggedSentence, TaggedSentence)]
 
     def addSentence(): Unit = {
       val nerTokens = clearTokens(lastSentence.map(t => t._1).toArray)
@@ -57,26 +58,33 @@ case class CoNLL(documentCol: String = "document",
       }
     }
 
+    def closeDocument = {
+
+      val result = (doc.toString, sentences.toList)
+      doc.clear()
+      sentences.clear()
+
+      if (result._1.nonEmpty)
+        Some(result._1, result._2)
+      else
+        None
+    }
+
     val docs = lines
       .flatMap{line =>
         val items = line.trim.split(" ")
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
           addSentence()
-
-          val result = (doc.toString, sentences.toList)
-          doc.clear()
-          sentences.clear()
-
-          if (result._1.nonEmpty)
-            Some(result._1, result._2)
-          else
-            None
+          closeDocument
         } else if (items.length <= 1) {
-          if (doc.nonEmpty && !doc.endsWith(System.lineSeparator) && lastSentence.nonEmpty) {
+          if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(System.lineSeparator) && lastSentence.nonEmpty)) {
             doc.append(System.lineSeparator * 2)
           }
           addSentence()
-          None
+          if (explodeSentences)
+            closeDocument
+          else
+            None
         } else if (items.length > conllLabelIndex) {
           if (doc.nonEmpty && !doc.endsWith(System.lineSeparator()))
             doc.append(" ")
