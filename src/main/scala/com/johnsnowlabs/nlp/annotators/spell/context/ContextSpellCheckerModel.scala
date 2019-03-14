@@ -208,20 +208,21 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     import scala.collection.JavaConversions._
 
-    val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { case _ =>
-      val idxs = Seq(-1) ++ annotations.zipWithIndex.filter{case (a, _) => a.result.equals("\n") || a.result.equals("\n\n")}.
-        map(_._2) ++ Seq(annotations.length)
-      idxs.zip(idxs.tail).map {case (s, e) =>
-            decodeViterbi(computeTrellis(annotations.slice(s + 1, e)))
+    // TODO still don't like the .get here
+    val decodedSentPaths = annotations.groupBy(_.metadata.get("sentence").get).mapValues{ sentTokens =>
+      val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { case _ =>
+        val idxs = Seq(-1) ++ sentTokens.zipWithIndex.filter { case (a, _) => a.result.equals("\n") || a.result.equals("\n\n") }.
+          map(_._2) ++ Seq(annotations.length)
+        idxs.zip(idxs.tail).map { case (s, e) =>
+          decodeViterbi(computeTrellis(sentTokens.slice(s + 1, e)))
         }.reduceLeft[(Array[String], Double)]({ case ((dPathA, pCostA), (dPathB, pCostB)) =>
           (dPathA ++ Seq("\n") ++ dPathB, pCostA + pCostB)
-      })
-    }.getOrElse(decodeViterbi(computeTrellis(annotations)))
+        })
+      }.getOrElse(decodeViterbi(computeTrellis(sentTokens)))
+      sentTokens.zip(decodedPath).map{case (orig, correct) => orig.copy(result = correct)}
+    }
 
-
-    decodedPath. // get rid of BOS and EOS
-    map { word => Annotation(word)}
-
+    decodedSentPaths.values.flatten.toSeq
   }
 
   def toOption(boolean:Boolean) = {
