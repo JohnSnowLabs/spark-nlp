@@ -24,7 +24,7 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
 
   private var data = Seq(
-    //("lol", "laugh out loud"),
+    ("lol", "laugh@out@loud"),
     ("gr8", "great"),
      ("b4", "before"),
     ("4", "for")
