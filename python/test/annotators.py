@@ -173,7 +173,7 @@ class DateMatcherTestSpec(unittest.TestCase):
         date_matcher = DateMatcher() \
             .setInputCols(['document']) \
             .setOutputCol("date") \
-            .setDateFormat("yyyyMM")
+            .setFormat("yyyyMM")
         assembled = document_assembler.transform(self.data)
         date_matcher.transform(assembled).show()
 
