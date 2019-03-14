@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
-import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -111,10 +112,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setIncludeDefaults(false)
       .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
 
-    val normalizer: Normalizer = new Normalizer()
-      .setInputCols(Array("token"))
-      .setOutputCol("normalized")
-
     val spellChecker = ContextSpellCheckerModel
       .pretrained()
       .setTradeOff(12.0f)
@@ -125,6 +122,48 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
     pipeline.transform(data).select("checked").show(truncate=false)
 
+  }
+
+
+  "a Spell Checker" should "correctly handle multiple sentences" in {
+
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = Seq("It had been raining just this way all day and hal1 of last night, and to all" +
+      " appearances it intended to continue raining in the same manner for another twenty-four hours." +
+      " Yesterday the Yard had ben a foot deep in nice clean snow, the result of the blizzard that had" +
+      " sweptr over Wisining and New Eng1and in general two days before.").toDF("text")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc").
+        setTrimAndClearNewLines(false)
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("doc"))
+      .setOutputCol("sentence")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setUseNewLines(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, spellChecker)).fit(data)
+    val result = pipeline.transform(data)
+    val checked = result.select("checked").as[Array[Annotation]].collect
+    val firstSent = checked.head.filter(_.metadata.get("sentence").get == "0").map(_.result)
+    val secondSent = checked.head.filter(_.metadata.get("sentence").get == "1").map(_.result)
+
+    assert(firstSent.contains("half"))
+    assert(secondSent.contains("swept"))
   }
 
 
