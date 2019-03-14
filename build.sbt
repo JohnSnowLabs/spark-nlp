@@ -5,6 +5,7 @@ val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
 val is_gpu = System.getProperty("is_gpu","false")
+
 /** Package attributes */
 if(is_gpu.equals("false")){
   name := "spark-nlp"
@@ -113,11 +114,11 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
     exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
+
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
-    exclude("com.google.guava", "guava"),
-  "com.navigamez" % "greex" % "1.0",
-  "org.tensorflow" % "tensorflow" % "1.12.0"
+  exclude("com.google.guava", "guava"),
+  "com.navigamez" % "greex" % "1.0"
 )
 
 
@@ -125,11 +126,16 @@ lazy val typedDependencyParserDependencies = Seq(
   "net.sf.trove4j" % "trove4j" % "3.0.3",
   "junit" % "junit" % "4.10" % Test
 )
-val tensorflowGpuDependencies: Seq[sbt.ModuleID] =
+val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
-    Seq("org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0")
+    Seq(
+      "org.tensorflow" % "libtensorflow" % "1.12.0",
+      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0"
+    )
   else
-    Seq.empty
+    Seq(
+      "org.tensorflow" % "tensorflow" % "1.12.0"
+    )
 
 lazy val root = (project in file("."))
   .settings(
@@ -137,7 +143,7 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
-        tensorflowGpuDependencies++
+        tensorflowDependencies++
         typedDependencyParserDependencies
   )
 
