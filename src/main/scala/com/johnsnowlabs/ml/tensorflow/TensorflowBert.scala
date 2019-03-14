@@ -80,12 +80,8 @@ class TensorflowBert(tensorflow: TensorflowWrapper,
           // Leave embeddings only for word start
           val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
             case (token, tokenEmbedding) =>
-              if (token.isWordStart) {
-                val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-                Some(tokenWithEmbeddings)
-              }
-              else
-                None
+              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+              Some(tokenWithEmbeddings)
           }
 
         WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2, sentenceEmbeddings)
