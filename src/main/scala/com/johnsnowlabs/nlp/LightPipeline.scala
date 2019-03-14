@@ -15,8 +15,8 @@ class LightPipeline(stages: Array[Transformer]) {
 
   def getStages = stages
 
-  def fullAnnotate(target: String): Map[String, Seq[Annotation]] = {
-    stages.foldLeft(Map.empty[String, Seq[Annotation]])((annotations, transformer) => {
+  def fullAnnotate(target: String, startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]]): Map[String, Seq[Annotation]] = {
+    stages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
@@ -31,7 +31,7 @@ class LightPipeline(stages: Array[Transformer]) {
           else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
             s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
-          LightPipeline.pip2sparkless(pipeline).fullAnnotate(target)
+          LightPipeline.pip2sparkless(pipeline).fullAnnotate(target, annotations)
         case _ => annotations
       }
     })
