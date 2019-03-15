@@ -907,11 +907,25 @@ class SymmetricDeleteApproach(AnnotatorApproach):
                             "max edit distance characters to derive strings from a word",
                             typeConverter=TypeConverters.toInt)
 
+    frequencyTreshold = Param(Params._dummy(),
+                            "frequencyTreshold",
+                            "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0",
+                            typeConverter=TypeConverters.toInt)
+
+    deletesTreshold = Param(Params._dummy(),
+                            "deletesTreshold",
+                            "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0",
+                            typeConverter=TypeConverters.toInt)
+
     @keyword_only
     def __init__(self):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
-        self._setDefault(maxEditDistance=3)
+        self._setDefault(
+            maxEditDistance=3,
+            frequencyTreshold=0,
+            deletesTreshold=0
+        )
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -927,6 +941,12 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     def setMaxEditDistance(self, v):
         return self._set(maxEditDistance=v)
+
+    def setFrequencyTreshold(self, v):
+        return self._set(frequencyTreshold=v)
+
+    def setDeletesTreshold(self, v):
+        return self._set(deletesTreshold=v)
 
     def _create_model(self, java_model):
         return SymmetricDeleteModel(java_model=java_model)
