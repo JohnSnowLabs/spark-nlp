@@ -162,8 +162,8 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.getLines.map (line => {
-          val kv = line.split (er.options("delimiter")).map (_.trim)
-          (kv.head, kv.last)
+          val kv = line.split (er.options("delimiter"))
+          (kv.head.trim, kv.last.trim)
         }).toMap
         sourceStream.close()
         res
