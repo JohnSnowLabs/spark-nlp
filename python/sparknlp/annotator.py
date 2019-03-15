@@ -909,19 +909,23 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     frequencyTreshold = Param(Params._dummy(),
                             "frequencyTreshold",
-                            "minimum frequency of words to be considered from training. Defaults to 100",
+                            "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0",
                             typeConverter=TypeConverters.toInt)
 
     deletesTreshold = Param(Params._dummy(),
                             "deletesTreshold",
-                            "minimum frequency of corrections a word needs to have to be considered from training. Defaults to 5",
+                            "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0",
                             typeConverter=TypeConverters.toInt)
 
     @keyword_only
     def __init__(self):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
-        self._setDefault(maxEditDistance=3)
+        self._setDefault(
+            maxEditDistance=3,
+            frequencyTreshold=0,
+            deletesTreshold=0
+        )
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
