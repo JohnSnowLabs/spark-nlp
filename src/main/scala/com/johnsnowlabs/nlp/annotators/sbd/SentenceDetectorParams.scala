@@ -29,11 +29,19 @@ trait SentenceDetectorParams extends Params {
 
   def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
 
+  def getCustomBounds: Array[String] = $(customBounds)
+
   def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
+
+  def getUseCustomBoundsOnly: Boolean = $(useCustomBoundsOnly)
 
   def setUseAbbreviations(value: Boolean): this.type = set(useAbbrevations, value)
 
+  def getUseAbbreviations: Boolean = $(useAbbrevations)
+
   def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
+
+  def getExplodeSentences: Boolean = $(explodeSentences)
 
   def setMaxLength(value: Int): this.type = set(maxLength, value)
 
