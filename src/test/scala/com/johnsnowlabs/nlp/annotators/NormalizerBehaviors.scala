@@ -106,7 +106,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
         .setInputCols(Array("token"))
         .setOutputCol("normalized")
         .setLowercase(false)
-        .setPatterns(Array("[^\\pL+]", "[^a-z]"))
+        .setCleanupPatterns(Array("[^\\pL+]", "[^a-z]"))
 
       val finisher = new Finisher()
         .setInputCols("normalized")

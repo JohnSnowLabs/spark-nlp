@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -13,43 +12,39 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  val patterns = new StringArrayParam(this, "patterns",
-    "normalization regex patterns which match will be replaced with a space")
+  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns",
+    "normalization regex patterns which match will be removed from token")
 
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
   protected val slangDict: MapFeature[String, String] = new MapFeature(this, "slangDict")
 
+  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
+
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  def setPatterns(value: Array[String]): this.type = set(patterns, value)
+  def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
+
+  def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
+  def getLowercase: Boolean = $(lowercase)
+
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
+
+  def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
+
+  def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def applyRegexPatterns(word: String): String = {
 
     val nToken = {
-      get(patterns).map(_.foldLeft(word)((currentText, compositeToken) => {
+      get(cleanupPatterns).map(_.foldLeft(word)((currentText, compositeToken) => {
         currentText.replaceAll(compositeToken, "")
       })).getOrElse(word)
     }
     nToken
-  }
-
-  def getAnnotation(word: String, token: Annotation, finalWords: Array[String], index: Int): Annotation = {
-    if (finalWords.length > 1) {
-      Annotation(outputAnnotatorType,0,word.length-1,word,Map("sentence"->index.toString))
-    } else {
-      Annotation(
-        outputAnnotatorType,
-        token.begin,
-        token.end,
-        word,
-        token.metadata)
-    }
-
   }
 
   protected def getSlangDict: Map[String, String] = $$(slangDict)
@@ -57,23 +52,36 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
 
-    annotations.flatMap { token =>
+    annotations.flatMap { originalToken =>
 
-      val cased =
-        if ($(lowercase)) token.result.toLowerCase
-        else token.result
+      /** slang dictionary keys should have been lowercased if slangMatchCase is false */
+      val unslagged = $$(slangDict).get(
+        if ($(slangMatchCase)) originalToken.result.toLowerCase
+        else originalToken.result
+      )
 
-      val slangDictTemp = getSlangDict
+      /** tokenize the unslagged slag phrase */
+      val tokenizedUnslag = {
+        unslagged.map(unslag => {
+          unslag.split(" ")
+        }).getOrElse(Array(originalToken.result))
+      }
 
-      val correctedWords = $$(slangDict).getOrElse(cased, cased)
+      val cleaned = tokenizedUnslag.map(word => applyRegexPatterns(word))
 
-      val finalWords = correctedWords.split(" ").map(word => applyRegexPatterns(word))
+      val cased = if ($(lowercase)) cleaned.map(_.toLowerCase) else cleaned
 
-      val annotations = finalWords.zipWithIndex.map{case (word, index) =>
-        getAnnotation(word, token, finalWords, index+1)}
+      cased.filter(_.nonEmpty).map { finalToken => {
+        Annotation(
+          outputAnnotatorType,
+          originalToken.begin,
+          originalToken.begin + finalToken.length - 1,
+          finalToken,
+          originalToken.metadata
+        )
+      }}
 
-      annotations
-    }.filter(_.result.nonEmpty)
+    }
 
 }
 

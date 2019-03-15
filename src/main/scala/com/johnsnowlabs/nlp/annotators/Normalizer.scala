@@ -20,22 +20,31 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
-  val patterns = new StringArrayParam(this, "patterns",
-    "normalization regex patterns which match will be replaced with a space")
+  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns",
+    "normalization regex patterns which match will be removed from token")
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
   val slangDictionary = new ExternalResourceParam(this,
     "slangDictionary", "delimited file with list of custom words to be manually corrected")
 
-  setDefault(patterns, Array("[^\\pL+]"))
-  setDefault(lowercase, false)
+  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
 
-  def getPatterns: Array[String] = $(patterns)
+  setDefault(
+    lowercase -> false,
+    cleanupPatterns -> Array("[^\\pL+]"),
+    slangMatchCase -> false
+  )
 
-  def setPatterns(value: Array[String]): this.type = set(patterns, value)
+  def getCleanupPatterns: Array[String] = $(cleanupPatterns)
+
+  def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
   def getLowercase: Boolean = $(lowercase)
 
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
+
+  def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
+
+  def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
@@ -52,15 +61,21 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NormalizerModel = {
 
-    val loadSlangs = if (get(slangDictionary).isDefined)
-      ResourceHelper.parseKeyValueText($(slangDictionary))
+    val loadSlangs = if (get(slangDictionary).isDefined) {
+      val parsed = ResourceHelper.parseKeyValueText($(slangDictionary))
+      if ($(slangMatchCase))
+        parsed.mapValues(_.trim)
+      else
+        parsed.map{case (k, v) => (k.toLowerCase, v.trim)}
+    }
     else
       Map.empty[String, String]
 
     new NormalizerModel()
-      .setPatterns($(patterns))
+      .setCleanupPatterns($(cleanupPatterns))
       .setLowercase($(lowercase))
       .setSlangDict(loadSlangs)
+      .setSlangMatchCase($(slangMatchCase))
   }
 
 }
