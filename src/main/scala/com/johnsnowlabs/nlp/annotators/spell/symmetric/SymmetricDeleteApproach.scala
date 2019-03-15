@@ -4,11 +4,11 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable.ListBuffer
-import scala.collection.mutable.{Map => MMap}
 
 /** Created by danilo 16/04/2018,
   * Symmetric Delete spelling correction algorithm
@@ -25,6 +25,22 @@ class SymmetricDeleteApproach(override val uid: String)
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(maxEditDistance, 3)
+
+  val frequencyTreshold = new IntParam(this, "frequencyTreshold", "minimum frequency of words to be considered from training. Defaults to 100")
+  val deletesTreshold = new IntParam(this, "deletesTreshold", "minimum frequency of corrections a word needs to have to be considered from training. Defaults to 5")
+
+  setDefault(
+    frequencyTreshold -> 3,
+    deletesTreshold -> 3
+  )
+
+  def setFrequencyTreshold(value: Int) = set(frequencyTreshold, value)
+
+  def getFrequencyTreshold = $(frequencyTreshold)
+
+  def setDeletesTreshold(value: Int) = set(deletesTreshold, value)
+
+  def getDeletesTreshold = $(deletesTreshold)
 
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
@@ -54,7 +70,7 @@ class SymmetricDeleteApproach(override val uid: String)
     var deletes = new ListBuffer[String]()
     var queueList = List(word)
     val x = 1 to med
-    x.foreach( d =>
+    x.foreach( _ =>
     {
       var tempQueue = new ListBuffer[String]()
       queueList.foreach(w => {
@@ -83,32 +99,29 @@ class SymmetricDeleteApproach(override val uid: String)
   /** Created by danilo 26/04/2018
     * Computes derived words from a frequency of words
     * */
-  def derivedWordDistances(wordFrequencies: List[(String, Long)], maxEditDistance: Int): WordFeatures = {
+  def derivedWordDistances(wordFrequencies: List[(String, Long)], maxEditDistance: Int): Map[String, (List[String], Long)] = {
 
-    val derivedWords = collection.mutable.Map() ++ wordFrequencies.map{a => (a._1, (ListBuffer[String](),a._2))}.toMap
-    val wordFeatures = WordFeatures(derivedWords, 0)
-    wordFrequencies.foreach(word =>{
+    val derivedWords = scala.collection.mutable.Map(wordFrequencies.map{a => (a._1, (ListBuffer.empty[String], a._2))}:_*)
 
-      val deletes = getDeletes(word._1, maxEditDistance)
+    wordFrequencies.foreach{case (word, _) =>
 
-      deletes.foreach( item => {
-        if (derivedWords.contains(item)){
+      val deletes = getDeletes(word, maxEditDistance)
+
+      deletes.foreach( deleteItem => {
+        if (derivedWords.contains(deleteItem)){
           // add (correct) word to delete's suggested correction list
-          derivedWords(item)._1 += word._1
+          derivedWords(deleteItem)._1 += word
         } else {
           // note frequency of word in corpus is not incremented
-          val wordFrequency = new ListBuffer[String]
-          wordFrequency += word._1
-          derivedWords(item) = (wordFrequency, 0)
+          derivedWords(deleteItem) = (ListBuffer(word), 0L)
         }
       }) // End deletes.foreach
-    })
-    wordFeatures.derivedWords = derivedWords
-    wordFeatures
+    }
+    derivedWords
+      .filterKeys(a => derivedWords(a)._2 >= $(frequencyTreshold) && derivedWords(a)._1.length >= $(deletesTreshold))
+      .mapValues(derivedWords => (derivedWords._1.toList, derivedWords._2))
+      .toMap
   }
-
-  case class WordFeatures(var derivedWords: MMap[String, (ListBuffer[String], Long)],
-                          var longestWordLength: Int)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
@@ -116,23 +129,29 @@ class SymmetricDeleteApproach(override val uid: String)
     import org.apache.spark.sql.functions._
 
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
-    var wordFeatures = WordFeatures(MMap.empty, 0)
 
     require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
 
-    val trainDataset = dataset.select(getInputCols.head).as[Array[Annotation]]
-      .flatMap(_.map(_.result))
-    val wordFrequencies = trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
-    wordFeatures = derivedWordDistances(wordFrequencies, $(maxEditDistance))
-    wordFeatures.longestWordLength = trainDataset.agg(max(length(col("value")))).head().getInt(0)
+    val trainDataset =
+      dataset.select(getInputCols.head).as[Array[Annotation]]
+        .flatMap(_.map(_.result))
 
-    val model = new SymmetricDeleteModel()
-      .setDerivedWords(wordFeatures.derivedWords.mapValues(derivedWords =>
-        (derivedWords._1.toList, derivedWords._2)).toMap)
-      .setLongestWordLength(wordFeatures.longestWordLength)
+    val wordFrequencies =
+      trainDataset.groupBy("value").count().as[(String, Long)].collect.toList
+
+    val derivedWords =
+      derivedWordDistances(wordFrequencies, $(maxEditDistance))
+
+    val longestWordLength =
+      trainDataset.agg(max(length(col("value")))).head().getInt(0)
+
+    val model =
+      new SymmetricDeleteModel()
+        .setDerivedWords(derivedWords)
+        .setLongestWordLength(longestWordLength)
 
     if (possibleDict.isDefined)
-      model.setDictionary(possibleDict.get.toMap)
+        model.setDictionary(possibleDict.get.toMap)
 
     model
   }
