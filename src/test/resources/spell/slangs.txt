@@ -2,3 +2,6 @@ gr8,great
 4,for
 b4,before
 lol, laugh out loud
+yo, hey
+dude, friend
+whatsup, how are you

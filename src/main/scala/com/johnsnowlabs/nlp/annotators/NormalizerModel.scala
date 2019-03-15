@@ -55,19 +55,19 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     annotations.flatMap { originalToken =>
 
       /** slang dictionary keys should have been lowercased if slangMatchCase is false */
-      val unslagged = $$(slangDict).get(
-        if ($(slangMatchCase)) originalToken.result.toLowerCase
-        else originalToken.result
+      val unslanged = $$(slangDict).get(
+        if ($(slangMatchCase)) originalToken.result
+        else originalToken.result.toLowerCase
       )
 
-      /** tokenize the unslagged slag phrase */
-      val tokenizedUnslag = {
-        unslagged.map(unslag => {
-          unslag.split(" ")
+      /** simple-tokenize the unslanged slag phrase */
+      val tokenizedUnslang = {
+        unslanged.map(unslang => {
+          unslang.split(" ")
         }).getOrElse(Array(originalToken.result))
       }
 
-      val cleaned = tokenizedUnslag.map(word => applyRegexPatterns(word))
+      val cleaned = tokenizedUnslang.map(word => applyRegexPatterns(word))
 
       val cased = if ($(lowercase)) cleaned.map(_.toLowerCase) else cleaned
 
