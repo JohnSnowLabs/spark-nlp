@@ -80,6 +80,7 @@ class Annotation:
 
 class LightPipeline:
     def __init__(self, pipelineModel):
+        self.pipeline_model = pipelineModel
         self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
 
     @staticmethod
@@ -121,6 +122,9 @@ class LightPipeline:
             raise TypeError("target for annotation may be 'str' or 'list'")
 
         return result
+
+    def transform(self, dataframe):
+        return self.pipeline_model.transform(dataframe)
 
 
 class RecursivePipeline(Pipeline, JavaEstimator):
