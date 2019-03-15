@@ -1,22 +1,23 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{PipelineModel, Transformer}
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.JavaConverters._
 
-class LightPipeline(stages: Array[Transformer]) {
+class LightPipeline(val pipelineModel: PipelineModel) {
 
   private var ignoreUnsupported = false
-
-  def this(pipelineModel: PipelineModel) = this(pipelineModel.stages)
 
   def setIgnoreUnsupported(v: Boolean): Unit = ignoreUnsupported = v
   def getIgnoreUnsupported: Boolean = ignoreUnsupported
 
-  def getStages = stages
+  def getStages: Array[Transformer] = pipelineModel.stages
+
+  def transform(dataFrame: Dataset[_]): DataFrame = pipelineModel.transform(dataFrame)
 
   def fullAnnotate(target: String, startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]]): Map[String, Seq[Annotation]] = {
-    stages.foldLeft(startWith)((annotations, transformer) => {
+    getStages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
@@ -31,7 +32,7 @@ class LightPipeline(stages: Array[Transformer]) {
           else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
             s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
-          LightPipeline.pip2sparkless(pipeline).fullAnnotate(target, annotations)
+          new LightPipeline(pipeline).fullAnnotate(target, annotations)
         case _ => annotations
       }
     })
@@ -74,10 +75,4 @@ class LightPipeline(stages: Array[Transformer]) {
     }).toList.asJava
   }
 
-}
-
-object LightPipeline {
-  implicit def pip2sparkless(pipelineModel: PipelineModel): LightPipeline = {
-    new LightPipeline(pipelineModel)
-  }
 }
