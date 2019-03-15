@@ -296,14 +296,18 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 class Normalizer(AnnotatorApproach):
 
-    patterns = Param(Params._dummy(),
-                     "patterns",
-                     "normalization regex patterns which match will be replaced with a space",
+    cleanupPatterns = Param(Params._dummy(),
+                     "cleanupPatterns",
+                     "normalization regex patterns which match will be removed from token",
                      typeConverter=TypeConverters.toListString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
                       "whether to convert strings to lowercase")
+
+    slangMatchCase = Param(Params._dummy(),
+                      "slangMatchCase",
+                      "whether or not to be case sensitive to match slangs. Defaults to false.")
 
     slangDictionary = Param(Params._dummy(),
                             "slangDictionary",
@@ -314,11 +318,12 @@ class Normalizer(AnnotatorApproach):
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
-            patterns=["[^\\pL+]"],
-            lowercase=True
+            cleanupPatterns=["[^\\pL+]"],
+            lowercase=False,
+            slangMatchCase=False
         )
 
-    def setPatterns(self, value):
+    def setCleanupPatterns(self, value):
         return self._set(patterns=value)
 
     def setLowercase(self, value):
@@ -336,19 +341,18 @@ class Normalizer(AnnotatorApproach):
 
 class NormalizerModel(AnnotatorModel):
 
-    patterns = Param(Params._dummy(),
-                     "patterns",
-                     "normalization regex patterns which match will be replaced with a space",
-                     typeConverter=TypeConverters.toListString)
+    cleanupPatterns = Param(Params._dummy(),
+                            "cleanupPatterns",
+                            "normalization regex patterns which match will be removed from token",
+                            typeConverter=TypeConverters.toListString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
                       "whether to convert strings to lowercase")
 
-    slangDictionary = Param(Params._dummy(),
-                            "slangDictionary",
-                            "slang dictionary is a delimited text. needs 'delimiter' in options",
-                            typeConverter=TypeConverters.identity)
+    slangMatchCase = Param(Params._dummy(),
+                           "slangMatchCase",
+                           "whether or not to be case sensitive to match slangs. Defaults to false.")
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.NormalizerModel", java_model=None):
         super(NormalizerModel, self).__init__(
