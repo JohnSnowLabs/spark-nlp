@@ -27,7 +27,8 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
     ("lol", "laugh@out@loud"),
     ("gr8", "great"),
      ("b4", "before"),
-    ("4", "for")
+    ("4", "for"),
+    ("Yo dude whatsup?", "hey@friend@how@are@you")
   ).toDS.toDF("text", "normalized_gt")
 
   "an isolated normalizer " should behave like testCorrectSlangs(data)
