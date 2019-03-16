@@ -82,7 +82,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     this
   }
 
-  private var _model: TensorflowSpell = null
+  @transient private var _model: TensorflowSpell = null
 
   def model: TensorflowSpell = {
     if (_model == null) {
