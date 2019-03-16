@@ -87,7 +87,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
       if (isSet) broadcastValue.get.destroy()
       broadcastValue = value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
     } else {
-      rawValue = Some(value.get.asInstanceOf[TComplete])
+      rawValue = value.map(_.asInstanceOf[TComplete])
     }
     model
   }
