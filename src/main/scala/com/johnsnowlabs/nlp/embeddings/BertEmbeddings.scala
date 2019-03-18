@@ -6,6 +6,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.{addReader, readTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -91,10 +92,7 @@ trait PretrainedBertModel {
     ResourceDownloader.downloadModel(BertEmbeddings, name, language, remoteLoc)
 }
 
-object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
-  with PretrainedBertModel
-  with ReadTensorflowModel {
-
+trait ReadBertTensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
@@ -123,6 +121,11 @@ object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
 
     bert
   }
+}
+
+object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
+  with PretrainedBertModel
+  with ReadBertTensorflowModel {
 
   private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowBert]
 

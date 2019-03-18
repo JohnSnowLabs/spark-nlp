@@ -247,6 +247,11 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
             caseSensitive=False
         )
 
+    @staticmethod
+    def pretrained(name="glove_100d", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remote_loc)
+
 
 class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
