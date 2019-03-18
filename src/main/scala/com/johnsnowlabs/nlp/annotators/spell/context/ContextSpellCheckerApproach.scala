@@ -40,10 +40,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   def setLMClasses(k: Int):this.type = set(languageModelClasses, k)
 
   val prefixes = new ArrayFeature[String](this, "prefixes")
-  def setPrefixes(p: Array[String]):this.type = set(prefixes, p.sortBy(_.size).reverse)
+  def setPrefixes(p: Array[String]):this.type = set(prefixes, p.sortBy(_.length).reverse)
 
   val suffixes = new ArrayFeature[String](this, "suffixes")
-  def setSuffixes(s: Array[String]):this.type = set(suffixes, s.sortBy(_.size).reverse)
+  def setSuffixes(s: Array[String]):this.type = set(suffixes, s.sortBy(_.length).reverse)
 
   val wordMaxDistance = new IntParam(this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
   def setWordMaxDist(k: Int):this.type = {
@@ -105,7 +105,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         persistVocab(vocabulary, vPath)
         val w2i = vocabulary.map(_._1).sorted.zipWithIndex.toMap
         encodeCorpus(rawTextPath, w2i)
-        (vocabulary.toMap, w2i, classes.map{case (k,v) => w2i.get(k).get -> v})
+        (vocabulary.toMap, w2i, classes.map{case (k,v) => w2i.apply(k) -> v})
       }
 
     // create transducers for special classes
@@ -118,9 +118,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       setClasses(classes).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
-      setTensorflow(tf).
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
+
+    ContextSpellCheckerModel.setTensorflow(tf, model)
 
     get(weightedDistPath).map(path => model.setWeights(loadWeights(path))).
     getOrElse(model)
@@ -180,16 +181,16 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         maxWid = currWordId
     }
 
-    logger.info(s"Max num of words per class: ${maxWid}")
+    logger.info(s"Max num of words per class: $maxWid")
 
     val classesFile = new File(filePath)
     val bwClassesFile = new BufferedWriter(new FileWriter(classesFile))
 
     classes.foreach{case (word, (cid, wid)) =>
-      bwClassesFile.write(s"""${word2id.get(word).get}|$cid|$wid""")
-      bwClassesFile.newLine
+      bwClassesFile.write(s"""${word2id.apply(word)}|$cid|$wid""")
+      bwClassesFile.newLine()
     }
-    bwClassesFile.close
+    bwClassesFile.close()
     classes
   }
 
@@ -229,7 +230,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     }
 
     // words appearing less that minCount times will be unknown
-    val unknownCount = vocab.filter(_._2 < getOrDefault(minCount)).map(_._2).sum
+    val unknownCount = vocab.filter(_._2 < getOrDefault(minCount)).values.sum
 
     // remove unknown tokens
     vocab = vocab.filter(_._2 >= getOrDefault(minCount))
@@ -237,21 +238,21 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     // Blacklists {fwis, hyphen, slash}
     // words that appear with first letter capitalized (e.g., at the beginning of sentence)
     val fwis = vocab.filter(_._1.length > 1).filter(_._1.head.isUpper).
-      filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).map(_._1)
+      filter(w => vocab.contains(w._1.head.toLower + w._1.tail)).keys
 
     val hyphen = vocab.filter {
       case (word, weight) =>
         val splits = word.split("-")
         splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
-          vocab.get(word).map(_ < getOrDefault(blacklistMinFreq)).getOrElse(true)
-    }.map(_._1)
+          vocab.get(word).forall(_ < getOrDefault(blacklistMinFreq))
+    }.keys
 
     val slash = vocab.filter {
       case (word, weight) =>
         val splits = word.split("/")
         splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
-          vocab.get(word).map(_ < getOrDefault(blacklistMinFreq)).getOrElse(true)
-    }.map(_._1)
+          vocab.get(word).forall(_ < getOrDefault(blacklistMinFreq))
+    }.keys
 
     val blacklist = fwis ++ hyphen ++ slash
     blacklist.foreach{vocab.remove}
@@ -261,7 +262,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     vocab.update("_UNK_", unknownCount)
 
     // count all occurrences of all tokens
-    var totalCount = vocab.values.reduce(_ + _) + eosBosCount * 2 + unknownCount
+    var totalCount = vocab.values.sum + eosBosCount * 2 + unknownCount
     val classes = computeAndPersistClasses(vocab, totalCount, getOrDefault(languageModelClasses))
 
     // compute frequencies - logarithmic
@@ -280,9 +281,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     v.foreach{case (word, freq) =>
       bwVocab.write(s"""$word|$freq""")
-      bwVocab.newLine
+      bwVocab.newLine()
     }
-    bwVocab.close
+    bwVocab.close()
     v
   }
 
@@ -324,7 +325,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       }.mkString(" ")
       bw.write(s"""${vMap("_BOS_")} $text ${vMap("_EOS_")}\n""")
     }
-    bw.close
+    bw.close()
     vMap
   }
 
