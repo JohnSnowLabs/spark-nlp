@@ -76,7 +76,7 @@ object NerDLPipeline extends App {
   }
 
   def measure(model: PipelineModel, file: ExternalResource, extended: Boolean = true, errorsToPrint: Int = 0): Unit = {
-    val ner = model.stages.filter(s => s.isInstanceOf[NerDLModel]).head.asInstanceOf[NerDLModel].getModelIfNotSet
+    val ner = NerDLModel.getTensorflowNer(model.stages.filter(s => s.isInstanceOf[NerDLModel]).head.asInstanceOf[NerDLModel])
     val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
 

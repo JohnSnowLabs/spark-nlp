@@ -37,7 +37,7 @@ class NerDLModel(override val uid: String)
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
     // Predict
-    val labels = NerDLModel.getModelIfNotSet(this).predict(tokenized)
+    val labels = NerDLModel.getTensorflowNer(this).predict(tokenized)
 
     // Combine labels with sentences tokens
     tokenized.indices.map { i =>
@@ -111,7 +111,7 @@ object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGra
 
   private[dl] def getTensorflowSession(instance: NerDLModel): TensorflowWrapper = tensorflowInstances(instance.uid).tensorflow
 
-  private[dl] def getModelIfNotSet(instance: NerDLModel): TensorflowNer = {
+  def getTensorflowNer(instance: NerDLModel): TensorflowNer = {
     tensorflowInstances(instance.uid)
   }
 
