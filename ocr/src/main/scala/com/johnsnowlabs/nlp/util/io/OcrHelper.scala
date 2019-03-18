@@ -2,7 +2,8 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.awt.{Color, Image}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
-import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
+import java.io._
+
 import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
@@ -13,6 +14,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
+
+import scala.util.{Failure, Success, Try}
 
 
 /*
@@ -167,14 +170,14 @@ object OcrHelper extends ImageProcessing {
           doImageOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
 
       case (fileName, stream) =>
-          doPDFOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+          doPDFOcr(stream.open, fileName).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
     }.filter(_.text.nonEmpty).toDS
   }
 
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doPDFOcr(stream).map{case (_, region, _) => (fileName, region)}
+      doPDFOcr(stream, fileName).map{case (_, region, _) => (fileName, region)}
     }.filter(_._2.nonEmpty).toMap
   }
 
@@ -347,6 +350,7 @@ object OcrHelper extends ImageProcessing {
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[String]] = {
+    println("log: extracting w/PDFBox")
 
     Option(extractText(pdfDoc, startPage, endPage))
 
@@ -376,28 +380,38 @@ object OcrHelper extends ImageProcessing {
 
   /*
    * fileStream: a stream to PDF files
+   * filename: name of the original file(used for failure login)
    * returns sequence of (pageNumber:Int, textRegion:String)
    *
    * */
-  private def doPDFOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
-    val pdfDoc = PDDocument.load(fileStream)
-    val numPages = pdfDoc.getNumberOfPages
+  private def doPDFOcr(fileStream:InputStream, filename:String):Seq[(Int, String, String)] = {
+    val pagesTry = Try(PDDocument.load(fileStream)).map { pdfDoc =>
+      val numPages = pdfDoc.getNumberOfPages
+      require(numPages >= 1, "pdf input stream cannot be empty")
 
-    require(numPages >= 1, "pdf input stream cannot be empty")
-
-    val result = if (splitPages) {
-      Range(1, numPages + 1).flatMap { pageNum =>
-        pageOcr(pdfDoc, pageNum, pageNum)
+      val result = if (splitPages) {
+        Range(1, numPages + 1).flatMap { pageNum =>
+          pageOcr(pdfDoc, pageNum, pageNum)
+        }
+      } else {
+        pageOcr(pdfDoc, 1, numPages)
       }
-    } else {
-      pageOcr(pdfDoc, 1, numPages)
-    }
 
-    /* TODO: beware PDF box may have a potential memory leak according to,
+      /* TODO: beware PDF box may have a potential memory leak according to,
      * https://issues.apache.org/jira/browse/PDFBOX-3388
      */
-    pdfDoc.close()
-    result
+      pdfDoc.close()
+      result
+    }
+
+    pagesTry match {
+      case Failure(e) =>
+        logger.error(s"""found a problem trying to open file filename""")
+        logger.error(pagesTry.toString)
+        Seq.empty
+      case Success(content) =>
+        content
+    }
   }
 
   private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
