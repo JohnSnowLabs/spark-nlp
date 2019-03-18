@@ -34,5 +34,5 @@ def start():
         .master("local[*]") \
         .config("spark.driver.memory", "4G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:1.8.3") \
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.0") \
         .getOrCreate()
