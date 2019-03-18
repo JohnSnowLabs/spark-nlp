@@ -310,7 +310,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.transform(assembled)
         embedded = glove.fit(tokenized).transform(tokenized)
-        embedded_training_set = glove.transform(self.training_set)
+        embedded_training_set = embedded.transform(self.training_set)
         ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
