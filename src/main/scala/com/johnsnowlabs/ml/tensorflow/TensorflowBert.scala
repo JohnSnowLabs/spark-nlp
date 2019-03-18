@@ -2,7 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
 
-class TensorflowBert(tensorflow: TensorflowWrapper,
+class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
                      maxSentenceLength: Int,
