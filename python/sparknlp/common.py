@@ -51,8 +51,6 @@ class ApproachWithEmbeddings(Params):
                              "Word vectors file format",
                              typeConverter=TypeConverters.toInt)
 
-
-
     def __init__(self):
         super(ApproachWithEmbeddings, self).__init__()
         self._setDefault(
@@ -97,8 +95,6 @@ class ParamsGettersSetters(Params):
 
 
 class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, ParamsGettersSetters):
-
-    column_type = "array<struct<annotatorType:string,begin:int,end:int,metadata:map<string,string>>>"
 
     @keyword_only
     def setParams(self):
