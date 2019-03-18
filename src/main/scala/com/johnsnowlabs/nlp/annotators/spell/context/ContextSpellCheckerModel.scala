@@ -23,8 +23,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   override val tfFile: String = "bigone"
 
-  private var tensorflow:TensorflowWrapper = null
-
   val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
   def setVocabTransducer(trans:ITransducer[Candidate]) = {
     transducer.setValue(Some(trans))
@@ -79,26 +77,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   /* reads the external TF model, keeping this until we can train from within spark */
   def readModel(path: String, spark: SparkSession, suffix: String, useBundle:Boolean): this.type = {
-    tensorflow = readTensorflowModel(path, spark, suffix, false, useBundle, tags = Array("our-graph"))
-    this
-  }
-
-  private var _model: TensorflowSpell = null
-
-  def model: TensorflowSpell = {
-    if (_model == null) {
-      require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
-
-      _model = new TensorflowSpell(
-        tensorflow,
-        Verbose.Silent)
-    }
-    _model
-  }
-
-
-  def setTensorflow(tf: TensorflowWrapper): ContextSpellCheckerModel = {
-    tensorflow = tf
+    ContextSpellCheckerModel.setTensorflow(readTensorflowModel(path, spark, suffix, false, useBundle, tags = Array("our-graph")), this)
     this
   }
 
@@ -117,7 +96,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     var pathWords = Array(Array("_BOS_"))
     var costs = Array(bosScore) // cost for each of the paths
 
-    for(i <- 1 to encTrellis.length - 1) {
+    for(i <- 1 until encTrellis.length) {
 
       var newPaths:Array[Array[Int]] = Array()
       var newWords: Array[Array[String]] = Array()
@@ -130,9 +109,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         }
       }
 
-      val cids = expPaths.map(_.map{id => $$(classes).get(id).get._1})
-      val cwids = expPaths.map(_.map{id => $$(classes).get(id).get._2})
-      val expPathsCosts = model.predict(expPaths, cids, cwids).toArray
+      val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
+      val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
+      val expPathsCosts = ContextSpellCheckerModel.getTensorflow(this).predict(expPaths, cids, cwids).toArray
 
       for {((state, wcost, cand), idx) <- encTrellis(i).zipWithIndex} {
         var minCost = Double.MaxValue
@@ -146,7 +125,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
           val mult = if (i > 1) costs.length else 0
           val ppl = expPathsCosts(idx * mult + pi)
 
-          logger.debug(s"${$$(idsVocab).get(path.last).get} -> $cand, $ppl")
+          logger.debug(s"${$$(idsVocab).apply(path.last)} -> $cand, $ppl")
 
           val cost = pathCost + ppl
           if (cost < minCost){
@@ -177,7 +156,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int, limit:Int = 2) = {
     import scala.collection.JavaConversions._
-    transducer.transduce(token, maxDist).map {case cand =>
+    transducer.transduce(token, maxDist).map {cand =>
 
       // if weights are available, we use them
       val weight = weights.get.
@@ -239,13 +218,13 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
 
       // ask each token class for candidates, keep the one with lower cost
-      var candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+      var candLabelWeight = specialTransducers.getOrDefault.flatMap { specialParser =>
         getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
       } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance) -1)
 
       // now try to relax distance requirements for candidates
       if (token.length > 4 && candLabelWeight.isEmpty)
-        candLabelWeight = specialTransducers.getOrDefault.flatMap { case specialParser =>
+        candLabelWeight = specialTransducers.getOrDefault.flatMap { specialParser =>
           getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
         } ++ getVocabCandidates(transducer.getOrDefault, token, getOrDefault(wordMaxDistance))
 
@@ -266,7 +245,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   }
 
-
   def this() = this(Identifiable.randomUID("SPELL"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -275,7 +253,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile)
+    writeTensorflowModel(path, spark, ContextSpellCheckerModel.getTensorflow(this).tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile)
   }
 }
 
@@ -286,7 +264,7 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 
   def readLanguageModelGraph(instance: ContextSpellCheckerModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_langmodeldl")
-    instance.setTensorflow(tf)
+    ContextSpellCheckerModel.setTensorflow(tf, instance)
   }
 
   addReader(readLanguageModelGraph)
@@ -297,4 +275,23 @@ trait PretrainedSpellModel {
     ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remoteLoc)
 }
 
-object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel
+object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel {
+
+  private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowSpell]
+
+  private[context] def getTensorflow(instance: ContextSpellCheckerModel) = tensorflowInstances(instance.uid)
+
+  private[context] def setTensorflow(tf: TensorflowWrapper, instance: ContextSpellCheckerModel): ContextSpellCheckerModel = {
+    val tensorflow = new TensorflowSpell(
+      tf,
+      Verbose.Silent)
+    tensorflowInstances.update(instance.uid, tensorflow)
+    instance
+  }
+
+  def clearTensorflowSession(instance: ContextSpellCheckerModel): Unit = {
+    System.gc()
+    tensorflowInstances.remove(instance.uid)
+  }
+
+}
