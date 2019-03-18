@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 class TensorflowSpell(
   val tensorflow: TensorflowWrapper,
   val verboseLevel: Verbose.Value
-  ) extends Logging {
+  ) extends Logging with Serializable {
 
   val testInitOp = "test/init"
   val validWords = "valid_words"
