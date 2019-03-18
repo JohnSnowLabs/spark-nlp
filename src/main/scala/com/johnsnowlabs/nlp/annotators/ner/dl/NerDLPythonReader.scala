@@ -86,8 +86,9 @@ object NerDLModelPythonReader {
     val nerModel = readLocal(tmpFolder, dim, useBundle, tags = tags)
     FileHelper.delete(tmpFolder)
 
-    new NerDLModel()
-      .setTensorflow(nerModel.tensorflow)
+    val m = new NerDLModel()
       .setDatasetParams(nerModel.encoder.params)
+    NerDLModel.setTensorflowSession(nerModel.tensorflow, m)
+    m
   }
 }
