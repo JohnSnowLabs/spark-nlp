@@ -3,7 +3,7 @@ import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -93,6 +93,38 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     pipeline.transform(data).select("checked").show(truncate=false)
 
   }
+
+
+
+  "a Spell Checker" should "work in a light pipeline" in {
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = Array("Yesterday I lost my blue unikorn .", "Through a note of introduction from Bettina.")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(Seq.empty[String].toDF("text"))
+    val lp = new LightPipeline(pipeline)
+    lp.annotate(data)
+    lp.annotate(data)
+    lp.annotate(data)
+
+  }
+
 
   "a Spell Checker" should "correctly handle paragraphs defined by newlines" in {
     import SparkAccessor.spark

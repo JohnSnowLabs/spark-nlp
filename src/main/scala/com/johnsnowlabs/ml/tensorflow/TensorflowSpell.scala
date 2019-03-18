@@ -19,7 +19,7 @@ class TensorflowSpell(
   val tensors = new TensorResources()
 
   /* returns the loss associated with the last word, given previous history  */
-  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = {
+  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = this.synchronized {
 
     val packed = dataset.zip(cids).zip(cwids).map {
       case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
