@@ -280,12 +280,6 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         self.training_set = CoNLL().readDataset(SparkContextForTest.spark, external_dataset)
 
     def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-        tokenizer = Tokenizer() \
-            .setInputCols(["document"]) \
-            .setOutputCol("token")
         glove = WordEmbeddings() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
@@ -307,11 +301,9 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setOutputCol("sentence") \
             .setIncludePragmaticSegmenter(True) \
             .setEndPunctuation([".", "?"])
-        assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.transform(assembled)
-        embedded = glove.fit(tokenized).transform(tokenized)
-        embedded_training_set = embedded.transform(self.training_set)
-        ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded)
+        embeddings = glove.fit(self.training_set)
+        embedded_training_set = embeddings.transform(self.training_set)
+        ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded_training_set)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
         deep_sentence_detected.show()
