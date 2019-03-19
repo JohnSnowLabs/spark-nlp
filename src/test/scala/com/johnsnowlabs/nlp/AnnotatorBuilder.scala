@@ -94,7 +94,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/110CYL067.txt", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/110CYL067.txt", "|", "tags")
 
       posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))

@@ -15,7 +15,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("src/test/resources/anc-pos-corpus-small/test-training.txt")
 
-  val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")
+  val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")
 
   val trainedTagger: PerceptronModel =
     new PerceptronApproach()
@@ -47,7 +47,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     new PerceptronApproach()
       .setPosColumn("tags")
       .setNIterations(3)
-      .fit(POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "\\|", "tags")),
+      .fit(POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")),
     tokenizedSentenceFromWsj,
     targetSentencesFromWsjResult
   )
@@ -62,7 +62,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   )
 
   "A Perceptron Tagger" should "be readable and writable" in {
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
     val perceptronTagger = new PerceptronApproach()
       .setPosColumn("tags")
@@ -83,6 +83,6 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
   //  * Test ReouceHelper to convert token|tag to DataFrame with POS annotation as a column
   //  *
   //  * */
-  //  val posTrainingDataFrame: DataFrame = ResourceHelper.annotateTokenTagTextFiles(path = "src/test/resources/anc-pos-corpus-small", delimiter = "\\|")
+  //  val posTrainingDataFrame: DataFrame = ResourceHelper.annotateTokenTagTextFiles(path = "src/test/resources/anc-pos-corpus-small", delimiter = "|")
   //  posTrainingDataFrame.show(1,truncate = false)
 }
