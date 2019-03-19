@@ -55,17 +55,18 @@ object OCRMethod {
   val IMAGE_FILE = "image_file"
 }
 
+case class OcrRow(text: String, filename: String, pagenum: Int, method: String)
 
-object OcrHelper extends ImageProcessing {
+class OcrHelper extends ImageProcessing with Serializable {
 
-  private val logger = LoggerFactory.getLogger("OcrHelper")
+  private def logger = LoggerFactory.getLogger("OcrHelper")
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
   private var tesseractAPI : Tesseract = _
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
-  private var fallbackMethod: Boolean = true
+  private var fallbackMethod: Boolean = false
   private var minSizeBeforeFallback: Int = 0
 
   /** Tesseract exclusive settings */
@@ -143,8 +144,6 @@ object OcrHelper extends ImageProcessing {
     else
       kernelSize = Some(kSize)
   }
-
-  case class OcrRow(text: String, filename: String, pagenum: Int, method: String)
 
   private def getListOfFiles(dir: String): List[(String, FileInputStream)] = {
     val path = new File(dir)
