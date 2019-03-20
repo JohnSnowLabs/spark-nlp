@@ -61,7 +61,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     val single = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
       select("text").collect.map(_.getString(0)).mkString
 
-    assert(levenshteinDistance(multiple, single) < 100)
+    assert(levenshteinDistance(multiple, single) < 102)
 
   }
 
