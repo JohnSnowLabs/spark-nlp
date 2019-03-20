@@ -5,6 +5,8 @@ import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
@@ -15,7 +17,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
@@ -178,7 +180,10 @@ object PythonResourceDownloader {
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "NerDLModel" -> NerDLModel,
     "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
-    "BertEmbeddings" -> BertEmbeddings
+    "WordEmbeddingsModel" -> WordEmbeddingsModel,
+    "BertEmbeddings" -> BertEmbeddings,
+    "DependencyParserModel" -> DependencyParserModel,
+    "TypedDependencyParserModel" -> TypedDependencyParserModel
     )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String  = null): PipelineStage = {

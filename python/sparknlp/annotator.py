@@ -1306,6 +1306,11 @@ class DependencyParserModel(AnnotatorModel):
             java_model=java_model
         )
 
+    @staticmethod
+    def pretrained(name="dp_fast", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(DependencyParserModel, name, language, remote_loc)
+
 
 class TypedDependencyParserApproach(AnnotatorApproach):
     conll2009 = Param(Params._dummy(),
@@ -1354,3 +1359,7 @@ class TypedDependencyParserModel(AnnotatorModel):
             java_model=java_model
         )
 
+    @staticmethod
+    def pretrained(name="tdp_fast", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remote_loc)
