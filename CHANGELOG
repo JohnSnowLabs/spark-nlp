@@ -72,7 +72,7 @@ Developer API
 * Embeddings now serialize along a FloatArray in Annotation class
 * Disabled useFeatureBroadcasting, showed better performance number when training large models in annotators that use Features
 * OCR must be instantiated
-* OCR is now tested and main compatible with Tesseract 4.0.0
+* OCR works best with 4.0.0-beta.1
 
 ----------------
 Build and release
