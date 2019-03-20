@@ -12,7 +12,7 @@ class FunctionsTestSpec extends FlatSpec {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")

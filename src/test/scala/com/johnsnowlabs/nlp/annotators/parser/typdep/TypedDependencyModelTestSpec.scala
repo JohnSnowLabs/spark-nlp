@@ -49,7 +49,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
     val perceptronTagger = new PerceptronApproach()
       .setInputCols(Array("token", "sentence"))
