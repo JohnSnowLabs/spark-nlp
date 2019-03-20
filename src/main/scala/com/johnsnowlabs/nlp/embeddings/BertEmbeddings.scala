@@ -2,10 +2,11 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowBert, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.{addReader, readTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -29,15 +30,12 @@ class BertEmbeddings(override val uid: String) extends
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-
   def sentenceStartTokenId: Int = {
-    require(vocabulary.isSet)
-    vocabulary.getOrDefault("[CLS]")
+    $$(vocabulary)("[CLS]")
   }
 
   def sentenceEndTokenId: Int = {
-    require(vocabulary.isSet)
-    vocabulary.getOrDefault("[SEP]")
+    $$(vocabulary)("[SEP]")
   }
 
   setDefault(
@@ -46,37 +44,14 @@ class BertEmbeddings(override val uid: String) extends
     maxSentenceLength -> 256
   )
 
-  var tensorflow: TensorflowWrapper = null
-
-  def setTensorflow(tf: TensorflowWrapper): this.type = {
-    this.tensorflow = tf
-    this
-  }
-
   def setBatchSize(size: Int): this.type = set(batchSize, size)
 
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
-
-  @transient
-  private var _model: TensorflowBert = null
-
-  def getModel: TensorflowBert = {
-    if (_model == null) {
-      require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
-
-      _model = new TensorflowBert(
-        tensorflow,
-        sentenceStartTokenId,
-        sentenceEndTokenId,
-        $(maxSentenceLength))
-    }
-
-    _model
-  }
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder(vocabulary.getOrDefault)
+    val encoder = new WordpieceEncoder($$(vocabulary))
 
     sentences.map { s =>
       val tokens = basicTokenizer.tokenize(s)
@@ -94,7 +69,7 @@ class BertEmbeddings(override val uid: String) extends
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = tokenize(sentences)
-    val withEmbeddings = getModel.calculateEmbeddings(tokenized)
+    val withEmbeddings = BertEmbeddings.getBertTensorflow(this).calculateEmbeddings(tokenized)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
@@ -108,7 +83,7 @@ class BertEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_bert", BertEmbeddings.tfFile)
+    writeTensorflowModel(path, spark, BertEmbeddings.getBertTensorflow(this).tensorflow, "_bert", BertEmbeddings.tfFile)
   }
 }
 
@@ -117,19 +92,15 @@ trait PretrainedBertModel {
     ResourceDownloader.downloadModel(BertEmbeddings, name, language, remoteLoc)
 }
 
-object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
-  with PretrainedBertModel
-  with ReadTensorflowModel {
-
+trait ReadBertTensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_bert_tf")
-    instance.setTensorflow(tf)
+    BertEmbeddings.setBertTensorflow(tf, instance)
   }
 
   addReader(readTensorflow)
-
 
   def loadFromPython(folder: String): BertEmbeddings = {
     val f = new File(folder)
@@ -143,8 +114,33 @@ object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.LINE_BY_LINE, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    new BertEmbeddings()
-      .setTensorflow(wrapper)
+    val bert = new BertEmbeddings()
       .setVocabulary(words)
+
+    BertEmbeddings.setBertTensorflow(wrapper, bert)
+
+    bert
   }
+}
+
+object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
+  with PretrainedBertModel
+  with ReadBertTensorflowModel {
+
+  private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowBert]
+
+  def setBertTensorflow(tensorflowWrapper: TensorflowWrapper, instance: BertEmbeddings): TensorflowBert = {
+    val tensorflowBert = new TensorflowBert(
+      tensorflowWrapper,
+      instance.sentenceStartTokenId,
+      instance.sentenceEndTokenId,
+      instance.getMaxSentenceLength)
+    tensorflowInstances.update(instance.uid, tensorflowBert)
+    tensorflowBert
+  }
+
+  def getBertTensorflow(instance: BertEmbeddings): TensorflowBert = {
+    tensorflowInstances(instance.uid)
+  }
+
 }

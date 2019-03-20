@@ -3,10 +3,10 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 
 class WordEmbeddingsModel(override val uid: String)
@@ -85,4 +85,9 @@ class WordEmbeddingsModel(override val uid: String)
 
 }
 
-object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel]
+object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
+
+trait PretrainedWordEmbeddings {
+  def pretrained(name: String = "glove_100d", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
+    ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remoteLoc)
+}

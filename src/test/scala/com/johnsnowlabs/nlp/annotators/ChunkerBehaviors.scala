@@ -21,7 +21,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
       ))
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       val trainedTagger: PerceptronModel =
@@ -52,7 +52,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -144,7 +144,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
       val transform = model.transform(testData)
@@ -161,7 +161,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
@@ -183,7 +183,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         ).toDF("sentence", "labels")
           .withColumn("tokens", split($"sentence", " "))
 
-        val trainingPerceptronDF = POS().readDatframe(tokensLabelsDF)
+        val trainingPerceptronDF = POS().readFromDataframe(tokensLabelsDF)
 
         val dataSeq = Seq((phrase.sentence, phrase.POSFormatSentence, phrase.correctChunkPhrases))
         val data = SparkAccessor.spark.sparkContext.parallelize(dataSeq).toDF("text", "tags", "correct_chunks")
@@ -214,7 +214,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val tokensLabelsDF = dataset
         .withColumn("tokens", split($"text", " "))
 
-      val trainingPerceptronDF = POS().readDatframe(tokensLabelsDF)
+      val trainingPerceptronDF = POS().readFromDataframe(tokensLabelsDF)
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
 
