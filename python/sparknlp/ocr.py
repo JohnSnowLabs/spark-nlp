@@ -61,5 +61,11 @@ class OcrHelper(ExtendedJavaWrapper):
     def getSplitPages(self):
         return self._java_obj.getSplitPages()
 
+    def setSplitRegions(self, value):
+        return self._java_obj.setSplitRegions(value)
+
+    def getSplitRegions(self):
+        return self._java_obj.getSplitRegions()
+
     def useErosion(self, use, k_size=2, k_shape=0):
         return self._java_obj.useErosion(use, k_size, k_shape)
