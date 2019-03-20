@@ -117,7 +117,8 @@ lazy val utilDependencies = Seq(
 
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
-  exclude("com.google.guava", "guava"),
+    exclude("com.google.guava", "guava")
+    exclude("org.apache.commons", "commons-lang3"),
   "com.navigamez" % "greex" % "1.0"
 )
 
@@ -163,6 +164,7 @@ val ocrMergeRules: String => MergeStrategy  = {
 }
 
 assemblyMergeStrategy in assembly := {
+  case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
