@@ -62,6 +62,8 @@ Bugfixes
 * Fixed a bug where DateMatcher didn't know how to handle dash in dates where year had two digits instead of four
 * Fixed a ContextSpellChecker bug that prevented it from being used repeatedly with collections in LightPipeline
 * Fixed a bug in OCR that made it blow up with some image formats when using text preferred method
+* Fixed a bug on OCR which made params not to work in cluster mode
+* Fixed OCR setSplitPages and setSplitRegions to work properly if tesseract detected multiple regions
 
 ----------------
 Developer API
@@ -69,6 +71,8 @@ Developer API
 * AnnotatorType params renamed to inputAnnotatorTypes and outputAnnotatorTypes
 * Embeddings now serialize along a FloatArray in Annotation class
 * Disabled useFeatureBroadcasting, showed better performance number when training large models in annotators that use Features
+* OCR must be instantiated
+* OCR is now tested and main compatible with Tesseract 4.0.0
 
 ----------------
 Build and release
