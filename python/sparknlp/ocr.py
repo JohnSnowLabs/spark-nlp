@@ -1,78 +1,65 @@
-import sparknlp.internal as _int
+from sparknlp.internal import ExtendedJavaWrapper
 from pyspark.sql import SparkSession, DataFrame
 
 
-class OcrHelper:
-    @staticmethod
-    def createDataset(spark, input_path):
+class OcrHelper(ExtendedJavaWrapper):
+
+    def __init__(self):
+        super(OcrHelper, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+    def createDataset(self, spark, input_path):
         if type(spark) != SparkSession:
             raise Exception("spark must be SparkSession")
-        return DataFrame(_int._OcrCreateDataset(spark._jsparkSession, input_path).apply(), spark)
+        return DataFrame(self._java_obj.createDataset(spark._jsparkSession, input_path), spark)
 
-    @staticmethod
-    def createMap(input_path):
-        return _int._OcrCreateMap(input_path).apply()
+    def createMap(self, input_path):
+        return self._java_obj.createMap(input_path)
 
-    @staticmethod
-    def setPreferredMethod(value):
-        return _int._OcrSetPreferredMethod(value).apply()
+    def setPreferredMethod(self, value):
+        return self._java_obj.setPreferredMethod(value)
 
-    @staticmethod
-    def getPreferredMethod():
-        return _int._OcrGetPreferredMethod().apply()
+    def getPreferredMethod(self):
+        return self._java_obj.getPreferredMethod()
 
-    @staticmethod
-    def setFallbackMethod(value):
-        return _int._OcrSetFallbackMethod(value).apply()
+    def setFallbackMethod(self, value):
+        return self._java_obj.setFallbackMethod(value)
 
-    @staticmethod
-    def getFallbackMethod():
-        return _int._OcrGetFallbackMethod().apply()
+    def getFallbackMethod(self):
+        return self._java_obj.getFallbackMethod()
 
-    @staticmethod
-    def setMinSizeBeforeFallback(value):
-        return _int._OcrSetMinSizeBeforeFallback(value).apply()
+    def setMinSizeBeforeFallback(self, value):
+        return self._java_obj.setMinSizeBeforeFallback(value)
 
-    @staticmethod
-    def getMinSizeBeforeFallback():
-        return _int._OcrGetMinSizeBeforeFallback().apply()
+    def getMinSizeBeforeFallback(self):
+        return self._java_obj.getMinSizeBeforeFallback()
 
-    @staticmethod
-    def setEngineMode(mode):
-        return _int._OcrSetEngineMode(mode).apply()
+    def setEngineMode(self, mode):
+        return self._java_obj.setEngineMode(mode)
 
-    @staticmethod
-    def getEngineMode():
-        return _int._OcrGetEngineMode().apply()
+    def getEngineMode(self):
+        return self._java_obj.getEngineMode()
 
-    @staticmethod
-    def setPageSegMode(mode):
-        return _int._OcrSetPageSegMode(mode).apply()
+    def setPageSegMode(self, mode):
+        return self._java_obj.setPageSegMode(mode)
 
-    @staticmethod
-    def getPageSegMode():
-        return _int._OcrGetPageSegMode().apply()
+    def getPageSegMode(self):
+        return self._java_obj.getPageSegMode()
 
-    @staticmethod
-    def setPageIteratorLevel(level):
-        return _int._OcrSetPageIteratorLevel(level).apply()
+    def setPageIteratorLevel(self, level):
+        return self._java_obj.setPageIteratorLevel(level)
 
-    @staticmethod
-    def getPageIteratorLevel():
-        return _int._OcrGetPageIteratorLevel().apply()
+    def getPageIteratorLevel(self):
+        return self._java_obj.getPageIteratorLevel()
 
-    @staticmethod
-    def setScalingFactor(factor):
-        return _int._OcrSetScalingFactor(factor).apply()
+    def setScalingFactor(self, factor):
+        return self._java_obj.setScalingFactor(factor)
 
-    @staticmethod
-    def setSplitPages(value):
-        return _int._OcrSetSplitPages(value).apply()
+    def setSplitPages(self, value):
+        return self._java_obj.setSplitPages(value)
 
-    @staticmethod
-    def getSplitPages():
-        return _int._OcrGetSplitPages().apply()
+    def getSplitPages(self):
+        return self._java_obj.getSplitPages()
 
-    @staticmethod
-    def useErosion(use, k_size=2, k_shape=0):
-        return _int._OcrUseErosion(use, k_size, k_shape).apply()
+    def useErosion(self, use, k_size=2, k_shape=0):
+        return self._java_obj.useErosion(use, k_size, k_shape)

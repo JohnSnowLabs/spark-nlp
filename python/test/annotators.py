@@ -543,22 +543,24 @@ class ParamsGettersTestSpec(unittest.TestCase):
 class OcrTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
-        OcrHelper.setPreferredMethod('text')
-        print("text layer is: " + str(OcrHelper.getPreferredMethod()))
+        ocr = OcrHelper()
+        ocr.setPreferredMethod('text')
+        print("text layer is: " + str(ocr.getPreferredMethod()))
         pdf_path = "file:///" + os.getcwd() + "/../ocr/src/test/resources/pdfs/"
-        data = OcrHelper.createDataset(
+        data = ocr.createDataset(
             spark=SparkContextForTest.spark,
             input_path=pdf_path)
         data.show()
-        OcrHelper.setPreferredMethod('image')
-        print("Text layer disabled")
-        data = OcrHelper.createDataset(
+        ocr.setPreferredMethod('image')
+        print("Text layer disabled. set to: ", ocr.getPreferredMethod())
+        data = ocr.createDataset(
             spark=SparkContextForTest.spark,
             input_path=pdf_path)
         data.show()
-        OcrHelper.setPreferredMethod('text')
-        content = OcrHelper.createMap(input_path="../ocr/src/test/resources/pdfs")
-        print(content)
+        ocr.setPreferredMethod('text')
+        print("Text layer enabled. set to: ", ocr.getPreferredMethod())
+        content = ocr.createMap(input_path="../ocr/src/test/resources/pdfs")
+        print("ocr create map: ", content)
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
