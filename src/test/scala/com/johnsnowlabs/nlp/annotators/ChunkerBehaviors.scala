@@ -21,7 +21,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
       ))
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       val trainedTagger: PerceptronModel =
@@ -52,7 +52,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -144,7 +144,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
       val transform = model.transform(testData)
@@ -161,7 +161,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
         SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
       )
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "\\|", "tags")
+      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
