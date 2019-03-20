@@ -5,14 +5,18 @@ import string
 import random
 import math
 import sys
+from sentence_grouper import SentenceGrouper
+
 
 class NerModel:
     # If session is not defined than default session will be used
-    def __init__(self, session = None):
+    def __init__(self, session = None, dummy_tags = None, use_contrib=True):
         self.word_repr = None
         self.word_embeddings = None
         self.session = session 
         self.session_created = False
+        self.dummy_tags = dummy_tags or []
+        self.use_contrib = use_contrib
 
         if self.session is None:
             self.session_created = True
@@ -40,7 +44,6 @@ class NerModel:
 
                 self.lr = tf.placeholder_with_default(0.005,  shape=(), name="lr")
                 self.dropout = tf.placeholder(tf.float32, shape=(), name="dropout")
-
         
         self._char_bilstm_added = False
         self._char_cnn_added = False
@@ -63,7 +66,7 @@ class NerModel:
 
                 # shape = (batch, sentence, word, char embeddings dim)
                 char_embeddings = tf.nn.embedding_lookup(embeddings, self.char_ids)
-                char_embeddings = tf.nn.dropout(char_embeddings, self.dropout)
+                #char_embeddings = tf.nn.dropout(char_embeddings, self.dropout)
                 s = tf.shape(char_embeddings)
 
                 # shape = (batch x sentence, word, char embeddings dim)
@@ -72,7 +75,7 @@ class NerModel:
                 # shape = (batch x sentence)
                 word_lengths_seq = tf.reshape(self.word_lengths, shape=[-1])
 
-                # 2. Add BI Directionary LSTM
+                # 2. Add Bidirectional LSTM
                 cell_fw = tf.contrib.rnn.LSTMCell(hidden, state_is_tuple=True)
                 cell_bw = tf.contrib.rnn.LSTMCell(hidden, state_is_tuple=True)
 
@@ -105,7 +108,7 @@ class NerModel:
 
                 # shape = (batch, sentence, word_len, embeddings dim)
                 char_embeddings = tf.nn.embedding_lookup(embeddings, self.char_ids)
-                char_embeddings = tf.nn.dropout(char_embeddings, self.dropout)
+                #char_embeddings = tf.nn.dropout(char_embeddings, self.dropout)
                 s = tf.shape(char_embeddings)
 
                 # shape = (batch x sentence, word_len, embeddings dim)
@@ -131,10 +134,9 @@ class NerModel:
                     self.word_repr = tf.concat([self.word_repr, char_repr], axis=-1)
                 else:
                     self.word_repr = char_repr
-
     
     
-    def add_pretrained_word_embeddings(self, dim=100, trainable=True):
+    def add_pretrained_word_embeddings(self, dim=100):
         self._word_embeddings_added = True
 
         with tf.device('/gpu:0'):
@@ -149,8 +151,58 @@ class NerModel:
                     self.word_repr = self.word_embeddings
                 
     
+    def _create_lstm_layer(self, inputs, hidden_size, lengths):
+        
+        if not self.use_contrib:
+            cell_fw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
+            cell_bw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
+            
+            _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw,
+                cell_bw, inputs, sequence_length=lengths,
+                dtype=tf.float32)
+            
+            # inputs shape = (batch, sentence, inp)
+            batch = tf.shape(lengths)[0]
+            # shape = (batch x sentence, 2 x hidden)
+            result = tf.concat([output_fw, output_bw], axis=-1)
+            return tf.reshape(result, shape=[batch, -1, 2*hidden_size])
+
+        time_based = tf.transpose(inputs, [1, 0, 2])
+        
+        cell_fw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
+        cell_bw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
+        cell_bw = tf.contrib.rnn.TimeReversedFusedRNN(cell_bw)
+
+        output_fw, _ = cell_fw(time_based, dtype=tf.float32, sequence_length=lengths)
+        output_bw, _ = cell_bw(time_based, dtype=tf.float32, sequence_length=lengths)
+    
+        result = tf.concat([output_fw, output_bw], axis=-1)
+        return tf.transpose(result, [1, 0, 2])
+        
+    def _multiply_layer(self, source, result_size, activation=tf.nn.relu):
+        ntime_steps = tf.shape(source)[1]
+        source_size = source.shape[2]
+        
+        W = tf.get_variable("W", shape=[source_size, result_size],
+                                dtype=tf.float32,
+                                initializer=tf.contrib.layers.xavier_initializer())
+
+        b = tf.get_variable("b", shape=[result_size], dtype=tf.float32)
+
+        # batch x time, source_size
+        source = tf.reshape(source, [-1, source_size])
+        # batch x time, result_size
+        result = tf.matmul(source, W) + b
+        
+        result = tf.reshape(result, [-1, ntime_steps, result_size])
+        if activation:
+            result = activation(result)
+           
+        return result
+               
+    
     # Adds Bi LSTM with size of each cell hidden_size
-    def add_context_repr(self, ntags, hidden_size=200):
+    def add_context_repr(self, ntags, hidden_size=100, height = 1, residual = True):
         assert(self._word_embeddings_added or self._char_cnn_added or self._char_bilstm_added, 
               "Add word embeddings by method add_word_embeddings " +
                 "or add char representation by method add_bilstm_char_repr " +
@@ -158,44 +210,26 @@ class NerModel:
 
         self._context_added = True
         self.ntags = ntags
-
-        with tf.device('/gpu:0'):
         
+        with tf.device('/gpu:0'):
+            context_repr = self._multiply_layer(self.word_repr, 2*hidden_size)
+            context_repr = tf.nn.dropout(context_repr, self.dropout)
+            
             with tf.variable_scope("context_repr") as scope:
-                cell_fw = tf.contrib.rnn.LSTMCell(hidden_size)
-                cell_bw = tf.contrib.rnn.LSTMCell(hidden_size)
-
-                word_repr = tf.nn.dropout(self.word_repr, self.dropout)
-
-                (output_fw, output_bw), _ = tf.nn.bidirectional_dynamic_rnn(
-                    cell_fw,
-                    cell_bw,
-                    word_repr,
-                    sequence_length=self.sentence_lengths,
-                    dtype=tf.float32)
-
-                context_repr = tf.concat([output_fw, output_bw], axis=-1)
+                for i in range(height):
+                    with tf.variable_scope('lstm-{}'.format(i)):
+                        new_repr = self._create_lstm_layer(context_repr, hidden_size,
+                                               lengths = self.sentence_lengths)
+                        
+                        context_repr = new_repr + context_repr if residual else new_repr    
+                
                 context_repr = tf.nn.dropout(context_repr, self.dropout)
-
-                w_bound = math.sqrt(6 / (2*hidden_size + ntags))
-                W = tf.get_variable("W", shape=[2*hidden_size, ntags],
-                                dtype=tf.float32,
-                                initializer=tf.random_uniform_initializer(-w_bound, w_bound))
-
-
-                b = tf.get_variable("b", shape=[ntags], dtype=tf.float32)
-
-                ntime_steps = tf.shape(context_repr)[1]
-                # batch x sentence, 2*hidden_size
-                context_repr_flat = tf.reshape(context_repr, [-1, 2*hidden_size])
-                # batch x sentence, ntags
-                self.pred = tf.matmul(context_repr_flat, W) + b
+                
                 # batch, sentence, ntags
-                self.scores = tf.reshape(self.pred, [-1, ntime_steps, ntags])
-
+                self.scores = self._multiply_layer(context_repr, ntags, activation=None)
+                
                 tf.identity(self.scores, "scores")
-                tf.identity(self.pred, "pred")
-
+                
                 self.predicted_labels = tf.argmax(self.scores, -1)
                 tf.identity(self.predicted_labels, "predicted_labels")
             
@@ -208,19 +242,28 @@ class NerModel:
         with tf.device('/gpu:0'):
         
             with tf.variable_scope("inference", reuse=None) as scope:
+                
                 self.crf = tf.constant(crf, dtype=tf.bool, name="crf")
-
+                
                 if crf:
+                    transition_params = tf.get_variable("transition_params", 
+                                                 shape=[self.ntags, self.ntags],
+                                                 initializer=tf.contrib.layers.xavier_initializer())
+                    
                     # CRF shape = (batch, sentence)
                     log_likelihood, self.transition_params = tf.contrib.crf.crf_log_likelihood(
                         self.scores,
                         self.labels,
-                        self.sentence_lengths)
+                        self.sentence_lengths,
+                        transition_params
+                    )
 
                     tf.identity(log_likelihood, "log_likelihood")
                     tf.identity(self.transition_params, "transition_params")
 
                     self.loss = tf.reduce_mean(-log_likelihood)
+                    self.prediction, _ = tf.contrib.crf.crf_decode(self.scores, self.transition_params, self.sentence_lengths)
+                    
                 else:
                     # Softmax
                     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=self.scores, labels=self.labels)
@@ -230,11 +273,13 @@ class NerModel:
                     losses = tf.boolean_mask(losses, mask)
 
                     self.loss = tf.reduce_mean(losses)
+                    
+                    self.prediction = tf.math.argmax(self.scores, -1)
 
                 tf.identity(self.loss, "loss")
             
     # clip_gradient < 0  - no gradient clipping
-    def add_training_op(self, clip_gradient = 5.0):
+    def add_training_op(self, clip_gradient = 2.0):
         assert(self._inference_added, 
                "Add inference layer by method add_inference_layer before adding training layer")
         self._training_added = True
@@ -242,17 +287,25 @@ class NerModel:
         with tf.device('/gpu:0'):
         
             with tf.variable_scope("training", reuse=None) as scope:
-                optimizer = tf.train.MomentumOptimizer(learning_rate=self.lr, momentum=0.9)
+                optimizer = tf.train.AdamOptimizer(learning_rate=self.lr)
                 if clip_gradient > 0:
                     gvs = optimizer.compute_gradients(self.loss)
-                    capped_gvs = [(tf.clip_by_value(grad, -clip_gradient, clip_gradient), var) for grad, var in gvs]
+                    capped_gvs = [(tf.clip_by_value(grad, -clip_gradient, clip_gradient), var) for grad, var in gvs if grad is not None]
                     self.train_op = optimizer.apply_gradients(capped_gvs)
                 else:
                     self.train_op = optimizer.minimize(self.loss)
 
                 self.init_op = tf.variables_initializer(tf.global_variables(), name="init")
-                                 
-
+              
+    @staticmethod
+    def num_trues(array):
+        result = 0
+        for item in array:
+            if item == True:
+                result += 1
+                
+        return result
+                    
     @staticmethod
     def fill(array, l, val):
         result = array[:]
@@ -261,9 +314,13 @@ class NerModel:
         return result
 
     @staticmethod
-    def get_sentence_lengths(batch, idx="word_ids"):
+    def get_sentence_lengths(batch, idx="word_embeddings"):
         return [len(row[idx]) for row in batch]
 
+    @staticmethod
+    def get_sentence_token_lengths(batch, idx="tag_ids"):
+        return [len(row[idx]) for row in batch]
+    
     @staticmethod
     def get_word_lengths(batch, idx = "char_ids"):
         max_words = max([len(row[idx]) for row in batch])
@@ -288,13 +345,9 @@ class NerModel:
         return list([NerModel.fill(row[idx], k, 0) for row in batch])
 
     @staticmethod
-    def get_word_ids(batch, idx="word_ids"):
-        return NerModel.get_from_batch(batch, idx)
-
-    @staticmethod
     def get_tag_ids(batch, idx="tag_ids"):
         return NerModel.get_from_batch(batch, idx)
-    
+        
     @staticmethod
     def get_word_embeddings(batch, idx="word_embeddings"):
         embeddings_dim = len(batch[0][idx][0])
@@ -307,15 +360,8 @@ class NerModel:
 
     @staticmethod
     def slice(dataset, batch_size = 10):
-        batch = []
-        for item in dataset:
-            batch.append(item)
-            if len(batch) >= batch_size:
-                yield batch
-                batch = []
-        
-        if batch:
-            yield batch
+        grouper = SentenceGrouper([5, 10, 20, 50])
+        return grouper.slice(dataset, batch_size)
     
     def init_variables(self):
         self.session.run(self.init_op)
@@ -357,7 +403,6 @@ class NerModel:
                 mean_loss, _ = self.session.run([self.loss, self.train_op], feed_dict = feed_dict)
                 sum_loss += mean_loss
 
-
             print("epoch {}".format(epoch))
             print("mean loss: {}".format(sum_loss))
             sys.stdout.flush()
@@ -381,10 +426,10 @@ class NerModel:
 
         for batch in NerModel.slice(dataset, batch_size):
             tags_ids = NerModel.get_tag_ids(batch)
-            batch_sentence_lengths = NerModel.get_sentence_lengths(batch)
-
+            sentence_lengths =  NerModel.get_sentence_lengths(batch)
+            
             feed_dict = {
-                self.sentence_lengths: batch_sentence_lengths,
+                self.sentence_lengths: sentence_lengths,
                 self.word_embeddings: NerModel.get_word_embeddings(batch),
 
                 self.word_lengths: NerModel.get_word_lengths(batch),
@@ -394,22 +439,21 @@ class NerModel:
                 self.dropout: dropout
             }
             
-            crf = self.session.run(self.crf)
-            if crf:
-                scores, trans_params = self.session.run([self.pred, self.transition_params], feed_dict = feed_dict)
-                with tf.device('/gpu:0'):
-                    prediction, _ = tf.contrib.crf.viterbi_decode(
-                                                scores, trans_params)
-            else:
-                scores = self.session.run(self.scores, feed_dict = feed_dict)
-                prediction = np.argmax(scores, axis=-1)
-                
+            prediction = self.session.run(self.prediction, feed_dict=feed_dict)
             batch_prediction = np.reshape(prediction, (len(batch), -1))   
             
             for i in range(len(batch)):
-                for word in range(batch_sentence_lengths[i]):
+                is_word_start = batch[i]['is_word_start']
+                
+                for word in range(sentence_lengths[i]):
+                    if not is_word_start[word]:
+                        continue 
+                    
                     p = batch_prediction[i][word]
                     c = tags_ids[i][word]
+                    
+                    if c in self.dummy_tags:
+                        continue
 
                     predicted[p] = predicted.get(p, 0) + 1
                     correct[c] = correct.get(c, 0) + 1
@@ -420,8 +464,8 @@ class NerModel:
         num_predicted = sum([predicted.get(i, 0) for i in range(1, self.ntags)])
         num_correct = sum([correct.get(i, 0) for i in range(1, self.ntags)])
 
-        prec = num_correct_predicted / num_predicted
-        rec = num_correct_predicted / num_correct
+        prec = num_correct_predicted / (num_predicted or 1.)
+        rec = num_correct_predicted / (num_correct or 1.)
 
         f1 = 2 * prec * rec / (rec + prec)
 
@@ -443,10 +487,10 @@ class NerModel:
         result = []
 
         for batch in NerModel.slice(sentences, batch_size):
-            batch_sentence_lengths = NerModel.get_sentence_lengths(batch)
+            sentence_lengths = NerModel.get_sentence_lengths(batch)
 
             feed_dict = {
-                self.sentence_lengths: batch_sentence_lengths,
+                self.sentence_lengths: sentence_lengths,
                 self.word_embeddings: NerModel.get_word_embeddings(batch),
 
                 self.word_lengths: NerModel.get_word_lengths(batch),
@@ -455,22 +499,12 @@ class NerModel:
                 self.dropout: 1.1
             }
 
-            crf = self.session.run(self.crf)            
-            if crf:
-                scores, trans_params = self.session.run([self.pred, self.transition_params], feed_dict = feed_dict)
-                with tf.device('/gpu:0'):
-                    prediction, _ = tf.contrib.crf.viterbi_decode(
-                                                scores, trans_params)
-            else:
-                # batch x sentence x tags
-                scores = self.session.run(self.scores, feed_dict = feed_dict)
-                prediction = np.argmax(scores, axis=-1)
-
+            prediction = self.session.run(self.prediction, feed_dict=feed_dict)
             batch_prediction = np.reshape(prediction, (len(batch), -1))   
 
             for i in range(len(batch)):
                 sentence = []
-                for word in range(batch_sentence_lengths[i]):
+                for word in range(sentence_lengths[i]):
                     tag = batch_prediction[i][word]
                     sentence.append(tag)
 
