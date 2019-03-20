@@ -6,15 +6,15 @@ Overview
 ---------------
 Thank you for following up with the biggest changelog ever on Spark NLP: Spark NLP 2.0.0! Where to begin?
 We have no less than 50 Pull Requests merged this time. Most importantly, we become the first library to have a production
-ready implementation of BERT embeddings. Along with this interesting deep learning and context based embeddings algorithm,
-Word Embeddings as well as Bert Embeddings are now annotators, just like any other component in the library. This means, embeddings can be
-cached on memory through DataFrames, can be saved on disk and shared as part of pipelines! Next, we revamped and enhanced Named Entity Recognition
-(NER) Deep Learning models to a new state of the art level, reaching up to 93% F1 micro-averaged accuracy in the industry standard. We upgraded tensorflow
-version and also started using contrib LSTM Cells. Performance and memory usage improvements also tag along by improving serialization
-throughput of Deep Learning annotators by receiving feedback from Apache Spark contributor Davies Liu.
-We are also revamping and expanding our pretrained pipelines list, plus the addition of new pretrained models for different languages together with
+ready implementation of BERT embeddings. Along with this interesting deep learning and context based embeddings algorithm, here is a quick overview of new things:
+* Word Embeddings as well as Bert Embeddings are now annotators, just like any other component in the library. This means, embeddings can be
+cached on memory through DataFrames, can be saved on disk and shared as part of pipelines!
+* We revamped and enhanced Named Entity Recognition (NER) Deep Learning models to a new state of the art level, reaching up to 93% F1 micro-averaged accuracy in the industry standard.
+* We upgraded tensorflow version and also started using contrib LSTM Cells.
+* Performance and memory usage improvements also tag along by improving serialization throughput of Deep Learning annotators by receiving feedback from Apache Spark contributor Davies Liu.
+* Revamping and expanding our pretrained pipelines list, plus the addition of new pretrained models for different languages together with
 tons of new example notebooks, which include changes that aim the library to be easier to use. API overall was modified towards helping new comers get started.
-Finally, OCR module comes with a handful of improvements that increase accuracy.
+* OCR module comes with a handful of improvements that increase accuracy.
 All of this comes together with a full range of bug fixes and annotator improvements, follow up the details below!
 Bear with us since documentation is still catching up a little bit behind, as well as new models to be made available. Stay tuned on Slack!
 
