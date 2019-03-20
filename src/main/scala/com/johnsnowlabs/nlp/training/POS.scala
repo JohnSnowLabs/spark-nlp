@@ -8,6 +8,10 @@ import org.apache.spark.sql.types.MetadataBuilder
 
 import scala.collection.mutable.ArrayBuffer
 
+private case class TaggedToken(token: String, tag: String)
+private case class TaggedDocument(sentence: String, taggedTokens: Array[TaggedToken])
+private case class Annotations(text: String, document: Array[Annotation], pos: Array[Annotation])
+
 case class POS() {
 
   /*
@@ -26,78 +30,117 @@ case class POS() {
    * with POS Annotation for training PerceptronApproach
    * */
 
-  private def annotateTokensTags: UserDefinedFunction = udf { (tokens: Seq[String], tags: Seq[String], text: String) =>
-    lazy val strTokens = tokens.mkString("#")
-    lazy val strPosTags = tags.mkString("#")
+  private def createDocumentAnnotation(sentence: String) = {
+    Array(Annotation(
+      AnnotatorType.DOCUMENT,
+      0,
+      sentence.length - 1,
+      sentence,
+      Map.empty[String, String]
+    ))
+  }
 
-    require(tokens.length == tags.length, s"Cannot train from DataFrame since there" +
-      s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
-
-    val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
-    def annotatorType: String = AnnotatorType.POS
-    var lastIndex = 0
-
-    for ((e, i) <- tokens.zipWithIndex) {
-
-      val beginOfToken = text.indexOfSlice(e, lastIndex)
-      val endOfToken = (beginOfToken + e.length) - 1
-
-      val fullPOSAnnotatorStruct = new Annotation(
-        annotatorType = annotatorType,
-        begin=beginOfToken,
-        end=endOfToken,
-        result=tags(i),
-        metadata=Map("word" -> e)
+  private def createPosAnnotation(sentence: String, taggedTokens: Array[TaggedToken]) = {
+    var lastBegin = 0
+    taggedTokens.map { case TaggedToken(token, tag) =>
+      val tokenBegin = sentence.indexOf(token, lastBegin)
+      val a = Annotation(
+        AnnotatorType.POS,
+        tokenBegin,
+        tokenBegin + token.length - 1,
+        tag,
+        Map("word" -> token)
       )
-      tokenTagAnnotation += fullPOSAnnotatorStruct
-      lastIndex = text.indexOfSlice(e, lastIndex)
+      lastBegin += token.length
+      a
     }
-    tokenTagAnnotation
   }
 
-  private def extractTokensAndTags: UserDefinedFunction = udf { (tokensTags: Seq[String], delimiter: String, condition: String) =>
-
-    val tempArray: ArrayBuffer[String] = ArrayBuffer()
-
-    for (e <- tokensTags.zipWithIndex) {
-      val splittedTokenTag: Array[String] = e._1.split(delimiter.mkString)
-      if(splittedTokenTag.length > 1){
-        condition.mkString match {
-          case "token" =>
-            tempArray += splittedTokenTag(0)
-
-          case "tag" =>
-            tempArray += splittedTokenTag(1)
-        }
-      }
-    }
-    tempArray
+  private def lineToTaggedDocument(line: String, delimiter: String) = {
+    val splitted = line.split(" ").map(_.trim)
+    val tokenTags = splitted.flatMap(token => {
+      val tokenTag = token.split(delimiter.head).map(_.trim)
+      if (tokenTag.exists(_.isEmpty) || tokenTag.length > 2)
+        // Ignore broken pairs or pairs with delimiter char
+        None
+      else
+        Some(TaggedToken(tokenTag.head, tokenTag.last))
+    })
+    TaggedDocument(tokenTags.map(_.token).mkString(" "), tokenTags)
   }
 
-  def readDataset(sparkSession: SparkSession, path: String, delimiter: String = "|", outputPosCol: String = "tags", outputDocumentCol: String = "text"): DataFrame = {
+  def readDataset(
+                   sparkSession: SparkSession,
+                   path: String,
+                   delimiter: String = "|",
+                   outputPosCol: String = "tags",
+                   outputDocumentCol: String = "document",
+                   outputTextCol: String = "text"
+                 ): DataFrame = {
     import sparkSession.implicits._
-    def annotatorType: String = AnnotatorType.POS
 
-    val tempDataFrame = sparkSession.read.text(path).toDF
-      .filter(row => !(row.mkString("").isEmpty && row.length>0))
-      .withColumn("token_tags", split($"value", " "))
-      .select("token_tags")
-      .withColumn("tokens", extractTokensAndTags($"token_tags", lit(delimiter), lit("token")))
-      .withColumn("tags", extractTokensAndTags($"token_tags", lit(delimiter), lit("tag")))
-      .withColumn(outputDocumentCol,  concat_ws(" ", $"tokens"))
-      .withColumn(outputPosCol, annotateTokensTags($"tokens", $"tags", col(outputDocumentCol)))
-      .drop("tokens", "token_tags")
+    require(delimiter.length == 1, s"Delimiter must be one character long. Received $delimiter")
 
-    tempDataFrame.withColumn(
-      outputPosCol,
-      wrapColumnMetadata(tempDataFrame(outputPosCol), annotatorType, outputPosCol)
-    )
+    val dataset = sparkSession.read.textFile(path)
+      .filter(_.nonEmpty)
+      .map(line => lineToTaggedDocument(line, delimiter))
+      .map { case TaggedDocument(sentence, taggedTokens) =>
+        Annotations(
+          sentence,
+          createDocumentAnnotation(sentence),
+          createPosAnnotation(sentence, taggedTokens)
+        )
+      }
+
+    dataset
+        .withColumnRenamed(
+          "text",
+          outputTextCol
+        )
+      .withColumn(
+        outputDocumentCol,
+        wrapColumnMetadata(dataset("document"), AnnotatorType.DOCUMENT, outputDocumentCol)
+      )
+      .withColumn(
+        outputPosCol,
+        wrapColumnMetadata(dataset("pos"), AnnotatorType.POS, outputPosCol)
+      )
+      .select(outputTextCol, outputDocumentCol, outputPosCol)
   }
 
   // For testing purposes when there is an array of tokens and an array of labels
-  def readDatframe(posDataframe: DataFrame, tokensCol: String = "tokens", labelsCol: String = "labels",
-                   outPutDocColName: String = "text", outPutPosColName: String = "tags"): DataFrame = {
+  def readFromDataframe(posDataframe: DataFrame, tokensCol: String = "tokens", labelsCol: String = "labels",
+                        outPutDocColName: String = "text", outPutPosColName: String = "tags"): DataFrame = {
     def annotatorType: String = AnnotatorType.POS
+
+    def annotateTokensTags: UserDefinedFunction = udf { (tokens: Seq[String], tags: Seq[String], text: String) =>
+      lazy val strTokens = tokens.mkString("#")
+      lazy val strPosTags = tags.mkString("#")
+
+      require(tokens.length == tags.length, s"Cannot train from DataFrame since there" +
+        s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+
+      val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
+      def annotatorType: String = AnnotatorType.POS
+      var lastIndex = 0
+
+      for ((e, i) <- tokens.zipWithIndex) {
+
+        val beginOfToken = text.indexOfSlice(e, lastIndex)
+        val endOfToken = (beginOfToken + e.length) - 1
+
+        val fullPOSAnnotatorStruct = new Annotation(
+          annotatorType = annotatorType,
+          begin=beginOfToken,
+          end=endOfToken,
+          result=tags(i),
+          metadata=Map("word" -> e)
+        )
+        tokenTagAnnotation += fullPOSAnnotatorStruct
+        lastIndex = text.indexOfSlice(e, lastIndex)
+      }
+      tokenTagAnnotation
+    }
 
     val tempDataFrame = posDataframe
       .withColumn(outPutDocColName,  concat_ws(" ", col(tokensCol)))
