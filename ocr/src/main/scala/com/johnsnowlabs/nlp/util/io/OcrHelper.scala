@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.{Color, Image}
+import java.awt.Image
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io.{File, FileInputStream, FileNotFoundException, InputStream}
 import javax.imageio.ImageIO
@@ -8,9 +8,7 @@ import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
-import org.apache.pdfbox.pdmodel.{PDDocument, PDResources}
+import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
@@ -66,7 +64,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private var tesseractAPI : Tesseract = _
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
-  private var fallbackMethod: Boolean = false
+  private var fallbackMethod: Boolean = true
   private var minSizeBeforeFallback: Int = 0
 
   /** Tesseract exclusive settings */
@@ -75,6 +73,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private var pageIteratorLevel: Int = TessPageIteratorLevel.RIL_BLOCK
   private var kernelSize:Option[Int] = None
   private var splitPages: Boolean = true
+  private var splitRegions: Boolean = true
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -134,9 +133,26 @@ class OcrHelper extends ImageProcessing with Serializable {
       scalingFactor = Some(factor)
   }
 
-  def setSplitPages(value: Boolean): Unit = splitPages = value
+  /* here we make sure '!pageSplit && regionSplit' cannot happen
+  *  if regions are split, then you cannot merge pages(it's not possible).
+  * */
+  def setSplitPages(value: Boolean): Unit = {
+    splitPages = value
+
+    if(!splitPages)
+      splitRegions = false
+  }
 
   def getSplitPages: Boolean = splitPages
+
+  def setSplitRegions(value: Boolean): Unit = {
+    splitRegions = value
+
+    if(splitRegions)
+      splitPages = true
+  }
+
+  def getSplitRegions: Boolean = splitRegions
 
   def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
@@ -288,10 +304,10 @@ class OcrHelper extends ImageProcessing with Serializable {
     val converted = inputData.map(fromUnsigned)
 
     // convolution and nonlinear op (minimum)
+    // TODO must use adaptive thresholding
     outputData.indices.par.foreach { idx =>
       if (converted(idx) < 170) {
         outputData(idx) = fromSigned(2)
-
       }
       else
         outputData(idx) = fromSigned(250)
@@ -303,7 +319,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = this.synchronized {
     import scala.collection.JavaConversions._
 
-    val imageRegions = renderedImages.flatMap(render => {
+    val imageRegions = renderedImages.map(render => {
       val image = PlanarImage.wrapRenderedImage(render)
 
       // correct skew if parameters are provided
@@ -332,16 +348,18 @@ class OcrHelper extends ImageProcessing with Serializable {
             List()
         }
       }
+
       regions.flatMap(_.map { rectangle =>
         tesseract.doOCR(dilatedImage, rectangle)
       })
     })
 
-    if (splitPages)
-      Option(imageRegions)
+    if(splitPages && !splitRegions) {
+        // this merges regions within each page
+        Option(imageRegions.map{pageRegions => pageRegions.mkString(System.lineSeparator())})
+    }
     else
-      // this merges regions across multiple images
-      Option(Seq(imageRegions.mkString(System.lineSeparator())))
+      Option(imageRegions.flatten)
 
   }
 
@@ -359,6 +377,7 @@ class OcrHelper extends ImageProcessing with Serializable {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
         .map(_.map(_.trim))
+        .filter(_.nonEmpty)
         .filter(content => minSizeBeforeFallback == 0 || (content.forall(_.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 

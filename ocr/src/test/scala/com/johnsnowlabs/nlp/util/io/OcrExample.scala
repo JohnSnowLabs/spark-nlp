@@ -71,7 +71,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       import spark.implicits._
 
       // point to test/resources/pdfs
-      ocrHelper.setSplitPages(false)
+      ocrHelper.setSplitRegions(false)
       ocrHelper.setFallbackMethod(true)
       ocrHelper.setMinSizeBeforeFallback(10)
 
@@ -98,7 +98,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       select("text").collect().mkString(" ")
 
     val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
-    assert(levenshteinDistance(correct, data) < 800)
+    assert(levenshteinDistance(correct, data) < 900)
   }
 
 
