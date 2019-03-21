@@ -44,10 +44,10 @@ class POS(ExtendedJavaWrapper):
 
         self._java_obj = self._new_java_obj(self._java_obj)
 
-    def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="text"):
+    def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="document", outputTextCol="text"):
 
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol)
+        jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol, outputTextCol)
         return DataFrame(jdf, spark._wrapped)
