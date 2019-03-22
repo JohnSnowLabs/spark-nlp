@@ -19,8 +19,8 @@ case class Annotation(annotatorType: String,
                       end: Int,
                       result: String,
                       metadata: Map[String, String],
-                      embeddings: Array[Float] = Array.emptyFloatArray,
-                      sentence_embeddings: Array[Float] = Array.emptyFloatArray
+                      @transient embeddings: Array[Float] = Array.emptyFloatArray,
+                      @transient sentence_embeddings: Array[Float] = Array.emptyFloatArray
                      ) {
   override def equals(obj: Any): Boolean = {
     obj match {
