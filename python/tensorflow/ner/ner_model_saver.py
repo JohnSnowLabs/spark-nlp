@@ -14,21 +14,23 @@ class NerModelSaver:
 
     @staticmethod
     def restore_tensorflow_state(session, export_dir):
-        saveNodes = list([n.name for n in tf.get_default_graph().as_graph_def().node if n.name.startswith('save/')])
-        if len(saveNodes) == 0:
-            saver = tf.train.Saver()
-            
-        variables_file = os.path.join(export_dir, 'variables')
-        session.run("save/restore_all", feed_dict={'save/Const:0': variables_file})        
+        with tf.device('/gpu:0'):
+            saveNodes = list([n.name for n in tf.get_default_graph().as_graph_def().node if n.name.startswith('save/')])
+            if len(saveNodes) == 0:
+                saver = tf.train.Saver()
+
+            variables_file = os.path.join(export_dir, 'variables')
+            session.run("save/restore_all", feed_dict={'save/Const:0': variables_file})
         
     def save_models(self, folder):
-        saveNodes = list([n.name for n in tf.get_default_graph().as_graph_def().node if n.name.startswith('save/')])
-        if len(saveNodes) == 0:
-            saver = tf.train.Saver()
+        with tf.device('/gpu:0'):
+            saveNodes = list([n.name for n in tf.get_default_graph().as_graph_def().node if n.name.startswith('save/')])
+            if len(saveNodes) == 0:
+                saver = tf.train.Saver()
 
-        variables_file = os.path.join(folder, 'variables')
-        self.ner.session.run('save/control_dependency', feed_dict={'save/Const:0': variables_file})
-        tf.train.write_graph(self.ner.session.graph, folder, 'saved_model.pb', False)
+            variables_file = os.path.join(folder, 'variables')
+            self.ner.session.run('save/control_dependency', feed_dict={'save/Const:0': variables_file})
+            tf.train.write_graph(self.ner.session.graph, folder, 'saved_model.pb', False)
 
      
     def save(self, export_dir):
