@@ -1108,7 +1108,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             maxEpochs=50,
             lr=float(0.001),
             po=float(0.005),
-            batchSize=32,
+            batchSize=8,
             dropout=float(0.5),
             verbose=2
         )
