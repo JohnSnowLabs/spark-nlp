@@ -277,16 +277,21 @@ trait PretrainedSpellModel {
 
 object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel {
 
-  private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowSpell]
+  @transient private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowSpell]
 
-  private[context] def getTensorflow(instance: ContextSpellCheckerModel) = tensorflowInstances(instance.uid)
+  @transient private var tensorflow: TensorflowWrapper = _
 
-  private[context] def setTensorflow(tf: TensorflowWrapper, instance: ContextSpellCheckerModel): ContextSpellCheckerModel = {
-    val tensorflow = new TensorflowSpell(
-      tf,
+  private[context] def getTensorflow(instance: ContextSpellCheckerModel): TensorflowSpell = {
+    tensorflowInstances.getOrElseUpdate(instance.uid, setTensorflow(tensorflow, instance))
+  }
+
+  private[context] def setTensorflow(tf: TensorflowWrapper, instance: ContextSpellCheckerModel): TensorflowSpell = {
+    tensorflow = tf
+    val tensorflowSpell = new TensorflowSpell(
+      tensorflow,
       Verbose.Silent)
-    tensorflowInstances.update(instance.uid, tensorflow)
-    instance
+    tensorflowInstances.update(instance.uid, tensorflowSpell)
+    tensorflowSpell
   }
 
   def clearTensorflowSession(instance: ContextSpellCheckerModel): Unit = {

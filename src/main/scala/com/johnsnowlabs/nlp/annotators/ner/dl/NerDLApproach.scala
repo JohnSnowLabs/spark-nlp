@@ -80,7 +80,11 @@ class NerDLApproach(override val uid: String)
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
     //val config = Array[Byte](56, 1)
-    val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+
+    /** Enable for log placement */
+    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+    /** without log placement */
+    val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
     val graph = TensorflowWrapper.readGraph(graphFile)
 
