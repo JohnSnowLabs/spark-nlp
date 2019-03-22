@@ -23,7 +23,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   override val tfFile: String = "bigone"
 
-  private var tensorflow:TensorflowWrapper = null
+  var tensorflow:TensorflowWrapper = null
 
   val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
   def setVocabTransducer(trans:ITransducer[Candidate]) = {

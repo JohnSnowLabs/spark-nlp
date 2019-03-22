@@ -34,7 +34,7 @@ class NerDLModel(override val uid: String)
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
 
-  private var tensorflow: TensorflowWrapper = null
+  var tensorflow: TensorflowWrapper = null
 
   def setTensorflow(tf: TensorflowWrapper): NerDLModel = {
     this.tensorflow = tf
