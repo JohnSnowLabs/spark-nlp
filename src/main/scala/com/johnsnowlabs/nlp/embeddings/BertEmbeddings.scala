@@ -44,7 +44,7 @@ class BertEmbeddings(override val uid: String) extends
     maxSentenceLength -> 256
   )
 
-  @transient private var tensorflow: TensorflowWrapper = null
+  private var tensorflow: TensorflowWrapper = null
 
   def setTensorflow(tf: TensorflowWrapper): this.type = {
     this.tensorflow = tf
