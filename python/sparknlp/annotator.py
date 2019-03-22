@@ -275,9 +275,9 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 
     @keyword_only
-    def __init__(self, java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
         super(BertEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings",
+            classname=classname,
             java_model=java_model
         )
         self._setDefault(
