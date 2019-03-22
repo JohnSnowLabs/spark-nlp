@@ -189,6 +189,8 @@ class OcrHelper extends ImageProcessing with Serializable {
     }.filter(_.text.nonEmpty).toDS
   }
 
+  /* WARNING: this only makes sense with splitPages == false, otherwise the map creation discards information(complete pages)
+  (multiple pages per file is not supported) */
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
@@ -221,6 +223,7 @@ class OcrHelper extends ImageProcessing with Serializable {
       tesseractAPI = initTesseract()
 
     tesseractAPI
+
   }
 
   private def initTesseract():Tesseract = {
@@ -319,7 +322,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   }
 
   // TODO: Sequence return type should be enough
-  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[String]] = this.synchronized {
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[(String, Int)]] = this.synchronized {
     import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.map(render => {
@@ -357,20 +360,33 @@ class OcrHelper extends ImageProcessing with Serializable {
       })
     })
 
-    if(splitPages && !splitRegions) {
-        // this merges regions within each page
-        Option(imageRegions.map{pageRegions => pageRegions.mkString(System.lineSeparator())})
-    }
-    else
-      Option(imageRegions.flatten)
 
+    (splitPages, splitRegions) match {
+      case (true, true) =>
+        Option(imageRegions.zipWithIndex.map {case (pageRegions, pagenum) =>
+          pageRegions.map(r => (r, pagenum))}.flatten)
+      case (true, false) =>
+        // this merges regions within each page, splits the pages
+        Option(imageRegions.zipWithIndex.
+              map { case (pageRegions, pagenum) =>
+                (pageRegions.mkString(System.lineSeparator()), pagenum)})
+      case _ =>
+        // don't split pages either regions, => everything coming from page 0
+        Option(Seq((imageRegions.
+          map {pageRegions => pageRegions.mkString(System.lineSeparator)}.
+          mkString(System.lineSeparator), 0)))
+     }
   }
 
-  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[String]] = {
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[(String, Int)]] = {
     println("log: extracting w/PDFBox")
-
-    Option(extractText(pdfDoc, startPage, endPage))
-
+    // TODO check this is getting the right page num
+    val range = startPage to endPage
+    if (splitPages)
+      Some(Range(startPage, endPage + 1).flatMap(pagenum =>
+        extractText(pdfDoc, pagenum, pagenum).map(t => (t, pagenum - 1))))
+    else
+      Some(extractText(pdfDoc, startPage, endPage).zipWithIndex)
   }
 
   private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
@@ -380,20 +396,20 @@ class OcrHelper extends ImageProcessing with Serializable {
     val result = preferredMethod match {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
-        .map(_.map(_.trim))
+        .map(_.map{case (r, i) => (r.trim, i)})
         .filter(_.nonEmpty)
-        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_.length >= minSizeBeforeFallback)))
+        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_._1.length >= minSizeBeforeFallback)))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
-        .map(_.map(_.trim))
-        .filter(content => minSizeBeforeFallback == 0 || content.forall(_.length >= minSizeBeforeFallback))
+        .map(_.map{case (r, i) => (r.trim, i)})
+        .filter(content => minSizeBeforeFallback == 0 || content.forall(_._1.length >= minSizeBeforeFallback))
         .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
-
-    result.map(_.map(content => (endPage - startPage + 1, content, decidedMethod))).getOrElse(Seq.empty[(Int, String, String)])
+    result.map(_.map{ case (content, pagenum) => (pagenum, content, decidedMethod)})
+      .getOrElse(Seq.empty[(Int, String, String)])
   }
 
   /*
@@ -407,13 +423,7 @@ class OcrHelper extends ImageProcessing with Serializable {
       val numPages = pdfDoc.getNumberOfPages
       require(numPages >= 1, "pdf input stream cannot be empty")
 
-      val result = if (splitPages) {
-        Range(1, numPages + 1).flatMap { pageNum =>
-          pageOcr(pdfDoc, pageNum, pageNum)
-        }
-      } else {
-        pageOcr(pdfDoc, 1, numPages)
-      }
+      val result = pageOcr(pdfDoc, 1, numPages)
 
       /* TODO: beware PDF box may have a potential memory leak according to,
      * https://issues.apache.org/jira/browse/PDFBOX-3388
@@ -434,8 +444,8 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
     val image = ImageIO.read(fileStream)
-    tesseractMethod(Seq(image)).map { _.map { region =>
-         (1, region, OCRMethod.IMAGE_FILE)
+    tesseractMethod(Seq(image)).map { _.map { case (region, pagenum) =>
+         (pagenum, region, OCRMethod.IMAGE_FILE)
        }
     }.getOrElse(Seq.empty)
   }

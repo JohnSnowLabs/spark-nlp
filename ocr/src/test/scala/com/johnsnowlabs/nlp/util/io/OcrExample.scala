@@ -65,6 +65,31 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   }
 
+  "OcrHelper" should "correctly count pages" in {
+    val spark = getSpark
+    import spark.implicits._
+
+    ocrHelper.setFallbackMethod(true)
+    ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    val data = ocrHelper.createDataset(getSpark, "ocr/src/test/resources/pdfs/multiplepages")
+    //got 6 pages
+    assert(data.select("filename", "pagenum").count == 6)
+    //got 2 files
+    assert(data.select("filename").distinct.count == 2)
+    val filePage = data.select("filename", "pagenum").as[(String, Int)].collect
+    assert(filePage.count(_._2 == 0) == 2)
+    assert(filePage.count(_._2 == 1) == 2)
+    assert(filePage.count(_._2 == 2) == 2)
+
+    ocrHelper.setSplitPages(false)
+    ocrHelper.setMinSizeBeforeFallback(10)
+    val raw = ocrHelper.createMap("ocr/src/test/resources/pdfs/multiplepages")
+    assert(raw.size == 2)
+    // check content from three pages is present on each doc
+    assert(raw.forall(_._2.size > 50))
+
+  }
+
   "OcrExample with Spark" should "successfully create a dataset - PDFs" in {
 
       val spark = getSpark
