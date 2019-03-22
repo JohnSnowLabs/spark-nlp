@@ -33,11 +33,35 @@ class NerDLModel(override val uid: String)
 
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
-  private[dl] def getDatasetParams = $$(datasetParams)
+
+  @transient private var tensorflow: TensorflowWrapper = null
+
+  def setTensorflow(tf: TensorflowWrapper): NerDLModel = {
+    this.tensorflow = tf
+    this
+  }
+
+  @transient private var _model: TensorflowNer = null
+
+  def getModelIfNotSet: TensorflowNer = {
+    if (_model == null) {
+      require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
+      require(datasetParams.isSet, "datasetParams must be set before usage")
+
+      val encoder = new NerDatasetEncoder(datasetParams.get.get)
+      _model = new TensorflowNer(
+        tensorflow,
+        encoder,
+        1, // Tensorflow doesn't clear state in batch
+        Verbose.Silent)
+    }
+
+    _model
+  }
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
     // Predict
-    val labels = NerDLModel.getTensorflowNer(this).predict(tokenized)
+    val labels = getModelIfNotSet.predict(tokenized)
 
     // Combine labels with sentences tokens
     tokenized.indices.map { i =>
@@ -70,9 +94,10 @@ class NerDLModel(override val uid: String)
     NerTagged.pack(tagged)
   }
 
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, NerDLModel.getTensorflowSession(this), "_nerdl", NerDLModel.tfFile)
+    writeTensorflowModel(path, spark, tensorflow, "_nerdl", NerDLModel.tfFile)
   }
 }
 
@@ -82,7 +107,7 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_nerdl")
-    NerDLModel.setTensorflowSession(tf, instance)
+    instance.setTensorflow(tf)
   }
 
   addReader(readNerGraph)
@@ -94,33 +119,4 @@ trait PretrainedNerDL {
 }
 
 
-object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL {
-
-  @transient private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowNer]
-
-  @transient private var tensorflow: TensorflowWrapper = _
-
-  private[dl] def setTensorflowSession(tensorflowWrapper: TensorflowWrapper, instance: NerDLModel): TensorflowNer = {
-    val encoder = new NerDatasetEncoder(instance.getDatasetParams)
-    tensorflow = tensorflowWrapper
-    val tensorflowNer = new TensorflowNer(
-      tensorflow,
-      encoder,
-      batchSize = 1, // Tensorflow doesn't clear state in batch
-      Verbose.Silent)
-    tensorflowInstances.update(instance.uid, tensorflowNer)
-    tensorflowNer
-  }
-
-  private[dl] def getTensorflowSession(instance: NerDLModel): TensorflowWrapper = tensorflowInstances(instance.uid).tensorflow
-
-  def getTensorflowNer(instance: NerDLModel): TensorflowNer = {
-    tensorflowInstances.getOrElseUpdate(instance.uid, setTensorflowSession(tensorflow, instance))
-  }
-
-  def clearTensorflowSession(instance: NerDLModel): Unit = {
-    System.gc()
-    tensorflowInstances.remove(instance.uid)
-  }
-
-}
+object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
