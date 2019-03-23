@@ -225,7 +225,7 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
       val thrown = intercept[Exception] {
         pipeline.fit(emptyDataset)
       }
-      val message = "corpus not provided and dataset for training is empty"
+      val message = "Dataset for training is empty"
       assert(thrown.getMessage === "requirement failed: " + message)
     }
   }
