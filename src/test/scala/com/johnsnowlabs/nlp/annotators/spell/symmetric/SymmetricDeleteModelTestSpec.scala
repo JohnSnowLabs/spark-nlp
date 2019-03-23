@@ -7,22 +7,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "A symmetric delete approach" should behave like testDefaultTokenCorpusParameter
 
-  "a lower case word " should behave like obtainLowerCaseTypeFromALowerCaseWord
-
-  it should behave like transformLowerCaseTypeWordIntoLowerCase
-
-  "a Capital case word " should behave like obtainCapitalCaseTypeFromACapitalCaseWord
-
-  it should behave like transformUpperCaseTypeWordIntoUpperCase
-
-  "an UPPER case word " should behave like obtainUpperCaseTypeFromUpperCaseWord
-
-  it should behave like transformUpperCaseTypeWordIntoUpperCase
-
-  "a noise word " should behave like returnTrueWhenWordIsNoisy
-
-  "a not noise word" should behave like returnFalseWhenWordIsNotNoisy
-
   "a simple isolated symmetric spell checker with a lowercase word" should behave like testSimpleCheck(
     Seq(("problex", "problem")))
 
@@ -58,18 +42,22 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict
 
-  "a dataset of individual words with Spark pipeline" should behave like testIndividualWords
-
-  "a dataset of individual words with Spark pipeline using a dictionary" should behave like
-    testIndividualWordsWithDictionary
-
-  "a simple isolated symmetric spell checker with dataset" should behave like testDatasetBasedSpellChecker
-
-  "a simple isolated symmetric spell checker with dataset using dictionary" should behave like
-    testDatasetBasedSpellCheckerWithDic
-
   "a loaded model " should behave like testLoadModel()
 
   "a symmetric spell checker with empty dataset" should behave like testEmptyDataset
+
+  "A norvig spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+    "mral",
+    "delicatly",
+    "efusive",
+    "lauging",
+    "juuuuuuuuuuuuuuuussssssssssttttttttttt",
+    "screeeeeeeewed",
+    "readampwritepeaceee"
+  ))
+
+  it should behave like trainSpellCheckerModelFromFit
+
+  it should behave like raiseErrorWhenWrongColumnIsSent
 
 }

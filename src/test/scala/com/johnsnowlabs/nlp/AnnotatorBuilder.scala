@@ -193,14 +193,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
         normalizer,
         spellChecker
       ))
-
     val trainingDataSet = getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
-//    println("Training Dataset:")
-//    trainingDataSet.show()
     val predictionDataSet = withFullNormalizer(dataSet)
-//    println("Prediction Dataset:")
-//    predictionDataSet.show()
-
     val model = pipeline.fit(trainingDataSet)
     model.transform(predictionDataSet)
   }
