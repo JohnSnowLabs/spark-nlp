@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp._
 import org.scalatest._
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -41,8 +41,6 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
     ))
 
   private val CAPITAL = 'C'
-  private val LOWERCASE = 'L'
-  private val UPPERCASE = 'U'
 
   def getTrainDataSet(trainDataPath: String): Dataset[_] = {
 
