@@ -6,7 +6,9 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{AnalysisException, Dataset}
+import ResourceHelper.spark.implicits._
+import org.apache.spark.sql.functions._
 
 import scala.collection.mutable.ListBuffer
 
@@ -125,8 +127,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
-    import ResourceHelper.spark.implicits._
-    import org.apache.spark.sql.functions._
+    validateDataSet(dataset)
 
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
 
@@ -154,6 +155,19 @@ class SymmetricDeleteApproach(override val uid: String)
         model.setDictionary(possibleDict.get.toMap)
 
     model
+  }
+
+  private def validateDataSet(dataset: Dataset[_]): Unit = {
+    try {
+      dataset.select(getInputCols.head).as[Array[Annotation]]
+    }
+    catch {
+      case exception: AnalysisException =>
+        if (exception.getMessage == "need an array field but got string;") {
+          throw new IllegalArgumentException("Train dataset must have an array annotation type column")
+        }
+        throw exception
+    }
   }
 
 }

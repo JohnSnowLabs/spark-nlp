@@ -7,7 +7,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
 
   "A norvig sweeting approach" should behave like testDefaultTokenCorpusParameter
 
- "an isolated spell checker" should behave like isolatedNorvigChecker(
+ "An isolated spell checker" should behave like isolatedNorvigChecker(
     Seq(
       ("mral", "meal"),
       ("delicatly", "delicately"),
@@ -20,17 +20,17 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
     )
   )
 
-  "a spark spell checker" should behave like sparkBasedSpellChecker(DataBuilder.basicDataBuild("efusive", "destroyd"))
+  "A spark spell checker" should behave like sparkBasedSpellChecker(DataBuilder.basicDataBuild("efusive", "destroyd"))
 
-  "a spark spell checker using dataframes" should behave like sparkBasedSpellChecker(DataBuilder.basicDataBuild("efusive", "destroyd"), "TXTDS")
+  "A spark spell checker using dataframes" should behave like sparkBasedSpellChecker(DataBuilder.basicDataBuild("efusive", "destroyd"), "TXTDS")
 
-  "a good sized dataframe" should behave like sparkBasedSpellChecker(
+  "A good sized dataframe" should behave like sparkBasedSpellChecker(
     AnnotatorBuilder.withDocumentAssembler(ContentProvider.parquetData.limit(5000))
   )
 
-  "a good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
+  "A good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
 
-  "a norvig spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+  "A norvig spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
     "mral",
     "delicatly",
     "efusive",
@@ -39,5 +39,9 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors{
     "screeeeeeeewed",
     "readampwritepeaceee"
   ))
-  
+
+  it should behave like trainSpellCheckerModelFromFit
+
+  it should behave like raiseErrorWhenWrongColumnIsSent
+
 }

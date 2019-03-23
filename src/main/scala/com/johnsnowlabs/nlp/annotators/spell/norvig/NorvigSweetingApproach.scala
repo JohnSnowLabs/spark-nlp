@@ -6,7 +6,8 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{AnalysisException, Dataset}
+import ResourceHelper.spark.implicits._
 
 class NorvigSweetingApproach(override val uid: String)
   extends AnnotatorApproach[NorvigSweetingModel]
@@ -60,15 +61,18 @@ class NorvigSweetingApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("SPELL"))
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
+
+    validateDataSet(dataset)
     val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] = {
-        import ResourceHelper.spark.implicits._
+
         dataset.select(getInputCols.head).as[Array[Annotation]]
           .flatMap(_.map(_.result))
           .groupBy("value").count
           .as[(String, Long)]
           .collect.toMap
       }
+
     new NorvigSweetingModel()
       .setWordSizeIgnore($(wordSizeIgnore))
       .setDupsLimit($(dupsLimit))
@@ -79,6 +83,19 @@ class NorvigSweetingApproach(override val uid: String)
       .setDoubleVariants($(doubleVariants))
       .setCaseSensitive($(caseSensitive))
       .setShortCircuit($(shortCircuit))
+  }
+
+  private def validateDataSet(dataset: Dataset[_]): Unit = {
+    try {
+      dataset.select(getInputCols.head).as[Array[Annotation]]
+    }
+    catch {
+      case exception: AnalysisException =>
+        if (exception.getMessage == "need an array field but got string;") {
+          throw new IllegalArgumentException("Train dataset must have an array annotation type column")
+        }
+        throw exception
+    }
   }
 
 }
