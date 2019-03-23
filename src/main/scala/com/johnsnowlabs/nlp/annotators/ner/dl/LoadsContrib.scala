@@ -48,12 +48,11 @@ trait LoadsContrib {
     tmp
   }
 
-  @volatile private var isLoaded = false
-
   protected def loadContribToCluster(spark: SparkSession): Unit = {
     // trying to add library
 
-    if (contribPaths.isDefined && !isLoaded) {
+    /** NOT thread-safe. DRIVER only*/
+    if (contribPaths.isDefined) {
       println(s"adding ${contribPaths.get}")
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._1).getPath)
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._2).getPath)
@@ -61,9 +60,8 @@ trait LoadsContrib {
   }
 
   protected def loadContribToTensorflow(): Unit = {
-    if (contribPaths.isDefined && !isLoaded) {
-      isLoaded = true
-      println("loading to tensorflow. set isLoaded")
+    if (contribPaths.isDefined) {
+      println("loading to tensorflow")
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._1)))
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._2)))
     }

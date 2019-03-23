@@ -108,12 +108,11 @@ class NerDLModel(override val uid: String)
   }
 }
 
-trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel with LoadsContrib {
+trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {
 
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    loadContribToCluster(spark )
     val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setTensorflow(tf)
   }
