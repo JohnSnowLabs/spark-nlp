@@ -1,24 +1,24 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 
-import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowNer, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with LoadsContrib {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
@@ -82,6 +82,13 @@ class NerDLModel(override val uid: String)
     }.toArray
   }
 
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+
+    loadContribToCluster(dataset.sparkSession)
+
+    dataset
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     // Parse
@@ -101,11 +108,12 @@ class NerDLModel(override val uid: String)
   }
 }
 
-trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {
+trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel with LoadsContrib {
 
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
+    loadContribToCluster(spark )
     val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setTensorflow(tf)
   }
