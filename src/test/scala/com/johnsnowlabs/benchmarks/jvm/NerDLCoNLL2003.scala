@@ -49,7 +49,7 @@ object NerDLCoNLL2003 extends App {
   //val config = Array[Byte](56, 1)
   //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
   val config = Array[Byte](50, 2, 32, 1, 56, 1)
-  val graph = TensorflowWrapper.readGraph("ner-dl/blstm_10_100_128_100.pb")
+  val graph = TensorflowWrapper.readGraph("src/main/resources/ner-dl/blstm_10_100_128_100.pb")
   val session = new Session(graph, config)
 
 
