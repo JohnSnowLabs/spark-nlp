@@ -201,7 +201,7 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
     it should "rise an error message" in {
 
     val spell = new SymmetricDeleteApproach()
-      .setInputCols(Array("normal"))
+      .setInputCols(Array("token"))
       .setDictionary("src/test/resources/spell/words.txt")
       .setOutputCol("spell")
 
