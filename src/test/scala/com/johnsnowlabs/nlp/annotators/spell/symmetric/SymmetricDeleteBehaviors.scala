@@ -152,76 +152,12 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
     }
   }
 
-//  def testIndividualWords(): Unit = {
-//    s"a SymSpellChecker annotator with pipeline of individual words" should
-//      "successfully correct words with good accuracy" in {
-//
-//      val path = "src/test/resources/spell/misspelled_words.csv"
-//      val predictionDataSet = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
-//
-//      val documentAssembler = new DocumentAssembler()
-//        .setInputCol("misspell")
-//        .setOutputCol("document")
-//
-//      val spell = new SymmetricDeleteApproach()
-//        .setInputCols(Array("token"))
-//        .setOutputCol("spell")
-//
-//      val finisher = new Finisher()
-//        .setInputCols("spell")
-//        .setOutputAsArray(false)
-//        .setAnnotationSplitSymbol("@")
-//        .setValueSplitSymbol("#")
-//
-//      val pipeline = new Pipeline()
-//        .setStages(Array(
-//          documentAssembler,
-//          tokenizer,
-//          spell,
-//          finisher
-//        ))
-//
-//      val model = pipeline.fit(trainDataSet.select(trainDataSet.col("text").as("misspell")))
-//
-//      Benchmark.time("without dictionary") { //to measure proceesing time
-//        var correctedData = model.transform(predictionDataSet)
-//        correctedData = correctedData.withColumn("prediction",
-//          when(col("word") === col("finished_spell"), 1).otherwise(0))
-//        val rightCorrections = correctedData.filter(col("prediction")===1).count()
-//        val wrongCorrections = correctedData.filter(col("prediction")===0).count()
-//        printf("Right Corrections: %d \n", rightCorrections)
-//        printf("Wrong Corrections: %d \n", wrongCorrections)
-//        val accuracy = rightCorrections.toFloat/(rightCorrections+wrongCorrections).toFloat
-//        printf("Accuracy: %f\n", accuracy)
-//      }
-//    }
-//  }
-
   def testIndividualWordsWithDictionary(): Unit = {
     s"a SymSpellChecker annotator with pipeline of individual words with dictionary" should
       "successfully correct words with good accuracy" in {
 
       val path = "src/test/resources/spell/misspelled_words.csv"
       val predictionDataSet = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
-
-//      val documentAssembler = new DocumentAssembler()
-//        .setInputCol("misspell")
-//        .setOutputCol("document")
-//
-//      val tokenizer = new Tokenizer()
-//        .setInputCols(Array("document"))
-//        .setOutputCol("token")
-//
-//      val spell = new SymmetricDeleteApproach()
-//        .setInputCols(Array("token"))
-//        .setOutputCol("spell")
-//        .setDictionary("src/test/resources/spell/words.txt")
-//
-//      val finisher = new Finisher()
-//        .setInputCols("spell")
-//        .setOutputAsArray(false)
-//        .setAnnotationSplitSymbol("@")
-//        .setValueSplitSymbol("#")
 
       val model = pipeline.fit(trainDataSet.select(trainDataSet.col("text").as("misspell")))
 

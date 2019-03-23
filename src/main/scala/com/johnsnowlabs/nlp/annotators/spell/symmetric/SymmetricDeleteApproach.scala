@@ -127,11 +127,11 @@ class SymmetricDeleteApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
+    require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
+
     validateDataSet(dataset)
 
     val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
-
-    require(!dataset.rdd.isEmpty(), "corpus not provided and dataset for training is empty")
 
     val trainDataset =
       dataset.select(getInputCols.head).as[Array[Annotation]]
