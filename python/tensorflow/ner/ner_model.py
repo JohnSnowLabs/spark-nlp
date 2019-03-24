@@ -152,53 +152,58 @@ class NerModel:
                 
     
     def _create_lstm_layer(self, inputs, hidden_size, lengths):
+
+        with tf.device('/gpu:0'):
         
-        if not self.use_contrib:
-            cell_fw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
-            cell_bw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
-            
-            _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw,
-                cell_bw, inputs, sequence_length=lengths,
-                dtype=tf.float32)
-            
-            # inputs shape = (batch, sentence, inp)
-            batch = tf.shape(lengths)[0]
-            # shape = (batch x sentence, 2 x hidden)
+            if not self.use_contrib:
+                cell_fw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
+                cell_bw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
+
+                _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw,
+                    cell_bw, inputs, sequence_length=lengths,
+                    dtype=tf.float32)
+
+                # inputs shape = (batch, sentence, inp)
+                batch = tf.shape(lengths)[0]
+                # shape = (batch x sentence, 2 x hidden)
+                result = tf.concat([output_fw, output_bw], axis=-1)
+                return tf.reshape(result, shape=[batch, -1, 2*hidden_size])
+
+            time_based = tf.transpose(inputs, [1, 0, 2])
+
+            cell_fw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
+            cell_bw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
+            cell_bw = tf.contrib.rnn.TimeReversedFusedRNN(cell_bw)
+
+            output_fw, _ = cell_fw(time_based, dtype=tf.float32, sequence_length=lengths)
+            output_bw, _ = cell_bw(time_based, dtype=tf.float32, sequence_length=lengths)
+
             result = tf.concat([output_fw, output_bw], axis=-1)
-            return tf.reshape(result, shape=[batch, -1, 2*hidden_size])
-
-        time_based = tf.transpose(inputs, [1, 0, 2])
-        
-        cell_fw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
-        cell_bw = tf.contrib.rnn.LSTMBlockFusedCell(hidden_size, use_peephole=True)
-        cell_bw = tf.contrib.rnn.TimeReversedFusedRNN(cell_bw)
-
-        output_fw, _ = cell_fw(time_based, dtype=tf.float32, sequence_length=lengths)
-        output_bw, _ = cell_bw(time_based, dtype=tf.float32, sequence_length=lengths)
-    
-        result = tf.concat([output_fw, output_bw], axis=-1)
-        return tf.transpose(result, [1, 0, 2])
+            return tf.transpose(result, [1, 0, 2])
         
     def _multiply_layer(self, source, result_size, activation=tf.nn.relu):
-        ntime_steps = tf.shape(source)[1]
-        source_size = source.shape[2]
-        
-        W = tf.get_variable("W", shape=[source_size, result_size],
-                                dtype=tf.float32,
-                                initializer=tf.contrib.layers.xavier_initializer())
 
-        b = tf.get_variable("b", shape=[result_size], dtype=tf.float32)
+        with tf.device('/gpu:0'):
 
-        # batch x time, source_size
-        source = tf.reshape(source, [-1, source_size])
-        # batch x time, result_size
-        result = tf.matmul(source, W) + b
-        
-        result = tf.reshape(result, [-1, ntime_steps, result_size])
-        if activation:
-            result = activation(result)
-           
-        return result
+            ntime_steps = tf.shape(source)[1]
+            source_size = source.shape[2]
+
+            W = tf.get_variable("W", shape=[source_size, result_size],
+                                    dtype=tf.float32,
+                                    initializer=tf.contrib.layers.xavier_initializer())
+
+            b = tf.get_variable("b", shape=[result_size], dtype=tf.float32)
+
+            # batch x time, source_size
+            source = tf.reshape(source, [-1, source_size])
+            # batch x time, result_size
+            result = tf.matmul(source, W) + b
+
+            result = tf.reshape(result, [-1, ntime_steps, result_size])
+            if activation:
+                result = activation(result)
+
+            return result
                
     
     # Adds Bi LSTM with size of each cell hidden_size
