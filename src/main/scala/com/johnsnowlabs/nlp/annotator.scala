@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.PretrainedDependencyParserMode
 import com.johnsnowlabs.nlp.annotators.parser.typdep.PretrainedTypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
+import com.johnsnowlabs.nlp.annotators.spell.context.{PretrainedSpellModel, ReadsLanguageModelGraph}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
 import com.johnsnowlabs.nlp.embeddings._
@@ -90,7 +91,7 @@ package object annotator {
   type ContextSpellCheckerApproach = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
   object ContextSpellCheckerApproach extends DefaultParamsReadable[ContextSpellCheckerApproach]
   type ContextSpellCheckerModel = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
-  object ContextSpellCheckerModel extends ParamsAndFeaturesReadable[ContextSpellCheckerModel] with PretrainedSymmetricDelete
+  object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel
 
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver

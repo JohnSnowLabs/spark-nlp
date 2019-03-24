@@ -120,7 +120,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       setClasses(classes).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
-      setTensorflow(tf).
+      setModelIfNotSet(dataset.sparkSession, tf).
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
 

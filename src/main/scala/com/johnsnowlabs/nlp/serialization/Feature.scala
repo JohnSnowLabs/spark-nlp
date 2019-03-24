@@ -269,7 +269,6 @@ class TransducerFeature(model: HasFeatures, override val name: String)
 
   override def serializeObject(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
     val serializer = new PlainTextSerializer
-    import spark.implicits._
     val dataPath = getFieldPath(path, field)
     val bytes = serializer.serialize(trans)
     spark.sparkContext.parallelize(bytes.toSeq).saveAsObjectFile(dataPath.toString)

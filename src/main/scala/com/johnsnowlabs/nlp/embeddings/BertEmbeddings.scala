@@ -10,6 +10,7 @@ import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.{addReader, readTensorflow
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -44,32 +45,33 @@ class BertEmbeddings(override val uid: String) extends
     maxSentenceLength -> 256
   )
 
-  var tensorflow: TensorflowWrapper = null
-
-  def setTensorflow(tf: TensorflowWrapper): this.type = {
-    this.tensorflow = tf
-    this
-  }
-
   def setBatchSize(size: Int): this.type = set(batchSize, size)
 
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
-  @transient private var _model: TensorflowBert = null
+  private var _model: Option[Broadcast[TensorflowBert]] = None
 
-  def getModel: TensorflowBert = {
-    if (_model == null) {
-      require(tensorflow != null, "Tensorflow must be set before usage. Use method setTensorflow() for it.")
+  def getModelIfNotSet: TensorflowBert = {
+    _model.get.value
+  }
 
-      _model = new TensorflowBert(
-        tensorflow,
-        sentenceStartTokenId,
-        sentenceEndTokenId,
-        $(maxSentenceLength))
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+    if (_model.isEmpty) {
+
+      _model = Some(
+        spark.sparkContext.broadcast(
+          new TensorflowBert(
+          tensorflow,
+          sentenceStartTokenId,
+          sentenceEndTokenId,
+          $(maxSentenceLength)
+          )
+        )
+      )
     }
 
-    _model
+    this
   }
   def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
@@ -91,7 +93,7 @@ class BertEmbeddings(override val uid: String) extends
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = tokenize(sentences)
-    val withEmbeddings = getModel.calculateEmbeddings(tokenized)
+    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
@@ -105,7 +107,7 @@ class BertEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, tensorflow, "_bert", BertEmbeddings.tfFile)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile)
   }
 }
 
@@ -119,12 +121,12 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_bert_tf")
-    instance.setTensorflow(tf)
+    instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadFromPython(folder: String): BertEmbeddings = {
+  def loadFromPython(folder: String, spark: SparkSession): BertEmbeddings = {
     val f = new File(folder)
     val vocab = new File(folder, "vocab.txt")
     require(f.exists, s"Folder ${folder} not found")
@@ -137,7 +139,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     new BertEmbeddings()
-      .setTensorflow(wrapper)
+      .setModelIfNotSet(spark, wrapper)
       .setVocabulary(words)
   }
 }

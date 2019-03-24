@@ -17,7 +17,7 @@ class TensorflowNer
   val encoder: NerDatasetEncoder,
   val batchSize: Int,
   override val verboseLevel: Verbose.Value
-) extends Logging {
+) extends Serializable with Logging {
 
   override def getLogName: String = "NerDL"
 

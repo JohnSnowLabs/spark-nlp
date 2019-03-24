@@ -121,7 +121,7 @@ class NerDLApproach(override val uid: String)
     }
 
     new NerDLModel()
-      .setTensorflow(tf)
+      .setModelIfNotSet(dataset.sparkSession, tf)
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
   }

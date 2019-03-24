@@ -42,7 +42,13 @@ trait WriteTensorflowModel {
 trait ReadTensorflowModel extends LoadsContrib {
   val tfFile: String
 
-  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true, useBundle:Boolean = false, tags:Array[String]=Array.empty): TensorflowWrapper = {
+  def readTensorflowModel(
+                           path: String,
+                           spark: SparkSession,
+                           suffix: String,
+                           zipped:Boolean = true,
+                           useBundle:Boolean = false,
+                           tags:Array[String]=Array.empty): TensorflowWrapper = {
 
     loadContribToCluster(spark)
 
