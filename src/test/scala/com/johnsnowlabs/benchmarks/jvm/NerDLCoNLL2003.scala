@@ -46,7 +46,8 @@ object NerDLCoNLL2003 extends App {
   //Use CPU
   //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
   //Use GPU
-  val config = Array[Byte](56, 1)
+  //val config = Array[Byte](56, 1)
+  val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
   val graph = TensorflowWrapper.readGraph("ner-dl/blstm_10_100_128_100.pb")
   val session = new Session(graph, config)
 
