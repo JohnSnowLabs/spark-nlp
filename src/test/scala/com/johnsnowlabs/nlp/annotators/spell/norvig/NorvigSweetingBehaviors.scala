@@ -6,6 +6,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
+import com.johnsnowlabs.util.PipelineModels
 
 trait NorvigSweetingBehaviors { this: FlatSpec =>
 
@@ -42,12 +43,34 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     ))
 
 
-  def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
-    s"spell checker" should s"correctly correct words" ignore {
+  def getTrainDataSet(trainDataPath: String): Dataset[_] = {
 
-      val trainBigDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/")
+    val emptyDataSet = PipelineModels.dummyDataset
+    val corpusDataSet = AnnotatorBuilder.getTrainingDataSet(trainDataPath)
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer
+      ))
+
+    pipeline.fit(emptyDataSet).transform(corpusDataSet)
+  }
+
+  def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
+    s"spell checker" should s"correctly correct words" in {
+
+      val trainBigDataSet = getTrainDataSet("src/test/resources/spell/")
       val spellChecker = new NorvigSweetingApproach()
-        .setInputCols("text")
+        .setInputCols("token")
         .setOutputCol("spell")
         .setDictionary("src/test/resources/spell/words.txt")
         .fit(trainBigDataSet)
@@ -90,6 +113,39 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
 
     val model = pipeline.fit(trainDataSet)
     model.transform(predictionDataSet).show()
+  }
+
+  def trainSpellCheckerModelFromFit(): Unit = {
+    "" should "trained a model from fit when dataset with array annotation is used"  in {
+      val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
+
+      val spell = new NorvigSweetingApproach()
+        .setInputCols(Array("token"))
+        .setOutputCol("spell")
+        .setDictionary("src/test/resources/spell/words.txt")
+        .fit(trainDataSet)
+
+      assert(spell.isInstanceOf[NorvigSweetingModel])
+
+    }
+
+  }
+
+  def raiseErrorWhenWrongColumnIsSent(): Unit = {
+    "" should "raise an error when dataset without array annotation is used"  in {
+      val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+      val expectedErrorMessage = "Train dataset must have an array annotation type column"
+      val spell = new NorvigSweetingApproach()
+        .setInputCols(Array("text"))
+        .setOutputCol("spell")
+        .setDictionary("src/test/resources/spell/words.txt")
+
+      val caught = intercept[IllegalArgumentException] {
+        spell.fit(trainDataSet)
+      }
+
+      assert(caught.getMessage == expectedErrorMessage)
+    }
   }
 
 }
