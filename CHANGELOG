@@ -32,7 +32,7 @@ Bugfixes
 ---------------
 Developer API
 ---------------
-ContextSpellChecker now follows Features API correctly
+* ContextSpellChecker now follows Features API correctly
 
 ---------------
 Documentation
