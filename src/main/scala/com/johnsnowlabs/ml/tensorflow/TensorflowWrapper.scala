@@ -86,7 +86,7 @@ class TensorflowWrapper(
 object TensorflowWrapper extends LoadsContrib {
   private[TensorflowWrapper] val logger: Logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def readGraph(graphFile: String, handleException: Boolean = true): Graph = {
+  def readGraph(graphFile: String): Graph = {
     loadContribToTensorflow()
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()

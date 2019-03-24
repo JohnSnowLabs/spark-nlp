@@ -87,7 +87,7 @@ object NerDLModelPythonReader {
     FileHelper.delete(tmpFolder)
 
     new NerDLModel()
-      .setTensorflow(nerModel.tensorflow)
+      .setModelIfNotSet(spark, nerModel.tensorflow)
       .setDatasetParams(nerModel.encoder.params)
   }
 }

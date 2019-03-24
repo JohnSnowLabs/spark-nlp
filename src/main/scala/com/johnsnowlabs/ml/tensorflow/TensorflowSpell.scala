@@ -16,8 +16,6 @@ class TensorflowSpell(
   val lossKey = "Add:0"
   val dropoutRate = "dropout_rate"
 
-  val tensors = new TensorResources()
-
   /* returns the loss associated with the last word, given previous history  */
   def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = this.synchronized {
 
@@ -25,6 +23,7 @@ class TensorflowSpell(
       case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
     }
 
+    val tensors = new TensorResources()
     val inputTensor = tensors.createTensor(packed)
 
     tensorflow.session.runner
