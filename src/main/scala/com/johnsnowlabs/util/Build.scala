@@ -11,6 +11,6 @@ object Build {
     if (version != null && version.nonEmpty)
       version
     else
-      "2.0.0"
+      "2.0.1"
   }
 }

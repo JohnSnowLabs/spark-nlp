@@ -121,9 +121,9 @@ class NerDLApproach(override val uid: String)
     }
 
     new NerDLModel()
-      .setModelIfNotSet(dataset.sparkSession, tf)
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
+      .setModelIfNotSet(dataset.sparkSession, tf)
   }
 }
 
