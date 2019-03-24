@@ -96,23 +96,26 @@ trait PretrainedNerDL {
 
 object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL {
 
-  private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowNer]
+  @transient private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowNer]
 
-  private[dl] def setTensorflowSession(tensorflowWrapper: TensorflowWrapper, instance: NerDLModel): NerDLModel = {
+  @transient private var tensorflow: TensorflowWrapper = _
+
+  private[dl] def setTensorflowSession(tensorflowWrapper: TensorflowWrapper, instance: NerDLModel): TensorflowNer = {
     val encoder = new NerDatasetEncoder(instance.getDatasetParams)
+    tensorflow = tensorflowWrapper
     val tensorflowNer = new TensorflowNer(
-      tensorflowWrapper,
+      tensorflow,
       encoder,
       batchSize = 1, // Tensorflow doesn't clear state in batch
       Verbose.Silent)
     tensorflowInstances.update(instance.uid, tensorflowNer)
-    instance
+    tensorflowNer
   }
 
   private[dl] def getTensorflowSession(instance: NerDLModel): TensorflowWrapper = tensorflowInstances(instance.uid).tensorflow
 
   def getTensorflowNer(instance: NerDLModel): TensorflowNer = {
-    tensorflowInstances(instance.uid)
+    tensorflowInstances.getOrElseUpdate(instance.uid, setTensorflowSession(tensorflow, instance))
   }
 
   def clearTensorflowSession(instance: NerDLModel): Unit = {

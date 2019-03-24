@@ -127,11 +127,14 @@ object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
   with PretrainedBertModel
   with ReadBertTensorflowModel {
 
-  private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowBert]
+  @transient private val tensorflowInstances = scala.collection.mutable.Map.empty[String, TensorflowBert]
+
+  @transient private var tensorflow: TensorflowWrapper = _
 
   def setBertTensorflow(tensorflowWrapper: TensorflowWrapper, instance: BertEmbeddings): TensorflowBert = {
+    tensorflow = tensorflowWrapper
     val tensorflowBert = new TensorflowBert(
-      tensorflowWrapper,
+      tensorflow,
       instance.sentenceStartTokenId,
       instance.sentenceEndTokenId,
       instance.getMaxSentenceLength)
@@ -140,7 +143,7 @@ object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
   }
 
   def getBertTensorflow(instance: BertEmbeddings): TensorflowBert = {
-    tensorflowInstances(instance.uid)
+    tensorflowInstances.getOrElseUpdate(instance.uid, setBertTensorflow(tensorflow, instance))
   }
 
 }

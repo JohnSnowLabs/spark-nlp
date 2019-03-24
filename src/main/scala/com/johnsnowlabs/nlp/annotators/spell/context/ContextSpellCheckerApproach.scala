@@ -88,7 +88,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     val graph = new Graph()
     //val config = Array[Byte](56, 1)
-    val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+    val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val session = new Session(graph, config)
     val tf = new TensorflowWrapper(session, graph)
 

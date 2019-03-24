@@ -161,7 +161,9 @@ object TensorflowWrapper {
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
     /** log_device_placement=True, allow_soft_placement=True, gpu_options.allow_growth=True*/
-    val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+    /** without log placement */
+    val config = Array[Byte](50, 2, 32, 1, 56, 1)
     // val config = Array[Byte](56, 1)
 
     // 3. Read file as SavedModelBundle
