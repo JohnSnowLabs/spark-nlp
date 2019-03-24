@@ -1,4 +1,46 @@
 ========
+2.0.1
+========
+---------------
+Overview
+---------------
+Thanks for following up after our 2.0.0 release!. This release covers a few holes left by the immense 2.0.0 release,
+to address high priority issues found after release. More importantly, the library should now behave correctly when using
+Spark cluster modes, and memory and CPU utilization should be reduced to normal levels after some serious profiling of Serialization
+revealed a bunch of problems. Aside from performance and resource management improvements, we include an OCR dependency handler in start() function as well
+as improve the support of GPU for NER Deep Learning models. Finally, check out our spark-nlp-workshop repo, it has cool features!
+
+---------------
+Enhancements
+---------------
+* Improved serialization of Deep Learning models, shows performance boosts of up to 2.5 times over 1.8.3
+* Tensorflow contrib libraries now managed correctly across a cluster
+* Reverted useFeatureBroadcasting after internal benchmarks proved it was performing better
+* SparkNLP.start() and sparknlp.start() now accept an includeOCR parameter which allows to automatically include OCR library
+* Recreated NerDL Graphs to allow GPU allow_growth in tensorflow to improve memory management with GPU
+* Expanded GPU coverage in NerDL graph
+* Reduced NerDL Batch Size for better compatibility with GPUs
+
+---------------
+Bugfixes
+---------------
+* Fixed deep learning models not working across cluster due a bug in inputBuffers from graph reading
+* Fixed a bug in POS() training function which did not work correctly from Python
+* Fixed a bug in OCR where page number and intersection was not correctly matched
+* Correctly handle exceptions when training Norvig and Symmetric Spell Checkers from dataframes
+
+---------------
+Developer API
+---------------
+ContextSpellChecker now follows Features API correctly
+
+---------------
+Documentation
+---------------
+* spark-nlp-workshop repository has been expanded with better documentation and new notebooks
+* we are still catching up with 2.x release!
+
+========
 2.0.0
 ========
 ---------------
