@@ -202,7 +202,12 @@ class TextMatcherTestSpec(unittest.TestCase):
 class PerceptronApproachTestSpec(unittest.TestCase):
 
     def setUp(self):
+        from sparknlp.training import POS
         self.data = SparkContextForTest.data
+        self.train = POS().readDataset(SparkContextForTest.spark,
+                                       os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                       delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                       outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -214,9 +219,12 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        pos_tagger = PerceptronModel.pretrained() \
+        pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos")
+            .setOutputCol("pos") \
+            .setIterations(3) \
+            .fit(self.train)
+
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
@@ -226,7 +234,12 @@ class PerceptronApproachTestSpec(unittest.TestCase):
 class ChunkerTestSpec(unittest.TestCase):
 
     def setUp(self):
+        from sparknlp.training import POS
         self.data = SparkContextForTest.data
+        self.train_pos = POS().readDataset(SparkContextForTest.spark,
+                                           os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                           delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                           outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -238,9 +251,11 @@ class ChunkerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        pos_tagger = PerceptronModel.pretrained() \
+        pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos")
+            .setOutputCol("pos") \
+            .setIterations(3) \
+            .fit(self.train_pos)
         chunker = Chunker() \
             .setInputCols(["sentence", "pos"]) \
             .setOutputCol("chunk") \
@@ -574,6 +589,11 @@ class DependencyParserTreeBankTestSpec(unittest.TestCase):
             .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.dependency_treebank = os.getcwd() + "/../src/test/resources/parser/unlabeled/dependency_treebank"
+        from sparknlp.training import POS
+        self.train_pos = POS().readDataset(SparkContextForTest.spark,
+                                           os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                           delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                           outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -591,8 +611,8 @@ class DependencyParserTreeBankTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setCorpus(self.corpus, delimiter="|") \
-            .setIterations(1)
+            .setIterations(1) \
+            .fit(self.train_pos)
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -603,7 +623,7 @@ class DependencyParserTreeBankTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         dependency_parsed.show()
 
@@ -615,6 +635,11 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
                 .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.conllu = os.getcwd() + "/../src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt"
+        from sparknlp.training import POS
+        self.train_pos = POS().readDataset(SparkContextForTest.spark,
+                                           os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                           delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                           outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -629,9 +654,11 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        pos_tagger = PerceptronModel.pretrained() \
+        pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos")
+            .setOutputCol("pos") \
+            .setIterations(1) \
+            .fit(self.train_pos)
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -655,6 +682,11 @@ class TypedDependencyParserConllUTestSpec(unittest.TestCase):
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.conllu = os.getcwd() + "/../src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt"
         self.conllu = os.getcwd() + "/../src/test/resources/parser/labeled/train_small.conllu.txt"
+        from sparknlp.training import POS
+        self.train_pos = POS().readDataset(SparkContextForTest.spark,
+                                           os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                           delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                           outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -672,8 +704,8 @@ class TypedDependencyParserConllUTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setCorpus(self.corpus, delimiter="|") \
-            .setIterations(1)
+            .setIterations(1) \
+            .fit(self.train_pos)
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -690,7 +722,7 @@ class TypedDependencyParserConllUTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
         tokenized = tokenizer.transform(sentenced)
-        pos_tagged = pos_tagger.fit(tokenized).transform(tokenized)
+        pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
         typed_dependency_parsed.show()
@@ -704,6 +736,11 @@ class TypedDependencyParserConll2009TestSpec(unittest.TestCase):
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.tree_bank = os.getcwd() + "/../src/test/resources/parser/unlabeled/dependency_treebank"
         self.conll2009 = os.getcwd() + "/../src/test/resources/parser/labeled/example.train.conll2009"
+        from sparknlp.training import POS
+        self.train_pos = POS().readDataset(SparkContextForTest.spark,
+                                           os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/test-training.txt",
+                                           delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                           outputTextCol="text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -718,9 +755,11 @@ class TypedDependencyParserConll2009TestSpec(unittest.TestCase):
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        pos_tagger = PerceptronModel.pretrained() \
+        pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
-            .setOutputCol("pos")
+            .setOutputCol("pos") \
+            .setIterations(1) \
+            .fit(self.train_pos)
 
         dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
