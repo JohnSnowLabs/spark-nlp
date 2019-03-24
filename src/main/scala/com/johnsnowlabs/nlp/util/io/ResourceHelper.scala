@@ -74,6 +74,7 @@ object ResourceHelper {
     }
   }
 
+  /** NOT thread safe. Do not call from executors. */
   def getResourceStream(path: String): InputStream = {
     Option(getClass.getResourceAsStream(path))
       .getOrElse{
@@ -88,23 +89,6 @@ object ResourceHelper {
       dirURL = getClass.getClassLoader.getResource(path)
 
     dirURL
-  }
-
-  def copyResourceToTmp(path: String): File = {
-    val stream = getResourceStream(path)
-    val tmp = File.createTempFile("spark-nlp", "")
-    val target = new BufferedOutputStream(new FileOutputStream(tmp))
-
-    val buffer = new Array[Byte](1 << 13)
-    var read = stream.read(buffer)
-    while (read > 0) {
-      target.write(buffer, 0, read)
-      read = stream.read(buffer)
-    }
-    stream.close()
-    target.close()
-
-    tmp
   }
 
   def listResourceDirectory(path: String): Seq[String] = {

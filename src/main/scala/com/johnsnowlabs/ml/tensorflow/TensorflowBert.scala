@@ -7,7 +7,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceEndTokenId: Int,
                      maxSentenceLength: Int,
                      batchSize: Int = 5
-                    ) {
+                    ) extends Serializable {
 
   private val tokenIdsKey = "token_ids:0"
   private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"

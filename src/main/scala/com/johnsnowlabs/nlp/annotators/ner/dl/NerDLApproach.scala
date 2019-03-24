@@ -8,12 +8,13 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
-import org.tensorflow.Session
+import org.apache.spark.sql.{Dataset, SparkSession}
+import org.tensorflow.{Graph, Session}
 
 import scala.util.Random
 
@@ -21,6 +22,7 @@ import scala.util.Random
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
+    with LoadsContrib
     with Logging {
 
   def this() = this(Identifiable.randomUID("NerDL"))
@@ -59,6 +61,11 @@ class NerDLApproach(override val uid: String)
       .getOrElse(1)
   }
 
+  override def beforeTraining(spark: SparkSession): Unit = {
+    loadContribToCluster(spark)
+    loadContribToTensorflow()
+  }
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
     val train = dataset.toDF()
@@ -86,7 +93,11 @@ class NerDLApproach(override val uid: String)
     /** without log placement */
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
-    val graph = TensorflowWrapper.readGraph(graphFile)
+
+    val graph = new Graph()
+    val graphStream = ResourceHelper.getResourceStream(graphFile)
+    val graphBytesDef = IOUtils.toByteArray(graphStream)
+    graph.importGraphDef(graphBytesDef)
 
     val session = new Session(graph, config)
 
@@ -109,11 +120,10 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val model = new NerDLModel()
+    new NerDLModel()
+      .setModelIfNotSet(dataset.sparkSession, tf)
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
-    NerDLModel.setTensorflowSession(tf, model)
-    model
   }
 }
 

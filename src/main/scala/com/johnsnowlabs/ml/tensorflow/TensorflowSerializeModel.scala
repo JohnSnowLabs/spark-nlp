@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -38,10 +39,18 @@ trait WriteTensorflowModel {
 
 }
 
-trait ReadTensorflowModel {
+trait ReadTensorflowModel extends LoadsContrib {
   val tfFile: String
 
-  def readTensorflowModel(path: String, spark: SparkSession, suffix: String, zipped:Boolean = true, useBundle:Boolean = false, tags:Array[String]=Array.empty): TensorflowWrapper = {
+  def readTensorflowModel(
+                           path: String,
+                           spark: SparkSession,
+                           suffix: String,
+                           zipped:Boolean = true,
+                           useBundle:Boolean = false,
+                           tags:Array[String]=Array.empty): TensorflowWrapper = {
+
+    loadContribToCluster(spark)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)

@@ -4,13 +4,11 @@ import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.{FileUtils, IOUtils}
-import org.apache.commons.lang.SystemUtils
+import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
-import org.tensorflow.TensorFlowException
 
 
 class TensorflowWrapper(
@@ -85,63 +83,15 @@ class TensorflowWrapper(
   }
 }
 
-object TensorflowWrapper {
+object TensorflowWrapper extends LoadsContrib {
   private[TensorflowWrapper] val logger: Logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def readGraph(graphFile: String, handleException: Boolean = true): Graph = {
-    val graphStream = ResourceHelper.getResourceStream(graphFile)
-    val graphBytesDef = if (graphStream != null)
-      IOUtils.toByteArray(graphStream)
-    else
-      FileUtils.readFileToByteArray(new File(graphFile))
-
+  def readGraph(graphFile: String): Graph = {
+    loadContribToTensorflow()
+    val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
-    if (!handleException) {
-      graph.importGraphDef(graphBytesDef)
-      return graph
-    }
-
-    try {
-      graph.importGraphDef(graphBytesDef)
-      graph
-    }
-    catch {
-      case _: TensorFlowException =>
-        // trying to add library
-        logger.info("Problem with loading graph. Trying to add .so library")
-        val os = System.getProperty("os.name").toLowerCase()
-        logger.debug("os name: "+os)
-        val paths: Option[(String, String)] =
-          if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-            Some(("ner-dl/mac/_sparse_feature_cross_op.so", "ner-dl/mac/_lstm_ops.so"))
-          } else if (SystemUtils.IS_OS_WINDOWS) {
-            None
-          } else {
-            Some(("ner-dl/linux/_sparse_feature_cross_op.so", "ner-dl/linux/_lstm_ops.so"))
-          }
-
-        if (paths.isDefined) {
-
-          val resource = ResourceHelper.copyResourceToTmp(paths.get._1)
-          TensorFlow.loadLibrary(resource.getPath)
-          resource.delete()
-
-          val resource2 = ResourceHelper.copyResourceToTmp(paths.get._2)
-          TensorFlow.loadLibrary(resource2.getPath)
-          resource2.delete()
-
-          logger.info("Added contrib .so library")
-        } else {
-          logger.info("Windows detected. Using noncontrib files")
-          logger.warn("Using NON-contrib DL graphs due to Windows OS. Accuracy may be lower than optimal. (Fix me)")
-        }
-
-        val graph = readGraph(graphFile, handleException=false)
-
-        logger.info("Graph loaded")
-
-        graph
-    }
+    graph.importGraphDef(graphBytesDef)
+    graph
   }
 
   def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
