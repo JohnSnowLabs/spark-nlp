@@ -81,20 +81,43 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 ## Compiled JARs
 
-### Offline mode using jars
+### Build from source
 
-Either download pre-compiled packages [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) or build from source using `sbt assembly`
+#### Spark-NLP
 
-### Pre-compiled Spark-NLP and Spark-NLP-OCR (Does NOT include Apache Spark)
+* FAT-JAR for CPU
 
-Spark-NLP FAT-JAR from here (Does NOT include Spark):
-[Spark-NLP 2.0.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.0.1.jar)
+```bash
+sbt assembly
+```
 
-Spark-NLP GPU Enhanced Tensorflow FAT-JAR:
-[Spark-NLP 2.0.1-gpu FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.0.1-gpu.jar)
+* FAT-JAR for GPU
 
-Spark-NLP-OCR Module (Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested)
-[Spark-NLP-OCR 2.0.1 FAT-JAR](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-ocr-assembly-2.0.1.jar)
+```bash
+sbt -Dis_gpu=true assembly
+```
+
+* Packaging the project
+
+```bash
+sbt package
+```
+
+#### Spark-NLP-OCR 
+
+Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested
+
+* FAT-JAR
+
+```bash
+sbt ocr/assembly
+```
+
+* Packaging the project
+
+```bash
+sbt ocr/package
+```
 
 ### Using the jar manually
 
