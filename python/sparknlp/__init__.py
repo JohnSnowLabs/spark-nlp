@@ -28,21 +28,16 @@ annotators = annotator
 embeddings = annotator
 
 
-def start():
-    return SparkSession.builder \
+def start(include_ocr=False):
+    builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
         .config("spark.driver.memory", "6G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.0") \
-        .getOrCreate()
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
+    if include_ocr:
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.0")
+    else:
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.0") \
 
-def start_with_ocr():
-    return SparkSession.builder \
-        .appName("Spark NLP") \
-        .master("local[*]") \
-        .config("spark.driver.memory", "6G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.0") \
-        .getOrCreate()
+    return builder.getOrCreate()
