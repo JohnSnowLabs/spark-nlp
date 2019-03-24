@@ -8,14 +8,14 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModelPythonReader
+import com.johnsnowlabs.nlp.annotators.ner.dl.{LoadsContrib, NerDLModelPythonReader}
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.tensorflow.{Graph, Session, TensorFlow}
 
 
-object NerDLCoNLL2003 extends App {
+object NerDLCoNLL2003 extends App with LoadsContrib{
 
   val spark = SparkAccessor.spark
 
@@ -49,7 +49,8 @@ object NerDLCoNLL2003 extends App {
   //val config = Array[Byte](56, 1)
   //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
   val config = Array[Byte](50, 2, 32, 1, 56, 1)
-  val graph = TensorflowWrapper.readGraph("ner-dl/blstm_10_100_128_100.pb")
+  loadContribToTensorflow()
+  val graph = TensorflowWrapper.readGraph("src/main/resources/ner-dl/blstm_10_100_128_100.pb")
   val session = new Session(graph, config)
 
 
