@@ -85,6 +85,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       useBundle,
       tags = Array("our-graph")
     )
+    _model = None
     setModelIfNotSet(spark, tf)
   }
 
