@@ -158,11 +158,12 @@ object AgeToken extends RegexParser with Serializable {
 
 object UnitToken extends VocabParser with Serializable {
 
+  @transient
   override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
     "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
     "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG", "mcg/inh")
 
-  override var transducer: ITransducer[Candidate] = generateTransducer
+  override var transducer: ITransducer[Candidate] = null
   override val label: String = "_UNIT_"
   override val maxDist: Int = 3
 
