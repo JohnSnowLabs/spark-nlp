@@ -329,7 +329,7 @@ class Normalizer(AnnotatorApproach):
         )
 
     def setCleanupPatterns(self, value):
-        return self._set(patterns=value)
+        return self._set(cleanupPatterns=value)
 
     def setLowercase(self, value):
         return self._set(lowercase=value)
