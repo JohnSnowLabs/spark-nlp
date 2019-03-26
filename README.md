@@ -30,6 +30,7 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 * [Models](#models)
   * [English](#english)
   * [Italian](#italian)
+* [Examples](#examples)  
 * [FAQ](#faq)
 * [Troubleshooting](#troubleshooting)
 * [Aknowledgments](#aknowledgments)
@@ -340,6 +341,11 @@ val advancedPipeline = PipelineModel.load("/tmp/pipeline_advanced_en_1.8.0_2.4_1
 // To use the loaded Pipeline for prediction
 advancedPipeline.transform(predictionDF)
 ```
+
+## Examples
+
+Check out our dedicated repository to showcase Spark NLP use cases!
+[spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
 
