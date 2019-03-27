@@ -294,11 +294,8 @@ sparknlp {
 
 ### Pipelines
 
-|Pipelines | English          |Name|
-|----------|------------------|----|
-|Basic Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.8.0_2.4_1545435998968.zip)|
-|Advanced Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.8.0_2.4_1545436028146.zip)|
-|Vivekn Sentiment Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.8.0_2.4_1545436008101.zip)|
+|Pipelines | English          |Name              |
+|----------|------------------|------------------|
 |Explain Document ML|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.0_2.4_1553189532150.zip)|`explain_document_ml`|
 |Explain Document DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.0_2.4_1553227894237.zip)|`explain_document_dl`|
 |Entity Recognizer DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)|`entity_recognizer_dl`
@@ -352,7 +349,7 @@ After downloading offline models/pipelines and extracting them, here is how you 
 * Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
 ```Scala
-val pos = annotator.PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
+val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
       .setInputCols("document", "token")
       .setOutputCol("pos")
 ```
@@ -360,7 +357,7 @@ val pos = annotator.PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_155302975
 * Loading Offline Pipeline
 
 ```Scala
-val advancedPipeline = PipelineModel.load("/tmp/pipeline_advanced_en_1.8.0_2.4_1545436028146/")
+val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.0_2.4_1553227894237/")
 // To use the loaded Pipeline for prediction
 advancedPipeline.transform(predictionDF)
 ```
