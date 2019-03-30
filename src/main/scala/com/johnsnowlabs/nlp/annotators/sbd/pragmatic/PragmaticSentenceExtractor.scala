@@ -13,21 +13,23 @@ class PragmaticSentenceExtractor(text: String, sourceText: String) {
 
   /** Goes through all sentences to store length and bounds of sentences */
   private def buildSentenceProperties(rawSentences: Array[String], sourceText: String) = {
-    val sentences: Array[Sentence] = Array.ofDim[Sentence](rawSentences.length)
+    val cleanSentences = rawSentences.map(_.trim).filter(_.nonEmpty)
+    val sentences: Array[Sentence] = Array.ofDim[Sentence](cleanSentences.length)
     var lastCharPosition = 0
     var i = 0
     while (i < sentences.length) {
-      val rawSentence = rawSentences(i)
+      val rawSentence = cleanSentences(i)
       val sentence = rawSentence.trim()
       val startPad = sourceText.indexOf(sentence, lastCharPosition)
 
       sentences(i) = Sentence(
         sentence,
         startPad,
-        startPad + sentence.length() - 1
+        startPad + sentence.length() - 1,
+        i
       )
       lastCharPosition = sentences(i).end + 1
-      i = i + 1
+      i += 1
     }
     sentences
   }

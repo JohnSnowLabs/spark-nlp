@@ -40,34 +40,43 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   /**
     * Searches entities and stores them in the annotation
-    * @param text Tokenized text to search
     * @return Extracted Entities
     */
-  private def search(text: Seq[Annotation]): Seq[Annotation] = {
-    val words = text.map(t => t.result)
+  /** Defines annotator phrase matching depending on whether we are using SBD or not */
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
     val result = ArrayBuffer[Annotation]()
 
-    for ((begin, end) <- searchTrie.search(words)) {
-      val normalizedText = (begin to end).map(i => words(i)).mkString(" ")
+    val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
-      val annotation = Annotation(
-        annotatorType,
-        text(begin).begin,
-        text(end).end,
-        normalizedText,
-        Map()
-      )
+    sentences.foreach{ sentence =>
 
-      result.append(annotation)
+      val tokens = annotations.filter( token =>
+        token.annotatorType == AnnotatorType.TOKEN &&
+          token.begin >= sentence.begin &&
+            token.end <= sentence.end)
+
+      for ((begin, end) <- searchTrie.search(tokens.map(_.result))) {
+
+        val firstTokenBegin = tokens(begin).begin
+        val lastTokenEnd = tokens(end).end
+
+        /** token indices are not relative to sentence but to document, adjust offset accordingly */
+        val normalizedText = sentence.result.substring(firstTokenBegin  - sentence.begin, lastTokenEnd - sentence.begin + 1)
+
+        val annotation = Annotation(
+          annotatorType,
+          firstTokenBegin,
+          lastTokenEnd,
+          normalizedText,
+          sentence.metadata
+        )
+
+        result.append(annotation)
+      }
     }
 
     result
-  }
-
-
-  /** Defines annotator phrase matching depending on whether we are using SBD or not */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    search(annotations)
   }
 
 }

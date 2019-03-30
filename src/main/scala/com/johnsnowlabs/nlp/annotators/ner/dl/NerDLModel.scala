@@ -77,7 +77,7 @@ class NerDLModel(override val uid: String)
         IndexedTaggedWord(token.token, label, token.begin, token.end)
       }.toArray
 
-      new TaggedSentence(tokens)
+      new TaggedSentence(tokens, sentence.sentenceIdx)
     }.toArray
   }
 

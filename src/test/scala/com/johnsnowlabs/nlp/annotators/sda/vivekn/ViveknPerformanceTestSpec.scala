@@ -10,7 +10,7 @@ import org.apache.spark.sql.functions.rand
 
 class ViveknPerformanceTestSpec extends FlatSpec {
 
-  "Vivekn pipeline" should "be fast" ignore {
+  "Vivekn pipeline" should "be fast" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -68,7 +68,7 @@ class ViveknPerformanceTestSpec extends FlatSpec {
 
   }
 
-  "Vivekn pipeline with spell checker" should "be fast" ignore {
+  "Vivekn pipeline with spell checker" should "be fast" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._

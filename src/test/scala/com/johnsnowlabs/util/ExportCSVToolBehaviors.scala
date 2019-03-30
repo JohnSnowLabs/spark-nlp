@@ -94,7 +94,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
   }
 
   def testExportSeveralCoNLLFiles(filesPath: String): Unit = {
-    it should "successfully generate POS tags" ignore {
+    it should "successfully generate POS tags" in {
       import SparkAccessor.spark.implicits._ //for toDS and toDF
 
       val listOfFiles = getListOfFiles(filesPath)
@@ -132,7 +132,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
   }
 
   def testEvaluation(dataset: Dataset[Row]): Unit = {
-    it should "successfully generate POS tags" ignore {
+    it should "successfully generate POS tags" in {
 
       import SparkAccessor.spark.implicits._ //for .as
 

@@ -33,7 +33,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         IndexedTaggedWord(token.token, tag, token.begin, token.end)
       }
 
-      new TaggedSentence(tokens)
+      new TaggedSentence(tokens, sentence.sentenceIdx)
     }
   }
 
@@ -56,7 +56,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     */
   def collectLabeledInstances(dataset: Dataset[Row],
                           taggedCols: Seq[String],
-                          labelColumn: String): Array[(TextSentenceLabels, NerTaggedSentence)] = {
+                          labelColumn: String): Array[(TextSentenceLabels, T)] = {
 
     dataset
       .select(labelColumn, taggedCols:_*)

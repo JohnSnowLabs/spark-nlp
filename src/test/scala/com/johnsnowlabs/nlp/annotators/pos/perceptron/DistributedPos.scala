@@ -9,7 +9,7 @@ import org.apache.spark.ml.Pipeline
 
 class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
 
-  "distributed pos" should "successfully work" ignore {
+  "distributed pos" should "successfully work" in {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 

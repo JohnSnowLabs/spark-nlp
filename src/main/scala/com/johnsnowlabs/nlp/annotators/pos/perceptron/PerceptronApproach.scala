@@ -103,7 +103,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
             require(annotations.length == posTags.length, s"Cannot train from $posCol since there" +
               s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
             TaggedSentence(annotations.zip(posTags)
-              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)}
+              .map{case (annotation, posTag) => IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)},
+              0
             )
         }.collect
     } else {

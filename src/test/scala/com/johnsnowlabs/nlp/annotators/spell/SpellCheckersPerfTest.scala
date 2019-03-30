@@ -10,7 +10,7 @@ import org.scalatest._
 
 class SpellCheckersPerfTest extends FlatSpec {
 
-  "Norvig pipeline" should "be fast" ignore {
+  "Norvig pipeline" should "be fast" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -54,7 +54,7 @@ class SpellCheckersPerfTest extends FlatSpec {
 
   }
 
-  "Symm pipeline" should "be fast" ignore {
+  "Symm pipeline" should "be fast" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._

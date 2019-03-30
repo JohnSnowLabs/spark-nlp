@@ -32,6 +32,7 @@ object NerTagsEncoding {
       val entity = NamedEntity(
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,
+        sentence.idx,
         lastTag.get,
         doc.result.substring(start, end + 1)
       )
@@ -61,4 +62,4 @@ object NerTagsEncoding {
 
 }
 
-case class NamedEntity(start: Int, end: Int, entity: String, text: String)
+case class NamedEntity(start: Int, end: Int, sentenceIdx: Int, entity: String, text: String)

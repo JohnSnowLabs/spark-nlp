@@ -30,19 +30,25 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
       new DefaultPragmaticMethod($(useAbbrevations))
 
   def tag(document: String): Array[Sentence] = {
-    model.extractBounds(
+    val sentences = model.extractBounds(
       document
-    ).flatMap(sentence => {
-      var currentStart = sentence.start
-      get(maxLength).map(maxLength => truncateSentence(sentence.content, maxLength)).getOrElse(Array(sentence.content))
-        .map{ truncatedSentence =>
-          val currentEnd = currentStart + truncatedSentence.length - 1
-          val result = Sentence(truncatedSentence, currentStart, currentEnd)
-          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
-          currentStart = currentEnd + 2
-          result
-      }
-    })
+    )
+    if (get(maxLength).isDefined) {
+      sentences.flatMap(sentence => {
+        var currentStart = sentence.start
+        truncateSentence(sentence.content, $(maxLength))
+          .zipWithIndex.map { case (truncatedSentence, index) =>
+            val currentEnd = currentStart + truncatedSentence.length - 1
+            val result = Sentence(truncatedSentence, currentStart, currentEnd, index)
+
+            /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+            currentStart = currentEnd + 2
+            result
+          }
+      })
+    } else {
+      sentences
+    }
   }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {

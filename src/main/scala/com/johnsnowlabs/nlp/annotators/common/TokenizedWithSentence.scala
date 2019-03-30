@@ -15,8 +15,8 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
       ).map(token => IndexedToken(token.result, token.begin, token.end))
-      sentenceTokens
-    }).filter(_.nonEmpty).map(indexedTokens => TokenizedSentence(indexedTokens))
+      TokenizedSentence(sentenceTokens, sentence.idx)
+    })
 
   }
 
