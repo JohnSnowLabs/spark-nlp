@@ -10,7 +10,7 @@ import org.scalatest._
 
 class NerPerfTest extends FlatSpec {
 
-  "NerCRF Approach" should "be fast to train" ignore {
+  "NerCRF Approach" should "be fast to train" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -62,7 +62,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerDL Approach" should "be fast to train" ignore {
+  "NerDL Approach" should "be fast to train" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -111,7 +111,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerDL Model" should "label correctly" ignore {
+  "NerDL Model" should "label correctly" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -165,7 +165,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerCRF Model" should "label correctly" ignore {
+  "NerCRF Model" should "label correctly" in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._

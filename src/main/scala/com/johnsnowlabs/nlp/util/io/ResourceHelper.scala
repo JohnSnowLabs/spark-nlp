@@ -240,7 +240,7 @@ object ResourceHelper {
           })
         }).toArray
         sourceStream.close()
-        result.map(TaggedSentence(_))
+        result.map(TaggedSentence(_, 0))
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -253,7 +253,7 @@ object ResourceHelper {
             TaggedWord(p(0), p(1))
           })
         }).collect
-        result.map(TaggedSentence(_))
+        result.map(TaggedSentence(_, 0))
       case _ =>
         throw new Exception("Unsupported readAs")
     }
@@ -275,7 +275,7 @@ object ResourceHelper {
             TaggedWord(p(0), p(1))
           })
         })
-        result.map(TaggedSentence(_))
+        result.map(TaggedSentence(_, 0))
       case _ =>
         throw new Exception("Unsupported readAs. If you're training POS with large dataset, consider PerceptronApproachDistributed")
     }

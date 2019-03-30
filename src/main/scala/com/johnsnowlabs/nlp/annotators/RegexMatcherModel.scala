@@ -59,7 +59,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
             m.content.start,
             m.content.end - 1,
             m.content.matched,
-            Map("identifier" -> m.identifier)
+            annotation.metadata ++ Map("identifier" -> m.identifier)
           )
         }
     }

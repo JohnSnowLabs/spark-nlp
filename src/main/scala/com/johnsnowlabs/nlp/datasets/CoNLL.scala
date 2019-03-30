@@ -26,7 +26,7 @@ case class CoNLL(targetColumn: Int = 3, annotatorType: String) {
 
     def addSentence(): Unit = {
       if (lastSentence.nonEmpty) {
-        sentences.append(TaggedSentence(lastSentence.toArray))
+        sentences.append(TaggedSentence(lastSentence.toArray, sentences.length))
         lastSentence.clear()
       }
     }

@@ -10,7 +10,7 @@ import org.scalatest._
 
 class NerDLReaderTestSpec extends FlatSpec {
 
-  "Tensorflow NerDLReader" should "correctly load and save a ner model" ignore {
+  "Tensorflow NerDLReader" should "correctly load and save a ner model" in {
 
     val model = NerDLModelPythonReader.read(
       "./source_model",
@@ -24,7 +24,7 @@ class NerDLReaderTestSpec extends FlatSpec {
   }
 
 
-  "NerDLModel" should "correctly read and use a tensorflow originated ner model" ignore {
+  "NerDLModel" should "correctly read and use a tensorflow originated ner model" in {
     val spark = ResourceHelper.spark
     import spark.implicits._
 

@@ -69,7 +69,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
           }
         }
 
-      TaggedSentence(words)
+      TaggedSentence(words, sentence.idx)
     }
   }
 

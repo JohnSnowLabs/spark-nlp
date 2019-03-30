@@ -78,7 +78,7 @@ object NerDLCoNLL2003 extends App {
   def toTrain(source: Seq[(String, Seq[NerTaggedSentence])]): Array[(TextSentenceLabels, TokenizedSentence)] = {
     source.flatMap{s =>
       s._2.map { sentence =>
-        val tokenized = TokenizedSentence(sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end)))
+        val tokenized = TokenizedSentence(sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end)), sentence.idx)
         val labels = TextSentenceLabels(sentence.tags)
 
         (labels, tokenized)

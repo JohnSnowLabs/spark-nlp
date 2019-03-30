@@ -26,8 +26,8 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
   val tokenizedSentenceFromWsj = {
     var length = 0
-    val sentences = ContentProvider.targetSentencesFromWsj.map { text =>
-      val sentence = Sentence(text, length, length + text.length - 1)
+    val sentences = ContentProvider.targetSentencesFromWsj.zipWithIndex.map { case (text, sentenceIdx) =>
+      val sentence = Sentence(text, length, length + text.length - 1, sentenceIdx)
       length += text.length + 1
       sentence
     }

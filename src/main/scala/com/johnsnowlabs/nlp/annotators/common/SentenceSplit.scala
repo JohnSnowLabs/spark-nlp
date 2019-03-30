@@ -5,13 +5,13 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 /**
   * structure representing a sentence and its boundaries
   */
-case class Sentence(content: String, start: Int, end: Int)
+case class Sentence(content: String, start: Int, end: Int, idx: Int)
 
 object Sentence {
   def fromTexts(texts: String*): Seq[Sentence] = {
     var idx = 0
-    texts.map{ text =>
-      val sentence = Sentence(text, idx, idx + text.length - 1)
+    texts.zipWithIndex.map{ case (text, sentenceId) =>
+      val sentence = Sentence(text, idx, idx + text.length - 1, sentenceId)
       idx += text.length + 1
       sentence
     }
@@ -27,17 +27,17 @@ object SentenceSplit extends Annotated[Sentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .map(annotation =>
-        Sentence(annotation.result, annotation.begin, annotation.end)
+        Sentence(annotation.result, annotation.begin, annotation.end, annotation.metadata("sentence").toInt)
       )
   }
 
   override def pack(items: Seq[Sentence]): Seq[Annotation] = {
-    items.zipWithIndex.map{case (item, index) => Annotation(
+    items.map{item => Annotation(
       annotatorType,
       item.start,
       item.end,
       item.content,
-      Map("sentence" -> index.toString)
+      Map("sentence" -> item.idx.toString)
     )}
   }
 }
@@ -51,7 +51,7 @@ object ChunkSplit extends Annotated[Sentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .map(annotation =>
-        Sentence(annotation.result, annotation.begin, annotation.end)
+        Sentence(annotation.result, annotation.begin, annotation.end, annotation.metadata("sentence").toInt)
       )
   }
 

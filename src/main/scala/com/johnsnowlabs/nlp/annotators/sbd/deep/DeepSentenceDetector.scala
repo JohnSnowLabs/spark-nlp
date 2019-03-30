@@ -140,31 +140,43 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
           val beginIndex = nerEntity.begin
           val endIndex = nerEntities(sentenceIndex + 1).begin - 1
           val segmentedSentence = originalText.substring(beginIndex, endIndex)
-          Sentence(segmentedSentence, beginIndex, endIndex - 1)
+          Sentence(segmentedSentence, beginIndex, endIndex - 1, sentenceIndex)
         } else {
           val beginIndex = nerEntity.begin
           val segmentedSentence = originalText.substring(beginIndex)
-          Sentence(segmentedSentence, beginIndex, originalText.length - 1)
+          Sentence(segmentedSentence, beginIndex, originalText.length - 1, sentenceIndex)
         }
       }
       var currentStart = segmentedSentence.start
-      val annotatedSentenceWithLimit = get(maxLength)
-        .map(maxLength => truncateSentence(segmentedSentence.content, maxLength))
-        .getOrElse(Array(segmentedSentence.content))
-        .map{truncatedSentence => {
-          val currentEnd = currentStart + truncatedSentence.length - 1
-          val result = Annotation(
+      val annotatedSentenceWithLimit = {
+        if (get(maxLength).isDefined) {
+          truncateSentence(segmentedSentence.content, $(maxLength))
+            .map { truncatedSentence => {
+              val currentEnd = currentStart + truncatedSentence.length - 1
+              val result = Annotation(
+                annotatorType,
+                currentStart,
+                currentEnd,
+                truncatedSentence,
+                Map("sentence" -> sentenceIndex.toString)
+              )
+
+              /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+              currentStart = currentEnd + 2
+              result
+            }
+            }
+        } else {
+          Array(Annotation(
             annotatorType,
-            currentStart,
-            currentEnd,
-            truncatedSentence,
+            segmentedSentence.start,
+            segmentedSentence.end,
+            segmentedSentence.content,
             Map("sentence" -> sentenceIndex.toString)
-          )
-          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
-          currentStart = currentEnd + 2
-          sentenceIndex += 1
-          result
-      }}
+          ))
+        }
+      }
+      sentenceIndex += 1
       annotatedSentenceWithLimit
     }
   }
@@ -184,12 +196,12 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         val beginIndex = nerEntity.begin
         val endIndex = nerEntities(index + 1).begin - 1
         val segmentedSentence = originalText.substring(beginIndex, endIndex)
-        Annotation(annotatorType, beginIndex, endIndex - 1, segmentedSentence, Map.empty)
+        Annotation(annotatorType, beginIndex, endIndex - 1, segmentedSentence, currentSentence.metadata.mapValues(i => (i.toInt+index).toString))
       } else {
         val beginIndex = nerEntity.begin
         val endIndex = currentSentence.end
         val segmentedSentence = originalText.substring(beginIndex, endIndex + 1)
-        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence, Map.empty)
+        Annotation(annotatorType, beginIndex, endIndex, segmentedSentence, currentSentence.metadata.mapValues(i => (i.toInt+index).toString))
       }
     }
   }

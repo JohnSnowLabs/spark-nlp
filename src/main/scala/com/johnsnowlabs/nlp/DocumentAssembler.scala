@@ -67,29 +67,29 @@ class DocumentAssembler(override val uid: String)
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
-    texts.flatMap(text => {
-      assemble(text, Map.empty[String, String])
-    })
+    texts.zipWithIndex.flatMap{case (text, idx) =>
+      assemble(text, Map("sentence" -> idx.toString))
+    }
   }
 
   private def dfAssemble: UserDefinedFunction = udf {
     (text: String, id: String, metadata: Map[String, String]) =>
-      assemble(text, metadata ++ Map("id" -> id))
+      assemble(text, metadata ++ Map("id" -> id, "sentence" -> "0"))
   }
 
   private def dfAssembleOnlyId: UserDefinedFunction = udf {
     (text: String, id: String) =>
-      assemble(text, Map("id" -> id))
+      assemble(text, Map("id" -> id, "sentence" -> "0"))
   }
 
   private def dfAssembleNoId: UserDefinedFunction = udf {
     (text: String, metadata: Map[String, String]) =>
-      assemble(text, metadata)
+      assemble(text, metadata ++ Map("sentence" -> "0"))
   }
 
   private def dfAssembleNoExtras: UserDefinedFunction = udf {
     text: String =>
-      assemble(text, Map.empty[String, String])
+      assemble(text, Map("sentence" -> "0"))
   }
 
   private def dfAssemblyFromArray: UserDefinedFunction = udf {
