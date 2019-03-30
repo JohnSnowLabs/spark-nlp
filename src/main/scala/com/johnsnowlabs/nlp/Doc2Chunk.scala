@@ -22,9 +22,18 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
   val chunkCol = new Param[String](this, "chunkCol", "column that contains string. Must be part of DOCUMENT")
+  val startCol = new Param[String](this, "startCol", "column that has a reference of where chunk begins")
+  val startColByTokenIndex = new BooleanParam(this, "startColByTokenIndex", "whether start col is by whitespace tokens")
   val isArray = new BooleanParam(this, "isArray", "whether the chunkCol is an array of strings")
+  val failOnMissing = new BooleanParam(this, "failOnMissing", "whether to fail the job if a chunk is not found within document. return empty otherwise")
+  val lowerCase = new BooleanParam(this, "lowerCase", "whether to lower case for matching case")
 
-  setDefault(isArray -> false)
+  setDefault(
+    startColByTokenIndex -> false,
+    isArray -> false,
+    failOnMissing -> false,
+    lowerCase -> true
+  )
 
   def setChunkCol(value: String): this.type = set(chunkCol, value)
   def setIsArray(value: Boolean): this.type = set(isArray, value)
@@ -32,7 +41,19 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
   def getChunkCol: String = $(chunkCol)
   def getIsArray: Boolean = $(isArray)
 
-  def this() = this(Identifiable.randomUID("CHUNK_ASSEMBLER"))
+  def setStartCol(value: String): this.type = set(startCol, value)
+  def getStartCol: String = $(startCol)
+
+  def setStartColByTokenIndex(value: Boolean): this.type = set(startColByTokenIndex, value)
+  def getStartColByTokenIndex: Boolean = $(startColByTokenIndex)
+
+  def setFailOnMissing(value: Boolean): this.type = set(failOnMissing, value)
+  def getFailOnMissing: Boolean = $(failOnMissing)
+
+  def setLowerCase(value: Boolean): this.type = set(lowerCase, value)
+  def getLowerCase: Boolean = $(lowerCase)
+
+  def this() = this(Identifiable.randomUID("DOC2CHUNK"))
 
   override protected def extraValidate(structType: StructType): Boolean = {
     if ($(isArray))
@@ -45,12 +66,19 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
     if ($(isArray)) s"${$(chunkCol)} must be ArrayType(StringType)"
     else s"${$(chunkCol)} must be StringType"
 
-  private def buildFromChunk(annotation: Annotation, chunk: String) = {
+  private def buildFromChunk(annotation: Annotation, chunk: String, startIndex: Int) = {
     /** This will break if there are two identical chunks */
-    val beginning = annotation.result.indexOf(chunk)
+    val beginning = get(lowerCase) match {
+      case Some(true) => annotation.result.toLowerCase.indexOf(chunk, startIndex)
+      case _ => annotation.result.indexOf(chunk, startIndex)
+    }
     val ending = beginning + chunk.length - 1
     if (chunk.trim.isEmpty || beginning == -1) {
-      logger.warn(s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`")
+      val message = s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`"
+      if ($(failOnMissing))
+        throw new Exception(message)
+      else
+        logger.warn(message)
       None
     } else {
       Some(Annotation(
@@ -63,11 +91,20 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
     }
   }
 
+  def tokenIndexToCharIndex(text: String, tokenIndex: Int): Int = {
+    var i = 0
+    text.split(" ").map(token => {
+      val o = (token, i)
+      i += token.length + 1
+      o
+    }).apply(tokenIndex)._2
+  }
+
   private def assembleChunks = udf {
     (annotationProperties: Seq[Row], chunks: Seq[String]) =>
       val annotations = annotationProperties.map(Annotation(_))
       annotations.flatMap(annotation => {
-        chunks.flatMap(chunk => buildFromChunk(annotation, chunk))
+        chunks.flatMap(chunk => buildFromChunk(annotation, chunk, 0))
       })
   }
 
@@ -75,13 +112,30 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
     (annotationProperties: Seq[Row], chunk: String) =>
       val annotations = annotationProperties.map(Annotation(_))
       annotations.flatMap(annotation => {
-        buildFromChunk(annotation, chunk)
+        buildFromChunk(annotation, chunk, 0)
+      })
+  }
+
+  private def assembleChunkWithStart = udf {
+    (annotationProperties: Seq[Row], chunk: String, start: Int) =>
+      val annotations = annotationProperties.map(Annotation(_))
+      annotations.flatMap(annotation => {
+        if ($(startColByTokenIndex))
+          buildFromChunk(annotation, chunk, tokenIndexToCharIndex(annotation.result, start))
+        else
+          buildFromChunk(annotation, chunk, start)
       })
   }
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     if ($(isArray))
       dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col(getInputCols.head), col($(chunkCol)))))
+    else if (get(startCol).isDefined)
+      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunkWithStart(
+        col($(inputCols).head),
+        col($(chunkCol)),
+        col($(startCol))
+      )))
     else
       dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col(getInputCols.head), col($(chunkCol)))))
   }
