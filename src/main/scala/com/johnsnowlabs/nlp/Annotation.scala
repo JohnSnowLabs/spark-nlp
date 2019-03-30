@@ -67,7 +67,7 @@ object Annotation {
     0,
     rawText.length - 1,
     rawText,
-    Map.empty[String, String]
+    Map("sentence" -> "0")
   )
 
   /** dataframe collect of a specific annotation column*/
