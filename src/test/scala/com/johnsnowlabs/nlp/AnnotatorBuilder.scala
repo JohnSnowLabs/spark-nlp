@@ -73,13 +73,13 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullTextMatcher(dataset: Dataset[Row], lowerCase: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+  def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
-      .setInputCols("normalized")
+      .setInputCols(if (sbd) Array("sentence", "token") else Array("document", "token"))
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
-      .setOutputCol("entity")
-    val data = withFullNormalizer(
-      withTokenizer(dataset, sbd), lowerCase)
+      .setOutputCol("entity").
+      setCaseSensitive(caseSensitive)
+    val data = withTokenizer(dataset, sbd)
     entityExtractor.fit(data).transform(data)
   }
 

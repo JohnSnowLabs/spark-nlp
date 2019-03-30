@@ -14,7 +14,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-  override val requiredAnnotatorTypes = Array(TOKEN)
+  override val requiredAnnotatorTypes = Array(DOCUMENT, TOKEN)
 
   override val annotatorType: AnnotatorType = CHUNK
 
@@ -62,7 +62,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     }.map(_.asInstanceOf[DocumentAssembler].getInputCol)
       .getOrElse(throw new Exception("Could not retrieve DocumentAssembler from RecursivePipeline"))
     val data = phrases.toDS.withColumnRenamed("value", textColumn)
-    pipelineModel.transform(data).select($(inputCols).head).as[Array[Annotation]].map(_.map(_.result)).collect
+    pipelineModel.transform(data).select(getInputCols.head).as[Array[Annotation]].map(_.map(_.result)).collect
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TextMatcherModel = {

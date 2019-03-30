@@ -19,7 +19,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   override val annotatorType: AnnotatorType = CHUNK
 
-  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val requiredAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
   val parsedEntities = new ArrayFeature[Array[String]](this, "parsedEntities")
 
