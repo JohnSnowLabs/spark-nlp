@@ -127,6 +127,6 @@ setup(
 
     packages=find_packages(exclude=['test']),
 
-    include_package_data=True  # Needed to install jar file
+    include_package_data=False  # Needed to install jar file
 
 )
