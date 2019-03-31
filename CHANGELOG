@@ -1,4 +1,22 @@
 ========
+1.8.4
+========
+---------------
+Overview
+---------------
+This release is meant to push downstream a few improvements from 2.0.x to the 1.8.x branch, mostly with the objective
+of keeping the stable branch line stable, and solving a few serious issues that were pending. This makes 1.8.4 an ideal
+version for stable deployments.
+
+---------------
+Enhancements
+---------------
+* Improved CHUNK type annotators to include sentence index information in metadata. May be used to improve matching accuracy.
+* Doc2Chunk annotator now has new params to failOnMissing, lowerCase match or startCol is token indexed
+* SentenceDetector and DeepSentenceDetector now disabled maxLength by default, also works appropriately to split in whitespaces
+* SentenceDetector include in metadata they sentence id
+
+========
 1.8.3
 ========
 ---------------
