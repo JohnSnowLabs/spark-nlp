@@ -1573,7 +1573,7 @@ trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")</code
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-python">from sparknlp.training import CoNLL
-training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2013/eng.train")
+training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
 </code></pre>
 
                                             <b>Available parameters are:</b>
@@ -1603,7 +1603,7 @@ training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2013/eng.
                                                 <br><b>Example:</b><br>
                                             </p>
                                             <pre><code class="language-javascript">import com.johnsnowlabs.nlp.training.CoNLL
-trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2013/eng.train")
+trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
 </code></pre>
 
                                             <b>Available parameters are:</b>
@@ -2761,7 +2761,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                             <p>
                                                 Word Embeddings lookup annotator that maps tokens to vectors
                                                 <br>
-                                                <b>Type:</b> Word Embeddings<br>
+                                                <b>Type:</b> Word_Embeddings<br>
                                                 <b>Requires:</b> Document, Token<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
@@ -2795,7 +2795,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 Word Embeddings lookup annotator that maps tokens to vectors<br>
-                                                <b>Type:</b> Word Embeddings<br>
+                                                <b>Type:</b> Word_Embeddings<br>
                                                 <b>Requires:</b> Document, Token<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
@@ -2843,23 +2843,14 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 This Named Entity recognition annotator allows for a generic model
-                                                to be trained by utilizing a CRF machine learning algorithm. Its
-                                                inputs are either a labeled dataset with an Annotations column or an
-                                                external CoNLL 2003 IOB based dataset, and optionally
-                                                the user can provide both an entities dictionary and a word
-                                                embeddings file for better accuracy<br>
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document, token, pos<br>
+                                                to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled
+                                                or an <a href="#TrainCoNLL">external CoNLL 2003 IOB based</a> spark dataset with Annotations columns. 
+                                                Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
+                                                Optionally the user can provide an entitiy dictionary file for better accuracy<br>
+                                                <b>Type:</b> Named_Entity<br>
+                                                <b>Requires:</b> Document, Token, POS, Word_Embeddings<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
-                                                <li>
-                                                    setExternalDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER and POS annotated file</a>. If this is
-                                                    provided. label column is not needed. readAs can be
-                                                    LINE_BY_LINE or SPARK_DATASET, with options if latter is
-                                                    used
-                                                </li>
                                                 <li>
                                                     setLabelColumn: If DatasetPath is not provided, this
                                                     Seq[Annotation] type of column should have labeled data per
@@ -2884,19 +2875,6 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 <li>
                                                     setMinW: Features with less weights than this value will be
                                                     filtered out
-                                                </li>
-                                                <li>
-                                                    setEmbeddingsSource:(path, nDims, format) - sets <a
-                                                        href="https://en.wikipedia.org/wiki/Word_embedding">word
-                                                    embeddings</a> options.
-                                                    path - word embeddings file
-                                                    nDims - number of word embeddings dimensions
-                                                    format - format of word embeddings files:<br>
-                                                    1 - spark-nlp format. <br>
-                                                    2 - text. This format is usually used by <a
-                                                        href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
-                                                    3 - binary. This format is usually used by <a
-                                                        href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
                                                 </li>
                                                 <li>
                                                     setExternalFeatures(path, delimiter, readAs, options): Path
@@ -2925,12 +2903,11 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
   .setMaxEpochs(20)\
   .setLossEps(1e-3)\
   .setDicts(["ner-corpus/dict.txt"])\
-  .setDatasetPath("eng.train")\
-  .setEmbeddingsSource("glove.6B.100d.txt", 100, 2)\
   .setL2(1)\
   .setC0(1250000)\
   .setRandomSeed(0)\
-  .setVerbose(2)</code></pre>
+  .setVerbose(2)
+  .fit(train_ner)</code></pre>
                                         </div>
                                         <!--//code-block-->
                                     </div>
@@ -2938,23 +2915,14 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 This Named Entity recognition annotator allows for a generic model
-                                                to be trained by utilizing a CRF machine learning algorithm. Its
-                                                inputs are either a labeled dataset with an Annotations column or an
-                                                external CoNLL 2003 IOB based dataset, and optionally
-                                                the user can provide both an entities dictionary and a word
-                                                embeddings file for better accuracy<br>
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document, token, pos<br>
+                                                to be trained by utilizing a CRF machine learning algorithm. Its train data (trainNer) is either a labeled
+                                                or an <a href="#TrainCoNLL">external CoNLL 2003 IOB based</a> spark dataset with Annotations columns. 
+                                                Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
+                                                Optionally the user can provide an entitiy dictionary file for better accuracy<br>
+                                                <b>Type:</b> Named_Entity<br>
+                                                <b>Requires:</b> Document, Token, POS, Word_Embeddings<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
-                                                <li>
-                                                    setExternalDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER and POS annotated file</a>. If this is
-                                                    provided. label column is not needed. readAs can be
-                                                    LINE_BY_LINE or SPARK_DATASET, with options if latter is
-                                                    used
-                                                </li>
                                                 <li>
                                                     setLabelColumn: If DatasetPath is not provided, this
                                                     Seq[Annotation] type of column should have labeled data per
@@ -2980,19 +2948,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                     setMinW: Features with less weights than this value will be
                                                     filtered out
                                                 </li>
-                                                <li>
-                                                    setEmbeddingsSource:(path, nDims, format) - sets <a
-                                                        href="https://en.wikipedia.org/wiki/Word_embedding">word
-                                                    embeddings</a> options.
-                                                    path - word embeddings file
-                                                    nDims - number of word embeddings dimensions
-                                                    format - format of word embeddings files:<br>
-                                                    1 - spark-nlp format. <br>
-                                                    2 - text. This format is usually used by <a
-                                                        href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
-                                                    3 - binary. This format is usually used by <a
-                                                        href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
-                                                </li>
+
                                                 <li>
                                                     setExternalFeatures(path, delimiter, readAs, options): Path
                                                     to file or folder of line separated file that has something
@@ -3017,12 +2973,10 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
   .setLabelColumn("label")
   .setMinEpochs(1)
   .setMaxEpochs(3)
-  .setDatasetPath("src/test/resources/ner-corpus/test_ner_dataset.txt")
-  .setEmbeddingsSource("src/test/resources/ner-corpus/test_embeddings.txt", 3, WordEmbeddingsFormat.Text)
   .setC0(34)
   .setL2(3.0)
   .setOutputCol("ner")
-  .fit(df)</code></pre>
+  .fit(trainNer)</code></pre>
                                         </div>
                                         <!--//code-block-->
                                     </div>
@@ -3046,8 +3000,8 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
                                                 Neural Network architecture is Char CNN - BLSTM that achieves
                                                 state-of-the-art in most datasets.<br>                                   
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document, token<br>
+                                                <b>Type:</b> Named_Entity<br>
+                                                <b>Requires:</b> Document, Token, Word_Embeddings<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -3101,8 +3055,8 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
                                                 Neural Network architecture is Char CNN - BLSTM that achieves
                                                 state-of-the-art in most datasets.<br>                                     
-                                                <b>Type:</b> named_entity<br>
-                                                <b>Requires:</b> Document, token<br>
+                                                <b>Type:</b> Named_Entity<br>
+                                                <b>Requires:</b> Document, Token, Word_Embeddings<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
