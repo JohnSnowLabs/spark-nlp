@@ -121,6 +121,7 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-chunks.txt")
         chunk_tokenizer = ChunkTokenizer() \
@@ -188,6 +189,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("token")
         entity_extractor = TextMatcher() \
+            .setInputCols(['document', 'token']) \
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
@@ -244,7 +246,7 @@ class ChunkerTestSpec(unittest.TestCase):
             .setIterations(2) \
             .fit(self.data)
         chunker = Chunker() \
-            .setInputCols(["pos"]) \
+            .setInputCols(["sentence", "pos"]) \
             .setOutputCol("chunk") \
             .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
         assembled = document_assembler.transform(self.data)
