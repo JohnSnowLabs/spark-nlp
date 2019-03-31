@@ -1566,7 +1566,7 @@ trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")</code
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                In order to train a Named Entity Recognition DL annotator, we need to get corpus data
+                                                In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data
                                                 as a spark dataframe. There is a component that does this for us:
                                                 it reades a plain text file and transforms it to a
                                                 spark dataset.
@@ -1596,7 +1596,7 @@ training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2013/eng.
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                In order to train a Named Entity Recognition DL annotator, we need to get corpus data
+                                                In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data
                                                 as a spark dataframe. There is a component that does this for us:
                                                 it reades a plain text file and transforms it to a
                                                 spark dataset.
@@ -2475,10 +2475,10 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                     <div role="tabpanel" class="tab-pane active" id="python">
                                         <div class="code-block">
                                             <p>
-                                                Sets a POS tag to each word within a sentence<br>
+                                                Sets a POS tag to each word within a sentence. Its train data (train_pos) is a
+                                                spark dataset of <a href="#TrainPOS">POS format values</a> with Annotation columns.<br>
                                                 <b>Type:</b> POS<br>
                                                 <b>Requires:</b> Document, Token<br>
-                                                <b>Train Data:</b> train_pos is a spark dataset of <a href="#TrainPOS">POS format values</a> <br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -2506,10 +2506,10 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                     <div role="tabpanel" class="tab-pane" id="scala">
                                         <div class="code-block">
                                             <p>
-                                                Sets a POS tag to each word within a sentence<br>
+                                                    Sets a POS tag to each word within a sentence. Its train data (trainPos) is a
+                                                    spark dataset of <a href="#TrainPOS">POS format values</a> with Annotation columns.<br>
                                                 <b>Type:</b> POS<br>
                                                 <b>Requires:</b> Document, Token<br>
-                                                <b>Train Data:</b> trainPOS is a spark dataset of <a href="#TrainPOS">POS format values</a> <br>
                                                 <b>Functions:</b> <br>
                                             <ul>
                                                 <li>
@@ -3041,24 +3041,15 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 This Named Entity recognition annotator allows to train generic NER
-                                                model
-                                                based on a Neural Networks. Its inputs are either a labeled dataset
-                                                with an Annotations column or an external CoNLL 2003 IOB based
-                                                dataset,
-                                                Also the user have to provide word embeddings file<br>
+                                                model based on Neural Networks. Its train data (train_ner) is either a labeled
+                                                or an <a href="#TrainCoNLL">external CoNLL 2003 IOB based</a> spark dataset with Annotations columns.
+                                                Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
                                                 Neural Network architecture is Char CNN - BLSTM that achieves
-                                                state-of-the-art in most datasets.<br>
+                                                state-of-the-art in most datasets.<br>                                   
                                                 <b>Type:</b> named_entity<br>
                                                 <b>Requires:</b> Document, token<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
-                                                <li>
-                                                    setExternalDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER file</a>. If this is provided. label column
-                                                    is not needed. readAs can be LINE_BY_LINE or SPARK_DATASET,
-                                                    with options if latter is used
-                                                </li>
                                                 <li>
                                                     setLabelColumn: If DatasetPath is not provided, this
                                                     Seq[Annotation] type of column should have labeled data per
@@ -3081,33 +3072,6 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                     setDropout: Dropout coefficient
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsSource:(path, nDims, format) - sets <a
-                                                        href="https://en.wikipedia.org/wiki/Word_embedding">word
-                                                    embeddings</a> options.
-                                                    path - word embeddings file
-                                                    nDims - number of word embeddings dimensions
-                                                    format - format of word embeddings files:<br>
-                                                    1 - spark-nlp format. <br>
-                                                    2 - text. This format is usually used by <a
-                                                        href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
-                                                    3 - binary. This format is usually used by <a
-                                                        href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
-                                                </li>
-                                                <li>
-                                                    setValidationDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER file</a>. If provided than quality will be
-                                                    logged after every epoch. readAs can be LINE_BY_LINE or
-                                                    SPARK_DATASET, with options if latter is used
-                                                </li>
-                                                <li>
-                                                    setTestDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER file</a>. If provided than quality will be
-                                                    logged after every epoch. readAs can be LINE_BY_LINE or
-                                                    SPARK_DATASET, with options if latter is used
-                                                </li>
-                                                <li>
                                                     setVerbose: Verbosity level
                                                 </li>
                                                 <li>
@@ -3121,12 +3085,9 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
   .setLabelColumn("label")\
   .setOutputCol("ner")\
   .setMaxEpochs(10)\
-  .setExternalDataset("file://conll2013/eng.train")\
-  .setValidationDataset("file://conll2013/eng.testa")\
-  .setTestDataset("file://conll2013/eng.testb")\
-  .setEmbeddingsSource("file://glove.6B/glove.6B.100d.txt", 100, 2)\
   .setRandomSeed(0)\
-  .setVerbose(2)</code></pre>
+  .setVerbose(2)
+  .fit(train_ner)</code></pre>
                                         </div>
                                         <!--//code-block-->
                                     </div>
@@ -3134,25 +3095,16 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                             <p>
-                                                This Named Entity recognition annotator allows to train generic
-                                                NER model
-                                                based on a Neural Networks. Its inputs are either a labeled
-                                                dataset with an Annotations column or an external CoNLL 2003 IOB
-                                                based dataset,
-                                                Also the user have to provide word embeddings file<br>
+                                                This Named Entity recognition annotator allows to train generic NER
+                                                model based on Neural Networks. Its train data (trainNer) is either a labeled
+                                                or an <a href="#TrainCoNLL">external CoNLL 2003 IOB based</a> spark dataset with Annotations columns.
+                                                Also the user has to provide <a href="#WordEmbeddings">word embeddings annotation</a> column.<br>
                                                 Neural Network architecture is Char CNN - BLSTM that achieves
-                                                state-of-the-art in most datasets.<br>
+                                                state-of-the-art in most datasets.<br>                                     
                                                 <b>Type:</b> named_entity<br>
                                                 <b>Requires:</b> Document, token<br>
                                                 <b>Functions:</b> <br>
                                             <ul>
-                                                <li>
-                                                    setExternalDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER file</a>. If this is provided. label
-                                                    column is not needed. readAs can be LINE_BY_LINE or
-                                                    SPARK_DATASET, with options if latter is used
-                                                </li>
                                                 <li>
                                                     setLabelColumn: If DatasetPath is not provided, this
                                                     Seq[Annotation] type of column should have labeled data
@@ -3176,34 +3128,6 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                     setDropout: Dropout coefficient
                                                 </li>
                                                 <li>
-                                                    setEmbeddingsSource:(path, nDims, format) - sets <a
-                                                        href="https://en.wikipedia.org/wiki/Word_embedding">word
-                                                    embeddings</a> options.
-                                                    path - word embeddings file
-                                                    nDims - number of word embeddings dimensions
-                                                    format - format of word embeddings files:<br>
-                                                    1 - spark-nlp format. <br>
-                                                    2 - text. This format is usually used by <a
-                                                        href="https://nlp.stanford.edu/projects/glove/">Glove</a><br>
-                                                    3 - binary. This format is usually used by <a
-                                                        href="https://code.google.com/archive/p/word2vec/">Word2Vec</a>
-                                                </li>
-                                                <li>
-                                                    setValidationDataset(path, readAs, options): Path to a
-                                                    <a href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                        2003 IOB NER file</a>. If provided than quality will
-                                                    be logged after every epoch. readAs can be LINE_BY_LINE
-                                                    or SPARK_DATASET, with options if latter is used
-                                                </li>
-                                                <li>
-                                                    setTestDataset(path, readAs, options): Path to a <a
-                                                        href="https://www.clips.uantwerpen.be/conll2003/ner">CoNLL
-                                                    2003 IOB NER file</a>. If provided than quality will
-                                                    be logged after every epoch. readAs can be LINE_BY_LINE
-                                                    or SPARK_DATASET, with options if latter is used
-                                                </li>
-
-                                                <li>
                                                     setVerbose: Verbosity level
                                                 </li>
                                                 <li>
@@ -3222,11 +3146,8 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
       .setLr(0.2f)
       .setDropout(0.5f)
       .setBatchSize(9)
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
-      .setExternalDataset("conll2013/eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-      .setValidationDataset("conll2013/eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-      .setTestDataset("conll2013/eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-      .setVerbose(Verbose.Epochs)</code></pre>
+      .setVerbose(Verbose.Epochs)
+      .fit(trainNer)</code></pre>
                                         </div>
                                         <!--//code-block-->
                                     </div>
