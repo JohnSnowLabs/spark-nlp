@@ -19,7 +19,7 @@ class LightPipeline(stages: Array[Transformer]) {
     stages.foldLeft(Map.empty[String, Seq[Annotation]])((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
-          annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
+          annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map("sentence" -> "0")))
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
