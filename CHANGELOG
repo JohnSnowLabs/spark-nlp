@@ -11,6 +11,7 @@ version for stable deployments.
 ---------------
 Enhancements
 ---------------
+* CHUNK type annotators now match content within sentence bounds, improves accuracy
 * Improved CHUNK type annotators to include sentence index information in metadata. May be used to improve matching accuracy.
 * Doc2Chunk annotator now has new params to failOnMissing, lowerCase match or startCol is token indexed
 * SentenceDetector and DeepSentenceDetector now disabled maxLength by default, also works appropriately to split in whitespaces
