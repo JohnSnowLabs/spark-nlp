@@ -15,7 +15,7 @@ class NerCrfCustomCase extends FlatSpec {
 
   import spark.implicits._
 
-  "NerCRF" should "read low trained model" in {
+  "NerCRF" should "read low trained model" ignore {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -62,7 +62,7 @@ class NerCrfCustomCase extends FlatSpec {
 
   }
 
-  "NerCRF" should "read and predict" in {
+  "NerCRF" should "read and predict" ignore {
     val lp = new LightPipeline(PipelineModel.load("./crfnerconll"))
 
     println(lp.annotate(
