@@ -27,9 +27,13 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [S3 Cluster](#s3-cluster)
-* [Models](#models)
-  * [English](#english)
-  * [Italian](#italian)
+* [Models & Pipelines](#models-and-pipelines)
+  * [Pipelines](#pipelines)
+  * [Models](#models)
+    * [English](#english)
+    * [Italian](#italian)
+    * [French](#french)
+* [Examples](#examples)  
 * [FAQ](#faq)
 * [Troubleshooting](#troubleshooting)
 * [Aknowledgments](#aknowledgments)
@@ -44,10 +48,11 @@ Spark-NLP *2.0.1* has been built on top of Apache Spark 2.4.0
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
-For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark 2.3.x 
+For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
 | Spark NLP   |   Spark 2.0.1 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
+| 2.x.x       |NO                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
@@ -83,7 +88,7 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 ### Build from source
 
-#### Spark-NLP
+#### Spark NLP
 
 * FAT-JAR for CPU
 
@@ -103,7 +108,7 @@ sbt -Dis_gpu=true assembly
 sbt package
 ```
 
-#### Spark-NLP-OCR 
+#### Spark-NLP-OCR
 
 Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested
 
@@ -285,24 +290,21 @@ sparknlp {
 }
 ```
 
-## Models
+## Models and Pipelines
 
-### Offline Models
+### Pipelines
 
-If you have troubles using `pretrained()` models in your environment, here a list to various models (only valid for latest versions).
-If there is any older than current version of a model, it means they still work for current versions.
+|Pipelines | English          |Name              |
+|----------|------------------|------------------|
+|Explain Document ML|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.0_2.4_1553189532150.zip)|`explain_document_ml`|
+|Explain Document DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.0_2.4_1553227894237.zip)|`explain_document_dl`|
+|Entity Recognizer DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)|`entity_recognizer_dl`
 
-### Models and Pipelines
+### Models
 
 #### English
 
-|Pipelines | English          |
-|----------|------------------|
-|Basic Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_basic_en_1.8.0_2.4_1545435998968.zip)
-|Advanced Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_advanced_en_1.8.0_2.4_1545436028146.zip)
-|Vivekn Sentiment Pipeline | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_vivekn_en_1.8.0_2.4_1545436008101.zip)
-
-| Models                                 |   English     |
+| Model                                  |   English     |
 |----------------------------------------|---------------|
 |LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)
 |PerceptronModel (POS)                   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)
@@ -315,31 +317,55 @@ If there is any older than current version of a model, it means they still work 
 
 #### Italian
 
-| Models                                 |   Italian    |
+| Model                                  |   Italian    |
 |----------------------------------------|--------------|
 |LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/lemma/dxc.technology/lemma-it_dxc-1.8.0.zip)
 |SentimentDetector (Sentiment)           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/sentiment/dxc.technology/sentiment-it_dxc-1.8.0.zip)
 
-### Using Offline Models and Pipelines
+#### French
 
-After downloading offline models/pipelines and extracting them, here is how you can use them:
+| Model                                  |   French    |
+|----------------------------------------|--------------|
+|PerceptronModel (POS UD-GSD)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud-gsd_fr_2.0.0_2.4_1553029753307.zip)
+
+### How to use Models and Pipelines
+
+To use Spark NLP online pretrained pipelines, you can call `PretrainedPipeline` with pipeline's name and its language:
+
+```python
+pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+```
+
+To use Spark NLP online pretrained models:
+
+```python
+ner = NerDLModel.pretrained()
+```
+
+If you have any trouble using online pipelines or models in your environment (maybe it's air-gapped), you can directly download them for `offline` use.
+
+After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):
 
 * Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
 ```Scala
-val pos = annotator.PerceptronModel.load("/tmp/pos_fast_en_1.8.0_2.4_1545434653742/")
-      .setInputCols("document", "normal")
+val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
+      .setInputCols("document", "token")
       .setOutputCol("pos")
-      .asInstanceOf[PerceptronModel]
 ```
 
-* Loading `Advanced Pipeline`
+* Loading Offline Pipeline
 
 ```Scala
-val advancedPipeline = PipelineModel.load("/tmp/pipeline_advanced_en_1.8.0_2.4_1545436028146/")
+val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.0_2.4_1553227894237/")
 // To use the loaded Pipeline for prediction
 advancedPipeline.transform(predictionDF)
 ```
+
+## Examples
+
+Need more examples? Check out our dedicated repository to showcase Spark NLP use cases!
+[spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
 

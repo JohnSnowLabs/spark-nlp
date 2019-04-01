@@ -14,22 +14,14 @@ import java.nio.file.{Files, Paths}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.Pipeline
 
 class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBehaviors {
 
   private val nerReader = CoNLL()
 
-  private val strongNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt"
-  private val strongNerDatasetResource = ExternalResource(strongNerDatasetFile,
-    ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  private val strongNerDataset = nerReader.readDataset(SparkAccessor.spark, strongNerDatasetResource.path)
-
-  private val weakNerDatasetFile = "src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
-  private val weakNerDatasetResource = ExternalResource(weakNerDatasetFile,
-    ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  private val weakNerDataset = nerReader.readDataset(SparkAccessor.spark, weakNerDatasetResource.path)
+  private val strongNerDataSet = nerReader.readDataset(SparkAccessor.spark, "src/test/resources/ner-corpus/sentence-detector/mix_dataset.txt")
+  private val weakNerDataSet = nerReader.readDataset(SparkAccessor.spark, "src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt")
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -83,7 +75,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val strongNerTagger = new Pipeline().setStages(
     Array(glove,
       strongNer)
-    ).fit(strongNerDataset)
+    ).fit(strongNerDataSet)
     .stages(1)
     .asInstanceOf[NerDLModel]
 
@@ -100,7 +92,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val weakNerTagger = new Pipeline().setStages(
     Array(glove,
       weakNer)
-  ).fit(weakNerDataset)
+  ).fit(weakNerDataSet)
     .stages(1)
     .asInstanceOf[NerDLModel]
 
