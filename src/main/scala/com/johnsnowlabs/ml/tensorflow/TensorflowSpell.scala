@@ -1,5 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import java.lang.reflect.Modifier
+
 import com.johnsnowlabs.ml.tensorflow.TensorResources.extractFloats
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
@@ -19,6 +21,17 @@ class TensorflowSpell(
   /* returns the loss associated with the last word, given previous history  */
   def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = this.synchronized {
 
+    println(s"""hash: ${tensorflow.session.hashCode()}""")
+    println(s"""threadId: ${Thread.currentThread().getId}""")
+
+    val fields = tensorflow.session.getClass.getDeclaredFields
+    for (field <- fields) {
+      if (Modifier.isPrivate(field.getModifiers)) {
+        field.setAccessible(true)
+        System.out.println(field.getName + " : " + field.get(tensorflow.session))
+      }
+    }
+
     val packed = dataset.zip(cids).zip(cwids).map {
       case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
     }
@@ -36,6 +49,8 @@ class TensorflowSpell(
       .fetch(lossKey)
       .fetch(validWords)
       .run()
+
+    tensors.clearTensors()
 
     val result = extractFloats(lossWords.get(0))
     val width = inputTensor.shape()(2)
