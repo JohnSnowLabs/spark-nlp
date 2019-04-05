@@ -101,7 +101,7 @@ class NerDLApproach(override val uid: String)
 
     val session = new Session(graph, config)
 
-    val tf = new TensorflowWrapper(session, graph)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
@@ -123,7 +123,7 @@ class NerDLApproach(override val uid: String)
     new NerDLModel()
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
-      .setModelIfNotSet(dataset.sparkSession, tf)
+      //.setModelIfNotSet(dataset.sparkSession, tf)
   }
 }
 

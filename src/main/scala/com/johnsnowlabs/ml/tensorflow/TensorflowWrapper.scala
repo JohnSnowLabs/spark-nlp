@@ -9,16 +9,46 @@ import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
+import java.nio.file.Paths
 
 
+case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
-  var session: Session,
+  var variables: Variables,
   var graph: Graph
 ) extends Serializable {
 
   /** For Deserialization */
   def this() = {
     this(null, null)
+  }
+
+  @transient
+  var msession:Session = _
+
+  def session() = {
+
+    if (msession ==null){
+      val t = new TensorResources()
+      val config = Array[Byte](50, 2, 32, 1, 56, 1)
+
+      // save the binary data of variables to file - variables per se
+      val folder  = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars").toAbsolutePath.toString
+      // TODO not joining this OS independent
+      var dstFile = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(dstFile, variables.variables)
+      // TODO not joining this OS independent
+      // save the binary data of variables to file - variables' index
+      dstFile = Paths.get(folder, "/variables.index")
+      Files.write(dstFile, variables.index)
+
+      val session = new Session(graph, config)
+      session.runner.addTarget("save/restore_all")
+        .feed("save/Const", t.createTensor(dstFile))
+        .run()
+      msession = session
+    }
+    msession
   }
 
   def saveToFile(file: String): Unit = {
@@ -75,7 +105,9 @@ class TensorflowWrapper(
 
     // 2. Read from file
     val tf = TensorflowWrapper.read(file.toString, true)
-    this.session = tf.session
+
+    // TODO: is this good?
+    this.msession = tf.session
     this.graph = tf.graph
 
     // 3. Delete tmp file
@@ -107,6 +139,13 @@ object TensorflowWrapper extends LoadsContrib {
     else
       file
 
+
+    val varPath = Paths.get(folder, "variables.data-00000-of-00001")
+    val varBytes = Files.readAllBytes(varPath)
+
+    val idxPath = Paths.get(folder, "variables.index")
+    val idxBytes = Files.readAllBytes(idxPath)
+
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
@@ -135,6 +174,8 @@ object TensorflowWrapper extends LoadsContrib {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    new TensorflowWrapper(session, graph)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph)
+    tfWrapper.msession = session
+    tfWrapper
   }
 }

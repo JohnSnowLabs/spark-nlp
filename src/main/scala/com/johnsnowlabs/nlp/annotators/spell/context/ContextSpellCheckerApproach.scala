@@ -91,7 +91,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val session = new Session(graph, config)
-    val tf = new TensorflowWrapper(session, graph)
+    //val tf = new TensorflowWrapper(session, graph)
 
     // extract vocabulary
     require(isDefined(trainCorpusPath), "Train corpus must be set before training")
@@ -120,7 +120,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       setClasses(classes).
       setVocabTransducer(createTransducer(vocabFreq.keys.toList)).
       setSpecialClassesTransducers(specialClassesTransducers).
-      setModelIfNotSet(dataset.sparkSession, tf).
+      //setModelIfNotSet(dataset.sparkSession, tf).
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
 
