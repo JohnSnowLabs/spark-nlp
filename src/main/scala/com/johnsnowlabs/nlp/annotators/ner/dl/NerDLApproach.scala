@@ -101,7 +101,7 @@ class NerDLApproach(override val uid: String)
 
     val session = new Session(graph, config)
 
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
