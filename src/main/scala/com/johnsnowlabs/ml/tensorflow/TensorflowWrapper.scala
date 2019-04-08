@@ -48,7 +48,7 @@ class TensorflowWrapper(
       val g = TensorflowWrapper.readGraph(dstFile.toAbsolutePath.toString)
 
       val session = new Session(g, config)
-      val variablesPath = Paths.get(folder, "variables")
+      val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(variablesPath))
         .run()
