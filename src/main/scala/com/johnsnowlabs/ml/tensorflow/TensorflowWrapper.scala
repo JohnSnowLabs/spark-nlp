@@ -15,7 +15,7 @@ import java.nio.file.Paths
 case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
   var variables: Variables,
-  var graph: Graph
+  var graph: Array[Byte]
 ) extends Serializable {
 
   /** For Deserialization */
@@ -34,17 +34,23 @@ class TensorflowWrapper(
 
       // save the binary data of variables to file - variables per se
       val folder  = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars").toAbsolutePath.toString
-      // TODO not joining this OS independent
+
       var dstFile = Paths.get(folder, "variables.data-00000-of-00001")
       Files.write(dstFile, variables.variables)
-      // TODO not joining this OS independent
+
       // save the binary data of variables to file - variables' index
-      dstFile = Paths.get(folder, "/variables.index")
+      dstFile = Paths.get(folder, "variables.index")
       Files.write(dstFile, variables.index)
 
-      val session = new Session(graph, config)
+      // save graph to disk
+      dstFile = Paths.get(folder, "saved_model.pb")
+      Files.write(dstFile, graph)
+      val g = TensorflowWrapper.readGraph(dstFile.toAbsolutePath.toString)
+
+      val session = new Session(g, config)
+      val variablesPath = Paths.get(folder, "variables")
       session.runner.addTarget("save/restore_all")
-        .feed("save/Const", t.createTensor(dstFile))
+        .feed("save/Const", t.createTensor(variablesPath))
         .run()
       msession = session
     }
@@ -66,9 +72,9 @@ class TensorflowWrapper(
       .run()
 
     // 3. Save Graph
-    val graphDef = graph.toGraphDef
+    // val graphDef = graph.toGraphDef
     val graphFile = Paths.get(folder, "saved_model.pb").toString
-    FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
+    FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
     // 4. Zip folder
     ZipArchiveUtil.zip(folder, file)
@@ -174,8 +180,16 @@ object TensorflowWrapper extends LoadsContrib {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
     tfWrapper.msession = session
     tfWrapper
+  }
+
+  def serializeGraph(g:Graph): Array[Byte] = {
+    val tmp = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_graph").toAbsolutePath.toString
+    val graphDef = g.toGraphDef
+    val graphFile = Paths.get(tmp, "saved_model.pb").toString
+    FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
+    Files.readAllBytes(Paths.get(graphFile))
   }
 }
