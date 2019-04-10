@@ -27,7 +27,9 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.flatMap { annotation =>
-      tokenize(annotation.result).map(Annotation.apply)
+      tokenize(annotation.result).map(token => annotation.
+        copy(result = token, metadata = annotation.metadata.updated("sentence",
+          annotation.metadata.getOrElse("sentence", "0"))))
   }
 
   // hardcoded at this time

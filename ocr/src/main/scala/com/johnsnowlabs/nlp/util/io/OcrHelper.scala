@@ -64,7 +64,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = _
+  private var tesseractAPI : Tesseract = null
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
