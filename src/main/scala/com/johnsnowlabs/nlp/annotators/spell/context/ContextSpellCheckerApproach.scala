@@ -66,6 +66,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val weightedDistPath = new Param[String](this, "weightedDistPath", "The path to the file containing the weights for the levenshtein distance.")
   def setWeights(filePath:String):this.type = set(weightedDistPath, filePath)
 
+  val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
+  def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
+
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
