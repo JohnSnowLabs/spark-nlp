@@ -21,17 +21,6 @@ class TensorflowSpell(
   /* returns the loss associated with the last word, given previous history  */
   def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = this.synchronized {
 
-    println(s"""hash: ${tensorflow.session.hashCode()}""")
-    println(s"""threadId: ${Thread.currentThread().getId}""")
-
-    val fields = tensorflow.session.getClass.getDeclaredFields
-    for (field <- fields) {
-      if (Modifier.isPrivate(field.getModifiers)) {
-        field.setAccessible(true)
-        System.out.println(field.getName + " : " + field.get(tensorflow.session))
-      }
-    }
-
     val packed = dataset.zip(cids).zip(cwids).map {
       case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
     }
