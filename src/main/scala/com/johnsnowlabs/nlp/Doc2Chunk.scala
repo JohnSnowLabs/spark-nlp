@@ -106,7 +106,13 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
     document: Seq[Row] =>
       val annotations = document.map(Annotation(_))
       annotations.map{annotation =>
-        Annotation(AnnotatorType.CHUNK, annotation.begin, annotation.end, annotation.result, annotation.metadata)
+        Annotation(
+          AnnotatorType.CHUNK,
+          annotation.begin,
+          annotation.end,
+          annotation.result,
+          annotation.metadata ++ Map("chunk" -> "0")
+        )
       }
   }
 
