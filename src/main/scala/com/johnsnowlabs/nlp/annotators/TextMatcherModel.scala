@@ -69,7 +69,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
           firstTokenBegin,
           lastTokenEnd,
           normalizedText,
-          Map("sentence" -> sentenceIndex.toString)
+          Map("sentence" -> sentenceIndex.toString, "chunk" -> result.length.toString)
         )
 
         result.append(annotation)
