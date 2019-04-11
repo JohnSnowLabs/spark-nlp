@@ -25,7 +25,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
     sentences.zipWithIndex.flatMap{case (sentence, index) =>
         sentence.indexedTokens.map{token =>
         Annotation(annotatorType, token.begin, token.end, token.token,
-          Map("sentence" -> index.toString))
+          Map("sentence" -> index.toString, "chunk" -> index.toString))
     }}
   }
 }

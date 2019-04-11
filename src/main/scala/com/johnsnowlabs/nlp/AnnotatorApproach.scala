@@ -28,55 +28,15 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   def onTrained(model: M, spark: SparkSession): Unit = {}
 
-  lazy val trainingAnnotatorTypes: Array[String] = inputAnnotatorTypes
-
-  /**
-    * columns that contain annotations necessary to train this annotator
-    * AnnotatorType is used in the same way than input and output annotator types
-    */
-  protected final val trainingCols: StringArrayParam =
-    new StringArrayParam(this, "trainingCols", "the training annotation columns. uses input annotation columns if missing")
-
-  /** Overrides required annotators column if different than default */
-  final def setTrainingCols(value: Array[String]): this.type = {
-    set(trainingCols, value)
-  }
-
-  final def setTrainingCols(value: String*): this.type = {
-    require(
-      value.length == trainingAnnotatorTypes.length,
-      s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +
-        s"Provided column amount: ${value.length}. " +
-        s"Which should be columns from the following annotators: ${inputAnnotatorTypes.mkString(", ")}"
-    )
-    set(trainingCols, value.toArray)
-  }
-
-  final def getTrainingCols: Array[String] = $(trainingCols)
-
-  override def getInputCols: Array[String] = {
-    get(trainingCols).getOrElse(super.getInputCols)
-  }
-
   /**
     * takes a [[Dataset]] and checks to see if all the required annotation types are present.
     * @param schema to be validated
     * @return True if all the required types are present, else false
     */
   protected def validate(schema: StructType): Boolean = {
-    trainingAnnotatorTypes.forall {
+    inputAnnotatorTypes.forall {
       inputAnnotatorType =>
         checkSchema(schema, inputAnnotatorType)
-    }
-  }
-
-  override protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
-    schema.exists {
-      field => {
-        field.metadata.contains("annotatorType") &&
-          field.metadata.getString("annotatorType") == inputAnnotatorType &&
-          getInputCols.contains(field.name)
-      }
     }
   }
 
@@ -93,7 +53,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
   override final def transformSchema(schema: StructType): StructType = {
     require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
       s"Received inputCols: ${getInputCols.mkString(",")}. Make sure such columns exist and have the following annotator types: " +
-      s"${trainingAnnotatorTypes.mkString(", ")}")
+      s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
