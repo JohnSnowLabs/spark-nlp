@@ -70,7 +70,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
   def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
 
-  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false, maxCandidates -> 6, maxWindowLen -> 2)
+  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false, maxCandidates -> 6, maxWindowLen -> 5)
 
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)

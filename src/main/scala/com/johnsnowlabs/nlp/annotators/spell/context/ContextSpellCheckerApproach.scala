@@ -76,7 +76,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     maxCandidates -> 6,
     languageModelClasses -> 2000,
     blacklistMinFreq -> 5,
-    tradeoff -> 18.0f
+    tradeoff -> 18.0f,
+    maxWindowLen -> 5
   )
 
   setDefault(prefixes, () => Array("'"))
