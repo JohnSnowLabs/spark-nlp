@@ -27,7 +27,7 @@ trait HasInputAnnotationCols extends Params {
     set(inputCols, value)
   }
 
-  protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
+  final protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
     schema.exists {
       field => {
         field.metadata.contains("annotatorType") &&
