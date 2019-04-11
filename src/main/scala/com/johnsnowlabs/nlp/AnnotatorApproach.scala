@@ -70,6 +70,16 @@ abstract class AnnotatorApproach[M <: Model[M]]
     }
   }
 
+  override protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
+    schema.exists {
+      field => {
+        field.metadata.contains("annotatorType") &&
+          field.metadata.getString("annotatorType") == inputAnnotatorType &&
+          getInputCols.contains(field.name)
+      }
+    }
+  }
+
   override final def fit(dataset: Dataset[_]): M = {
     beforeTraining(dataset.sparkSession)
     val model = copyValues(train(dataset).setParent(this))
@@ -82,8 +92,8 @@ abstract class AnnotatorApproach[M <: Model[M]]
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such columns exist and have the following annotator types: " +
-      s"${inputAnnotatorTypes.mkString(", ")}")
+      s"Received inputCols: ${getInputCols.mkString(",")}. Make sure such columns exist and have the following annotator types: " +
+      s"${trainingAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+

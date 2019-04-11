@@ -32,7 +32,7 @@ trait HasInputAnnotationCols extends Params {
       field => {
         field.metadata.contains("annotatorType") &&
           field.metadata.getString("annotatorType") == inputAnnotatorType &&
-          $(inputCols).contains(field.name)
+          getInputCols.contains(field.name)
       }
     }
   }
