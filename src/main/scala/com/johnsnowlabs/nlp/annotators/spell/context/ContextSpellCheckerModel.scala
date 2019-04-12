@@ -134,7 +134,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         pathsIds.map { path =>
           path :+ state
         }
-      }
+      }.map(_.takeRight($(maxWindowLen)))
 
       val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
       val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
