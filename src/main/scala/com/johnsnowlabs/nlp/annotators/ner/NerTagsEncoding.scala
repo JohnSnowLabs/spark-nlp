@@ -14,7 +14,6 @@ object NerTagsEncoding {
 
   /**
     * Converts from IOB or IOB2 to list of NamedEntity
-    * @param tagged Sentences of IOB of IOB2 tagged sentences
     * @param doc Source doc text
     * @return Extracted Named Entities
     */
@@ -29,6 +28,7 @@ object NerTagsEncoding {
     def flushEntity(startIdx: Int, endIdx: Int): Unit = {
       val start = sentence.indexedTaggedWords(startIdx).begin - doc.begin
       val end = sentence.indexedTaggedWords(endIdx).end - doc.begin
+      require(start <= end && end <= doc.result.length, s"Failed to flush entities in NerConverter. Chunk offsets $start - $end are not within $sentence")
       val entity = NamedEntity(
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,
