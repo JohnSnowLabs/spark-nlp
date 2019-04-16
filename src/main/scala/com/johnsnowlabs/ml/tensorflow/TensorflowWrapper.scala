@@ -16,7 +16,7 @@ case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
   var variables: Variables,
   var graph: Array[Byte]
-) extends Serializable {
+)  extends Serializable {
 
   /** For Deserialization */
   def this() = {
@@ -26,32 +26,40 @@ class TensorflowWrapper(
   @transient
   var msession:Session = _
 
+  private val logger = LoggerFactory.getLogger("TensorflowWrapper")
+
   def session() = {
 
     if (msession ==null){
+      logger.debug("Restoring TF session from bytes")
       val t = new TensorResources()
       val config = Array[Byte](50, 2, 32, 1, 56, 1)
 
       // save the binary data of variables to file - variables per se
-      val folder  = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars").toAbsolutePath.toString
-
-      var dstFile = Paths.get(folder, "variables.data-00000-of-00001")
-      Files.write(dstFile, variables.variables)
+      val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      val folder  = path.toAbsolutePath.toString
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
 
       // save the binary data of variables to file - variables' index
-      dstFile = Paths.get(folder, "variables.index")
-      Files.write(dstFile, variables.index)
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
 
-      // save graph to disk
-      dstFile = Paths.get(folder, "saved_model.pb")
-      Files.write(dstFile, graph)
-      val g = TensorflowWrapper.readGraph(dstFile.toAbsolutePath.toString)
+      // import the graph
+      val g = new Graph()
+      g.importGraphDef(graph)
 
+      // create the session and load the variables
       val session = new Session(g, config)
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(variablesPath))
         .run()
+
+      //delete variable files
+      Files.delete(varData)
+      Files.delete(varIdx)
+
       msession = session
     }
     msession
@@ -112,7 +120,6 @@ class TensorflowWrapper(
     // 2. Read from file
     val tf = TensorflowWrapper.read(file.toString, true)
 
-    // TODO: is this good?
     this.msession = tf.session
     this.graph = tf.graph
 

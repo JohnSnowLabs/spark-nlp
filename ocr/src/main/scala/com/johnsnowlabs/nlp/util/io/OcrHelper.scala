@@ -379,8 +379,6 @@ class OcrHelper extends ImageProcessing with Serializable {
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[(String, Int)]] = {
-    println("log: extracting w/PDFBox")
-    // TODO check this is getting the right page num
     val range = startPage to endPage
     if (splitPages)
       Some(Range(startPage, endPage + 1).flatMap(pagenum =>
