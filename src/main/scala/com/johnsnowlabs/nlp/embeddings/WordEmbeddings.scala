@@ -56,7 +56,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
     val model = new WordEmbeddingsModel()
-      .setInputCols(get(trainingCols).getOrElse($(inputCols)))
+      .setInputCols($(inputCols))
       .setEmbeddingsRef($(embeddingsRef))
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))

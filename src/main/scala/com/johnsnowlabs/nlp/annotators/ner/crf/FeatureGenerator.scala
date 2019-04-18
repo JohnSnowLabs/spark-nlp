@@ -223,7 +223,9 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
       .filter(t => t.isWordStart)
       .map(t => t.embeddings)
 
-    assert(embeddings.length == wordsList.length)
+    assert(embeddings.length == wordsList.length,
+      "Mismatched embedding tokens and sentence tokens. Make sure you are properly " +
+        "linking tokens and embeddings to the same inputCol DOCUMENT annotator")
 
     val attrs = (0 until words).map { i =>
       val pairAttrs = (-window until window)
