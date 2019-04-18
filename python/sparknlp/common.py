@@ -26,39 +26,6 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
 
-class ApproachWithEmbeddings(Params):
-    embeddingsDim = Param(Params._dummy(),
-                          "embeddingsDim",
-                          "Number of embedding dimensions",
-                          typeConverter=TypeConverters.toInt)
-
-    caseSensitiveEmbeddings = Param(Params._dummy(),
-                                    "caseSensitiveEmbeddings",
-                                    "whether to ignore case in tokens for embeddings matching",
-                                    typeConverter=TypeConverters.toBoolean)
-
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
-
-    sourceEmbeddingsPath = Param(Params._dummy(),
-                                 "sourceEmbeddingsPath",
-                                 "Word embeddings file",
-                                 typeConverter=TypeConverters.toString)
-    embeddingsFormat = Param(Params._dummy(),
-                             "embeddingsFormat",
-                             "Word vectors file format",
-                             typeConverter=TypeConverters.toInt)
-
-    def __init__(self):
-        super(ApproachWithEmbeddings, self).__init__()
-        self._setDefault(
-            caseSensitiveEmbeddings=False,
-            embeddingsRef=self.uid
-        )
-
-
 # Helper class used to generate the getters for all params
 class ParamsGettersSetters(Params):
     getter_attrs = []
@@ -146,7 +113,7 @@ class HasWordEmbeddings(HasEmbeddings):
                           typeConverter=TypeConverters.toString)
 
     def setDimension(self, value):
-        return self._set(embeddingsDim=value)
+        return self._set(dimension=value)
 
     def setCaseSensitive(self, value):
         return self._set(setCaseSensitive=value)
