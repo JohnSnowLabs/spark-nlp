@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.explode
 import org.scalatest._
 
 /**
@@ -13,7 +14,9 @@ import org.scalatest._
   */
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTraining("src/test/resources/anc-pos-corpus-small/test-training.txt")
+  "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(
+    "src/test/resources/anc-pos-corpus-small/test-training.txt"
+  )
 
   val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")
 
@@ -37,6 +40,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     }
     new Tokenizer().tag(sentences).toArray
   }
+
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
     trainedTagger,
@@ -78,6 +82,19 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
       case _: java.io.IOException => succeed
     }
   }
+
+  val originalLabels: List[(String, Int)] = List(
+    ("DET",9), ("ADP",12), ("AUX",2),
+    ("CCONJ",2), ("NOUN",12), ("ADJ",3),
+    ("NUM",9), ("PRON",1),
+    ("PROPN",2), ("PUNCT",10),
+    ("SYM",2), ("VERB",2), ("X",2)
+  )
+
+  "readDataset in POS() class" should behave like readDatasetInPOS(
+    path="src/test/resources/universal-dependency/UD_French-GSD/UD_French-test.txt",
+    originalLabels
+  )
 
   //  /*
   //  * Test ReouceHelper to convert token|tag to DataFrame with POS annotation as a column
