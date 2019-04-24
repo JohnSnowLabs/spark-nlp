@@ -1,0 +1,3 @@
+masse_NOUN de_ADP 35 443 677_NUM ±_SYM 2 036_NUM eV/c2_X et_CCONJ une_DET énergie_NOUN de_ADP liaison_NOUN nucléaire_ADJ de_ADP 1 766 691 409_NUM ±_SYM 2 061_NUM eV_X ._PUNCT
+Il_PRON a_AUX été_AUX honoré_VERB en_ADP 2008_NUM de_ADP la_DET médaille_NOUN de_ADP l'_DET ordre_NOUN de_ADP Kurmet_PROPN pour_ADP ses_DET contributions_NOUN dans_ADP le_DET domaine_NOUN de_ADP la_DET culture_NOUN et_CCONJ des_ADP arts_NOUN ._PUNCT
+Les_DET Toulousains_PROPN ,_PUNCT quadruples_ADJ vainqueurs_NOUN de_ADP l'_DET épreuve_NOUN (_PUNCT 1996_NUM ,_PUNCT 2003_NUM ,_PUNCT 2005_NUM ,_PUNCT 2010_NUM )_PUNCT ,_PUNCT disputeront_VERB leur_DET dixième_ADJ demi-finale_NOUN ._PUNCT
