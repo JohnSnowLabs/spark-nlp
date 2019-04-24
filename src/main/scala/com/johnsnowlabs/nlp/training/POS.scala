@@ -60,7 +60,7 @@ case class POS() {
     val splitted = line.split(" ").map(_.trim)
     val tokenTags = splitted.flatMap(token => {
       val tokenTag = token.split(delimiter.head).map(_.trim)
-      if (tokenTag.exists(_.isEmpty) || tokenTag.length > 2)
+      if (tokenTag.exists(_.isEmpty) || tokenTag.length != 2)
         // Ignore broken pairs or pairs with delimiter char
         None
       else
