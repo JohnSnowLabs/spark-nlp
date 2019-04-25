@@ -11,6 +11,8 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
 
+import org.apache.spark.sql.SparkSession
+
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
@@ -192,11 +194,26 @@ object TensorflowWrapper extends LoadsContrib {
     tfWrapper
   }
 
-  def serializeGraph(g:Graph): Array[Byte] = {
-    val tmp = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_graph").toAbsolutePath.toString
-    val graphDef = g.toGraphDef
-    val graphFile = Paths.get(tmp, "saved_model.pb").toString
-    FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
-    Files.readAllBytes(Paths.get(graphFile))
+  def extractVariables(session: Session): Variables = {
+    val t = new TensorResources()
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tmp_ner_vars")
+      .toAbsolutePath.toString
+
+    session.runner.addTarget("save/restore_all")
+      .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
+      .run()
+
+    val varPath = Paths.get(folder, "variables.data-00000-of-00001")
+    val varBytes = Files.readAllBytes(varPath)
+
+    val idxPath = Paths.get(folder, "variables.index")
+    val idxBytes = Files.readAllBytes(idxPath)
+
+    val vars = Variables(varBytes, idxBytes)
+
+    FileHelper.delete(folder)
+
+    vars
   }
+
 }
