@@ -54,7 +54,7 @@ object NerDLCoNLL2003 extends App with LoadsContrib{
   val session = new Session(graph, config)
 
 
-  val tf = new TensorflowWrapper(session, graph)
+  val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
 
   val ner = try {
     val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
