@@ -40,12 +40,12 @@ class DependencyParserApproachTestSpec extends FlatSpec{
 
   "A Dependency Parser Approach" should "read CoNLL data from TreeBank format file" in {
 
-    val filesContent = "Pierre\tNNP\t0\n"+
-                        "is\tVBZ\t1\n"+
-                        "old\tJJ\t2\n\n"+
-                        "Vinken\tNNP\t0\n"+
-                        "is\tVBZ\t1\n"+
-                        "chairman\tNN\t2"
+    val filesContent = s"Pierre\tNNP\t0${System.lineSeparator()}"+
+                        s"is\tVBZ\t1${System.lineSeparator()}"+
+                        s"old\tJJ\t2${System.lineSeparator()}${System.lineSeparator()}"+
+                        s"Vinken\tNNP\t0${System.lineSeparator()}"+
+                        s"is\tVBZ\t1${System.lineSeparator()}"+
+                        s"chairman\tNN\t2"
     val dependencyParserApproach = new DependencyParserApproach()
     val expectedResult: List[Sentence] = List(
       List(WordData("Pierre", "NNP", 3), WordData("is", "VBZ", 0), WordData("old", "JJ" ,1)),

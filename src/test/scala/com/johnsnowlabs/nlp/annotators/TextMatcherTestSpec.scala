@@ -25,19 +25,19 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     val extractedNoSentenceNoCase = Annotation.collect(resultNoSentenceNoCase, "entity").flatten.toSeq
 
     val expectedSentenced = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "2"))
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "2", "chunk" -> "1"))
     )
 
     val expectedNoSentence = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0"))
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0", "chunk" -> "1"))
     )
 
     val expectedNoSentenceNoCase = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0")),
-      Annotation(CHUNK, 27, 48, "Lorem ipsum dolor. sit", Map("sentence" -> "0")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0"))
+      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(CHUNK, 27, 48, "Lorem ipsum dolor. sit", Map("sentence" -> "0", "chunk" -> "1")),
+      Annotation(CHUNK, 53, 59, "laborum", Map("sentence" -> "0", "chunk" -> "2"))
     )
 
     assert(extractedSentenced == expectedSentenced)
