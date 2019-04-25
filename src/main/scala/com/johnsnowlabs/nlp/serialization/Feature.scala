@@ -271,7 +271,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
     val serializer = new PlainTextSerializer
     val dataPath = getFieldPath(path, field)
     val bytes = serializer.serialize(trans)
-    spark.sparkContext.parallelize(bytes.toSeq).saveAsObjectFile(dataPath.toString)
+    spark.sparkContext.parallelize(bytes.toSeq, 1).saveAsObjectFile(dataPath.toString)
 
   }
 
@@ -339,7 +339,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
 
       // we handle the transducer separately
       val transBytes = serializer.serialize(transducer)
-      spark.sparkContext.parallelize(transBytes.toSeq).
+      spark.sparkContext.parallelize(transBytes.toSeq, 1).
         saveAsObjectFile(s"${dataPath.toString}/${label}transducer")
 
     }

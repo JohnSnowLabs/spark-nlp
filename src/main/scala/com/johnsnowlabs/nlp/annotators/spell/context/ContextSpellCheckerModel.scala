@@ -67,7 +67,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     " correction is applied on paragraphs as defined by newline characters.")
   def setUseNewLines(useIt: Boolean):this.type = set(useNewLines, useIt)
 
-  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false, maxCandidates -> 6)
+  val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
+  def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
+
+  setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false, maxCandidates -> 6, maxWindowLen -> 5)
 
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
@@ -85,6 +88,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       useBundle,
       tags = Array("our-graph")
     )
+    _model = None
     setModelIfNotSet(spark, tf)
   }
 
@@ -131,7 +135,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         pathsIds.map { path =>
           path :+ state
         }
-      }
+      }.map(_.takeRight($(maxWindowLen)))
 
       val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
       val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
@@ -248,6 +252,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
       // ask each token class for candidates, keep the one with lower cost
       var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+        if(specialParser.transducer == null)
+          throw new RuntimeException(s"${specialParser.label}")
+        println(s"special parser:::${specialParser.label}")
+        println(s"value: ${specialParser.transducer}")
         getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
       } ++ getVocabCandidates($$(transducer), token, getOrDefault(wordMaxDistance) -1)
 

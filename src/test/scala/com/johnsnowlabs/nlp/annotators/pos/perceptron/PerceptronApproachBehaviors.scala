@@ -4,7 +4,8 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, Token
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.functions.explode
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest._
 
 import scala.collection.mutable.{Set => MSet}
@@ -121,4 +122,20 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
     }
   }
 
+  def readDatasetInPOS(path: String, trueLabels: List[(String, Int)]): Unit = {
+    it should "successfully extract tokens and POS tags" in {
+
+      // Convert text token_tag into DataFrame with POS annotation column
+      val pos = POS()
+      val trainingPerceptronDF = pos.readDataset(ResourceHelper.spark, path, "_", "tags")
+
+      import ResourceHelper.spark.implicits._
+
+      val extractedLabelsDF = trainingPerceptronDF.select(explode($"tags.result").as("tag")).groupBy("tag").count.orderBy($"tag".asc)
+      val realLabelsDF = trueLabels.toDF("tag", "count").orderBy($"tag".asc)
+
+      assert ( extractedLabelsDF.collect() sameElements realLabelsDF.collect() )
+
+    }
+  }
 }
