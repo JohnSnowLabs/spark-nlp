@@ -1,5 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import java.lang.reflect.Modifier
+
 import com.johnsnowlabs.ml.tensorflow.TensorResources.extractFloats
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
@@ -36,6 +38,8 @@ class TensorflowSpell(
       .fetch(lossKey)
       .fetch(validWords)
       .run()
+
+    tensors.clearTensors()
 
     val result = extractFloats(lossWords.get(0))
     val width = inputTensor.shape()(2)
