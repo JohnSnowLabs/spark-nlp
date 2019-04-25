@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import org.apache.spark.ml.param.{DoubleParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.Dataset
@@ -33,6 +33,7 @@ class NerCrfApproach(override val uid: String)
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
+  val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
 
   val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
@@ -40,6 +41,7 @@ class NerCrfApproach(override val uid: String)
   def setC0(c0: Int) = set(this.c0, c0)
   def setLossEps(eps: Double) = set(this.lossEps, eps)
   def setMinW(w: Double) = set(this.minW, w)
+  def setIncludeConfidence(c: Boolean) = set(includeConfidence, c)
 
   def setExternalFeatures(value: ExternalResource) = {
     require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
@@ -52,15 +54,14 @@ class NerCrfApproach(override val uid: String)
                           options: Map[String, String] = Map("format" -> "text")): this.type =
     set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-
-
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 1000,
     l2 -> 1f,
     c0 -> 2250000,
     lossEps -> 1e-3f,
-    verbose -> Verbose.Silent.id
+    verbose -> Verbose.Silent.id,
+    includeConfidence -> false
   )
 
 
@@ -94,6 +95,7 @@ class NerCrfApproach(override val uid: String)
     var model = new NerCrfModel()
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
+      .setIncludeConfidence($(includeConfidence))
 
     if (isDefined(entities))
       model.setEntities($(entities))

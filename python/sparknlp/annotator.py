@@ -130,28 +130,22 @@ class Tokenizer(AnnotatorModel):
         return self.getOrDefault("includeDefaults")
 
     def getInfixPatterns(self):
-        if self.getIncludeDefaults():
-            return self.getOrDefault("infixPatterns") + self.infixDefaults
-        else:
-            return self.getOrDefault("infixPatterns")
+        return self.getOrDefault("infixPatterns")
 
     def getSuffixPattern(self):
-        if self.getIncludeDefaults():
-            if self.isDefined("suffixPattern"):
-                return self.getOrDefault("suffixPattern")
-            else:
-                return self.suffixDefault
-        else:
-            return self.getOrDefault("suffixPattern")
+        return self.getOrDefault("suffixPattern")
 
     def getPrefixPattern(self):
-        if self.getIncludeDefaults():
-            if self.isDefined("prefixPattern"):
-                return self.getOrDefault("prefixPattern")
-            else:
-                return self.prefixDefault
-        else:
-            return self.getOrDefault("prefixPattern")
+        return self.getOrDefault("prefixPattern")
+
+    def getDefaultPatterns(self):
+        return Tokenizer.infixDefaults
+
+    def getDefaultPrefix(self):
+        return Tokenizer.prefixDefault
+
+    def getDefaultSuffix(self):
+        return Tokenizer.suffixDefault
 
 
 class ChunkTokenizer(Tokenizer):
@@ -233,7 +227,7 @@ class Normalizer(AnnotatorApproach):
         )
 
     def setCleanupPatterns(self, value):
-        return self._set(patterns=value)
+        return self._set(cleanupPatterns=value)
 
     def setLowercase(self, value):
         return self._set(lowercase=value)
@@ -918,6 +912,8 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
                     TypeConverters.toFloat)
     minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered",
                  TypeConverters.toFloat)
+    includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
+                 TypeConverters.toBoolean)
 
     externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features",
                              TypeConverters.identity)
@@ -940,6 +936,9 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             opts["delimiter"] = delimiter
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
+    def setIncludeConfidence(self, b):
+        return self._set(includeConfidence=b)
+
     def _create_model(self, java_model):
         return NerCrfModel(java_model=java_model)
 
@@ -952,18 +951,25 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             l2=float(1),
             c0=2250000,
             lossEps=float(1e-3),
-            verbose=4
+            verbose=4,
+            includeConfidence=False
         )
 
 
 class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
 
+    includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
+                              TypeConverters.toBoolean)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel", java_model=None):
         super(NerCrfModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
+
+    def setIncludeConfidence(self, b):
+        return self._set(includeConfidence=b)
 
     @staticmethod
     def pretrained(name="ner_fast", language="en", remote_loc=None):
