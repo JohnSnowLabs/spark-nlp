@@ -97,26 +97,10 @@ class HasEmbeddings(Params):
 
 
 class HasWordEmbeddings(HasEmbeddings):
-    dimension = Param(Params._dummy(),
-                      "dimension",
-                      "Number of embedding dimensions",
-                      typeConverter=TypeConverters.toInt)
-
-    caseSensitive = Param(Params._dummy(),
-                          "caseSensitive",
-                          "whether to ignore case in tokens for embeddings matching",
-                          typeConverter=TypeConverters.toBoolean)
-
     embeddingsRef = Param(Params._dummy(),
                           "embeddingsRef",
                           "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
                           typeConverter=TypeConverters.toString)
-
-    def setDimension(self, value):
-        return self._set(dimension=value)
-
-    def setCaseSensitive(self, value):
-        return self._set(setCaseSensitive=value)
 
     def setEmbeddingsRef(self, value):
         return self._set(embeddingsRef=value)

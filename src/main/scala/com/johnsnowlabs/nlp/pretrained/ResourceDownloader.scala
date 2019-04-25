@@ -18,7 +18,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, BertEmbeddings}
 import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
@@ -182,7 +182,7 @@ object PythonResourceDownloader {
     "SymmetricDeleteModel" -> SymmetricDeleteModel,
     "NerDLModel" -> NerDLModel,
     "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
-    "WordEmbeddingsModel" -> WordEmbeddingsModel,
+    "WordEmbeddings" -> WordEmbeddings,
     "BertEmbeddings" -> BertEmbeddings,
     "DependencyParserModel" -> DependencyParserModel,
     "TypedDependencyParserModel" -> TypedDependencyParserModel
