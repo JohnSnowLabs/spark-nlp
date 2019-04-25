@@ -49,11 +49,11 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def readCONLL(filesContent: String): List[Sentence] = {
 
-    val sections = filesContent.split("\\n\\n").toList
+    val sections = filesContent.split(s"${System.lineSeparator()}${System.lineSeparator()}").toList
 
     val sentences = sections.map(
       s => {
-        val lines = s.split("\\n").toList
+        val lines = s.split(s"${System.lineSeparator()}").toList
         val body  = lines.map( l => {
           val arr = l.split("\\s+")
           val (raw, pos, dep) = (arr(0), arr(1), arr(2).toInt)
