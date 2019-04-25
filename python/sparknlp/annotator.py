@@ -131,28 +131,22 @@ class Tokenizer(AnnotatorModel):
         return self.getOrDefault("includeDefaults")
 
     def getInfixPatterns(self):
-        if self.getIncludeDefaults():
-            return self.getOrDefault("infixPatterns") + self.infixDefaults
-        else:
-            return self.getOrDefault("infixPatterns")
+        return self.getOrDefault("infixPatterns")
 
     def getSuffixPattern(self):
-        if self.getIncludeDefaults():
-            if self.isDefined("suffixPattern"):
-                return self.getOrDefault("suffixPattern")
-            else:
-                return self.suffixDefault
-        else:
-            return self.getOrDefault("suffixPattern")
+        return self.getOrDefault("suffixPattern")
 
     def getPrefixPattern(self):
-        if self.getIncludeDefaults():
-            if self.isDefined("prefixPattern"):
-                return self.getOrDefault("prefixPattern")
-            else:
-                return self.prefixDefault
-        else:
-            return self.getOrDefault("prefixPattern")
+        return self.getOrDefault("prefixPattern")
+
+    def getDefaultPatterns(self):
+        return Tokenizer.infixDefaults
+
+    def getDefaultPrefix(self):
+        return Tokenizer.prefixDefault
+
+    def getDefaultSuffix(self):
+        return Tokenizer.suffixDefault
 
 
 class ChunkTokenizer(Tokenizer):
