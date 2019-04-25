@@ -82,8 +82,12 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
       case _: java.io.IOException => succeed
     }
   }
-
-  val originalLabels: List[(String, Int)] = List(
+  /*
+  * Testing POS() class
+  * Making sure it only extracts good token_labels
+  *
+  * */
+  val originalFrenchLabels: List[(String, Int)] = List(
     ("DET",9), ("ADP",12), ("AUX",2),
     ("CCONJ",2), ("NOUN",12), ("ADJ",3),
     ("NUM",9), ("PRON",1),
@@ -91,9 +95,9 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     ("SYM",2), ("VERB",2), ("X",2)
   )
 
-  "readDataset in POS() class" should behave like readDatasetInPOS(
+  "French readDataset in POS() class" should behave like readDatasetInPOS(
     path="src/test/resources/universal-dependency/UD_French-GSD/UD_French-test.txt",
-    originalLabels
+    originalFrenchLabels
   )
 
   //  /*
