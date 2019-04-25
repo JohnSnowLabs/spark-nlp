@@ -17,7 +17,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
-import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddings}
 import org.apache.hadoop.fs.FileSystem
 
 import scala.collection.mutable
@@ -180,7 +180,7 @@ object PythonResourceDownloader {
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "NerDLModel" -> NerDLModel,
     "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
-    "WordEmbeddingsModel" -> WordEmbeddingsModel,
+    "WordEmbeddings" -> WordEmbeddings,
     "BertEmbeddings" -> BertEmbeddings,
     "DependencyParserModel" -> DependencyParserModel,
     "TypedDependencyParserModel" -> TypedDependencyParserModel

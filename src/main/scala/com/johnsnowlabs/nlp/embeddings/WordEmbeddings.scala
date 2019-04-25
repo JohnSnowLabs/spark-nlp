@@ -1,15 +1,22 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import org.apache.spark.ml.PipelineModel
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.param.{IntParam, Param}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
-class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmbeddingsModel] with HasWordEmbeddings {
 
-  def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS"))
+class WordEmbeddings(override val uid: String)
+  extends AnnotatorModel[WordEmbeddings]
+    with HasWordEmbeddings
+    with AutoCloseable
+    with ParamsAndFeaturesWritable {
+
+  def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
 
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -18,8 +25,6 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
   val sourceEmbeddingsPath = new Param[String](this, "sourceEmbeddingsPath", "Word embeddings file")
 
   val embeddingsFormat = new IntParam(this, "embeddingsFormat", "Word vectors file format")
-
-  override val description: String = "Word Embeddings lookup annotator that maps tokens to vectors"
 
   def setEmbeddingsSource(path: String, nDims: Int, format: WordEmbeddingsFormat.Format): this.type = {
     set(this.sourceEmbeddingsPath, path)
@@ -34,16 +39,71 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
     set(this.dimension, nDims)
   }
 
-  override def beforeTraining(sparkSession: SparkSession): Unit = {
-    if (isDefined(sourceEmbeddingsPath)) {
+  def setSourcePath(path: String): this.type = set(sourceEmbeddingsPath, path)
+  def getSourcePath: String = $(sourceEmbeddingsPath)
+
+  def setEmbeddingsFormat(format: String): this.type = {
+    import WordEmbeddingsFormat._
+    set(embeddingsFormat, format.id)
+  }
+
+  def getEmbeddingsFormat: String = {
+    import WordEmbeddingsFormat._
+    int2frm($(embeddingsFormat)).toString
+  }
+
+  private def getEmbeddingsSerializedPath(path: String): Path =
+    Path.mergePaths(new Path(path), new Path("/embeddings"))
+
+  private[embeddings] def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
+    val src = getEmbeddingsSerializedPath(path)
+
+    if (get(sourceEmbeddingsPath).isDefined)
       EmbeddingsHelper.load(
-        $(sourceEmbeddingsPath),
-        sparkSession,
-        WordEmbeddingsFormat($(embeddingsFormat)).toString,
+        src.toUri.toString,
+        spark,
+        WordEmbeddingsFormat.SPARKNLP.toString,
         $(dimension),
         $(caseSensitive),
         $(embeddingsRef)
       )
+  }
+
+  private[embeddings] def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
+    val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(getClusterEmbeddings.fileName))
+
+    val uri = new java.net.URI(path)
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dst = getEmbeddingsSerializedPath(path)
+
+    EmbeddingsHelper.save(fs, index, dst)
+  }
+
+  override protected def onWrite(path: String, spark: SparkSession): Unit = {
+    /** Param only useful for runtime execution */
+    if (isDefined(sourceEmbeddingsPath))
+      serializeEmbeddings(path, spark)
+  }
+
+  override protected def close(): Unit = {
+    get(embeddingsRef)
+      .flatMap(_ => preloadedEmbeddings)
+      .foreach(_.getLocalRetriever.close())
+  }
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    if (isDefined(sourceEmbeddingsPath)) {
+      if (!embeddingsAreLoaded) {
+        EmbeddingsHelper.load(
+          $(sourceEmbeddingsPath),
+          dataset.sparkSession,
+          WordEmbeddingsFormat($(embeddingsFormat)).toString,
+          $(dimension),
+          $(caseSensitive),
+          $(embeddingsRef)
+        )
+        embeddingsLoaded
+      }
     } else if (isSet(embeddingsRef)) {
       getClusterEmbeddings
     } else
@@ -52,21 +112,39 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
           s" or not in cache by ref: ${get(embeddingsRef).getOrElse("-embeddingsRef not set-")}. " +
           s"Load using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() to make them available."
       )
+    dataset
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
-    val model = new WordEmbeddingsModel()
-      .setInputCols($(inputCols))
-      .setEmbeddingsRef($(embeddingsRef))
-      .setDimension($(dimension))
-      .setCaseSensitive($(caseSensitive))
-      .setEmbeddingsRef($(embeddingsRef))
+  /**
+    * takes a document and annotations and produces new annotations of this annotator's annotation type
+    *
+    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+    */
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val sentences = TokenizedWithSentence.unpack(annotations)
+    val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
+      val tokens = s.indexedTokens.map {token =>
+        val vector = this.getEmbeddings.getEmbeddingsVector(token.token)
+        new TokenPieceEmbeddings(token.token, token.token, -1, true, vector, token.begin, token.end)
+      }
+      WordpieceEmbeddingsSentence(tokens, idx)
+    }
 
+    WordpieceEmbeddingsSentence.pack(withEmbeddings)
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     getClusterEmbeddings.getLocalRetriever.close()
 
-    model
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension)))
   }
 
 }
 
-object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
+object WordEmbeddings extends EmbeddingsReadable[WordEmbeddings] with PretrainedWordEmbeddings
+
+trait PretrainedWordEmbeddings {
+  def pretrained(name: String = "glove_100d", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddings =
+    ResourceDownloader.downloadModel(WordEmbeddings, name, language, remoteLoc)
+}

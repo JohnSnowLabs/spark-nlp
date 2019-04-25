@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
@@ -136,7 +136,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
-    nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
+    nerTagger.fit(glove.transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {

@@ -112,9 +112,7 @@ package object annotator {
   object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
 
   type WordEmbeddings = com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-  object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
-  type WordEmbeddingsModel = com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-  object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
+  object WordEmbeddings extends EmbeddingsReadable[WordEmbeddings] with PretrainedWordEmbeddings
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
   object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings] with PretrainedBertModel with ReadBertTensorflowModel
