@@ -85,6 +85,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       useBundle,
       tags = Array("our-graph")
     )
+    _model = None
     setModelIfNotSet(spark, tf)
   }
 
@@ -248,6 +249,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
       // ask each token class for candidates, keep the one with lower cost
       var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+        if(specialParser.transducer == null)
+          throw new RuntimeException(s"${specialParser.label}")
+        println(s"special parser:::${specialParser.label}")
+        println(s"value: ${specialParser.transducer}")
         getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
       } ++ getVocabCandidates($$(transducer), token, getOrDefault(wordMaxDistance) -1)
 

@@ -9,16 +9,60 @@ import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
+import java.nio.file.Paths
 
 
+case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
-  var session: Session,
-  var graph: Graph
-) extends Serializable {
+  var variables: Variables,
+  var graph: Array[Byte]
+)  extends Serializable {
 
   /** For Deserialization */
   def this() = {
     this(null, null)
+  }
+
+  @transient
+  var msession:Session = _
+
+  private val logger = LoggerFactory.getLogger("TensorflowWrapper")
+
+  def session() = {
+
+    if (msession ==null){
+      logger.debug("Restoring TF session from bytes")
+      val t = new TensorResources()
+      val config = Array[Byte](50, 2, 32, 1, 56, 1)
+
+      // save the binary data of variables to file - variables per se
+      val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      val folder  = path.toAbsolutePath.toString
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
+
+      // save the binary data of variables to file - variables' index
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
+
+      // import the graph
+      val g = new Graph()
+      g.importGraphDef(graph)
+
+      // create the session and load the variables
+      val session = new Session(g, config)
+      val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
+      session.runner.addTarget("save/restore_all")
+        .feed("save/Const", t.createTensor(variablesPath))
+        .run()
+
+      //delete variable files
+      Files.delete(varData)
+      Files.delete(varIdx)
+
+      msession = session
+    }
+    msession
   }
 
   def saveToFile(file: String): Unit = {
@@ -36,9 +80,9 @@ class TensorflowWrapper(
       .run()
 
     // 3. Save Graph
-    val graphDef = graph.toGraphDef
+    // val graphDef = graph.toGraphDef
     val graphFile = Paths.get(folder, "saved_model.pb").toString
-    FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
+    FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
     // 4. Zip folder
     ZipArchiveUtil.zip(folder, file)
@@ -75,7 +119,8 @@ class TensorflowWrapper(
 
     // 2. Read from file
     val tf = TensorflowWrapper.read(file.toString, true)
-    this.session = tf.session
+
+    this.msession = tf.session
     this.graph = tf.graph
 
     // 3. Delete tmp file
@@ -107,6 +152,13 @@ object TensorflowWrapper extends LoadsContrib {
     else
       file
 
+
+    val varPath = Paths.get(folder, "variables.data-00000-of-00001")
+    val varBytes = Files.readAllBytes(varPath)
+
+    val idxPath = Paths.get(folder, "variables.index")
+    val idxBytes = Files.readAllBytes(idxPath)
+
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
@@ -135,6 +187,16 @@ object TensorflowWrapper extends LoadsContrib {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    new TensorflowWrapper(session, graph)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    tfWrapper.msession = session
+    tfWrapper
+  }
+
+  def serializeGraph(g:Graph): Array[Byte] = {
+    val tmp = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_graph").toAbsolutePath.toString
+    val graphDef = g.toGraphDef
+    val graphFile = Paths.get(tmp, "saved_model.pb").toString
+    FileUtils.writeByteArrayToFile(new File(graphFile), graphDef)
+    Files.readAllBytes(Paths.get(graphFile))
   }
 }
