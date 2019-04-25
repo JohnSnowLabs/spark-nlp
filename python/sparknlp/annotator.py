@@ -5,7 +5,6 @@
 import sys
 from pyspark import keyword_only
 from sparknlp.common import *
-from sparknlp.internal import _BertLoader
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -202,101 +201,6 @@ class Chunker(AnnotatorModel):
 
     def setRegexParsers(self, value):
         return self._set(regexParsers=value)
-
-
-class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
-
-    sourceEmbeddingsPath = Param(Params._dummy(),
-                                 "sourceEmbeddingsPath",
-                                 "Word embeddings file",
-                                 typeConverter=TypeConverters.toString)
-
-    embeddingsFormat = Param(Params._dummy(),
-                             "embeddingsFormat",
-                             "Word vectors file format",
-                             typeConverter=TypeConverters.toInt)
-
-    @keyword_only
-    def __init__(self):
-        super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
-        self._setDefault(
-            embeddingsRef=self.uid,
-            caseSensitive=False
-        )
-
-    def setEmbeddingsSource(self, path, nDims, format):
-        self._set(sourceEmbeddingsPath=path)
-        self._set(embeddingsFormat=format)
-        return self._set(dimension=nDims)
-
-    def _create_model(self, java_model):
-        return WordEmbeddingsModel(java_model=java_model)
-
-
-class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
-
-    name = "WordEmbeddingsModel"
-
-    @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
-        super(WordEmbeddingsModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-        self._setDefault(
-            caseSensitive=False
-        )
-
-    @staticmethod
-    def pretrained(name="glove_100d", language="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remote_loc)
-
-
-class BertEmbeddings(AnnotatorModel, HasEmbeddings):
-
-    name = "BertEmbeddings"
-
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
-
-    def setMaxSentenceLength(self, value):
-        return self._set(maxSentenceLength=value)
-
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
-
-    @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
-        super(BertEmbeddings, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-        self._setDefault(
-            dimension=768,
-            batchSize=5,
-            maxSentenceLength=100,
-            caseSensitive=False
-        )
-
-    @staticmethod
-    def loadFromPython(folder):
-        jModel = _BertLoader(folder)._java_obj
-        return BertEmbeddings(java_model=jModel)
-
-
-    @staticmethod
-    def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
 
 
 class Normalizer(AnnotatorApproach):

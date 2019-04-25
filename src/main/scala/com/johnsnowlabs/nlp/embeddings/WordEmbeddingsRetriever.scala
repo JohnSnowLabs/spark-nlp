@@ -26,14 +26,21 @@ case class WordEmbeddingsRetriever(dbFile: String,
   val lru = new LruMap[String, Array[Float]](lruCacheSize)
 
   private def getEmbeddingsFromDb(word: String): Array[Float] = {
-    lazy val result = db.get(word.toLowerCase.trim.getBytes())
-    lazy val resultnn = db.get(word.trim.getBytes())
-    if (caseSensitive && resultnn != null)
-      WordEmbeddingsIndexer.fromBytes(resultnn)
-    else if (result != null)
-      WordEmbeddingsIndexer.fromBytes(result)
+    lazy val resultLower = db.get(word.trim.toLowerCase.getBytes())
+    lazy val resultUpper = db.get(word.trim.toUpperCase.getBytes())
+    lazy val resultExact = db.get(word.trim.getBytes())
+
+    if (caseSensitive && resultExact != null)
+      WordEmbeddingsIndexer.fromBytes(resultExact)
+    else if (resultLower != null)
+      WordEmbeddingsIndexer.fromBytes(resultLower)
+    else if (resultExact != null)
+      WordEmbeddingsIndexer.fromBytes(resultExact)
+    else if (resultUpper != null)
+      WordEmbeddingsIndexer.fromBytes(resultUpper)
     else
       zeroArray
+
   }
 
   def getEmbeddingsVector(word: String): Array[Float] = {
@@ -43,7 +50,11 @@ case class WordEmbeddingsRetriever(dbFile: String,
   }
 
   def containsEmbeddingsVector(word: String): Boolean = {
-    (caseSensitive && db.get(word.toLowerCase.trim.getBytes()) != null) || db.get(word.trim.getBytes()) != null
+    val wordBytes = word.trim.getBytes()
+    db.get(wordBytes) != null ||
+      (db.get(word.trim.toLowerCase.getBytes()) != null) ||
+      (db.get(word.trim.toUpperCase.getBytes()) != null)
+
   }
 
   override def close(): Unit = {
