@@ -16,7 +16,7 @@ class Doc2ChunkTestSpec extends FlatSpec {
     ).toDF("sentence", "target")
 
     val answer = Array(
-      Seq[Annotation](Annotation(AnnotatorType.CHUNK, 21, 34, "a sentence out", Map())),
+      Seq[Annotation](Annotation(AnnotatorType.CHUNK, 21, 34, "a sentence out", Map("sentence" -> "0", "chunk" -> "0"))),
       Seq.empty[Annotation],
       Seq.empty[Annotation]
     )
@@ -33,7 +33,9 @@ class Doc2ChunkTestSpec extends FlatSpec {
       .as[Seq[Annotation]]
         .collect()
 
-    assert(results.zip(answer).forall(a => a._1.equals(a._2)))
+    for ((a,b) <- results.zip(answer)) {
+      assert(a == b)
+    }
 
   }
 
@@ -48,12 +50,12 @@ class Doc2ChunkTestSpec extends FlatSpec {
 
     val answer = Array(
       Seq[Annotation](
-        Annotation(AnnotatorType.CHUNK, 6, 10, "world", Map()),
-        Annotation(AnnotatorType.CHUNK, 32, 45, "out of nowhere", Map())
+        Annotation(AnnotatorType.CHUNK, 6, 10, "world", Map("sentence" -> "0", "chunk" -> "0")),
+        Annotation(AnnotatorType.CHUNK, 32, 45, "out of nowhere", Map("sentence" -> "0", "chunk" -> "1"))
       ),
       Seq.empty[Annotation],
       Seq[Annotation](
-        Annotation(AnnotatorType.CHUNK, 20, 26, "so fast", Map())
+        Annotation(AnnotatorType.CHUNK, 20, 26, "so fast", Map("sentence" -> "0", "chunk" -> "1"))
       )
     )
 
@@ -69,7 +71,9 @@ class Doc2ChunkTestSpec extends FlatSpec {
       .as[Seq[Annotation]]
       .collect()
 
-    assert(results.zip(answer).forall(a => a._1.equals(a._2)), s"\nbecause results were ${results.map(_.mkString(", ")).mkString(", ")}")
+    for ((a,b) <- results.zip(answer)) {
+      assert(a == b)
+    }
 
   }
 
