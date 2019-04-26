@@ -28,12 +28,12 @@ class TensorflowSpell(
     val tensors = new TensorResources()
     val inputTensor = tensors.createTensor(packed)
 
-    tensorflow.session.runner
+    tensorflow.getSession.runner
       .feed(inMemoryInput, inputTensor)
       .addTarget(testInitOp)
       .run()
 
-    val lossWords = tensorflow.session.runner
+    val lossWords = tensorflow.getSession.runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .fetch(lossKey)
       .fetch(validWords)
