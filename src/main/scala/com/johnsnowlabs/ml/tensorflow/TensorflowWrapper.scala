@@ -1,7 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import java.io._
-import java.nio.file.{Files, Paths}
+import java.nio.file.Files
 import java.util.UUID
 
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
@@ -10,8 +10,6 @@ import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
-
-import org.apache.spark.sql.SparkSession
 
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
@@ -25,14 +23,13 @@ class TensorflowWrapper(
     this(null, null)
   }
 
-  @transient
-  var msession:Session = _
+  @transient private var msession: Session = _
 
   private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def session() = {
+  def getSession: Session = {
 
-    if (msession ==null){
+    if (msession == null){
       logger.debug("Restoring TF session from bytes")
       val t = new TensorResources()
       val config = Array[Byte](50, 2, 32, 1, 56, 1)
@@ -67,6 +64,25 @@ class TensorflowWrapper(
     msession
   }
 
+  def createSession: Session = {
+
+    if (msession == null){
+      logger.debug("Creating empty TF session")
+
+      val config = Array[Byte](50, 2, 32, 1, 56, 1)
+
+      // import the graph
+      val g = new Graph()
+      g.importGraphDef(graph)
+
+      // create the session and load the variables
+      val session = new Session(g, config)
+
+      msession = session
+    }
+    msession
+  }
+
   def saveToFile(file: String): Unit = {
     val t = new TensorResources()
 
@@ -77,7 +93,7 @@ class TensorflowWrapper(
     val variablesFile = Paths.get(folder, "variables").toString
 
     // 2. Save variables
-    session.runner.addTarget("save/control_dependency")
+    getSession.runner.addTarget("save/control_dependency")
       .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
@@ -122,7 +138,7 @@ class TensorflowWrapper(
     // 2. Read from file
     val tf = TensorflowWrapper.read(file.toString, true)
 
-    this.msession = tf.session
+    this.msession = tf.getSession
     this.graph = tf.graph
 
     // 3. Delete tmp file
@@ -196,11 +212,13 @@ object TensorflowWrapper extends LoadsContrib {
 
   def extractVariables(session: Session): Variables = {
     val t = new TensorResources()
-    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tmp_ner_vars")
-      .toAbsolutePath.toString
 
-    session.runner.addTarget("save/restore_all")
-      .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      .toAbsolutePath.toString
+    val variablesFile = Paths.get(folder, "variables").toString
+
+    session.runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
     val varPath = Paths.get(folder, "variables.data-00000-of-00001")
