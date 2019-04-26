@@ -2,6 +2,7 @@ import unittest
 import os
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.embeddings import *
 from test.util import SparkContextForTest
 from sparknlp.ocr import OcrHelper
 
