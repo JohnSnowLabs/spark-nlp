@@ -10,7 +10,7 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 
 ## Slack community channel
 
-Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
+[Join Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE)
 
 ## Table of contents
 
