@@ -85,6 +85,10 @@ class WordEmbeddings(AnnotatorModel, HasWordEmbeddings):
         else:
             return "BINARY"
 
+    def preload(self, spark):
+        self._java_obj.preload(spark._jsparkSession)
+        return self
+
     @staticmethod
     def pretrained(name="glove_100d", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader

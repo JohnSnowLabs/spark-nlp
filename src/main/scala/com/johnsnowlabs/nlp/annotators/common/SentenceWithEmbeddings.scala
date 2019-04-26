@@ -51,7 +51,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       }.toArray
 
       WordpieceEmbeddingsSentence(tokensWithSentence, idx, sentenceEmbeddings)
-    }.toSeq
+    }.toSeq.sortBy(_.sentenceId)
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {
