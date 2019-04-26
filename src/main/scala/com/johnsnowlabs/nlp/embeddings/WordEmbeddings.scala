@@ -91,19 +91,24 @@ class WordEmbeddings(override val uid: String)
       .foreach(_.getLocalRetriever.close())
   }
 
+  def preload(sparkSession: SparkSession): this.type = {
+    if (!embeddingsAreLoaded) {
+      EmbeddingsHelper.load(
+        $(sourceEmbeddingsPath),
+        sparkSession,
+        WordEmbeddingsFormat($(embeddingsFormat)).toString,
+        $(dimension),
+        $(caseSensitive),
+        $(embeddingsRef)
+      )
+      embeddingsLoaded
+    }
+    this
+  }
+
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     if (isDefined(sourceEmbeddingsPath)) {
-      if (!embeddingsAreLoaded) {
-        EmbeddingsHelper.load(
-          $(sourceEmbeddingsPath),
-          dataset.sparkSession,
-          WordEmbeddingsFormat($(embeddingsFormat)).toString,
-          $(dimension),
-          $(caseSensitive),
-          $(embeddingsRef)
-        )
-        embeddingsLoaded
-      }
+      preload(dataset.sparkSession)
     } else if (isSet(embeddingsRef)) {
       getClusterEmbeddings
     } else

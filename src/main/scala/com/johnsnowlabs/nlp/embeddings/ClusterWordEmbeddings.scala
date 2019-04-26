@@ -30,7 +30,8 @@ class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitiv
     else {
       val localFromClusterPath = SparkFiles.get(fileName)
       require(new File(localFromClusterPath).exists(), s"Embeedings not found under given ref." +
-        s" Make sure they are properly loaded using EmbeddingsHelper and pointing towards 'embeddingsRef' param")
+        s" This usually means either source was not provided to embeddings or the annotator was not called properly. " +
+        s"Try calling preload(sparkSession) before annotating.")
       embds = WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
       embds
     }
