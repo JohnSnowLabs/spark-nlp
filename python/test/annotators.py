@@ -99,7 +99,7 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
+            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)")
         finisher = Finisher() \
             .setInputCols(["token"]) \
             .setOutputCols(["token_out"]) \
@@ -107,7 +107,8 @@ class TokenizerTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(data)
         tokenized = tokenizer.transform(assembled)
         finished = finisher.transform(tokenized)
-        self.assertEqual(len(finished.first()['token_out']), 6)
+        print(finished.first()['token_out'])
+        self.assertEqual(len(finished.first()['token_out']), 7)
 
 
 class ChunkTokenizerTestSpec(unittest.TestCase):
@@ -317,8 +318,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setOutputCol("sentence") \
             .setIncludePragmaticSegmenter(True) \
             .setEndPunctuation([".", "?"])
-        embeddings = glove.fit(self.training_set)
-        embedded_training_set = embeddings.transform(self.training_set)
+        embedded_training_set = glove.transform(self.training_set)
         ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded_training_set)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
@@ -542,6 +542,8 @@ class ParamsGettersTestSpec(unittest.TestCase):
                 param_name = param.name
                 camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
                 assert(hasattr(a, param_name))
+                print(a)
+                print("get" + camelized_param)
                 param_value = getattr(a, "get" + camelized_param)()
                 assert(param_value is None or param_value is not None)
         # Try a getter

@@ -45,19 +45,13 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def getCompositeTokens: Array[String] = $(compositeTokens)
 
-  def getInfixPatterns: Array[String] = $(infixPatterns)
+  def getInfixPatterns: Array[String] = if ($(includeDefaults)) $(infixPatterns) ++ infixDefaults else $(infixPatterns)
 
-  def getPrefixPattern: String = $(prefixPattern)
+  def getPrefixPattern: String = if ($(includeDefaults)) get(prefixPattern).getOrElse(prefixDefault) else $(prefixPattern)
 
-  def getSuffixPattern: String = $(suffixPattern)
+  def getSuffixPattern: String = if ($(includeDefaults)) get(suffixPattern).getOrElse(suffixDefault) else $(suffixPattern)
 
   def getTargetPattern: String = $(targetPattern)
-
-  def getDefaultPatterns: Array[String] = infixDefaults
-
-  def getDefaultPrefix: String = prefixDefault
-
-  def getDefaultSuffix: String = suffixDefault
 
   def getIncludeDefaults: Boolean = $(includeDefaults)
 
@@ -86,8 +80,8 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   lazy private val ruleFactory = {
     val rules = ArrayBuffer.empty[String]
     require(getInfixPatterns.forall(ip => ip.contains("(") && ip.contains(")")),
-      "infix patterns must use regex group (parenthesis). Notice each group will result in separate token")
-    (getInfixPatterns.map(ip => "(.*)"+ip+"(.*)")++{if ($(includeDefaults)) infixDefaults else Array.empty[String]}).foreach(ip => {
+      "infix patterns must use regex group. Notice each group will result in separate token")
+    getInfixPatterns.foreach(ip => {
       val rule = new StringBuilder
       get(prefixPattern).orElse(if (!$(includeDefaults)) None else Some(prefixDefault)).foreach(pp => {
         require(pp.startsWith("\\A"), "prefixPattern must begin with \\A to ensure it is the beginning of the string")
