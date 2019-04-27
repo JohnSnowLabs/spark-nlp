@@ -130,13 +130,28 @@ class Tokenizer(AnnotatorModel):
         return self.getOrDefault("includeDefaults")
 
     def getInfixPatterns(self):
-        return self.getOrDefault("infixPatterns")
+        try:
+            if self.getOrDefault("includeDefaults"):
+                self.getOrDefault("infixPatterns") + self.getDefaultPatterns()
+            else:
+                self.getOrDefault("infixPatterns")
+        except KeyError:
+            if self.getOrDefault("includeDefaults"):
+                return self.getDefaultPatterns()
+            else:
+                self.getOrDefault("infixPatterns")
 
     def getSuffixPattern(self):
-        return self.getOrDefault("suffixPattern")
+        try:
+            return self.getOrDefault("suffixPattern")
+        except KeyError:
+            return self.getDefaultSuffix()
 
     def getPrefixPattern(self):
-        return self.getOrDefault("prefixPattern")
+        try:
+            return self.getOrDefault("prefixPattern")
+        except KeyError:
+            return self.getDefaultPrefix()
 
     def getDefaultPatterns(self):
         return Tokenizer.infixDefaults
