@@ -308,7 +308,7 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 }
 
 trait PretrainedSpellModel {
-  def pretrained(name: String = "context_spell_gen", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
+  def pretrained(name: String = "spellcheck_dl", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
     ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remoteLoc)
 }
 
