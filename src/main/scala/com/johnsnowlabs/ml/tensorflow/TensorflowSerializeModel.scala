@@ -52,7 +52,8 @@ trait ReadTensorflowModel extends LoadsContrib {
                            loadContrib: Boolean = false
                          ): TensorflowWrapper = {
 
-    loadContribToCluster(spark)
+    if (loadContrib)
+      loadContribToCluster(spark)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
