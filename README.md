@@ -43,14 +43,14 @@ Questions? Feedback? Request access sending an email to nlp@johnsnowlabs.com
 
 ## Apache Spark Support
 
-Spark-NLP *2.0.1* has been built on top of Apache Spark 2.4.0
+Spark-NLP *2.0.2* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
-| Spark NLP   |   Spark 2.0.1 / Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.0.2 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
 | 2.x.x       |NO                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
@@ -68,18 +68,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.1` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.1
+spark-shell --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.1
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.1
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -147,7 +147,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
@@ -158,7 +158,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
@@ -166,14 +166,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.2"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -187,7 +187,7 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
-pip install spark-nlp==2.0.1
+pip install spark-nlp==2.0.2
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
@@ -210,7 +210,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.1")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.2")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -224,7 +224,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.1
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.2
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -234,7 +234,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.1
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.0.1
+pip install spark-nlp==2.0.2
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -260,7 +260,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.1
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
