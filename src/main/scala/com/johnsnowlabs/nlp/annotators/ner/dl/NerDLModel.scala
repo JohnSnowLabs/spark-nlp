@@ -114,7 +114,7 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_nerdl")
+    val tf = readTensorflowModel(path, spark, "_nerdl", loadContrib = true)
     instance.setModelIfNotSet(spark: SparkSession, tf)
   }
 
