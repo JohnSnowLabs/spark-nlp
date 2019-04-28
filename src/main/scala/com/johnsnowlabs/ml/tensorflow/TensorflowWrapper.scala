@@ -177,13 +177,6 @@ object TensorflowWrapper extends LoadsContrib {
     else
       file
 
-
-    val varPath = Paths.get(folder, "variables.data-00000-of-00001")
-    val varBytes = Files.readAllBytes(varPath)
-
-    val idxPath = Paths.get(folder, "variables.index")
-    val idxBytes = Files.readAllBytes(idxPath)
-
     //Use CPU
     //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
     //Use GPU
@@ -194,19 +187,27 @@ object TensorflowWrapper extends LoadsContrib {
     // val config = Array[Byte](56, 1)
 
     // 3. Read file as SavedModelBundle
-    val (graph, session) = if (useBundle) {
+    val (graph, session, varPath, idxPath) = if (useBundle) {
       val model = SavedModelBundle.load(folder, tags: _*)
       val graph = model.graph()
       val session = model.session()
-      (graph, session)
+      val varPath = Paths.get(folder, "variables", "variables.data-00000-of-00001")
+      val idxPath = Paths.get(folder, "variables", "variables.index")
+      (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString, loadContrib = loadContrib)
       val session = new Session(graph, config)
+      val varPath = Paths.get(folder, "variables.data-00000-of-00001")
+      val idxPath = Paths.get(folder, "variables.index")
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
         .run()
-      (graph, session)
+      (graph, session, varPath, idxPath)
     }
+
+    val varBytes = Files.readAllBytes(varPath)
+
+    val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
