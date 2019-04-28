@@ -48,7 +48,9 @@ trait ReadTensorflowModel extends LoadsContrib {
                            suffix: String,
                            zipped:Boolean = true,
                            useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty): TensorflowWrapper = {
+                           tags:Array[String]=Array.empty,
+                           loadContrib: Boolean = false
+                         ): TensorflowWrapper = {
 
     loadContribToCluster(spark)
 
@@ -64,7 +66,7 @@ trait ReadTensorflowModel extends LoadsContrib {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle)
+      zipped, tags = tags, useBundle = useBundle, loadContrib = loadContrib)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)

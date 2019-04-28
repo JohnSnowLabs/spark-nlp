@@ -149,15 +149,22 @@ class TensorflowWrapper(
 object TensorflowWrapper extends LoadsContrib {
   private[TensorflowWrapper] val logger: Logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def readGraph(graphFile: String): Graph = {
-    loadContribToTensorflow()
+  def readGraph(graphFile: String, loadContrib: Boolean = false): Graph = {
+    if (loadContrib)
+      loadContribToTensorflow()
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
     graph.importGraphDef(graphBytesDef)
     graph
   }
 
-  def read(file: String, zipped: Boolean = true, useBundle: Boolean = false, tags: Array[String] = Array.empty[String]): TensorflowWrapper = {
+  def read(
+            file: String,
+            zipped: Boolean = true,
+            useBundle: Boolean = false,
+            tags: Array[String] = Array.empty[String],
+            loadContrib: Boolean = false
+          ): TensorflowWrapper = {
     val t = new TensorResources()
 
     // 1. Create tmp folder
@@ -193,7 +200,7 @@ object TensorflowWrapper extends LoadsContrib {
       val session = model.session()
       (graph, session)
     } else {
-      val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
+      val graph = readGraph(Paths.get(folder, "saved_model.pb").toString, loadContrib = loadContrib)
       val session = new Session(graph, config)
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
