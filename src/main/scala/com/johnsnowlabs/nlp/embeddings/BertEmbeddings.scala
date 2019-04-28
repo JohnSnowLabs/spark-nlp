@@ -139,8 +139,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     new BertEmbeddings()
-      .setModelIfNotSet(spark, wrapper)
       .setVocabulary(words)
+      .setModelIfNotSet(spark, wrapper)
   }
 }
 
