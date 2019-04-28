@@ -130,8 +130,8 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
         )
 
     @staticmethod
-    def loadFromPython(folder):
-        jModel = _BertLoader(folder)._java_obj
+    def loadFromPython(folder, spark_session):
+        jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
         return BertEmbeddings(java_model=jModel)
 
 
