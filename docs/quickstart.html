@@ -102,7 +102,7 @@
                                 </p></div>
                             <h2 class="section-title">Requirements & Setup</h2>
                             <div class="section-block">
-                                <p>Spark NLP is built on top of <b>Apache Spark 2.4.0</b> and such is the <b>only</b> supported release.
+                                <p>Spark NLP is built on top of <b>Apache Spark 2.4.2</b> and such is the <b>only</b> supported release.
                                     it is recommended to have basic knowledge of the framework and a working environment
                                     before using Spark NLP. However, we try our best to make it easy for you to get started. Refer to Spark
                                     <a href="http://spark.apache.org/docs/2.4.0/index.html">documentation</a> to
@@ -112,14 +112,14 @@
                                 To start using the library, execute any of the following lines
                                 depending on your desired use case:
                                 </p>
-                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:2.0.1
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.1
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.1
+                                <pre><code class="language-javascript">spark-shell --packages JohnSnowLabs:spark-nlp:2.0.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.2
 </code></pre>
                                 <p/>
                                 <h3><b>Straight forward Python on jupyter notebook</b></h3>
                                 <p>Use pip to install (after you pip installed numpy and pyspark)</p>
-                                <pre><code class="language-javascript">pip install spark-nlp==2.0.1
+                                <pre><code class="language-javascript">pip install spark-nlp==2.0.2
 jupyter notebook</code></pre>
                                 <p>The easiest way to get started, is to run the following code: </p>
                                 <pre><code class="pytohn">import sparknlp
@@ -131,21 +131,21 @@ sparknlp.start()</code></pre>
     .appName('OCR Eval') \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.1") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.2") \
     .getOrCreate()</code></pre>
                                 <h3><b>Databricks cloud cluster</b> & <b>Apache Zeppelin</b></h3>
                                 <p>Add the following maven coordinates in the dependency configuration page: </p>
-                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.1</code></pre>
+                                <pre><code class="language-javascript">com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.2</code></pre>
                                 <p>
                                     For Python in <b>Apache Zeppelin</b> you may need to setup <i><b>SPARK_SUBMIT_OPTIONS</b></i> utilizing --packages instruction shown above like this
                                 </p>
-                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.0.1"</code></pre>
+                                <pre><code class="language-javascript">export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.0.2"</code></pre>
                                 <h3><b>Python Jupyter Notebook with PySpark</b></h3>
                                 <pre><code class="language-javascript">export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.1</code></pre>
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2</code></pre>
                                 <h3>S3 based standalone cluster (No Hadoop)</h3>
                                 <p>
                                     If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
@@ -442,7 +442,7 @@ lightPipeline.annotate("Hello world, please annotate my text")
                                 <p>
                                     Spark NLP OCR Module is not included within Spark NLP. It is not an annotator and not an extension to Spark ML.
                                     You can include it with the following coordinates for Maven:
-                                    <pre><code class="java">com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.1</code></pre>
+                                    <pre><code class="java">com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.2</code></pre>
                                 </p>
                                 <h3 class="block-title">Creating Spark datasets from PDF (To be used with Spark NLP)</h3>
                                 <p>

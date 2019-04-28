@@ -1,6 +1,6 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.4.1"
+val sparkVer = "2.4.2"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
