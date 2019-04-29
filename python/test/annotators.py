@@ -318,7 +318,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setOutputCol("sentence") \
             .setIncludePragmaticSegmenter(True) \
             .setEndPunctuation([".", "?"])
-        embedded_training_set = glove.transform(self.training_set)
+        embedded_training_set = glove.fit(self.training_set).transform(self.training_set)
         ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded_training_set)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
