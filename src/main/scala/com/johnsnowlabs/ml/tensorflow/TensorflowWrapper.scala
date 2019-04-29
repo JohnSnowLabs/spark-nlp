@@ -24,8 +24,7 @@ class TensorflowWrapper(
   }
 
   @transient private var msession: Session = _
-
-  private val logger = LoggerFactory.getLogger("TensorflowWrapper")
+  @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
   def getSession: Session = {
 
