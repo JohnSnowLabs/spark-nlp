@@ -11,6 +11,8 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
+import SparkAccessor.spark
+import spark.implicits._
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -99,9 +101,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
 
   "a Spell Checker" should "work in a pipeline with Tokenizer" in {
-    import SparkAccessor.spark
-    import spark.implicits._
-
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
       "he is gane .").toDF("text")
@@ -130,8 +129,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-
-
   "a Spell Checker" should "work in a light pipeline" in {
     import SparkAccessor.spark
     import spark.implicits._
@@ -155,10 +152,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(Seq.empty[String].toDF("text"))
     val lp = new LightPipeline(pipeline)
-    lp.annotate(data)
-    lp.annotate(data)
-    lp.annotate(data)
-
+    lp.annotate(data ++ data ++ data)
   }
 
 
