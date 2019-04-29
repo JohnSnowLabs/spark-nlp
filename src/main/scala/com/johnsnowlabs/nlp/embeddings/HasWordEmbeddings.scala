@@ -18,6 +18,10 @@ trait HasWordEmbeddings extends HasEmbeddings {
   def getIncludeEmbeddings: Boolean = $(includeEmbeddings)
 
   @transient private var wembeddings: WordEmbeddingsRetriever = null
+  @transient private var loaded: Boolean = false
+
+  protected def setAsLoaded(): Unit = loaded = true
+  protected def isLoaded(): Boolean = loaded
 
   protected def getEmbeddings: WordEmbeddingsRetriever = {
     if (Option(wembeddings).isDefined)
