@@ -28,13 +28,14 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
     val docs = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT)
     val entities = sentences.zip(docs.zipWithIndex).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex=doc._2)}
 
-    entities.filter(entity => get(whiteList).forall(validEntity => validEntity.contains(entity.entity))).map{entity =>
+    entities.filter(entity => get(whiteList).forall(validEntity => validEntity.contains(entity.entity))).
+      zipWithIndex.map{case (entity, idx) =>
       Annotation(
         outputAnnotatorType,
         entity.start,
         entity.end,
         entity.text,
-        Map("entity" -> entity.entity, "sentence" -> entity.sentenceId)
+        Map("entity" -> entity.entity, "sentence" -> entity.sentenceId, "chunk" -> idx.toString)
       )
     }
   }

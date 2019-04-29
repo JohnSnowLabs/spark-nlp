@@ -64,7 +64,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = _
+  private var tesseractAPI : Tesseract = null
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
@@ -226,12 +226,13 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   }
 
-  private def initTesseract():Tesseract = {
-    val api = new Tesseract()
+  private def initTesseract():TesseractAccess = this.synchronized {
+    val api = new TesseractAccess()
     val tessDataFolder = LoadLibs.extractTessResources("tessdata")
     api.setDatapath(tessDataFolder.getAbsolutePath)
     api.setPageSegMode(pageSegmentationMode)
     api.setOcrEngineMode(engineMode)
+    api.initialize()
     api
   }
 
@@ -379,8 +380,6 @@ class OcrHelper extends ImageProcessing with Serializable {
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[(String, Int)]] = {
-    println("log: extracting w/PDFBox")
-    // TODO check this is getting the right page num
     val range = startPage to endPage
     if (splitPages)
       Some(Range(startPage, endPage + 1).flatMap(pagenum =>

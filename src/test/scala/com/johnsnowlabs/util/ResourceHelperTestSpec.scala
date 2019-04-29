@@ -26,7 +26,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
     val stringRepresentation = ResourceHelper.getFilesContentAsArray(externalResource)
-    val expectedStringRepresentation = Array("Hello\nWorld", "Bye\nWorld")
+    val expectedStringRepresentation = Array(s"Hello${System.lineSeparator()}World", s"Bye${System.lineSeparator()}World")
 
     assert(expectedStringRepresentation.toList == stringRepresentation.toList)
 

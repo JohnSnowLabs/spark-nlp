@@ -80,7 +80,6 @@ trait VocabParser extends SpecialClassParser {
 object DateToken extends RegexParser with WeightedLevenshtein with Serializable {
 
   override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  @transient
   override var transducer: ITransducer[Candidate] = generateTransducer
   override val label = "_DATE_"
   override val maxDist: Int = 2
@@ -105,7 +104,6 @@ object NumberToken extends RegexParser with Serializable {
   /* used during candidate generation(correction) - must be finite */
   override val regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
 
-  @transient
   override var transducer: ITransducer[Candidate] = generateTransducer
 
   override val label = "_NUM_"
@@ -130,7 +128,7 @@ object NumberToken extends RegexParser with Serializable {
 
 }
 
-object MedicationClass extends VocabParser with Serializable {
+class MedicationClass extends VocabParser with Serializable {
 
   @transient
   override var vocab = Set.empty[String]
@@ -138,10 +136,10 @@ object MedicationClass extends VocabParser with Serializable {
   override val label: String = "_MED_"
   override val maxDist: Int = 3
 
-  def apply(path: String) = {
+  def this(path: String) = {
+    this()
     vocab = loadCSV(path)
     transducer = generateTransducer
-    this
   }
 
 }

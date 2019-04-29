@@ -45,7 +45,11 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.begin,
         tag.end,
         tag.tag,
-        Map("word" -> tag.word))
+        Map("word" -> tag.word) ++ {
+          if (tag.confidence.isDefined)
+            Map("confidence" -> tag.confidence.get.toString)
+          else Map.empty[String, String]
+        })
     ))
   }
 
