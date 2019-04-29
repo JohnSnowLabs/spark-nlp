@@ -24,10 +24,9 @@ class TensorflowWrapper(
   }
 
   @transient private var msession: Session = _
+  @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  private val logger = LoggerFactory.getLogger("TensorflowWrapper")
-
-  def getSession: Session = {
+  def getSession(loadsContrib: Boolean = false): Session = {
 
     if (msession == null){
       logger.debug("Restoring TF session from bytes")
@@ -43,6 +42,9 @@ class TensorflowWrapper(
       // save the binary data of variables to file - variables' index
       val varIdx = Paths.get(folder, "variables.index")
       Files.write(varIdx, variables.index)
+
+      if (loadsContrib)
+        TensorflowWrapper.loadContribToTensorflow()
 
       // import the graph
       val g = new Graph()
@@ -64,12 +66,15 @@ class TensorflowWrapper(
     msession
   }
 
-  def createSession: Session = {
+  def createSession(loadsContrib: Boolean = false): Session = {
 
     if (msession == null){
       logger.debug("Creating empty TF session")
 
       val config = Array[Byte](50, 2, 32, 1, 56, 1)
+
+      if (loadsContrib)
+        TensorflowWrapper.loadContribToTensorflow()
 
       // import the graph
       val g = new Graph()
@@ -83,7 +88,7 @@ class TensorflowWrapper(
     msession
   }
 
-  def saveToFile(file: String): Unit = {
+  def saveToFile(file: String, loadsContrib: Boolean = false): Unit = {
     val t = new TensorResources()
 
     // 1. Create tmp director
@@ -93,7 +98,7 @@ class TensorflowWrapper(
     val variablesFile = Paths.get(folder, "variables").toString
 
     // 2. Save variables
-    getSession.runner.addTarget("save/control_dependency")
+    getSession(loadsContrib).runner.addTarget("save/control_dependency")
       .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
@@ -138,7 +143,7 @@ class TensorflowWrapper(
     // 2. Read from file
     val tf = TensorflowWrapper.read(file.toString, true)
 
-    this.msession = tf.getSession
+    this.msession = tf.getSession()
     this.graph = tf.graph
 
     // 3. Delete tmp file

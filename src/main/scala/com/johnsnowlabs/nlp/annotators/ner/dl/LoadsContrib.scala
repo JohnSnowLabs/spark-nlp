@@ -48,7 +48,7 @@ trait LoadsContrib {
     tmp
   }
 
-  protected def loadContribToCluster(spark: SparkSession): Unit = {
+  def loadContribToCluster(spark: SparkSession): Unit = {
     /** NOT thread-safe. DRIVER only*/
     if (!LoadsContrib.loadedToCluster && contribPaths.isDefined) {
       println(s"adding ${contribPaths.get}")
@@ -58,7 +58,7 @@ trait LoadsContrib {
     }
   }
 
-  protected def loadContribToTensorflow(): Unit = {
+  def loadContribToTensorflow(): Unit = {
     if (!LoadsContrib.loadedToTensorflow && contribPaths.isDefined) {
       println("loading to tensorflow")
       LoadsContrib.loadedToTensorflow = true
