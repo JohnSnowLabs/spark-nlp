@@ -136,7 +136,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
-    nerTagger.fit(glove.transform(nerDataset))
+    nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {

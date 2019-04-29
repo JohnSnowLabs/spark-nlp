@@ -254,8 +254,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
         if(specialParser.transducer == null)
           throw new RuntimeException(s"${specialParser.label}")
-        println(s"special parser:::${specialParser.label}")
-        println(s"value: ${specialParser.transducer}")
+        // println(s"special parser:::${specialParser.label}")
+        // println(s"value: ${specialParser.transducer}")
         getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
       } ++ getVocabCandidates($$(transducer), token, getOrDefault(wordMaxDistance) -1)
 

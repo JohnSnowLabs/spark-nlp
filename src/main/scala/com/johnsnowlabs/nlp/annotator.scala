@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.context.{PretrainedSpellModel, ReadsLanguageModelGraph}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
-import com.johnsnowlabs.nlp.embeddings._
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, PretrainedBertModel, PretrainedWordEmbeddings, ReadBertTensorflowModel}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -112,7 +112,9 @@ package object annotator {
   object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
 
   type WordEmbeddings = com.johnsnowlabs.nlp.embeddings.WordEmbeddings
-  object WordEmbeddings extends EmbeddingsReadable[WordEmbeddings] with PretrainedWordEmbeddings
+  object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
+  type WordEmbeddingsModel = com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+  object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
   object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings] with PretrainedBertModel with ReadBertTensorflowModel
