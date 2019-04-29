@@ -1,10 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
+import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
+import com.github.liblevenshtein.serialization.PlainTextSerializer
+import com.github.liblevenshtein.transducer.{Candidate, Transducer}
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
+import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import SparkAccessor.spark
 import spark.implicits._
@@ -19,6 +24,37 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   trait distFile extends WeightedLevenshtein {
     val weights = loadWeights("src/test/resources/dist.psv")
+  }
+
+  "UnitClass" should "serilize/deserialize properly" in {
+
+      import SparkAccessor.spark
+      import spark.implicits._
+      val dataPathTrans = "./tmp/transducer"
+      val dataPathObject = "./tmp/object"
+      val serializer = new PlainTextSerializer
+
+      val specialClass = UnitToken
+      val transducer = specialClass.transducer
+      specialClass.setTransducer(null)
+
+      // the object per se
+      spark.sparkContext.parallelize(Seq(specialClass)).
+      saveAsObjectFile(dataPathObject)
+
+      // we handle the transducer separaely
+      val transBytes = serializer.serialize(transducer)
+      spark.sparkContext.parallelize(transBytes.toSeq, 1).
+          saveAsObjectFile(dataPathTrans)
+
+      // load transducer
+      val bytes = spark.sparkContext.objectFile[Byte](dataPathTrans).collect()
+      val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+
+      // the object
+      //val sc = spark.sparkContext.objectFile[SpecialClassParser](path.toString.dropRight(10)).collect().head
+      //sc.setTransducer(trans)
+
   }
 
   "weighted Levenshtein distance" should "work from file" in new distFile {
@@ -198,8 +234,10 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     import SparkAccessor.spark.implicits._
     import scala.collection.JavaConversions._
 
-    val ocrSpellModel = ContextSpellCheckerModel
-      .pretrained()
+    val ocrSpellModel = ContextSpellCheckerModel.read.load("./context_spell_med_en_2.0.0_2.4_1553552948340")
+
+    ocrSpellModel.setSpecialClassesTransducers(Seq(UnitToken))
+      //.pretrained()
 
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")

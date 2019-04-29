@@ -234,7 +234,11 @@ class Doc2Chunk(AnnotatorTransformer):
     inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
+    startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins", typeConverter=TypeConverters.toString)
+    startColByTokenIndex = Param(Params._dummy(), "startColByTokenIndex", "whether start col is by whitespace tokens", typeConverter=TypeConverters.toBoolean)
     isArray = Param(Params._dummy(), "isArray", "whether the chunkCol is an array of strings", typeConverter=TypeConverters.toBoolean)
+    failOnMissing = Param(Params._dummy(), "failOnMissing", "whether to fail the job if a chunk is not found within document. return empty otherwise", typeConverter=TypeConverters.toBoolean)
+    lowerCase = Param(Params._dummy(), "lowerCase", "whether to lower case for matching case", typeConverter=TypeConverters.toBoolean)
     name = "Doc2Chunk"
 
     @keyword_only
@@ -260,6 +264,18 @@ class Doc2Chunk(AnnotatorTransformer):
 
     def setIsArray(self, value):
         return self._set(isArray=value)
+
+    def setStartCol(self, value):
+        return self._set(startCol=value)
+
+    def setStartColByTokenIndex(self, value):
+        return self._set(startColByTokenIndex=value)
+
+    def setFailOnMissing(self, value):
+        return self._set(failOnMissing=value)
+
+    def setLowerCase(self, value):
+        return self._set(lowerCase=value)
 
 
 class Chunk2Doc(AnnotatorTransformer):

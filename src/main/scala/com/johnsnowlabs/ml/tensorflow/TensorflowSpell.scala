@@ -1,5 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import java.lang.reflect.Modifier
+
 import com.johnsnowlabs.ml.tensorflow.TensorResources.extractFloats
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 

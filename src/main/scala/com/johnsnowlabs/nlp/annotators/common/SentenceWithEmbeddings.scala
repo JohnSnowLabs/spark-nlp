@@ -34,15 +34,10 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
   override def unpack(annotations: Seq[Annotation]): Seq[WordpieceEmbeddingsSentence] = {
     val tokens = annotations
       .filter(_.annotatorType == annotatorType)
-      .toArray
+      .groupBy(_.metadata("sentence").toInt)
 
-    SentenceSplit.unpack(annotations).zipWithIndex.map{case (sentence: Sentence, idx: Int) =>
-      val sentenceTokens = tokens.filter(token =>
-        token.begin >= sentence.start & token.end <= sentence.end
-      )
-
+    tokens.map{case (idx: Int, sentenceTokens: Seq[Annotation]) =>
       val sentenceEmbeddings = sentenceTokens.map(t => t.sentence_embeddings).headOption
-
       val tokensWithSentence = sentenceTokens.map { token =>
         new TokenPieceEmbeddings(
           wordpiece = token.result,
@@ -53,10 +48,10 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
           begin = token.begin,
           end = token.end
         )
-      }
+      }.toArray
 
       WordpieceEmbeddingsSentence(tokensWithSentence, idx, sentenceEmbeddings)
-    }
+    }.toSeq
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {

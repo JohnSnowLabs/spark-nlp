@@ -5,7 +5,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] {
 
-  def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
+  def this() = this(Identifiable.randomUID("CHUNK2DOC"))
 
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 

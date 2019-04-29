@@ -12,6 +12,7 @@ trait HasWordEmbeddings extends HasEmbeddings {
   def getEmbeddingsRef: String = $(embeddingsRef)
 
   @transient private var wembeddings: WordEmbeddingsRetriever = null
+  @transient private var loaded: Boolean = false
 
   protected def getEmbeddings: WordEmbeddingsRetriever = {
     if (Option(wembeddings).isDefined)
@@ -21,6 +22,9 @@ trait HasWordEmbeddings extends HasEmbeddings {
       wembeddings
     }
   }
+
+  protected def embeddingsAreLoaded: Boolean = loaded
+  protected def embeddingsLoaded: Unit = loaded = true
 
   protected var preloadedEmbeddings: Option[ClusterWordEmbeddings] = None
 

@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
@@ -136,7 +136,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
-    nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
+    nerTagger.fit(glove.transform(nerDataset))
   }
 
   "An empty document" should "raise exception" in {
@@ -153,8 +153,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   "A pure Deep Sentence Detector with a right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
-    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent", "sentence" -> "0")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity" -> "sent", "sentence" -> "0")))
+    val expectedEntities = Seq(Annotation(CHUNK, begin = 0, end = 4, "Hello", Map("entity"->"sent", "sentence" -> "0", "chunk" -> "0")),
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity" -> "sent", "sentence" -> "0", "chunk" -> "1")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
 
@@ -329,8 +329,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   "A pure Deep Sentence Detector with a half right training file" should "retrieve NER entities from annotations" in {
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_half_right.txt")
-    val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0")),
-      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent", "sentence" -> "0")))
+    val expectedEntities = Seq(Annotation(TOKEN, begin = 0, end = 4, "Hello", Map("sentence"->"0", "chunk" -> "0")),
+      Annotation(CHUNK, begin = 32, end = 35, "This", Map("entity"->"sent", "sentence" -> "0", "chunk" -> "0")))
     val paragraph = "Hello world this is a sentence. This is another one."
     val annotations = getAnnotationsWithNerConverter(paragraph, nerTagger)
 
@@ -371,8 +371,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
 
   "A Deep Sentence Detector" should "retrieve NER entities from annotations" in {
 
-    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent", "sentence" -> "0")),
-      Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent", "sentence" -> "0")))
+    val expectedEntities = Seq(Annotation(CHUNK, 0, 0, "I", Map("entity"->"sent", "sentence" -> "0", "chunk" -> "0")),
+      Annotation(CHUNK, 12, 12, "I", Map("entity"->"sent", "sentence" -> "0", "chunk" -> "1")))
     val paragraph = "I am Batman I live in Gotham"
     val annotations = getAnnotationsWithNerConverter(paragraph, weakNerTagger)
 

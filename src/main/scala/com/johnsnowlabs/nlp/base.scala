@@ -11,7 +11,7 @@ object base {
   object TokenAssembler extends DefaultParamsReadable[TokenAssembler]
 
   type Doc2Chunk = com.johnsnowlabs.nlp.Doc2Chunk
-  object ChunkAssembler extends DefaultParamsReadable[Doc2Chunk]
+  object Doc2Chunk extends DefaultParamsReadable[Doc2Chunk]
 
   type Chunk2Doc = com.johnsnowlabs.nlp.Chunk2Doc
   object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
