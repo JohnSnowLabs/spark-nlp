@@ -71,6 +71,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
     ocrHelper.setFallbackMethod(true)
     ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+    ocrHelper.setScalingFactor(2.0f)
     val data = ocrHelper.createDataset(getSpark, "ocr/src/test/resources/pdfs/multiplepages")
     //got 6 pages
     assert(data.select("filename", "pagenum").count == 6)
