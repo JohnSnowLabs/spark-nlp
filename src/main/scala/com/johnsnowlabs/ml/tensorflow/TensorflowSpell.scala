@@ -18,23 +18,21 @@ class TensorflowSpell(
   val lossKey = "Add:0"
   val dropoutRate = "dropout_rate"
 
+  // these are the inputs to the graph
+  val wordIds = "batches:0"
+  val contextIds = "batches:1"
+  val contextWordIds = "batches:2"
+
   /* returns the loss associated with the last word, given previous history  */
-  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = this.synchronized {
+  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = {
 
-    val packed = dataset.zip(cids).zip(cwids).map {
-      case ((_ids, _cids), _cwids) => Array(_ids, _cids, _cwids)
-    }
-
-    val tensors = new TensorResources()
-    val inputTensor = tensors.createTensor(packed)
-
-    tensorflow.session.runner
-      .feed(inMemoryInput, inputTensor)
-      .addTarget(testInitOp)
-      .run()
+    val tensors = new TensorResources
 
     val lossWords = tensorflow.session.runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
+      .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
+      .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
+      .feed(contextWordIds, tensors.createTensor(cwids.map(_.tail)))
       .fetch(lossKey)
       .fetch(validWords)
       .run()
@@ -42,8 +40,7 @@ class TensorflowSpell(
     tensors.clearTensors()
 
     val result = extractFloats(lossWords.get(0))
-    val width = inputTensor.shape()(2)
-    result.grouped(width.toInt - 1).map(_.last)
-
+    val width = dataset.head.length
+    result.grouped(width - 1).map(_.last)
   }
 }
