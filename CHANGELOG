@@ -1,4 +1,19 @@
 ========
+2.0.3
+========
+---------------
+Overview
+---------------
+Short after 2.0.2, a hotfix release was made to address two bugs that prevented users from using pretrained tensorflow models in clusters.
+Please read release notes for 2.0.2 to catch up!
+
+---------------
+Bugfixes
+---------------
+* Fixed logger serializable, causing issues in executors to serialize TensorflowWrapper
+* Fixed contrib loading in cluster, when retrieving a Tensorflow session
+
+========
 2.0.2
 ========
 ---------------
