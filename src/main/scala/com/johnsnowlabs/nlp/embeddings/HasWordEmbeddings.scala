@@ -1,18 +1,27 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 
 trait HasWordEmbeddings extends HasEmbeddings {
 
   val embeddingsRef = new Param[String](this, "embeddingsRef", "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref")
 
+  val includeEmbeddings = new BooleanParam(this, "includeEmbeddings", "whether or not to save indexed embeddings along this annotator")
+
   setDefault(embeddingsRef, this.uid)
+  setDefault(includeEmbeddings, true)
 
   def setEmbeddingsRef(value: String): this.type = set(this.embeddingsRef, value)
   def getEmbeddingsRef: String = $(embeddingsRef)
 
+  def setIncludeEmbeddings(value: Boolean): this.type = set(includeEmbeddings, value)
+  def getIncludeEmbeddings: Boolean = $(includeEmbeddings)
+
   @transient private var wembeddings: WordEmbeddingsRetriever = null
   @transient private var loaded: Boolean = false
+
+  protected def setAsLoaded(): Unit = loaded = true
+  protected def isLoaded(): Boolean = loaded
 
   protected def getEmbeddings: WordEmbeddingsRetriever = {
     if (Option(wembeddings).isDefined)
@@ -22,9 +31,6 @@ trait HasWordEmbeddings extends HasEmbeddings {
       wembeddings
     }
   }
-
-  protected def embeddingsAreLoaded: Boolean = loaded
-  protected def embeddingsLoaded: Unit = loaded = true
 
   protected var preloadedEmbeddings: Option[ClusterWordEmbeddings] = None
 

@@ -18,10 +18,11 @@ trait HasEmbeddings extends Params {
   def getDimension: Int = $(dimension)
   def getCaseSensitive: Boolean = $(caseSensitive)
 
-  protected def wrapEmbeddingsMetadata(col: Column, embeddingsDim: Int): Column = {
+  protected def wrapEmbeddingsMetadata(col: Column, embeddingsDim: Int, embeddingsRef: Option[String] = None): Column = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", AnnotatorType.WORD_EMBEDDINGS)
     metadataBuilder.putLong("dimension", embeddingsDim.toLong)
+    embeddingsRef.foreach(ref => metadataBuilder.putString("ref", ref))
     col.as(col.toString, metadataBuilder.build)
   }
 

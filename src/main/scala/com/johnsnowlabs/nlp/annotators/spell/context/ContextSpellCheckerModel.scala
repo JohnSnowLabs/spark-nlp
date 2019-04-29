@@ -219,8 +219,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    // TODO still don't like the .apply() here
-    val decodedSentPaths = annotations.groupBy(_.metadata.apply("sentence")).mapValues{ sentTokens =>
+    val decodedSentPaths = annotations.groupBy(_.metadata.getOrElse("sentence", "0")).mapValues{ sentTokens =>
       val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { _ =>
         val idxs = Seq(-1) ++ sentTokens.zipWithIndex.filter { case (a, _) => a.result.equals(System.lineSeparator) || a.result.equals(System.lineSeparator*2) }.
           map(_._2) ++ Seq(annotations.length)
@@ -254,8 +253,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
         if(specialParser.transducer == null)
           throw new RuntimeException(s"${specialParser.label}")
-        println(s"special parser:::${specialParser.label}")
-        println(s"value: ${specialParser.transducer}")
+        // println(s"special parser:::${specialParser.label}")
+        // println(s"value: ${specialParser.transducer}")
         getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
       } ++ getVocabCandidates($$(transducer), token, getOrDefault(wordMaxDistance) -1)
 
@@ -308,7 +307,7 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 }
 
 trait PretrainedSpellModel {
-  def pretrained(name: String = "context_spell_gen", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
+  def pretrained(name: String = "spellcheck_dl", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
     ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remoteLoc)
 }
 

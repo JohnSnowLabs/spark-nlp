@@ -112,7 +112,7 @@ class BertEmbeddings(override val uid: String) extends
 }
 
 trait PretrainedBertModel {
-  def pretrained(name: String = "bert_uncased_base", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
+  def pretrained(name: String = "bert_uncased", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
     ResourceDownloader.downloadModel(BertEmbeddings, name, language, remoteLoc)
 }
 
@@ -139,8 +139,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     new BertEmbeddings()
-      .setModelIfNotSet(spark, wrapper)
       .setVocabulary(words)
+      .setModelIfNotSet(spark, wrapper)
   }
 }
 

@@ -1,4 +1,58 @@
 ========
+2.0.2
+========
+---------------
+Overview
+---------------
+Thank you for joining us in this exciting Spark NLP year!. We continue to make progress towards a better performing library, both in speed and in accuracy.
+This release focuses strongly in the quality and stability of the library, making sure it works well in most cluster environments
+and improving the compatibility across systems. Word Embeddings continue to be improved for better performance and lower memory blueprint.
+Context Spell Checker continues to receive enhancements in concurrency and usage of spark. Finally, tensorflow based annotators
+have been significantly improved by refactoring the serialization design. Help us with feedback and we'll welcome any issue reports!
+
+---------------
+New Features
+---------------
+* NerCrf annotator has now includeConfidence param that includes confidence scores for predictions in metadata
+
+---------------
+Enhancements
+---------------
+* Cluster mode performance improved in tensorflow annotators by serializing to bytes internal information
+* Doc2Chunk annotator added new params startCol, startColByTokenIndex, failOnMissing and lowerCase allows better chunking of documents
+* All annotations that derive from sentence or chunk types now contain metadata information referring to the sentence or chunk ID they belong to
+* ContextSpellChecker now creates a window around the token to improve computation performance
+* Improved WordEmbeddings matching accuracy by trying alternative case sensitive tokens
+* WordEmbeddings won't load twice if already loaded
+* WordEmbeddings can use embeddingsRef if source was not provided, improving reutilization of embeddings in a pipeline
+* WordEmbeddings new param includeEmbeddings allow annotators not to save entire embeddings source along them
+* Contrib tensorflow dependencies now only load if necessary
+
+---------------
+Bugfixes
+---------------
+* Added missing Symmetric delete pretrained model
+* Fixed a broken param name in Normalizer (thanks @RobertSassen)
+* Fixed Cloudera cluster support
+* Fixed concurrent access in ContextSpellChecker in high partition number use cases and LightPipelines
+* Fixed POS dataset creator to better handle corrupted pairs
+* Fixed a bug in Word Embeddings not matching exact case sensitive tokens in some scenarios
+* Fixed OCR Tess4J initialization problems in concurrent scenarios
+
+---------------
+Models and Pipelines
+---------------
+* Renaming of models and pipelines (work in progress)
+* Better output column naming in pipelines
+
+---------------
+Developer API
+---------------
+* Unified more WordEmbeddings interface with dimension params and individual setters
+* Improved unit tests for better compatibility on Windows
+* Python embeddings moved to sparknlp.embeddings
+
+========
 2.0.1
 ========
 ---------------

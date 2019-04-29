@@ -35,7 +35,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }.toArray
 
-    val calculated = tensorflow.session.runner
+    val calculated = tensorflow.getSession.runner
       .feed(tokenIdsKey, tensors.createTensor(shrink))
       .fetch(embeddingsKey)
       .run()

@@ -102,8 +102,19 @@ class HasWordEmbeddings(HasEmbeddings):
                           "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
                           typeConverter=TypeConverters.toString)
 
+    includeEmbeddings = Param(Params._dummy(),
+                           "includeEmbeddings",
+                           "whether or not to save indexed embeddings along this annotator",
+                           typeConverter=TypeConverters.toBoolean)
+
     def setEmbeddingsRef(self, value):
         return self._set(embeddingsRef=value)
+
+    def setIncludeEmbeddings(self, value):
+        return self._set(includeEmbeddings=value)
+
+    def getIncludeEmbeddings(self):
+        return self.getOrDefault("includeEmbeddings")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,

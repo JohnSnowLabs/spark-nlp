@@ -52,7 +52,8 @@ abstract class AnnotatorApproach[M <: Model[M]]
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${getInputCols.mkString(",")}. Make sure such columns exist and have the following annotator types: " +
+      s"Received inputCols: ${getInputCols.mkString(",")}. Make sure such annotators exist in your pipeline, " +
+      s"with the right output names and that they have following annotator types: " +
       s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
