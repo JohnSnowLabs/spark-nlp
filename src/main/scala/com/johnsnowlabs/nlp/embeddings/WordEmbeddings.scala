@@ -75,6 +75,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
       .setEmbeddingsRef($(embeddingsRef))
+      .setIncludeEmbeddings($(includeEmbeddings))
 
     getClusterEmbeddings.getLocalRetriever.close()
 
