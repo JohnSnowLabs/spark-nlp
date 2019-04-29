@@ -116,7 +116,7 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession), tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(true)), tf.graph)
 
     new NerDLModel()
       .setDatasetParams(ner.encoder.params)
