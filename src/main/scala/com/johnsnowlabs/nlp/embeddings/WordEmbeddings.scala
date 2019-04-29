@@ -81,8 +81,10 @@ class WordEmbeddings(override val uid: String)
 
   override protected def onWrite(path: String, spark: SparkSession): Unit = {
     /** Param only useful for runtime execution */
-    if (isDefined(sourceEmbeddingsPath))
+    if (isDefined(sourceEmbeddingsPath)) {
+      preload(spark)
       serializeEmbeddings(path, spark)
+    }
   }
 
   override protected def close(): Unit = {
