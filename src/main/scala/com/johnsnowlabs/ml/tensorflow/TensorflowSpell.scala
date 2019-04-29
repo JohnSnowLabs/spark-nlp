@@ -1,7 +1,5 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.lang.reflect.Modifier
-
 import com.johnsnowlabs.ml.tensorflow.TensorResources.extractFloats
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
@@ -28,7 +26,7 @@ class TensorflowSpell(
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.session.runner
+    val lossWords = tensorflow.getSession.runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))

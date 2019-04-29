@@ -2,6 +2,7 @@ import unittest
 import os
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.embeddings import *
 from test.util import SparkContextForTest
 from sparknlp.ocr import OcrHelper
 
@@ -98,7 +99,7 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .addInfixPattern("(\\p{L}+)\\/(\\p{L}+\\b)")
+            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)")
         finisher = Finisher() \
             .setInputCols(["token"]) \
             .setOutputCols(["token_out"]) \
@@ -106,7 +107,8 @@ class TokenizerTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(data)
         tokenized = tokenizer.transform(assembled)
         finished = finisher.transform(tokenized)
-        self.assertEqual(len(finished.first()['token_out']), 6)
+        print(finished.first()['token_out'])
+        self.assertEqual(len(finished.first()['token_out']), 7)
 
 
 class ChunkTokenizerTestSpec(unittest.TestCase):
@@ -316,8 +318,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setOutputCol("sentence") \
             .setIncludePragmaticSegmenter(True) \
             .setEndPunctuation([".", "?"])
-        embeddings = glove.fit(self.training_set)
-        embedded_training_set = embeddings.transform(self.training_set)
+        embedded_training_set = glove.fit(self.training_set).transform(self.training_set)
         ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded_training_set)
         ner_converted = ner_converter.transform(ner_tagged)
         deep_sentence_detected = deep_sentence_detector.transform(ner_converted)

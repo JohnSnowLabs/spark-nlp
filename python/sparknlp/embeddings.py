@@ -1,6 +1,6 @@
 import sparknlp.internal as _internal
 
-from sparknlp.common import AnnotatorModel, HasWordEmbeddings, HasEmbeddings
+from sparknlp.common import AnnotatorApproach, AnnotatorModel, HasWordEmbeddings, HasEmbeddings
 from sparknlp.internal import _BertLoader
 
 from pyspark.ml.param.shared import Param, TypeConverters
@@ -28,7 +28,7 @@ class EmbeddingsHelper:
         return _internal._EmbeddingsHelperFromAnnotator(annotator).apply()
 
 
-class WordEmbeddings(AnnotatorModel, HasWordEmbeddings):
+class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
 
     name = "WordEmbeddings"
 
@@ -44,9 +44,7 @@ class WordEmbeddings(AnnotatorModel, HasWordEmbeddings):
 
     @keyword_only
     def __init__(self):
-        super(WordEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings"
-        )
+        super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
             caseSensitive=False
         )
@@ -85,10 +83,25 @@ class WordEmbeddings(AnnotatorModel, HasWordEmbeddings):
         else:
             return "BINARY"
 
+    def _create_model(self, java_model):
+        return WordEmbeddingsModel(java_model=java_model)
+
+
+class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+
+    name = "WordEmbeddingsModel"
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
+        super(WordEmbeddingsModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
     @staticmethod
     def pretrained(name="glove_100d", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WordEmbeddings, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remote_loc)
 
 
 class BertEmbeddings(AnnotatorModel, HasEmbeddings):
@@ -126,8 +139,8 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
         )
 
     @staticmethod
-    def loadFromPython(folder):
-        jModel = _BertLoader(folder)._java_obj
+    def loadFromPython(folder, spark_session):
+        jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
         return BertEmbeddings(java_model=jModel)
 
 

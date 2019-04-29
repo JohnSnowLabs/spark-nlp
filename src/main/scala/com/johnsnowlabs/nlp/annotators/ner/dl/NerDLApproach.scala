@@ -91,15 +91,12 @@ class NerDLApproach(override val uid: String)
     /** Enable for log placement */
     //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
     /** without log placement */
-    val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(graphBytesDef)
-
-    val session = new Session(graph, config)
 
     val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
 
@@ -115,15 +112,16 @@ class NerDLApproach(override val uid: String)
 
     catch {
       case e: Exception =>
-        session.close()
         graph.close()
         throw e
     }
 
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession), tf.graph)
+
     new NerDLModel()
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
-      //.setModelIfNotSet(dataset.sparkSession, tf)
+      .setModelIfNotSet(dataset.sparkSession, newWrapper)
   }
 }
 
