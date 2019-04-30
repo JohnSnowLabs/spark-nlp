@@ -14,62 +14,43 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 
 ## Table of contents
 
-- [Spark-NLP](#spark-nlp)
-  - [Project's website](#projects-website)
-  - [Slack community channel](#slack-community-channel)
-  - [Table of contents](#table-of-contents)
-  - [Usage](#usage)
-  - [Apache Spark Support](#apache-spark-support)
-  - [Spark Packages](#spark-packages)
-    - [Command line (requires internet connection)](#command-line-requires-internet-connection)
-  - [Compiled JARs](#compiled-jars)
-    - [Build from source](#build-from-source)
-      - [Spark NLP](#spark-nlp)
-      - [Spark-NLP-OCR](#spark-nlp-ocr)
-    - [Using the jar manually](#using-the-jar-manually)
-  - [Scala](#scala)
-    - [Maven](#maven)
-    - [SBT](#sbt)
-  - [Python](#python)
-    - [Python without explicit Pyspark installation](#python-without-explicit-pyspark-installation)
-    - [Pip](#pip)
-    - [Conda](#conda)
-  - [Apache Zeppelin](#apache-zeppelin)
-    - [Python in Zeppelin](#python-in-zeppelin)
-  - [Jupyter Notebook (Python)](#jupyter-notebook-python)
-  - [S3 Cluster](#s3-cluster)
-    - [With no hadoop configuration](#with-no-hadoop-configuration)
-  - [Models and Pipelines](#models-and-pipelines)
-    - [Pipelines](#pipelines)
-    - [Models](#models)
-      - [English](#english)
-      - [Italian](#italian)
-      - [French](#french)
-    - [How to use Models and Pipelines](#how-to-use-models-and-pipelines)
-      - [Online](#online)
-      - [Offline](#offline)
-  - [Examples](#examples)
-  - [FAQ](#faq)
-  - [Troubleshooting](#troubleshooting)
-    - [OCR](#ocr)
-  - [Acknowledgments](#acknowledgments)
-    - [Special community aknowledgments](#special-community-aknowledgments)
-  - [Contributing](#contributing)
-  - [Contact](#contact)
-  - [John Snow Labs](#john-snow-labs)
+* [Using Spark-NLP](#usage)
+  * [Apache Spark Support](#apache-spark-support)
+  * [Spark Packages](#spark-packages)
+  * [Compiled JARs](#compiled-jars)
+  * [Scala](#scala)
+    * [Maven](#maven)
+    * [SBT](#sbt)
+  * [Python](#python)
+    * [pip](#pip)
+    * [conda](#conda)
+  * [Apache Zeppelin](#apache-zeppelin)
+  * [Jupyter Notebook](#jupyter-notebook-python)
+  * [S3 Cluster](#s3-cluster)
+* [Models & Pipelines](#models-and-pipelines)
+  * [Pipelines](#pipelines)
+  * [Models](#models)
+    * [English](#english)
+    * [Italian](#italian)
+    * [French](#french)
+* [Examples](#examples)  
+* [FAQ](#faq)
+* [Troubleshooting](#troubleshooting)
+* [Aknowledgments](#aknowledgments)
+* [Contributing](#contributing)
 
 ## Usage
 
 ## Apache Spark Support
 
-Spark-NLP *2.0.2* has been built on top of Apache Spark 2.4.0
+Spark-NLP *2.0.3* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
-| Spark NLP   |   Spark 2.0.2 / Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.0.3 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
 | 2.x.x       |NO                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
@@ -87,18 +68,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.2` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.3` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.0.3
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.2
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.3
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -166,7 +147,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 
@@ -177,7 +158,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 
@@ -185,14 +166,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.3"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.3"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -206,7 +187,7 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
-pip install spark-nlp==2.0.2
+pip install spark-nlp==2.0.3
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
@@ -229,7 +210,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.2")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -243,7 +224,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.2
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.3
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -253,7 +234,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.2
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.0.2
+pip install spark-nlp==2.0.3
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -279,7 +260,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -374,7 +355,7 @@ If you have any trouble using online pipelines or models in your environment (ma
 
 After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):
 
-- Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
+* Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
 ```Scala
 val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
@@ -382,7 +363,7 @@ val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
       .setOutputCol("pos")
 ```
 
-- Loading Offline Pipeline
+* Loading Offline Pipeline
 
 ```Scala
 val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.0_2.4_1553227894237/")
