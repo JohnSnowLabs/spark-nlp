@@ -315,6 +315,7 @@ sparknlp {
 
 |Pipelines | Name          | English             |
 |----------|------------------|------------------|
+|Explain Document ML|`explain_document_ml`|
 |Explain Document DL|`explain_document_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)
 |Entity Recognizer DL|`entity_recognizer_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)
 
@@ -333,8 +334,8 @@ sparknlp {
 |NerDLModel (NER with BERT)| `ner_dl_bert`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_bert_en_2.0.2_2.4_1556650375261.zip)
 |DeepSentenceDetector| `ner_dl_sentence`|
 |ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_2.0.2_2.4_1556479898829.zip)
-|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
-|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   |
+|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_sd_en_2.0.2_2.4_1556604489934.zip)
+|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_norvig_en_2.0.2_2.4_1556605026653.zip)
 |ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    | 
 
 #### Italian
