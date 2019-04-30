@@ -14,43 +14,62 @@ Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for use
 
 ## Table of contents
 
-* [Using Spark-NLP](#usage)
-  * [Apache Spark Support](#apache-spark-support)
-  * [Spark Packages](#spark-packages)
-  * [Compiled JARs](#compiled-jars)
-  * [Scala](#scala)
-    * [Maven](#maven)
-    * [SBT](#sbt)
-  * [Python](#python)
-    * [pip](#pip)
-    * [conda](#conda)
-  * [Apache Zeppelin](#apache-zeppelin)
-  * [Jupyter Notebook](#jupyter-notebook-python)
-  * [S3 Cluster](#s3-cluster)
-* [Models & Pipelines](#models-and-pipelines)
-  * [Pipelines](#pipelines)
-  * [Models](#models)
-    * [English](#english)
-    * [Italian](#italian)
-    * [French](#french)
-* [Examples](#examples)  
-* [FAQ](#faq)
-* [Troubleshooting](#troubleshooting)
-* [Aknowledgments](#aknowledgments)
-* [Contributing](#contributing)
+- [Spark-NLP](#spark-nlp)
+  - [Project's website](#projects-website)
+  - [Slack community channel](#slack-community-channel)
+  - [Table of contents](#table-of-contents)
+  - [Usage](#usage)
+  - [Apache Spark Support](#apache-spark-support)
+  - [Spark Packages](#spark-packages)
+    - [Command line (requires internet connection)](#command-line-requires-internet-connection)
+  - [Compiled JARs](#compiled-jars)
+    - [Build from source](#build-from-source)
+      - [Spark NLP](#spark-nlp)
+      - [Spark-NLP-OCR](#spark-nlp-ocr)
+    - [Using the jar manually](#using-the-jar-manually)
+  - [Scala](#scala)
+    - [Maven](#maven)
+    - [SBT](#sbt)
+  - [Python](#python)
+    - [Python without explicit Pyspark installation](#python-without-explicit-pyspark-installation)
+    - [Pip](#pip)
+    - [Conda](#conda)
+  - [Apache Zeppelin](#apache-zeppelin)
+    - [Python in Zeppelin](#python-in-zeppelin)
+  - [Jupyter Notebook (Python)](#jupyter-notebook-python)
+  - [S3 Cluster](#s3-cluster)
+    - [With no hadoop configuration](#with-no-hadoop-configuration)
+  - [Models and Pipelines](#models-and-pipelines)
+    - [Pipelines](#pipelines)
+    - [Models](#models)
+      - [English](#english)
+      - [Italian](#italian)
+      - [French](#french)
+    - [How to use Models and Pipelines](#how-to-use-models-and-pipelines)
+      - [Online](#online)
+      - [Offline](#offline)
+  - [Examples](#examples)
+  - [FAQ](#faq)
+  - [Troubleshooting](#troubleshooting)
+    - [OCR](#ocr)
+  - [Acknowledgments](#acknowledgments)
+    - [Special community aknowledgments](#special-community-aknowledgments)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
+  - [John Snow Labs](#john-snow-labs)
 
 ## Usage
 
 ## Apache Spark Support
 
-Spark-NLP *2.0.3* has been built on top of Apache Spark 2.4.0
+Spark-NLP *2.0.2* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
-| Spark NLP   |   Spark 2.0.3 / Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.0.2 / Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
 | 2.x.x       |NO                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
@@ -68,18 +87,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.3` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.2` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.3
+spark-shell --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.3
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -147,7 +166,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
@@ -158,7 +177,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
@@ -166,14 +185,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.2"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -187,7 +206,7 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
-pip install spark-nlp==2.0.3
+pip install spark-nlp==2.0.2
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
@@ -210,7 +229,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.2")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -224,7 +243,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.3
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.2
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -234,7 +253,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.3
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.0.3
+pip install spark-nlp==2.0.2
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -260,7 +279,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.2
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -294,43 +313,49 @@ sparknlp {
 
 ### Pipelines
 
-|Pipelines | English          |Name              |
+|Pipelines | Name          | English             |
 |----------|------------------|------------------|
-|Explain Document ML|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.0_2.4_1553189532150.zip)|`explain_document_ml`|
-|Explain Document DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.0_2.4_1553227894237.zip)|`explain_document_dl`|
-|Entity Recognizer DL|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)|`entity_recognizer_dl`
+|Explain Document DL|`explain_document_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)
+|Entity Recognizer DL|`entity_recognizer_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)
 
 ### Models
 
 #### English
 
-| Model                                  |   English     |
-|----------------------------------------|---------------|
-|LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fast_en_1.8.0_2.4_1545435317864.zip)
-|PerceptronModel (POS)                   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_fast_en_1.8.0_2.4_1545434653742.zip)
-|ViveknSentimentModel (Sentiment)        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/vivekn_fast_en_1.8.0_2.4_1545435741623.zip)
-|NerCRFModel (NER)                       | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_fast_en_1.8.0_2.4_1545435254745.zip)
-|NerDLModel (NER)                        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_precise_en_1.8.0_2.4_1545439567330.zip)
-|SymmetricDeleteModel (Spell Checker)    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_sd_fast_en_1.8.0_2.4_1545435558025.zip)
-|ContextSpellCheckerModel (Spell Checker)| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/context_spell_gen_en_1.8.0_2.4_1546979465177.zip)
-|NorvigSweetingModel (Spell Checker)     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spell_fast_en_1.8.0_2.4_1545435732032.zip)
+| Model                                  |   Name     |   English     |
+|----------------------------------------|---------------|---------------|
+|LemmatizerModel (Lemmatizer)            |  `lemma_antbnc`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_antbnc_en_2.0.2_2.4_1556480454569.zip)
+|PerceptronModel (POS)                   |   `pos_anc`     |
+|NerCRFModel (NER with GloVe)                       |    `ner_crf`    | 
+|NerDLModel (NER with GloVe)                        |    `ner_dl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_en_2.0.2_2.4_1556501490317.zip)
+|WordEmbeddings (GloVe) | `glove_100d` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_100d_en_2.0.2_2.4_1556534397055.zip)
+|WordEmbeddings (BERT)  | `bert_uncased` |
+|NerDLModel (NER with BERT)| `ner_dl_bert`|
+|DeepSentenceDetector| `ner_dl_sentence`|
+|ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_2.0.2_2.4_1556479898829.zip)
+|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
+|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   |
+|ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    | 
 
 #### Italian
 
-| Model                                  |   Italian    |
-|----------------------------------------|--------------|
-|LemmatizerModel (Lemmatizer)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/lemma/dxc.technology/lemma-it_dxc-1.8.0.zip)
-|SentimentDetector (Sentiment)           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/it/sentiment/dxc.technology/sentiment-it_dxc-1.8.0.zip)
+| Model                            | Name      |   Italian    |
+|----------------------------------|-----------|--------------|
+|LemmatizerModel (Lemmatizer)      |`lemma_dxc`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_dxc_it_2.0.2_2.4_1556531469058.zip)
+|SentimentDetector (Sentiment)     |  `sentiment_dxc`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_dxc_it_2.0.2_2.4_1556531477694.zip)
 
 #### French
 
-| Model                                  |   French    |
-|----------------------------------------|--------------|
-|PerceptronModel (POS UD-GSD)            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud-gsd_fr_2.0.0_2.4_1553029753307.zip)
+| Model                         | Name         |   French    |
+|-------------------------------|--------------|--------------|
+|PerceptronModel (POS UD)       | `pos_ud_gsd` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
+|LemmatizerModel (Lemmatizer)| `lemma`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
 
 ### How to use Models and Pipelines
 
-To use Spark NLP online pretrained pipelines, you can call `PretrainedPipeline` with pipeline's name and its language:
+#### Online
+
+To use Spark NLP online pretrained pipelines, you can call `PretrainedPipeline` with pipeline's name and its language (default is `en`):
 
 ```python
 pipeline = PretrainedPipeline('explain_document_dl', lang='en')
@@ -342,11 +367,13 @@ To use Spark NLP online pretrained models:
 ner = NerDLModel.pretrained()
 ```
 
+#### Offline
+
 If you have any trouble using online pipelines or models in your environment (maybe it's air-gapped), you can directly download them for `offline` use.
 
 After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):
 
-* Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
+- Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
 ```Scala
 val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
@@ -354,7 +381,7 @@ val pos = PerceptronModel.load("/tmp/pos_ud-gsd_fr_2.0.0_2.4_1553029753307/")
       .setOutputCol("pos")
 ```
 
-* Loading Offline Pipeline
+- Loading Offline Pipeline
 
 ```Scala
 val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.0_2.4_1553227894237/")
