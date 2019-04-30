@@ -329,8 +329,8 @@ sparknlp {
 |NerCRFModel (NER with GloVe)                       |    `ner_crf`    | 
 |NerDLModel (NER with GloVe)                        |    `ner_dl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_en_2.0.2_2.4_1556501490317.zip)
 |WordEmbeddings (GloVe) | `glove_100d` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_100d_en_2.0.2_2.4_1556534397055.zip)
-|WordEmbeddings (BERT)  | `bert_uncased` |
-|NerDLModel (NER with BERT)| `ner_dl_bert`|
+|WordEmbeddings (BERT)  | `bert_uncased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_uncased_en_2.0.2_2.4_1556651478920.zip)
+|NerDLModel (NER with BERT)| `ner_dl_bert`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_bert_en_2.0.2_2.4_1556650375261.zip)
 |DeepSentenceDetector| `ner_dl_sentence`|
 |ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_2.0.2_2.4_1556479898829.zip)
 |SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
