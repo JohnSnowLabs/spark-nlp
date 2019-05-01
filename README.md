@@ -354,9 +354,9 @@ val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
 You can follow the same approach to use Spark NLP pretrained models:
 
 ```python
-# load NER model trained deep learning and GloVe word embeddings
+# load NER model trained by deep learning approach and GloVe word embeddings
 ner_dl = NerDLModel.pretrained('ner_dl')
-# load NER model trained deep learning and BERT word embeddings
+# load NER model trained by deep learning approach and BERT word embeddings
 ner_crf = NerDLModel.pretrained('ner_dl_bert')
 ```
 
@@ -392,6 +392,7 @@ advancedPipeline.transform(predictionDF)
 ## Examples
 
 Need more examples? Check out our dedicated repository to showcase Spark NLP use cases!
+
 [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
