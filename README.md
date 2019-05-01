@@ -364,7 +364,9 @@ The default language is English, so for other laguages you should set the langua
 
 ```scala
 // load French POS tagger model trained by Universal Dependencies
-val french_pos = PerceptronModel.pretrained("pos_ud_gsd")
+val french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
+// load Italain LemmatizerModel
+val italian_lemma = LemmatizerModel.pretrained("", lang="en")
 ````
 
 #### Offline
