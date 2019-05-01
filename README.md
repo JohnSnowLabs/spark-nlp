@@ -366,7 +366,7 @@ The default language is English, so for other laguages you should set the langua
 // load French POS tagger model trained by Universal Dependencies
 val french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 // load Italain LemmatizerModel
-val italian_lemma = LemmatizerModel.pretrained("", lang="en")
+val italian_lemma = LemmatizerModel.pretrained("", lang="it")
 ````
 
 #### Offline
