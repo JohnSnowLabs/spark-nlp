@@ -19,6 +19,8 @@ import spark.implicits._
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
 
+  System.gc()
+
   trait Scope extends WeightedLevenshtein {
     val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
       "F" -> Map("P" -> 0.2f))
