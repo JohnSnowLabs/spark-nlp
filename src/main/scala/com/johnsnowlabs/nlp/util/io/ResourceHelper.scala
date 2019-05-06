@@ -29,7 +29,7 @@ object ResourceHelper {
   val spark: SparkSession = SparkSession.builder()
     .appName("SparkNLP-Default-Spark")
     .master("local[*]")
-    .config("spark.driver.memory","8G")
+    .config("spark.driver.memory","12G")
     .config("spark.driver.maxResultSize", "2G")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .config("spark.kryoserializer.buffer.max", "500m")
