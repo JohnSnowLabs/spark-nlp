@@ -38,13 +38,13 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
     .setConll2009("src/test/resources/parser/labeled/example.train.conll2009")
-    .setNumberOfIterations(10)
+    .setNumberOfIterations(1)
 
   private val typedDependencyParserConllU = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
     .setConllU("src/test/resources/parser/labeled/train_small.conllu.txt")
-    .setNumberOfIterations(10)
+    .setNumberOfIterations(1)
 
   private val emptyDataSet = PipelineModels.dummyDataset
 
@@ -70,7 +70,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
       .setInputCols(Array("sentence", "pos", "token"))
       .setOutputCol("dependency")
       .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
-      .setNumberOfIterations(50)
+      .setNumberOfIterations(1)
       .fit(DataBuilder.basicDataBuild("dummy"))
 
     val path = "./tmp_dp_model"
@@ -105,7 +105,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
       .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
       .setConllU("src/test/resources/parser/labeled/train_small.conllu.txt")
-      .setNumberOfIterations(10)
+      .setNumberOfIterations(1)
 
     val typedDependencyParserModel = typedDependencyParser.fit(emptyDataSet)
     saveModel(typedDependencyParserModel.write, "./tmp_tdp_model")
