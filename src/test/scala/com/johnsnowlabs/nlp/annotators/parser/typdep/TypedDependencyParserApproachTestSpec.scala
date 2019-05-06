@@ -15,6 +15,8 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
+  System.gc()
+
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
