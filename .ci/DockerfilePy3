@@ -4,10 +4,10 @@ FROM $from
 RUN sbt assemblyAndCopy
 RUN apt-get -y update
 RUN apt-get -y install python3-pip
-RUN pip3 install pyspark==2.3.2
+RUN pip3 install pyspark==2.4.0
 RUN pip3 install numpy
 
-ENV PYSPARK_PYTHON python3.5
-ENV PYSPARK_DRIVER_PYTHON python3.5
+ENV PYSPARK_PYTHON python3.6
+ENV PYSPARK_DRIVER_PYTHON python3.6
 
 WORKDIR python/
