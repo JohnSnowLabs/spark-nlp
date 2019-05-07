@@ -1,1 +1,27 @@
-theme: jekyll-theme-cayman
+
+theme: just-the-docs
+title: Just the Docs
+description: A Jekyll theme for documentation
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://nlp.johnsnowlabs.com" # the base hostname & protocol for your site, e.g. http://example.com
+
+permalink: pretty
+exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
+
+# Enable or disable the site search
+search_enabled: true
+
+# Aux links for the upper right navigation
+aux_links:
+  "Spark-NLP on GitHub":
+    - "//github.com/JohnSnowLabs/spark-nlp"
+
+# Color scheme currently only supports "dark" or nil (default)
+color_scheme: nil
+
+# Google Analytics Tracking (optional)
+# e.g, UA-1234567-89
+ga_tracking: UA-70312582-2
+
+plugins:
+  - jekyll-seo-tag
