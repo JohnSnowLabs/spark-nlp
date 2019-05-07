@@ -50,9 +50,9 @@ Note that Spark is not retrocompatible with Spark 2.3.x, so models and environme
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
-| Spark NLP   |   Spark 2.0.3 / Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
-| 2.x.x       |NO                                   |YES           |
+| 2.x.x       |YES                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
