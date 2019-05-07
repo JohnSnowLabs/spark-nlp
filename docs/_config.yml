@@ -1,5 +1,6 @@
 
 theme: just-the-docs
+remote_theme: "pmarsceill/just-the-docs"
 title: Just the Docs
 description: A Jekyll theme for documentation
 baseurl: "/" # the subpath of your site, e.g. /blog
