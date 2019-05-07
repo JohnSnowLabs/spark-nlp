@@ -315,3 +315,4 @@ test_*_pipeline/
 *metastore_db*
 python/src/
 **/.DS_Store
+**/tmp_*
