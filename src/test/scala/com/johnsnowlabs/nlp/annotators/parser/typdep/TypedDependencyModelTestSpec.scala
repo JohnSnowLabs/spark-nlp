@@ -101,7 +101,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
       Files.exists(Paths.get(modelFilePath))
     }
   }
-
+/*
   "A typed dependency parser model" should "save a trained model to local disk" in {
     val typedDependencyParser = new TypedDependencyParserApproach()
       .setInputCols(Array("token", "pos", "dependency"))
@@ -344,5 +344,5 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
-
+*/
 }
