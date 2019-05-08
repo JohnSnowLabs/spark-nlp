@@ -160,7 +160,7 @@ pageview:
 ## => Search
 ##############################
 search:
-  provider: default # "default" (default), false, "google", "custom"
+  provider: "default" # "default" (default), false, "google", "custom"
 
   ## Google Custom Search Engine
   google:
@@ -170,11 +170,11 @@ search:
 ## => Analytics
 ##############################
 analytics:
-  provider: false # false (default), "google", "custom"
+  provider: "google" # false (default), "google", "custom"
 
   ## Google Analytics
   google:
-    tracking_id : # Google Analytics id for the site
+    tracking_id : UA-70312582-2 # Google Analytics id for the site
     anonymize_ip: false # Anonymize IP tracking for Analytics
 
 
@@ -204,7 +204,7 @@ exclude:
 defaults:
   - scope:
       path: ""
-      type: posts
+      type: webpage
     values:
       layout: article
       sharing: true
@@ -214,6 +214,7 @@ defaults:
       show_edit_on_github: true
       show_subscribe: true
       pageview: true
+      show_date: true
 
 ## => Plugins
 ##############################

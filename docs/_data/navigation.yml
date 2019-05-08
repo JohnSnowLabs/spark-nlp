@@ -1,7 +1,10 @@
 header:
   - titles:
-      en      : &EN       Models
-    url: /docs/en/models.html
+      en      : &EN       Home
+    url: /
+  - titles:
+      en      : &EN       Documentation
+    url: /docs/en/quickstart 
 
 docs-en:
   - title:      Start
@@ -10,8 +13,6 @@ docs-en:
         url:    /docs/en/quickstart
       - title:  Install Spark NLP
         url:    /docs/en/install
-      - title:  Examples
-        url:    /docs/en/examples
   - title:      Documentation
     children:
       - title:  Models and Pipelines
