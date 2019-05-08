@@ -3,7 +3,7 @@ header:
       en      : &EN       Home
     url: /
   - titles:
-      en      : &EN       Documentation
+      en      : &EN       Docs
     url: /docs/en/quickstart 
 
 docs-en:
@@ -18,4 +18,4 @@ docs-en:
       - title:  Models and Pipelines
         url:    /docs/en/models
       - title:  Annotators
-        url:    /docs/en/Annotators
+        url:    /docs/en/annotators
