@@ -56,8 +56,8 @@ author:
 
 ## => GitHub Repository (if the site is hosted by GitHub)
 ##############################
-repository: maziyarpanahi/spark-nlp/docs
-repository_tree: master
+repository: maziyarpanahi/spark-nlp
+repository_tree: master/docs
 
 
 ## => Paths
