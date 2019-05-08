@@ -8,8 +8,10 @@ aside:
   toc: true
 sidebar:
   nav: docs-en
+# mode: immersive
 header:
-  theme: light   
+  theme: dark
+  background: '#123'
 ---
 
 Last updated:
@@ -18,13 +20,13 @@ Last updated:
 
 A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
 
-Just send an email to **nlp@johnsnowlabs.com** and we'll send you an invite asap.
+[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE){:.button.button--info.button--rounded.button--xl}
 
 ## The very second: Spark NLP Workshop
 
 If you are of those who prefer learning by example, check this repository!
 
-[spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--xl}
 
 It is full of fresh examples and even a docker container if you want to skip installation.
 
@@ -362,12 +364,4 @@ Detailed information about Spark NLP concepts, annotators and more may be found 
 
 We are working on examples to show you how the library may be used in different scenarios, take a look at our examples repository, which also includes a DOCKER image [HERE](https://www.google.com/search?client=firefox-b-1-d&q=spark-nlp-workshop)
 
-- [Requirements](#concepts-section)
-- [Concepts](#concepts-2-section)
-- [Annotation](#annotation-section)
-- [Annotators](#annotators-section)
-  - [Quick results test](#annotators-type-section-quick)
-  - [Using Pipelines](#example-section)
-  - [Spark NLP OCR](#ocr-section)
-  - [Training annotators](#training-section)
-- [What next](#next-type-section)
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded}

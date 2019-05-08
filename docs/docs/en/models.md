@@ -4,22 +4,17 @@ title: Models and Pipelines
 permalink: /docs/en/models
 key: docs-models
 show_edit_on_github: true
+show_date: true
 aside:
   toc: true
 sidebar:
   nav: docs-en
 header:
-  theme: light  
+  theme: dark
+  background: '#123'
 ---
 
 ### Pipelines
-
-[BUTTON](#){:.button.button--primary.button--pill}
-
-[BUTTON](#){:.button.button--outline-success.button--pill}
-
-[BUTTON](#){:.button.button--primary.button--rounded}
-
 
 |Pipelines | Name          | English             |
 |----------|------------------|------------------|
