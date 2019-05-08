@@ -4,11 +4,11 @@ title: Installing Spark NLP
 permalink: /docs/en/install
 key: docs-install
 show_edit_on_github: true
+show_date: true
 aside:
   toc: true
 sidebar:
   nav: docs-en
-# mode: immersive
 header:
   theme: dark
   background: '#123'
