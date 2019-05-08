@@ -316,3 +316,4 @@ test_*_pipeline/
 python/src/
 **/.DS_Store
 **/tmp_*
+docs/_site/**
