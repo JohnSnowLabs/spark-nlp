@@ -7,7 +7,7 @@ import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
-import scala.collection.immutable.HashSet
+import scala.collection.immutable.{HashSet, ListMap}
 
 class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[NorvigSweetingModel] with NorvigSweetingParams {
 
@@ -42,7 +42,15 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def setVowelSwapLimit(v: Int) = set(vowelSwapLimit, v)
 
   private lazy val allWords: HashSet[String] = {
-    if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*) else HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+    if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*)
+    else HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
+  }
+
+  private lazy val frequencyBoundaryValues: (Long, Long) = {
+    //val cleanWords = ListMap($$(wordCount).filter(_._1.length > $(wordSizeIgnore)).toSeq.sortWith(_._2 > _._2):_*)
+    val min: Long = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).minBy(_._2)._2
+    val max = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).maxBy(_._2)._2
+    (min, max)
   }
 
   def this() = this(Identifiable.randomUID("SPELL"))
@@ -97,11 +105,11 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     else word1.zip(word2).count { case (c1, c2) => c1 != c2 } + (word1.length - word2.length).abs
 
   /** retrieve frequency */
-  private def frequency(word: String, wordCount: Map[String, Long]): Long = {
+  private def getFrequency(word: String, wordCount: Map[String, Long]): Long = {
     wordCount.getOrElse(word, 0)
   }
 
-  private def compareFrequencies(value: String): Long = frequency(value, $$(wordCount))
+  private def compareFrequencies(value: String): Long = getFrequency(value, $$(wordCount))
   private def compareHammers(input: String)(value: String): Int = hammingDistance(input, value)
 
   /** Posibilities analysis */
@@ -164,28 +172,51 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     reductions(word).flatMap(vowelSwaps)
   }
 
-  /** get best spelling suggestion */
-  private def suggestion(word: String): Option[String] = {
+  private def getBestSpellingSuggestion(word: String): Option[String] = {
+    var suggestedWord: Option[String] = None
+    if ($(shortCircuit)) {
+      suggestedWord = getShortCircuitSuggestion(word)
+    } else {
+      suggestedWord = getSuggestion(word: String)
+    }
+    //TODO: Get frequency of the word before returning
+    val frequency = getFrequency(suggestedWord.getOrElse("null"), $$(wordCount))
+    val score = normalizeValue(frequency)
+    println("score for word " + suggestedWord.getOrElse("null") + ":" + score)
+    suggestedWord
+  }
+
+  private def getShortCircuitSuggestion(word: String): Option[String] = {
+    if (allWords.intersect(reductions(word)).nonEmpty) Some(word)
+    else if (allWords.intersect(vowelSwaps(word)).nonEmpty) Some(word)
+    else if (allWords.intersect(variants(word)).nonEmpty) Some(word)
+    else if (allWords.intersect(both(word)).nonEmpty) Some(word)
+    else if ($(doubleVariants) && allWords.intersect(doubleVariants(word)).nonEmpty) Some(word)
+    else None
+  }
+
+  private def getSuggestion(word: String): Option[String] = {
     if (allWords.contains(word)) {
       logger.debug("Word found in dictionary. No spell change")
       Some(word)
-    /*} else if ($$(customDict).contains(word)) {
-      logger.debug("Word custom dictionary found. Replacing")
-      Some($$(customDict)(word))*/
     } else if (word.length <= $(wordSizeIgnore)) {
       logger.debug("word ignored because length is less than wordSizeIgnore")
       Some(word)
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
       Some(word.distinct)
-    } else if ($(shortCircuit)) {
-      if (allWords.intersect(reductions(word)).nonEmpty) Some(word)
-      else if (allWords.intersect(vowelSwaps(word)).nonEmpty) Some(word)
-      else if (allWords.intersect(variants(word)).nonEmpty) Some(word)
-      else if (allWords.intersect(both(word)).nonEmpty) Some(word)
-      else if ($(doubleVariants) && allWords.intersect(doubleVariants(word)).nonEmpty) Some(word)
-      else None
     } else None
+  }
+
+  def normalizeValue(value: Long): Double = {
+    if (value > frequencyBoundaryValues._2) {
+      return 1
+    }
+    if (value < frequencyBoundaryValues._1) {
+      return 0
+    }
+    val normalizedValue = (value - frequencyBoundaryValues._1).toDouble / (frequencyBoundaryValues._2 - frequencyBoundaryValues._1).toDouble
+    BigDecimal(normalizedValue).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble
   }
 
   private def suggestions(word: String): List[String] = {
@@ -204,7 +235,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def check(raw: String): String = {
     val input = limitDups(raw)
     logger.debug(s"spell checker target word: $input")
-    val possibility = suggestion(input)
+    val possibility = getBestSpellingSuggestion(input)
     if (possibility.isDefined) return possibility.get
     val listedSuggestions = suggestions(input)
     val sortedFreq = listedSuggestions.filter(_.length >= input.length).sortBy(compareFrequencies).takeRight($(intersections))
