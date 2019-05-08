@@ -1285,6 +1285,6 @@ class TypedDependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="tdp_fast", language="en", remote_loc=None):
+    def pretrained(name="dependency_typed_conllu", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remote_loc)
