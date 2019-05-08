@@ -16,8 +16,6 @@ header:
 
 ## Spark-NLP Python
 
-There are two directories: `training` and `annotation`. Inside `traning` you will find all the examples which help you to train Spark-NLP models and pipelines. On the other hand, the examples inside `annotation` demonstrate how to use Spark-NLP annotators, pre-trained models, and pre-trained pipelines.
-
 ### Pip
 
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
