@@ -2,7 +2,7 @@
 layout: article
 title: Installing Spark NLP
 permalink: /docs/en/install
-key: docs-quickstart
+key: docs-install
 show_edit_on_github: true
 aside:
   toc: true
