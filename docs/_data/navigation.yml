@@ -1,41 +1,20 @@
-sidebar-sample:
-  - title: "Parent Page A"
+header:
+  - titles:
+      en      : &EN       Models
+    url: /docs/en/models.html
+
+docs-en:
+  - title:      Start
     children:
-      - title: "Child Page A1"
-        url: /
-      - title: "Child Page A2"
-        url: /
-      - title: "Child Page A3"
-        url: /
-      - title: "Child Page A4"
-        url: /
-  - title: "Parent Page B"
+      - title:  Quick Start
+        url:    /docs/en/quickstart
+      - title:  Install Spark NLP
+        url:    /docs/en/install
+      - title:  Examples
+        url:    /docs/en/examples
+  - title:      Documentation
     children:
-      - title: "Child Page B1"
-        url: /
-      - title: "Child Page B2"
-        url: /
-      - title: "Child Page B3"
-        url: /
-      - title: "Child Page B4"
-        url: /
-      - title: "Child Page B5"
-        url: /
-  - title: "Parent Page C"
-    children:
-      - title: "Child Page C1"
-        url: /
-      - title: "Child Page C2"
-        url: /
-      - title: "Child Page C3"
-        url: /
-      - title: "Child Page C4"
-        url: /
-      - title: "Child Page C5"
-        url: /
-  - title: "Parent Page D"
-    children:
-      - title: "Child Page D1"
-        url: /
-      - title: "Child Page D2"
-        url: /
+      - title:  Models and Pipelines
+        url:    /docs/en/models
+      - title:  Annotators
+        url:    /docs/en/Annotators
