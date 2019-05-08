@@ -22,7 +22,7 @@ header:
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
-pip install spark-nlp==2.0.1
+pip install spark-nlp==2.0.3
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
