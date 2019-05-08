@@ -1,0 +1,21 @@
+header:
+  - titles:
+      en      : &EN       Home
+    url: /
+  - titles:
+      en      : &EN       Docs
+    url: /docs/en/quickstart 
+
+docs-en:
+  - title:      Start
+    children:
+      - title:  Quick Start
+        url:    /docs/en/quickstart
+      - title:  Install Spark NLP
+        url:    /docs/en/install
+  - title:      Documentation
+    children:
+      - title:  Models and Pipelines
+        url:    /docs/en/models
+      - title:  Annotators
+        url:    /docs/en/annotators
