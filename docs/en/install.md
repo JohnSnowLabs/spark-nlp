@@ -41,11 +41,11 @@ Then you'll have to create a SparkSession manually, for example:
 
 ```bash
 spark = SparkSession.builder \
-    .appName("ner")\
+    .appName("Spark NLP")\
     .master("local[*]")\
-    .config("spark.driver.memory","6G")\
+    .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.1")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -106,7 +106,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 
@@ -117,7 +117,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 
@@ -125,14 +125,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.3"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.3"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -160,7 +160,7 @@ Note: You can import these notebooks by using their URLs.
 4- From the Source drop-down menu, select **Maven Coordinate:**
 ![Databricks](https://databricks.com/wp-content/uploads/2015/07/select-maven-1024x711.png)
 
-5- Now, all available **Spark Packages** are at your fingertips! Just search for **JohnSnowLabs:spark-nlp:version** where **version** stands for the library version such as: `1.8.4` or `2.0.1`
+5- Now, all available **Spark Packages** are at your fingertips! Just search for **JohnSnowLabs:spark-nlp:version** where **version** stands for the library version such as: `1.8.4` or `2.0.3`
 ![Databricks](https://databricks.com/wp-content/uploads/2015/07/browser-1024x548.png)
 
 6- Select **spark-nlp** package and we are good to go!
