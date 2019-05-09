@@ -23,12 +23,6 @@ header:
 |Explain Document DL|`explain_document_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)
 |Entity Recognizer DL|`entity_recognizer_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)
 
-### Explain Document ML
-
-### Explain Document DL
-
-### Entity Recognizer DL
-
 ## Pretrained Models
 
 ### English
