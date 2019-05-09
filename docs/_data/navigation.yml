@@ -4,10 +4,7 @@ header:
     url: /
   - titles:
       en      : &EN       Docs
-    url: /docs/en/quickstart 
-  - titles:
-      en      : &EN       Examples
-    url: /notebooks.html
+    url: /docs/en/quickstart
   - titles:
       en      : &EN       Articles
     url: /articles.html
@@ -28,3 +25,5 @@ docs-en:
         url:    /docs/en/models
       - title:  Annotators
         url:    /docs/en/annotators
+      - title:  Examples
+        url:    /docs/en/examples  
