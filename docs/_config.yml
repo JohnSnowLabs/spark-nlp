@@ -12,7 +12,7 @@
 #    `--'   `----''--'   '--' `--'
 
 ## !USE TEXT THEME
-theme: jekyll-text-theme # Gem-based Jekyll Themes
+# theme: jekyll-text-theme # Gem-based Jekyll Themes
 remote_theme: kitian616/jekyll-TeXt-theme # Jekyll Remote Theme, see https://github.com/benbalter/jekyll-remote-theme for more information.
 
 ## => Site Settings
