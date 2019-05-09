@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Models and Pipelines
+title: Pipelines and Models
 permalink: /docs/en/models
 key: docs-models
 show_edit_on_github: true
@@ -15,7 +15,7 @@ header:
   background: '#123'
 ---
 
-### Pipelines
+## Pretrained Pipelines
 
 |Pipelines | Name          | English             |
 |----------|------------------|------------------|
@@ -23,9 +23,15 @@ header:
 |Explain Document DL|`explain_document_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)
 |Entity Recognizer DL|`entity_recognizer_dl`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip)
 
-### Models
+### Explain Document ML
 
-#### English
+### Explain Document DL
+
+### Entity Recognizer DL
+
+## Pretrained Models
+
+### English
 
 | Model                                  |   Name     |   English     |
 |----------------------------------------|---------------|---------------|
@@ -100,7 +106,7 @@ After downloading offline models/pipelines and extracting them, here is how you 
 
 * Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
-```Scala
+```scala
 val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
       .setInputCols("document", "token")
       .setOutputCol("pos")
@@ -108,7 +114,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 * Loading Offline Pipeline
 
-```Scala
+```scala
 val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 // To use the loaded Pipeline for prediction
 advancedPipeline.transform(predictionDF)
