@@ -19,7 +19,7 @@ Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
 
 ## Docker setup
 
-If you want to experience Spark NLP and run Jupyter exmaples without installing anything, you can simply use our [Docker image](https://hub.docker.com/r/johnsnowlabs/spark-nlp-workshop){:target="_blank"}:
+If you want to experience Spark NLP and run Jupyter exmaples without installing anything, you can simply use our [Docker image](https://hub.docker.com/r/johnsnowlabs/spark-nlp-workshop):
 
 1- Get the docker image for spark-nlp-workshop:
 
@@ -41,6 +41,6 @@ http://localhost:8888/?token=LOOK_INSIDE_YOUR_CONSOLE
 
 ## Notebooks
 
-* [Jupyter Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter){:target="_blank"}
-* [Strata conference](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/strata){:target="_blank"}
-* [Databricks Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks){:target="_blank"}
+* [Jupyter Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter)
+* [Strata conference](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/strata)
+* [Databricks Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks)
