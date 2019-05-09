@@ -1491,7 +1491,7 @@ documentAssembler = new DocumentAssembler()
                                             <p>
                                                 In order to train a Part of Speech Tagger annotator, we need to get corpus data
                                                 as a spark dataframe. There is a component that does this for us:
-                                                it reades a plain text file and transforms it to a
+                                                it reads a plain text file and transforms it to a
                                                 spark dataset.
                                                 <br><b>Example:</b><br>
                                                 <b>Input File Format:</b> A|DT few|JJ months|NNS ago|RB you|PRP received|VBD
@@ -1524,7 +1524,7 @@ train_pos = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")</cod
                                             <p>
                                                 In order to train a Part of Speech Tagger annotator, we need to get corpus data
                                                 as a spark dataframe. There is a component that does this for us:
-                                                it reades a plain text file and transforms it to a
+                                                it reads a plain text file and transforms it to a
                                                 spark dataset.
                                                 <br><b>Example:</b><br>
                                                 <b>Input File Format:</b> A|DT few|JJ months|NNS ago|RB you|PRP received|VBD
@@ -1568,7 +1568,7 @@ trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")</code
                                             <p>
                                                 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data
                                                 as a spark dataframe. There is a component that does this for us:
-                                                it reades a plain text file and transforms it to a
+                                                it reads a plain text file and transforms it to a
                                                 spark dataset.
                                                 <br><b>Example:</b><br>
                                             </p>
@@ -1598,7 +1598,7 @@ training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.
                                             <p>
                                                 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data
                                                 as a spark dataframe. There is a component that does this for us:
-                                                it reades a plain text file and transforms it to a
+                                                it reads a plain text file and transforms it to a
                                                 spark dataset.
                                                 <br><b>Example:</b><br>
                                             </p>
@@ -2127,7 +2127,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 This annotator matches a pattern of part-of-speech tags in order to
-                                                return meaningul phrases from document<br>
+                                                return meaningful phrases from document<br>
                                             </p>
                                             <b>Type:</b> Document<br>
                                             <b>Requires:</b> Document<br>
@@ -2157,7 +2157,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                         <div class="code-block">
                                             <p>
                                                 This annotator matches a pattern of part-of-speech tags in order to
-                                                return meaningul phrases from document<br>
+                                                return meaningful phrases from document<br>
                                             </p>
                                             <b>Type:</b> Document<br>
                                             <b>Requires:</b> Document<br>
@@ -2577,7 +2577,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 <li>
                                                     setPruneCorpus(true): when training on small data you may
                                                     want
-                                                    to disable this to not cut off unfrequent words
+                                                    to disable this to not cut off infrequent words
                                                 </li>
                                             </ul>
                                             <br>
@@ -2621,7 +2621,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 <li>
                                                     setPruneCorpus(true): when training on small data you may
                                                     want
-                                                    to disable this to not cut off unfrequent words
+                                                    to disable this to not cut off infrequent words
                                                 </li>
                                             </ul>
                                             <br>
@@ -2870,7 +2870,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 </li>
                                                 <li>
                                                     setLossEps: If epoch relative improvement lass than this
-                                                    vallue, training is stopped
+                                                    value, training is stopped
                                                 </li>
                                                 <li>
                                                     setMinW: Features with less weights than this value will be
@@ -2942,7 +2942,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 </li>
                                                 <li>
                                                     setLossEps: If epoch relative improvement lass than this
-                                                    vallue, training is stopped
+                                                    value, training is stopped
                                                 </li>
                                                 <li>
                                                     setMinW: Features with less weights than this value will be
@@ -3121,7 +3121,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 This annotator retrieves tokens and makes corrections automatically
                                                 if
                                                 not found
-                                                on an english dictionary<br>
+                                                in an English dictionary<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary.
                                                 A
@@ -3191,7 +3191,7 @@ trainCorpus.select(trainCorpus.col("value").as("text"))</code></pre>
                                                 This annotator retrieves tokens and makes corrections automatically
                                                 if
                                                 not found
-                                                on an english dictionary<br>
+                                                in an English dictionary<br>
                                                 <b>Type:</b> Token<br>
                                                 <b>Inputs:</b> Any text for corpus. A list of words for dictionary.
                                                 A
