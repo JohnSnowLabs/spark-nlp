@@ -20,10 +20,10 @@ docs-en:
       - title:  Install Spark NLP
         url:    /docs/en/install
   - title:      Documentation
-    children:
-      - title:  Models and Pipelines
-        url:    /docs/en/models
+    children:      
       - title:  Annotators
         url:    /docs/en/annotators
+      - title:  Models and Pipelines
+        url:    /docs/en/models  
       - title:  Examples
         url:    /docs/en/examples  
