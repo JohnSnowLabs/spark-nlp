@@ -5,6 +5,15 @@ header:
   - titles:
       en      : &EN       Docs
     url: /docs/en/quickstart 
+  - titles:
+      en      : &EN       Examples
+    url: /notebooks.html
+  - titles:
+      en      : &EN       Articles
+    url: /articles.html
+  - titles:
+      en      : &EN       Videos
+    url: /videos.html
 
 docs-en:
   - title:      Start
