@@ -19,13 +19,13 @@ header:
 
 A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
 
-[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE){:target="_blank"}{:.button.button--info.button--rounded.button--md}
+[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE){:.button.button--info.button--rounded.button--md}
 
 ## The very second: Spark NLP Workshop
 
 If you are of those who prefer learning by example, check this repository!
 
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:target="_blank"}{:.button.button--primary.button--rounded.button--md}
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--md}
 
 It is full of fresh examples and even a docker container if you want to skip installation.
 
@@ -363,4 +363,4 @@ Detailed information about Spark NLP concepts, annotators and more may be found 
 
 We are working on examples to show you how the library may be used in different scenarios, take a look at our examples repository, which also includes a Docker image:
 
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:target="_blank"}{:.button.button--primary.button--rounded.button--md}
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--md}
