@@ -11,6 +11,9 @@ header:
   - titles:
       en      : &EN       Videos
     url: /videos.html
+  - titles:
+      en      : &EN       GitHub
+    url: https://github.com/JohnSnowLabs/spark-nlp
 
 docs-en:
   - title:      Start
