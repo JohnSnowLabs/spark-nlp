@@ -3,16 +3,7 @@ layout: article
 title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
-show_edit_on_github: true
-show_date: true
 modify_date: "2019-05-08"
-aside:
-  toc: true
-sidebar:
-  nav: docs-en
-header:
-  theme: dark
-  background: '#123'
 ---
 
 ## The very first: Join our Slack channel
