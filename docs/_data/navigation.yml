@@ -1,18 +1,13 @@
 header:
-  - titles: 
-      en      : &EN       Home
+  - title: Home
     url: /
-  - titles:
-      en      : &EN       Docs
+  - title: Docs
     url: /docs/en/quickstart
-  - titles:
-      en      : &EN       Articles
+  - title: Articles
     url: /articles.html
-  - titles:
-      en      : &EN       Videos
+  - title: Videos
     url: /videos.html
-  - titles:
-      en      : &EN       GitHub
+  - title: GitHub
     url: https://github.com/JohnSnowLabs/spark-nlp
 
 docs-en:
