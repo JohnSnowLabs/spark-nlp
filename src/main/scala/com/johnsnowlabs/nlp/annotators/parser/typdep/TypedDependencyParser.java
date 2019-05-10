@@ -189,6 +189,7 @@ public class TypedDependencyParser implements Serializable {
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
         for (ConllData[] sentence : document) {
+            //TODO: Check why cpostagids get very different values than in training
             DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence);
             if (dependencyInstance == null) {
                 break;
@@ -197,9 +198,10 @@ public class TypedDependencyParser implements Serializable {
             int numberOfTokensInSentence = dependencyInstance.getLength();
             int[] predictedHeads = dependencyInstance.getHeads();
             int[] predictedLabels = new int [numberOfTokensInSentence];
-            localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
+            int[] newPredictedLabels = localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
 
-            dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
+            //dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
+            dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, newPredictedLabels);
         }
         return dependencyLabels;
     }
