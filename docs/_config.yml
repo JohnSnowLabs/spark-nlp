@@ -75,7 +75,7 @@ paths:
 excerpt_separator: <!--more-->
 
 ## license
-license: CC-BY-NC-4.0 # "CC-BY-4.0", "CC-BY-SA-4.0", "CC-BY-NC-4.0", "CC-BY-ND-4.0"
+license: # "CC-BY-4.0", "CC-BY-SA-4.0", "CC-BY-NC-4.0", "CC-BY-ND-4.0"
 
 ## TOC
 toc:
@@ -103,7 +103,7 @@ paginate_path: /page:num # don't change this unless for special need
 
 ## => Sources
 ##############################
-sources: # bootcdn (default), unpkg
+sources: bootcdn # bootcdn (default), unpkg
 
 
 ## => Sharing
@@ -164,7 +164,7 @@ search:
 
   ## Google Custom Search Engine
   google:
-    custom_search_engine_id: 005514095864560561482:hupbermpchw # Google Custom Search Engine ID
+    custom_search_engine_id: # Google Custom Search Engine ID
 
 
 ## => Analytics
@@ -202,19 +202,23 @@ exclude:
   - /vendor
 
 defaults:
+  ## docs
   - scope:
-      path: ""
-      type: webpage
-    values:
+      path: "en"
+    values:    
       layout: article
-      sharing: true
-      license: true
+      nav_key: docs
+      sidebar:
+        nav: docs-en
       aside:
-        toc: true
+        toc: true  
+      license: false
       show_edit_on_github: true
-      show_subscribe: true
-      pageview: true
       show_date: true
+      header:
+        theme: dark
+        background: "#123"
+      # lightbox: true    
 
 ## => Plugins
 ##############################
