@@ -1,5 +1,5 @@
 header:
-  - titles:
+  - titles: 
       en      : &EN       Home
     url: /
   - titles:
@@ -16,7 +16,7 @@ header:
     url: https://github.com/JohnSnowLabs/spark-nlp
 
 docs-en:
-  - title:      Start
+  - title:     Getting Started
     children:
       - title:  Quick Start
         url:    /docs/en/quickstart
