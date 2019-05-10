@@ -164,7 +164,7 @@ search:
 
   ## Google Custom Search Engine
   google:
-    custom_search_engine_id: # Google Custom Search Engine ID
+    custom_search_engine_id: 005514095864560561482:hupbermpchw # Google Custom Search Engine ID
 
 
 ## => Analytics
