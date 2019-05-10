@@ -101,7 +101,9 @@ public class LocalFeatureData {
         return fv;
     }
 
-    private void predictLabelsDP(int[] heads, int[] deplbids, boolean addLoss, DependencyArcList arcLis) {
+    private int[] predictLabelsDP(int[] heads, int[] deplbids, boolean addLoss, DependencyArcList arcLis) {
+
+        int [] newDeplbids = deplbids;
 
         int lab0 = addLoss ? 0 : 1;
 
@@ -111,8 +113,11 @@ public class LocalFeatureData {
             int gp = heads[head];
             int pdir = gp > head ? 1 : 2;
             for (int p = lab0; p < ntypes; ++p) {
-                if (pipe.getPruneLabel()[dependencyInstance.getCpostagids()[head]][dependencyInstance.getCpostagids()[mod]][p]) {
-                    deplbids[mod] = p;
+                int axisX = dependencyInstance.getCpostagids()[head];
+                int axisY = dependencyInstance.getCpostagids()[mod];
+                if (pipe.getPruneLabel()[axisX][axisY][p]) {
+                    //deplbids[mod] = p;
+                    newDeplbids[mod] = p;
                     float s1 = 0;
                     if (gammaL > 0)
                         s1 += gammaL * getLabelScoreTheta(heads, deplbids, mod, 1);
@@ -122,7 +127,8 @@ public class LocalFeatureData {
                         float s2 = 0;
                         if (gp != -1) {
                             if (pipe.getPruneLabel()[dependencyInstance.getCpostagids()[gp]][dependencyInstance.getCpostagids()[head]][q]) {
-                                deplbids[head] = q;
+                                //deplbids[head] = q;
+                                newDeplbids[head] = q;
                                 if (gammaL > 0)
                                     s2 += gammaL * getLabelScoreTheta(heads, deplbids, mod, 2);
                                 if (gammaL < 1)
@@ -136,9 +142,11 @@ public class LocalFeatureData {
         }
 
         treeDP(0, arcLis, lab0);
-        deplbids[0] = dependencyInstance.getDependencyLabelIds()[0];
-        getType(0, arcLis, deplbids, lab0);
-
+        //deplbids[0] = dependencyInstance.getDependencyLabelIds()[0];
+        newDeplbids[0] = dependencyInstance.getDependencyLabelIds()[0];
+        //getType(0, arcLis, deplbids, lab0);
+        int [] type = getType(0, arcLis, newDeplbids, lab0);
+        return type;
     }
 
     private float getLabelScoreTheta(int[] heads, int[] types, int mod, int order) {
@@ -166,7 +174,8 @@ public class LocalFeatureData {
         }
     }
 
-    private void getType(int i, DependencyArcList arcLis, int[] types, int lab0) {
+    private int[] getType(int i, DependencyArcList arcLis, int[] types, int lab0) {
+        int [] newTypes = types;
         int p = types[i];
         int st = arcLis.startIndex(i);
         int ed = arcLis.endIndex(i);
@@ -181,14 +190,18 @@ public class LocalFeatureData {
                     bestq = q;
                 }
             }
-            types[j] = bestq;
-            getType(j, arcLis, types, lab0);
+            //types[j] = bestq;
+            //getType(j, arcLis, types, lab0);
+            newTypes[j] = bestq;
+            getType(j, arcLis, newTypes, lab0);
         }
+        return newTypes;
     }
 
-    void predictLabels(int[] heads, int[] dependencyLabelIds, boolean addLoss) {
+    int[] predictLabels(int[] heads, int[] dependencyLabelIds, boolean addLoss) {
         DependencyArcList arcLis = new DependencyArcList(heads);
-        predictLabelsDP(heads, dependencyLabelIds, addLoss, arcLis);
+        int [] predictedLabels = predictLabelsDP(heads, dependencyLabelIds, addLoss, arcLis);
+        return predictedLabels;
     }
 
 }

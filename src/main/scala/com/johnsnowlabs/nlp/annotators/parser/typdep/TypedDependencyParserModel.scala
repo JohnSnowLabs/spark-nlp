@@ -28,7 +28,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   private lazy val dependencyPipe = $$(trainDependencyPipe)
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
-  var sentenceId = 1
+  var sentenceId = 0
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
