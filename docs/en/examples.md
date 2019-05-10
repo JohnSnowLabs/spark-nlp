@@ -3,16 +3,7 @@ layout: article
 title: Spark NLP Examples
 permalink: /docs/en/examples
 key: docs-examples
-show_edit_on_github: true
-show_date: true
 modify_date: "2019-05-08"
-aside:
-  toc: true
-sidebar:
-  nav: docs-en
-header:
-  theme: dark
-  background: "#123"
 ---
 
 Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
