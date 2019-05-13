@@ -85,10 +85,10 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     var perceptronAsArray = tagger.getPerceptronAsArray
 
     val greedyTransition = new GreedyTransitionApproach()
-    val dependencyMaker = greedyTransition.loadPerceptronInTraining(perceptronAsArray)
+    val dependencyMaker = greedyTransition.loadPerceptronInPrediction(perceptronAsArray, tagger)
 
     val dependencyMakerPerformanceProgress = (0 until dependencyMakerNumberOfIterations).map{ seed =>
-      dependencyMaker.train(trainingSentences, seed, tagger)
+      dependencyMaker.train(trainingSentences, seed)
     }
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
@@ -96,6 +96,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     new DependencyParserModel()
       .setPerceptronAsArray(perceptronAsArray)
+      .setTagger(tagger)
   }
 
   def validateTrainingFiles(): Unit = {
@@ -143,7 +144,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   def transformToSentences(cleanConllUSentence: Array[String]): Sentence = {
     val ID_INDEX = 0
     val WORD_INDEX = 1
-    val POS_INDEX = 3
+    val POS_INDEX = 4
     val HEAD_INDEX = 6
     val SEPARATOR = "\\t"
 

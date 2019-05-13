@@ -30,7 +30,7 @@ object TagDictionary { // Here, tag == Part-of-Speech
     val classes = classSet.toVector.sorted  // This is alphabetical
     val classMap = classes.zipWithIndex.toMap
 
-    val frequencyThreshold = 20
+    val frequencyThreshold = 1
     val ambiguityThreshold = 0.97
 
     // Now, go through the fullMap, and work out which are worth 'resolving' immediately - and return a suitable tagdict

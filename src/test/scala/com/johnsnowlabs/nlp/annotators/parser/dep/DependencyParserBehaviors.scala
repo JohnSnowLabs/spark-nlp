@@ -67,7 +67,8 @@ trait DependencyParserBehaviors { this: FlatSpec =>
     }
 
     val dependencyParserDataFrame = dependencyParserModel.transform(testDataSet)
-    dependencyParserDataFrame.collect()
+    //dependencyParserDataFrame.collect()
+    dependencyParserDataFrame.show(false)
 
     it should "predict relationships between words" in {
       assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
