@@ -43,7 +43,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     .setConllU("src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt")
-    .setNumberOfIterations(3)
+    .setNumberOfIterations(15)
 
   private val pipelineTreeBank = new Pipeline()
     .setStages(Array(
