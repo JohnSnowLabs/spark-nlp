@@ -247,7 +247,7 @@ class DependencyMaker(tagger:Tagger) {
 
     // These should be Vectors, since we're going to be accessing them at random (not sequentially)
     val words      = sentence.map( _.norm ).toVector
-    val tags       = tagger.tagSentence(sentence).toVector
+    val tags       = tagger.tag(sentence).toVector
     val gold_heads = sentence.map( _.dep ).toVector
 
     //print "train_one(n=%d, %s)" % (n, words, )
@@ -271,10 +271,12 @@ class DependencyMaker(tagger:Tagger) {
         if(train) {  // Update the perceptron
           //println(f"Training '${word_norm}%12s': ${classes(guessed)}%4s -> ${classes(truth(i))}%4s :: ")
           val gold_moves = state.get_gold_moves(gold_heads)
-          if(gold_moves.size == 0) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+          if(gold_moves.size == 0) { /*throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!")*/ } else {
 
-          val best = gold_moves.map( m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
-          perceptron.update(best, guess, features.keys)
+            val best = gold_moves.map(m => (-score(m), m)).toList.sortBy(_._1).head._2
+            perceptron.update(best, guess, features.keys)
+          }
+
         }
 
         move_through_sentence_from( state.transition(guess) )
@@ -296,7 +298,7 @@ class DependencyMaker(tagger:Tagger) {
   def goodness(sentence:Sentence, fit:List[Int]):Float = {
     val gold = sentence.map( _.dep ).toVector
     val correct = fit.zip( gold ).count( pair => (pair._1 == pair._2))  / gold.length.toFloat
-    println(s"Dependency score : ${pct_fit_fmt_str(correct)}")
+    //println(s"Dependency score : ${pct_fit_fmt_str(correct)}")
     correct
   }
 
@@ -306,7 +308,7 @@ class DependencyMaker(tagger:Tagger) {
 
   def test_gold_moves(sentence:Sentence):Boolean = {
     val words      = sentence.map( _.norm ).toVector
-    val tags       = tagger.tagSentence(sentence).toVector
+    val tags       = tagger.tag(sentence).toVector
     val gold_heads = sentence.map( _.dep ).toVector
 
     def move_through_sentence_from(state: CurrentState): CurrentState = {
@@ -347,8 +349,17 @@ class DependencyMaker(tagger:Tagger) {
     (correct > 0.99)
   }
 
-  def getPerceptronAsArray: Array[String] = {
-    perceptron.toString().split("\\n")
+  def getDependencyAsArray: Iterator[String] = {
+    this.toString().split(System.lineSeparator()).toIterator
+  }
+
+}
+
+object DependencyMaker {
+  def load(lines:Iterator[String], tagger:Tagger):DependencyMaker = {
+    val dm = new DependencyMaker(tagger)
+    dm.perceptron.load(lines)
+    dm
   }
 
 }

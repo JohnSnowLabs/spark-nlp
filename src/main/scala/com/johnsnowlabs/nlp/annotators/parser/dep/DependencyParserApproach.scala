@@ -75,28 +75,27 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
     val tagger = new Tagger(classes, tagDictionary)
     val taggerNumberOfIterations = getNumberOfIterations
-    val dependencyMakerNumberOfIterations = getNumberOfIterations + 5
 
     val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
         tagger.train(trainingSentences, seed) //Iterates to increase accuracy getFilesContentAsArray
     }
     logger.info(s"Tagger Performance = $taggerPerformanceProgress")
 
-    var perceptronAsArray = tagger.getPerceptronAsArray
+    val loadedTagger = Tagger.load(tagger.getTaggerAsArray)
 
-    val greedyTransition = new GreedyTransitionApproach()
-    val dependencyMaker = greedyTransition.loadPerceptronInPrediction(perceptronAsArray, tagger)
+    val dependencyMaker = new DependencyMaker(loadedTagger)
 
-    val dependencyMakerPerformanceProgress = (0 until dependencyMakerNumberOfIterations).map{ seed =>
+    val dependencyMakerPerformanceProgress = (0 until taggerNumberOfIterations).map{ seed =>
       dependencyMaker.train(trainingSentences, seed)
     }
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
-    perceptronAsArray = dependencyMaker.getPerceptronAsArray
+    println("DEPENDENCY")
+    println(dependencyMaker.toString())
 
     new DependencyParserModel()
-      .setPerceptronAsArray(perceptronAsArray)
-      .setTagger(tagger)
+      .setDependencyAsArray(dependencyMaker.getDependencyAsArray.toArray)
+      .setTaggerAsArray(loadedTagger.getTaggerAsArray.toArray)
   }
 
   def validateTrainingFiles(): Unit = {

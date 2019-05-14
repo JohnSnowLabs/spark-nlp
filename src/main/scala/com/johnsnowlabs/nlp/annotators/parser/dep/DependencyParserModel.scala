@@ -17,18 +17,18 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val inputAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
-  val perceptronAsArray: StringArrayParam = new StringArrayParam(this, "perceptronAsArray",
+  val dependencyAsArray: StringArrayParam = new StringArrayParam(this, "dependencyAsArray",
     "List of features for perceptron")
 
-  val tagger: StructFeature[Tagger] = new StructFeature[Tagger](this, "tagger")
+  val taggerAsArray: StringArrayParam = new StringArrayParam(this, "taggerAsArray", "")
 
-  def setPerceptronAsArray(perceptron: Array[String]): this.type = set(perceptronAsArray, perceptron)
+  def setDependencyAsArray(perceptron: Array[String]): this.type = set(dependencyAsArray, perceptron)
 
-  def setTagger(value: Tagger): this.type = set(tagger, value)
+  def setTaggerAsArray(value: Array[String]): this.type = set(taggerAsArray, value)
 
   def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
     val model = new GreedyTransitionApproach()
-    val dependencyParsedSentence = model.predict(sentence, $(perceptronAsArray), $$(tagger))
+    val dependencyParsedSentence = model.predict(sentence, $(taggerAsArray), $(dependencyAsArray))
     dependencyParsedSentence
   }
 
