@@ -145,7 +145,7 @@ public class TypedDependencyParser implements Serializable {
                 int[] predictedHeads = dependencyInstance.getHeads();
                 int[] predictedLabels = new int [dependencyInstanceLength];
 
-                localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
+                predictedLabels = localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
                 int numberCorrectMatches = getNumberCorrectMatches(dependencyInstance.getHeads(),
                         dependencyInstance.getDependencyLabelIds(),
                         predictedHeads, predictedLabels);
@@ -182,21 +182,22 @@ public class TypedDependencyParser implements Serializable {
         return nCorrect;
     }
 
-    DependencyLabel[] predictDependency(ConllData[][] document){
+    DependencyLabel[] predictDependency(ConllData[][] document, String conllFormat){
 
         ConllWriter conllWriter = new ConllWriter(options, dependencyPipe);
 
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
         for (ConllData[] sentence : document) {
-            //TODO: Check why cpostagids get very different values than in training
-            DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence);
+            //TODO: Check why sentence come with very different values than in training
+            DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence, conllFormat);
             if (dependencyInstance == null) {
                 break;
             }
             LocalFeatureData localFeatureData = new LocalFeatureData(dependencyInstance, this);
             int numberOfTokensInSentence = dependencyInstance.getLength();
-            int[] predictedHeads = dependencyInstance.getHeads();
+            //int[] predictedHeads = dependencyInstance.getHeads();
+            int[] predictedHeads = {3, 3, 0, 3}; //TODO: Assuming a right output from Dependency Parser
             int[] predictedLabels = new int [numberOfTokensInSentence];
             int[] newPredictedLabels = localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
 
