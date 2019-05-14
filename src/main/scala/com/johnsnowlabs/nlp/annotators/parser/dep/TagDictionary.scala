@@ -30,7 +30,7 @@ object TagDictionary { // Here, tag == Part-of-Speech
     val classes = classSet.toVector.sorted  // This is alphabetical
     val classMap = classes.zipWithIndex.toMap
 
-    val frequencyThreshold = 1
+    val frequencyThreshold = 20
     val ambiguityThreshold = 0.97
 
     // Now, go through the fullMap, and work out which are worth 'resolving' immediately - and return a suitable tagdict
@@ -44,28 +44,6 @@ object TagDictionary { // Here, tag == Part-of-Speech
       tagDictionary(norm) = classMap(cl)
     }
     (classes, tagDictionary.toMap)
-  }
-
-  def loadUsedInTagger(lines:Iterator[String]): Tagger = {
-    var (classes, tagDictionary)=(Array[ClassName](), mutable.Map[Word, ClassNum]())
-
-    val taggerClasses = """tagger.classes=\[(.*)\]""".r
-    val taggerTagDictionary = """tagger.tag_dict=\[(.*)\]""".r
-
-    def parse(lines: Iterator[String]):Unit = lines.next match {
-      case taggerClasses(data) =>
-        classes = data.split('|')
-        parse(lines)
-      case taggerTagDictionary(data) =>
-        tagDictionary ++= data.split('|').map(nc => { val arr = nc.split('='); (arr(0),arr(1).toInt) })
-        parse(lines)
-      case _ => () // line not understood : Finish
-    }
-    parse(lines)
-
-    val tagger = new Tagger(classes.toVector, tagDictionary.toMap)
-    tagger.perceptron.load(lines)
-    tagger
   }
 
 }

@@ -43,7 +43,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     .setConllU("src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt")
-    .setNumberOfIterations(20)
+    .setNumberOfIterations(3)
 
   private val pipelineTreeBank = new Pipeline()
     .setStages(Array(
@@ -146,7 +146,11 @@ val perceptronTagger = PerceptronModel.pretrained()
   "A dependency parser (trained through Universal Dependencies format file) with an input text of one sentence" should
     behave like {
 
-    val testDataSet = Seq("So what happened?").toDS.toDF("text")
+    val testDataSet = Seq(
+      "So what happened?",
+      "It should continue to be defanged.",
+      "That too was stopped."
+    ).toDS.toDF("text")
 
     relationshipsBetweenWordsPredictor(testDataSet, pipelineConllU)
   }
