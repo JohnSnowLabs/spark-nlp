@@ -90,9 +90,6 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     }
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
-    println("DEPENDENCY")
-    println(dependencyMaker.toString())
-
     new DependencyParserModel()
       .setDependencyAsArray(dependencyMaker.getDependencyAsArray.toArray)
       .setTaggerAsArray(loadedTagger.getTaggerAsArray.toArray)

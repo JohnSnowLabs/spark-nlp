@@ -6,7 +6,7 @@ import scala.collection.mutable
 
 
 class Tagger(classes:Vector[ClassName], tag_dict:Map[Word, ClassNum]) {
-  println(s"Tagger.Classes = [${classes.mkString(",")}]")
+  //println(s"Tagger.Classes = [${classes.mkString(",")}]")
   val getClassNum = classes.zipWithIndex.toMap.withDefaultValue(-1) // -1 => "CLASS-NOT-FOUND"
   //def getClassNum(class_name: ClassName): ClassNum = classes.indexOf(class_name) // -1 => "CLASS-NOT-FOUND"
 
