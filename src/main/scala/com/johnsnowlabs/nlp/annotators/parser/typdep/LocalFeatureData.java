@@ -113,8 +113,8 @@ public class LocalFeatureData {
             int gp = heads[head];
             int pdir = gp > head ? 1 : 2;
             for (int p = lab0; p < ntypes; ++p) {
-                int axisX = dependencyInstance.getCpostagids()[head];
-                int axisY = dependencyInstance.getCpostagids()[mod];
+                int axisX = dependencyInstance.getXPosTagIds()[head];
+                int axisY = dependencyInstance.getXPosTagIds()[mod];
                 if (pipe.getPruneLabel()[axisX][axisY][p]) {
                     //deplbids[mod] = p;
                     newDeplbids[mod] = p;
@@ -126,7 +126,7 @@ public class LocalFeatureData {
                     for (int q = lab0; q < ntypes; ++q) {
                         float s2 = 0;
                         if (gp != -1) {
-                            if (pipe.getPruneLabel()[dependencyInstance.getCpostagids()[gp]][dependencyInstance.getCpostagids()[head]][q]) {
+                            if (pipe.getPruneLabel()[dependencyInstance.getXPosTagIds()[gp]][dependencyInstance.getXPosTagIds()[head]][q]) {
                                 //deplbids[head] = q;
                                 newDeplbids[head] = q;
                                 if (gammaL > 0)
