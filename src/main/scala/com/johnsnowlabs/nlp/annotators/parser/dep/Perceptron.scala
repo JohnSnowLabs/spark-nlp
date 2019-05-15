@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 
 import scala.collection.mutable
 
-class Perceptron(nClasses:Int) {
+class Perceptron(nClasses:Int) extends Serializable {
   // These need not be visible outside the class
   type TimeStamp = Int
 

@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import scala.collection.mutable
 
 
-class Tagger(classes:Vector[ClassName], tagDict:Map[Word, ClassNum]) {
+class Tagger(classes:Vector[ClassName], tagDict:Map[Word, ClassNum]) extends Serializable {
   private val getClassNum = classes.zipWithIndex.toMap.withDefaultValue(-1) // -1 => "CLASS-NOT-FOUND"
 
   private val perceptron = new Perceptron(classes.length)

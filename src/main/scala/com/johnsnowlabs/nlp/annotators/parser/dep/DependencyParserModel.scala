@@ -1,14 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import org.apache.spark.ml.param.StringArrayParam
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.ml.util.Identifiable
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
@@ -40,4 +39,4 @@ trait PretrainedDependencyParserModel {
     ResourceDownloader.downloadModel(DependencyParserModel, name, language, remoteLoc)
 }
 
-object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel] with PretrainedDependencyParserModel
+object DependencyParserModel extends ParamsAndFeaturesReadable[DependencyParserModel] with PretrainedDependencyParserModel
