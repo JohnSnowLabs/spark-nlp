@@ -31,10 +31,8 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   private lazy val dependencyPipe = $$(trainDependencyPipe)
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
-  var sentenceId = 0
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
+    var sentenceId = 0
     val dictionariesValues = dependencyPipe.getDictionariesSet.getDictionaries.map { dictionary =>
       val predictionParameters = getPredictionParametersInstance
       val troveMap = getTroveMap(predictionParameters, dictionary)
@@ -53,7 +51,6 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
     typedDependencyParser.setDependencyPipe(dependencyPipe)
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
-    //TODO: Check conllDocument
     val conllDocument = LabeledDependency.unpack(annotations).toArray
     var conllSentence = conllDocument.filter(_.sentence == sentenceId)
     var labeledDependenciesDocument = Seq[Annotation]()
@@ -62,7 +59,6 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
       val document = Array(conllSentence, Array(ConllSentence("end","sentence","ES","ES","ES",-2, 0, 0, 0)))
       val documentData = transformToConllData(document)
-      //TODO: Check documentData
       val dependencyLabels = typedDependencyParser.predictDependency(documentData, $(conllFormat))
 
       val labeledSentences = dependencyLabels.map{dependencyLabel =>

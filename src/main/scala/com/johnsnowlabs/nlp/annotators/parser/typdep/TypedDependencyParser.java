@@ -190,7 +190,6 @@ public class TypedDependencyParser implements Serializable {
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
         for (ConllData[] sentence : document) {
-            //TODO: Check why sentence come with very different values than in training
             DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence, conllFormat);
             if (dependencyInstance == null) {
                 break;
@@ -198,7 +197,6 @@ public class TypedDependencyParser implements Serializable {
             LocalFeatureData localFeatureData = new LocalFeatureData(dependencyInstance, this);
             int numberOfTokensInSentence = dependencyInstance.getLength();
             int[] predictedHeads = dependencyInstance.getHeads();
-            //int[] hardCodedPredictedHeads = {-1, 4, 3, 4, 5, 0, 5, 11, 11, 10, 11, 6, 13, 11, 13, 5}; //TODO: Assuming a right output from Dependency Parser
             int[] predictedLabels = new int [numberOfTokensInSentence];
             localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
 
