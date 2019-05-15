@@ -6,7 +6,6 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.{addReader, readTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -117,6 +116,8 @@ trait PretrainedBertModel {
 }
 
 trait ReadBertTensorflowModel extends ReadTensorflowModel {
+  this:ParamsAndFeaturesReadable[BertEmbeddings] =>
+
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
@@ -144,6 +145,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   }
 }
 
+
 object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
   with PretrainedBertModel
   with ReadBertTensorflowModel
+
