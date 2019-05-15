@@ -18,9 +18,9 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
-  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "TDP options")
-  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "TDP parameters")
-  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "TDP dependency pipe")
+  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "trainOptions")
+  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "trainParameters")
+  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "trainDependencyPipe")
   val conllFormat: Param[String] = new Param[String](this, "conllFormat", "CoNLL Format")
 
   def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
@@ -144,7 +144,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 }
 
 trait PretrainedTypedDependencyParserModel {
-  def pretrained(name: String = "tdp_fast", language: Option[String] = Some("en"),
+  def pretrained(name: String = "dependency_typed_conllu", language: Option[String] = Some("en"),
                  remoteLoc: String = ResourceDownloader.publicLoc): TypedDependencyParserModel =
     ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remoteLoc)
 }

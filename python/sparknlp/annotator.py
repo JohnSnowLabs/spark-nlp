@@ -1225,6 +1225,11 @@ class DependencyParserApproach(AnnotatorApproach):
 class DependencyParserModel(AnnotatorModel):
     name = "DependencyParserModel"
 
+    perceptron = Param(Params._dummy(),
+                   "perceptron",
+                   "Dependency parsing perceptron features",
+                   typeConverter=TypeConverters.identity)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
         super(DependencyParserModel, self).__init__(
             classname=classname,
@@ -1232,7 +1237,7 @@ class DependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="dp_fast", language="en", remote_loc=None):
+    def pretrained(name="dependency_conllu", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DependencyParserModel, name, language, remote_loc)
 
@@ -1277,6 +1282,26 @@ class TypedDependencyParserModel(AnnotatorModel):
 
     name = "TypedDependencyParserModel"
 
+    trainOptions = Param(Params._dummy(),
+                      "trainOptions",
+                      "Training Options",
+                      typeConverter=TypeConverters.identity)
+
+    trainParameters = Param(Params._dummy(),
+                      "trainParameters",
+                      "Training Parameters",
+                      typeConverter=TypeConverters.identity)
+
+    trainDependencyPipe = Param(Params._dummy(),
+                      "trainDependencyPipe",
+                      "Training dependency pipe",
+                      typeConverter=TypeConverters.identity)
+
+    conllFormat = Param(Params._dummy(),
+                      "conllFormat",
+                      "CoNLL Format",
+                      typeConverter=TypeConverters.toString)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel",
                  java_model=None):
         super(TypedDependencyParserModel, self).__init__(
@@ -1285,6 +1310,6 @@ class TypedDependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="tdp_fast", language="en", remote_loc=None):
+    def pretrained(name="dependency_typed_conllu", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remote_loc)
