@@ -76,14 +76,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val tagger = new Tagger(classes, tagDictionary)
     val taggerNumberOfIterations = getNumberOfIterations
 
-    val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
-        tagger.train(trainingSentences, seed) //Iterates to increase accuracy getFilesContentAsArray
-    }
-    logger.info(s"Tagger Performance = $taggerPerformanceProgress")
-
-    val loadedTagger = Tagger.load(tagger.getTaggerAsArray)
-
-    val dependencyMaker = new DependencyMaker(loadedTagger)
+    val dependencyMaker = new DependencyMaker(tagger)
 
     val dependencyMakerPerformanceProgress = (0 until taggerNumberOfIterations).map{ seed =>
       dependencyMaker.train(trainingSentences, seed)
@@ -91,8 +84,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
     new DependencyParserModel()
-      .setDependencyAsArray(dependencyMaker.getDependencyAsArray.toArray)
-      .setTaggerAsArray(loadedTagger.getTaggerAsArray.toArray)
+      .setPerceptron(dependencyMaker)
   }
 
   def validateTrainingFiles(): Unit = {

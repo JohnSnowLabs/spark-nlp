@@ -5,20 +5,17 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
 /** Inspired on https://github.com/mdda/ConciseGreedyDependencyParser-in-Scala */
 
 class DependencyMaker(tagger:Tagger) {
-  val SHIFT:Move=0; val RIGHT:Move=1; val LEFT:Move=2; val INVALID:Move=(-1)
-  def moves_str(s:Set[Move]) = {
-    val move_names = Vector[ClassName]("INVALID", "SHIFT", "RIGHT", "LEFT") // NB: requires a +1
-    s.toList.sorted.map( i => move_names(i+1) ).mkString("{", ", ", "}")
+  val SHIFT:Move=0; val RIGHT:Move=1; val LEFT:Move=2; val INVALID:Move= -1
+  def movesString(s:Set[Move]) = {
+    val moveNames = Vector[ClassName]("INVALID", "SHIFT", "RIGHT", "LEFT") // NB: requires a +1
+    s.toList.sorted.map( i => moveNames(i+1) ).mkString("{", ", ", "}")
   }
-  println(s"DependencyMaker.Classes = ${moves_str(Set(SHIFT, LEFT, RIGHT))}")
 
-  val perceptron = new Perceptron(3)
+  private val perceptron = new Perceptron(3)
 
   case class ParseState(n:Int, heads:Vector[Int], lefts:Vector[List[Int]], rights:Vector[List[Int]]) { // NB: Insert at start, not at end...
     // This makes the word at 'child' point to head and adds the child to the appropriate left/right list of head
-    def add(head:Int, child:Int) = {
-      //println(s"ParseState.add(child=$child, head=$head)")
-      //println(s"ParseState :: ${this}")
+    def add(head:Int, child:Int): ParseState = {
       if(child<head) {
         ParseState(n, heads.updated(child, head), lefts.updated(head, child :: lefts(head)), rights)
       }
@@ -28,7 +25,7 @@ class DependencyMaker(tagger:Tagger) {
     }
   }
 
-  def ParseStateInit(n:Int) = {
+  def ParseStateInit(n:Int): ParseState = {
     // heads are the dependencies for each word in the sentence, except the last one (the ROOT)
     val heads = Vector.fill(n)(0:Int) // i.e. (0, .., n-1)
 
@@ -39,15 +36,6 @@ class DependencyMaker(tagger:Tagger) {
     ParseState(n, heads, lefts, rights)
   }
 
-  /*
-      STATE STRUCTURE (According to blog post) :
-       * An index, i, into the list of tokens;
-       * The dependencies added so far, in Parse
-       * A stack, containing word indices that occurred before i, for which we’re yet to assign a head.
-
-      -- By construction, stack is always stored in increasing order [ a,c,f,g ] i
-         So "I(head)-g" is a left dangling branch, and "F(head)-g" is right dangling one
-  */
 
   case class CurrentState(i:Int, stack:List[Int], parse:ParseState) {
     def transition(move:Move):CurrentState = move match {
@@ -58,29 +46,29 @@ class DependencyMaker(tagger:Tagger) {
       case LEFT  => CurrentState(i, stack.tail, parse.add(i, stack.head))                 // as in Arc-Eager
     }
 
-    def valid_moves:Set[Move] = List[Move](  // only depends on stack_depth (not parse itself)
+    def getValidMoves:Set[Move] = List[Move](  // only depends on stack_depth (not parse itself)
       if(i < parse.n    )  SHIFT else INVALID, // i.e. not yet at the last word in sentence  // was n-1
       if(stack.length>=2)  RIGHT else INVALID,
       if(stack.length>=1)  LEFT  else INVALID // Original version
       //if(stack.length>=1 && stack.head != parse.n)  LEFT  else INVALID // See page 405 for second condition
     ).filterNot( _ == INVALID ).toSet
 
-    def get_gold_moves(gold_heads:Vector[Int]) = {
+    def getGoldMoves(goldHeads:Vector[Int]): Set[Move] = {
       // See :  Goldberg and Nivre (2013) :: Training Deterministic Parsers with Non-Deterministic Oracles, TACL 2013
       //        http://www.transacl.org/wp-content/uploads/2013/10/paperno33.pdf
       //        Method implemented == "dynamic-oracle Arc-Hybrid" (bottom left of page 405, top right of page 411)
-      def deps_between(target:Int, others:List[Int]) = {
-        others.exists( word => (gold_heads(word)==target || gold_heads(target) == word))
+      def depsBetween(target:Int, others:List[Int]) = {
+        others.exists( word => goldHeads(word)==target || goldHeads(target) == word)
       }
 
-      val valid = valid_moves
+      val valid = getValidMoves
       //println(s"GetGold valid moves = ${moves_str(valid)}")
 
-      if(stack.length==0 || ( valid.contains(SHIFT) && gold_heads(i) == stack.head )) {
+      if(stack.isEmpty || ( valid.contains(SHIFT) && goldHeads(i) == stack.head )) {
         //println(" gold move shortcut : {SHIFT}")
         Set(SHIFT) // First condition obvious, second rather weird
       }
-      else if( gold_heads(stack.head) == i ) {
+      else if( goldHeads(stack.head) == i ) {
         //println(" gold move shortcut : {LEFT}")
         Set(LEFT) // This move is a must, since the gold_heads tell us to do it
       }
@@ -89,43 +77,43 @@ class DependencyMaker(tagger:Tagger) {
         //println(s" gold move logic required")
 
         // If the word second in the stack is its gold head, Left is incorrect
-        val left_incorrect = (stack.length >= 2 && gold_heads(stack.head) == stack.tail.head)
+        val leftIncorrect = stack.length >= 2 && goldHeads(stack.head) == stack.tail.head
 
         // If there are any dependencies between i and the stack, pushing i will lose them.
-        val dont_push_i    = (valid.contains(SHIFT) && deps_between(i, stack)) // containing SHIFT protects us against running over end of words
+        val dontPushI    = valid.contains(SHIFT) && depsBetween(i, stack) // containing SHIFT protects us against running over end of words
 
         // If there are any dependencies between the stackhead and the remainder of the buffer, popping the stack will lose them.
-        val dont_pop_stack = deps_between(stack.head, ((i+1) until (parse.n)).toList) // UNTIL is EXCLUSIVE of top
+        val dontPopStack = depsBetween(stack.head, ((i+1) until parse.n).toList) // UNTIL is EXCLUSIVE of top
 
-        val non_gold = List[Move](
-          if( left_incorrect )  LEFT  else INVALID,
-          if( dont_push_i )     SHIFT else INVALID,
-          if( dont_pop_stack )  LEFT  else INVALID,
-          if( dont_pop_stack )  RIGHT else INVALID
+        val nonGold = List[Move](
+          if( leftIncorrect )  LEFT  else INVALID,
+          if( dontPushI )     SHIFT else INVALID,
+          if( dontPopStack )  LEFT  else INVALID,
+          if( dontPopStack )  RIGHT else INVALID
         ).toSet
         //println(s" gold move logic implies  : non_gold = ${moves_str(non_gold)}")
 
         // return the (remaining) moves, which are 'gold'
-        (valid -- non_gold)
+        valid -- nonGold
       }
     }
 
-    def extract_features(words:Vector[Word], tags:Vector[ClassName]):Map[Feature,Score] = {
-      def get_stack_context[T<:String](data:Vector[T]):(T,T,T) = ( // Applies to both Word and ClassName (depth is implict from stack length)
+    def extractFeatures(words:Vector[Word], tags:Vector[ClassName]):Map[Feature,Score] = {
+      def getStackContext[T<:String](data:Vector[T]):(T,T,T) = ( // Applies to both Word and ClassName (depth is implict from stack length)
         // NB: Always expecting 3 entries back...
         if(stack.length>0) data(stack(0)) else "".asInstanceOf[T],
         if(stack.length>1) data(stack(1)) else "".asInstanceOf[T],
         if(stack.length>2) data(stack(2)) else "".asInstanceOf[T]
       )
 
-      def get_buffer_context[T<:String](data:Vector[T]):(T,T,T) = ( // Applies to both Word and ClassName (depth is implict from stack length)
+      def getBufferContext[T<:String](data:Vector[T]):(T,T,T) = ( // Applies to both Word and ClassName (depth is implict from stack length)
         // NB: Always expecting 3 entries back...
         if(i+0 < parse.n) data(i+0) else "".asInstanceOf[T],
         if(i+1 < parse.n) data(i+1) else "".asInstanceOf[T],
         if(i+2 < parse.n) data(i+2) else "".asInstanceOf[T]
       )
 
-      def get_parse_context[T<:String](idx:Int, deps:Vector[List[Int]], data:Vector[T]):(Int,T,T) = { // Applies to both Word and ClassName (depth is implict from stack length)
+      def getParseContext[T<:String](idx:Int, deps:Vector[List[Int]], data:Vector[T]):(Int,T,T) = { // Applies to both Word and ClassName (depth is implict from stack length)
         if(idx<0) { // For the cases of empty stack
           (0, "".asInstanceOf[T], "".asInstanceOf[T])
         }
@@ -150,40 +138,40 @@ class DependencyMaker(tagger:Tagger) {
       val n0 = i // Just for notational consistency
       val s0 = if(stack.isEmpty) -1 else stack.head
 
-      val (ws0, ws1, ws2) = get_stack_context(words)
-      val (ts0, ts1, ts2) = get_stack_context(tags)
+      val (ws0, ws1, ws2) = getStackContext(words)
+      val (ts0, ts1, ts2) = getStackContext(tags)
 
-      val (wn0, wn1, wn2) = get_buffer_context(words)
-      val (tn0, tn1, tn2) = get_buffer_context(tags)
+      val (wn0, wn1, wn2) = getBufferContext(words)
+      val (tn0, tn1, tn2) = getBufferContext(tags)
 
-      val (vn0b, wn0b1, wn0b2) = get_parse_context(n0, parse.lefts,  words)
-      val (_   , tn0b1, tn0b2) = get_parse_context(n0, parse.lefts,  tags)
+      val (vn0b, wn0b1, wn0b2) = getParseContext(n0, parse.lefts,  words)
+      val (_   , tn0b1, tn0b2) = getParseContext(n0, parse.lefts,  tags)
 
-      val (vn0f, wn0f1, wn0f2) = get_parse_context(n0, parse.rights, words)
-      val (_,    tn0f1, tn0f2) = get_parse_context(n0, parse.rights, tags)
+      val (vn0f, wn0f1, wn0f2) = getParseContext(n0, parse.rights, words)
+      val (_,    tn0f1, tn0f2) = getParseContext(n0, parse.rights, tags)
 
-      val (vs0b, ws0b1, ws0b2) = get_parse_context(s0, parse.lefts,  words)
-      val (_,    ts0b1, ts0b2) = get_parse_context(s0, parse.lefts,  tags)
+      val (vs0b, ws0b1, ws0b2) = getParseContext(s0, parse.lefts,  words)
+      val (_,    ts0b1, ts0b2) = getParseContext(s0, parse.lefts,  tags)
 
-      val (vs0f, ws0f1, ws0f2) = get_parse_context(s0, parse.rights, words)
-      val (_,    ts0f1, ts0f2) = get_parse_context(s0, parse.rights, tags)
+      val (vs0f, ws0f1, ws0f2) = getParseContext(s0, parse.rights, words)
+      val (_,    ts0f1, ts0f2) = getParseContext(s0, parse.rights, tags)
 
       //  String-distance :: Cap numeric features at 5? (NB: n0 always > s0, by construction)
       val dist = if(s0 >= 0) math.min(n0 - s0, 5) else 0  // WAS :: ds0n0
 
       val bias = Feature("bias", "")  // It's useful to have a constant feature, which acts sort of like a prior
 
-      val word_unigrams = for(
+      val wordUnigrams = for(
         word <- List(wn0, wn1, wn2, ws0, ws1, ws2, wn0b1, wn0b2, ws0b1, ws0b2, ws0f1, ws0f2)
         if(word !=0)
       ) yield Feature("w", word)
 
-      val tag_unigrams = for(
+      val tagUnigrams = for(
         tag  <- List(tn0, tn1, tn2, ts0, ts1, ts2, tn0b1, tn0b2, ts0b1, ts0b2, ts0f1, ts0f2)
         if(tag !=0)
       ) yield Feature("t", tag)
 
-      val word_tag_pairs = for(
+      val wordTagPairs = for(
         ((word, tag), idx) <- List((wn0, tn0), (wn1, tn1), (wn2, tn2), (ws0, ts0)).zipWithIndex
         if( word!=0 || tag!=0 )
       ) yield Feature(s"wt$idx", s"w=$word t=$tag")
@@ -205,7 +193,7 @@ class DependencyMaker(tagger:Tagger) {
         Feature("wtwt", s"$ws0/$ts0 $wn0/$tn0")
       )
 
-      val tag_trigrams = for(
+      val tagTrigrams = for(
         ((t0,t1,t2), idx) <- List( (tn0, tn1, tn2),     (ts0, tn0, tn1),     (ts0, ts1, tn0),    (ts0, ts1, ts1),
           (ts0, ts0f1, tn0),   (ts0, ts0f1, tn0),   (ts0, tn0, tn0b1),
           (ts0, ts0b1, ts0b2), (ts0, ts0f1, ts0f2),
@@ -214,32 +202,32 @@ class DependencyMaker(tagger:Tagger) {
         if( t0!=0 || t1!=0 || t2!=0 )
       ) yield Feature(s"ttt-$idx", s"$t0 $t1 $t2")
 
-      val valency_and_distance = for(
+      val valencyAndDistance = for(
         ((str, v), idx) <-   List( (ws0, vs0f), (ws0, vs0b), (wn0, vn0b),
           (ts0, vs0f), (ts0, vs0b), (tn0, vn0b),
           (ws0, dist), (wn0, dist), (ts0, dist), (tn0, dist),
           ("t"+tn0+ts0, dist), ("w"+wn0+ws0, dist)
         ).zipWithIndex
-        if( str.length>0 || v!=0 )
+        if str.length>0 || v!=0
       ) yield Feature(s"val$idx", s"$str $v")
 
-      val feature_set_combined = Set(bias) ++ bigrams ++ trigrams ++ quadgrams ++
-        word_unigrams.toSet ++ tag_unigrams.toSet ++ word_tag_pairs.toSet ++
-        tag_trigrams.toSet ++ valency_and_distance.toSet
+      val featureSetCombined = Set(bias) ++ bigrams ++ trigrams ++ quadgrams ++
+        wordUnigrams.toSet ++ tagUnigrams.toSet ++ wordTagPairs.toSet ++
+        tagTrigrams.toSet ++ valencyAndDistance.toSet
 
       // All weights on this set of features are ==1
-      feature_set_combined.map( f => (f, 1:Score) ).toMap
+      featureSetCombined.map( f => (f, 1:Score) ).toMap
     }
 
   }
 
   def train(sentences:List[Sentence], seed:Int):Float = {
     val rand = new util.Random(seed)
-    rand.shuffle(sentences).map( s=>train_one(s) ).sum / sentences.length
+    rand.shuffle(sentences).map( s=>trainSentence(s) ).sum / sentences.length
   }
 
-  def train_one(sentence:Sentence):Float = goodness(sentence, process(sentence, true))
-  def parse(sentence:Sentence):List[Int] = process(sentence, false)
+  def trainSentence(sentence:Sentence):Float = goodness(sentence, process(sentence, train=true))
+  def parse(sentence:Sentence):List[Int] = process(sentence, train=false)
 
   def process(sentence:Sentence, train:Boolean):List[Int] = {
     // NB: Our structure just has a 'pure' list of sentences.  The root will point to (n)
@@ -248,105 +236,94 @@ class DependencyMaker(tagger:Tagger) {
     // These should be Vectors, since we're going to be accessing them at random (not sequentially)
     val words      = sentence.map( _.norm ).toVector
     val tags       = tagger.tag(sentence).toVector
-    val gold_heads = sentence.map( _.dep ).toVector
+    val goldHeads = sentence.map( _.dep ).toVector
 
     //print "train_one(n=%d, %s)" % (n, words, )
     //print " gold_heads = %s" % (gold_heads, )
 
-    def move_through_sentence_from(state: CurrentState): CurrentState = {
-      val valid_moves = state.valid_moves
-      if(valid_moves.isEmpty) {
+    def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
+      val validMoves = state.getValidMoves
+      if(validMoves.isEmpty) {
         state // This the answer!
       }
       else {
         //println(s"  i/n=${state.i}/${state.parse.n} stack=${state.stack}")
-        val features = state.extract_features(words, tags)
+        val features = state.extractFeatures(words, tags)
 
         // This will produce scores for features that aren't valid too
         val score = perceptron.score(features, if(train) perceptron.current else perceptron.average)
 
         // Sort valid_moves scores into descending order, and pick the best move
-        val guess = valid_moves.map( m => (-score(m), m) ).toList.sortBy( _._1 ).head._2
+        val guess = validMoves.map( m => (-score(m), m) ).toList.minBy( _._1 )._2
 
         if(train) {  // Update the perceptron
           //println(f"Training '${word_norm}%12s': ${classes(guessed)}%4s -> ${classes(truth(i))}%4s :: ")
-          val gold_moves = state.get_gold_moves(gold_heads)
-          if(gold_moves.size == 0) { /*throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!")*/ } else {
+          val goldMoves = state.getGoldMoves(goldHeads)
+          if(goldMoves.isEmpty) { /*throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!")*/ } else {
 
-            val best = gold_moves.map(m => (-score(m), m)).toList.sortBy(_._1).head._2
+            val best = goldMoves.map(m => (-score(m), m)).toList.minBy(_._1)._2
             perceptron.update(best, guess, features.keys)
           }
 
         }
 
-        move_through_sentence_from( state.transition(guess) )
+        moveThroughSentenceFrom( state.transition(guess) )
       }
     }
 
     // This annotates the list of words so that parse.heads is its best guess when it finishes
-    val final_state = move_through_sentence_from( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
+    val finalState = moveThroughSentenceFrom( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
 
-    final_state.parse.heads.toList
-  }
-
-  def pct_fit_fmt_str(correct_01:Float) = {
-    val correct_pct = correct_01*100
-    val correct_stars = (0 until 100).map(i => (if(i < correct_pct) "x" else "-")).mkString
-    f"${correct_pct}%6.1f%% :: $correct_stars"
+    finalState.parse.heads.toList
   }
 
   def goodness(sentence:Sentence, fit:List[Int]):Float = {
     val gold = sentence.map( _.dep ).toVector
     val correct = fit.zip( gold ).count( pair => (pair._1 == pair._2))  / gold.length.toFloat
-    //println(s"Dependency score : ${pct_fit_fmt_str(correct)}")
     correct
   }
 
-  override def toString():String = {
-    perceptron.toString
+  override def toString: String = {
+    perceptron.toString()
   }
 
-  def test_gold_moves(sentence:Sentence):Boolean = {
+  def testGoldMoves(sentence:Sentence):Boolean = {
     val words      = sentence.map( _.norm ).toVector
     val tags       = tagger.tag(sentence).toVector
-    val gold_heads = sentence.map( _.dep ).toVector
+    val goldHeads = sentence.map( _.dep ).toVector
 
-    def move_through_sentence_from(state: CurrentState): CurrentState = {
-      val valid_moves = state.valid_moves
-      if(valid_moves.isEmpty) {
+    def moveTrhoughSentenceForm(state: CurrentState): CurrentState = {
+      val validMoves = state.getValidMoves
+      if(validMoves.isEmpty) {
         state // This the answer!
       }
       else {
-        val features = state.extract_features(words, tags)
-        val gold_moves = state.get_gold_moves(gold_heads)
-        if(gold_moves.size == 0) {
-          if(gold_moves.size == 0) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
+        val features = state.extractFeatures(words, tags)
+        val goldMoves = state.getGoldMoves(goldHeads)
+        if(goldMoves.isEmpty) {
+          if(goldMoves.isEmpty) { throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!") }
         }
-        if(gold_moves.size > 1 ) {
-          println(s"*** *** *** *** *** *** Several Gold Moves at ${state.i}/${state.parse.n}! : ${moves_str(gold_moves)}")
-        }
-        val guess = gold_moves.toList.head
-        move_through_sentence_from( state.transition(guess) )
+        val guess = goldMoves.toList.head
+        moveTrhoughSentenceForm( state.transition(guess) )
       }
     }
 
     // This annotates the list of words so that parse.heads is its best guess when it finishes
-    val final_state = move_through_sentence_from( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
+    val finalState = moveTrhoughSentenceForm( CurrentState(1, List(0), ParseStateInit(sentence.length)) )
 
     def pct_fit_fmt_str(correct_01:Float) = {
-      val correct_pct = correct_01*100
-      val correct_stars = (0 until 100).map(i => (if(i < correct_pct) "x" else "-")).mkString
-      f"${correct_pct}%6.1f%% :: $correct_stars"
+      val correctPct = correct_01*100
+      val correctStars = (0 until 100).map(i => if(i < correctPct) "x" else "-").mkString
+      f"${correctPct}%6.1f%% :: $correctStars"
     }
 
-    val correct = final_state.parse.heads.zip( gold_heads ).count( pair => (pair._1 == pair._2))  / gold_heads.length
-    println(s"""       index : ${(0 until gold_heads.length).map( v => f"${v}%2d" )}""")
-    println(s"""Gold   Moves : ${gold_heads.map( v => f"${v}%2d" )}""")
-    println(s""" Found Moves : ${final_state.parse.heads.map( v => f"${v}%2d" )}""")
+    val correct = finalState.parse.heads.zip( goldHeads ).count( pair => pair._1 == pair._2)  / goldHeads.length
+    println(s"""       index : ${goldHeads.indices.map( v => f"${v}%2d" )}""")
+    println(s"""Gold   Moves : ${goldHeads.map( v => f"${v}%2d" )}""")
+    println(s""" Found Moves : ${finalState.parse.heads.map( v => f"${v}%2d" )}""")
     println(f"Dependency GoldMoves correct = ${pct_fit_fmt_str(correct)}")
-    //println(s" words.length=${words.length}, tags.length=${tags.length}, gold_heads.length=${gold_heads.length}")
 
-    (correct > 0.99)
+    correct > 0.99
   }
 
   def getDependencyAsArray: Iterator[String] = {
