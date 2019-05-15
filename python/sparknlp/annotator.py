@@ -356,7 +356,7 @@ class LemmatizerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="lemma_fast", language="en", remote_loc=None):
+    def pretrained(name="lemma_antbnc", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LemmatizerModel, name, language, remote_loc)
 
@@ -485,7 +485,7 @@ class PerceptronModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="pos_fast", language="en", remote_loc=None):
+    def pretrained(name="pos_anc", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
 
@@ -717,7 +717,7 @@ class ViveknSentimentModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="vivekn_fast", language="en", remote_loc=None):
+    def pretrained(name="sentiment_vivekn", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remote_loc)
 
@@ -804,7 +804,7 @@ class NorvigSweetingModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spell_fast", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_norvig", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language, remote_loc)
 
@@ -881,7 +881,7 @@ class SymmetricDeleteModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spell_sd_fast", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_sd", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remote_loc)
 
@@ -987,7 +987,7 @@ class NerCrfModel(AnnotatorModel):
         return self._set(includeConfidence=b)
 
     @staticmethod
-    def pretrained(name="ner_fast", language="en", remote_loc=None):
+    def pretrained(name="ner_crf", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
 
@@ -1049,7 +1049,7 @@ class NerDLModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="ner_precise", language="en", remote_loc=None):
+    def pretrained(name="ner_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerDLModel, name, language, remote_loc)
 
@@ -1180,7 +1180,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="context_spell_gen", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)
 
