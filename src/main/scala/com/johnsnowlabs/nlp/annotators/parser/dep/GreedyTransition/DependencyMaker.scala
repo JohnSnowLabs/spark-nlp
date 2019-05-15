@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
 
 /** Inspired on https://github.com/mdda/ConciseGreedyDependencyParser-in-Scala */
 
-class DependencyMaker(tagger:Tagger) {
+class DependencyMaker(tagger:Tagger) extends Serializable {
   val SHIFT:Move=0; val RIGHT:Move=1; val LEFT:Move=2; val INVALID:Move= -1
   def movesString(s:Set[Move]) = {
     val moveNames = Vector[ClassName]("INVALID", "SHIFT", "RIGHT", "LEFT") // NB: requires a +1
