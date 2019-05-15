@@ -7,6 +7,8 @@ class ExportCSVToolTestSpec extends FlatSpec with ExportCSVToolBehaviors {
 
   import SparkAccessor.spark.implicits._
 
+  System.gc()
+
   val document = Seq(
     "EU rejects German call to boycott British lamb",
     "Peter Blackburn"

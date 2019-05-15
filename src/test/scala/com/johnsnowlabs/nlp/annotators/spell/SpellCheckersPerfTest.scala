@@ -10,6 +10,8 @@ import org.scalatest._
 
 class SpellCheckersPerfTest extends FlatSpec {
 
+  System.gc()
+
   "Norvig pipeline" should "be fast" ignore {
 
     ResourceHelper.spark

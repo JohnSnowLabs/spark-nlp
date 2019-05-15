@@ -1,12 +1,12 @@
 # Spark-NLP
 
-[![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp)
+[![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/installer/conda.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
 John Snow Labs Spark-NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
 
 ## Project's website
 
-Take a look at our official spark-nlp page: http://nlp.johnsnowlabs.com/ for user documentation and examples
+Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user documentation and examples
 
 ## Slack community channel
 
@@ -50,9 +50,9 @@ Note that Spark is not retrocompatible with Spark 2.3.x, so models and environme
 If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
-| Spark NLP   |   Spark 2.0.3 / Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
-| 2.x.x       |NO                                   |YES           |
+| 2.x.x       |YES                                   |YES           |
 | 1.8.x       |Partially                            |YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
@@ -242,7 +242,6 @@ Or you can install `spark-nlp` from inside Zeppelin by using Conda:
 ```bash
 %python.conda install -c johnsnowlabs spark-nlp
 ```
-
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
