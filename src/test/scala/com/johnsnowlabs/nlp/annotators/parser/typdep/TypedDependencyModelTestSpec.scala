@@ -18,6 +18,8 @@ import org.apache.spark.ml.util.MLWriter
 
 class TypedDependencyModelTestSpec extends FlatSpec {
 
+  System.gc()
+
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
@@ -99,7 +101,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
       Files.exists(Paths.get(modelFilePath))
     }
   }
-
+/*
   "A typed dependency parser model" should "save a trained model to local disk" in {
     val typedDependencyParser = new TypedDependencyParserApproach()
       .setInputCols(Array("token", "pos", "dependency"))
@@ -149,6 +151,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
 
+<<<<<<< HEAD
 //  "A typed dependency parser (trained with CoNLL-U) model with a sentence input" should
 //    "predict a labeled relationship between words in the sentence" in {
 //    import SparkAccessor.spark.implicits._
@@ -349,4 +352,62 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 //
 //  }
 
+=======
+    val typedDependencyParser = new TypedDependencyParserApproach()
+      .setInputCols(Array("token", "pos", "dependency"))
+      .setOutputCol("labdep")
+      .setConllU("src/test/resources/parser/labeled/train_small.conllu.txt")
+      .setNumberOfIterations(5)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+
+    val model = pipeline.fit(emptyDataSet)
+
+    val sentence =
+      "The most troublesome report may be the August merchandise trade deficit due out tomorrow"
+    val testDataSet = Seq(sentence).toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+
+  "A pre-trained typed dependency parser" should "find relationships between words" in {
+
+    val document = "The most troublesome report may be the August merchandise trade deficit due out tomorrow. " +
+      "Meanwhile, September housing starts, due Wednesday, are thought to have inched upward."
+    val serializedModelPath = "./tmp_tdp_model"
+    val typedDependencyParser = TypedDependencyParserModel.read.load(serializedModelPath)
+      .setInputCols(Array("token", "pos", "dependency"))
+      .setOutputCol("labdep")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        posTagger,
+        dependencyParser,
+        typedDependencyParser
+      ))
+    val typedDependencyParserModel = pipeline.fit(emptyDataSet)
+    val testDataSet = Seq(document).toDS.toDF("text")
+
+    val typedDependencyParserDataFrame = typedDependencyParserModel.transform(testDataSet)
+    typedDependencyParserDataFrame.collect()
+    //typedDependencyParserDataFrame.show(false)
+
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+
+  }
+*/
 }

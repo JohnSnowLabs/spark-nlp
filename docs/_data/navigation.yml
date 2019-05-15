@@ -1,0 +1,27 @@
+header:
+  - title: Home
+    url: /
+  - title: Docs
+    url: /docs/en/quickstart
+  - title: Articles
+    url: /articles.html
+  - title: Videos
+    url: /videos.html
+  - title: GitHub
+    url: https://github.com/JohnSnowLabs/spark-nlp
+
+docs-en:
+  - title:     Getting Started
+    children:
+      - title:  Quick Start
+        url:    /docs/en/quickstart
+      - title:  Install Spark NLP
+        url:    /docs/en/install
+  - title:      Documentation
+    children:      
+      - title:  Annotators
+        url:    /docs/en/annotators
+      - title:  Models and Pipelines
+        url:    /docs/en/models  
+      - title:  Examples
+        url:    /docs/en/examples  
