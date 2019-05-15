@@ -105,6 +105,7 @@ public class TypedDependencyParser implements Serializable {
 
         start = System.currentTimeMillis();
 
+        //TODO: Check if we really require to train here again
         logger.debug("Running MIRA ... ");
         trainIterations(dependencyInstances);
 
@@ -145,7 +146,7 @@ public class TypedDependencyParser implements Serializable {
                 int[] predictedHeads = dependencyInstance.getHeads();
                 int[] predictedLabels = new int [dependencyInstanceLength];
 
-                predictedLabels = localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
+                localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
                 int numberCorrectMatches = getNumberCorrectMatches(dependencyInstance.getHeads(),
                         dependencyInstance.getDependencyLabelIds(),
                         predictedHeads, predictedLabels);
@@ -196,13 +197,12 @@ public class TypedDependencyParser implements Serializable {
             }
             LocalFeatureData localFeatureData = new LocalFeatureData(dependencyInstance, this);
             int numberOfTokensInSentence = dependencyInstance.getLength();
-            //int[] predictedHeads = dependencyInstance.getHeads();
-            int[] predictedHeads = {3, 3, 0, 3}; //TODO: Assuming a right output from Dependency Parser
+            int[] predictedHeads = dependencyInstance.getHeads();
+            //int[] hardCodedPredictedHeads = {-1, 4, 3, 4, 5, 0, 5, 11, 11, 10, 11, 6, 13, 11, 13, 5}; //TODO: Assuming a right output from Dependency Parser
             int[] predictedLabels = new int [numberOfTokensInSentence];
-            int[] newPredictedLabels = localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
+            localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
 
-            //dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
-            dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, newPredictedLabels);
+            dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
         }
         return dependencyLabels;
     }

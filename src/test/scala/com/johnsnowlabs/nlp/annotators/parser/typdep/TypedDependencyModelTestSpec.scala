@@ -104,8 +104,9 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     val typedDependencyParser = new TypedDependencyParserApproach()
       .setInputCols(Array("token", "pos", "dependency"))
       .setOutputCol("labdep")
-      .setConllU("src/test/resources/parser/labeled/train_for_debug.txt")
-      .setNumberOfIterations(10)
+      //.setConllU("src/test/resources/parser/labeled/train_for_debug.txt")
+      .setConll2009("src/test/resources/parser/labeled/train_small.conll2009.txt")
+      .setNumberOfIterations(3)
 
     val typedDependencyParserModel = typedDependencyParser.fit(emptyDataSet)
     saveModel(typedDependencyParserModel.write, "./tmp_tdp_model")
@@ -137,7 +138,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
     val model = pipeline.fit(emptyDataSet)
     val typedDependencyParserModel = model.stages.last.asInstanceOf[TypedDependencyParserModel]
-    val sentence = "So what happened"
+    val sentence = "The most troublesome report may be the August merchandise trade deficit due out tomorrow." //"So what happened"
     val testDataSet = Seq(sentence).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     //typedDependencyParserDataFrame.collect()
