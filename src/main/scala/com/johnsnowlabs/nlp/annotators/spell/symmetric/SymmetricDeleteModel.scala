@@ -246,7 +246,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 }
 
 trait PretrainedSymmetricDelete {
-  def pretrained(name: String = "spell_sd_fast", language: Option[String] = Some("en"),
+  def pretrained(name: String = "spellcheck_sd", language: Option[String] = Some("en"),
                  remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
     ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remoteLoc)
 }

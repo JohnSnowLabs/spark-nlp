@@ -145,6 +145,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 
     @staticmethod
-    def pretrained(name="bert_uncased_base", language="en", remote_loc=None):
+    def pretrained(name="bert_uncased", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
