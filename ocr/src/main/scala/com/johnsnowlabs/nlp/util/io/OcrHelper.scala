@@ -433,7 +433,7 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     pagesTry match {
       case Failure(e) =>
-        logger.error(s"""found a problem trying to open file filename""")
+        logger.error(s"""found a problem trying to open file $filename""")
         logger.error(pagesTry.toString)
         Seq.empty
       case Success(content) =>
