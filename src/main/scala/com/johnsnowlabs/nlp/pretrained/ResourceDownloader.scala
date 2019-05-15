@@ -182,7 +182,7 @@ object PythonResourceDownloader {
     "SymmetricDeleteModel" -> SymmetricDeleteModel,
     "NerDLModel" -> NerDLModel,
     "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
-    "WordEmbeddings" -> WordEmbeddingsModel,
+    "WordEmbeddingsModel" -> WordEmbeddingsModel,
     "BertEmbeddings" -> BertEmbeddings,
     "DependencyParserModel" -> DependencyParserModel,
     "TypedDependencyParserModel" -> TypedDependencyParserModel
