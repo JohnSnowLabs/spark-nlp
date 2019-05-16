@@ -4,8 +4,8 @@
 ---------------
 Overview
 ---------------
-We are excited about Spark NLP workshop being so useful for many users. Now we made a step forward
-of moving website's documentation to an easy to maintain Wiki!. Spark NLP library received key bug fixes
+We are excited about Spark NLP workshop (spark-nlp-workshop repository) being so useful for many users.
+Now we also made a step forward by moving website's documentation to an easy to maintain Wiki!. Spark NLP library received key bug fixes
 on this release. Thanks to the community for reporting issues on GitHub. Much more to come, as always.
 
 ---------------
