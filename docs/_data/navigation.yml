@@ -3,13 +3,15 @@ header:
     url: /
   - title: Docs
     url: /docs/en/quickstart
+    key: docs
   - title: Articles
     url: /articles.html
   - title: Videos
     url: /videos.html
-  - title: GitHub
+  - title: '<span style="color: #fc4d50;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
-
+  # - title: '<span style="color: #fc4d50;"><i class="fab fa-slack-hash fa-2x"></i></span>'
+    # url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE
 docs-en:
   - title:     Getting Started
     children:
@@ -17,11 +19,12 @@ docs-en:
         url:    /docs/en/quickstart
       - title:  Install Spark NLP
         url:    /docs/en/install
+      - title:  Examples
+        url:    /docs/en/examples  
   - title:      Documentation
     children:      
       - title:  Annotators
         url:    /docs/en/annotators
       - title:  Models and Pipelines
         url:    /docs/en/models  
-      - title:  Examples
-        url:    /docs/en/examples  
+      
