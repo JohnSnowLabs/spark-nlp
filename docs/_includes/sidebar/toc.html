@@ -1,4 +1,6 @@
-{%- include svg/logo.svg -%}
+<a title="{%- if site.description -%}{{ site.description }}{%- endif -%}" href="/">
+    {%- include svg/logo.svg -%}
+</a>
 {%- if page.sidebar.nav -%}
   <div class="sidebar-toc">
     {%- assign _sidebar_nav = site.data.navigation[page.sidebar.nav] -%}
