@@ -44,7 +44,7 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
         val headWord = getHeadWord(token.head, sentence)
         val word = token.word
         val relatedWords = s"($headWord, $word)"
-        val realHead = token.head + 1 //updateHeadsWithRootIndex(token.head, sizeSentence)
+        val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1 //updateHeadsWithRootIndex(token.head, sizeSentence)
         Annotation(annotatorType, token.begin, token.end, relatedWords, Map("head" -> realHead.toString))
       }
     }
@@ -53,7 +53,8 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   def getHeadWord(head: Int, sentence: DependencyParsedSentence): String = {
     var headWord = "ROOT"
     if (head != ROOT_INDEX) {
-      headWord = sentence.tokens(head).word
+      headWord = sentence.tokens.lift(head).map(_.word)
+        .getOrElse(sentence.tokens.find(_.head == sentence.tokens.length).get.word)
     }
     headWord
   }

@@ -1,13 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import org.apache.spark.ml.param.StringArrayParam
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import com.johnsnowlabs.nlp.serialization.StructFeature
+import org.apache.spark.ml.util.Identifiable
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
@@ -16,14 +16,12 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override val inputAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
 
-  val perceptronAsArray: StringArrayParam = new StringArrayParam(this, "perceptronAsArray",
-    "List of features for perceptron")
+  val perceptron: StructFeature[DependencyMaker] = new StructFeature[DependencyMaker](this, "perceptron")
 
-  def setPerceptronAsArray(perceptron: Array[String]): this.type = set(perceptronAsArray, perceptron)
+  def setPerceptron(value: DependencyMaker): this.type = set(perceptron, value)
 
   def getDependencyParsedSentence(sentence: PosTaggedSentence): DependencyParsedSentence = {
-    val model = new GreedyTransitionApproach()
-    val dependencyParsedSentence = model.predict(sentence, $(perceptronAsArray))
+    val dependencyParsedSentence = GreedyTransitionApproach.predict(sentence, $$(perceptron))
     dependencyParsedSentence
   }
 
@@ -36,9 +34,9 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 }
 
 trait PretrainedDependencyParserModel {
-  def pretrained(name: String = "dp_fast", language: Option[String] = Some("en"),
+  def pretrained(name: String = "dependency_conllu", language: Option[String] = Some("en"),
                  remoteLoc: String = ResourceDownloader.publicLoc): DependencyParserModel =
     ResourceDownloader.downloadModel(DependencyParserModel, name, language, remoteLoc)
 }
 
-object DependencyParserModel extends DefaultParamsReadable[DependencyParserModel] with PretrainedDependencyParserModel
+object DependencyParserModel extends ParamsAndFeaturesReadable[DependencyParserModel] with PretrainedDependencyParserModel

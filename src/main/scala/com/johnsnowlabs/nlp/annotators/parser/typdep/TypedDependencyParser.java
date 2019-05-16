@@ -105,6 +105,7 @@ public class TypedDependencyParser implements Serializable {
 
         start = System.currentTimeMillis();
 
+        //TODO: Check if we really require to train here again
         logger.debug("Running MIRA ... ");
         trainIterations(dependencyInstances);
 
@@ -182,14 +183,14 @@ public class TypedDependencyParser implements Serializable {
         return nCorrect;
     }
 
-    DependencyLabel[] predictDependency(ConllData[][] document){
+    DependencyLabel[] predictDependency(ConllData[][] document, String conllFormat){
 
         ConllWriter conllWriter = new ConllWriter(options, dependencyPipe);
 
         DependencyLabel[] dependencyLabels = new DependencyLabel[document[0].length];
 
         for (ConllData[] sentence : document) {
-            DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence);
+            DependencyInstance dependencyInstance = dependencyPipe.nextSentence(sentence, conllFormat);
             if (dependencyInstance == null) {
                 break;
             }
@@ -197,7 +198,7 @@ public class TypedDependencyParser implements Serializable {
             int numberOfTokensInSentence = dependencyInstance.getLength();
             int[] predictedHeads = dependencyInstance.getHeads();
             int[] predictedLabels = new int [numberOfTokensInSentence];
-            localFeatureData.predictLabels(predictedHeads, predictedLabels, false);
+            localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
 
             dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);
         }

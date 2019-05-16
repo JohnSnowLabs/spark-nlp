@@ -75,27 +75,16 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val (classes, tagDictionary) = TagDictionary.classesAndTagDictionary(trainingSentences)
     val tagger = new Tagger(classes, tagDictionary)
     val taggerNumberOfIterations = getNumberOfIterations
-    val dependencyMakerNumberOfIterations = getNumberOfIterations + 5
 
-    val taggerPerformanceProgress = (0 until taggerNumberOfIterations).map { seed =>
-        tagger.train(trainingSentences, seed) //Iterates to increase accuracy getFilesContentAsArray
-    }
-    logger.info(s"Tagger Performance = $taggerPerformanceProgress")
+    val dependencyMaker = new DependencyMaker(tagger)
 
-    var perceptronAsArray = tagger.getPerceptronAsArray
-
-    val greedyTransition = new GreedyTransitionApproach()
-    val dependencyMaker = greedyTransition.loadPerceptronInTraining(perceptronAsArray)
-
-    val dependencyMakerPerformanceProgress = (0 until dependencyMakerNumberOfIterations).map{ seed =>
-      dependencyMaker.train(trainingSentences, seed, tagger)
+    val dependencyMakerPerformanceProgress = (0 until taggerNumberOfIterations).map{ seed =>
+      dependencyMaker.train(trainingSentences, seed)
     }
     logger.info(s"Dependency Maker Performance = $dependencyMakerPerformanceProgress")
 
-    perceptronAsArray = dependencyMaker.getPerceptronAsArray
-
     new DependencyParserModel()
-      .setPerceptronAsArray(perceptronAsArray)
+      .setPerceptron(dependencyMaker)
   }
 
   def validateTrainingFiles(): Unit = {
@@ -143,7 +132,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   def transformToSentences(cleanConllUSentence: Array[String]): Sentence = {
     val ID_INDEX = 0
     val WORD_INDEX = 1
-    val POS_INDEX = 3
+    val POS_INDEX = 4
     val HEAD_INDEX = 6
     val SEPARATOR = "\\t"
 
