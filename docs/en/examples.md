@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Spark NLP Examples
+title: Examples
 key: docs-examples
 permalink: /docs/en/examples
 modify_date: "2019-05-16"

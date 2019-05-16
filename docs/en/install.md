@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Installing Spark NLP
+title: Installation
 permalink: /docs/en/install
 key: docs-install
 modify_date: "2019-05-16"
