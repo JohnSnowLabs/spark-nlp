@@ -21,7 +21,7 @@ text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate"
 highlight_theme: tomorrow-night-eighties # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
 url     : # the base hostname & protocol for your site e.g. https://www.someone.com
 baseurl : # does not include hostname
-title   : John Snow Labs - Spark NLP
+title   : Spark NLP
 description: > # this means to ignore newlines until "Language & timezone"
   High Performance NLP with Apache Spark
 
