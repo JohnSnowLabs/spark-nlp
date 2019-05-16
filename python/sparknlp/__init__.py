@@ -36,8 +36,8 @@ def start(include_ocr=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
     if include_ocr:
-        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.3")
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.4")
     else:
-        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3") \
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.4") \
 
     return builder.getOrCreate()

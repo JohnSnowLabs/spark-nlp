@@ -1,4 +1,34 @@
 ========
+2.0.4
+========
+---------------
+Overview
+---------------
+We are excited about Spark NLP workshop (spark-nlp-workshop repository) being so useful for many users.
+Now we also made a step forward by moving website's documentation to an easy to maintain Wiki!. Spark NLP library received key bug fixes
+on this release. Thanks to the community for reporting issues on GitHub. Much more to come, as always.
+
+---------------
+Bugfixes
+---------------
+* Fixed DependencyParser and TypedDependencyParser working inaccurately
+* Fixed a bug preventing the load of WordEmbeddingsModel class from python
+* Fixed wrong pretrained model names preventing some pretrained models to work properly
+* Fixed BertEmbeddings not being capable of loading from file due a reader exception
+
+---------------
+Documentation
+---------------
+* Website documentation migrated to GitHub wiki page (WIP)
+
+---------------
+Developer API
+---------------
+* OcrHelper now reports failed file name when throwing exceptions (Thanks @kgeis)
+* Fixed Annotation function explodeAnnotations to consider replacing output column scenarios
+* Fixed TRAVIS CI unit tests
+
+========
 2.0.3
 ========
 ---------------
