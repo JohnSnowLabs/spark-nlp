@@ -68,7 +68,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model (trained with CoNLL-U) with a sentence input" should
-    "predict a labeled relationship between words in sentences" ignore { // ignored due to large heap memory usage in TRAVIS
+    "predict a labeled relationship between words in sentences" in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -97,7 +97,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" should
-    "predict a labeled relationship between words in each sentence" ignore { // fails heap memory on travis
+    "predict a labeled relationship between words in each sentence" in {
     import SparkAccessor.spark.implicits._
     val pipeline = new Pipeline()
       .setStages(Array(
