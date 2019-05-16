@@ -5,9 +5,11 @@ header:
     url: /docs/en/quickstart
     key: docs
   - title: Articles
-    url: /articles.html
+    url: /articles
+    key: articles
   - title: Videos
-    url: /videos.html
+    url: /videos  
+    key: videos
   - title: '<span style="color: #fc4d50;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   # - title: '<span style="color: #fc4d50;"><i class="fab fa-slack-hash fa-2x"></i></span>'
@@ -20,11 +22,17 @@ docs-en:
       - title:  Install Spark NLP
         url:    /docs/en/install
       - title:  Examples
-        url:    /docs/en/examples  
+        url:    /docs/en/examples      
   - title:      Documentation
     children:      
       - title:  Annotators
         url:    /docs/en/annotators
       - title:  Models and Pipelines
         url:    /docs/en/models  
-      
+extras:
+  - title:     Extras
+    children:
+      - title:  Articles
+        url:    /articles
+      - title:  Videos
+        url:    /videos
