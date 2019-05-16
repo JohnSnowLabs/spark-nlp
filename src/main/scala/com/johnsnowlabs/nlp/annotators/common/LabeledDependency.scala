@@ -14,16 +14,16 @@ object LabeledDependency extends Annotated[ConllSentence] {
     val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN).toArray
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
-    val conll2009 = unlabeledDependencies.zipWithIndex.map{ case(unlabeledDependency, index) =>
+    val conll = unlabeledDependencies.zipWithIndex.map{ case(unlabeledDependency, index) =>
       val form = unlabeledDependency.result
       val lemma = unlabeledDependency.result.toLowerCase
       val pos = posTagged(index).result
       val head = unlabeledDependency.metadata.getOrElse("head", "-1").toInt
       val sentence = tokens(index).metadata.getOrElse("sentence", "0").toInt
-      ConllSentence(form, lemma, pos, "_", head, sentence, unlabeledDependency.begin, unlabeledDependency.end)
+      ConllSentence(form, lemma, pos, pos, "_", head, sentence, unlabeledDependency.begin, unlabeledDependency.end)
     }
 
-   conll2009
+   conll
   }
 
   override def pack(conllSentences: Seq[ConllSentence]): Seq[Annotation] = {

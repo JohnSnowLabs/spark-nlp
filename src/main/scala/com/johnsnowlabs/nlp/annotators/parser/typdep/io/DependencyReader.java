@@ -33,8 +33,8 @@ public abstract class DependencyReader {
         int length = sentence.length;
         String[] forms = new String[length + 1];
         String[] lemmas = new String[length + 1];
-        String[] cpos = new String[length + 1];
-        String[] pos = new String[length + 1];
+        String[] uPos = new String[length + 1];
+        String[] xPos = new String[length + 1];
         String[][] feats = new String[length + 1][];
         String[] deprels = new String[length + 1];
         int[] heads = new int[length + 1];
@@ -43,8 +43,8 @@ public abstract class DependencyReader {
 
         forms[0] = "<root>";
         lemmas[0] = "<root-LEMMA>";
-        pos[0] = "<root-POS>";
-        cpos[0] = pos[0];
+        uPos[0] = "<root-POS>";
+        xPos[0] = "<root-POS>";
         deprels[0] = "<no-type>";
         heads[0] = -1;
         begins[0] = -1;
@@ -63,20 +63,21 @@ public abstract class DependencyReader {
                 hasLemma = true;
             }
 
-            pos[i] = conllValues.getPos();
-            cpos[i] = pos[i];
+            uPos[i] = conllValues.getUPos();
+            xPos[i] = conllValues.getXPos();
 
             //TODO: Add feats
 
             heads[i] = conllValues.getHead();
-            deprels[i] = conllValues.getDeprel();
+            deprels[i] = conllValues.getDepRel();
 
         }
         if (!hasLemma){
             lemmas = null;
         }
 
-        return new DependencyInstance(forms, lemmas, cpos, pos, feats, heads, deprels, begins, ends);
+        //TODO: Check why in the prediciton phase, cpos and pos are very different than training
+        return new DependencyInstance(forms, lemmas, uPos, xPos, feats, heads, deprels, begins, ends);
     }
 
     public void startReading(String file) throws IOException {
