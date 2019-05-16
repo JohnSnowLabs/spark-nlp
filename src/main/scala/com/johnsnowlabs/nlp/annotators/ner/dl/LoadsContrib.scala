@@ -20,7 +20,7 @@ trait LoadsContrib {
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
       Some((resourcePath("mac",lib1), resourcePath("mac", lib2)))
     } else if (SystemUtils.IS_OS_WINDOWS) {
-      None
+      throw new UnsupportedOperationException("NerDL is not supported on Windows due to tensorflow.contrib issues")
     } else {
       Some((resourcePath("linux",lib1), resourcePath("linux", lib2)))
     }

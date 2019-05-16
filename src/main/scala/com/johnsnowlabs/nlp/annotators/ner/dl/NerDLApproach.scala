@@ -134,7 +134,8 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      val graphPrefix = if (SystemUtils.IS_OS_WINDOWS) "blstm-noncontrib_" else "blstm_"
+      val graphPrefix = if (SystemUtils.IS_OS_WINDOWS)
+        throw new UnsupportedOperationException("NerDL is not supported on Windows due to tensorflow.contrib issues") else "blstm_"
 
       if (name.startsWith(graphPrefix)) {
         val clean = name.replace(graphPrefix, "").replace(".pb", "")
