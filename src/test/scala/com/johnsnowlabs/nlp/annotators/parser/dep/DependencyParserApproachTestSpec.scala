@@ -64,16 +64,16 @@ class DependencyParserApproachTestSpec extends FlatSpec{
     val conllUAsArray = ResourceHelper.parseLines(externalResource)
     val dependencyParserApproach = new DependencyParserApproach()
     val expectedTrainingSentences: List[Sentence] = List(
-      List(WordData("It", "PRON", 2), WordData("should", "AUX", 2), WordData("continue","VERB", 7),
-           WordData("to","PART", 5), WordData("be","AUX", 5), WordData("defanged","VERB", 2), WordData(".","PUNCT", 2)),
-      List(WordData("So", "ADV", 2), WordData("what", "PRON", 2), WordData("happened","VERB", 4),
-           WordData("?","PUNCT", 2)),
-      List(WordData("Over", "ADV", 1), WordData("300", "NUM", 2), WordData("Iraqis","PROPN", 4),
-        WordData("are","AUX", 4), WordData("reported","VERB", 14), WordData("dead","ADJ", 4),
-        WordData("and","CCONJ", 7), WordData("500","NUM", 4), WordData("wounded","ADJ", 7),
-        WordData("in","ADP", 10), WordData("Fallujah","PROPN", 4), WordData("alone","ADV", 10),WordData(".","PUNCT", 4)),
-      List(WordData("That", "PRON", 3), WordData("too","ADV", 3), WordData("was","AUX", 3),
-           WordData("stopped","VERB", 5), WordData(".","PUNCT", 3))
+      List(WordData("It", "PRP", 2), WordData("should", "MD", 2), WordData("continue","VB", 7),
+           WordData("to","TO", 5), WordData("be","VB", 5), WordData("defanged","VBN", 2), WordData(".",".", 2)),
+      List(WordData("So", "RB", 2), WordData("what", "WP", 2), WordData("happened","VBD", 4),
+           WordData("?",".", 2)),
+      List(WordData("Over", "RB", 1), WordData("300", "CD", 2), WordData("Iraqis","NNPS", 4),
+        WordData("are","VBP", 4), WordData("reported","VBN", 14), WordData("dead","JJ", 4),
+        WordData("and","CC", 7), WordData("500","CD", 4), WordData("wounded","JJ", 7),
+        WordData("in","IN", 10), WordData("Fallujah","NNP", 4), WordData("alone","RB", 10),WordData(".",".", 4)),
+      List(WordData("That", "DT", 3), WordData("too","RB", 3), WordData("was","VBD", 3),
+           WordData("stopped","VBN", 5), WordData(".",".", 3))
     )
 
     val trainingSentences = dependencyParserApproach.getTrainingSentencesFromConllU(conllUAsArray)
