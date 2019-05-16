@@ -3,7 +3,7 @@ layout: article
 title: Installing Spark NLP
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2019-05-08"
+modify_date: "2019-05-16"
 ---
 
 ## Spark-NLP Python

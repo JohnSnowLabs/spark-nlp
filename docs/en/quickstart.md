@@ -3,7 +3,7 @@ layout: article
 title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
-modify_date: "2019-05-08"
+modify_date: "2019-05-16"
 ---
 
 ## The very first: Join our Slack channel

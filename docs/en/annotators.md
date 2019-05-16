@@ -3,7 +3,7 @@ layout: article
 title: Spark NLP Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-05-08"
+modify_date: "2019-05-16"
 ---
 
 ## Concepts
