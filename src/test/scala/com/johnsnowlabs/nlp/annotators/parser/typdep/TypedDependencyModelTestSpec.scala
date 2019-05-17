@@ -68,7 +68,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model (trained with CoNLL-U) with a sentence input" should
-    "predict a labeled relationship between words in sentences" in {
+    "predict a labeled relationship between words in sentences" ignore {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -97,7 +97,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" should
-    "predict a labeled relationship between words in each sentence" in {
+    "predict a labeled relationship between words in each sentence" ignore {
     import SparkAccessor.spark.implicits._
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -122,7 +122,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model (trained with CoNLL-U) with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" in  {
+    "predict a labeled relationship between words in each sentence" ignore  {
     import SparkAccessor.spark.implicits._
 
     val finisher = new Finisher().setInputCols("labdep")
