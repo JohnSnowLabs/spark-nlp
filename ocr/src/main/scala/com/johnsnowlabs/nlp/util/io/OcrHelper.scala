@@ -10,6 +10,7 @@ import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
@@ -410,15 +411,96 @@ class OcrHelper extends ImageProcessing with Serializable {
     result.map(_.map{ case (content, pagenum) => (pagenum, content, decidedMethod)})
       .getOrElse(Seq.empty[(Int, String, String)])
   }
+  /*
+  def printTextCoordinates(pdfDoc: PDDocument) = {
+
+    //import org.apache.pdfbox.text.TextPosition
+    //import org.apache.pdfbox.pdmodel.common.PDRectangle
+    val cropBox = pdfDoc.getPage(0).getCropBox
+
+    val stripper = new CustomStripper()
+    stripper.setStartPage(1) // fix it to first page just to test it
+
+    stripper.setEndPage(1)
+    stripper.getText(pdfDoc)
+
+    val line = stripper.lines.get(1) // the line i want to paint on
+
+    var minx = -1.0f
+    var maxx = -1.0f
+
+    import scala.collection.JavaConversions._
+    for (pos <- line.textPositions) {
+      if (pos != null) {
+        if (minx == -1 || pos.getTextMatrix.getTranslateX < minx) minx = pos.getTextMatrix.getTranslateX
+        if (maxx == -1 || pos.getTextMatrix.getTranslateX > maxx) maxx = pos.getTextMatrix.getTranslateX
+      }
+    }
+  }*/
+
+
+  import org.apache.pdfbox.pdmodel.PDDocument
+  import org.apache.pdfbox.pdmodel.PDPageContentStream
+  import java.awt.Color
+
+  def savePDFWithBoxes(doc: PDDocument) = {
+     try {
+        val stripper = new CustomStripper
+        stripper.setStartPage(1) // fix it to first page just to test it
+
+        stripper.setEndPage(1)
+        stripper.getText(doc)
+        val line = stripper.lines.get(0)
+        // the line i want to paint on
+        var minx = -1.0f
+        var maxx = -1.0f
+        import scala.collection.JavaConversions._
+        for (pos <- line.textPositions) {
+          if (pos != null) {
+
+            if (minx == -1 || pos.getTextMatrix.getTranslateX < minx) minx = pos.getTextMatrix.getTranslateX
+            if (maxx == -1 || pos.getTextMatrix.getTranslateX > maxx) maxx = pos.getTextMatrix.getTranslateX
+          }
+        }
+
+        val firstPosition = line.textPositions.get(0)
+        val lastPosition = line.textPositions.get(line.textPositions.size - 1)
+
+        val cropBox = doc.getPage(0).getCropBox
+        val x = minx + cropBox.getLowerLeftX
+        val y = firstPosition.getTextMatrix.getTranslateY + cropBox.getLowerLeftY
+
+        val w = (maxx - minx) + lastPosition.getWidth
+        val h = lastPosition.getHeightDir
+        val contentStream = new PDPageContentStream(doc, doc.getPage(0), PDPageContentStream.AppendMode.APPEND, false)
+        contentStream.setNonStrokingColor(Color.RED)
+        contentStream.addRect(x, y, w, h)
+        //contentStream.fill()
+        contentStream.stroke()
+        contentStream.close()
+        val fileout = new File("testing_pdfbox.pdf")
+        doc.save(fileout)
+        doc.close()
+
+     }
+      catch {
+        case ex: Exception =>
+          println("Houston, we had a problem")
+
+      }
+  }
+
+
 
   /*
-   * fileStream: a stream to PDF files
-   * filename: name of the original file(used for failure login)
-   * returns sequence of (pageNumber:Int, textRegion:String)
-   *
-   * */
-  private def doPDFOcr(fileStream:InputStream, filename:String):Seq[(Int, String, String)] = {
+     * fileStream: a stream to PDF files
+     * filename: name of the original file(used for failure login)
+     * returns sequence of (pageNumber:Int, textRegion:String)
+     *
+     * */
+  private def doPDFOcr(fileStream:InputStream, filename:String):  Seq[(Int, String, String)]    = {
     val pagesTry = Try(PDDocument.load(fileStream)).map { pdfDoc =>
+      savePDFWithBoxes(pdfDoc)
       val numPages = pdfDoc.getNumberOfPages
       require(numPages >= 1, "pdf input stream cannot be empty")
 
@@ -441,7 +523,9 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
+  private def doImageOcr(fileStream:InputStream)
+
+      = {
     val image = ImageIO.read(fileStream)
     tesseractMethod(Seq(image)).map { _.map { case (region, pagenum) =>
          (pagenum, region, OCRMethod.IMAGE_FILE)
@@ -452,7 +536,9 @@ class OcrHelper extends ImageProcessing with Serializable {
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(document: PDDocument, startPage: Int, endPage: Int): Seq[String] = {
+  private def extractText(document: PDDocument, startPage: Int, endPage: Int)
+
+      = {
     import org.apache.pdfbox.text.PDFTextStripper
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(startPage)
@@ -460,7 +546,9 @@ class OcrHelper extends ImageProcessing with Serializable {
     Seq(pdfTextStripper.getText(document))
   }
 
-  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[BufferedImage] = {
+  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int)
+
+      = {
     import scala.collection.JavaConversions._
     Range(startPage, endPage + 1).flatMap(numPage => {
       val page = document.getPage(numPage)
