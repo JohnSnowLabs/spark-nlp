@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.pretrained
 
-import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials}
+import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -8,18 +8,18 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
-import org.apache.spark.ml.{PipelineModel, PipelineStage}
-import org.apache.spark.ml.util.DefaultParamsReadable
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsModel, BertEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.hadoop.fs.FileSystem
+import org.apache.spark.ml.util.DefaultParamsReadable
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
 import scala.collection.mutable
 
@@ -50,13 +50,16 @@ object ResourceDownloader {
   def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
     val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-    if (accessKeyId.isEmpty || secretAccessKey.isEmpty)
-      Some(new AnonymousAWSCredentials())
+    if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
+      //Some(new AnonymousAWSCredentials()\E
+      Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+    }
     else
       Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
+
     }
   else {
-    None
+    Some(new DefaultAWSCredentialsProviderChain().getCredentials)
   }
 
 
