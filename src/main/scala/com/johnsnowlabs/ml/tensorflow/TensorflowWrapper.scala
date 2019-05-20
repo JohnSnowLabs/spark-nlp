@@ -31,7 +31,7 @@ class TensorflowWrapper(
     if (msession == null){
       logger.debug("Restoring TF session from bytes")
       val t = new TensorResources()
-      val config = Array[Byte](50, 2, 32, 1, 56, 1)
+      val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
