@@ -219,7 +219,6 @@ defaults:
         theme: dark
         background: "#123"
       # lightbox: true    
-
 ## => Plugins
 ##############################
 plugins:
