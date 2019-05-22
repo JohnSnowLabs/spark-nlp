@@ -58,7 +58,7 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 | 1.6.3       |YES                                  |N/A           |
 | 1.5.0       |YES                                  |N/A           |
 
-Find out more about `Spark-NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
+Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
 ## Spark Packages
 
@@ -108,7 +108,7 @@ sbt -Dis_gpu=true assembly
 sbt package
 ```
 
-#### Spark-NLP-OCR
+#### Spark NLP OCR
 
 Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested
 
