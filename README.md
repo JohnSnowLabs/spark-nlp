@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/installer/conda.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-John Snow Labs Spark-NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
+John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
 
 ## Project's website
 
-Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user documentation and examples
+Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user documentation and examples
 
 ## Slack community channel
 
@@ -14,7 +14,7 @@ Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
-* [Using Spark-NLP](#usage)
+* [Using Spark NLP](#usage)
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
   * [Compiled JARs](#compiled-jars)
@@ -43,7 +43,7 @@ Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Apache Spark Support
 
-Spark-NLP *2.0.4* has been built on top of Apache Spark 2.4.0
+Spark NLP *2.0.4* has been built on top of Apache Spark 2.4.0
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
@@ -110,7 +110,7 @@ sbt package
 
 #### Spark NLP OCR
 
-Requires native Tesseract 4.x+ for image based OCR. Does not require Spark-NLP to work but highly suggested
+Requires native Tesseract 4.x+ for image based OCR. Does not require Spark NLP to work but highly suggested
 
 * FAT-JAR
 
@@ -271,7 +271,7 @@ If not using pyspark at all, you'll have to run the instructions pointed [here](
 ### With no hadoop configuration
 
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
-You need to specify where in the cluster distributed storage you want to store Spark-NLP's tmp files.
+You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files.
 First, decide where you want to put your *application.conf* file
 
 ```scala
@@ -408,7 +408,7 @@ Need more examples? Check out our dedicated repository to showcase Spark NLP use
   * A: Add `LC_ALL=C` environment variable
   
 * Q: Getting `org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed` when running an OCR transformation
-  * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark-NLP dependency by default
+  * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark NLP dependency by default
 
 ## Acknowledgments
 
