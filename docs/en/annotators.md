@@ -10,13 +10,14 @@ modify_date: "2019-05-16"
 
 ### Spark NLP Imports
 
-Since version 1.5.0 we are making necessary imports easy to reach, **base** will include general Spark NLP transformers and concepts, while **annotator** will include all annotators that we currently provide. We also need SparkML pipelines.
+We attempt making necessary imports easy to reach, **base** will include general Spark NLP transformers and concepts, while **annotator** will include all annotators that we currently provide. **embeddings** include word embedding annotators. This does not include Spark imports.
 
 **Example:**
 
 {% highlight python %}
 from sparknlp.base import *
 from sparknlp.annotator import *
+from sparknlp.embeddings import *
 {% endhighlight %}
 
 {% highlight scala %}
@@ -42,9 +43,9 @@ new Pipeline().setStages(Array(...))
 
 ### LightPipeline
 
-#### A super-fast Spark-NLP pipeline for small data
+#### A super-fast Spark NLP pipeline for small data
 
-LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than 10x times faster for smaller amounts of data (50k lines of text or below). To use them, simply plug in a trained (fitted) pipeline.  
+LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than 10x times faster for smaller amounts of data (small is relative, but 50k sentences is roughly a good maximum). To use them, simply plug in a trained (fitted) pipeline.  
 **Example:**
 
 {% highlight python %}
@@ -92,65 +93,34 @@ val recursivePipeline = new RecursivePipeline()
         ))
 {% endhighlight %}
 
-### ExternalResource
-
-#### Data properties outside the pipeline
-
-ExternalResource represent the properties of external data to be read, usually by the ResourceHelper (which is explained below). It contains information into how such external source may be read, and allows different protocols (hdfs, s3, etc) and formats (csv, text, parquet, etc). User does not usually need to create explicitly External Resources, but function parameters usually ask for elements used by it.  
-
-**Arguments:**
-
-- path -> Takes a path with protocol of desintation file or folder
-- ReadAs -> "LINE_BY_LINE" or "SPARK_DATASET" will tell SparkNLP to use spark or not for this file or folder
-- options -> Contains information passed to Spark reader (e.g. format: "text") and other useful options for annotators (e.g. delimiter)
-
-**Example:**
-
-{% highlight python %}
-regex_matcher = RegexMatcher() \
-    .setStrategy("MATCH_ALL") \
-    .setExternalRules(path="/some/path", delimiter=",", read_as=ReadAs.LINE_BY_LINE, options={"format": "parquet"}) \
-    .setOutputCol("regex")
-{% endhighlight %}
-
-### ResourceHelper
-
-#### Deal with data outside the pipeline
-
-When working with external resources, like training data that is not part of the pipeline process, our annotators use the ResourceHelper to efficiently parse and extract data into specific formats. This class may be utilized for other purposes by the user (Only in Scala)
-
-When working with external resources, like training data that is not part of the pipeline process, our annotators use the ResourceHelper to efficiently parse and extract data into specific formats. This class may be utilized for other purposes by the user.
-
-**Functions (not all of them listed):**
-
-- createDatasetFromText(path, includeFilename, includeRowNumber, aggregateByFile) -> Takes file or folder and builds up an aggregated dataset
-- parseKeyValueText(externalResource) -> Parses delimited text with delimiter
-- parseLines(externalResource) -> Parses line by line text
-- parseTupleText(externalResource) -> Parses a text as a delimited tuple
-- parseTupleSentences(externalResource) -> Parses tagged tokens with a specific delimiter
-- wordCount(externalResources) -> Counts appearance of each word in text
-
 ### EmbeddingsHelper
 
 #### Deal with word embeddings
 
-Allows loading, saving and setting word embeddings for annotators
+Allows loading, saving and setting word embeddings for annotators.
 
-**Functions (not all of them listed):**
+En embeddings reference, or embeddingsRef, is a user-given name for annotators to lookup the embeddings database. Since Spark NLP 2.0, embeddings are
+annotators on its own, however, certain use cases may require multiple embedding annotators, and you might not want to duplicate the
+database on all of them. Hence, you can use reference in combination with the param `setIncludeEmbeddings(false)` to refer to the same database without loading them.
+In the future, some annotators might also need random access to the embeddings database, so they might take an embeddingsRef, apart from the pipeline annotator.
+
+This applies only to `WordEmbeddings` not `BertEmbeddings`.
+
+**Functions:**
 
 - load(path, spark, format, reference, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'. Makes embeddings available for Annotators without included embeddings.
 - save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
 
 #### Annotator with Word Embeddings
 
-Some annotators use word embeddings. This is a common functionality within them.
+Some annotators use word embeddings. This is a common functionality within them. Since Spark NLP 2.0, embeddings as annotator means the rest annotators don't use this interface anymore,
+however, for developers reference, they still exist and might be used in annotators that require random access to word embeddings.
+These functions are included in the embedding annotators `WordEmbeddings` and `BertEmbeddings`
 
 **Functions (not all of them listed):**
 
 - setIncludeEmbeddings(bool) -> Param to define whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
 - setEmbeddingsRef(ref) -> Set whether to use annotators under the provided name. This means these embeddings will be lookup from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
-
-Some annotators use word embeddings. This is a common functionality within them.
 
 ### Params and Features
 
@@ -228,8 +198,12 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 - setInputCol()
 - setOutputCol()
-- setIsArray()
-- setChunkCol()
+- setIsArray(bool) -> Whether the target chunkCol is `ArrayType<StringType>`
+- setChunkCol(string) -> String or StringArray column with the chunks that belong to the `inputCol` target
+- setStartCol(string) -> Target INT column pointing to the token index (split by white space)
+- setStartColByTokenIndex(bool) -> Whether to use token index by whitespace or character index in `startCol`
+- setFailOnMissing(bool) -> Whether to fail when a chunk is not found within inputCol
+- setLowerCase(bool) -> whether to increase matching by lowercasing everything before matching
 
 **Example:**
 
@@ -337,6 +311,17 @@ val trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
 
 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
 
+**Constructor parameters**
+- documentCol: String = "document",
+- sentenceCol: String = "sentence",
+- tokenCol: String = "token",
+- posCol: String = "pos",
+- conllLabelIndex: Int = 3,
+- conllPosIndex: Int = 1,
+- conllTextCol: String = "text",
+- labelCol: String = "label",
+- explodeSentences: Boolean = false
+
 **Available parameters are:**
 
 - spark: Spark session
@@ -371,13 +356,50 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
                        .select(trainCorpus.col("value").as("text"))
 {% endhighlight %}
 
+### Vivekn Sentiment Analysis Dataset
+
+To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative` 
+
+
 ## Annotators
+
+### How to read this section?
+
+All annotators in Spark NLP share a common interface, this is:
+
+- Annotation -> `Annotation(annotatorType, begin, end, result, metadata, embeddings, sentenceEmbeddings)`
+- AnnotatorType -> some annotators share a type. This is not only figurative, but also tells about the structure of the `metadata` map in the Annotation. This is the one refered in the input and output of annotators
+- Inputs -> Represents how many and which annotator types are expected in `setInputCols`. These are column names of output of other annotators in the dataframe.
+- Output -> Represents the type of the output in the column `setOutputCol`
+
+There are two types of annotators:
+- Approach -> AnnotatorApproach extend Estimators, which are meant to be trained through `fit()`
+- Model -> AnnotatorModel extend from Transfromers, which are meant to transform dataframes through `transform()`
+
+`Model` suffix is explicitly stated when the annotator is the result of a training process. Some annotators, such as `Tokenizer` are transformers, but do not contain the word Model since they are not trained annotators.
+
+`Model` annotators have a `pretrained()` on it's static object, to retrieve the public pretrained version of a model.
+
+- pretrained(name, language, extra_location) -> by default, pretrained will bring a default model, sometimes we offer more than one model, in this case, you may have to use name, language or extra location to download them.
+
+The types are:
+- DOCUMENT = "document"
+- TOKEN = "token"
+- CHUNK = "chunk"
+- POS = "pos"
+- WORD_EMBEDDINGS = "word_embeddings"
+- DATE = "date"
+- ENTITY = "entity"
+- SENTIMENT = "sentiment"
+- NAMED_ENTITY = "named_entity"
+- DEPENDENCY = "dependency"
+- LABELED_DEPENDENCY = "labeled_dependency"
 
 ### Tokenizer
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
-**Type:** Token  
-**Requires:** Document  
+**Output type:** Token  
+**Input types:** Document  
 **Functions:**
 
 - setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space
@@ -410,8 +432,8 @@ val tokenizer = new Tokenizer()
 #### Text cleaning
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
-**Type:** Token  
-**Requires:** Token  
+**Output type:** Token  
+**Input types:** Token  
 **Functions:**
 
 - setPatterns(patterns): Regular expressions list for normalization, defaults \[^A-Za-z\]
@@ -435,8 +457,8 @@ val normalizer = new Normalizer()
 ### Stemmer
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
-**Type:** Token  
-**Requires:** Token  
+**Output type:** Token  
+**Input types:** Token  
 **Example:**
 
 {% highlight python %}
@@ -454,8 +476,8 @@ val stemmer = new Stemmer()
 ### Lemmatizer
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
-**Type:** Token  
-**Requires:** Token  
+**Output type:** Token  
+**Input types:** Token  
 **Input:** abduct -> abducted abducting abduct abducts  
 **Functions:** --
 
@@ -480,8 +502,8 @@ val lemmatizer = new Lemmatizer()
 ### RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
-**Type:** Regex  
-**Requires:** Document  
+**Output type:** Regex  
+**Input types:** Document  
 **Input:** `the\\s\\w+`, "followed by 'the'"  
 **Functions:**
 
@@ -507,9 +529,9 @@ val regexMatcher = new RegexMatcher()
 
 #### Phrase matching
 
-Annotator to match entire phrases provided in a file against a Document  
-**Type:** Entity  
-**Requires:** Document  
+Annotator to match entire phrases (by token) provided in a file against a Document  
+**Output type:** Entity  
+**Input types:** Document, Token  
 **Input:** hello world, I am looking for you  
 **Functions:**
 
@@ -540,8 +562,8 @@ val entityExtractor = new TextMatcher()
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
-**Type:** Document  
-**Requires:** Document  
+**Output type:** Document  
+**Input types:** Document, POS  
 **Functions:**
 
 - setRegexParsers(patterns): A list of regex patterns to match chunks, for example: Array("‹DT›?‹JJ›\*‹NN›")
@@ -551,15 +573,15 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 {% highlight python %}
 chunker = Chunker() \
-    .setInputCols(["pos"]) \
+    .setInputCols(["document", "pos"]) \
     .setOutputCol("chunk") \
     .setRegexParsers(["‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"])
 {% endhighlight %}
 
 {% highlight scala %}
 val chunker = new Chunker()
-    .setInputCols(Array("pos"))
-    .setOutputCol("chunks")
+    .setInputCols(Array("document", "pos"))
+    .setOutputCol("chunk")
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
 {% endhighlight %}
 
@@ -568,8 +590,8 @@ val chunker = new Chunker()
 #### Date-time parsing
 
 Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.  
-**Type:** Date  
-**Requires:** Document  
+**Output type:** Date  
+**Input types:** Document  
 **Reads the following kind of dates:**
 
 - 1978-01-28
@@ -604,7 +626,7 @@ Reads from different forms of date and time expressions and converts them to a p
 
 **Functions:**
 
-- setDateFormat(format): SimpleDateFormat standard date formatting. Defaults to yyyy/MM/dd
+- setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
 
 **Example:**
 
@@ -625,8 +647,8 @@ val dateMatcher = new DateMatcher()
 #### Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
-**Type:** Document  
-**Requires:** Document  
+**Output type:** Document  
+**Input types:** Document  
 **Functions:**
 
 - setCustomBounds(string): Custom sentence separator text
@@ -653,8 +675,8 @@ val sentenceDetector = new SentenceDetector()
 #### Sentence Boundary Detector with Machine Learning
 
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
-**Type:** Document  
-**Requires:** Document, Token, Chunk  
+**Output type:** Document  
+**Input types:** Document, Token, Chunk  
 **Functions:**
 
 - setIncludePragmaticSegmenter(bool): Whether to include rule-based sentence detector as first filter. Defaults to false.
@@ -683,8 +705,8 @@ val deepSentenceDetector = new DeepSentenceDetector()
 #### Part of speech tagger
 
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
-**Type:** POS  
-**Requires:** Document, Token  
+**Output type:** POS  
+**Input types:** Document, Token  
 **Functions:**
 
 - setNIterations(number): Number of iterations for training. May improve accuracy but takes longer. Default 5.
@@ -713,8 +735,8 @@ val posTagger = new PerceptronApproach()
 #### Sentiment analysis
 
 Scores a sentence for a sentiment  
-**Type:** sentiment  
-**Requires:** Document, Token  
+**Output type:** sentiment  
+**Input types:** Document, Token  
 **Functions:**
 
 - setSentimentCol(colname): Column with sentiment analysis row's result for training. If not set, external sources need to be set instead.
@@ -743,8 +765,8 @@ val sentimentDetector = new ViveknSentimentApproach()
 ### SentimentDetector: Sentiment analysis
 
 Scores a sentence for a sentiment  
-**Type:** sentiment  
-**Requires:** Document, Token  
+**Output type:** sentiment  
+**Input types:** Document, Token  
 **Functions:**
 
 - setDictionary(path, delimiter, readAs, options): path to file with list of inputs and their content, with such delimiter, readAs LINE_BY_LINE or as SPARK_DATASET. If latter is set, options is passed to spark reader.
@@ -779,8 +801,8 @@ val sentimentDetector = new SentimentDetector
 ### Word Embeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
-**Type:** Word_Embeddings  
-**Requires:** Document, Token  
+**Output type:** Word_Embeddings  
+**Input types:** Document, Token  
 **Functions:**
 
 - setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:  
@@ -806,14 +828,20 @@ wordEmbeddings = new WordEmbeddings()
         100, WordEmbeddingsFormat.TEXT)
 {% endhighlight %}
 
+### Bert Embeddings
+
+Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
+**Output type:** Word_Embeddings  
+**Input types:** Document
+
 ### NER CRF
 
 #### Named Entity Recognition CRF annotator
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
-**Type:** Named_Entity  
-**Requires:** Document, Token, POS, Word_Embeddings  
+**Output type:** Named_Entity  
+**Input types:** Document, Token, POS, Word_Embeddings  
 **Functions:**
 
 - setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token
@@ -864,8 +892,8 @@ val nerTagger = new NerCrfApproach()
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.  
-**Type:** Named_Entity  
-**Requires:** Document, Token, Word_Embeddings  
+**Output type:** Named_Entity  
+**Input types:** Document, Token, Word_Embeddings  
 **Functions:**
 
 - setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token
@@ -908,9 +936,9 @@ val nerTagger = new NerDLApproach()
 ### Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
-**Type:** Token  
+**Output type:** Token  
 **Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.  
-**Requires:** Tokenizer  
+**Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
 **Functions:**
 
@@ -944,9 +972,9 @@ val spellChecker = new NorvigSweetingApproach()
 ### Symmetric SpellChecker
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
-**Type:** Token  
+**Output type:** Token  
 **Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.  
-**Requires:** Tokenizer  
+**Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
 **Functions:**
 
@@ -969,13 +997,19 @@ val spellChecker = new SymmetricDeleteApproach()
     .fit(trainCorpus)
 {% endhighlight %}
 
+### Context SpellChecker
+
+This spell checker utilizes tensorflow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
+**Output type:** Token  
+**Input types:** Tokenizer    
+
 ### Dependency Parser
 
 #### Unlabeled grammatical relation
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
-**Type:** Dependency  
-**Requires:** Document, POS, Token  
+**Output type:** Dependency  
+**Input types:** Document, POS, Token  
 **Functions:**
 
 - setNumberOfIterations: Number of iterations in training, converges to better accuracy
@@ -1005,8 +1039,8 @@ val dependencyParser = new DependencyParserApproach()
 #### Labeled grammatical relation
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
-**Type:** Labeled Dependency  
-**Requires:** Token, POS, Dependency  
+**Output type:** Labeled Dependency  
+**Input types:** Token, POS, Dependency  
 **Functions:**
 
 - setNumberOfIterations: Number of iterations in training, converges to better accuracy
