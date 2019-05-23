@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 import java.io.File
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
@@ -14,7 +14,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
-import org.tensorflow.{Graph, Session}
+import org.tensorflow.Graph
 
 import scala.util.Random
 
@@ -23,7 +23,8 @@ class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
     with LoadsContrib
-    with Logging {
+    with Logging
+    with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -36,11 +37,17 @@ class NerDLApproach(override val uid: String)
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
+  val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   def setLr(lr: Float) = set(this.lr, lr)
   def setPo(po: Float) = set(this.po, po)
   def setBatchSize(batch: Int) = set(this.batchSize, batch)
   def setDropout(dropout: Float) = set(this.dropout, dropout)
+  def setGraphFolder(path: String) = set(this.graphFolder, path)
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
 
   setDefault(
     minEpochs -> 0,
@@ -53,7 +60,6 @@ class NerDLApproach(override val uid: String)
   )
 
   override val verboseLevel = Verbose($(verbose))
-
 
   def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
     sentences.find(s => s.tokens.nonEmpty)
@@ -83,15 +89,8 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    //Use CPU
-    //val config = Array[Byte](10, 7, 10, 3, 67, 80, 85, 16, 0)
-    //Use GPU
-    //val config = Array[Byte](56, 1)
-
-    /** Enable for log placement */
-    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
-    /** without log placement */
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length, get(graphFolder)
+      .map(f => ResourceHelper.copyToLocal(f)))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -106,7 +105,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs))
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes)
       model
     }
 
@@ -116,18 +115,25 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(true)), tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(loadsContrib=true, configProtoBytes=getConfigProtoBytes)), tf.graph)
 
-    new NerDLModel()
+    val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
+
+    if (get(configProtoBytes).isDefined)
+      model.setConfigProtoBytes($(configProtoBytes))
+
+    model
+
   }
 }
 
 trait WithGraphResolver  {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int): String = {
-    val files = ResourceHelper.listResourceDirectory("/ner-dl")
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None): String = {
+    val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(path).map(_.getAbsolutePath))
+      .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
     // 1. Filter Graphs by embeddings
     val embeddingsFiltered = files.map { filePath =>
@@ -151,8 +157,8 @@ trait WithGraphResolver  {
       }
     }
 
-    require(embeddingsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for embeddings dim: $embeddingsNDims. " +
-      s"Generate graph by python code before usage.")
+    require(embeddingsFiltered.exists(_.nonEmpty), s"Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims nTags: $tags nChars: $nChars" +
+      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
 
     // 2. Filter by labels and nChars
     val tagsFiltered = embeddingsFiltered.map {
@@ -165,7 +171,7 @@ trait WithGraphResolver  {
     }
 
     require(tagsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of tags: $tags. " +
-      s"Generate graph by python code before usage.")
+      s"Generate graph by python code in python/tensorflow/ner/create_models before usage and use setGraphFolder Param to point to output.")
 
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {

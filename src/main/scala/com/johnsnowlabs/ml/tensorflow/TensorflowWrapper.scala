@@ -26,12 +26,12 @@ class TensorflowWrapper(
   @transient private var msession: Session = _
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def getSession(loadsContrib: Boolean = false): Session = {
+  def getSession(loadsContrib: Boolean = false, configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (msession == null){
       logger.debug("Restoring TF session from bytes")
       val t = new TensorResources()
-      val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
+      val config = configProtoBytes.getOrElse(Array[Byte](50, 2, 32, 1, 56, 1, 64, 1))
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
@@ -66,12 +66,12 @@ class TensorflowWrapper(
     msession
   }
 
-  def createSession(loadsContrib: Boolean = false): Session = {
+  def createSession(loadsContrib: Boolean = false, configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (msession == null){
       logger.debug("Creating empty TF session")
 
-      val config = Array[Byte](50, 2, 32, 1, 56, 1)
+      val config = configProtoBytes.getOrElse(Array[Byte](50, 2, 32, 1, 56, 1))
 
       if (loadsContrib)
         TensorflowWrapper.loadContribToTensorflow()
@@ -88,7 +88,7 @@ class TensorflowWrapper(
     msession
   }
 
-  def saveToFile(file: String, loadsContrib: Boolean = false): Unit = {
+  def saveToFile(file: String, loadsContrib: Boolean = false, configProtoBytes: Option[Array[Byte]] = None): Unit = {
     val t = new TensorResources()
 
     // 1. Create tmp director
@@ -98,7 +98,7 @@ class TensorflowWrapper(
     val variablesFile = Paths.get(folder, "variables").toString
 
     // 2. Save variables
-    getSession(loadsContrib).runner.addTarget("save/control_dependency")
+    getSession(loadsContrib, configProtoBytes).runner.addTarget("save/control_dependency")
       .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
