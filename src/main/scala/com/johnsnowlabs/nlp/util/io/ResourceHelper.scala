@@ -26,7 +26,7 @@ import scala.io.BufferedSource
 object ResourceHelper {
 
   def getActiveSparkSession: SparkSession =
-    SparkSession.getActiveSession.getOrElse(throw new Exception("Spark NLP Feature serializer failed to fetch an active SparkSession"))
+    SparkSession.getActiveSession.getOrElse(SparkSession.builder().getOrCreate())
 
   lazy val spark: SparkSession = getActiveSparkSession
 
@@ -85,10 +85,14 @@ object ResourceHelper {
 
   /** NOT thread safe. Do not call from executors. */
   def getResourceStream(path: String): InputStream = {
-    Option(getClass.getResourceAsStream(path))
-      .getOrElse{
-        getClass.getClassLoader().getResourceAsStream(path)
-      }
+    if (new File(path).exists())
+      new FileInputStream(new File(path))
+    else {
+      Option(getClass.getResourceAsStream(path))
+        .getOrElse {
+          getClass.getClassLoader.getResourceAsStream(path)
+        }
+    }
   }
 
   def getResourceFile(path: String): URL = {
