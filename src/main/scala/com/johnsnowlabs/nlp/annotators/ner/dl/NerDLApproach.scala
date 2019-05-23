@@ -89,8 +89,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length, get(graphFolder)
-      .map(f => ResourceHelper.copyToLocal(f)))
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length, get(graphFolder))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -132,7 +131,7 @@ class NerDLApproach(override val uid: String)
 
 trait WithGraphResolver  {
   def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None): String = {
-    val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(path).map(_.getAbsolutePath))
+    val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
     // 1. Filter Graphs by embeddings

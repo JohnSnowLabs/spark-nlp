@@ -1001,6 +1001,14 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
     minProba = Param(Params._dummy(), "minProba",
                      "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
+    graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setGraphFolder(self, p):
+        return self._set(graphFolder=p)
 
     def setLr(self, v):
         self._set(lr=v)
@@ -1048,6 +1056,11 @@ class NerDLModel(AnnotatorModel):
             java_model=java_model
         )
 
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
     @staticmethod
     def pretrained(name="ner_dl", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
@@ -1088,6 +1101,11 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
                      "prefixes",
                      "Prefixes to separate during parsing of training corpus.",
                      typeConverter=TypeConverters.identity)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
 
     def setSuffixes(self, s):
         return self._set(prefixes=list(reversed(sorted(s, key=len))))
@@ -1172,6 +1190,11 @@ class ContextSpellCheckerModel(AnnotatorModel):
                      "gamma",
                      "Controls the influence of individual word frequency in the decision.",
                      typeConverter=TypeConverters.toFloat)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
         super(ContextSpellCheckerModel, self).__init__(
@@ -1313,3 +1336,131 @@ class TypedDependencyParserModel(AnnotatorModel):
     def pretrained(name="dependency_typed_conllu", language="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remote_loc)
+
+
+class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
+
+    name = "WordEmbeddings"
+
+    sourceEmbeddingsPath = Param(Params._dummy(),
+                                 "sourceEmbeddingsPath",
+                                 "Word embeddings file",
+                                 typeConverter=TypeConverters.toString)
+
+    embeddingsFormat = Param(Params._dummy(),
+                             "embeddingsFormat",
+                             "Word vectors file format",
+                             typeConverter=TypeConverters.toInt)
+
+    @keyword_only
+    def __init__(self):
+        super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
+        self._setDefault(
+            caseSensitive=False
+        )
+
+    def parse_format(self, frmt):
+        if frmt == "SPARKNLP":
+            return 1
+        elif frmt == "TEXT":
+            return 2
+        elif frmt == "BINARY":
+            return 3
+        else:
+            return frmt
+
+    def setEmbeddingsSource(self, path, nDims, format):
+        self._set(sourceEmbeddingsPath=path)
+        reformat = self.parse_format(format)
+        self._set(embeddingsFormat=reformat)
+        return self._set(dimension=nDims)
+
+    def setSourcePath(self, path):
+        return self._set(sourceEmbeddingsPath=path)
+
+    def getSourcePath(self):
+        return self.getParamValue("sourceEmbeddingsPath")
+
+    def setEmbeddingsFormat(self, format):
+        return self._set(embeddingsFormat=self.parse_format(format))
+
+    def getEmbeddingsFormat(self):
+        value = self._getParamValue("embeddingsFormat")
+        if value == 1:
+            return "SPARKNLP"
+        elif value == 2:
+            return "TEXT"
+        else:
+            return "BINARY"
+
+    def _create_model(self, java_model):
+        return WordEmbeddingsModel(java_model=java_model)
+
+
+class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+
+    name = "WordEmbeddingsModel"
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
+        super(WordEmbeddingsModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="glove_100d", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remote_loc)
+
+
+class BertEmbeddings(AnnotatorModel, HasEmbeddings):
+
+    name = "BertEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
+        super(BertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=5,
+            maxSentenceLength=100,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadFromPython(folder, spark_session):
+        from sparknlp.internal import _BertLoader
+        jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
+        return BertEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="bert_uncased", language="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
