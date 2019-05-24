@@ -18,7 +18,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   private val spark = SparkSession.builder()
     .appName("benchmark")
     .master("local[*]")
-    .config("spark.driver.memory", "1G")
+    .config("spark.driver.memory", "4G")
     .config("spark.kryoserializer.buffer.max", "200M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
