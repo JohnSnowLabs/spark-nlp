@@ -10,7 +10,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
   private val spark = SparkSession.builder()
     .appName("benchmark")
     .master("local[*]")
-    .config("spark.driver.memory", "1G")
+    .config("spark.driver.memory", "4G")
     .config("spark.kryoserializer.buffer.max", "200M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
@@ -62,7 +62,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
       List(WordData("Vinken", "NNP", 3), WordData("is", "VBZ", 0), WordData("chairman", "NN", 1))
     )
 
-    val result = dependencyParserApproach.readCONLL(filesContent)
+    val result = dependencyParserApproach.readCONLL(filesContent.split(System.lineSeparator()).toIterator)
 
     assert(expectedResult == result)
   }

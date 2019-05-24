@@ -26,7 +26,16 @@ import scala.io.{BufferedSource, Source}
 object ResourceHelper {
 
   def getActiveSparkSession: SparkSession =
-    SparkSession.getActiveSession.getOrElse(SparkSession.builder().getOrCreate())
+    SparkSession.getActiveSession.getOrElse(SparkSession.builder()
+      .appName("SparkNLP Default Session")
+      .master("local[*]")
+      .config("spark.driver.memory","12G")
+      .config("spark.driver.maxResultSize", "2G")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.kryoserializer.buffer.max", "500m")
+      .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")
+      .getOrCreate()
+    )
 
   lazy val spark: SparkSession = getActiveSparkSession
 
@@ -43,28 +52,30 @@ object ResourceHelper {
   case class SourceStream(resource: String) {
     val path = new Path(resource)
     val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    val pipe: Option[InputStream] =
+    val pipe: Option[Seq[InputStream]] =
     /** Check whether it exists in file system */
       Option {
         val files = fs.listFiles(path, true)
-        if (files.hasNext) inputStreamOrSequence(fs, files) else null
+        val buffer = ArrayBuffer.empty[InputStream]
+        while (files.hasNext) buffer.append(inputStreamOrSequence(fs, files))
+        if (buffer.nonEmpty) buffer else null
       }
-    val content: BufferedSource = pipe.map(p => {
-      new BufferedSource(p)("UTF-8")
+    val content: Seq[BufferedSource] = pipe.map(p => {
+      p.map(pp => new BufferedSource(pp)("UTF-8"))
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
-    def copyToLocal: String = {
+    def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
       if (fs.getScheme == "file")
         return resource
       val files = fs.listFiles(path, false)
-      val dst: Path = new Path(Files.createTempDirectory("nlp_tmp_graphs_").toUri)
+      val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
       while (files.hasNext) {
         fs.copyFromLocalFile(files.next.getPath, dst)
       }
       dst.toString
     }
     def close(): Unit = {
-      content.close()
-      pipe.foreach(_.close)
+      content.foreach(_.close())
+      pipe.foreach(_.foreach(_.close))
     }
   }
 
@@ -80,7 +91,7 @@ object ResourceHelper {
 
   def copyToLocal(path: String): String = {
     val resource = SourceStream(path)
-    resource.copyToLocal
+    resource.copyToLocal()
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -382,28 +393,14 @@ object ResourceHelper {
     }
   }
 
-  def getFilesContentAsArray(externalResource: ExternalResource): Array[String] = {
+  def getFilesContentBuffer(externalResource: ExternalResource): Iterator[String] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-        val sortedFiles = getSortedFiles(externalResource.path)
-        val filesContent = sortedFiles.map{filePath =>
-          val source = Source.fromFile(filePath)
-          try {
-            source.mkString
-          } finally {
-            source.close()
-          }
-        }
-        filesContent.toArray
+        val filesContent = SourceStream(externalResource.path)
+        filesContent.content.getLines
       case _ =>
         throw new Exception("Unsupported readAs")
     }
-  }
-
-  def getSortedFiles(path: String): List[File] = {
-    val filesPath = Option(new File(path).listFiles())
-    val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
-    files.toList.sorted
   }
 
   def listLocalFiles(path: String): List[File] = {

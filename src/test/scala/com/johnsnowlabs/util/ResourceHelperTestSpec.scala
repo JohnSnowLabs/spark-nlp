@@ -25,7 +25,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
-    val stringRepresentation = ResourceHelper.getFilesContentAsArray(externalResource)
+    val stringRepresentation = ResourceHelper.getFilesContentBuffer(externalResource)
     val expectedStringRepresentation = Array(s"Hello${System.lineSeparator()}World", s"Bye${System.lineSeparator()}World")
 
     assert(expectedStringRepresentation.toList == stringRepresentation.toList)
@@ -37,7 +37,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK_DATASET,
       Map("format"->"text"))
     val caught = intercept[Exception] {
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     assert(caught.getMessage == "Unsupported readAs")
@@ -50,11 +50,11 @@ class ResourceHelperTestSpec extends FlatSpec {
     val expectedMessage = "folder: wrong/path/ not found"
 
     assertThrows[FileNotFoundException]{
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     val caught = intercept[FileNotFoundException] {
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     assert(caught.getMessage == expectedMessage)
