@@ -14,7 +14,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.BufferedSource
+import scala.io.{BufferedSource, Source}
 
 /**
   * Created by saif on 28/04/17.
@@ -385,11 +385,25 @@ object ResourceHelper {
   def getFilesContentAsArray(externalResource: ExternalResource): Array[String] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-        val filesContent = SourceStream(externalResource.path)
-        Array(filesContent.content.toString())
+        val sortedFiles = getSortedFiles(externalResource.path)
+        val filesContent = sortedFiles.map{filePath =>
+          val source = Source.fromFile(filePath)
+          try {
+            source.mkString
+          } finally {
+            source.close()
+          }
+        }
+        filesContent.toArray
       case _ =>
         throw new Exception("Unsupported readAs")
     }
+  }
+
+  def getSortedFiles(path: String): List[File] = {
+    val filesPath = Option(new File(path).listFiles())
+    val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
+    files.toList.sorted
   }
 
   def listLocalFiles(path: String): List[File] = {
