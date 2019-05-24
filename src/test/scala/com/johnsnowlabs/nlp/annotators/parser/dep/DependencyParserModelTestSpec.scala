@@ -2,20 +2,30 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.util.MLWriter
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.FlatSpec
 
 import scala.language.reflectiveCalls
 
 class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehaviors {
+
+  private val spark = SparkSession.builder()
+    .appName("benchmark")
+    .master("local[*]")
+    .config("spark.driver.memory", "1G")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .getOrCreate()
+
+  import spark.implicits._
+
+  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -60,8 +70,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
       posTagger,
       dependencyParserConllU
     ))
-
-  private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
     val perceptronTagger = PerceptronModel.pretrained()
