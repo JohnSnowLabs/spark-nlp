@@ -8,6 +8,8 @@ modify_date: "2019-05-16"
 
 ## Pretrained Pipelines
 
+### English Pipelines
+
 |Pipelines | Name          | English             |
 |----------|------------------|------------------|
 |Explain Document ML|`explain_document_ml`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.2_2.4_1556661821108.zip)
@@ -35,23 +37,23 @@ modify_date: "2019-05-16"
 |DependencyParser (Dependency)        |    `dependency_conllu`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_2.0.2_2.4_1556649770312.zip)
 |TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_typed_conllu_en_2.0.2_2.4_1556656204957.zip)
 
-#### Italian
+### Italian
 
 | Model                            | Name      |   Italian    |
 |----------------------------------|-----------|--------------|
 |LemmatizerModel (Lemmatizer)      |`lemma_dxc`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_dxc_it_2.0.2_2.4_1556531469058.zip)
 |SentimentDetector (Sentiment)     |  `sentiment_dxc`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_dxc_it_2.0.2_2.4_1556531477694.zip)
 
-#### French
+### French
 
 | Model                         | Name         |   French    |
 |-------------------------------|--------------|--------------|
 |PerceptronModel (POS UD)       | `pos_ud_gsd` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
 |LemmatizerModel (Lemmatizer)| `lemma`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
 
-### How to use Models and Pipelines
+## How to use Models and Pipelines
 
-#### Online
+### Online
 
 To use Spark NLP pretrained pipelines, you can call `PretrainedPipeline` with pipeline's name and its language (default is `en`):
 
