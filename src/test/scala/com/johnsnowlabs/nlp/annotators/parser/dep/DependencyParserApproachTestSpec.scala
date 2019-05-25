@@ -62,7 +62,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
       List(WordData("Vinken", "NNP", 3), WordData("is", "VBZ", 0), WordData("chairman", "NN", 1))
     )
 
-    val result = dependencyParserApproach.readCONLL(filesContent.split(System.lineSeparator()).toIterator)
+    val result = dependencyParserApproach.readCONLL(Seq(filesContent.split(System.lineSeparator()).toIterator))
 
     assert(expectedResult == result)
   }

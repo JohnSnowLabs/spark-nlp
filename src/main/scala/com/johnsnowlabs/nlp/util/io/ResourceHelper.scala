@@ -169,10 +169,10 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.map (line => {
+        val res = sourceStream.content.flatMap(c => c.getLines.map (line => {
           val kv = line.split (er.options("delimiter"))
           (kv.head.trim, kv.last.trim)
-        }).toMap
+        })).toMap
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -201,7 +201,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.toArray
+        val res = sourceStream.content.flatMap(c => c.getLines).toArray
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -223,10 +223,10 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
+        val res = sourceStream.content.flatMap(c => c.getLines.filter(_.nonEmpty).map (line => {
           val kv = line.split (er.options("delimiter")).map (_.trim)
           (kv.head, kv.last)
-        }).toArray
+        })).toArray
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -256,7 +256,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+        val result = sourceStream.content.flatMap(c => c.getLines.filter(_.nonEmpty).map(line => {
           line.split("\\s+").filter(kv => {
             val s = kv.split(er.options("delimiter").head)
             s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
@@ -264,7 +264,7 @@ object ResourceHelper {
             val p = kv.split(er.options("delimiter").head)
             TaggedWord(p(0), p(1))
           })
-        }).toArray
+        })).toArray
         sourceStream.close()
         result.map(TaggedSentence(_))
       case SPARK_DATASET =>
@@ -315,12 +315,12 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(er.path)
-        sourceStream.content.getLines.foreach(line => {
+        sourceStream.content.foreach(c => c.getLines.foreach(line => {
           val kv = line.split(er.options("keyDelimiter")).map(_.trim)
           val key = kv(0)
           val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
           values.foreach(m(_) = key)
-        })
+        }))
         sourceStream.close()
         m.toMap
       case SPARK_DATASET =>
@@ -339,32 +339,32 @@ object ResourceHelper {
     }
   }
 
-  def wordCount(externalResource: ExternalResource,
-                m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
-                p: Option[PipelineModel] = None
+  def getWordCount(externalResource: ExternalResource,
+                   wordCount: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                   pipeline: Option[PipelineModel] = None
                ): MMap[String, Long] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(externalResource.path)
         val regex = externalResource.options("tokenPattern").r
-        sourceStream.content.getLines.foreach(line => {
-          val words = regex.findAllMatchIn(line).map(_.matched).toList
-          words.foreach(w => {
+        sourceStream.content.foreach(c => c.getLines.foreach{line => {
+          val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
+          words.foreach(w =>
             // Creates a Map of frequency words: word -> frequency based on ExternalResource
-            m(w) += 1
-          })
-        })
+            wordCount(w) += 1
+          )
+        }})
         sourceStream.close()
-        if (m.isEmpty)
+        if (wordCount.isEmpty)
           throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
-        m
+        wordCount
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
           .load(externalResource.path)
         val transformation = {
-          if (p.isDefined) {
-            p.get.transform(dataset)
+          if (pipeline.isDefined) {
+            pipeline.get.transform(dataset)
           } else {
             val documentAssembler = new DocumentAssembler()
               .setInputCol("value")
@@ -393,11 +393,16 @@ object ResourceHelper {
     }
   }
 
-  def getFilesContentBuffer(externalResource: ExternalResource): Iterator[String] = {
+  def getFilesContentBuffer(externalResource: ExternalResource): Seq[Iterator[String]] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-        val filesContent = SourceStream(externalResource.path)
-        filesContent.content.getLines
+
+        val listFiles = listLocalFiles(externalResource.path)
+        val filesContent = listFiles.map{listFile =>
+          val sourceStream = SourceStream(listFile.getAbsolutePath)
+          sourceStream.content.head.getLines()
+        }
+        filesContent
       case _ =>
         throw new Exception("Unsupported readAs")
     }
