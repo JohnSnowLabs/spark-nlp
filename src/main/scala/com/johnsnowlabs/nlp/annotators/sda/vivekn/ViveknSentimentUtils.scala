@@ -45,7 +45,7 @@ trait ViveknSentimentUtils {
     val regex = er.options("tokenPattern").r
     val prefix = "not_"
     val sourceStream = SourceStream(er.path)
-    sourceStream.content.foreach(c => c.getLines.foreach(line => {
+    sourceStream.content.foreach(c => c.foreach(line => {
       val words = regex.findAllMatchIn(line).map(_.matched).toList
       f.apply(words).foreach(w => {
         left(w) += 1

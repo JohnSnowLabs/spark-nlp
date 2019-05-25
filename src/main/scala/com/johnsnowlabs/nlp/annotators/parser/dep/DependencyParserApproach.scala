@@ -52,7 +52,6 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     filesContent.foreach{fileContent =>
       fileContent.foreach(line => buffer.append(line+System.lineSeparator()))
-      buffer.append(System.lineSeparator())
     }
 
     val wholeText = buffer.toString()
