@@ -9,6 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{FloatParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -122,8 +123,17 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 }
 
 trait PretrainedNerDL {
-  def pretrained(name: String = "ner_dl", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): NerDLModel =
+  def pretrained(name: String = "ner_dl", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): NerDLModel = {
+    val finalName = if (name == "ner_dl") {
+      if (SystemUtils.IS_OS_WINDOWS)
+        "ner_dl"
+      else
+        // Download better model if not windows
+        "ner_dl_contrib"
+      }
+    else name
     ResourceDownloader.downloadModel(NerDLModel, name, language, remoteLoc)
+  }
 }
 
 
