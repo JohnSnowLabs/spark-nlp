@@ -21,7 +21,7 @@ article_header:
 data:
   sections:
     - title: <h3>The most widely used NLP library in the enterprise</h3>
-      excerpt: Backed my <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
+      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
       children:
         - title: 100% Open Source
           excerpt: Including pre-trained <b>models</b> and <b>pipelines</b>
