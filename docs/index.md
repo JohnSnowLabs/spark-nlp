@@ -1,8 +1,8 @@
 ---
 layout: landing
-title: 'Spark NLP: The State of the Art <br /> Natural Language Processing'
+title: 'Spark NLP: State of the Art <br /> Natural Language Processing'
 excerpt: >
-   <br> Scalable, Performant, and Accurate!
+   <br> The first production grade versions of the latest deep learning NLP research
 permalink: /
 header: true
 article_header:
@@ -20,15 +20,15 @@ article_header:
     # gradient: "linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .6))"
 data:
   sections:
-    - title: All the cool kids are using it!
-      excerpt: The only <b>NLP</b> library built <b>natively</b> on <b>Apache Spark</b>
+    - title: <h3>The most widely used NLP library in the enterprise</h3>
+      excerpt: Backed my <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
       children:
         - title: 100% Open Source
-          excerpt: One of the most <b>innovative</b> libraries
-          # actions:
-          #   - text: Learn More
+          excerpt: Including pre-trained <b>models</b> and <b>pipelines</b>
+        - title: Natively scalable
+          excerpt: The only <b>NLP</b> library built <b>natively</b> on Apache Spark   
         - title: Multiple Languages
-          excerpt: Spark NLP supports <b>Python</b>, <b>Scala</b>, and <b>Java</b>!
+          excerpt: Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support
    
     - title: '<h2> Quick and Easy </h2>'
       install: yes
