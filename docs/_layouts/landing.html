@@ -7,172 +7,281 @@ article_header:
   align: center
   height: 80vh
 ---
+<!-- Do not use auto intent in this file. -->
 <div class="layout--landing">
   <div class="heros">
-  {%- for _section in page.data.sections -%}
+    {%- for _section in page.data.sections -%}
     {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
     {%- assign _url = __return -%}
     {%- if _section.theme == 'light' -%}
-      <section class="hero hero--center hero--light" id="hero-{{ forloop.index }}"
-    {%- elsif _section.theme == 'dark' -%}
-      <section class="hero hero--center hero--dark" id="hero-{{ forloop.index }}"
-    {%- else -%}
-      <section class="hero hero--center" id="hero-{{ forloop.index }}"
-    {%- endif -%}
-    {%- if _section.background_color -%}
-        style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
-    {%- else -%}
-        style="background-image: url({{ _url }});">
-    {%- endif -%}
+    <section class="hero hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
+      <section class="hero hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
+      class="hero hero--center" id="hero-{{ forloop.index }}" {%- endif -%} {%- if _section.background_color -%}
+      style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
+      {%- else -%}
+      style="background-image: url({{ _url }});">
+      {%- endif -%}
 
-        <div class="hero__content">
-          <div class="mb-5">
+      <div class="hero__content">
+        <div class="mb-5">
 
-            <h3>{{ _section.title }}</h3>
-              {%- if _section.excerpt-%}
-            <p>{{ _section.excerpt }}</p>
+          <h1>{{ _section.title }}</h1>
+          {%- if _section.excerpt-%}
+          <p>{{ _section.excerpt }}</p>
+          {%- endif -%}
+
+          {%- if _section.actions -%}
+          <ul class="menu">
+            {%- for _action in _section.actions -%}
+            {%- include snippets/get-nav-url.html path=_action.url -%}
+            {%- assign _url = __return -%}
+            {%- assign _type = _action.type | default: 'outline-info' -%}
+            <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
+            </li>
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+
+        </div>
+
+        {%- if _section.install -%}
+        <h4>Spark Packages</h4>
+        <div class="grid" style="background-color: #2d2d2d">
+          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+            {% highlight bash %}
+# Load Spark NLP with Spark Shell
+$ spark-shell --packages JohnSnowLabs:spark-nlp:2.0.4
+
+# Load Spark NLP with PySpark
+$ pyspark --packages JohnSnowLabs:spark-nlp:2.0.4
+
+# Load Spark NLP with Spark Submit
+$ spark-submit --packages JohnSnowLabs:spark-nlp:2.0.4
+
+# Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
+$ spark-shell --jar spark-nlp-assembly-2.0.4
+            {% endhighlight %}
+          </div>
+        </div>
+        <h4>Python</h4>
+        <div class="grid" style="background-color: #2d2d2d">
+          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+            {% highlight bash %}
+# Install Spark NLP from PyPI
+$ pip install spark-nlp==2.0.4
+
+# Install Spark NLP from Anacodna/Conda
+$ conda install -c johnsnowlabs spark-nlp
+            {% endhighlight %}
+          </div>
+        </div>
+        <h4>Scala/Java</h4>
+        <div class="grid" style="background-color: #2d2d2d">
+          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+            {% highlight scala %}
+# Install Spark NLP from Maven
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
+<dependency>
+  <groupId>com.johnsnowlabs.nlp</groupId>
+  <artifactId>spark-nlp_2.11</artifactId>
+  <version>2.0.4</version>
+</dependency>
+
+# Install Spark NLP from SBT
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.4"
+            {% endhighlight %}
+          </div>
+        </div>
+        {%- endif -%}
+        {%- if _section.features -%}
+        <div class="grid" style="background-color: #2d2d2d">
+          <div class="cell cell--12 cell--lg-5" style="text-align: left; background-color: #ffffff; font-size: 1.2em">
+            <h3 style="margin-left:-30px">NLP Features</h3>
+            <ul>
+              <li>Tokenization</li>
+              <li>Normalizer</li>
+              <li>Stemmer</li>
+              <li>Lemmatizer</li>
+              <li>Regex Matching</li>
+              <li>Text Matching</li>
+              <li>Chunking</li>
+              <li>Date Matcher</li>
+              <li>Part-of-speech tagging</li>
+              <li>Sentence Detector</li>
+              <li>Sentiment Detection (ML model)</li>
+              <li>Spell Checker (ML and DL models)</li>
+              <li>Word Embeddings (BERT and GloVe)</li>
+              <li><strong>Named entity</strong> recognition</li>
+              <li>Dependency parsing (Labeled/unlabled)</li>
+              <li>Easy <strong>TensorFlow</strong> integration</li>
+              <li><strong>+15</strong> pretrained <strong>pipelines!</strong></li>
+            </ul>
+          </div>
+          <div class="cell cell--12 cell--lg-7" style="text-align: left; padding: 10px">
+            {% highlight python %}
+# Import Spark NLP            
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.embeddings import *
+import sparknlp
+
+# Start Spark Session with Spark NLP
+spark = sparknlp.start()
+
+# Download a pre-trained pipeline 
+pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+
+# Your testing dataset
+text = """
+The Mona Lisa is a 16th century oil painting created by Leonardo. 
+It's held at the Louvre in Paris.
+"""
+
+# Annotate your testing dataset
+result = pipeline.annotate(text)
+
+# What's in the pipeline
+list(result.keys())
+Output: ['entities', 'stem', 'checked', 'lemma', 'document',
+'pos', 'token', 'ner', 'embeddings', 'sentence']
+
+# Check the results
+result['entities']
+Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+            {% endhighlight %}
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- if _section.children -%}
+        {%- assign _size = _section.children | size  -%}
+        <div class="grid--container">
+          <div class="grid grid--p-3">
+
+            {%- for child in _section.children -%}
+
+            {%- if _size >= 2 -%}
+            {%- assign _cell_md_col = 6 -%}
+            {%- else -%}
+            {%- assign _cell_md_col = 12 | divided_by: _size -%}
             {%- endif -%}
 
-            {%- if _section.actions -%}
-              <ul class="menu">
-              {%- for _action in _section.actions -%}
-                {%- include snippets/get-nav-url.html path=_action.url -%}
-                {%- assign _url = __return -%}
-                {%- assign _type = _action.type | default: 'outline-info' -%}
-                <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a></li>
-              {%- endfor -%}
-              </ul>
+            {%- if _size >= 4 -%}
+            {%- assign _cell_lg_col = 3 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
             {%- endif -%}
+
+            <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
+
+              <div class="mb-5">
+                <h4>{{ child.title }}</h4>
+
+                {%- if child.excerpt-%}
+                <p>{{ child.excerpt }}</p>
+                {%- endif -%}
+
+                {%- if child.actions -%}
+                <ul class="menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>
+
+              {%- if child.image and child.image.src -%}
+
+              {%- if child.image.url -%}
+              {%- include snippets/get-nav-url.html path=child.image.url -%}
+              {%- assign _item_image_url = __return -%}
+              {%- else -%}
+              {%- assign _item_image_url = nil -%}
+              {%- endif -%}
+
+              {%- include snippets/get-nav-url.html path=child.image.src -%}
+              {%- assign _item_image_src = __return -%}
+
+              {%- if child.image.is_row -%}
+              <div class="mb-5">
+                {%- endif -%}
+                <div class="mx-auto" style="{{ child.image.style }}">
+                  {%- if _item_image_url -%}
+                  <a href="{{ _item_image_url }}">
+                    {%- endif -%}
+                    <img src="{{ _item_image_src }}" />
+                    {%- if _item_image_url -%}
+                  </a>
+                  {%- endif -%}
+                </div>
+                {%- if child.image.is_row -%}
+              </div>
+              {%- endif -%}
+              {%- endif -%}
+
+              {%- if child.content-%}
+              <p>{{ child.content }}</p>
+              {%- endif -%}
+
+            </div>
+            {%- endfor-%}
 
           </div>
+        </div>
+        {%- endif -%}
 
-          {%- if _section.children -%}
-            {%- assign _size = _section.children | size  -%}
-            <div class="grid--container">
-              <div class="grid grid--p-3">
-
-                {%- for child in _section.children -%}
-
-                  {%- if _size >= 2 -%}
-                    {%- assign _cell_md_col = 6 -%}
-                  {%- else -%}
-                    {%- assign _cell_md_col = 12 | divided_by: _size -%}
-                  {%- endif -%}
-
-                  {%- if _size >= 4 -%}
-                    {%- assign _cell_lg_col = 3 -%}
-                  {%- else -%}
-                    {%- assign _cell_lg_col = 12 | divided_by: _size -%}
-                  {%- endif -%}
-
-                  <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
-
-                    <div class="mb-5">
-                      <h4>{{ child.title }}</h4>
-
-                      {%- if child.excerpt-%}
-                        <p>{{ child.excerpt }}</p>
-                      {%- endif -%}
-
-                      {%- if child.actions -%}
-                        <ul class="menu">
-                          {%- for _action in child.actions -%}
-                            {%- include snippets/get-nav-url.html path=_action.url -%}
-                            {%- assign _url = __return -%}
-                            {%- assign _type = _action.type | default: 'outline-info' -%}
-                            <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a></li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </div>
-
-                    {%- if child.image and child.image.src -%}
-
-                      {%- if child.image.url -%}
-                        {%- include snippets/get-nav-url.html path=child.image.url -%}
-                        {%- assign _item_image_url = __return -%}
-                      {%- else -%}
-                        {%- assign _item_image_url = nil -%}
-                      {%- endif -%}
-
-                      {%- include snippets/get-nav-url.html path=child.image.src -%}
-                      {%- assign _item_image_src = __return -%}
-
-                      {%- if child.image.is_row -%}
-                        <div class="mb-5">
-                      {%- endif -%}
-                          <div class="mx-auto" style="{{ child.image.style }}">
-                      {%- if _item_image_url -%}
-                            <a href="{{ _item_image_url }}">
-                      {%- endif -%}
-                              <img src="{{ _item_image_src }}"/>
-                      {%- if _item_image_url -%}
-                            </a>
-                      {%- endif -%}
-                          </div>
-                      {%- if child.image.is_row -%}
-                        </div>
-                      {%- endif -%}
-                    {%- endif -%}
-
-                    {%- if child.content-%}
-                      <p>{{ child.content }}</p>
-                    {%- endif -%}
-
-                  </div>
-                {%- endfor-%}
-
-              </div>
-            </div>
-          {%- endif -%}
-
-      {%- if _section.image.full_width == true -%}
-        </div> {% comment %} end hero__content {% endcomment %}
+        {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
       {%- endif -%}
 
-          {%- if _section.image and _section.image.src -%}
+      {%- if _section.image and _section.image.src -%}
 
-            {%- if _section.image.url -%}
-              {%- include snippets/get-nav-url.html path=_section.image.url -%}
-              {%- assign _section_image_url = __return -%}
+      {%- if _section.image.url -%}
+      {%- include snippets/get-nav-url.html path=_section.image.url -%}
+      {%- assign _section_image_url = __return -%}
+      {%- else -%}
+      {%- assign _section_image_url = nil -%}
+      {%- endif -%}
+
+      {%- include snippets/get-nav-url.html path=_section.image.src -%}
+      {%- assign _section_image_src = __return -%}
+
+      {%- if _section.image.is_row -%}
+      <div class="mb-5">
+        {%- endif -%}
+        <div class="mx-auto" style="{{ _section.image.style }}">
+          {%- if _section_image_url -%}
+          <a href="{{ _section_image_url }}">
+            {%- endif -%}
+            {%- if _section.image.full_width == true -%}
+            <img class="hero__cover hero__cover--full-width" src="{{ _section_image_src }}" />
             {%- else -%}
-              {%- assign _section_image_url = nil -%}
+            <img class="hero__cover" src="{{ _section_image_src }}" />
             {%- endif -%}
-
-            {%- include snippets/get-nav-url.html path=_section.image.src -%}
-            {%- assign _section_image_src = __return -%}
-
-            {%- if _section.image.is_row -%}
-              <div class="mb-5">
-            {%- endif -%}
-                <div class="mx-auto" style="{{ _section.image.style }}">
             {%- if _section_image_url -%}
-                  <a href="{{ _section_image_url }}">
-            {%- endif -%}
-                    {%- if _section.image.full_width == true -%}
-                      <img class="hero__cover hero__cover--full-width" src="{{ _section_image_src }}"/>
-                    {%- else -%}
-                      <img class="hero__cover" src="{{ _section_image_src }}"/>
-                    {%- endif -%}
-            {%- if _section_image_url -%}
-                  </a>
-            {%- endif -%}
-                </div>
-            {%- if _section.image.is_row -%}
-              </div>
-            {%- endif -%}
+          </a>
           {%- endif -%}
+        </div>
+        {%- if _section.image.is_row -%}
+      </div>
+      {%- endif -%}
+      {%- endif -%}
 
       {%- if _section.image.full_width != true -%}
-        </div> {% comment %} end hero__content {% endcomment %}
-      {%- endif -%}
+  </div> {% comment %} end hero__content {% endcomment %}
+  {%- endif -%}
 
-      {%- if _section.content-%}
-        <p>{{ _section.content }}</p>
-      {%- endif -%}
-      </section>
+  {%- if _section.content-%}
+  <p>{{ _section.content }}</p>
+  {%- endif -%}
+  </section>
   {%- endfor -%}
-  </div>
+</div>
 </div>
 
 {{ content }}
