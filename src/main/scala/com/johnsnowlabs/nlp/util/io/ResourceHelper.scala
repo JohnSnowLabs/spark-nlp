@@ -14,7 +14,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.{BufferedSource, Source}
+import scala.io.BufferedSource
 
 /**
   * Created by saif on 28/04/17.

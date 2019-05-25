@@ -97,7 +97,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   }
 
   "A dependency parser (trained through TreeBank format file) with an input text of one sentence" should behave like {
-    println("**********************+ Unit Test 1")
     val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
 
     relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
@@ -105,7 +104,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
 
   "A dependency parser (trained through TreeBank format file) with input text of two sentences" should
     behave like {
-    println("********************* Unit Test 2")
     val text = "I solved the problem with statistics. I saw a girl with a telescope"
     val testDataSet = Seq(text).toDS.toDF("text")
     relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
