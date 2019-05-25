@@ -18,6 +18,10 @@ modify_date: "2019-05-16"
 
 ## YouTube
 
+<div>{%- include extensions/youtube.html id='ziUrLnJ_Y8A' -%}</div>
+
+<div>{%- include extensions/youtube.html id='qG_bdbpOM-Y' -%}</div>
+
 <div>{%- include extensions/youtube.html id='181Ir4hKybw' -%}</div>
 
 <div>{%- include extensions/youtube.html id='k5X12mdEvb8' -%}</div>
