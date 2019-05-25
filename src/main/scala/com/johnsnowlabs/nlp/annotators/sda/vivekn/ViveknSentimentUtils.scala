@@ -45,13 +45,13 @@ trait ViveknSentimentUtils {
     val regex = er.options("tokenPattern").r
     val prefix = "not_"
     val sourceStream = SourceStream(er.path)
-    sourceStream.content.getLines.foreach(line => {
+    sourceStream.content.foreach(c => c.getLines.foreach(line => {
       val words = regex.findAllMatchIn(line).map(_.matched).toList
       f.apply(words).foreach(w => {
         left(w) += 1
         right(prefix + w) += 1
       })
-    })
+    }))
     sourceStream.close()
     if (left.isEmpty || right.isEmpty) throw new FileNotFoundException("Word count dictionary for vivekn sentiment does not exist or is empty")
     if (prune > 0)

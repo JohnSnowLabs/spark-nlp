@@ -63,7 +63,7 @@ class NorvigSweetingApproach(override val uid: String)
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
 
     validateDataSet(dataset)
-    val loadWords = ResourceHelper.wordCount($(dictionary)).toMap
+    val loadWords = ResourceHelper.getWordCount($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] = {
 
         dataset.select(getInputCols.head).as[Array[Annotation]]
