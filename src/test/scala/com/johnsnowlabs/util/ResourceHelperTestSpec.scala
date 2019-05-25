@@ -51,7 +51,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
     val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
       Map.empty[String, String])
-    val expectedMessage = "folder: wrong/path/ not found"
+    val expectedMessage = "File wrong/path does not exist"
 
     assertThrows[FileNotFoundException]{
       ResourceHelper.getFilesContentBuffer(externalResource)

@@ -57,12 +57,15 @@ object ResourceHelper {
       Option {
         val files = fs.listFiles(path, true)
         val buffer = ArrayBuffer.empty[InputStream]
-        while (files.hasNext) buffer.append(inputStreamOrSequence(fs, files))
+        while (files.hasNext) buffer.append(fs.open(files.next().getPath))
         if (buffer.nonEmpty) buffer else null
       }
-    val content: Seq[BufferedSource] = pipe.map(p => {
-      p.map(pp => new BufferedSource(pp)("UTF-8"))
+    val openBuffers: Seq[BufferedSource] = pipe.map(p => {
+      p.map(pp => { new BufferedSource(pp)("UTF-8")
+      })
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
+    val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
+
     def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
       if (fs.getScheme == "file")
         return resource
@@ -74,7 +77,7 @@ object ResourceHelper {
       dst.toString
     }
     def close(): Unit = {
-      content.foreach(_.close())
+      openBuffers.foreach(_.close())
       pipe.foreach(_.foreach(_.close))
     }
   }
@@ -169,7 +172,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.flatMap(c => c.getLines.map (line => {
+        val res = sourceStream.content.flatMap(c => c.map (line => {
           val kv = line.split (er.options("delimiter"))
           (kv.head.trim, kv.last.trim)
         })).toMap
@@ -201,7 +204,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.flatMap(c => c.getLines).toArray
+        val res = sourceStream.content.flatten.toArray
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -223,7 +226,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.flatMap(c => c.getLines.filter(_.nonEmpty).map (line => {
+        val res = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map (line => {
           val kv = line.split (er.options("delimiter")).map (_.trim)
           (kv.head, kv.last)
         })).toArray
@@ -256,7 +259,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val result = sourceStream.content.flatMap(c => c.getLines.filter(_.nonEmpty).map(line => {
+        val result = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map(line => {
           line.split("\\s+").filter(kv => {
             val s = kv.split(er.options("delimiter").head)
             s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
@@ -315,7 +318,7 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(er.path)
-        sourceStream.content.foreach(c => c.getLines.foreach(line => {
+        sourceStream.content.foreach(c => c.foreach(line => {
           val kv = line.split(er.options("keyDelimiter")).map(_.trim)
           val key = kv(0)
           val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
@@ -347,7 +350,7 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(externalResource.path)
         val regex = externalResource.options("tokenPattern").r
-        sourceStream.content.foreach(c => c.getLines.foreach{line => {
+        sourceStream.content.foreach(c => c.foreach{line => {
           val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
           words.foreach(w =>
             // Creates a Map of frequency words: word -> frequency based on ExternalResource
@@ -396,13 +399,7 @@ object ResourceHelper {
   def getFilesContentBuffer(externalResource: ExternalResource): Seq[Iterator[String]] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-
-        val listFiles = listLocalFiles(externalResource.path)
-        val filesContent = listFiles.map{listFile =>
-          val sourceStream = SourceStream(listFile.getAbsolutePath)
-          sourceStream.content.head.getLines()
-        }
-        filesContent
+          SourceStream(externalResource.path).content
       case _ =>
         throw new Exception("Unsupported readAs")
     }
