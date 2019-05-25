@@ -32,7 +32,7 @@ data:
    
     - title: '<h2> Quick and Easy </h2>'
       install: yes
-      excerpt: Spark NLP is available on <b>Spark packages</b>, <b>Maven</b>, <b>PyPI</b>, and <b>Conda</b>
+      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, <a href="https://mvnrepository.com/artifact/JohnSnowLabs/spark-nlp" target="_blank">Maven</a>, and <a href="https://spark-packages.org/package/JohnSnowLabs/spark-nlp" target="_blank">Spark Packages</a>
       background_color: "#ecf0f1"
       actions:
         - text: Install Spark NLP
