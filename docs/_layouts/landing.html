@@ -47,7 +47,7 @@ article_header:
         {%- if _section.install -%}
         <h4>Python</h4>
         <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
 # Install Spark NLP from PyPI
 $ pip install spark-nlp==2.0.4
@@ -59,7 +59,7 @@ $ conda install -c johnsnowlabs spark-nlp
         </div>
         <h4>Scala/Java</h4>
         <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight scala %}
 # Install Spark NLP from Maven
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -77,7 +77,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.4"
         </div>
         <h4>Spark Packages</h4>
         <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-6" style="text-align: left; background-color: #2d2d2d; padding: 10px">
+          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
 # Load Spark NLP with Spark Shell
 $ spark-shell --packages JohnSnowLabs:spark-nlp:2.0.4
