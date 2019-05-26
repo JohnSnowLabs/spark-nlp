@@ -134,6 +134,7 @@ a {
 
 pre, code {
   font-family: map-get($base, font-family-code);
+  overflow-x: scroll;
 }
 
 code {
