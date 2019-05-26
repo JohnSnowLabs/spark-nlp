@@ -39,15 +39,6 @@ object ResourceHelper {
 
   lazy val spark: SparkSession = getActiveSparkSession
 
-  private def inputStreamOrSequence(fs: FileSystem, files: RemoteIterator[LocatedFileStatus]): InputStream = {
-    val firstFile = files.next
-    if (files.hasNext) {
-      new SequenceInputStream(fs.open(firstFile.getPath), inputStreamOrSequence(fs, files))
-    } else {
-      fs.open(firstFile.getPath)
-    }
-  }
-
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val path = new Path(resource)
