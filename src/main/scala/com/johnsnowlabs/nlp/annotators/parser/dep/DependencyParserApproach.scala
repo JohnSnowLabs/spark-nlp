@@ -44,12 +44,18 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   override val inputAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
-  private lazy val filesContentTreeBank = ResourceHelper.getFilesContentAsArray($(dependencyTreeBank))
   private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))
 
-  def readCONLL(filesContent: String): List[Sentence] = {
+  def readCONLL(filesContent: Seq[Iterator[String]]): List[Sentence] = {
 
-    val sections = filesContent.split(s"${System.lineSeparator()}${System.lineSeparator()}").toList
+    val buffer = StringBuilder.newBuilder
+
+    filesContent.foreach{fileContent =>
+      fileContent.foreach(line => buffer.append(line+System.lineSeparator()))
+    }
+
+    val wholeText = buffer.toString()
+    val sections = wholeText.split(s"${System.lineSeparator()}${System.lineSeparator()}").toList
 
     val sentences = sections.map(
       s => {
@@ -98,11 +104,14 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def getTrainingSentences: List[Sentence] = {
     if ($(dependencyTreeBank).path != ""){
-      filesContentTreeBank.flatMap(fileContent => readCONLL(fileContent)).toList
+      val filesContentTreeBank = getFilesContentTreeBank
+      readCONLL(filesContentTreeBank)
     } else {
       getTrainingSentencesFromConllU(conllUAsArray)
     }
   }
+
+  def  getFilesContentTreeBank: Seq[Iterator[String]] = ResourceHelper.getFilesContentBuffer($(dependencyTreeBank))
 
   def getTrainingSentencesFromConllU(conllUAsArray: Array[String]): List[Sentence] = {
 

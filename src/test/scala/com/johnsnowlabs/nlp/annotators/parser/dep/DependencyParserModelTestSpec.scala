@@ -18,7 +18,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   private val spark = SparkSession.builder()
     .appName("benchmark")
     .master("local[*]")
-    .config("spark.driver.memory", "1G")
+    .config("spark.driver.memory", "4G")
     .config("spark.kryoserializer.buffer.max", "200M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
@@ -44,7 +44,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   private val dependencyParserTreeBank = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
+    .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank_debug")
     .setNumberOfIterations(10)
 
   private val dependencyParserConllU = new DependencyParserApproach()
@@ -97,7 +97,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   }
 
   "A dependency parser (trained through TreeBank format file) with an input text of one sentence" should behave like {
-
     val testDataSet = Seq("I saw a girl with a telescope").toDS.toDF("text")
 
     relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
@@ -105,12 +104,9 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
 
   "A dependency parser (trained through TreeBank format file) with input text of two sentences" should
     behave like {
-
     val text = "I solved the problem with statistics. I saw a girl with a telescope"
     val testDataSet = Seq(text).toDS.toDF("text")
-
     relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
-
   }
 
   "A dependency parser (trained through TreeBank format file) with an input text of several rows" should
@@ -122,7 +118,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
       "Book me the morning flight",
       "I solved the problem with statistics")
     val testDataSet = text.toDS.toDF("text")
-
     relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
   }
 
@@ -134,7 +129,6 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
       "It should continue to be defanged.",
       "That too was stopped."
     ).toDS.toDF("text")
-
     relationshipsBetweenWordsPredictor(testDataSet, pipelineConllU)
   }
 
