@@ -60,7 +60,7 @@ class TensorflowNer
       else {
         val tensors = new TensorResources()
 
-        val calculated = tensorflow.getSession(loadsContrib=true, configProtoBytes=configProtoBytes).runner
+        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
@@ -121,7 +121,7 @@ class TensorflowNer
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(loadsContrib=true, configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
     val trainDatasetSeq = trainDataset.toSeq
     // Train
@@ -143,7 +143,7 @@ class TensorflowNer
         val batchTags = encoder.encodeTags(tags)
 
         val tensors = new TensorResources()
-        val calculated = tensorflow.getSession(loadsContrib=true, configProtoBytes=configProtoBytes).runner
+        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
