@@ -335,7 +335,7 @@ sparknlp {
 |-------------------------------|--------------|--------------|
 |PerceptronModel (POS UD)       | `pos_ud_gsd` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
 |LemmatizerModel (Lemmatizer)| `lemma`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
-|NerDLModel (NER with GloVe)| `ner_dl_lg`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_lg_fr_2.0.2_2.4_1558826556431.zip)
+|NerDLModel (NER with glove_840B_300)| `ner_dl_lg`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_lg_fr_2.0.2_2.4_1558826556431.zip)
 
 ### How to use Models and Pipelines
 
