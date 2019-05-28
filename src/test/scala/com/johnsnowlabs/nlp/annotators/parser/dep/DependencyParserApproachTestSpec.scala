@@ -2,12 +2,22 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{Sentence, WordData}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.util.PipelineModels
+import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
 class DependencyParserApproachTestSpec extends FlatSpec{
 
-  private val emptyDataSet = PipelineModels.dummyDataset
+  private val spark = SparkSession.builder()
+    .appName("benchmark")
+    .master("local[*]")
+    .config("spark.driver.memory", "1G")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .getOrCreate()
+
+  import spark.implicits._
+
+  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
 
   "A dependency parser that sets TreeBank and CoNLL-U format files " should "raise an error" in {
 

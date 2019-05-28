@@ -16,7 +16,14 @@ import org.apache.spark.sql.SparkSession
 trait WriteTensorflowModel {
 
 
-  def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String, filename:String, loadsContrib: Boolean = false): Unit = {
+  def writeTensorflowModel(
+                            path: String,
+                            spark: SparkSession,
+                            tensorflow: TensorflowWrapper,
+                            suffix: String, filename:String,
+                            loadsContrib: Boolean = false,
+                            configProtoBytes: Option[Array[Byte]] = None
+                          ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -28,7 +35,7 @@ trait WriteTensorflowModel {
     val tfFile = Paths.get(tmpFolder, filename).toString
 
     // 2. Save Tensorflow state
-    tensorflow.saveToFile(tfFile, loadsContrib)
+    tensorflow.saveToFile(tfFile, loadsContrib, configProtoBytes)
 
     // 3. Copy to dest folder
     fs.copyFromLocalFile(new Path(tfFile), new Path(path))
