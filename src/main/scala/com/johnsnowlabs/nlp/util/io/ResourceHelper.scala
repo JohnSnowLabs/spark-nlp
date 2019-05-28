@@ -14,8 +14,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.BufferedSource
-import scala.io.Source
+import scala.io.{BufferedSource, Source}
 
 /**
   * Created by saif on 28/04/17.
@@ -26,15 +25,10 @@ import scala.io.Source
   */
 object ResourceHelper {
 
-  val spark: SparkSession = SparkSession.builder()
-    .appName("SparkNLP-Default-Spark")
-    .master("local[4]")
-    .config("spark.driver.memory","16G")
-    .config("spark.driver.maxResultSize", "2G")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .config("spark.kryoserializer.buffer.max", "500m")
-    .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")
-    .getOrCreate()
+  def getActiveSparkSession: SparkSession =
+    SparkSession.getActiveSession.getOrElse(SparkSession.builder().getOrCreate())
+
+  lazy val spark: SparkSession = getActiveSparkSession
 
   private def inputStreamOrSequence(fs: FileSystem, files: RemoteIterator[LocatedFileStatus]): InputStream = {
     val firstFile = files.next
@@ -47,17 +41,27 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
+    val path = new Path(resource)
+    val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
     val pipe: Option[InputStream] =
     /** Check whether it exists in file system */
       Option {
-        val path = new Path(resource)
-        val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-        val files = fs.listFiles(new Path(resource), true)
+        val files = fs.listFiles(path, true)
         if (files.hasNext) inputStreamOrSequence(fs, files) else null
       }
     val content: BufferedSource = pipe.map(p => {
       new BufferedSource(p)("UTF-8")
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
+    def copyToLocal: String = {
+      if (fs.getScheme == "file")
+        return resource
+      val files = fs.listFiles(path, false)
+      val dst: Path = new Path(Files.createTempDirectory("nlp_tmp_graphs_").toUri)
+      while (files.hasNext) {
+        fs.copyFromLocalFile(files.next.getPath, dst)
+      }
+      dst.toString
+    }
     def close(): Unit = {
       content.close()
       pipe.foreach(_.close)
@@ -74,12 +78,21 @@ object ResourceHelper {
     }
   }
 
+  def copyToLocal(path: String): String = {
+    val resource = SourceStream(path)
+    resource.copyToLocal
+  }
+
   /** NOT thread safe. Do not call from executors. */
   def getResourceStream(path: String): InputStream = {
-    Option(getClass.getResourceAsStream(path))
-      .getOrElse{
-        getClass.getClassLoader().getResourceAsStream(path)
-      }
+    if (new File(path).exists())
+      new FileInputStream(new File(path))
+    else {
+      Option(getClass.getResourceAsStream(path))
+        .getOrElse {
+          getClass.getClassLoader.getResourceAsStream(path)
+        }
+    }
   }
 
   def getResourceFile(path: String): URL = {
@@ -373,7 +386,14 @@ object ResourceHelper {
     externalResource.readAs match {
       case LINE_BY_LINE =>
         val sortedFiles = getSortedFiles(externalResource.path)
-        val filesContent = sortedFiles.map(filePath => Source.fromFile(filePath).mkString)
+        val filesContent = sortedFiles.map{filePath =>
+          val source = Source.fromFile(filePath)
+          try {
+            source.mkString
+          } finally {
+            source.close()
+          }
+        }
         filesContent.toArray
       case _ =>
         throw new Exception("Unsupported readAs")
@@ -384,6 +404,12 @@ object ResourceHelper {
     val filesPath = Option(new File(path).listFiles())
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList.sorted
+  }
+
+  def listLocalFiles(path: String): List[File] = {
+    val filesPath = Option(new File(path).listFiles())
+    val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
+    files.toList
   }
 
   def validFile(path: String): Boolean = {

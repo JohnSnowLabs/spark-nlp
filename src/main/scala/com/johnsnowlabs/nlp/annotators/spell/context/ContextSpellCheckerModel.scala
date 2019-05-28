@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
@@ -69,6 +69,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
   def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
+
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(tradeoff -> 18.0f, gamma -> 120.0f, useNewLines -> false, maxCandidates -> 6, maxWindowLen -> 5)
 
@@ -139,7 +143,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
       val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
       val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
-      val expPathsCosts = getModelIfNotSet.predict(expPaths, cids, cwids).toArray
+      val expPathsCosts = getModelIfNotSet.predict(expPaths, cids, cwids, configProtoBytes=getConfigProtoBytes).toArray
 
       for {((state, wcost, cand), idx) <- encTrellis(i).zipWithIndex} {
         var minCost = Double.MaxValue
@@ -289,7 +293,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_langmodeldl", ContextSpellCheckerModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 }
 

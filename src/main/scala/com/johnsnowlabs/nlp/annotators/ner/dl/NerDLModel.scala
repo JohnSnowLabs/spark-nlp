@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntParam}
+import org.apache.spark.ml.param.{FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -35,6 +35,10 @@ class NerDLModel(override val uid: String)
 
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
+
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   def getModelIfNotSet: TensorflowNer = _model.get.value
 
@@ -106,7 +110,7 @@ class NerDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, loadsContrib = true)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, loadsContrib = true, configProtoBytes = getConfigProtoBytes)
   }
 }
 
