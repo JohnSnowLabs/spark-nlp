@@ -13,7 +13,7 @@ import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 
 class NerDLModel(override val uid: String)
@@ -45,6 +45,7 @@ class NerDLModel(override val uid: String)
     $(this.useContrib)
   }
   def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
+  setDefault(useContrib, if (SystemUtils.IS_OS_WINDOWS) false else true)
 
   def getModelIfNotSet: TensorflowNer = _model.get.value
 
