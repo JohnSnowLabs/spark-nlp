@@ -20,11 +20,6 @@ class TensorflowWrapper(
   val loadContrib: Boolean = false
 )  extends Serializable {
 
-  /** For Deserialization */
-  def this() = {
-    this(null, null)
-  }
-
   @transient private var msession: Session = _
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
@@ -161,7 +156,14 @@ object TensorflowWrapper {
       LoadsContrib.loadContribToTensorflow()
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
-    graph.importGraphDef(graphBytesDef)
+    try {
+      graph.importGraphDef(graphBytesDef)
+    } catch {
+      case e: org.tensorflow.TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
+        throw new UnsupportedOperationException("Spark NLP tried to load a Tensorflow Graph using Contrib module, but" +
+          " failed to load it on this system. If you are on Windows, this operation is not supported. Please try a noncontrib model." +
+          s" If not the case, please report this issue. Original error message:\n${e.getMessage}")
+    }
     graph
   }
 

@@ -60,7 +60,7 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
-    useContrib -> false
+    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true}
   )
 
   override val verboseLevel = Verbose($(verbose))

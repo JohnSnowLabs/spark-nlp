@@ -1042,6 +1042,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
+        uc = False if sys.platform == 'win32' else True
         self._setDefault(
             minEpochs=0,
             maxEpochs=50,
@@ -1050,7 +1051,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             batchSize=8,
             dropout=float(0.5),
             verbose=2,
-            useContrib=False
+            useContrib=uc
         )
 
 
@@ -1062,6 +1063,8 @@ class NerDLModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+        uc = False if sys.platform == 'win32' else True
+        self._setDefault(useContrib=uc)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
