@@ -14,7 +14,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
-import scala.io.{BufferedSource, Source}
+import scala.io.BufferedSource
 
 /**
   * Created by saif on 28/04/17.
@@ -26,45 +26,50 @@ import scala.io.{BufferedSource, Source}
 object ResourceHelper {
 
   def getActiveSparkSession: SparkSession =
-    SparkSession.getActiveSession.getOrElse(SparkSession.builder().getOrCreate())
+    SparkSession.getActiveSession.getOrElse(SparkSession.builder()
+      .appName("SparkNLP Default Session")
+      .master("local[*]")
+      .config("spark.driver.memory","12G")
+      .config("spark.driver.maxResultSize", "2G")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.kryoserializer.buffer.max", "500m")
+      .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")
+      .getOrCreate()
+    )
 
   lazy val spark: SparkSession = getActiveSparkSession
-
-  private def inputStreamOrSequence(fs: FileSystem, files: RemoteIterator[LocatedFileStatus]): InputStream = {
-    val firstFile = files.next
-    if (files.hasNext) {
-      new SequenceInputStream(fs.open(firstFile.getPath), inputStreamOrSequence(fs, files))
-    } else {
-      fs.open(firstFile.getPath)
-    }
-  }
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val path = new Path(resource)
     val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    val pipe: Option[InputStream] =
+    val pipe: Option[Seq[InputStream]] =
     /** Check whether it exists in file system */
       Option {
         val files = fs.listFiles(path, true)
-        if (files.hasNext) inputStreamOrSequence(fs, files) else null
+        val buffer = ArrayBuffer.empty[InputStream]
+        while (files.hasNext) buffer.append(fs.open(files.next().getPath))
+        if (buffer.nonEmpty) buffer else null
       }
-    val content: BufferedSource = pipe.map(p => {
-      new BufferedSource(p)("UTF-8")
+    val openBuffers: Seq[BufferedSource] = pipe.map(p => {
+      p.map(pp => { new BufferedSource(pp)("UTF-8")
+      })
     }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
-    def copyToLocal: String = {
+    val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
+
+    def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
       if (fs.getScheme == "file")
         return resource
       val files = fs.listFiles(path, false)
-      val dst: Path = new Path(Files.createTempDirectory("nlp_tmp_graphs_").toUri)
+      val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
       while (files.hasNext) {
         fs.copyFromLocalFile(files.next.getPath, dst)
       }
       dst.toString
     }
     def close(): Unit = {
-      content.close()
-      pipe.foreach(_.close)
+      openBuffers.foreach(_.close())
+      pipe.foreach(_.foreach(_.close))
     }
   }
 
@@ -80,7 +85,7 @@ object ResourceHelper {
 
   def copyToLocal(path: String): String = {
     val resource = SourceStream(path)
-    resource.copyToLocal
+    resource.copyToLocal()
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -158,10 +163,10 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.map (line => {
+        val res = sourceStream.content.flatMap(c => c.map (line => {
           val kv = line.split (er.options("delimiter"))
           (kv.head.trim, kv.last.trim)
-        }).toMap
+        })).toMap
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -190,7 +195,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.toArray
+        val res = sourceStream.content.flatten.toArray
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -212,10 +217,10 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.getLines.filter(_.nonEmpty).map (line => {
+        val res = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map (line => {
           val kv = line.split (er.options("delimiter")).map (_.trim)
           (kv.head, kv.last)
-        }).toArray
+        })).toArray
         sourceStream.close()
         res
       case SPARK_DATASET =>
@@ -245,7 +250,7 @@ object ResourceHelper {
     er.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(er.path)
-        val result = sourceStream.content.getLines.filter(_.nonEmpty).map(line => {
+        val result = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map(line => {
           line.split("\\s+").filter(kv => {
             val s = kv.split(er.options("delimiter").head)
             s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
@@ -253,7 +258,7 @@ object ResourceHelper {
             val p = kv.split(er.options("delimiter").head)
             TaggedWord(p(0), p(1))
           })
-        }).toArray
+        })).toArray
         sourceStream.close()
         result.map(TaggedSentence(_))
       case SPARK_DATASET =>
@@ -304,12 +309,12 @@ object ResourceHelper {
       case LINE_BY_LINE =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(er.path)
-        sourceStream.content.getLines.foreach(line => {
+        sourceStream.content.foreach(c => c.foreach(line => {
           val kv = line.split(er.options("keyDelimiter")).map(_.trim)
           val key = kv(0)
           val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
           values.foreach(m(_) = key)
-        })
+        }))
         sourceStream.close()
         m.toMap
       case SPARK_DATASET =>
@@ -328,32 +333,32 @@ object ResourceHelper {
     }
   }
 
-  def wordCount(externalResource: ExternalResource,
-                m: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
-                p: Option[PipelineModel] = None
+  def getWordCount(externalResource: ExternalResource,
+                   wordCount: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+                   pipeline: Option[PipelineModel] = None
                ): MMap[String, Long] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
         val sourceStream = SourceStream(externalResource.path)
         val regex = externalResource.options("tokenPattern").r
-        sourceStream.content.getLines.foreach(line => {
-          val words = regex.findAllMatchIn(line).map(_.matched).toList
-          words.foreach(w => {
+        sourceStream.content.foreach(c => c.foreach{line => {
+          val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
+          words.foreach(w =>
             // Creates a Map of frequency words: word -> frequency based on ExternalResource
-            m(w) += 1
-          })
-        })
+            wordCount(w) += 1
+          )
+        }})
         sourceStream.close()
-        if (m.isEmpty)
+        if (wordCount.isEmpty)
           throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
-        m
+        wordCount
       case SPARK_DATASET =>
         import spark.implicits._
         val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
           .load(externalResource.path)
         val transformation = {
-          if (p.isDefined) {
-            p.get.transform(dataset)
+          if (pipeline.isDefined) {
+            pipeline.get.transform(dataset)
           } else {
             val documentAssembler = new DocumentAssembler()
               .setInputCol("value")
@@ -382,28 +387,13 @@ object ResourceHelper {
     }
   }
 
-  def getFilesContentAsArray(externalResource: ExternalResource): Array[String] = {
+  def getFilesContentBuffer(externalResource: ExternalResource): Seq[Iterator[String]] = {
     externalResource.readAs match {
       case LINE_BY_LINE =>
-        val sortedFiles = getSortedFiles(externalResource.path)
-        val filesContent = sortedFiles.map{filePath =>
-          val source = Source.fromFile(filePath)
-          try {
-            source.mkString
-          } finally {
-            source.close()
-          }
-        }
-        filesContent.toArray
+          SourceStream(externalResource.path).content
       case _ =>
         throw new Exception("Unsupported readAs")
     }
-  }
-
-  def getSortedFiles(path: String): List[File] = {
-    val filesPath = Option(new File(path).listFiles())
-    val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
-    files.toList.sorted
   }
 
   def listLocalFiles(path: String): List[File] = {

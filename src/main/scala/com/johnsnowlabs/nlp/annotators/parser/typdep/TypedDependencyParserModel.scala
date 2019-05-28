@@ -13,7 +13,7 @@ import org.apache.spark.ml.util.Identifiable
 class
 TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
 
-  def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
+  def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
