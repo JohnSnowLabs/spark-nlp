@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -19,8 +19,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
-    with ParamsAndFeaturesWritable
-    with LoadsContrib {
+    with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
@@ -39,6 +38,13 @@ class NerDLModel(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
+
+  val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
+  def getUseContrib(): Boolean = {
+    println(s"NerDLModel loaded is using contrib: ${$(this.useContrib)}")
+    $(this.useContrib)
+  }
+  def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
 
   def getModelIfNotSet: TensorflowNer = _model.get.value
 
@@ -86,15 +92,6 @@ class NerDLModel(override val uid: String)
 
   private var _model: Option[Broadcast[TensorflowNer]] = None
 
-  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-
-    require(_model.isDefined, "Tensorflow model has not been initialized")
-
-    loadContribToCluster(dataset.sparkSession)
-
-    dataset
-  }
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     // Parse
@@ -110,7 +107,7 @@ class NerDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, loadsContrib = true, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 }
 
@@ -119,7 +116,7 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_nerdl", loadContrib = true)
+    val tf = readTensorflowModel(path, spark, "_nerdl", loadContrib = instance.getUseContrib())
     instance.setModelIfNotSet(spark: SparkSession, tf)
   }
 
@@ -136,7 +133,7 @@ trait PretrainedNerDL {
         "ner_dl_contrib"
       }
     else name
-    ResourceDownloader.downloadModel(NerDLModel, name, language, remoteLoc)
+    ResourceDownloader.downloadModel(NerDLModel, finalName, language, remoteLoc)
   }
 }
 
