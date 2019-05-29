@@ -44,3 +44,7 @@ def start(include_ocr=False):
         builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.4") \
 
     return builder.getOrCreate()
+
+
+def version():
+    print('2.0.4')
