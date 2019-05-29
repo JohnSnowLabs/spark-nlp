@@ -78,7 +78,7 @@ object ResourceMetadata {
 
   def readResources(source: Source): List[ResourceMetadata] = {
     source.getLines()
-      .map{line =>
+      .collect{case line if line.nonEmpty =>
         ResourceMetadata.parseJson(line)
       }
       .toList
