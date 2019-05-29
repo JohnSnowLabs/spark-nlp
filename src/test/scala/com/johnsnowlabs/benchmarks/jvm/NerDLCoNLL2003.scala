@@ -15,7 +15,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.tensorflow.{Graph, Session, TensorFlow}
 
 
-object NerDLCoNLL2003 extends App with LoadsContrib{
+object NerDLCoNLL2003 extends App {
 
   val spark = SparkAccessor.spark
 
@@ -49,8 +49,8 @@ object NerDLCoNLL2003 extends App with LoadsContrib{
   //val config = Array[Byte](56, 1)
   //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
   val config = Array[Byte](50, 2, 32, 1, 56, 1)
-  loadContribToTensorflow()
-  val graph = TensorflowWrapper.readGraph("src/main/resources/ner-dl/blstm_10_100_128_100.pb", loadContrib = true)
+  LoadsContrib.loadContribToTensorflow()
+  val graph = TensorflowWrapper.readGraph("src/main/resources/ner-dl/blstm_10_100_128_100.pb")
   val session = new Session(graph, config)
 
 
