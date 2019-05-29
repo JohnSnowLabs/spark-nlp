@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -38,14 +38,6 @@ class NerDLModel(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-
-  val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
-  def getUseContrib(): Boolean = {
-    println(s"NerDLModel loaded is using contrib: ${$(this.useContrib)}")
-    $(this.useContrib)
-  }
-  def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
-  setDefault(useContrib, if (SystemUtils.IS_OS_WINDOWS) false else true)
 
   def getModelIfNotSet: TensorflowNer = _model.get.value
 
@@ -117,7 +109,7 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_nerdl", loadContrib = instance.getUseContrib())
+    val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setModelIfNotSet(spark: SparkSession, tf)
   }
 

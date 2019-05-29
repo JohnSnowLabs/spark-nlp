@@ -102,7 +102,7 @@ class NerDLApproach(override val uid: String)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(graphBytesDef)
 
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef, loadContrib = getUseContrib())
+    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
@@ -120,7 +120,7 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(configProtoBytes=getConfigProtoBytes)), tf.graph, loadContrib = getUseContrib())
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(configProtoBytes=getConfigProtoBytes)), tf.graph)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
