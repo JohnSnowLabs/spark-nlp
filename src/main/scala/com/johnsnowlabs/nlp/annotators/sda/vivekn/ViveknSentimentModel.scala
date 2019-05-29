@@ -99,8 +99,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 }
 
 trait ViveknPretrainedModel {
-  def pretrained(name: String = "sentiment_vivekn", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ViveknSentimentModel =
-    ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remoteLoc)
+  def pretrained(name: String = "sentiment_vivekn", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): ViveknSentimentModel =
+    ResourceDownloader.downloadModel(ViveknSentimentModel, name, Option(lang), remoteLoc)
 }
 
 object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel
