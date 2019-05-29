@@ -54,12 +54,10 @@ trait ReadTensorflowModel {
                            suffix: String,
                            zipped:Boolean = true,
                            useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty,
-                           loadContrib: Boolean = false
+                           tags:Array[String]=Array.empty
                          ): TensorflowWrapper = {
 
-    if (loadContrib)
-      LoadsContrib.loadContribToCluster(spark)
+    LoadsContrib.loadContribToCluster(spark)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -73,7 +71,7 @@ trait ReadTensorflowModel {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle, loadContrib = loadContrib)
+      zipped, tags = tags, useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)

@@ -53,7 +53,6 @@ object LoadsContrib {
   def loadContribToCluster(spark: SparkSession): Unit = {
     /** NOT thread-safe. DRIVER only*/
     if (!LoadsContrib.loadedToCluster && contribPaths.isDefined) {
-      println(s"adding ${contribPaths.get}")
       LoadsContrib.loadedToCluster = true
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._1).getPath)
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._2).getPath)
@@ -61,11 +60,7 @@ object LoadsContrib {
   }
 
   def loadContribToTensorflow(): Unit = {
-    if (SystemUtils.IS_OS_WINDOWS)
-      throw new UnsupportedOperationException("Tried to load Tensorflow contrib LSTM Cells in WINDOWS OS. " +
-        "This is unsupported until 'tensorflow/issues/26468' is fixed. If it is not the case, please report the issue.")
     if (!LoadsContrib.loadedToTensorflow && contribPaths.isDefined) {
-      println("loading to tensorflow")
       LoadsContrib.loadedToTensorflow = true
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._1)))
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._2)))
