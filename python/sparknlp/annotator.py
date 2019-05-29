@@ -359,9 +359,9 @@ class LemmatizerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="lemma_antbnc", language="en", remote_loc=None):
+    def pretrained(name="lemma_antbnc", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LemmatizerModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc)
 
 
 class DateMatcher(AnnotatorModel):
@@ -488,9 +488,9 @@ class PerceptronModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="pos_anc", language="en", remote_loc=None):
+    def pretrained(name="pos_anc", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(PerceptronModel, name, lang, remote_loc)
 
 
 class SentenceDetectorParams:
@@ -720,9 +720,9 @@ class ViveknSentimentModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="sentiment_vivekn", language="en", remote_loc=None):
+    def pretrained(name="sentiment_vivekn", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, lang, remote_loc)
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -807,9 +807,9 @@ class NorvigSweetingModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spellcheck_norvig", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_norvig", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, lang, remote_loc)
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
@@ -884,9 +884,9 @@ class SymmetricDeleteModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spellcheck_sd", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_sd", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(SymmetricDeleteModel, name, lang, remote_loc)
 
 
 class NerApproach(Params):
@@ -990,9 +990,9 @@ class NerCrfModel(AnnotatorModel):
         return self._set(includeConfidence=b)
 
     @staticmethod
-    def pretrained(name="ner_crf", language="en", remote_loc=None):
+    def pretrained(name="ner_crf", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerCrfModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(NerCrfModel, name, lang, remote_loc)
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach):
@@ -1073,9 +1073,9 @@ class NerDLModel(AnnotatorModel):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="ner_dl", language="en", remote_loc=None):
+    def pretrained(name="ner_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
@@ -1214,9 +1214,9 @@ class ContextSpellCheckerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spellcheck_dl", language="en", remote_loc=None):
+    def pretrained(name="spellcheck_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 
 
 class DependencyParserApproach(AnnotatorApproach):
@@ -1271,9 +1271,9 @@ class DependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="dependency_conllu", language="en", remote_loc=None):
+    def pretrained(name="dependency_conllu", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DependencyParserModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(DependencyParserModel, name, lang, remote_loc)
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
@@ -1344,9 +1344,9 @@ class TypedDependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="dependency_typed_conllu", language="en", remote_loc=None):
+    def pretrained(name="dependency_typed_conllu", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
 
 
 class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
@@ -1420,9 +1420,9 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         )
 
     @staticmethod
-    def pretrained(name="glove_100d", language="en", remote_loc=None):
+    def pretrained(name="glove_100d", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
 class BertEmbeddings(AnnotatorModel, HasEmbeddings):
@@ -1472,6 +1472,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", language="en", remote_loc=None):
+    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertEmbeddings, name, language, remote_loc)
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
