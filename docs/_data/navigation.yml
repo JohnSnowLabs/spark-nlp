@@ -27,10 +27,11 @@ docs-en:
     children:      
       - title:  Annotators
         url:    /docs/en/annotators
-      - title:  Models
-        url:    /docs/en/models  
       - title:  Pipelines
         url:    /docs/en/pipelines
+      - title:  Models
+        url:    /docs/en/models  
+
 extras:
   - title:     Extras
     children:
