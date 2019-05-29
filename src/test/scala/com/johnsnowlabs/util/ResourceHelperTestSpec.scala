@@ -26,8 +26,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
     val iteratorRepresentation = ResourceHelper.getFilesContentBuffer(externalResource)
-    val expectedIteratorRepresentation = Seq(Array(s"ByeWorld").toIterator,
-                                       Array(s"HelloWorld").toIterator)
+    val expectedIteratorRepresentation = Seq(Array(s"HelloWorld").toIterator, Array(s"ByeWorld").toIterator)
 
     val stringRepresentation = iteratorRepresentation.map(line => line.mkString)
     val expectedStringRepresentation = expectedIteratorRepresentation.map(line => line.mkString)
