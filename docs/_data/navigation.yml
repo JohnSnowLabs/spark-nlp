@@ -8,7 +8,7 @@ header:
     url: /articles
     key: articles
   - title: Videos
-    url: /videos  
+    url: /videos
     key: videos
   - title: '<span style="color: #fc4d50;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
@@ -27,8 +27,10 @@ docs-en:
     children:      
       - title:  Annotators
         url:    /docs/en/annotators
-      - title:  Models and Pipelines
+      - title:  Models
         url:    /docs/en/models  
+      - title:  Pipelines
+        url:    /docs/en/pipelines
 extras:
   - title:     Extras
     children:
