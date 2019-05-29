@@ -45,7 +45,6 @@ article_header:
         </div>
 
         {%- if _section.install -%}
-        <h4>Python</h4>
         <div class="grid" style="background-color: #2d2d2d">
           <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
@@ -54,31 +53,7 @@ $ pip install spark-nlp==2.0.4
 
 # Install Spark NLP from Anacodna/Conda
 $ conda install -c johnsnowlabs spark-nlp
-            {% endhighlight %}
-          </div>
-        </div>
-        <h4>Scala/Java</h4>
-        <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
-            {% highlight scala %}
-# Install Spark NLP from Maven
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
-<dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp_2.11</artifactId>
-  <version>2.0.4</version>
-</dependency>
 
-# Install Spark NLP from SBT
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.4"
-            {% endhighlight %}
-          </div>
-        </div>
-        <h4>Spark Packages</h4>
-        <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
-            {% highlight bash %}
 # Load Spark NLP with Spark Shell
 $ spark-shell --packages JohnSnowLabs:spark-nlp:2.0.4
 
@@ -92,7 +67,7 @@ $ spark-submit --packages JohnSnowLabs:spark-nlp:2.0.4
 $ spark-shell --jar spark-nlp-assembly-2.0.4
             {% endhighlight %}
           </div>
-        </div>                
+        </div>
         {%- endif -%}
         {%- if _section.features -%}
         <div class="grid" style="background-color: #2d2d2d">
