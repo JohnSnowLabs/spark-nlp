@@ -51,6 +51,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setOutputCol("ner")
     .setMaxEpochs(100)
     .setRandomSeed(0)
+    .setUseContrib(false)
 
   private val nerConverter = new NerConverter()
     .setInputCols(Array("document", "token", "ner"))
