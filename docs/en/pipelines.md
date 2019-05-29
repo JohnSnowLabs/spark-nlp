@@ -79,13 +79,15 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", language="fr")
 
 val frenchTestDF = spark.createDataFrame(Seq(
-      (0, """
-      Pour la deuxième année consécutive, le cinéma asiatique repart avec la récompense suprême à Cannes. Après avoir consacré Une affaire de famille du japonais Hirokazu Kore-eda en 2018, le jury du Festival de Cannes a attribué la Palme d'or au Coréen Bong Joon-ho pour Parasite.
+(0, """
+Pour la deuxième année consécutive, le cinéma asiatique repart avec la récompense suprême à Cannes.
+Après avoir consacré Une affaire de famille du japonais Hirokazu Kore-eda en 2018, le jury du Festival de Cannes a attribué la Palme d'or au Coréen Bong Joon-ho pour Parasite.
 
-      Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise. Le Montfermeillois Ladj Ly a remporté samedi soir le prix du jury pour son premier long-métrage Les Misérables, tandis que Céline Sciamma s'est vue décerner le prix du scénario pour Portrait de la jeune fille en feu. Le Grand Prix a quant à lui été remis à la Franco-Sénégalaise Mati Diop pour son film Atlantique.
-      """),
-      (1, "Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"),
-      (2, "Apple cherche a acheter une startup anglaise pour 1 milliard de dollard.")
+Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise.
+Le Montfermeillois Ladj Ly a remporté samedi soir le prix du jury pour son premier long-métrage Les Misérables, tandis que Céline Sciamma s'est vue décerner le prix du scénario pour Portrait de la jeune fille en feu. Le Grand Prix a quant à lui été remis à la Franco-Sénégalaise Mati Diop pour son film Atlantique.
+"""),
+(1, "Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"),
+(2, "Apple cherche a acheter une startup anglaise pour 1 milliard de dollard.")
 )).toDF("id", "text").withColumn("id", monotonically_increasing_id())
 
 val pipelineDF = frenchExplainDocumentPipeline.transform(frenchTestDF)
