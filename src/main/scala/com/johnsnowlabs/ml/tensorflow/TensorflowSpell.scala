@@ -26,7 +26,7 @@ class TensorflowSpell(
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(loadsContrib=true, configProtoBytes=configProtoBytes).runner
+    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
