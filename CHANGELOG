@@ -1,4 +1,49 @@
 ========
+2.0.5
+========
+---------------
+Overview
+---------------
+This release bumps Spark NLP by default to Apache Spark 2.4.3. Spark has been undergoing testing with Scala 2.12 and they are back in 2.11 now, so this should be a working release.
+In this version, we fixed a series of Pretrained models, as well as focused on improving the flexibility of NerDL annotator, which is, if not, the most popular one based on user feedback.
+Users can point to graphs they create without having to re-compile the library, graph options as well whether to use Tensorflow contrib is now user defined.
+Particular thanks to @CyborgDroid because of reporting importantly and well-reported bugs that helped us improve Spark NLP.
+Thank you for reporting issues and feedback, and we always welcome more. Join us on Slack!
+
+---------------
+Enhancements
+---------------
+* ViveknSentiment annotator now includes confidence score in metadata
+* NerDL now has setGraphFolder to allow a path to folder with custom generated graphs using python/tensorflow code
+* NerDL now has setConfigProtoBytes to allow users submit his own ConfigProto (serialized) to the graph settings
+* NerDLApproach now has setUseContrib to let training user decide whether or not to use contrib. Contrib LSTM Cells are proved to return more accurate results, but does not work in Windows yet.
+* Updated default tensorflow settings to include GPU allow_growth by default, disabled log device placement spamming message
+* Spark version bumped to 2.4.3
+
+---------------
+Bugfixes
+---------------
+* Fixed contrib NerDL models not work properly in clusters such as Databricks (Thanks @CyborgDroid)
+* Fixed sparknlp.start(include_ocr=True) missing dependencies for OCR
+* Fixed DependencyParser pretrained models not working properly in Python
+
+---------------
+Models and Pipelines
+---------------
+* NerDL will download noncontrib model if windows is detected, for better compatibility
+* noncontrib version of pipelines with NerDL have been uploaded, as well as new models. Check documentation for complete list
+* Improved error message when user is under windows and trying to load a contrib NerDL model
+* Fixed ViveknSentimentModel not working properly (Thanks @CyborgDroid)
+
+---------------
+Developer API
+---------------
+* Embeddings in python moved to annotator module for consistency
+* SourceStream ResourceHelper class now properly handles cluster files for Dependency Parser
+* Metadata model reader now ignores empty lines instead of failing
+* Unified lang instead of language attribute name in pretrained API
+
+========
 2.0.4
 ========
 ---------------
