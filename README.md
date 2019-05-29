@@ -286,7 +286,7 @@ sparknlp {
 }
 ```
 
-## Models and Pipelines
+## Pipelines and Models
 
 ### Pipelines
 
