@@ -22,6 +22,9 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.norvig'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.symmetric'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.parser'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.parser.dep'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.parser.typdep'] = annotator
 sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 
 annotators = annotator
