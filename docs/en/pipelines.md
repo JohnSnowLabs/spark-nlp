@@ -43,15 +43,15 @@ modify_date: "2019-05-29"
 
 To use Spark NLP pretrained pipelines, you can call `PretrainedPipeline` with pipeline's name and its language (default is `en`):
 
-```python
+{% highlight python %}
 pipeline = PretrainedPipeline('explain_document_dl', lang='en')
-```
+{% endhighlight %}
 
 Same in Scala
 
-```scala
+{% highlight scala %}
 val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
-```
+{% endhighlight %}
 
 ### Offline
 
@@ -59,11 +59,11 @@ If you have any trouble using online pipelines or models in your environment (ma
 
 After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):
 
-```scala
+{% highlight scala %}
 val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 // To use the loaded Pipeline for prediction
 advancedPipeline.transform(predictionDF)
-```
+{% endhighlight %}
 
 ## Demo
 
@@ -71,7 +71,7 @@ advancedPipeline.transform(predictionDF)
 
 `explain_document_lg`
 
-```scala
+{% highlight scala %}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", language="fr")
@@ -100,4 +100,4 @@ pipelineDF.select("entities.result").show(false)
 |[Apple]                                                                                                                                                                                                                                                                                |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-```
+{% endhighlight %}
