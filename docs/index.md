@@ -42,8 +42,8 @@ data:
     - title: Right Out of The Box
       excerpt: Spark NLP ships with many <b>NLP features</b>, pre-trained <b>models</b> and <b>pipelines</b>
       actions:
-        - text: Features
-          url: /docs/en/annotators     
+        - text: Pipelines
+          url: /docs/en/pipelines     
         - text: Models
           url: /docs/en/models
       features: true
