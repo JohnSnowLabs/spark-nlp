@@ -29,6 +29,9 @@ spell = sys.modules[__name__]
 spell.norvig = sys.modules[__name__]
 spell.context = sys.modules[__name__]
 spell.symmetric = sys.modules[__name__]
+parser = sys.modules[__name__]
+parser.dep = sys.modules[__name__]
+parser.typdep = sys.modules[__name__]
 ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
 
@@ -1003,12 +1006,18 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                      "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
     def setGraphFolder(self, p):
         return self._set(graphFolder=p)
+
+    def setUseContrib(self, v):
+        if v and sys.version == 'win32':
+            raise Exception("Windows not supported to use contrib")
+        return self._set(useContrib=v)
 
     def setLr(self, v):
         self._set(lr=v)
@@ -1036,6 +1045,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
+        uc = False if sys.platform == 'win32' else True
         self._setDefault(
             minEpochs=0,
             maxEpochs=50,
@@ -1043,7 +1053,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             po=float(0.005),
             batchSize=8,
             dropout=float(0.5),
-            verbose=2
+            verbose=2,
+            useContrib=uc
         )
 
 
