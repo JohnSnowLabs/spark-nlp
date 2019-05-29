@@ -13,14 +13,13 @@ import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
-    with ParamsAndFeaturesWritable
-    with LoadsContrib {
+    with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
@@ -86,15 +85,6 @@ class NerDLModel(override val uid: String)
 
   private var _model: Option[Broadcast[TensorflowNer]] = None
 
-  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-
-    require(_model.isDefined, "Tensorflow model has not been initialized")
-
-    loadContribToCluster(dataset.sparkSession)
-
-    dataset
-  }
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     // Parse
@@ -110,7 +100,7 @@ class NerDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, loadsContrib = true, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 }
 
@@ -119,7 +109,7 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   override val tfFile = "tensorflow"
 
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_nerdl", loadContrib = true)
+    val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setModelIfNotSet(spark: SparkSession, tf)
   }
 
@@ -136,7 +126,7 @@ trait PretrainedNerDL {
         "ner_dl_contrib"
       }
     else name
-    ResourceDownloader.downloadModel(NerDLModel, name, language, remoteLoc)
+    ResourceDownloader.downloadModel(NerDLModel, finalName, language, remoteLoc)
   }
 }
 
