@@ -23,7 +23,21 @@ modify_date: "2019-05-29"
 | Explain Document Large  | `explain_document_lg` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_fr_2.0.2_2.4_1559054673712.zip) |
 | Explain Document Medium | `explain_document_md` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_fr_2.0.2_2.4_1559118515465.zip) |
 
-## How to use Pretrained Pipelines
+#### French pipelines (explain_document) include
+
+* Toenization (French UD style)
+
+* Lemmatization
+
+* Part of Speech (French UD GSD)
+
+* Word Embeddings (`glove_840B_300` for large and `glove_6B_300` for medium)
+
+* Named Entity Recongnition (French WikiNER)
+
+* Entity chunking
+
+## How to use
 
 ### Online
 
@@ -53,12 +67,15 @@ val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4
 advancedPipeline.transform(predictionDF)
 ```
 
-### Demo
+## Demo
 
-French `explain_document_lg` demo:
+### French Pipeline
+
+`explain_document_lg`
 
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", language="fr")
 
 val frenchTestDF = spark.createDataFrame(Seq(
