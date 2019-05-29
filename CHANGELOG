@@ -1,4 +1,17 @@
 ========
+2.0.6
+========
+---------------
+Overview
+---------------
+Following the 2.0.5 (read notes below), this release fixes a bug when disabling contrib param in NerDLApproach on non-windows OS
+
+---------------
+Bugfixes
+---------------
+* Fixed NerDLApproach failing when training with setUseContrib(false)
+
+========
 2.0.5
 ========
 ---------------
