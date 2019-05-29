@@ -44,7 +44,7 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   private val dependencyParserTreeBank = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
-    .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank_debug")
+    .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
     .setNumberOfIterations(10)
 
   private val dependencyParserConllU = new DependencyParserApproach()
