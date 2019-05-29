@@ -24,13 +24,13 @@ docs-en:
       - title:  Examples
         url:    /docs/en/examples      
   - title:      Documentation
-    children:      
-      - title:  Annotators
-        url:    /docs/en/annotators
+    children:            
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
         url:    /docs/en/models  
+      - title:  Annotators
+        url:    /docs/en/annotators  
 
 extras:
   - title:     Extras

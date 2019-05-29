@@ -59,8 +59,6 @@ If you have any trouble using online pipelines or models in your environment (ma
 
 After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):
 
-- Loading Offline Pipeline
-
 ```scala
 val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 // To use the loaded Pipeline for prediction
