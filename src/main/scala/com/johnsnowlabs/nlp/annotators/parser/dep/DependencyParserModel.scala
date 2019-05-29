@@ -34,9 +34,9 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 }
 
 trait PretrainedDependencyParserModel {
-  def pretrained(name: String = "dependency_conllu", language: Option[String] = Some("en"),
+  def pretrained(name: String = "dependency_conllu", lang: String = "en",
                  remoteLoc: String = ResourceDownloader.publicLoc): DependencyParserModel =
-    ResourceDownloader.downloadModel(DependencyParserModel, name, language, remoteLoc)
+    ResourceDownloader.downloadModel(DependencyParserModel, name, Option(lang), remoteLoc)
 }
 
 object DependencyParserModel extends ParamsAndFeaturesReadable[DependencyParserModel] with PretrainedDependencyParserModel

@@ -89,6 +89,6 @@ class WordEmbeddingsModel(override val uid: String)
 object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
 
 trait PretrainedWordEmbeddings {
-  def pretrained(name: String = "glove_100d", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
-    ResourceDownloader.downloadModel(WordEmbeddingsModel, name, language, remoteLoc)
+  def pretrained(name: String = "glove_100d", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
+    ResourceDownloader.downloadModel(WordEmbeddingsModel, name, Option(lang), remoteLoc)
 }
