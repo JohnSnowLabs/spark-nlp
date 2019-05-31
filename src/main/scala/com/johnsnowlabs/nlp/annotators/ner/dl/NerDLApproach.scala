@@ -72,10 +72,8 @@ class NerDLApproach(override val uid: String)
   }
 
   override def beforeTraining(spark: SparkSession): Unit = {
-    if ($(useContrib)) {
-      LoadsContrib.loadContribToCluster(spark)
-      LoadsContrib.loadContribToTensorflow()
-    }
+    LoadsContrib.loadContribToCluster(spark)
+    LoadsContrib.loadContribToTensorflow()
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
