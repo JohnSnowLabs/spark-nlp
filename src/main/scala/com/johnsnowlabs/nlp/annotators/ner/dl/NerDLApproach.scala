@@ -162,7 +162,7 @@ trait WithGraphResolver  {
       }
     }
 
-    require(embeddingsFiltered.exists(_.nonEmpty), s"Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims nTags: $tags nChars: $nChars" +
+    require(embeddingsFiltered.exists(_.nonEmpty), s"Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
       s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
 
     // 2. Filter by labels and nChars
@@ -175,7 +175,7 @@ trait WithGraphResolver  {
       case _ => None
     }
 
-    require(tagsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of tags: $tags. " +
+    require(tagsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
       s"Generate graph by python code in python/tensorflow/ner/create_models before usage and use setGraphFolder Param to point to output.")
 
     // 3. Filter by labels and nChars
@@ -188,7 +188,7 @@ trait WithGraphResolver  {
       case _ => None
     }
 
-    require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of chars: $nChars. " +
+    require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
       s"Generate graph by python code before usage.")
 
     for (i <- files.indices) {
