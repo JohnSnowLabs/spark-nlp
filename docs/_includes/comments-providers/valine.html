@@ -1,0 +1,46 @@
+{%- include snippets/get-sources.html -%}
+{%- assign _sources = __return -%}
+
+{%- assign _VALINE_APP_ID = site.comments.valine.app_id -%}
+{%- assign _VALINE_APP_KEY = site.comments.valine.app_key -%}
+{%- assign _VALINE_PLACEHOLDER = site.comments.valine.placeholder -%}
+{%- assign _VALINE_VISITOR = site.comments.valine.visitor -%}
+{%- assign _VALINE_META = site.comments.valine.meta -%}
+
+
+{%- if _VALINE_APP_ID and
+  _VALINE_APP_KEY -%}
+
+<div id="vcomments"></div>
+
+{%- if _VALINE_VISITOR -%}    
+<span id="{{page.url}}" class="leancloud-visitors" data-flag-title={{page.title}}>
+</span>
+{%- endif -%}
+
+<script>
+  window.Lazyload.js(['{{ _sources.leancloud_js_sdk}}', '{{ _sources.valine }}'], function() {
+    var _config = {
+      el: '#vcomments',
+      appId:  '{{ _VALINE_APP_ID }}',
+      appKey: '{{ _VALINE_APP_KEY }}',
+      verify: true,
+    };
+    {%- if _VALINE_PLACEHOLDER -%}
+      _config.placeholder = '{{ _VALINE_PLACEHOLDER }}';
+    {%- endif -%}
+    {%- assign _page_lang_slice =  page.lang | slice: 0, 2 -%}
+    {%- if _page_lang_slice != 'zh'  -%}
+      _config.lang = 'en';
+    {%- endif -%}  
+    {%- if _VALINE_VISITOR -%}
+      _config.visitor = 'true';
+    {%- endif -%}
+    {%- if _VALINE_META -%}
+      _config.meta = {{ _VALINE_META}};
+    {%- endif -%}
+    new Valine(_config);
+  });
+</script>
+
+{%- endif -%}

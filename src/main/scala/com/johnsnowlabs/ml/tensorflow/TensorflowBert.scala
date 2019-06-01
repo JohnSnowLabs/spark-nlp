@@ -6,7 +6,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
                      maxSentenceLength: Int,
-                     batchSize: Int = 5
+                     batchSize: Int = 5,
+                     configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
   private val tokenIdsKey = "token_ids:0"
@@ -35,7 +36,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }.toArray
 
-    val calculated = tensorflow.getSession().runner
+    val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
       .feed(tokenIdsKey, tensors.createTensor(shrink))
       .fetch(embeddingsKey)
       .run()

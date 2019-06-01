@@ -7,13 +7,27 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler}
-import com.johnsnowlabs.util.PipelineModels
-import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler}
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
+import org.scalatest.FlatSpec
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
+
+  System.gc()
+
+  private val spark = SparkSession.builder()
+    .appName("benchmark")
+    .master("local[*]")
+    .config("spark.driver.memory", "3G")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .getOrCreate()
+
+  import spark.implicits._
+
+  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -31,8 +45,6 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   private val posTagger = getPerceptronModel
 
   private val dependencyParser = getDependencyParserModel
-
-  private val emptyDataSet = PipelineModels.dummyDataset
 
   def getPerceptronModel: PerceptronModel = {
 

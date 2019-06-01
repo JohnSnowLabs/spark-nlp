@@ -14,10 +14,13 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import SparkAccessor.spark
+import org.apache.commons.io.FileUtils
 import spark.implicits._
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
+
+  System.gc()
 
   trait Scope extends WeightedLevenshtein {
     val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
@@ -47,10 +50,12 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       specialClass.setTransducer(null)
 
       // the object per se
+      FileUtils.deleteDirectory(new File(dataPathObject))
       spark.sparkContext.parallelize(Seq(specialClass)).
       saveAsObjectFile(dataPathObject)
 
       // we handle the transducer separaely
+    FileUtils.deleteDirectory(new File(dataPathTrans))
       val transBytes = serializer.serialize(transducer)
       spark.sparkContext.parallelize(transBytes.toSeq, 1).
           saveAsObjectFile(dataPathTrans)

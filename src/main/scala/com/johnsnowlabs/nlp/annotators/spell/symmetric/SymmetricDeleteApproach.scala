@@ -131,7 +131,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
     validateDataSet(dataset)
 
-    val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
+    val possibleDict = get(dictionary).map(d => ResourceHelper.getWordCount(d))
 
     val trainDataset =
       dataset.select(getInputCols.head).as[Array[Annotation]]
