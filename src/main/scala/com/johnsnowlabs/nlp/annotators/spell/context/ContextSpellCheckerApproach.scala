@@ -4,13 +4,12 @@ import java.io.{BufferedWriter, File, FileWriter}
 
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
@@ -69,6 +68,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
   def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
 
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
@@ -91,11 +93,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ContextSpellCheckerModel = {
 
     val graph = new Graph()
-    //val config = Array[Byte](56, 1)
-    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val session = new Session(graph, config)
-    //val tf = new TensorflowWrapper(session, graph)
 
     // extract vocabulary
     require(isDefined(trainCorpusPath), "Train corpus must be set before training")
@@ -127,6 +126,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       //setModelIfNotSet(dataset.sparkSession, tf).
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
+
+    if (get(configProtoBytes).isDefined)
+      model.setConfigProtoBytes($(configProtoBytes))
 
     get(weightedDistPath).map(path => model.setWeights(loadWeights(path))).
     getOrElse(model)

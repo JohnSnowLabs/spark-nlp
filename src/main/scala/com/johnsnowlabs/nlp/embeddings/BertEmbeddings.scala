@@ -6,12 +6,11 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.{addReader, readTensorflowModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.IntParam
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -28,6 +27,10 @@ class BertEmbeddings(override val uid: String) extends
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
 
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
@@ -65,7 +68,8 @@ class BertEmbeddings(override val uid: String) extends
           tensorflow,
           sentenceStartTokenId,
           sentenceEndTokenId,
-          $(maxSentenceLength)
+          $(maxSentenceLength),
+          configProtoBytes = getConfigProtoBytes
           )
         )
       )
@@ -107,16 +111,18 @@ class BertEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 }
 
 trait PretrainedBertModel {
-  def pretrained(name: String = "bert_uncased", language: Option[String] = None, remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
-    ResourceDownloader.downloadModel(BertEmbeddings, name, language, remoteLoc)
+  def pretrained(name: String = "bert_uncased", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
+    ResourceDownloader.downloadModel(BertEmbeddings, name, Option(lang), remoteLoc)
 }
 
 trait ReadBertTensorflowModel extends ReadTensorflowModel {
+  this:ParamsAndFeaturesReadable[BertEmbeddings] =>
+
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
@@ -144,6 +150,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   }
 }
 
+
 object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
   with PretrainedBertModel
   with ReadBertTensorflowModel
+

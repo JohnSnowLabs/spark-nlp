@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
-import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
@@ -17,7 +17,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   override val outputAnnotatorType:String = LABELED_DEPENDENCY
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
-  def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
+  def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
   val numberOfIterations = new IntParam(this, "numberOfIterations",
     "Number of iterations in training, converges to better accuracy")
@@ -72,6 +72,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     new TypedDependencyParserModel()
       .setOptions(trainDependencies.getOptions)
       .setDependencyPipe(trainDependencies.getDependencyPipe)
+      .setConllFormat(getTrainingFile.conllFormat)
   }
 
   def validateTrainingFiles(): Unit = {
@@ -86,6 +87,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   def getTrainingFile: TrainFile = {
     if ($(conll2009).path != ""){
       TrainFile($(conll2009).path, "2009")
+
     } else {
       TrainFile($(conllU).path, "U")
     }

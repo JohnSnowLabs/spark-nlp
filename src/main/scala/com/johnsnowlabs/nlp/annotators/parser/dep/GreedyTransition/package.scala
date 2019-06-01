@@ -9,7 +9,7 @@ package object GreedyTransition {
 
   type FeatureName = String
   type FeatureData = String
-  type Score = Double
+  type Score = Float
 
   type Word = String
   type Sentence = List[WordData]

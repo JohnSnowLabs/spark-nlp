@@ -46,7 +46,7 @@ class TensorflowNer
     doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
   }
 
-  def predict(dataset: Array[WordpieceEmbeddingsSentence]): Array[Array[String]] = {
+  def predict(dataset: Array[WordpieceEmbeddingsSentence], configProtoBytes: Option[Array[Byte]] = None): Array[Array[String]] = {
 
     val result = ArrayBuffer[Array[String]]()
 
@@ -60,7 +60,7 @@ class TensorflowNer
       else {
         val tensors = new TensorResources()
 
-        val calculated = tensorflow.getSession(true).runner
+        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
@@ -111,7 +111,8 @@ class TensorflowNer
             dropout: Float,
             startEpoch: Int,
             endEpoch: Int,
-            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
+            configProtoBytes: Option[Array[Byte]] = None
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -120,7 +121,7 @@ class TensorflowNer
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(true).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
     val trainDatasetSeq = trainDataset.toSeq
     // Train
@@ -142,7 +143,7 @@ class TensorflowNer
         val batchTags = encoder.encodeTags(tags)
 
         val tensors = new TensorResources()
-        val calculated = tensorflow.getSession(true).runner
+        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 

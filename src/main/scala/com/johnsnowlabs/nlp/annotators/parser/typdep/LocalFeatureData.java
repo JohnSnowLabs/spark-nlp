@@ -111,7 +111,7 @@ public class LocalFeatureData {
             int gp = heads[head];
             int pdir = gp > head ? 1 : 2;
             for (int p = lab0; p < ntypes; ++p) {
-                if (pipe.getPruneLabel()[dependencyInstance.getCpostagids()[head]][dependencyInstance.getCpostagids()[mod]][p]) {
+                if (pipe.getPruneLabel()[dependencyInstance.getXPosTagIds()[head]][dependencyInstance.getXPosTagIds()[mod]][p]) {
                     deplbids[mod] = p;
                     float s1 = 0;
                     if (gammaL > 0)
@@ -121,7 +121,7 @@ public class LocalFeatureData {
                     for (int q = lab0; q < ntypes; ++q) {
                         float s2 = 0;
                         if (gp != -1) {
-                            if (pipe.getPruneLabel()[dependencyInstance.getCpostagids()[gp]][dependencyInstance.getCpostagids()[head]][q]) {
+                            if (pipe.getPruneLabel()[dependencyInstance.getXPosTagIds()[gp]][dependencyInstance.getXPosTagIds()[head]][q]) {
                                 deplbids[head] = q;
                                 if (gammaL > 0)
                                     s2 += gammaL * getLabelScoreTheta(heads, deplbids, mod, 2);

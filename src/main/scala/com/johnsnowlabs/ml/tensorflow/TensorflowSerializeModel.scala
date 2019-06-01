@@ -16,7 +16,13 @@ import org.apache.spark.sql.SparkSession
 trait WriteTensorflowModel {
 
 
-  def writeTensorflowModel(path: String, spark: SparkSession, tensorflow: TensorflowWrapper, suffix: String, filename:String, loadsContrib: Boolean = false): Unit = {
+  def writeTensorflowModel(
+                            path: String,
+                            spark: SparkSession,
+                            tensorflow: TensorflowWrapper,
+                            suffix: String, filename:String,
+                            configProtoBytes: Option[Array[Byte]] = None
+                          ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -28,7 +34,7 @@ trait WriteTensorflowModel {
     val tfFile = Paths.get(tmpFolder, filename).toString
 
     // 2. Save Tensorflow state
-    tensorflow.saveToFile(tfFile, loadsContrib)
+    tensorflow.saveToFile(tfFile, configProtoBytes)
 
     // 3. Copy to dest folder
     fs.copyFromLocalFile(new Path(tfFile), new Path(path))
@@ -39,7 +45,7 @@ trait WriteTensorflowModel {
 
 }
 
-trait ReadTensorflowModel extends LoadsContrib {
+trait ReadTensorflowModel {
   val tfFile: String
 
   def readTensorflowModel(
@@ -48,12 +54,10 @@ trait ReadTensorflowModel extends LoadsContrib {
                            suffix: String,
                            zipped:Boolean = true,
                            useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty,
-                           loadContrib: Boolean = false
+                           tags:Array[String]=Array.empty
                          ): TensorflowWrapper = {
 
-    if (loadContrib)
-      loadContribToCluster(spark)
+    LoadsContrib.loadContribToCluster(spark)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -67,7 +71,7 @@ trait ReadTensorflowModel extends LoadsContrib {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle, loadContrib = loadContrib)
+      zipped, tags = tags, useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)

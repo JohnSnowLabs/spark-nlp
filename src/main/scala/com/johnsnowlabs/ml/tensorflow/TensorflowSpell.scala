@@ -22,11 +22,11 @@ class TensorflowSpell(
   val contextWordIds = "batches:2"
 
   /* returns the loss associated with the last word, given previous history  */
-  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]]) = {
+  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None) = {
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(true).runner
+    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
