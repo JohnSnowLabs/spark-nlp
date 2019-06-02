@@ -10,7 +10,7 @@ case class PretrainedPipeline(
                                source: String = ResourceDownloader.publicLoc
                              ) {
 
-  lazy val model: PipelineModel = ResourceDownloader
+  val model: PipelineModel = ResourceDownloader
     .downloadPipeline(downloadName, Option(lang), source)
 
   lazy val lightModel = new LightPipeline(model)
