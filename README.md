@@ -22,8 +22,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
     * [Maven](#maven)
     * [SBT](#sbt)
   * [Python](#python)
-    * [pip](#pip)
-    * [conda](#conda)
+    * [Pip/Conda](#pipconda)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [S3 Cluster](#s3-cluster)
@@ -179,25 +178,20 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 ### Python without explicit Pyspark installation
 
-### Pip
+### Pip/Conda
 
-If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
+If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
 
+Pip:
 ```bash
 pip install spark-nlp==2.0.7
 ```
-
-PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
-
-### Conda
-
-If you are using Anaconda/Conda for managing Python packages, you can install `spark-nlp` as follow:
-
+Conda:
 ```bash
 conda install -c johnsnowlabs spark-nlp
 ```
 
-Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
+PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/) / Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
 
 Then you'll have to create a SparkSession manually, for example:
 
