@@ -30,8 +30,8 @@ class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitiv
     else {
       val localFromClusterPath = SparkFiles.get(fileName)
       require(new File(localFromClusterPath).exists(), s"Embeedings not found under given ref." +
-        s" This usually means:\n1. source was not provided to embeddings" +
-        s"\n2. If you are trying to reutilize previous embeddings, set an embeddings ref there and use the same ref in this instance. " +
+        s" This usually means:\n\n1. Trying to use cluster mode without a shared filesystem.\n2. source was not provided to embeddings" +
+        s"\n3. If you are trying to reutilize previous embeddings, set an embeddings ref there and use the same ref in this instance. " +
         s"Try calling preload(sparkSession) before annotating to force loading.")
       embds = WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
       embds
@@ -107,10 +107,10 @@ object ClusterWordEmbeddings {
 
     val clusterTmpLocation = {
       ConfigHelper.getConfigValue(ConfigHelper.embeddingsTmpDir).map(new Path(_)).getOrElse(
-        new Path(fileSystem.getScheme, "", spark.hadoopConfiguration.get("hadoop.tmp.dir"))
+        spark.hadoopConfiguration.get("hadoop.tmp.dir")
       )
     }
-    val clusterFilePath = Path.mergePaths(clusterTmpLocation, new Path(clusterFileName))
+    val clusterFilePath = Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path(clusterFileName))
 
     // 1 and 2.  Copy to local and Index Word Embeddings
     indexEmbeddings(sourceEmbeddingsPath, tmpLocalDestination.toString, format, spark)
