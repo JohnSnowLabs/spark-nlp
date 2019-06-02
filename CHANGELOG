@@ -1,4 +1,22 @@
 ========
+2.0.7
+========
+---------------
+Overview
+---------------
+This release addresses bugs related to cluster support, improving error messages and fixing various potential bugs depending
+on the cluster configuration, such as Kryo Serialization or non default FS systems
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug introduced in 2.0.5 that caused NerDL not to work in clusters with Kryo serialization enabled
+* NerDLModel was not properly reading user provided config proto bytes during prediction
+* Improved cluster embeddings message to hit user of cluster mode without shared filesystems
+* Removed lazy model downloading on PretrainedPipeline to download the model at instantiation
+* Fixed URI construction for cluster embeddings on non defaultFS configurations, improves cluster compatibility
+
+========
 2.0.6
 ========
 ---------------
