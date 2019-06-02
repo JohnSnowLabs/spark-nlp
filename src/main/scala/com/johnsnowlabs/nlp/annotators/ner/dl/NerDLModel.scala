@@ -43,7 +43,7 @@ class NerDLModel(override val uid: String)
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
     // Predict
-    val labels = getModelIfNotSet.predict(tokenized)
+    val labels = getModelIfNotSet.predict(tokenized, getConfigProtoBytes)
 
     // Combine labels with sentences tokens
     tokenized.indices.map { i =>
