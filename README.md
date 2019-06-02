@@ -261,7 +261,7 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.0.7
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
 
-If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-spark-installation)
+If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-Pyspark-installation)
 
 ## S3 Cluster
 
