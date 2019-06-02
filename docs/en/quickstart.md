@@ -29,9 +29,9 @@ Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** sup
 To start using the library, execute any of the following lines depending on your desired use case:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.6
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.6
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.6
+spark-shell --packages JohnSnowLabs:spark-nlp:2.0.7
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.7
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.7
 ```
 
 ### **Straight forward Python on jupyter notebook**
@@ -39,7 +39,7 @@ spark-submit --packages JohnSnowLabs:spark-nlp:2.0.6
 Use pip to install (after you pip installed numpy and pyspark)
 
 ```bash
-pip install spark-nlp==2.0.6
+pip install spark-nlp==2.0.7
 jupyter notebook
 ```
 
@@ -60,7 +60,7 @@ spark = SparkSession.builder \
     .appName('OCR Eval') \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.6") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.7") \
     .getOrCreate()
 ```
 
@@ -69,13 +69,13 @@ spark = SparkSession.builder \
 Add the following maven coordinates in the dependency configuration page:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.6
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.7
 ```
 
 For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
 
 ```bash
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.0.6"
+export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.0.7"
 ```
 
 ### **Python Jupyter Notebook with PySpark**
@@ -85,7 +85,7 @@ export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.6
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.7
 ```
 
 ### S3 based standalone cluster (No Hadoop)
@@ -297,7 +297,7 @@ lightPipeline.annotate("Hello world, please annotate my text")
 Spark NLP OCR Module is not included within Spark NLP. It is not an annotator and not an extension to Spark ML. You can include it with the following coordinates for Maven:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.6
+com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.7
 ```
 
 ### Creating Spark datasets from PDF (To be used with Spark NLP)
