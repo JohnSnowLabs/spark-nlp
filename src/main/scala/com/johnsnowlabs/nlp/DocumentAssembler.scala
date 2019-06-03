@@ -32,7 +32,7 @@ class DocumentAssembler(override val uid: String)
 
   setDefault(
     outputCol -> DOCUMENT,
-    trimAndClearNewLines -> true //mdba original is set to true
+    trimAndClearNewLines -> false
   )
 
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
