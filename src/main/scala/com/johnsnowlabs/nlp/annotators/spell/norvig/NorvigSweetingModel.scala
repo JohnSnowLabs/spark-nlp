@@ -1,13 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
-import scala.collection.immutable.{HashSet, ListMap}
+import scala.collection.immutable.HashSet
 
 class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[NorvigSweetingModel] with NorvigSweetingParams {
 
@@ -16,18 +16,14 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   /**
     * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
     */
-  override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
-
-  private val alphabet = "abcdefghijjklmnopqrstuvwxyz".toCharArray
-  private val vowels = "aeiouy".toCharArray
-
-  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
-  //protected val customDict: MapFeature[String, String] = new MapFeature(this, "customDict")
-
+  def this() = this(Identifiable.randomUID("SPELL"))
   private val logger = LoggerFactory.getLogger("NorvigApproach")
 
+  override val outputAnnotatorType: AnnotatorType = TOKEN
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+
+  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
   /** params */
   protected val wordSizeIgnore = new IntParam(this, "wordSizeIgnore", "minimum size of word before ignoring. Defaults to 3")
   protected val dupsLimit = new IntParam(this, "dupsLimit", "maximum duplicate of characters in a word to consider. Defaults to 2")
@@ -35,11 +31,14 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   protected val intersections = new IntParam(this, "intersections", "hamming intersections to attempt. Defaults to 10")
   protected val vowelSwapLimit = new IntParam(this, "vowelSwapLimit", "vowel swap attempts. Defaults to 6")
 
-  def setWordSizeIgnore(v: Int) = set(wordSizeIgnore, v)
-  def setDupsLimit(v: Int) = set(dupsLimit, v)
-  def setReductLimit(v: Int) = set(reductLimit, v)
-  def setIntersections(v: Int) = set(intersections, v)
-  def setVowelSwapLimit(v: Int) = set(vowelSwapLimit, v)
+  protected def getWordCount: Map[String, Long] = $$(wordCount)
+
+  def setWordSizeIgnore(value: Int): this.type = set(wordSizeIgnore, value)
+  def setDupsLimit(value: Int): this.type = set(dupsLimit, value)
+  def setReductLimit(value: Int): this.type = set(reductLimit, value)
+  def setIntersections(value: Int): this.type = set(intersections, value)
+  def setVowelSwapLimit(value: Int): this.type = set(vowelSwapLimit, value)
+  def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
 
   private lazy val allWords: HashSet[String] = {
     if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*)
@@ -47,153 +46,62 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   private lazy val frequencyBoundaryValues: (Long, Long) = {
-    //val cleanWords = ListMap($$(wordCount).filter(_._1.length > $(wordSizeIgnore)).toSeq.sortWith(_._2 > _._2):_*)
     val min: Long = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).minBy(_._2)._2
     val max = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).maxBy(_._2)._2
     (min, max)
   }
 
-  def this() = this(Identifiable.randomUID("SPELL"))
+  private def compareFrequencies(value: String): Long = Utilities.getFrequency(value, $$(wordCount))
+  private def compareHammers(input: String)(value: String): Long = Utilities.computeHammingDistance(input, value)
 
-  def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
-  //def setCustomDict(value: Map[String, String]): this.type = set(customDict, value)
-
-  protected def getWordCount: Map[String, Long] = $$(wordCount)
-  //protected def getCustomDict: Map[String, String] = $$(customDict)
-
-  /** Utilities */
-  /** number of items duplicated in some text */
-  def cartesianProduct[T](xss: List[List[_]]): List[List[_]] = xss match {
-    case Nil => List(Nil)
-    case h :: t => for (xh <- h; xt <- cartesianProduct(t)) yield xh :: xt
-  }
-
-  private def numberOfDups(text: String, id: Int): Int = {
-    var idx = id
-    val initialId = idx
-    val last = text(idx)
-    while (idx+1 < text.length && text(idx+1) == last) {
-      idx += 1
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    annotations.map { token =>
+        val verifiedWord = checkSpellWord(token.result)
+        Annotation(
+          outputAnnotatorType,
+          token.begin,
+          token.end,
+          verifiedWord._1,
+          Map("score"->verifiedWord._2.toString)
+        )
     }
-    idx - initialId
   }
 
-  private def limitDups(text: String, overrideLimit: Option[Int] = None): String = {
-    var dups = 0
-    text.zipWithIndex.collect {
-      case (w, i) =>
-        if (i == 0) {
-          w
-        }
-        else if (w == text(i - 1)) {
-          if (dups < overrideLimit.getOrElse($(dupsLimit))) {
-            dups += 1
-            w
-          } else {
-            ""
-          }
-        } else {
-          dups = 0
-          w
-        }
-    }.mkString("")
+  def checkSpellWord(raw: String): (String, Double) = {
+    val input = Utilities.limitDups($(dupsLimit), raw)
+    logger.debug(s"spell checker target word: $input")
+    val possibility = getBestSpellingSuggestion(input)
+    if (possibility._1.isDefined) return (possibility._1.get, possibility._2)
+
+    val listedSuggestions = suggestions(input)
+    val sortedFrequencies = getSortedWordsByFrequency(listedSuggestions, input)
+    val sortedHamming = getSortedWordsByHamming(listedSuggestions, input)
+    (getResult(sortedFrequencies, sortedHamming, input), 0)
   }
 
-  /** distance measure between two words */
-  private def hammingDistance(word1: String, word2: String): Int =
-    if (word1 == word2) 0
-    else word1.zip(word2).count { case (c1, c2) => c1 != c2 } + (word1.length - word2.length).abs
-
-  /** retrieve frequency */
-  private def getFrequency(word: String, wordCount: Map[String, Long]): Long = {
-    wordCount.getOrElse(word, 0)
-  }
-
-  private def compareFrequencies(value: String): Long = getFrequency(value, $$(wordCount))
-  private def compareHammers(input: String)(value: String): Int = hammingDistance(input, value)
-
-  /** Posibilities analysis */
-  private def variants(targetWord: String): Set[String] = {
-    val splits = (0 to targetWord.length).map(i => (targetWord.take(i), targetWord.drop(i)))
-    val deletes = splits.collect {
-      case (a,b) if b.length > 0 => a + b.tail
-    }
-    val transposes = splits.collect {
-      case (a,b) if b.length > 1 => a + b(1) + b(0) + b.drop(2)
-    }
-    val replaces = splits.collect {
-      case (a, b) if b.length > 0 => alphabet.map(c => a + c + b.tail)
-    }.flatten
-    val inserts = splits.collect {
-      case (a, b) => alphabet.map(c => a + c + b)
-    }.flatten
-    val vars = Set(deletes ++ transposes ++ replaces ++ inserts :_ *)
-    logger.debug("variants proposed: " + vars.size)
-    vars
-  }
-
-  /** variants of variants of a word */
-  private def doubleVariants(word: String): Set[String] =
-    variants(word).flatMap(v => variants(v))
-
-  /** possible variations of the word by removing duplicate letters */
-  /* ToDo: convert logic into an iterator, probably faster */
-  private def reductions(word: String): Set[String] = {
-    val flatWord: List[List[String]] = word.toCharArray.toList.zipWithIndex.collect {
-      case (c, i) =>
-        val n = numberOfDups(word, i)
-        if (n > 0) {
-          (0 to n).map(r => c.toString*r).take($(reductLimit)).toList
-        } else {
-          List(c.toString)
-        }
-    }
-    val reds = cartesianProduct(flatWord).map(_.mkString("")).toSet
-    logger.debug("parsed reductions: " + reds.size)
-    reds
-  }
-
-  /** flattens vowel possibilities */
-  private def vowelSwaps(word: String): Set[String] = {
-    if (word.length > $(vowelSwapLimit)) return Set.empty[String]
-    val flatWord: List[List[Char]] = word.toCharArray.collect {
-      case c => if (vowels.contains(c)) {
-        vowels.toList
-      } else {
-        List(c)
-      }
-    }.toList
-    val vswaps = cartesianProduct(flatWord).map(_.mkString("")).toSet
-    logger.debug("vowel swaps: " + vswaps.size)
-    vswaps
-  }
-
-  private def both(word: String): Set[String] = {
-    reductions(word).flatMap(vowelSwaps)
-  }
-
-  private def getBestSpellingSuggestion(word: String): Option[String] = {
+  private def getBestSpellingSuggestion(word: String): (Option[String], Double) = {
     var suggestedWord: Option[String] = None
     if ($(shortCircuit)) {
       suggestedWord = getShortCircuitSuggestion(word)
     } else {
       suggestedWord = getSuggestion(word: String)
     }
-    //TODO: Get frequency of the word before returning
-    val frequency = getFrequency(suggestedWord.getOrElse("null"), $$(wordCount))
-    val score = normalizeValue(frequency)
-    println("score for word " + suggestedWord.getOrElse("null") + ":" + score)
-    suggestedWord
+    val score = getScoreFrequency(suggestedWord.getOrElse(""))
+    (suggestedWord, score)
   }
 
   private def getShortCircuitSuggestion(word: String): Option[String] = {
-    if (allWords.intersect(reductions(word)).nonEmpty) Some(word)
-    else if (allWords.intersect(vowelSwaps(word)).nonEmpty) Some(word)
-    else if (allWords.intersect(variants(word)).nonEmpty) Some(word)
+    if (allWords.intersect(Utilities.reductions(word, $(reductLimit))).nonEmpty) Some(word)
+    else if (allWords.intersect(Utilities.vowelSwaps(word, $(vowelSwapLimit))).nonEmpty) Some(word)
+    else if (allWords.intersect(Utilities.variants(word)).nonEmpty) Some(word)
     else if (allWords.intersect(both(word)).nonEmpty) Some(word)
-    else if ($(doubleVariants) && allWords.intersect(doubleVariants(word)).nonEmpty) Some(word)
+    else if ($(doubleVariants) && allWords.intersect(computeDoubleVariants(word)).nonEmpty) Some(word)
     else None
   }
+
+  /** variants of variants of a word */
+  def computeDoubleVariants(word: String): Set[String] = Utilities.variants(word).flatMap(variant =>
+    Utilities.variants(variant))
 
   private def getSuggestion(word: String): Option[String] = {
     if (allWords.contains(word)) {
@@ -208,7 +116,12 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     } else None
   }
 
-  def normalizeValue(value: Long): Double = {
+  def getScoreFrequency(word: String): Double = {
+    val frequency = Utilities.getFrequency(word, $$(wordCount))
+    normalizeFrequencyValue(frequency)
+  }
+
+  def normalizeFrequencyValue(value: Long): Double = {
     if (value > frequencyBoundaryValues._2) {
       return 1
     }
@@ -222,59 +135,60 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   private def suggestions(word: String): List[String] = {
     val intersectedPossibilities = allWords.intersect({
       val base =
-        reductions(word) ++
-          vowelSwaps(word) ++
-          variants(word) ++
+        Utilities.reductions(word, $(reductLimit)) ++
+          Utilities.vowelSwaps(word, $(vowelSwapLimit)) ++
+          Utilities.variants(word) ++
           both(word)
-      if ($(doubleVariants)) base ++ doubleVariants(word) else base
+      if ($(doubleVariants)) base ++ computeDoubleVariants(word) else base
     })
     if (intersectedPossibilities.nonEmpty) intersectedPossibilities.toList
     else List.empty[String]
   }
 
-  def check(raw: String): String = {
-    val input = limitDups(raw)
-    logger.debug(s"spell checker target word: $input")
-    val possibility = getBestSpellingSuggestion(input)
-    if (possibility.isDefined) return possibility.get
-    val listedSuggestions = suggestions(input)
-    val sortedFreq = listedSuggestions.filter(_.length >= input.length).sortBy(compareFrequencies).takeRight($(intersections))
-    logger.debug(s"recommended by frequency: ${sortedFreq.mkString(", ")}")
-    val sortedHamm = listedSuggestions.sortBy(compareHammers(input)).takeRight($(intersections))
-    logger.debug(s"recommended by hamming: ${sortedHamm.mkString(", ")}")
-    val intersect = sortedFreq.intersect(sortedHamm)
-    /* Picking algorithm */
-    val result =
-      if (sortedFreq.isEmpty && sortedHamm.isEmpty) {
-        logger.debug("no intersection or frequent words found")
-        input
-      } else if (sortedFreq.isEmpty || sortedHamm.isEmpty) {
-        logger.debug("no intersection but one recommendation found")
-        (sortedFreq ++ sortedHamm).last
-      } else if (intersect.nonEmpty) {
-        logger.debug("hammer and frequency recommendations found")
-        intersect.last
-      } else {
-        logger.debug("no intersection of hammer and frequency")
-        Seq(sortedFreq.last, sortedHamm.last).maxBy(w => compareFrequencies(w) * compareHammers(input)(w))
-      }
-    logger.debug(s"Received: $input. Best correction is: $result. " +
-      s"Because frequency was ${compareFrequencies(result)} " +
-      s"and hammer score is ${compareHammers(input)(result)}")
-    result
+  private def both(word: String): Set[String] = {
+    Utilities.reductions(word, $(reductLimit)).flatMap(reduction => Utilities.vowelSwaps(reduction, $(vowelSwapLimit)))
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { token =>
-        Annotation(
-          outputAnnotatorType,
-          token.begin,
-          token.end,
-          check(token.result),
-          token.metadata
-        )
+  def getSortedWordsByFrequency(words: List[String], input: String): List[(String, Long)] = {
+    val filteredWords = words.filter(_.length >= input.length)
+    val sortedWordsByFrequency = filteredWords.map(word => (word, compareFrequencies(word)))
+      .sortBy(_._2).takeRight($(intersections))
+    logger.debug(s"recommended by frequency: ${sortedWordsByFrequency.mkString(", ")}")
+    sortedWordsByFrequency
+  }
+
+  def getSortedWordsByHamming(words: List[String], input: String): List[(String, Long)] = {
+    val sortedWordByHamming = words.map(word => (word, compareHammers(input)(word)))
+      .sortBy(_._2).takeRight($(intersections))
+    logger.debug(s"recommended by hamming: ${sortedWordByHamming.mkString(", ")}")
+    sortedWordByHamming
+  }
+
+  def getResult(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)], input: String):
+  String = {
+    val intersectWords = wordsByFrequency.map(word => word._1).intersect(wordsByHamming.map(word => word._1))
+    if (wordsByFrequency.isEmpty && wordsByHamming.isEmpty) {
+      logger.debug("no intersection or frequent words found")
+      input
+    } else if (wordsByFrequency.isEmpty || wordsByHamming.isEmpty) {
+      logger.debug("no intersection but one recommendation found")
+      (wordsByFrequency ++ wordsByHamming).last._1
+    } else if (intersectWords.nonEmpty) {
+      logger.debug("hammer and frequency recommendations found")
+      val wordsByFrequencyAndHamming = intersectWords.map{word =>
+        val frequency = wordsByFrequency.find(_._1 == word).get._2
+        val hamming = wordsByHamming.find(_._1 == word).get._2
+        (word, frequency * hamming)
+      }
+      wordsByFrequencyAndHamming.maxBy(_._2)._1
+    } else {
+      logger.debug("no intersection of hammer and frequency")
+      Seq(wordsByFrequency.last._1, wordsByHamming.last._1).maxBy{word =>
+        compareFrequencies(word) * compareHammers(input)(word)
+      }
     }
   }
+
 }
 
 trait PretrainedNorvigSweeting {

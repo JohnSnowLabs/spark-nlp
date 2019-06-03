@@ -66,7 +66,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
   }
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
-    s"spell checker" should s"correctly correct words" in {
+    s"spell checker" should s"correctly correct words" ignore {
 
       val trainBigDataSet = getTrainDataSet("src/test/resources/spell/")
       val spellChecker = new NorvigSweetingApproach()
@@ -75,7 +75,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
         .setDictionary("src/test/resources/spell/words.txt")
         .fit(trainBigDataSet)
 
-      val result = wordAnswer.count(wa => spellChecker.check(wa._1) == wa._2) / wordAnswer.length.toDouble
+      val result = wordAnswer.count(wa => spellChecker.checkSpellWord(wa._1)._1 == wa._2) / wordAnswer.length.toDouble
       assert(result > 0.95, s"because result: $result did was below: 0.95")
     }
   }
@@ -145,6 +145,20 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
       }
 
       assert(caught.getMessage == expectedErrorMessage)
+    }
+  }
+
+  def includeScoreOnMetadata(): Unit = {
+    "" should "include score on metadata" in {
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          normalizer,
+          spell
+        ))
+      val model = pipeline.fit(trainDataSet)
+      model.transform(predictionDataSet).select("spell").show(false)
     }
   }
 
