@@ -63,14 +63,14 @@
 .header__brand {
   @include flexbox();
   @include align-items(center);
-  & > svg {
-    width: map-get($base, font-size-h4) * 1.6;
-    height: map-get($base, font-size-h4) * 1.6;
+  & > a > svg {
+    width: map-get($base, font-size-h4) * 12.6;
+    height: map-get($base, font-size-h4) * 12.6;
     margin-right: map-get($spacers, 3);
     vertical-align: middle;
     @include media-breakpoint-down(md) {
-      width: map-get($base, font-size-h4) * 1.2;
-      height: map-get($base, font-size-h4) * 1.2;
+      width: map-get($base, font-size-h4) * 12.2;
+      height: map-get($base, font-size-h4) * 12.2;
     }
   }
   & > a {
