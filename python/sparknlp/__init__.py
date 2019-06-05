@@ -40,14 +40,14 @@ def start(include_ocr=False):
 
     if include_ocr:
         builder \
-            .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.7,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.7,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+            .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.8,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.8,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
             .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
 
     else:
-        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.7") \
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.8") \
 
     return builder.getOrCreate()
 
 
 def version():
-    print('2.0.7')
+    print('2.0.8')
