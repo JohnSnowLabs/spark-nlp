@@ -1,4 +1,19 @@
 ========
+2.0.8
+========
+---------------
+Overview
+---------------
+This release fixes a few tiny but meaningful issues that prevent from new trained models having internal compatibility issues.
+
+---------------
+Bugfixes
+---------------
+* Fixed wrong logic when checking embeddingsRef is being overwritten in a WordEmbeddingsModel
+* Deleted unnecessary chunk index from tokens
+* Fixed some of the new trained models compatibility issues when python API had mismatching pretrained models compared to scala
+
+========
 2.0.7
 ========
 ---------------

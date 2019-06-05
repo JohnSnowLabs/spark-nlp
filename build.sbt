@@ -16,7 +16,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.0.7"
+version := "2.0.8"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -178,7 +178,7 @@ assemblyMergeStrategy in assembly := {
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "2.0.7",
+    version := "2.0.8",
 
     test in assembly := {},
 
