@@ -51,9 +51,6 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     (min, max)
   }
 
-  private def compareFrequencies(value: String): Long = Utilities.getFrequency(value, $$(wordCount))
-  private def compareHammers(input: String)(value: String): Long = Utilities.computeHammingDistance(input, value)
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token =>
         val verifiedWord = checkSpellWord(token.result)
@@ -75,19 +72,24 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
     val listedSuggestions = suggestions(input)
     val sortedFrequencies = getSortedWordsByFrequency(listedSuggestions, input)
+    if (sortedFrequencies.length > 1) {
+      println("debug")
+    }
     val sortedHamming = getSortedWordsByHamming(listedSuggestions, input)
-    (getResult(sortedFrequencies, sortedHamming, input), 0)
+    getResult(sortedFrequencies, sortedHamming, input)
   }
 
   private def getBestSpellingSuggestion(word: String): (Option[String], Double) = {
+    var score: Double = 0
     var suggestedWord: Option[String] = None
     if ($(shortCircuit)) {
       suggestedWord = getShortCircuitSuggestion(word)
+      score = getScoreFrequency(suggestedWord.getOrElse(""))
+      (suggestedWord, score)
     } else {
-      suggestedWord = getSuggestion(word: String)
+      val suggestions = getSuggestion(word: String)
+      (suggestions._1, suggestions._2)
     }
-    val score = getScoreFrequency(suggestedWord.getOrElse(""))
-    (suggestedWord, score)
   }
 
   private def getShortCircuitSuggestion(word: String): Option[String] = {
@@ -103,20 +105,24 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def computeDoubleVariants(word: String): Set[String] = Utilities.variants(word).flatMap(variant =>
     Utilities.variants(variant))
 
-  private def getSuggestion(word: String): Option[String] = {
+  private def getSuggestion(word: String): (Option[String], Double) = {
     if (allWords.contains(word)) {
       logger.debug("Word found in dictionary. No spell change")
-      Some(word)
+      (Some(word), 1)
     } else if (word.length <= $(wordSizeIgnore)) {
       logger.debug("word ignored because length is less than wordSizeIgnore")
-      Some(word)
+      (Some(word), 0)
     } else if (allWords.contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
-      Some(word.distinct)
-    } else None
+      val score = getScoreFrequency(word.distinct)
+      (Some(word.distinct), score)
+    } else (None, -1)
   }
 
   def getScoreFrequency(word: String): Double = {
+    if (word == "") {
+      return -1
+    }
     val frequency = Utilities.getFrequency(word, $$(wordCount))
     normalizeFrequencyValue(frequency)
   }
@@ -157,6 +163,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     sortedWordsByFrequency
   }
 
+  private def compareFrequencies(value: String): Long = Utilities.getFrequency(value, $$(wordCount))
+
   def getSortedWordsByHamming(words: List[String], input: String): List[(String, Long)] = {
     val sortedWordByHamming = words.map(word => (word, compareHammers(input)(word)))
       .sortBy(_._2).takeRight($(intersections))
@@ -164,15 +172,17 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     sortedWordByHamming
   }
 
+  private def compareHammers(input: String)(value: String): Long = Utilities.computeHammingDistance(input, value)
+
   def getResult(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)], input: String):
-  String = {
+  (String, Double) = {
     val intersectWords = wordsByFrequency.map(word => word._1).intersect(wordsByHamming.map(word => word._1))
     if (wordsByFrequency.isEmpty && wordsByHamming.isEmpty) {
       logger.debug("no intersection or frequent words found")
-      input
+      (input, -1)
     } else if (wordsByFrequency.isEmpty || wordsByHamming.isEmpty) {
       logger.debug("no intersection but one recommendation found")
-      (wordsByFrequency ++ wordsByHamming).last._1
+      ((wordsByFrequency ++ wordsByHamming).last._1, 0)
     } else if (intersectWords.nonEmpty) {
       logger.debug("hammer and frequency recommendations found")
       val wordsByFrequencyAndHamming = intersectWords.map{word =>
@@ -180,12 +190,13 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
         val hamming = wordsByHamming.find(_._1 == word).get._2
         (word, frequency * hamming)
       }
-      wordsByFrequencyAndHamming.maxBy(_._2)._1
+      (wordsByFrequencyAndHamming.maxBy(_._2)._1, 0)
     } else {
       logger.debug("no intersection of hammer and frequency")
-      Seq(wordsByFrequency.last._1, wordsByHamming.last._1).maxBy{word =>
+      val word = Seq(wordsByFrequency.last._1, wordsByHamming.last._1).maxBy{word =>
         compareFrequencies(word) * compareHammers(input)(word)
       }
+      (word, 0)
     }
   }
 
