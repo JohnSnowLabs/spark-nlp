@@ -47,7 +47,7 @@ modify_date: "2019-05-29"
 
 ### Multi-language
 
-|Model                         | Name          |   xx    |
+|Model                         | Name          |   Language    |
 |-------------------------------|--------------|--------------|
 |WordEmbeddings (BERT)  | `bert_multi_cased` | [xx](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multi_cased_xx_2.0.3_2.4_1557923470812.zip)
 
