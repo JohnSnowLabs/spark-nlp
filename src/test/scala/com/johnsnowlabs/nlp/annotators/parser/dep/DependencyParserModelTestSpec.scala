@@ -124,6 +124,18 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   "A dependency parser (trained through Universal Dependencies format file) with an input text of one sentence" should
     behave like {
 
+//    val finisher = new Finisher().setInputCols("dependency")
+//
+//    val pipelineConllU = new Pipeline()
+//      .setStages(Array(
+//        documentAssembler,
+//        sentenceDetector,
+//        tokenizer,
+//        posTagger,
+//        dependencyParserConllU,
+//        finisher
+//      ))
+
     val testDataSet = Seq(
       "So what happened?",
       "It should continue to be defanged.",
