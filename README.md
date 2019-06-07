@@ -231,7 +231,7 @@ pip install spark-nlp==2.0.8
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
 
 ```bash
-%python.conda install -c johnsnowlabs spark-nlp
+python.conda install -c johnsnowlabs spark-nlp
 ```
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
