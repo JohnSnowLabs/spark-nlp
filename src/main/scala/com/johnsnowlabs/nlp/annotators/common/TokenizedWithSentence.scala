@@ -12,7 +12,14 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
       .filter(_.annotatorType == annotatorType)
       .toArray
 
-    SentenceSplit.unpack(annotations).map(sentence => {
+    val sentences = SentenceSplit.unpack(annotations)
+
+    /** // Evaluate whether to enable this validation to check proper usage of DOCUMENT and SENTENCE within entire pipelines
+    require(tokens.map(_.metadata.getOrElse("sentence", "0").toInt).distinct.length == sentences.length,
+      "Inconsistencies found in pipeline. Tokens in sentences does not match with sentence count")
+      */
+
+    sentences.map(sentence => {
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
       ).map(token => IndexedToken(token.result, token.begin, token.end))
@@ -25,7 +32,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
     sentences.zipWithIndex.flatMap{case (sentence, index) =>
         sentence.indexedTokens.map{token =>
         Annotation(annotatorType, token.begin, token.end, token.token,
-          Map("sentence" -> index.toString, "chunk" -> index.toString))
+          Map("sentence" -> index.toString))
     }}
   }
 }

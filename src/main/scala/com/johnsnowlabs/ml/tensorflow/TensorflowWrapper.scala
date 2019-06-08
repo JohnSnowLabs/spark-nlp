@@ -19,6 +19,11 @@ class TensorflowWrapper(
   var graph: Array[Byte]
 )  extends Serializable {
 
+  /** For Deserialization */
+  def this() = {
+    this(null, null)
+  }
+
   @transient private var msession: Session = _
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
