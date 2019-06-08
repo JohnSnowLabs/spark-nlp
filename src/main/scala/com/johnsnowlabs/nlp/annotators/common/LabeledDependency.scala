@@ -15,8 +15,8 @@ object LabeledDependency extends Annotated[ConllSentence] {
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
     val conll = unlabeledDependencies.zipWithIndex.map{ case(unlabeledDependency, index) =>
-      val form = unlabeledDependency.result
-      val lemma = unlabeledDependency.result.toLowerCase
+      val form = tokens(index).result
+      val lemma = tokens(index).result.toLowerCase
       val pos = posTagged(index).result
       val head = unlabeledDependency.metadata.getOrElse("head", "-1").toInt
       val sentence = tokens(index).metadata.getOrElse("sentence", "0").toInt
@@ -35,9 +35,8 @@ object LabeledDependency extends Annotated[ConllSentence] {
       val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
         val label = arrangedSentence.deprel
-        val relation = getRelation(arrangedSentence.dependency)
         Annotation(AnnotatorType.LABELED_DEPENDENCY, arrangedSentence.begin, arrangedSentence.end,
-          label, relation)
+          label, Map())
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
@@ -48,13 +47,6 @@ object LabeledDependency extends Annotated[ConllSentence] {
       case (as, h::bs) => h :: as ++ bs
       case _           => xs
     }
-  }
-
-  def getRelation(dependency: String): Map[String, String] = {
-    val beginIndex = dependency.indexOf("(") + 1
-    val endIndex = dependency.indexOf(")")
-    val relation = dependency.substring(beginIndex, endIndex).split(",")
-    Map(relation.head -> relation.last)
   }
 
 }
