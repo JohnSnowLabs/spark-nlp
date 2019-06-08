@@ -9,8 +9,6 @@ case class WordWithDependency(word: String, begin: Int, end: Int, head: Int)
 
 object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
-  private val ROOT_INDEX = -1
-
   override def annotatorType: String = AnnotatorType.DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[DependencyParsedSentence] = {
@@ -41,11 +39,8 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
     items.flatMap{sentence =>
       sentence.tokens.map { token =>
         val headData = getHeadData(token.head, sentence)
-        val headWord = headData.word
-        val word = token.word
-        val relatedWords = s"($headWord, $word)"
         val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
-        Annotation(annotatorType, token.begin, token.end, relatedWords, Map("head" -> realHead.toString,
+        Annotation(annotatorType, token.begin, token.end, headData.word, Map("head" -> realHead.toString,
           "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString))
       }
     }
