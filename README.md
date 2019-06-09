@@ -259,9 +259,9 @@ Alternatively, you can mix in using `--jars` option for pyspark + `pip install s
 If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-Pyspark-installation)
 
 ## Google Colab Notebook
-You can also use spark-nlp on Google Colab to quickly get started with spark-nlp. Only requirement is having a Google account, other than that, no installation is required.
+Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
 
-Run the following code in Google colab notebook and start using spark-nlp right away. 
+Run the following code in Google Colab notebook and start using spark-nlp right away. 
 
 ```bash 
 !apt-get install openjdk-8-jdk-headless -qq > /dev/null
