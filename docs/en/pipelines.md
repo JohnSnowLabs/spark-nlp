@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-05-29"
+modify_date: "2019-06-09"
 ---
 
 ## Pretrained Pipelines
@@ -74,7 +74,7 @@ advancedPipeline.transform(predictionDF)
 {% highlight scala %}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", language="fr")
+val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", lang="fr")
 
 val frenchTestDF = spark.createDataFrame(Seq(
 (0, """
