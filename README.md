@@ -25,6 +25,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
     * [Pip/Conda](#pipconda)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
+  * [Google Colab Notebook](#google-colab-notebook)
   * [S3 Cluster](#s3-cluster)
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
@@ -256,6 +257,31 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.0.8
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
 
 If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-Pyspark-installation)
+
+## Google Colab Notebook
+Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
+
+Run the following code in Google Colab notebook and start using spark-nlp right away. 
+
+```bash 
+!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget -q https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+!tar xf spark-2.4.3-bin-hadoop2.7.tgz
+!pip install -q findspark
+!pip install spark-nlp
+
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["SPARK_HOME"] = "/content/spark-2.4.3-bin-hadoop2.7"
+
+import findspark
+findspark.init()
+
+import sparknlp
+spark = sparknlp.start()
+```
+
+[Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
 
 ## S3 Cluster
 
