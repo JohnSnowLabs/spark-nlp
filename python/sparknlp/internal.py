@@ -47,11 +47,6 @@ class _ConfigLoaderGetter(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj)
 
 
-class _ConfigLoaderSetter(ExtendedJavaWrapper):
-    def __init__(self, path):
-        super(_ConfigLoaderSetter, self).__init__("com.johnsnowlabs.util.ConfigLoader.setConfigPath")
-        self._java_obj = self._new_java_obj(self._java_obj, path)
-
 
 class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language, remote_loc):
