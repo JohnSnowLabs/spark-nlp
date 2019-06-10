@@ -88,11 +88,3 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setInputCols("document", "token")
       .setOutputCol("pos")
 ```
-
-* Loading Offline Pipeline
-
-```scala
-val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
-// To use the loaded Pipeline for prediction
-advancedPipeline.transform(predictionDF)
-```
