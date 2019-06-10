@@ -63,7 +63,7 @@ You can follow this approach to use Spark NLP pretrained models:
 # load NER model trained by deep learning approach and GloVe word embeddings
 ner_dl = NerDLModel.pretrained('ner_dl')
 # load NER model trained by deep learning approach and BERT word embeddings
-ner_crf = NerDLModel.pretrained('ner_dl_bert')
+ner_bert = NerDLModel.pretrained('ner_dl_bert')
 ```
 
 The default language is `en`, so for other laguages you should set the language:
