@@ -22,10 +22,10 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
     * [Maven](#maven)
     * [SBT](#sbt)
   * [Python](#python)
-    * [pip](#pip)
-    * [conda](#conda)
+    * [Pip/Conda](#pipconda)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
+  * [Google Colab Notebook](#google-colab-notebook)
   * [S3 Cluster](#s3-cluster)
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
@@ -40,7 +40,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Apache Spark Support
 
-Spark NLP *2.0.7* has been built on top of Apache Spark 2.4.3
+Spark NLP *2.0.8* has been built on top of Apache Spark 2.4.3
 
 Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
 
@@ -65,18 +65,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.7` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.0.8` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.7
+spark-shell --packages JohnSnowLabs:spark-nlp:2.0.8
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.7
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.8
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.7
+spark-submit --packages JohnSnowLabs:spark-nlp:2.0.8
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -144,7 +144,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.0.7</version>
+    <version>2.0.8</version>
 </dependency>
 ```
 
@@ -155,7 +155,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.0.7</version>
+    <version>2.0.8</version>
 </dependency>
 ```
 
@@ -163,14 +163,14 @@ and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.7"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.0.8"
 ```
 
 and
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.7"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.0.8"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -179,25 +179,20 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 ### Python without explicit Pyspark installation
 
-### Pip
+### Pip/Conda
 
-If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
+If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
 
+Pip:
 ```bash
-pip install spark-nlp==2.0.7
+pip install spark-nlp==2.0.8
 ```
-
-PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
-
-### Conda
-
-If you are using Anaconda/Conda for managing Python packages, you can install `spark-nlp` as follow:
-
+Conda:
 ```bash
 conda install -c johnsnowlabs spark-nlp
 ```
 
-Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
+PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/) / Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
 
 Then you'll have to create a SparkSession manually, for example:
 
@@ -207,7 +202,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","4G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.7")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.8")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -221,7 +216,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.7
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.8
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -231,13 +226,13 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.7
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.0.7
+pip install spark-nlp==2.0.8
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
 
 ```bash
-%python.conda install -c johnsnowlabs spark-nlp
+python.conda install -c johnsnowlabs spark-nlp
 ```
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
@@ -256,12 +251,37 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.7
+pyspark --packages JohnSnowLabs:spark-nlp:2.0.8
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
 
-If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-spark-installation)
+If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-Pyspark-installation)
+
+## Google Colab Notebook
+Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
+
+Run the following code in Google Colab notebook and start using spark-nlp right away. 
+
+```bash 
+!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget -q https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+!tar xf spark-2.4.3-bin-hadoop2.7.tgz
+!pip install -q findspark
+!pip install spark-nlp
+
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["SPARK_HOME"] = "/content/spark-2.4.3-bin-hadoop2.7"
+
+import findspark
+findspark.init()
+
+import sparknlp
+spark = sparknlp.start()
+```
+
+[Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
 
 ## S3 Cluster
 
