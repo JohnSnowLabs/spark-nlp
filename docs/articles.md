@@ -22,6 +22,10 @@ Browse through our collection of articles and blog posts to deepen your knowledg
 
 <div>{%- include extensions/slideshare.html id='zjf39rlmmdqJEp' -%}</div>
 
+### [5 Reasons Why Spark NLP Is The Most Widely Used Library In Enterprises](https://www.analyticsindiamag.com/5-reasons-why-spark-nlp-is-the-most-widely-used-library-in-enterprises/)
+
+By Ambika Choudhury | **May 29, 2019**
+
 ### [Mueller Report for Nerds! Spark meets NLP with TensorFlow and BERT (Part 1)](https://hackernoon.com/mueller-report-for-nerds-spark-meets-nlp-with-tensorflow-and-bert-part-1-32490a8f8f12)
 
 By Maziyar Panahi | **May 1, 2019**
