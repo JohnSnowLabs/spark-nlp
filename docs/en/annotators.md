@@ -395,7 +395,7 @@ The types are:
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
 
-### Tokenizer ([Tokenizer](src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala))
+### Tokenizer ([Tokenizer](/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala))
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
