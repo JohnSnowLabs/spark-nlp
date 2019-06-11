@@ -395,7 +395,7 @@ The types are:
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
 
-### Tokenizer ([Tokenizer](//src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala))
+### Tokenizer ([Tokenizer](src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala))
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
@@ -427,7 +427,7 @@ val tokenizer = new Tokenizer()
     .addInfixPattern("(\p{L}+)(n't\b)")
 {% endhighlight %}
 
-### Normalizer ([Normalizer](//src/main/scala/com/johnsnowlabs/nlp/annotators/Normalizer.scala) | [NormalizerModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/NormalizerModel.scala))
+### Normalizer ([Normalizer](src/main/scala/com/johnsnowlabs/nlp/annotators/Normalizer.scala) | [NormalizerModel](src/main/scala/com/johnsnowlabs/nlp/annotators/NormalizerModel.scala))
 
 #### Text cleaning
 
@@ -454,7 +454,7 @@ val normalizer = new Normalizer()
     .setOutputCol("normalized")
 {% endhighlight %}
 
-### Stemmer ([Stemmer](//src/main/scala/com/johnsnowlabs/nlp/annotators/Stemmer.scala))
+### Stemmer ([Stemmer](src/main/scala/com/johnsnowlabs/nlp/annotators/Stemmer.scala))
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
 **Output type:** Token  
@@ -473,7 +473,7 @@ val stemmer = new Stemmer()
     .setOutputCol("stem")
 {% endhighlight %}
 
-### Lemmatizer ([Lemmatizer](//src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala) | [LemmatizerModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala))
+### Lemmatizer ([Lemmatizer](src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala) | [LemmatizerModel](src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala))
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
 **Output type:** Token  
@@ -499,7 +499,7 @@ val lemmatizer = new Lemmatizer()
     .setDictionary("./lemmas001.txt")
 {% endhighlight %}
 
-### RegexMatcher ([RegexMatcher](//src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcher.scala) | [RegexMatcherModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherModel.scala))
+### RegexMatcher ([RegexMatcher](src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcher.scala) | [RegexMatcherModel](src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherModel.scala))
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
 **Output type:** Regex  
@@ -525,7 +525,7 @@ val regexMatcher = new RegexMatcher()
     .setOutputCol("regex")
 {% endhighlight %}
 
-### TextMatcher ([TextMatcher](//src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcher.scala) | [TextMatcherModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcherModel.scala))
+### TextMatcher ([TextMatcher](src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcher.scala) | [TextMatcherModel](src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcherModel.scala))
 
 #### Phrase matching
 
@@ -556,7 +556,7 @@ val entityExtractor = new TextMatcher()
     .setEntities("/path/to/file/myentities.txt")
 {% endhighlight %}
 
-### Chunker ([Chunker](//src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala) | [ChunkerModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/ChunkerModel.scala))
+### Chunker ([Chunker](src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala) | [ChunkerModel](src/main/scala/com/johnsnowlabs/nlp/annotators/ChunkerModel.scala))
 
 #### Meaningful phrase matching
 
@@ -585,7 +585,7 @@ val chunker = new Chunker()
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
 {% endhighlight %}
 
-### DateMatcher ([DateMatcher](//src/main/scala/com/johnsnowlabs/nlp/annotators/DateMatcher.scala))
+### DateMatcher ([DateMatcher](src/main/scala/com/johnsnowlabs/nlp/annotators/DateMatcher.scala))
 
 #### Date-time parsing
 
@@ -642,7 +642,7 @@ val dateMatcher = new DateMatcher()
     .setOutputCol("date")
 {% endhighlight %}
 
-### SentenceDetector ([SentenceDetector](//src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala))
+### SentenceDetector ([SentenceDetector](src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala))
 
 #### Sentence Boundary Detector
 
@@ -670,7 +670,7 @@ val sentenceDetector = new SentenceDetector()
     .setOutputCol("sentence")
 {% endhighlight %}
 
-### DeepSentenceDetector ([DeepSentenceDetector](//src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala))
+### DeepSentenceDetector ([DeepSentenceDetector](src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala))
 
 #### Sentence Boundary Detector with Machine Learning
 
@@ -700,7 +700,7 @@ val deepSentenceDetector = new DeepSentenceDetector()
     .setEndPunctuation(Array(".", "?"))
 {% endhighlight %}
 
-### POSTagger ([PerceptronApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronApproach.scala) | [PerceptronModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronModel.scala))
+### POSTagger ([PerceptronApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronApproach.scala) | [PerceptronModel](src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronModel.scala))
 
 #### Part of speech tagger
 
@@ -730,7 +730,7 @@ val posTagger = new PerceptronApproach()
     .fit(trainPOS)
 {% endhighlight %}
 
-### ViveknSentimentDetector ([ViveknSentimentApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala) | [ViveknSentimentModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala))
+### ViveknSentimentDetector ([ViveknSentimentApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala) | [ViveknSentimentModel](src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala))
 
 #### Sentiment analysis
 
@@ -762,7 +762,7 @@ val sentimentDetector = new ViveknSentimentApproach()
         .setCorpusPrune(false)
 {% endhighlight %}
 
-### SentimentDetector: Sentiment analysis ([SentimentDetector](//src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala) | [SentimentDetectorModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala))
+### SentimentDetector: Sentiment analysis ([SentimentDetector](src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala) | [SentimentDetectorModel](src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala))
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
@@ -798,16 +798,16 @@ val sentimentDetector = new SentimentDetector
     .setOutputCol("sentiment")
 {% endhighlight %}
 
-### Word Embeddings ([WordEmbeddings](//src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](//src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala))
+### Word Embeddings ([WordEmbeddings](src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala))
 
 Word Embeddings lookup annotator that maps tokens to vectors  
 **Output type:** Word_Embeddings  
 **Input types:** Document, Token  
 **Functions:**
 
-- setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:  
+- setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:
   1 - spark-nlp format.  
-  2 - text. This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)  
+  2 - text. This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
   3 - binary. This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
 - setCaseSensitive: whether to ignore case in tokens for embeddings matching
 
@@ -828,13 +828,13 @@ wordEmbeddings = new WordEmbeddings()
         100, WordEmbeddingsFormat.TEXT)
 {% endhighlight %}
 
-### Bert Embeddings ([BertEmbeddings](//src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala))
+### Bert Embeddings ([BertEmbeddings](src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala))
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
 **Output type:** Word_Embeddings  
 **Input types:** Document
 
-### NER CRF  ([NerCrfApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach.scala) | [NerCrfModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfModel.scala))
+### NER CRF  ([NerCrfApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach.scala) | [NerCrfModel](src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfModel.scala))
 
 #### Named Entity Recognition CRF annotator
 
@@ -886,7 +886,7 @@ val nerTagger = new NerCrfApproach()
     .fit(trainNer)
 {% endhighlight %}
 
-### NER DL ([NerDLApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala))
+### NER DL ([NerDLApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala))
 
 #### Named Entity Recognition Deep Learning annotator
 
@@ -933,7 +933,7 @@ val nerTagger = new NerDLApproach()
         .fit(trainNer)
 {% endhighlight %}
 
-### Norvig SpellChecker ([NorvigSweetingApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala))
+### Norvig SpellChecker ([NorvigSweetingApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala))
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token  
@@ -969,7 +969,7 @@ val spellChecker = new NorvigSweetingApproach()
     .fit(trainCorpus)
 {% endhighlight %}
 
-### Symmetric SpellChecker ([SymmetricDeleteApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteApproach.scala) | [SymmetricDeleteModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModel.scala))
+### Symmetric SpellChecker ([SymmetricDeleteApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteApproach.scala) | [SymmetricDeleteModel](src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModel.scala))
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
@@ -1003,7 +1003,7 @@ This spell checker utilizes tensorflow to do context based spell checking. At th
 **Output type:** Token  
 **Input types:** Tokenizer    
 
-### Dependency Parser  ([DependencyParserApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach.scala) | [DependencyParserModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel.scala))
+### Dependency Parser  ([DependencyParserApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach.scala) | [DependencyParserModel](src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel.scala))
 
 #### Unlabeled grammatical relation
 
@@ -1034,7 +1034,7 @@ val dependencyParser = new DependencyParserApproach()
     .setNumberOfIterations(10)
 {% endhighlight %}
 
-### Typed Dependency Parser ([TypedDependencyParserApproach](//src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach.scala) | [TypedDependencyParserModel](//src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel.scala))
+### Typed Dependency Parser ([TypedDependencyParserApproach](src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach.scala) | [TypedDependencyParserModel](src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel.scala))
 
 #### Labeled grammatical relation
 
