@@ -556,7 +556,7 @@ val entityExtractor = new TextMatcher()
     .setEntities("/path/to/file/myentities.txt")
 {% endhighlight %}
 
-### Chunker ([Chunker](/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala) | [ChunkerModel](/src/main/scala/com/johnsnowlabs/nlp/annotators/ChunkerModel.scala))
+### Chunker ([Chunker](/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala))
 
 #### Meaningful phrase matching
 
@@ -700,7 +700,7 @@ val deepSentenceDetector = new DeepSentenceDetector()
     .setEndPunctuation(Array(".", "?"))
 {% endhighlight %}
 
-### POSTagger ([PerceptronApproach](/src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronApproach.scala) | [PerceptronModel](/src/main/scala/com/johnsnowlabs/nlp/annotators/pos.perceptron/PerceptronModel.scala))
+### POSTagger ([PerceptronApproach](/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach.scala) | [PerceptronModel](/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel.scala))
 
 #### Part of speech tagger
 
