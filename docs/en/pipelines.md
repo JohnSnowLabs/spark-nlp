@@ -25,13 +25,17 @@ modify_date: "2019-06-12"
 | ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Explain Document Large  | `explain_document_lg` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_fr_2.0.2_2.4_1559054673712.zip) |
 | Explain Document Medium | `explain_document_md` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_fr_2.0.2_2.4_1559118515465.zip) |
+| Entity Recognizer Large | `entity_recognizer_lg` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_fr_2.0.8_2.4_1560367295894.zip) |
+| Entity Recognizer Medium | `entity_recognizer_md` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_fr_2.0.8_2.4_1560368417326.zip) |
 
 ### Italian
 
 | Pipelines               | Name                  | Language                                                                                                                 |
 | ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Explain Document Large  | `explain_document_lg`  | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_it_2.0.8_2.4_1560346123709.zip)  |
-
+| Explain Document Medium | `explain_document_md`  | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_it_2.0.8_2.4_1560368705919.zip)  |
+| Entity Recognizer Large | `entity_recognizer_lg` | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_it_2.0.8_2.4_1560368922718.zip) |
+| Entity Recognizer Medium | `entity_recognizer_md` | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_it_2.0.8_2.4_1560370005870.zip) |
 
 #### French pipelines (explain_document) include
 
