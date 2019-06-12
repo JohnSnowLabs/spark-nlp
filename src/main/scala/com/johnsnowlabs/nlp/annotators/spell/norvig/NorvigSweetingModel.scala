@@ -59,7 +59,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
           token.begin,
           token.end,
           verifiedWord._1,
-          Map("score"->verifiedWord._2.toString)
+          Map("confidence"->verifiedWord._2.toString)
         )
     }
   }
