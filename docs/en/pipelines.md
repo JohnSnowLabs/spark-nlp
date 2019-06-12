@@ -26,6 +26,13 @@ modify_date: "2019-06-09"
 | Explain Document Large  | `explain_document_lg` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_fr_2.0.2_2.4_1559054673712.zip) |
 | Explain Document Medium | `explain_document_md` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_fr_2.0.2_2.4_1559118515465.zip) |
 
+### Italian
+
+| Pipelines               | Name                  | Language                                                                                                                 |
+| ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Explain Document Large  | `explain_document_lg`  | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_it_2.0.8_2.4_1560346123709.zip)  |
+
+
 #### French pipelines (explain_document) include
 
 * Toenization (French UD style)
