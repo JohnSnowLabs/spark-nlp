@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-05-29"
+modify_date: "2019-06-09"
 ---
 
 ## Pretrained Pipelines
@@ -15,6 +15,9 @@ modify_date: "2019-05-29"
 | Explain Document ML  | `explain_document_ml`  | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.2_2.4_1556661821108.zip)  |
 | Explain Document DL  | `explain_document_dl`  | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)  |
 | Entity Recognizer DL | `entity_recognizer_dl` | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip) |
+| Spell Check DL | `spellcheck_dl` | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_2.0.2_2.4_1556479898829.zip)
+| Analyze Sentiment ML | `analyze_sentiment_ml` | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_ml_en_2.0.0_2.4_1553538566020.zip)
+| Dependency Parse | `dependency_parse` | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_2.0.2_2.4_1559024638093.zip)
 
 ### French
 
@@ -74,7 +77,7 @@ advancedPipeline.transform(predictionDF)
 {% highlight scala %}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", language="fr")
+val frenchExplainDocumentPipeline = PretrainedPipeline("explain_document_lg", lang="fr")
 
 val frenchTestDF = spark.createDataFrame(Seq(
 (0, """
