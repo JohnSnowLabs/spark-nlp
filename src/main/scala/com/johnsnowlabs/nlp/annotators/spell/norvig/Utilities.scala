@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
 import org.slf4j.LoggerFactory
+import scala.util.Random
 
 object Utilities {
 
@@ -106,6 +107,14 @@ object Utilities {
     val vswaps = Utilities.cartesianProduct(flatWord).map(_.mkString("")).toSet
     logger.debug("vowel swaps: " + vswaps.size)
     vswaps
+  }
+
+  def getRandomValueFromList[A](list: List[A]): Option[A] = {
+    list.lift(Random.nextInt(list.size))
+  }
+
+  def computeConfidenceValue[A](list: List[A]): Double = {
+    1 / list.length.toDouble
   }
 
 }

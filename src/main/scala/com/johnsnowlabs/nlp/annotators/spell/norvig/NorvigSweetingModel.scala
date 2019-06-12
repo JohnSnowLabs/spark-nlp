@@ -72,20 +72,16 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
     val listedSuggestions = suggestions(input)
     val sortedFrequencies = getSortedWordsByFrequency(listedSuggestions, input)
-    if (sortedFrequencies.length > 1) {
-      println("debug")
-    }
     val sortedHamming = getSortedWordsByHamming(listedSuggestions, input)
     getResult(sortedFrequencies, sortedHamming, input)
   }
 
   private def getBestSpellingSuggestion(word: String): (Option[String], Double) = {
     var score: Double = 0
-    var suggestedWord: Option[String] = None
     if ($(shortCircuit)) {
-      suggestedWord = getShortCircuitSuggestion(word)
-      score = getScoreFrequency(suggestedWord.getOrElse(""))
-      (suggestedWord, score)
+      val suggestedWord = getShortCircuitSuggestion(word).getOrElse(word)
+      score = getScoreFrequency(suggestedWord)
+      (Some(suggestedWord), score)
     } else {
       val suggestions = getSuggestion(word: String)
       (suggestions._1, suggestions._2)
@@ -176,28 +172,79 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   def getResult(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)], input: String):
   (String, Double) = {
+    var recommendation: (Option[String], Double) = (None, 0)
     val intersectWords = wordsByFrequency.map(word => word._1).intersect(wordsByHamming.map(word => word._1))
     if (wordsByFrequency.isEmpty && wordsByHamming.isEmpty) {
       logger.debug("no intersection or frequent words found")
-      (input, -1)
+      recommendation = (Some(input), 0)
     } else if (wordsByFrequency.isEmpty || wordsByHamming.isEmpty) {
       logger.debug("no intersection but one recommendation found")
-      ((wordsByFrequency ++ wordsByHamming).last._1, 0)
+      recommendation = getRecommendation(wordsByFrequency, wordsByHamming)
     } else if (intersectWords.nonEmpty) {
       logger.debug("hammer and frequency recommendations found")
-      val wordsByFrequencyAndHamming = intersectWords.map{word =>
-        val frequency = wordsByFrequency.find(_._1 == word).get._2
-        val hamming = wordsByHamming.find(_._1 == word).get._2
-        (word, frequency * hamming)
-      }
-      (wordsByFrequencyAndHamming.maxBy(_._2)._1, 0)
+      val frequencyAndHammingRecommendation = getFrequencyAndHammingRecommendation(wordsByFrequency, wordsByHamming,
+        intersectWords)
+      recommendation = (frequencyAndHammingRecommendation._1, frequencyAndHammingRecommendation._2)
     } else {
       logger.debug("no intersection of hammer and frequency")
-      val word = Seq(wordsByFrequency.last._1, wordsByHamming.last._1).maxBy{word =>
-        compareFrequencies(word) * compareHammers(input)(word)
-      }
-      (word, 0)
+      recommendation = getFrequencyOrHammingRecommendation(wordsByFrequency, wordsByHamming, input)
     }
+    (recommendation._1.getOrElse(input), recommendation._2)
+  }
+
+  private def getRecommendation(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)]) = {
+    if (wordsByFrequency.nonEmpty) {
+      getResultByFrequency(wordsByFrequency)
+    } else {
+      getResultByHamming(wordsByHamming)
+    }
+  }
+
+  private def getFrequencyAndHammingRecommendation(wordsByFrequency: List[(String, Long)],
+                                                   wordsByHamming: List[(String, Long)],
+                                                   intersectWords: List[String]): (Option[String], Double) = {
+    val wordsByFrequencyAndHamming = intersectWords.map{word =>
+      val frequency = wordsByFrequency.find(_._1 == word).get._2
+      val hamming = wordsByHamming.find(_._1 == word).get._2
+      (word, frequency, hamming)
+    }
+    val bestFrequencyValue = wordsByFrequencyAndHamming.maxBy(_._2)._2
+    val bestHammingValue = wordsByFrequencyAndHamming.minBy(_._3)._3
+    val bestRecommendations = wordsByFrequencyAndHamming.filter(word =>
+      word._2 == bestFrequencyValue && word._3 == bestHammingValue)
+    if (bestRecommendations.nonEmpty) {
+      val result = (Utilities.getRandomValueFromList(bestRecommendations),
+                    Utilities.computeConfidenceValue(bestRecommendations))
+      (Some(result._1.get._1), result._2)
+    } else {
+      (Some(wordsByFrequencyAndHamming.sortBy(_._2).reverse.minBy(_._3)._1), 1.toDouble)
+    }
+  }
+
+  def getResultByFrequency(wordsByFrequency: List[(String, Long)]): (Option[String], Double) = {
+    val bestFrequencyValue = wordsByFrequency.maxBy(_._2)._2
+    val bestRecommendations = wordsByFrequency.filter(_._2 == bestFrequencyValue).map(_._1)
+    (Utilities.getRandomValueFromList(bestRecommendations), Utilities.computeConfidenceValue(bestRecommendations))
+  }
+
+  def getResultByHamming(wordsByHamming: List[(String, Long)]): (Option[String], Double) = {
+    val bestHammingValue = wordsByHamming.minBy(_._2)._2
+    val bestRecommendations = wordsByHamming.filter(_._2 == bestHammingValue).map(_._1)
+    (Utilities.getRandomValueFromList(bestRecommendations), Utilities.computeConfidenceValue(bestRecommendations))
+  }
+
+  def getFrequencyOrHammingRecommendation(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)],
+                                          input: String): (Option[String], Double) = {
+    val frequencyResult: String = getResultByFrequency(wordsByFrequency)._1.getOrElse(input)
+    val hammingResult: String = getResultByHamming(wordsByHamming)._1.getOrElse(input)
+    var result =  List(frequencyResult, hammingResult)
+    if (frequencyResult == input) {
+      result = List (hammingResult)
+    } else if (hammingResult == input) {
+      result = List (frequencyResult)
+    }
+
+    (Utilities.getRandomValueFromList(result), Utilities.computeConfidenceValue(result))
   }
 
 }
