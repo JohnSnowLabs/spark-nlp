@@ -37,13 +37,15 @@ modify_date: "2019-06-10"
 |----------------------------------|-----------|--------------|
 |LemmatizerModel (Lemmatizer)      |`lemma_dxc`| [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_dxc_it_2.0.2_2.4_1556531469058.zip)
 |SentimentDetector (Sentiment)     |  `sentiment_dxc`      | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_dxc_it_2.0.2_2.4_1556531477694.zip)
+|PerceptronModel (POS UD)      |`pos_ud_isdt`| [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_isdt_it_2.0.8_2.4_1560168427464.zip)
+|NerDLModel (NER with glove_840B_300)| `ner_dl_lg`|[it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_lg_it_2.0.8_2.4_1560344573823.zip)
 
 ### French
 
 | Model                         | Name         |   Language    |
-|-------------------------------|--------------|--------------|
-|PerceptronModel (POS UD)       | `pos_ud_gsd` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
+|-------------------------------|--------------|---------------|
 |LemmatizerModel (Lemmatizer)| `lemma`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
+|PerceptronModel (POS UD)       | `pos_ud_gsd` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
 |NerDLModel (NER with glove_840B_300)| `ner_dl_lg`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_lg_fr_2.0.2_2.4_1558826556431.zip)
 |NerDLModel (NER with glove_6B_300)| `ner_dl_md`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_md_fr_2.0.2_2.4_1559117359574.zip)
 
