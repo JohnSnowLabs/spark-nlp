@@ -31,6 +31,14 @@ modify_date: "2019-06-12"
 |DependencyParser (Dependency)        |    `dependency_conllu`    | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_2.0.2_2.4_1556649770312.zip)
 |TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    | [en](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_typed_conllu_en_2.0.2_2.4_1556656204957.zip)
 
+### French
+
+| Model                         | Name         |   Language    |
+|-------------------------------|--------------|---------------|
+|LemmatizerModel (Lemmatizer)| `lemma`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
+|PerceptronModel (POS UD)       | `pos_ud_gsd` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
+|NerDLModel (glove_6B_300 and glove_840B_300)| `ner_dl`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_contrib_fr_2.0.2_2.4_1558826556431.zip)
+
 ### Italian
 
 | Model                            | Name      |   Language    |
@@ -39,14 +47,6 @@ modify_date: "2019-06-12"
 |SentimentDetector (Sentiment)     |  `sentiment_dxc`      | [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_dxc_it_2.0.2_2.4_1556531477694.zip)
 |PerceptronModel (POS UD)      |`pos_ud_isdt`| [it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_isdt_it_2.0.8_2.4_1560168427464.zip)
 |NerDLModel (glove_6B_300 and glove_840B_300)| `ner_dl`|[it](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_contrib_it_2.0.8_2.4_1560344573823.zip)
-
-### French
-
-| Model                         | Name         |   Language    |
-|-------------------------------|--------------|---------------|
-|LemmatizerModel (Lemmatizer)| `lemma`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)
-|PerceptronModel (POS UD)       | `pos_ud_gsd` | [fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)
-|NerDLModel (glove_6B_300 and glove_840B_300)| `ner_dl`|[fr](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_contrib_fr_2.0.2_2.4_1558826556431.zip)
 
 ### Multi-language
 
