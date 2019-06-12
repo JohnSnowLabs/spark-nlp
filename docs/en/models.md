@@ -3,7 +3,7 @@ layout: article
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2019-06-10"
+modify_date: "2019-06-12"
 ---
 
 ## Pretrained Models

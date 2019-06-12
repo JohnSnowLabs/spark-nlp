@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-06-09"
+modify_date: "2019-06-12"
 ---
 
 ## Pretrained Pipelines
