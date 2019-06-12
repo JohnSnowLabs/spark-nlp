@@ -151,7 +151,7 @@ from sparknlp.annotator import *
 from sparknlp.common import *
 from sparknlp.base import *
 from pyspark.ml import Pipeline
-documentAssembler = new DocumentAssembler() \
+documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 {% endhighlight %}
