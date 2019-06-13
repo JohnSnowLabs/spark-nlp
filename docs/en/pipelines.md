@@ -4,9 +4,6 @@ title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
 modify_date: "2019-06-13"
-header:
-        theme: dark
-        background: "#2980b9"
 ---
 
 ## English
