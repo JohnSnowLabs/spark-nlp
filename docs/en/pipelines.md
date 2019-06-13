@@ -193,8 +193,7 @@ annotation: org.apache.spark.sql.DataFrame = [id: bigint, text: string ... 8 mor
 
 annotation.select("entities.result").show(false)
 
-/*
-+-------------------------------------------------------------------------------------------------------------+
+/*+-------------------------------------------------------------------------------------------------------------+
 |result                                                                                                       |
 +-------------------------------------------------------------------------------------------------------------+
 |[Quentin Tarantino]                                                                                          |
@@ -283,11 +282,12 @@ annotation.show()
 annotation.select("entities.result").show(false)
 
 /*
-|result                                                                                                          |
-+----------------------------------------------------------------------------------------------------------------+
-|[Quentin Tarantino]                                                                                             |
-|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, au CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
-+----------------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------+
+|result                                                                                                       |
++-------------------------------------------------------------------------------------------------------------+
+|[Quentin Tarantino]                                                                                          |
+|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
++-------------------------------------------------------------------------------------------------------------+
 */
 
 {% endhighlight %}
@@ -301,7 +301,7 @@ import com.johnsnowlabs.nlp.SparkNLP
 
 SparkNLP.version()
 
-val pipeline = PretrainedPipeline("entity_recognizer_lg", lang="fr")
+val pipeline = PretrainedPipeline("entity_recognizer_md", lang="fr")
 
 val testData = spark.createDataFrame(Seq(
 (1, "Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise."),
@@ -323,7 +323,7 @@ annotation.show()
 
 annotation.select("entities.result").show(false)
 
-/*
+/*+-------------------------------------------------------------------------------------------------------------+
 |result                                                                                                          |
 +----------------------------------------------------------------------------------------------------------------+
 |[Quentin Tarantino]                                                                                             |
