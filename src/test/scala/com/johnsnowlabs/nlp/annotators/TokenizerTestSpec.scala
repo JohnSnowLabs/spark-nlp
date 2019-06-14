@@ -52,8 +52,8 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   val lsl = ls.length
 
   val targetText3 = s"I'd      like to say${ls}we didn't${ls+ls}" +
-    s" expect that. ${ls+ls} " +
-    s"Jane's\\nboyfriend.${ls+ls}"
+    s" expect\nthat. ${ls+ls} " +
+    s"Jane's\\nboyfriend\tsaid.${ls+ls}"
   val expected3 = Array(
     Annotation(AnnotatorType.TOKEN, 0, 0, "I", Map("sentence" -> "0")),
     Annotation(AnnotatorType.TOKEN, 1, 2, "'d", Map("sentence" -> "0")),
@@ -69,6 +69,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 39+5+(lsl*5), 42+5+(lsl*5), "Jane", Map("sentence" -> "0")),
     Annotation(AnnotatorType.TOKEN, 43+5+(lsl*5), 44+5+(lsl*5), "'s", Map("sentence" -> "0")),
     Annotation(AnnotatorType.TOKEN, 46+5+(lsl*5), 54+5+(lsl*5), "boyfriend", Map("sentence" -> "0")),
+    Annotation(AnnotatorType.TOKEN, 46+5+(lsl*5), 54+5+(lsl*5), "said", Map("sentence" -> "0")),
     Annotation(AnnotatorType.TOKEN, 56+5+(lsl*5), 56+5+(lsl*5), ".", Map("sentence" -> "0"))
   )
 
@@ -87,7 +88,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" ignore {
 
     val data = DataBuilder.basicDataBuild(targetText1)
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
     val result = getTokenizerOutput[String](tokenizer, data)
     assert(
       result.sameElements(expected1),
@@ -102,7 +103,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "a Tokenizer" should s"correctly label ${targetText2.take(10).mkString("")+"..."}" in {
     val data = DataBuilder.basicDataBuild(targetText2)
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
     assert(
       result.sameElements(expected2),
@@ -113,7 +114,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "a Tokenizer" should s"correctly label ${targetText3.take(10).mkString("")+"..."}" in {
     val data = DataBuilder.basicDataBuild(targetText3)
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
     assert(
       result.sameElements(expected3),
@@ -124,7 +125,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite" ignore {
     val data = DataBuilder.basicDataBuild(targetText1)
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokensPatterns(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setCompositeTokens(Array("New York"))
     val result = getTokenizerOutput[String](tokenizer, data)
     assert(
       result.sameElements(expected1),
@@ -135,7 +136,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" ignore {
     val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
-    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setTargetPattern("\\w+").setCompositeTokensPatterns(Array("New York"))
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setTargetPattern("\\w+").setCompositeTokens(Array("New York"))
     val result = getTokenizerOutput[String](tokenizer, data)
     assert(
       result.sameElements(Seq("Hello", "New York", "and", "Goodbye")),
@@ -178,7 +179,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
-      .setCompositeTokensPatterns(Array("Are you"))
+      .setCompositeTokens(Array("Are you"))
 
     val tokenized = tokenizer.transform(assembled)
     val result = tokenized.collect()
