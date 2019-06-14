@@ -8,7 +8,7 @@ modify_date: "2019-06-13"
 
 ## English
 
-| Pipelines            | Name                   | English                                                                                                                  |
+| Pipelines            | Name                   | en                                                                                                                  |
 | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | [Explain Document ML](#explain_document_ml)  | `explain_document_ml`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.2_2.4_1556661821108.zip)  |
 | [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)  |
@@ -147,14 +147,19 @@ annotation.select("entities.result").show(false)
 
 ## French
 
-`Size`: Model size indicator, `md` and `lg`. The large pipeline uses `glove_840B_300` and the medium uses `glove_6B_300`.
-
-| Pipelines               | Name                  | French                                                                                                                 |
+| Pipelines               | Name                  | fr                                                                                                                 |
 | ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [Explain Document Large](#french-explain_document_lg)  | `explain_document_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_fr_2.0.2_2.4_1559054673712.zip) |
 | [Explain Document Medium](#french-explain_document_md) | `explain_document_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_fr_2.0.2_2.4_1559118515465.zip) |
 | [Entity Recognizer Large](#french-entity_recognizer_lg) | `entity_recognizer_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_fr_2.0.8_2.4_1560367295894.zip) |
 | [Entity Recognizer Medium](#french-entity_recognizer_md) | `entity_recognizer_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_fr_2.0.8_2.4_1560368417326.zip) |
+
+|Feature | Description|
+|---|----|
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
+|**POS**| Trained by **PerceptronApproach** annotator on the **Universal Dependencies**
+|**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300**
 
 ### French explain_document_lg
 
@@ -337,12 +342,19 @@ annotation.select("entities.result").show(false)
 
 `Size`: Model size indicator, `md` and `lg`. The large pipeline uses `glove_840B_300` and the medium uses `glove_6B_300`.
 
-| Pipelines               | Name                  | Italian                                                                                                                 |
+| Pipelines               | Name                  | it                                                                                                                 |
 | ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [Explain Document Large](#italian-explain_document_lg)  | `explain_document_lg`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_it_2.0.8_2.4_1560346123709.zip)  |
 | [Explain Document Medium](#italian-explain_document_md) | `explain_document_md`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_it_2.0.8_2.4_1560368705919.zip)  |
 | [Entity Recognizer Large](#italian-entity_recognizer_lg) | `entity_recognizer_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_it_2.0.8_2.4_1560368922718.zip) |
 | [Entity Recognizer Medium](#italian-entity_recognizer_md) | `entity_recognizer_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_it_2.0.8_2.4_1560370005870.zip) |
+
+|Feature | Description|
+|---|----|
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset`
+|**POS**| Trained by **PerceptronApproach** annotator on the **Universal Dependencies**
+|**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300**
 
 ### Italian explain_document_lg
 
