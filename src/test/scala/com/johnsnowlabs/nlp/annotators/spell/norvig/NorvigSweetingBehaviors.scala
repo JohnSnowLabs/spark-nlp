@@ -66,7 +66,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
   }
 
   def isolatedNorvigChecker(wordAnswer: Seq[(String, String)]): Unit = {
-    s"spell checker" should s"correctly correct words" ignore {
+    s"spell checker" should s"correctly correct words" in {
 
       val trainBigDataSet = getTrainDataSet("src/test/resources/spell/")
       val spellChecker = new NorvigSweetingApproach()
@@ -108,10 +108,10 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
   }
 
   def trainFromFitSpellChecker(words: Seq[String]): Unit = {
-
+    val trainBigDataSet = getTrainDataSet("src/test/resources/spell/")
     val predictionDataSet = words.toDF("text")
 
-    val model = pipeline.fit(trainDataSet)
+    val model = pipeline.fit(trainBigDataSet)
     model.transform(predictionDataSet).show()
   }
 
