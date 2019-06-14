@@ -340,8 +340,6 @@ annotation.select("entities.result").show(false)
 
 ## Italian
 
-`Size`: Model size indicator, `md` and `lg`. The large pipeline uses `glove_840B_300` and the medium uses `glove_6B_300`.
-
 | Pipelines               | Name                  | it                                                                                                                 |
 | ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [Explain Document Large](#italian-explain_document_lg)  | `explain_document_lg`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_it_2.0.8_2.4_1560346123709.zip)  |
