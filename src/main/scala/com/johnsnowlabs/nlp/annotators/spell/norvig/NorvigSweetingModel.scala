@@ -24,20 +24,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
-  /** params */
-  protected val wordSizeIgnore = new IntParam(this, "wordSizeIgnore", "minimum size of word before ignoring. Defaults to 3")
-  protected val dupsLimit = new IntParam(this, "dupsLimit", "maximum duplicate of characters in a word to consider. Defaults to 2")
-  protected val reductLimit = new IntParam(this, "reductLimit", "word reductions limit. Defaults to 3")
-  protected val intersections = new IntParam(this, "intersections", "hamming intersections to attempt. Defaults to 10")
-  protected val vowelSwapLimit = new IntParam(this, "vowelSwapLimit", "vowel swap attempts. Defaults to 6")
 
   protected def getWordCount: Map[String, Long] = $$(wordCount)
 
-  def setWordSizeIgnore(value: Int): this.type = set(wordSizeIgnore, value)
-  def setDupsLimit(value: Int): this.type = set(dupsLimit, value)
-  def setReductLimit(value: Int): this.type = set(reductLimit, value)
-  def setIntersections(value: Int): this.type = set(intersections, value)
-  def setVowelSwapLimit(value: Int): this.type = set(vowelSwapLimit, value)
   def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
 
   private lazy val allWords: HashSet[String] = {
@@ -217,7 +206,11 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
                     Utilities.computeConfidenceValue(bestRecommendations))
       (Some(result._1.get._1), result._2)
     } else {
-      (Some(wordsByFrequencyAndHamming.sortBy(_._2).reverse.minBy(_._3)._1), 1.toDouble)
+      if ($(frequencyPriority)) {
+        (Some(wordsByFrequencyAndHamming.sortBy(_._3).maxBy(_._2)._1), 1.toDouble)
+      } else {
+        (Some(wordsByFrequencyAndHamming.sortBy(_._2).reverse.minBy(_._3)._1), 1.toDouble)
+      }
     }
   }
 

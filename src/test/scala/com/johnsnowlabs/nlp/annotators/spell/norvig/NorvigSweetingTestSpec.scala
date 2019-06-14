@@ -97,12 +97,26 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by frequency and hamming without best match" in {
+  "A norvig sweeting approach" should "get result by frequency and hamming with frequency priority" in {
     val input = "mral"
     val wordsByFrequency = List(("oral", 4.toLong), ("moral", 3.toLong), ("meal", 3.toLong))
     val wordsByHamming = List(("oral", 2.toLong), ("meal", 1.toLong),
                               ("moral", 4.toLong), ("mural", 4.toLong))
-    val norvigSweetingModel = new NorvigSweetingModel()
+    val norvigSweetingModel = new NorvigSweetingModel().setFrequencyPriority(true)
+    val expectedResult = "oral"
+
+    val resultByFrequencyAndHamming = norvigSweetingModel.getResult(wordsByFrequency, wordsByHamming, input)
+
+    assert(expectedResult.contains(resultByFrequencyAndHamming._1))
+
+  }
+
+  "A norvig sweeting approach" should "get result by frequency and hamming with hamming priority" in {
+    val input = "mral"
+    val wordsByFrequency = List(("oral", 4.toLong), ("moral", 3.toLong), ("meal", 3.toLong))
+    val wordsByHamming = List(("oral", 2.toLong), ("meal", 1.toLong),
+                              ("moral", 4.toLong), ("mural", 4.toLong))
+    val norvigSweetingModel = new NorvigSweetingModel().setFrequencyPriority(false)
     val expectedResult = "meal"
 
     val resultByFrequencyAndHamming = norvigSweetingModel.getResult(wordsByFrequency, wordsByHamming, input)
