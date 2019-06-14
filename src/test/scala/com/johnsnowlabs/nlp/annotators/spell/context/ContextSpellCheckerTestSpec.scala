@@ -184,7 +184,6 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val tokenizer: Tokenizer = new Tokenizer()
       .setInputCols(Array("doc"))
       .setOutputCol("token")
-      .setIncludeDefaults(false)
       .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
 
     val spellChecker = ContextSpellCheckerModel
