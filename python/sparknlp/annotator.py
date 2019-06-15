@@ -61,50 +61,62 @@ class Tokenizer(AnnotatorModel):
                           "regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
                           typeConverter=TypeConverters.toString)
 
-    compositeTokens = Param(Params._dummy(),
-                            "compositeTokens",
-                            "Words that won't be split in two",
-                            typeConverter=TypeConverters.toListString)
-
     infixPatterns = Param(Params._dummy(),
                           "infixPatterns",
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
-    includeDefaults = Param(Params._dummy(),
-                            "includeDefaults",
-                            "whether to include default patterns or only use user provided ones. Defaults to true.",
-                            typeConverter=TypeConverters.toBoolean
-                            )
+    compositeTokens = Param(Params._dummy(),
+                            "compositeTokens",
+                            "Words that won't be split in two",
+                            typeConverter=TypeConverters.toListString)
+
+    exceptionTokens = Param(Params._dummy(),
+                            "exceptionTokens",
+                            "Words that won't be affected by tokenization rules",
+                            typeConverter=TypeConverters.toListString)
+
+    contextChars = Param(Params._dummy(),
+                         "contextChars",
+                         "character list used to separate from token boundaries",
+                         typeConverter=TypeConverters.toListString)
+
+    splitChars = Param(Params._dummy(),
+                         "splitChars",
+                         "character list used to separate from the inside of tokens",
+                         typeConverter=TypeConverters.toListString)
 
     name = 'Tokenizer'
-
-    infixDefaults = [
-        "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-        "((?:\\p{L}\\.)+)",
-        "(\\p{L}+)(n't\\b)",
-        "(\\p{L}+)('{1}\\p{L}+)",
-        "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-        "([\\p{L}\\w]+)"
-    ]
-
-    prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
-
-    suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
 
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
-        self.infixDefaults = Tokenizer.infixDefaults
-        self.prefixDefault = Tokenizer.prefixDefault
-        self.suffixDefault = Tokenizer.suffixDefault
-
         self._setDefault(
             targetPattern="\\S+",
-            infixPatterns=[],
-            includeDefaults=True
+            contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"]
         )
+
+    def getInfixPatterns(self):
+        return self.getOrDefault("infixPatterns")
+
+    def getSuffixPattern(self):
+        return self.getOrDefault("suffixPattern")
+
+    def getPrefixPattern(self):
+        return self.getOrDefault("prefixPattern")
+
+    def getCompositeTokens(self):
+        return self.getOrDefault("compositeTokens")
+
+    def getExceptionTokens(self):
+        return self.getOrDefault("exceptionTokens")
+
+    def getContextChars(self):
+        return self.getOrDefault("contextChars")
+
+    def getSplitChars(self):
+        return self.getOrDefault("splitChars")
 
     def setTargetPattern(self, value):
         return self._set(targetPattern=value)
@@ -115,55 +127,60 @@ class Tokenizer(AnnotatorModel):
     def setSuffixPattern(self, value):
         return self._set(suffixPattern=value)
 
-    def setCompositeTokensPatterns(self, value):
+    def setCompositeTokens(self, value):
         return self._set(compositeTokens=value)
+
+    def addCompositeTokens(self, value):
+        composite_tokens = self.getCompositeTokens()
+        if composite_tokens:
+            composite_tokens.append(value)
+        else:
+            composite_tokens = [value]
+        return self._set(compositeTokens=composite_tokens)
 
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
-    def setIncludeDefaults(self, value):
-        return self._set(includeDefaults=value)
-
     def addInfixPattern(self, value):
-        infix_patterns = self.getInfixPatterns()
+        try:
+            infix_patterns = self.getInfixPatterns()
+        except KeyError:
+            infix_patterns = []
         infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
 
-    def getIncludeDefaults(self):
-        return self.getOrDefault("includeDefaults")
+    def setExceptionTokens(self, value):
+        return self._set(exceptionTokens=value)
 
-    def getInfixPatterns(self):
+    def addExceptionTokens(self, value):
         try:
-            if self.getOrDefault("includeDefaults"):
-                return self.getOrDefault("infixPatterns") + self.getDefaultPatterns()
-            else:
-                return self.getOrDefault("infixPatterns")
+            exception_tokens = self.getExceptionTokens()
         except KeyError:
-            if self.getOrDefault("includeDefaults"):
-                return self.getDefaultPatterns()
-            else:
-                return self.getOrDefault("infixPatterns")
+            exception_tokens = []
+        exception_tokens.append(value)
+        return self._set(exceptionTokens=exception_tokens)
 
-    def getSuffixPattern(self):
+    def setContextChars(self, value):
+        return self._set(contextChars=value)
+
+    def addContextChars(self, value):
         try:
-            return self.getOrDefault("suffixPattern")
+            context_chars = self.getContextChars()
         except KeyError:
-            return self.getDefaultSuffix()
+            context_chars = []
+        context_chars.append(value)
+        return self._set(contextChars=context_chars)
 
-    def getPrefixPattern(self):
+    def setSplitChars(self, value):
+        return self._set(splitChars=value)
+
+    def addSplitChars(self, value):
         try:
-            return self.getOrDefault("prefixPattern")
+            split_chars = self.getSplitChars()
         except KeyError:
-            return self.getDefaultPrefix()
-
-    def getDefaultPatterns(self):
-        return Tokenizer.infixDefaults
-
-    def getDefaultPrefix(self):
-        return Tokenizer.prefixDefault
-
-    def getDefaultSuffix(self):
-        return Tokenizer.suffixDefault
+            split_chars = []
+        split_chars.append(value)
+        return self._set(splitChars=split_chars)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -172,16 +189,6 @@ class ChunkTokenizer(Tokenizer):
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
-
-        self.infixDefaults = Tokenizer.infixDefaults
-        self.prefixDefault = Tokenizer.prefixDefault
-        self.suffixDefault = Tokenizer.suffixDefault
-
-        self._setDefault(
-            targetPattern="\\S+",
-            infixPatterns=[],
-            includeDefaults=True
-        )
 
 
 class Stemmer(AnnotatorModel):
