@@ -57,7 +57,7 @@ modify_date: "2019-06-12"
 |Feature | Description|
 |---|----|
 |**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
-|**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset`
+|**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/it_isdt/index.html)
 
 ### Multi-language
