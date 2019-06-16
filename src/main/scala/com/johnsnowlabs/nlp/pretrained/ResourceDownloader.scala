@@ -15,6 +15,7 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.hadoop.fs.FileSystem
@@ -46,9 +47,7 @@ trait ResourceDownloader {
 object ResourceDownloader {
 
   val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
-  val MODEL = "ml"
-  val PIPELINE = "pl"
-  val NOT_DEFINED = "nd"
+
   def s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
   def s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
   def cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
@@ -92,14 +91,14 @@ object ResourceDownloader {
     * List all pretrained models in public
     */
   def listPublicModels(): List[String] = {
-    listPretrainedResources(folder = publicLoc, MODEL)
+    listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
 
   /**
     * List all pretrained pipelines in public
     */
   def listPublicPipelines(): List[String] = {
-    listPretrainedResources(folder = publicLoc, PIPELINE)
+    listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
   /**
@@ -108,7 +107,7 @@ object ResourceDownloader {
     * @return list of models or piplelines which are not categorized in metadata json
     */
   def listUnCategoriedResources(): List[String] = {
-    listPretrainedResources(folder = publicLoc, NOT_DEFINED)
+    listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
 
   /**
@@ -118,11 +117,11 @@ object ResourceDownloader {
     * @param resourceType
     * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
     */
-  def listPretrainedResources(folder: String, resourceType: String): List[String] = {
+  def listPretrainedResources(folder: String, resourceType: ResourceType): List[String] = {
     val resourceList = new ListBuffer[String]()
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
     for (meta <- resourceMetaData) {
-      if (meta.category.getOrElse(NOT_DEFINED).equals(resourceType)) {
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)) {
         resourceList += meta.name + "_" + meta.language.getOrElse("no_lang")
       }
 
@@ -199,6 +198,12 @@ object ResourceDownloader {
   }
 }
 
+object ResourceType extends Enumeration {
+  type ResourceType = Value
+  val MODEL = Value("ml")
+  val PIPELINE = Value("pl")
+  val NOT_DEFINED = Value("nd")
+}
 case class ResourceRequest
 (
   name: String,

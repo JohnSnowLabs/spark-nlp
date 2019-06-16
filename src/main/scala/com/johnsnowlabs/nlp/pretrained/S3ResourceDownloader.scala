@@ -59,12 +59,12 @@ class S3ResourceDownloader(bucket: => String,
     val needToRefersh = lastState.isEmpty || lastState.get.lastMetadataDownloaded.before(fiveMinsBefore)
 
     if (!needToRefersh) {
-      println("**************@@@@@@@@using old metadata****************@@@@@@@@@@@")
+
       lastState.get.metadata
 
     }
     else {
-      println("**************@@@@@@@@using new metadata**************@@@@@@@@")
+
       val metaFile = getS3File(s3Path, folder, "metadata.json")
       val obj = client.getObject(bucket, metaFile)
       val metadata = ResourceMetadata.readResources(obj.getObjectContent)
