@@ -5,6 +5,11 @@ import org.scalatest._
 
 class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehaviors {
 
+//  "A temp sym spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+//    "juuuuuuuuuuuuuuuussssssssssttttttttttt",
+//    "screeeeeeeewed"
+//  ))
+
   "A symmetric delete approach" should behave like testDefaultTokenCorpusParameter
 
   "a simple isolated symmetric spell checker with a lowercase word" should behave like testSimpleCheck(
@@ -32,7 +37,6 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
     ("delicatly", "delicately"),
     ("efusive", "effusive"),
     ("lauging", "laughing"),
-    ("gr8", "great"),
     ("juuuuuuuuuuuuuuuussssssssssttttttttttt", "just"),
     ("screeeeeeeewed", "screwed"),
     ("readampwritepeaceee", "readampwritepeaceee")

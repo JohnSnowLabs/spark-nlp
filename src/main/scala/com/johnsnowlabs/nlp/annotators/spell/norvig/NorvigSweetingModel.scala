@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
+import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -54,7 +54,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   def checkSpellWord(raw: String): (String, Double) = {
-    val input = Utilities.limitDups($(dupsLimit), raw)
+    val input = Utilities.limitDuplicates($(dupsLimit), raw)
     logger.debug(s"spell checker target word: $input")
     val possibility = getBestSpellingSuggestion(input)
     if (possibility._1.isDefined) return (possibility._1.get, possibility._2)
@@ -79,7 +79,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   private def getShortCircuitSuggestion(word: String): Option[String] = {
     if (allWords.intersect(Utilities.reductions(word, $(reductLimit))).nonEmpty) Some(word)
-    else if (allWords.intersect(Utilities.vowelSwaps(word, $(vowelSwapLimit))).nonEmpty) Some(word)
+    else if (allWords.intersect(Utilities.getVowelSwaps(word, $(vowelSwapLimit))).nonEmpty) Some(word)
     else if (allWords.intersect(Utilities.variants(word)).nonEmpty) Some(word)
     else if (allWords.intersect(both(word)).nonEmpty) Some(word)
     else if ($(doubleVariants) && allWords.intersect(computeDoubleVariants(word)).nonEmpty) Some(word)
@@ -127,7 +127,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     val intersectedPossibilities = allWords.intersect({
       val base =
         Utilities.reductions(word, $(reductLimit)) ++
-          Utilities.vowelSwaps(word, $(vowelSwapLimit)) ++
+          Utilities.getVowelSwaps(word, $(vowelSwapLimit)) ++
           Utilities.variants(word) ++
           both(word)
       if ($(doubleVariants)) base ++ computeDoubleVariants(word) else base
@@ -137,7 +137,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   private def both(word: String): Set[String] = {
-    Utilities.reductions(word, $(reductLimit)).flatMap(reduction => Utilities.vowelSwaps(reduction, $(vowelSwapLimit)))
+    Utilities.reductions(word, $(reductLimit)).flatMap(reduction => Utilities.getVowelSwaps(reduction, $(vowelSwapLimit)))
   }
 
   def getSortedWordsByFrequency(words: List[String], input: String): List[(String, Long)] = {
