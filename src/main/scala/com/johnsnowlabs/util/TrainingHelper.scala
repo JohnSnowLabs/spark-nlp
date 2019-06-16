@@ -5,7 +5,8 @@ import java.nio.file.Paths
 import java.sql.Timestamp
 import java.util.Date
 
-import com.johnsnowlabs.nlp.pretrained.{ResourceDownloader, ResourceMetadata}
+import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
+import com.johnsnowlabs.nlp.pretrained.{ResourceMetadata, ResourceType}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.util.MLWriter
 
@@ -16,7 +17,7 @@ object TrainingHelper {
                 language: Option[String],
                 libVersion: Option[Version],
                 sparkVersion: Option[Version],
-                category: Option[String] = Some(ResourceDownloader.NOT_DEFINED),
+                category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
                 modelWriter: MLWriter,
                 folder: String
                ): Unit = {
