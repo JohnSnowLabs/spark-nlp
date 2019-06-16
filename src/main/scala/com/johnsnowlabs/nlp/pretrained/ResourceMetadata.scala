@@ -2,11 +2,13 @@ package com.johnsnowlabs.nlp.pretrained
 
 import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
+
 import com.johnsnowlabs.util.Version
 import org.json4s.NoTypeHints
 import org.json4s.jackson.JsonMethods.parse
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.write
+
 import scala.io.Source
 
 
@@ -18,7 +20,8 @@ case class ResourceMetadata
   sparkVersion: Option[Version],
   readyToUse: Boolean,
   time: Timestamp,
-  isZipped: Boolean = false
+  isZipped: Boolean = false,
+  category: Option[String] = Some(ResourceDownloader.NOT_DEFINED)
 ) {
 
   lazy val key = {
