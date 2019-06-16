@@ -8,20 +8,21 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
-import org.apache.spark.ml.{PipelineModel, PipelineStage}
-import org.apache.spark.ml.util.DefaultParamsReadable
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsModel, BertEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.hadoop.fs.FileSystem
+import org.apache.spark.ml.util.DefaultParamsReadable
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
-import scala.collection.mutable
+import scala.collection.mutable.{ListBuffer, Map}
+
 
 
 trait ResourceDownloader {
@@ -35,14 +36,19 @@ trait ResourceDownloader {
 
   def clearCache(request: ResourceRequest): Unit
 
+  def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
   val fs = ResourceDownloader.fs
 
+
 }
+
 
 object ResourceDownloader {
 
   val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
-
+  val MODEL = "ml"
+  val PIPELINE = "pl"
+  val NOT_DEFINED = "nd"
   def s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
   def s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
   def cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
@@ -62,7 +68,7 @@ object ResourceDownloader {
 
   val publicLoc = "public/models"
 
-  private val cache = mutable.Map[ResourceRequest, PipelineStage]()
+  private val cache = Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
     Version.parse(ResourceHelper.spark.version)
@@ -80,6 +86,48 @@ object ResourceDownloader {
   def resetResourceDownloader(): Unit ={
     cache.empty
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+  }
+
+  /**
+    * List all pretrained models in public
+    */
+  def listPublicModels(): List[String] = {
+    listPretrainedResources(folder = publicLoc, MODEL)
+  }
+
+  /**
+    * List all pretrained pipelines in public
+    */
+  def listPublicPipelines(): List[String] = {
+    listPretrainedResources(folder = publicLoc, PIPELINE)
+  }
+
+  /**
+    * Returns models or pipelines in metadata json which has not been categorized yet.
+    *
+    * @return list of models or piplelines which are not categorized in metadata json
+    */
+  def listUnCategoriedResources(): List[String] = {
+    listPretrainedResources(folder = publicLoc, NOT_DEFINED)
+  }
+
+  /**
+    * List all resources after parsing the metadata json from the given folder in the S3 location
+    *
+    * @param folder
+    * @param resourceType
+    * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
+    */
+  def listPretrainedResources(folder: String, resourceType: String): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+      if (meta.category.getOrElse(NOT_DEFINED).equals(resourceType)) {
+        resourceList += meta.name + "_" + meta.language.getOrElse("no_lang")
+      }
+
+    }
+    resourceList.result()
   }
 
   /**
