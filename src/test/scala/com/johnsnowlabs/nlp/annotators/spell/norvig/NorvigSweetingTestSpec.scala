@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
+import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, ContentProvider, DataBuilder}
 import org.scalatest._
 
@@ -17,7 +18,6 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
       ("delicatly", "delicately"),
       ("efusive", "effusive"),
       ("lauging", "laughing"),
-      //("gr8", "great"),
       ("juuuuuuuuuuuuuuuussssssssssttttttttttt", "just"),
       ("screeeeeeeewed", "screwed"),
       ("readampwritepeaceee", "readampwritepeaceee")

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
-import com.johnsnowlabs.nlp.annotators.spell.common.LevenshteinDistance
+import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory
 import scala.collection.immutable.HashSet
 import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
-import scala.math._
 import org.apache.spark.ml.param.IntParam
 
 /** Created by danilo 16/04/2018,
@@ -21,7 +20,7 @@ import org.apache.spark.ml.param.IntParam
   * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
   * */
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel]
-  with SymmetricDeleteParams with LevenshteinDistance {
+  with SymmetricDeleteParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -44,7 +43,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   def setLongestWordLength(value: Int): this.type = set(longestWordLength, value)
 
-  def setDictionary(value: Map[String, Long]) = set(dictionary, value)
+  def setDictionary(value: Map[String, Long]): this.type = set(dictionary, value)
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
@@ -141,9 +140,29 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * */
 
   def getSuggestedCorrections(word: String): Option[(String, (Long, Int))] = {
+    val cleanWord = Utilities.limitDuplicates($(dupsLimit), word)
+    if (get(dictionary).isDefined) {
+      getDictionarySuggestions(cleanWord)
+    }
+    else {
+      getSymmetricSuggestions(cleanWord)
+    }
+  }
+
+  def getDictionarySuggestions(word: String): Option[(String, (Long, Int))] = {
+    if ($$(dictionary).contains(word)) {
+      logger.debug("Word found in dictionary. No spell change")
+      Some((word, (0, 0)))
+    } else if ($$(dictionary).contains(word.distinct)) {
+      logger.debug("Word as distinct found in dictionary")
+      Some((word.distinct, (0, 0)))
+    } else getSymmetricSuggestions(word)
+  }
+
+  def getSymmetricSuggestions(word: String): Option[(String, (Long, Int))] = {
     val lowercaseWord = word.toLowerCase()
     val lowercaseWordLength = lowercaseWord.length
-    if ((get(dictionary).isDefined && $$(dictionary).contains(word)) || ((lowercaseWordLength - this.getLongestWordLength) > $(maxEditDistance)))
+    if ((lowercaseWordLength - this.getLongestWordLength) > $(maxEditDistance))
       return None
 
     var minSuggestLen: Double = Double.PositiveInfinity
@@ -164,12 +183,6 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
       // process queue item
       if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
-
-//        if (queueItem == "cotde"){
-//          println("debug...")
-//          val suggestionList = $$(derivedWords).getOrElse(queueItem, (List(""), 0))
-//          println(value)
-//        }
 
         var suggestedWordsWeight: (List[String], Long) = $$(derivedWords).getOrElse(queueItem, (List(""), 0))
 
@@ -200,7 +213,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
           if (!suggestDict.contains(lowercaseScItem) && lowercaseScItem != "") {
 
             // calculate edit distance using Damerau-Levenshtein distance
-            val itemDist = levenshteinDistance(lowercaseScItem, lowercaseWord)
+            val itemDist = Utilities.levenshteinDistance(lowercaseScItem, lowercaseWord)
 
             if (itemDist <= $(maxEditDistance)) {
               suggestedWordsWeight = $$(derivedWords).getOrElse(lowercaseScItem, (List(""), 0))
@@ -240,7 +253,6 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
     val suggestions = suggestDict.toSeq.sortBy { case (k, (f, d)) => (d, -f, k) }.toList
     suggestions.headOption.orElse(None)
-
   }
 
 }
