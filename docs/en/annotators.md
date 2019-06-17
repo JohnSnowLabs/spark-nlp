@@ -400,6 +400,7 @@ The types are:
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
 **Input types:** Document  
+**Reference:** [Tokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala)  
 **Functions:**
 
 - setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space
@@ -434,6 +435,7 @@ val tokenizer = new Tokenizer()
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
 **Output type:** Token  
 **Input types:** Token  
+**Reference:** [Normalizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Normalizer.scala) | [NormalizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NormalizerModel.scala)  
 **Functions:**
 
 - setPatterns(patterns): Regular expressions list for normalization, defaults \[^A-Za-z\]
@@ -459,6 +461,7 @@ val normalizer = new Normalizer()
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
 **Output type:** Token  
 **Input types:** Token  
+**Reference:** [Stemmer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Stemmer.scala)  
 **Example:**
 
 {% highlight python %}
@@ -479,6 +482,7 @@ Retrieves lemmas out of words with the objective of returning a base dictionary 
 **Output type:** Token  
 **Input types:** Token  
 **Input:** abduct -> abducted abducting abduct abducts  
+**Reference:** [Lemmatizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala) | [LemmatizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala)  
 **Functions:** --
 
 - setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
@@ -505,6 +509,7 @@ Uses a reference file to match a set of regular expressions and put them inside 
 **Output type:** Regex  
 **Input types:** Document  
 **Input:** `the\\s\\w+`, "followed by 'the'"  
+**Reference:** [RegexMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcher.scala) | [RegexMatcherModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherModel.scala)  
 **Functions:**
 
 - setStrategy(strategy): Can be any of `MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE`
@@ -533,6 +538,7 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 **Output type:** Entity  
 **Input types:** Document, Token  
 **Input:** hello world, I am looking for you  
+**Reference:** [TextMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcher.scala) | [TextMatcherModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/TextMatcherModel.scala)  
 **Functions:**
 
 - setEntities(path, format, options): Provides a file with phrases to match. Default: Looks up path in configuration.  
@@ -564,6 +570,7 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 **Output type:** Document  
 **Input types:** Document, POS  
+**Reference:** [Chunker](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala)  
 **Functions:**
 
 - setRegexParsers(patterns): A list of regex patterns to match chunks, for example: Array("‹DT›?‹JJ›\*‹NN›")
@@ -592,6 +599,7 @@ val chunker = new Chunker()
 Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.  
 **Output type:** Date  
 **Input types:** Document  
+**Reference:** [DateMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DateMatcher.scala)  
 **Reads the following kind of dates:**
 
 - 1978-01-28
@@ -623,7 +631,7 @@ Reads from different forms of date and time expressions and converts them to a p
 - 1988/11/23 6pm
 - next week at 7.30
 - 5 am tomorrow
-
+  
 **Functions:**
 
 - setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
@@ -649,6 +657,7 @@ val dateMatcher = new DateMatcher()
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Document  
 **Input types:** Document  
+**Reference:** [SentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala)  
 **Functions:**
 
 - setCustomBounds(string): Custom sentence separator text
@@ -677,6 +686,7 @@ val sentenceDetector = new SentenceDetector()
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
 **Output type:** Document  
 **Input types:** Document, Token, Chunk  
+**Reference:** [DeepSentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala)  
 **Functions:**
 
 - setIncludePragmaticSegmenter(bool): Whether to include rule-based sentence detector as first filter. Defaults to false.
@@ -707,6 +717,7 @@ val deepSentenceDetector = new DeepSentenceDetector()
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
 **Output type:** POS  
 **Input types:** Document, Token  
+**Reference:** [PerceptronApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach.scala) | [PerceptronModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel.scala)  
 **Functions:**
 
 - setNIterations(number): Number of iterations for training. May improve accuracy but takes longer. Default 5.
@@ -737,6 +748,7 @@ val posTagger = new PerceptronApproach()
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
 **Input types:** Document, Token  
+**Reference:** [ViveknSentimentApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala) | [ViveknSentimentModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala)  
 **Functions:**
 
 - setSentimentCol(colname): Column with sentiment analysis row's result for training. If not set, external sources need to be set instead.
@@ -767,6 +779,7 @@ val sentimentDetector = new ViveknSentimentApproach()
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
 **Input types:** Document, Token  
+**Reference:** [SentimentDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala) | [SentimentDetectorModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala)  
 **Functions:**
 
 - setDictionary(path, delimiter, readAs, options): path to file with list of inputs and their content, with such delimiter, readAs LINE_BY_LINE or as SPARK_DATASET. If latter is set, options is passed to spark reader.
@@ -803,11 +816,12 @@ val sentimentDetector = new SentimentDetector
 Word Embeddings lookup annotator that maps tokens to vectors  
 **Output type:** Word_Embeddings  
 **Input types:** Document, Token  
+**Reference:**  [WordEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala)  
 **Functions:**
 
-- setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:  
+- setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:
   1 - spark-nlp format.  
-  2 - text. This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)  
+  2 - text. This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
   3 - binary. This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
 - setCaseSensitive: whether to ignore case in tokens for embeddings matching
 
@@ -832,7 +846,8 @@ wordEmbeddings = new WordEmbeddings()
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
 **Output type:** Word_Embeddings  
-**Input types:** Document
+**Input types:** Document  
+**Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
 
 ### NER CRF
 
@@ -842,6 +857,7 @@ This Named Entity recognition annotator allows for a generic model to be trained
 Optionally the user can provide an entity dictionary file for better accuracy  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, POS, Word_Embeddings  
+**Reference:** [NerCrfApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach.scala) | [NerCrfModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfModel.scala)  
 **Functions:**
 
 - setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token
@@ -894,6 +910,7 @@ This Named Entity recognition annotator allows to train generic NER model based 
 Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, Word_Embeddings  
+**Reference:** [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)  
 **Functions:**
 
 - setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token
@@ -937,9 +954,10 @@ val nerTagger = new NerDLApproach()
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.  
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.    
 **Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
+**Reference:** [NorvigSweetingApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala)  
 **Functions:**
 
 - setDictionary(path, tokenPattern, readAs, options): path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.
@@ -973,9 +991,10 @@ val spellChecker = new NorvigSweetingApproach()
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.  
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.    
 **Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
+**Reference:** [SymmetricDeleteApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteApproach.scala) | [SymmetricDeleteModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModel.scala)  
 **Functions:**
 
 - setDictionary(path, tokenPattern, readAs, options): Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
@@ -1001,7 +1020,8 @@ val spellChecker = new SymmetricDeleteApproach()
 
 This spell checker utilizes tensorflow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
 **Output type:** Token  
-**Input types:** Tokenizer    
+**Input types:** Tokenizer  
+**Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 
 ### Dependency Parser
 
@@ -1010,6 +1030,7 @@ This spell checker utilizes tensorflow to do context based spell checking. At th
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
 **Input types:** Document, POS, Token  
+**Reference:** [DependencyParserApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach.scala) | [DependencyParserModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel.scala)  
 **Functions:**
 
 - setNumberOfIterations: Number of iterations in training, converges to better accuracy
@@ -1041,6 +1062,7 @@ val dependencyParser = new DependencyParserApproach()
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
 **Input types:** Token, POS, Dependency  
+**Reference:** [TypedDependencyParserApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach.scala) | [TypedDependencyParserModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel.scala)  
 **Functions:**
 
 - setNumberOfIterations: Number of iterations in training, converges to better accuracy
