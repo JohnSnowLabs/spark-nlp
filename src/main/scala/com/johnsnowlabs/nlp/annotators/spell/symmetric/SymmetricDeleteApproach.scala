@@ -143,8 +143,13 @@ class SymmetricDeleteApproach(override val uid: String)
         .setDerivedWords(derivedWords)
         .setLongestWordLength(longestWordLength)
 
-    if (possibleDict.isDefined)
-        model.setDictionary(possibleDict.get.toMap)
+    if (possibleDict.isDefined) {
+      val min = wordFrequencies.minBy(_._2)._2
+      val max = wordFrequencies.maxBy(_._2)._2
+      model.setMinFrequency(min)
+      model.setMaxFrequency(max)
+      model.setDictionary(possibleDict.get.toMap)
+    }
 
     model
   }

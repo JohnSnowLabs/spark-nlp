@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory
 import scala.collection.immutable.HashSet
 import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
-import org.apache.spark.ml.param.IntParam
 
 /** Created by danilo 16/04/2018,
   * inspired on https://github.com/wolfgarbe/SymSpell
@@ -35,13 +34,6 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     new MapFeature(this, "derivedWords")
 
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
-
-  val longestWordLength = new IntParam(this, "longestWordLength",
-                                "length of longest word in corpus")
-
-  def getLongestWordLength: Int = $(longestWordLength)
-
-  def setLongestWordLength(value: Int): this.type = set(longestWordLength, value)
 
   def setDictionary(value: Map[String, Long]): this.type = set(dictionary, value)
 
