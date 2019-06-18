@@ -27,7 +27,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     .setInputCols(Array("token"))
     .setOutputCol("spell")
     .setDictionary("src/test/resources/spell/words.txt")
-    .setDupsLimit(0)
 
   private val finisher = new Finisher()
     .setInputCols("spell")
@@ -101,12 +100,13 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
       val spellChecker = new SymmetricDeleteApproach()
         .setInputCols("token")
         .setOutputCol("spell")
+        .setDupsLimit(0)
         .fit(trainDataSet)
 
       val result = wordAnswer.count(wa =>
         spellChecker.check(wa._1).getOrElse(wa._1) == wa._2) / wordAnswer.length.toDouble
       println(result)
-      assert(result > 0.95, s"because result: $result did was below: 0.60")
+      assert(result > 0.85, s"because result: $result did was below: 0.85")
     }
   }
 
@@ -277,7 +277,6 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   def trainFromFitSpellChecker(words: Seq[String]): Unit = {
 
     val predictionDataSet = words.toDF("text")
-    val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt") //TODO: Remove this or better check global trainDataSet
     val model = pipeline.fit(trainDataSet)
     model.transform(predictionDataSet).show()
   }
