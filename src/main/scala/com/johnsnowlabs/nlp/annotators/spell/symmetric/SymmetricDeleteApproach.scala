@@ -122,21 +122,19 @@ class SymmetricDeleteApproach(override val uid: String)
 
     val possibleDict = get(dictionary).map(d => ResourceHelper.getWordCount(d))
 
-    val trainDataset =
+    val trainDataSet =
       dataset.select(getInputCols.head).as[Array[Annotation]]
         .flatMap(_.map(_.result))
 
     val wordFrequencies =
-      trainDataset.groupBy("value").count()
+      trainDataSet.groupBy("value").count()
         .filter(s"count(value) >= ${$(frequencyThreshold)}").as[(String, Long)].collect.toList
-
-    //TODO: Check wordFrequencies
 
     val derivedWords =
       derivedWordDistances(wordFrequencies, $(maxEditDistance))
 
     val longestWordLength =
-      trainDataset.agg(max(length(col("value")))).head().getInt(0)
+      trainDataSet.agg(max(length(col("value")))).head().getInt(0)
 
     val model =
       new SymmetricDeleteModel()
