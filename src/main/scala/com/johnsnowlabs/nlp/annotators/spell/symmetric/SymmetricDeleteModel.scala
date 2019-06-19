@@ -23,6 +23,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  def this() = this(Identifiable.randomUID("SYMSPELL"))
+
   /**
     * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
     */
@@ -36,6 +38,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
 
   def setDictionary(value: Map[String, Long]): this.type = set(dictionary, value)
+  def setDerivedWords(value: Map[String, (List[String], Long)]): this.type = set(derivedWords, value)
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
@@ -47,40 +50,39 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   private val LOWERCASE = 'L'
   private val UPPERCASE = 'U'
 
-  def this() = this(Identifiable.randomUID("SYMSPELL"))
-
-  def setDerivedWords(value: Map[String, (List[String], Long)]):
-  this.type = set(derivedWords, value)
+  case class SuggestedWord(correction: String, frequency: Long, distance: Int, score: Double)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token => {
+      val verifiedWord = checkSpellWord(token.result)
       Annotation(
         outputAnnotatorType,
         token.begin,
         token.end,
-        check(token.result).getOrElse(token.result),
-        token.metadata
+        verifiedWord._1,
+        Map("confidence"->verifiedWord._2.toString)
       )
     }}
   }
 
-  def check(originalWord: String): Option[String] = {
+  def checkSpellWord(originalWord: String): (String, Double) = {
     logger.debug(s"spell checker target word: $originalWord")
-
+    var score: Double = 0
     if (isNoisyWord(originalWord)) {
-      return Option(originalWord)
+      return (originalWord, score)
     }
     var transformedWord = originalWord
     val originalCaseType = getCaseWordType(originalWord)
-    val correctedWord = getSuggestedCorrections(originalWord)
-    if (correctedWord.isDefined) {
-      logger.debug(s"Received: $originalWord. Best correction is: $correctedWord. " +
-        s"Because frequency was ${correctedWord.get._2._1} " +
-        s"and edit distance was ${correctedWord.get._2._2}")
-      transformedWord = transformToOriginalCaseType(originalCaseType, correctedWord.map(_._1).getOrElse(""))
+    val suggestedWord = getSuggestedCorrections(originalWord)
+    if (suggestedWord.isDefined) {
+      logger.debug(s"Received: $originalWord. Best correction is: $suggestedWord. " +
+        s"Because frequency was ${suggestedWord.get.frequency} " +
+        s"and edit distance was ${suggestedWord.get.distance}")
+      transformedWord = transformToOriginalCaseType(originalCaseType, suggestedWord.get.correction)
+      score = suggestedWord.get.score
     }
 
-    Option(transformedWord)
+    (transformedWord, score)
   }
 
   def isNoisyWord(word: String): Boolean = {
@@ -131,7 +133,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     * spelled word
     * */
 
-  def getSuggestedCorrections(word: String): Option[(String, (Long, Int))] = {
+  def getSuggestedCorrections(word: String): Option[SuggestedWord] = {
     val cleanWord = Utilities.limitDuplicates($(dupsLimit), word)
     if (get(dictionary).isDefined) {
       getDictionarySuggestions(cleanWord)
@@ -141,17 +143,36 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     }
   }
 
-  def getDictionarySuggestions(word: String): Option[(String, (Long, Int))] = {
+  def getDictionarySuggestions(word: String): Option[SuggestedWord] = {
     if ($$(dictionary).contains(word)) {
       logger.debug("Word found in dictionary. No spell change")
-      Some((word, (0, 0)))
+      val score = getScoreFrequency(word)
+      getSuggestedWord(Some((word, (0, 0))), score)
     } else if ($$(dictionary).contains(word.distinct)) {
       logger.debug("Word as distinct found in dictionary")
-      Some((word.distinct, (0, 0)))
-    } else getSymmetricSuggestions(word)
+      val score = getScoreFrequency(word.distinct)
+      getSuggestedWord(Some((word.distinct, (0, 0))), score)
+    } else
+      getSymmetricSuggestions(word)
   }
 
-  def getSymmetricSuggestions(word: String): Option[(String, (Long, Int))] = {
+  def getScoreFrequency(word: String): Double = {
+    val frequency = Utilities.getFrequency(word, $$(dictionary))
+    normalizeFrequencyValue(frequency)
+  }
+
+  def normalizeFrequencyValue(value: Long): Double = {
+    if (value > $(maxFrequency)) {
+      return 1
+    }
+    if (value < $(minFrequency)) {
+      return 0
+    }
+    val normalizedValue = (value - $(maxFrequency)).toDouble / ($(maxFrequency) - $(minFrequency)).toDouble
+    BigDecimal(normalizedValue).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble
+  }
+
+  def getSymmetricSuggestions(word: String): Option[SuggestedWord] = {
     val lowercaseWord = word.toLowerCase()
     val lowercaseWordLength = lowercaseWord.length
     if ((lowercaseWordLength - this.getLongestWordLength) > $(maxEditDistance))
@@ -244,7 +265,20 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     // return list of suggestions with (correction, (frequency in corpus, edit distance))
 
     val suggestions = suggestDict.toSeq.sortBy { case (k, (f, d)) => (d, -f, k) }.toList
-    suggestions.headOption.orElse(None)
+    getSuggestedWord(suggestions.headOption.orElse(None), -1)
+  }
+
+
+  private def getSuggestedWord(suggestion: Option[(String, (Long, Int))], score: Double):
+  Option[SuggestedWord] = {
+    if (suggestion.isDefined) {
+      val realScore = if(score == -1) suggestion.get._2._2.toDouble / $(maxEditDistance).toDouble else score
+      Some(SuggestedWord(correction = suggestion.get._1, frequency = suggestion.get._2._1,
+                         distance = suggestion.get._2._2,
+                         score = BigDecimal(realScore).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble))
+    } else {
+      None
+    }
   }
 
 }

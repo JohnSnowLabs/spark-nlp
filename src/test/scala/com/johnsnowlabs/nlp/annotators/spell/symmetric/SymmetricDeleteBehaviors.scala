@@ -35,8 +35,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     .setStages(Array(
       documentAssembler,
       tokenizer,
-      spell,
-      finisher
+      spell
     ))
 
   private val CAPITAL = 'C'
@@ -72,8 +71,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
          .fit(trainDataSet)
        val misspell = wordAnswer.head._1
 
-      val correction = spellChecker.check(misspell).getOrElse(misspell)
-      assert(correction == wordAnswer.head._2)
+      val correction = spellChecker.checkSpellWord(misspell)
+      assert(correction._1 == wordAnswer.head._2)
     }
   }
 
@@ -88,8 +87,8 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
       wordAnswer.foreach( wa => {
         val misspell = wa._1
-        val correction = spellChecker.check(misspell).getOrElse(misspell)
-        assert(correction == wa._2)
+        val correction = spellChecker.checkSpellWord(misspell)
+        assert(correction._1 == wa._2)
       })
     }
   }
@@ -104,7 +103,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .fit(trainDataSet)
 
       val result = wordAnswer.count(wa =>
-        spellChecker.check(wa._1).getOrElse(wa._1) == wa._2) / wordAnswer.length.toDouble
+        spellChecker.checkSpellWord(wa._1)._1 == wa._2) / wordAnswer.length.toDouble
       println(result)
       assert(result > 0.85, s"because result: $result did was below: 0.85")
     }
@@ -278,7 +277,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
     val predictionDataSet = words.toDF("text")
     val model = pipeline.fit(trainDataSet)
-    model.transform(predictionDataSet).show()
+    model.transform(predictionDataSet).select("spell").show(false)
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {

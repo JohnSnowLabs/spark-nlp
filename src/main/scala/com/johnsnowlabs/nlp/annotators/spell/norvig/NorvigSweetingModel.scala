@@ -105,9 +105,6 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   def getScoreFrequency(word: String): Double = {
-    if (word == "") {
-      return -1
-    }
     val frequency = Utilities.getFrequency(word, $$(wordCount))
     normalizeFrequencyValue(frequency)
   }
