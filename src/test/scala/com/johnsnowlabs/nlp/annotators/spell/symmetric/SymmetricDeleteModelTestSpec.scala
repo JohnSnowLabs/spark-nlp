@@ -45,7 +45,7 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a symmetric spell checker with empty dataset" should behave like testEmptyDataset
 
-  "A norvig spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+  "A symmetric spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
     "mral",
     "delicatly",
     "efusive",
