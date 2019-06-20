@@ -64,7 +64,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = null
+  private var tesseractAPI : TesseractAccess = null
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
@@ -218,7 +218,7 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def tesseract:Tesseract = {
+  private def tesseract:TesseractAccess = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
 
@@ -357,7 +357,8 @@ class OcrHelper extends ImageProcessing with Serializable {
       }
 
       regions.flatMap(_.map { rectangle =>
-        tesseract.doOCR(dilatedImage, rectangle)
+        //tesseract.doOCR(dilatedImage, rectangle)
+        tesseract.doOCRWithConfidence(dilatedImage, rectangle, pageIteratorLevel)._1
       })
     })
 
