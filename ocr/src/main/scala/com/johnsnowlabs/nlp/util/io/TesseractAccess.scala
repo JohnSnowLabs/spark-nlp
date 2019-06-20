@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage
 
 import javax.imageio.IIOImage
 import net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel
+import net.sourceforge.tess4j.ITessAPI.ETEXT_DESC
 import net.sourceforge.tess4j.util.ImageIOHelper
 import net.sourceforge.tess4j._
 class TesseractAccess extends Tesseract {
@@ -26,34 +27,29 @@ class TesseractAccess extends Tesseract {
     */
   @throws[TesseractException]
   def doOCRWithConfidence(bi: BufferedImage, rect: Rectangle, level:Int): (String, Float) = {
-
     import scala.collection.JavaConversions._
-    import net.sourceforge.tess4j.ITessAPI.ETEXT_DESC
 
     init()
     setTessVariables()
 
-    val result = ImageIOHelper.getIIOImageList(bi).map {
-      oimage =>
-        setImage(oimage.getRenderedImage(), rect)
+    val oimage = ImageIOHelper.getIIOImageList(bi).head
+    setImage(oimage.getRenderedImage(), rect)
+    getAPI.TessBaseAPIRecognize(getHandle, new ETEXT_DESC)
+    val ri = getAPI.TessBaseAPIGetIterator(getHandle)
 
-        val monitor = new ETEXT_DESC
-        getAPI.TessBaseAPIRecognize(getHandle, monitor)
-        val ri = getAPI.TessBaseAPIGetIterator(getHandle)
-
-        var buffer = ""
-        var score = 0.0f
-        do {
-          val symbol = getAPI.TessResultIteratorGetUTF8Text(ri, level)
-          val score = getAPI.TessResultIteratorConfidence(ri, level)
-          if (symbol != null)
-             buffer = buffer + symbol.getString(0)
-          getAPI.TessDeleteText(symbol)
-        }while (getAPI.TessResultIteratorNext(ri, level) == ITessAPI.TRUE)
-
-        (buffer, score)
-    }.headOption.getOrElse(("", 0.0f))
-    result
+    val strBuffer = new StringBuilder
+    var score = 0.0f
+    var rCount = 0.0f
+    do {
+       val symbol = getAPI.TessResultIteratorGetUTF8Text(ri, level)
+       score += getAPI.TessResultIteratorConfidence(ri, level)
+       if (symbol != null)
+          strBuffer ++= symbol.getString(0)
+       rCount += 1.0
+       getAPI.TessDeleteText(symbol)
+    } while (getAPI.TessResultIteratorNext(ri, level) == ITessAPI.TRUE)
+    dispose()
+    (strBuffer.toString(), score/rCount)
   }
 
 }
