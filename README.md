@@ -292,7 +292,7 @@ You need to specify where in the cluster distributed storage you want to store S
 First, decide where you want to put your *application.conf* file
 
 ```scala
-import com.johnsnowlabs.uti.ConfigLoader
+import com.johnsnowlabs.util.ConfigLoader
 ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
 ```
 
