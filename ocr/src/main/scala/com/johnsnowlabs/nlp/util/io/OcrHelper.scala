@@ -61,7 +61,7 @@ object NoiseMethod {
   val RATIO = "ratio"
 }
 
-case class OcrRow(text: String, pagenum: Int, method: String, noiselevel:Double = 0.0, filename: String = "")
+case class OcrRow(text: String, pagenum: Int, method: String, noiselevel:Double = 0.0, confidence:Double=0.0, filename: String = "")
 
 class OcrHelper extends ImageProcessing with Serializable {
 
@@ -443,21 +443,23 @@ class OcrHelper extends ImageProcessing with Serializable {
     (splitPages, splitRegions) match {
       case (true, true) =>
         Option(imageRegions.zipWithIndex.map {case (pageRegions, pagenum) =>
-          pageRegions.map{case (r, nl) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl)}}.flatten)
+          pageRegions.map{case (r, nl, conf) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf)}}.flatten)
       case (true, false) =>
         // this merges regions within each page, splits the pages
         Option(imageRegions.zipWithIndex.
               map { case (pageRegions, pagenum) =>
                 val noiseLevel = mean(pageRegions.map(_._2))
+                val confidence = mean(pageRegions.map(_._3))
                 val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
-                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel)})
+                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
         val mergedText = imageRegions.map{pageRegions =>  pageRegions.map(_._1).
           mkString(System.lineSeparator)}.mkString(System.lineSeparator)
         // here the noise level will be an average
         val noiseLevel = mean(imageRegions.flatten.map(_._2))
-        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel)))
+        val confidence = mean(imageRegions.flatten.map(_._3))
+        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)))
      }
   }
 

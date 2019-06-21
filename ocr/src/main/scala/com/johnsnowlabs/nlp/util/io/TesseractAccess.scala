@@ -26,7 +26,7 @@ class TesseractAccess extends Tesseract {
     * @throws TesseractException
     */
   @throws[TesseractException]
-  def doOCRWithConfidence(bi: BufferedImage, rect: Rectangle, level:Int): (String, Float) = {
+  def doOCRWithConfidence(bi: BufferedImage, rect: Rectangle, level:Int): (String, Double) = {
     import scala.collection.JavaConversions._
 
     init()
@@ -38,8 +38,8 @@ class TesseractAccess extends Tesseract {
     val ri = getAPI.TessBaseAPIGetIterator(getHandle)
 
     val strBuffer = new StringBuilder
-    var score = 0.0f
-    var rCount = 0.0f
+    var score = 0.0
+    var rCount = 0.0
     do {
        val symbol = getAPI.TessResultIteratorGetUTF8Text(ri, level)
        score += getAPI.TessResultIteratorConfidence(ri, level)
@@ -52,4 +52,10 @@ class TesseractAccess extends Tesseract {
     (strBuffer.toString(), score/rCount)
   }
 
+  def doOCR(bi: BufferedImage, rect: Rectangle, level:Int, confidence:Boolean): (String, Double) = {
+    if(confidence)
+      doOCRWithConfidence(bi, rect, level)
+    else
+      (doOCR(bi, rect), 0.0)
+  }
 }
