@@ -307,7 +307,9 @@ You can use OcrHelper to directly create spark dataframes from PDF. This will ho
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val data = OcrHelper.createDataset(spark, "/pdfs/", "text", "metadata")
+val myOcrHelper = new OcrHelper
+
+val data = myOcrHelper.createDataset(spark, "/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setMetadataCol("metadata")
 
@@ -321,7 +323,9 @@ Another way, would be to simply create an array of strings. This is useful for e
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val raw = OcrHelper.createMap("/pdfs/")
+val myOcrHelper = new OcrHelper
+
+val raw = myOcrHelper.createMap("/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
