@@ -45,6 +45,18 @@ modify_date: "2019-06-12"
 |**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)
 
+### German
+
+| Model                         | Name         |   de    |
+|-------------------------------|--------------|---------------|
+|PerceptronModel (POS UD)      |`pos_ud_hdt`| [de](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_hdt_de_2.0.8_2.4_1561232528570.zip)
+|NerDLModel (glove_6B_300 and glove_840B_300)| `ner_dl`|[de](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_contrib_de_2.0.8_2.4_1561234357155.zip)
+
+|Feature | Description|
+|---|----|
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/de_hdt/index.html)
+
 ### Italian
 
 | Model                            | Name      |   it    |
