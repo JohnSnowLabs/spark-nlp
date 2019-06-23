@@ -59,7 +59,7 @@ object NerDLCoNLL2003 extends App {
   val ner = try {
     val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
     for (epoch <- 0 until 150) {
-      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1, trainValidationProp=0f)
+      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1)
 
       System.out.println("\n\nQuality on train data")
       model.measure(trainDataset, (s: String) => System.out.println(s), extended = true)
