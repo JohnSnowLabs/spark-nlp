@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotator.WordEmbeddingsModel
 import com.johnsnowlabs.util.FileHelper
 import org.scalatest.FlatSpec
-
+import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 class NerDLSpec extends FlatSpec {
   val spark = SparkAccessor.spark
@@ -77,5 +79,30 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(10, 100, 101))
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 100, 101))
   }
+
+  "NerDL Approach" should "validate against part of the training dataset" in {
+
+    val conll = CoNLL()
+    val training_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testa")
+
+    val embeddings = WordEmbeddingsModel.pretrained().setOutputCol("embeddings")
+
+    val readyData = embeddings.transform(training_data)
+    val ner = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setLr(1e-1f) //0.001
+      .setPo(5e-3f) //0.005
+      .setDropout(5e-1f) //0.5
+      .setMaxEpochs(1)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setValidationRatio(0.1f)
+      .fit(readyData)
+
+  }
+
 }
 
