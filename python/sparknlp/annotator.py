@@ -1068,7 +1068,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             verbose=2,
             useContrib=uc,
             trainValidationProp=float(0.0),
-            validationLogExtended=false
+            validationLogExtended=False
         )
 
 class NerDLModel(AnnotatorModel):
