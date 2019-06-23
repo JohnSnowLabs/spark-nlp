@@ -112,7 +112,8 @@ class TensorflowNer
             startEpoch: Int,
             endEpoch: Int,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
-            configProtoBytes: Option[Array[Byte]] = None
+            configProtoBytes: Option[Array[Byte]] = None,
+            validationRatio: Float
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -166,6 +167,18 @@ class TensorflowNer
 
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
 
+      if (validationRatio > 0.0) {
+        val sample: Int = (trainDataset.length*validationRatio).toInt
+
+        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
+          .sortBy(_._1)
+          .map(_._2)
+          .take(sample)
+
+        log(s"Quality on $validationRatio of the training dataset (trainExamples size=$sample)", Verbose.Epochs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
+      }
+
       if (validation.nonEmpty) {
         log("Quality on train dataset: ", Verbose.Epochs)
         measure(trainDataset, (s: String) => log(s, Verbose.Epochs))
@@ -177,7 +190,6 @@ class TensorflowNer
       }
     }
   }
-
 
   def calcStat(correct: Int, predicted: Int, predictedCorrect: Int): (Float, Float, Float) = {
     // prec = (predicted & correct) / predicted
@@ -272,7 +284,7 @@ class TensorflowNer
     val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
-    log(s"Total stat, prec: $prec\t, rec: $rec\t, f1: $f1")
+    log(s"Total stat: prec: $prec, rec: $rec, f1: $f1")
 
     if (!extended)
       return
