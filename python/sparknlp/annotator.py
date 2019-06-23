@@ -1007,6 +1007,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
+    trainValidationProp = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                TypeConverters.toFloat)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1042,6 +1044,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
+    def setTrainValidationProp(self, v):
+        self._set(trainValidationProp=v)
+        return self
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1054,7 +1060,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             batchSize=8,
             dropout=float(0.5),
             verbose=2,
-            useContrib=uc
+            useContrib=uc,
+            trainValidationProp=float(0.0)
         )
 
 
