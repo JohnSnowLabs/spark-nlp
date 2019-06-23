@@ -39,7 +39,7 @@ class NerDLApproach(override val uid: String)
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
-  val trainValidationRatio = new FloatParam(this, "trainValidationRatio", "Set the percentage of the training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -52,7 +52,7 @@ class NerDLApproach(override val uid: String)
   def setGraphFolder(path: String) = set(this.graphFolder, path)
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
-  def setTrainValidationRatio(trainValidationRatio: Float) = set(this.trainValidationRatio, trainValidationRatio)
+  def setTrainValidationProp(trainValidationProp: Float) = set(this.trainValidationProp, trainValidationProp)
 
   setDefault(
     minEpochs -> 0,
@@ -63,7 +63,7 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
-    trainValidationRatio -> 0.0f
+    trainValidationProp -> 0.0f
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -111,7 +111,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationRatio=$(trainValidationRatio))
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationProp=$(trainValidationProp))
       model
     }
 

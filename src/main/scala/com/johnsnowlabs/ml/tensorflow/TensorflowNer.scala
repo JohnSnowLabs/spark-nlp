@@ -113,7 +113,7 @@ class TensorflowNer
             endEpoch: Int,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationRatio: Float
+            trainValidationProp: Float
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -167,15 +167,15 @@ class TensorflowNer
 
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
 
-      if (trainValidationRatio > 0.0) {
-        val sample: Int = (trainDataset.length*trainValidationRatio).toInt
+      if (trainValidationProp > 0.0) {
+        val sample: Int = (trainDataset.length*trainValidationProp).toInt
 
         val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
           .sortBy(_._1)
           .map(_._2)
           .take(sample)
 
-        log(s"Quality on $trainValidationRatio of the training dataset (trainExamples size = $sample)", Verbose.Epochs)
+        log(s"Quality on $trainValidationProp of the training dataset (trainExamples size = $sample)", Verbose.Epochs)
         measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
       }
 
