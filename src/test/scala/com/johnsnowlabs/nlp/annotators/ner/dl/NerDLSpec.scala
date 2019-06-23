@@ -99,7 +99,7 @@ class NerDLSpec extends FlatSpec {
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
-      .setValidationRatio(0.1f)
+      .setTrainValidationRatio(0.1f)
       .fit(readyData)
 
   }
