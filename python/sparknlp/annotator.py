@@ -1009,6 +1009,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
     trainValidationProp = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
+    validationLogExtended = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1048,6 +1050,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(trainValidationProp=v)
         return self
 
+    def setValidationLogExtended(self, v):
+        self._set(validationLogExtended=v)
+        return self
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1061,9 +1067,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             dropout=float(0.5),
             verbose=2,
             useContrib=uc,
-            trainValidationProp=float(0.0)
+            trainValidationProp=float(0.0),
+            validationLogExtended=false
         )
-
 
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
