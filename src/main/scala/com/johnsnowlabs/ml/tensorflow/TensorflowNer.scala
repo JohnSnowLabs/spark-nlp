@@ -175,7 +175,7 @@ class TensorflowNer
           .map(_._2)
           .take(sample)
 
-        log(s"Quality on $validationRatio of the training dataset (trainExamples size=$sample)", Verbose.Epochs)
+        log(s"Quality on $validationRatio of the training dataset (trainExamples size = $sample)", Verbose.Epochs)
         measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
       }
 
