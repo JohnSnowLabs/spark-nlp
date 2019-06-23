@@ -1010,7 +1010,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     trainValidationProp = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
     validationLogExtended = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                                TypeConverters.toBoolean)
+                                  TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
