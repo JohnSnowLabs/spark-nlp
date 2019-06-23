@@ -42,7 +42,7 @@ class TensorflowNer
   }
 
   def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
-      Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
     doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
   }
 
@@ -98,7 +98,7 @@ class TensorflowNer
   }
 
   def getPiecesTags(tokenTags: Array[TextSentenceLabels], sentences: Array[WordpieceEmbeddingsSentence])
-      :Array[Array[String]] = {
+  :Array[Array[String]] = {
     tokenTags.zip(sentences).map{
       case (tags, sentence) => getPiecesTags(tags, sentence)
     }
@@ -113,7 +113,8 @@ class TensorflowNer
             endEpoch: Int,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float
+            trainValidationProp: Float = 0.0f,
+            validationLogExtended: Boolean = false
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -169,14 +170,13 @@ class TensorflowNer
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
-
         val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
           .sortBy(_._1)
           .map(_._2)
           .take(sample)
 
         log(s"Quality on $trainValidationProp of the training dataset (trainExamples size = $sample)", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
       }
 
       if (validation.nonEmpty) {
@@ -212,18 +212,18 @@ class TensorflowNer
   }
 
   def tagsForTokens(labels: Array[Array[String]], pieces: Array[WordpieceEmbeddingsSentence]):
-    Array[Array[String]] = {
+  Array[Array[String]] = {
 
     labels.zip(pieces)
       .map{case (l, p) => tagsForTokens(l, p)}
   }
 
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
-                  log: (String => Unit),
-                  extended: Boolean = false,
-                  nErrorsToPrint: Int = 0,
-                  batchSize: Int = 20
-                 ): Unit = {
+              log: String => Unit,
+              extended: Boolean = false,
+              nErrorsToPrint: Int = 0,
+              batchSize: Int = 20
+             ): Unit = {
 
     val started = System.nanoTime()
 
