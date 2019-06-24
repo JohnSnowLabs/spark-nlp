@@ -18,7 +18,6 @@ import org.tensorflow.Graph
 
 import scala.util.Random
 
-
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
@@ -30,7 +29,7 @@ class NerDLApproach(override val uid: String)
   override def getLogName: String = "NerDL"
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val outputAnnotatorType = NAMED_ENTITY
+  override val outputAnnotatorType:String = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
@@ -46,15 +45,15 @@ class NerDLApproach(override val uid: String)
 
   def getUseContrib(): Boolean = $(this.useContrib)
 
-  def setLr(lr: Float) = set(this.lr, lr)
-  def setPo(po: Float) = set(this.po, po)
-  def setBatchSize(batch: Int) = set(this.batchSize, batch)
-  def setDropout(dropout: Float) = set(this.dropout, dropout)
-  def setGraphFolder(path: String) = set(this.graphFolder, path)
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
-  def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
-  def setTrainValidationProp(trainValidationProp: Float) = set(this.trainValidationProp, trainValidationProp)
-  def setValidationLogExtended(validationLogExtended: Boolean) = set(this.validationLogExtended, validationLogExtended)
+  def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
+  def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
+  def setBatchSize(batch: Int):NerDLApproach.this.type = set(this.batchSize, batch)
+  def setDropout(dropout: Float):NerDLApproach.this.type = set(this.dropout, dropout)
+  def setGraphFolder(path: String):NerDLApproach.this.type = set(this.graphFolder, path)
+  def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
+  def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
+  def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
+  def setValidationLogExtended(validationLogExtended: Boolean):NerDLApproach.this.type = set(this.validationLogExtended, validationLogExtended)
 
   setDefault(
     minEpochs -> 0,
