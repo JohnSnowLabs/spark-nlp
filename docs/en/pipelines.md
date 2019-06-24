@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-06-13"
+modify_date: "2019-06-24"
 ---
 
 ## English
@@ -156,7 +156,7 @@ annotation.select("entities.result").show(false)
 
 |Feature | Description|
 |---|----|
-|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
 |**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)
 |**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300**
@@ -349,7 +349,7 @@ annotation.select("entities.result").show(false)
 
 |Feature | Description|
 |---|----|
-|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
 |**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/it_isdt/index.html)
 |**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300**
