@@ -3,7 +3,7 @@ layout: article
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2019-06-12"
+modify_date: "2019-06-24"
 ---
 
 ## Pretrained Models
@@ -42,8 +42,8 @@ modify_date: "2019-06-12"
 |Feature | Description|
 |---|----|
 |**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
-|**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/de_hdt/index.html)
-|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entitiesuniversaldependencies.org/treebanks/fr_gsd/index.html)
+|**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
 
 ### German
 
@@ -70,9 +70,9 @@ modify_date: "2019-06-12"
 
 |Feature | Description|
 |---|----|
-|**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
-|**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/de_hdt/index.html)
-|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entitiesuniversaldependencies.org/treebanks/it_isdt/index.html)
+|**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset
+|**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/it_isdt/index.html)
+|**NER**|Trained by **NerDLApproach** annotator with **BiLSTM-CNN** on the **WikiNER** corpus and supports identification of `PER`, `LOC`, `ORG` and `MISC` entities
 
 ### Multi-language
 
