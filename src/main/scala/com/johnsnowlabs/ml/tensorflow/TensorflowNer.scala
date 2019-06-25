@@ -170,12 +170,13 @@ class TensorflowNer
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
-        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
-          .sortBy(_._1)
-          .map(_._2)
-          .take(sample)
+//        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
+//          .sortBy(_._1)
+//          .map(_._2)
+//          .take(sample)
+      val trainDatasetSample = trainDataset.take(sample)
 
-        log(s"Quality on $trainValidationProp of the training dataset (trainExamples size = $sample)", Verbose.Epochs)
+        log(s"Quality on $trainValidationProp of the training dataset (validate size = $sample)", Verbose.Epochs)
         measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
       }
 
@@ -191,13 +192,10 @@ class TensorflowNer
     }
   }
 
-  def calcStat(correct: Int, predicted: Int, predictedCorrect: Int): (Float, Float, Float) = {
-    // prec = (predicted & correct) / predicted
-    // rec = (predicted & correct) / correct
-    val prec = predictedCorrect.toFloat / predicted
-    val rec = predictedCorrect.toFloat / correct
-    val f1 = 2 * prec * rec / (prec + rec)
-
+  def calcStat(tp: Int, fp: Int, fn: Int): (Float, Float, Float) = {
+    val prec = tp.toFloat / (tp.toFloat + fp.toFloat)
+    val rec = tp.toFloat / (tp.toFloat + fn.toFloat)
+    val f1 = 2 * ((prec * rec) / (prec + rec))
     (prec, rec, f1)
   }
 
@@ -221,18 +219,17 @@ class TensorflowNer
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
               log: String => Unit,
               extended: Boolean = false,
-              nErrorsToPrint: Int = 0,
-              batchSize: Int = 20
+              batchSize: Int = 100
              ): Unit = {
 
     val started = System.nanoTime()
 
-    val predictedCorrect = mutable.Map[String, Int]()
     val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
-    var errorsPrinted = 0
-    var linePrinted = false
+    val truePositives = mutable.Map[String, Int]()
+    val falsePositives = mutable.Map[String, Int]()
+    val falseNegatives = mutable.Map[String, Int]()
 
     for (batch <- slice(labeled, batchSize)) {
 
@@ -250,6 +247,7 @@ class TensorflowNer
       (sentenceTokens, sentenceLabels, sentenceTokenTags).zipped.foreach {
         case (tokens, labels, tags) =>
           for (i <- 0 until labels.length) {
+
             val label = labels(i)
             val tag = tags(i)
             val iWord = tokens(i)
@@ -257,18 +255,15 @@ class TensorflowNer
             correct(label) = correct.getOrElse(label, 0) + 1
             predicted(tag) = predicted.getOrElse(tag, 0) + 1
 
-            if (label == tag)
-              predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
-            else if (errorsPrinted < nErrorsToPrint) {
-              log(s"label: $label, predicted: $tag, word: $iWord")
-              linePrinted = false
-              errorsPrinted += 1
+            //We don't really care about true negatives at the moment
+            if ((label == tag) && label != "O") {
+              truePositives(tag) = truePositives.getOrElse(label, 0) + 1
+            } else if (label == "O" && tag != "O") {
+              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
+            } else {
+              falseNegatives(tag) = falseNegatives.getOrElse(label, 0) + 1
             }
-          }
 
-          if (errorsPrinted < nErrorsToPrint && !linePrinted) {
-            log("")
-            linePrinted = true
           }
       }
     }
@@ -277,28 +272,28 @@ class TensorflowNer
       log(s"time: ${(System.nanoTime() - started)/1e9}")
 
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
-
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
 
-    val totalCorrect = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
-    log(s"Total stat: prec: $prec, rec: $rec, f1: $f1")
+    val totalTruePositives = truePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalFalsePositives = falsePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalFalseNegatives = falseNegatives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+
+    val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
+    log(s"prec: $prec, rec: $rec, f1: $f1")
 
     if (!extended)
       return
 
-    log("label\tprec\trec\tf1")
+    log("label\t prec\t rec\t f1")
 
     for (label <- notEmptyLabels) {
       val (prec, rec, f1) = calcStat(
-        correct.getOrElse(label, 0),
-        predicted.getOrElse(label, 0),
-        predictedCorrect.getOrElse(label, 0)
+        truePositives.getOrElse(label, 0),
+        falsePositives.getOrElse(label, 0),
+        falseNegatives.getOrElse(label, 0)
       )
 
-      log(s"$label\t$prec\t$rec\t$f1")
+      log(s"$label\t $prec\t $rec\t $f1")
     }
   }
 }
