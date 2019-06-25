@@ -170,11 +170,11 @@ class TensorflowNer
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
-//        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
-//          .sortBy(_._1)
-//          .map(_._2)
-//          .take(sample)
-      val trainDatasetSample = trainDataset.take(sample)
+        //        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
+        //          .sortBy(_._1)
+        //          .map(_._2)
+        //          .take(sample)
+        val trainDatasetSample = trainDataset.take(sample)
 
         log(s"Quality on $trainValidationProp of the training dataset (validate size = $sample)", Verbose.Epochs)
         measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
@@ -257,11 +257,11 @@ class TensorflowNer
 
             //We don't really care about true negatives at the moment
             if ((label == tag) && label != "O") {
-              truePositives(tag) = truePositives.getOrElse(label, 0) + 1
+              truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag != "O") {
               falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
             } else {
-              falseNegatives(tag) = falseNegatives.getOrElse(label, 0) + 1
+              falseNegatives(label) = falseNegatives.getOrElse(label, 0) + 1
             }
 
           }
@@ -292,7 +292,6 @@ class TensorflowNer
         falsePositives.getOrElse(label, 0),
         falseNegatives.getOrElse(label, 0)
       )
-
       log(s"$label\t $prec\t $rec\t $f1")
     }
   }
