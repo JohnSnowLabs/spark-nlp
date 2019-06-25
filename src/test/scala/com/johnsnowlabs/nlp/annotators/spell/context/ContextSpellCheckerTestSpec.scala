@@ -31,6 +31,36 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val weights = loadWeights("src/test/resources/dist.psv")
   }
 
+  "Spell Checker" should "provide appropriate scores - sentence level" in {
+    val data = Seq("This is a correct sentence .",
+      "Thos ist an oncorrect sentrence .").toDF("text")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    import com.johnsnowlabs.nlp.functions._
+    val results = pipeline.transform(data).
+      select("checked").
+      mapAnnotations("checked", "checked", x => x.head.metadata.get("cost")).
+      collect.map(_.getString(0).toDouble)
+
+    assert(results(0) < results(1))
+
+  }
+
   "UnitClass" should "serilize/deserialize properly" in {
 
       import SparkAccessor.spark
@@ -55,7 +85,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       saveAsObjectFile(dataPathObject)
 
       // we handle the transducer separaely
-    FileUtils.deleteDirectory(new File(dataPathTrans))
+      FileUtils.deleteDirectory(new File(dataPathTrans))
       val transBytes = serializer.serialize(transducer)
       spark.sparkContext.parallelize(transBytes.toSeq, 1).
           saveAsObjectFile(dataPathTrans)
