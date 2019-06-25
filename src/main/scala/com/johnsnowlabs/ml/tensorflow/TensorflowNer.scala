@@ -113,8 +113,7 @@ class TensorflowNer
             endEpoch: Int,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f,
-            validationLogExtended: Boolean = false
+            trainValidationProp: Float = 0.0f
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -170,14 +169,11 @@ class TensorflowNer
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
-        //        val trainDatasetSample = trainDataset.map(x => (Random.nextFloat(), x))
-        //          .sortBy(_._1)
-        //          .map(_._2)
-        //          .take(sample)
+
         val trainDatasetSample = trainDataset.take(sample)
 
-        log(s"Quality on $trainValidationProp of the training dataset (validate size = $sample)", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
+        log(s"Quality on training dataset (${trainValidationProp*100}%), validationExamples = $sample", Verbose.Epochs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
       }
 
       if (validation.nonEmpty) {
@@ -268,8 +264,7 @@ class TensorflowNer
       }
     }
 
-    if (extended)
-      log(s"time: ${(System.nanoTime() - started)/1e9}")
+    log(s"time to finish validation: ${(System.nanoTime() - started)/1e9}")
 
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
@@ -279,10 +274,7 @@ class TensorflowNer
     val totalFalseNegatives = falseNegatives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
-    log(s"prec: $prec, rec: $rec, f1: $f1")
-
-    if (!extended)
-      return
+    log(s"Total stats\t prec: $prec, rec: $rec, f1: $f1")
 
     log("label\t prec\t rec\t f1")
 
