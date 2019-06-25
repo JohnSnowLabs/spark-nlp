@@ -39,7 +39,6 @@ class NerDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-  val validationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -53,7 +52,6 @@ class NerDLApproach(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
-  def setValidationLogExtended(validationLogExtended: Boolean):NerDLApproach.this.type = set(this.validationLogExtended, validationLogExtended)
 
   setDefault(
     minEpochs -> 0,
@@ -64,8 +62,7 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
-    trainValidationProp -> 0.0f,
-    validationLogExtended -> false
+    trainValidationProp -> 0.0f
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -113,7 +110,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationProp=$(trainValidationProp), validationLogExtended=$(validationLogExtended))
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationProp=$(trainValidationProp))
       model
     }
 
