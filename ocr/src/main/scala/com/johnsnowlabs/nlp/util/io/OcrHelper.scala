@@ -61,7 +61,7 @@ object NoiseMethod {
   val RATIO = "ratio"
 }
 
-case class OcrRow(text: String, pagenum: Int, method: String, noiselevel:Double = 0.0, filename: String = "")
+case class OcrRow(text: String, pagenum: Int, method: String, noiselevel:Double = 0.0, confidence:Double=0.0, filename: String = "")
 
 class OcrHelper extends ImageProcessing with Serializable {
 
@@ -69,7 +69,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = null
+  private var tesseractAPI : TesseractAccess = null
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
@@ -82,6 +82,8 @@ class OcrHelper extends ImageProcessing with Serializable {
   private var kernelSize:Option[Int] = None
   private var splitPages: Boolean = true
   private var splitRegions: Boolean = true
+  // whether to include confidence values in the output or not
+  private var useConfidence: Boolean = false
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -165,6 +167,12 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   def getSplitRegions: Boolean = splitRegions
 
+  def setIncludeConfidence(value: Boolean): Unit = {
+    useConfidence = value
+  }
+
+  def getIncludeConfidence:Boolean = useConfidence
+
   def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
       kernelSize = None
@@ -232,12 +240,11 @@ class OcrHelper extends ImageProcessing with Serializable {
     estimateNoise = Some(noiseMethod)
   }
 
-  private def tesseract:Tesseract = {
+  private def tesseract:TesseractAccess = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
 
     tesseractAPI
-
   }
 
   private def initTesseract():TesseractAccess = this.synchronized {
@@ -426,8 +433,9 @@ class OcrHelper extends ImageProcessing with Serializable {
       }
 
       regions.flatMap(_.map { rectangle =>
-        (tesseract.doOCR(dilatedImage, rectangle),
-          computeNoiseScore(estimateNoise, scaledImage, rectangle))
+        val (text, confidence) =
+            tesseract.doOCR(dilatedImage, rectangle, pageIteratorLevel, useConfidence)
+        (text, computeNoiseScore(estimateNoise, scaledImage, rectangle), confidence)
       })
     })
 
@@ -435,21 +443,23 @@ class OcrHelper extends ImageProcessing with Serializable {
     (splitPages, splitRegions) match {
       case (true, true) =>
         Option(imageRegions.zipWithIndex.map {case (pageRegions, pagenum) =>
-          pageRegions.map{case (r, nl) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl)}}.flatten)
+          pageRegions.map{case (r, nl, conf) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf)}}.flatten)
       case (true, false) =>
         // this merges regions within each page, splits the pages
         Option(imageRegions.zipWithIndex.
               map { case (pageRegions, pagenum) =>
                 val noiseLevel = mean(pageRegions.map(_._2))
+                val confidence = mean(pageRegions.map(_._3))
                 val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
-                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel)})
+                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
         val mergedText = imageRegions.map{pageRegions =>  pageRegions.map(_._1).
           mkString(System.lineSeparator)}.mkString(System.lineSeparator)
         // here the noise level will be an average
         val noiseLevel = mean(imageRegions.flatten.map(_._2))
-        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel)))
+        val confidence = mean(imageRegions.flatten.map(_._3))
+        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)))
      }
   }
 
