@@ -78,11 +78,12 @@ scmInfo:= Some(
 
 developers in ThisBuild:= List(
   Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
-  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
-  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
+  Developer(id="maziyarpanahi", name="Maziyar Panahi", email="maziyar@johnsnowlabs.com", url=url("https://github.com/maziyarpanahi")),
   Developer(id="albertoandreottiATgmail", name="Alberto Andreotti", email="alberto@pacific.ai", url=url("https://github.com/albertoandreottiATgmail")),
+  Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl")),
   Developer(id="rohit13k", name="Rohit Kumar", email="rohit@johnsnowlabs.com", url=url("https://github.com/rohit13k")),
-  Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl"))
+  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
+  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy"))
 )
 
 
@@ -107,7 +108,12 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+    exclude("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude("com.fasterxml.jackson.core", "jackson-databind")
+    exclude("commons-configuration","commons-configuration")
+    exclude("org.apache.hadoop" ,"hadoop-common"),
+  "com.amazonaws" % "aws-java-sdk" % "1.11.568"
     exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
@@ -165,6 +171,8 @@ val ocrMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
+  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.last
+  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
@@ -173,7 +181,39 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
+// DO NOT CHANGE. 'eval' is a reserved sbt word. Using 'evaluation' for sbt reference
+lazy val evaluation = (project in file("eval"))
+  .settings(
+    name := "spark-nlp-eval",
+    version := "2.0.8",
 
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
+
+    homepage := Some(url("https://nlp.johnsnowlabs.com")),
+
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/JohnSnowLabs/spark-nlp"),
+        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+      )
+    ),
+
+    credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials"),
+
+    ivyScala := ivyScala.value map {
+      _.copy(overrideScalaVersion = true)
+    },
+    organization := "com.johnsnowlabs.nlp",
+
+    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+
+  )
+  .dependsOn(root)
 
 lazy val ocr = (project in file("ocr"))
   .settings(
@@ -234,7 +274,8 @@ publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
-lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
+lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled ocr jar to pyspark/lib")
+lazy val copyAssembledEvalJar = taskKey[Unit]("Copy assembled eval jar to pyspark/lib")
 lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
 
 copyAssembledJar := {
@@ -250,6 +291,14 @@ copyAssembledOcrJar := {
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
+
+copyAssembledEvalJar := {
+  val jarFilePath = (assemblyOutputPath in assembly in "evaluation").value
+  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-eval.jar").value
+  IO.copyFile(jarFilePath, newJarFilePath)
+  println(s"[info] $jarFilePath copied to $newJarFilePath ")
+}
+
 
 copyAssembledJarForPyPi := {
   val jarFilePath = (assemblyOutputPath in assembly).value

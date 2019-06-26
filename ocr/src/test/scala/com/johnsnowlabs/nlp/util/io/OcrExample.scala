@@ -1,12 +1,15 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io.File
+
+import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.util.OcrMetrics
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import javax.imageio.ImageIO
+
 import scala.io.Source
 
 
@@ -92,7 +95,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     val single = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
       select("text").collect.map(_.getString(0)).mkString
 
-    assert(levenshteinDistance(multiple, single) < 102)
+    assert(Utilities.levenshteinDistance(multiple, single) < 102)
 
   }
 
@@ -155,7 +158,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       select("text").collect().mkString(" ")
 
     val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
-    assert(levenshteinDistance(correct, data) < 900)
+    assert(Utilities.levenshteinDistance(correct, data) < 900)
   }
 
 
