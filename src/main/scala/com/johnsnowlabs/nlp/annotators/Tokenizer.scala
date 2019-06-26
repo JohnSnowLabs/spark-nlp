@@ -1,8 +1,10 @@
 package com.johnsnowlabs.nlp.annotators
 
+import java.util.regex.Pattern
+
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -18,11 +20,13 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   val compositeTokens: StringArrayParam = new StringArrayParam(this, "compositeTokens", "Words that won't be split in two")
+  val exceptionTokens: StringArrayParam = new StringArrayParam(this, "exceptionTokens", "Words that won't be affected by tokenization rules")
+  val contextChars: StringArrayParam = new StringArrayParam(this, "contextChars", "character list used to separate from token boundaries")
+  val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
   val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
-  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Defaults to \\A([^\\s\\p{L}$\\.]*)")
-  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Defaults to ([^\\s\\p{L}]?)([^\\s\\p{L}]*)\\z")
-  val includeDefaults: BooleanParam = new BooleanParam(this, "includeDefaults", "whether to include default patterns or only use user provided ones. Defaults to true.")
+  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
+  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
 
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
@@ -41,62 +45,92 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def setSuffixPattern(value: String): this.type = set(suffixPattern, value)
 
-  def setCompositeTokensPatterns(value: Array[String]): this.type = set(compositeTokens, value)
+  def setCompositeTokens(value: Array[String]): this.type = set(compositeTokens, value)
+
+  def addCompositeTokens(value: String): this.type = set(compositeTokens, get(compositeTokens).getOrElse(Array.empty[String] :+ value))
 
   def getCompositeTokens: Array[String] = $(compositeTokens)
 
-  def getInfixPatterns: Array[String] = if ($(includeDefaults)) $(infixPatterns) ++ infixDefaults else $(infixPatterns)
+  def setExceptionTokens(value: Array[String]): this.type = set(compositeTokens, value)
 
-  def getPrefixPattern: String = if ($(includeDefaults)) get(prefixPattern).getOrElse(prefixDefault) else $(prefixPattern)
+  def addExceptionTokens(value: String): this.type = set(exceptionTokens, get(exceptionTokens).getOrElse(Array.empty[String]) :+ value)
 
-  def getSuffixPattern: String = if ($(includeDefaults)) get(suffixPattern).getOrElse(suffixDefault) else $(suffixPattern)
+  def getExceptionTokens: Array[String] = $(compositeTokens)
+
+  def getInfixPatterns: Array[String] = $(infixPatterns)
+
+  def getPrefixPattern: String = $(prefixPattern)
+
+  def getSuffixPattern: String = $(suffixPattern)
 
   def getTargetPattern: String = $(targetPattern)
 
-  def getIncludeDefaults: Boolean = $(includeDefaults)
+  def setContextChars(v: Array[String]): this.type = {
+    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    set(contextChars, v)
+  }
 
-  def setIncludeDefaults(value: Boolean): this.type = set(includeDefaults, value)
+  def addContextChars(v: String): this.type = {
+    require(v.length == 1, "Context char must have length == 1")
+    set(contextChars, get(contextChars).getOrElse(Array.empty[String]) :+ v)
+  }
 
-  setDefault(includeDefaults, true)
-  setDefault(targetPattern, "\\S+")
-  setDefault(infixPatterns, Array.empty[String])
+  def getContextChars: Array[String] = {
+    $(contextChars)
+  }
 
-  /** Check here for explanation on this default pattern */
-  private val infixDefaults =  Array(
-    "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)", // Money, Phone number and dates -> http://rubular.com/r/ihCCgJiX4e
-    "((?:\\p{L}\\.)+)", // Abbreviations -> http://rubular.com/r/nMf3n0axfQ
-    "(\\p{L}+)(n't\\b)", // Weren't -> http://rubular.com/r/coeYJFt8eM
-    "(\\p{L}+)('{1}\\p{L}+)", // I'll -> http://rubular.com/r/N84PYwYjQp
-    "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)", // foo-bar -> http://rubular.com/r/cjit4R6uWd
-    "([\\p{L}\\w]+)" // basic word token
+  def setSplitChars(v: Array[String]): this.type = {
+    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    set(splitChars, v)
+  }
+
+  def addSplitChars(v: String): this.type = {
+    require(v.length == 1, "Context char must have length == 1")
+    set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
+  }
+
+  def getSplitChars: Array[String] = {
+    $(splitChars)
+  }
+
+  setDefault(
+    targetPattern -> "\\S+",
+    contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'")
   )
-  /** These catch everything before and after a word, as a separate token*/
-  private val prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
-  private val suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
 
   /** Clears out rules and constructs a new rule for every combination of rules provided */
   /** The strategy is to catch one token per regex group */
   /** User may add its own groups if needs targets to be tokenized separately from the rest */
   lazy private val ruleFactory = {
     val rules = ArrayBuffer.empty[String]
-    require(getInfixPatterns.forall(ip => ip.contains("(") && ip.contains(")")),
+
+    lazy val quotedContext = Pattern.quote($(contextChars).mkString(""))
+    lazy val quotedSplit = get(splitChars).map(i => Pattern.quote(i.mkString("")))
+    lazy val quotedUniqueAll = Pattern.quote(get(splitChars).getOrElse(Array.empty[String]).union($(contextChars)).distinct.mkString(""))
+
+    val processedPrefix = get(prefixPattern).getOrElse(s"\\A([$quotedContext]*)")
+    require(processedPrefix.startsWith("\\A"), "prefixPattern must begin with \\A to ensure it is the beginning of the string")
+
+    val processedSuffix = get(suffixPattern).getOrElse(s"([$quotedContext]*)\\z")
+    require(processedSuffix.endsWith("\\z"), "suffixPattern must end with \\z to ensure it is the end of the string")
+
+    val processedInfixes = get(infixPatterns).getOrElse({
+      quotedSplit
+        .map(split => Array(s"([^$quotedUniqueAll]+)([$split]+)([^$quotedUniqueAll]*)"))
+        .getOrElse(Array.empty[String]) ++ Array(s"([^$quotedContext](?:.*[^$quotedContext])*)")
+    })
+
+    require(processedInfixes.forall(ip => ip.contains("(") && ip.contains(")")),
       "infix patterns must use regex group. Notice each group will result in separate token")
-    getInfixPatterns.foreach(ip => {
-      val rule = new StringBuilder
-      get(prefixPattern).orElse(if (!$(includeDefaults)) None else Some(prefixDefault)).foreach(pp => {
-        require(pp.startsWith("\\A"), "prefixPattern must begin with \\A to ensure it is the beginning of the string")
-        require(pp.contains("(") && pp.contains(")"), "prefixPattern must contain regex groups. Each group will return in separate token")
-        rule.append(pp)
-      })
-      rule.append(ip)
-      get(suffixPattern).orElse(if (!$(includeDefaults)) None else Some(suffixDefault)).foreach(sp => {
-        require(sp.endsWith("\\z"), "suffixPattern must end with \\z to ensure it is the end of the string")
-        require(sp.contains("(") && sp.contains(")"), "suffixPattern must contain regex groups. Each group will return in separate token")
-        rule.append(sp)
-      })
-      rules.append(rule.toString)
+    processedInfixes.foreach(infix => {
+      val ruleBuilder = new StringBuilder
+      ruleBuilder.append(processedPrefix)
+      ruleBuilder.append(infix)
+      ruleBuilder.append(processedSuffix)
+      rules.append(ruleBuilder.toString)
     })
     rules.foldLeft(new RuleFactory(MatchStrategy.MATCH_FIRST))((factory, rule) => factory.addRule(rule.r, rule))
+
   }
 
   private val PROTECT_CHAR = "ↈ"
@@ -124,6 +158,12 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
             text.content.slice(text.start + candidate.start, text.start + candidate.end),
             text.start + candidate.start,
             text.start + candidate.end - 1
+          ))
+        } else if (get(exceptionTokens).isDefined && $(exceptionTokens).contains(candidate.matched)) {
+          Seq(IndexedToken(
+            candidate.matched,
+            candidate.start,
+            candidate.end - 1
           ))
         }
         else {

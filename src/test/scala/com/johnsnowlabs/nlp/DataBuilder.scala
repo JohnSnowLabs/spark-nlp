@@ -11,9 +11,9 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
 
   import SparkAccessor.spark.implicits._
 
-  def basicDataBuild(content: String*): Dataset[Row] = {
+  def basicDataBuild(content: String*)(implicit cleanupMode: String = "disabled"): Dataset[Row] = {
     val data = SparkAccessor.spark.sparkContext.parallelize(content).toDS().toDF("text")
-    AnnotatorBuilder.withDocumentAssembler(data)
+    AnnotatorBuilder.withDocumentAssembler(data, cleanupMode)
   }
 
   def multipleDataBuild(content: Seq[String]): Dataset[Row] = {
