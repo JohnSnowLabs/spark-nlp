@@ -108,6 +108,8 @@ class HasWordEmbeddings(HasEmbeddings):
                            typeConverter=TypeConverters.toBoolean)
 
     def setEmbeddingsRef(self, value):
+        if self.getParam('embeddingsRef'):
+            raise Exception("Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: %s" % self.getOrDefault('embeddingsRef'))
         return self._set(embeddingsRef=value)
 
     def setIncludeEmbeddings(self, value):
