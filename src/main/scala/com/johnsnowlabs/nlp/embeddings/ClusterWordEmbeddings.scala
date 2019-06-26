@@ -29,8 +29,8 @@ class ClusterWordEmbeddings(val fileName: String, val dim: Int, val caseSensitiv
     }
     else {
       val localFromClusterPath = SparkFiles.get(fileName)
-      require(new File(localFromClusterPath).exists(), s"Embeddings not found under given ref." +
-        s" This usually means:\n\n1. You have not loaded any embeddings under such embeddings ref1\n2." +
+      require(new File(localFromClusterPath).exists(), s"Embeddings not found under given ref ${fileName.replaceAll("/embd_", "")}\n" +
+        s" This usually means:\n\n1. You have not loaded any embeddings under such embeddings ref\n2." +
         s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to WordEmbeddings" +
         s"\n4. If you are trying to reutilize previous embeddings, make sure you use such ref here. ")
       embds = WordEmbeddingsRetriever(localFromClusterPath, dim, caseSensitive)
