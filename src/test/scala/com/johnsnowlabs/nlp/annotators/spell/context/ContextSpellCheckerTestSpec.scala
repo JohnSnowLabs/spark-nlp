@@ -208,13 +208,11 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val documentAssembler =
       new DocumentAssembler().
         setInputCol("text").
-        setOutputCol("doc").
-        setTrimAndClearNewLines(false)
+        setOutputCol("doc")
 
     val tokenizer: Tokenizer = new Tokenizer()
       .setInputCols(Array("doc"))
       .setOutputCol("token")
-      .setIncludeDefaults(false)
       .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
 
     val spellChecker = ContextSpellCheckerModel
@@ -243,8 +241,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val documentAssembler =
       new DocumentAssembler().
         setInputCol("text").
-        setOutputCol("doc").
-        setTrimAndClearNewLines(false)
+        setOutputCol("doc")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("doc"))
