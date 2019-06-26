@@ -1,4 +1,40 @@
 ========
+2.1.0
+========
+---------------
+Overview
+---------------
+
+---------------
+Enhancements
+---------------
+* Norvig and Symmetric spell checkers now report confidence scores in metadata
+* Tokenizer has been severely enhanced to allow easier and faster customization
+* NerDLApproach now reports metrics and f1 scores with an automated dataset splitting through `setTrainValidationProp`
+* Began making progress towards OCR reporting more meaningful metadata (noise levels, confidence score, etc), sets ground base for further development
+* Added `spark-nlp-eval` evaluation model with multiple scripts that help users evaluate their models and pipelines. To be improved.
+
+---------------
+Bugfixes
+---------------
+* Fixed Dependency Parser not reporting offsets correctly
+* Dependency Parser now only shows head token as part of the result, instead of pairs
+* Fixed NerDLModel not allowing to pick noncontrib versions from linux
+* Fixed a bug in embeddingsRef validation allowing the user to override ref when not possible
+
+---------------
+Framework
+---------------
+* ResourceDownloader now capable of utilizing credentials from aws standard means (variables, credentials folder)
+
+---------------
+Documentation
+---------------
+* Added Google Colab workthrough guide
+* Added Approach and Model class names in reference documentation
+* Fixed various typos and outdated pieces in documentation
+
+========
 2.0.8
 ========
 ---------------
