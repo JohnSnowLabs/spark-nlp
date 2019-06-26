@@ -9,8 +9,6 @@ case class WordWithDependency(word: String, begin: Int, end: Int, head: Int)
 
 object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
-  private val ROOT_INDEX = -1
-
   override def annotatorType: String = AnnotatorType.DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[DependencyParsedSentence] = {
@@ -39,32 +37,18 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
 
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
     items.flatMap{sentence =>
-      //val sizeSentence = sentence.tokens.length
       sentence.tokens.map { token =>
-        val headWord = getHeadWord(token.head, sentence)
-        val word = token.word
-        val relatedWords = s"($headWord, $word)"
-        val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1 //updateHeadsWithRootIndex(token.head, sizeSentence)
-        Annotation(annotatorType, token.begin, token.end, relatedWords, Map("head" -> realHead.toString))
+        val headData = getHeadData(token.head, sentence)
+        val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
+        Annotation(annotatorType, token.begin, token.end, headData.word, Map("head" -> realHead.toString,
+          "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString))
       }
     }
   }
 
-  def getHeadWord(head: Int, sentence: DependencyParsedSentence): String = {
-    var headWord = "ROOT"
-    if (head != ROOT_INDEX) {
-      headWord = sentence.tokens.lift(head).map(_.word)
-        .getOrElse(sentence.tokens.find(_.head == sentence.tokens.length).get.word)
-    }
-    headWord
+  def getHeadData(head: Int, sentence: DependencyParsedSentence): WordWithDependency = {
+    val root: WordWithDependency = WordWithDependency("ROOT", -1, -1, -1)
+      sentence.tokens.lift(head).getOrElse(root)
   }
-
-//  def updateHeadsWithRootIndex(head: Int, sizeSentence: Int): Int = {
-//    var newHead = ROOT_INDEX
-//    if (head != sizeSentence) {
-//      newHead = head + 1
-//    }
-//    newHead
-//  }
 
 }
