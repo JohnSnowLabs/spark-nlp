@@ -173,7 +173,36 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
+lazy val eval = (project in file("eval"))
+  .settings(
+    name := "spark-nlp-eval",
+    version := "2.0.8",
 
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
+
+    homepage := Some(url("https://nlp.johnsnowlabs.com")),
+
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/JohnSnowLabs/spark-nlp"),
+        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
+      )
+    ),
+
+    ivyScala := ivyScala.value map {
+      _.copy(overrideScalaVersion = true)
+    },
+    organization := "com.johnsnowlabs.nlp",
+
+    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+
+  )
+  .dependsOn(root)
 
 lazy val ocr = (project in file("ocr"))
   .settings(
