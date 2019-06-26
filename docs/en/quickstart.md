@@ -93,7 +93,7 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.0.8
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS) You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files. First, decide where you want to put your **application.conf** file
 
 ```bash
-import com.johnsnowlabs.uti.ConfigLoader
+import com.johnsnowlabs.util.ConfigLoader
 ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
 ```
 
