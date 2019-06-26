@@ -32,6 +32,22 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     dumpImage(correctedImg, "skew_corrected.png")
   }
 
+  "OcrHelper" should "correctly compute noise measures for input images" in {
+    import org.apache.spark.sql.functions._
+    ocrHelper.setEstimateNoise(NoiseMethod.VARIANCE)
+    ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+
+    val noisyScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noisy_images").
+      select(avg("noiselevel").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    val cleanScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noiseless_images").
+      select(avg("noiselevel").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    assert(noisyScore > cleanScore)
+  }
+
  "OcrHelper" should "automatically correct skew and improve accuracy" in {
     val spark = getSpark
     ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
