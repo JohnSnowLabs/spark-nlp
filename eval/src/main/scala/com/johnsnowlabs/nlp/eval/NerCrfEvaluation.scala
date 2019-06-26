@@ -43,7 +43,6 @@ object NerCrfEvaluation extends App {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
-      .setTrimAndClearNewLines(false)
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
@@ -53,7 +52,6 @@ object NerCrfEvaluation extends App {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
       .setPrefixPattern("\\A([^\\s\\p{L}$\\.']*)")
-      .setIncludeDefaults(false)
 
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
@@ -96,7 +94,6 @@ object NerCrfEvaluation extends App {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
-      .setTrimAndClearNewLines(false)
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
@@ -106,7 +103,6 @@ object NerCrfEvaluation extends App {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
       .setPrefixPattern("\\A([^\\s\\p{L}$\\.']*)")
-      .setIncludeDefaults(false)
 
     val pipeline = new Pipeline().setStages(
       Array(
