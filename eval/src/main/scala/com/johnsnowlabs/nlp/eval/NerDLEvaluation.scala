@@ -93,7 +93,6 @@ object NerDLEvaluation extends App {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
-      .setTrimAndClearNewLines(false)
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("document"))
@@ -102,8 +101,6 @@ object NerDLEvaluation extends App {
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
-      .setPrefixPattern("\\A([^\\s\\p{L}$\\.']*)")
-      .setIncludeDefaults(false)
 
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
