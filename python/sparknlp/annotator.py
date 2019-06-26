@@ -1090,9 +1090,16 @@ class NerDLModel(AnnotatorModel):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="ner_dl", lang="en", remote_loc=None):
+    def pretrained(name="ner_dl_by_os", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
+        if name == "ner_dl_by_os":
+            if sys.platform == 'win32':
+                final_name = 'ner_dl'
+            else:
+                final_name = 'ner_dl_contrib'
+        else:
+            final_name = name
+        return ResourceDownloader.downloadModel(NerDLModel, final_name, lang, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
