@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import java.util.regex.Pattern
 
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
@@ -200,4 +201,10 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   }
 }
 
-object Tokenizer extends DefaultParamsReadable[Tokenizer]
+trait PretrainedTokenizer {
+  def pretrained(name: String = "token_rules", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): Tokenizer = {
+    ResourceDownloader.downloadModel(Tokenizer, name, Option(lang), remoteLoc)
+  }
+}
+
+object Tokenizer extends DefaultParamsReadable[Tokenizer] with PretrainedTokenizer
