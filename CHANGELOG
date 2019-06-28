@@ -1,9 +1,16 @@
 ========
-2.1.0
+2.1.0-rc1
 ========
 ---------------
 Overview
 ---------------
+This is a pre-release for 2.1.0. The tokenizer has been revamped, and some of the DocumentAssembler defaults changed.
+For this reason, many pipelines and models may now change their accuracies and performance. Old tokenizer default rules
+will be translated in a new english specific pretrained Tokenizer.
+NerDLApproach will now report metrics if setTrainValidationProp has been set, as well as confidence scores reporting in spell checkers.
+DependencyParser output has been reviewed and fixed a bunch of other bugs in the embeddings scope.
+Please feedback and bugs, and remember, this is a pre-release, so not yet intended for production use.
+Join Slack!
 
 ---------------
 Enhancements
