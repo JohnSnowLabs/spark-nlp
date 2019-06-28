@@ -182,6 +182,11 @@ class Tokenizer(AnnotatorModel):
         split_chars.append(value)
         return self._set(splitChars=split_chars)
 
+    @staticmethod
+    def pretrained(name="token_rukes", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(Tokenizer, name, lang, remote_loc)
+
 
 class ChunkTokenizer(Tokenizer):
     name = 'ChunkTokenizer'
