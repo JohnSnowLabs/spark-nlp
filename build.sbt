@@ -156,7 +156,6 @@ lazy val root = (project in file("."))
 
 
 val ocrMergeRules: String => MergeStrategy  = {
-
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
@@ -165,6 +164,19 @@ val ocrMergeRules: String => MergeStrategy  = {
   case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
   case PathList("META-INF", xs @ _*)  => MergeStrategy.first
   case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
+  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
+  case _ => MergeStrategy.deduplicate
+}
+
+val evalMergeRules: String => MergeStrategy  = {
+  case "versionchanges.txt" => MergeStrategy.discard
+  case "StaticLoggerBinder" => MergeStrategy.discard
+  case PathList("META-INF", fileName)
+    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
+  => MergeStrategy.discard
+  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
+  case PathList("org", "apache", "spark", _ @ _*)  => MergeStrategy.discard
   case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
   case _ => MergeStrategy.deduplicate
 }
@@ -186,6 +198,15 @@ lazy val evaluation = (project in file("eval"))
   .settings(
     name := "spark-nlp-eval",
     version := "2.1.0",
+
+    assemblyMergeStrategy in assembly := evalMergeRules,
+
+    libraryDependencies ++= Seq( 
+      "org.apache.spark" %% "spark-core" % sparkVer,
+      "org.apache.spark" %% "spark-mllib" % sparkVer
+    ),
+
+    test in assembly := {},
 
     publishTo := Some(
       if (isSnapshot.value)
@@ -292,9 +313,10 @@ copyAssembledOcrJar := {
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
 
+// Includes spark-nlp, so use sparknlp.jar
 copyAssembledEvalJar := {
   val jarFilePath = (assemblyOutputPath in assembly in "evaluation").value
-  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-eval.jar").value
+  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
