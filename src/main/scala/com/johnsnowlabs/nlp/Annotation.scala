@@ -35,6 +35,10 @@ case class Annotation(annotatorType: String,
       case _ => false
     }
   }
+
+  override def toString: String = {
+    s"Annotation(type: $annotatorType, begin: $begin, end: $end, result: $result)"
+  }
 }
 
 case class JavaAnnotation(annotatorType: String,

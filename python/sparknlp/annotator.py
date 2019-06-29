@@ -61,50 +61,62 @@ class Tokenizer(AnnotatorModel):
                           "regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
                           typeConverter=TypeConverters.toString)
 
-    compositeTokens = Param(Params._dummy(),
-                            "compositeTokens",
-                            "Words that won't be split in two",
-                            typeConverter=TypeConverters.toListString)
-
     infixPatterns = Param(Params._dummy(),
                           "infixPatterns",
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
-    includeDefaults = Param(Params._dummy(),
-                            "includeDefaults",
-                            "whether to include default patterns or only use user provided ones. Defaults to true.",
-                            typeConverter=TypeConverters.toBoolean
-                            )
+    compositeTokens = Param(Params._dummy(),
+                            "compositeTokens",
+                            "Words that won't be split in two",
+                            typeConverter=TypeConverters.toListString)
+
+    exceptionTokens = Param(Params._dummy(),
+                            "exceptionTokens",
+                            "Words that won't be affected by tokenization rules",
+                            typeConverter=TypeConverters.toListString)
+
+    contextChars = Param(Params._dummy(),
+                         "contextChars",
+                         "character list used to separate from token boundaries",
+                         typeConverter=TypeConverters.toListString)
+
+    splitChars = Param(Params._dummy(),
+                         "splitChars",
+                         "character list used to separate from the inside of tokens",
+                         typeConverter=TypeConverters.toListString)
 
     name = 'Tokenizer'
-
-    infixDefaults = [
-        "([\\$#]?\\d+(?:[^\\s\\d]{1}\\d+)*)",
-        "((?:\\p{L}\\.)+)",
-        "(\\p{L}+)(n't\\b)",
-        "(\\p{L}+)('{1}\\p{L}+)",
-        "((?:\\p{L}+[^\\s\\p{L}]{1})+\\p{L}+)",
-        "([\\p{L}\\w]+)"
-    ]
-
-    prefixDefault = "\\A([^\\s\\p{L}\\d\\$\\.#]*)"
-
-    suffixDefault = "([^\\s\\p{L}\\d]?)([^\\s\\p{L}\\d]*)\\z"
 
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
 
-        self.infixDefaults = Tokenizer.infixDefaults
-        self.prefixDefault = Tokenizer.prefixDefault
-        self.suffixDefault = Tokenizer.suffixDefault
-
         self._setDefault(
             targetPattern="\\S+",
-            infixPatterns=[],
-            includeDefaults=True
+            contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"]
         )
+
+    def getInfixPatterns(self):
+        return self.getOrDefault("infixPatterns")
+
+    def getSuffixPattern(self):
+        return self.getOrDefault("suffixPattern")
+
+    def getPrefixPattern(self):
+        return self.getOrDefault("prefixPattern")
+
+    def getCompositeTokens(self):
+        return self.getOrDefault("compositeTokens")
+
+    def getExceptionTokens(self):
+        return self.getOrDefault("exceptionTokens")
+
+    def getContextChars(self):
+        return self.getOrDefault("contextChars")
+
+    def getSplitChars(self):
+        return self.getOrDefault("splitChars")
 
     def setTargetPattern(self, value):
         return self._set(targetPattern=value)
@@ -115,55 +127,60 @@ class Tokenizer(AnnotatorModel):
     def setSuffixPattern(self, value):
         return self._set(suffixPattern=value)
 
-    def setCompositeTokensPatterns(self, value):
+    def setCompositeTokens(self, value):
         return self._set(compositeTokens=value)
+
+    def addCompositeTokens(self, value):
+        composite_tokens = self.getCompositeTokens()
+        if composite_tokens:
+            composite_tokens.append(value)
+        else:
+            composite_tokens = [value]
+        return self._set(compositeTokens=composite_tokens)
 
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
-    def setIncludeDefaults(self, value):
-        return self._set(includeDefaults=value)
-
     def addInfixPattern(self, value):
-        infix_patterns = self.getInfixPatterns()
+        try:
+            infix_patterns = self.getInfixPatterns()
+        except KeyError:
+            infix_patterns = []
         infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
 
-    def getIncludeDefaults(self):
-        return self.getOrDefault("includeDefaults")
+    def setExceptionTokens(self, value):
+        return self._set(exceptionTokens=value)
 
-    def getInfixPatterns(self):
+    def addExceptionTokens(self, value):
         try:
-            if self.getOrDefault("includeDefaults"):
-                return self.getOrDefault("infixPatterns") + self.getDefaultPatterns()
-            else:
-                return self.getOrDefault("infixPatterns")
+            exception_tokens = self.getExceptionTokens()
         except KeyError:
-            if self.getOrDefault("includeDefaults"):
-                return self.getDefaultPatterns()
-            else:
-                return self.getOrDefault("infixPatterns")
+            exception_tokens = []
+        exception_tokens.append(value)
+        return self._set(exceptionTokens=exception_tokens)
 
-    def getSuffixPattern(self):
+    def setContextChars(self, value):
+        return self._set(contextChars=value)
+
+    def addContextChars(self, value):
         try:
-            return self.getOrDefault("suffixPattern")
+            context_chars = self.getContextChars()
         except KeyError:
-            return self.getDefaultSuffix()
+            context_chars = []
+        context_chars.append(value)
+        return self._set(contextChars=context_chars)
 
-    def getPrefixPattern(self):
+    def setSplitChars(self, value):
+        return self._set(splitChars=value)
+
+    def addSplitChars(self, value):
         try:
-            return self.getOrDefault("prefixPattern")
+            split_chars = self.getSplitChars()
         except KeyError:
-            return self.getDefaultPrefix()
-
-    def getDefaultPatterns(self):
-        return Tokenizer.infixDefaults
-
-    def getDefaultPrefix(self):
-        return Tokenizer.prefixDefault
-
-    def getDefaultSuffix(self):
-        return Tokenizer.suffixDefault
+            split_chars = []
+        split_chars.append(value)
+        return self._set(splitChars=split_chars)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -172,16 +189,6 @@ class ChunkTokenizer(Tokenizer):
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
-
-        self.infixDefaults = Tokenizer.infixDefaults
-        self.prefixDefault = Tokenizer.prefixDefault
-        self.suffixDefault = Tokenizer.suffixDefault
-
-        self._setDefault(
-            targetPattern="\\S+",
-            infixPatterns=[],
-            includeDefaults=True
-        )
 
 
 class Stemmer(AnnotatorModel):
@@ -746,6 +753,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          "whether to use faster mode",
                          typeConverter=TypeConverters.toBoolean)
 
+    frequencyPriority = Param(Params._dummy(),
+                              "frequencyPriority",
+                              "applies frequency over hamming in intersections. When false hamming takes priority",
+                              typeConverter=TypeConverters.toBoolean)
+
     wordSizeIgnore = Param(Params._dummy(),
                            "wordSizeIgnore",
                            "minimum size of word before ignoring. Defaults to 3",
@@ -776,7 +788,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
         super(NorvigSweetingApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
-                         reductLimit=3, intersections=10, vowelSwapLimit=6)
+                         reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -792,6 +804,9 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     def setShortCircuit(self, value):
         return self._set(shortCircuit=value)
+
+    def setFrequencyPriority(self, value):
+        return self._set(frequencyPriority=value)
 
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
@@ -828,25 +843,28 @@ class SymmetricDeleteApproach(AnnotatorApproach):
                             "max edit distance characters to derive strings from a word",
                             typeConverter=TypeConverters.toInt)
 
-    frequencyTreshold = Param(Params._dummy(),
-                            "frequencyTreshold",
-                            "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0",
-                            typeConverter=TypeConverters.toInt)
+    frequencyThreshold = Param(Params._dummy(),
+                               "frequencyThreshold",
+                               "minimum frequency of words to be considered from training. " +
+                               "Increase if training set is LARGE. Defaults to 0",
+                               typeConverter=TypeConverters.toInt)
 
-    deletesTreshold = Param(Params._dummy(),
-                            "deletesTreshold",
-                            "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0",
-                            typeConverter=TypeConverters.toInt)
+    deletesThreshold = Param(Params._dummy(),
+                             "deletesThreshold",
+                             "minimum frequency of corrections a word needs to have to be considered from training." +
+                             "Increase if training set is LARGE. Defaults to 0",
+                             typeConverter=TypeConverters.toInt)
+
+    dupsLimit = Param(Params._dummy(),
+                      "dupsLimit",
+                      "maximum duplicate of characters in a word to consider. Defaults to 2",
+                      typeConverter=TypeConverters.toInt)
 
     @keyword_only
     def __init__(self):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
-        self._setDefault(
-            maxEditDistance=3,
-            frequencyTreshold=0,
-            deletesTreshold=0
-        )
+        self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -863,11 +881,11 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     def setMaxEditDistance(self, v):
         return self._set(maxEditDistance=v)
 
-    def setFrequencyTreshold(self, v):
-        return self._set(frequencyTreshold=v)
+    def setFrequencyThreshold(self, v):
+        return self._set(frequencyThreshold=v)
 
-    def setDeletesTreshold(self, v):
-        return self._set(deletesTreshold=v)
+    def setDeletesThreshold(self, v):
+        return self._set(deletesThreshold=v)
 
     def _create_model(self, java_model):
         return SymmetricDeleteModel(java_model=java_model)
@@ -1007,6 +1025,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
+    trainValidationProp = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                TypeConverters.toFloat)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1042,6 +1062,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
+    def setTrainValidationProp(self, v):
+        self._set(trainValidationProp=v)
+        return self
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1054,9 +1078,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             batchSize=8,
             dropout=float(0.5),
             verbose=2,
-            useContrib=uc
+            useContrib=uc,
+            trainValidationProp=float(0.0)
         )
-
 
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
@@ -1073,9 +1097,16 @@ class NerDLModel(AnnotatorModel):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="ner_dl", lang="en", remote_loc=None):
+    def pretrained(name="ner_dl_by_os", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
+        if name == "ner_dl_by_os":
+            if sys.platform == 'win32':
+                final_name = 'ner_dl'
+            else:
+                final_name = 'ner_dl_contrib'
+        else:
+            final_name = name
+        return ResourceDownloader.downloadModel(NerDLModel, final_name, lang, remote_loc)
 
 
 class NerConverter(AnnotatorModel):

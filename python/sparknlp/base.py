@@ -174,13 +174,13 @@ class DocumentAssembler(AnnotatorTransformer):
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
     calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
-    trimAndClearNewLines = Param(Params._dummy(), "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces", typeConverter=TypeConverters.toBoolean)
+    cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full", typeConverter=TypeConverters.toString)
     name = 'DocumentAssembler'
 
     @keyword_only
     def __init__(self):
         super(DocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.DocumentAssembler")
-        self._setDefault(outputCol="document", trimAndClearNewLines=True)
+        self._setDefault(outputCol="document", cleanupMode='disabled')
 
     @keyword_only
     def setParams(self):
@@ -202,8 +202,9 @@ class DocumentAssembler(AnnotatorTransformer):
     def setCalculationsCol(self, value):
         return self._set(metadataCol=value)
 
-
-    def setTrimAndClearNewLines(self, value):
+    def setCleanupMode(self, value):
+        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full']:
+            raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full")
         return self._set(trimAndClearNewLines=value)
 
 

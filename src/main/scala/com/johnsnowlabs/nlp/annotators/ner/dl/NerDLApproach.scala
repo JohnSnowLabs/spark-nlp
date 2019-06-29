@@ -18,7 +18,6 @@ import org.tensorflow.Graph
 
 import scala.util.Random
 
-
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
@@ -30,7 +29,7 @@ class NerDLApproach(override val uid: String)
   override def getLogName: String = "NerDL"
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val outputAnnotatorType = NAMED_ENTITY
+  override val outputAnnotatorType:String = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
@@ -39,18 +38,20 @@ class NerDLApproach(override val uid: String)
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
+  val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   def getUseContrib(): Boolean = $(this.useContrib)
 
-  def setLr(lr: Float) = set(this.lr, lr)
-  def setPo(po: Float) = set(this.po, po)
-  def setBatchSize(batch: Int) = set(this.batchSize, batch)
-  def setDropout(dropout: Float) = set(this.dropout, dropout)
-  def setGraphFolder(path: String) = set(this.graphFolder, path)
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
-  def setUseContrib(value: Boolean) = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
+  def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
+  def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
+  def setBatchSize(batch: Int):NerDLApproach.this.type = set(this.batchSize, batch)
+  def setDropout(dropout: Float):NerDLApproach.this.type = set(this.dropout, dropout)
+  def setGraphFolder(path: String):NerDLApproach.this.type = set(this.graphFolder, path)
+  def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
+  def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
+  def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
 
   setDefault(
     minEpochs -> 0,
@@ -60,7 +61,8 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
-    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true}
+    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
+    trainValidationProp -> 0.0f
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -108,7 +110,7 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes)
+      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationProp=$(trainValidationProp))
       model
     }
 
