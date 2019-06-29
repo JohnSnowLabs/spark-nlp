@@ -117,8 +117,8 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 }
 
 trait PretrainedNerDL {
-  def pretrained(name: String = "ner_dl", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): NerDLModel = {
-    val finalName = if (name == "ner_dl") {
+  def pretrained(name: String = "ner_dl_by_os", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): NerDLModel = {
+    val finalName = if (name == "ner_dl_by_os") {
       if (SystemUtils.IS_OS_WINDOWS)
         "ner_dl"
       else

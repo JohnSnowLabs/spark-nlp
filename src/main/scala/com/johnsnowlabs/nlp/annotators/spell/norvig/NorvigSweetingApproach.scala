@@ -19,23 +19,11 @@ class NorvigSweetingApproach(override val uid: String)
 
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
-  /** params */
-  protected val wordSizeIgnore = new IntParam(this, "wordSizeIgnore", "minimum size of word before ignoring. Defaults to 3")
-  protected val dupsLimit = new IntParam(this, "dupsLimit", "maximum duplicate of characters in a word to consider. Defaults to 2")
-  protected val reductLimit = new IntParam(this, "reductLimit", "word reductions limit. Defaults to 3")
-  protected val intersections = new IntParam(this, "intersections", "hamming intersections to attempt. Defaults to 10")
-  protected val vowelSwapLimit = new IntParam(this, "vowelSwapLimit", "vowel swap attempts. Defaults to 6")
-
-  def setWordSizeIgnore(v: Int) = set(wordSizeIgnore, v)
-  def setDupsLimit(v: Int) = set(dupsLimit, v)
-  def setReductLimit(v: Int) = set(reductLimit, v)
-  def setIntersections(v: Int) = set(intersections, v)
-  def setVowelSwapLimit(v: Int) = set(vowelSwapLimit, v)
-
   setDefault(
     caseSensitive -> true,
     doubleVariants -> false,
     shortCircuit -> false,
+    frequencyPriority -> true,
     wordSizeIgnore -> 3,
     dupsLimit -> 2,
     reductLimit -> 3,
@@ -83,6 +71,7 @@ class NorvigSweetingApproach(override val uid: String)
       .setDoubleVariants($(doubleVariants))
       .setCaseSensitive($(caseSensitive))
       .setShortCircuit($(shortCircuit))
+      .setFrequencyPriority($(frequencyPriority))
   }
 
   private def validateDataSet(dataset: Dataset[_]): Unit = {

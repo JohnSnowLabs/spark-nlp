@@ -28,11 +28,19 @@ class DocumentAssembler(override val uid: String)
 
   val metadataCol: Param[String] = new Param[String](this, "metadataCol", "metadata for document column")
 
-  val trimAndClearNewLines: BooleanParam = new BooleanParam(this, "trimAndClearNewLines", "whether to clear out new lines and trim context to remove leadng and trailing white spaces")
+  /**
+    * cleanupMode:
+    * * disabled: keep original. Useful if need to head back to source later
+    * * inplace: remove new lines and tabs, but not stringified, don't shrink
+    * * inplace_full: remove new lines and tabs, including stringified, don't shrink
+    * * shrink: remove new lines and tabs, but not stringified, do shrink
+    * * shrink_full: remove new lines and tabs, stringified ones too, shrink all whitespaces
+    */
+  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full")
 
   setDefault(
     outputCol -> DOCUMENT,
-    trimAndClearNewLines -> true //mdba original is set to true
+    cleanupMode -> "disabled"
   )
 
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
@@ -49,21 +57,33 @@ class DocumentAssembler(override val uid: String)
 
   def getMetadataCol: String = $(metadataCol)
 
-  def setTrimAndClearNewLines(value: Boolean): this.type = set(trimAndClearNewLines, value)
+  def setCleanupMode(v: String): this.type = {
+    v.trim.toLowerCase() match {
+      case "disabled" => set(cleanupMode, "disabled")
+      case "inplace" => set(cleanupMode, "inplace")
+      case "inplace_full" => set(cleanupMode, "inplace_full")
+      case "shrink" => set(cleanupMode, "shrink")
+      case "shrink_full" => set(cleanupMode, "shrink_full")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full. Received: $b")
+    }
+  }
 
-  def getTrimAndClearNewLines: Boolean = $(trimAndClearNewLines)
+  def getCleanupMode: String = $(cleanupMode)
 
   def this() = this(Identifiable.randomUID("document"))
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
-    if ($(trimAndClearNewLines)) {
-      val cleanText = text.replaceAll(System.lineSeparator(), " ").trim.replaceAll("\\s+", " ")
-      Seq(Annotation(outputAnnotatorType, 0, cleanText.length - 1, cleanText, metadata))
+    val possiblyCleaned = $(cleanupMode) match {
+      case "disabled" => text
+      case "inplace" => text.replaceAll("\\s", " ")
+      case "inplace_full" => text.replaceAll("\\s|(?:\\\\r){0,1}(?:\\\\n)|(?:\\\\t)", " ")
+      case "shrink" => text.trim.replaceAll("\\s+", " ")
+      case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full. Received: $b")
     }
-    else
-      Seq(Annotation(outputAnnotatorType, 0, text.length - 1, text, metadata))
+    Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {

@@ -233,7 +233,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
           (dPathA ++ Seq(System.lineSeparator) ++ dPathB, pCostA + pCostB)
         })
       }.getOrElse(decodeViterbi(computeTrellis(sentTokens)))
-      sentTokens.zip(decodedPath).map{case (orig, correct) => orig.copy(result = correct)}
+      sentTokens.zip(decodedPath).map{case (orig, correct) =>
+        orig.copy(result = correct, metadata = orig.metadata.updated("cost", cost.toString))}
     }
 
     decodedSentPaths.values.flatten.toSeq
