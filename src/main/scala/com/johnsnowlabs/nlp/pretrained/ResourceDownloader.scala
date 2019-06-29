@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
@@ -17,13 +16,16 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
+import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
-import scala.collection.mutable
+import scala.collection.mutable.{ListBuffer, Map}
+
 
 
 trait ResourceDownloader {
@@ -38,9 +40,12 @@ trait ResourceDownloader {
 
   def clearCache(request: ResourceRequest): Unit
 
+  def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
   val fs = ResourceDownloader.fs
 
+
 }
+
 
 object ResourceDownloader {
 
@@ -56,36 +61,39 @@ object ResourceDownloader {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
     val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
     if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      try {
-
-        Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-      } catch {
-        case awse: AmazonClientException => {
-          if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-            val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-            val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-            Some(new BasicAWSCredentials(key, secret))
-          }else{
-            throw awse
-          }
-        }
-        case e: Exception => throw e
-
-      }
+      fetchcredentials
     }
     else
       Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
   }
   else {
-    Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+    fetchcredentials
   }
 
+  private def fetchcredentials(): Option[AWSCredentials] = {
+    try {
+
+      Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+    } catch {
+      case awse: AmazonClientException => {
+        if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+
+          val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+          val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+
+          Some(new BasicAWSCredentials(key, secret))
+        } else {
+          Some(new AnonymousAWSCredentials())
+        }
+      }
+      case e: Exception => throw e
+
+    }
+  }
 
   val publicLoc = "public/models"
 
-  private val cache = mutable.Map[ResourceRequest, PipelineStage]()
+  private val cache = Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
     Version.parse(ResourceHelper.spark.version)
@@ -105,6 +113,157 @@ object ResourceDownloader {
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
   }
 
+  /**
+    * List all pretrained models in public name_lang
+    */
+  def listPublicModels(): List[String] = {
+    listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
+  }
+
+
+  def showPublicModels(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang), ResourceType.MODEL))
+  }
+
+  def showPublicModels(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang, Version.parse(version)), ResourceType.MODEL))
+  }
+  /**
+    * List all pretrained pipelines in public
+    */
+  def listPublicPipelines(): List[String] = {
+    listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
+  }
+
+
+  def showPublicPipelines(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang), ResourceType.PIPELINE))
+  }
+
+  def showPublicPipelines(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
+  }
+  /**
+    * Returns models or pipelines in metadata json which has not been categorized yet.
+    *
+    * @return list of models or piplelines which are not categorized in metadata json
+    */
+  def listUnCategorizedResources(): List[String] = {
+    listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
+  }
+
+
+  def showUnCategorizedResources(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang), ResourceType.NOT_DEFINED))
+  }
+
+  def showUnCategorizedResources(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang, Version.parse(version)), ResourceType.NOT_DEFINED))
+  }
+
+  def showString(list: List[String], resourceType: ResourceType): String = {
+    val sb = new StringBuilder
+    var max_length = 14
+    var max_length_version = 7
+    for (data <- list) {
+      val temp = data.split(":")
+      max_length = scala.math.max(temp(0).length, max_length)
+      max_length_version = scala.math.max(temp(2).length, max_length_version)
+    }
+    //adding head
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    if (resourceType.equals(ResourceType.PIPELINE))
+      sb.append("| " + "Pipeline" + (" " * (max_length - 8)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    else if (resourceType.equals(ResourceType.MODEL))
+      sb.append("| " + "Model" + (" " * (max_length - 5)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    else
+      sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+
+
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    for (data <- list) {
+      val temp = data.split(":")
+      sb.append("| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(2) + " " * (max_length_version - temp(2).length) + " |\n")
+
+    }
+    //adding bottom
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    sb.toString()
+  }
+  /**
+    * List all resources after parsing the metadata json from the given folder in the S3 location
+    *
+    * @param folder
+    * @param resourceType
+    * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
+    */
+  def listPretrainedResources(folder: String, resourceType: ResourceType): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
+
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
+
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang) & Version.isCompatible(version, meta.libVersion)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
+
+  def listPretrainedResources(folder: String, resourceType: ResourceType, version: Version): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & Version.isCompatible(version, meta.libVersion)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
   /**
     * Loads resource to path
     *
@@ -176,6 +335,12 @@ object ResourceDownloader {
   }
 }
 
+object ResourceType extends Enumeration {
+  type ResourceType = Value
+  val MODEL = Value("ml")
+  val PIPELINE = Value("pl")
+  val NOT_DEFINED = Value("nd")
+}
 case class ResourceRequest
 (
   name: String,
@@ -227,6 +392,18 @@ object PythonResourceDownloader {
   def clearCache(name: String, language: String = null, remoteLoc: String = null): Unit = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
+  }
+
+  def showUnCategorizedResources(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED), ResourceType.NOT_DEFINED))
+  }
+
+  def showPublicPipelines(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
+  }
+
+  def showPublicModels(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
   }
 }
 
