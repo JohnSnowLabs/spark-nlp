@@ -88,10 +88,16 @@ object ResourceDownloader {
   }
 
   /**
-    * List all pretrained models in public
+    * List all pretrained models in public name_lang
     */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
+  }
+
+  def printPublicModels(): String = {
+    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL))
+    println(result)
+    result
   }
 
   /**
@@ -101,15 +107,66 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
+  def printPublicPipeline(): String = {
+    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE))
+    println(result)
+    result
+  }
   /**
     * Returns models or pipelines in metadata json which has not been categorized yet.
     *
     * @return list of models or piplelines which are not categorized in metadata json
     */
-  def listUnCategoriedResources(): List[String] = {
+  def listUnCategorizedResources(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
 
+  def printUnCategorizedResources(): String = {
+    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED))
+    println(result)
+    result
+  }
+
+  def showString(list: List[String]): String = {
+    val sb = new StringBuilder
+    var max_length = 14
+    var max_length_version = 7
+    for (data <- list) {
+      val temp = data.split(":")
+      max_length = scala.math.max(temp(0).length, max_length)
+      max_length_version = scala.math.max(temp(2).length, max_length_version)
+    }
+    //adding head
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    for (data <- list) {
+      val temp = data.split(":")
+      sb.append("| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(2) + " " * (max_length_version - temp(2).length) + " |\n")
+
+    }
+    //adding bottom
+    sb.append("+")
+    sb.append("-" * (max_length + 2))
+    sb.append("+")
+    sb.append("-" * 6)
+    sb.append("+")
+    sb.append("-" * (max_length_version + 2))
+    sb.append("+\n")
+    sb.toString()
+  }
   /**
     * List all resources after parsing the metadata json from the given folder in the S3 location
     *
@@ -122,13 +179,50 @@ object ResourceDownloader {
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
     for (meta <- resourceMetaData) {
       if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)) {
-        resourceList += meta.name + "_" + meta.language.getOrElse("no_lang")
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
       }
 
     }
     resourceList.result()
   }
 
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
+
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang) & Version.isCompatible(version, meta.libVersion)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
+
+  def listPretrainedResources(folder: String, resourceType: ResourceType, version: Version): List[String] = {
+    val resourceList = new ListBuffer[String]()
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    for (meta <- resourceMetaData) {
+
+      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & Version.isCompatible(version, meta.libVersion)) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
+
+    }
+    resourceList.result()
+  }
   /**
     * Loads resource to path
     * @param name Name of Resource
@@ -256,5 +350,6 @@ object PythonResourceDownloader {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
+
 }
 
