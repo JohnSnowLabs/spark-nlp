@@ -125,7 +125,9 @@ lazy val utilDependencies = Seq(
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
-  "com.navigamez" % "greex" % "1.0"
+  "com.navigamez" % "greex" % "1.0",
+  "org.json4s" %% "json4s-ext" % "3.5.3"
+
 )
 
 
