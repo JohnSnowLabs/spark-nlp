@@ -71,44 +71,27 @@ class _ClearCache(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
 
 
-class _ListUnCategorizedResources(ExtendedJavaWrapper):
+class _ShowUnCategorizedResources(ExtendedJavaWrapper):
     def __init__(self):
-        super(_ListUnCategorizedResources, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.ResourceDownloader.listUnCategorizedResources")
+        super(_ShowUnCategorizedResources, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showUnCategorizedResources")
         self._java_obj = self._new_java_obj(self._java_obj)
 
 
-class _PrintUnCategorizedResources(ExtendedJavaWrapper):
+class _ShowPublicPipelines(ExtendedJavaWrapper):
     def __init__(self):
-        super(_PrintUnCategorizedResources, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.ResourceDownloader.printUnCategorizedResources")
+        super(_ShowPublicPipelines, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines")
         self._java_obj = self._new_java_obj(self._java_obj)
 
 
-class _ListPublicPipelines(ExtendedJavaWrapper):
+class _ShowPublicModels(ExtendedJavaWrapper):
     def __init__(self):
-        super(_ListPublicPipelines, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.ResourceDownloader.listPublicPipelines")
+        super(_ShowPublicModels, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels")
         self._java_obj = self._new_java_obj(self._java_obj)
 
 
-class _PrintPublicPipelines(ExtendedJavaWrapper):
-    def __init__(self):
-        super(_PrintPublicPipelines, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.ResourceDownloader.printPublicPipeline")
-        self._java_obj = self._new_java_obj(self._java_obj)
-
-
-class _ListPublicModels(ExtendedJavaWrapper):
-    def __init__(self):
-        super(_ListPublicModels, self).__init__("com.johnsnowlabs.nlp.pretrained.ResourceDownloader.listPublicModels")
-        self._java_obj = self._new_java_obj(self._java_obj)
-
-
-class _PrintPublicModels(ExtendedJavaWrapper):
-    def __init__(self):
-        super(_PrintPublicModels, self).__init__("com.johnsnowlabs.nlp.pretrained.ResourceDownloader.printPublicModels")
-        self._java_obj = self._new_java_obj(self._java_obj)
 # predefined pipelines
 class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
     def __init__(self, java_path):

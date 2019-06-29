@@ -22,29 +22,20 @@ class ResourceDownloader(object):
     def clearCache(name, language, remote_loc=None):
         _internal._ClearCache(name, language, remote_loc).apply()
 
-    @staticmethod
-    def listPublicModel():
-        return _internal._ListPublicModels().apply()
 
     @staticmethod
-    def listPublicPipeline():
-        return _internal._ListPublicPipelines().apply()
+    def showPublicModels():
+        _internal._ShowPublicModels().apply()
 
     @staticmethod
-    def printPublicPipeline():
-        j_obj = _internal._PrintUnCategorizedResources().apply()
-        print(j_obj)
-        return j_obj
+    def showPublicPipelines():
+        _internal._ShowPublicPipelines().apply()
+
 
     @staticmethod
-    def listUnCategorizedResources():
-        return _internal._ListUnCategorizedResources().apply()
+    def showUnCategorizedResources():
+        _internal._ShowUnCategorizedResources().apply()
 
-    @staticmethod
-    def printUnCategorizedResources():
-        j_obj = _internal._PrintUnCategorizedResources().apply()
-        print(j_obj)
-        return j_obj
 
 
 

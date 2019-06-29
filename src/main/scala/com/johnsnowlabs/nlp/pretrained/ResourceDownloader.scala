@@ -15,6 +15,7 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
@@ -94,12 +95,14 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
 
-  def printPublicModels(): String = {
-    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL))
-    println(result)
-    result
+
+  def showPublicModels(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang), ResourceType.MODEL))
   }
 
+  def showPublicModels(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang, Version.parse(version)), ResourceType.MODEL))
+  }
   /**
     * List all pretrained pipelines in public
     */
@@ -107,10 +110,13 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
-  def printPublicPipeline(): String = {
-    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE))
-    println(result)
-    result
+
+  def showPublicPipelines(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang), ResourceType.PIPELINE))
+  }
+
+  def showPublicPipelines(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
   }
   /**
     * Returns models or pipelines in metadata json which has not been categorized yet.
@@ -121,13 +127,16 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
 
-  def printUnCategorizedResources(): String = {
-    val result = showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED))
-    println(result)
-    result
+
+  def showUnCategorizedResources(lang: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang), ResourceType.NOT_DEFINED))
   }
 
-  def showString(list: List[String]): String = {
+  def showUnCategorizedResources(lang: String, version: String): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang, Version.parse(version)), ResourceType.NOT_DEFINED))
+  }
+
+  def showString(list: List[String], resourceType: ResourceType): String = {
     val sb = new StringBuilder
     var max_length = 14
     var max_length_version = 7
@@ -144,7 +153,14 @@ object ResourceDownloader {
     sb.append("+")
     sb.append("-" * (max_length_version + 2))
     sb.append("+\n")
-    sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    if (resourceType.equals(ResourceType.PIPELINE))
+      sb.append("| " + "Pipeline" + (" " * (max_length - 8)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    else if (resourceType.equals(ResourceType.MODEL))
+      sb.append("| " + "Model" + (" " * (max_length - 5)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+    else
+      sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+
+
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -351,5 +367,16 @@ object PythonResourceDownloader {
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
 
+  def showUnCategorizedResources(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED), ResourceType.NOT_DEFINED))
+  }
+
+  def showPublicPipelines(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
+  }
+
+  def showPublicModels(): Unit = {
+    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
+  }
 }
 
