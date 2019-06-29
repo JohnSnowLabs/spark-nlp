@@ -66,6 +66,27 @@ class _ClearCache(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
 
 
+class _ShowUnCategorizedResources(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_ShowUnCategorizedResources, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showUnCategorizedResources")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _ShowPublicPipelines(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_ShowPublicPipelines, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
+class _ShowPublicModels(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_ShowPublicModels, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels")
+        self._java_obj = self._new_java_obj(self._java_obj)
+
+
 # predefined pipelines
 class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
     def __init__(self, java_path):

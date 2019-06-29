@@ -1,8 +1,7 @@
 import sparknlp.internal as _internal
-from sparknlp.base import DocumentAssembler
-from sparknlp.annotator import *
 from pyspark.ml.wrapper import JavaModel
 from pyspark.sql import DataFrame
+from sparknlp.annotator import *
 from sparknlp.base import LightPipeline
 
 
@@ -22,6 +21,23 @@ class ResourceDownloader(object):
     @staticmethod
     def clearCache(name, language, remote_loc=None):
         _internal._ClearCache(name, language, remote_loc).apply()
+
+
+    @staticmethod
+    def showPublicModels():
+        _internal._ShowPublicModels().apply()
+
+    @staticmethod
+    def showPublicPipelines():
+        _internal._ShowPublicPipelines().apply()
+
+
+    @staticmethod
+    def showUnCategorizedResources():
+        _internal._ShowUnCategorizedResources().apply()
+
+
+
 
 
 class PretrainedPipeline:
