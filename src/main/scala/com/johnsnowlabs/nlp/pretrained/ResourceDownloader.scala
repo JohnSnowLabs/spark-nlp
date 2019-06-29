@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
@@ -56,32 +55,35 @@ object ResourceDownloader {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
     val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
     if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      try {
-
-        Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-      } catch {
-        case awse: AmazonClientException => {
-          if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-            val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-            val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-            Some(new BasicAWSCredentials(key, secret))
-          }else{
-            throw awse
-          }
-        }
-        case e: Exception => throw e
-
-      }
+      fetchcredentials
     }
     else
       Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
   }
   else {
-    Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+    fetchcredentials
   }
 
+  private def fetchcredentials(): Option[AWSCredentials] = {
+    try {
+
+      Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+    } catch {
+      case awse: AmazonClientException => {
+        if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+
+          val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+          val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+
+          Some(new BasicAWSCredentials(key, secret))
+        } else {
+          Some(new AnonymousAWSCredentials())
+        }
+      }
+      case e: Exception => throw e
+
+    }
+  }
 
   val publicLoc = "public/models"
 
