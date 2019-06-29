@@ -17,9 +17,9 @@ object TrainingHelper {
                 language: Option[String],
                 libVersion: Option[Version],
                 sparkVersion: Option[Version],
-                category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
                 modelWriter: MLWriter,
-                folder: String
+                folder: String,
+                category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED)
                ): Unit = {
 
     // 1. Get current timestamp
