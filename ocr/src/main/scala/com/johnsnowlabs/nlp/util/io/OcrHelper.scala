@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.Image
+import java.awt.{Image, Rectangle}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io._
 
@@ -56,7 +56,12 @@ object OCRMethod {
   val IMAGE_FILE = "image_file"
 }
 
-case class OcrRow(text: String, filename: String, pagenum: Int, method: String)
+object NoiseMethod {
+  val VARIANCE = "variance"
+  val RATIO = "ratio"
+}
+
+case class OcrRow(text: String, pagenum: Int, method: String, noiselevel:Double = 0.0, confidence:Double=0.0, filename: String = "")
 
 class OcrHelper extends ImageProcessing with Serializable {
 
@@ -64,7 +69,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = null
+  private var tesseractAPI : TesseractAccess = null
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
@@ -77,6 +82,8 @@ class OcrHelper extends ImageProcessing with Serializable {
   private var kernelSize:Option[Int] = None
   private var splitPages: Boolean = true
   private var splitRegions: Boolean = true
+  // whether to include confidence values in the output or not
+  private var useConfidence: Boolean = false
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -84,6 +91,9 @@ class OcrHelper extends ImageProcessing with Serializable {
   /* skew correction parameters */
   private var halfAngle: Option[Double] = None
   private var resolution: Option[Double] = None
+
+  /* whether to include noise scores or not */
+  private var estimateNoise: Option[String] = None
 
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
@@ -157,6 +167,12 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   def getSplitRegions: Boolean = splitRegions
 
+  def setIncludeConfidence(value: Boolean): Unit = {
+    useConfidence = value
+  }
+
+  def getIncludeConfidence:Boolean = useConfidence
+
   def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
       kernelSize = None
@@ -182,10 +198,12 @@ class OcrHelper extends ImageProcessing with Serializable {
     files.flatMap {
       // here we handle images directly
       case (fileName, stream) if imageFormats.exists(fileName.endsWith)=>
-          doImageOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+          doImageOcr(stream.open)
+            .map(_.copy(filename = fileName))
 
       case (fileName, stream) =>
-          doPDFOcr(stream.open, fileName).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+          doPDFOcr(stream.open, fileName)
+            .map(_.copy(filename = fileName))
     }.filter(_.text.nonEmpty).toDS
   }
 
@@ -194,7 +212,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doPDFOcr(stream, fileName).map{case (_, region, _) => (fileName, region)}
+      doPDFOcr(stream, fileName).map(ocrrow => (fileName, ocrrow.text))
     }.filter(_._2.nonEmpty).toMap
   }
 
@@ -218,12 +236,15 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def tesseract:Tesseract = {
+  def setEstimateNoise(noiseMethod: String) = {
+    estimateNoise = Some(noiseMethod)
+  }
+
+  private def tesseract:TesseractAccess = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
 
     tesseractAPI
-
   }
 
   private def initTesseract():TesseractAccess = this.synchronized {
@@ -322,8 +343,63 @@ class OcrHelper extends ImageProcessing with Serializable {
     dest
   }
 
+  /* compute standard deviation from histogram */
+  def stdev(histogram: Array[Int]): Double = {
+    val mean = histogramMean(histogram)
+    val result = Math.sqrt(histogram.zipWithIndex.map{ case (x, i) => (i.toDouble - mean) * (i.toDouble - mean) * x}.sum /
+      (histogram.sum.toDouble - 1))
+
+    result
+  }
+
+  /* estimate noise score based on image histogram */
+  private def computeNoiseScore(estimateNoise: Option[String], image: BufferedImage, r: Rectangle): Double =
+  estimateNoise.map { method =>
+
+    val histogram = Array.fill(256)(0)
+    val lower = Array.fill(128)(0)
+    val upper = Array.fill(128)(0)
+    val imageData = image.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+
+    Range(r.x, r.x + r.width).foreach { i =>
+        Range(r.y, r.y + r.height).foreach { j =>
+          val pixVal = imageData(j * image.getWidth + i)
+          val intVal = signedByte2UnsignedInt(pixVal)
+          assert(intVal <= 255)
+          assert(intVal >= 0)
+          histogram(intVal) += 1
+        }
+    }
+
+    if(method.equals(NoiseMethod.RATIO)) {
+      /* here we should do something adaptive instead */
+      val LIMIT = 10
+      val denom = histogram.slice(0, LIMIT).sum + histogram.takeRight(LIMIT).sum + 1
+      val num = histogram.slice(LIMIT, histogram.length - LIMIT).sum
+      num.toFloat / denom
+    } else { // variance
+      stdev(histogram.take(128)) //+ stdev(histogram.takeRight(128))
+    }
+  }.getOrElse(0.0)
+
+  private def mean(values: Seq[Double]) =
+    if (values.isEmpty)
+      Double.NaN
+    else
+      values.sum / values.size
+
+  private def histogramMean(hist:Seq[Int]) = {
+    val mass = hist.zipWithIndex.map{case (count, i) => count * i}.sum
+    val count = hist.sum
+    if (count == 0)
+      0.0
+    else
+      mass.toDouble / count
+  }
+
   // TODO: Sequence return type should be enough
-  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[(String, Int)]] = this.synchronized {
+  /* response here is (text, pagenum, noise_level) */
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[OcrRow]] = this.synchronized {
     import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.map(render => {
@@ -357,7 +433,9 @@ class OcrHelper extends ImageProcessing with Serializable {
       }
 
       regions.flatMap(_.map { rectangle =>
-        tesseract.doOCR(dilatedImage, rectangle)
+        val (text, confidence) =
+            tesseract.doOCR(dilatedImage, rectangle, pageIteratorLevel, useConfidence)
+        (text, computeNoiseScore(estimateNoise, scaledImage, rectangle), confidence)
       })
     })
 
@@ -365,66 +443,71 @@ class OcrHelper extends ImageProcessing with Serializable {
     (splitPages, splitRegions) match {
       case (true, true) =>
         Option(imageRegions.zipWithIndex.map {case (pageRegions, pagenum) =>
-          pageRegions.map(r => (r, pagenum))}.flatten)
+          pageRegions.map{case (r, nl, conf) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf)}}.flatten)
       case (true, false) =>
         // this merges regions within each page, splits the pages
         Option(imageRegions.zipWithIndex.
               map { case (pageRegions, pagenum) =>
-                (pageRegions.mkString(System.lineSeparator()), pagenum)})
+                val noiseLevel = mean(pageRegions.map(_._2))
+                val confidence = mean(pageRegions.map(_._3))
+                val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
+                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
-        Option(Seq((imageRegions.
-          map {pageRegions => pageRegions.mkString(System.lineSeparator)}.
-          mkString(System.lineSeparator), 0)))
+        val mergedText = imageRegions.map{pageRegions =>  pageRegions.map(_._1).
+          mkString(System.lineSeparator)}.mkString(System.lineSeparator)
+        // here the noise level will be an average
+        val noiseLevel = mean(imageRegions.flatten.map(_._2))
+        val confidence = mean(imageRegions.flatten.map(_._3))
+        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)))
      }
   }
 
-  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[(String, Int)]] = {
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[OcrRow]] = {
     val range = startPage to endPage
     if (splitPages)
       Some(Range(startPage, endPage + 1).flatMap(pagenum =>
-        extractText(pdfDoc, pagenum, pagenum).map(t => (t, pagenum - 1))))
+        extractText(pdfDoc, pagenum, pagenum).map(t => OcrRow(t, pagenum -1, OCRMethod.TEXT_LAYER))))
     else
-      Some(extractText(pdfDoc, startPage, endPage).zipWithIndex)
+      Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
+        OcrRow(t, idx, OCRMethod.TEXT_LAYER)
+      })
   }
 
-  private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
+  private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[OcrRow] = {
 
     var decidedMethod = preferredMethod
 
     val result = preferredMethod match {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
-        .map(_.map{case (r, i) => (r.trim, i)})
         .filter(_.nonEmpty)
-        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_._1.length >= minSizeBeforeFallback)))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
+        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_.text.length >= minSizeBeforeFallback)))
+        .orElse(if (fallbackMethod) {pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
-        .map(_.map{case (r, i) => (r.trim, i)})
-        .filter(content => minSizeBeforeFallback == 0 || content.forall(_._1.length >= minSizeBeforeFallback))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
+        .filter(content => minSizeBeforeFallback == 0 || content.forall(_.text.length >= minSizeBeforeFallback))
+        .orElse(if (fallbackMethod) {tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
-    result.map(_.map{ case (content, pagenum) => (pagenum, content, decidedMethod)})
-      .getOrElse(Seq.empty[(Int, String, String)])
+    result.getOrElse(Seq.empty[OcrRow])
   }
 
   /*
    * fileStream: a stream to PDF files
    * filename: name of the original file(used for failure login)
-   * returns sequence of (pageNumber:Int, textRegion:String)
+   * returns sequence of (pageNumber:Int, textRegion:String, decidedMethod:String)
    *
    * */
-  private def doPDFOcr(fileStream:InputStream, filename:String):Seq[(Int, String, String)] = {
+  private def doPDFOcr(fileStream:InputStream, filename:String):Seq[OcrRow] = {
     val pagesTry = Try(PDDocument.load(fileStream)).map { pdfDoc =>
       val numPages = pdfDoc.getNumberOfPages
       require(numPages >= 1, "pdf input stream cannot be empty")
 
       val result = pageOcr(pdfDoc, 1, numPages)
 
-      /* TODO: beware PDF box may have a potential memory leak according to,
+    /* TODO: beware PDF box may have a potential memory leak according to,
      * https://issues.apache.org/jira/browse/PDFBOX-3388
      */
       pdfDoc.close()
@@ -441,12 +524,9 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def doImageOcr(fileStream:InputStream):Seq[(Int, String, String)] = {
+  private def doImageOcr(fileStream:InputStream):Seq[OcrRow] = {
     val image = ImageIO.read(fileStream)
-    tesseractMethod(Seq(image)).map { _.map { case (region, pagenum) =>
-         (pagenum, region, OCRMethod.IMAGE_FILE)
-       }
-    }.getOrElse(Seq.empty)
+    tesseractMethod(Seq(image)).map(_.map(_.copy(method = OCRMethod.IMAGE_FILE))).getOrElse(Seq.empty)
   }
 
   /*

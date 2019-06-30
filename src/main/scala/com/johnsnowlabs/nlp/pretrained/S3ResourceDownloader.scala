@@ -52,16 +52,19 @@ class S3ResourceDownloader(bucket: => String,
     s3Client
   }
 
-  private def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
+  def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
 
     val fiveMinsBefore = getTimestamp(-5)
     val needToRefersh = lastState.isEmpty || lastState.get.lastMetadataDownloaded.before(fiveMinsBefore)
 
     if (!needToRefersh) {
+
       lastState.get.metadata
+
     }
     else {
+
       val metaFile = getS3File(s3Path, folder, "metadata.json")
       val obj = client.getObject(bucket, metaFile)
       val metadata = ResourceMetadata.readResources(obj.getObjectContent)
@@ -72,6 +75,7 @@ class S3ResourceDownloader(bucket: => String,
       metadata
     }
   }
+
 
   def resolveLink(request: ResourceRequest): Option[ResourceMetadata] = {
     val metadata = downloadMetadataIfNeed(request.folder)

@@ -108,7 +108,13 @@ class HasWordEmbeddings(HasEmbeddings):
                            typeConverter=TypeConverters.toBoolean)
 
     def setEmbeddingsRef(self, value):
+        from sparknlp.annotator import WordEmbeddingsModel
+        if type(self) == WordEmbeddingsModel and self.getParam('embeddingsRef'):
+            raise Exception("Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: %s" % self.getOrDefault('embeddingsRef'))
         return self._set(embeddingsRef=value)
+
+    def getEmbeddingsRef(self):
+        return self.getOrDefault('embeddingsRef')
 
     def setIncludeEmbeddings(self, value):
         return self._set(includeEmbeddings=value)

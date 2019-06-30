@@ -205,5 +205,4 @@ public class TypedDependencyParser implements Serializable {
         return dependencyLabels;
     }
 
-
 }

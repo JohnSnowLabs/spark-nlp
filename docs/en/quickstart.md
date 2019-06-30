@@ -93,7 +93,7 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.0.8
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS) You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files. First, decide where you want to put your **application.conf** file
 
 ```bash
-import com.johnsnowlabs.uti.ConfigLoader
+import com.johnsnowlabs.util.ConfigLoader
 ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
 ```
 
@@ -307,7 +307,9 @@ You can use OcrHelper to directly create spark dataframes from PDF. This will ho
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val data = OcrHelper.createDataset(spark, "/pdfs/", "text", "metadata")
+val myOcrHelper = new OcrHelper
+
+val data = myOcrHelper.createDataset(spark, "/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setMetadataCol("metadata")
 
@@ -321,7 +323,9 @@ Another way, would be to simply create an array of strings. This is useful for e
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val raw = OcrHelper.createMap("/pdfs/")
+val myOcrHelper = new OcrHelper
+
+val raw = myOcrHelper.createMap("/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 

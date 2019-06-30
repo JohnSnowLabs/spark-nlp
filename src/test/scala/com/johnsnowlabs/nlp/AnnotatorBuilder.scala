@@ -23,9 +23,10 @@ import org.scalatest._
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
-  def withDocumentAssembler(dataset: Dataset[Row]): Dataset[Row] = {
+  def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
+      .setCleanupMode(cleanupMode)
     documentAssembler.transform(dataset)
   }
 
