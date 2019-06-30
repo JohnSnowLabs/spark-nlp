@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-06-24"
+modify_date: "2019-06-30"
 ---
 
 ## English
@@ -13,6 +13,10 @@ modify_date: "2019-06-24"
 | [Explain Document ML](#explain_document_ml)  | `explain_document_ml`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.0.2_2.4_1556661821108.zip)  |
 | [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.0.2_2.4_1556530585689.zip)  |
 | [Entity Recognizer DL](#entity_recognizer_dl) | `entity_recognizer_dl` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_dl_en_2.0.0_2.4_1553230844671.zip) |
+| [Match Datetime](#match_datetime) | `match_datetime` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_datetime_en_2.0.0_2.4_1553029194360.zip)
+| [Match Pattern](#match_pattern) | `match_pattern` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_pattern_en_2.0.0_2.4_1553029267665.zip)
+| [Match Chunk](#match_chunk) | `match_chunk` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_chunk_en_2.0.0_2.4_1553198413717.zip)
+| Check Spelling | `check_spelling`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_en_2.0.2_2.4_1559415827143.zip)
 | Analyze Sentiment ML | `analyze_sentiment_ml` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_ml_en_2.0.0_2.4_1553538566020.zip)
 | Dependency Parse | `dependency_parse` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_2.0.2_2.4_1559024638093.zip)
 
@@ -141,6 +145,153 @@ annotation.select("entities.result").show(false)
 |[Google, TensorFlow]              |
 |[Donald John Trump, United States]|
 +----------------------------------+
+*/
+
+{% endhighlight %}
+
+### match_datetime
+
+#### DateMatcher yyyy/MM/dd
+
+{% highlight scala %}
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "I would like to come over and see you in 01/02/2019."),
+(2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("match_datetime", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.0.8
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_datetime,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 4 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|            sentence|               token|                date|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|I would like to c...|[[document, 0, 51...|[[document, 0, 51...|[[token, 0, 0, I,...|[[date, 41, 50, 2...|
+|  2|Donald John Trump...|[[document, 0, 92...|[[document, 0, 92...|[[token, 0, 5, Do...|[[date, 24, 36, 1...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("date.result").show(false)
+
+/*
++------------+
+|result      |
++------------+
+|[2019/01/02]|
+|[1946/06/14]|
++------------+
+*/
+
+{% endhighlight %}
+
+### match_pattern
+
+RegexMatcher (match phone numbers)
+
+{% highlight scala %}
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "You should call Mr. Jon Doe at +33 1 79 01 22 89")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("match_pattern", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.0.8
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_pattern,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 4 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|            sentence|               token|               regex|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|You should call M...|[[document, 0, 47...|[[document, 0, 47...|[[token, 0, 2, Yo...|[[chunk, 31, 47, ...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("regex.result").show(false)
+
+/*
++-------------------+
+|result             |
++-------------------+
+|[+33 1 79 01 22 89]|
++-------------------+
+*/
+
+{% endhighlight %}
+
+### match_chunk
+
+The pipeline uses regex <DT/>?/<JJ/>*<NN>+
+
+{% highlight scala %}
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "The book has many chapters"),
+(2, "the little yellow dog barked at the cat")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("match_chunk", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.0.8
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_chunk,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 5 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|            sentence|               token|                 pos|               chunk|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|The book has many...|[[document, 0, 25...|[[document, 0, 25...|[[token, 0, 2, Th...|[[pos, 0, 2, DT, ...|[[chunk, 0, 7, Th...|
+|  2|the little yellow...|[[document, 0, 38...|[[document, 0, 38...|[[token, 0, 2, th...|[[pos, 0, 2, DT, ...|[[chunk, 0, 20, t...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("chunk.result").show(false)
+
+/*
++--------------------------------+
+|result                          |
++--------------------------------+
+|[The book]                      |
+|[the little yellow dog, the cat]|
++--------------------------------+
 */
 
 {% endhighlight %}
