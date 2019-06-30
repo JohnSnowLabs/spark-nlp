@@ -13,18 +13,18 @@ object SparkNLP {
 
     if (includeOcr) {
       build
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0-rc2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0-rc2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0-rc3,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0-rc3,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
         .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
     } else {
       build
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0-rc2")
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0-rc3")
     }
 
     build.getOrCreate()
   }
 
   def version(): Unit = {
-    println("2.1.0-rc2")
+    println("2.1.0-rc3")
   }
 
 }
