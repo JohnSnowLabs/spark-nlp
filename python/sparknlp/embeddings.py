@@ -7,6 +7,8 @@ from pyspark.ml.param.shared import Param, TypeConverters
 from pyspark.ml.param import Params
 from pyspark import keyword_only
 
+from sparknlp.annotator import WordEmbeddings, WordEmbeddingsModel
+
 
 class Embeddings:
     def __init__(self, embeddings):

@@ -25,16 +25,18 @@ class WordEmbeddingsModel(override val uid: String)
     Path.mergePaths(new Path(path), new Path("/embeddings"))
 
   private[embeddings] def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    val src = getEmbeddingsSerializedPath(path)
+    if ($(includeEmbeddings)) {
+      val src = getEmbeddingsSerializedPath(path)
 
-    EmbeddingsHelper.load(
-      src.toUri.toString,
-      spark,
-      WordEmbeddingsFormat.SPARKNLP.toString,
-      $(dimension),
-      $(caseSensitive),
-      $(embeddingsRef)
-    )
+      EmbeddingsHelper.load(
+        src.toUri.toString,
+        spark,
+        WordEmbeddingsFormat.SPARKNLP.toString,
+        $(dimension),
+        $(caseSensitive),
+        $(embeddingsRef)
+      )
+    }
   }
 
   private[embeddings] def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
