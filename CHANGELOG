@@ -4,6 +4,20 @@
 ---------------
 Overview
 ---------------
+This release fixes a bug in embeddingsRef param causing embeddings not to be loadable when `setIncludeEmbeddings` was set to false
+
+---------------
+Bugfixes
+---------------
+* WordEmbeddingsModel can now be loaded using embeddingsRef correctly
+* Disabled RuleFactory debug mode spam messages
+
+========
+2.0.8
+========
+---------------
+Overview
+---------------
 This release fixes a few tiny but meaningful issues that prevent from new trained models having internal compatibility issues.
 
 ---------------
