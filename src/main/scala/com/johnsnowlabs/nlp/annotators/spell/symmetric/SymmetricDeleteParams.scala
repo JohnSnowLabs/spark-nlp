@@ -26,9 +26,9 @@ trait SymmetricDeleteParams extends Params{
   def setMaxFrequency(value: Long): this.type = set(maxFrequency, value)
   def setMinFrequency(value: Long): this.type = set(minFrequency, value)
 
+  def getMaxEditDistance: Int = $(maxEditDistance)
   def getFrequencyThreshold: Int = $(frequencyThreshold)
   def getDeletesThreshold: Int = $(deletesThreshold)
-  def getLongestWordLength: Int = $(longestWordLength)
-
+  def getDupsLimit: Int = $(dupsLimit)
 
 }

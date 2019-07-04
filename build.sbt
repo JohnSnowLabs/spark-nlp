@@ -203,9 +203,10 @@ lazy val evaluation = (project in file("eval"))
 
     assemblyMergeStrategy in assembly := evalMergeRules,
 
-    libraryDependencies ++= Seq( 
+    libraryDependencies ++= testDependencies ++ Seq(
       "org.apache.spark" %% "spark-core" % sparkVer,
-      "org.apache.spark" %% "spark-mllib" % sparkVer
+      "org.apache.spark" %% "spark-mllib" % sparkVer,
+      "org.mlflow" % "mlflow-client" % "1.0.0"
     ),
 
     test in assembly := {},
