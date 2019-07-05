@@ -89,8 +89,8 @@ class Tokenizer(AnnotatorModel):
     name = 'Tokenizer'
 
     @keyword_only
-    def __init__(self):
-        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.Tokenizer", java_model=None):
+        super(Tokenizer, self).__init__(classname=classname, java_model=java_model)
 
         self._setDefault(
             targetPattern="\\S+",
