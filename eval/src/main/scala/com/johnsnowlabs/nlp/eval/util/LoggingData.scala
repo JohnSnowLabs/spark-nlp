@@ -93,11 +93,12 @@ class LoggingData(sourceType: String, sourceName: String) {
   }
 
   def logMetric(metric: String, value: Double): Unit = {
+    val roundValue = BigDecimal(value).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
     if (runId != "console") {
-      mlFlowClient.get.logMetric(runId, metric, value)
+      mlFlowClient.get.logMetric(runId, metric, roundValue)
     } else {
       println(s"Accuracy Metrics for $sourceName:")
-      println(metric + ": " + value)
+      println(metric + ": " + roundValue)
     }
   }
 

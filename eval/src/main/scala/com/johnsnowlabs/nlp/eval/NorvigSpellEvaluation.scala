@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.eval
 
+import com.johnsnowlabs.nlp.DocumentAssembler
+
 import scala.collection.mutable
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.{Tokenizer, _}
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -31,10 +33,11 @@ object NorvigSpellEvaluation extends App {
   private def trainSpellChecker(trainFile: String, spell: NorvigSweetingApproach): PipelineModel = {
     val trainingDataSet = getDataSetFromFile(trainFile)
     var spellCheckerModel: PipelineModel = null
-    val spellCheckerPipeline = getSpellCheckerPipeline(spell)
-    Benchmark.measure("[Norvig Spell Checker] Time to train") {
+    val spellCheckerPipeline = getSpellCheckerPipeline(spell, trainingDataSet)
+    val time = Benchmark.measure("[Norvig Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
+    loggingData.logMetric("training time/s", time)
     spellCheckerModel
   }
 
@@ -58,7 +61,7 @@ object NorvigSpellEvaluation extends App {
     }
   }
 
-  private def getSpellCheckerPipeline(spell: NorvigSweetingApproach): Pipeline =  {
+  private def getSpellCheckerPipeline(spell: NorvigSweetingApproach, trainDataSet: Dataset[_]): Pipeline =  {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
