@@ -34,9 +34,10 @@ object SymSpellEvaluation extends App {
     val trainingDataSet = getDataSetFromFile(trainFile)
     var spellCheckerModel: PipelineModel = null
     val spellCheckerPipeline = getSpellCheckerPipeline(spell)
-    Benchmark.measure("[Symmetric Spell Checker] Time to train") {
+    val time = Benchmark.measure("[Symmetric Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
+    loggingData.logMetric("training time/s", time)
     spellCheckerModel
   }
 

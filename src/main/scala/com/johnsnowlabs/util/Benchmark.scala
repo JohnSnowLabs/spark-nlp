@@ -24,7 +24,7 @@ object Benchmark {
 
     if (print || forcePrint) println(s"$description (Avg for $iterations iterations): ${time / 1000000000} sec")
 
-    time
+    time / 1000000000
   }
 
   def measure(f: => Any): Double = measure()(f)
