@@ -18,6 +18,7 @@ class NorvigSpellEvalTestSpec extends FlatSpec {
       .setDictionary(dictionaryFile)
 
     NorvigSpellEvaluation(trainFile, spell, testFile, groundTruthFile)
+
   }
 
 }
