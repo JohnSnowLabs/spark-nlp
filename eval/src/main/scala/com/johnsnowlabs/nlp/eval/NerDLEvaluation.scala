@@ -1,20 +1,19 @@
 package com.johnsnowlabs.nlp.eval
 
 import java.io.File
-import scala.collection.mutable
 
-import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
-import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{Dataset, SparkSession}
+
+import scala.collection.mutable
 
 object NerDLEvaluation extends App {
 
@@ -36,18 +35,27 @@ object NerDLEvaluation extends App {
   private val testFiles = "./eng.testa"
   private val numberOfEpochs = 1
   private val emptyDataSet = PipelineModels.dummyDataset
-  private val trainDataSet = CoNLL().readDataset(spark, trainFile)
-  println("Train Dataset")
-  trainDataSet.show(5)
-  evaluateDataSet("Testing Dataset", testFiles, "IOB")
+  evaluateDataSet(testFiles, "IOB", "model_path", "trainFile_path")
 
-  private def evaluateDataSet(dataSetType: String, dataSetFile: String, format: String=""): Unit = {
-    val nerDataSet = CoNLL().readDataset(spark, dataSetFile).cache()
+  def apply(testFile: String, format: String, modelPath: String, trainFile: String): Unit = {
+    evaluateDataSet(testFile, format, modelPath, trainFile)
+  }
+
+  private def evaluateDataSet(testFiles: String, format: String="",
+                              modelPath: String, trainFile: String): Unit = {
+    val nerDataSet = CoNLL().readDataset(spark, testFiles).cache()
     val labels = getEntitiesLabels(nerDataSet, "label.result", format)
     println("Entities: " + labels)
-    val nerModel = getNerModel
+    val predictionDataSet = getPredictionDataSet(modelPath, trainFile, nerDataSet)
+    val evaluationDataSet = getEvaluationDataSet(predictionDataSet, labels, format)
+    println("Evaluation Dataset")
+    evaluationDataSet.show(5, false)
+    computeAccuracy(evaluationDataSet, labels)
+  }
+
+  def getPredictionDataSet(modelPath: String, trainFile: String, nerDataSet: Dataset[_]): Dataset[_] = {
+    val nerModel = getNerModel(modelPath, trainFile)
     var predictionDataSet: Dataset[_] = PipelineModels.dummyDataset
-    println(s"Accuracy for $dataSetType")
     Benchmark.measure("Time to transform") {
       predictionDataSet = nerModel.transform(nerDataSet)
         .select(col("label.result").alias("label"),
@@ -56,10 +64,7 @@ object NerDLEvaluation extends App {
     Benchmark.measure("Time to show prediction dataset") {
       predictionDataSet.show(5)
     }
-    val evaluationDataSet = getEvaluationDataSet(predictionDataSet, labels, format)
-    println("Evaluation Dataset")
-    evaluationDataSet.show(5, false)
-    computeAccuracy(evaluationDataSet, labels)
+    predictionDataSet
   }
 
   def getEntitiesLabels(dataSet: Dataset[_], column: String, format: String): List[String] = {
@@ -74,21 +79,25 @@ object NerDLEvaluation extends App {
     entities.toList.distinct
   }
 
-  def getNerModel: PipelineModel = {
-    if (new File("./ner_dl_model_"+numberOfEpochs).exists()) {
-      PipelineModel.load("./ner_dl_model_"+numberOfEpochs)
+  def getNerModel(modelPath: String, trainFile: String): PipelineModel = {
+    if (new File(modelPath).exists()) {
+      PipelineModel.load(modelPath)
     } else {
       var model: PipelineModel = null
       Benchmark.time("Time to train") {
-        val nerPipeline = getNerPipeline
+        val nerPipeline = getNerPipeline(trainFile)
         model = nerPipeline.fit(emptyDataSet)
       }
-      model.write.overwrite().save("./ner_dl_model_"+numberOfEpochs)
+      model.write.overwrite().save(modelPath)
       model
     }
   }
 
-  def getNerPipeline: Pipeline = {
+  def getNerPipeline(trainFile: String): Pipeline = {
+
+    val trainDataSet = CoNLL().readDataset(spark, trainFile)
+    println("Train Dataset")
+    trainDataSet.show(5)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
