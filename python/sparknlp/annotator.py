@@ -461,35 +461,6 @@ class PerceptronApproach(AnnotatorApproach):
         return PerceptronModel(java_model=java_model)
 
 
-class PerceptronApproachLegacy(AnnotatorApproach):
-    posCol = Param(Params._dummy(),
-                   "posCol",
-                   "column of Array of POS tags that match tokens",
-                   typeConverter=TypeConverters.toString)
-
-    nIterations = Param(Params._dummy(),
-                        "nIterations",
-                        "Number of iterations in training, converges to better accuracy",
-                        typeConverter=TypeConverters.toInt)
-
-    @keyword_only
-    def __init__(self):
-        super(PerceptronApproachLegacy, self).__init__(
-            classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachLegacy")
-        self._setDefault(
-            nIterations=5
-        )
-
-    def setPosCol(self, value):
-        return self._set(posCol=value)
-
-    def setIterations(self, value):
-        return self._set(nIterations=value)
-
-    def _create_model(self, java_model):
-        return PerceptronModel(java_model=java_model)
-
-
 class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
 

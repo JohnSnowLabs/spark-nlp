@@ -141,19 +141,23 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     // store word ids
     val vocabIdxs = mutable.HashMap[String, Int]()
 
-    scala.io.Source.fromFile(path).getLines.zipWithIndex.foreach { case (line, idx) =>
+    val src = scala.io.Source.fromFile(path)
+    src.getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
        vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
        vocabIdxs += (lineFields(0)-> idx)
     }
+    src.close()
 
-    val classes = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes").getLines.map{line =>
+    val trainCorpus = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes")
+    val classes = trainCorpus.getLines.map{line =>
       val chunks = line.split("\\|")
       val key = chunks(0).toInt
       val cid = chunks(1).toInt
       val wcid = chunks(2).toInt
       (key, (cid, wcid))
     }.toMap
+    trainCorpus.close()
 
     (vocabFreq, vocabIdxs, classes)
   }
@@ -211,9 +215,12 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     implicit val codec: Codec = Codec.UTF8
 
     // for every sentence we have one end and one begining
-    val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
+    var rawData = scala.io.Source.fromFile(rawDataPath)
+    val eosBosCount = rawData.getLines.size
+    rawData.close()
 
-    scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
+    rawData = scala.io.Source.fromFile(rawDataPath)
+    rawData.getLines.foreach { line =>
       // TODO remove crazy encodings of space(clean the dataset itself before input it here)
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
@@ -235,6 +242,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         }
       }
     }
+    rawData.close()
 
     // words appearing less that minCount times will be unknown
     val unknownCount = vocab.filter(_._2 < getOrDefault(minCount)).values.sum
@@ -314,7 +322,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     // path to the encoded corpus
     val bw = new BufferedWriter(new FileWriter(new File(rawTextPath + ".ids")))
 
-    scala.io.Source.fromFile(rawTextPath).getLines.foreach { line =>
+    val rawText = scala.io.Source.fromFile(rawTextPath)
+    rawText.getLines.foreach { line =>
       // TODO removing crazy encodings of space and replacing with standard one - should be done outside Scala
       val text  = line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").flatMap { token =>
         var tmp = token
@@ -333,6 +342,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       bw.write(s"""${vMap("_BOS_")} $text ${vMap("_EOS_")}\n""")
     }
     bw.close()
+    rawText.close()
     vMap
   }
 
