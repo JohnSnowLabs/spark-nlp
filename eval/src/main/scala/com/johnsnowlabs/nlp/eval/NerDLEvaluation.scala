@@ -5,7 +5,6 @@ import java.io.File
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -17,44 +16,44 @@ import scala.collection.mutable
 
 object NerDLEvaluation extends App {
 
-  private val spark = SparkSession.builder()
-    .appName("benchmark")
-    .master("local[*]")
-    .config("spark.driver.memory", "8G")
-    .config("spark.kryoserializer.buffer.max", "200M")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .getOrCreate()
-
-  import spark.implicits._
-
-  spark.sparkContext.setLogLevel("OFF")
-
   println("Accuracy Metrics for NER DL")
+  private case class NerEvalDLConfiguration(trainFile: String, format:String, modelPath: String,
+                                            sparkSession: SparkSession, nerDLApproach: NerDLApproach,
+                                            wordEmbeddings: WordEmbeddings)
 
-  private val trainFile = "./eng.train"
-  private val testFiles = "./eng.testa"
-  private val numberOfEpochs = 1
-  private val emptyDataSet = PipelineModels.dummyDataset
-  evaluateDataSet(testFiles, "IOB", "model_path", "trainFile_path")
+  def apply(testFile: String, format: String, modelPath: String, trainFile: String, nerDLApproach: NerDLApproach,
+            wordEmbeddings: WordEmbeddings): Unit = {
 
-  def apply(testFile: String, format: String, modelPath: String, trainFile: String): Unit = {
-    evaluateDataSet(testFile, format, modelPath, trainFile)
+    val spark = SparkSession.builder()
+      .appName("benchmark")
+      .master("local[*]")
+      .config("spark.driver.memory", "8G")
+      .config("spark.kryoserializer.buffer.max", "200M")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .getOrCreate()
+
+    val nerEvalDLConfiguration = NerEvalDLConfiguration(trainFile, format, modelPath, spark,
+                                                        nerDLApproach, wordEmbeddings)
+
+    evaluateDataSet(testFile, nerEvalDLConfiguration)
   }
 
-  private def evaluateDataSet(testFiles: String, format: String="",
-                              modelPath: String, trainFile: String): Unit = {
-    val nerDataSet = CoNLL().readDataset(spark, testFiles).cache()
-    val labels = getEntitiesLabels(nerDataSet, "label.result", format)
+  private def evaluateDataSet(testFile: String, nerEvalDLConfiguration: NerEvalDLConfiguration):
+  Unit = {
+    val nerDataSet = CoNLL().readDataset(nerEvalDLConfiguration.sparkSession, testFile).cache()
+    val labels = getEntitiesLabels(nerDataSet, "label.result", nerEvalDLConfiguration.format)
     println("Entities: " + labels)
-    val predictionDataSet = getPredictionDataSet(modelPath, trainFile, nerDataSet)
-    val evaluationDataSet = getEvaluationDataSet(predictionDataSet, labels, format)
+    val predictionDataSet = getPredictionDataSet(nerDataSet, nerEvalDLConfiguration)
+    val evaluationDataSet = getEvaluationDataSet(predictionDataSet, labels, nerEvalDLConfiguration.format,
+      nerEvalDLConfiguration.sparkSession)
     println("Evaluation Dataset")
     evaluationDataSet.show(5, false)
-    computeAccuracy(evaluationDataSet, labels)
+    computeAccuracy(evaluationDataSet, labels, nerEvalDLConfiguration.sparkSession)
   }
 
-  def getPredictionDataSet(modelPath: String, trainFile: String, nerDataSet: Dataset[_]): Dataset[_] = {
-    val nerModel = getNerModel(modelPath, trainFile)
+  def getPredictionDataSet(nerDataSet: Dataset[_], nerEvalDLConfiguration: NerEvalDLConfiguration):
+  Dataset[_] = {
+    val nerModel = getNerModel(nerEvalDLConfiguration)
     var predictionDataSet: Dataset[_] = PipelineModels.dummyDataset
     Benchmark.measure("Time to transform") {
       predictionDataSet = nerModel.transform(nerDataSet)
@@ -79,23 +78,23 @@ object NerDLEvaluation extends App {
     entities.toList.distinct
   }
 
-  def getNerModel(modelPath: String, trainFile: String): PipelineModel = {
-    if (new File(modelPath).exists()) {
-      PipelineModel.load(modelPath)
+  def getNerModel(nerEvalDLConfiguration: NerEvalDLConfiguration): PipelineModel = {
+    if (new File(nerEvalDLConfiguration.modelPath).exists()) {
+      PipelineModel.load(nerEvalDLConfiguration.modelPath)
     } else {
       var model: PipelineModel = null
       Benchmark.time("Time to train") {
-        val nerPipeline = getNerPipeline(trainFile)
-        model = nerPipeline.fit(emptyDataSet)
+        val nerPipeline = getNerPipeline(nerEvalDLConfiguration)
+        model = nerPipeline.fit(PipelineModels.dummyDataset)
       }
-      model.write.overwrite().save(modelPath)
+      model.write.overwrite().save(nerEvalDLConfiguration.modelPath)
       model
     }
   }
 
-  def getNerPipeline(trainFile: String): Pipeline = {
+  def getNerPipeline(nerEvalDLConfiguration: NerEvalDLConfiguration): Pipeline = {
 
-    val trainDataSet = CoNLL().readDataset(spark, trainFile)
+    val trainDataSet = CoNLL().readDataset(nerEvalDLConfiguration.sparkSession, nerEvalDLConfiguration.trainFile)
     println("Train Dataset")
     trainDataSet.show(5)
 
@@ -111,23 +110,9 @@ object NerDLEvaluation extends App {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val glove = new WordEmbeddings()
-      .setInputCols("sentence", "token")
-      .setOutputCol("glove")
-      .setEmbeddingsSource("./glove.6B.100d.txt",
-        100, WordEmbeddingsFormat.TEXT)
-      .setCaseSensitive(true)
+    val readyData = nerEvalDLConfiguration.wordEmbeddings.fit(trainDataSet).transform(trainDataSet).cache()
 
-    val readyData = glove.fit(trainDataSet).transform(trainDataSet).cache()
-
-    val nerTagger = new NerDLApproach()
-      .setInputCols(Array("sentence", "token", "glove"))
-      .setLabelColumn("label")
-      .setOutputCol("ner")
-      .setMaxEpochs(10)
-      .setRandomSeed(0)
-      .setVerbose(2)
-      .fit(readyData)
+    val nerTagger = nerEvalDLConfiguration.nerDLApproach.fit(readyData)
 
     val converter = new NerConverter()
       .setInputCols(Array("document", "token", "ner"))
@@ -137,7 +122,7 @@ object NerDLEvaluation extends App {
       Array(documentAssembler,
         sentenceDetector,
         tokenizer,
-        glove,
+        nerEvalDLConfiguration.wordEmbeddings,
         nerTagger,
         converter))
 
@@ -145,7 +130,8 @@ object NerDLEvaluation extends App {
 
   }
 
-  def getEvaluationDataSet(dataSet: Dataset[_], labels: List[String], format: String): Dataset[_] = {
+  def getEvaluationDataSet(dataSet: Dataset[_], labels: List[String], format: String, sparkSession: SparkSession): Dataset[_] = {
+   import sparkSession.implicits._
     val labelAndPrediction: Seq[(String, String)] = dataSet.select("label", "prediction").rdd.map { row =>
       val labelColumn: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       val predictionColumn: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]]
@@ -171,7 +157,8 @@ object NerDLEvaluation extends App {
     index.toDouble
   }
 
-  private def computeAccuracy(dataSet: Dataset[_], labels: List[String]): Unit = {
+  private def computeAccuracy(dataSet: Dataset[_], labels: List[String], sparkSession: SparkSession): Unit = {
+    import sparkSession.implicits._
     val predictionLabelsRDD = dataSet.select("predictionIndex", "labelIndex")
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
