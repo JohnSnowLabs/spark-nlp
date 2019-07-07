@@ -5,6 +5,7 @@ import java.io.File
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -16,7 +17,8 @@ import scala.collection.mutable
 
 object NerDLEvaluation extends App {
 
-  println("Accuracy Metrics for NER DL")
+  var loggingData: LoggingData = _
+
   private case class NerEvalDLConfiguration(trainFile: String, format:String, modelPath: String,
                                             sparkSession: SparkSession, nerDLApproach: NerDLApproach,
                                             wordEmbeddings: WordEmbeddings)
@@ -35,7 +37,10 @@ object NerDLEvaluation extends App {
     val nerEvalDLConfiguration = NerEvalDLConfiguration(trainFile, format, modelPath, spark,
                                                         nerDLApproach, wordEmbeddings)
 
+    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Named Entity Recognition")
+    loggingData.logNerDLParams(nerDLApproach)
     evaluateDataSet(testFile, nerEvalDLConfiguration)
+    loggingData.closeLog()
   }
 
   private def evaluateDataSet(testFile: String, nerEvalDLConfiguration: NerEvalDLConfiguration):
@@ -55,11 +60,9 @@ object NerDLEvaluation extends App {
   Dataset[_] = {
     val nerModel = getNerModel(nerEvalDLConfiguration)
     var predictionDataSet: Dataset[_] = PipelineModels.dummyDataset
-    Benchmark.measure("Time to transform") {
-      predictionDataSet = nerModel.transform(nerDataSet)
+    predictionDataSet = nerModel.transform(nerDataSet)
         .select(col("label.result").alias("label"),
           col("ner.result").alias("prediction"))
-    }
     Benchmark.measure("Time to show prediction dataset") {
       predictionDataSet.show(5)
     }
@@ -83,10 +86,12 @@ object NerDLEvaluation extends App {
       PipelineModel.load(nerEvalDLConfiguration.modelPath)
     } else {
       var model: PipelineModel = null
-      Benchmark.time("Time to train") {
+      Benchmark.setPrint(false)
+      val time = Benchmark.measure(1, false, "Time to train") {
         val nerPipeline = getNerPipeline(nerEvalDLConfiguration)
         model = nerPipeline.fit(PipelineModels.dummyDataset)
       }
+      loggingData.logMetric("training time/s", time)
       model.write.overwrite().save(nerEvalDLConfiguration.modelPath)
       model
     }
@@ -163,7 +168,7 @@ object NerDLEvaluation extends App {
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
     val accuracy = (metrics.accuracy * 1000).round / 1000.toDouble
-    println(s"Accuracy = $accuracy")
+    loggingData.logMetric("accuracy", accuracy)
     computeAccuracyByEntity(metrics, labels)
     computeMicroAverage(metrics)
   }
@@ -175,7 +180,9 @@ object NerDLEvaluation extends App {
       val precision = (metrics.precision(predictedLabel) * 1000).round / 1000.toDouble
       val recall = (metrics.recall(predictedLabel) * 1000).round / 1000.toDouble
       val f1Score = (metrics.fMeasure(predictedLabel) * 1000).round / 1000.toDouble
-      println(s"$entity: Precision = $precision, Recall = $recall, F1-Score = $f1Score")
+      loggingData.logMetric(entity + " precision", precision)
+      loggingData.logMetric(entity + " recall", recall)
+      loggingData.logMetric(entity + " f1-score", f1Score)
     }
   }
 
@@ -194,7 +201,7 @@ object NerDLEvaluation extends App {
     totalP = totalP/totalClassNum
     totalR = totalR/totalClassNum
     val microAverage = 2 * ((totalP*totalR) / (totalP+totalR))
-    println(s"Micro-average F-1 Score:  ${(microAverage * 1000).round / 1000.toDouble}")
+    loggingData.logMetric("micro-average f1-score", (microAverage * 1000).round / 1000.toDouble)
   }
 
 }

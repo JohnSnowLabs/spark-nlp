@@ -1,17 +1,18 @@
 package com.johnsnowlabs.nlp.eval.util
 
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import org.mlflow.api.proto.Service.{RunInfo, RunStatus}
 import org.mlflow.tracking.MlflowClient
 import org.slf4j.LoggerFactory
 
-class LoggingData(sourceType: String, sourceName: String) {
+class LoggingData(sourceType: String, sourceName: String, experimentName: String) {
 
   private val logger = LoggerFactory.getLogger("LoggingData")
 
   private val mlFlowClient = getMLFlowClient
-  private val runInfo = getRunInfo
+  private val runInfo = getRunInfo(experimentName)
   private val runId: String = getRunId(runInfo)
 
   setMLflowTags()
@@ -26,13 +27,22 @@ class LoggingData(sourceType: String, sourceName: String) {
     }
   }
 
-  private def getRunInfo: Option[RunInfo] = {
+  private def getRunInfo(experimentName: String): Option[RunInfo] = {
     try {
-      Some(mlFlowClient.get.createRun())
+      val expId = getOrCreateExperimentId(mlFlowClient.get, experimentName)
+      Some(mlFlowClient.get.createRun(expId))
     } catch {
       case e: Exception =>
         logger.warn("MlflowClient is not running")
         None
+    }
+  }
+
+  def getOrCreateExperimentId(client: MlflowClient, experimentName: String) : String = {
+    val opt = client.getExperimentByName(experimentName)
+    opt.isPresent match {
+      case true => opt.get().getExperimentId
+      case _ => client.createExperiment(experimentName)
     }
   }
 
@@ -46,7 +56,7 @@ class LoggingData(sourceType: String, sourceName: String) {
 
   private def setMLflowTags(): Unit = {
     if (runId != "console") {
-      mlFlowClient.get.setTag(runId, "mlflow.runName", "SparkNLP 2.0.8")
+      mlFlowClient.get.setTag(runId, "mlflow.runName", "SparkNLP 2.1.0")
       mlFlowClient.get.setTag(runId, "mlflow.source.type", sourceType)
       mlFlowClient.get.setTag(runId, "mlflow.source.name", sourceName)
     }
@@ -92,12 +102,30 @@ class LoggingData(sourceType: String, sourceName: String) {
     }
   }
 
+  def logNerDLParams(nerDL: NerDLApproach): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "lr", nerDL.getLr.toString)
+      mlFlowClient.get.logParam(runId, "po", nerDL.getPo.toString)
+      mlFlowClient.get.logParam(runId, "batchSize", nerDL.getBatchSize.toString)
+      mlFlowClient.get.logParam(runId, "dropout", nerDL.getDropout.toString)
+      mlFlowClient.get.logParam(runId, "useContrib", nerDL.getUseContrib.toString)
+      mlFlowClient.get.logParam(runId, "trainValidationProp", nerDL.getTrainValidationProp.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("lr: " + nerDL.getLr.toString)
+      println("po: " + nerDL.getPo.toString)
+      println("batchSize: " + nerDL.getBatchSize.toString)
+      println("dropout: " + nerDL.getDropout.toString)
+      println("useContrib: " + nerDL.getUseContrib.toString)
+      println("trainValidationProp: " + nerDL.getTrainValidationProp.toString)
+    }
+  }
+
   def logMetric(metric: String, value: Double): Unit = {
     val roundValue = BigDecimal(value).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
     if (runId != "console") {
       mlFlowClient.get.logMetric(runId, metric, roundValue)
     } else {
-      println(s"Accuracy Metrics for $sourceName:")
       println(metric + ": " + roundValue)
     }
   }

@@ -9,8 +9,8 @@ class NorvigSpellEvalTestSpec extends FlatSpec {
 
     val trainFile = "src/test/resources/spell/sherlockholmes.txt"
     val dictionaryFile = "src/test/resources/spell/words.txt"
-    val groundTruthFile = "./ground_truth.txt"
-    val testFile = "./misspell.txt"
+    val groundTruthFile = "./ground_truth.txt" //spark-nlp-training/src/main/resources/spell/ground_truth.txt
+    val testFile = "./misspell.txt" //spark-nlp-training/src/main/resources/spell/misspell.txt
 
     val spell = new NorvigSweetingApproach()
       .setInputCols(Array("token"))
