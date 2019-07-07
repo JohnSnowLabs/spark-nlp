@@ -17,7 +17,7 @@ object NorvigSpellEvaluation extends App {
   var loggingData: LoggingData = _
 
   def apply(trainFile: String, spell: NorvigSweetingApproach, testFile: String, groundTruthFile: String): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName)
+    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logNorvigParams(spell)
     computeAccuracy(trainFile, spell, testFile, groundTruthFile)
     loggingData.closeLog()
@@ -34,7 +34,8 @@ object NorvigSpellEvaluation extends App {
     val trainingDataSet = getDataSetFromFile(trainFile)
     var spellCheckerModel: PipelineModel = null
     val spellCheckerPipeline = getSpellCheckerPipeline(spell, trainingDataSet)
-    val time = Benchmark.measure("[Norvig Spell Checker] Time to train") {
+    Benchmark.setPrint(false)
+    val time = Benchmark.measure(1, false, "[Norvig Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
     loggingData.logMetric("training time/s", time)

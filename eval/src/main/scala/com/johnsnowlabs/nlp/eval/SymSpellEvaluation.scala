@@ -17,7 +17,7 @@ object SymSpellEvaluation extends App {
   var loggingData: LoggingData = _
 
   def apply(trainFile: String, spell: SymmetricDeleteApproach, testFile: String, groundTruthFile: String): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName)
+    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
     computeAccuracy(trainFile, spell, testFile, groundTruthFile)
     loggingData.closeLog()
@@ -34,7 +34,8 @@ object SymSpellEvaluation extends App {
     val trainingDataSet = getDataSetFromFile(trainFile)
     var spellCheckerModel: PipelineModel = null
     val spellCheckerPipeline = getSpellCheckerPipeline(spell)
-    val time = Benchmark.measure("[Symmetric Spell Checker] Time to train") {
+    Benchmark.setPrint(false)
+    val time = Benchmark.measure(1, false, "[Symmetric Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
     loggingData.logMetric("training time/s", time)

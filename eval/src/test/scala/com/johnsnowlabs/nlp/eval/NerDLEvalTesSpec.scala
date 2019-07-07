@@ -7,15 +7,15 @@ import org.scalatest.FlatSpec
 class NerDLEvalTesSpec extends FlatSpec {
 
   "A NER DL Evaluation" should "display accuracy results" in {
-    val trainFile = "./eng.train"
-    val testFiles = "./eng.test"
-    val format = "IOB"
-    val modelPath = "./ner_dl_1"
+    val trainFile = "./eng.train." //s3://auxdata.johnsnowlabs.com/public/resources/en/ner/conll-2003/eng.train
+    val testFiles = "./eng.testa" //s3://auxdata.johnsnowlabs.com/public/resources/en/ner/conll-2003/eng.testa
+    val format = ""
+    val modelPath = "./ner_dl"
 
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setEmbeddingsSource("./embeddings.100d.txt",
+      .setEmbeddingsSource("./glove.6B.100d.txt", //s3://auxdata.johnsnowlabs.com/spark-nlp-resources/glove.6B.100d.txt
         100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
