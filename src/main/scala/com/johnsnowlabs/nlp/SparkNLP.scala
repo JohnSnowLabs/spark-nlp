@@ -4,6 +4,8 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
+  val currentVersion = "2.1.0-rc3"
+
   def start(includeOcr: Boolean = false): SparkSession = {
     val build = SparkSession.builder()
       .appName("Spark NLP")
@@ -24,7 +26,7 @@ object SparkNLP {
   }
 
   def version(): Unit = {
-    println("2.1.0-rc3")
+    println(currentVersion)
   }
 
 }

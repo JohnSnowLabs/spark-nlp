@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.eval.util
 
+import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
@@ -56,9 +57,11 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
 
   private def setMLflowTags(): Unit = {
     if (runId != "console") {
-      mlFlowClient.get.setTag(runId, "mlflow.runName", "SparkNLP 2.1.0")
+      mlFlowClient.get.setTag(runId, "mlflow.runName", "Spark NLP " + SparkNLP.currentVersion)
       mlFlowClient.get.setTag(runId, "mlflow.source.type", sourceType)
       mlFlowClient.get.setTag(runId, "mlflow.source.name", sourceName)
+    } else {
+      println("Spark NLP " + SparkNLP.currentVersion)
     }
   }
 
