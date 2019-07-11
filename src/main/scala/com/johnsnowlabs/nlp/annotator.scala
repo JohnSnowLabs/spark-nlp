@@ -16,7 +16,9 @@ import org.apache.spark.ml.util.DefaultParamsReadable
 package object annotator {
 
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
-  object Tokenizer extends DefaultParamsReadable[Tokenizer] with PretrainedTokenizer
+  object Tokenizer extends DefaultParamsReadable[Tokenizer]
+  type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
+  object TokenizerModel extends ParamsAndFeaturesReadable[TokenizerModel] with PretrainedTokenizer
 
   type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
   object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
