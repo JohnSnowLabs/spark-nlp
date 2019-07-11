@@ -44,7 +44,7 @@ except ImportError:
     pass
 
 
-class Tokenizer(AnnotatorModel):
+class Tokenizer(AnnotatorApproach):
 
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
@@ -66,15 +66,20 @@ class Tokenizer(AnnotatorModel):
                           "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults",
                           typeConverter=TypeConverters.toListString)
 
-    compositeTokens = Param(Params._dummy(),
-                            "compositeTokens",
-                            "Words that won't be split in two",
-                            typeConverter=TypeConverters.toListString)
-
-    exceptionTokens = Param(Params._dummy(),
-                            "exceptionTokens",
+    exceptions = Param(Params._dummy(),
+                            "exceptions",
                             "Words that won't be affected by tokenization rules",
-                            typeConverter=TypeConverters.toListString)
+                       typeConverter=TypeConverters.toListString)
+
+    exceptionsPath = Param(Params._dummy(),
+                       "exceptionsPath",
+                       "path to file containing list of exceptions",
+                       typeConverter=TypeConverters.toString)
+
+    caseSensitiveExceptions = Param(Params._dummy(),
+                                    "caseSensitiveExceptions",
+                                    "Whether to care for case sensitiveness in exceptions",
+                                    typeConverter=TypeConverters.toBoolean)
 
     contextChars = Param(Params._dummy(),
                          "contextChars",
@@ -89,12 +94,12 @@ class Tokenizer(AnnotatorModel):
     name = 'Tokenizer'
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.Tokenizer", java_model=None):
-        super(Tokenizer, self).__init__(classname=classname, java_model=java_model)
-
+    def __init__(self):
+        super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Tokenizer")
         self._setDefault(
             targetPattern="\\S+",
-            contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"]
+            contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
+            caseSensitiveExceptions=True
         )
 
     def getInfixPatterns(self):
@@ -105,12 +110,6 @@ class Tokenizer(AnnotatorModel):
 
     def getPrefixPattern(self):
         return self.getOrDefault("prefixPattern")
-
-    def getCompositeTokens(self):
-        return self.getOrDefault("compositeTokens")
-
-    def getExceptionTokens(self):
-        return self.getOrDefault("exceptionTokens")
 
     def getContextChars(self):
         return self.getOrDefault("contextChars")
@@ -127,17 +126,6 @@ class Tokenizer(AnnotatorModel):
     def setSuffixPattern(self, value):
         return self._set(suffixPattern=value)
 
-    def setCompositeTokens(self, value):
-        return self._set(compositeTokens=value)
-
-    def addCompositeTokens(self, value):
-        composite_tokens = self.getCompositeTokens()
-        if composite_tokens:
-            composite_tokens.append(value)
-        else:
-            composite_tokens = [value]
-        return self._set(compositeTokens=composite_tokens)
-
     def setInfixPatterns(self, value):
         return self._set(infixPatterns=value)
 
@@ -149,16 +137,25 @@ class Tokenizer(AnnotatorModel):
         infix_patterns.insert(0, value)
         return self._set(infixPatterns=infix_patterns)
 
-    def setExceptionTokens(self, value):
-        return self._set(exceptionTokens=value)
+    def setExceptions(self, value):
+        return self._set(exceptions=value)
 
-    def addExceptionTokens(self, value):
+    def getExceptions(self):
+        return self.getOrDefault("exceptions")
+
+    def addException(self, value):
         try:
-            exception_tokens = self.getExceptionTokens()
+            exception_tokens = self.getExceptions()
         except KeyError:
             exception_tokens = []
         exception_tokens.append(value)
-        return self._set(exceptionTokens=exception_tokens)
+        return self._set(exceptions=exception_tokens)
+
+    def setCaseSensitiveExceptions(self, value):
+        return self._set(caseSensitiveExceptions=value)
+
+    def getCaseSensitiveExceptions(self):
+        return self.getOrDefault("caseSensitiveExceptions")
 
     def setContextChars(self, value):
         return self._set(contextChars=value)
@@ -182,10 +179,47 @@ class Tokenizer(AnnotatorModel):
         split_chars.append(value)
         return self._set(splitChars=split_chars)
 
+    def _create_model(self, java_model):
+        return TokenizerModel(java_model=java_model)
+
     @staticmethod
     def pretrained(name="token_rules", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(Tokenizer, name, lang, remote_loc)
+
+
+class TokenizerModel(AnnotatorModel):
+    name = "TokenizerModel"
+
+    exceptions = Param(Params._dummy(),
+                       "exceptions",
+                       "Words that won't be affected by tokenization rules",
+                       typeConverter=TypeConverters.toListString)
+
+    caseSensitiveExceptions = Param(Params._dummy(),
+                                    "caseSensitiveExceptions",
+                                    "Whether to care for case sensitiveness in exceptions",
+                                    typeConverter=TypeConverters.toBoolean)
+
+    targetPattern = Param(Params._dummy(),
+                          "targetPattern",
+                          "pattern to grab from text as token candidates. Defaults \S+",
+                          typeConverter=TypeConverters.toString)
+
+    rules = Param(Params._dummy(),
+                  "rules",
+                  "Rules structure factory containing pre processed regex rules",
+                  typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TokenizerModel", java_model=None):
+        super(TokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            targetPattern="\\S+",
+            caseSensitiveExceptions=True
+        )
 
 
 class ChunkTokenizer(Tokenizer):
