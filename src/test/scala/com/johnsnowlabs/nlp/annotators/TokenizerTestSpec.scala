@@ -306,4 +306,27 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     assert(result.equals(expected))
 
   }
+
+  "a tokenizer" should "split French apostrophe on the left" in {
+
+    val data = DataBuilder.basicDataBuild("l'une d'un l'un, des l'extrême des l'extreme")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("doc")
+
+    val assembled = documentAssembler.transform(data)
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("doc")
+      .setOutputCol("token")
+      .setInfixPatterns(Array(
+        "(\\w+'{1})(\\w+)"
+      ))
+
+    val tokenized = tokenizer.transform(assembled)
+    val result = tokenized.select("token").as[Seq[Annotation]].collect.head.map(_.result)
+    val expected = Seq("l'", "une", "d'", "un", "l'", "un", ",", "des", "l'", "extrême", "des", "l'", "extreme")
+    assert(result.equals(expected))
+
+  }
 }
