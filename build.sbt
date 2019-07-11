@@ -86,6 +86,7 @@ developers in ThisBuild:= List(
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy"))
 )
 
+target in Compile in doc := baseDirectory.value / "docs/api"
 
 lazy val ocrDependencies = Seq(
   "net.sourceforge.tess4j" % "tess4j" % "4.2.1"
