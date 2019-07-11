@@ -205,7 +205,7 @@ class DocumentAssembler(AnnotatorTransformer):
     def setCleanupMode(self, value):
         if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full']:
             raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full")
-        return self._set(trimAndClearNewLines=value)
+        return self._set(cleanupMode=value)
 
 
 class TokenAssembler(AnnotatorTransformer):

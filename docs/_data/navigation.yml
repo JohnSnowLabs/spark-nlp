@@ -39,3 +39,5 @@ extras:
         url:    /articles
       - title:  Videos
         url:    /videos
+      - title:  Contribute
+        url:    /contribute  
