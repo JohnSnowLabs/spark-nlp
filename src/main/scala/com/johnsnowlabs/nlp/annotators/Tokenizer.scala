@@ -2,32 +2,19 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.util.regex.Pattern
 
-import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{Param, StringArrayParam}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable.ArrayBuffer
 
-/**
-  * Tokenizes raw text into word pieces, tokens.
-  * @param uid required uid for storing annotator to disk
-  * @@ pattern: RegexPattern to split phrases into tokens
-  */
-class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
-
-  import com.johnsnowlabs.nlp.AnnotatorType._
-
-  val compositeTokens: StringArrayParam = new StringArrayParam(this, "compositeTokens", "Words that won't be split in two")
-  val exceptionTokens: StringArrayParam = new StringArrayParam(this, "exceptionTokens", "Words that won't be affected by tokenization rules")
-  val contextChars: StringArrayParam = new StringArrayParam(this, "contextChars", "character list used to separate from token boundaries")
-  val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
-  val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
-  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
-  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
-  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
+class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerModel] {
 
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
@@ -35,6 +22,18 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](DOCUMENT)
 
   def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
+
+  override val description: String = "Annotator that identifies points of analysis in a useful manner"
+
+  val exceptions: StringArrayParam = new StringArrayParam(this, "exceptions", "Words that won't be affected by tokenization rules")
+  val exceptionsPath: ExternalResourceParam = new ExternalResourceParam(this, "exceptionsPath", "path to file containing list of exceptions")
+  val caseSensitiveExceptions: BooleanParam = new BooleanParam(this, "caseSensitiveExceptions", "Whether to care for case sensitiveness in exceptions")
+  val contextChars: StringArrayParam = new StringArrayParam(this, "contextChars", "character list used to separate from token boundaries")
+  val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
+  val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
+  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
+  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
+  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
 
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
 
@@ -46,17 +45,20 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   def setSuffixPattern(value: String): this.type = set(suffixPattern, value)
 
-  def setCompositeTokens(value: Array[String]): this.type = set(compositeTokens, value)
+  def setExceptions(value: Array[String]): this.type = set(exceptions, value)
 
-  def addCompositeTokens(value: String): this.type = set(compositeTokens, get(compositeTokens).getOrElse(Array.empty[String] :+ value))
+  def addException(value: String): this.type = set(exceptions, get(exceptions).getOrElse(Array.empty[String]) :+ value)
 
-  def getCompositeTokens: Array[String] = $(compositeTokens)
+  def getExceptions: Array[String] = $(exceptions)
 
-  def setExceptionTokens(value: Array[String]): this.type = set(compositeTokens, value)
+  def setExceptionsPath(path: String,
+               readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+               options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(exceptionsPath, ExternalResource(path, readAs, options))
 
-  def addExceptionTokens(value: String): this.type = set(exceptionTokens, get(exceptionTokens).getOrElse(Array.empty[String]) :+ value)
+  def setCaseSensitiveExceptions(value: Boolean): this.type = set(caseSensitiveExceptions, value)
 
-  def getExceptionTokens: Array[String] = $(compositeTokens)
+  def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
 
   def getInfixPatterns: Array[String] = $(infixPatterns)
 
@@ -96,13 +98,11 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
 
   setDefault(
     targetPattern -> "\\S+",
-    contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'")
+    contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
+    caseSensitiveExceptions -> true
   )
 
-  /** Clears out rules and constructs a new rule for every combination of rules provided */
-  /** The strategy is to catch one token per regex group */
-  /** User may add its own groups if needs targets to be tokenized separately from the rest */
-  lazy private val ruleFactory = {
+  def buildRuleFactory: RuleFactory = {
     val rules = ArrayBuffer.empty[String]
 
     lazy val quotedContext = Pattern.quote($(contextChars).mkString(""))
@@ -131,80 +131,30 @@ class Tokenizer(override val uid: String) extends AnnotatorModel[Tokenizer] {
       rules.append(ruleBuilder.toString)
     })
     rules.foldLeft(new RuleFactory(MatchStrategy.MATCH_FIRST))((factory, rule) => factory.addRule(rule.r, rule))
+  }
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TokenizerModel = {
+    /** Clears out rules and constructs a new rule for every combination of rules provided */
+    /** The strategy is to catch one token per regex group */
+    /** User may add its own groups if needs targets to be tokenized separately from the rest */
+    val ruleFactory = buildRuleFactory
+
+    val processedExceptions = get(exceptionsPath)
+      .map(er => ResourceHelper.parseLines(er))
+      .getOrElse(Array.empty[String]) ++ get(exceptions).getOrElse(Array.empty[String])
+
+    val raw = new TokenizerModel()
+      .setCaseSensitiveExceptions($(caseSensitiveExceptions))
+      .setTargetPattern($(targetPattern))
+      .setRules(ruleFactory)
+
+    if (processedExceptions.nonEmpty)
+      raw.setExceptions(processedExceptions)
+    else
+      raw
 
   }
 
-  private val PROTECT_CHAR = "ↈ"
-  private val BREAK_CHAR = "ↇ"
-
-  private lazy val BREAK_PATTERN = "[^(?:" + $(targetPattern) + ")" + PROTECT_CHAR + "]"
-  private lazy val SPLIT_PATTERN = "[^" + BREAK_CHAR + "]+"
-
-  def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
-    sentences.map{text =>
-      /** Step 1, define breaks from non breaks */
-      val protectedText = {
-        get(compositeTokens).map(_.foldRight(text.content)((compositeToken, currentText) => {
-          currentText.replaceAll(
-            compositeToken,
-            compositeToken.replaceAll(BREAK_PATTERN, PROTECT_CHAR)
-          )
-        })).getOrElse(text.content).replaceAll(BREAK_PATTERN, BREAK_CHAR)
-      }
-      /** Step 2, Return protected tokens back into text and move on*/
-      val tokens = SPLIT_PATTERN.r.findAllMatchIn(protectedText).flatMap { candidate =>
-        if (get(compositeTokens).isDefined && candidate.matched.contains(PROTECT_CHAR)) {
-          /** Put back character and move on */
-          Seq(IndexedToken(
-            text.content.slice(text.start + candidate.start, text.start + candidate.end),
-            text.start + candidate.start,
-            text.start + candidate.end - 1
-          ))
-        } else if (get(exceptionTokens).isDefined && $(exceptionTokens).contains(candidate.matched)) {
-          Seq(IndexedToken(
-            candidate.matched,
-            candidate.start,
-            candidate.end - 1
-          ))
-        }
-        else {
-        /** Step 3, If no exception found, find candidates through the possible general rule patterns*/
-        ruleFactory.findMatchFirstOnly(candidate.matched).map {m =>
-          var curPos = m.content.start
-          (1 to m.content.groupCount)
-            .map (i => {
-              val target = m.content.group(i)
-              val it = IndexedToken(
-                target,
-                text.start + candidate.start + curPos,
-                text.start + candidate.start + curPos + target.length - 1
-              )
-              curPos += target.length
-              it
-            })
-          /** Step 4, If rules didn't match, return whatever candidate we have and leave it as is*/
-          }.getOrElse(Seq(IndexedToken(
-            candidate.matched,
-            text.start + candidate.start,
-            text.start + candidate.end - 1
-        )))
-      }}.toArray.filter(t => t.token.nonEmpty)
-      TokenizedSentence(tokens, text.index)
-    }
-  }
-
-  /** one to many annotation */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = SentenceSplit.unpack(annotations)
-    val tokenized = tag(sentences)
-    TokenizedWithSentence.pack(tokenized)
-  }
 }
 
-trait PretrainedTokenizer {
-  def pretrained(name: String = "token_rules", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): Tokenizer = {
-    ResourceDownloader.downloadModel(Tokenizer, name, Option(lang), remoteLoc)
-  }
-}
-
-object Tokenizer extends DefaultParamsReadable[Tokenizer] with PretrainedTokenizer
+object Tokenizer extends DefaultParamsReadable[Tokenizer]

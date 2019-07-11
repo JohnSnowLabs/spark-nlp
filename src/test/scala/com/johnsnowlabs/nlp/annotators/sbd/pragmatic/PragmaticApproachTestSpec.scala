@@ -41,6 +41,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     val tokenizedFromDisk = new Tokenizer()
       .setInputCols(Array("my_sbd_sentences"))
       .setOutputCol("token")
+      .fit(data)
 
     import Annotation.extractors._
 
@@ -121,7 +122,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
 
     assert(sen.count == 3, "because there were no 3 rows out of 3 sentences")
 
-    val token = new Tokenizer().setInputCols("sentence").setOutputCol("token")
+    val token = new Tokenizer().setInputCols("sentence").setOutputCol("token").fit(data)
 
     val tok = token.transform(sen)
 

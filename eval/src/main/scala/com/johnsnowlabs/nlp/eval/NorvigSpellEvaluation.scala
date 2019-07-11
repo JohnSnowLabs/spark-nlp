@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.DocumentAssembler
 import scala.collection.mutable
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators.{Tokenizer, _}
+import com.johnsnowlabs.nlp.annotators.{TokenizerModel, _}
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}

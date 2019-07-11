@@ -357,7 +357,7 @@ object PythonResourceDownloader {
   val keyToReader: Map[String, DefaultParamsReadable[_]] = Map(
     "DocumentAssembler" -> DocumentAssembler,
     "SentenceDetector" -> SentenceDetector,
-    "Tokenizer" -> Tokenizer,
+    "Tokenizer" -> TokenizerModel,
     "PerceptronModel" -> PerceptronModel,
     "NerCrfModel" -> NerCrfModel,
     "Stemmer" -> Stemmer,
