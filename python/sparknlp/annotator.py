@@ -182,11 +182,6 @@ class Tokenizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
 
-    @staticmethod
-    def pretrained(name="token_rules", lang="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Tokenizer, name, lang, remote_loc)
-
 
 class TokenizerModel(AnnotatorModel):
     name = "TokenizerModel"
@@ -220,6 +215,11 @@ class TokenizerModel(AnnotatorModel):
             targetPattern="\\S+",
             caseSensitiveExceptions=True
         )
+
+    @staticmethod
+    def pretrained(name="token_rules", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc)
 
 
 class ChunkTokenizer(Tokenizer):
