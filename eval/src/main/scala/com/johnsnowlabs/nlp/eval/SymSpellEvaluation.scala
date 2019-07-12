@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.eval
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.eval.NorvigSpellEvaluation.loggingData
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -12,11 +11,11 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-object SymSpellEvaluation extends App {
+class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
 
   var loggingData: LoggingData = _
 
-  def apply(trainFile: String, spell: SymmetricDeleteApproach, testFile: String, groundTruthFile: String): Unit = {
+  def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
     computeAccuracy(trainFile, spell, testFile, groundTruthFile)
@@ -144,14 +143,7 @@ object SymSpellEvaluation extends App {
 
   private def getAccuracyByRow = udf { (prediction: mutable.WrappedArray[String],
                                         groundTruth: mutable.WrappedArray[String]) =>
-    val accuracy = computeAccuracyByRow(prediction.toSet, groundTruth.toSet)
-    accuracy
-  }
-
-  def computeAccuracyByRow(prediction: Set[String], groundTruth: Set[String]): Float = {
     val numberOfCorrectWords = prediction.intersect(groundTruth).size.toFloat
-    val accuracy: Float = numberOfCorrectWords / groundTruth.size.toFloat
-    accuracy
+    numberOfCorrectWords / groundTruth.size.toFloat
   }
-
 }

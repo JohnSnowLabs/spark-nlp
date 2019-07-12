@@ -15,16 +15,16 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-object NerDLEvaluation extends App {
+class NerDLEvaluation(testFile: String, format: String) {
 
   var loggingData: LoggingData = _
 
-  private case class NerEvalDLConfiguration(trainFile: String, format:String, modelPath: String,
+  private case class NerEvalDLConfiguration(trainFile: String, format: String, modelPath: String,
                                             sparkSession: SparkSession, nerDLApproach: NerDLApproach,
                                             wordEmbeddings: WordEmbeddings)
 
-  def apply(testFile: String, format: String, modelPath: String, trainFile: String, nerDLApproach: NerDLApproach,
-            wordEmbeddings: WordEmbeddings): Unit = {
+  def computeAccuracyAnnotator(modelPath: String, trainFile: String, nerDLApproach: NerDLApproach,
+                               wordEmbeddings: WordEmbeddings): Unit = {
 
     val spark = SparkSession.builder()
       .appName("benchmark")
@@ -35,7 +35,7 @@ object NerDLEvaluation extends App {
       .getOrCreate()
 
     val nerEvalDLConfiguration = NerEvalDLConfiguration(trainFile, format, modelPath, spark,
-                                                        nerDLApproach, wordEmbeddings)
+      nerDLApproach, wordEmbeddings)
 
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Named Entity Recognition")
     loggingData.logNerDLParams(nerDLApproach)
@@ -59,10 +59,9 @@ object NerDLEvaluation extends App {
   def getPredictionDataSet(nerDataSet: Dataset[_], nerEvalDLConfiguration: NerEvalDLConfiguration):
   Dataset[_] = {
     val nerModel = getNerModel(nerEvalDLConfiguration)
-    var predictionDataSet: Dataset[_] = PipelineModels.dummyDataset
-    predictionDataSet = nerModel.transform(nerDataSet)
-        .select(col("label.result").alias("label"),
-          col("ner.result").alias("prediction"))
+    val predictionDataSet = nerModel.transform(nerDataSet)
+      .select(col("label.result").alias("label"),
+        col("ner.result").alias("prediction"))
     Benchmark.measure("Time to show prediction dataset") {
       predictionDataSet.show(5)
     }
@@ -136,7 +135,7 @@ object NerDLEvaluation extends App {
   }
 
   def getEvaluationDataSet(dataSet: Dataset[_], labels: List[String], format: String, sparkSession: SparkSession): Dataset[_] = {
-   import sparkSession.implicits._
+    import sparkSession.implicits._
     val labelAndPrediction: Seq[(String, String)] = dataSet.select("label", "prediction").rdd.map { row =>
       val labelColumn: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       val predictionColumn: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]]
