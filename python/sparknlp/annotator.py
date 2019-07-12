@@ -229,6 +229,20 @@ class ChunkTokenizer(Tokenizer):
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
 
+    def _create_model(self, java_model):
+        return ChunkTokenizerModel(java_model=java_model)
+
+
+class ChunkTokenizerModel(TokenizerModel):
+    name = 'ChunkTokenizerModel'
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel", java_model=None):
+        super(TokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
 
 class Stemmer(AnnotatorModel):
 
