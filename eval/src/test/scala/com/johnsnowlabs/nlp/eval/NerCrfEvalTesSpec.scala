@@ -1,16 +1,16 @@
 package com.johnsnowlabs.nlp.eval
 
-import com.johnsnowlabs.nlp.annotator.{NerDLApproach, WordEmbeddings}
+import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, WordEmbeddings}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import org.scalatest.FlatSpec
 
-class NerDLEvalTesSpec extends FlatSpec {
+class NerCrfEvalTesSpec extends FlatSpec {
 
-  "A NER DL Evaluation" should "display accuracy results" in {
-    val trainFile = "./eng.train"
+  "A NER CRF Evaluation" should "display accuracy results" in {
+    val trainFile = "./eng.train.small"
     val testFiles = "./eng.testa"
     val format = ""
-    val modelPath = "./ner_dl"
+    val modelPath = "./ner_crf"
 
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
@@ -19,16 +19,16 @@ class NerDLEvalTesSpec extends FlatSpec {
         100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
-    val nerTagger = new NerDLApproach()
-      .setInputCols(Array("sentence", "token", "glove"))
+    val nerTagger = new NerCrfApproach()
+      .setInputCols(Array("sentence", "token","pos", "glove"))
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMaxEpochs(10)
       .setRandomSeed(0)
       .setVerbose(2)
 
-    val nerDLEvaluation = new NerDLEvaluation(testFiles, format)
-    nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
+    val nerCrfEvaluation = new NerCrfEvaluation(testFiles, format)
+    nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 
   }
 
