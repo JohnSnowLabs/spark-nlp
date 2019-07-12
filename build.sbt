@@ -109,19 +109,19 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
-  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+  "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("commons-configuration","commons-configuration")
-    exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk" % "1.11.568"
-    exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("commons-configuration","commons-configuration")
+    exclude("com.amazonaws","aws-java-sdk-bundle")
+    exclude("org.apache.hadoop" ,"hadoop-common"),
+  "com.amazonaws" % "aws-java-sdk-core" % "1.11.375"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
-    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
-
+    exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("commons-configuration","commons-configuration"),
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.375",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
@@ -186,8 +186,8 @@ val evalMergeRules: String => MergeStrategy  = {
 
 assemblyMergeStrategy in assembly := {
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
-  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.last
-  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
+  case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
+  case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
