@@ -9,15 +9,16 @@ class SymSpellEvalTestSpec extends FlatSpec {
 
     val trainFile = "src/test/resources/spell/sherlockholmes.txt"
     val dictionaryFile = "src/test/resources/spell/words.txt"
-    val groundTruthFile = "./ground_truth.txt" //spark-nlp-training/src/main/resources/spell/ground_truth.txt
-    val testFile = "./misspell.txt" //spark-nlp-training/src/main/resources/spell/misspell.txt
+    val groundTruthFile = "./ground_truth.txt"
+    val testFile = "./misspell.txt"
 
     val spell = new SymmetricDeleteApproach()
       .setInputCols(Array("token"))
       .setOutputCol("spell")
       .setDictionary(dictionaryFile)
 
-    SymSpellEvaluation(trainFile, spell, testFile, groundTruthFile)
+    val symSpellEvaluation = new SymSpellEvaluation(testFile, groundTruthFile)
+    symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
   }
 
 }

@@ -1,22 +1,22 @@
 package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.DocumentAssembler
-
-import scala.collection.mutable
-import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators.{TokenizerModel, _}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{Dataset, SparkSession}
 
-object NorvigSpellEvaluation extends App {
+import scala.collection.mutable
+
+class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
 
   var loggingData: LoggingData = _
 
-  def apply(trainFile: String, spell: NorvigSweetingApproach, testFile: String, groundTruthFile: String): Unit = {
+  def computeAccuracyAnnotator(spell: NorvigSweetingApproach, trainFile: String): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logNorvigParams(spell)
     computeAccuracy(trainFile, spell, testFile, groundTruthFile)
@@ -144,14 +144,8 @@ object NorvigSpellEvaluation extends App {
 
   private def getAccuracyByRow = udf { (prediction: mutable.WrappedArray[String],
                                         groundTruth: mutable.WrappedArray[String]) =>
-    val accuracy = computeAccuracyByRow(prediction.toSet, groundTruth.toSet)
-    accuracy
-  }
-
-  private def computeAccuracyByRow(prediction: Set[String], groundTruth: Set[String]): Float = {
     val numberOfCorrectWords = prediction.intersect(groundTruth).size.toFloat
-    val accuracy: Float = numberOfCorrectWords / groundTruth.size.toFloat
-    accuracy
+    numberOfCorrectWords / groundTruth.size.toFloat
   }
 
 }
