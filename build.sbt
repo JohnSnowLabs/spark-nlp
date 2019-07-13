@@ -16,7 +16,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.0.8"
+version := "2.1.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -86,6 +86,7 @@ developers in ThisBuild:= List(
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy"))
 )
 
+target in Compile in doc := baseDirectory.value / "docs/api"
 
 lazy val ocrDependencies = Seq(
   "net.sourceforge.tess4j" % "tess4j" % "4.2.1"
@@ -108,19 +109,19 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
-  "org.apache.hadoop" % "hadoop-aws" %  "2.7.3"
+  "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("commons-configuration","commons-configuration")
-    exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk" % "1.11.568"
-    exclude("commons-codec", "commons-codec")
     exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("commons-configuration","commons-configuration")
+    exclude("com.amazonaws","aws-java-sdk-bundle")
+    exclude("org.apache.hadoop" ,"hadoop-common"),
+  "com.amazonaws" % "aws-java-sdk-core" % "1.11.375"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("com.fasterxml.jackson.dataformat", "jackson-dataformat-smile")
-    exclude("com.fasterxml.jackson.datatype", "jackson-datatype-joda"),
-
+    exclude("com.fasterxml.jackson.core", "jackson-core")
+    exclude("commons-configuration","commons-configuration"),
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.375",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
@@ -158,7 +159,6 @@ lazy val root = (project in file("."))
 
 
 val ocrMergeRules: String => MergeStrategy  = {
-
   case "versionchanges.txt" => MergeStrategy.discard
   case "StaticLoggerBinder" => MergeStrategy.discard
   case PathList("META-INF", fileName)
@@ -171,10 +171,23 @@ val ocrMergeRules: String => MergeStrategy  = {
   case _ => MergeStrategy.deduplicate
 }
 
+val evalMergeRules: String => MergeStrategy  = {
+  case "versionchanges.txt" => MergeStrategy.discard
+  case "StaticLoggerBinder" => MergeStrategy.discard
+  case PathList("META-INF", fileName)
+    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
+  => MergeStrategy.discard
+  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
+  case PathList("org", "apache", "spark", _ @ _*)  => MergeStrategy.discard
+  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
+  case _ => MergeStrategy.deduplicate
+}
+
 assemblyMergeStrategy in assembly := {
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
-  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.last
-  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
+  case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
+  case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
@@ -187,7 +200,15 @@ assemblyMergeStrategy in assembly := {
 lazy val evaluation = (project in file("eval"))
   .settings(
     name := "spark-nlp-eval",
-    version := "2.0.8",
+    version := "2.1.0",
+
+    assemblyMergeStrategy in assembly := evalMergeRules,
+
+    libraryDependencies ++= testDependencies ++ Seq(
+      "org.mlflow" % "mlflow-client" % "1.0.0"
+    ),
+
+    test in assembly := {},
 
     publishTo := Some(
       if (isSnapshot.value)
@@ -220,7 +241,7 @@ lazy val evaluation = (project in file("eval"))
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "2.0.8",
+    version := "2.1.0",
 
     test in assembly := {},
 
@@ -294,9 +315,10 @@ copyAssembledOcrJar := {
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
 
+// Includes spark-nlp, so use sparknlp.jar
 copyAssembledEvalJar := {
   val jarFilePath = (assemblyOutputPath in assembly in "evaluation").value
-  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-eval.jar").value
+  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }

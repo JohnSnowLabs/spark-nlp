@@ -40,9 +40,13 @@ class NerDLApproach(override val uid: String)
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
 
+  def getLr: Float = $(this.lr)
+  def getPo: Float = $(this.po)
+  def getBatchSize: Int = $(this.batchSize)
+  def getDropout: Float = $(this.dropout)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-
-  def getUseContrib(): Boolean = $(this.useContrib)
+  def getUseContrib: Boolean = $(this.useContrib)
+  def getTrainValidationProp: Float = $(this.trainValidationProp)
 
   def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
   def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
@@ -52,6 +56,7 @@ class NerDLApproach(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
+
 
   setDefault(
     minEpochs -> 0,
@@ -95,7 +100,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length, get(graphFolder), getUseContrib())
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length, get(graphFolder), getUseContrib)
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)

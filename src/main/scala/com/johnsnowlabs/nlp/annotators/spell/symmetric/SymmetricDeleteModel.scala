@@ -175,7 +175,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   def getSymmetricSuggestions(word: String): Option[SuggestedWord] = {
     val lowercaseWord = word.toLowerCase()
     val lowercaseWordLength = lowercaseWord.length
-    if ((lowercaseWordLength - this.getLongestWordLength) > $(maxEditDistance))
+    if (lowercaseWordLength - $(longestWordLength) > $(maxEditDistance))
       return None
 
     var minSuggestLen: Double = Double.PositiveInfinity

@@ -33,6 +33,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
     val regexTokenizer = new Tokenizer()
       .setOutputCol("token")
+      .fit(dataset)
     if (sbd)
       regexTokenizer.setInputCols(Array("sentence")).transform(withFullPragmaticSentenceDetector(dataset))
     else

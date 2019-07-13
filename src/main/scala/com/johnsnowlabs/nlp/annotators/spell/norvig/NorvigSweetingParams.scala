@@ -28,4 +28,14 @@ trait NorvigSweetingParams extends Params {
   def setIntersections(value: Int): this.type = set(intersections, value)
   def setVowelSwapLimit(value: Int): this.type = set(vowelSwapLimit, value)
 
+  def getCaseSensitive: Boolean = $(caseSensitive)
+  def getDoubleVariants: Boolean = $(doubleVariants)
+  def getShortCircuit: Boolean = $(shortCircuit)
+  def getFrequencyPriority: Boolean = $(frequencyPriority)
+  def getWordSizeIgnore: Int = $(wordSizeIgnore)
+  def getDupsLimit: Int = $(dupsLimit)
+  def getReductLimit: Int = $(reductLimit)
+  def getIntersections: Int = $(intersections)
+  def getVowelSwapLimit: Int = $(vowelSwapLimit)
+
 }
