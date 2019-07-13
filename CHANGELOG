@@ -1,25 +1,33 @@
 ========
-2.1.0-rc4
+2.1.0
 ========
 ---------------
 Overview
 ---------------
-This is a pre-release for 2.1.0. The tokenizer has been revamped, and some of the DocumentAssembler defaults changed.
-For this reason, many pipelines and models may now change their accuracies and performance. Old tokenizer default rules
-will be translated in a new english specific pretrained Tokenizer.
-NerDLApproach will now report metrics if setTrainValidationProp has been set, as well as confidence scores reporting in spell checkers.
-DependencyParser output has been reviewed and fixed a bunch of other bugs in the embeddings scope.
-Please feedback and bugs, and remember, this is a pre-release, so not yet intended for production use.
-Join Slack!
+Thank you for following up with release candidates. This release is backwards breaking because two basic annotators have been redesigned.
+The tokenizer now has easier to customize params and simplified exception management.
+DocumentAssembler `trimAndClearNewLiens` was redesigned into a `cleanupMode` for further control over the cleanup process.
+Tokenizer now supports pretrained models, meaning you'll be capable of accessing any of our language based Tokenizers.
+Another big introduction is the `eval` module. An optional Spark NLP sub-module that provides evaluation scripts, to
+make it easier when looking to measure your own models are against a validation dataset, now using MLFlow.
+Some work also began on metrics during training, starting now with the `NerDLApproach`.
+Finally, we'll have Scaladocs ready for easy library reference.
+Thank you for your feedback in our Slack channels.
+Particular thanks to @csnardi for fixing a bug in one of the release candidates.
+
+---------------
+New Features
+---------------
+* Spark NLP Eval module, includes functions to evaluate NER and Spell Checkers with MLFlow (More annotators to come)
 
 ---------------
 Enhancements
 ---------------
+* DocumentAssembler new param `cleanupMode` allows user to decide what kind of cleanup to apply to source
+* Tokenizer has been severely enhanced to allow easier and more intuitive customization
 * Norvig and Symmetric spell checkers now report confidence scores in metadata
-* Tokenizer has been severely enhanced to allow easier and faster customization
 * NerDLApproach now reports metrics and f1 scores with an automated dataset splitting through `setTrainValidationProp`
 * Began making progress towards OCR reporting more meaningful metadata (noise levels, confidence score, etc), sets ground base for further development
-* Added `spark-nlp-eval` evaluation model with multiple scripts that help users evaluate their models and pipelines. To be improved.
 
 ---------------
 Bugfixes
@@ -28,6 +36,7 @@ Bugfixes
 * Dependency Parser now only shows head token as part of the result, instead of pairs
 * Fixed NerDLModel not allowing to pick noncontrib versions from linux
 * Fixed a bug in embeddingsRef validation allowing the user to override ref when not possible
+* Removed unintentional gc calls causing some performance issues
 
 ---------------
 Framework
@@ -37,6 +46,7 @@ Framework
 ---------------
 Documentation
 ---------------
+* Scaladocs for Spark NLP reference
 * Added Google Colab workthrough guide
 * Added Approach and Model class names in reference documentation
 * Fixed various typos and outdated pieces in documentation
