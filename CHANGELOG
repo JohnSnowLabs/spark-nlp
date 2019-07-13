@@ -18,7 +18,7 @@ Particular thanks to @csnardi for fixing a bug in one of the release candidates.
 ---------------
 New Features
 ---------------
-* Spark NLP Eval module, includes functions to evaluate NER and Spell Checkers with MLFlow (More annotators to come)
+* Spark NLP Eval module, includes functions to evaluate NER and Spell Checkers with MLFlow (Python support and more annotators to come)
 
 ---------------
 Enhancements
