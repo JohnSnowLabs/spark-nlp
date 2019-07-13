@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
@@ -14,26 +14,38 @@ import scala.collection.mutable
 
 class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
 
-  var loggingData: LoggingData = _
+  private var loggingData: LoggingData = _
 
-  def computeAccuracyAnnotator(spell: NorvigSweetingApproach, trainFile: String): Unit = {
+  private case class NorvigSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
+                                           approach: NorvigSweetingApproach, model: NorvigSweetingModel)
+
+  def computeAccuracyAnnotator(trainFile: String, spell: NorvigSweetingApproach): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logNorvigParams(spell)
-    computeAccuracy(trainFile, spell, testFile, groundTruthFile)
+    val norvigSpellEvalConfig = NorvigSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
+    computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()
   }
 
-  private def computeAccuracy(trainFile: String, spell: NorvigSweetingApproach,
-                              testFile: String, groundTruthFile: String): Unit = {
-    val spellCheckerModel = trainSpellChecker(trainFile, spell)
+  def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
+    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
+    loggingData.logNorvigParams(spell)
+    val norvigSpellEvalConfig = NorvigSpellEvalConfig("", testFile, groundTruthFile, null, spell)
+    computeAccuracy(norvigSpellEvalConfig)
+    loggingData.closeLog()
+  }
+
+  private def computeAccuracy(norvigSpellEvalConfig: NorvigSpellEvalConfig): Unit = {
+    val spellCheckerModel = trainSpellChecker(norvigSpellEvalConfig)
     val predictionDataSet = correctMisspells(spellCheckerModel, testFile)
     evaluateSpellChecker(groundTruthFile, predictionDataSet)
   }
 
-  private def trainSpellChecker(trainFile: String, spell: NorvigSweetingApproach): PipelineModel = {
-    val trainingDataSet = getDataSetFromFile(trainFile)
+  private def trainSpellChecker(norvigSpellEvalConfig: NorvigSpellEvalConfig): PipelineModel = {
+    val trainingDataSet = if (norvigSpellEvalConfig.model == null) getDataSetFromFile(norvigSpellEvalConfig.trainFile)
+                          else PipelineModels.dummyDataset
     var spellCheckerModel: PipelineModel = null
-    val spellCheckerPipeline = getSpellCheckerPipeline(spell, trainingDataSet)
+    val spellCheckerPipeline = getSpellCheckerPipeline(norvigSpellEvalConfig)
     Benchmark.setPrint(false)
     val time = Benchmark.measure(1, false, "[Norvig Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
@@ -62,7 +74,7 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
     }
   }
 
-  private def getSpellCheckerPipeline(spell: NorvigSweetingApproach, trainDataSet: Dataset[_]): Pipeline =  {
+  private def getSpellCheckerPipeline(norvigSpellEvalConfig: NorvigSpellEvalConfig): Pipeline =  {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -73,16 +85,33 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
       .setOutputCol("token")
 
     val finisher = new Finisher()
-      .setInputCols("spell")
+      .setInputCols("checked")
       .setOutputCols("prediction")
 
-    new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+    if (norvigSpellEvalConfig.model == null ) {
+      new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          norvigSpellEvalConfig.approach,
+          finisher
+        ))
+    } else {
+
+      val normalizer = new Normalizer()
+        .setInputCols("token")
+        .setOutputCol("normal")
+
+      new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          normalizer,
+          norvigSpellEvalConfig.model,
+          finisher
+        ))
+    }
+
   }
 
   private def correctMisspells(spellCheckerModel: PipelineModel, testFile: String): Dataset[_] = {

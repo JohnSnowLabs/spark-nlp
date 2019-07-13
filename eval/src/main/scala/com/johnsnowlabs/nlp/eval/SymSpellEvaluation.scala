@@ -13,26 +13,38 @@ import scala.collection.mutable
 
 class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
 
-  var loggingData: LoggingData = _
+  private var loggingData: LoggingData = _
+
+  private case class SymSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
+                                        approach: SymmetricDeleteApproach, model: SymmetricDeleteModel)
 
   def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
-    computeAccuracy(trainFile, spell, testFile, groundTruthFile)
+    val symSpellConfig = SymSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
+    computeAccuracy(symSpellConfig)
     loggingData.closeLog()
   }
 
-  private def computeAccuracy(trainFile: String, spell: SymmetricDeleteApproach,
-                              testFile: String, groundTruthFile: String): Unit = {
-    val spellCheckerModel = trainSpellChecker(trainFile, spell)
+  def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
+    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
+    loggingData.logSymSpellParams(spell)
+    val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
+    computeAccuracy(symSpellConfig)
+    loggingData.closeLog()
+  }
+
+  private def computeAccuracy(symSpellConfig: SymSpellEvalConfig): Unit = {
+    val spellCheckerModel = trainSpellChecker(symSpellConfig)
     val predictionDataSet = correctMisspells(spellCheckerModel, testFile)
     evaluateSpellChecker(groundTruthFile, predictionDataSet)
   }
 
-  private def trainSpellChecker(trainFile: String, spell: SymmetricDeleteApproach): PipelineModel = {
-    val trainingDataSet = getDataSetFromFile(trainFile)
+  private def trainSpellChecker(symSpellConfig: SymSpellEvalConfig): PipelineModel = {
+    val trainingDataSet = if (symSpellConfig.model == null) getDataSetFromFile(symSpellConfig.trainFile)
+                          else PipelineModels.dummyDataset
     var spellCheckerModel: PipelineModel = null
-    val spellCheckerPipeline = getSpellCheckerPipeline(spell)
+    val spellCheckerPipeline = getSpellCheckerPipeline(symSpellConfig)
     Benchmark.setPrint(false)
     val time = Benchmark.measure(1, false, "[Symmetric Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
@@ -61,7 +73,7 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     }
   }
 
-  private def getSpellCheckerPipeline(spell: SymmetricDeleteApproach): Pipeline = {
+  private def getSpellCheckerPipeline(symSpellEvalConfiguration: SymSpellEvalConfig): Pipeline = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -71,16 +83,27 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
       .setOutputCol("token")
 
     val finisher = new Finisher()
-      .setInputCols("spell")
+      .setInputCols("checked")
       .setOutputCols("prediction")
 
-    new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+    if (symSpellEvalConfiguration.model == null) {
+      new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          symSpellEvalConfiguration.approach,
+          finisher
+        ))
+    } else {
+      new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          symSpellEvalConfiguration.model,
+          finisher
+        ))
+    }
+
   }
 
   private def correctMisspells(spellCheckerModel: PipelineModel, testFile: String): Dataset[_] = {
