@@ -182,11 +182,6 @@ class Tokenizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
 
-    @staticmethod
-    def pretrained(name="token_rules", lang="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Tokenizer, name, lang, remote_loc)
-
 
 class TokenizerModel(AnnotatorModel):
     name = "TokenizerModel"
@@ -221,6 +216,11 @@ class TokenizerModel(AnnotatorModel):
             caseSensitiveExceptions=True
         )
 
+    @staticmethod
+    def pretrained(name="token_rules", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc)
+
 
 class ChunkTokenizer(Tokenizer):
     name = 'ChunkTokenizer'
@@ -228,6 +228,20 @@ class ChunkTokenizer(Tokenizer):
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
+
+    def _create_model(self, java_model):
+        return ChunkTokenizerModel(java_model=java_model)
+
+
+class ChunkTokenizerModel(TokenizerModel):
+    name = 'ChunkTokenizerModel'
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel", java_model=None):
+        super(TokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
 
 class Stemmer(AnnotatorModel):
