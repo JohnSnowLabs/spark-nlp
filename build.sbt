@@ -16,7 +16,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.1.0-rc4"
+version := "2.1.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -200,7 +200,7 @@ assemblyMergeStrategy in assembly := {
 lazy val evaluation = (project in file("eval"))
   .settings(
     name := "spark-nlp-eval",
-    version := "2.1.0-rc4",
+    version := "2.1.0",
 
     assemblyMergeStrategy in assembly := evalMergeRules,
 
@@ -241,7 +241,7 @@ lazy val evaluation = (project in file("eval"))
 lazy val ocr = (project in file("ocr"))
   .settings(
     name := "spark-nlp-ocr",
-    version := "2.1.0-rc4",
+    version := "2.1.0",
 
     test in assembly := {},
 
