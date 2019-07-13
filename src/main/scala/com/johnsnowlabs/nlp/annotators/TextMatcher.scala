@@ -41,9 +41,9 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   /**
     * Loads entities from a provided source.
     */
-  private def loadEntities(): Array[Array[String]] = {
+  private def loadEntities(dataset: Dataset[_]): Array[Array[String]] = {
     val phrases: Array[String] = ResourceHelper.parseLines($(entities))
-    val tokenizer = new Tokenizer()
+    val tokenizer = new Tokenizer().fit(dataset)
     val parsedEntities: Array[Array[String]] = phrases.map {
       line =>
         val annotation = Seq(Annotation(line))
@@ -71,7 +71,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
         .setEntities(loadEntities(recursivePipeline.get))
     } else {
       new TextMatcherModel()
-        .setEntities(loadEntities())
+        .setEntities(loadEntities(dataset))
         .setCaseSensitive($(caseSensitive))
     }
   }

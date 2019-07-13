@@ -3,9 +3,6 @@ package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, WordWithDependency}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 
-/**
-  * Parser based on the code of Matthew Honnibal and Martin Andrews
-  */
 object GreedyTransitionApproach {
 
   def predict(posTagged: PosTaggedSentence, dependencyMaker: DependencyMaker): DependencyParsedSentence = {

@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer
+import com.johnsnowlabs.nlp.annotators.{PretrainedLemmatizer, PretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.PretrainedDependencyParserModel
@@ -17,6 +17,8 @@ package object annotator {
 
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
+  type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
+  object TokenizerModel extends ParamsAndFeaturesReadable[TokenizerModel] with PretrainedTokenizer
 
   type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
   object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
