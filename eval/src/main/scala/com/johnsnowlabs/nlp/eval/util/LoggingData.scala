@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp.eval.util
 
 import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
-import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
+import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
+import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
 import org.mlflow.api.proto.Service.{RunInfo, RunStatus}
 import org.mlflow.tracking.MlflowClient
 import org.slf4j.LoggerFactory
@@ -90,7 +90,47 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
     }
   }
 
+  def logNorvigParams(spell: NorvigSweetingModel): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "caseSensitive", spell.getCaseSensitive.toString)
+      mlFlowClient.get.logParam(runId, "doubleVariants", spell.getDoubleVariants.toString)
+      mlFlowClient.get.logParam(runId, "shortCircuit", spell.getShortCircuit.toString)
+      mlFlowClient.get.logParam(runId, "frequencyPriority", spell.getFrequencyPriority.toString)
+      mlFlowClient.get.logParam(runId, "wordSizeIgnore", spell.getWordSizeIgnore.toString)
+      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
+      mlFlowClient.get.logParam(runId, "reductLimit", spell.getReductLimit.toString)
+      mlFlowClient.get.logParam(runId, "intersections", spell.getIntersections.toString)
+      mlFlowClient.get.logParam(runId, "vowelSwapLimit", spell.getVowelSwapLimit.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("caseSensitive: " + spell.getCaseSensitive.toString)
+      println("doubleVariants: " + spell.getDoubleVariants.toString)
+      println("shortCircuit: " + spell.getShortCircuit.toString)
+      println("frequencyPriority: " + spell.getFrequencyPriority.toString)
+      println("wordSizeIgnore: " + spell.getWordSizeIgnore.toString)
+      println("dupsLimit: " + spell.getDupsLimit.toString)
+      println("reductLimit: " + spell.getReductLimit.toString)
+      println("intersections: " + spell.getIntersections.toString)
+      println("vowelSwapLimit: " + spell.getVowelSwapLimit.toString)
+    }
+  }
+
   def logSymSpellParams(spell: SymmetricDeleteApproach): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "maxEditDistance", spell.getMaxEditDistance.toString)
+      mlFlowClient.get.logParam(runId, "frequencyThreshold", spell.getFrequencyThreshold.toString)
+      mlFlowClient.get.logParam(runId, "deletesThreshold", spell.getDeletesThreshold.toString)
+      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("maxEditDistance: " + spell.getMaxEditDistance.toString)
+      println("frequencyThreshold: " + spell.getFrequencyThreshold.toString)
+      println("deletesThreshold: " + spell.getDeletesThreshold.toString)
+      println("dupsLimit: " + spell.getDupsLimit.toString)
+    }
+  }
+
+  def logSymSpellParams(spell: SymmetricDeleteModel): Unit = {
     if (runId != "console") {
       mlFlowClient.get.logParam(runId, "maxEditDistance", spell.getMaxEditDistance.toString)
       mlFlowClient.get.logParam(runId, "frequencyThreshold", spell.getFrequencyThreshold.toString)
