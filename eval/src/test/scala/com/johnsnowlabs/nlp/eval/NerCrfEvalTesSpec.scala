@@ -15,7 +15,7 @@ class NerCrfEvalTesSpec extends FlatSpec {
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setEmbeddingsSource("/Users/dburbano/tmp/embeddings.100d.test.txt",
+      .setEmbeddingsSource("./glove.6B.100d.txt ",
         100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
