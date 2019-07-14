@@ -8,7 +8,7 @@ class NerDLEvalTesSpec extends FlatSpec {
 
   "A NER DL Evaluation" should "display accuracy results" in {
     val trainFile = "./eng.train"
-    val testFiles = "./eng.testa"
+    val testFile = "./eng.testa"
     val format = ""
     val modelPath = "./ner_dl"
 
@@ -27,7 +27,7 @@ class NerDLEvalTesSpec extends FlatSpec {
       .setRandomSeed(0)
       .setVerbose(2)
 
-    val nerDLEvaluation = new NerDLEvaluation(testFiles, format)
+    val nerDLEvaluation = new NerDLEvaluation(testFile, format)
     nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 
   }

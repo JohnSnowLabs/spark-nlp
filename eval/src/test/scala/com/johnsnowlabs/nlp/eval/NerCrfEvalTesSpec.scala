@@ -8,7 +8,7 @@ class NerCrfEvalTesSpec extends FlatSpec {
 
   "A NER CRF Evaluation" should "display accuracy results" in {
     val trainFile = "./eng.train.small"
-    val testFiles = "./eng.testa"
+    val testFile = "./eng.testa"
     val format = ""
     val modelPath = "./ner_crf"
 
@@ -27,7 +27,7 @@ class NerCrfEvalTesSpec extends FlatSpec {
       .setRandomSeed(0)
       .setVerbose(2)
 
-    val nerCrfEvaluation = new NerCrfEvaluation(testFiles, format)
+    val nerCrfEvaluation = new NerCrfEvaluation(testFile, format)
     nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 
   }
