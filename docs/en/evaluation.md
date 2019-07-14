@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.eval._
 ### Evaluating Norvig Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
 - trainFile: A corpus of documents with correctly spell words.
-- testFile: A corpus of documents with misspell words.
+- testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
 **Example for annotator:**
@@ -45,7 +45,7 @@ norvigSpellEvaluation.computeAccuracyModel(spell)
 ### Evaluating Symmetric Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
 - trainFile: A corpus of documents with correctly spell words.
-- testFile: A corpus of documents with misspell words.
+- testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
 **Example for annotator:**
@@ -69,8 +69,10 @@ symSpellEvaluation.computeAccuracyModel(spell)
 ### Evaluating NER DL
 You can evaluate NER DL when training an annotator.
 - trainFile: Files with labeled NER entities for training. 
-- modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
+- modelPath: Path to save the model. When the path exists it loads the model instead of training it.
 - testFile: Files with labeled NER entities. This files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
+- format: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
+to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
 **Example:**
 {% highlight scala %}
@@ -93,8 +95,10 @@ nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 ### Evaluating NER CRF
 You can evaluate NER CRF when training an annotator.
 - trainFile: Files with labeled NER entities for training. 
-- modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
+- modelPath: Path to save the model. When the path exists it loads the model instead of training it.
 - testFile: Files with labeled NER entities. This files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
+- format: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
+to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
 **Example:**
 {% highlight scala %}
