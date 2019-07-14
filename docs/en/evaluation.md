@@ -8,7 +8,7 @@ modify_date: "2019-07-14"
 
 ## Spark NLP Evaluation
 This module includes tools to evaluate the accuracy of annotators. It includes specific metrics for each **annotator** and its training time.
-The results will display on the console or to an [MLflow](https://mlflow.org/docs/latest/index.html) run.
+The results will display on the console or to an [MLflow](https://mlflow.org/docs/latest/tracking.html) tracking UI.
 Just whit a simple import you can start using it.
 
 **Example:**
@@ -16,10 +16,13 @@ Just whit a simple import you can start using it.
 import com.johnsnowlabs.nlp.eval._
 {% endhighlight %}
 
-**Note:** Currently working just for scala. Using [MLflow Tracking](https://mlflow.org/docs/latest/tracking.html) component to logging metrics. 
+**Note:** Currently working just for scala. Using [MLflow](https://mlflow.org/docs/latest/index.html) component to logging metrics. 
 
 ### Evaluating Norvig Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
+- trainFile: A corpus of documents with with correctly spell words.
+- testFile: A corpus of documents with misspell words.
+- groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
 **Example for annotator:**
  
@@ -27,7 +30,6 @@ You can evaluate this spell checker either training an annotator or using a pret
 val spell = new NorvigSweetingApproach()
    .setInputCols(Array("token"))
    .setOutputCol("checked")
-   .setDictionary(dictionaryFile)
 
 val norvigSpellEvaluation = new NorvigSpellEvaluation(testFile, groundTruthFile)
 norvigSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
@@ -42,6 +44,9 @@ norvigSpellEvaluation.computeAccuracyModel(spell)
 
 ### Evaluating Symmetric Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
+- trainFile: A corpus of documents with with correctly spell words.
+- testFile: A corpus of documents with misspell words.
+- groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
 **Example for annotator:**
  
@@ -49,7 +54,6 @@ You can evaluate this spell checker either training an annotator or using a pret
 val spell = new SymmetricDeleteApproach()
       .setInputCols(Array("token"))
       .setOutputCol("checked")
-      .setDictionary(dictionaryFile)
 
 val symSpellEvaluation = new SymSpellEvaluation(testFile, groundTruthFile)
 symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
@@ -64,14 +68,16 @@ symSpellEvaluation.computeAccuracyModel(spell)
 
 ### Evaluating NER DL
 You can evaluate NER DL when training an annotator.
+- testFile: Files with labeled NER entities for training. 
+- modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
+- testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
 
 **Example:**
 {% highlight scala %}
 val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setEmbeddingsSource("glove.6B.100d.txt ",
-        100, WordEmbeddingsFormat.TEXT)
+      .setEmbeddingsSource("glove.6B.100d.txt ", 100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
 val nerTagger = new NerDLApproach()
@@ -80,19 +86,22 @@ val nerTagger = new NerDLApproach()
   .setOutputCol("ner")
   .setMaxEpochs(10)
 
-val nerDLEvaluation = new NerDLEvaluation(testFiles, format)
+val nerDLEvaluation = new NerDLEvaluation(testFile, format)
 nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 {% endhighlight %}
 
 ### Evaluating NER CRF
 You can evaluate NER CRF when training an annotator.
+- testFile: Files with labeled NER entities for training. 
+- modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
+- testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
+
 **Example:**
 {% highlight scala %}
 val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setEmbeddingsSource("./glove.6B.100d.txt ",
-        100, WordEmbeddingsFormat.TEXT)
+      .setEmbeddingsSource("./glove.6B.100d.txt ", 100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
 val nerTagger = new NerCrfApproach()
@@ -101,7 +110,7 @@ val nerTagger = new NerCrfApproach()
   .setOutputCol("ner")
   .setMaxEpochs(10)
 
-val nerCrfEvaluation = new NerCrfEvaluation(testFiles, format)
+val nerCrfEvaluation = new NerCrfEvaluation(testFile, format)
 nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 {% endhighlight %}
 
