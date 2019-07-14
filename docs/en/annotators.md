@@ -430,6 +430,8 @@ Identifies tokens with tokenization open standards. A few rules will help custom
 
 **Example:**
 
+Refer to the [Tokenizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Tokenizer) Scala docs for more details on the API.
+
 {% highlight python %}
 tokenizer = Tokenizer() \
     .setInputCols(["sentences"]) \
@@ -460,6 +462,8 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
 **Example:**
 
+Refer to the [Normalizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Normalizer) Scala docs for more details on the API.
+
 {% highlight python %}
 normalizer = Normalizer() \
     .setInputCols(["token"]) \
@@ -478,7 +482,10 @@ Returns hard-stems out of words with the objective of retrieving the meaningful 
 **Output type:** Token  
 **Input types:** Token  
 **Reference:** [Stemmer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Stemmer.scala)  
+
 **Example:**
+
+Refer to the []() Scala docs for more details on the API.
 
 {% highlight python %}
 stemmer = Stemmer() \
@@ -504,6 +511,8 @@ Retrieves lemmas out of words with the objective of returning a base dictionary 
 - setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
 
 **Example:**
+
+Refer to the [Lemmatizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Lemmatizer) Scala docs for more details on the API.
 
 {% highlight python %}
 lemmatizer = Lemmatizer() \
@@ -532,6 +541,8 @@ Uses a reference file to match a set of regular expressions and put them inside 
 - setRulesPath(path, delimiter, readAs, options): Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
 
 **Example:**
+
+Refer to the [RegexMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.RegexMatcher) Scala docs for more details on the API.
 
 {% highlight python %}
 regex_matcher = RegexMatcher() \
@@ -564,6 +575,8 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 
 **Example:**
 
+Refer to the [TextMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
+
 {% highlight python %}
 entity_extractor = TextMatcher() \
     .setInputCols(["inputCol"])\
@@ -593,6 +606,8 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 - addRegexParser(patterns): adds a pattern to the current list of chunk patterns, for example: "‹DT›?‹JJ›\*‹NN›"
 
 **Example:**
+
+Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
 
 {% highlight python %}
 chunker = Chunker() \
@@ -654,6 +669,8 @@ Reads from different forms of date and time expressions and converts them to a p
 
 **Example:**
 
+Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.DateMatcher) Scala docs for more details on the API.
+
 {% highlight python %}
 date_matcher = DateMatcher() \
     .setOutputCol("date") \
@@ -683,6 +700,8 @@ Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.
 
 **Example:**
 
+Refer to the [SentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector) Scala docs for more details on the API.
+
 {% highlight python %}
 sentence_detector = SentenceDetector() \
     .setInputCols(["document"]) \
@@ -709,6 +728,8 @@ Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.
 - setEndPunctuation(patterns): An array of symbols that deep sentence detector will consider as an end of sentence punctuation. Defaults to ".", "!", "?"
 
 **Example:**
+
+Refer to the [DeepSentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector) Scala docs for more details on the API.
 
 {% highlight python %}
 deep_sentence_detector = DeepSentenceDetector() \
@@ -740,6 +761,8 @@ Sets a POS tag to each word within a sentence. Its train data (train_pos) is a s
 - setPosColumn(colname): Column containing an array of POS Tags matching every token on the line.
 
 **Example:**
+
+Refer to the [PerceptronApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach) Scala docs for more details on the API.
 
 {% highlight python %}
 pos_tagger = PerceptronApproach() \
@@ -775,8 +798,10 @@ Scores a sentence for a sentiment
 **Input:** File or folder of text files of positive and negative data  
 **Example:**
 
+Refer to the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach) Scala docs for more details on the API.
+
 {% highlight python %}
-sentiment_detector = SentimentDetector() \
+sentiment_detector = ViveknSentimentApproach() \
     .setInputCols(["lemma", "sentence"]) \
     .setOutputCol("sentiment")
 {% endhighlight %}
@@ -815,6 +840,8 @@ Scores a sentence for a sentiment
 
 **Example:**
 
+Refer to the [SentimentDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector) Scala docs for more details on the API.
+
 {% highlight python %}
 sentiment_detector = SentimentDetector() \
     .setInputCols(["lemma", "sentence"]) \
@@ -843,6 +870,8 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 **Example:**
 
+Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.WordEmbeddings) Scala docs for more details on the API.
+
 {% highlight python %}
 word_embeddings = WordEmbeddings() \
         .setInputCols(["document", "token"])\
@@ -864,6 +893,8 @@ Bert Embeddings. This annotator may only be created by a tensorflow process loca
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
+
+Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertEmbeddings) Scala docs for more
 
 ### NER CRF
 
@@ -889,6 +920,8 @@ Optionally the user can provide an entity dictionary file for better accuracy
 - setRandomSeed: Random seed
 
 **Example:**
+
+Refer to the [NerCrfApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach) Scala docs for more details on the API.
 
 {% highlight python %}
 nerTagger = NerCrfApproach()\
@@ -940,6 +973,8 @@ Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art i
 
 **Example:**
 
+Refer to the [NerDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach) Scala docs for more details on the API.
+
 {% highlight python %}
 nerTagger = NerDLApproach()\
     .setInputCols(["sentence", "token"])\
@@ -970,7 +1005,7 @@ val nerTagger = new NerDLApproach()
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.    
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
 **Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
 **Reference:** [NorvigSweetingApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala)  
@@ -988,6 +1023,8 @@ This annotator retrieves tokens and makes corrections automatically if not found
 - setVowelSwapLimit(int): Vowel swap attempts. Defaults to 6.
 
 **Example:**
+
+Refer to the [NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach) Scala docs for more details on the API.
 
 {% highlight python %}
 spell_checker = NorvigSweetingApproach() \
@@ -1017,6 +1054,8 @@ This spell checker is inspired on Symmetric Delete algorithm. It retrieves token
 - setMaxEditDistance(distance): Maximum edit distance to calculate possible derived words. Defaults to 3.
 
 **Example:**
+
+Refer to the [SymmetricDeleteApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach) Scala docs for more details on the API.
 
 {% highlight python %}
 spell_checker = SymmetricDeleteApproach() \
@@ -1055,6 +1094,8 @@ Unlabeled parser that finds a grammatical relation between two words in a senten
 
 **Example:**
 
+Refer to the [DependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach) Scala docs for more details on the API.
+
 {% highlight python %}
 dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
@@ -1086,6 +1127,8 @@ Labeled parser that finds a grammatical relation between two words in a sentence
 - setConllU: Path to a file in [CoNLL-U format](https://universaldependencies.org/format.html)
 
 **Example:**
+
+Refer to the [TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach) Scala docs for more details on the API.
 
 {% highlight python %}
 typed_dependency_parser = TypedDependencyParserApproach() \
