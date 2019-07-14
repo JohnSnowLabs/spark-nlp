@@ -8,7 +8,7 @@ modify_date: "2019-07-14"
 
 ## Spark NLP Evaluation
 This module includes tools to evaluate the accuracy of annotators. It includes specific metrics for each **annotator** and its training time.
-The results will display on the console or to an [MLflow](https://mlflow.org/docs/latest/tracking.html) tracking UI.
+The results will display on the console or to an [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html).
 Just whit a simple import you can start using it.
 
 **Example:**
