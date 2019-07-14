@@ -956,7 +956,7 @@ val nerTagger = new NerCrfApproach()
 #### Named Entity Recognition Deep Learning annotator
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
-Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.  
+Neural Network architecture is Char CNN - BiLSTM that achieves state-of-the-art in most datasets.  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, Word_Embeddings  
 **Reference:** [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)  
