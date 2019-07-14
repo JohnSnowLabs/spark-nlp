@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-05-16"
+modify_date: "2019-06-14"
 ---
 
 ## Concepts
@@ -99,7 +99,7 @@ val recursivePipeline = new RecursivePipeline()
 
 Allows loading, saving and setting word embeddings for annotators.
 
-En embeddings reference, or embeddingsRef, is a user-given name for annotators to lookup the embeddings database. Since Spark NLP 2.0, embeddings are
+An embeddings reference, or embeddingsRef, is a user-given name for annotators to lookup the embeddings database. Since Spark NLP 2.0, embeddings are
 annotators on its own, however, certain use cases may require multiple embedding annotators, and you might not want to duplicate the
 database on all of them. Hence, you can use reference in combination with the param `setIncludeEmbeddings(false)` to refer to the same database without loading them.
 In the future, some annotators might also need random access to the embeddings database, so they might take an embeddingsRef, apart from the pipeline annotator.
@@ -146,6 +146,8 @@ In order to get through the NLP process, we need to get raw data annotated. Ther
 
 **Example:**
 
+Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler) Scala docs for more details on the API.
+
 {% highlight python %}
 from sparknlp.annotator import *
 from sparknlp.common import *
@@ -178,6 +180,8 @@ This transformer reconstructs a Document type annotation from tokens, usually af
 
 **Example:**
 
+Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.TokenAssembler) Scala docs for more details on the API.
+
 {% highlight python %}
 token_assembler = TokenAssembler() \
     .setInputCols(["normalized"]) \
@@ -207,6 +211,8 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 **Example:**
 
+Refer to the [Doc2Chunk](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Doc2Chunk) Scala docs for more details on the API.
+
 {% highlight python %}
 chunker = Doc2Chunk()\
     .setInputCols(["document"])\
@@ -233,6 +239,8 @@ Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokeni
 - setOutputCol()
 
 **Example:**
+
+Refer to the [Chunk2Doc](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Chunk2Doc) Scala docs for more details on the API.
 
 {% highlight python %}
 chunk_doc = Chunk2Doc()\
@@ -263,6 +271,8 @@ Once we have our NLP pipeline ready to go, we might want to use our annotation r
 - setOutputAsArray(False) -> Whether to output as Array. Useful as input for other Spark transformers.
 
 **Example:**
+
+Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Finisher) Scala docs for more details on the API.
 
 {% highlight python %}
 finisher = Finisher() \
@@ -297,6 +307,8 @@ A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
 
 **Example:**  
 
+Refer to the [POS](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.POS) Scala docs for more details on the API.
+
 {% highlight python %}
 from sparknlp.training import POS
 train_pos = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
@@ -311,7 +323,8 @@ val trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
 
 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
 
-**Constructor parameters**
+**Constructor parameters:**
+
 - documentCol: String = "document",
 - sentenceCol: String = "sentence",
 - tokenCol: String = "token",
@@ -329,6 +342,8 @@ In order to train a Named Entity Recognition DL annotator, we need to get CoNLL 
 - readAs(string): Can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used (default LINE_BY_LINE)
 
 **Example:**
+
+Refer to the [CoNLL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.CoNLL) Scala docs for more details on the API.
 
 {% highlight python %}
 from sparknlp.training import CoNLL
@@ -358,12 +373,11 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
 
 ### Vivekn Sentiment Analysis Dataset
 
-To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative` 
-
+To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
 ## Annotators
 
-### How to read this section?
+### How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
@@ -373,6 +387,7 @@ All annotators in Spark NLP share a common interface, this is:
 - Output -> Represents the type of the output in the column `setOutputCol`
 
 There are two types of annotators:
+
 - Approach -> AnnotatorApproach extend Estimators, which are meant to be trained through `fit()`
 - Model -> AnnotatorModel extend from Transfromers, which are meant to transform dataframes through `transform()`
 
@@ -383,6 +398,7 @@ There are two types of annotators:
 - pretrained(name, language, extra_location) -> by default, pretrained will bring a default model, sometimes we offer more than one model, in this case, you may have to use name, language or extra location to download them.
 
 The types are:
+
 - DOCUMENT = "document"
 - TOKEN = "token"
 - CHUNK = "chunk"
