@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.eval._
 
 ### Evaluating Norvig Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
-- trainFile: A corpus of documents with with correctly spell words.
+- trainFile: A corpus of documents with correctly spell words.
 - testFile: A corpus of documents with misspell words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
@@ -44,7 +44,7 @@ norvigSpellEvaluation.computeAccuracyModel(spell)
 
 ### Evaluating Symmetric Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
-- trainFile: A corpus of documents with with correctly spell words.
+- trainFile: A corpus of documents with correctly spell words.
 - testFile: A corpus of documents with misspell words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
@@ -68,7 +68,7 @@ symSpellEvaluation.computeAccuracyModel(spell)
 
 ### Evaluating NER DL
 You can evaluate NER DL when training an annotator.
-- testFile: Files with labeled NER entities for training. 
+- trainFile: Files with labeled NER entities for training. 
 - modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
 - testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
 
@@ -92,7 +92,7 @@ nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 
 ### Evaluating NER CRF
 You can evaluate NER CRF when training an annotator.
-- testFile: Files with labeled NER entities for training. 
+- trainFile: Files with labeled NER entities for training. 
 - modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
 - testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
 
