@@ -30,7 +30,9 @@ docs-en:
       - title:  Models
         url:    /docs/en/models  
       - title:  Annotators
-        url:    /docs/en/annotators  
+        url:    /docs/en/annotators
+      - title:  Evaluation
+        url:    /docs/en/evaluation
 
 extras:
   - title:     Extras
