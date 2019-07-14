@@ -22,13 +22,13 @@ docs-en:
       - title:  Install Spark NLP
         url:    /docs/en/install
       - title:  Examples
-        url:    /docs/en/examples      
+        url:    /docs/en/examples
   - title:      Documentation
     children:            
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
-        url:    /docs/en/models  
+        url:    /docs/en/models
       - title:  Annotators
         url:    /docs/en/annotators
       - title:  Evaluation
@@ -42,4 +42,4 @@ extras:
       - title:  Videos
         url:    /videos
       - title:  Contribute
-        url:    /contribute  
+        url:    /contribute
