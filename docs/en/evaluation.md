@@ -8,8 +8,7 @@ modify_date: "2019-07-14"
 
 ## Spark NLP Evaluation
 This module includes tools to evaluate the accuracy of annotators. It includes specific metrics for each **annotator** and its training time.
-The results will display on the console or to an MLflow run.
-
+The results will display on the console or to an [MLflow](https://mlflow.org/docs/latest/index.html) run.
 Just whit a simple import you can start using it.
 
 **Example:**
@@ -17,7 +16,7 @@ Just whit a simple import you can start using it.
 import com.johnsnowlabs.nlp.eval._
 {% endhighlight %}
 
-**Note:** Currently working just for scala.
+**Note:** Currently working just for scala. Using [MLflow Tracking](https://mlflow.org/docs/latest/tracking.html) component to logging metrics. 
 
 ### Evaluating Norvig Spell Checker
 You can evaluate this spell checker either training an annotator or using a pretrained model.
@@ -53,7 +52,7 @@ val spell = new SymmetricDeleteApproach()
       .setDictionary(dictionaryFile)
 
 val symSpellEvaluation = new SymSpellEvaluation(testFile, groundTruthFile)
-    symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
+symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 {% endhighlight %}
 
 **Example for pretrained model:**
@@ -82,7 +81,7 @@ val nerTagger = new NerDLApproach()
   .setMaxEpochs(10)
 
 val nerDLEvaluation = new NerDLEvaluation(testFiles, format)
-    nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
+nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 {% endhighlight %}
 
 ### Evaluating NER CRF
@@ -103,7 +102,7 @@ val nerTagger = new NerCrfApproach()
   .setMaxEpochs(10)
 
 val nerCrfEvaluation = new NerCrfEvaluation(testFiles, format)
-    nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
+nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 {% endhighlight %}
 
 
