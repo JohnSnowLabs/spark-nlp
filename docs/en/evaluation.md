@@ -70,7 +70,7 @@ symSpellEvaluation.computeAccuracyModel(spell)
 You can evaluate NER DL when training an annotator.
 - trainFile: Files with labeled NER entities for training. 
 - modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
-- testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
+- testFile: Files with labeled NER entities. This files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 
 **Example:**
 {% highlight scala %}
@@ -94,7 +94,7 @@ nerDLEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
 You can evaluate NER CRF when training an annotator.
 - trainFile: Files with labeled NER entities for training. 
 - modelPath: Path to save the model. If the model exists it will be loaded instead of trained.
-- testFile: Files with labeled NER entities. This files are used to prediction and the labels as ground truth.
+- testFile: Files with labeled NER entities. This files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 
 **Example:**
 {% highlight scala %}
