@@ -27,6 +27,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [Google Colab Notebook](#google-colab-notebook)
   * [S3 Cluster](#s3-cluster)
+  * [OCR Module](#ocr-module)
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
   * [Models](#models)
@@ -304,6 +305,28 @@ sparknlp {
     cluster_tmp_dir = "somewhere in s3n:// path to some folder"
   }
 }
+```
+
+## OCR Module
+
+To include the OCR submodule in Spark NLP, you will need to add the following to your start up commands:
+
+```
+--repositories http://repo.spring.io/plugins-release
+--packages JohnSnowLabs:spark-nlp:2.1.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+```
+
+This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
+
+```
+spark = SparkSession.builder \ 
+    .master('local[*]') \ 
+    .appName('Spark NLP with OCR') \ 
+    .config("spark.driver.memory", "6g") \ 
+    .config("spark.executor.memory", "6g") \ 
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \ 
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \ 
+    .getOrCreate() 
 ```
 
 ## Pipelines and Models
