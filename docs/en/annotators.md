@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-06-14"
+modify_date: "2019-07-14"
 ---
 
 ## Concepts
