@@ -19,6 +19,10 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
   private case class NorvigSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
                                            approach: NorvigSweetingApproach, model: NorvigSweetingModel)
 
+  def testMethod(testParameter: String): String = {
+   "testParameter has the value " + testParameter
+  }
+
   def computeAccuracyAnnotator(trainFile: String, spell: NorvigSweetingApproach): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logNorvigParams(spell)
