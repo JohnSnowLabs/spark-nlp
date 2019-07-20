@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.eval.util
 
 import com.johnsnowlabs.nlp.SparkNLP
+import com.johnsnowlabs.nlp.annotator.NerDLModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
@@ -153,6 +154,9 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
       mlFlowClient.get.logParam(runId, "dropout", nerDL.getDropout.toString)
       mlFlowClient.get.logParam(runId, "useContrib", nerDL.getUseContrib.toString)
       mlFlowClient.get.logParam(runId, "trainValidationProp", nerDL.getTrainValidationProp.toString)
+      mlFlowClient.get.logParam(runId, "minEpochs", nerDL.getMinEpochs.toString)
+      mlFlowClient.get.logParam(runId, "maxEpochs", nerDL.getMaxEpochs.toString)
+      mlFlowClient.get.logParam(runId, "randomSeed", nerDL.getRandomSeed.toString)
     } else {
       println(s"Parameters for $sourceName:")
       println("lr: " + nerDL.getLr.toString)
@@ -161,6 +165,18 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
       println("dropout: " + nerDL.getDropout.toString)
       println("useContrib: " + nerDL.getUseContrib.toString)
       println("trainValidationProp: " + nerDL.getTrainValidationProp.toString)
+      println("minEpochs: " + nerDL.getMinEpochs.toString)
+      println("maxEpochs: " + nerDL.getMaxEpochs.toString)
+      println("randomSeed: " + nerDL.getRandomSeed.toString)
+    }
+  }
+
+  def logNerDLParams(nerDL: NerDLModel): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "batchSize", nerDL.getBatchSize.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("batchSize: " + nerDL.getBatchSize.toString)
     }
   }
 
