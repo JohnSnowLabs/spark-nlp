@@ -1,148 +1,129 @@
 package com.johnsnowlabs.nlp.eval
 
-import java.io.File
-
-import com.johnsnowlabs.nlp.annotator.{NerConverter, NerCrfApproach, PerceptronModel, SentenceDetector, WordEmbeddings}
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.eval.util.LoggingData
+import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, NerCrfModel, WordEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.util.{Benchmark, PipelineModels}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
-import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-class NerCrfEvaluation(testFile: String, format: String) {
+class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: String = "") {
 
-  var loggingData: LoggingData = _
+  import sparkSession.implicits._
 
-  private case class NerEvalCrfConfiguration(trainFile: String, format: String, modelPath: String,
-                                             sparkSession: SparkSession, NerCrfApproach: NerCrfApproach,
-                                             wordEmbeddings: WordEmbeddings)
+  val goldTokenizer = new GoldTokenizer(sparkSession)
+  val loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Named Entity Recognition")
 
-  def computeAccuracyAnnotator(modelPath: String, trainFile: String, NerCrfApproach: NerCrfApproach,
-                               wordEmbeddings: WordEmbeddings): Unit = {
+  private case class NerEvalCrfConfiguration(trainFile: String, wordEmbeddings: WordEmbeddings,
+                                            nerCrfModel: NerCrfModel, nerCrfApproach: NerCrfApproach)
 
-    val spark = SparkSession.builder()
-      .appName("benchmark")
-      .master("local[*]")
-      .config("spark.driver.memory", "8G")
-      .config("spark.kryoserializer.buffer.max", "200M")
-      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .getOrCreate()
-
-    val nerEvalCrfConfiguration = NerEvalCrfConfiguration(trainFile, format, modelPath, spark,
-      NerCrfApproach, wordEmbeddings)
-
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Named Entity Recognition")
-    //loggingData.logNerCrfParams(NerCrfApproach)
-    evaluateDataSet(testFile, nerEvalCrfConfiguration)
+  def computeAccuracyModel(nerCrfModel: NerCrfModel): Unit = {
+    loggingData.logNerCrfParams(nerCrfModel)
+    val nerEvalDLConfiguration = NerEvalCrfConfiguration("", null, nerCrfModel, null)
+    computeAccuracy(nerEvalDLConfiguration)
     loggingData.closeLog()
   }
 
-  private def evaluateDataSet(testFile: String, nerEvalCrfConfiguration: NerEvalCrfConfiguration):
-  Unit = {
-    val nerDataSet = CoNLL().readDataset(nerEvalCrfConfiguration.sparkSession, testFile).cache()
-    val labels = getEntitiesLabels(nerDataSet, "label.result", nerEvalCrfConfiguration.format)
-    println("Entities: " + labels)
-    val predictionDataSet = getPredictionDataSet(nerDataSet, nerEvalCrfConfiguration)
-    val evaluationDataSet = getEvaluationDataSet(predictionDataSet, labels, nerEvalCrfConfiguration.format,
-      nerEvalCrfConfiguration.sparkSession)
-    println("Evaluation Dataset")
-    evaluationDataSet.show(5, false)
-    computeAccuracy(evaluationDataSet, labels, nerEvalCrfConfiguration.sparkSession)
+  def computeAccuracyAnnotator(trainFile:String, nerCrfApproach: NerCrfApproach, wordEmbeddings: WordEmbeddings): Unit = {
+    loggingData.logNerCrfParams(nerCrfApproach)
+    val nerEvalDLConfiguration = NerEvalCrfConfiguration(trainFile, wordEmbeddings, null, nerCrfApproach)
+    computeAccuracy(nerEvalDLConfiguration)
+    loggingData.closeLog()
   }
 
-  def getPredictionDataSet(nerDataSet: Dataset[_], nerEvalCrfConfiguration: NerEvalCrfConfiguration):
-  Dataset[_] = {
-    val nerModel = getNerModel(nerEvalCrfConfiguration)
-    val predictionDataSet = nerModel.transform(nerDataSet)
-      .select(col("label.result").alias("label"),
-        col("ner.result").alias("prediction"))
-    Benchmark.measure("Time to show prediction dataset") {
-      predictionDataSet.show(5)
-    }
-    predictionDataSet
+  private def computeAccuracy(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Unit = {
+    import sparkSession.implicits._
+    val entityLabels = getEntityLabels(nerEvalCrfConfiguration, tagLevel)
+    val evaluationDataSet = getEvaluationDataSet(nerEvalCrfConfiguration, entityLabels, tagLevel)
+    val predictionLabelsRDD = evaluationDataSet.select("predictionIndex", "labelIndex")
+      .map(r => (r.getDouble(0), r.getDouble(1)))
+    val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
+    computeAccuracy(metrics)
+    computeAccuracyByEntity(metrics, entityLabels)
+    computeMicroAverage(metrics)
   }
 
-  def getEntitiesLabels(dataSet: Dataset[_], column: String, format: String): List[String] = {
-    val entities: Seq[String] = dataSet.select(dataSet(column)).collect.flatMap(_.toSeq).flatMap { entitiesArray =>
+  private def getEntityLabels(nerEvalCrfConfiguration: NerEvalCrfConfiguration, tagLevel: String): List[String] = {
+    val joinedDataSet = getJoinedDataSet(nerEvalCrfConfiguration)
+    val entities: Seq[String] = joinedDataSet.select($"testTags").collect.flatMap(_.toSeq).flatMap { entitiesArray =>
       val entities = entitiesArray.asInstanceOf[mutable.WrappedArray[String]]
-      if (format == "IOB") {
+      if (tagLevel == "IOB") {
         entities
       } else {
         entities.map(element => element.replace("I-", "").replace("B-", ""))
       }
+
     }
+
     entities.toList.distinct
   }
 
-  def getNerModel(nerEvalCrfConfiguration: NerEvalCrfConfiguration): PipelineModel = {
-    if (new File(nerEvalCrfConfiguration.modelPath).exists()) {
-      PipelineModel.load(nerEvalCrfConfiguration.modelPath)
-    } else {
-      var model: PipelineModel = null
-      Benchmark.setPrint(false)
-      val time = Benchmark.measure(1, false, "Time to train") {
-        val nerPipeline = getNerPipeline(nerEvalCrfConfiguration)
-        model = nerPipeline.fit(PipelineModels.dummyDataset)
-      }
-      loggingData.logMetric("training time/s", time)
-      model.write.overwrite().save(nerEvalCrfConfiguration.modelPath)
-      model
+  private def getJoinedDataSet(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Dataset[_] = {
+
+    val testDataSet = goldTokenizer.getTestTokensTagsDataSet(testFile)
+    val predictionDataSet = getPredictionDataSet(nerEvalCrfConfiguration)
+
+    predictionDataSet
+      .join(testDataSet, Seq("id"))
+      .withColumn("predictedTokensLength", goldTokenizer.calLengthOfArray($"predictedTokens"))
+      .withColumn("predictedTagsLength", goldTokenizer.calLengthOfArray($"predictedTags"))
+      .withColumn("testTokensLength", goldTokenizer.calLengthOfArray($"testTokens"))
+      .withColumn("testTagsLength", goldTokenizer.calLengthOfArray($"testTags"))
+      .withColumn("tokensDiffFromTest", $"testTokensLength" - $"predictedTokensLength")
+      .withColumn("tagsDiffFromTest", $"testTagsLength" - $"predictedTagsLength")
+      .withColumn("missingTokens", goldTokenizer.extractMissingTokens($"testTokens", $"predictedTokens"))
+      .withColumn("missingTags", goldTokenizer.extractMissingTokens($"testTags", $"predictedTags"))
+      .withColumn("equalTags", col("predictedTagsLength") === col("testTagsLength"))
+  }
+
+  private def getPredictionDataSet(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Dataset[_] = {
+
+    val testDataSet = goldTokenizer.getGoldenTokenizer(testFile)
+    var predictionDataSet: Dataset[_] = null
+
+    if (nerEvalCrfConfiguration.nerCrfModel == null) {
+
+      val trainDataSet = CoNLL().readDataset(sparkSession, nerEvalCrfConfiguration.trainFile)
+      val embeddings = nerEvalCrfConfiguration.wordEmbeddings.fit(trainDataSet)
+      val embeddingsTrain = embeddings.transform(trainDataSet)
+      val nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
+      val embeddingsTest = embeddings.transform(testDataSet)
+      predictionDataSet = nerModel.transform(embeddingsTest)
+
     }
+    else {
+      val embeddings = WordEmbeddingsModel.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("embeddings")
+        .transform(testDataSet)
+
+      val nerModel = nerEvalCrfConfiguration.nerCrfModel
+        .setInputCols("document", "token", "pos" ,"embeddings")
+        .setOutputCol("ner")
+
+      predictionDataSet = nerModel.transform(embeddings)
+    }
+
+    predictionDataSet.select(
+      $"id",
+      $"document",
+      $"token",
+      $"embeddings",
+      $"token.result".alias("predictedTokens"),
+      $"ner.result".alias("predictedTags")
+    )
   }
 
-  def getNerPipeline(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Pipeline = {
+  private def getEvaluationDataSet(nerEvalCrfConfiguration: NerEvalCrfConfiguration, entityLabels: List[String],
+                                   tagLevel: String): Dataset[_] = {
 
-    val trainDataSet = CoNLL().readDataset(nerEvalCrfConfiguration.sparkSession, nerEvalCrfConfiguration.trainFile)
-    println("Train Dataset")
-    trainDataSet.show(5)
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentenceDetector = new SentenceDetector()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
-
-    val posTagger = PerceptronModel.pretrained()
-
-    val readyData = nerEvalCrfConfiguration.wordEmbeddings.fit(trainDataSet).transform(trainDataSet).cache()
-
-    val nerTagger = nerEvalCrfConfiguration.NerCrfApproach.fit(readyData)
-
-    val converter = new NerConverter()
-      .setInputCols(Array("document", "token", "ner"))
-      .setOutputCol("ner_span")
-
-    val pipeline = new Pipeline().setStages(
-      Array(documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        nerEvalCrfConfiguration.wordEmbeddings,
-        nerTagger,
-        converter))
-
-    pipeline
-
-  }
-
-  def getEvaluationDataSet(dataSet: Dataset[_], labels: List[String], format: String, sparkSession: SparkSession): Dataset[_] = {
-    import sparkSession.implicits._
-    val labelAndPrediction: Seq[(String, String)] = dataSet.select("label", "prediction").rdd.map { row =>
+    val joinedDataSet = getJoinedDataSet(nerEvalCrfConfiguration)
+    val labelAndPrediction: Seq[(String, String)] = joinedDataSet.select("testTags", "predictedTags").rdd.map { row =>
       val labelColumn: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       val predictionColumn: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]]
-      if (format == "IOB") {
+      if (tagLevel == "IOB") {
         (labelColumn.toList, predictionColumn.toList)
       } else {
         val groupLabelColumn = labelColumn.map(element => element.replace("I-", "")
@@ -151,11 +132,12 @@ class NerCrfEvaluation(testFile: String, format: String) {
           .replace("B-", ""))
         (groupLabelColumn.toList, groupPredictionColumn.toList)
       }
+
     }.collect().flatMap(row => row._1 zip row._2)
-    val evaluationDataSet = labelAndPrediction.toDF("label", "prediction")
-    evaluationDataSet
-      .withColumn("labelIndex", getLabelIndex(labels)(col("label")))
-      .withColumn("predictionIndex", getLabelIndex(labels)(col("prediction")))
+
+    labelAndPrediction.toDF("label", "prediction")
+      .withColumn("labelIndex", getLabelIndex(entityLabels)(col("label")))
+      .withColumn("predictionIndex", getLabelIndex(entityLabels)(col("prediction")))
       .filter(col("label") =!= 'O')
   }
 
@@ -164,15 +146,17 @@ class NerCrfEvaluation(testFile: String, format: String) {
     index.toDouble
   }
 
-  private def computeAccuracy(dataSet: Dataset[_], labels: List[String], sparkSession: SparkSession): Unit = {
-    import sparkSession.implicits._
-    val predictionLabelsRDD = dataSet.select("predictionIndex", "labelIndex")
-      .map(r => (r.getDouble(0), r.getDouble(1)))
-    val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
+  private def computeAccuracy(metrics: MulticlassMetrics): Unit = {
     val accuracy = (metrics.accuracy * 1000).round / 1000.toDouble
-    loggingData.logMetric("accuracy", accuracy)
-    computeAccuracyByEntity(metrics, labels)
-    computeMicroAverage(metrics)
+    val weightedPrecision = (metrics.weightedPrecision * 1000).round / 1000.toDouble
+    val weightedRecall = (metrics.weightedRecall * 1000).round / 1000.toDouble
+    val weightedFMeasure = (metrics.weightedFMeasure * 1000).round / 1000.toDouble
+    val weightedFalsePositiveRate = (metrics.weightedFalsePositiveRate * 1000).round / 1000.toDouble
+    loggingData.logMetric("Accuracy", accuracy)
+    loggingData.logMetric("Weighted Precision", weightedPrecision)
+    loggingData.logMetric("Weighted Recall", weightedRecall)
+    loggingData.logMetric("Weighted F1 Score", weightedFMeasure)
+    loggingData.logMetric("Weighted False Positive Rate", weightedFalsePositiveRate)
   }
 
   private def computeAccuracyByEntity(metrics: MulticlassMetrics, labels: List[String]): Unit = {
@@ -182,28 +166,30 @@ class NerCrfEvaluation(testFile: String, format: String) {
       val precision = (metrics.precision(predictedLabel) * 1000).round / 1000.toDouble
       val recall = (metrics.recall(predictedLabel) * 1000).round / 1000.toDouble
       val f1Score = (metrics.fMeasure(predictedLabel) * 1000).round / 1000.toDouble
-      loggingData.logMetric(entity + " precision", precision)
-      loggingData.logMetric(entity + " recall", recall)
-      loggingData.logMetric(entity + " f1-score", f1Score)
+      val falsePositiveRate = (metrics.falsePositiveRate(predictedLabel) * 1000).round / 1000.toDouble
+      loggingData.logMetric(entity + " Precision", precision)
+      loggingData.logMetric(entity + " Recall", recall)
+      loggingData.logMetric(entity + " F1-Score", f1Score)
+      loggingData.logMetric(entity + " FPR", falsePositiveRate)
     }
   }
 
-  def computeMicroAverage(metrics: MulticlassMetrics): Unit = {
+  private def computeMicroAverage(metrics: MulticlassMetrics): Unit = {
     var totalP = 0.0
     var totalR = 0.0
     var totalClassNum = 0
 
     val labels = metrics.labels
 
-    labels.foreach { l =>
+    labels.foreach { label =>
       totalClassNum = totalClassNum + 1
-      totalP = totalP + metrics.precision(l)
-      totalR = totalR + metrics.recall(l)
+      totalP = totalP + metrics.precision(label)
+      totalR = totalR + metrics.recall(label)
     }
     totalP = totalP/totalClassNum
     totalR = totalR/totalClassNum
     val microAverage = 2 * ((totalP*totalR) / (totalP+totalR))
-    loggingData.logMetric("micro-average f1-score", (microAverage * 1000).round / 1000.toDouble)
+    loggingData.logMetric("Micro-average F1-Score", (microAverage * 1000).round / 1000.toDouble)
   }
 
 }
