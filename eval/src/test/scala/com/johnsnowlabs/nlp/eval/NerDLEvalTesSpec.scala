@@ -18,7 +18,7 @@ class NerDLEvalTesSpec extends FlatSpec {
   "A NER DL Evaluation with IOB tags" should "display accuracy results" in {
 
     val testFile = "./eng.testb"
-    val nerModel = NerDLModel.pretrained("ner_dl")
+    val nerModel = NerDLModel.pretrained()
     val tagLevel = "IOB"
 
     val nerDLEvaluationGoldToken = new NerDLEvaluation(spark, testFile, tagLevel)
@@ -54,7 +54,7 @@ class NerDLEvalTesSpec extends FlatSpec {
   "A NER DL Evaluation" should "display accuracy results" in {
 
     val testFile = "./eng.testb"
-    val nerModel = NerDLModel.pretrained("ner_dl")
+    val nerModel = NerDLModel.pretrained()
 
     val nerDLEvaluationGoldToken = new NerDLEvaluation(spark, testFile)
     nerDLEvaluationGoldToken.computeAccuracyModel(nerModel)

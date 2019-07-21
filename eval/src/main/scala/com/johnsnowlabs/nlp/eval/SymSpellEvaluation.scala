@@ -13,13 +13,12 @@ import scala.collection.mutable
 
 class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
 
-  private var loggingData: LoggingData = _
+  private var loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
 
   private case class SymSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
                                         approach: SymmetricDeleteApproach, model: SymmetricDeleteModel)
 
   def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
     val symSpellConfig = SymSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
     computeAccuracy(symSpellConfig)

@@ -12,28 +12,56 @@ import scala.collection.mutable.ArrayBuffer
 
 class GoldTokenizer(sparkSession: SparkSession) {
 
+  private val TOKEN_POSITION = 0
+  private val POS_POSITION = 1
+  private val TAG_POSITION = 3
+
   private def customeTokenizer: UserDefinedFunction = udf { (tokens: Seq[String], text: String, sentenceIndex: String) =>
 
     val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
     def annotatorType: String = AnnotatorType.TOKEN
     var lastIndex = 0
 
-    for ((e, i) <- tokens.zipWithIndex) {
+    for ((token, i) <- tokens.zipWithIndex) {
 
-      val beginOfToken = text.indexOfSlice(e, lastIndex)
-      val endOfToken = (beginOfToken + e.length) - 1
+      val beginOfToken = text.indexOfSlice(token, lastIndex)
+      val endOfToken = (beginOfToken + token.length) - 1
 
       val fullTokenAnnotatorStruct = new Annotation(
         annotatorType = annotatorType,
-        begin=beginOfToken,
-        end=endOfToken,
-        result=e,
-        metadata=Map("sentence" -> sentenceIndex)
+        begin = beginOfToken,
+        end = endOfToken,
+        result = token,
+        metadata = Map("sentence" -> sentenceIndex)
       )
       tokenTagAnnotation += fullTokenAnnotatorStruct
-      lastIndex = text.indexOfSlice(e, lastIndex)
+      lastIndex = text.indexOfSlice(token, lastIndex)
     }
     tokenTagAnnotation
+  }
+
+  private def customePOS: UserDefinedFunction = udf { (tokens: Seq[String], pos: Seq[String], text: String) =>
+
+    val posTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
+    def annotatorType: String = AnnotatorType.POS
+    var lastIndex = 0
+
+    for ((token, i) <- tokens.zipWithIndex) {
+
+      val beginOfToken = text.indexOfSlice(token, lastIndex)
+      val endOfToken = (beginOfToken + token.length) - 1
+
+      val fullPOSAnnotatorStruct = new Annotation(
+        annotatorType = annotatorType,
+        begin = beginOfToken,
+        end = endOfToken,
+        result = pos(i),
+        metadata = Map("word" -> token)
+      )
+      posTagAnnotation += fullPOSAnnotatorStruct
+      lastIndex = text.indexOfSlice(token, lastIndex)
+    }
+    posTagAnnotation
   }
 
   private def wrapColumnMetadata(col: Column, annotatorType: String, outPutColName: String): Column = {
@@ -42,20 +70,11 @@ class GoldTokenizer(sparkSession: SparkSession) {
     col.as(outPutColName, metadataBuilder.build)
   }
 
-  private def extractTokens = udf { docs: Seq[String] =>
-    var tokensArray = ArrayBuffer[String]()
-    for(e <- docs){
-      val splitedArray = e.split(" ")
-      tokensArray += splitedArray(0)
-    }
-    tokensArray
-  }
-
-  private def extractTags = udf { docs: Seq[String] =>
+  private def extractData(position: Int): UserDefinedFunction = udf { docs: Seq[String] =>
     var tagsArray = ArrayBuffer[String]()
     for(e <- docs){
       val splitedArray = e.split(" ")
-      tagsArray += splitedArray(3)
+      tagsArray += splitedArray(position)
     }
     tagsArray
   }
@@ -90,7 +109,6 @@ class GoldTokenizer(sparkSession: SparkSession) {
       .transform(testDataSet)
 
     // create Tokenizer column based on golden tokens
-    // we only select document, sentence and tokens to feed into our POS Model for prediction
     documentAssembler
       .withColumn("documentText", $"document.result"(0))
       .withColumn("sentenceIndex", lit("0"))
@@ -99,7 +117,11 @@ class GoldTokenizer(sparkSession: SparkSession) {
         "token",
         wrapColumnMetadata($"token", AnnotatorType.TOKEN, "token")
       )
-      .select("id", "document", "token")
+      .withColumn("pos", customePOS($"testTokens", $"testPOS", $"documentText"))
+      .withColumn("pos",
+        wrapColumnMetadata($"pos", AnnotatorType.POS, "pos"))
+      .select("id", "document", "token", "pos")
+
   }
 
   def getTestTokensTagsDataSet(testFile: String): Dataset[_] = {
@@ -124,8 +146,9 @@ class GoldTokenizer(sparkSession: SparkSession) {
 
     conllSentencesDF
       .withColumn("id", monotonically_increasing_id)
-      .withColumn("testTokens", extractTokens($"sentence"))
-      .withColumn("testTags", extractTags($"sentence"))
+      .withColumn("testTokens", extractData(TOKEN_POSITION)($"sentence"))
+      .withColumn("testTags", extractData(TAG_POSITION)($"sentence"))
+      .withColumn("testPOS", extractData(POS_POSITION)($"sentence"))
       .withColumn("text", concat_ws(" ", $"testTokens"))
       .withColumn("id", monotonically_increasing_id)
       .drop("sentence")

@@ -1,34 +1,87 @@
 package com.johnsnowlabs.nlp.eval
 
-import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, WordEmbeddings}
+import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, NerCrfModel, WordEmbeddings}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
 class NerCrfEvalTesSpec extends FlatSpec {
 
-  "A NER CRF Evaluation" should "display accuracy results" in {
-    val trainFile = "./eng.train.small"
-    val testFile = "./eng.testa"
-    val format = ""
-    val modelPath = "./ner_crf"
+  private val spark = SparkSession.builder()
+    .appName("benchmark")
+    .master("local[*]")
+    .config("spark.driver.memory", "8G")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .getOrCreate()
 
-    val glove = new WordEmbeddings()
-      .setInputCols("sentence", "token")
-      .setOutputCol("glove")
-      .setEmbeddingsSource("./glove.6B.100d.txt ",
+  "A NER CRF Evaluation with IOB tags" should "display accuracy results" in {
+
+    val testFile = "./eng.testb"
+    val nerModel = NerCrfModel.pretrained()
+    val tagLevel = "IOB"
+
+    val nerCrfEvaluationGoldToken = new NerCrfEvaluation(spark, testFile, tagLevel)
+    nerCrfEvaluationGoldToken.computeAccuracyModel(nerModel)
+
+  }
+
+  "A NER CRF Evaluation with IOB tags" should "display accuracy results for pretrained model" in {
+    val trainFile = "./eng.train"
+    val testFile = "./eng.testb"
+    val tagLevel = "IOB"
+
+    val embeddings = new WordEmbeddings()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setEmbeddingsSource("./glove.6B.100d.txt",
         100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
-    val nerTagger = new NerCrfApproach()
-      .setInputCols(Array("sentence", "token","pos", "glove"))
+    val nerApproach = new NerCrfApproach()
+      .setInputCols(Array("document", "token", "pos", "embeddings"))
       .setLabelColumn("label")
       .setOutputCol("ner")
       .setMaxEpochs(10)
       .setRandomSeed(0)
       .setVerbose(2)
 
-    val nerCrfEvaluation = new NerCrfEvaluation(testFile, format)
-    nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
+    val nerCrfEvaluation = new NerCrfEvaluation(spark, testFile, tagLevel)
+    nerCrfEvaluation.computeAccuracyAnnotator(trainFile, nerApproach, embeddings)
+
+  }
+
+  "A NER CRF Evaluation" should "display accuracy results" in {
+
+    val testFile = "./eng.testb"
+    val nerModel = NerCrfModel.pretrained()
+
+    val nerCrfEvaluationGoldToken = new NerCrfEvaluation(spark, testFile)
+    nerCrfEvaluationGoldToken.computeAccuracyModel(nerModel)
+
+  }
+
+  "A NER CRF Evaluation" should "display accuracy results for pretrained model" in {
+    val trainFile = "./eng.train"
+    val testFile = "./eng.testb"
+
+    val embeddings = new WordEmbeddings()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setEmbeddingsSource("./glove.6B.100d.txt",
+        100, WordEmbeddingsFormat.TEXT)
+      .setCaseSensitive(true)
+
+    val nerApproach = new NerCrfApproach()
+      .setInputCols(Array("document", "token", "pos", "embeddings"))
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setMaxEpochs(10)
+      .setRandomSeed(0)
+      .setVerbose(2)
+
+    val nerCrfEvaluation = new NerCrfEvaluation(spark, testFile)
+    nerCrfEvaluation.computeAccuracyAnnotator(trainFile, nerApproach, embeddings)
 
   }
 
