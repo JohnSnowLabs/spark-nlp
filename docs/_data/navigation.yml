@@ -10,10 +10,12 @@ header:
   - title: Videos
     url: /videos
     key: videos
+  - title: Demo
+    url: https://demo.nlp.johnsnowlabs.com
   - title: '<span style="color: #fc4d50;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
-  # - title: '<span style="color: #fc4d50;"><i class="fab fa-slack-hash fa-2x"></i></span>'
-    # url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE
+  - title: '<span style="color: #fc4d50;"><i class="fab fa-slack-hash fa-2x"></i></span>'
+    url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE
 docs-en:
   - title:     Getting Started
     children:

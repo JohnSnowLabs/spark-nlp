@@ -25,12 +25,11 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
 
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
-
   def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
-
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
-
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
+
+  def getIncludeConfidence: Boolean = $(includeConfidence)
 
   setDefault(dictionaryFeatures, () => Map.empty[String, String])
   setDefault(includeConfidence, false)
