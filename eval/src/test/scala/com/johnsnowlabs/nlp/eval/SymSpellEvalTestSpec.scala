@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
+import com.johnsnowlabs.nlp.eval.spell.SymSpellEvaluation
 import org.scalatest.FlatSpec
 
 class SymSpellEvalTestSpec extends FlatSpec {

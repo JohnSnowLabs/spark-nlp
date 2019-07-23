@@ -10,7 +10,7 @@ import org.apache.spark.ml.Pipeline
 /**
   * Created by saif on 02/05/17.
   */
-class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
+class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   import SparkAccessor.spark.implicits._
 

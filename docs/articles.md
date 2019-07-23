@@ -26,7 +26,7 @@ Browse through our collection of articles and blog posts to deepen your knowledg
 
 By Ambika Choudhury | **May 29, 2019**
 
-### [Mueller Report for Nerds! Spark meets NLP with TensorFlow and BERT (Part 1)](https://hackernoon.com/mueller-report-for-nerds-spark-meets-nlp-with-tensorflow-and-bert-part-1-32490a8f8f12)
+### [Mueller Report for Nerds! Spark meets NLP with TensorFlow and BERT (Part 1)](https://medium.com/hackernoon/mueller-report-for-nerds-spark-meets-nlp-with-tensorflow-and-bert-part-1-32490a8f8f12)
 
 By Maziyar Panahi | **May 1, 2019**
 

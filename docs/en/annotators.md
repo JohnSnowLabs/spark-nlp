@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-06-14"
+modify_date: "2019-07-14"
 ---
 
 ## Concepts
@@ -142,7 +142,12 @@ In order to get through the NLP process, we need to get raw data annotated. Ther
 - setOutputCol()
 - setIdCol() -> OPTIONAL: Sring type column with id information
 - setMetadataCol() -> OPTIONAL: Map type column with metadata information
-- setTrimAndClearNewLines(bool) -> Whether to remove new line characters and trim strings. Defaults to true. Useful for later sentence detection if contains multiple lines.
+- setCleanupMode(disabled) -> Cleaning up options, possible values: 
+  - disabled: Source kept as original. 
+  - inplace: removes new lines and tabs.
+  - inplace_full: removes new lines and tabs but also those which were converted to strings (i.e. \\n)
+  - shrink: removes new lines and tabs, plus merging multiple spaces and blank lines to a single space.
+  - shrink_full: removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. 
 
 **Example:**
 
@@ -155,7 +160,8 @@ from sparknlp.base import *
 from pyspark.ml import Pipeline
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
-    .setOutputCol("document")
+    .setOutputCol("document") \
+    .setCleanupMode("shrink")
 {% endhighlight %}
 
 {% highlight scala %}
@@ -165,6 +171,7 @@ import org.apache.spark.ml.Pipeline
 val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
+    .setCleanupMode("shrink")
 {% endhighlight %}
 
 ### TokenAssembler
@@ -416,15 +423,19 @@ The types are:
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
 **Input types:** Document  
-**Reference:** [Tokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala)  
+**Reference:** [Tokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala)|[TokenizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/TokenizerModel.scala)  
 **Functions:**
 
+- setExceptions(StringArray): List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
+- addException(String): Add a single exception 
+- setExceptionsPath(String): Path to txt file with list of token exceptions
+- caseSensitiveExceptions(bool): Whether to follow case sensitiveness for matching exceptions in text
+- contextChars(StringArray): List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+- splitChars(StringArray): List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
 - setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space
 - setSuffixPattern: Regex to identify subtokens that are in the end of the token. Regex has to end with `\\z` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 - setPrefixPattern: Regex to identify subtokens that come in the beginning of the token. Regex has to start with `\\A` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
-- setExtensionPatterns: Array of Regex with groups () to match subtokens within the target pattern. Every group () will become its own separate token. Order matters (later rules will apply first). Its default rules should cover most cases, e.g. part-of-speech as single token
 - addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).
-- setCompositeTokensPatterns: Adds a list of compound words to mark for ignore. E.g., adding "New York" so it doesn't get split into "New" and "York".
 
 **Note:** all these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions.  
 
@@ -436,14 +447,20 @@ Refer to the [Tokenizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs
 tokenizer = Tokenizer() \
     .setInputCols(["sentences"]) \
     .setOutputCol("token") \
-    .addInfixPattern("(\p{L}+)(n't\b)")
+    .setSplitChars(['-']) \
+    .setContextChars(['(', ')', '?', '!']) \
+    .addException("New York") \
+    .addException("e-mail")
 {% endhighlight %}
 
 {% highlight scala %}
 val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
-    .addInfixPattern("(\p{L}+)(n't\b)")
+    .setContextChars(Array("(", ")", "?", "!"))
+    .setSplitChars(Array('-'))
+    .addException("New York")
+    .addException("e-mail")
 {% endhighlight %}
 
 ### Normalizer
@@ -956,7 +973,7 @@ val nerTagger = new NerCrfApproach()
 #### Named Entity Recognition Deep Learning annotator
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
-Neural Network architecture is Char CNN - BLSTM that achieves state-of-the-art in most datasets.  
+Neural Network architecture is Char CNN - BiLSTM that achieves state-of-the-art in most datasets.  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, Word_Embeddings  
 **Reference:** [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)  

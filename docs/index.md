@@ -13,6 +13,9 @@ article_header:
     - text: '<i class="fab fa-github"></i> GitHub'
       type: outline-theme-dark
       url: https://github.com/johnsnowlabs/spark-nlp
+    - text: '<i class="fab fa-slack-hash"></i> Slack' 
+      type: outline-theme-dark
+      url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE
   height: 50vh
   theme: dark
   background_color: "#0296D8"
