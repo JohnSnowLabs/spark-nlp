@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.annotator.{NerDLApproach, NerDLModel, WordEmbeddings}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.eval.ner.NerDLEvaluation
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
