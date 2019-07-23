@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.eval
+package com.johnsnowlabs.nlp.eval.spell
 
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator._

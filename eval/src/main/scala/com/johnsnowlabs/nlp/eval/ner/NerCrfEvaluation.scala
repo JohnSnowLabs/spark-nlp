@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.eval
+package com.johnsnowlabs.nlp.eval.ner
 
 import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, NerCrfModel, WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
@@ -40,9 +40,9 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
     val predictionLabelsRDD = evaluationDataSet.select("predictionIndex", "labelIndex")
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
-    computeAccuracy(metrics)
-    computeAccuracyByEntity(metrics, entityLabels)
-    computeMicroAverage(metrics)
+    NerMetrics.computeAccuracy(metrics, loggingData)
+    NerMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
+    NerMetrics.computeMicroAverage(metrics, loggingData)
   }
 
   private def getEntityLabels(nerEvalCrfConfiguration: NerEvalCrfConfiguration, tagLevel: String): List[String] = {
@@ -90,6 +90,7 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
       val embeddingsTrain = embeddings.transform(trainDataSet)
       val nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
       val embeddingsTest = embeddings.transform(testDataSet)
+
       predictionDataSet = nerModel.transform(embeddingsTest)
 
     }
@@ -144,52 +145,6 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
   private def getLabelIndex(labels: List[String]) = udf { label: String =>
     val index = labels.indexOf(label)
     index.toDouble
-  }
-
-  private def computeAccuracy(metrics: MulticlassMetrics): Unit = {
-    val accuracy = (metrics.accuracy * 1000).round / 1000.toDouble
-    val weightedPrecision = (metrics.weightedPrecision * 1000).round / 1000.toDouble
-    val weightedRecall = (metrics.weightedRecall * 1000).round / 1000.toDouble
-    val weightedFMeasure = (metrics.weightedFMeasure * 1000).round / 1000.toDouble
-    val weightedFalsePositiveRate = (metrics.weightedFalsePositiveRate * 1000).round / 1000.toDouble
-    loggingData.logMetric("Accuracy", accuracy)
-    loggingData.logMetric("Weighted Precision", weightedPrecision)
-    loggingData.logMetric("Weighted Recall", weightedRecall)
-    loggingData.logMetric("Weighted F1 Score", weightedFMeasure)
-    loggingData.logMetric("Weighted False Positive Rate", weightedFalsePositiveRate)
-  }
-
-  private def computeAccuracyByEntity(metrics: MulticlassMetrics, labels: List[String]): Unit = {
-    val predictedLabels = metrics.labels
-    predictedLabels.foreach { predictedLabel =>
-      val entity = labels(predictedLabel.toInt)
-      val precision = (metrics.precision(predictedLabel) * 1000).round / 1000.toDouble
-      val recall = (metrics.recall(predictedLabel) * 1000).round / 1000.toDouble
-      val f1Score = (metrics.fMeasure(predictedLabel) * 1000).round / 1000.toDouble
-      val falsePositiveRate = (metrics.falsePositiveRate(predictedLabel) * 1000).round / 1000.toDouble
-      loggingData.logMetric(entity + " Precision", precision)
-      loggingData.logMetric(entity + " Recall", recall)
-      loggingData.logMetric(entity + " F1-Score", f1Score)
-      loggingData.logMetric(entity + " FPR", falsePositiveRate)
-    }
-  }
-
-  private def computeMicroAverage(metrics: MulticlassMetrics): Unit = {
-    var totalP = 0.0
-    var totalR = 0.0
-    var totalClassNum = 0
-
-    val labels = metrics.labels
-
-    labels.foreach { label =>
-      totalClassNum = totalClassNum + 1
-      totalP = totalP + metrics.precision(label)
-      totalR = totalR + metrics.recall(label)
-    }
-    totalP = totalP/totalClassNum
-    totalR = totalR/totalClassNum
-    val microAverage = 2 * ((totalP*totalR) / (totalP+totalR))
-    loggingData.logMetric("Micro-average F1-Score", (microAverage * 1000).round / 1000.toDouble)
   }
 
 }
