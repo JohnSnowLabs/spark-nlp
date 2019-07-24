@@ -93,13 +93,14 @@ class NerDLSpec extends FlatSpec {
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-1f) //0.001
+      .setLr(1e-1f) //0.1
       .setPo(5e-3f) //0.005
       .setDropout(5e-1f) //0.5
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
       .setTrainValidationProp(0.1f)
+      .setValidationLogExtended(true)
       .fit(readyData)
 
   }
