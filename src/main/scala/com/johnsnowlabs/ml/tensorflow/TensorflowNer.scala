@@ -113,7 +113,8 @@ class TensorflowNer
             endEpoch: Int,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f
+            trainValidationProp: Float = 0.0f,
+            validationLogExtended: Boolean = false
            ): Unit = {
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
@@ -172,13 +173,8 @@ class TensorflowNer
 
         val trainDatasetSample = trainDataset.take(sample)
 
-        log(s"Quality on training dataset (${trainValidationProp*100}%), validationExamples = $sample", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
-      }
-
-      if (validation.nonEmpty) {
-        log("Quality on train dataset: ", Verbose.Epochs)
-        measure(trainDataset, (s: String) => log(s, Verbose.Epochs))
+        log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
       }
 
       if (validation.nonEmpty) {
@@ -276,15 +272,17 @@ class TensorflowNer
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
     log(s"Total stats\t prec: $prec, rec: $rec, f1: $f1")
 
-    log("label\t prec\t rec\t f1")
+    if (extended){
+      log("label\t prec\t rec\t f1")
 
-    for (label <- notEmptyLabels) {
-      val (prec, rec, f1) = calcStat(
-        truePositives.getOrElse(label, 0),
-        falsePositives.getOrElse(label, 0),
-        falseNegatives.getOrElse(label, 0)
-      )
-      log(s"$label\t $prec\t $rec\t $f1")
+      for (label <- notEmptyLabels) {
+        val (prec, rec, f1) = calcStat(
+          truePositives.getOrElse(label, 0),
+          falsePositives.getOrElse(label, 0),
+          falseNegatives.getOrElse(label, 0)
+        )
+        log(s"$label\t $prec\t $rec\t $f1")
+      }
     }
   }
 }
