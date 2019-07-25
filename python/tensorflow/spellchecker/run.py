@@ -7,22 +7,24 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 # Set TRAIN to true will build a new model
-TRAIN = False 
+TRAIN = False
 
 # If VERBOSE is true, then print the ppl of every sequence when we
 # are testing.
 VERBOSE = True
 
 # this is the path where all data files live
-data_path= '../../../../spark-nlp-models/data/'
+# TODO join paths os independently
+data_path= '/home/jose/spark-nlp-models/data/'
 
 # To indicate your test/train corpora
-test_file = "gap_filling_exercise"
-train_file = "gutenberg_65.txt.ids"
-classes_file = "gutenberg_65.txt.classes"
-vocab_file = "gutenberg_65.txt.vocab"
+model_name = 'gutenberg_65'
+train_file = model_name + ".txt.ids"
+classes_file = model_name + ".txt.classes"
+vocab_file = model_name + ".txt.vocab"
 valid_file = "valid.ids"
 
+model_path = '/home/jose/spark-nlp-old/python/sparknlp/spellchecker/model/best_model.ckpt'
 
 with open(data_path + train_file) as fp:
     num_train_samples = len(fp.readlines())
@@ -33,6 +35,21 @@ vocab_path = data_path + vocab_file
 with open(vocab_path) as vocab:
     vocab_size = len(vocab.readlines())
 
+def test_sentences():
+    '''
+    these are crazy sentences to test the algorithm
+    :return:
+    '''
+    sentences = ['she came to me in an unexpected gesture',
+                 'she came to me in an unexpected day',
+                 'she came to me in an unexpected car',
+                 'she came to me in an unexpected morning',
+                 'she came to me in an unexpected way',
+                 'she came to me in an unexpected dream']
+
+    candidates = ['gesture', 'day', 'car', 'morning', 'way', 'dream']
+
+    return (sentences, candidates)
 
 def create_model(sess):
 
@@ -71,7 +88,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     model.load_classes(data_path + classes_file)
     model.load_vocab(vocab_path)
     saver = tf.train.Saver()
-    saver.restore(sess, "model/best_model.ckpt")
+    saver.restore(sess, model_path)
     model.save('bundle', sess)
-
-
+    sents, cands = test_sentences()
+    model.predict(sess, sents)

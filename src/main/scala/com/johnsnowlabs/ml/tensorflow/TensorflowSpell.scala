@@ -10,9 +10,6 @@ class TensorflowSpell(
 
   val testInitOp = "test/init"
   val validWords = "valid_words"
-  val fileNameTest = "file_name"
-  val inMemoryInput = "in-memory-input"
-  val batchesKey = "batches"
   val lossKey = "Add:0"
   val dropoutRate = "dropout_rate"
 
