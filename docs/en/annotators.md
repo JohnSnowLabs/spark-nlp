@@ -880,9 +880,9 @@ Word Embeddings lookup annotator that maps tokens to vectors
 **Functions:**
 
 - setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:
-  1 - spark-nlp format.  
-  2 - text. This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
-  3 - binary. This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
+  - text -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
+  - binary -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
+  - spark-nlp -> internal format for already serialized embeddings. Use this only when resaving embeddings with Spark NLP
 - setCaseSensitive: whether to ignore case in tokens for embeddings matching
 
 **Example:**
@@ -893,7 +893,7 @@ Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 word_embeddings = WordEmbeddings() \
         .setInputCols(["document", "token"])\
         .setOutputCol("word_embeddings")
-        .setEmbeddingsSource('./embeddings.100d.test.txt', 100, 2)
+        .setEmbeddingsSource('./embeddings.100d.test.txt', 100, "text")
 {% endhighlight %}
 
 {% highlight scala %}
@@ -901,7 +901,7 @@ wordEmbeddings = new WordEmbeddings()
         .setInputCols("document", "token")
         .setOutputCol("word_embeddings")
         .setEmbeddingsSource("./embeddings.100d.test.txt",
-        100, WordEmbeddingsFormat.TEXT)
+        100, "text")
 {% endhighlight %}
 
 ### Bert Embeddings
