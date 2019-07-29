@@ -178,7 +178,7 @@ val testData = spark.createDataFrame(Seq(
 (2, "A little less than a decade later, dozens of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.")
 )).toDF("id", "text")
 
-val pipeline = PretrainedPipeline("onto_recognize_entities_lg", lang="en")
+val pipeline = PretrainedPipeline("onto_recognize_entities_sm", lang="en")
 
 val annotation = pipeline.transform(testData)
 
