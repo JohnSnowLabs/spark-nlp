@@ -43,9 +43,9 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 Spark NLP *2.1.0* has been built on top of Apache Spark 2.4.3
 
-Note that Spark is not retrocompatible with Spark 2.3.x, so models and environments might not work.
+Note that pre-build Spark NLP is not retrocompatible with older Spark 2.x.x, so models and environments might not work.
 
-If you are still stuck on Spark 2.3.x feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) instead. Support is limited.
+If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version. Feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) for such version.
 For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
 
 | Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
