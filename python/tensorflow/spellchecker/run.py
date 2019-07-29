@@ -7,7 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 # Set TRAIN to true will build a new model
-TRAIN = False
+TRAIN = True
 
 # If VERBOSE is true, then print the ppl of every sequence when we
 # are testing.
@@ -24,7 +24,7 @@ classes_file = model_name + ".txt.classes"
 vocab_file = model_name + ".txt.vocab"
 valid_file = "valid.ids"
 
-model_path = '/home/jose/spark-nlp-old/python/sparknlp/spellchecker/model/best_model.ckpt'
+model_path = './model/best_model.ckpt'
 
 with open(data_path + train_file) as fp:
     num_train_samples = len(fp.readlines())
@@ -54,9 +54,9 @@ def test_sentences():
 def create_model(sess):
 
     _model = RNNLM(vocab_size=vocab_size,
-                  batch_size=2,
-                  num_epochs=5,
-                  check_point_step=20000,
+                  batch_size=24,
+                  num_epochs=1,
+                  check_point_step= 100,#20000,
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
                   num_layers=1,
@@ -80,10 +80,12 @@ if TRAIN:
         model.batch_train(sess, saver, train_ids, valid_ids)
 
 tf.reset_default_graph()
-gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.99)
+gpu_options = tf.GPUOptions(log_device_placement=True, allow_soft_placement=True)
 
 
-with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
+with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True)) as sess:
+    from time import time
+
     model = create_model(sess)
     model.load_classes(data_path + classes_file)
     model.load_vocab(vocab_path)
@@ -91,4 +93,14 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     saver.restore(sess, model_path)
     model.save('bundle', sess)
     sents, cands = test_sentences()
-    model.predict(sess, sents)
+
+    t0 = time()
+    for _ in range(10000):
+        model.predict_(sess, cands)
+    print(time() - t0)
+
+    t0 = time()
+    for _ in range(10000):
+        model.predict(sess, sents)
+    print(time() - t0)
+
