@@ -191,12 +191,12 @@ import com.johnsnowlabs.nlp.SparkNLP
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_sm,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Johnson first ent...|[[document, 0, 17...|[[document, 0, 77...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
-|  2|A little less tha...|[[document, 0, 22...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|               token|          embeddings|                 ner|            entities|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
+|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 */
 
 annotation.select("entities.result").show(false)
@@ -241,12 +241,12 @@ import com.johnsnowlabs.nlp.SparkNLP
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_lg,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Johnson first ent...|[[document, 0, 17...|[[document, 0, 77...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
-|  2|A little less tha...|[[document, 0, 22...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|               token|          embeddings|                 ner|            entities|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
+|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 */
 
 annotation.select("entities.result").show(false)
