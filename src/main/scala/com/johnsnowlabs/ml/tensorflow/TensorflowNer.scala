@@ -269,9 +269,9 @@ class TensorflowNer
     val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
 
-    val totalTruePositives = truePositives.filterKeys(label => labels.contains(label)).values.sum
-    val totalFalsePositives = falsePositives.filterKeys(label => labels.contains(label)).values.sum
-    val totalFalseNegatives = falseNegatives.filterKeys(label => labels.contains(label)).values.sum
+    val totalTruePositives = truePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalFalsePositives = falsePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalFalseNegatives = falseNegatives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
@@ -294,9 +294,9 @@ class TensorflowNer
         log(s"$label\t $prec\t $rec\t $f1")
       }
     }
-    log(s"Total labels in training: ${labels.length}\t Total labels in evaluation: ${notEmptyLabels.length}")
+    log(s"Total labels in evaluation: ${notEmptyLabels.length}")
 
-    log(s"Weighted stats:\t prec: $prec, rec: $rec, f1: $f1")
-    log(s"Micro-average stats:\t Perc: ${totPrec/labels.length}\t Recall: ${totRec/labels.length}\t F1: ${totF1/labels.length}")
+    log(s"Weighted stats\t prec: $prec, rec: $rec, f1: $f1")
+    log(s"Micro-average stats\t Perc: ${totPrec/labels.length}\t Recall: ${totRec/labels.length}\t F1: ${totF1/labels.length}")
   }
 }
