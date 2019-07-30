@@ -2,12 +2,15 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
 
+import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -40,6 +43,10 @@ class NerDLApproach(override val uid: String)
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val validationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+  val validationDataset = new ExternalResourceParam(this, "validationDataset", "Path to validation dataset. " +
+    "If set used to calculate statistic on it during training.")
+  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
+    "If set used to calculate statistic on it during training.")
 
   def getLr: Float = $(this.lr)
   def getPo: Float = $(this.po)
@@ -59,6 +66,19 @@ class NerDLApproach(override val uid: String)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
   def setValidationLogExtended(validationLogExtended: Boolean):NerDLApproach.this.type = set(this.validationLogExtended, validationLogExtended)
 
+  def setValidationDataset(path: String,
+                           readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                           options: Map[String, String] = Map("format" -> "parquet")): this.type =
+    set(validationDataset, ExternalResource(path, readAs, options))
+
+  def setValidationDataset(er: ExternalResource):NerDLApproach.this.type = set(validationDataset, er)
+
+  def setTestDataset(path: String,
+                     readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                     options: Map[String, String] = Map("format" -> "parquet")): this.type =
+    set(testDataset, ExternalResource(path, readAs, options))
+
+  def setTestDataset(er: ExternalResource):NerDLApproach.this.type = set(testDataset, er)
 
   setDefault(
     minEpochs -> 0,
@@ -89,6 +109,15 @@ class NerDLApproach(override val uid: String)
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
     val train = dataset.toDF()
+
+    val valid = if (!isDefined(validationDataset)) {
+      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+      emptyValid
+    }
+    else {
+      val validationDataFrame = ResourceHelper.readParquetSparkDatFrame($(validationDataset))
+      NerTagged.collectTrainingInstances(validationDataFrame, getInputCols, $(labelColumn))
+    }
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
@@ -123,7 +152,8 @@ class NerDLApproach(override val uid: String)
         $(po),
         $(batchSize),
         $(dropout),
-        startEpoch = 0,
+        validation = valid,
+        startEpoch = $(minEpochs),
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
