@@ -153,7 +153,6 @@ class NerDLApproach(override val uid: String)
         $(batchSize),
         $(dropout),
         validation = valid,
-        startEpoch = $(minEpochs),
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
