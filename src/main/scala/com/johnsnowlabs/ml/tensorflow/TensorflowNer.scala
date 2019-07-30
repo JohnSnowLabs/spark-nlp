@@ -190,7 +190,8 @@ class TensorflowNer
     val prec = tp.toFloat / (tp.toFloat + fp.toFloat)
     val rec = tp.toFloat / (tp.toFloat + fn.toFloat)
     val f1 = 2 * ((prec * rec) / (prec + rec))
-    (prec, rec, f1)
+
+    (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
   def tagsForTokens(labels: Array[String], pieces: WordpieceEmbeddingsSentence): Array[String] = {
@@ -255,6 +256,7 @@ class TensorflowNer
             } else if (label == "O" && tag != "O") {
               falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
             } else {
+              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
               falseNegatives(label) = falseNegatives.getOrElse(label, 0) + 1
             }
 
@@ -264,27 +266,37 @@ class TensorflowNer
 
     log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
 
-    val labels = (correct.keys ++ predicted.keys).toSeq.distinct
+    val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
 
-    val totalTruePositives = truePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalFalsePositives = falsePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalFalseNegatives = falseNegatives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalTruePositives = truePositives.filterKeys(label => labels.contains(label)).values.sum
+    val totalFalsePositives = falsePositives.filterKeys(label => labels.contains(label)).values.sum
+    val totalFalseNegatives = falseNegatives.filterKeys(label => labels.contains(label)).values.sum
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
-    log(s"Total stats\t prec: $prec, rec: $rec, f1: $f1")
 
-    if (extended){
+    var totPrec, totRec, totF1 = 0f
+
+    if (extended) {
       log("label\t prec\t rec\t f1")
+    }
 
-      for (label <- notEmptyLabels) {
-        val (prec, rec, f1) = calcStat(
-          truePositives.getOrElse(label, 0),
-          falsePositives.getOrElse(label, 0),
-          falseNegatives.getOrElse(label, 0)
-        )
+    for (label <- labels) {
+      val (prec, rec, f1) = calcStat(
+        truePositives.getOrElse(label, 0),
+        falsePositives.getOrElse(label, 0),
+        falseNegatives.getOrElse(label, 0)
+      )
+      totPrec = totPrec + prec
+      totRec = totPrec + rec
+      totF1 = totPrec + f1
+      if (extended) {
         log(s"$label\t $prec\t $rec\t $f1")
       }
     }
+    log(s"Total labels in training: ${labels.length}\t Total labels in evaluation: ${notEmptyLabels.length}")
+
+    log(s"Weighted stats:\t prec: $prec, rec: $rec, f1: $f1")
+    log(s"Micro-average stats:\t Perc: ${totPrec/labels.length}\t Recall: ${totRec/labels.length}\t F1: ${totF1/labels.length}")
   }
 }
