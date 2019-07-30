@@ -262,7 +262,7 @@ class TensorflowNer
       }
     }
 
-    log(s"time to finish validation: ${(System.nanoTime() - started)/1e9}")
+    log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
 
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
