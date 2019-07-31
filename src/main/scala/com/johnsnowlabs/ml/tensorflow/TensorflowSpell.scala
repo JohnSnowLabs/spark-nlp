@@ -18,6 +18,10 @@ class TensorflowSpell(
   val contextIds = "batches:1"
   val contextWordIds = "batches:2"
 
+  val testWids = "test_wids"
+  val testCids = "test_cids"
+  val losses = "test_losses"
+
   /* returns the loss associated with the last word, given previous history  */
   def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None) = {
 
@@ -25,7 +29,7 @@ class TensorflowSpell(
 
     val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
-      .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
+      . feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
       .feed(contextWordIds, tensors.createTensor(cwids.map(_.tail)))
       .fetch(lossKey)
@@ -37,5 +41,30 @@ class TensorflowSpell(
     val result = extractFloats(lossWords.get(0))
     val width = dataset.head.length
     result.grouped(width - 1).map(_.last)
+  }
+
+
+  def predict_(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids: Array[Array[Int]],
+               candCids:Array[Int], candWids:Array[Int],
+               configProtoBytes: Option[Array[Byte]] = None) = {
+
+    val tensors = new TensorResources
+    val paths = (dataset, cids, cwids).zipped.toList
+
+    paths.flatMap { case (pathIds, pathCids, pathWids) =>
+      val lossWords = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+        .feed(dropoutRate, tensors.createTensor(1.0f))
+        .feed(wordIds, tensors.createTensor(Array(pathIds)))
+        .feed(contextIds, tensors.createTensor(Array(pathCids.tail)))
+        .feed(contextWordIds, tensors.createTensor(Array(pathWids.tail)))
+        .feed(testCids, tensors.createTensor(Array(candCids)))
+        .feed(testWids, tensors.createTensor(Array(candWids)))
+        .fetch(losses)
+        .run()
+
+      tensors.clearTensors()
+      val r = extractFloats(lossWords.get(0))
+      r
+    }
   }
 }

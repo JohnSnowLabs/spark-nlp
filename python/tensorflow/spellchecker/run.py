@@ -15,10 +15,10 @@ VERBOSE = True
 
 # this is the path where all data files live
 # TODO join paths os independently
-data_path= '/home/jose/spark-nlp-models/data/'
+data_path= '/home/jose/spark-nlp-models/data/medical/'
 
 # To indicate your test/train corpora
-model_name = 'gutenberg_65'
+model_name = 'bigone'
 train_file = model_name + ".txt.ids"
 classes_file = model_name + ".txt.classes"
 vocab_file = model_name + ".txt.vocab"
@@ -52,11 +52,11 @@ def test_sentences():
     return (sentences, candidates)
 
 def create_model(sess):
-
+    #with tf.device('/job:localhost/replica:0/task:0/device:XLA_GPU:0'):
     _model = RNNLM(vocab_size=vocab_size,
                   batch_size=24,
-                  num_epochs=1,
-                  check_point_step= 100,#20000,
+                  num_epochs=3,
+                  check_point_step= 20000,
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
                   num_layers=1,
@@ -70,7 +70,7 @@ def create_model(sess):
 
 if TRAIN:
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.99)
-    with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
+    with tf.Session(config=tf.ConfigProto(log_device_placement=True, allow_soft_placement=True)) as sess: # gpu_options=gpu_options,
         model = create_model(sess)
         model.load_classes(data_path + classes_file)
         model.load_vocab(vocab_path)
@@ -80,10 +80,7 @@ if TRAIN:
         model.batch_train(sess, saver, train_ids, valid_ids)
 
 tf.reset_default_graph()
-gpu_options = tf.GPUOptions(log_device_placement=True, allow_soft_placement=True)
-
-
-with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True)) as sess:
+with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
     from time import time
 
     model = create_model(sess)
