@@ -32,8 +32,17 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
   "Spell Checker" should "provide appropriate scores - sentence level" in {
-    val data = Seq("This is a correct sentence .",
-      "Thos ist an oncorrect sentrence .").toDF("text")
+
+
+    def time[R](block: => R): R = {
+      val t0 = System.nanoTime()
+      val result = block    // call-by-name
+      val t1 = System.nanoTime()
+      println("Elapsed time: " + (t1 - t0) + "ns")
+      result
+    }
+
+    val data = Seq.fill(1200)("This is a correct sentence .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
@@ -44,18 +53,20 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setInputCols(Array("doc"))
       .setOutputCol("token")
 
-    val spellChecker = ContextSpellCheckerModel
-      .pretrained()
+    val spellChecker = ContextSpellCheckerModel.read
+      .load("test-spell-checker")
       .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
     import com.johnsnowlabs.nlp.functions._
-    val results = pipeline.transform(data).
-      select("checked").
-      mapAnnotations("checked", "checked", x => x.head.metadata.get("cost")).
-      collect.map(_.getString(0).toDouble)
+    val results = time {
+      pipeline.transform(data).
+        select("checked").
+        mapAnnotations("checked", "checked", x => x.head.metadata.get("cost")).
+        collect.map(_.getString(0).toDouble)
+    }
 
     assert(results(0) < results(1))
 
