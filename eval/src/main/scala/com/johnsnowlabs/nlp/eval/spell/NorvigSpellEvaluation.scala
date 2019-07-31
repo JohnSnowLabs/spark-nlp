@@ -19,15 +19,19 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
   private case class NorvigSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
                                            approach: NorvigSweetingApproach, model: NorvigSweetingModel)
 
-  def testMethod(testParameter: String): String = {
-   "testParameter has the value " + testParameter
-  }
-
   def computeAccuracyAnnotator(trainFile: String, spell: NorvigSweetingApproach): Unit = {
     loggingData.logNorvigParams(spell)
     val norvigSpellEvalConfig = NorvigSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
     computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()
+  }
+
+  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String): Unit = {
+   val spell = new NorvigSweetingApproach()
+     .setInputCols(inputCols)
+     .setOutputCol(outputCol)
+     .setDictionary(dictionary)
+    computeAccuracyAnnotator(trainFile, spell)
   }
 
   def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
