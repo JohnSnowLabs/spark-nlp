@@ -834,9 +834,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
     def setFrequencyPriority(self, value):
         return self._set(frequencyPriority=value)
 
-    def getDictionary(self):
-        return self.getParamValue("dictionary")
-
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
 
@@ -894,6 +891,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
+        self.dictionary_path = ""
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -902,6 +900,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
