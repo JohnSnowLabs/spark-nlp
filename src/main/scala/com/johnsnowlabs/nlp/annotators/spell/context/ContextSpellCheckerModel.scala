@@ -143,7 +143,13 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
       val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
       val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
-      val expPathsCosts = getModelIfNotSet.predict(expPaths, cids, cwids, configProtoBytes=getConfigProtoBytes).toArray
+      //val expPathsCosts = getModelIfNotSet.predict(expPaths, cids, cwids, configProtoBytes=getConfigProtoBytes).toArray
+
+      val candCids = encTrellis(i).map(_._1).map{id => $$(classes).apply(id)._1}
+      val candWids = encTrellis(i).map(_._1).map{id => $$(classes).apply(id)._2}
+
+      //pathsIds.takeRight($(maxWindowLen))
+      val expPathsCosts_ = getModelIfNotSet.predict_(pathsIds.map(_.takeRight($(maxWindowLen))), cids, cwids, candCids, candWids, configProtoBytes=getConfigProtoBytes).toArray
 
       for {((state, wcost, cand), idx) <- encTrellis(i).zipWithIndex} {
         var minCost = Double.MaxValue
@@ -155,11 +161,12 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         for (((path, pathCost, cands), pi) <- z.zipWithIndex) {
           // compute cost to arrive to this 'state' coming from that 'path'
           val mult = if (i > 1) costs.length else 0
-          val ppl = expPathsCosts(idx * mult + pi)
+          //val ppl = expPathsCosts(idx * mult + pi)
+          val ppl_ = expPathsCosts_(encTrellis(i).size * pi + idx)
 
-          logger.debug(s"${$$(idsVocab).apply(path.last)} -> $cand, $ppl")
+          logger.debug(s"${$$(idsVocab).apply(path.last)} -> $cand, $ppl_")
 
-          val cost = pathCost + ppl
+          val cost = pathCost + ppl_
           if (cost < minCost){
             minCost = cost
             minPath = path :+ state

@@ -21,9 +21,9 @@ class RNNLM(object):
 
         self.vocab_size = vocab_size
         # these are internally defined
-        self.num_classes = 1500
+        self.num_classes = 1902
         # here we should dynamically determine max number of words per class - this is the max for Gutenberg corpus
-        self.word_ids = 1150
+        self.word_ids = 890
         # this is the batch for training
         self.batch_size = batch_size
         # this is the batch for testing
@@ -188,8 +188,8 @@ class RNNLM(object):
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
 
         # Add another loss, used for evaluation - more efficient ?
-        self.candidate_word_ids = tf.placeholder(tf.int32, shape=[1, 6], name='test_wids')
-        self.candidate_class_ids = tf.placeholder(tf.int32, shape=[1, 6], name='test_cids')
+        self.candidate_word_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_wids')
+        self.candidate_class_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_cids')
 
         cand_cnt = tf.shape(self.candidate_class_ids)
 
@@ -368,8 +368,6 @@ class RNNLM(object):
 
 
     def predict_(self, sess, candidates, verbose=False):
-        global_dev_loss = 0.0
-        global_dev_valid_words = 0
 
         wordIds = "batches:0"
         contextIds = "batches:1"
@@ -389,8 +387,6 @@ class RNNLM(object):
         can_cids = [[self.class_word[i][0] for i in can_wids]]
         can_wcids = [[self.class_word[i][1] for i in can_wids]]
 
-        raw_line = sent.strip()
-
         cl = tf.get_default_graph().get_tensor_by_name("cl:0")
         bccl = tf.get_default_graph().get_tensor_by_name("bccl:0")
         losses, cl_, bccl_ = sess.run(
@@ -402,6 +398,4 @@ class RNNLM(object):
              self.candidate_word_ids: np.array(can_wcids),
              self.candidate_class_ids: np.array(can_cids)
              })
-
-        #print(losses)
 
