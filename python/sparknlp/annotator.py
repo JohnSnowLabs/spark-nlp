@@ -813,8 +813,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
+        self.dictionary_path = ""
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
@@ -831,6 +833,9 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     def setFrequencyPriority(self, value):
         return self._set(frequencyPriority=value)
+
+    def getDictionary(self):
+        return self.getParamValue("dictionary")
 
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
@@ -1105,6 +1110,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             useContrib=uc,
             trainValidationProp=float(0.0)
         )
+
 
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
