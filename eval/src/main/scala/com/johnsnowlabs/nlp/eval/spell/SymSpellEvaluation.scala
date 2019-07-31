@@ -25,6 +25,14 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     loggingData.closeLog()
   }
 
+  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String): Unit = {
+    val spell = new SymmetricDeleteApproach()
+      .setInputCols(inputCols)
+      .setOutputCol(outputCol)
+      .setDictionary(dictionary)
+    computeAccuracyAnnotator(trainFile, spell)
+  }
+
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
