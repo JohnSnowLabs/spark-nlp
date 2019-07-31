@@ -30,7 +30,7 @@ modify_date: "2019-07-22"
 | Clean Pattern | `clean_pattern`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_pattern_en_2.1.0_2.4_1562944302303.zip)
 | Clean Slang | `clean_slang`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_slang_en_2.1.0_2.4_1562944852594.zip)
 | Check Spelling | `check_spelling`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_en_2.1.0_2.4_1562944297070.zip)
-| Analyze Sentiment ML | `analyze_sentiment_ml` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_2.1.0_2.4_1563204637489.zip)
+| Analyze Sentiment | `analyze_sentiment` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_2.1.0_2.4_1563204637489.zip)
 | Dependency Parse | `dependency_parse` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_2.1.0_2.4_1563224147733.zip)
 
 ### explain_document_ml
