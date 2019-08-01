@@ -275,8 +275,6 @@ class TensorflowNer
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
-    var totPrec, totRec, totF1 = 0f
-
     if (extended) {
       log("label\t prec\t rec\t f1")
     }
@@ -287,9 +285,6 @@ class TensorflowNer
         falsePositives.getOrElse(label, 0),
         falseNegatives.getOrElse(label, 0)
       )
-      totPrec = totPrec + prec
-      totRec = totPrec + rec
-      totF1 = totPrec + f1
       if (extended) {
         log(s"$label\t $prec\t $rec\t $f1")
       }
@@ -297,6 +292,5 @@ class TensorflowNer
     log(s"Total labels in evaluation: ${notEmptyLabels.length}")
 
     log(s"Weighted stats\t prec: $prec, rec: $rec, f1: $f1")
-    log(s"Micro-average stats\t Perc: ${totPrec/labels.length}\t Recall: ${totRec/labels.length}\t F1: ${totF1/labels.length}")
   }
 }
