@@ -59,7 +59,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val docs = annotations.map(_.result)
-    val sentences = docs.flatMap(doc => tag(doc))
+    val sentences = docs.flatMap(doc => tag(doc)).filter(_.content.nonEmpty)
     SentenceSplit.pack(sentences)
   }
 
