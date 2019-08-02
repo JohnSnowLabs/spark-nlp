@@ -152,6 +152,7 @@ class NerDLApproach(override val uid: String)
         $(po),
         $(batchSize),
         $(dropout),
+        graphFileName = graphFile,
         validation = valid,
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
