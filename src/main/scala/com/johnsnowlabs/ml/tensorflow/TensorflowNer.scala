@@ -111,12 +111,15 @@ class TensorflowNer
             dropout: Float,
             startEpoch: Int = 0,
             endEpoch: Int,
+            graphFileName: String,
             validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
             validationLogExtended: Boolean = false
            ): Unit = {
+
+    log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
       s"labels: ${encoder.tags.length} " +
