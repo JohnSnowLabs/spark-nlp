@@ -967,6 +967,13 @@ class NerApproach(Params):
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
 
+    def getRandomSeed(self):
+        return self.getOrDefault(self.randomSeed)
+
+    def getLabelColumn(self):
+        return self.getOrDefault(self.labelColumn)
+
+
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
 
@@ -1463,6 +1470,15 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             return "TEXT"
         else:
             return "BINARY"
+
+    def getEmbeddingsPath(self):
+        return self.getOrDefault(self.sourceEmbeddingsPath)
+
+    def getDimension(self):
+        return self.getOrDefault(self.dimension)
+
+    def getFormat(self):
+        return self.getOrDefault(self.embeddingsFormat)
 
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)

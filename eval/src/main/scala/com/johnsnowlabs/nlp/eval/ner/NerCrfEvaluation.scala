@@ -33,6 +33,25 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
     loggingData.closeLog()
   }
 
+  def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
+                               randomSeed: Int, labelColumn: String,
+                               embeddingsInputCols: Array[String], embeddingsOutputCol: String,
+                               embeddingsPath: String, dimension: Int, format: Int): Unit = {
+
+    val ner = new NerCrfApproach()
+      .setInputCols(nerInputCols)
+      .setOutputCol(nerOutputCol)
+      .setLabelColumn(labelColumn)
+      .setRandomSeed(randomSeed)
+
+    val wordEmbeddings = new WordEmbeddings()
+      .setInputCols(embeddingsInputCols)
+      .setOutputCol(embeddingsOutputCol)
+      .setEmbeddingsSource(embeddingsPath, dimension, format)
+
+    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+  }
+
   private def computeAccuracy(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Unit = {
     import sparkSession.implicits._
     val entityLabels = getEntityLabels(nerEvalCrfConfiguration, tagLevel)
