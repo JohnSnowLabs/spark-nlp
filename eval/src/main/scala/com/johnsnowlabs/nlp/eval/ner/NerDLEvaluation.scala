@@ -33,6 +33,25 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
     loggingData.closeLog()
   }
 
+  def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
+                               randomSeed: Int, labelColumn: String,
+                               embeddingsInputCols: Array[String], embeddingsOutputCol: String,
+                               embeddingsPath: String, dimension: Int, format: Int): Unit = {
+
+    val ner = new NerDLApproach()
+      .setInputCols(nerInputCols)
+      .setOutputCol(nerOutputCol)
+      .setLabelColumn(labelColumn)
+      .setRandomSeed(randomSeed)
+
+    val wordEmbeddings = new WordEmbeddings()
+        .setInputCols(embeddingsInputCols)
+        .setOutputCol(embeddingsOutputCol)
+        .setEmbeddingsSource(embeddingsPath, dimension, format)
+
+    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+  }
+
   private def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
     import sparkSession.implicits._
     val entityLabels = getEntityLabels(nerEvalDLConfiguration, tagLevel)
