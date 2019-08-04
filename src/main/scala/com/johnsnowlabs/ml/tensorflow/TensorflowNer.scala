@@ -112,7 +112,6 @@ class TensorflowNer
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String,
-            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
@@ -181,9 +180,9 @@ class TensorflowNer
         measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
       }
 
-      if (validation.nonEmpty) {
-        log("Quality on validation dataset: ", Verbose.Epochs)
-        measure(validation, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
+      if (test.nonEmpty) {
+        log("Quality on test dataset: ", Verbose.Epochs)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
       }
 
     }

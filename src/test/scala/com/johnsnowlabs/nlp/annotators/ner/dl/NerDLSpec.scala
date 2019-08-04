@@ -84,13 +84,13 @@ class NerDLSpec extends FlatSpec {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testa")
-    val validation_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testb")
+    val test_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testb")
 
     val embeddings = WordEmbeddingsModel.pretrained().setOutputCol("embeddings")
 
     val trainData = embeddings.transform(training_data)
-    val validateData = embeddings.transform(validation_data)
-    validateData.write.mode("overwrite").parquet("./tmp_conll_validate")
+    val testData = embeddings.transform(test_data)
+    testData.write.mode("overwrite").parquet("./tmp_conll_validate")
 
     val ner = new NerDLApproach()
       .setInputCols("sentence", "token", "embeddings")
@@ -105,7 +105,7 @@ class NerDLSpec extends FlatSpec {
       .setVerbose(0)
       .setTrainValidationProp(0.1f)
       .setValidationLogExtended(true)
-      .setValidationDataset("./tmp_conll_validate/")
+      .setTestDataset("./tmp_conll_validate/")
       .fit(trainData)
   }
 
