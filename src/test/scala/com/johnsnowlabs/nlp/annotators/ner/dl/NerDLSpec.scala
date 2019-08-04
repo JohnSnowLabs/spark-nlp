@@ -104,7 +104,7 @@ class NerDLSpec extends FlatSpec {
       .setRandomSeed(0)
       .setVerbose(0)
       .setTrainValidationProp(0.1f)
-      .setValidationLogExtended(true)
+      .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
       .fit(trainData)
   }
