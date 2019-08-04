@@ -115,7 +115,7 @@ class TensorflowNer
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
-            validationLogExtended: Boolean = false
+            evaluationLogExtended: Boolean = false
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
