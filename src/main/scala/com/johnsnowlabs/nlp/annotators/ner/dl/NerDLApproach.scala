@@ -9,7 +9,6 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
@@ -43,8 +42,6 @@ class NerDLApproach(override val uid: String)
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val validationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
-  val validationDataset = new ExternalResourceParam(this, "validationDataset", "Path to validation dataset. " +
-    "If set used to calculate statistic on it during training.")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
     "If set used to calculate statistic on it during training.")
 
@@ -65,14 +62,6 @@ class NerDLApproach(override val uid: String)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
   def setValidationLogExtended(validationLogExtended: Boolean):NerDLApproach.this.type = set(this.validationLogExtended, validationLogExtended)
-
-  def setValidationDataset(path: String,
-                           readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
-                           options: Map[String, String] = Map("format" -> "parquet")): this.type =
-    set(validationDataset, ExternalResource(path, readAs, options))
-
-  def setValidationDataset(er: ExternalResource):NerDLApproach.this.type = set(validationDataset, er)
-
   def setTestDataset(path: String,
                      readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
@@ -110,13 +99,13 @@ class NerDLApproach(override val uid: String)
 
     val train = dataset.toDF()
 
-    val valid = if (!isDefined(validationDataset)) {
+    val test = if (!isDefined(testDataset)) {
       val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
       emptyValid
     }
     else {
-      val validationDataFrame = ResourceHelper.readParquetSparkDatFrame($(validationDataset))
-      NerTagged.collectTrainingInstances(validationDataFrame, getInputCols, $(labelColumn))
+      val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
+      NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
     }
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
@@ -153,7 +142,7 @@ class NerDLApproach(override val uid: String)
         $(batchSize),
         $(dropout),
         graphFileName = graphFile,
-        validation = valid,
+        test = test,
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
