@@ -146,7 +146,7 @@ class NerDLApproach(override val uid: String)
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
-        validationLogExtended=$(validationLogExtended)
+        evaluationLogExtended=$(evaluationLogExtended)
       )
       model
     }
