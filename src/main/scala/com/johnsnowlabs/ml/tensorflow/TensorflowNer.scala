@@ -111,7 +111,7 @@ class TensorflowNer
             dropout: Float,
             startEpoch: Int = 0,
             endEpoch: Int,
-            graphFileName: String,
+            graphFileName: String = "",
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
@@ -177,12 +177,12 @@ class TensorflowNer
         val trainDatasetSample = trainDataset.take(sample)
 
         log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
       }
 
       if (test.nonEmpty) {
         log("Quality on test dataset: ", Verbose.Epochs)
-        measure(test, (s: String) => log(s, Verbose.Epochs), extended = validationLogExtended)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
       }
 
     }
