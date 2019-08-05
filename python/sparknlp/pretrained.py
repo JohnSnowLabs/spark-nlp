@@ -1,30 +1,64 @@
 import sparknlp.internal as _internal
+import sys
+import threading
+import time
 from pyspark.ml.wrapper import JavaModel
 from pyspark.sql import DataFrame
 from sparknlp.annotator import *
 from sparknlp.base import LightPipeline
 
 
+def printProgress(stop):
+    done = 1
+    dot = 7
+    while True:
+        sys.stdout.write('\r[{}{}]'.format('█' * done, '.' * max(2, dot)))
+        sys.stdout.flush()
+        time.sleep(2.5)
+        done = done + 1
+        dot = dot - 1
+        if stop():
+            sys.stdout.write('\r[{}{}]'.format('█' * done, '█' * max(2, dot)))
+            sys.stdout.flush()
+            break
+
+    sys.stdout.write('\n')
+    return
+
 class ResourceDownloader(object):
 
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
+        print("Download started (This may take some time)")
+        stop_threads = False
+        t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
+        t1.start()
         j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
+        stop_threads = True
+        t1.join()
+        print("Download done")
         return reader(classname=None, java_model=j_obj)
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
+        print("Download started (This may take some time)")
+        stop_threads = False
+        t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
+        t1.start()
         j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
         jmodel = JavaModel(j_obj)
+        stop_threads = True
+        t1.join()
+        print("Download done")
         return jmodel
 
     @staticmethod
     def clearCache(name, language, remote_loc=None):
         _internal._ClearCache(name, language, remote_loc).apply()
 
-
     @staticmethod
     def showPublicModels():
+        print("test")
         _internal._ShowPublicModels().apply()
 
     @staticmethod

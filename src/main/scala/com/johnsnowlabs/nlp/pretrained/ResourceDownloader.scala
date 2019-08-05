@@ -25,7 +25,9 @@ import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
 import scala.collection.mutable.{ListBuffer, Map}
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 
 trait ResourceDownloader {
@@ -283,7 +285,31 @@ object ResourceDownloader {
     * @return path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-    val path = defaultDownloader.download(request)
+
+    val f = Future {
+
+      defaultDownloader.download(request)
+    }
+    var download_finished = false
+    var path: Option[String] = None
+    print("Downloading resource ")
+    print("=")
+    while (!download_finished) {
+      f.onComplete {
+        case Success(value) => {
+          download_finished = true
+          path = value
+        }
+        case Failure(e) => {
+          download_finished = true
+          path = None
+        }
+      }
+      Thread.sleep(1000)
+      print("\b=>")
+
+    }
+    println("")
     require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
 
     path.get
