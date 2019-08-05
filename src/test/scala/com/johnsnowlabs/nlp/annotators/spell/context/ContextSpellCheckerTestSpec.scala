@@ -42,7 +42,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       result
     }
 
-    val data = Seq.fill(1200)("This is a correct sentence .").toDF("text")
+    val data = Seq.fill(120)("This is a correct sentence .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
