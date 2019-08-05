@@ -116,12 +116,12 @@ lazy val utilDependencies = Seq(
     exclude("commons-configuration","commons-configuration")
     exclude("com.amazonaws","aws-java-sdk-bundle")
     exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk-core" % "1.11.375"
+  "com.amazonaws" % "aws-java-sdk-core" % "1.11.603"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration"),
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.375",
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.603",
   "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
