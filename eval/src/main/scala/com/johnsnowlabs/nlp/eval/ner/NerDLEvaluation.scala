@@ -52,7 +52,7 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
     computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
   }
 
-  private def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
+  def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
     import sparkSession.implicits._
     val entityLabels = getEntityLabels(nerEvalDLConfiguration, tagLevel)
     val evaluationDataSet = getEvaluationDataSet(nerEvalDLConfiguration, entityLabels, tagLevel)

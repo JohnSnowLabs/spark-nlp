@@ -43,21 +43,32 @@ class NerDLEvaluation(ExtendedJavaWrapper):
         return self._java_obj.computeAccuracyModel(ner._java_obj)
 
     def computeAccuracyAnnotator(self, train_file, ner, embeddings):
-        ner_input_cols = ner.getInputCols()
-        ner_output_col = ner.getOutputCol()
-        label_column = ner.getLabelColumn()
-        ner_java_input_cols = self.new_java_array_string(ner_input_cols)
-        embeddings_input_cols = embeddings.getInputCols()
-        embeddings_output_col = embeddings.getOutputCol()
-        embeddings_java_input_cols = self.new_java_array_string(embeddings_input_cols)
-        random_seed = ner.getRandomSeed()
-        embeddings_path = embeddings.getEmbeddingsPath()
-        embeddings_dimension = embeddings.getDimension()
-        embeddings_format = embeddings.getFormat()
-        return self._java_obj.computeAccuracyAnnotator(train_file, ner_java_input_cols, ner_output_col, random_seed,
-                                                       label_column,
-                                                       embeddings_java_input_cols, embeddings_output_col,
-                                                       embeddings_path, embeddings_dimension, embeddings_format)
+        ner_params = self.__getNerParams(ner)
+        embeddings_params = self.__getEmbeddingsParams(embeddings)
+        return self._java_obj.computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
+                                                       ner_params['random_seed'], ner_params['label_column'],
+                                                       embeddings_params['input_cols'], embeddings_params['output_col'],
+                                                       embeddings_params['path'], embeddings_params['dimension'],
+                                                       embeddings_params['format'])
+
+    def __getNerParams(self, ner):
+        ner_params = dict()
+        input_cols = ner.getInputCols()
+        ner_params['input_cols'] = self.new_java_array_string(input_cols)
+        ner_params['output_col'] = ner.getOutputCol()
+        ner_params['label_column'] = ner.getLabelColumn()
+        ner_params['random_seed'] = ner.getRandomSeed()
+        return ner_params
+
+    def __getEmbeddingsParams(self, embeddings):
+        embeddings_params = dict()
+        input_cols = embeddings.getInputCols()
+        embeddings_params['input_cols'] = self.new_java_array_string(input_cols)
+        embeddings_params['output_col'] = embeddings.getOutputCol()
+        embeddings_params['path'] = embeddings.getEmbeddingsPath()
+        embeddings_params['dimension'] = embeddings.getDimension()
+        embeddings_params['format'] = embeddings.getFormat()
+        return embeddings_params
 
 
 class NerCrfEvaluation(ExtendedJavaWrapper):
@@ -70,18 +81,29 @@ class NerCrfEvaluation(ExtendedJavaWrapper):
         return self._java_obj.computeAccuracyModel(ner._java_obj)
 
     def computeAccuracyAnnotator(self, train_file, ner, embeddings):
-        ner_input_cols = ner.getInputCols()
-        ner_output_col = ner.getOutputCol()
-        label_column = ner.getLabelColumn()
-        ner_java_input_cols = self.new_java_array_string(ner_input_cols)
-        embeddings_input_cols = embeddings.getInputCols()
-        embeddings_output_col = embeddings.getOutputCol()
-        embeddings_java_input_cols = self.new_java_array_string(embeddings_input_cols)
-        random_seed = ner.getRandomSeed()
-        embeddings_path = embeddings.getEmbeddingsPath()
-        embeddings_dimension = embeddings.getDimension()
-        embeddings_format = embeddings.getFormat()
-        return self._java_obj.computeAccuracyAnnotator(train_file, ner_java_input_cols, ner_output_col, random_seed,
-                                                       label_column,
-                                                       embeddings_java_input_cols, embeddings_output_col,
-                                                       embeddings_path, embeddings_dimension, embeddings_format)
+        ner_params = self.__getNerParams(ner)
+        embeddings_params = self.__getEmbeddingsParams(embeddings)
+        return self._java_obj.computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
+                                                       ner_params['random_seed'], ner_params['label_column'],
+                                                       embeddings_params['input_cols'], embeddings_params['output_col'],
+                                                       embeddings_params['path'], embeddings_params['dimension'],
+                                                       embeddings_params['format'])
+
+    def __getNerParams(self, ner):
+        ner_params = dict()
+        input_cols = ner.getInputCols()
+        ner_params['input_cols'] = self.new_java_array_string(input_cols)
+        ner_params['output_col'] = ner.getOutputCol()
+        ner_params['label_column'] = ner.getLabelColumn()
+        ner_params['random_seed'] = ner.getRandomSeed()
+        return ner_params
+
+    def __getEmbeddingsParams(self, embeddings):
+        embeddings_params = dict()
+        input_cols = embeddings.getInputCols()
+        embeddings_params['input_cols'] = self.new_java_array_string(input_cols)
+        embeddings_params['output_col'] = embeddings.getOutputCol()
+        embeddings_params['path'] = embeddings.getEmbeddingsPath()
+        embeddings_params['dimension'] = embeddings.getDimension()
+        embeddings_params['format'] = embeddings.getFormat()
+        return embeddings_params
