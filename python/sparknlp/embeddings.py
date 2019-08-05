@@ -6,9 +6,10 @@ from sparknlp.internal import _BertLoader
 from pyspark.ml.param.shared import Param, TypeConverters
 from pyspark.ml.param import Params
 from pyspark import keyword_only
-
-from sparknlp.annotator import WordEmbeddings, WordEmbeddingsModel
-
+import sys
+import threading
+import time
+import sparknlp.pretrained as _pretrained
 
 class Embeddings:
     def __init__(self, embeddings):
@@ -18,7 +19,14 @@ class Embeddings:
 class EmbeddingsHelper:
     @classmethod
     def load(cls, path, spark_session, embeddings_format, embeddings_ref, embeddings_dim, embeddings_casesens=False):
+        print("Loading started (This may take some time)")
+        stop_threads = False
+        t1 = threading.Thread(target=_pretrained.printProgress, args=(lambda: stop_threads,))
+        t1.start()
         jembeddings = _internal._EmbeddingsHelperLoad(path, spark_session, embeddings_format, embeddings_ref, embeddings_dim, embeddings_casesens).apply()
+        stop_threads = True
+        t1.join()
+        print("Loading done")
         return Embeddings(jembeddings)
 
     @classmethod
