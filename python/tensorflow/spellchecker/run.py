@@ -1,5 +1,6 @@
 from rnn_lm import RNNLM
 import os
+os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 
 # due to https://github.com/tensorflow/tensorflow/issues/12414
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -55,12 +56,12 @@ def create_model(sess):
     #with tf.device('/job:localhost/replica:0/task:0/device:XLA_GPU:0'):
     _model = RNNLM(vocab_size=vocab_size,
                   batch_size=24,
-                  num_epochs=3,
-                  check_point_step= 20000,
+                  num_epochs=1, #3
+                  check_point_step= 200, #20000
                   num_train_samples=num_train_samples,
                   num_valid_samples=num_valid_samples,
-                  num_layers=1,
-                  num_hidden_units=300,
+                  num_layers=2,
+                  num_hidden_units=200,
                   initial_learning_rate=.7,
                   final_learning_rate=0.0005,
                   max_gradient_norm=5.0,
@@ -80,12 +81,19 @@ if TRAIN:
         model.batch_train(sess, saver, train_ids, valid_ids)
 
 tf.reset_default_graph()
-with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+config = tf.ConfigProto()
+config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
+
+
+#with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+with tf.Session(config=config) as sess:
     from time import time
 
     model = create_model(sess)
     model.load_classes(data_path + classes_file)
     model.load_vocab(vocab_path)
+    #model.optimize(sess)
+
     saver = tf.train.Saver()
     saver.restore(sess, model_path)
     model.save('bundle', sess)

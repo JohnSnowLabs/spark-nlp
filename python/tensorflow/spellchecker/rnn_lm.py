@@ -38,6 +38,12 @@ class RNNLM(object):
 
         self.global_step = tf.Variable(0, trainable=False)
 
+
+        # these are inputs to the graph
+        self.wordIds = "batches:0"
+        self.contextIds = "batches:1"
+        self.contextWordIds = "batches:2"
+
         # dynamic learning rate, decay every 1500 batches
         self.learning_rate = tf.train.exponential_decay(initial_learning_rate, self.global_step,
                                                         1500, 0.96, staircase=True)
@@ -148,12 +154,16 @@ class RNNLM(object):
         )
 
         def output_class_embedding(current_output):
-            return tf.add(
-                tf.matmul(current_output, tf.transpose(self.output_class_embedding_mat)), self.output_class_embedding_bias)
+            jit_scope = tf.contrib.compiler.jit.experimental_jit_scope
+            with jit_scope():
+                return tf.add(
+                    tf.matmul(current_output, tf.transpose(self.output_class_embedding_mat)), self.output_class_embedding_bias)
 
         def output_wordid_embedding(current_output):
-            return tf.add(
-                tf.matmul(current_output, tf.transpose(self.output_wordid_embedding_mat)), self.output_wordid_embedding_bias)
+            jit_scope = tf.contrib.compiler.jit.experimental_jit_scope
+            with jit_scope():
+                return tf.add(
+                    tf.matmul(current_output, tf.transpose(self.output_wordid_embedding_mat)), self.output_wordid_embedding_bias)
 
         # To compute the logits - classes
         class_logits = tf.map_fn(output_class_embedding, outputs)
@@ -369,10 +379,6 @@ class RNNLM(object):
 
     def predict_(self, sess, candidates, verbose=False):
 
-        wordIds = "batches:0"
-        contextIds = "batches:1"
-        contextWordIds = "batches:2"
-
         sent = 'she came to me in an unexpected unexpected'
         splits = sent.split()
         #splits.reverse()
@@ -387,15 +393,60 @@ class RNNLM(object):
         can_cids = [[self.class_word[i][0] for i in can_wids]]
         can_wcids = [[self.class_word[i][1] for i in can_wids]]
 
-        cl = tf.get_default_graph().get_tensor_by_name("cl:0")
-        bccl = tf.get_default_graph().get_tensor_by_name("bccl:0")
-        losses, cl_, bccl_ = sess.run(
-            [self.losses, cl, bccl],
+        # these two were for debugging
+        #cl = tf.get_default_graph().get_tensor_by_name("cl:0")
+        #bccl = tf.get_default_graph().get_tensor_by_name("bccl:0")
+        losses = sess.run(
+            [self.losses],
             {self.dropout_rate: 1.0,
-             wordIds: np.array([wids[:-1]]),
-             contextIds: np.array([cids[1:]]),
-             contextWordIds: np.array([wcids[1:]]),
+             self.wordIds: np.array([wids[:-1]]),
+             self.contextIds: np.array([cids[1:]]),
+             self.contextWordIds: np.array([wcids[1:]]),
              self.candidate_word_ids: np.array(can_wcids),
              self.candidate_class_ids: np.array(can_cids)
              })
+
+    def input_tensors(self):
+        tensors = [self.dropout_rate, self.candidate_word_ids, self.candidate_class_ids]
+        tensors_by_names = [self.wordIds] # , self.contextIds, self.contextWordIds]
+        tensors_by_names = [tf.get_default_graph().get_tensor_by_name(n) for n in tensors_by_names]
+        return tensors + tensors_by_names
+
+
+    def input_tensor_names(self):
+        tensors = [self.dropout_rate, self.candidate_word_ids, self.candidate_class_ids]
+
+        tensor_names = [t.name for t in tensors] + \
+                       [self.wordIds] # , self.contextIds, self.contextWordIds]
+
+        return [t[:-2] for t in tensor_names]
+
+    def output_tensor_names(self):
+
+        return [self.losses.name[:-2]]
+
+    def optimize(self, sess):
+        from tensorflow.python.tools.optimize_for_inference_lib import optimize_for_inference
+        from tensorflow.python.framework.graph_util_impl import convert_variables_to_constants
+
+        print('load parameters from checkpoint...')
+        sess.run(tf.global_variables_initializer())
+        dtypes = [n.dtype for n in self.input_tensors()]
+        print('optimize...')
+
+        tmp_g = optimize_for_inference(
+            tf.get_default_graph().as_graph_def(),
+            self.input_tensor_names(),
+            self.output_tensor_names(),
+            [dtype.as_datatype_enum for dtype in dtypes],
+            False)
+
+        print('freeze...')
+
+        tmp_g = convert_variables_to_constants(sess, tmp_g, self.output_tensor_names())
+        #use_fp16=args.fp16)  ???
+        tf.graph_util.import_graph_def
+        tf.graph_util.import_graph_def(tmp_g)
+
+
 
