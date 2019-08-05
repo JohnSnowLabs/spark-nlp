@@ -318,3 +318,6 @@ python/src/
 **/tmp_*
 docs/_site/**
 docs/.sass-cache/**
+
+tst_shortcut_sd/
+src/*/resources/*.classes
