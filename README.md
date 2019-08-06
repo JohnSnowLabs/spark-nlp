@@ -28,6 +28,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   * [Google Colab Notebook](#google-colab-notebook)
   * [S3 Cluster](#s3-cluster)
   * [OCR Module](#ocr-module)
+  * [Eval Module](#eval-module)
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
   * [Models](#models)
@@ -328,6 +329,28 @@ spark = SparkSession.builder \
     .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \ 
     .getOrCreate() 
 ```
+
+## Eval Module
+
+Evaluation module uses [MLflow](https://mlflow.org/docs/latest/index.html) component to logging metrics.
+
+To configure [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html) you just need the steps below: 
+
+- Install [MLflow](https://mlflow.org/docs/latest/quickstart.html) with Pip
+```bash
+pip install mlflow
+```
+- Set MLFLOW_TRACKING_URI variable
+```bash
+export MLFLOW_TRACKING_URI=http://localhost:5000
+```
+Now to see the results you just need the following steps:
+- Run MLflow's Tracking UI
+```bash
+mlflow ui
+```
+- View it at http://localhost:5000
+
 
 ## Pipelines and Models
 
