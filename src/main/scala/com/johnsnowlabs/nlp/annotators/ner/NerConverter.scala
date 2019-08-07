@@ -22,7 +22,7 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
   val whiteList: StringArrayParam = new StringArrayParam(this, "whiteList", "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels")
-  def setWhiteList(list:Array[String]) = set(whiteList, list)
+  def setWhiteList(list:String*) = set(whiteList, list.toArray)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
