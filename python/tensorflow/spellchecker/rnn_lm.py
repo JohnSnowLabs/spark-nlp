@@ -14,16 +14,19 @@ class RNNLM(object):
                  num_layers,
                  num_hidden_units,
                  max_gradient_norm,
+                 num_classes=1902,
+                 word_ids=890,
                  initial_learning_rate=1,
                  final_learning_rate=0.001,
                  test_batch_size=36
                  ):
 
         self.vocab_size = vocab_size
-        # these are internally defined
-        self.num_classes = 1902
-        # here we should dynamically determine max number of words per class - this is the max for Gutenberg corpus
-        self.word_ids = 890
+
+        # these two parameters depend on the factorization of the language model
+        self.num_classes = num_classes
+        self.word_ids = word_ids
+
         # this is the batch for training
         self.batch_size = batch_size
         # this is the batch for testing
@@ -173,18 +176,14 @@ class RNNLM(object):
 
         class_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
                    (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits)
-        #class_loss = class_loss *self.mask
 
-        #self.class_loss = tf.identity(class_loss, name='class_loss')
 
         # To compute the logits - word ids
         wordid_logits = tf.map_fn(output_wordid_embedding, outputs)
-        wordid_logits = tf.reshape(wordid_logits, [-1, self.word_ids])#(batch_size, n_words)
+        # dim(batch_size, n_words)
+        wordid_logits = tf.reshape(wordid_logits, [-1, self.word_ids])
         wordid_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
                    (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits)
-               #* tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
-
-        #self.wordid_loss = tf.identity(wordid_loss, name='wordid_loss')
 
         # Train
         params = tf.trainable_variables()
@@ -197,7 +196,7 @@ class RNNLM(object):
         clipped_gradients, _ = tf.clip_by_global_norm(gradients, self.max_gradient_norm)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
 
-        # Add another loss, used for evaluation - more efficient ?
+        # Add another loss, used for evaluation - more efficient
         self.candidate_word_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_wids')
         self.candidate_class_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_cids')
 
@@ -207,12 +206,10 @@ class RNNLM(object):
         bc_cl_logits = tf.tile(class_logits[-1:, :], tf.reverse(cand_cnt, axis=tf.constant([0])), name='bccl')
         classid_losses = tf.nn.sparse_softmax_cross_entropy_with_logits \
                       (labels=tf.reshape(self.candidate_class_ids, [-1]), logits=bc_cl_logits, name='cidlosses')
-                         #* tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
 
         bc_id_logits = tf.tile(wordid_logits[-1:, :], tf.reverse(cand_cnt, axis=tf.constant([0])))
         wordid_losses = tf.nn.sparse_softmax_cross_entropy_with_logits \
                       (labels=tf.reshape(self.candidate_word_ids, [-1]), logits=bc_id_logits, name='widlosses')
-                         #* tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
 
         self.losses = tf.add(wordid_losses, classid_losses, 'test_losses')
 
@@ -337,6 +334,10 @@ class RNNLM(object):
             epoch += 1
 
     def predict(self, sess, raw_sentences, verbose=False):
+        '''
+
+           this version of predict() should be deprecated
+        '''
 
         global_dev_loss = 0.0
         global_dev_valid_words = 0
@@ -376,7 +377,6 @@ class RNNLM(object):
         global_dev_ppl = math.exp(global_dev_loss)
         #print("Global Test PPL: {}".format(global_dev_ppl))
 
-
     def predict_(self, sess, candidates, verbose=False):
 
         sent = 'she came to me in an unexpected unexpected'
@@ -393,7 +393,7 @@ class RNNLM(object):
         can_cids = [[self.class_word[i][0] for i in can_wids]]
         can_wcids = [[self.class_word[i][1] for i in can_wids]]
 
-        # these two were for debugging
+        # these two are for debugging
         #cl = tf.get_default_graph().get_tensor_by_name("cl:0")
         #bccl = tf.get_default_graph().get_tensor_by_name("bccl:0")
         losses = sess.run(
@@ -405,48 +405,3 @@ class RNNLM(object):
              self.candidate_word_ids: np.array(can_wcids),
              self.candidate_class_ids: np.array(can_cids)
              })
-
-    def input_tensors(self):
-        tensors = [self.dropout_rate, self.candidate_word_ids, self.candidate_class_ids]
-        tensors_by_names = [self.wordIds] # , self.contextIds, self.contextWordIds]
-        tensors_by_names = [tf.get_default_graph().get_tensor_by_name(n) for n in tensors_by_names]
-        return tensors + tensors_by_names
-
-
-    def input_tensor_names(self):
-        tensors = [self.dropout_rate, self.candidate_word_ids, self.candidate_class_ids]
-
-        tensor_names = [t.name for t in tensors] + \
-                       [self.wordIds] # , self.contextIds, self.contextWordIds]
-
-        return [t[:-2] for t in tensor_names]
-
-    def output_tensor_names(self):
-
-        return [self.losses.name[:-2]]
-
-    def optimize(self, sess):
-        from tensorflow.python.tools.optimize_for_inference_lib import optimize_for_inference
-        from tensorflow.python.framework.graph_util_impl import convert_variables_to_constants
-
-        print('load parameters from checkpoint...')
-        sess.run(tf.global_variables_initializer())
-        dtypes = [n.dtype for n in self.input_tensors()]
-        print('optimize...')
-
-        tmp_g = optimize_for_inference(
-            tf.get_default_graph().as_graph_def(),
-            self.input_tensor_names(),
-            self.output_tensor_names(),
-            [dtype.as_datatype_enum for dtype in dtypes],
-            False)
-
-        print('freeze...')
-
-        tmp_g = convert_variables_to_constants(sess, tmp_g, self.output_tensor_names())
-        #use_fp16=args.fp16)  ???
-        tf.graph_util.import_graph_def
-        tf.graph_util.import_graph_def(tmp_g)
-
-
-
