@@ -35,7 +35,7 @@ class SymSpellEvaluation(ExtendedJavaWrapper):
 
 class NerDLEvaluation(ExtendedJavaWrapper):
 
-    def __init__(self, spark, test_file, tag_level):
+    def __init__(self, spark, test_file, tag_level=""):
         ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerDLEvaluation")
         self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file, tag_level)
 
@@ -73,7 +73,7 @@ class NerDLEvaluation(ExtendedJavaWrapper):
 
 class NerCrfEvaluation(ExtendedJavaWrapper):
 
-    def __init__(self, spark, test_file, tag_level):
+    def __init__(self, spark, test_file, tag_level=""):
         ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerCrfEvaluation")
         self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file, tag_level)
 

@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.eval.ner
 import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, NerCrfModel, WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
 import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -107,7 +108,11 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
       val trainDataSet = CoNLL().readDataset(sparkSession, nerEvalCrfConfiguration.trainFile)
       val embeddings = nerEvalCrfConfiguration.wordEmbeddings.fit(trainDataSet)
       val embeddingsTrain = embeddings.transform(trainDataSet)
-      val nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
+      var nerModel: NerCrfModel = null
+      val time = Benchmark.measure(1, false, "[NER CRF] Time to train") {
+        nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
+      }
+      loggingData.logMetric("Training time/s", time)
       val embeddingsTest = embeddings.transform(testDataSet)
 
       predictionDataSet = nerModel.transform(embeddingsTest)

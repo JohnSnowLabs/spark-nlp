@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.eval.ner
 import com.johnsnowlabs.nlp.annotator.{NerDLApproach, NerDLModel, WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
 import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -107,7 +108,11 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       val trainDataSet = CoNLL().readDataset(sparkSession, nerEvalDLConfiguration.trainFile)
       val embeddings = nerEvalDLConfiguration.wordEmbeddings.fit(trainDataSet)
       val embeddingsTrain = embeddings.transform(trainDataSet)
-      val nerModel = nerEvalDLConfiguration.nerDLApproach.fit(embeddingsTrain)
+      var nerModel: NerDLModel = null
+      val time = Benchmark.measure(1, false, "[NER DL] Time to train") {
+        nerModel = nerEvalDLConfiguration.nerDLApproach.fit(embeddingsTrain)
+      }
+      loggingData.logMetric("Training time/s", time)
       val embeddingsTest = embeddings.transform(testDataSet)
 
       predictionDataSet = nerModel.transform(embeddingsTest)
