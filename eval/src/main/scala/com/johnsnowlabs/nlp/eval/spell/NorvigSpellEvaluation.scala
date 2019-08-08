@@ -57,7 +57,9 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
     val time = Benchmark.measure(1, false, "[Norvig Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
-    loggingData.logMetric("training time/s", time)
+    if (norvigSpellEvalConfig.model == null) {
+      loggingData.logMetric("Training time/s", time)
+    }
     spellCheckerModel
   }
 

@@ -56,7 +56,9 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     val time = Benchmark.measure(1, false, "[Symmetric Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
-    loggingData.logMetric("training time/s", time)
+    if (symSpellConfig.model == null) {
+      loggingData.logMetric("training time/s", time)
+    }
     spellCheckerModel
   }
 
