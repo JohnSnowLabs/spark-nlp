@@ -65,7 +65,7 @@ case class OcrRow(
                    method: String,
                    noiselevel: Double = 0.0,
                    confidence: Double = 0.0,
-                   coordinates: Seq[PageMatrix] = null,
+                   positions: Seq[PageMatrix] = null,
                    filename: String = ""
 )
 
@@ -500,10 +500,10 @@ class OcrHelper extends ImageProcessing with Serializable {
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[OcrRow]] = {
     if (splitPages)
       Some(Range(startPage, endPage + 1).flatMap(pagenum =>
-        extractText(pdfDoc, pagenum, pagenum).map(t => OcrRow(t, pagenum - 1, OCRMethod.TEXT_LAYER, coordinates = getCoordinates(pdfDoc, pagenum, pagenum)))))
+        extractText(pdfDoc, pagenum, pagenum).map(t => OcrRow(t, pagenum - 1, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, pagenum, pagenum)))))
     else
       Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
-        OcrRow(t, idx, OCRMethod.TEXT_LAYER, coordinates = getCoordinates(pdfDoc, startPage, endPage))
+        OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage))
       })
   }
 
