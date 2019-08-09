@@ -120,12 +120,12 @@ class EmbeddingsDbResolver:
 
 class BertEmbeddingsResolver:
     
-    def __init__(self, model_folder, max_length = 128):
+    def __init__(self, model_folder, max_length = 128, lowercase = True):
         
         # 1. Create tokenizer
         self.max_length = max_length
         vocab_file = os.path.join(model_folder, 'vocab.txt')
-        self.tokenizer = FullTokenizer(vocab_file, do_lower_case = False)
+        self.tokenizer = FullTokenizer(vocab_file, do_lower_case = lowercase)
         
         # 2. Read Config
         config_file = os.path.join(model_folder, 'bert_config.json')        
