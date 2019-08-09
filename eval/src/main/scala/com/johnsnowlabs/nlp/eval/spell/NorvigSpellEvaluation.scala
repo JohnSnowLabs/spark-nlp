@@ -35,7 +35,6 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
   }
 
   def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logNorvigParams(spell)
     val norvigSpellEvalConfig = NorvigSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(norvigSpellEvalConfig)

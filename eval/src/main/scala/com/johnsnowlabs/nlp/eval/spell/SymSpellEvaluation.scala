@@ -34,7 +34,6 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
   }
 
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
     val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(symSpellConfig)
