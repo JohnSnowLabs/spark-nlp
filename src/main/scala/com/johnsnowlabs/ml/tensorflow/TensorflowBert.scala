@@ -63,7 +63,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence]): Seq[WordpieceEmbeddingsSentence] = {
+  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence], caseSensitive: Boolean = false): Seq[WordpieceEmbeddingsSentence] = {
     // ToDo What to do with longer sentences?
 
     // Run embeddings calculation by batches
@@ -80,7 +80,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
         // All wordpiece embeddings
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-        
+
+        // Word-level and span-level to align Tokenizer with Bert tokens
+        // https://github.com/google-research/bert#tokenization
         val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
@@ -88,7 +90,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
               case (token) =>
                 val test = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = token.token,
+                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
                     pieceId = tokenWithEmbeddings.pieceId,
                     isWordStart = tokenWithEmbeddings.isWordStart,
                     begin = token.begin,

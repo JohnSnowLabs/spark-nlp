@@ -99,7 +99,7 @@ class BertEmbeddings(override val uid: String) extends
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
 
     val tokenized = tokenize(sentences)
-    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences)
+    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(caseSensitive))
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
