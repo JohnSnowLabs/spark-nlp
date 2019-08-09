@@ -2,6 +2,8 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
 
+import scala.collection.mutable
+
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
@@ -26,7 +28,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
 
-    // println(s"shape = ${batch.length}, ${batch(0).length}")
+    //println(s"shape = ${batch.length}, ${batch(0).length}")
     val shrink = batch.map {sentence =>
       if (sentence.length > maxSentenceLength) {
         sentence.take(maxSentenceLength - 1) ++ Array(sentenceEndTokenId)
@@ -61,7 +63,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence]): Seq[WordpieceEmbeddingsSentence] = {
+  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence]): Seq[WordpieceEmbeddingsSentence] = {
     // ToDo What to do with longer sentences?
 
     // Run embeddings calculation by batches
@@ -71,19 +73,33 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
       // Combine tokens and calculated embeddings
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
-          val tokenLength = sentence._1.tokens.length
-          // Sentence Embeddings are at first place (token [CLS]
-          val sentenceEmbeddings = tokenVectors.headOption
+        originalTokenSentences.length
+        val tokenLength = sentence._1.tokens.length
+        // Sentence Embeddings are at first place (token [CLS]
+        val sentenceEmbeddings = tokenVectors.headOption
 
-          // All wordpiece embeddings
-          val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-
-          // Leave embeddings only for word start
-          val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
-            case (token, tokenEmbedding) =>
-              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-              Some(tokenWithEmbeddings)
-          }
+        // All wordpiece embeddings
+        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        
+        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+          case (token, tokenEmbedding) =>
+            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(p => p.begin == tokenWithEmbeddings.begin).map{
+              case (token) =>
+                val test = TokenPieceEmbeddings(
+                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
+                    token = token.token,
+                    pieceId = tokenWithEmbeddings.pieceId,
+                    isWordStart = tokenWithEmbeddings.isWordStart,
+                    begin = token.begin,
+                    end = token.end
+                  ),
+                  tokenEmbedding
+                )
+                test
+            }
+            originalTokensWithEmbeddings
+        }
 
         WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2, sentenceEmbeddings)
       }
