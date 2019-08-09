@@ -25,9 +25,9 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
   def getPageMatrixCol: String = $(pageMatrixCol)
 
   private val parseCoordinates = udf {
-    (chunkRaw: Seq[Row], pageRaw: Row) => {
+    (chunkRaw: Seq[Row], pageRaw: Seq[Row]) => {
       val chunkAnnotations = chunkRaw.map(Annotation(_))
-      val matrix = PageMatrix.fromRow(pageRaw)
+      val matrix = PageMatrix.fromRow(pageRaw.head)
       chunkAnnotations.map(target => {
         val line = matrix.mapping.slice(target.begin, target.end+1)
         require(

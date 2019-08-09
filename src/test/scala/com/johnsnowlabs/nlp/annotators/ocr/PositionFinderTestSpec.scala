@@ -11,7 +11,7 @@ import org.apache.spark.sql.functions._
 
 class PositionFinderTestSpec extends FlatSpec {
 
-  def generateRandomPageMatrix(text: String): PageMatrix = {
+  def generateRandomPageMatrix(text: String): Seq[PageMatrix] = {
     var initialx = 39.2844F
     val initialy = 12.2313F
     val initialw = 5.1221F
@@ -21,7 +21,7 @@ class PositionFinderTestSpec extends FlatSpec {
       initialx += 1F
       m
     }).toArray
-    PageMatrix(mapping, 0, 0)
+    Seq(PageMatrix(mapping, 0, 0))
   }
 
   "a PositionFinder" should "correctly identify chunk coordinates" in {
@@ -32,7 +32,7 @@ class PositionFinderTestSpec extends FlatSpec {
       "Hello world, my name is Michael, I am an artist and I work at Benezar. Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."
     )
     val data = texts.toDS.toDF("text")
-      .withColumn("positions", typedLit[PageMatrix](generateRandomPageMatrix(texts.head)))
+      .withColumn("positions", typedLit[Seq[PageMatrix]](generateRandomPageMatrix(texts.head)))
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")

@@ -23,11 +23,11 @@ object PageMatrix {
     ))
 
   val dataType =
-    StructType(Seq(
-      StructField("mapping", ArrayType(coordinatesType),true),
+    ArrayType(StructType(Seq(
+      StructField("mapping", ArrayType(coordinatesType, true),true),
       StructField("lowerLeftX", FloatType,false),
       StructField("lowerLeftY", FloatType,false)
-    ))
+    )), true)
 
   def fromRow(row: Row) = PageMatrix(
     row.getSeq[Row](0).map(Mapping.fromRow).toArray,
