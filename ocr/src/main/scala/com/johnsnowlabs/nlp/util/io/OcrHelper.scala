@@ -558,6 +558,11 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
+  def drawRectangle(spark: SparkSession, inputPath: String, coordinates: java.util.List[Coordinate]): Unit = {
+    import scala.collection.JavaConverters._
+    drawRectangle(spark, inputPath, coordinates.asScala)
+  }
+
   /*
    * fileStream: a stream to PDF files
    * filename: name of the original file(used for failure login)
