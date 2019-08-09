@@ -69,7 +69,7 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
             Array.emptyFloatArray
 
         isFirstToken = false
-        Annotation(annotatorType, token.begin, token.end, token.wordpiece,
+        Annotation(annotatorType, token.begin, token.end, token.token,
           Map("sentence" -> sentenceIndex.toString,
             "token" -> token.token,
             "pieceId" -> token.pieceId.toString,
