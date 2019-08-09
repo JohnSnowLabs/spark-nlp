@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.ocr
 
 import com.johnsnowlabs.nlp.{Annotation, ParamsAndFeaturesReadable, RawAnnotator}
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
-import com.johnsnowlabs.nlp.annotators.ocr.schema.Coordinate
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
