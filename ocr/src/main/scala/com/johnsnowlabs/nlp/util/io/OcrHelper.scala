@@ -475,6 +475,10 @@ class OcrHelper extends ImageProcessing with Serializable {
       stripper.setStartPage(pagenum)
       stripper.setEndPage(pagenum)
       stripper.getText(doc)
+      stripper.setLineSeparator("<><>")
+      stripper.setWordSeparator("||")
+      stripper.writeLineSeparator()
+      stripper.writeWordSeparator()
 
       val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
 
