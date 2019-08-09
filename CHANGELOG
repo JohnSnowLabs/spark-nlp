@@ -1,4 +1,178 @@
 ========
+2.1.0
+========
+---------------
+Overview
+---------------
+Thank you for following up with release candidates. This release is backwards breaking because two basic annotators have been redesigned.
+The tokenizer now has easier to customize params and simplified exception management.
+DocumentAssembler `trimAndClearNewLiens` was redesigned into a `cleanupMode` for further control over the cleanup process.
+Tokenizer now supports pretrained models, meaning you'll be capable of accessing any of our language based Tokenizers.
+Another big introduction is the `eval` module. An optional Spark NLP sub-module that provides evaluation scripts, to
+make it easier when looking to measure your own models are against a validation dataset, now using MLFlow.
+Some work also began on metrics during training, starting now with the `NerDLApproach`.
+Finally, we'll have Scaladocs ready for easy library reference.
+Thank you for your feedback in our Slack channels.
+Particular thanks to @csnardi for fixing a bug in one of the release candidates.
+
+---------------
+New Features
+---------------
+* Spark NLP Eval module, includes functions to evaluate NER and Spell Checkers with MLFlow (Python support and more annotators to come)
+
+---------------
+Enhancements
+---------------
+* DocumentAssembler new param `cleanupMode` allows user to decide what kind of cleanup to apply to source
+* Tokenizer has been severely enhanced to allow easier and more intuitive customization
+* Norvig and Symmetric spell checkers now report confidence scores in metadata
+* NerDLApproach now reports metrics and f1 scores with an automated dataset splitting through `setTrainValidationProp`
+* Began making progress towards OCR reporting more meaningful metadata (noise levels, confidence score, etc), sets ground base for further development
+
+---------------
+Bugfixes
+---------------
+* Fixed Dependency Parser not reporting offsets correctly
+* Dependency Parser now only shows head token as part of the result, instead of pairs
+* Fixed NerDLModel not allowing to pick noncontrib versions from linux
+* Fixed a bug in embeddingsRef validation allowing the user to override ref when not possible
+* Removed unintentional gc calls causing some performance issues
+
+---------------
+Framework
+---------------
+* ResourceDownloader now capable of utilizing credentials from aws standard means (variables, credentials folder)
+
+---------------
+Documentation
+---------------
+* Scaladocs for Spark NLP reference
+* Added Google Colab workthrough guide
+* Added Approach and Model class names in reference documentation
+* Fixed various typos and outdated pieces in documentation
+
+========
+2.0.8
+========
+---------------
+Overview
+---------------
+This release fixes a few tiny but meaningful issues that prevent from new trained models having internal compatibility issues.
+
+---------------
+Bugfixes
+---------------
+* Fixed wrong logic when checking embeddingsRef is being overwritten in a WordEmbeddingsModel
+* Deleted unnecessary chunk index from tokens
+* Fixed some of the new trained models compatibility issues when python API had mismatching pretrained models compared to scala
+
+========
+2.0.7
+========
+---------------
+Overview
+---------------
+This release addresses bugs related to cluster support, improving error messages and fixing various potential bugs depending
+on the cluster configuration, such as Kryo Serialization or non default FS systems
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug introduced in 2.0.5 that caused NerDL not to work in clusters with Kryo serialization enabled
+* NerDLModel was not properly reading user provided config proto bytes during prediction
+* Improved cluster embeddings message to hit user of cluster mode without shared filesystems
+* Removed lazy model downloading on PretrainedPipeline to download the model at instantiation
+* Fixed URI construction for cluster embeddings on non defaultFS configurations, improves cluster compatibility
+
+========
+2.0.6
+========
+---------------
+Overview
+---------------
+Following the 2.0.5 (read notes below), this release fixes a bug when disabling contrib param in NerDLApproach on non-windows OS
+
+---------------
+Bugfixes
+---------------
+* Fixed NerDLApproach failing when training with setUseContrib(false)
+
+========
+2.0.5
+========
+---------------
+Overview
+---------------
+This release bumps Spark NLP by default to Apache Spark 2.4.3. Spark has been undergoing testing with Scala 2.12 and they are back in 2.11 now, so this should be a working release.
+In this version, we fixed a series of Pretrained models, as well as focused on improving the flexibility of NerDL annotator, which is, if not, the most popular one based on user feedback.
+Users can point to graphs they create without having to re-compile the library, graph options as well whether to use Tensorflow contrib is now user defined.
+Particular thanks to @CyborgDroid because of reporting importantly and well-reported bugs that helped us improve Spark NLP.
+Thank you for reporting issues and feedback, and we always welcome more. Join us on Slack!
+
+---------------
+Enhancements
+---------------
+* ViveknSentiment annotator now includes confidence score in metadata
+* NerDL now has setGraphFolder to allow a path to folder with custom generated graphs using python/tensorflow code
+* NerDL now has setConfigProtoBytes to allow users submit his own ConfigProto (serialized) to the graph settings
+* NerDLApproach now has setUseContrib to let training user decide whether or not to use contrib. Contrib LSTM Cells are proved to return more accurate results, but does not work in Windows yet.
+* Updated default tensorflow settings to include GPU allow_growth by default, disabled log device placement spamming message
+* Spark version bumped to 2.4.3
+
+---------------
+Bugfixes
+---------------
+* Fixed contrib NerDL models not work properly in clusters such as Databricks (Thanks @CyborgDroid)
+* Fixed sparknlp.start(include_ocr=True) missing dependencies for OCR
+* Fixed DependencyParser pretrained models not working properly in Python
+
+---------------
+Models and Pipelines
+---------------
+* NerDL will download noncontrib model if windows is detected, for better compatibility
+* noncontrib version of pipelines with NerDL have been uploaded, as well as new models. Check documentation for complete list
+* Improved error message when user is under windows and trying to load a contrib NerDL model
+* Fixed ViveknSentimentModel not working properly (Thanks @CyborgDroid)
+
+---------------
+Developer API
+---------------
+* Embeddings in python moved to annotator module for consistency
+* SourceStream ResourceHelper class now properly handles cluster files for Dependency Parser
+* Metadata model reader now ignores empty lines instead of failing
+* Unified lang instead of language attribute name in pretrained API
+
+========
+2.0.4
+========
+---------------
+Overview
+---------------
+We are excited about Spark NLP workshop (spark-nlp-workshop repository) being so useful for many users.
+Now we also made a step forward by moving website's documentation to an easy to maintain Wiki!. Spark NLP library received key bug fixes
+on this release. Thanks to the community for reporting issues on GitHub. Much more to come, as always.
+
+---------------
+Bugfixes
+---------------
+* Fixed DependencyParser and TypedDependencyParser working inaccurately
+* Fixed a bug preventing the load of WordEmbeddingsModel class from python
+* Fixed wrong pretrained model names preventing some pretrained models to work properly
+* Fixed BertEmbeddings not being capable of loading from file due a reader exception
+
+---------------
+Documentation
+---------------
+* Website documentation migrated to GitHub wiki page (WIP)
+
+---------------
+Developer API
+---------------
+* OcrHelper now reports failed file name when throwing exceptions (Thanks @kgeis)
+* Fixed Annotation function explodeAnnotations to consider replacing output column scenarios
+* Fixed TRAVIS CI unit tests
+
+========
 2.0.3
 ========
 ---------------

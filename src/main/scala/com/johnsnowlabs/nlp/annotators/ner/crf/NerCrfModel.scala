@@ -97,8 +97,8 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 }
 
 trait PretrainedNerCrf {
-  def pretrained(name: String = "ner_crf", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): NerCrfModel =
-    ResourceDownloader.downloadModel(NerCrfModel, name, language, remoteLoc)
+  def pretrained(name: String = "ner_crf", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): NerCrfModel =
+    ResourceDownloader.downloadModel(NerCrfModel, name, Option(lang), remoteLoc)
 }
 
 object NerCrfModel extends ParamsAndFeaturesReadable[NerCrfModel] with PretrainedNerCrf

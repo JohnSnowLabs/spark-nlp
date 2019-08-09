@@ -11,7 +11,11 @@ trait HasWordEmbeddings extends HasEmbeddings {
   setDefault(embeddingsRef, this.uid)
   setDefault(includeEmbeddings, true)
 
-  def setEmbeddingsRef(value: String): this.type = set(this.embeddingsRef, value)
+  def setEmbeddingsRef(value: String): this.type = {
+    if (this.isInstanceOf[WordEmbeddingsModel] && get(embeddingsRef).nonEmpty)
+      throw new UnsupportedOperationException(s"Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: $getEmbeddingsRef")
+    set(this.embeddingsRef, value)
+  }
   def getEmbeddingsRef: String = $(embeddingsRef)
 
   def setIncludeEmbeddings(value: Boolean): this.type = set(includeEmbeddings, value)

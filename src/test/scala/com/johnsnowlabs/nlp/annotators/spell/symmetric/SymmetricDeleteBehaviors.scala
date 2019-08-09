@@ -6,12 +6,11 @@ import org.scalatest._
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions._
 import SparkAccessor.spark.implicits._
-import com.johnsnowlabs.nlp.annotators.spell.common.LevenshteinDistance
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 
-trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
+trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   private val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   private val predictionDataSet = ContentProvider.parquetData.limit(500)
@@ -36,8 +35,7 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
     .setStages(Array(
       documentAssembler,
       tokenizer,
-      spell,
-      finisher
+      spell
     ))
 
   private val CAPITAL = 'C'
@@ -73,8 +71,8 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
          .fit(trainDataSet)
        val misspell = wordAnswer.head._1
 
-      val correction = spellChecker.check(misspell).getOrElse(misspell)
-      assert(correction == wordAnswer.head._2)
+      val correction = spellChecker.checkSpellWord(misspell)
+      assert(correction._1 == wordAnswer.head._2)
     }
   }
 
@@ -89,8 +87,8 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
 
       wordAnswer.foreach( wa => {
         val misspell = wa._1
-        val correction = spellChecker.check(misspell).getOrElse(misspell)
-        assert(correction == wa._2)
+        val correction = spellChecker.checkSpellWord(misspell)
+        assert(correction._1 == wa._2)
       })
     }
   }
@@ -101,12 +99,13 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
       val spellChecker = new SymmetricDeleteApproach()
         .setInputCols("token")
         .setOutputCol("spell")
+        .setDupsLimit(0)
         .fit(trainDataSet)
 
       val result = wordAnswer.count(wa =>
-        spellChecker.check(wa._1).getOrElse(wa._1) == wa._2) / wordAnswer.length.toDouble
+        spellChecker.checkSpellWord(wa._1)._1 == wa._2) / wordAnswer.length.toDouble
       println(result)
-      assert(result > 0.60, s"because result: $result did was below: 0.60")
+      assert(result > 0.85, s"because result: $result did was below: 0.85")
     }
   }
 
@@ -277,9 +276,8 @@ trait SymmetricDeleteBehaviors extends LevenshteinDistance { this: FlatSpec =>
   def trainFromFitSpellChecker(words: Seq[String]): Unit = {
 
     val predictionDataSet = words.toDF("text")
-
     val model = pipeline.fit(trainDataSet)
-    model.transform(predictionDataSet).show()
+    model.transform(predictionDataSet).select("spell").show(false)
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {

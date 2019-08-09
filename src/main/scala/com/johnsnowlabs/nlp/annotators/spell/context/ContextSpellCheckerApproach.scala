@@ -4,13 +4,12 @@ import java.io.{BufferedWriter, File, FileWriter}
 
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
@@ -69,6 +68,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
   def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
 
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(minCount -> 3.0,
     specialClasses -> List(DateToken, NumberToken),
@@ -91,11 +93,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ContextSpellCheckerModel = {
 
     val graph = new Graph()
-    //val config = Array[Byte](56, 1)
-    //val config = Array[Byte](50, 2, 32, 1, 56, 1, 64, 1)
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
     val session = new Session(graph, config)
-    //val tf = new TensorflowWrapper(session, graph)
 
     // extract vocabulary
     require(isDefined(trainCorpusPath), "Train corpus must be set before training")
@@ -128,6 +127,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
 
+    if (get(configProtoBytes).isDefined)
+      model.setConfigProtoBytes($(configProtoBytes))
+
     get(weightedDistPath).map(path => model.setWeights(loadWeights(path))).
     getOrElse(model)
   }
@@ -139,19 +141,23 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     // store word ids
     val vocabIdxs = mutable.HashMap[String, Int]()
 
-    scala.io.Source.fromFile(path).getLines.zipWithIndex.foreach { case (line, idx) =>
+    val src = scala.io.Source.fromFile(path)
+    src.getLines.zipWithIndex.foreach { case (line, idx) =>
        val lineFields = line.split("\\|")
        vocabFreq += (lineFields(0)-> lineFields.last.toDouble)
        vocabIdxs += (lineFields(0)-> idx)
     }
+    src.close()
 
-    val classes = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes").getLines.map{line =>
+    val trainCorpus = scala.io.Source.fromFile(s"${getOrDefault(trainCorpusPath)}.classes")
+    val classes = trainCorpus.getLines.map{line =>
       val chunks = line.split("\\|")
       val key = chunks(0).toInt
       val cid = chunks(1).toInt
       val wcid = chunks(2).toInt
       (key, (cid, wcid))
     }.toMap
+    trainCorpus.close()
 
     (vocabFreq, vocabIdxs, classes)
   }
@@ -209,9 +215,12 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     implicit val codec: Codec = Codec.UTF8
 
     // for every sentence we have one end and one begining
-    val eosBosCount = scala.io.Source.fromFile(rawDataPath).getLines.size
+    var rawData = scala.io.Source.fromFile(rawDataPath)
+    val eosBosCount = rawData.getLines.size
+    rawData.close()
 
-    scala.io.Source.fromFile(rawDataPath).getLines.foreach { line =>
+    rawData = scala.io.Source.fromFile(rawDataPath)
+    rawData.getLines.foreach { line =>
       // TODO remove crazy encodings of space(clean the dataset itself before input it here)
       line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").foreach { token =>
         var tmp = Seq(token)
@@ -233,6 +242,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         }
       }
     }
+    rawData.close()
 
     // words appearing less that minCount times will be unknown
     val unknownCount = vocab.filter(_._2 < getOrDefault(minCount)).values.sum
@@ -312,7 +322,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     // path to the encoded corpus
     val bw = new BufferedWriter(new FileWriter(new File(rawTextPath + ".ids")))
 
-    scala.io.Source.fromFile(rawTextPath).getLines.foreach { line =>
+    val rawText = scala.io.Source.fromFile(rawTextPath)
+    rawText.getLines.foreach { line =>
       // TODO removing crazy encodings of space and replacing with standard one - should be done outside Scala
       val text  = line.split(" ").flatMap(_.split(" ")).flatMap(_.split(" ")).filter(_!=" ").flatMap { token =>
         var tmp = token
@@ -331,6 +342,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       bw.write(s"""${vMap("_BOS_")} $text ${vMap("_EOS_")}\n""")
     }
     bw.close()
+    rawText.close()
     vMap
   }
 

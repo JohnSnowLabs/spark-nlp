@@ -22,7 +22,7 @@ public class PredictionParameters {
             if (index > -1){
                 String key = keyAndValue.substring(0, index);
                 String value = keyAndValue.substring(index+1);
-                if (!value.equals("")){
+                if (!value.equals("") && value.matches("\\d+")) {
                     this.map.put(key, Integer.parseInt(value));
                 }
             }

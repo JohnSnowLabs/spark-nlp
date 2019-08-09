@@ -6,12 +6,12 @@ import org.apache.spark.sql.DataFrame
 
 case class PretrainedPipeline(
                                downloadName: String,
-                               language: String = "en",
+                               lang: String = "en",
                                source: String = ResourceDownloader.publicLoc
                              ) {
 
-  lazy val model: PipelineModel = ResourceDownloader
-    .downloadPipeline(downloadName, Option(language), source)
+  val model: PipelineModel = ResourceDownloader
+    .downloadPipeline(downloadName, Option(lang), source)
 
   lazy val lightModel = new LightPipeline(model)
 

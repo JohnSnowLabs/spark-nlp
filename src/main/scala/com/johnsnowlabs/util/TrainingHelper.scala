@@ -5,7 +5,8 @@ import java.nio.file.Paths
 import java.sql.Timestamp
 import java.util.Date
 
-import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
+import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
+import com.johnsnowlabs.nlp.pretrained.{ResourceMetadata, ResourceType}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.util.MLWriter
 
@@ -17,14 +18,15 @@ object TrainingHelper {
                 libVersion: Option[Version],
                 sparkVersion: Option[Version],
                 modelWriter: MLWriter,
-                folder: String
+                folder: String,
+                category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED)
                ): Unit = {
 
     // 1. Get current timestamp
     val timestamp = new Timestamp(new Date().getTime)
 
     // 2. Create resource metadata
-    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true)
+    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category)
 
     // 3. Save model to file
     val file = Paths.get(folder, meta.key).toString.replaceAllLiterally("\\", "/")

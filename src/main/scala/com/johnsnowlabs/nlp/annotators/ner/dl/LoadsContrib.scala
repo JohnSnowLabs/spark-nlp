@@ -9,7 +9,9 @@ import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.TensorFlow
 
-trait LoadsContrib {
+object LoadsContrib {
+  @transient var loadedToCluster = false
+  @transient var loadedToTensorflow = false
 
   private lazy val lib1 = "_sparse_feature_cross_op.so"
   private lazy val lib2 = "_lstm_ops.so"
@@ -51,7 +53,6 @@ trait LoadsContrib {
   def loadContribToCluster(spark: SparkSession): Unit = {
     /** NOT thread-safe. DRIVER only*/
     if (!LoadsContrib.loadedToCluster && contribPaths.isDefined) {
-      println(s"adding ${contribPaths.get}")
       LoadsContrib.loadedToCluster = true
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._1).getPath)
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._2).getPath)
@@ -60,15 +61,10 @@ trait LoadsContrib {
 
   def loadContribToTensorflow(): Unit = {
     if (!LoadsContrib.loadedToTensorflow && contribPaths.isDefined) {
-      println("loading to tensorflow")
       LoadsContrib.loadedToTensorflow = true
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._1)))
       TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._2)))
     }
   }
 
-}
-object LoadsContrib {
-  @transient var loadedToCluster = false
-  @transient var loadedToTensorflow = false
 }

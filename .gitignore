@@ -203,7 +203,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+python/lib/
 lib64/
 parts/
 sdist/
@@ -317,3 +317,4 @@ python/src/
 **/.DS_Store
 **/tmp_*
 docs/_site/**
+docs/.sass-cache/**

@@ -4,7 +4,25 @@ public class ConllData {
 
     private String form;
     private String lemma;
-    private String pos;
+    private String uPos;
+
+    public String getXPos() {
+        return xPos;
+    }
+
+    public void setXPos(String xPos) {
+        this.xPos = xPos;
+    }
+
+    public String getUPos() {
+        return uPos;
+    }
+
+    public void setUPos(String uPos) {
+        this.uPos = uPos;
+    }
+
+    private String xPos;
     private String deprel;
     private int head;
     private int begin;
@@ -26,15 +44,7 @@ public class ConllData {
         this.lemma = lemma;
     }
 
-    public String getPos() {
-        return pos;
-    }
-
-    public void setPos(String pos) {
-        this.pos = pos;
-    }
-
-    public String getDeprel() {
+    public String getDepRel() {
         return deprel;
     }
 
@@ -62,10 +72,11 @@ public class ConllData {
         this.end = end;
     }
 
-    public ConllData(String form, String lemma, String pos, String deprel, int head, int begin, int end) {
+    public ConllData(String form, String lemma, String uPos, String xPos, String deprel, int head, int begin, int end) {
         this.form = form;
         this.lemma = lemma;
-        this.pos = pos;
+        this.uPos = uPos;
+        this.xPos = xPos;
         this.deprel = deprel;
         this.head = head;
         this.begin = begin;

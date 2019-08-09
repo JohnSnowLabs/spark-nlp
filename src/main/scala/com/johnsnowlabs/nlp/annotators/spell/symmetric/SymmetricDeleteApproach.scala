@@ -26,23 +26,12 @@ class SymmetricDeleteApproach(override val uid: String)
 
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
-  setDefault(maxEditDistance, 3)
-
-  val frequencyTreshold = new IntParam(this, "frequencyTreshold", "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.")
-  val deletesTreshold = new IntParam(this, "deletesTreshold", "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0")
-
   setDefault(
-    frequencyTreshold -> 0,
-    deletesTreshold -> 0
+    frequencyThreshold -> 0,
+    deletesThreshold -> 0,
+    maxEditDistance -> 3,
+    dupsLimit -> 2
   )
-
-  def setFrequencyTreshold(value: Int) = set(frequencyTreshold, value)
-
-  def getFrequencyTreshold = $(frequencyTreshold)
-
-  def setDeletesTreshold(value: Int) = set(deletesTreshold, value)
-
-  def getDeletesTreshold = $(deletesTreshold)
 
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
@@ -120,7 +109,7 @@ class SymmetricDeleteApproach(override val uid: String)
       }) // End deletes.foreach
     }
     derivedWords
-      .filterKeys(a => derivedWords(a)._1.length >= $(deletesTreshold))
+      .filterKeys(a => derivedWords(a)._1.length >= $(deletesThreshold))
       .mapValues(derivedWords => (derivedWords._1.toList, derivedWords._2))
       .toMap
   }
@@ -131,28 +120,34 @@ class SymmetricDeleteApproach(override val uid: String)
 
     validateDataSet(dataset)
 
-    val possibleDict = get(dictionary).map(d => ResourceHelper.wordCount(d))
+    val possibleDict = get(dictionary).map(d => ResourceHelper.getWordCount(d))
 
-    val trainDataset =
+    val trainDataSet =
       dataset.select(getInputCols.head).as[Array[Annotation]]
         .flatMap(_.map(_.result))
 
     val wordFrequencies =
-      trainDataset.groupBy("value").count().filter(s"count(value) >= ${$(frequencyTreshold)}").as[(String, Long)].collect.toList
+      trainDataSet.groupBy("value").count()
+        .filter(s"count(value) >= ${$(frequencyThreshold)}").as[(String, Long)].collect.toList
 
     val derivedWords =
       derivedWordDistances(wordFrequencies, $(maxEditDistance))
 
     val longestWordLength =
-      trainDataset.agg(max(length(col("value")))).head().getInt(0)
+      trainDataSet.agg(max(length(col("value")))).head().getInt(0)
 
     val model =
       new SymmetricDeleteModel()
         .setDerivedWords(derivedWords)
         .setLongestWordLength(longestWordLength)
 
-    if (possibleDict.isDefined)
-        model.setDictionary(possibleDict.get.toMap)
+    if (possibleDict.isDefined) {
+      val min = wordFrequencies.minBy(_._2)._2
+      val max = wordFrequencies.maxBy(_._2)._2
+      model.setMinFrequency(min)
+      model.setMaxFrequency(max)
+      model.setDictionary(possibleDict.get.toMap)
+    }
 
     model
   }

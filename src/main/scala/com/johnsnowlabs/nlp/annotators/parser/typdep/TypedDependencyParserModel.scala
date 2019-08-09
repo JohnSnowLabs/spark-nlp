@@ -7,31 +7,32 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
 class
 TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
 
-  def this() = this(Identifiable.randomUID("TYPED DEPENDENCY"))
+  def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
-  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "TDP options")
-  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "TDP parameters")
-  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "TDP dependency pipe")
+  val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "trainOptions")
+  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "trainParameters")
+  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "trainDependencyPipe")
+  val conllFormat: Param[String] = new Param[String](this, "conllFormat", "CoNLL Format")
 
   def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
   def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
+  def setConllFormat(value: String): this.type = set(conllFormat, value)
 
   private lazy val options = $$(trainOptions)
   private lazy val dependencyPipe = $$(trainDependencyPipe)
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
-  var sentenceId = 1
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
+    var sentenceId = 0
     val dictionariesValues = dependencyPipe.getDictionariesSet.getDictionaries.map { dictionary =>
       val predictionParameters = getPredictionParametersInstance
       val troveMap = getTroveMap(predictionParameters, dictionary)
@@ -56,9 +57,9 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
     while (conllSentence.length > 0){
 
-      val document = Array(conllSentence, Array(ConllSentence("end","sentence","ES","ES",-2, 0, 0, 0)))
+      val document = Array(conllSentence, Array(ConllSentence("end","sentence","ES","ES","ES",-2, 0, 0, 0)))
       val documentData = transformToConllData(document)
-      val dependencyLabels = typedDependencyParser.predictDependency(documentData)
+      val dependencyLabels = typedDependencyParser.predictDependency(documentData, $(conllFormat))
 
       val labeledSentences = dependencyLabels.map{dependencyLabel =>
         getDependencyLabelValues(dependencyLabel)
@@ -110,42 +111,26 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   private def transformToConllData(document: Array[Array[ConllSentence]]): Array[Array[ConllData]] = {
     document.map{sentence =>
       sentence.map{word =>
-        new ConllData(word.dependency, word.lemma, word.pos, word.deprel, word.head, word.begin, word.end)
+        new ConllData(word.dependency, word.lemma, word.uPos, word.xPos, word.deprel, word.head, word.begin, word.end)
       }
     }
   }
 
   private def getDependencyLabelValues(dependencyLabel: DependencyLabel): ConllSentence = {
-    if (dependencyLabel != null){
-      val label = getLabel(dependencyLabel.getLabel, dependencyLabel.getDependency)
-      ConllSentence(dependencyLabel.getDependency, "", "", label, dependencyLabel.getHead,
+    if (dependencyLabel != null) {
+      ConllSentence(dependencyLabel.getDependency, "", "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
         0, dependencyLabel.getBegin, dependencyLabel.getEnd)
     } else {
-      ConllSentence("ROOT", "root", "", "ROOT", -1, 0, -1, 0)
+      ConllSentence("ROOT", "root", "", "", "ROOT", -1, 0, -1, 0)
     }
   }
 
-  def getLabel(label: String, dependency: String): String = {
-    val head = getHead(dependency)
-    if (label == "<no-type>" && head == "ROOT"){
-      "ROOT"
-    } else {
-      label
-    }
-  }
-
-  def getHead(dependency: String): String = {
-    val beginIndex = dependency.indexOf("(") + 1
-    val endIndex = dependency.indexOf(",")
-    val head = dependency.substring(beginIndex, endIndex)
-    head
-  }
 }
 
 trait PretrainedTypedDependencyParserModel {
-  def pretrained(name: String = "tdp_fast", language: Option[String] = Some("en"),
+  def pretrained(name: String = "dependency_typed_conllu", lang: String = "en",
                  remoteLoc: String = ResourceDownloader.publicLoc): TypedDependencyParserModel =
-    ResourceDownloader.downloadModel(TypedDependencyParserModel, name, language, remoteLoc)
+    ResourceDownloader.downloadModel(TypedDependencyParserModel, name, Option(lang), remoteLoc)
 }
 
 object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel

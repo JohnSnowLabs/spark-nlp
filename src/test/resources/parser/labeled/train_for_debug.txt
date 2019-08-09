@@ -1,0 +1,6 @@
+# sent_id = weblog-blogspot.com_healingiraq_20040409053012_ENG_20040409_053012-0015
+# text = So what happened?
+1	So	so	ADV	RB	_	3	advmod	3:advmod	_
+2	what	what	PRON	WP	PronType=Int	3	nsubj	3:nsubj	_
+3	happened	happen	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	SpaceAfter=No
+4	?	?	PUNCT	.	_	3	punct	3:punct	_

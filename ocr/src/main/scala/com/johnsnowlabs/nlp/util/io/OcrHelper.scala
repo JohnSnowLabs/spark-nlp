@@ -1,18 +1,18 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.awt.Image
+import java.awt.{Image, Rectangle}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io._
 
 import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
 import net.sourceforge.tess4j.ITessAPI.{TessOcrEngineMode, TessPageIteratorLevel, TessPageSegMode}
-import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.util.LoadLibs
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
+
+import com.johnsnowlabs.nlp.util.io.schema._
 
 import scala.util.{Failure, Success, Try}
 
@@ -28,20 +28,17 @@ import scala.util.{Failure, Success, Try}
 
 
 object PageSegmentationMode {
-
   val AUTO = TessPageSegMode.PSM_AUTO
   val SINGLE_BLOCK = TessPageSegMode.PSM_SINGLE_BLOCK
   val SINGLE_WORD = TessPageSegMode.PSM_SINGLE_WORD
 }
 
 object EngineMode {
-
   val OEM_LSTM_ONLY = TessOcrEngineMode.OEM_LSTM_ONLY
   val DEFAULT = TessOcrEngineMode.OEM_DEFAULT
 }
 
 object PageIteratorLevel {
-
   val BLOCK = TessPageIteratorLevel.RIL_BLOCK
   val PARAGRAPH = TessPageIteratorLevel.RIL_PARA
   val WORD = TessPageIteratorLevel.RIL_WORD
@@ -57,7 +54,20 @@ object OCRMethod {
   val IMAGE_FILE = "image_file"
 }
 
-case class OcrRow(text: String, filename: String, pagenum: Int, method: String)
+object NoiseMethod {
+  val VARIANCE = "variance"
+  val RATIO = "ratio"
+}
+
+case class OcrRow(
+                   text: String,
+                   pagenum: Int,
+                   method: String,
+                   noiselevel: Double = 0.0,
+                   confidence: Double = 0.0,
+                   coordinates: Seq[PageMatrix] = null,
+                   filename: String = ""
+)
 
 class OcrHelper extends ImageProcessing with Serializable {
 
@@ -65,7 +75,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   private val imageFormats = Seq(".png", ".jpg")
 
   @transient
-  private var tesseractAPI : Tesseract = null
+  private var tesseractAPI : TesseractAccess = _
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
@@ -78,6 +88,8 @@ class OcrHelper extends ImageProcessing with Serializable {
   private var kernelSize:Option[Int] = None
   private var splitPages: Boolean = true
   private var splitRegions: Boolean = true
+  // whether to include confidence values in the output or not
+  private var useConfidence: Boolean = false
 
   /* if defined we resize the image multiplying both width and height by this value */
   var scalingFactor: Option[Float] = None
@@ -85,6 +97,9 @@ class OcrHelper extends ImageProcessing with Serializable {
   /* skew correction parameters */
   private var halfAngle: Option[Double] = None
   private var resolution: Option[Double] = None
+
+  /* whether to include noise scores or not */
+  private var estimateNoise: Option[String] = None
 
   def setPreferredMethod(value: String): Unit = {
     require(value == OCRMethod.TEXT_LAYER || value == OCRMethod.IMAGE_LAYER, s"OCR Method must be either" +
@@ -158,6 +173,12 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   def getSplitRegions: Boolean = splitRegions
 
+  def setIncludeConfidence(value: Boolean): Unit = {
+    useConfidence = value
+  }
+
+  def getIncludeConfidence:Boolean = useConfidence
+
   def useErosion(useIt: Boolean, kSize:Int = 2, kernelShape:Int = Kernels.SQUARED): Unit = {
     if (!useIt)
       kernelSize = None
@@ -183,10 +204,12 @@ class OcrHelper extends ImageProcessing with Serializable {
     files.flatMap {
       // here we handle images directly
       case (fileName, stream) if imageFormats.exists(fileName.endsWith)=>
-          doImageOcr(stream.open).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+          doImageOcr(stream.open)
+            .map(_.copy(filename = fileName))
 
       case (fileName, stream) =>
-          doPDFOcr(stream.open, fileName).map{case (pageN, region, method) => OcrRow(region, fileName, pageN, method)}
+          doPDFOcr(stream.open, fileName)
+            .map(_.copy(filename = fileName))
     }.filter(_.text.nonEmpty).toDS
   }
 
@@ -195,7 +218,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   def createMap(inputPath: String): Map[String, String] = {
     val files = getListOfFiles(inputPath)
     files.flatMap {case (fileName, stream) =>
-      doPDFOcr(stream, fileName).map{case (_, region, _) => (fileName, region)}
+      doPDFOcr(stream, fileName).map(ocrrow => (fileName, ocrrow.text))
     }.filter(_._2.nonEmpty).toMap
   }
 
@@ -209,7 +232,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   * For example, for halfAngle = 2.0, and resolution 0.5,
   * candidates {-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2} will be evaluated.
   * */
-  def setAutomaticSkewCorrection(useIt:Boolean, halfAngle:Double = 5.0, resolution:Double = 1.0) = {
+  def setAutomaticSkewCorrection(useIt:Boolean, halfAngle:Double = 5.0, resolution:Double = 1.0): Unit = {
     if(useIt) {
       this.halfAngle = Some(halfAngle)
       this.resolution = Some(resolution)
@@ -219,12 +242,15 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def tesseract:Tesseract = {
+  def setEstimateNoise(noiseMethod: String): Unit = {
+    estimateNoise = Some(noiseMethod)
+  }
+
+  private def tesseract:TesseractAccess = {
     if (tesseractAPI == null)
       tesseractAPI = initTesseract()
 
     tesseractAPI
-
   }
 
   private def initTesseract():TesseractAccess = this.synchronized {
@@ -237,7 +263,7 @@ class OcrHelper extends ImageProcessing with Serializable {
     api
   }
 
-  def reScaleImage(image: PlanarImage, factor: Float) = {
+  def reScaleImage(image: PlanarImage, factor: Float): BufferedImage = {
     val width = image.getWidth * factor
     val height = image.getHeight * factor
     val scaledImg = image.getAsBufferedImage().
@@ -246,7 +272,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   }
 
   /* erode the image */
-  def erode(bi: BufferedImage, kernelSize: Int) = {
+  def erode(bi: BufferedImage, kernelSize: Int): BufferedImage = {
     // convert to grayscale
     val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
     val g = gray.createGraphics()
@@ -255,8 +281,8 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     // init
     val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
-    val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
-    val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val outputData = dest.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+    val inputData = gray.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 
     // handle the unsigned type
     val converted = inputData.map(fromUnsigned)
@@ -295,7 +321,7 @@ class OcrHelper extends ImageProcessing with Serializable {
   }
 
 
-  def binarize(bi: BufferedImage):BufferedImage = {
+  def binarize(bi: BufferedImage): BufferedImage = {
 
     // convert to grayscale
     val gray = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_BYTE_GRAY)
@@ -305,8 +331,8 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     // init
     val dest = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY)
-    val outputData = dest.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
-    val inputData = gray.getRaster().getDataBuffer().asInstanceOf[DataBufferByte].getData
+    val outputData = dest.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+    val inputData = gray.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 
     // handle the unsigned type
     val converted = inputData.map(fromUnsigned)
@@ -323,8 +349,61 @@ class OcrHelper extends ImageProcessing with Serializable {
     dest
   }
 
+  /* compute standard deviation from histogram */
+  def stdev(histogram: Array[Int]): Double = {
+    val mean = histogramMean(histogram)
+    val result = Math.sqrt(histogram.zipWithIndex.map{ case (x, i) => (i.toDouble - mean) * (i.toDouble - mean) * x}.sum /
+      (histogram.sum.toDouble - 1))
+
+    result
+  }
+
+  /* estimate noise score based on image histogram */
+  private def computeNoiseScore(estimateNoise: Option[String], image: BufferedImage, r: Rectangle): Double =
+  estimateNoise.map { method =>
+
+    val histogram = Array.fill(256)(0)
+    val imageData = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+
+    Range(r.x, r.x + r.width).foreach { i =>
+        Range(r.y, r.y + r.height).foreach { j =>
+          val pixVal = imageData(j * image.getWidth + i)
+          val intVal = signedByte2UnsignedInt(pixVal)
+          assert(intVal <= 255)
+          assert(intVal >= 0)
+          histogram(intVal) += 1
+        }
+    }
+
+    if(method.equals(NoiseMethod.RATIO)) {
+      /* here we should do something adaptive instead */
+      val LIMIT = 10
+      val denom = histogram.slice(0, LIMIT).sum + histogram.takeRight(LIMIT).sum + 1
+      val num = histogram.slice(LIMIT, histogram.length - LIMIT).sum
+      num.toFloat / denom
+    } else { // variance
+      stdev(histogram.take(128)) //+ stdev(histogram.takeRight(128))
+    }
+  }.getOrElse(0.0)
+
+  private def mean(values: Seq[Double]) =
+    if (values.isEmpty)
+      Double.NaN
+    else
+      values.sum / values.size
+
+  private def histogramMean(hist:Seq[Int]) = {
+    val mass = hist.zipWithIndex.map{case (count, i) => count * i}.sum
+    val count = hist.sum
+    if (count == 0)
+      0.0
+    else
+      mass.toDouble / count
+  }
+
   // TODO: Sequence return type should be enough
-  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[(String, Int)]] = this.synchronized {
+  /* response here is (text, pagenum, noise_level) */
+  private def tesseractMethod(renderedImages:Seq[RenderedImage]): Option[Seq[OcrRow]] = this.synchronized {
     import scala.collection.JavaConversions._
 
     val imageRegions = renderedImages.map(render => {
@@ -336,7 +415,7 @@ class OcrHelper extends ImageProcessing with Serializable {
       }}.getOrElse(image.getAsBufferedImage)
 
       // rescale if factor provided
-      var scaledImage = scalingFactor.map { factor =>
+      val scaledImage = scalingFactor.map { factor =>
         reScaleImage(image, factor)
       }.getOrElse(skewCorrected)
 
@@ -358,155 +437,143 @@ class OcrHelper extends ImageProcessing with Serializable {
       }
 
       regions.flatMap(_.map { rectangle =>
-        tesseract.doOCR(dilatedImage, rectangle)
+        val (text, confidence) =
+            tesseract.doOCR(dilatedImage, rectangle, pageIteratorLevel, useConfidence)
+        (text, computeNoiseScore(estimateNoise, scaledImage, rectangle), confidence)
       })
     })
 
 
     (splitPages, splitRegions) match {
       case (true, true) =>
-        Option(imageRegions.zipWithIndex.map {case (pageRegions, pagenum) =>
-          pageRegions.map(r => (r, pagenum))}.flatten)
+        Option(imageRegions.zipWithIndex.flatMap {case (pageRegions, pagenum) =>
+          pageRegions.map{case (r, nl, conf) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf)}})
       case (true, false) =>
         // this merges regions within each page, splits the pages
         Option(imageRegions.zipWithIndex.
               map { case (pageRegions, pagenum) =>
-                (pageRegions.mkString(System.lineSeparator()), pagenum)})
+                val noiseLevel = mean(pageRegions.map(_._2))
+                val confidence = mean(pageRegions.map(_._3))
+                val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
+                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
-        Option(Seq((imageRegions.
-          map {pageRegions => pageRegions.mkString(System.lineSeparator)}.
-          mkString(System.lineSeparator), 0)))
+        val mergedText = imageRegions.map{pageRegions =>  pageRegions.map(_._1).
+          mkString(System.lineSeparator)}.mkString(System.lineSeparator)
+        // here the noise level will be an average
+        val noiseLevel = mean(imageRegions.flatten.map(_._2))
+        val confidence = mean(imageRegions.flatten.map(_._3))
+        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)))
      }
   }
 
-  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[(String, Int)]] = {
-    val range = startPage to endPage
-    if (splitPages)
-      Some(Range(startPage, endPage + 1).flatMap(pagenum =>
-        extractText(pdfDoc, pagenum, pagenum).map(t => (t, pagenum - 1))))
-    else
-      Some(extractText(pdfDoc, startPage, endPage).zipWithIndex)
+  private def getCoordinates(doc: PDDocument, startPage: Int, endPage: Int): Seq[PageMatrix] = {
+    import scala.collection.JavaConverters._
+
+    val r = Range(startPage, endPage + 1).map(pagenum => {
+      val stripper = new CustomStripper
+      stripper.setStartPage(pagenum)
+      stripper.setEndPage(pagenum)
+      stripper.getText(doc)
+
+      val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
+
+      val cropBox = doc.getPage(pagenum - 1).getCropBox
+
+      PageMatrix(line.toArray.map(p => {
+        Mapping(
+          p.toString,
+          p.getTextMatrix.getTranslateX,
+          p.getTextMatrix.getTranslateY,
+          p.getWidth,
+          p.getHeightDir
+        )
+        }), cropBox.getLowerLeftX, cropBox.getLowerLeftY
+      )
+    })
+
+    //findWordHighlight(doc, Seq(FindWord("all through", 151, 161), FindWord("this is a paragraph", 13, 31)), r.head)
+    //println(r)
+    r
   }
 
-  private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[(Int, String, String)] = {
+  private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[OcrRow]] = {
+    if (splitPages)
+      Some(Range(startPage, endPage + 1).flatMap(pagenum =>
+        extractText(pdfDoc, pagenum, pagenum).map(t => OcrRow(t, pagenum - 1, OCRMethod.TEXT_LAYER, coordinates = getCoordinates(pdfDoc, pagenum, pagenum)))))
+    else
+      Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
+        OcrRow(t, idx, OCRMethod.TEXT_LAYER, coordinates = getCoordinates(pdfDoc, startPage, endPage))
+      })
+  }
 
-    var decidedMethod = preferredMethod
+  private def pageOcr(pdfDoc: PDDocument, startPage: Int, endPage: Int): Seq[OcrRow] = {
 
     val result = preferredMethod match {
 
       case OCRMethod.IMAGE_LAYER => tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))
-        .map(_.map{case (r, i) => (r.trim, i)})
         .filter(_.nonEmpty)
-        .filter(content => minSizeBeforeFallback == 0 || (content.forall(_._1.length >= minSizeBeforeFallback)))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.TEXT_LAYER; pdfboxMethod(pdfDoc, startPage, endPage)} else None)
+        .filter(content => minSizeBeforeFallback == 0 || content.forall(_.text.length >= minSizeBeforeFallback))
+        .orElse(if (fallbackMethod) {pdfboxMethod(pdfDoc, startPage, endPage)} else None)
 
       case OCRMethod.TEXT_LAYER => pdfboxMethod(pdfDoc, startPage, endPage)
-        .map(_.map{case (r, i) => (r.trim, i)})
-        .filter(content => minSizeBeforeFallback == 0 || content.forall(_._1.length >= minSizeBeforeFallback))
-        .orElse(if (fallbackMethod) {decidedMethod = OCRMethod.IMAGE_LAYER; tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
+        .filter(content => minSizeBeforeFallback == 0 || content.forall(_.text.length >= minSizeBeforeFallback))
+        .orElse(if (fallbackMethod) {tesseractMethod(getImageFromPDF(pdfDoc, startPage - 1, endPage - 1))} else None)
 
       case _ => throw new IllegalArgumentException(s"Invalid OCR Method. Must be '${OCRMethod.TEXT_LAYER}' or '${OCRMethod.IMAGE_LAYER}'")
     }
-    result.map(_.map{ case (content, pagenum) => (pagenum, content, decidedMethod)})
-      .getOrElse(Seq.empty[(Int, String, String)])
+    result.getOrElse(Seq.empty[OcrRow])
   }
-  /*
-  def printTextCoordinates(pdfDoc: PDDocument) = {
-
-    //import org.apache.pdfbox.text.TextPosition
-    //import org.apache.pdfbox.pdmodel.common.PDRectangle
-    val cropBox = pdfDoc.getPage(0).getCropBox
-
-    val stripper = new CustomStripper()
-    stripper.setStartPage(1) // fix it to first page just to test it
-
-    stripper.setEndPage(1)
-    stripper.getText(pdfDoc)
-
-    val line = stripper.lines.get(1) // the line i want to paint on
-
-    var minx = -1.0f
-    var maxx = -1.0f
-
-    import scala.collection.JavaConversions._
-    for (pos <- line.textPositions) {
-      if (pos != null) {
-        if (minx == -1 || pos.getTextMatrix.getTranslateX < minx) minx = pos.getTextMatrix.getTranslateX
-        if (maxx == -1 || pos.getTextMatrix.getTranslateX > maxx) maxx = pos.getTextMatrix.getTranslateX
-      }
-    }
-  }*/
 
 
-  import org.apache.pdfbox.pdmodel.PDDocument
-  import org.apache.pdfbox.pdmodel.PDPageContentStream
-  import java.awt.Color
+  def drawRectangle(doc: PDDocument, coordinates: Seq[Coordinate]): Unit = {
 
-  def savePDFWithBoxes(doc: PDDocument) = {
-     try {
-        val stripper = new CustomStripper
-        stripper.setStartPage(1) // fix it to first page just to test it
+    import java.awt.Color
+    import org.apache.pdfbox.pdmodel.PDPageContentStream
 
-        stripper.setEndPage(1)
-        stripper.getText(doc)
-        val line = stripper.lines.get(0)
-        // the line i want to paint on
-        var minx = -1.0f
-        var maxx = -1.0f
-        import scala.collection.JavaConversions._
-        for (pos <- line.textPositions) {
-          if (pos != null) {
+    val contentStream = new PDPageContentStream(doc, doc.getPage(0), PDPageContentStream.AppendMode.APPEND, false)
+    contentStream.setStrokingColor(Color.RED)
 
-            if (minx == -1 || pos.getTextMatrix.getTranslateX < minx) minx = pos.getTextMatrix.getTranslateX
-            if (maxx == -1 || pos.getTextMatrix.getTranslateX > maxx) maxx = pos.getTextMatrix.getTranslateX
-          }
+    coordinates.foreach(coord => {
+
+      contentStream.addRect(coord.x, coord.y, coord.w, coord.h)
+      contentStream.stroke()
+
+    })
+
+    contentStream.close()
+    val fileout = new File("find_word_highlight.pdf")
+    doc.save(fileout)
+
+  }
+
+  def drawRectangle(spark: SparkSession, inputPath: String, coordinates: Seq[Coordinate]): Unit = {
+    val sc = spark.sparkContext
+    val files = sc.binaryFiles(inputPath)
+    files.foreach {
+      case (_, stream) =>
+        Try(PDDocument.load(stream.open())).foreach { pdfDoc =>
+          drawRectangle(pdfDoc, coordinates)
         }
-
-        val firstPosition = line.textPositions.get(0)
-        val lastPosition = line.textPositions.get(line.textPositions.size - 1)
-
-        val cropBox = doc.getPage(0).getCropBox
-        val x = minx + cropBox.getLowerLeftX
-        val y = firstPosition.getTextMatrix.getTranslateY + cropBox.getLowerLeftY
-
-        val w = (maxx - minx) + lastPosition.getWidth
-        val h = lastPosition.getHeightDir
-        val contentStream = new PDPageContentStream(doc, doc.getPage(0), PDPageContentStream.AppendMode.APPEND, false)
-        contentStream.setNonStrokingColor(Color.RED)
-        contentStream.addRect(x, y, w, h)
-        //contentStream.fill()
-        contentStream.stroke()
-        contentStream.close()
-        val fileout = new File("testing_pdfbox.pdf")
-        doc.save(fileout)
-        doc.close()
-
-     }
-      catch {
-        case ex: Exception =>
-          println("Houston, we had a problem")
-
-      }
+    }
   }
 
-
-
   /*
-     * fileStream: a stream to PDF files
-     * filename: name of the original file(used for failure login)
-     * returns sequence of (pageNumber:Int, textRegion:String)
-     *
-     * */
-  private def doPDFOcr(fileStream:InputStream, filename:String):  Seq[(Int, String, String)]    = {
+   * fileStream: a stream to PDF files
+   * filename: name of the original file(used for failure login)
+   * returns sequence of (pageNumber:Int, textRegion:String, decidedMethod:String)
+   *
+   * */
+  private def doPDFOcr(fileStream:InputStream, filename:String):Seq[OcrRow] = {
     val pagesTry = Try(PDDocument.load(fileStream)).map { pdfDoc =>
-      savePDFWithBoxes(pdfDoc)
+      //savePDFWithBoxes(pdfDoc)
+      //findWordBox(pdfDoc)
       val numPages = pdfDoc.getNumberOfPages
       require(numPages >= 1, "pdf input stream cannot be empty")
 
       val result = pageOcr(pdfDoc, 1, numPages)
 
-      /* TODO: beware PDF box may have a potential memory leak according to,
+    /* TODO: beware PDF box may have a potential memory leak according to,
      * https://issues.apache.org/jira/browse/PDFBOX-3388
      */
       pdfDoc.close()
@@ -515,7 +582,7 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     pagesTry match {
       case Failure(e) =>
-        logger.error(s"""found a problem trying to open file filename""")
+        logger.error(s"""found a problem trying to open file $filename""")
         logger.error(pagesTry.toString)
         Seq.empty
       case Success(content) =>
@@ -523,22 +590,15 @@ class OcrHelper extends ImageProcessing with Serializable {
     }
   }
 
-  private def doImageOcr(fileStream:InputStream)
-
-      = {
+  private def doImageOcr(fileStream:InputStream):Seq[OcrRow] = {
     val image = ImageIO.read(fileStream)
-    tesseractMethod(Seq(image)).map { _.map { case (region, pagenum) =>
-         (pagenum, region, OCRMethod.IMAGE_FILE)
-       }
-    }.getOrElse(Seq.empty)
+    tesseractMethod(Seq(image)).map(_.map(_.copy(method = OCRMethod.IMAGE_FILE))).getOrElse(Seq.empty)
   }
 
   /*
   * extracts a text layer from a PDF.
   * */
-  private def extractText(document: PDDocument, startPage: Int, endPage: Int)
-
-      = {
+  private def extractText(document: PDDocument, startPage: Int, endPage: Int): Seq[String] = {
     import org.apache.pdfbox.text.PDFTextStripper
     val pdfTextStripper = new PDFTextStripper
     pdfTextStripper.setStartPage(startPage)
@@ -546,14 +606,11 @@ class OcrHelper extends ImageProcessing with Serializable {
     Seq(pdfTextStripper.getText(document))
   }
 
-  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int)
-
-      = {
-    import scala.collection.JavaConversions._
+  private def getImageFromPDF(document: PDDocument, startPage: Int, endPage: Int): Seq[BufferedImage] = {
     Range(startPage, endPage + 1).flatMap(numPage => {
       val page = document.getPage(numPage)
       val multiImage = new MultiImagePDFPage(page)
-      multiImage.getMergedImages
+      multiImage.getMergedImages()
     })
   }
 }

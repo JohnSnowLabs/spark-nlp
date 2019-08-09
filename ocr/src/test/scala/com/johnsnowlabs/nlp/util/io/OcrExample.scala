@@ -1,12 +1,15 @@
 package com.johnsnowlabs.nlp.util.io
 
 import java.io.File
+
+import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.util.OcrMetrics
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import javax.imageio.ImageIO
+
 import scala.io.Source
 
 
@@ -14,25 +17,56 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   val ocrHelper = new OcrHelper()
 
-  "Sign convertions" should "map all the values back and forwards" in {
+  "Sign convertions" should "map all the values back and forwards" ignore {
     (-128 to 127).map(_.toByte).foreach { b=>
       assert(b == unsignedInt2signedByte(signedByte2UnsignedInt(b)))
     }
   }
 
-  "OcrHelper" should "correctly threshold and invert images" in {
+  "OcrHelper" should "correctly threshold and invert images" ignore {
     val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
     val tresImg = thresholdAndInvert(img, 205, 255)
     dumpImage(tresImg, "thresholded_binarized.png")
   }
 
-  "OcrHelper" should "correctly detect and correct skew angles" in {
+  "OcrHelper" should "correctly detect and correct skew angles" ignore {
     val img = ImageIO.read(new File("ocr/src/test/resources/images/p1.jpg"))
     val correctedImg = correctSkew(img, 2.0, 1.0)
     dumpImage(correctedImg, "skew_corrected.png")
   }
 
- "OcrHelper" should "automatically correct skew and improve accuracy" in {
+   "OcrHelper" should "correctly compute noise measures for input images" ignore {
+    import org.apache.spark.sql.functions._
+    ocrHelper.setEstimateNoise(NoiseMethod.VARIANCE)
+    ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
+
+    val noisyScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noisy_images").
+      select(avg("noiselevel").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    val cleanScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noiseless_images").
+      select(avg("noiselevel").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    assert(noisyScore > cleanScore)
+  }
+
+  "OcrHelper" should "correctly return confidence levels for recognized text" ignore {
+    import org.apache.spark.sql.functions._
+    ocrHelper.setIncludeConfidence(true)
+
+    val noisyScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noisy_images").
+      select(avg("confidence").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    val cleanScore = ocrHelper.createDataset(getSpark, s"ocr/src/test/resources/noiseless_images").
+      select(avg("confidence").as("average")).collect().
+      map(_.getAs[Double]("average")).head
+
+    assert(noisyScore < cleanScore)
+  }
+
+ "OcrHelper" should "automatically correct skew and improve accuracy" ignore {
     val spark = getSpark
     ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
     ocrHelper.setSplitPages(false)
@@ -49,7 +83,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     assert(score(correct, normal) < score(correct, skewCorrected))
   }
 
-  "OcrHelper" should "correctly handle PDFs with multiple images" in {
+  "OcrHelper" should "correctly handle PDFs with multiple images" ignore {
 
     val spark = getSpark
     ocrHelper.setPreferredMethod(OCRMethod.IMAGE_LAYER)
@@ -61,11 +95,11 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
     val single = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/single").
       select("text").collect.map(_.getString(0)).mkString
 
-    assert(levenshteinDistance(multiple, single) < 102)
+    assert(Utilities.levenshteinDistance(multiple, single) < 102)
 
   }
 
-  "OcrHelper" should "correctly count pages" in {
+  "OcrHelper" should "correctly count pages" ignore {
     val spark = getSpark
     import spark.implicits._
 
@@ -91,7 +125,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   }
 
-  "OcrExample with Spark" should "successfully create a dataset - PDFs" in {
+  "OcrExample with Spark" should "successfully create a dataset - PDFs" ignore {
 
       val spark = getSpark
       import spark.implicits._
@@ -114,7 +148,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       succeed
   }
 
-  "OcrExample with Spark" should "successfully create a dataset - images" in {
+  "OcrExample with Spark" should "successfully create a dataset - images" ignore {
 
     val spark = getSpark
     import spark.implicits._
@@ -124,11 +158,11 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       select("text").collect().mkString(" ")
 
     val correct = Source.fromFile("ocr/src/test/resources/txt/p1.txt").mkString
-    assert(levenshteinDistance(correct, data) < 900)
+    assert(Utilities.levenshteinDistance(correct, data) < 900)
   }
 
 
-  "OcrExample with Spark" should "improve results when preprocessing images" in {
+  "OcrExample with Spark" should "improve results when preprocessing images" ignore {
       val spark = getSpark
       ocrHelper.setScalingFactor(3.0f)
       ocrHelper.useErosion(true, kSize = 2)
@@ -138,6 +172,13 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       assert(results.contains("223.5"))
       assert(results.contains("22.5"))
 
+  }
+
+  "OcrExample with Spark" should "detect text and draw box with coordinates" in {
+    val spark = getSpark
+    val data = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/simple_document_paragraph.pdf")
+    data.show()
+    println("done")
   }
 
   def getSpark = {

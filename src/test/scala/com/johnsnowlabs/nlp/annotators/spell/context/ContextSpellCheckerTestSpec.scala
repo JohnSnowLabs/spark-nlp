@@ -14,6 +14,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest._
 import SparkAccessor.spark
+import org.apache.commons.io.FileUtils
 import spark.implicits._
 
 
@@ -28,6 +29,36 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   trait distFile extends WeightedLevenshtein {
     val weights = loadWeights("src/test/resources/dist.psv")
+  }
+
+  "Spell Checker" should "provide appropriate scores - sentence level" in {
+    val data = Seq("This is a correct sentence .",
+      "Thos ist an oncorrect sentrence .").toDF("text")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    import com.johnsnowlabs.nlp.functions._
+    val results = pipeline.transform(data).
+      select("checked").
+      mapAnnotations("checked", "checked", x => x.head.metadata.get("cost")).
+      collect.map(_.getString(0).toDouble)
+
+    assert(results(0) < results(1))
+
   }
 
   "UnitClass" should "serilize/deserialize properly" in {
@@ -49,10 +80,12 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       specialClass.setTransducer(null)
 
       // the object per se
+      FileUtils.deleteDirectory(new File(dataPathObject))
       spark.sparkContext.parallelize(Seq(specialClass)).
       saveAsObjectFile(dataPathObject)
 
       // we handle the transducer separaely
+      FileUtils.deleteDirectory(new File(dataPathTrans))
       val transBytes = serializer.serialize(transducer)
       spark.sparkContext.parallelize(transBytes.toSeq, 1).
           saveAsObjectFile(dataPathTrans)
@@ -175,13 +208,11 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val documentAssembler =
       new DocumentAssembler().
         setInputCol("text").
-        setOutputCol("doc").
-        setTrimAndClearNewLines(false)
+        setOutputCol("doc")
 
     val tokenizer: Tokenizer = new Tokenizer()
       .setInputCols(Array("doc"))
       .setOutputCol("token")
-      .setIncludeDefaults(false)
       .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
 
     val spellChecker = ContextSpellCheckerModel
@@ -210,8 +241,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val documentAssembler =
       new DocumentAssembler().
         setInputCol("text").
-        setOutputCol("doc").
-        setTrimAndClearNewLines(false)
+        setOutputCol("doc")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols(Array("doc"))

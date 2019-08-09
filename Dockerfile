@@ -10,5 +10,6 @@ RUN wget -qO- "https://cocl.us/sbt-$SBT_VERSION.tgz" \
 
 COPY . /app/spark-nlp
 
+ENV JAVA_OPTS="-Xmx2G -XX:+UseG1GC"
 WORKDIR /app/spark-nlp/
 RUN sbt publish-local

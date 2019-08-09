@@ -3,7 +3,7 @@ layout: article
 title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
-modify_date: "2019-05-08"
+modify_date: "2019-05-16"
 ---
 
 ## The very first: Join our Slack channel
@@ -29,9 +29,9 @@ Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** sup
 To start using the library, execute any of the following lines depending on your desired use case:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.0.3
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
-spark-submit --packages JohnSnowLabs:spark-nlp:2.0.3
+spark-shell --packages JohnSnowLabs:spark-nlp:2.1.0
+pyspark --packages JohnSnowLabs:spark-nlp:2.1.0
+spark-submit --packages JohnSnowLabs:spark-nlp:2.1.0
 ```
 
 ### **Straight forward Python on jupyter notebook**
@@ -39,7 +39,7 @@ spark-submit --packages JohnSnowLabs:spark-nlp:2.0.3
 Use pip to install (after you pip installed numpy and pyspark)
 
 ```bash
-pip install spark-nlp==2.0.3
+pip install spark-nlp==2.1.0
 jupyter notebook
 ```
 
@@ -60,7 +60,7 @@ spark = SparkSession.builder \
     .appName('OCR Eval') \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.0.3") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0") \
     .getOrCreate()
 ```
 
@@ -69,13 +69,13 @@ spark = SparkSession.builder \
 Add the following maven coordinates in the dependency configuration page:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.0.3
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.1.0
 ```
 
 For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
 
 ```bash
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.0.3"
+export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.1.0"
 ```
 
 ### **Python Jupyter Notebook with PySpark**
@@ -85,7 +85,7 @@ export SPARK_HOME=/path/to/your/spark/folder
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
+pyspark --packages JohnSnowLabs:spark-nlp:2.1.0
 ```
 
 ### S3 based standalone cluster (No Hadoop)
@@ -93,7 +93,7 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.0.3
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS) You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files. First, decide where you want to put your **application.conf** file
 
 ```bash
-import com.johnsnowlabs.uti.ConfigLoader
+import com.johnsnowlabs.util.ConfigLoader
 ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
 ```
 
@@ -297,7 +297,7 @@ lightPipeline.annotate("Hello world, please annotate my text")
 Spark NLP OCR Module is not included within Spark NLP. It is not an annotator and not an extension to Spark ML. You can include it with the following coordinates for Maven:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.0.3
+com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.1.0
 ```
 
 ### Creating Spark datasets from PDF (To be used with Spark NLP)
@@ -307,7 +307,9 @@ You can use OcrHelper to directly create spark dataframes from PDF. This will ho
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val data = OcrHelper.createDataset(spark, "/pdfs/", "text", "metadata")
+val myOcrHelper = new OcrHelper
+
+val data = myOcrHelper.createDataset(spark, "/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setMetadataCol("metadata")
 
@@ -321,7 +323,9 @@ Another way, would be to simply create an array of strings. This is useful for e
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 
-val raw = OcrHelper.createMap("/pdfs/")
+val myOcrHelper = new OcrHelper
+
+val raw = myOcrHelper.createMap("/pdfs/")
 
 val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
