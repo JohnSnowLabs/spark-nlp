@@ -96,8 +96,10 @@ class BertEmbeddings(override val uid: String) extends
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
+    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
+
     val tokenized = tokenize(sentences)
-    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized)
+    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
@@ -106,7 +108,7 @@ class BertEmbeddings(override val uid: String) extends
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes = Array(AnnotatorType.DOCUMENT)
+  override val inputAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
