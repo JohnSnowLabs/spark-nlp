@@ -81,7 +81,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
         // All wordpiece embeddings
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
-        // Word-level and span-level to align Tokenizer with Bert tokens
+        // Word-level and span-level alignment with Tokenizer
         // https://github.com/google-research/bert#tokenization
         val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
           case (token, tokenEmbedding) =>
