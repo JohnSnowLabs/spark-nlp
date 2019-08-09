@@ -12,7 +12,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
+class NorvigSpellEvaluation(sparkSession: SparkSession, testFile: String, groundTruthFile: String) {
 
   private var loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
 
@@ -44,7 +44,7 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
   private def computeAccuracy(norvigSpellEvalConfig: NorvigSpellEvalConfig): Unit = {
     val spellCheckerModel = trainSpellChecker(norvigSpellEvalConfig)
     val predictionDataSet = correctMisspells(spellCheckerModel, testFile)
-    evaluateSpellChecker(groundTruthFile, predictionDataSet)
+    evaluateSpellChecker(groundTruthFile, predictionDataSet, sparkSession)
   }
 
   private def trainSpellChecker(norvigSpellEvalConfig: NorvigSpellEvalConfig): PipelineModel = {
@@ -64,19 +64,12 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
 
   private def getDataSetFromFile(textFile: String): Dataset[_] = {
 
-    val spark = SparkSession.builder()
-      .appName("benchmark")
-      .master("local[1]")
-      .config("spark.kryoserializer.buffer.max", "200M")
-      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .getOrCreate()
-
-    import spark.implicits._
+    import sparkSession.implicits._
 
     if (textFile == "") {
       Seq("Simple data set").toDF.withColumnRenamed("value", "text")
     } else {
-      spark.read.textFile(textFile)
+      sparkSession.read.textFile(textFile)
         .withColumnRenamed("value", "text")
         .filter(row => !(row.mkString("").isEmpty && row.length > 0))
     }
@@ -123,18 +116,14 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
   }
 
   private def correctMisspells(spellCheckerModel: PipelineModel, testFile: String): Dataset[_] = {
-    println("Prediction DataSet")
     val testDataSet = getDataSetFromFile(testFile)
     val predictionDataSet = spellCheckerModel.transform(testDataSet).select("prediction")
-    Benchmark.measure("[Norvig Spell Checker] Time to show") {
-      predictionDataSet.show()
-    }
     predictionDataSet
   }
 
-  private def evaluateSpellChecker(groundTruthFile: String, predictionDataSet: Dataset[_]): Unit = {
-    println("Evaluation DataSet")
-    val groundTruthDataSet = getGroundTruthDataSet(groundTruthFile)
+  private def evaluateSpellChecker(groundTruthFile: String, predictionDataSet: Dataset[_], sparkSession: SparkSession):
+  Unit = {
+    val groundTruthDataSet = getGroundTruthDataSet(groundTruthFile, sparkSession)
     val evaluationDataSet = getEvaluationDataSet(predictionDataSet, groundTruthDataSet)
     evaluationDataSet.show(5, false)
     val accuracyDataSet = evaluationDataSet.select(avg(col("accuracy")))
@@ -142,7 +131,7 @@ class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
     loggingData.logMetric( "accuracy", accuracy.toDouble)
   }
 
-  private def getGroundTruthDataSet(textFile: String): Dataset[_] = {
+  private def getGroundTruthDataSet(textFile: String, sparkSession: SparkSession): Dataset[_] = {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
