@@ -52,6 +52,9 @@ package object annotator {
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
   object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer
 
+  type PositionFinder = com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
+  object PositionFinder extends DefaultParamsReadable[PositionFinder]
+
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
