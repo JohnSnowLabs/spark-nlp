@@ -17,15 +17,6 @@ class UtilitiesTestSpec(unittest.TestCase):
         assert(regex_rule.rule() == "\w+")
 
 
-class ConfigPathTestSpec(unittest.TestCase):
-
-    @staticmethod
-    def runTest():
-        assert(get_config_path() == "./application.conf")
-        set_config_path("./somewhere/application.conf")
-        assert(get_config_path() == "./somewhere/application.conf")
-
-
 class SerializersTestSpec(unittest.TestCase):
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()

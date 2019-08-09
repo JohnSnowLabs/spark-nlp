@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 import com.johnsnowlabs.nlp.annotators.parser.typdep.feature.SyntacticFeatureFactory;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.io.Conll09Reader;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.io.ConllUReader;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.io.DependencyReader;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Dictionary;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet;
@@ -198,8 +199,8 @@ public class DependencyPipe implements Serializable {
         while(dependencyInstance != null) {
 
             for (int i = 0; i < dependencyInstance.getLength(); ++i) {
-                if (dependencyInstance.getPostags() != null) posTagSet.add(dependencyInstance.getPostags()[i]);
-                if (dependencyInstance.getCpostags() != null) cposTagSet.add(dependencyInstance.getCpostags()[i]);
+                if (dependencyInstance.getUPosTags() != null) posTagSet.add(dependencyInstance.getUPosTags()[i]);
+                if (dependencyInstance.getXPosTags() != null) cposTagSet.add(dependencyInstance.getXPosTags()[i]);
             }
 
             dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
@@ -267,14 +268,21 @@ public class DependencyPipe implements Serializable {
         return insts;
     }
 
-    public DependencyInstance nextSentence(ConllData[] sentence)
+    public DependencyInstance nextSentence(ConllData[] sentence, String conllFormat)
     {
-        Conll09Reader conll09Reader = new Conll09Reader();
-        DependencyInstance dependencyInstance = conll09Reader.nextSentence(sentence);
+        DependencyInstance dependencyInstance;
+        if (conllFormat.equals("2009")) {
+            Conll09Reader conll09Reader = new Conll09Reader();
+            dependencyInstance = conll09Reader.nextSentence(sentence);
+        } else {
+            ConllUReader conllUReader = new ConllUReader();
+            dependencyInstance = conllUReader.nextSentence(sentence);
+        }
+
         if (dependencyInstance == null) {
             return null;
         }
-
+        //TODO: Here is where cpostagids are set
         dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
         return dependencyInstance;
@@ -292,8 +300,8 @@ public class DependencyPipe implements Serializable {
             for (int mod = 1; mod < n; ++mod) {
                 int head = dependencyInstance.getHeads()[mod];
                 int lab = dependencyInstance.getDependencyLabelIds()[mod];
-                if (!this.pruneLabel[dependencyInstance.getCpostagids()[head]][dependencyInstance.getCpostagids()[mod]][lab]) {
-                    this.pruneLabel[dependencyInstance.getCpostagids()[head]][dependencyInstance.getCpostagids()[mod]][lab] = true;
+                if (!this.pruneLabel[dependencyInstance.getXPosTagIds()[head]][dependencyInstance.getXPosTagIds()[mod]][lab]) {
+                    this.pruneLabel[dependencyInstance.getXPosTagIds()[head]][dependencyInstance.getXPosTagIds()[mod]][lab] = true;
                     num++;
                 }
             }

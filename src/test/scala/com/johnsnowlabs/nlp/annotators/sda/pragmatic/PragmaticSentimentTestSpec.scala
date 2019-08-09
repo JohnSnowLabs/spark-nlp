@@ -64,7 +64,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
     "I recommend others to avoid because it is too expensive"
 
   val sentimentSentences = {
-    new Tokenizer().tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
+    new Tokenizer().fit(ContentProvider.parquetData).tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
   }
 
   "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)

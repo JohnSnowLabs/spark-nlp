@@ -39,9 +39,9 @@ object functions {
     def explodeAnnotations[T: TypeTag](column: String, outputCol:String): DataFrame = {
       val meta = dataset.schema(column).metadata
       dataset.
-        withColumn(column, explode(col(column))).
-        withColumn(column, array(col(outputCol)).as(outputCol, meta))
-      }
+        withColumn(outputCol, explode(col(column))).
+        withColumn(outputCol, array(col(outputCol)).as(outputCol, meta))
+    }
   }
 
 

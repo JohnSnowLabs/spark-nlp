@@ -82,14 +82,14 @@ html,
   @include split-line(right);
   @include transition(transform map-get($animation, duration));
   @include overflow(auto);
-  & > svg {
-    width: map-get($base, font-size-h4) * 10.2;
-    height: map-get($base, font-size-h4) * 10.2;
+  & > a > svg {
+    width: map-get($base, font-size-h4) * 12.2;
+    height: map-get($base, font-size-h4) * 12.2;
     margin-right: map-get($spacers, 3);
     vertical-align: middle;
     @include media-breakpoint-down(md) {
-      width: map-get($base, font-size-h4) * 10.2;
-      height: map-get($base, font-size-h4) * 10.2;
+      width: map-get($base, font-size-h4) * 12.2;
+      height: map-get($base, font-size-h4) * 12.2;
     }
   }
   .sidebar-toc {

@@ -17,9 +17,22 @@ class ViveknSentimentTestSpec extends FlatSpec {
 
     val trainingDataDF = Seq(
       ("amazing voice acting", "positive"),
-      ("horrible staff", "negative"),
+      ("amazing voice acting", "positive"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
+      ("horrible acting", "negative"),
       ("very bad", "negative"),
-      ("simply fantastic", "positive"),
+      ("very bad", "negative"),
+      ("very bad", "negative"),
+      ("very bad", "negative"),
+      ("very fantastic", "positive"),
+      ("very fantastic", "positive"),
       ("incredible!!", "positive")
     ).toDF("text", "sentiment_label")
 
@@ -59,10 +72,13 @@ class ViveknSentimentTestSpec extends FlatSpec {
       "very bad",
       "simply fantastic",
       "incredible!!",
-      "I think this movie is horrible."
+      "I think this movie is horrible.",
+      "simply put, this is like a bad dream, a horrible one, but in an amazing scenario",
+      "amazing staff, really horrible movie",
+      "horrible watchout bloody thing"
     ).toDF("text")
 
-    model.transform(testDataDF).show(20)
+    model.transform(testDataDF).select("text", "vivekn").show(truncate=false)
     succeed
   }
 
@@ -78,7 +94,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
       ("incredible!!", "positive")
     ).toDF("text", "sentiment_label")
 
-    val testDataDF = ContentProvider.parquetData.limit(1000)
+    val testDataDF = trainingDataDF
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -119,7 +135,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
 
     val model = pipeline.fit(trainingDataDF)
 
-    model.transform(testDataDF).show(1)
+    model.transform(testDataDF).select("vivekn").show(truncate=false)
 
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)

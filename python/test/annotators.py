@@ -20,9 +20,8 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .setCompositeTokensPatterns(["New York"]) \
-            .addInfixPattern("(%\\d+)") \
-            .setIncludeDefaults(True)
+            .setExceptions(["New York"]) \
+            .addInfixPattern("(%\\d+)")
         stemmer = Stemmer() \
             .setInputCols(["token"]) \
             .setOutputCol("stem")
@@ -37,7 +36,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setOutputCols(["reassembled_view"]) \
             .setCleanAnnotations(True)
         assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.transform(assembled)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
         stemmed = stemmer.transform(tokenized)
         normalized = normalizer.fit(stemmed).transform(stemmed)
         reassembled = token_assembler.transform(normalized)
@@ -82,7 +81,7 @@ class LemmatizerTestSpec(unittest.TestCase):
             .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt",
                            key_delimiter="->", value_delimiter="\t")
         assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.transform(assembled)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
 
 
@@ -105,7 +104,7 @@ class TokenizerTestSpec(unittest.TestCase):
             .setOutputCols(["token_out"]) \
             .setOutputAsArray(True)
         assembled = document_assembler.transform(data)
-        tokenized = tokenizer.transform(assembled)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
         finished = finisher.transform(tokenized)
         print(finished.first()['token_out'])
         self.assertEqual(len(finished.first()['token_out']), 7)
@@ -159,7 +158,7 @@ class NormalizerTestSpec(unittest.TestCase):
             .setLowercase(False)
 
         assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.transform(assembled)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
         lemmatizer.transform(tokenized).show()
 
 
@@ -197,7 +196,7 @@ class TextMatcherTestSpec(unittest.TestCase):
             .setOutputCol("entity") \
             .setEntities(path="file:///" + os.getcwd() + "/../src/test/resources/entity-extractor/test-phrases.txt")
         assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.transform(assembled)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
         entity_extractor.fit(tokenized).transform(tokenized).show()
 
 
@@ -229,7 +228,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_tagger.transform(tokenized).show()
 
 
@@ -264,7 +263,7 @@ class ChunkerTestSpec(unittest.TestCase):
             .setRegexParsers(["<NNP>+", "<DT|PP\\$>?<JJ>*<NN>"])
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_sentence_format = pos_tagger.transform(tokenized)
         chunk_phrases = chunker.transform(pos_sentence_format)
         chunk_phrases.show()
@@ -353,7 +352,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
             delimiter=",")
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
@@ -623,7 +622,7 @@ class DependencyParserTreeBankTestSpec(unittest.TestCase):
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         dependency_parsed.show()
@@ -669,7 +668,7 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         dependency_parsed.show()
@@ -722,7 +721,7 @@ class TypedDependencyParserConllUTestSpec(unittest.TestCase):
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)
@@ -776,7 +775,7 @@ class TypedDependencyParserConll2009TestSpec(unittest.TestCase):
 
         assembled = document_assembler.transform(self.data)
         sentenced = sentence_detector.transform(assembled)
-        tokenized = tokenizer.transform(sentenced)
+        tokenized = tokenizer.fit(sentenced).transform(sentenced)
         pos_tagged = pos_tagger.transform(tokenized)
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         typed_dependency_parsed = typed_dependency_parser.fit(dependency_parsed).transform(dependency_parsed)

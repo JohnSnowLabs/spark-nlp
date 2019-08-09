@@ -7,7 +7,7 @@ object SparkAccessor {
     .builder()
     .appName("test")
     .master("local[1]")
-    .config("spark.driver.memory", "1G")
+    .config("spark.driver.memory", "4G")
     .config("spark.kryoserializer.buffer.max","200M")
     .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
     .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")

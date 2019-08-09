@@ -25,11 +25,11 @@ public class DependencyInstance implements Serializable {
     // LEMMA: the lemmas, or stems, e.g. "think"
     private String[] lemmas;
 
-    // COARSE-POS: the coarse part-of-speech tags, e.g."V"
-    private String[] cpostags;
+    // XPOS: Language-specific part-of-speech tag; underscore if not available.
+    private String[] xPosTags;
 
-    // FINE-POS: the fine-grained part-of-speech tags, e.g."VBD"
-    private String[] postags;
+    // UPOS: Universal part-of-speech tag, e.g."VBD"
+    private String[] uPosTags;
 
     // MOST-COARSE-POS: the coarsest part-of-speech tags (about 11 in total)
     private SpecialPos[] specialPos;
@@ -41,7 +41,7 @@ public class DependencyInstance implements Serializable {
     private int[] heads;
 
     // DEPREL: the dependency relations, e.g. "SUBJ"
-    private String[] deprels;
+    private String[] depRels;
 
     private int[] begins;
     private int[] ends;
@@ -66,48 +66,48 @@ public class DependencyInstance implements Serializable {
         return lemmas;
     }
 
-    public String[] getCpostags() {
-        return cpostags;
+    public String[] getXPosTags() {
+        return xPosTags;
     }
 
-    public String[] getPostags() {
-        return postags;
+    public String[] getUPosTags() {
+        return uPosTags;
     }
 
     public int[] getHeads() {
         return heads;
     }
 
-    private int[] formids;
+    private int[] formIds;
 
-    public int[] getFormids() {
-        return formids;
+    public int[] getFormIds() {
+        return formIds;
     }
 
-    private int[] lemmaids;
+    private int[] lemmaIds;
 
-    public int[] getLemmaids() {
-        return lemmaids;
+    public int[] getLemmaIds() {
+        return lemmaIds;
     }
 
-    private int[] postagids;
+    private int[] uPosTagIds;
 
-    public int[] getPostagids() {
-        return postagids;
+    public int[] getUPosTagIds() {
+        return uPosTagIds;
     }
 
-    private int[] cpostagids;
+    private int[] xPosTagIds;
 
-    public int[] getCpostagids() {
-        return cpostagids;
+    public int[] getXPosTagIds() {
+        return xPosTagIds;
     }
 
-    private int[] deprelids;
+    private int[] depRelIds;
 
-    private int[][] featids;
+    private int[][] featIds;
 
-    public int[][] getFeatids() {
-        return featids;
+    public int[][] getFeatIds() {
+        return featIds;
     }
 
     private int[] wordVecIds;
@@ -132,28 +132,30 @@ public class DependencyInstance implements Serializable {
         this.length = forms.length;
         this.forms = forms;
         this.feats = new String[length][];
-        this.deprels = new String[length];
+        this.depRels = new String[length];
     }
 
-    public DependencyInstance(String[] forms, String[] postags, int[] heads) {
+    public DependencyInstance(String[] forms, String[] uPosTags,String[] xPosTags, int[] heads) {
         this.length = forms.length;
         this.forms = forms;
         this.heads = heads;
-        this.postags = postags;
+        this.uPosTags = uPosTags;
+        this.xPosTags = xPosTags;
     }
 
-    public DependencyInstance(String[] forms, String[] postags, int[] heads, String[] deprels) {
-        this(forms, postags, heads);
-        this.deprels = deprels;
+    public DependencyInstance(String[] forms, String[] uPosTags,String[] xPosTags, int[] heads, String[] depRels) {
+        this(forms, uPosTags, xPosTags, heads);
+        this.depRels = depRels;
     }
 
-    public DependencyInstance(String[] forms, String[] lemmas, String[] cpostags, String[] postags,
-                              String[][] feats, int[] heads, String[] deprels,
+    public DependencyInstance(String[] forms, String[] lemmas, String[] uPosTags, String[] xPosTags,
+                              String[][] feats, int[] heads, String[] depRels,
                               int[] begins, int[] ends) {
-        this(forms, postags, heads, deprels);
+        this(forms, uPosTags, xPosTags, heads, depRels);
         this.lemmas = lemmas;
         this.feats = feats;
-        this.cpostags = cpostags;
+        this.xPosTags = xPosTags;
+        this.uPosTags = uPosTags;
         this.begins = begins;
         this.ends = ends;
     }
@@ -162,42 +164,43 @@ public class DependencyInstance implements Serializable {
         this.length = dependencyInstance.length;
         this.specialPos = dependencyInstance.specialPos;
         this.heads = dependencyInstance.heads;
-        this.formids = dependencyInstance.formids;
-        this.lemmaids = dependencyInstance.lemmaids;
-        this.postagids = dependencyInstance.postagids;
-        this.cpostagids = dependencyInstance.cpostagids;
-        this.deprelids = dependencyInstance.deprelids;
+        this.formIds = dependencyInstance.formIds;
+        this.lemmaIds = dependencyInstance.lemmaIds;
+        this.uPosTagIds = dependencyInstance.uPosTagIds;
+        this.xPosTagIds = dependencyInstance.xPosTagIds;
+        this.depRelIds = dependencyInstance.depRelIds;
         this.dependencyLabelIds = dependencyInstance.dependencyLabelIds;
-        this.featids = dependencyInstance.featids;
+        this.featIds = dependencyInstance.featIds;
         this.wordVecIds = dependencyInstance.wordVecIds;
     }
 
     void setInstIds(DictionarySet dicts,
                     HashMap<String, String> coarseMap, HashSet<String> conjWord) {
 
-        formids = new int[length];
+        formIds = new int[length];
         dependencyLabelIds = new int[length];
-        postagids = new int[length];
-        cpostagids = new int[length];
+        uPosTagIds = new int[length];
+        xPosTagIds = new int[length];
 
         for (int i = 0; i < length; ++i) {
-            formids[i] = dicts.lookupIndex(WORD, "form="+normalize(forms[i]));
-            postagids[i] = dicts.lookupIndex(POS, "pos="+postags[i]);
-            cpostagids[i] = dicts.lookupIndex(POS, "cpos="+cpostags[i]);
-            dependencyLabelIds[i] = dicts.lookupIndex(DEP_LABEL, deprels[i]) - 1;	// zero-based
+            //TODO: Check here how the dictioaries are set
+            formIds[i] = dicts.lookupIndex(WORD, "form=" + normalize(forms[i]));
+            uPosTagIds[i] = dicts.lookupIndex(POS, "pos=" + uPosTags[i]);
+            xPosTagIds[i] = dicts.lookupIndex(POS, "cpos=" + xPosTags[i]);
+            dependencyLabelIds[i] = dicts.lookupIndex(DEP_LABEL, depRels[i]) - 1;	// zero-based
         }
 
         if (lemmas != null) {
-            lemmaids = new int[length];
+            lemmaIds = new int[length];
             for (int i = 0; i < length; ++i)
-                lemmaids[i] = dicts.lookupIndex(WORD, "lemma="+normalize(lemmas[i]));
+                lemmaIds[i] = dicts.lookupIndex(WORD, "lemma="+normalize(lemmas[i]));
         }
 
-        featids = new int[length][];
+        featIds = new int[length][];
         for (int i = 0; i < length; ++i) if (feats[i] != null) {
-            featids[i] = new int[feats[i].length];
+            featIds[i] = new int[feats[i].length];
             for (int j = 0; j < feats[i].length; ++j)
-                featids[i][j] = dicts.lookupIndex(POS, "feat="+feats[i][j]);
+                featIds[i][j] = dicts.lookupIndex(POS, "feat="+feats[i][j]);
         }
 
         if (dicts.getDictionarySize(WORD_VEC) > 0) {
@@ -210,10 +213,11 @@ public class DependencyInstance implements Serializable {
         }
 
         // set special pos
+        //TODO: Check if this is used somewhere
         specialPos = new SpecialPos[length];
         for (int i = 0; i < length; ++i) {
-            if (coarseMap.containsKey(postags[i])) {
-                String cpos = coarseMap.get(postags[i]);
+            if (coarseMap.containsKey(uPosTags[i])) {
+                String cpos = coarseMap.get(uPosTags[i]);
                 if ((cpos.equals("CONJ")) && conjWord.contains(forms[i])) {
                     specialPos[i] = SpecialPos.C;
                 }
@@ -227,7 +231,7 @@ public class DependencyInstance implements Serializable {
                     specialPos[i] = SpecialPos.OTHER;
             }
             else {
-                specialPos[i] = getSpecialPos(forms[i], postags[i]);
+                specialPos[i] = getSpecialPos(forms[i], uPosTags[i]);
             }
         }
     }

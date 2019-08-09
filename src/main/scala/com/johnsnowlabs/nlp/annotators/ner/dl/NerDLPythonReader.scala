@@ -63,7 +63,7 @@ object NerDLModelPythonReader {
     val settings = DatasetEncoderParams(labels, chars,
       Array.fill(dim)(0f).toList, dim)
     val encoder = new NerDatasetEncoder(settings)
-    val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags, loadContrib = true)
+    val tf = TensorflowWrapper.read(folder, zipped=false, useBundle, tags)
 
     new TensorflowNer(tf, encoder, 32, verbose)
   }

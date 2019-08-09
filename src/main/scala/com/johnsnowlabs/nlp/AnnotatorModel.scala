@@ -48,7 +48,6 @@ abstract class AnnotatorModel[M <: Model[M]]
     * @return
     */
   override final def transform(dataset: Dataset[_]): DataFrame = {
-    System.gc() // could go to beforeAnnotate?
     require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid. " +
       s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such annotators exist in your pipeline, " +
       s"with the right output names and that they have following annotator types: " +

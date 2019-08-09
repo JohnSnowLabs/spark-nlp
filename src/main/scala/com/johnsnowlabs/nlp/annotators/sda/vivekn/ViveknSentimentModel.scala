@@ -62,12 +62,16 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
   }
 
   /** Positive: 0, Negative: 1, NA: 2*/
-  def classify(sentence: TokenizedSentence): Short = {
+  def classify(sentence: TokenizedSentence): (Short, Double) = {
     val wordFeatures = negateSequence(sentence.tokens).intersect($$(words)).toList
-    if (wordFeatures.isEmpty) return 2
-    val positiveProbability = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
-    val negativeProbability = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum
-    if (positiveProbability > negativeProbability) 0 else 1
+    if (wordFeatures.isEmpty) return (2, 0.0)
+    val positiveScore = wordFeatures.map(word => scala.math.log(($$(positive).getOrElse(word, 0L) + 1.0) / (2.0 * $(positiveTotals)))).sum
+    val negativeScore = wordFeatures.map(word => scala.math.log(($$(negative).getOrElse(word, 0L) + 1.0) / (2.0 * $(negativeTotals)))).sum
+    val positiveSum = wordFeatures.map(word => $$(positive).getOrElse(word, 0L)).sum.toDouble
+    val negativeSum = wordFeatures.map(word => $$(negative).getOrElse(word, 0L)).sum.toDouble
+    lazy val positiveConfidence = positiveSum / (positiveSum + negativeSum)
+    lazy val negativeConfidence = negativeSum / (positiveSum + negativeSum)
+    if (positiveScore > negativeScore) (0, positiveConfidence) else (1, negativeConfidence)
   }
 
   /**
@@ -82,16 +86,13 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
     val sentences = TokenizedWithSentence.unpack(annotations)
 
     sentences.filter(s => s.indexedTokens.nonEmpty).map(sentence => {
+      val (result, confidence) = classify(sentence)
       Annotation(
         outputAnnotatorType,
         sentence.indexedTokens.map(t => t.begin).min,
         sentence.indexedTokens.map(t => t.end).max,
-        classify(sentence) match {
-          case 0 => "positive"
-          case 1 => "negative"
-          case 2 => "na"
-        },
-        Map.empty[String, String]
+        if (result == 0) "positive" else if (result == 1) "negative" else "na",
+        Map("confidence" -> confidence.toString.take(6))
       )
     })
   }
@@ -99,8 +100,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 }
 
 trait ViveknPretrainedModel {
-  def pretrained(name: String = "vivekn_fast", language: Option[String] = Some("en"), remoteLoc: String = ResourceDownloader.publicLoc): ViveknSentimentModel =
-    ResourceDownloader.downloadModel(ViveknSentimentModel, name, language, remoteLoc)
+  def pretrained(name: String = "sentiment_vivekn", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): ViveknSentimentModel =
+    ResourceDownloader.downloadModel(ViveknSentimentModel, name, Option(lang), remoteLoc)
 }
 
 object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel

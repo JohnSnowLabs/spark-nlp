@@ -23,15 +23,17 @@ import org.scalatest._
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
-  def withDocumentAssembler(dataset: Dataset[Row]): Dataset[Row] = {
+  def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
+      .setCleanupMode(cleanupMode)
     documentAssembler.transform(dataset)
   }
 
   def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
     val regexTokenizer = new Tokenizer()
       .setOutputCol("token")
+      .fit(dataset)
     if (sbd)
       regexTokenizer.setInputCols(Array("sentence")).transform(withFullPragmaticSentenceDetector(dataset))
     else

@@ -29,6 +29,5 @@ unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
-unittest.TextTestRunner().run(ConfigPathTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 unittest.TextTestRunner().run(OcrTestSpec())

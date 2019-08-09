@@ -29,7 +29,6 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
   import MatchStrategy._
 
   /** Helper functions to identify context in a word for debugging */
-  private val logger = LoggerFactory.getLogger("RuleFactory")
   private def logSubStartHelper(start: Int): Int = if (start > 10) start - 10 else  0
   private def logSubEndHelper(sourceLength: Int, end: Int): Int = if (sourceLength - end > 10) end + 10 else sourceLength
 
@@ -71,35 +70,15 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
 
   private val transformWithSymbolFunc = (symbol: String, text: String) => transformStrategy match {
     case APPEND_WITH_SYMBOL => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start),logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        APPEND_WITH_SYMBOL)
       "$0" + symbol
     }))
     case PREPEND_WITH_SYMBOL => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start),logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        PREPEND_WITH_SYMBOL)
       symbol + "$0"
     }))
     case REPLACE_ALL_WITH_SYMBOL => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        REPLACE_ALL_WITH_SYMBOL)
       symbol
     }))
     case REPLACE_WITH_SYMBOL_AND_BREAK => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        REPLACE_WITH_SYMBOL_AND_BREAK)
       symbol + BREAK_INDICATOR
     }))
     case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
@@ -107,36 +86,16 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
 
   private val transformWithSymbolicRulesFunc = (text: String) => transformStrategy match {
     case REPLACE_EACH_WITH_SYMBOL => symbolRules.foldLeft(text)((target, rule) => transformMatch(target, rule._2.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule._2.identifier,
-        REPLACE_EACH_WITH_SYMBOL)
       rule._1
     }))
     case REPLACE_EACH_WITH_SYMBOL_AND_BREAK => symbolRules.foldLeft(text)((target, rule) => rule._2.regex replaceAllIn(
       target, m => {
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule._2.identifier,
-        REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
       rule._1 + BREAK_INDICATOR
     }))
     case PROTECT_FROM_BREAK => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        PROTECT_FROM_BREAK)
       PROTECTION_MARKER_OPEN + m.matched + PROTECTION_MARKER_CLOSE
     }))
     case BREAK_AND_PROTECT_FROM_BREAK => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      logger.debug("Matched: {} from: {} using rule {} with strategy {}",
-        m.matched,
-        m.source.subSequence(logSubStartHelper(m.start), logSubEndHelper(m.source.length, m.end)),
-        rule.identifier,
-        PROTECT_FROM_BREAK)
       BREAK_INDICATOR + PROTECTION_MARKER_OPEN + m.matched + PROTECTION_MARKER_CLOSE
     }))
     case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")

@@ -200,10 +200,10 @@ public class SyntacticFeatureFactory implements Serializable {
 
     public FeatureVector createWordFeatures(DependencyInstance dependencyInstance, int i) {
 
-        int[] pos = dependencyInstance.getPostagids();
-        int[] posA = dependencyInstance.getCpostagids();
-        int[] toks = dependencyInstance.getFormids();
-        int[] lemma = dependencyInstance.getLemmaids();
+        int[] pos = dependencyInstance.getUPosTagIds();
+        int[] posA = dependencyInstance.getXPosTagIds();
+        int[] toks = dependencyInstance.getFormIds();
+        int[] lemma = dependencyInstance.getLemmaIds();
 
         int p0 = pos[i];
         int pp = i > 0 ? pos[i - 1] : this.tokenStart;
@@ -307,7 +307,7 @@ public class SyntacticFeatureFactory implements Serializable {
             addWordFeature(code, fv);
         }
 
-        int[][] feats = dependencyInstance.getFeatids();
+        int[][] feats = dependencyInstance.getFeatIds();
         if (feats[i] != null) {
             for (int u = 0; u < feats[i].length; ++u) {
                 int f = feats[i][u];
@@ -371,30 +371,30 @@ public class SyntacticFeatureFactory implements Serializable {
 
         addCore1OPosFeatures(fv, dependencyInstance, h, c, attDist, type);
 
-        addCore1OBigramFeatures(fv, dependencyInstance.getFormids()[h], dependencyInstance.getPostagids()[h],
-                dependencyInstance.getFormids()[c], dependencyInstance.getPostagids()[c], attDist, type);
+        addCore1OBigramFeatures(fv, dependencyInstance.getFormIds()[h], dependencyInstance.getUPosTagIds()[h],
+                dependencyInstance.getFormIds()[c], dependencyInstance.getUPosTagIds()[c], attDist, type);
 
-        if (dependencyInstance.getLemmaids() != null)
-            addCore1OBigramFeatures(fv, dependencyInstance.getLemmaids()[h], dependencyInstance.getPostagids()[h],
-                    dependencyInstance.getLemmaids()[c], dependencyInstance.getPostagids()[c], attDist, type);
+        if (dependencyInstance.getLemmaIds() != null)
+            addCore1OBigramFeatures(fv, dependencyInstance.getLemmaIds()[h], dependencyInstance.getUPosTagIds()[h],
+                    dependencyInstance.getLemmaIds()[c], dependencyInstance.getUPosTagIds()[c], attDist, type);
 
-        addCore1OBigramFeatures(fv, dependencyInstance.getFormids()[h], dependencyInstance.getCpostagids()[h],
-                dependencyInstance.getFormids()[c], dependencyInstance.getCpostagids()[c], attDist, type);
+        addCore1OBigramFeatures(fv, dependencyInstance.getFormIds()[h], dependencyInstance.getXPosTagIds()[h],
+                dependencyInstance.getFormIds()[c], dependencyInstance.getUPosTagIds()[c], attDist, type);
 
-        if (dependencyInstance.getLemmaids() != null)
-            addCore1OBigramFeatures(fv, dependencyInstance.getLemmaids()[h], dependencyInstance.getCpostagids()[h],
-                    dependencyInstance.getLemmaids()[c], dependencyInstance.getCpostagids()[c], attDist, type);
+        if (dependencyInstance.getLemmaIds() != null)
+            addCore1OBigramFeatures(fv, dependencyInstance.getLemmaIds()[h], dependencyInstance.getXPosTagIds()[h],
+                    dependencyInstance.getLemmaIds()[c], dependencyInstance.getXPosTagIds()[c], attDist, type);
 
-        if (dependencyInstance.getFeatids()[h] != null && dependencyInstance.getFeatids()[c] != null) {
-            for (int i = 0, N = dependencyInstance.getFeatids()[h].length; i < N; ++i)
-                for (int j = 0, M = dependencyInstance.getFeatids()[c].length; j < M; ++j) {
+        if (dependencyInstance.getFeatIds()[h] != null && dependencyInstance.getFeatIds()[c] != null) {
+            for (int i = 0, N = dependencyInstance.getFeatIds()[h].length; i < N; ++i)
+                for (int j = 0, M = dependencyInstance.getFeatIds()[c].length; j < M; ++j) {
 
-                    addCore1OBigramFeatures(fv, dependencyInstance.getFormids()[h], dependencyInstance.getFeatids()[h][i],
-                            dependencyInstance.getFormids()[c], dependencyInstance.getFeatids()[c][j], attDist, type);
+                    addCore1OBigramFeatures(fv, dependencyInstance.getFormIds()[h], dependencyInstance.getFeatIds()[h][i],
+                            dependencyInstance.getFormIds()[c], dependencyInstance.getFeatIds()[c][j], attDist, type);
 
                     if (dependencyInstance.getLemmas() != null)
-                        addCore1OBigramFeatures(fv, dependencyInstance.getLemmaids()[h], dependencyInstance.getFeatids()[h][i],
-                                dependencyInstance.getLemmaids()[c], dependencyInstance.getFeatids()[c][j], attDist, type);
+                        addCore1OBigramFeatures(fv, dependencyInstance.getLemmaIds()[h], dependencyInstance.getFeatIds()[h][i],
+                                dependencyInstance.getLemmaIds()[c], dependencyInstance.getFeatIds()[c][j], attDist, type);
                 }
         }
 
@@ -405,11 +405,11 @@ public class SyntacticFeatureFactory implements Serializable {
 
         long code;            // feature code
 
-        int[] forms = dependencyInstance.getFormids();
-        int[] lemmas = dependencyInstance.getLemmaids();
-        int[] postags = dependencyInstance.getPostagids();
-        int[] cpostags = dependencyInstance.getCpostagids();
-        int[][] feats = dependencyInstance.getFeatids();
+        int[] forms = dependencyInstance.getFormIds();
+        int[] lemmas = dependencyInstance.getLemmaIds();
+        int[] postags = dependencyInstance.getUPosTagIds();
+        int[] cpostags = dependencyInstance.getXPosTagIds();
+        int[][] feats = dependencyInstance.getFeatIds();
 
         int tid = type << 4;
 
@@ -557,8 +557,8 @@ public class SyntacticFeatureFactory implements Serializable {
     private void addCore1OPosFeatures(Collector fv, DependencyInstance dependencyInstance,
                                       int h, int c, int attDist, int type) {
 
-        int[] pos = dependencyInstance.getPostagids();
-        int[] posA = dependencyInstance.getCpostagids();
+        int[] pos = dependencyInstance.getUPosTagIds();
+        int[] posA = dependencyInstance.getXPosTagIds();
 
         int tid = type << 4;
 
@@ -794,10 +794,10 @@ public class SyntacticFeatureFactory implements Serializable {
     private void createLabeledGPCFeatureVector(Collector fv, DependencyInstance dependencyInstance,
                                                int gp, int par, int c, int type, int ptype) {
 
-        int[] pos = dependencyInstance.getPostagids();
-        int[] posA = dependencyInstance.getCpostagids();
-        int[] lemma = dependencyInstance.getLemmaids() != null ? dependencyInstance.getLemmaids() :
-                dependencyInstance.getFormids();
+        int[] pos = dependencyInstance.getUPosTagIds();
+        int[] posA = dependencyInstance.getXPosTagIds();
+        int[] lemma = dependencyInstance.getLemmaIds() != null ? dependencyInstance.getLemmaIds() :
+                dependencyInstance.getFormIds();
 
         int flag = (((((gp > par ? 0 : 1) << 1) | (par > c ? 0 : 1)) << 1) | 1);
         int tid = ((ptype << depNumBits) | type) << 4;
@@ -903,9 +903,9 @@ public class SyntacticFeatureFactory implements Serializable {
 
     private void addLabeledTurboGPC(DependencyInstance dependencyInstance, int gp, int par, int c,
                                     int dirFlag, int tid, Collector fv) {
-        int[] posA = dependencyInstance.getCpostagids();
-        int[] lemma = dependencyInstance.getLemmaids() != null ? dependencyInstance.getLemmaids() :
-                dependencyInstance.getFormids();
+        int[] posA = dependencyInstance.getXPosTagIds();
+        int[] lemma = dependencyInstance.getLemmaIds() != null ? dependencyInstance.getLemmaIds() :
+                dependencyInstance.getFormIds();
         int len = posA.length;
 
         int GC = posA[gp];

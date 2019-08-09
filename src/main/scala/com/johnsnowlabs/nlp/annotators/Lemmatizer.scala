@@ -8,10 +8,6 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 /**
-  * Created by saif on 28/04/17.
-  */
-
-/**
   * Class to find standarized lemmas from words. Uses a user-provided or default dictionary.
   * @param uid required internal uid provided by constructor
   * @@ lemmaDict: A dictionary of predefined lemmas must be provided

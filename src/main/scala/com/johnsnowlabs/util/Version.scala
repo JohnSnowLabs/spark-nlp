@@ -17,7 +17,7 @@ object Version {
   def isInteger(str: String) = str.nonEmpty && str.forall(c => Character.isDigit(c))
 
   def parse(str: String): Version = {
-    val parts = str.split('.')
+    val parts = str.replaceAll("-rc\\d", "").split('.')
       .takeWhile(p => isInteger(p))
       .map(p => p.toInt)
       .toList

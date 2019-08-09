@@ -25,10 +25,14 @@ class ResourceHelperTestSpec extends FlatSpec {
 
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
                                             Map.empty[String, String])
-    val stringRepresentation = ResourceHelper.getFilesContentAsArray(externalResource)
-    val expectedStringRepresentation = Array(s"Hello${System.lineSeparator()}World", s"Bye${System.lineSeparator()}World")
+    val iteratorRepresentation = ResourceHelper.getFilesContentBuffer(externalResource)
+    val expectedIteratorRepresentation = Seq(Array(s"ByeWorld").toIterator,
+                                       Array(s"HelloWorld").toIterator)
 
-    assert(expectedStringRepresentation.toList == stringRepresentation.toList)
+    val stringRepresentation = iteratorRepresentation.map(line => line.mkString)
+    val expectedStringRepresentation = expectedIteratorRepresentation.map(line => line.mkString)
+
+    assert(expectedStringRepresentation == stringRepresentation)
 
   }
 
@@ -37,7 +41,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK_DATASET,
       Map("format"->"text"))
     val caught = intercept[Exception] {
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     assert(caught.getMessage == "Unsupported readAs")
@@ -47,14 +51,14 @@ class ResourceHelperTestSpec extends FlatSpec {
 
     val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
       Map.empty[String, String])
-    val expectedMessage = "folder: wrong/path/ not found"
+    val expectedMessage = "File wrong/path does not exist"
 
     assertThrows[FileNotFoundException]{
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     val caught = intercept[FileNotFoundException] {
-      ResourceHelper.getFilesContentAsArray(externalResource)
+      ResourceHelper.getFilesContentBuffer(externalResource)
     }
 
     assert(caught.getMessage == expectedMessage)
