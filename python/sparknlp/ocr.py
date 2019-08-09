@@ -69,3 +69,22 @@ class OcrHelper(ExtendedJavaWrapper):
 
     def useErosion(self, use, k_size=2, k_shape=0):
         return self._java_obj.useErosion(use, k_size, k_shape)
+
+    def drawRectangle(self, spark, path, coordinates):
+        jcoords = list(map(lambda c: c.java_obj, coordinates))
+        return self._java_obj.drawRectangle(spark._jsparkSession, path, jcoords)
+
+
+#
+# @param x  The lower left x coordinate.
+# @param y  The lower left y coordinate.
+# @param w  The width of the rectangle.
+# @param h  The height of the rectangle.
+#
+class Coordinate(ExtendedJavaWrapper):
+    def __init__(self, x, y, w, h):
+        super(Coordinate, self).__init__("com.johnsnowlabs.nlp.util.io.schema.Coordinate")
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
