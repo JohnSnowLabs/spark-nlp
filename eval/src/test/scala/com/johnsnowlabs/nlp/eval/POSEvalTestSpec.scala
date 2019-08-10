@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.eval
 
-import com.johnsnowlabs.nlp.annotator.PerceptronModel
+import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, PerceptronModel}
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
@@ -14,13 +14,28 @@ class POSEvalTestSpec extends FlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 
-  "A POS Evaluation with IOB tags" should "display accuracy results for pretrained model" in {
+  val testFile = "./eng.testb"
 
-    val testFile = "./eng.testb"
+  "A POS Evaluation" should "display accuracy results for a pre-trained model" in {
+
     val nerModel = PerceptronModel.pretrained()
 
     val posEvaluation = new POSEvaluation(spark, testFile)
     posEvaluation.computeAccuracyModel(nerModel)
+
+  }
+
+  "A POS Evaluation" should "display accuracy results" in {
+
+    val trainFile = "src/test/resources/anc-pos-corpus-small/110CYL068.txt"
+
+    val posTagger = new PerceptronApproach()
+      .setInputCols(Array("document", "token"))
+      .setOutputCol("pos")
+      .setNIterations(2)
+
+    val posEvaluation = new POSEvaluation(spark, testFile)
+    posEvaluation.computeAccuracyAnnotator(trainFile, posTagger)
 
   }
 

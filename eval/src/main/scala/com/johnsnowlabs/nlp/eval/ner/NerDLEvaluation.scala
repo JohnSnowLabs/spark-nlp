@@ -115,9 +115,7 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       val embeddingsTest = embeddings.transform(testDataSet)
 
       predictionDataSet = nerModel.transform(embeddingsTest)
-
-    }
-    else {
+    } else {
       val embeddings = WordEmbeddingsModel.pretrained()
         .setInputCols("document", "token")
         .setOutputCol("embeddings")

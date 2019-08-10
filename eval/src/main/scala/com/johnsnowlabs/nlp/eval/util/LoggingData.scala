@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotator.{NerCrfModel, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
 import org.mlflow.api.proto.Service.{RunInfo, RunStatus}
@@ -208,6 +209,15 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
     } else {
       println(s"Parameters for $sourceName:")
       println("includeConfidence: " + nerCrf.getIncludeConfidence.toString)
+    }
+  }
+
+  def logPOSParams(pos: PerceptronApproach): Unit = {
+    if (runId != "console") {
+      getMLFlowClient.get.logParam(runId, "nIterations", pos.getNIterations.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("nIterations: " + pos.getNIterations.toString)
     }
   }
 

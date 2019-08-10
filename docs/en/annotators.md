@@ -785,7 +785,7 @@ Refer to the [PerceptronApproach](https://nlp.johnsnowlabs.com/api/index#com.joh
 pos_tagger = PerceptronApproach() \
     .setInputCols(["token", "sentence"]) \
     .setOutputCol("pos") \
-    .setIterations(2) \
+    .setNIterations(2) \
     .fit(train_pos)
 {% endhighlight %}
 
@@ -793,7 +793,7 @@ pos_tagger = PerceptronApproach() \
 val posTagger = new PerceptronApproach()
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("pos")
-    .setIterations(2)
+    .setNIterations(2)
     .fit(trainPOS)
 {% endhighlight %}
 
