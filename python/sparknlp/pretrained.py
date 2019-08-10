@@ -29,7 +29,7 @@ class ResourceDownloader(object):
 
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
-        print("Download started (This may take some time)")
+        print(name + " download started this may take some time")
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
         t1.start()
@@ -41,7 +41,7 @@ class ResourceDownloader(object):
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
-        print("Download started (This may take some time)")
+        print(name + " download started this may take some time")
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
         t1.start()
