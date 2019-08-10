@@ -528,20 +528,24 @@ class OcrHelper extends ImageProcessing with Serializable {
     import java.awt.Color
     import org.apache.pdfbox.pdmodel.PDPageContentStream
 
-    val contentStream = new PDPageContentStream(doc, doc.getPage(0), PDPageContentStream.AppendMode.APPEND, false)
-    contentStream.setStrokingColor(Color.RED)
+    val pagedCoordinates = coordinates.groupBy(_.p)
 
-    coordinates.foreach(coord => {
+    pagedCoordinates.keys.toArray.sorted.foreach(pageIndex => {
+      val contentStream = new PDPageContentStream(doc, doc.getPage(pageIndex), PDPageContentStream.AppendMode.APPEND, false)
+      contentStream.setStrokingColor(Color.RED)
 
-      if (coord.p > -1) {
-        contentStream.addRect(coord.x, coord.y, coord.w, coord.h)
-        contentStream.stroke()
-      }
+      pagedCoordinates(pageIndex).foreach(coord => {
+        if (coord.p > -1) {
+          contentStream.addRect(coord.x, coord.y, coord.w, coord.h)
+          contentStream.stroke()
+        }
+      })
+
+      contentStream.close()
 
     })
 
-    contentStream.close()
-    val fileout = new File("find_word_highlight.pdf")
+    val fileout = new File("highlight_output.pdf")
     doc.save(fileout)
 
   }
