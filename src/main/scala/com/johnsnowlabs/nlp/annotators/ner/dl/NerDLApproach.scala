@@ -111,7 +111,7 @@ class NerDLApproach(override val uid: String)
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
 
-    val labels = trainDataset.flatMap(r => r._1.labels).distinct ++ Set("X")
+    val labels = trainDataset.flatMap(r => r._1.labels).distinct
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.wordpiece.toCharArray)).distinct
     val embeddingsDim = calculateEmbeddingsDim(trainSentences)
 
@@ -205,7 +205,7 @@ trait WithGraphResolver  {
     // 2. Filter by labels and nChars
     val tagsFiltered = embeddingsFiltered.map {
       case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
-        if (tags > fileTags)
+        if (tags >= fileTags)
           None
         else
           Some((fileTags, fileEmbeddingsNDims, fileNChars))
@@ -218,7 +218,7 @@ trait WithGraphResolver  {
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {
       case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
-        if (nChars > fileNChars)
+        if (nChars >= fileNChars)
           None
         else
           Some((fileTags, fileEmbeddingsNDims, fileNChars))
