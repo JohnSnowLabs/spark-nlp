@@ -199,7 +199,7 @@ trait WithGraphResolver  {
       }
     }
 
-    require(embeddingsFiltered.exists(_.nonEmpty), s"Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
+    require(embeddingsFiltered.exists(_.nonEmpty), s"Graph dimensions $embeddingsNDims: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
       s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
 
     // 2. Filter by labels and nChars
@@ -212,8 +212,8 @@ trait WithGraphResolver  {
       case _ => None
     }
 
-    require(tagsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-      s"Generate graph by python code in python/tensorflow/ner/create_models before usage and use setGraphFolder Param to point to output.")
+    require(tagsFiltered.exists(_.nonEmpty), s"Graph tags size $tags: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
+      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
 
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {
@@ -225,8 +225,8 @@ trait WithGraphResolver  {
       case _ => None
     }
 
-    require(charsFiltered.exists(_.nonEmpty), s"Not found tensorflow graph suitable for number of dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-      s"Generate graph by python code before usage.")
+    require(charsFiltered.exists(_.nonEmpty), s"Graph chars size $nChars: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
+      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
 
     for (i <- files.indices) {
       if (charsFiltered(i).nonEmpty)
