@@ -122,9 +122,9 @@ trait PretrainedNerDL {
       if (SystemUtils.IS_OS_WINDOWS)
         "ner_dl"
       else
-        // Download better model if not windows
+      // Download better model if not windows
         "ner_dl_contrib"
-      }
+    }
     else name
     ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
   }
