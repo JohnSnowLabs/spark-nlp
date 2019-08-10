@@ -88,12 +88,12 @@ class TensorflowNer
     var i = -1
 
     sentence.tokens.map{t =>
-      if (t.isWordStart) {
-        i += 1
-        tokenTags.labels(i)
-      }
-      else
-        "X"
+      //if (t.isWordStart) {
+      i += 1
+      tokenTags.labels(i)
+      //}
+      //else
+      //"X"
     }
   }
 
