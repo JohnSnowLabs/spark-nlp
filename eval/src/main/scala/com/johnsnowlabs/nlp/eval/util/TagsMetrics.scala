@@ -1,9 +1,8 @@
-package com.johnsnowlabs.nlp.eval.ner
+package com.johnsnowlabs.nlp.eval.util
 
-import com.johnsnowlabs.nlp.eval.util.LoggingData
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 
-object NerMetrics {
+object TagsMetrics {
 
    def computeAccuracy(metrics: MulticlassMetrics, loggingData: LoggingData): Unit = {
     val accuracy = (metrics.accuracy * 1000).round / 1000.toDouble

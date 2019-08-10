@@ -16,9 +16,10 @@ class NerCrfEvalTesSpec extends FlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 
+  val testFile = "./eng.testb"
+
   "A NER CRF Evaluation with IOB tags" should "display accuracy results" in {
 
-    val testFile = "./eng.testb"
     val nerModel = NerCrfModel.pretrained()
     val tagLevel = "IOB"
 
@@ -29,7 +30,6 @@ class NerCrfEvalTesSpec extends FlatSpec {
 
   "A NER CRF Evaluation with IOB tags" should "display accuracy results for pretrained model" in {
     val trainFile = "./eng.train"
-    val testFile = "./eng.testb"
     val tagLevel = "IOB"
 
     val embeddings = new WordEmbeddings()
@@ -54,7 +54,6 @@ class NerCrfEvalTesSpec extends FlatSpec {
 
   "A NER CRF Evaluation" should "display accuracy results" in {
 
-    val testFile = "./eng.testb"
     val nerModel = NerCrfModel.pretrained()
 
     val nerCrfEvaluationGoldToken = new NerCrfEvaluation(spark, testFile)
@@ -64,7 +63,6 @@ class NerCrfEvalTesSpec extends FlatSpec {
 
   "A NER CRF Evaluation" should "display accuracy results for pretrained model" in {
     val trainFile = "./eng.train"
-    val testFile = "./eng.testb"
 
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
