@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.eval.ner
 
 import com.johnsnowlabs.nlp.annotator.{NerDLApproach, NerDLModel, WordEmbeddings, WordEmbeddingsModel}
-import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
+import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData, TagsMetrics}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
@@ -54,15 +54,14 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
   }
 
   def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
-    import sparkSession.implicits._
     val entityLabels = getEntityLabels(nerEvalDLConfiguration, tagLevel)
     val evaluationDataSet = getEvaluationDataSet(nerEvalDLConfiguration, entityLabels, tagLevel)
     val predictionLabelsRDD = evaluationDataSet.select("predictionIndex", "labelIndex")
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
-    NerMetrics.computeAccuracy(metrics, loggingData)
-    NerMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
-    NerMetrics.computeMicroAverage(metrics,loggingData)
+    TagsMetrics.computeAccuracy(metrics, loggingData)
+    TagsMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
+    TagsMetrics.computeMicroAverage(metrics,loggingData)
   }
 
   private def getEntityLabels(nerEvalDLConfiguration: NerEvalDLConfiguration, tagLevel: String): List[String] = {

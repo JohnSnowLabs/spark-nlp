@@ -16,9 +16,10 @@ class NerDLEvalTesSpec extends FlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 
-  "A NER DL Evaluation with IOB tags" should "display accuracy results for pretrained model" in {
+  private val testFile = "./eng.testb"
 
-    val testFile = "./eng.testb"
+  "A NER DL Evaluation with IOB tags" should "display accuracy results for pre-trained model" in {
+
     val nerModel = NerDLModel.pretrained()
     val tagLevel = "IOB"
 
@@ -29,7 +30,6 @@ class NerDLEvalTesSpec extends FlatSpec {
 
   "A NER DL Evaluation with IOB tags" should "display accuracy results" in {
     val trainFile = "./eng.train"
-    val testFile = "./eng.testb"
     val tagLevel = "IOB"
 
     val embeddings = new WordEmbeddings()
@@ -52,9 +52,8 @@ class NerDLEvalTesSpec extends FlatSpec {
 
   }
 
-  "A NER DL Evaluation" should "display accuracy results for pretrained model" in {
+  "A NER DL Evaluation" should "display accuracy results for pre-trained model" in {
 
-    val testFile = "./eng.testb"
     val nerModel = NerDLModel.pretrained()
 
     val nerDLEvaluation = new NerDLEvaluation(spark, testFile)
@@ -64,7 +63,6 @@ class NerDLEvalTesSpec extends FlatSpec {
 
   "A NER DL Evaluation" should "display accuracy results" in {
     val trainFile = "./eng.train"
-    val testFile = "./eng.testb"
 
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
