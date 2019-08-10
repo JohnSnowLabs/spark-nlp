@@ -6,7 +6,6 @@ class OcrHelper(ExtendedJavaWrapper):
 
     def __init__(self):
         super(OcrHelper, self).__init__("com.johnsnowlabs.nlp.util.io.OcrHelper")
-        self._java_obj = self._new_java_obj(self._java_obj)
 
     def createDataset(self, spark, input_path):
         if type(spark) != SparkSession:
@@ -76,14 +75,16 @@ class OcrHelper(ExtendedJavaWrapper):
 
 
 #
+# @param p  Page number.
 # @param x  The lower left x coordinate.
 # @param y  The lower left y coordinate.
 # @param w  The width of the rectangle.
 # @param h  The height of the rectangle.
 #
 class Coordinate(ExtendedJavaWrapper):
-    def __init__(self, x, y, w, h):
-        super(Coordinate, self).__init__("com.johnsnowlabs.nlp.util.io.schema.Coordinate")
+    def __init__(self, p, x, y, w, h):
+        super(Coordinate, self).__init__("com.johnsnowlabs.nlp.util.io.schema.Coordinate", p, x, y, w, h)
+        self.p = p
         self.x = x
         self.y = y
         self.w = w
