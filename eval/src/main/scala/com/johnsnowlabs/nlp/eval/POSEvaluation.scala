@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData, TagsMetrics}
+import com.johnsnowlabs.nlp.training.POS
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -19,6 +21,13 @@ class POSEvaluation(sparkSession: SparkSession, testFile: String) {
 
   def computeAccuracyModel(posModel: PerceptronModel): Unit = {
     val posEvalConfiguration = PosEvalConfiguration("", posModel, null)
+    computeAccuracy(posEvalConfiguration)
+    loggingData.closeLog()
+  }
+
+  def computeAccuracyAnnotator(trainFile:String, posApproach: PerceptronApproach): Unit = {
+    loggingData.logPOSParams(posApproach)
+    val posEvalConfiguration = PosEvalConfiguration(trainFile, null, posApproach)
     computeAccuracy(posEvalConfiguration)
     loggingData.closeLog()
   }
@@ -64,13 +73,21 @@ class POSEvaluation(sparkSession: SparkSession, testFile: String) {
 
   private def getPredictionDataSet(posEvalConfiguration: PosEvalConfiguration): Dataset[_] = {
     val testDataSet = goldTokenizer.getGoldenTokenizer(testFile)
-    //val trainDataSet = POS().readDataset(sparkSession, posEvalConfiguration.trainFile)
-    val posModel = posEvalConfiguration.posModel
-      .setInputCols("document", "token")
-      .setOutputCol("pos")
+    var predictionDataSet: Dataset[_] = null
+    var posModel: PerceptronModel = null
 
-    val predictionDataSet = posModel.transform(testDataSet)
-
+    if (posEvalConfiguration.posModel == null) {
+      val trainDataSet = POS().readDataset(sparkSession, posEvalConfiguration.trainFile)
+      val time = Benchmark.measure(1, false, "[POS] Time to train") {
+        posModel = posEvalConfiguration.posApproach.fit(trainDataSet)
+      }
+      loggingData.logMetric("Training time/s", time)
+    } else {
+      posModel = posEvalConfiguration.posModel
+        .setInputCols("document", "token")
+        .setOutputCol("pos")
+    }
+    predictionDataSet = posModel.transform(testDataSet)
     predictionDataSet.select(
       $"id",
       $"document",
