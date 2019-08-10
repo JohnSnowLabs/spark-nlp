@@ -205,7 +205,7 @@ trait WithGraphResolver  {
     // 2. Filter by labels and nChars
     val tagsFiltered = embeddingsFiltered.map {
       case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
-        if (tags >= fileTags)
+        if (tags > fileTags)
           None
         else
           Some((fileTags, fileEmbeddingsNDims, fileNChars))
@@ -218,7 +218,7 @@ trait WithGraphResolver  {
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {
       case Some((fileTags, fileEmbeddingsNDims, fileNChars)) =>
-        if (nChars >= fileNChars)
+        if (nChars > fileNChars)
           None
         else
           Some((fileTags, fileEmbeddingsNDims, fileNChars))
