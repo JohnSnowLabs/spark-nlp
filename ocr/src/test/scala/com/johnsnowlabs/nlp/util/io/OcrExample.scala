@@ -176,7 +176,7 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
 
   "OcrExample with Spark" should "detect text and draw box with coordinates" in {
     val spark = getSpark
-    val data = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/simple_document_paragraph.pdf")
+    val data = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/alexandria_multi_page.pdf")
     data.show()
     println("done")
   }

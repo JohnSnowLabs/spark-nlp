@@ -27,35 +27,44 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
   private val parseCoordinates = udf {
     (chunkRaw: Seq[Row], pageRaw: Seq[Row]) => {
       val chunkAnnotations = chunkRaw.map(Annotation(_))
-      val matrix = PageMatrix.fromRow(pageRaw.head)
+
+      val bounds = Array.ofDim[Int](pageRaw.length)
+      var last = 0
+      val matrix = pageRaw.zipWithIndex.flatMap{case (p, i) =>
+        val pm = PageMatrix.fromRow(p)
+        last += pm.mapping.length
+        bounds(i) = last
+        pm.mapping
+      }
+
       chunkAnnotations.map(target => {
-        val line = matrix.mapping.slice(target.begin, target.end+1)
-        require(
-          target.result == line.map(_.toString).mkString,
-          s"because target chunk: <${target.result}> does not equal slice ${line.map(_.toString).mkString}"
-        )
+        val line = matrix.slice(target.begin, target.end+1)
+        if(target.result == line.map(_.toString).mkString) {
 
-        var minx = -1.0f
-        var maxx = -1.0f
+          var minx = -1.0f
+          var maxx = -1.0f
 
-        for (pos <- line) {
-          if (pos != null) {
+          for (pos <- line) {
+            if (pos != null) {
 
-            if (minx == -1 || pos.x < minx) minx = pos.x
-            if (maxx == -1 || pos.x > maxx) maxx = pos.x
+              if (minx == -1 || pos.x < minx) minx = pos.x
+              if (maxx == -1 || pos.x > maxx) maxx = pos.x
+            }
           }
+
+          val firstPosition = line.head
+          val lastPosition = line.last
+
+          val x = minx
+          val y = firstPosition.y
+
+          val w = (maxx - minx) + lastPosition.width
+          val h = lastPosition.height
+
+          Coordinate(bounds.count(target.begin > _), x, y, w, h)
+        } else {
+          Coordinate(-1, -1, -1, -1, -1)
         }
-
-        val firstPosition = line.head
-        val lastPosition = line.last
-
-        val x = minx + matrix.lowerLeftX
-        val y = firstPosition.y + matrix.lowerLeftY
-
-        val w = (maxx - minx) + lastPosition.width
-        val h = lastPosition.height
-
-        Coordinate(x, y, w, h)
 
       })
     }

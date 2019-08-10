@@ -83,7 +83,7 @@ class DocumentAssembler(override val uid: String)
       case "shrink" => text.trim.replaceAll("\\s+", " ")
       case "shrink_each" => text.replaceAll("\\s(?:\\n|\\t)", " ")
       case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full. Received: $b")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full. Received: $b")
     }
     Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
   }

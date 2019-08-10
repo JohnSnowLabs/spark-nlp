@@ -470,15 +470,11 @@ class OcrHelper extends ImageProcessing with Serializable {
   private def getCoordinates(doc: PDDocument, startPage: Int, endPage: Int): Seq[PageMatrix] = {
     import scala.collection.JavaConverters._
 
-    val r = Range(startPage, endPage + 1).map(pagenum => {
+    Range(startPage, endPage + 1).map(pagenum => {
       val stripper = new CustomStripper
       stripper.setStartPage(pagenum)
       stripper.setEndPage(pagenum)
       stripper.getText(doc)
-      stripper.setLineSeparator("<><>")
-      stripper.setWordSeparator("||")
-      stripper.writeLineSeparator()
-      stripper.writeWordSeparator()
 
       val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
 
@@ -496,9 +492,6 @@ class OcrHelper extends ImageProcessing with Serializable {
       )
     })
 
-    //findWordHighlight(doc, Seq(FindWord("all through", 151, 161), FindWord("this is a paragraph", 13, 31)), r.head)
-    //println(r)
-    r
   }
 
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[OcrRow]] = {
@@ -540,8 +533,10 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     coordinates.foreach(coord => {
 
-      contentStream.addRect(coord.x, coord.y, coord.w, coord.h)
-      contentStream.stroke()
+      if (coord.p > -1) {
+        contentStream.addRect(coord.x, coord.y, coord.w, coord.h)
+        contentStream.stroke()
+      }
 
     })
 
