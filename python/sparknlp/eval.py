@@ -107,3 +107,26 @@ class NerCrfEvaluation(ExtendedJavaWrapper):
         embeddings_params['dimension'] = embeddings.getDimension()
         embeddings_params['format'] = embeddings.getFormat()
         return embeddings_params
+
+
+class POSEvaluation(ExtendedJavaWrapper):
+
+    def __init__(self, spark, test_file):
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.POSEvaluation")
+        self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file)
+
+    def computeAccuracyModel(self, pos):
+        return self._java_obj.computeAccuracyModel(pos._java_obj)
+
+    def computeAccuracyAnnotator(self, train_file, pos):
+        pos_params = self.__getPosParams(pos)
+        return self._java_obj.computeAccuracyAnnotator(train_file, pos_params['input_cols'], pos_params['output_col'],
+                                                       pos_params['number_iterations'])
+
+    def __getPosParams(self, pos):
+        pos_params = dict()
+        input_cols = pos.getInputCols()
+        pos_params['input_cols'] = self.new_java_array_string(input_cols)
+        pos_params['output_col'] = pos.getOutputCol()
+        pos_params['number_iterations'] = pos.getNIterations()
+        return pos_params

@@ -18,10 +18,10 @@ class POSEvalTestSpec extends FlatSpec {
 
   "A POS Evaluation" should "display accuracy results for a pre-trained model" in {
 
-    val nerModel = PerceptronModel.pretrained()
+    val posModel = PerceptronModel.pretrained()
 
     val posEvaluation = new POSEvaluation(spark, testFile)
-    posEvaluation.computeAccuracyModel(nerModel)
+    posEvaluation.computeAccuracyModel(posModel)
 
   }
 
