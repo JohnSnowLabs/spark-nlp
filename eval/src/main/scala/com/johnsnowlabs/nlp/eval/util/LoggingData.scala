@@ -18,6 +18,7 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
   private val mlFlowClient = getMLFlowClient
   private val runInfo = getRunInfo(experimentName)
   private val runId: String = getRunId(runInfo)
+  private val UNSUPPORTED_SYMBOLS = "[!$%^&*()+|~=`{}\\[\\]:\";'<>?,]"
 
   setMLflowTags()
 
@@ -224,7 +225,13 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
   def logMetric(metric: String, value: Double): Unit = {
     val roundValue = BigDecimal(value).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
     if (runId != "console") {
-      mlFlowClient.get.logMetric(runId, metric, roundValue)
+      val pattern = UNSUPPORTED_SYMBOLS.r
+      val value = pattern.findFirstIn(metric).getOrElse("")
+      if (value == "") {
+        mlFlowClient.get.logMetric(runId, metric, roundValue)
+      } else {
+        mlFlowClient.get.logMetric(runId, "SYMBOL", roundValue)
+      }
     } else {
       println(metric + ": " + roundValue)
     }

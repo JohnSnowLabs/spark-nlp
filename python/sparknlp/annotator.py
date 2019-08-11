@@ -505,6 +505,9 @@ class PerceptronApproach(AnnotatorApproach):
     def setIterations(self, value):
         return self._set(nIterations=value)
 
+    def getNIterations(self):
+        return self.getOrDefault(self.nIterations)
+
     def _create_model(self, java_model):
         return PerceptronModel(java_model=java_model)
 
@@ -972,7 +975,6 @@ class NerApproach(Params):
 
     def getLabelColumn(self):
         return self.getOrDefault(self.labelColumn)
-
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
