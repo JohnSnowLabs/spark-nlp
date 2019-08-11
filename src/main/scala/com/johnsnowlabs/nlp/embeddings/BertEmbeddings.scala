@@ -65,11 +65,12 @@ class BertEmbeddings(override val uid: String) extends
       _model = Some(
         spark.sparkContext.broadcast(
           new TensorflowBert(
-          tensorflow,
-          sentenceStartTokenId,
-          sentenceEndTokenId,
-          $(maxSentenceLength),
-          configProtoBytes = getConfigProtoBytes
+            tensorflow,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
+            $(maxSentenceLength),
+            $(dimension),
+            configProtoBytes = getConfigProtoBytes
           )
         )
       )
