@@ -69,6 +69,7 @@ class BertEmbeddings(override val uid: String) extends
             sentenceStartTokenId,
             sentenceEndTokenId,
             $(maxSentenceLength),
+            $(batchSize),
             $(dimension),
             configProtoBytes = getConfigProtoBytes
           )
