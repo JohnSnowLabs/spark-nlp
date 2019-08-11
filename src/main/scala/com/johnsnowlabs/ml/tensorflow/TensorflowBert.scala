@@ -9,11 +9,14 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceEndTokenId: Int,
                      maxSentenceLength: Int,
                      batchSize: Int = 5,
+                     dimension: Int = 768,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
   private val tokenIdsKey = "token_ids:0"
-  private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
+  private val bertLayer = if(dimension == 768) 12 else 24
+//    private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
+  private val embeddingsKey = s"bert/encoder/Reshape_$bertLayer:0"
 
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
