@@ -71,8 +71,8 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
-        val vector = this.getEmbeddings.getEmbeddingsVector(token.token)
-        new TokenPieceEmbeddings(token.token, token.token, -1, true, vector, token.begin, token.end)
+        val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
+        TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, Array.fill($(dimension))(0f), token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, idx)
     }
