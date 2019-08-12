@@ -226,3 +226,31 @@ nerCrf = NerCrfModel.pretrained()
 nerCrfEvaluation = NerCrfEvaluation(spark, testFile, tagLevel)
 nerCrfEvaluation.computeAccuracyModel(nerCrf)
 {% endhighlight %}
+
+### Evaluating POS Tagger
+
+You can evaluate POS either training an annotator or using a pretrained model.
+
+- trainFile: A labeled POS file see and example [here](https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset).
+- testFile: A CoNLL-U format file.
+
+**Example for annotator:**
+{% highlight python %}
+pos_tagger = PerceptronApproach() \
+             .setInputCols(["document", "token"]) \
+             .setOutputCol("pos") \
+             .setNIterations(2)
+
+posEvaluation = POSEvaluation(spark, test_file)
+posEvaluation.computeAccuracyAnnotator(train_file, pos_tagger)
+{% endhighlight %}
+
+{% highlight scala %}
+val posTagger = new PerceptronApproach()
+      .setInputCols(Array("document", "token"))
+      .setOutputCol("pos")
+      .setNIterations(2)
+
+val posEvaluation = new POSEvaluation(spark, testFile)
+posEvaluation.computeAccuracyAnnotator(trainFile, posTagger)
+{% endhighlight %}
