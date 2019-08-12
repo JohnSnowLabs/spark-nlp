@@ -119,7 +119,9 @@ case class CoNLL(documentCol: String = "document",
   }
 
   def packAssembly(text: String, isTraining: Boolean = true): Seq[Annotation] = {
-    new DocumentAssembler().assemble(text, Map("training" -> isTraining.toString))
+    new DocumentAssembler()
+      .setCleanupMode("shrink_full")
+      .assemble(text, Map("training" -> isTraining.toString))
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
