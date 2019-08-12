@@ -253,7 +253,7 @@ class TensorflowNer
             predicted(tag) = predicted.getOrElse(tag, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag) && label != "O") {
+            if ((label == tag)) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag != "O") {
               falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
@@ -298,7 +298,6 @@ class TensorflowNer
     val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
     if (extended) {
-      log(s"Accuracy:\t ${totalTruePositives / labels.length}")
       log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
     }
     // ex: Precision = P1+P2/2
