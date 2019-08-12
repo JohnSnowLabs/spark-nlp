@@ -277,10 +277,10 @@ class TensorflowNer
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
-    if (extended) {
+    if (extended)
       log("label\t prec\t rec\t f1")
-    }
 
+    var totalPercByClass, totalRecByClass = 0f
     for (label <- labels) {
       val (prec, rec, f1) = calcStat(
         truePositives.getOrElse(label, 0),
@@ -290,9 +290,20 @@ class TensorflowNer
       if (extended) {
         log(s"$label\t $prec\t $rec\t $f1")
       }
+      totalPercByClass = totalPercByClass + prec
+      totalRecByClass = totalRecByClass + rec
     }
-    log(s"Total labels in evaluation: ${notEmptyLabels.length}")
+    val macroPercision = totalPercByClass/labels.length
+    val macroRecall = totalRecByClass/labels.length
+    val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
-    log(s"Weighted stats\t prec: $prec, rec: $rec, f1: $f1")
+    if (extended) {
+      log(s"Accuracy:\t ${totalTruePositives / labels.length}")
+      log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
+    }
+    // ex: Precision = P1+P2/2
+    log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
+    // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
+    log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
   }
 }
