@@ -9,6 +9,8 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.ArrayType
 import com.johnsnowlabs.nlp.annotators.ocr.schema._
 
+import scala.collection.mutable.ArrayBuffer
+
 class PositionFinder(override val uid: String) extends RawAnnotator[PositionFinder] {
 
   override val outputAnnotatorType: AnnotatorType = CHUNK
@@ -30,6 +32,8 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
 
       val bounds = Array.ofDim[Int](pageRaw.length)
       var last = 0
+
+      /** useful for identifying which page entities belong to */
       val matrix = pageRaw.zipWithIndex.flatMap{case (p, i) =>
         val pm = PageMatrix.fromRow(p)
         last += pm.mapping.length
@@ -37,36 +41,51 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
         pm.mapping
       }
 
-      chunkAnnotations.map(target => {
+      val coordinates = ArrayBuffer.empty[Coordinate]
+
+      def closeRectangle(minX: Float, maxX: Float, lastPosition: Mapping, targetBegin: Int, chunkIndex: Int): Unit = {
+        val x = minX
+        val y = lastPosition.y
+
+        val w = (maxX - minX) + lastPosition.width
+        val h = lastPosition.height
+
+        coordinates += Coordinate(chunkIndex, bounds.count(targetBegin > _), x, y, w, h)
+      }
+
+      chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) => {
         val line = matrix.slice(target.begin, target.end+1)
         if(target.result == line.map(_.toString).mkString) {
 
-          var minx = -1.0f
-          var maxx = -1.0f
+          var minX = -1.0f
+          var maxX = -1.0f
+
+          var lastPos = line.head
 
           for (pos <- line) {
             if (pos != null) {
-
-              if (minx == -1 || pos.x < minx) minx = pos.x
-              if (maxx == -1 || pos.x > maxx) maxx = pos.x
+              /** check if we are one line below previous, close rectangle if so */
+              if (pos.y < lastPos.y) {
+                closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex)
+                minX = -1.0f
+                maxX = -1.0f
+              }
+              lastPos = pos
+              if (minX == -1 || pos.x < minX) minX = pos.x
+              if (maxX == -1 || pos.x > maxX) maxX = pos.x
             }
           }
 
-          val firstPosition = line.head
-          val lastPosition = line.last
+          /** close lingering rectangle */
+          closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex)
 
-          val x = minx
-          val y = firstPosition.y
+          coordinates
 
-          val w = (maxx - minx) + lastPosition.width
-          val h = lastPosition.height
-
-          Coordinate(bounds.count(target.begin > _), x, y, w, h)
         } else {
-          Coordinate(-1, -1, -1, -1, -1)
+          Seq.empty[Coordinate]
         }
 
-      })
+      }}
     }
   }
 

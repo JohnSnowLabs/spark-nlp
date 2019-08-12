@@ -75,6 +75,7 @@ class OcrHelper(ExtendedJavaWrapper):
 
 
 #
+# @param i  Chunk index.
 # @param p  Page number.
 # @param x  The lower left x coordinate.
 # @param y  The lower left y coordinate.
@@ -82,8 +83,9 @@ class OcrHelper(ExtendedJavaWrapper):
 # @param h  The height of the rectangle.
 #
 class Coordinate(ExtendedJavaWrapper):
-    def __init__(self, p, x, y, w, h):
-        super(Coordinate, self).__init__("com.johnsnowlabs.nlp.util.io.schema.Coordinate", p, x, y, w, h)
+    def __init__(self, i, p, x, y, w, h):
+        super(Coordinate, self).__init__("com.johnsnowlabs.nlp.util.io.schema.Coordinate", i, p, x, y, w, h)
+        self.i = i
         self.p = p
         self.x = x
         self.y = y
