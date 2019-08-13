@@ -278,17 +278,16 @@ class TensorflowNer
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
     if (extended)
-      log("label\t prec\t rec\t f1")
+      log("label\t tp\t fp\t fn\t prec\t rec\t f1")
 
     var totalPercByClass, totalRecByClass = 0f
     for (label <- labels) {
-      val (prec, rec, f1) = calcStat(
-        truePositives.getOrElse(label, 0),
-        falsePositives.getOrElse(label, 0),
-        falseNegatives.getOrElse(label, 0)
-      )
+      val tp = truePositives.getOrElse(label, 0)
+      val fp = falsePositives.getOrElse(label, 0)
+      val fn = falseNegatives.getOrElse(label, 0)
+      val (prec, rec, f1) = calcStat(tp, fp, fn)
       if (extended) {
-        log(s"$label\t $prec\t $rec\t $f1")
+        log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
       }
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
