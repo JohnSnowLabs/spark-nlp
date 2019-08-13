@@ -293,8 +293,8 @@ class TensorflowNer
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
     }
-    val macroPercision = totalPercByClass/labels.length
-    val macroRecall = totalRecByClass/labels.length
+    val macroPercision = totalPercByClass/notEmptyLabels.length
+    val macroRecall = totalRecByClass/notEmptyLabels.length
     val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
     if (extended) {
