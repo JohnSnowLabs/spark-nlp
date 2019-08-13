@@ -80,28 +80,33 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 100, 101))
   }
 
-  "NerDL Approach" should "validate against part of the training dataset" in {
+  "NerDL Approach" should "validate against part of the training dataset" ignore {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testa")
+    val test_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testb")
 
     val embeddings = WordEmbeddingsModel.pretrained().setOutputCol("embeddings")
 
-    val readyData = embeddings.transform(training_data)
+    val trainData = embeddings.transform(training_data)
+    val testData = embeddings.transform(test_data)
+    testData.write.mode("overwrite").parquet("./tmp_conll_validate")
+
     val ner = new NerDLApproach()
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-1f) //0.001
+      .setLr(1e-1f) //0.1
       .setPo(5e-3f) //0.005
       .setDropout(5e-1f) //0.5
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
       .setTrainValidationProp(0.1f)
-      .fit(readyData)
-
+      .setEvaluationLogExtended(true)
+      .setTestDataset("./tmp_conll_validate/")
+      .fit(trainData)
   }
 
 }

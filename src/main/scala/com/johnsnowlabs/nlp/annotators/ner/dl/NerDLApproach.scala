@@ -2,12 +2,14 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
 
+import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -39,6 +41,9 @@ class NerDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  val evaluationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
+    "If set used to calculate statistic on it during training.")
 
   def getLr: Float = $(this.lr)
   def getPo: Float = $(this.po)
@@ -56,7 +61,13 @@ class NerDLApproach(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
+  def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
+  def setTestDataset(path: String,
+                     readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                     options: Map[String, String] = Map("format" -> "parquet")): this.type =
+    set(testDataset, ExternalResource(path, readAs, options))
 
+  def setTestDataset(er: ExternalResource):NerDLApproach.this.type = set(testDataset, er)
 
   setDefault(
     minEpochs -> 0,
@@ -67,7 +78,8 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
-    trainValidationProp -> 0.0f
+    trainValidationProp -> 0.0f,
+    evaluationLogExtended -> false
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -86,6 +98,15 @@ class NerDLApproach(override val uid: String)
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
     val train = dataset.toDF()
+
+    val test = if (!isDefined(testDataset)) {
+      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+      emptyValid
+    }
+    else {
+      val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
+      NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
+    }
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
@@ -115,7 +136,18 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset, $(lr), $(po), $(batchSize), $(dropout), 0, $(maxEpochs), configProtoBytes=getConfigProtoBytes, trainValidationProp=$(trainValidationProp))
+      model.train(trainDataset,
+        $(lr),
+        $(po),
+        $(batchSize),
+        $(dropout),
+        graphFileName = graphFile,
+        test = test,
+        endEpoch = $(maxEpochs),
+        configProtoBytes=getConfigProtoBytes,
+        trainValidationProp=$(trainValidationProp),
+        evaluationLogExtended=$(evaluationLogExtended)
+      )
       model
     }
 
