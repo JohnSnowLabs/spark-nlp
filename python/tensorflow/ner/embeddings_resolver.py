@@ -120,7 +120,7 @@ class EmbeddingsDbResolver:
 
 class BertEmbeddingsResolver:
     
-    def __init__(self, model_folder, max_length = 128, lowercase = True):
+    def __init__(self, model_folder, max_length = 256, lowercase = True):
         
         # 1. Create tokenizer
         self.max_length = max_length
