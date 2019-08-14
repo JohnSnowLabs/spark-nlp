@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
-                     maxSentenceLength: Int = 256,
+                     maxSentenceLength: Int = 64,
                      batchSize: Int = 32,
                      dimension: Int = 768,
                      configProtoBytes: Option[Array[Byte]] = None
@@ -17,7 +17,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   ToDo: We should experiment with concatenation of the last four layers
   FixMe: Performance is not good in local with higher layers
    */
-  private val bertLayer = if(dimension == 768) 13 else 25
+  private val bertLayer = if(dimension == 768) 12 else 24
   /*
   Disable the Embedding layer for now.
    */
