@@ -17,7 +17,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   ToDo: We should experiment with concatenation of the last four layers
   FixMe: Performance is not good in local with higher layers
    */
-  private val bertLayer = if(dimension == 768) 11 else 23
+  private val bertLayer = if(dimension == 768) 13 else 25
   /*
   Disable the Embedding layer for now.
    */
