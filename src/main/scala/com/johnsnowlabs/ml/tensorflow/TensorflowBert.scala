@@ -1,9 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.util.Benchmark
-
-import scala.collection.mutable
 
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
