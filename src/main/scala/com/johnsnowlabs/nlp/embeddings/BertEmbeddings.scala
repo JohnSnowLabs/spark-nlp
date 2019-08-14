@@ -42,22 +42,21 @@ class BertEmbeddings(override val uid: String) extends
     $$(vocabulary)("[SEP]")
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 5,
-    maxSentenceLength -> 256
-  )
-
   def setBatchSize(size: Int): this.type = set(batchSize, size)
 
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
+
+  setDefault(
+    dimension -> 768,
+    batchSize -> 32,
+    maxSentenceLength -> 256
+  )
+
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
 
-  def getModelIfNotSet: TensorflowBert = {
-    _model.get.value
-  }
+  def getModelIfNotSet: TensorflowBert = _model.get.value
 
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
@@ -68,9 +67,9 @@ class BertEmbeddings(override val uid: String) extends
             tensorflow,
             sentenceStartTokenId,
             sentenceEndTokenId,
-            $(maxSentenceLength),
-            $(batchSize),
-            $(dimension),
+            maxSentenceLength = $(maxSentenceLength),
+            batchSize = $(batchSize),
+            dimension = $(dimension),
             configProtoBytes = getConfigProtoBytes
           )
         )
