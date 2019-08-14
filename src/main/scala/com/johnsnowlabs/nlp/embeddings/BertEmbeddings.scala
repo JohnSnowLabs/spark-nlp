@@ -49,7 +49,7 @@ class BertEmbeddings(override val uid: String) extends
   setDefault(
     dimension -> 768,
     batchSize -> 32,
-    maxSentenceLength -> 256
+    maxSentenceLength -> 64
   )
 
   def getMaxSentenceLength: Int = $(maxSentenceLength)
