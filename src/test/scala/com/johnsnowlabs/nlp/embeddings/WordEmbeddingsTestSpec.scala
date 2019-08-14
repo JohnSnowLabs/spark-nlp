@@ -8,7 +8,7 @@ import org.scalatest._
 
 class WordEmbeddingsTestSpec extends FlatSpec {
 
-  "Word Embeddings" should "correctly embed clinical words not embed non-existent words per row" in {
+  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" in {
 
 
     val words = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/clinical_words.txt")
@@ -50,6 +50,9 @@ class WordEmbeddingsTestSpec extends FlatSpec {
         ("Words", wordsOverallCoverage),("Not Words", notWordsOverallCoverage)
       )
     ).toDF("Dataset", "OverallCoverage").show()
+
+    assert(wordsOverallCoverage == 1)
+    assert(notWordsOverallCoverage == 0)
   }
 
 }
