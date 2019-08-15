@@ -23,27 +23,27 @@ case class WordEmbeddingsRetriever(dbFile: String,
 
   val zeroArray: Array[Float] = Array.fill[Float](nDims)(0f)
 
-  val lru = new LruMap[String, Array[Float]](lruCacheSize)
+  val lru = new LruMap[String, Option[Array[Float]]](lruCacheSize)
 
-  private def getEmbeddingsFromDb(word: String): Array[Float] = {
+  private def getEmbeddingsFromDb(word: String): Option[Array[Float]] = {
     lazy val resultLower = db.get(word.trim.toLowerCase.getBytes())
     lazy val resultUpper = db.get(word.trim.toUpperCase.getBytes())
     lazy val resultExact = db.get(word.trim.getBytes())
 
     if (caseSensitive && resultExact != null)
-      WordEmbeddingsIndexer.fromBytes(resultExact)
+      Some(WordEmbeddingsIndexer.fromBytes(resultExact))
     else if (resultLower != null)
-      WordEmbeddingsIndexer.fromBytes(resultLower)
+      Some(WordEmbeddingsIndexer.fromBytes(resultLower))
     else if (resultExact != null)
-      WordEmbeddingsIndexer.fromBytes(resultExact)
+      Some(WordEmbeddingsIndexer.fromBytes(resultExact))
     else if (resultUpper != null)
-      WordEmbeddingsIndexer.fromBytes(resultUpper)
+      Some(WordEmbeddingsIndexer.fromBytes(resultUpper))
     else
-      zeroArray
+      None
 
   }
 
-  def getEmbeddingsVector(word: String): Array[Float] = {
+  def getEmbeddingsVector(word: String): Option[Array[Float]] = {
     synchronized {
       lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
     }
