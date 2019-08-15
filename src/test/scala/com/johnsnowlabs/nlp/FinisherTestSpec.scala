@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.scalatest._
@@ -18,10 +19,15 @@ class FinisherTestSpec extends FlatSpec {
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
+  val embeddings = new WordEmbeddings()
+    .setInputCols("document", "token")
+    .setOutputCol("embeddings")
+    .setEmbeddingsSource("src/test/resources/random_embeddings_dim4.txt", 4, "TEXT")
+
   "A Finisher with default settings" should "return clean results" in {
 
     val finisher = new Finisher()
-      .setInputCols("token")
+      .setInputCols("token", "embeddings")
       .setOutputAsArray(false)
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
@@ -30,21 +36,22 @@ class FinisherTestSpec extends FlatSpec {
       .setStages(Array(
         documentAssembler,
         tokenizer,
+        embeddings,
         finisher
       ))
 
     val result = pipeline.fit(data).transform(data)
 
     result.show()
-    assert(result.columns.length == 4, "because finisher did not clean annotations or did not return proper columns")
+    assert(result.columns.length == 5, "because finisher did not clean annotations or did not return proper columns")
     result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
 
   "A Finisher with custom settings" should "behave accordingly" in {
 
     val finisher = new Finisher()
-      .setInputCols("token")
-      .setOutputCols("token_out")
+      .setInputCols("token", "embeddings")
+      .setOutputCols("token_out", "embeddings_out")
       .setOutputAsArray(false)
       .setAnnotationSplitSymbol("%")
       .setValueSplitSymbol("&")
@@ -55,13 +62,14 @@ class FinisherTestSpec extends FlatSpec {
       .setStages(Array(
         documentAssembler,
         tokenizer,
+        embeddings,
         finisher
       ))
 
     val result = pipeline.fit(data).transform(data)
 
     result.show()
-    assert(result.columns.length == 6, "because finisher removed annotations or did not return proper columns")
+    assert(result.columns.length == 8, "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("token_out"))
     result.select("token_out").as[String].collect.foreach(s => assert(s.contains("%"), "because % separator string was not found"))
     result.select("token_out").as[String].collect.foreach(s => assert(s.contains("->"), "because -> key value was not found"))
@@ -71,8 +79,8 @@ class FinisherTestSpec extends FlatSpec {
   "A Finisher with array output" should "behave accordingly with SparkML StopWords" in {
 
     val finisher = new Finisher()
-      .setInputCols("token")
-      .setOutputCols("token_out")
+      .setInputCols("token", "embeddings")
+      .setOutputCols("token_out", "embeddings_out")
       .setOutputAsArray(true)
 
     val stopWords = new StopWordsRemover()
@@ -83,6 +91,7 @@ class FinisherTestSpec extends FlatSpec {
       .setStages(Array(
         documentAssembler,
         tokenizer,
+        embeddings,
         finisher,
         stopWords
       ))
@@ -90,7 +99,7 @@ class FinisherTestSpec extends FlatSpec {
     val result = pipeline.fit(data).transform(data)
 
     result.show()
-    assert(result.columns.length == 5, "because finisher removed annotations or did not return proper columns")
+    assert(result.columns.length == 6, "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("stopped"))
 
   }

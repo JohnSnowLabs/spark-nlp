@@ -69,6 +69,7 @@ object Annotation {
 
   private val ANNOTATION_NAME = "__annotation"
   val RESULT = "result"
+  val EMBEDDINGS = "embeddings"
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
@@ -156,7 +157,10 @@ object Annotation {
   def flatten(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
-        r.getString(3)
+        r.getString(0) match {
+          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
+          case _ => r.getString(3)
+        }
       ).mkString(aSep)
     }
   }
@@ -165,7 +169,15 @@ object Annotation {
   def flattenDetail(vSep: String, aSep: String): UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
-        (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
+        r.getString(0) match {
+          case AnnotatorType.WORD_EMBEDDINGS =>
+            (r.getMap[String, String](4) ++
+              Map(RESULT -> r.getString(3)) ++
+              Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
+            ).mkString(vSep).replace(" -> ", "->")
+          case _ => (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
+        }
+
       ).mkString(aSep)
     }
   }
@@ -174,7 +186,10 @@ object Annotation {
   def flattenArray: UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
-        r.getString(3)
+        r.getString(0) match {
+          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
+          case _ => r.getString(3)
+        }
       )
     }
   }
