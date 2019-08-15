@@ -9,19 +9,9 @@ case class PageMatrix(mapping: Array[Mapping]) {
 
 object PageMatrix {
 
-  val coordinatesType =
-    StructType(Seq(
-      StructField("c", StringType, true),
-      StructField("p", IntegerType, false),
-      StructField("x",FloatType, false),
-      StructField("y",FloatType, false),
-      StructField("width",FloatType, false),
-      StructField("height",FloatType, false)
-    ))
-
   val dataType =
     ArrayType(StructType(Seq(
-      StructField("mapping", ArrayType(coordinatesType, true),true)
+      StructField("mapping", ArrayType(Mapping.mappingType, true),true)
     )), true)
 
   def fromRow(row: Row) = PageMatrix(

@@ -586,16 +586,13 @@ class OcrHelper extends ImageProcessing with Serializable {
                            ): Unit = {
 
     require(dataset.columns.contains(coordinatesCol), s"Column $coordinatesCol does not exist in dataframe")
-    println(dataset.select(coordinatesCol).schema(0))
-    println("expected:")
-    println(PageMatrix.coordinatesType)
-    require(dataset.select(coordinatesCol).schema == PageMatrix.coordinatesType, s"Column $coordinatesCol is not a valid coordinates schema type")
+    require(dataset.select(coordinatesCol).schema.find(_.name == coordinatesCol).map(_.dataType).get == Coordinate.coordinateType, s"Column $coordinatesCol is not a valid coordinates schema type")
 
     require(dataset.columns.contains(filenameCol), s"Column $filenameCol does not exist in dataframe")
-    require(dataset.select(filenameCol).schema.head.dataType == StringType, s"Column $filenameCol is not a string type column")
+    require(dataset.select(filenameCol).schema.find(_.name == filenameCol).map(_.dataType).get == StringType, s"Column $filenameCol is not a string type column")
 
     require(dataset.columns.contains(pagenumCol), s"Column $pagenumCol does not exist in dataframe")
-    require(dataset.select(pagenumCol).schema.head.dataType == IntegerType, s"Column $pagenumCol is not an integer type column")
+    require(dataset.select(pagenumCol).schema.find(_.name == pagenumCol).map(_.dataType).get == IntegerType, s"Column $pagenumCol is not an integer type column")
 
     import spark.implicits._
 
