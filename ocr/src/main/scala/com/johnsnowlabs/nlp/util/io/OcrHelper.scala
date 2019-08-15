@@ -588,7 +588,7 @@ class OcrHelper extends ImageProcessing with Serializable {
                              filenameCol: String = "filename",
                              pagenumCol: String = "pagenum",
                              coordinatesCol: String = "coordinates",
-                             outputLocation: String = "./",
+                             outputLocation: String = "./highlighted/",
                              outputSuffix: String = "_draw"
                            ): Unit = {
 
@@ -614,11 +614,16 @@ class OcrHelper extends ImageProcessing with Serializable {
         .map(_._3)
 
       val finalPath = coordinates.foldLeft(path)((curPath, coordinate) => drawRectanglesToTmpSpark(spark, curPath, coordinate))
+
+      val outputName = new File(new URI(path).getPath).getName
+      val (name, extension) = outputName.splitAt(outputName.length-4)
+      val editedName = name + outputSuffix
       FileUtils.copyFile(
         new File(finalPath),
-        Paths.get(outputLocation, new File(new URI(path).getPath).getName).toFile
+        Paths.get(outputLocation, editedName+extension).toFile
       )
     })
+
   }
 
   /*
