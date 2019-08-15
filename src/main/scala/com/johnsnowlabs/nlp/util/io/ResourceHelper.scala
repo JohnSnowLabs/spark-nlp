@@ -343,7 +343,6 @@ object ResourceHelper {
                          ): DataFrame = {
     er.readAs match {
       case SPARK_DATASET =>
-        spark.sparkContext.setLogLevel("WARN")
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         dataset
       case _ =>
