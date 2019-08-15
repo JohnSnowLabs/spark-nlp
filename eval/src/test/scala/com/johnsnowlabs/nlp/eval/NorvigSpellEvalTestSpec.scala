@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.eval
 
 import com.johnsnowlabs.nlp.annotator.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+import com.johnsnowlabs.nlp.eval.spell.NorvigSpellEvaluation
 import org.scalatest.FlatSpec
 
 class NorvigSpellEvalTestSpec extends FlatSpec {

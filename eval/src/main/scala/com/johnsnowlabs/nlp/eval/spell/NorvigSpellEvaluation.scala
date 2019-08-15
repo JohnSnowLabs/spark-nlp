@@ -1,7 +1,8 @@
-package com.johnsnowlabs.nlp.eval
+package com.johnsnowlabs.nlp.eval.spell
 
+import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.eval.util.LoggingData
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
@@ -11,49 +12,48 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
+class NorvigSpellEvaluation(testFile: String, groundTruthFile: String) {
 
-  private var loggingData: LoggingData = _
+  private var loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
 
-  private case class SymSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
-                                        approach: SymmetricDeleteApproach, model: SymmetricDeleteModel)
+  private case class NorvigSpellEvalConfig(trainFile: String, testFile: String, groundTruthFile: String,
+                                           approach: NorvigSweetingApproach, model: NorvigSweetingModel)
 
-  def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
-    loggingData.logSymSpellParams(spell)
-    val symSpellConfig = SymSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
-    computeAccuracy(symSpellConfig)
+  def computeAccuracyAnnotator(trainFile: String, spell: NorvigSweetingApproach): Unit = {
+    loggingData.logNorvigParams(spell)
+    val norvigSpellEvalConfig = NorvigSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
+    computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()
   }
 
-  def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
+  def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
     loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
-    loggingData.logSymSpellParams(spell)
-    val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
-    computeAccuracy(symSpellConfig)
+    loggingData.logNorvigParams(spell)
+    val norvigSpellEvalConfig = NorvigSpellEvalConfig("", testFile, groundTruthFile, null, spell)
+    computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()
   }
 
-  private def computeAccuracy(symSpellConfig: SymSpellEvalConfig): Unit = {
-    val spellCheckerModel = trainSpellChecker(symSpellConfig)
+  private def computeAccuracy(norvigSpellEvalConfig: NorvigSpellEvalConfig): Unit = {
+    val spellCheckerModel = trainSpellChecker(norvigSpellEvalConfig)
     val predictionDataSet = correctMisspells(spellCheckerModel, testFile)
     evaluateSpellChecker(groundTruthFile, predictionDataSet)
   }
 
-  private def trainSpellChecker(symSpellConfig: SymSpellEvalConfig): PipelineModel = {
-    val trainingDataSet = if (symSpellConfig.model == null) getDataSetFromFile(symSpellConfig.trainFile)
+  private def trainSpellChecker(norvigSpellEvalConfig: NorvigSpellEvalConfig): PipelineModel = {
+    val trainingDataSet = if (norvigSpellEvalConfig.model == null) getDataSetFromFile(norvigSpellEvalConfig.trainFile)
                           else PipelineModels.dummyDataset
     var spellCheckerModel: PipelineModel = null
-    val spellCheckerPipeline = getSpellCheckerPipeline(symSpellConfig)
+    val spellCheckerPipeline = getSpellCheckerPipeline(norvigSpellEvalConfig)
     Benchmark.setPrint(false)
-    val time = Benchmark.measure(1, false, "[Symmetric Spell Checker] Time to train") {
+    val time = Benchmark.measure(1, false, "[Norvig Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
     loggingData.logMetric("training time/s", time)
     spellCheckerModel
   }
 
-  def getDataSetFromFile(textFile: String): Dataset[_] = {
+  private def getDataSetFromFile(textFile: String): Dataset[_] = {
 
     val spark = SparkSession.builder()
       .appName("benchmark")
@@ -73,7 +73,8 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     }
   }
 
-  private def getSpellCheckerPipeline(symSpellEvalConfiguration: SymSpellEvalConfig): Pipeline = {
+  private def getSpellCheckerPipeline(norvigSpellEvalConfig: NorvigSpellEvalConfig): Pipeline =  {
+
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -86,20 +87,26 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
       .setInputCols("checked")
       .setOutputCols("prediction")
 
-    if (symSpellEvalConfiguration.model == null) {
+    if (norvigSpellEvalConfig.model == null ) {
       new Pipeline()
         .setStages(Array(
           documentAssembler,
           tokenizer,
-          symSpellEvalConfiguration.approach,
+          norvigSpellEvalConfig.approach,
           finisher
         ))
     } else {
+
+      val normalizer = new Normalizer()
+        .setInputCols("token")
+        .setOutputCol("normal")
+
       new Pipeline()
         .setStages(Array(
           documentAssembler,
           tokenizer,
-          symSpellEvalConfiguration.model,
+          normalizer,
+          norvigSpellEvalConfig.model,
           finisher
         ))
     }
@@ -110,7 +117,7 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     println("Prediction DataSet")
     val testDataSet = getDataSetFromFile(testFile)
     val predictionDataSet = spellCheckerModel.transform(testDataSet).select("prediction")
-    Benchmark.measure("[Symmetric Spell Checker] Time to show") {
+    Benchmark.measure("[Norvig Spell Checker] Time to show") {
       predictionDataSet.show()
     }
     predictionDataSet
@@ -155,8 +162,7 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
 
   }
 
-
-  def getEvaluationDataSet(predictionDataSet: Dataset[_], groundTruthDataSet: Dataset[_]): Dataset[_] = {
+  private def getEvaluationDataSet(predictionDataSet: Dataset[_], groundTruthDataSet: Dataset[_]): Dataset[_] = {
     val evaluationDataSet = predictionDataSet.withColumn("id", monotonically_increasing_id())
       .join(groundTruthDataSet.withColumn("id", monotonically_increasing_id()), Seq("id"))
       .drop("id")
@@ -169,4 +175,5 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     val numberOfCorrectWords = prediction.intersect(groundTruth).size.toFloat
     numberOfCorrectWords / groundTruth.size.toFloat
   }
+
 }

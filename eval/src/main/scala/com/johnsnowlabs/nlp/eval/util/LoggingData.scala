@@ -1,6 +1,8 @@
 package com.johnsnowlabs.nlp.eval.util
 
 import com.johnsnowlabs.nlp.SparkNLP
+import com.johnsnowlabs.nlp.annotator.{NerCrfModel, NerDLModel}
+import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
@@ -153,6 +155,9 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
       mlFlowClient.get.logParam(runId, "dropout", nerDL.getDropout.toString)
       mlFlowClient.get.logParam(runId, "useContrib", nerDL.getUseContrib.toString)
       mlFlowClient.get.logParam(runId, "trainValidationProp", nerDL.getTrainValidationProp.toString)
+      mlFlowClient.get.logParam(runId, "minEpochs", nerDL.getMinEpochs.toString)
+      mlFlowClient.get.logParam(runId, "maxEpochs", nerDL.getMaxEpochs.toString)
+      mlFlowClient.get.logParam(runId, "randomSeed", nerDL.getRandomSeed.toString)
     } else {
       println(s"Parameters for $sourceName:")
       println("lr: " + nerDL.getLr.toString)
@@ -161,6 +166,48 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
       println("dropout: " + nerDL.getDropout.toString)
       println("useContrib: " + nerDL.getUseContrib.toString)
       println("trainValidationProp: " + nerDL.getTrainValidationProp.toString)
+      println("minEpochs: " + nerDL.getMinEpochs.toString)
+      println("maxEpochs: " + nerDL.getMaxEpochs.toString)
+      println("randomSeed: " + nerDL.getRandomSeed.toString)
+    }
+  }
+
+  def logNerDLParams(nerDL: NerDLModel): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "batchSize", nerDL.getBatchSize.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("batchSize: " + nerDL.getBatchSize.toString)
+    }
+  }
+
+  def logNerCrfParams(nerCrf: NerCrfApproach): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "l2", nerCrf.getL2.toString)
+      mlFlowClient.get.logParam(runId, "c0", nerCrf.getC0.toString)
+      mlFlowClient.get.logParam(runId, "lossEps", nerCrf.getLossEps.toString)
+      mlFlowClient.get.logParam(runId, "includeConfidence", nerCrf.getIncludeConfidence.toString)
+      mlFlowClient.get.logParam(runId, "maxEpochs", nerCrf.getMaxEpochs.toString)
+      mlFlowClient.get.logParam(runId, "minEpochs", nerCrf.getMinEpochs.toString)
+      mlFlowClient.get.logParam(runId, "randomSeed", nerCrf.getRandomSeed.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("l2: " + nerCrf.getL2.toString)
+      println("c0: " + nerCrf.getC0.toString)
+      println("lossEps: " + nerCrf.getLossEps.toString)
+      println("includeConfidence: " + nerCrf.getIncludeConfidence.toString)
+      println("minEpochs: " + nerCrf.getMinEpochs.toString)
+      println("maxEpochs: " + nerCrf.getMaxEpochs.toString)
+      println("randomSeed: " + nerCrf.getRandomSeed.toString)
+    }
+  }
+
+  def logNerCrfParams(nerCrf: NerCrfModel): Unit = {
+    if (runId != "console") {
+      mlFlowClient.get.logParam(runId, "includeConfidence", nerCrf.getIncludeConfidence.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("includeConfidence: " + nerCrf.getIncludeConfidence.toString)
     }
   }
 

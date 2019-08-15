@@ -34,16 +34,21 @@ class NerCrfApproach(override val uid: String)
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
-
   val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
-  def setL2(l2: Double) = set(this.l2, l2)
-  def setC0(c0: Int) = set(this.c0, c0)
-  def setLossEps(eps: Double) = set(this.lossEps, eps)
-  def setMinW(w: Double) = set(this.minW, w)
-  def setIncludeConfidence(c: Boolean) = set(includeConfidence, c)
+  def setL2(l2: Double): this.type = set(this.l2, l2)
+  def setC0(c0: Int): this.type = set(this.c0, c0)
+  def setLossEps(eps: Double): this.type = set(this.lossEps, eps)
+  def setMinW(w: Double): this.type = set(this.minW, w)
+  def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
-  def setExternalFeatures(value: ExternalResource) = {
+  def getL2: Double = $(l2)
+  def getC0: Int = $(c0)
+  def getLossEps: Double = $(lossEps)
+  def getMinW: Double = $(minW)
+  def getIncludeConfidence: Boolean = $(includeConfidence)
+
+  def setExternalFeatures(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
     set(externalFeatures, value)
   }
