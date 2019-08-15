@@ -10,13 +10,13 @@ import org.apache.spark.ml.Pipeline
 /**
   * Created by saif on 02/05/17.
   */
-class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
+class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   import SparkAccessor.spark.implicits._
 
   val regexTokenizer = new Tokenizer()
 
-  "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" ignore {
+  "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
     assert(regexTokenizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
@@ -48,7 +48,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     "defeat", "markus", "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www.google.com", "."
   )
 
-  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" ignore {
+  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" in {
 
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
@@ -65,7 +65,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     })
   }
 
-  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with case insensitive composite" ignore {
+  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with case insensitive composite" in {
 
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
@@ -84,7 +84,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     })
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite" ignore {
+  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite" in {
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
       .setExceptions(Array("New York"))
@@ -97,7 +97,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     )
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences with split chars" ignore {
+  "a Tokenizer" should "correctly tokenize target sentences with split chars" in {
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
       .setExceptions(Array("New York"))
@@ -128,7 +128,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 55, 55, ".", Map("sentence" -> "0"))
   )
 
-  "a Tokenizer" should s"correctly tokenize a simple sentence on defaults" ignore {
+  "a Tokenizer" should s"correctly tokenize a simple sentence on defaults" in {
     val data = DataBuilder.basicDataBuild(targetText2)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -157,7 +157,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 61+5+(lsl*5), 61+5+(lsl*5), ".", Map("sentence" -> "0"))
   )
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on defaults" ignore {
+  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on defaults" in {
     val data = DataBuilder.basicDataBuild(targetText3)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -186,7 +186,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 61, 61, ".", Map("sentence" -> "0"))
   )
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink cleanup" ignore {
+  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink cleanup" in {
     val data = DataBuilder.basicDataBuild(targetText4)(cleanupMode="shrink")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -242,7 +242,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   }
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink_full cleanup" ignore {
+  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink_full cleanup" in {
     val data = DataBuilder.basicDataBuild(targetText5)(cleanupMode="shrink_full")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -270,12 +270,12 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 60, 60, ".", Map("sentence" -> "0"))
   )
 
-  "a Tokenizer" should s"correctly tokenize cleanup with composite and exceptions" ignore {
+  "a Tokenizer" should s"correctly tokenize cleanup with composite and exceptions" in {
     val data = DataBuilder.basicDataBuild(targetText6)(cleanupMode="shrink_full")
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
-      .addException("Jane's boyfriend")
+      .addException("Jane's \\w+")
       .addException("that.")
       .fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -286,7 +286,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     )
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" ignore {
+  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" in {
     val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
       .setTargetPattern("\\w+")
@@ -300,7 +300,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     )
   }
 
-  "a spark based tokenizer" should "resolve big data" ignore {
+  "a spark based tokenizer" should "resolve big data" in {
     val data = ContentProvider.parquetData.limit(500000)
       .repartition(16)
 
@@ -324,7 +324,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(latinBodyData)
 
-  "a tokenizer" should "handle composite tokens with special chars" ignore {
+  "a tokenizer" should "handle composite tokens with special chars" in {
 
     val data = DataBuilder.basicDataBuild("Are you kidding me ?!?! what is this for !?")
     val documentAssembler = new DocumentAssembler()
@@ -342,7 +342,7 @@ class sTokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val result = tokenized.collect()
   }
 
-  "a silly tokenizer" should "split suffixes" ignore {
+  "a silly tokenizer" should "split suffixes" in {
 
     val data = DataBuilder.basicDataBuild("One, after the\n\nOther, (and) again.\nPO, QAM,")
     val documentAssembler = new DocumentAssembler()

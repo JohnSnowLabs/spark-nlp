@@ -1,7 +1,7 @@
 package com.johnsnowlabs.util
 
 import java.io.File
-import java.nio.file.Paths
+import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.sql.Timestamp
 import java.util.Date
 
@@ -25,18 +25,27 @@ object TrainingHelper {
     // 1. Get current timestamp
     val timestamp = new Timestamp(new Date().getTime)
 
-    // 2. Create resource metadata
-    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category)
 
-    // 3. Save model to file
-    val file = Paths.get(folder, meta.key).toString.replaceAllLiterally("\\", "/")
+    // 2. Save model to file
+    val file = Paths.get(folder, timestamp.toString).toString.replaceAllLiterally("\\", "/")
     modelWriter.save(file)
 
-    // 4. Zip file
-    val zipFile = Paths.get(folder, meta.fileName).toString
-    ZipArchiveUtil.zip(file, zipFile)
+    // 3. Zip file
+    val tempzipFile = Paths.get(folder, timestamp + ".zip")
+    ZipArchiveUtil.zip(file, tempzipFile.toString)
 
-    // 5. Remove original file
+    // 4. Set checksum
+    val checksum = FileHelper.generateChecksum(tempzipFile.toString)
+
+    // 5. Create resource metadata
+    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, checksum)
+
+    val zipfile = Paths.get(meta.fileName)
+
+    // 6. Move the zip
+    Files.move(tempzipFile, zipfile, StandardCopyOption.REPLACE_EXISTING)
+
+    // 7. Remove original file
     try {
       FileUtils.deleteDirectory(new File(file))
     } catch {

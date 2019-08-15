@@ -2,6 +2,9 @@ package com.johnsnowlabs.nlp.util.io
 
 import java.io.File
 
+import com.johnsnowlabs.nlp.annotators.{TextMatcher, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.util.OcrMetrics
@@ -172,6 +175,56 @@ class OcrExample extends FlatSpec with ImageProcessing with OcrMetrics {
       assert(results.contains("223.5"))
       assert(results.contains("22.5"))
 
+  }
+  
+  val positionFinderPipeline = {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val entityExtractor = new TextMatcher()
+      .setInputCols("sentence", "token")
+      .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.LINE_BY_LINE)
+      .setOutputCol("entity")
+
+    val positionFinder = new PositionFinder()
+      .setInputCols("entity")
+      .setOutputCol("coordinates")
+      .setPageMatrixCol("positions")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        entityExtractor,
+        positionFinder
+      ))
+    
+    pipeline
+
+  }
+
+  "OcrExample with Spark" should "detect text and draw box with coordinates" in {
+    val spark = getSpark
+    val data = ocrHelper.createDataset(spark, "ocr/src/test/resources/pdfs/alexandria_multi_page.pdf").cache()
+    data.show()
+    val coordinated = positionFinderPipeline.fit(data).transform(data)
+    try {
+      ocrHelper.drawRectanglesDataset(spark, coordinated)
+    } finally {
+      data.unpersist()
+    }
+    println("done")
   }
 
   def getSpark = {
