@@ -58,20 +58,17 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   private def casedMatchExists (candidateMatched: String): Boolean =
     if ($(caseSensitiveExceptions))
-      $(exceptions).contains(candidateMatched)
+      $(exceptions).exists(e => e.r.findFirstIn(candidateMatched).isDefined)
     else
-      $(exceptions).map(_.toLowerCase).contains(candidateMatched.toLowerCase)
+      $(exceptions).exists(e => ("(?i)"+e).r.findFirstIn(candidateMatched).isDefined)
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map{text =>
       /** Step 1, define breaks from non breaks */
       val protectedText = {
         get(exceptions).map(_.foldRight(text.content)((exceptionToken, currentText) => {
-          val casedExceptionToken = if ($(caseSensitiveExceptions)) exceptionToken else "(?i)"+exceptionToken
-          currentText.replaceAll(
-            casedExceptionToken,
-            exceptionToken.replaceAll(BREAK_PATTERN, PROTECT_CHAR)
-          )
+          val casedExceptionPattern = if ($(caseSensitiveExceptions)) exceptionToken else "(?i)"+exceptionToken
+          casedExceptionPattern.r.replaceAllIn(currentText, m => m.matched.replaceAll(BREAK_PATTERN, PROTECT_CHAR))
         })).getOrElse(text.content).replaceAll(BREAK_PATTERN, BREAK_CHAR)
       }
       /** Step 2, Return protected tokens back into text and move on*/
