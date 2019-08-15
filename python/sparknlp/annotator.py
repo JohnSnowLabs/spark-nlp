@@ -275,6 +275,24 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
+class PositionFinder(AnnotatorModel):
+
+    pageMatrixCol = Param(Params._dummy(),
+                          "pageMatrixCol",
+                          "Column name for Page Matrix schema",
+                          typeConverter=TypeConverters.toString
+                          )
+
+    name = "PositionFinder"
+
+    @keyword_only
+    def __init__(self):
+        super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
+
+    def setPageMatrixCol(self, value):
+        return self._set(pageMatrixCol=value)
+
+
 class Normalizer(AnnotatorApproach):
 
     cleanupPatterns = Param(Params._dummy(),
