@@ -581,22 +581,25 @@ class OcrHelper extends ImageProcessing with Serializable {
                              dataset: Dataset[_],
                              filenameCol: String = "filename",
                              pagenumCol: String = "pagenum",
-                             positionsCol: String = "positions",
+                             coordinatesCol: String = "coordinates",
                              outputSuffix: String = "_draw"
                            ): Unit = {
 
-    require(dataset.columns.contains(positionsCol), s"Column $positionsCol does not exist in dataframe")
-    require(dataset.select(positionsCol).schema == PageMatrix.coordinatesType, s"Column $positionsCol is not a valid coordinates schema type")
+    require(dataset.columns.contains(coordinatesCol), s"Column $coordinatesCol does not exist in dataframe")
+    println(dataset.select(coordinatesCol).schema(0))
+    println("expected:")
+    println(PageMatrix.coordinatesType)
+    require(dataset.select(coordinatesCol).schema == PageMatrix.coordinatesType, s"Column $coordinatesCol is not a valid coordinates schema type")
 
     require(dataset.columns.contains(filenameCol), s"Column $filenameCol does not exist in dataframe")
     require(dataset.select(filenameCol).schema.head.dataType == StringType, s"Column $filenameCol is not a string type column")
 
-    require(dataset.columns.contains(positionsCol), s"Column $positionsCol does not exist in dataframe")
-    require(dataset.select(positionsCol).schema.head.dataType == IntegerType, s"Column $positionsCol is not a string type column")
+    require(dataset.columns.contains(pagenumCol), s"Column $pagenumCol does not exist in dataframe")
+    require(dataset.select(pagenumCol).schema.head.dataType == IntegerType, s"Column $pagenumCol is not an integer type column")
 
     import spark.implicits._
 
-    val collection = dataset.select(filenameCol, pagenumCol, positionsCol).as[(String, Int, Seq[Coordinate])].collect()
+    val collection = dataset.select(filenameCol, pagenumCol, coordinatesCol).as[(String, Int, Seq[Coordinate])].collect()
 
     val uniquePaths = collection.map(_._1).distinct
 
