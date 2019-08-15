@@ -88,12 +88,12 @@ class TensorflowNer
     var i = -1
 
     sentence.tokens.map{t =>
-      if (t.isWordStart) {
-        i += 1
-        tokenTags.labels(i)
-      }
-      else
-        "X"
+      //if (t.isWordStart) {
+      i += 1
+      tokenTags.labels(i)
+      //}
+      //else
+      //"X"
     }
   }
 
@@ -253,7 +253,7 @@ class TensorflowNer
             predicted(tag) = predicted.getOrElse(tag, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag) && label != "O") {
+            if ((label == tag)) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag != "O") {
               falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
@@ -277,22 +277,31 @@ class TensorflowNer
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
-    if (extended) {
-      log("label\t prec\t rec\t f1")
-    }
+    if (extended)
+      log("label\t tp\t fp\t fn\t prec\t rec\t f1")
 
+    var totalPercByClass, totalRecByClass = 0f
     for (label <- labels) {
-      val (prec, rec, f1) = calcStat(
-        truePositives.getOrElse(label, 0),
-        falsePositives.getOrElse(label, 0),
-        falseNegatives.getOrElse(label, 0)
-      )
+      val tp = truePositives.getOrElse(label, 0)
+      val fp = falsePositives.getOrElse(label, 0)
+      val fn = falseNegatives.getOrElse(label, 0)
+      val (prec, rec, f1) = calcStat(tp, fp, fn)
       if (extended) {
-        log(s"$label\t $prec\t $rec\t $f1")
+        log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
       }
+      totalPercByClass = totalPercByClass + prec
+      totalRecByClass = totalRecByClass + rec
     }
-    log(s"Total labels in evaluation: ${notEmptyLabels.length}")
+    val macroPercision = totalPercByClass/notEmptyLabels.length
+    val macroRecall = totalRecByClass/notEmptyLabels.length
+    val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
-    log(s"Weighted stats\t prec: $prec, rec: $rec, f1: $f1")
+    if (extended) {
+      log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
+    }
+    // ex: Precision = P1+P2/2
+    log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
+    // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
+    log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
   }
 }
