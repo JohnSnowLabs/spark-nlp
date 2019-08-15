@@ -478,17 +478,16 @@ class OcrHelper extends ImageProcessing with Serializable {
 
       val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
 
-      val cropBox = doc.getPage(pagenum - 1).getCropBox
-
       PageMatrix(line.toArray.map(p => {
         Mapping(
           p.toString,
+          pagenum,
           p.getTextMatrix.getTranslateX,
           p.getTextMatrix.getTranslateY,
           p.getWidth,
           p.getHeightDir
         )
-        }), cropBox.getLowerLeftX, cropBox.getLowerLeftY
+        })
       )
     })
 
