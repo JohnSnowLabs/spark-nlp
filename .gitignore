@@ -314,6 +314,7 @@ test_crf_pipeline/
 test_*_pipeline/
 *metastore_db*
 python/src/
+python/tensorflow/bert/models/**
 **/.DS_Store
 **/tmp_*
 docs/_site/**

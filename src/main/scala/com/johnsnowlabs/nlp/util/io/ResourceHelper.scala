@@ -343,7 +343,6 @@ object ResourceHelper {
                          ): DataFrame = {
     er.readAs match {
       case SPARK_DATASET =>
-        import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         dataset
       case _ =>
