@@ -71,7 +71,7 @@ class OcrHelper(ExtendedJavaWrapper):
 
     def drawRectanglesToFile(self, path, coordinates, output_path):
         jcoords = list(map(lambda c: c.java_obj, coordinates))
-        return self._java_obj.drawRectangle(path, jcoords, output_path)
+        return self._java_obj.drawRectanglesToFile(path, jcoords, output_path)
 
     def drawRectanglesDataset(
             self,
@@ -79,11 +79,11 @@ class OcrHelper(ExtendedJavaWrapper):
             dataset,
             filename_col='filename',
             pagenum_col='pagenum',
-            positions_col='positions',
+            coordinates_col='coordinates',
             output_suffix='_draw'):
         jspark = spark._jsparkSession
         jdf = dataset._jdf
-        return self._java_obj.drawRectangle(jspark, jdf, filename_col, pagenum_col, positions_col, output_suffix)
+        return self._java_obj.drawRectanglesDataset(jspark, jdf, filename_col, pagenum_col, coordinates_col, output_suffix)
 
 
 #
