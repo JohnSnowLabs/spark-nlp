@@ -527,7 +527,7 @@ class OcrHelper extends ImageProcessing with Serializable {
     import java.awt.Color
     import org.apache.pdfbox.pdmodel.PDPageContentStream
 
-    val pagedCoordinates = coordinates.groupBy(_.p)
+    val pagedCoordinates = coordinates.groupBy(_.p-1)
 
     pagedCoordinates.keys.toArray.sorted.foreach(pageIndex => {
       val contentStream = new PDPageContentStream(doc, doc.getPage(pageIndex), PDPageContentStream.AppendMode.APPEND, false)

@@ -12,7 +12,7 @@ object PageMatrix {
   private val coordinatesType =
     StructType(Seq(
       StructField("c", StringType, true),
-      StructField("p", IntegerType, true),
+      StructField("p", IntegerType, false),
       StructField("x",FloatType, false),
       StructField("y",FloatType, false),
       StructField("width",FloatType, false),
