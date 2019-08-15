@@ -3,7 +3,8 @@ package com.johnsnowlabs.nlp.util.io
 import java.awt.{Image, Rectangle}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io._
-import java.nio.file.Files
+import java.net.URI
+import java.nio.file.{Files, Paths}
 
 import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
@@ -545,17 +546,22 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     })
 
-    val tmpFile = Files.createTempFile("sparknlp_ocr_tmp", "").toAbsolutePath.toString
-    println(s"tmpFile: $tmpFile")
+    val tmpFile = Files.createTempFile("sparknlp_ocr_", "").toAbsolutePath.toString
     val fileout = new File(tmpFile)
     doc.save(fileout)
     tmpFile
 
   }
 
+  private def drawRectanglesToTmpSpark(sparkSession: SparkSession, inputPath: String, coordinates: Seq[Coordinate]): String = {
+    val stream = sparkSession.sparkContext.binaryFiles(inputPath).first()._2
+    val pdfDoc = PDDocument.load(stream.open())
+    drawRectangles(pdfDoc, coordinates)
+  }
+
   private def drawRectanglesToTmp(inputPath: String, coordinates: Seq[Coordinate]): String = {
     val target = new File(inputPath)
-    require(target.exists)
+    require(target.exists, s"File $inputPath does not exist")
     val stream = new FileInputStream(target)
     val pdfDoc = PDDocument.load(stream)
     drawRectangles(pdfDoc, coordinates)
@@ -582,6 +588,7 @@ class OcrHelper extends ImageProcessing with Serializable {
                              filenameCol: String = "filename",
                              pagenumCol: String = "pagenum",
                              coordinatesCol: String = "coordinates",
+                             outputLocation: String = "./",
                              outputSuffix: String = "_draw"
                            ): Unit = {
 
@@ -606,9 +613,11 @@ class OcrHelper extends ImageProcessing with Serializable {
         .sortBy(_._2)
         .map(_._3)
 
-      val finalPath = coordinates.foldLeft(path)((curPath, coordinate) => drawRectanglesToTmp(curPath, coordinate))
-      FileUtils.copyFile(new File(finalPath), new File(path+outputSuffix))
-
+      val finalPath = coordinates.foldLeft(path)((curPath, coordinate) => drawRectanglesToTmpSpark(spark, curPath, coordinate))
+      FileUtils.copyFile(
+        new File(finalPath),
+        Paths.get(outputLocation, new File(new URI(path).getPath).getName).toFile
+      )
     })
   }
 
@@ -620,8 +629,6 @@ class OcrHelper extends ImageProcessing with Serializable {
    * */
   private def doPDFOcr(fileStream:InputStream, filename:String):Seq[OcrRow] = {
     val pagesTry = Try(PDDocument.load(fileStream)).map { pdfDoc =>
-      //savePDFWithBoxes(pdfDoc)
-      //findWordBox(pdfDoc)
       val numPages = pdfDoc.getNumberOfPages
       require(numPages >= 1, "pdf input stream cannot be empty")
 
