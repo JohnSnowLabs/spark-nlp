@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.eval.ner
 
 import com.johnsnowlabs.nlp.annotator.{NerDLApproach, NerDLModel, WordEmbeddings, WordEmbeddingsModel}
-import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
+import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData, TagsMetrics}
 import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -33,16 +34,34 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
     loggingData.closeLog()
   }
 
-  private def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
-    import sparkSession.implicits._
+  def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
+                               randomSeed: Int, labelColumn: String,
+                               embeddingsInputCols: Array[String], embeddingsOutputCol: String,
+                               embeddingsPath: String, dimension: Int, format: Int): Unit = {
+
+    val ner = new NerDLApproach()
+      .setInputCols(nerInputCols)
+      .setOutputCol(nerOutputCol)
+      .setLabelColumn(labelColumn)
+      .setRandomSeed(randomSeed)
+
+    val wordEmbeddings = new WordEmbeddings()
+        .setInputCols(embeddingsInputCols)
+        .setOutputCol(embeddingsOutputCol)
+        .setEmbeddingsSource(embeddingsPath, dimension, format)
+
+    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+  }
+
+  def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
     val entityLabels = getEntityLabels(nerEvalDLConfiguration, tagLevel)
     val evaluationDataSet = getEvaluationDataSet(nerEvalDLConfiguration, entityLabels, tagLevel)
     val predictionLabelsRDD = evaluationDataSet.select("predictionIndex", "labelIndex")
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
-    NerMetrics.computeAccuracy(metrics, loggingData)
-    NerMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
-    NerMetrics.computeMicroAverage(metrics,loggingData)
+    TagsMetrics.computeAccuracy(metrics, loggingData)
+    TagsMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
+    TagsMetrics.computeMicroAverage(metrics,loggingData)
   }
 
   private def getEntityLabels(nerEvalDLConfiguration: NerEvalDLConfiguration, tagLevel: String): List[String] = {
@@ -88,13 +107,15 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       val trainDataSet = CoNLL().readDataset(sparkSession, nerEvalDLConfiguration.trainFile)
       val embeddings = nerEvalDLConfiguration.wordEmbeddings.fit(trainDataSet)
       val embeddingsTrain = embeddings.transform(trainDataSet)
-      val nerModel = nerEvalDLConfiguration.nerDLApproach.fit(embeddingsTrain)
+      var nerModel: NerDLModel = null
+      val time = Benchmark.measure(1, false, "[NER DL] Time to train") {
+        nerModel = nerEvalDLConfiguration.nerDLApproach.fit(embeddingsTrain)
+      }
+      loggingData.logMetric("Training time/s", time)
       val embeddingsTest = embeddings.transform(testDataSet)
 
       predictionDataSet = nerModel.transform(embeddingsTest)
-
-    }
-    else {
+    } else {
       val embeddings = WordEmbeddingsModel.pretrained()
         .setInputCols("document", "token")
         .setOutputCol("embeddings")

@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotator.{NerCrfModel, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
 import org.mlflow.api.proto.Service.{RunInfo, RunStatus}
@@ -17,6 +18,7 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
   private val mlFlowClient = getMLFlowClient
   private val runInfo = getRunInfo(experimentName)
   private val runId: String = getRunId(runInfo)
+  private val UNSUPPORTED_SYMBOLS = "[!$%^&*()+|~=`{}\\[\\]:\";'<>?,]"
 
   setMLflowTags()
 
@@ -211,10 +213,25 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
     }
   }
 
+  def logPOSParams(pos: PerceptronApproach): Unit = {
+    if (runId != "console") {
+      getMLFlowClient.get.logParam(runId, "nIterations", pos.getNIterations.toString)
+    } else {
+      println(s"Parameters for $sourceName:")
+      println("nIterations: " + pos.getNIterations.toString)
+    }
+  }
+
   def logMetric(metric: String, value: Double): Unit = {
     val roundValue = BigDecimal(value).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
     if (runId != "console") {
-      mlFlowClient.get.logMetric(runId, metric, roundValue)
+      val pattern = UNSUPPORTED_SYMBOLS.r
+      val value = pattern.findFirstIn(metric).getOrElse("")
+      if (value == "") {
+        mlFlowClient.get.logMetric(runId, metric, roundValue)
+      } else {
+        mlFlowClient.get.logMetric(runId, "SYMBOL", roundValue)
+      }
     } else {
       println(metric + ": " + roundValue)
     }

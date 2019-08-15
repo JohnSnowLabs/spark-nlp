@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.eval.ner
 
 import com.johnsnowlabs.nlp.annotator.{NerCrfApproach, NerCrfModel, WordEmbeddings, WordEmbeddingsModel}
-import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData}
+import com.johnsnowlabs.nlp.eval.util.{GoldTokenizer, LoggingData, TagsMetrics}
 import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -33,6 +34,25 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
     loggingData.closeLog()
   }
 
+  def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
+                               randomSeed: Int, labelColumn: String,
+                               embeddingsInputCols: Array[String], embeddingsOutputCol: String,
+                               embeddingsPath: String, dimension: Int, format: Int): Unit = {
+
+    val ner = new NerCrfApproach()
+      .setInputCols(nerInputCols)
+      .setOutputCol(nerOutputCol)
+      .setLabelColumn(labelColumn)
+      .setRandomSeed(randomSeed)
+
+    val wordEmbeddings = new WordEmbeddings()
+      .setInputCols(embeddingsInputCols)
+      .setOutputCol(embeddingsOutputCol)
+      .setEmbeddingsSource(embeddingsPath, dimension, format)
+
+    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+  }
+
   private def computeAccuracy(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Unit = {
     import sparkSession.implicits._
     val entityLabels = getEntityLabels(nerEvalCrfConfiguration, tagLevel)
@@ -40,9 +60,9 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
     val predictionLabelsRDD = evaluationDataSet.select("predictionIndex", "labelIndex")
       .map(r => (r.getDouble(0), r.getDouble(1)))
     val metrics = new MulticlassMetrics(predictionLabelsRDD.rdd)
-    NerMetrics.computeAccuracy(metrics, loggingData)
-    NerMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
-    NerMetrics.computeMicroAverage(metrics, loggingData)
+    TagsMetrics.computeAccuracy(metrics, loggingData)
+    TagsMetrics.computeAccuracyByEntity(metrics, entityLabels, loggingData)
+    TagsMetrics.computeMicroAverage(metrics, loggingData)
   }
 
   private def getEntityLabels(nerEvalCrfConfiguration: NerEvalCrfConfiguration, tagLevel: String): List[String] = {
@@ -88,7 +108,11 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
       val trainDataSet = CoNLL().readDataset(sparkSession, nerEvalCrfConfiguration.trainFile)
       val embeddings = nerEvalCrfConfiguration.wordEmbeddings.fit(trainDataSet)
       val embeddingsTrain = embeddings.transform(trainDataSet)
-      val nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
+      var nerModel: NerCrfModel = null
+      val time = Benchmark.measure(1, false, "[NER CRF] Time to train") {
+        nerModel = nerEvalCrfConfiguration.nerCrfApproach.fit(embeddingsTrain)
+      }
+      loggingData.logMetric("Training time/s", time)
       val embeddingsTest = embeddings.transform(testDataSet)
 
       predictionDataSet = nerModel.transform(embeddingsTest)

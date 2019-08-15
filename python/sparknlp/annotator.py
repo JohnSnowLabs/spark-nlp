@@ -523,6 +523,9 @@ class PerceptronApproach(AnnotatorApproach):
     def setIterations(self, value):
         return self._set(nIterations=value)
 
+    def getNIterations(self):
+        return self.getOrDefault(self.nIterations)
+
     def _create_model(self, java_model):
         return PerceptronModel(java_model=java_model)
 
@@ -831,8 +834,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
+        self.dictionary_path = ""
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
@@ -907,6 +912,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
+        self.dictionary_path = ""
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -915,6 +921,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
@@ -980,6 +987,12 @@ class NerApproach(Params):
 
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
+
+    def getRandomSeed(self):
+        return self.getOrDefault(self.randomSeed)
+
+    def getLabelColumn(self):
+        return self.getOrDefault(self.labelColumn)
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
@@ -1137,6 +1150,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             trainValidationProp=float(0.0),
             evaluationLogExtended=False
         )
+
 
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
@@ -1490,6 +1504,15 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             return "TEXT"
         else:
             return "BINARY"
+
+    def getEmbeddingsPath(self):
+        return self.getOrDefault(self.sourceEmbeddingsPath)
+
+    def getDimension(self):
+        return self.getOrDefault(self.dimension)
+
+    def getFormat(self):
+        return self.getOrDefault(self.embeddingsFormat)
 
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)
