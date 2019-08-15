@@ -25,6 +25,8 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
   def setPosColumn(value: String): this.type = set(posCol, value)
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
+  def getNIterations: Int = $(nIterations)
+
   def this() = this(Identifiable.randomUID("POS"))
 
   override val outputAnnotatorType: AnnotatorType = POS

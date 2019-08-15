@@ -11,7 +11,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.collection.mutable
 
-class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
+class SymSpellEvaluation(sparkSession: SparkSession, testFile: String, groundTruthFile: String) {
 
   private var loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
 
@@ -25,8 +25,15 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     loggingData.closeLog()
   }
 
+  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String): Unit = {
+    val spell = new SymmetricDeleteApproach()
+      .setInputCols(inputCols)
+      .setOutputCol(outputCol)
+      .setDictionary(dictionary)
+    computeAccuracyAnnotator(trainFile, spell)
+  }
+
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
-    loggingData = new LoggingData("LOCAL", this.getClass.getSimpleName, "Spell Checkers")
     loggingData.logSymSpellParams(spell)
     val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(symSpellConfig)
@@ -48,25 +55,20 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     val time = Benchmark.measure(1, false, "[Symmetric Spell Checker] Time to train") {
       spellCheckerModel = spellCheckerPipeline.fit(trainingDataSet)
     }
-    loggingData.logMetric("training time/s", time)
+    if (symSpellConfig.model == null) {
+      loggingData.logMetric("training time/s", time)
+    }
     spellCheckerModel
   }
 
   def getDataSetFromFile(textFile: String): Dataset[_] = {
 
-    val spark = SparkSession.builder()
-      .appName("benchmark")
-      .master("local[1]")
-      .config("spark.kryoserializer.buffer.max", "200M")
-      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .getOrCreate()
-
-    import spark.implicits._
+    import sparkSession.implicits._
 
     if (textFile == "") {
       Seq("Simple data set").toDF.withColumnRenamed("value", "text")
     } else {
-      spark.read.textFile(textFile)
+      sparkSession.read.textFile(textFile)
         .withColumnRenamed("value", "text")
         .filter(row => !(row.mkString("").isEmpty && row.length > 0))
     }
@@ -109,9 +111,6 @@ class SymSpellEvaluation(testFile: String, groundTruthFile: String) {
     println("Prediction DataSet")
     val testDataSet = getDataSetFromFile(testFile)
     val predictionDataSet = spellCheckerModel.transform(testDataSet).select("prediction")
-    Benchmark.measure("[Symmetric Spell Checker] Time to show") {
-      predictionDataSet.show()
-    }
     predictionDataSet
   }
 

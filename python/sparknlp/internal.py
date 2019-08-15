@@ -29,6 +29,10 @@ class ExtendedJavaWrapper(JavaWrapper):
             java_array[i] = pylist[i]
         return java_array
 
+    def new_java_array_string(self, pylist):
+        java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.String)
+        return java_array
+
 
 class _RegexRule(ExtendedJavaWrapper):
     def __init__(self, rule, identifier):
@@ -44,7 +48,6 @@ class _ExternalResource(ExtendedJavaWrapper):
 class _ConfigLoaderGetter(ExtendedJavaWrapper):
     def __init__(self):
         super(_ConfigLoaderGetter, self).__init__("com.johnsnowlabs.util.ConfigLoader.getConfigPath")
-
 
 
 class _DownloadModel(ExtendedJavaWrapper):
