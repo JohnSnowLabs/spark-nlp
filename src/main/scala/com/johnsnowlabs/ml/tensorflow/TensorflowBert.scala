@@ -50,11 +50,13 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
       .feed(tokenIdsKey, tensors.createTensor(shrink))
       .fetch(embeddingsKey)
+      //.fetch("bert/encoder/Reshape_11:0")
       .run()
 
     tensors.clearTensors()
 
     val embeddings = TensorResources.extractFloats(calculated.get(0))
+//    val embeddings2 = TensorResources.extractFloats(calculated.get(1))
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
@@ -96,7 +98,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
             val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(p => p.begin == tokenWithEmbeddings.begin).map{
               case (token) =>
-                val test = TokenPieceEmbeddings(
+                val originalTokenWithEmbedding = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
                     token = if (caseSensitive) token.token else token.token.toLowerCase(),
                     pieceId = tokenWithEmbeddings.pieceId,
@@ -106,7 +108,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                   ),
                   tokenEmbedding
                 )
-                test
+                originalTokenWithEmbedding
             }
             originalTokensWithEmbeddings
         }
