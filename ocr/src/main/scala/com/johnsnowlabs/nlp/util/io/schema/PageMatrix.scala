@@ -9,7 +9,7 @@ case class PageMatrix(mapping: Array[Mapping]) {
 
 object PageMatrix {
 
-  private val coordinatesType =
+  val coordinatesType =
     StructType(Seq(
       StructField("c", StringType, true),
       StructField("p", IntegerType, false),

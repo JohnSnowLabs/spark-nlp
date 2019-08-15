@@ -69,9 +69,21 @@ class OcrHelper(ExtendedJavaWrapper):
     def useErosion(self, use, k_size=2, k_shape=0):
         return self._java_obj.useErosion(use, k_size, k_shape)
 
-    def drawRectangle(self, spark, path, coordinates):
+    def drawRectanglesToFile(self, path, coordinates, output_path):
         jcoords = list(map(lambda c: c.java_obj, coordinates))
-        return self._java_obj.drawRectangle(spark._jsparkSession, path, jcoords)
+        return self._java_obj.drawRectangle(path, jcoords, output_path)
+
+    def drawRectanglesDataset(
+            self,
+            spark,
+            dataset,
+            filename_col='filename',
+            pagenum_col='pagenum',
+            positions_col='positions',
+            output_suffix='_draw'):
+        jspark = spark._jsparkSession
+        jdf = dataset._jdf
+        return self._java_obj.drawRectangle(jspark, jdf, filename_col, pagenum_col, positions_col, output_suffix)
 
 
 #

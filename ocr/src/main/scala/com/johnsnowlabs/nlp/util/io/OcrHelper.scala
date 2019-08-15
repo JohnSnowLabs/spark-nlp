@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.util.io
 import java.awt.{Image, Rectangle}
 import java.awt.image.{BufferedImage, DataBufferByte, RenderedImage}
 import java.io._
+import java.nio.file.Files
 
 import javax.imageio.ImageIO
 import javax.media.jai.PlanarImage
@@ -11,8 +12,9 @@ import net.sourceforge.tess4j.util.LoadLibs
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
-
 import com.johnsnowlabs.nlp.util.io.schema._
+import org.apache.commons.io.FileUtils
+import org.apache.spark.sql.types.{IntegerType, StringType}
 
 import scala.util.{Failure, Success, Try}
 
@@ -521,8 +523,7 @@ class OcrHelper extends ImageProcessing with Serializable {
     result.getOrElse(Seq.empty[OcrRow])
   }
 
-
-  def drawRectangle(doc: PDDocument, coordinates: Seq[Coordinate]): Unit = {
+  private def drawRectangles(doc: PDDocument, coordinates: Seq[Coordinate]): String = {
 
     import java.awt.Color
     import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -544,25 +545,71 @@ class OcrHelper extends ImageProcessing with Serializable {
 
     })
 
-    val fileout = new File("highlight_output.pdf")
+    val tmpFile = Files.createTempFile("sparknlp_ocr_tmp", "").toAbsolutePath.toString
+    println(s"tmpFile: $tmpFile")
+    val fileout = new File(tmpFile)
     doc.save(fileout)
+    tmpFile
 
   }
 
-  def drawRectangle(spark: SparkSession, inputPath: String, coordinates: Seq[Coordinate]): Unit = {
-    val sc = spark.sparkContext
-    val files = sc.binaryFiles(inputPath)
-    files.foreach {
-      case (_, stream) =>
-        Try(PDDocument.load(stream.open())).foreach { pdfDoc =>
-          drawRectangle(pdfDoc, coordinates)
-        }
-    }
+  private def drawRectanglesToTmp(inputPath: String, coordinates: Seq[Coordinate]): String = {
+    val target = new File(inputPath)
+    require(target.exists)
+    val stream = new FileInputStream(target)
+    val pdfDoc = PDDocument.load(stream)
+    drawRectangles(pdfDoc, coordinates)
   }
 
-  def drawRectangle(spark: SparkSession, inputPath: String, coordinates: java.util.List[Coordinate]): Unit = {
+  private def drawRectanglesToTmp(inputPath: String, coordinates: java.util.List[Coordinate]): String = {
     import scala.collection.JavaConverters._
-    drawRectangle(spark, inputPath, coordinates.asScala)
+    drawRectanglesToTmp(inputPath, coordinates.asScala)
+  }
+
+  def drawRectanglesToFile(inputPath: String, coordinates: Seq[Coordinate], outputPath: String): Unit = {
+    val finalPath = drawRectanglesToTmp(inputPath, coordinates)
+    FileUtils.copyFile(new File(finalPath), new File(outputPath))
+  }
+
+  def drawRectanglesToFile(inputPath: String, coordinates: java.util.List[Coordinate], outputPath: String): Unit = {
+    val finalPath = drawRectanglesToTmp(inputPath, coordinates)
+    FileUtils.copyFile(new File(finalPath), new File(outputPath))
+  }
+
+  def drawRectanglesDataset(
+                             spark: SparkSession,
+                             dataset: Dataset[_],
+                             filenameCol: String = "filename",
+                             pagenumCol: String = "pagenum",
+                             positionsCol: String = "positions",
+                             outputSuffix: String = "_draw"
+                           ): Unit = {
+
+    require(dataset.columns.contains(positionsCol), s"Column $positionsCol does not exist in dataframe")
+    require(dataset.select(positionsCol).schema == PageMatrix.coordinatesType, s"Column $positionsCol is not a valid coordinates schema type")
+
+    require(dataset.columns.contains(filenameCol), s"Column $filenameCol does not exist in dataframe")
+    require(dataset.select(filenameCol).schema.head.dataType == StringType, s"Column $filenameCol is not a string type column")
+
+    require(dataset.columns.contains(positionsCol), s"Column $positionsCol does not exist in dataframe")
+    require(dataset.select(positionsCol).schema.head.dataType == IntegerType, s"Column $positionsCol is not a string type column")
+
+    import spark.implicits._
+
+    val collection = dataset.select(filenameCol, pagenumCol, positionsCol).as[(String, Int, Seq[Coordinate])].collect()
+
+    val uniquePaths = collection.map(_._1).distinct
+
+    uniquePaths.foreach(path => {
+      val coordinates = collection
+        .filter(c => c._1 == path)
+        .sortBy(_._2)
+        .map(_._3)
+
+      val finalPath = coordinates.foldLeft(path)((curPath, coordinate) => drawRectanglesToTmp(curPath, coordinate))
+      FileUtils.copyFile(new File(finalPath), new File(path+outputSuffix))
+
+    })
   }
 
   /*
