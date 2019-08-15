@@ -319,3 +319,6 @@ python/tensorflow/bert/models/**
 **/tmp_*
 docs/_site/**
 docs/.sass-cache/**
+
+tst_shortcut_sd/
+src/*/resources/*.classes
