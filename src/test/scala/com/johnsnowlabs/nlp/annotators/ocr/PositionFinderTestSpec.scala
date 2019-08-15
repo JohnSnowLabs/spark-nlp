@@ -12,16 +12,17 @@ import org.apache.spark.sql.functions._
 class PositionFinderTestSpec extends FlatSpec {
 
   def generateRandomPageMatrix(text: String): Seq[PageMatrix] = {
+    val initialp = 0
     var initialx = 39.2844F
     val initialy = 12.2313F
     val initialw = 5.1221F
     val initialh = 61.31F
     val mapping = text.map(c => {
-      val m = Mapping(c.toString, initialx, initialy, initialw, initialh)
+      val m = Mapping(c.toString, 0, initialx, initialy, initialw, initialh)
       initialx += 1F
       m
     }).toArray
-    Seq(PageMatrix(mapping, 0, 0))
+    Seq(PageMatrix(mapping))
   }
 
   "a PositionFinder" should "correctly identify chunk coordinates" in {

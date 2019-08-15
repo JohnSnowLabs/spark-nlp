@@ -91,3 +91,6 @@ class Coordinate(ExtendedJavaWrapper):
         self.y = y
         self.w = w
         self.h = h
+
+    def __str__(self):
+        return "Coordinate(i=%s, p=%s, x=%s, y=%s, w=%s, h=%s)" % (self.i, self.p, self.x, self.y, self.w, self.h)

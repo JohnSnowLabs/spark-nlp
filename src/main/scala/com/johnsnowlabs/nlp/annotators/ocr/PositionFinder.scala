@@ -50,10 +50,10 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
         val w = (maxX - minX) + lastPosition.width
         val h = lastPosition.height
 
-        coordinates += Coordinate(chunkIndex, bounds.count(targetBegin > _), x, y, w, h)
+        coordinates += Coordinate(chunkIndex, bounds.count(targetBegin > _) + lastPosition.p, x, y, w, h)
       }
 
-      chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) => {
+      chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) =>
         val line = matrix.slice(target.begin, target.end+1)
         if(target.result == line.map(_.toString).mkString) {
 
@@ -85,7 +85,7 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
           Seq.empty[Coordinate]
         }
 
-      }}
+      }
     }
   }
 
