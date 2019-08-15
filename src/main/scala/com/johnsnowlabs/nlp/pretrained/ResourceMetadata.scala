@@ -23,8 +23,10 @@ case class ResourceMetadata
   readyToUse: Boolean,
   time: Timestamp,
   isZipped: Boolean = false,
-  category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED)
+  category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
+  checksum: String = ""
 ) {
+
 
   lazy val key = {
     s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
@@ -93,7 +95,7 @@ object ResourceMetadata {
   def addMetadataToFile(fileName: String, metadata: ResourceMetadata): Unit = {
     val fw = new FileWriter(fileName, true)
     try {
-      fw.write(ResourceMetadata.toJson(metadata) + "\n")
+      fw.write("\n" + ResourceMetadata.toJson(metadata))
     }
     finally fw.close()
   }

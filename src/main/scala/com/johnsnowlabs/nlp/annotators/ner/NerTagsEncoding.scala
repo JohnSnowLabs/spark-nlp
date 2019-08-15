@@ -28,7 +28,8 @@ object NerTagsEncoding {
     def flushEntity(startIdx: Int, endIdx: Int): Unit = {
       val start = sentence.indexedTaggedWords(startIdx).begin - doc.begin
       val end = sentence.indexedTaggedWords(endIdx).end - doc.begin
-      require(start <= end && end <= doc.result.length, s"Failed to flush entities in NerConverter. Chunk offsets $start - $end are not within $sentence")
+      require(start <= end && end <= doc.result.length, s"Failed to flush entities in NerConverter. " +
+        s"Chunk offsets $start - $end are not within tokens:\n${sentence.words.mkString("||")}\nfor sentence:\n${doc.result}")
       val entity = NamedEntity(
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,

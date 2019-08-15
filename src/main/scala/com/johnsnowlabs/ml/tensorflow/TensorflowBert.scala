@@ -5,13 +5,25 @@ import com.johnsnowlabs.nlp.annotators.common._
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
-                     maxSentenceLength: Int,
-                     batchSize: Int = 5,
+                     maxSentenceLength: Int = 64,
+                     batchSize: Int = 32,
+                     dimension: Int = 768,
+                     caseSensitive: Boolean = false,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
   private val tokenIdsKey = "token_ids:0"
-  private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
+  /*
+  Using the Second-to-Last Hidden Layer in BERT model
+  ToDo: We should experiment with concatenation of the last four layers
+  FixMe: Performance is not good in local with higher layers
+   */
+  private val bertLayer = if(dimension == 768) 12 else 24
+  /*
+  Disable the Embedding layer for now.
+   */
+//  private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
+  private val embeddingsKey = s"bert/encoder/Reshape_$bertLayer:0"
 
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
@@ -26,8 +38,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
 
-    // println(s"shape = ${batch.length}, ${batch(0).length}")
-    val shrink = batch.map {sentence =>
+    //println(s"shape = ${batch.length}, ${batch(0).length}")
+    val shrink = batch.map { sentence =>
       if (sentence.length > maxSentenceLength) {
         sentence.take(maxSentenceLength - 1) ++ Array(sentenceEndTokenId)
       }
@@ -36,21 +48,23 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }.toArray
 
-    val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+    val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
       .feed(tokenIdsKey, tensors.createTensor(shrink))
       .fetch(embeddingsKey)
+      //.fetch("bert/encoder/Reshape_11:0")
       .run()
 
     tensors.clearTensors()
 
     val embeddings = TensorResources.extractFloats(calculated.get(0))
+//    val embeddings2 = TensorResources.extractFloats(calculated.get(1))
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map{case (ids, embeddings) =>
+    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
       if (ids.length > embeddings.length) {
         embeddings.take(embeddings.length - 1) ++
           Array.fill(embeddings.length - ids.length)(emptyVector) ++
@@ -60,8 +74,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }
   }
-
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence]): Seq[WordpieceEmbeddingsSentence] = {
+  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence], caseSensitive: Boolean = false): Seq[WordpieceEmbeddingsSentence] = {
     // ToDo What to do with longer sentences?
 
     // Run embeddings calculation by batches
@@ -71,19 +84,35 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
       // Combine tokens and calculated embeddings
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
-          val tokenLength = sentence._1.tokens.length
-          // Sentence Embeddings are at first place (token [CLS]
-          val sentenceEmbeddings = tokenVectors.headOption
+        originalTokenSentences.length
+        val tokenLength = sentence._1.tokens.length
+        // Sentence Embeddings are at first place (token [CLS]
+        val sentenceEmbeddings = tokenVectors.headOption
 
-          // All wordpiece embeddings
-          val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        // All wordpiece embeddings
+        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
-          // Leave embeddings only for word start
-          val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
-            case (token, tokenEmbedding) =>
-              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-              Some(tokenWithEmbeddings)
-          }
+        // Word-level and span-level alignment with Tokenizer
+        // https://github.com/google-research/bert#tokenization
+        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+          case (token, tokenEmbedding) =>
+            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(p => p.begin == tokenWithEmbeddings.begin).map{
+              case (token) =>
+                val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
+                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                    pieceId = tokenWithEmbeddings.pieceId,
+                    isWordStart = tokenWithEmbeddings.isWordStart,
+                    begin = token.begin,
+                    end = token.end
+                  ),
+                  tokenEmbedding
+                )
+                originalTokenWithEmbedding
+            }
+            originalTokensWithEmbeddings
+        }
 
         WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2, sentenceEmbeddings)
       }

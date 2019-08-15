@@ -11,7 +11,7 @@ import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.GetObjectRequest
 import com.amazonaws.{AmazonServiceException, ClientConfiguration}
-import com.johnsnowlabs.util.ConfigHelper
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.Path
 
 import scala.collection.mutable
@@ -95,10 +95,11 @@ class S3ResourceDownloader(bucket: => String,
       resource =>
         val s3FilePath = getS3File(s3Path, request.folder, resource.fileName)
         val dstFile = new Path(cachePath.toString, resource.fileName)
+        val splitPath = dstFile.toString.substring(0, dstFile.toString.length - 4)
         if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
         } else {
-          if (!fs.exists(dstFile)) {
+          if (!(fs.exists(dstFile) || fs.exists(new Path(splitPath)))) {
 
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
@@ -107,34 +108,46 @@ class S3ResourceDownloader(bucket: => String,
             // 2. Download content to tmp file
             val req = new GetObjectRequest(bucket, s3FilePath)
             client.getObject(req, tmpFile)
+            // 3. validate checksum
+            if (!resource.checksum.equals(""))
+              require(FileHelper.generateChecksum(tmpFileName).equals(resource.checksum), "Checksum validation failed!")
 
-            // 3. Move tmp file to destination
+            // 4. Move tmp file to destination
             fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)
+            println("downloading")
+
           }
 
-          // 4. Unzip if needs
+          // 5. Unzip if needs
           if (resource.isZipped) {
-            val zis = new ZipInputStream(fs.open(dstFile))
-            val buf = Array.ofDim[Byte](1024)
-            var entry = zis.getNextEntry
-            require(dstFile.toString.substring(dstFile.toString.length - 4) == ".zip")
-            val splitPath = dstFile.toString.substring(0, dstFile.toString.length - 4)
-            while (entry != null) {
-              if (!entry.isDirectory) {
-                val entryName = new Path(splitPath, entry.getName)
-                val outputStream = fs.create(entryName)
-                var bytesRead = zis.read(buf, 0, 1024)
-                while (bytesRead > -1) {
-                  outputStream.write(buf, 0, bytesRead)
-                  bytesRead = zis.read(buf, 0, 1024)
+            //if not already unzipped
+            if (!fs.exists(new Path(splitPath))) {
+              val zis = new ZipInputStream(fs.open(dstFile))
+              val buf = Array.ofDim[Byte](1024)
+              var entry = zis.getNextEntry
+              require(dstFile.toString.substring(dstFile.toString.length - 4) == ".zip", "Not a zip file.")
+
+              while (entry != null) {
+                if (!entry.isDirectory) {
+                  val entryName = new Path(splitPath, entry.getName)
+                  val outputStream = fs.create(entryName)
+                  var bytesRead = zis.read(buf, 0, 1024)
+                  while (bytesRead > -1) {
+                    outputStream.write(buf, 0, bytesRead)
+                    bytesRead = zis.read(buf, 0, 1024)
+                  }
+                  outputStream.close()
                 }
-                outputStream.close()
+                zis.closeEntry()
+                entry = zis.getNextEntry
               }
-              zis.closeEntry()
-              entry = zis.getNextEntry
+              zis.close()
+              //delete the zip file
+              fs.delete(dstFile, true)
             }
-            zis.close()
+
             Some(splitPath)
+
           } else {
             Some(dstFile.getName)
           }
