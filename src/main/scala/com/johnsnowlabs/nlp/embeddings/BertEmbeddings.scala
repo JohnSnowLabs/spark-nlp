@@ -23,28 +23,26 @@ class BertEmbeddings(override val uid: String) extends
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  def setBatchSize(size: Int): this.type = set(batchSize, size)
 
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
   }
-
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("[SEP]")
   }
 
-  def setBatchSize(size: Int): this.type = set(batchSize, size)
-
+  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
   def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   setDefault(
     dimension -> 768,
@@ -52,12 +50,8 @@ class BertEmbeddings(override val uid: String) extends
     maxSentenceLength -> 64
   )
 
-  def getMaxSentenceLength: Int = $(maxSentenceLength)
-
   private var _model: Option[Broadcast[TensorflowBert]] = None
-
   def getModelIfNotSet: TensorflowBert = _model.get.value
-
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
