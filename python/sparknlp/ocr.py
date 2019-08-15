@@ -70,7 +70,12 @@ class OcrHelper(ExtendedJavaWrapper):
         return self._java_obj.useErosion(use, k_size, k_shape)
 
     def drawRectanglesToFile(self, path, coordinates, output_path):
-        jcoords = list(map(lambda c: c.java_obj, coordinates))
+        if type(coordinates) != list or len(coordinates) == 0:
+            raise Exception("coordinates not a list, or is empty")
+        if type(coordinates[0]) == Coordinate:
+            jcoords = list(map(lambda c: c.java_obj, coordinates))
+        else:
+            jcoords = list(map(lambda c: Coordinate(c['i'], c['p'], c['x'], c['y'], c['w'], c['h']).java_obj, coordinates))
         return self._java_obj.drawRectanglesToFile(path, jcoords, output_path)
 
     def drawRectanglesDataset(
@@ -80,10 +85,11 @@ class OcrHelper(ExtendedJavaWrapper):
             filename_col='filename',
             pagenum_col='pagenum',
             coordinates_col='coordinates',
+            output_location='./highlighted/',
             output_suffix='_draw'):
         jspark = spark._jsparkSession
         jdf = dataset._jdf
-        return self._java_obj.drawRectanglesDataset(jspark, jdf, filename_col, pagenum_col, coordinates_col, output_suffix)
+        return self._java_obj.drawRectanglesDataset(jspark, jdf, filename_col, pagenum_col, coordinates_col, output_location, output_suffix)
 
 
 #
