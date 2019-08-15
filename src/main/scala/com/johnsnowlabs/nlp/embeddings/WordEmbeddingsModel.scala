@@ -6,8 +6,9 @@ import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWi
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{DataFrame, SparkSession}
-
+import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
@@ -71,8 +72,8 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
-        val vector = this.getEmbeddings.getEmbeddingsVector(token.token)
-        new TokenPieceEmbeddings(token.token, token.token, -1, true, vector, token.begin, token.end)
+        val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
+        TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, Array.fill($(dimension))(0f), token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, idx)
     }
@@ -88,9 +89,40 @@ class WordEmbeddingsModel(override val uid: String)
 
 }
 
-object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
+object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings with EmbeddingsCoverage
 
 trait PretrainedWordEmbeddings {
   def pretrained(name: String = "glove_100d", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
     ResourceDownloader.downloadModel(WordEmbeddingsModel, name, Option(lang), remoteLoc)
+}
+
+trait EmbeddingsCoverage {
+
+  case class CoverageResult(covered: Long, total: Long, percentage: Float) extends Serializable
+
+  def withCoverageColumn(dataset: DataFrame, embeddingsColumn: String, outputCol: String): DataFrame = {
+    val coverageFn = udf((annotatorProperties: Seq[Row]) => {
+      val annotations = annotatorProperties.map(Annotation(_))
+      val oov = annotations.map(x => if (x.metadata("isOOV") == "false") 1 else 0)
+      val covered = oov.sum
+      val total = annotations.count(_ => true)
+      val percentage = 1f * covered / total
+      CoverageResult(covered, total, percentage)
+    })
+    dataset.withColumn(outputCol, coverageFn(col(embeddingsColumn)))
+  }
+
+  def overallCoverage(dataset: DataFrame, embeddingsColumn: String): CoverageResult = {
+    val words = dataset.select(embeddingsColumn).flatMap(row => {
+      val annotations = row.getAs[Seq[Row]](embeddingsColumn)
+      annotations.map(annotation => Tuple2(
+        annotation.getAs[Map[String, String]]("metadata")("token"),
+        if (annotation.getAs[Map[String, String]]("metadata")("isOOV") == "false") 1 else 0))
+    })
+    val oov = words.reduce((a, b) => Tuple2("Total", a._2 + b._2))
+    val covered = oov._2
+    val total = words.count()
+    val percentage = 1f * covered / total
+    CoverageResult(covered, total, percentage)
+  }
 }
