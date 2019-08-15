@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -22,6 +22,9 @@ class BertEmbeddings(override val uid: String) extends
 {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
+
+  override def setDimension(value: Int): this.type = set(this.dimension, value)
+  override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
 
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
   def setBatchSize(size: Int): this.type = set(batchSize, size)
@@ -64,6 +67,7 @@ class BertEmbeddings(override val uid: String) extends
             maxSentenceLength = $(maxSentenceLength),
             batchSize = $(batchSize),
             dimension = $(dimension),
+            caseSensitive = $(caseSensitive),
             configProtoBytes = getConfigProtoBytes
           )
         )

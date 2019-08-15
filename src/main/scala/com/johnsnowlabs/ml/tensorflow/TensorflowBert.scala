@@ -8,6 +8,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      maxSentenceLength: Int = 64,
                      batchSize: Int = 32,
                      dimension: Int = 768,
+                     caseSensitive: Boolean = false,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
@@ -21,7 +22,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   /*
   Disable the Embedding layer for now.
    */
-  //private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
+//  private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
   private val embeddingsKey = s"bert/encoder/Reshape_$bertLayer:0"
 
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
