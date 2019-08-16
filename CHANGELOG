@@ -1,4 +1,40 @@
 ========
+2.2.0-rc1
+========
+---------------
+Overview
+---------------
+We are so glad to present the first release candidate of this new release. Last time, following a release candidate schedule allowed
+us to move from 2.1.0 straight to 2.2.0! Fortunately, there were no breaking bugs by carefully testing releases alongside the community,
+which ended up in various pull requests.
+This huge release features OCR based coordinate highlighting, BERT embeddings refactor and tuning, more tools for accuracy evaluation in python, and much more.
+We welcome your feedback in our Slack channels, as always!
+
+---------------
+New Features
+---------------
+* OCRHelper now returns coordinate positions matrix for text converted from PDF
+* New annotator PositionFinder consumes OCRHelper positions to return rectangle coordinates for CHUNK annotator types
+* Evaluation module now also ported to Python
+* WordEmbeddings now include coverage metadata information and new static functions `withCoverageColumn` and `overallCoverage` offer metric analysis
+* Progress bar report when downloading models and loading embeddings
+
+---------------
+Enhancements
+---------------
+* BERT Embeddings now merges much better with Spark NLP, returning state of the art accuracy numbers for NER (Details will be expanded). Thank you for community feedback.
+* Models and pipeline cache now more efficiently managed and includes CRC (not retroactive)
+* Finisher and LightPipeline now deal with embeddings properly, including them in pre processed result (Thank you Will Held)
+* Tokenizer now allows regular expressions in the list of Exceptions (Thank you @atomobianco)
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in NerConverter caused by empty entities, returning an error when flushing entities
+* Fixed a bug when creating BERT Models from python, where contrib libraries were not loaded
+* Fixed missing setters for whitelist param in NerConverter
+
+========
 2.1.0
 ========
 ---------------
