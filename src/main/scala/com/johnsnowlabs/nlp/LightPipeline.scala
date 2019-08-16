@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.embeddings.HasEmbeddings
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -56,7 +57,12 @@ class LightPipeline(val pipelineModel: PipelineModel) {
   }
 
   def annotate(target: String): Map[String, Seq[String]] = {
-    fullAnnotate(target).mapValues(_.map(_.result))
+    fullAnnotate(target).mapValues(_.map(a => {
+      a.annotatorType match {
+        case AnnotatorType.WORD_EMBEDDINGS =>  a.embeddings.mkString(",")
+        case _ => a.result
+      }
+    }))
   }
 
   def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {

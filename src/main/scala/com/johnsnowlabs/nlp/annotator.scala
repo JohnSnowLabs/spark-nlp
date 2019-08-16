@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
 import com.johnsnowlabs.nlp.annotators.spell.context.{PretrainedSpellModel, ReadsLanguageModelGraph}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, PretrainedBertModel, PretrainedWordEmbeddings, ReadBertTensorflowModel}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, PretrainedBertModel, PretrainedWordEmbeddings, EmbeddingsCoverage, ReadBertTensorflowModel}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -51,6 +51,9 @@ package object annotator {
   object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
   object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer
+
+  type PositionFinder = com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
+  object PositionFinder extends DefaultParamsReadable[PositionFinder]
 
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
@@ -116,7 +119,7 @@ package object annotator {
   type WordEmbeddings = com.johnsnowlabs.nlp.embeddings.WordEmbeddings
   object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
   type WordEmbeddingsModel = com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-  object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings
+  object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings with EmbeddingsCoverage
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
   object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings] with PretrainedBertModel with ReadBertTensorflowModel

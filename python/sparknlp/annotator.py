@@ -275,6 +275,24 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
+class PositionFinder(AnnotatorModel):
+
+    pageMatrixCol = Param(Params._dummy(),
+                          "pageMatrixCol",
+                          "Column name for Page Matrix schema",
+                          typeConverter=TypeConverters.toString
+                          )
+
+    name = "PositionFinder"
+
+    @keyword_only
+    def __init__(self):
+        super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
+
+    def setPageMatrixCol(self, value):
+        return self._set(pageMatrixCol=value)
+
+
 class Normalizer(AnnotatorApproach):
 
     cleanupPatterns = Param(Params._dummy(),
@@ -504,6 +522,9 @@ class PerceptronApproach(AnnotatorApproach):
 
     def setIterations(self, value):
         return self._set(nIterations=value)
+
+    def getNIterations(self):
+        return self.getOrDefault(self.nIterations)
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model=java_model)
@@ -813,8 +834,10 @@ class NorvigSweetingApproach(AnnotatorApproach):
             classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach")
         self._setDefault(caseSensitive=False, doubleVariants=False, shortCircuit=False, wordSizeIgnore=3, dupsLimit=2,
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
+        self.dictionary_path = ""
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
@@ -889,6 +912,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         super(SymmetricDeleteApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach")
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
+        self.dictionary_path = ""
 
     def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         opts = options.copy()
@@ -897,6 +921,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(corpus=ExternalResource(path, read_as, opts))
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+        self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
             opts["tokenPattern"] = token_pattern
@@ -962,6 +987,12 @@ class NerApproach(Params):
 
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
+
+    def getRandomSeed(self):
+        return self.getOrDefault(self.randomSeed)
+
+    def getLabelColumn(self):
+        return self.getOrDefault(self.labelColumn)
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
@@ -1049,8 +1080,14 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
-    trainValidationProp = Param(Params._dummy(), "po", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+    trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
+    evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                              TypeConverters.toBoolean)
+
+    testDataset = Param(Params._dummy(), "testDataset",
+                        "Path to test dataset. If set used to calculate statistic on it during training.",
+                        TypeConverters.identity)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1090,6 +1127,13 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(trainValidationProp=v)
         return self
 
+    def setEvaluationLogExtended(self, v):
+        self._set(evaluationLogExtended=v)
+        return self
+
+    def setTestDataset(self, path, read_as=ReadAs.SPARK_DATASET, options={"format": "parquet"}):
+        return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1103,8 +1147,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             dropout=float(0.5),
             verbose=2,
             useContrib=uc,
-            trainValidationProp=float(0.0)
+            trainValidationProp=float(0.0),
+            evaluationLogExtended=False
         )
+
 
 class NerDLModel(AnnotatorModel):
     name = "NerDLModel"
@@ -1458,6 +1504,15 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             return "TEXT"
         else:
             return "BINARY"
+
+    def getEmbeddingsPath(self):
+        return self.getOrDefault(self.sourceEmbeddingsPath)
+
+    def getDimension(self):
+        return self.getOrDefault(self.dimension)
+
+    def getFormat(self):
+        return self.getOrDefault(self.embeddingsFormat)
 
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)

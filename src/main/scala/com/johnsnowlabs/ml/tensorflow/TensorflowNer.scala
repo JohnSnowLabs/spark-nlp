@@ -88,12 +88,12 @@ class TensorflowNer
     var i = -1
 
     sentence.tokens.map{t =>
-      if (t.isWordStart) {
-        i += 1
-        tokenTags.labels(i)
-      }
-      else
-        "X"
+      //if (t.isWordStart) {
+      i += 1
+      tokenTags.labels(i)
+      //}
+      //else
+      //"X"
     }
   }
 
@@ -109,12 +109,16 @@ class TensorflowNer
             po: Float,
             batchSize: Int,
             dropout: Float,
-            startEpoch: Int,
+            startEpoch: Int = 0,
             endEpoch: Int,
-            validation: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
+            graphFileName: String = "",
+            test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f
+            trainValidationProp: Float = 0.0f,
+            evaluationLogExtended: Boolean = false
            ): Unit = {
+
+    log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
       s"labels: ${encoder.tags.length} " +
@@ -172,19 +176,15 @@ class TensorflowNer
 
         val trainDatasetSample = trainDataset.take(sample)
 
-        log(s"Quality on training dataset (${trainValidationProp*100}%), validationExamples = $sample", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs))
+        log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
       }
 
-      if (validation.nonEmpty) {
-        log("Quality on train dataset: ", Verbose.Epochs)
-        measure(trainDataset, (s: String) => log(s, Verbose.Epochs))
+      if (test.nonEmpty) {
+        log("Quality on test dataset: ", Verbose.Epochs)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
       }
 
-      if (validation.nonEmpty) {
-        log("Quality on validation dataset: ", Verbose.Epochs)
-        measure(validation, (s: String) => log(s, Verbose.Epochs))
-      }
     }
   }
 
@@ -192,7 +192,8 @@ class TensorflowNer
     val prec = tp.toFloat / (tp.toFloat + fp.toFloat)
     val rec = tp.toFloat / (tp.toFloat + fn.toFloat)
     val f1 = 2 * ((prec * rec) / (prec + rec))
-    (prec, rec, f1)
+
+    (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
   def tagsForTokens(labels: Array[String], pieces: WordpieceEmbeddingsSentence): Array[String] = {
@@ -252,11 +253,12 @@ class TensorflowNer
             predicted(tag) = predicted.getOrElse(tag, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag) && label != "O") {
+            if ((label == tag)) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag != "O") {
               falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
             } else {
+              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
               falseNegatives(label) = falseNegatives.getOrElse(label, 0) + 1
             }
 
@@ -264,9 +266,9 @@ class TensorflowNer
       }
     }
 
-    log(s"time to finish validation: ${(System.nanoTime() - started)/1e9}")
+    log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
 
-    val labels = (correct.keys ++ predicted.keys).toSeq.distinct
+    val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
 
     val totalTruePositives = truePositives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
@@ -274,17 +276,32 @@ class TensorflowNer
     val totalFalseNegatives = falseNegatives.filterKeys(label => notEmptyLabels.contains(label)).values.sum
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
-    log(s"Total stats\t prec: $prec, rec: $rec, f1: $f1")
 
-    log("label\t prec\t rec\t f1")
+    if (extended)
+      log("label\t tp\t fp\t fn\t prec\t rec\t f1")
 
-    for (label <- notEmptyLabels) {
-      val (prec, rec, f1) = calcStat(
-        truePositives.getOrElse(label, 0),
-        falsePositives.getOrElse(label, 0),
-        falseNegatives.getOrElse(label, 0)
-      )
-      log(s"$label\t $prec\t $rec\t $f1")
+    var totalPercByClass, totalRecByClass = 0f
+    for (label <- labels) {
+      val tp = truePositives.getOrElse(label, 0)
+      val fp = falsePositives.getOrElse(label, 0)
+      val fn = falseNegatives.getOrElse(label, 0)
+      val (prec, rec, f1) = calcStat(tp, fp, fn)
+      if (extended) {
+        log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
+      }
+      totalPercByClass = totalPercByClass + prec
+      totalRecByClass = totalRecByClass + rec
     }
+    val macroPercision = totalPercByClass/notEmptyLabels.length
+    val macroRecall = totalRecByClass/notEmptyLabels.length
+    val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
+
+    if (extended) {
+      log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
+    }
+    // ex: Precision = P1+P2/2
+    log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
+    // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
+    log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
   }
 }

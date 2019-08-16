@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
@@ -330,6 +330,23 @@ object ResourceHelper {
         valueAsKeys.toMap
       case _ =>
         throw new Exception("Unsupported readAs")
+    }
+  }
+
+  /**
+    * General purpose read saved Parquet
+    * Currently read only Parquet format
+    * @return
+    */
+  def readParquetSparkDatFrame(
+                           er: ExternalResource
+                         ): DataFrame = {
+    er.readAs match {
+      case SPARK_DATASET =>
+        val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
+        dataset
+      case _ =>
+        throw new Exception("Unsupported readAs - only accepts SPARK_DATASET")
     }
   }
 

@@ -3,9 +3,9 @@ package com.johnsnowlabs.util
 import java.io.{File, IOException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
+import java.security.MessageDigest
 
 import org.apache.commons.io.FileUtils
-
 object FileHelper {
   def writeLines(file: String, lines: Seq[String], encoding: String = "UTF-8"): Unit = {
     val writer = Files.newBufferedWriter(Paths.get(file), Charset.forName(encoding))
@@ -43,6 +43,12 @@ object FileHelper {
       }
     }
 
+  }
+
+  def generateChecksum(path: String): String = {
+    val arr = Files readAllBytes (Paths get path)
+    val checksum = MessageDigest.getInstance("MD5") digest arr
+    checksum.map("%02X" format _).mkString
   }
 
 }

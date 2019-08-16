@@ -27,18 +27,18 @@ class NerDLModel(override val uid: String)
   override val outputAnnotatorType = NAMED_ENTITY
 
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
-  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
-
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
-  def setBatchSize(size: Int) = set(this.batchSize, size)
-
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
-  def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
-
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
-  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
+  def setBatchSize(size: Int) = set(this.batchSize, size)
+  def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
+  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+
+  def getMinProba: Float = $(this.minProba)
+  def getBatchSize: Int = $(this.batchSize)
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
   def getModelIfNotSet: TensorflowNer = _model.get.value
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
@@ -122,9 +122,9 @@ trait PretrainedNerDL {
       if (SystemUtils.IS_OS_WINDOWS)
         "ner_dl"
       else
-        // Download better model if not windows
+      // Download better model if not windows
         "ner_dl_contrib"
-      }
+    }
     else name
     ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
   }
