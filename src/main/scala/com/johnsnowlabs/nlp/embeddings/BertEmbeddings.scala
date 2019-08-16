@@ -24,17 +24,30 @@ class BertEmbeddings(override val uid: String) extends
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
-  override def setDimension(value: Int): this.type = set(this.dimension, value)
-  override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
+  override def setDimension(value: Int): this.type = {
+    if(get(dimension).isEmpty)
+      set(this.dimension, value)
+    this
+
+  }
+  override def setCaseSensitive(value: Boolean): this.type = {
+    if(get(caseSensitive).isEmpty)
+      set(this.caseSensitive, value)
+    this
+  }
 
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
-  def setBatchSize(size: Int): this.type = set(batchSize, size)
+  def setBatchSize(size: Int): this.type = {
+    if(get(batchSize).isEmpty)
+      set(batchSize, size)
+    this
+  }
 
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   def sentenceStartTokenId: Int = {
@@ -45,7 +58,11 @@ class BertEmbeddings(override val uid: String) extends
   }
 
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-  def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
+  def setMaxSentenceLength(value: Int): this.type = {
+    if(get(maxSentenceLength).isEmpty)
+      set(maxSentenceLength, value)
+    this
+  }
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   setDefault(
