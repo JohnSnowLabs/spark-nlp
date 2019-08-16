@@ -73,7 +73,7 @@ class WordEmbeddingsModel(override val uid: String)
     val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
         val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
-        TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, Array.fill($(dimension))(0f), token.begin, token.end)
+        TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, idx)
     }
@@ -103,7 +103,7 @@ trait EmbeddingsCoverage {
   def withCoverageColumn(dataset: DataFrame, embeddingsColumn: String, outputCol: String): DataFrame = {
     val coverageFn = udf((annotatorProperties: Seq[Row]) => {
       val annotations = annotatorProperties.map(Annotation(_))
-      val oov = annotations.map(x => if (x.metadata("isOOV") == "false") 1 else 0)
+      val oov = annotations.map(x => if (x.metadata.getOrElse("isOOV", "false") == "false") 1 else 0)
       val covered = oov.sum
       val total = annotations.count(_ => true)
       val percentage = 1f * covered / total
@@ -117,7 +117,7 @@ trait EmbeddingsCoverage {
       val annotations = row.getAs[Seq[Row]](embeddingsColumn)
       annotations.map(annotation => Tuple2(
         annotation.getAs[Map[String, String]]("metadata")("token"),
-        if (annotation.getAs[Map[String, String]]("metadata")("isOOV") == "false") 1 else 0))
+        if (annotation.getAs[Map[String, String]]("metadata").getOrElse("isOOV", "false") == "false") 1 else 0))
     })
     val oov = words.reduce((a, b) => Tuple2("Total", a._2 + b._2))
     val covered = oov._2
