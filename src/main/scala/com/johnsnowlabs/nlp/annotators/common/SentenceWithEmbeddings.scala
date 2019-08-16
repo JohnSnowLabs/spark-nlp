@@ -61,7 +61,7 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
           token = token.metadata("token"),
           pieceId = token.metadata("pieceId").toInt,
           isWordStart = token.metadata("isWordStart").toBoolean,
-          isOOV = token.metadata("isOOV").toBoolean,
+          isOOV = token.metadata.getOrElse("isOOV", "false").toBoolean,
           embeddings = token.embeddings,
           begin = token.begin,
           end = token.end
