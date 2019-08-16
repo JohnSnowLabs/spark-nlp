@@ -66,6 +66,13 @@ class _ClearCache(ExtendedJavaWrapper):
         self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
 
 
+class _GetResourceSize(ExtendedJavaWrapper):
+    def __init__(self, name, language, remote_loc):
+        super(_GetResourceSize, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize")
+        self._java_obj = self._new_java_obj(self._java_obj, name, language, remote_loc)
+
+
 class _ShowUnCategorizedResources(ExtendedJavaWrapper):
     def __init__(self):
         super(_ShowUnCategorizedResources, self).__init__(

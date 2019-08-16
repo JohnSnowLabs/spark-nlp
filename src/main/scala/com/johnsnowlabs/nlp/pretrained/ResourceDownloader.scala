@@ -40,6 +40,8 @@ trait ResourceDownloader {
     */
   def download(request: ResourceRequest): Option[String]
 
+  def getDownloadSize(request: ResourceRequest): Option[Long]
+
   def clearCache(request: ResourceRequest): Unit
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
@@ -285,7 +287,8 @@ object ResourceDownloader {
     * @return path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-
+    println(request.name + " download started this may take some time")
+    println("Approx size to download " + getDownloadSize(request.name, request.language, request.folder))
     val f = Future {
 
       defaultDownloader.download(request)
@@ -359,6 +362,17 @@ object ResourceDownloader {
     defaultDownloader.clearCache(request)
     cache.remove(request)
   }
+
+  def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
+
+    val downloadBytes = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)).getOrElse(0l).toDouble
+    val sizeMB: Double = downloadBytes / 1024000
+    if (sizeMB > 1024.0) {
+      return Math.round(sizeMB / 1024.0) + " GB"
+    } else {
+      return Math.round(sizeMB) + " MB"
+    }
+  }
 }
 
 object ResourceType extends Enumeration {
@@ -430,6 +444,11 @@ object PythonResourceDownloader {
 
   def showPublicModels(): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
+  }
+
+  def getDownloadSize(name: String, language: String = null, remoteLoc: String = null): String = {
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
+    ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
   }
 }
 
