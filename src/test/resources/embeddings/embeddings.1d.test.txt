@@ -1,0 +1,5 @@
+word -2
+diagnosis -1
+obesity 0
+diabetes 1
+chlamydia 2
