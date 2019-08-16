@@ -5,10 +5,10 @@ import com.johnsnowlabs.nlp.annotators.common._
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
-                     maxSentenceLength: Int = 64,
-                     batchSize: Int = 32,
-                     dimension: Int = 768,
-                     caseSensitive: Boolean = false,
+                     maxSentenceLength: Int,
+                     batchSize: Int,
+                     val dimension: Int,
+                     val caseSensitive: Boolean,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
