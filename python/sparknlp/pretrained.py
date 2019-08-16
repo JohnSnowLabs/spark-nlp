@@ -30,6 +30,7 @@ class ResourceDownloader(object):
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
         print(name + " download started this may take some time")
+        print("Approx size to download " + _internal._GetResourceSize(name, language, remote_loc).apply())
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
         t1.start()
