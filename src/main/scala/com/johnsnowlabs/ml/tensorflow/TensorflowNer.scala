@@ -9,8 +9,6 @@ import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
 import scala.util.Random
 
-
-
 class TensorflowNer
 (
   val tensorflow: TensorflowWrapper,
@@ -31,6 +29,7 @@ class TensorflowNer
   private val labelsKey = "training/labels:0"
 
   private val lossKey = "inference/Mean:0"
+  private val scoresKey = "context_repr/scores:0"
   private val trainingKey = "training_1/Adam"
   private val predictKey = "inference/cond_2/Merge:0"
 
@@ -46,21 +45,24 @@ class TensorflowNer
     doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
   }
 
-  def predict(dataset: Array[WordpieceEmbeddingsSentence], configProtoBytes: Option[Array[Byte]] = None): Array[Array[String]] = {
+  def predict(
+               dataset: Array[WordpieceEmbeddingsSentence],
+               configProtoBytes: Option[Array[Byte]] = None,
+               includeConfidence: Boolean = false): Array[Array[(String, Option[Double])]] = {
 
-    val result = ArrayBuffer[Array[String]]()
+    val result = ArrayBuffer[Array[(String, Option[Double])]]()
 
     for (batch <- dataset.grouped(batchSize); if batch.length > 0) {
       val batchInput = encoder.encodeInputData(batch)
 
       if (batchInput.sentenceLengths.length == 0)
         for (_ <- batch) {
-          result.append(Array.empty[String])
+          result.append(Array.empty[(String, Option[Double])])
         }
       else {
         val tensors = new TensorResources()
 
-        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+        val calculator = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
@@ -69,13 +71,29 @@ class TensorflowNer
 
           .feed(dropoutKey, tensors.createTensor(1.0f))
           .fetch(predictKey)
-          .run()
+
+        val calculatorInc = if (includeConfidence) calculator.fetch(scoresKey) else calculator
+
+        val calculated = calculatorInc.run()
 
         tensors.clearTensors()
 
         val tagIds = TensorResources.extractInts(calculated.get(0))
+
+        val confidence: Option[Seq[Double]] = {
+          if (includeConfidence) {
+            val scores = TensorResources.extractFloats(calculated.get(1))
+            require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
+            val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
+            val probs = exp.map(g => BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble)
+            Some(probs)
+          } else {
+            None
+          }
+        }
+
         val tags = encoder.decodeOutputData(tagIds)
-        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
+        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths, confidence)
 
         result.appendAll(sentenceTags)
       }
@@ -115,7 +133,8 @@ class TensorflowNer
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
-            evaluationLogExtended: Boolean = false
+            evaluationLogExtended: Boolean = false,
+            includeConfidence: Boolean = false
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
@@ -177,12 +196,12 @@ class TensorflowNer
         val trainDatasetSample = trainDataset.take(sample)
 
         log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence)
       }
 
       if (test.nonEmpty) {
         log("Quality on test dataset: ", Verbose.Epochs)
-        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence)
       }
 
     }
@@ -196,7 +215,7 @@ class TensorflowNer
     (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
-  def tagsForTokens(labels: Array[String], pieces: WordpieceEmbeddingsSentence): Array[String] = {
+  def tagsForTokens(labels: Array[(String, Option[Double])], pieces: WordpieceEmbeddingsSentence): Array[(String, Option[Double])] = {
     labels.zip(pieces.tokens).flatMap{
       case(l, p) =>
         if (p.isWordStart)
@@ -206,8 +225,8 @@ class TensorflowNer
     }
   }
 
-  def tagsForTokens(labels: Array[Array[String]], pieces: Array[WordpieceEmbeddingsSentence]):
-  Array[Array[String]] = {
+  def tagsForTokens(labels: Array[Array[(String, Option[Double])]], pieces: Array[WordpieceEmbeddingsSentence]):
+  Array[Array[(String, Option[Double])]] = {
 
     labels.zip(pieces)
       .map{case (l, p) => tagsForTokens(l, p)}
@@ -216,7 +235,8 @@ class TensorflowNer
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
               log: String => Unit,
               extended: Boolean = false,
-              batchSize: Int = 100
+              batchSize: Int = 100,
+              includeConfidence: Boolean = false
              ): Unit = {
 
     val started = System.nanoTime()
@@ -230,7 +250,7 @@ class TensorflowNer
 
     for (batch <- slice(labeled, batchSize)) {
 
-      val sentencePredictedTags = predict(batch.map(_._2))
+      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
@@ -243,22 +263,22 @@ class TensorflowNer
 
       (sentenceTokens, sentenceLabels, sentenceTokenTags).zipped.foreach {
         case (tokens, labels, tags) =>
-          for (i <- 0 until labels.length) {
+          for (i <- labels.indices) {
 
             val label = labels(i)
             val tag = tags(i)
             val iWord = tokens(i)
 
             correct(label) = correct.getOrElse(label, 0) + 1
-            predicted(tag) = predicted.getOrElse(tag, 0) + 1
+            predicted(tag._1) = predicted.getOrElse(tag._1, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag)) {
+            if ((label == tag._1)) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag != "O") {
-              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
+              falsePositives(tag._1) = falsePositives.getOrElse(tag._1, 0) + 1
             } else {
-              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
+              falsePositives(tag._1) = falsePositives.getOrElse(tag._1, 0) + 1
               falseNegatives(label) = falseNegatives.getOrElse(label, 0) + 1
             }
 

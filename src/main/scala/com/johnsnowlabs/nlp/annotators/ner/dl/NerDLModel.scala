@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -30,20 +30,25 @@ class NerDLModel(override val uid: String)
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
+
+  setDefault(includeConfidence, false)
 
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)
   def setBatchSize(size: Int) = set(this.batchSize, size)
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
 
   def getMinProba: Float = $(this.minProba)
   def getBatchSize: Int = $(this.batchSize)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
   def getModelIfNotSet: TensorflowNer = _model.get.value
+  def getIncludeConfidence: Boolean = $(includeConfidence)
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
     // Predict
-    val labels = getModelIfNotSet.predict(tokenized, getConfigProtoBytes)
+    val labels = getModelIfNotSet.predict(tokenized, getConfigProtoBytes, includeConfidence = $(includeConfidence))
 
     // Combine labels with sentences tokens
     tokenized.indices.map { i =>
@@ -53,7 +58,7 @@ class NerDLModel(override val uid: String)
         val token = sentence.tokens(j)
         val label = labels(i)(j)
         if (token.isWordStart) {
-          Some(IndexedTaggedWord(token.token, label, token.begin, token.end))
+          Some(IndexedTaggedWord(token.token, label._1, token.begin, token.end, label._2.map(_.toFloat)))
         }
         else {
           None
