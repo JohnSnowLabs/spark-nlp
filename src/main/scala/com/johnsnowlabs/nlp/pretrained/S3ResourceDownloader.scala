@@ -156,7 +156,6 @@ class S3ResourceDownloader(bucket: => String,
   }
 
   override def getDownloadSize(request: ResourceRequest): Option[Long] = {
-
     val link = resolveLink(request)
     link.flatMap {
       resource =>

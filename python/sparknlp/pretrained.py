@@ -29,7 +29,7 @@ class ResourceDownloader(object):
 
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
-        print(name + " download started this may take some time")
+        print(name + " download started this may take some time.")
         print("Approx size to download " + _internal._GetResourceSize(name, language, remote_loc).apply())
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
@@ -37,12 +37,12 @@ class ResourceDownloader(object):
         j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
         stop_threads = True
         t1.join()
-        print("Download done")
+        print("Download done.")
         return reader(classname=None, java_model=j_obj)
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
-        print(name + " download started this may take some time")
+        print(name + " download started this may take some time.")
         print("Approx size to download " + _internal._GetResourceSize(name, language, remote_loc).apply())
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
@@ -51,7 +51,7 @@ class ResourceDownloader(object):
         jmodel = JavaModel(j_obj)
         stop_threads = True
         t1.join()
-        print("Download done")
+        print("Download done.")
         return jmodel
 
     @staticmethod

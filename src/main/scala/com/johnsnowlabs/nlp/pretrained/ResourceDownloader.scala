@@ -364,7 +364,6 @@ object ResourceDownloader {
   }
 
   def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
-
     val downloadBytes = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)).getOrElse(0l).toDouble
     val sizeMB: Double = downloadBytes / 1024000
     if (sizeMB > 1024.0) {
