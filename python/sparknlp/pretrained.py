@@ -25,6 +25,7 @@ def printProgress(stop):
     sys.stdout.write('\n')
     return
 
+
 class ResourceDownloader(object):
 
     @staticmethod
@@ -71,9 +72,6 @@ class ResourceDownloader(object):
         _internal._ShowUnCategorizedResources().apply()
 
 
-
-
-
 class PretrainedPipeline:
 
     def __init__(self, name, lang='en', remote_loc=None):
@@ -88,6 +86,17 @@ class PretrainedPipeline:
         elif type(target) is list or type(target) is str:
             pipeline = self.light_model
             return pipeline.annotate(target)
+        else:
+            raise Exception("target must be either a spark DataFrame, a list of strings or a string")
+
+    def fullAnnotate(self, target, column=None):
+        if type(target) is DataFrame:
+            if not column:
+                raise Exception("annotate() column arg needed when targeting a DataFrame")
+            return self.model.transform(target.withColumnRenamed(column, "text"))
+        elif type(target) is list or type(target) is str:
+            pipeline = self.light_model
+            return pipeline.fullAnnotate(target)
         else:
             raise Exception("target must be either a spark DataFrame, a list of strings or a string")
 
