@@ -4,8 +4,7 @@ from sparknlp.internal import ExtendedJavaWrapper
 class NorvigSpellEvaluation(ExtendedJavaWrapper):
 
     def __init__(self, test_file, ground_truth_file):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.NorvigSpellEvaluation")
-        self._java_obj = self._new_java_obj(self._java_obj, test_file, ground_truth_file)
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.NorvigSpellEvaluation", test_file, ground_truth_file)
 
     def computeAccuracyAnnotator(self, train_file, spell):
         input_cols = spell.getInputCols()
@@ -20,8 +19,7 @@ class NorvigSpellEvaluation(ExtendedJavaWrapper):
 class SymSpellEvaluation(ExtendedJavaWrapper):
 
     def __init__(self, test_file, ground_truth_file):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.SymSpellEvaluation")
-        self._java_obj = self._new_java_obj(self._java_obj, test_file, ground_truth_file)
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.SymSpellEvaluation", test_file, ground_truth_file)
 
     def computeAccuracyAnnotator(self, train_file, spell):
         input_cols = spell.getInputCols()
@@ -36,8 +34,7 @@ class SymSpellEvaluation(ExtendedJavaWrapper):
 class NerDLEvaluation(ExtendedJavaWrapper):
 
     def __init__(self, spark, test_file, tag_level=""):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerDLEvaluation")
-        self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file, tag_level)
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerDLEvaluation", spark._jsparkSession, test_file, tag_level)
 
     def computeAccuracyModel(self, ner):
         return self._java_obj.computeAccuracyModel(ner._java_obj)
@@ -74,8 +71,7 @@ class NerDLEvaluation(ExtendedJavaWrapper):
 class NerCrfEvaluation(ExtendedJavaWrapper):
 
     def __init__(self, spark, test_file, tag_level=""):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerCrfEvaluation")
-        self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file, tag_level)
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.ner.NerCrfEvaluation", spark._jsparkSession, test_file, tag_level)
 
     def computeAccuracyModel(self, ner):
         return self._java_obj.computeAccuracyModel(ner._java_obj)
@@ -112,8 +108,7 @@ class NerCrfEvaluation(ExtendedJavaWrapper):
 class POSEvaluation(ExtendedJavaWrapper):
 
     def __init__(self, spark, test_file):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.POSEvaluation")
-        self._java_obj = self._new_java_obj(self._java_obj, spark._jsparkSession, test_file)
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.POSEvaluation", spark._jsparkSession, test_file)
 
     def computeAccuracyModel(self, pos):
         return self._java_obj.computeAccuracyModel(pos._java_obj)
