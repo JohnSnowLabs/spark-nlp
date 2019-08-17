@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 class GenerateGraph {
 
-  def createGraph(pythonScript: String): String = {
+  def create(pythonScript: String): String = {
     import sys.process._
 
     val stderr = new StringBuilder
@@ -14,7 +14,7 @@ class GenerateGraph {
     }
    }
 
-  def getErrorMessage(fullErrorMessage: String): String = {
+  private def getErrorMessage(fullErrorMessage: String): String = {
     val pattern = "Exception:[\\sa-zA-Z\\d_.-]*".r
     val errorMessage = pattern findFirstIn fullErrorMessage
     errorMessage.getOrElse("")

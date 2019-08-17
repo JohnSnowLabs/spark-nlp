@@ -15,7 +15,7 @@ class GenerateGraphTestSpec extends FlatSpec {
     val pythonScript = "python " + pythonFile + arguments
     val expectedMessage = "Graph created successfully"
 
-    val message = generateGraph.createGraph(pythonScript)
+    val message = generateGraph.create(pythonScript)
 
     assert(message==expectedMessage)
   }
@@ -25,7 +25,7 @@ class GenerateGraphTestSpec extends FlatSpec {
     val pythonScript = "python ./graph.py -1 200 125"
     val expectedMessage = "Exception: Error message"
 
-    val message = generateGraph.createGraph(pythonScript)
+    val message = generateGraph.create(pythonScript)
     assert(message==expectedMessage)
   }
 
