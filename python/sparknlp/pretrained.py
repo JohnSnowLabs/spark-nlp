@@ -30,28 +30,37 @@ class ResourceDownloader(object):
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
         print(name + " download started this may take some time.")
-        print("Approx size to download " + _internal._GetResourceSize(name, language, remote_loc).apply())
-        stop_threads = False
-        t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-        t1.start()
-        j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
-        stop_threads = True
-        t1.join()
-        print("Download done.")
+        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        if file_size == "-1":
+            print("Can not find the model to download please check the name!")
+        else:
+            print("Approx size to download " + file_size)
+            stop_threads = False
+            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
+            t1.start()
+            try:
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
+                print("Download done.")
+            finally:
+                stopThreads = True
+                t1.join()
+
         return reader(classname=None, java_model=j_obj)
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
-        print(name + " download started this may take some time.")
-        print("Approx size to download " + _internal._GetResourceSize(name, language, remote_loc).apply())
+        print name + " download started this may take some time."
+        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        print("Approx size to download " + file_size)
         stop_threads = False
         t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
         t1.start()
+
         j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
         jmodel = JavaModel(j_obj)
         stop_threads = True
         t1.join()
-        print("Download done.")
+        print "Download done."
         return jmodel
 
     @staticmethod

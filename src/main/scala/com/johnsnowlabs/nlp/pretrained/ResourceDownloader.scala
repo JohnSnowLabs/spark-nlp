@@ -19,7 +19,7 @@ import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
+import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
@@ -364,12 +364,10 @@ object ResourceDownloader {
   }
 
   def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
-    val downloadBytes = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)).getOrElse(0l).toDouble
-    val sizeMB: Double = downloadBytes / 1024000
-    if (sizeMB > 1024.0) {
-      return Math.round(sizeMB / 1024.0) + " GB"
-    } else {
-      return Math.round(sizeMB) + " MB"
+    defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)) match {
+      case Some(downloadBytes) => return FileHelper.getHumanReadableFileSize(downloadBytes)
+      case None => "-1"
+
     }
   }
 }
@@ -445,7 +443,7 @@ object PythonResourceDownloader {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
   }
 
-  def getDownloadSize(name: String, language: String = null, remoteLoc: String = null): String = {
+  def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
   }

@@ -159,9 +159,13 @@ class S3ResourceDownloader(bucket: => String,
     val link = resolveLink(request)
     link.flatMap {
       resource =>
-        val s3FilePath = getS3File(s3Path, request.folder, resource.fileName)
-        val meta = client.getObjectMetadata(bucket, s3FilePath)
-        return Some(meta.getContentLength)
+        try {
+          val s3FilePath = getS3File(s3Path, request.folder, resource.fileName)
+          val meta = client.getObjectMetadata(bucket, s3FilePath)
+          return Some(meta.getContentLength)
+        } catch {
+          case e: AmazonServiceException => if (e.getStatusCode == 404) return None else throw e
+        }
     }
   }
 
