@@ -4,8 +4,7 @@ import os
 import sys
 import tensorflow as tf
 
-sys.path.append("spark-nlp/python")
-
+sys.path.append("/spark-nlp/python")
 import sparknlp.ner_model as ner_model
 
 use_contrib = False if os.name == 'nt' else True
@@ -14,13 +13,11 @@ name_prefix = 'blstm-noncontrib' if not use_contrib else 'blstm'
 
 def create_graph(ntags, embeddings_dim, nchars, lstm_size=128):
     if ntags == -1:
-        raise Exception("pruebas")
+        raise Exception('Error message')
     if sys.version_info[0] != 3 or sys.version_info[1] >= 7:
-        print('Python 3.7 or above not supported by tensorflow')
-        return
+        raise Exception('Python 3.7 or above not supported by tensorflow')
     if tf.__version__ != '1.12.0':
-        print('Spark NLP is compiled with Tensorflow 1.12.0. Please use such version.')
-        return
+        return Exception('Spark NLP is compiled with Tensorflow 1.12.0. Please use such version.')
     tf.reset_default_graph()
     model_name = name_prefix+'_{}_{}_{}_{}'.format(ntags, embeddings_dim, lstm_size, nchars)
     with tf.Session() as session:
@@ -36,15 +33,17 @@ def create_graph(ntags, embeddings_dim, nchars, lstm_size=128):
         tf.train.write_graph(ner.session.graph, './', file_name, False)
         ner.close()
         session.close()
-        print("Graph created")
+        print('Graph created successfully')
 
 
 def main():
-    for line in sys.stdin:
-        create_graph(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
+    number_of_tags = int(sys.argv[1])
+    embeddings_dimension = int(sys.argv[2])
+    number_of_chars = int(sys.argv[3])
+    message = create_graph(number_of_tags, embeddings_dimension, number_of_chars)
+    print(message)
 
 
 if __name__ == "__main__":
-    # execute only if run as a script
     main()
 

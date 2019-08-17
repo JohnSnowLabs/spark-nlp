@@ -1,22 +1,23 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import org.apache.spark.{SparkConf, SparkContext}
-
 class GenerateGraph {
 
-  def createGraph(scriptPath: String): Unit = {
+  def createGraph(pythonScript: String): String = {
     import sys.process._
 
-    val sparkConf = new SparkConf().setAppName("ScalaPython").setMaster("local")
-    val sparkContext = new SparkContext(sparkConf)
-    val data = List("john")
-    val dataRDD = sparkContext.makeRDD(data)
-    val pipeRDD = dataRDD.pipe(scriptPath)
-    pipeRDD.foreach(println)
-    val stdout = new StringBuilder
     val stderr = new StringBuilder
-    val status = "ls -al FRED" ! ProcessLogger(stdout append _, stderr append _)
-    println("This println is from Scala Yei!! " + status)
+    val status = pythonScript ! ProcessLogger(stdout append _, stderr append _)
+    if (status == 0) {
+      "Graph created successfully"
+    } else {
+      getErrorMessage(stderr.toString())
+    }
+   }
+
+  def getErrorMessage(fullErrorMessage: String): String = {
+    val pattern = "Exception:[\\sa-zA-Z\\d_.-]*".r
+    val errorMessage = pattern findFirstIn fullErrorMessage
+    errorMessage.getOrElse("")
   }
 
 }
