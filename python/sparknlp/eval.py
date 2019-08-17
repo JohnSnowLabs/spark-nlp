@@ -3,8 +3,8 @@ from sparknlp.internal import ExtendedJavaWrapper
 
 class NorvigSpellEvaluation(ExtendedJavaWrapper):
 
-    def __init__(self, test_file, ground_truth_file):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.NorvigSpellEvaluation", test_file, ground_truth_file)
+    def __init__(self, spark, test_file, ground_truth_file):
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.NorvigSpellEvaluation", spark._jsparkSession, test_file, ground_truth_file)
 
     def computeAccuracyAnnotator(self, train_file, spell):
         input_cols = spell.getInputCols()
@@ -18,8 +18,8 @@ class NorvigSpellEvaluation(ExtendedJavaWrapper):
 
 class SymSpellEvaluation(ExtendedJavaWrapper):
 
-    def __init__(self, test_file, ground_truth_file):
-        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.SymSpellEvaluation", test_file, ground_truth_file)
+    def __init__(self, spark, test_file, ground_truth_file):
+        ExtendedJavaWrapper.__init__(self, "com.johnsnowlabs.nlp.eval.spell.SymSpellEvaluation", spark._jsparkSession, test_file, ground_truth_file)
 
     def computeAccuracyAnnotator(self, train_file, spell):
         input_cols = spell.getInputCols()
