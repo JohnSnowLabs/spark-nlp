@@ -133,14 +133,15 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
     * @param sentenceLength Every sentence length (number of words).
     * @return List of tags for each sentence
     */
-  def convertBatchTags(tags: Array[String], sentenceLength: Array[Int]): Array[Array[String]] = {
+  def convertBatchTags(tags: Array[String], sentenceLength: Array[Int], prob: Option[Seq[Double]]): Array[Array[(String, Option[Double])]] = {
     val sentences = sentenceLength.length
     val maxSentenceLength = tags.length / sentences
 
     Range(0, sentences).map{i =>
-      Range(0, sentenceLength(i)).map{j =>
-        tags(i * maxSentenceLength + j)
-      }.toArray
+      Range(0, sentenceLength(i)).map{j => {
+        val index = i * maxSentenceLength + j
+        (tags(index), prob.map(_(index)))
+      }}.toArray
     }.toArray
   }
 }
