@@ -41,7 +41,7 @@ class NerDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-  val evaluationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+  val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
     "If set used to calculate statistic on it during training.")
 
