@@ -188,7 +188,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.2.0.rc1
+pip install spark-nlp==2.2.0.rc2
 ```
 
 Conda:
