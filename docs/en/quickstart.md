@@ -39,7 +39,7 @@ spark-submit --packages JohnSnowLabs:spark-nlp:2.2.0-rc2
 Use pip to install (after you pip installed numpy and pyspark)
 
 ```bash
-pip install spark-nlp==2.2.0.rc1
+pip install spark-nlp==2.2.0.rc2
 jupyter notebook
 ```
 

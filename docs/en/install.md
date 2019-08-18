@@ -13,7 +13,7 @@ modify_date: "2019-05-16"
 If you installed pyspark through pip, you can install `spark-nlp` through pip as well.
 
 ```bash
-pip install spark-nlp==2.2.0.rc1
+pip install spark-nlp==2.2.0.rc2
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/)
