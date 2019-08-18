@@ -96,12 +96,6 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     $(splitChars)
   }
 
-  setDefault(
-    targetPattern -> "\\S+",
-    contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
-    caseSensitiveExceptions -> true
-  )
-
   def buildRuleFactory: RuleFactory = {
     val rules = ArrayBuffer.empty[String]
 

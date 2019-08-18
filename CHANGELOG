@@ -1,4 +1,19 @@
 ========
+2.1.1
+========
+---------------
+Overview
+---------------
+Thank you so much for your feedback on slack. This release is to extend life length of the 2.1.x release, with important bugfixes from upstrea
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in NerConverter caused by empty entities, returning an error when flushing entities
+* Fixed a bug when creating BERT Models from python, where contrib libraries were not loaded
+* Fixed missing setters for whitelist param in NerConverter
+
+========
 2.1.0
 ========
 ---------------
