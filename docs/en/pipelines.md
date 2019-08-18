@@ -20,15 +20,17 @@ modify_date: "2019-07-22"
 | Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_noncontrib_en_2.1.0_2.4_1562954323015.zip)  |
 | [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_en_2.1.0_2.4_1562946909722.zip) |
 | Recognize Entities DL Win | `recognize_entities_dl_noncontrib` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_noncontrib_en_2.1.0_2.4_1562954722690.zip) |
+| [OntoNotes Entities Small](#onto_recognize_entities_sm) | `onto_recognize_entities_sm` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_recognize_entities_sm_en_2.1.0_2.4_1564330931782.zip)
+| [OntoNotes Entities Large](#onto_recognize_entities_lg) | `onto_recognize_entities_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_300_en_2.1.0_2.4_1564256072129.zip)
 | [Match Datetime](#match_datetime) | `match_datetime` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_datetime_en_2.1.0_2.4_1562944300214.zip)
 | [Match Pattern](#match_pattern) | `match_pattern` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_pattern_en_2.1.0_2.4_1562944301080.zip)
-| [Match Chunk](#match_chunk) | `match_chunk` | [Download]()
+| [Match Chunk](#match_chunk) | `match_chunk` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_chunks_en_2.1.0_2.4_1564415802326.zip)
 | Match Phrases | `match_phrases`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_phrases_en_2.1.0_2.4_1562944304428.zip)
 | Clean Stop | `clean_stop`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_stop_en_2.1.0_2.4_1562944303490.zip)
 | Clean Pattern | `clean_pattern`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_pattern_en_2.1.0_2.4_1562944302303.zip)
 | Clean Slang | `clean_slang`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_slang_en_2.1.0_2.4_1562944852594.zip)
 | Check Spelling | `check_spelling`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_en_2.1.0_2.4_1562944297070.zip)
-| Analyze Sentiment ML | `analyze_sentiment_ml` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_2.1.0_2.4_1563204637489.zip)
+| Analyze Sentiment | `analyze_sentiment` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_2.1.0_2.4_1563204637489.zip)
 | Dependency Parse | `dependency_parse` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_2.1.0_2.4_1563224147733.zip)
 
 ### explain_document_ml
@@ -126,7 +128,7 @@ val testData = spark.createDataFrame(Seq(
 (2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
 )).toDF("id", "text")
 
-val pipeline = PretrainedPipeline("entity_recognizer_dl", lang="en")
+val pipeline = PretrainedPipeline("recognize_entities_dl", lang="en")
 
 val annotation = pipeline.transform(testData)
 
@@ -156,6 +158,106 @@ annotation.select("entities.result").show(false)
 |[Google, TensorFlow]              |
 |[Donald John Trump, United States]|
 +----------------------------------+
+*/
+
+{% endhighlight %}
+
+### onto_recognize_entities_sm
+
+Trained by **NerDLApproach** annotator with **Char CNN - BiLSTM** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
+
+{% highlight scala %}
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament. "),
+(2, "A little less than a decade later, dozens of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("onto_recognize_entities_sm", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.1.0
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_sm,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|               token|          embeddings|                 ner|            entities|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
+|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("entities.result").show(false)
+
+/*
++---------------------------------------------------------------------------------+
+|result                                                                           |
++---------------------------------------------------------------------------------+
+|[Johnson, first, 2001, Parliament, eight years, London, 2008 to 2016, Parliament]|
+|[A little less than a decade later, dozens]                                      |
++---------------------------------------------------------------------------------+
+*/
+
+{% endhighlight %}
+
+### onto_recognize_entities_lg
+
+Trained by **NerDLApproach** annotator with **Char CNN - BiLSTM** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
+
+{% highlight scala %}
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament. "),
+(2, "A little less than a decade later, dozens of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation.")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("onto_recognize_entities_lg", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.1.0
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_lg,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|               token|          embeddings|                 ner|            entities|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
+|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("entities.result").show(false)
+
+/*
++-------------------------------------------------------------------------------+
+|result                                                                         |
++-------------------------------------------------------------------------------+
+|[Johnson, first, 2001, Parliament, eight years, London, 2008, 2016, Parliament]|
+|[A little less than a decade later, dozens]                                    |
++-------------------------------------------------------------------------------+
 */
 
 {% endhighlight %}
