@@ -5,6 +5,7 @@ import java.io.File
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -138,6 +139,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     require(f.exists, s"Folder ${folder} not found")
     require(f.isDirectory, s"File ${folder} is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder ${folder}")
+
+    LoadsContrib.loadContribToCluster(spark)
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false)
 

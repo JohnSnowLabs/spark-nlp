@@ -185,30 +185,60 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
 
 Pip:
+
 ```bash
 pip install spark-nlp==2.1.0
 ```
+
 Conda:
+
 ```bash
 conda install -c johnsnowlabs spark-nlp
 ```
 
 PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/) / Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
 
-Then you'll have to create a SparkSession manually, for example:
+Then you'll have to create a SparkSession either from Spark NLP:
 
-```bash
+```python
+import sparknlp
+
+spark = sparknlp.start()
+```
+
+or manually:
+
+```python
 spark = SparkSession.builder \
     .appName("ner")\
     .master("local[4]")\
-    .config("spark.driver.memory","4G")\
+    .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
     .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.1.0")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
 
-If using local jars, you can use `spark.jars` instead for a comma delimited jar files. For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes
+If using local jars, you can use `spark.jars` instead for a comma delimited jar files. For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes.
+
+**Quick example:**
+
+```python
+import sparknlp
+from sparknlp.pretrained import PretrainedPipeline
+
+#create or get Spark Session
+
+spark = sparknlp.start()
+
+sparknlp.version()
+spark.version
+
+#download, load, and annotate a text by pre-trained pipeline
+
+pipeline = PretrainedPipeline('recognize_entities_dl', 'en')
+result = pipeline.annotate('Harry Potter is a great movie')
+```
 
 ## Apache Zeppelin
 
