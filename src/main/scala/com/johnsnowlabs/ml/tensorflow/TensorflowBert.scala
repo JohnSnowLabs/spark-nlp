@@ -13,17 +13,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                     ) extends Serializable {
 
   private val tokenIdsKey = "token_ids:0"
-  /*
-  Using the Second-to-Last Hidden Layer in BERT model
-  ToDo: We should experiment with concatenation of the last four layers
-  FixMe: Performance is not good in local with higher layers
-   */
-  private val bertLayer = if(dimension == 768) 12 else 24
-  /*
-  Disable the Embedding layer for now.
-   */
-//  private val embeddingsKey = "bert/embeddings/LayerNorm/batchnorm/add_1:0"
-  private val embeddingsKey = s"bert/encoder/Reshape_$bertLayer:0"
 
   def encode(sentence: WordpieceTokenizedSentence): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
@@ -35,7 +24,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   }
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(batch: Seq[Array[Int]], embeddingsKey: String): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
 
     //println(s"shape = ${batch.length}, ${batch(0).length}")
@@ -51,13 +40,11 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
       .feed(tokenIdsKey, tensors.createTensor(shrink))
       .fetch(embeddingsKey)
-      //.fetch("bert/encoder/Reshape_11:0")
       .run()
 
     tensors.clearTensors()
 
     val embeddings = TensorResources.extractFloats(calculated.get(0))
-//    val embeddings2 = TensorResources.extractFloats(calculated.get(1))
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
@@ -74,13 +61,40 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }
   }
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence], caseSensitive: Boolean = false): Seq[WordpieceEmbeddingsSentence] = {
+
+  def extractPoolingLayer(layer: Int): String = {
+    val bertLayer = if(dimension == 768){
+      layer match {
+        case -1 =>
+          "bert/encoder/Reshape_13:0"
+        case -2 =>
+          "bert/encoder/Reshape_12:0"
+        case 0 =>
+          "bert/encoder/Reshape_1:0"
+      }
+    } else {
+      layer match {
+        case -1 =>
+          "bert/encoder/Reshape_25:0"
+        case -2 =>
+          "bert/encoder/Reshape_24:0"
+        case 0 =>
+          "bert/encoder/Reshape_1:0"
+      }
+    }
+    bertLayer
+  }
+
+  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence], originalTokenSentences: Seq[TokenizedSentence], poolingLayer: Int): Seq[WordpieceEmbeddingsSentence] = {
     // ToDo What to do with longer sentences?
+
+    val bertLayer = extractPoolingLayer(poolingLayer)
 
     // Run embeddings calculation by batches
     sentences.zipWithIndex.grouped(batchSize).flatMap{batch =>
       val encoded = batch.map(s => encode(s._1))
-      val vectors = tag(encoded)
+
+      val vectors = tag(encoded, bertLayer)
 
       // Combine tokens and calculated embeddings
       batch.zip(vectors).map{case (sentence, tokenVectors) =>

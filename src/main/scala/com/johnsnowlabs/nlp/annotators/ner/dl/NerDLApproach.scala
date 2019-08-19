@@ -41,9 +41,10 @@ class NerDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-  val evaluationLogExtended = new BooleanParam(this, "validationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+  val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
     "If set used to calculate statistic on it during training.")
+  val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
 
   def getLr: Float = $(this.lr)
   def getPo: Float = $(this.po)
@@ -52,6 +53,7 @@ class NerDLApproach(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
   def getUseContrib: Boolean = $(this.useContrib)
   def getTrainValidationProp: Float = $(this.trainValidationProp)
+  def getIncludeConfidence: Boolean = $(includeConfidence)
 
   def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
   def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
@@ -68,6 +70,7 @@ class NerDLApproach(override val uid: String)
     set(testDataset, ExternalResource(path, readAs, options))
 
   def setTestDataset(er: ExternalResource):NerDLApproach.this.type = set(testDataset, er)
+  def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
 
   setDefault(
     minEpochs -> 0,
@@ -79,7 +82,8 @@ class NerDLApproach(override val uid: String)
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
     trainValidationProp -> 0.0f,
-    evaluationLogExtended -> false
+    evaluationLogExtended -> false,
+    includeConfidence -> false
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -146,7 +150,8 @@ class NerDLApproach(override val uid: String)
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
-        evaluationLogExtended=$(evaluationLogExtended)
+        evaluationLogExtended=$(evaluationLogExtended),
+        includeConfidence=$(includeConfidence)
       )
       model
     }
@@ -163,6 +168,7 @@ class NerDLApproach(override val uid: String)
       .setDatasetParams(ner.encoder.params)
       .setBatchSize($(batchSize))
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
+      .setIncludeConfidence($(includeConfidence))
 
     if (get(configProtoBytes).isDefined)
       model.setConfigProtoBytes($(configProtoBytes))
