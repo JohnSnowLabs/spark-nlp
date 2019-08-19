@@ -116,7 +116,7 @@ class NerDLApproach(override val uid: String)
     val trainSentences = trainDataset.map(r => r._2)
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
-    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.wordpiece.toCharArray)).distinct
+    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.token.toCharArray)).distinct
     val embeddingsDim = calculateEmbeddingsDim(trainSentences)
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList,
