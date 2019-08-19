@@ -210,6 +210,7 @@ object ResourceDownloader {
     sb.append("-" * (max_length_version + 2))
     sb.append("+\n")
     sb.toString()
+
   }
   /**
     * List all resources after parsing the metadata json from the given folder in the S3 location
