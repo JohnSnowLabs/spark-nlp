@@ -1,13 +1,12 @@
 ========
-2.2.0-rc1
+2.2.0-rc2
 ========
 ---------------
 Overview
 ---------------
-We are so glad to present the first release candidate of this new release. Last time, following a release candidate schedule allowed
-us to move from 2.1.0 straight to 2.2.0! Fortunately, there were no breaking bugs by carefully testing releases alongside the community,
-which ended up in various pull requests.
-This huge release features OCR based coordinate highlighting, BERT embeddings refactor and tuning, more tools for accuracy evaluation in python, and much more.
+We are so glad to present the release candidate of this new release. Last time, following a release candidate schedule proved
+to be a quite effective method to avoid silly bugs right after release! Fortunately, there were no breaking bugs by carefully testing releases alongside the community,
+which ended up in various pull requests. This huge release features OCR based coordinate highlighting, BERT embeddings refactor and tuning, more tools for accuracy evaluation in python, and much more.
 We welcome your feedback in our Slack channels, as always!
 
 ---------------
@@ -17,6 +16,8 @@ New Features
 * New annotator PositionFinder consumes OCRHelper positions to return rectangle coordinates for CHUNK annotator types
 * Evaluation module now also ported to Python
 * WordEmbeddings now include coverage metadata information and new static functions `withCoverageColumn` and `overallCoverage` offer metric analysis
+* NerDL Now has `includeConfidence` param that enables confidence scores on prediction metadata
+* New Param in BERT `poolingLayer` allows for polling layer selection
 * Progress bar report when downloading models and loading embeddings
 
 ---------------
@@ -26,6 +27,23 @@ Enhancements
 * Models and pipeline cache now more efficiently managed and includes CRC (not retroactive)
 * Finisher and LightPipeline now deal with embeddings properly, including them in pre processed result (Thank you Will Held)
 * Tokenizer now allows regular expressions in the list of Exceptions (Thank you @atomobianco)
+* PretrainedPipelines now allow function `fullAnnotate` to retrieve fully information of Annotations
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in NerConverter caused by empty entities, returning an error when flushing entities
+* Fixed a bug when creating BERT Models from python, where contrib libraries were not loaded
+* Fixed missing setters for whitelist param in NerConverter
+* Fixed a bug where parameters from a BERT model were incorrectly being read from python because of not being correctly serialized
+
+========
+2.1.1
+========
+---------------
+Overview
+---------------
+Thank you so much for your feedback on slack. This release is to extend life length of the 2.1.x release, with important bugfixes from upstream
 
 ---------------
 Bugfixes

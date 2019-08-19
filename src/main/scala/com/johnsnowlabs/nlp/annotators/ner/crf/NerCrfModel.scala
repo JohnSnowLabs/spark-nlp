@@ -48,12 +48,10 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
     sentences.map{case (sentence, withEmbeddings) =>
       val instance = fg.generate(sentence, withEmbeddings, crf.metadata)
 
-      val confidenceValues = {
-        get(includeConfidence).filter(_ == true).map(_ => {
-          val fb = new FbCalculator(instance.items.length, crf.metadata)
-          fb.calculate(instance, $$(model).weights, 1)
-          fb.alpha
-        })
+      lazy val confidenceValues = {
+        val fb = new FbCalculator(instance.items.length, crf.metadata)
+        fb.calculate(instance, $$(model).weights, 1)
+        fb.alpha
       }
 
       val labelIds = crf.predict(instance)
@@ -65,7 +63,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
           val label = crf.metadata.labels(labelId)
 
           val alpha = if ($(includeConfidence)) {
-            Some(confidenceValues.get(idx).max)
+            Some(confidenceValues.apply(idx).max)
           } else None
 
           if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label)) {

@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -24,51 +24,69 @@ class BertEmbeddings(override val uid: String) extends
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
+  val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings")
+
+  def sentenceStartTokenId: Int = {
+    $$(vocabulary)("[CLS]")
+  }
+
+  def sentenceEndTokenId: Int = {
+    $$(vocabulary)("[SEP]")
+  }
+
   override def setDimension(value: Int): this.type = {
     if(get(dimension).isEmpty)
       set(this.dimension, value)
     this
 
   }
+
   override def setCaseSensitive(value: Boolean): this.type = {
     if(get(caseSensitive).isEmpty)
       set(this.caseSensitive, value)
     this
   }
 
-  val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
   def setBatchSize(size: Int): this.type = {
     if(get(batchSize).isEmpty)
       set(batchSize, size)
     this
   }
 
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
-  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
   def setMaxSentenceLength(value: Int): this.type = {
     if(get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
     this
   }
+
+  def setPoolingLayer(layer: Int): this.type = {
+    layer match {
+      case 0 => set(poolingLayer, 0)
+      case -1 => set(poolingLayer, -1)
+      case -2 => set(poolingLayer, -2)
+      case _ => throw new MatchError("poolingLayer must be either 0, -1, or -2: first layer (embeddings), last layer, second-to-last layer")
+    }
+  }
+
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
+
   def getMaxSentenceLength: Int = $(maxSentenceLength)
+
+  def getPoolingLayer: Int = $(poolingLayer)
 
   setDefault(
     dimension -> 768,
     batchSize -> 32,
-    maxSentenceLength -> 64
+    maxSentenceLength -> 64,
+    poolingLayer -> 0
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
@@ -116,7 +134,7 @@ class BertEmbeddings(override val uid: String) extends
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
 
     val tokenized = tokenize(sentences)
-    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(caseSensitive))
+    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(poolingLayer))
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
@@ -154,9 +172,9 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   def loadFromPython(folder: String, spark: SparkSession): BertEmbeddings = {
     val f = new File(folder)
     val vocab = new File(folder, "vocab.txt")
-    require(f.exists, s"Folder ${folder} not found")
-    require(f.isDirectory, s"File ${folder} is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder ${folder}")
+    require(f.exists, s"Folder $folder not found")
+    require(f.isDirectory, s"File $folder is not folder")
+    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
 
     LoadsContrib.loadContribToCluster(spark)
 

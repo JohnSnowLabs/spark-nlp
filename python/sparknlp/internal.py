@@ -36,8 +36,7 @@ class ExtendedJavaWrapper(JavaWrapper):
 
 class _RegexRule(ExtendedJavaWrapper):
     def __init__(self, rule, identifier):
-        super(_RegexRule, self).__init__("com.johnsnowlabs.nlp.util.regex.RegexRule")
-        self._java_obj = self._new_java_obj(self._java_obj, rule, identifier)
+        super(_RegexRule, self).__init__("com.johnsnowlabs.nlp.util.regex.RegexRule", rule, identifier)
 
 
 class _ExternalResource(ExtendedJavaWrapper):
@@ -96,7 +95,7 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
 
 class _LightPipeline(ExtendedJavaWrapper):
     def __init__(self, pipelineModel):
-        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel)
+        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java())
 
 
 # ==================
@@ -125,7 +124,6 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
             pipeline = pipeline._to_java()
         if type(target) == DataFrame:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", target._jdf, pipeline, output_path)
-            self._java_obj = self._new_java_obj(self._java_obj, target._jdf, pipeline, output_path)
         else:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", spark._jsparkSession, target, pipeline, output_path)
 
