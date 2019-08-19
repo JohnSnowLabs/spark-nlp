@@ -106,6 +106,7 @@ object ResourceDownloader {
   }
 
   var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
 
   /**
     * Reset the cache and recreate ResourceDownloader S3 credentials
@@ -285,10 +286,12 @@ object ResourceDownloader {
     * @return path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-
     val f = Future {
-
-      defaultDownloader.download(request)
+      if (request.folder.equals(publicLoc)) {
+        publicDownloader.download(request)
+      } else {
+        defaultDownloader.download(request)
+      }
     }
     var download_finished = false
     var path: Option[String] = None
