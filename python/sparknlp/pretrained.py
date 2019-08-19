@@ -49,7 +49,7 @@ class ResourceDownloader(object):
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
-        print name + " download started this may take some time."
+        print(name + " download started this may take some time.")
         file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
