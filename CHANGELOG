@@ -18,12 +18,12 @@ New Features
 * WordEmbeddings now include coverage metadata information and new static functions `withCoverageColumn` and `overallCoverage` offer metric analysis
 * NerDL Now has `includeConfidence` param that enables confidence scores on prediction metadata
 * New Param in BERT `poolingLayer` allows for polling layer selection
-* Progress bar report when downloading models and loading embeddings
 
 ---------------
 Enhancements
 ---------------
 * BERT Embeddings now merges much better with Spark NLP, returning state of the art accuracy numbers for NER (Details will be expanded). Thank you for community feedback.
+* Progress bar and size estimate report when downloading pretrained models and loading embeddings
 * Models and pipeline cache now more efficiently managed and includes CRC (not retroactive)
 * Finisher and LightPipeline now deal with embeddings properly, including them in pre processed result (Thank you Will Held)
 * Tokenizer now allows regular expressions in the list of Exceptions (Thank you @atomobianco)
@@ -36,6 +36,8 @@ Bugfixes
 * Fixed a bug when creating BERT Models from python, where contrib libraries were not loaded
 * Fixed missing setters for whitelist param in NerConverter
 * Fixed a bug where parameters from a BERT model were incorrectly being read from python because of not being correctly serialized
+* Fixed a bug where ResourceDownloader conflicted S3 credentials with public model access (Thank you Dimitris Manikis)
+* Fixed Context Spell Checker bugs with performance improvements (pretrained model disabled until we get a better one)
 
 ========
 2.1.1
