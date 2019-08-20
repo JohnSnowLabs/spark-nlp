@@ -85,8 +85,8 @@ class S3ResourceDownloader(bucket: => String,
   /**
     * Download resource to local file
     *
-    * @param request        Resource request
-    * @return               Downloaded file or None if resource is not found
+    * @param request Resource request
+    * @return Downloaded file or None if resource is not found
     */
   override def download(request: ResourceRequest): Option[String] = {
 
@@ -151,6 +151,20 @@ class S3ResourceDownloader(bucket: => String,
           } else {
             Some(dstFile.getName)
           }
+        }
+    }
+  }
+
+  override def getDownloadSize(request: ResourceRequest): Option[Long] = {
+    val link = resolveLink(request)
+    link.flatMap {
+      resource =>
+        try {
+          val s3FilePath = getS3File(s3Path, request.folder, resource.fileName)
+          val meta = client.getObjectMetadata(bucket, s3FilePath)
+          return Some(meta.getContentLength)
+        } catch {
+          case e: AmazonServiceException => if (e.getStatusCode == 404) return None else throw e
         }
     }
   }
