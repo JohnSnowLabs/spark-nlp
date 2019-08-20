@@ -154,7 +154,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "work in a pipeline with Tokenizer" in {
+  "a Spell Checker" should "work in a pipeline with Tokenizer" ignore {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
       "he is gane .").toDF("text")
@@ -173,7 +173,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("normalized")
 
     val spellChecker = ContextSpellCheckerModel
-      .pretrained()
+      .pretrained("fix me")
       .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
@@ -183,7 +183,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "a Spell Checker" should "work in a light pipeline" in {
+  "a Spell Checker" should "work in a light pipeline" ignore {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -199,7 +199,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("token")
 
     val spellChecker = ContextSpellCheckerModel
-      .pretrained()
+      .pretrained("fix_me")
       .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
@@ -210,7 +210,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle paragraphs defined by newlines" in {
+  "a Spell Checker" should "correctly handle paragraphs defined by newlines" ignore {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -227,7 +227,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setTargetPattern("[a-zA-Z0-9]+|\n|\n\n|\\(|\\)|\\.|\\,")
 
     val spellChecker = ContextSpellCheckerModel
-      .pretrained()
+      .pretrained("fix_me")
       .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
@@ -239,7 +239,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle multiple sentences" in {
+  "a Spell Checker" should "correctly handle multiple sentences" ignore {
 
     import SparkAccessor.spark
     import spark.implicits._
@@ -263,7 +263,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("token")
 
     val spellChecker = ContextSpellCheckerModel
-      .pretrained()
+      .pretrained("fix_me")
       .setTradeOff(12.0f)
       .setInputCols("token")
       .setOutputCol("checked")
