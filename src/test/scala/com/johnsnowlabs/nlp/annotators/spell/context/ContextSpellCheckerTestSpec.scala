@@ -31,7 +31,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val weights = loadWeights("src/test/resources/dist.psv")
   }
 
-  "Spell Checker" should "provide appropriate scores - sentence level" in {
+  "Spell Checker" should "provide appropriate scores - sentence level" ignore {
 
 
     def time[R](block: => R): R = {
