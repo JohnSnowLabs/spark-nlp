@@ -2,7 +2,6 @@ import tensorflow as tf
 import numpy as np
 import math
 
-
 class RNNLM(object):
 
     def __init__(self,
@@ -15,16 +14,19 @@ class RNNLM(object):
                  num_layers,
                  num_hidden_units,
                  max_gradient_norm,
+                 num_classes=1902,
+                 word_ids=890,
                  initial_learning_rate=1,
                  final_learning_rate=0.001,
                  test_batch_size=36
                  ):
 
         self.vocab_size = vocab_size
-        # these are internally defined
-        self.num_classes = 1500 
-        # here we should dynamically determine max number of words per class - this is the max for Gutenberg corpus
-        self.word_ids = 1150
+
+        # these two parameters depend on the factorization of the language model
+        self.num_classes = num_classes
+        self.word_ids = word_ids
+
         # this is the batch for training
         self.batch_size = batch_size
         # this is the batch for testing
@@ -38,6 +40,12 @@ class RNNLM(object):
         self.max_gradient_norm = max_gradient_norm
 
         self.global_step = tf.Variable(0, trainable=False)
+
+
+        # these are inputs to the graph
+        self.wordIds = "batches:0"
+        self.contextIds = "batches:1"
+        self.contextWordIds = "batches:2"
 
         # dynamic learning rate, decay every 1500 batches
         self.learning_rate = tf.train.exponential_decay(initial_learning_rate, self.global_step,
@@ -84,7 +92,9 @@ class RNNLM(object):
                 (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([None]))).\
             padded_batch(self.batch_size, padded_shapes=([None], [None], [None]))
 
-        test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(split_row).batch(36)
+        # this in memory test is not used in production b/c it requires splitting the access to TF graph
+        # causing race condition problems
+        test_dataset = tf.data.Dataset.from_tensor_slices(self.in_memory_test).map(split_row).batch(test_batch_size)
 
         iterator = tf.data.Iterator.from_structure(training_dataset.output_types,
                                               training_dataset.output_shapes)
@@ -93,8 +103,8 @@ class RNNLM(object):
         self.input_batch, self.output_batch_cids, self.output_batch_wids = iterator.get_next("batches")
 
         self.trining_init_op = iterator.make_initializer(training_dataset)
-        self.validation_init_op = iterator.make_initializer(validation_dataset)
         self.test_init_op = iterator.make_initializer(test_dataset, 'test/init')
+        self.validation_init_op = iterator.make_initializer(validation_dataset)
 
         # Input embedding mat
         self.input_embedding_mat = tf.get_variable("input_embedding_mat",
@@ -147,30 +157,33 @@ class RNNLM(object):
         )
 
         def output_class_embedding(current_output):
-            return tf.add(
-                tf.matmul(current_output, tf.transpose(self.output_class_embedding_mat)), self.output_class_embedding_bias)
+            jit_scope = tf.contrib.compiler.jit.experimental_jit_scope
+            with jit_scope():
+                return tf.add(
+                    tf.matmul(current_output, tf.transpose(self.output_class_embedding_mat)), self.output_class_embedding_bias)
 
         def output_wordid_embedding(current_output):
-            return tf.add(
-                tf.matmul(current_output, tf.transpose(self.output_wordid_embedding_mat)), self.output_wordid_embedding_bias)
+            jit_scope = tf.contrib.compiler.jit.experimental_jit_scope
+            with jit_scope():
+                return tf.add(
+                    tf.matmul(current_output, tf.transpose(self.output_wordid_embedding_mat)), self.output_wordid_embedding_bias)
 
         # To compute the logits - classes
         class_logits = tf.map_fn(output_class_embedding, outputs)
-        class_logits = tf.reshape(class_logits, [-1, self.num_classes])
-        class_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
-                   (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits)\
-               * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
+        class_logits = tf.reshape(class_logits, [-1, self.num_classes], name='cl')#(total_word_cnt, n_classes)
 
-        self.class_loss = tf.identity(class_loss, name='class_loss')
+        self.mask = tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32, 'pepemask')
+
+        class_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
+                   (labels=tf.reshape(self.output_batch_cids, [-1]), logits=class_logits)
+
 
         # To compute the logits - word ids
         wordid_logits = tf.map_fn(output_wordid_embedding, outputs)
+        # dim(batch_size, n_words)
         wordid_logits = tf.reshape(wordid_logits, [-1, self.word_ids])
         wordid_loss = tf.nn.sparse_softmax_cross_entropy_with_logits\
-                   (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits)\
-               * tf.cast(tf.reshape(non_zero_weights, [-1]), tf.float32)
-
-        self.wordid_loss = tf.identity(wordid_loss, name='wordid_loss')
+                   (labels=tf.reshape(self.output_batch_wids, [-1]), logits=wordid_logits)
 
         # Train
         params = tf.trainable_variables()
@@ -183,18 +196,36 @@ class RNNLM(object):
         clipped_gradients, _ = tf.clip_by_global_norm(gradients, self.max_gradient_norm)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params), global_step=self.global_step)
 
+        # Add another loss, used for evaluation - more efficient
+        self.candidate_word_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_wids')
+        self.candidate_class_ids = tf.placeholder(tf.int32, shape=[1, None], name='test_cids')
+
+        cand_cnt = tf.shape(self.candidate_class_ids)
+
+        # broadcasted class logits - take only the last element, and repeat it
+        bc_cl_logits = tf.tile(class_logits[-1:, :], tf.reverse(cand_cnt, axis=tf.constant([0])), name='bccl')
+        classid_losses = tf.nn.sparse_softmax_cross_entropy_with_logits \
+                      (labels=tf.reshape(self.candidate_class_ids, [-1]), logits=bc_cl_logits, name='cidlosses')
+
+        bc_id_logits = tf.tile(wordid_logits[-1:, :], tf.reverse(cand_cnt, axis=tf.constant([0])))
+        wordid_losses = tf.nn.sparse_softmax_cross_entropy_with_logits \
+                      (labels=tf.reshape(self.candidate_word_ids, [-1]), logits=bc_id_logits, name='widlosses')
+
+        self.losses = tf.add(wordid_losses, classid_losses, 'test_losses')
+
+
     def load_classes(self, file_path):
-        word_class = dict()
+        class_word = dict()
         with open(file_path, 'r') as f:
             for line in f.readlines():
                 chunks = line.split('|')
                 try:
-                    word_class[int(chunks[0])] = (int(chunks[1]), int(chunks[2]))
+                    class_word[int(chunks[0])] = (int(chunks[1]), int(chunks[2]))
                 except:
                     pass
 
-        self.word_class = word_class
-        return word_class
+        self.class_word = class_word
+        return class_word
 
     def load_vocab(self, file_path):
         word_id = dict()
@@ -210,13 +241,13 @@ class RNNLM(object):
         with open(self.train_path, 'r') as f:
             for line in f.readlines():
                 ints = [int(k) for k in line.split()]
-                yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
+                yield (ints[:-1], [self.class_word[i][0] for i in ints][1:], [self.class_word[i][1] for i in ints][1:])
 
     def valid_generator(self):
         with open(self.valid_path, 'r') as f:
             for line in f.readlines():
                 ints = [int(k) for k in line.split()]
-                yield (ints[:-1], [self.word_class[i][0] for i in ints][1:], [self.word_class[i][1] for i in ints][1:])
+                yield (ints[:-1], [self.class_word[i][0] for i in ints][1:], [self.class_word[i][1] for i in ints][1:])
 
     def save(self, path, sess):
         dropout_rate_info = tf.saved_model.utils.build_tensor_info(self.dropout_rate)
@@ -258,6 +289,8 @@ class RNNLM(object):
                     if global_step % self.check_point_step == 0:
                         import gc
                         gc.collect()
+                        from tensorflow.errors import OutOfRangeError
+                        raise OutOfRangeError(None, None, None)
 
                 except tf.errors.OutOfRangeError:
                     # The end of one epoch
@@ -283,7 +316,7 @@ class RNNLM(object):
                         except tf.errors.OutOfRangeError:
                             dev_loss /= dev_valid_words
                             dev_ppl = math.exp(dev_loss)
-                            print("Validation PPL: {}".format(dev_ppl))
+                            #print("Validation PPL: {}".format(dev_ppl))
                             if dev_ppl < best_score:
                                 patience = 15
                                 saver.save(sess, "model/best_model.ckpt")
@@ -300,39 +333,75 @@ class RNNLM(object):
 
             epoch += 1
 
-    def predict(self, sess, input_file, raw_file, verbose=False):
+    def predict(self, sess, raw_sentences, verbose=False):
+        '''
 
-        with open(raw_file) as fp:
-            global_dev_loss = 0.0
-            global_dev_valid_words = 0
+           this version of predict() should be deprecated
+        '''
 
-            for raw_line in fp.readlines():
+        global_dev_loss = 0.0
+        global_dev_valid_words = 0
 
-                splits = raw_line.split()
-                wids = [self.word_ids[token] for token in splits]
+        for raw_line in raw_sentences:
 
-                cids = [self.word_class[i][0] for i in wids]
-                wcids = [self.word_class[i][1] for i in wids]
+            splits = raw_line.split()
+            wids = [self.word_ids[token] for token in splits]
 
-                sess.run(self.test_init_op, {self.in_memory_test: np.array([[wids, cids, wcids]])})
+            cids = [self.class_word[i][0] for i in wids]
+            wcids = [self.class_word[i][1] for i in wids]
 
-                raw_line = raw_line.strip()
-                _dev_loss, _dev_valid_words, input_line = sess.run(
-                    [self.loss, self.valid_words, self.input_batch],
-                    {self.dropout_rate: 1.0})
+            # graph access is split into a. initialization and
+            sess.run(self.test_init_op, {self.in_memory_test: np.array([[wids, cids, wcids]])})
 
-                dev_loss = np.sum(_dev_loss)
-                dev_valid_words = _dev_valid_words
+            raw_line = raw_line.strip()
 
-                global_dev_loss += dev_loss
-                global_dev_valid_words += dev_valid_words
+            # b. actually feeding the data to the nodes.
+            # don't do this split access in production!
+            cl = tf.get_default_graph().get_tensor_by_name("cl:0")
+            _dev_loss, _dev_valid_words, input_line, mask_, cl_ = sess.run(
+                [self.loss, self.valid_words, self.input_batch, self.mask, cl],
+                {self.dropout_rate: 1.0})
 
-                if verbose:
-                    dev_loss /= dev_valid_words
-                    dev_ppl = math.exp(dev_loss)
-                    print(raw_line + "    Test PPL: {}".format(dev_ppl))
+            dev_loss = np.sum(_dev_loss)
+            dev_valid_words = _dev_valid_words
 
-            global_dev_loss /= global_dev_valid_words
-            global_dev_ppl = math.exp(global_dev_loss)
-            print("Global Test PPL: {}".format(global_dev_ppl))
+            global_dev_loss += dev_loss
+            global_dev_valid_words += dev_valid_words
 
+            if verbose:
+                dev_loss /= dev_valid_words
+                dev_ppl = math.exp(dev_loss)
+                print(raw_line + "    Test PPL: {}".format(dev_ppl))
+
+        global_dev_loss /= global_dev_valid_words
+        global_dev_ppl = math.exp(global_dev_loss)
+        #print("Global Test PPL: {}".format(global_dev_ppl))
+
+    def predict_(self, sess, candidates, verbose=False):
+
+        sent = 'she came to me in an unexpected unexpected'
+        splits = sent.split()
+        #splits.reverse()
+
+        # sentence input
+        wids = [self.word_ids[token] for token in splits]
+        cids = [self.class_word[i][0] for i in wids]
+        wcids = [self.class_word[i][1] for i in wids]
+
+        # candidate inputs
+        can_wids = [self.word_ids[token] for token in candidates]
+        can_cids = [[self.class_word[i][0] for i in can_wids]]
+        can_wcids = [[self.class_word[i][1] for i in can_wids]]
+
+        # these two are for debugging
+        #cl = tf.get_default_graph().get_tensor_by_name("cl:0")
+        #bccl = tf.get_default_graph().get_tensor_by_name("bccl:0")
+        losses = sess.run(
+            [self.losses],
+            {self.dropout_rate: 1.0,
+             self.wordIds: np.array([wids[:-1]]),
+             self.contextIds: np.array([cids[1:]]),
+             self.contextWordIds: np.array([wcids[1:]]),
+             self.candidate_word_ids: np.array(can_wcids),
+             self.candidate_class_ids: np.array(can_cids)
+             })
