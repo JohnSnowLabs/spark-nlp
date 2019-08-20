@@ -67,14 +67,14 @@ class Tokenizer(AnnotatorApproach):
                           typeConverter=TypeConverters.toListString)
 
     exceptions = Param(Params._dummy(),
-                            "exceptions",
-                            "Words that won't be affected by tokenization rules",
+                       "exceptions",
+                       "Words that won't be affected by tokenization rules",
                        typeConverter=TypeConverters.toListString)
 
     exceptionsPath = Param(Params._dummy(),
-                       "exceptionsPath",
-                       "path to file containing list of exceptions",
-                       typeConverter=TypeConverters.toString)
+                           "exceptionsPath",
+                           "path to file containing list of exceptions",
+                           typeConverter=TypeConverters.toString)
 
     caseSensitiveExceptions = Param(Params._dummy(),
                                     "caseSensitiveExceptions",
@@ -87,9 +87,9 @@ class Tokenizer(AnnotatorApproach):
                          typeConverter=TypeConverters.toListString)
 
     splitChars = Param(Params._dummy(),
-                         "splitChars",
-                         "character list used to separate from the inside of tokens",
-                         typeConverter=TypeConverters.toListString)
+                       "splitChars",
+                       "character list used to separate from the inside of tokens",
+                       typeConverter=TypeConverters.toListString)
 
     name = 'Tokenizer'
 
@@ -296,17 +296,17 @@ class PositionFinder(AnnotatorModel):
 class Normalizer(AnnotatorApproach):
 
     cleanupPatterns = Param(Params._dummy(),
-                     "cleanupPatterns",
-                     "normalization regex patterns which match will be removed from token",
-                     typeConverter=TypeConverters.toListString)
+                            "cleanupPatterns",
+                            "normalization regex patterns which match will be removed from token",
+                            typeConverter=TypeConverters.toListString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
                       "whether to convert strings to lowercase")
 
     slangMatchCase = Param(Params._dummy(),
-                      "slangMatchCase",
-                      "whether or not to be case sensitive to match slangs. Defaults to false.")
+                           "slangMatchCase",
+                           "whether or not to be case sensitive to match slangs. Defaults to false.")
 
     slangDictionary = Param(Params._dummy(),
                             "slangDictionary",
@@ -1004,7 +1004,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered",
                  TypeConverters.toFloat)
     includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
-                 TypeConverters.toBoolean)
+                              TypeConverters.toBoolean)
 
     externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features",
                              TypeConverters.identity)
@@ -1083,11 +1083,15 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                              TypeConverters.toBoolean)
+                                  TypeConverters.toBoolean)
 
     testDataset = Param(Params._dummy(), "testDataset",
                         "Path to test dataset. If set used to calculate statistic on it during training.",
                         TypeConverters.identity)
+
+    includeConfidence = Param(Params._dummy(), "includeConfidence",
+                              "whether to include confidence scores in annotation metadata",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1134,6 +1138,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setTestDataset(self, path, read_as=ReadAs.SPARK_DATASET, options={"format": "parquet"}):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
+    def setIncludeConfidence(self, value):
+        return self._set(includeConfidence=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1148,7 +1155,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             verbose=2,
             useContrib=uc,
             trainValidationProp=float(0.0),
-            evaluationLogExtended=False
+            evaluationLogExtended=False,
+            includeConfidence=False
         )
 
 
@@ -1160,11 +1168,18 @@ class NerDLModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(includeConfidence=False)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    includeConfidence = Param(Params._dummy(), "includeConfidence",
+                              "whether to include confidence scores in annotation metadata",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
+
+    def setIncludeConfidence(self, value):
+        return self._set(includeConfidence=value)
 
     @staticmethod
     def pretrained(name="ner_dl_by_os", lang="en", remote_loc=None):
@@ -1261,20 +1276,20 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
                              typeConverter=TypeConverters.toString)
 
     gamma = Param(Params._dummy(),
-                     "gamma",
-                     "Controls the influence of individual word frequency in the decision.",
-                     typeConverter=TypeConverters.toFloat)
+                  "gamma",
+                  "Controls the influence of individual word frequency in the decision.",
+                  typeConverter=TypeConverters.toFloat)
 
     @keyword_only
     def __init__(self):
-        super(ContextSpellCheckerApproach, self).\
+        super(ContextSpellCheckerApproach, self). \
             __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
         self._setDefault(minCount=3.0,
-            wordMaxDistance=3,
-            maxCandidates=6,
-            languageModelClasses=2000,
-            blacklistMinFreq=5,
-            tradeoff=18.0)
+                         wordMaxDistance=3,
+                         maxCandidates=6,
+                         languageModelClasses=2000,
+                         blacklistMinFreq=5,
+                         tradeoff=18.0)
 
     def _create_model(self, java_model):
         return ContextSpellCheckerModel(java_model=java_model)
@@ -1299,9 +1314,9 @@ class ContextSpellCheckerModel(AnnotatorModel):
                              typeConverter=TypeConverters.toString)
 
     gamma = Param(Params._dummy(),
-                     "gamma",
-                     "Controls the influence of individual word frequency in the decision.",
-                     typeConverter=TypeConverters.toFloat)
+                  "gamma",
+                  "Controls the influence of individual word frequency in the decision.",
+                  typeConverter=TypeConverters.toFloat)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
@@ -1361,9 +1376,9 @@ class DependencyParserModel(AnnotatorModel):
     name = "DependencyParserModel"
 
     perceptron = Param(Params._dummy(),
-                   "perceptron",
-                   "Dependency parsing perceptron features",
-                   typeConverter=TypeConverters.identity)
+                       "perceptron",
+                       "Dependency parsing perceptron features",
+                       typeConverter=TypeConverters.identity)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel", java_model=None):
         super(DependencyParserModel, self).__init__(
@@ -1418,24 +1433,24 @@ class TypedDependencyParserModel(AnnotatorModel):
     name = "TypedDependencyParserModel"
 
     trainOptions = Param(Params._dummy(),
-                      "trainOptions",
-                      "Training Options",
-                      typeConverter=TypeConverters.identity)
+                         "trainOptions",
+                         "Training Options",
+                         typeConverter=TypeConverters.identity)
 
     trainParameters = Param(Params._dummy(),
-                      "trainParameters",
-                      "Training Parameters",
-                      typeConverter=TypeConverters.identity)
+                            "trainParameters",
+                            "Training Parameters",
+                            typeConverter=TypeConverters.identity)
 
     trainDependencyPipe = Param(Params._dummy(),
-                      "trainDependencyPipe",
-                      "Training dependency pipe",
-                      typeConverter=TypeConverters.identity)
+                                "trainDependencyPipe",
+                                "Training dependency pipe",
+                                typeConverter=TypeConverters.identity)
 
     conllFormat = Param(Params._dummy(),
-                      "conllFormat",
-                      "CoNLL Format",
-                      typeConverter=TypeConverters.toString)
+                        "conllFormat",
+                        "CoNLL Format",
+                        typeConverter=TypeConverters.toString)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel",
                  java_model=None):
@@ -1549,7 +1564,14 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
-    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    poolingLayer = Param(Params._dummy(),
+                         "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings",
+                         typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1560,6 +1582,18 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
     def setBatchSize(self, value):
         return self._set(batchSize=value)
 
+    def setPoolingLayer(self, layer):
+        if layer == 0:
+            return 0
+        elif layer == -1:
+            return -1
+        elif layer == -2:
+            return -2
+        else:
+            return 0
+
+    def getPoolingLayer(self):
+        return self.getOrDefault(self.poolingLayer)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
@@ -1569,9 +1603,10 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
         )
         self._setDefault(
             dimension=768,
-            batchSize=5,
-            maxSentenceLength=100,
-            caseSensitive=False
+            batchSize=32,
+            maxSentenceLength=64,
+            caseSensitive=False,
+            poolingLayer=0
         )
 
     @staticmethod
