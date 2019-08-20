@@ -10,7 +10,7 @@ from sparknlp.sentence_grouper import SentenceGrouper
 
 class NerModel:
     # If session is not defined than default session will be used
-    def __init__(self, session = None, dummy_tags = None, use_contrib=True):
+    def __init__(self, session = None, dummy_tags=None, use_contrib=True):
         self.word_repr = None
         self.word_embeddings = None
         self.session = session 

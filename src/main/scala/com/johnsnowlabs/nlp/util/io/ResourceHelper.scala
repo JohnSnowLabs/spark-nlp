@@ -430,4 +430,9 @@ object ResourceHelper {
 
   }
 
+  def getOsName: String = {
+    val osName = System.getProperty("os.name")
+    "Windows".r.findFirstIn(osName).getOrElse("Linux")
+  }
+
 }
