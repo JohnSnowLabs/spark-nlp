@@ -19,7 +19,7 @@ import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, Version}
+import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
@@ -39,6 +39,8 @@ trait ResourceDownloader {
     * @return downloaded file or None if resource is not found
     */
   def download(request: ResourceRequest): Option[String]
+
+  def getDownloadSize(request: ResourceRequest): Option[Long]
 
   def clearCache(request: ResourceRequest): Unit
 
@@ -106,6 +108,7 @@ object ResourceDownloader {
   }
 
   var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
 
   /**
     * Reset the cache and recreate ResourceDownloader S3 credentials
@@ -209,6 +212,7 @@ object ResourceDownloader {
     sb.append("-" * (max_length_version + 2))
     sb.append("+\n")
     sb.toString()
+
   }
   /**
     * List all resources after parsing the metadata json from the given folder in the S3 location
@@ -285,10 +289,12 @@ object ResourceDownloader {
     * @return path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-
     val f = Future {
-
-      defaultDownloader.download(request)
+      if (request.folder.equals(publicLoc)) {
+        publicDownloader.download(request)
+      } else {
+        defaultDownloader.download(request)
+      }
     }
     var download_finished = false
     var path: Option[String] = None
@@ -358,6 +364,14 @@ object ResourceDownloader {
   def clearCache(request: ResourceRequest): Unit = {
     defaultDownloader.clearCache(request)
     cache.remove(request)
+  }
+
+  def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
+    defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)) match {
+      case Some(downloadBytes) => return FileHelper.getHumanReadableFileSize(downloadBytes)
+      case None => "-1"
+
+    }
   }
 }
 
@@ -430,6 +444,11 @@ object PythonResourceDownloader {
 
   def showPublicModels(): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
+  }
+
+  def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
+    ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
   }
 }
 
