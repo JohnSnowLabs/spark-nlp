@@ -284,16 +284,19 @@ class PositionFinder(AnnotatorModel):
                           )
 
     matchingWindow = Param(Params._dummy(),
-                          "matchingWindow",
+                           "matchingWindow",
                            "Textual range to match in context, applies in both direction",
-                          typeConverter=TypeConverters.toInt
-                          )
+                           typeConverter=TypeConverters.toInt
+                           )
 
     name = "PositionFinder"
 
     @keyword_only
     def __init__(self):
         super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
+        self._setDefault(
+            matchingWindow=5
+        )
 
     def setPageMatrixCol(self, value):
         return self._set(pageMatrixCol=value)

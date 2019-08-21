@@ -35,8 +35,10 @@ class DocumentAssembler(override val uid: String)
     * * inplace_full: remove new lines and tabs, including stringified, don't shrink
     * * shrink: remove new lines and tabs, but not stringified, do shrink
     * * shrink_full: remove new lines and tabs, stringified ones too, shrink all whitespaces
+    * * each: remove new lines and tabs but add one space for each one
+    * * each_full: remove new lines and tabs, stringified ones too, one space for each one
     */
-  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full")
+  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full")
 
   setDefault(
     outputCol -> DOCUMENT,
@@ -63,9 +65,10 @@ class DocumentAssembler(override val uid: String)
       case "inplace" => set(cleanupMode, "inplace")
       case "inplace_full" => set(cleanupMode, "inplace_full")
       case "shrink" => set(cleanupMode, "shrink")
-      case "shrink_each" => set(cleanupMode, "shrink_each")
       case "shrink_full" => set(cleanupMode, "shrink_full")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full. Received: $b")
+      case "each" => set(cleanupMode, "each")
+      case "each_full" => set(cleanupMode, "each_full")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full. Received: $b")
     }
   }
 
@@ -79,11 +82,12 @@ class DocumentAssembler(override val uid: String)
     val possiblyCleaned = $(cleanupMode) match {
       case "disabled" => text
       case "inplace" => text.replaceAll("\\s", " ")
-      case "inplace_full" => text.replaceAll("\\s|(?:\\\\r){0,1}(?:\\\\n)|(?:\\\\t)", " ")
+      case "inplace_full" => text.replaceAll("\\s|(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", " ")
       case "shrink" => text.trim.replaceAll("\\s+", " ")
-      case "shrink_each" => text.replaceAll("\\s(?:\\n|\\t)", " ")
       case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full. Received: $b")
+      case "each" => text.replaceAll("\\s(?:\\n|\\t)", " ")
+      case "each_full" => text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full. Received: $b")
     }
     Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
   }
