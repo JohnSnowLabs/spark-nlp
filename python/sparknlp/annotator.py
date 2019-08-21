@@ -283,14 +283,38 @@ class PositionFinder(AnnotatorModel):
                           typeConverter=TypeConverters.toString
                           )
 
+    matchingWindow = Param(Params._dummy(),
+                           "matchingWindow",
+                           "Textual range to match in context, applies in both direction",
+                           typeConverter=TypeConverters.toInt
+                           )
+
+    windowPageTolerance = Param(Params._dummy(),
+                                "windowPageTolerance",
+                                "whether or not to increase tolerance as page number grows",
+                                typeConverter=TypeConverters.toBoolean
+                                )
+
     name = "PositionFinder"
 
     @keyword_only
     def __init__(self):
         super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
+        self._setDefault(
+            matchingWindow=10,
+            windowPageTolerance=True
+        )
 
     def setPageMatrixCol(self, value):
         return self._set(pageMatrixCol=value)
+
+    def setMatchingWindow(self, value):
+        if value < 0:
+            raise Exception("Matching window must be non-negative")
+        return self._set(matchingWindow=value)
+
+    def setWindowPageTolerance(self, value):
+        return self._set(windowPageTolerance=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -446,7 +470,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters.toString)
+                       typeConverter=TypeConverters)
 
     name = "DateMatcher"
 
