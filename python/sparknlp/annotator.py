@@ -283,6 +283,12 @@ class PositionFinder(AnnotatorModel):
                           typeConverter=TypeConverters.toString
                           )
 
+    matchingWindow = Param(Params._dummy(),
+                          "matchingWindow",
+                           "Textual range to match in context, applies in both direction",
+                          typeConverter=TypeConverters.toInt
+                          )
+
     name = "PositionFinder"
 
     @keyword_only
@@ -291,6 +297,9 @@ class PositionFinder(AnnotatorModel):
 
     def setPageMatrixCol(self, value):
         return self._set(pageMatrixCol=value)
+
+    def setMatchingWindow(self, value):
+        return self._set(matchingWindow=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -446,7 +455,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters.toString)
+                       typeConverter=TypeConverters)
 
     name = "DateMatcher"
 
