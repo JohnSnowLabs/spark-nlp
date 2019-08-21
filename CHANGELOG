@@ -28,6 +28,7 @@ Enhancements
 * Finisher and LightPipeline now deal with embeddings properly, including them in pre processed result (Thank you Will Held)
 * Tokenizer now allows regular expressions in the list of Exceptions (Thank you @atomobianco)
 * PretrainedPipelines now allow function `fullAnnotate` to retrieve fully information of Annotations
+* DocumentAssembler new cleanup modes: each, each_full and delete_full allow more control over text cleaning up (different ways of dealing with new lines and tabs)
 
 ---------------
 Bugfixes
