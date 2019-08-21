@@ -78,7 +78,7 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
         val textLine = line.map(_.toString).mkString
         val textLineLength = textLine.length
         var c = 0
-        while (c < textLineLength && !textLine.slice(c, textLineLength).startsWith(target.result)) {
+        while (c < textLineLength && !textLine.drop(c).startsWith(target.result)) {
           c += 1
         }
         if (c < textLineLength) {
