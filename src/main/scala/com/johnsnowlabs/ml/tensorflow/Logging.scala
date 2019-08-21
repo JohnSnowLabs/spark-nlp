@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.slf4j.LoggerFactory
 
 /* Logging for the TensorFlow Models, probably can be used in other places */
@@ -16,9 +17,9 @@ trait Logging {
       logger.info(value)
     }
   }
-  protected def printLog(value: => String, shouldPrint: Boolean): Unit = {
-    if (shouldPrint) {
-      println(value)
+  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean): Unit = {
+    if (shouldLog) {
+      OutputHelper.writeAppend(uuid, value)
     }
   }
 }
