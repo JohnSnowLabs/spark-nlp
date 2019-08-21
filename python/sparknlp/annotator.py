@@ -1092,7 +1092,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
-    enableStdoutLogs = Param(Params._dummy(), "enableStdoutLogs",
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                               "Whether to use stdout in addition to Spark logs.",
                               TypeConverters.toBoolean)
 
@@ -1144,8 +1144,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
-    def setEnableStdoutLogs(self, value):
-        return self._set(enableStdoutLogs=value)
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
 
     @keyword_only
     def __init__(self):
@@ -1163,7 +1163,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableStdoutLogs=False
+            enableOutputLogs=False
         )
 
 
