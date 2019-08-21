@@ -302,6 +302,8 @@ class PositionFinder(AnnotatorModel):
         return self._set(pageMatrixCol=value)
 
     def setMatchingWindow(self, value):
+        if value < 0:
+            raise Exception("Matching window must be non-negative")
         return self._set(matchingWindow=value)
 
 
