@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.ocr
 
 import com.johnsnowlabs.nlp.{Annotation, ParamsAndFeaturesReadable, RawAnnotator}
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
-import org.apache.spark.ml.param.{IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions._
@@ -22,6 +22,7 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
 
   val pageMatrixCol: Param[String] = new Param(this, "pageMatrixCol", "Column name for Page Matrix schema")
   val matchingWindow: IntParam = new IntParam(this, "matchingWindow", "Textual range to match in context, applies in both direction")
+  val windowPageTolerance: BooleanParam = new BooleanParam(this, "windowPageTolerance", "whether or not to increase tolerance as page number grows")
 
   def setPageMatrixCol(value: String): this.type = set(pageMatrixCol, value)
   def getPageMatrixCol: String = $(pageMatrixCol)
@@ -33,8 +34,12 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
   }
   def getMatchingWindow: Int = $(matchingWindow)
 
+  def setWindowPageTolerance(value: Boolean): this.type = set(windowPageTolerance, value)
+  def getWindowPageTolerance: Boolean = $(windowPageTolerance)
+
   setDefault(
-    matchingWindow -> 5
+    matchingWindow -> 10,
+    windowPageTolerance -> true
   )
 
   private val parseCoordinates = udf {
@@ -65,7 +70,11 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
       }
 
       chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) =>
-        val line = matrix.slice(target.begin - $(matchingWindow), target.end + 1 + $(matchingWindow))
+        val tolerance = {
+          val tol = if ($(windowPageTolerance)) bounds.count(target.begin > _) + 1 else 1
+          tol * $(matchingWindow)
+        }
+        val line = matrix.slice(target.begin - tolerance, target.end + 1 + tolerance)
         val textLine = line.map(_.toString).mkString
         val textLineLength = textLine.length
         var c = 0
