@@ -16,8 +16,8 @@ trait Logging {
       logger.info(value)
     }
   }
-  protected def printLog(value: => String, shouldPrint: Boolean): Unit = {
-    if (shouldPrint) {
+  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean): Unit = {
+    if (shouldLog) {
       println(value)
     }
   }
