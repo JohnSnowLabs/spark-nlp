@@ -1092,6 +1092,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    enableNotebookLogs = Param(Params._dummy(), "enableNotebookLogs",
+                              "Whether to print the logs to screen in addition to console.",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1141,6 +1144,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
+    def setEnableNotebookLogs(self, value):
+        return self._set(enableNotebookLogs=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1156,7 +1162,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             useContrib=uc,
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
-            includeConfidence=False
+            includeConfidence=False,
+            enableNotebookLogs=False
         )
 
 

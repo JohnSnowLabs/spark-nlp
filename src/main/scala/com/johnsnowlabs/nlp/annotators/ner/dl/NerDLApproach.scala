@@ -42,6 +42,7 @@ class NerDLApproach(override val uid: String)
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+  val enableNotebookLogs = new BooleanParam(this, "enableNotebookLogs", "Whether to print the logs to screen in addition to console.")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
     "If set used to calculate statistic on it during training.")
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
@@ -54,6 +55,7 @@ class NerDLApproach(override val uid: String)
   def getUseContrib: Boolean = $(this.useContrib)
   def getTrainValidationProp: Float = $(this.trainValidationProp)
   def getIncludeConfidence: Boolean = $(includeConfidence)
+  def getEnableNotebookLogs: Boolean = $(enableNotebookLogs)
 
   def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
   def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
@@ -64,13 +66,14 @@ class NerDLApproach(override val uid: String)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
+  def setEnableNotebookLogs(enableNotebookLogs: Boolean):NerDLApproach.this.type = set(this.enableNotebookLogs, enableNotebookLogs)
   def setTestDataset(path: String,
                      readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 
   def setTestDataset(er: ExternalResource):NerDLApproach.this.type = set(testDataset, er)
-  def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
+  def setIncludeConfidence(value: Boolean):NerDLApproach.this.type = set(this.includeConfidence, value)
 
   setDefault(
     minEpochs -> 0,
@@ -83,7 +86,8 @@ class NerDLApproach(override val uid: String)
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
     trainValidationProp -> 0.0f,
     evaluationLogExtended -> false,
-    includeConfidence -> false
+    includeConfidence -> false,
+    enableNotebookLogs -> false
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -151,7 +155,8 @@ class NerDLApproach(override val uid: String)
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
         evaluationLogExtended=$(evaluationLogExtended),
-        includeConfidence=$(includeConfidence)
+        includeConfidence=$(includeConfidence),
+        enableNotebookLogs=$(enableNotebookLogs)
       )
       model
     }
