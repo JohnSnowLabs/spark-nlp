@@ -131,11 +131,11 @@ class TensorflowNer
             trainValidationProp: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
             includeConfidence: Boolean = false,
-            enableNotebookLogs: Boolean = false
+            enableStdoutLogs: Boolean = false
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
-    printLog(s"Name of the selected graph: $graphFileName", enableNotebookLogs)
+    printLog(s"Name of the selected graph: $graphFileName", enableStdoutLogs)
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
       s"labels: ${encoder.tags.length} " +
@@ -143,7 +143,7 @@ class TensorflowNer
 
     printLog(s"Training started, trainExamples: ${trainDataset.length}, " +
       s"labels: ${encoder.tags.length} " +
-      s"chars: ${encoder.chars.length}, ", enableNotebookLogs)
+      s"chars: ${encoder.chars.length}, ", enableStdoutLogs)
 
     // Initialize
     if (startEpoch == 0)
@@ -157,7 +157,8 @@ class TensorflowNer
       val learningRate = lr / (1 + po * epoch)
 
       log(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", Verbose.Epochs)
-      printLog(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", enableNotebookLogs)
+      printLog("\n", enableStdoutLogs)
+      printLog(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", enableStdoutLogs)
 
       val time = System.nanoTime()
       var batches = 0
@@ -192,7 +193,7 @@ class TensorflowNer
       }
 
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
-      printLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", enableNotebookLogs)
+      printLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", enableStdoutLogs)
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
@@ -200,14 +201,14 @@ class TensorflowNer
         val trainDatasetSample = trainDataset.take(sample)
 
         log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        printLog(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", enableNotebookLogs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableNotebookLogs = enableNotebookLogs)
+        printLog(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", enableStdoutLogs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableStdoutLogs = enableStdoutLogs)
       }
 
       if (test.nonEmpty) {
         log("Quality on test dataset: ", Verbose.Epochs)
-        printLog("Quality on test dataset: ", enableNotebookLogs)
-        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableNotebookLogs = enableNotebookLogs)
+        printLog("Quality on test dataset: ", enableStdoutLogs)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableStdoutLogs = enableStdoutLogs)
       }
 
     }
@@ -243,7 +244,7 @@ class TensorflowNer
               extended: Boolean = false,
               batchSize: Int = 100,
               includeConfidence: Boolean = false,
-              enableNotebookLogs: Boolean = false
+              enableStdoutLogs: Boolean = false
              ): Unit = {
 
     val started = System.nanoTime()
@@ -294,7 +295,7 @@ class TensorflowNer
     }
 
     log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
-    printLog(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}", enableNotebookLogs)
+    printLog(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}", enableStdoutLogs)
 
     val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
@@ -305,9 +306,10 @@ class TensorflowNer
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
-    if (extended)
+    if (extended) {
       log("label\t tp\t fp\t fn\t prec\t rec\t f1")
-      printLog("label\t tp\t fp\t fn\t prec\t rec\t f1", enableNotebookLogs)
+      printLog("label\t tp\t fp\t fn\t prec\t rec\t f1", enableStdoutLogs)
+    }
 
     var totalPercByClass, totalRecByClass = 0f
     for (label <- labels) {
@@ -317,7 +319,7 @@ class TensorflowNer
       val (prec, rec, f1) = calcStat(tp, fp, fn)
       if (extended) {
         log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
-        printLog(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1", enableNotebookLogs)
+        printLog(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1", enableStdoutLogs)
       }
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
@@ -328,13 +330,13 @@ class TensorflowNer
 
     if (extended) {
       log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
-      printLog(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}", enableNotebookLogs)
+      printLog(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}", enableStdoutLogs)
     }
     // ex: Precision = P1+P2/2
     log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
-    printLog(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1", enableNotebookLogs )
+    printLog(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1", enableStdoutLogs )
     // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
     log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
-    printLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", enableNotebookLogs)
+    printLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", enableStdoutLogs)
   }
 }

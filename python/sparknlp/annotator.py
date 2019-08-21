@@ -1092,8 +1092,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
-    enableNotebookLogs = Param(Params._dummy(), "enableNotebookLogs",
-                              "Whether to print the logs to screen in addition to console.",
+    enableStdoutLogs = Param(Params._dummy(), "enableStdoutLogs",
+                              "Whether to use stdout in addition to Spark logs.",
                               TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
@@ -1144,8 +1144,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
-    def setEnableNotebookLogs(self, value):
-        return self._set(enableNotebookLogs=value)
+    def setEnableStdoutLogs(self, value):
+        return self._set(enableStdoutLogs=value)
 
     @keyword_only
     def __init__(self):
@@ -1163,7 +1163,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableNotebookLogs=False
+            enableStdoutLogs=False
         )
 
 
