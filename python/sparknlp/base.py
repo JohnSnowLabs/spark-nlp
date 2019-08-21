@@ -126,6 +126,13 @@ class LightPipeline:
     def transform(self, dataframe):
         return self.pipeline_model.transform(dataframe)
 
+    def setIgnoreUnsupported(self, value):
+        self._lightPipeline.setIgnoreUnsupported(value)
+        return self
+
+    def getIgnoreUnsupported(self):
+        return self._lightPipeline.getIgnoreUnsupported()
+
 
 class RecursivePipeline(Pipeline, JavaEstimator):
     @keyword_only
