@@ -105,7 +105,7 @@ class _LightPipeline(ExtendedJavaWrapper):
 
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
     def __init__(self, path, spark, embformat, ref, ndims, case):
-        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark.jsparkSession, embformat, ref, ndims, case)
+        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark._jsparkSession, embformat, ref, ndims, case)
 
 
 class _EmbeddingsHelperSave(ExtendedJavaWrapper):
