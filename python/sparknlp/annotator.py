@@ -1116,6 +1116,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    enableStdoutLogs = Param(Params._dummy(), "enableStdoutLogs",
+                              "Whether to use stdout in addition to Spark logs.",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1165,6 +1168,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
+    def setEnableStdoutLogs(self, value):
+        return self._set(enableStdoutLogs=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1180,7 +1186,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             useContrib=uc,
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
-            includeConfidence=False
+            includeConfidence=False,
+            enableStdoutLogs=False
         )
 
 
