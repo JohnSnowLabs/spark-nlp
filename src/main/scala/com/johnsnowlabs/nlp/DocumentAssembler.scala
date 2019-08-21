@@ -31,14 +31,17 @@ class DocumentAssembler(override val uid: String)
   /**
     * cleanupMode:
     * * disabled: keep original. Useful if need to head back to source later
-    * * inplace: remove new lines and tabs, but not stringified, don't shrink
-    * * inplace_full: remove new lines and tabs, including stringified, don't shrink
-    * * shrink: remove new lines and tabs, but not stringified, do shrink
-    * * shrink_full: remove new lines and tabs, stringified ones too, shrink all whitespaces
-    * * each: remove new lines and tabs but add one space for each one
-    * * each_full: remove new lines and tabs, stringified ones too, one space for each one
+    * * inplace: newlines and tabs into whitespace, not stringified ones, don't trim
+    * * inplace_full: newlines and tabs into whitespace, including stringified, don't trim
+    * * shrink: all newlines and tabs to a single whitespace, but not stringified, do trim
+    * * shrink_full: all newlines and tabs to a single whitespace, stringified ones too, trim all
+    * * each: newlines and tabs to one whitespace each
+    * * each_full: newlines and tabs, stringified ones too, to one whitespace each
+    * * delete: remove newlines and tabs (replace with nothing)
+    * * delete_full: remove newlines and tabs, including stringified (replace with nothing)
     */
-  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full")
+  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: " +
+    "disabled, inplace, inplace_full, shrink, shrink_full, each, each_ful, delete, delete_fulll")
 
   setDefault(
     outputCol -> DOCUMENT,
@@ -68,7 +71,10 @@ class DocumentAssembler(override val uid: String)
       case "shrink_full" => set(cleanupMode, "shrink_full")
       case "each" => set(cleanupMode, "each")
       case "each_full" => set(cleanupMode, "each_full")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full. Received: $b")
+      case "delete" => set(cleanupMode, "delete")
+      case "delete_full" => set(cleanupMode, "delete_full")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete, delete_full. Received: $b")
     }
   }
 
@@ -87,7 +93,10 @@ class DocumentAssembler(override val uid: String)
       case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
       case "each" => text.replaceAll("\\s(?:\\n|\\t)", " ")
       case "each_full" => text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full. Received: $b")
+      case "delete" => text.trim.replaceAll("\\s+", "")
+      case "delete_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", "")
+      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete, delete_full. Received: $b")
     }
     Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
   }

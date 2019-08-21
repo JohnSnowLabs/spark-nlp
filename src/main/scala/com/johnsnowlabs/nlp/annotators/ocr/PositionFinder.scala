@@ -26,7 +26,11 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
   def setPageMatrixCol(value: String): this.type = set(pageMatrixCol, value)
   def getPageMatrixCol: String = $(pageMatrixCol)
 
-  def setMatchingWindow(value: Int): this.type = set(matchingWindow, value)
+  def setMatchingWindow(value: Int): this.type = {
+    if (value < 0)
+      throw new IllegalArgumentException("Matching window must be non-negative")
+    set(matchingWindow, value)
+  }
   def getMatchingWindow: Int = $(matchingWindow)
 
   setDefault(
