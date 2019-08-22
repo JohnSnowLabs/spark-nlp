@@ -9,16 +9,15 @@ from sparknlp.base import LightPipeline
 
 
 def printProgress(stop):
-    done = 1
-    dot = 7
+    states = [' | ', ' / ', ' — ', ' \\ ']
+    nextc = 0
     while True:
-        sys.stdout.write('\r[{}{}]'.format('█' * done, '.' * max(2, dot)))
+        sys.stdout.write('\r[{}]'.format(states[nextc]))
         sys.stdout.flush()
         time.sleep(2.5)
-        done = done + 1
-        dot = dot - 1
+        nextc = nextc + 1 if nextc < 3 else 0
         if stop():
-            sys.stdout.write('\r[{}{}]'.format('█' * done, '█' * max(2, dot)))
+            sys.stdout.write('\r[{}]'.format('OK!'))
             sys.stdout.flush()
             break
 
@@ -30,28 +29,42 @@ class ResourceDownloader(object):
 
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None):
-        print(name + " download started this may take some time")
-        stop_threads = False
-        t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-        t1.start()
-        j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
-        stop_threads = True
-        t1.join()
-        print("Download done")
-        return reader(classname=None, java_model=j_obj)
+        print(name + " download started this may take some time.")
+        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        if file_size == "-1":
+            print("Can not find the model to download please check the name!")
+        else:
+            print("Approx size to download " + file_size)
+            stop_threads = False
+            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
+            t1.start()
+            try:
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
+            finally:
+                stopThreads = True
+                t1.join()
+
+            return reader(classname=None, java_model=j_obj)
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
-        print(name + " download started this may take some time")
-        stop_threads = False
-        t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-        t1.start()
-        j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
-        jmodel = JavaModel(j_obj)
-        stop_threads = True
-        t1.join()
-        print("Download done")
-        return jmodel
+        print(name + " download started this may take some time.")
+        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        if file_size == "-1":
+            print("Can not find the model to download please check the name!")
+        else:
+            print("Approx size to download " + file_size)
+            stop_threads = False
+            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
+            t1.start()
+            try:
+                j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
+                jmodel = JavaModel(j_obj)
+            finally:
+                stop_threads = True
+                t1.join()
+
+            return jmodel
 
     @staticmethod
     def clearCache(name, language, remote_loc=None):

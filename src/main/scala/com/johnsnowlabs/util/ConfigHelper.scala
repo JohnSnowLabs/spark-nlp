@@ -29,6 +29,9 @@ object ConfigHelper {
   // Configures cache folder where to cache pretrained models
   val pretrainedCacheFolder = "sparknlp.settings.pretrained.cache_folder"
 
+  // Configures cache folder where to cache pretrained models
+  val annotatorLogFolder = "sparknlp.settings.annotator.log_folder"
+
   // Stores credentials for AWS S3 private models
   val awsCredentials = "sparknlp.settings.pretrained.credentials"
 

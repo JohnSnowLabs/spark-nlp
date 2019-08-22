@@ -283,14 +283,38 @@ class PositionFinder(AnnotatorModel):
                           typeConverter=TypeConverters.toString
                           )
 
+    matchingWindow = Param(Params._dummy(),
+                           "matchingWindow",
+                           "Textual range to match in context, applies in both direction",
+                           typeConverter=TypeConverters.toInt
+                           )
+
+    windowPageTolerance = Param(Params._dummy(),
+                                "windowPageTolerance",
+                                "whether or not to increase tolerance as page number grows",
+                                typeConverter=TypeConverters.toBoolean
+                                )
+
     name = "PositionFinder"
 
     @keyword_only
     def __init__(self):
         super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
+        self._setDefault(
+            matchingWindow=10,
+            windowPageTolerance=True
+        )
 
     def setPageMatrixCol(self, value):
         return self._set(pageMatrixCol=value)
+
+    def setMatchingWindow(self, value):
+        if value < 0:
+            raise Exception("Matching window must be non-negative")
+        return self._set(matchingWindow=value)
+
+    def setWindowPageTolerance(self, value):
+        return self._set(windowPageTolerance=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -446,7 +470,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters.toString)
+                       typeConverter=TypeConverters)
 
     name = "DateMatcher"
 
@@ -1092,6 +1116,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                              "Whether to use stdout in addition to Spark logs.",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1141,6 +1168,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1156,7 +1186,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             useContrib=uc,
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
-            includeConfidence=False
+            includeConfidence=False,
+            enableOutputLogs=False
         )
 
 
@@ -1330,7 +1361,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spellcheck_dl", lang="en", remote_loc=None):
+    def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 

@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.ocr
 
 import com.johnsnowlabs.nlp.{Annotation, ParamsAndFeaturesReadable, RawAnnotator}
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions._
@@ -21,10 +21,26 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
   def this() = this(Identifiable.randomUID("POSITION_FINDER"))
 
   val pageMatrixCol: Param[String] = new Param(this, "pageMatrixCol", "Column name for Page Matrix schema")
+  val matchingWindow: IntParam = new IntParam(this, "matchingWindow", "Textual range to match in context, applies in both direction")
+  val windowPageTolerance: BooleanParam = new BooleanParam(this, "windowPageTolerance", "whether or not to increase tolerance as page number grows")
 
   def setPageMatrixCol(value: String): this.type = set(pageMatrixCol, value)
-
   def getPageMatrixCol: String = $(pageMatrixCol)
+
+  def setMatchingWindow(value: Int): this.type = {
+    if (value < 0)
+      throw new IllegalArgumentException("Matching window must be non-negative")
+    set(matchingWindow, value)
+  }
+  def getMatchingWindow: Int = $(matchingWindow)
+
+  def setWindowPageTolerance(value: Boolean): this.type = set(windowPageTolerance, value)
+  def getWindowPageTolerance: Boolean = $(windowPageTolerance)
+
+  setDefault(
+    matchingWindow -> 10,
+    windowPageTolerance -> true
+  )
 
   private val parseCoordinates = udf {
     (chunkRaw: Seq[Row], pageRaw: Seq[Row]) => {
@@ -54,15 +70,27 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
       }
 
       chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) =>
-        val line = matrix.slice(target.begin, target.end+1)
-        if(target.result == line.map(_.toString).mkString) {
+        val tolerance = {
+          val tol = if ($(windowPageTolerance)) bounds.count(target.begin > _) + 1 else 1
+          tol * $(matchingWindow)
+        }
+        val line = matrix.slice(target.begin - tolerance, target.end + 1 + tolerance)
+        val textLine = line.map(_.toString).mkString
+        val textLineLength = textLine.length
+        var c = 0
+        while (c < textLineLength && !textLine.drop(c).startsWith(target.result)) {
+          c += 1
+        }
+        if (c < textLineLength) {
+
+          val matchedLine = line.slice(c, c + target.result.length)
 
           var minX = -1.0f
           var maxX = -1.0f
 
-          var lastPos = line.head
+          var lastPos = matchedLine.head
 
-          for (pos <- line) {
+          for (pos <- matchedLine) {
             if (pos != null) {
               /** check if we are one line below previous, close rectangle if so */
               if (pos.y < lastPos.y) {
@@ -84,7 +112,6 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
         } else {
           Seq.empty[Coordinate]
         }
-
       }
     }
   }

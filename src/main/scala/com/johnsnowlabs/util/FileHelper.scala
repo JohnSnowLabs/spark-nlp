@@ -4,6 +4,7 @@ import java.io.{File, IOException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
 import java.security.MessageDigest
+import java.text.DecimalFormat
 
 import org.apache.commons.io.FileUtils
 object FileHelper {
@@ -51,4 +52,10 @@ object FileHelper {
     checksum.map("%02X" format _).mkString
   }
 
+  def getHumanReadableFileSize(size: Long): String = {
+    if (size <= 0) return "0"
+    val units = Array[String]("B", "KB", "MB", "GB", "TB", "PB", "EB")
+    val digitGroups = (Math.log10(size) / Math.log10(1024)).toInt
+    new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units(digitGroups)
+  }
 }
