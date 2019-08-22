@@ -153,7 +153,7 @@ class TensorflowNer
 
     val trainDatasetSeq = trainDataset.toSeq
     // Train
-    for (epoch <- startEpoch until endEpoch - 1) {
+    for (epoch <- startEpoch until endEpoch) {
 
       val epochDataset = Random.shuffle(trainDatasetSeq)
       val learningRate = lr / (1 + po * epoch)
