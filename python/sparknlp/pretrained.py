@@ -41,7 +41,7 @@ class ResourceDownloader(object):
             try:
                 j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
             finally:
-                stopThreads = True
+                stop_threads = True
                 t1.join()
 
             return reader(classname=None, java_model=j_obj)
