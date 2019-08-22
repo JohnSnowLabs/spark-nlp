@@ -34,7 +34,7 @@ class ResourceDownloader(object):
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:
-            print("Approx size to download " + file_size)
+            print("Approximate size to download " + file_size)
             stop_threads = False
             t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
             t1.start()

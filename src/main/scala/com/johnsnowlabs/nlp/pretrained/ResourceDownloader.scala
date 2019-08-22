@@ -302,12 +302,12 @@ object ResourceDownloader {
     println(request.name + " download started this may take some time.")
     val file_size = getDownloadSize(request.name, request.language, request.folder)
     require(!file_size.equals("-1"), "Can not find the resource to download please check the name!")
-    println("Approx size to download " + file_size)
+    println("Approximate size to download " + file_size)
 
     val states = Array(" | ", " / ", " — ", " \\ ")
     var nextc = 0
     while (!download_finished) {
-      printf("[%s]", states(nextc % 4))
+      // printf("[%s]", states(nextc % 4))
       nextc += 1
       f.onComplete {
         case Success(value) => {
@@ -321,7 +321,7 @@ object ResourceDownloader {
       }
       Thread.sleep(1000)
 
-      print("\b\b\b\b\b")
+      //print("\b\b\b\b\b")
 
     }
 
