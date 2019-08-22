@@ -100,6 +100,8 @@ class LightPipeline:
 
     def fullAnnotate(self, target):
         result = []
+        if type(target) is str:
+            target = [target]
         for row in self._lightPipeline.fullAnnotateJava(target):
             kas = {}
             for atype, annotations in row.items():

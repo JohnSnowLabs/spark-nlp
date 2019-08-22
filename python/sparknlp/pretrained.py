@@ -9,16 +9,15 @@ from sparknlp.base import LightPipeline
 
 
 def printProgress(stop):
-    done = 1
-    dot = 7
+    states = [' | ', ' / ', ' — ', ' \\ ']
+    nextc = 0
     while True:
-        sys.stdout.write('\r[{}{}]'.format('█' * done, '.' * max(2, dot)))
+        sys.stdout.write('\r[{}]'.format(states[nextc]))
         sys.stdout.flush()
         time.sleep(2.5)
-        done = done + 1
-        dot = dot - 1
+        nextc = nextc + 1 if nextc < 3 else 0
         if stop():
-            sys.stdout.write('\r[{}{}]'.format('█' * done, '█' * max(2, dot)))
+            sys.stdout.write('\r[{}]'.format('OK!'))
             sys.stdout.flush()
             break
 
