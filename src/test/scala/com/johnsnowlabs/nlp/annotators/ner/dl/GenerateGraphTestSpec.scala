@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.commons.lang.SystemUtils
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
@@ -19,22 +20,22 @@ class GenerateGraphTestSpec extends FlatSpec {
 
   "GenerateGraph" should "get model file name" in {
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(spark, graphParams, "",
+    val generateGraph = new GenerateGraph(spark, graphParams, false, "",
       pythonLauncher="python",
       pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val graphFileName = generateGraph.getModelName
 
-    if (ResourceHelper.getOsName == "Linux") {
-      assert(graphFileName == "blstm_80_200_128_125")
-    } else {
+    if (SystemUtils.IS_OS_WINDOWS) {
       assert(graphFileName == "blstm-noncontrib_80_200_128_125")
+    } else {
+      assert(graphFileName == "blstm_80_200_128_125")
     }
   }
 
   "GenerateGraph" should "create a graph" in {
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+    val generateGraph = new GenerateGraph(spark, graphParams, false, graphFilePath,
       pythonLauncher="python",
       pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val expectedMessage = "Graph created successfully"
@@ -50,7 +51,7 @@ class GenerateGraphTestSpec extends FlatSpec {
     val numberOfChars = 100
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+    val generateGraph = new GenerateGraph(spark, graphParams, false, graphFilePath,
       pythonLauncher="python",
       pythonGraphFile="python/tensorflow/ner/ner_graph.py")
 
@@ -61,7 +62,7 @@ class GenerateGraphTestSpec extends FlatSpec {
   "GenerateGraph with wrong argument" should "return an error message" in {
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(-1, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+    val generateGraph = new GenerateGraph(spark, graphParams, false, graphFilePath,
       pythonLauncher="python",
       pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val expectedString = "Error:"

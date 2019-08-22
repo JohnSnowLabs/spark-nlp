@@ -232,6 +232,7 @@ trait WithGraphResolver  {
       val generateGraph = new GenerateGraph(
         ResourceHelper.getActiveSparkSession,
         graphParams,
+        loadContrib,
         localGraphPath.get,
         pythonLauncher=pythonForGraph,
         pythonGraphFile="python/tensorflow/ner/ner_graph.py"

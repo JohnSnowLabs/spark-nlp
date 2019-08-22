@@ -1529,11 +1529,11 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         )
 
     def parse_format(self, frmt):
-        if frmt == "SPARKNLP":
+        if frmt.upper() == "SPARKNLP":
             return 1
-        elif frmt == "TEXT":
+        elif frmt.upper() == "TEXT":
             return 2
-        elif frmt == "BINARY":
+        elif frmt.upper() == "BINARY":
             return 3
         else:
             return frmt
