@@ -114,7 +114,7 @@ class S3ResourceDownloader(bucket: => String,
 
             // 4. Move tmp file to destination
             fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)
-            println("downloading")
+
 
           }
 

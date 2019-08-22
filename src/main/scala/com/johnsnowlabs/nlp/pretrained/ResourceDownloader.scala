@@ -299,7 +299,11 @@ object ResourceDownloader {
     }
     var download_finished = false
     var path: Option[String] = None
-    print("Downloading resource " + request.name)
+    println(request.name + " download started this may take some time.")
+    val file_size = getDownloadSize(request.name, request.language, request.folder)
+    require(!file_size.equals("-1"), "Can not find the resource to download please check the name!")
+    println("Approx size to download " + file_size)
+
     val states = Array(" | ", " / ", " — ", " \\ ")
     var nextc = 0
     while (!download_finished) {
@@ -320,9 +324,9 @@ object ResourceDownloader {
       print("\b\b\b\b\b")
 
     }
-    println("")
-    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
 
+    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
+    println("Download done! Loading the resource.")
     path.get
   }
 
