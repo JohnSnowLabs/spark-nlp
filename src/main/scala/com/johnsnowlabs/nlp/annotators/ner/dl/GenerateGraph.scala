@@ -21,16 +21,21 @@ class GenerateGraph(graphParams: GraphParams, graphFilePath: String, sparkSessio
     if (useContrib) "blstm" else "blstm-noncontrib"
   }
 
-  def loadModel(): Unit = {
+  def createModel(): Unit = {
     val modelName = getModelName
     if (fileExists(graphFilePath + "/" + modelName + ".pb")) {
-      println("Load Model")
+      println(s"Model ${modelName} exists in path ${graphFilePath}")
     } else {
       if (fileExists(defaultPath + "/" + modelName + ".pb")) {
-        println("Load model from default Path")
+        println(s"Model exists in default path ${defaultPath}")
       } else {
-        create
-        println("Load model after creation")
+        println(s"Creating model ${modelName} in path ${graphFilePath}")
+        val message = create
+        if ((message contains "Error:") || (message contains "Exception:")) {
+          println(s"Not able to create model ${modelName} in path ${graphFilePath}. ${message}")
+        } else {
+          Thread.sleep(5000)
+        }
       }
     }
   }

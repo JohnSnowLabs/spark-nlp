@@ -18,8 +18,8 @@ class GenerateGraphTestSpec extends FlatSpec {
     .getOrCreate()
 
   "GenerateGraph" should "get model file name" in {
-    val graphData = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphData, "", spark)
+    val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
+    val generateGraph = new GenerateGraph(graphParams, "", spark)
     val graphFileName = generateGraph.getModelName
 
     if (ResourceHelper.getOsName == "Linux") {
@@ -48,7 +48,7 @@ class GenerateGraphTestSpec extends FlatSpec {
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
     val generateGraph = new GenerateGraph(graphParams, graphFilePath, spark)
 
-    generateGraph.loadModel()
+    generateGraph.createModel()
 
   }
 

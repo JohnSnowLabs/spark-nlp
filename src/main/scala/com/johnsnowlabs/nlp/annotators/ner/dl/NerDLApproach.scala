@@ -121,15 +121,22 @@ class NerDLApproach(override val uid: String)
 
     val labels = trainDataset.flatMap(r => r._1.labels).distinct
     val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.token.toCharArray)).distinct
-    val embeddingsDim = calculateEmbeddingsDim(trainSentences)
+    val embeddingsDimension = calculateEmbeddingsDim(trainSentences)
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList,
-      Array.fill(embeddingsDim)(0f).toList, embeddingsDim)
+      Array.fill(embeddingsDimension)(0f).toList, embeddingsDimension)
     val encoder = new NerDatasetEncoder(
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length + 1, get(graphFolder), getUseContrib)
+    val numberOfTags = labels.length
+    val numberOfChars = chars.length + 1
+    val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
+    val generateGraph = new GenerateGraph(graphParams, get(graphFolder).getOrElse("src/main/resources/ner-dl"),
+      ResourceHelper.getActiveSparkSession)
+    generateGraph.createModel()
+    val graphFile = NerDLApproach.searchForSuitableGraph(numberOfTags, embeddingsDimension, numberOfChars,
+      get(graphFolder), getUseContrib)
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
