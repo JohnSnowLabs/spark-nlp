@@ -19,7 +19,9 @@ class GenerateGraphTestSpec extends FlatSpec {
 
   "GenerateGraph" should "get model file name" in {
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphParams, "", spark)
+    val generateGraph = new GenerateGraph(spark, graphParams, "",
+      pythonLauncher="python",
+      pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val graphFileName = generateGraph.getModelName
 
     if (ResourceHelper.getOsName == "Linux") {
@@ -32,7 +34,9 @@ class GenerateGraphTestSpec extends FlatSpec {
   "GenerateGraph" should "create a graph" in {
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphParams, graphFilePath, spark)
+    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+      pythonLauncher="python",
+      pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val expectedMessage = "Graph created successfully"
 
     val message = generateGraph.create
@@ -46,7 +50,9 @@ class GenerateGraphTestSpec extends FlatSpec {
     val numberOfChars = 100
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphParams, graphFilePath, spark)
+    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+      pythonLauncher="python",
+      pythonGraphFile="python/tensorflow/ner/ner_graph.py")
 
     generateGraph.createModel()
 
@@ -55,7 +61,9 @@ class GenerateGraphTestSpec extends FlatSpec {
   "GenerateGraph with wrong argument" should "return an error message" in {
     val graphFilePath = "./tmp"
     val graphParams = GraphParams(-1, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphParams, graphFilePath, spark)
+    val generateGraph = new GenerateGraph(spark, graphParams, graphFilePath,
+      pythonLauncher="python",
+      pythonGraphFile="python/tensorflow/ner/ner_graph.py")
     val expectedString = "Error:"
 
     val message = generateGraph.create

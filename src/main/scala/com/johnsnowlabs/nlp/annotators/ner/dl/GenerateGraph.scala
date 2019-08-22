@@ -6,11 +6,9 @@ import org.apache.spark.sql.SparkSession
 
 case class GraphParams(numberOfTags: Int, embeddingsDimension: Int, numberOfChars: Int, lstmSize: Int=128)
 
-class GenerateGraph(graphParams: GraphParams, graphFilePath: String, sparkSession: SparkSession) {
+class GenerateGraph(sparkSession: SparkSession, graphParams: GraphParams, graphFilePath: String, pythonLauncher: String, pythonGraphFile: String) {
 
   private val useContrib: Boolean = { if (ResourceHelper.getOsName == "Windows") false else true }
-  private val pythonFile = "python/sparknlp/graph.py"
-  private val defaultPath = "src/main/resources/ner-dl"
 
   def getModelName: String = {
     val namePrefix = getNamePrefix
@@ -23,19 +21,11 @@ class GenerateGraph(graphParams: GraphParams, graphFilePath: String, sparkSessio
 
   def createModel(): Unit = {
     val modelName = getModelName
-    if (fileExists(graphFilePath + "/" + modelName + ".pb")) {
-      println(s"Model ${modelName} exists in path ${graphFilePath}")
-    } else {
-      if (fileExists(defaultPath + "/" + modelName + ".pb")) {
-        println(s"Model exists in default path ${defaultPath}")
-      } else {
-        println(s"Creating model ${modelName} in path ${graphFilePath}")
-        val message = create
-        if ((message contains "Error:") || (message contains "Exception:")) {
-          println(s"Not able to create model ${modelName} in path ${graphFilePath}. ${message}")
-        } else {
-          Thread.sleep(5000)
-        }
+    if (!fileExists(graphFilePath + "/" + modelName + ".pb")) {
+      val message = create
+      if ((message contains "Error:") || (message contains "Exception:")) {
+        throw new Exception(s"Not able to create model ${modelName} in path ${graphFilePath}. ${message}" +
+          s"\nEmbedded Error Message:\n$message")
       }
     }
   }
@@ -43,7 +33,7 @@ class GenerateGraph(graphParams: GraphParams, graphFilePath: String, sparkSessio
   def create: String = {
     import sys.process._
 
-    val pythonScript = "python " + pythonFile + getArguments
+    val pythonScript = pythonLauncher + " " + pythonGraphFile + getArguments
     val stderr = new StringBuilder
     val status = pythonScript ! ProcessLogger(stdout append _, stderr append _)
     if (status == 0) {

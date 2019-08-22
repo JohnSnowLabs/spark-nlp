@@ -38,6 +38,7 @@ class NerDLApproach(override val uid: String)
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
+  val pythonForGraph = new Param[String](this, "pythonForGraph", "Python 3 executable to create graphs, defaults to PYSPARK_PYTHON or else python")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
@@ -56,6 +57,7 @@ class NerDLApproach(override val uid: String)
   def getTrainValidationProp: Float = $(this.trainValidationProp)
   def getIncludeConfidence: Boolean = $(includeConfidence)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
+  def getPythonForGraph: String = $(pythonForGraph)
 
   def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
   def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
@@ -74,6 +76,7 @@ class NerDLApproach(override val uid: String)
 
   def setTestDataset(er: ExternalResource):NerDLApproach.this.type = set(testDataset, er)
   def setIncludeConfidence(value: Boolean):NerDLApproach.this.type = set(this.includeConfidence, value)
+  def setPythonForGraph(value: String):this.type = set(pythonForGraph, value)
 
   setDefault(
     minEpochs -> 0,
@@ -87,7 +90,8 @@ class NerDLApproach(override val uid: String)
     trainValidationProp -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
-    enableOutputLogs -> false
+    enableOutputLogs -> false,
+    pythonForGraph -> Option(System.getenv("PYSPARK_PYTHON")).getOrElse("python")
   )
 
   override val verboseLevel = Verbose($(verbose))
@@ -131,12 +135,9 @@ class NerDLApproach(override val uid: String)
 
     val numberOfTags = labels.length
     val numberOfChars = chars.length + 1
-    val graphParams = GraphParams(numberOfTags, embeddingsDimension, numberOfChars)
-    val generateGraph = new GenerateGraph(graphParams, get(graphFolder).getOrElse("src/main/resources/ner-dl"),
-      ResourceHelper.getActiveSparkSession)
-    generateGraph.createModel()
+
     val graphFile = NerDLApproach.searchForSuitableGraph(numberOfTags, embeddingsDimension, numberOfChars,
-      get(graphFolder), getUseContrib)
+      get(graphFolder), getUseContrib, pythonForGraph=$(pythonForGraph))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -192,7 +193,15 @@ class NerDLApproach(override val uid: String)
 }
 
 trait WithGraphResolver  {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = false): String = {
+  def searchForSuitableGraph(
+                              tags: Int,
+                              embeddingsNDims: Int,
+                              nChars: Int,
+                              localGraphPath: Option[String] = None,
+                              loadContrib: Boolean = false,
+                              allowRetry: Boolean = true,
+                              pythonForGraph: String = "python"
+                            ): String = {
     val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
@@ -216,6 +225,19 @@ trait WithGraphResolver  {
       else {
         None
       }
+    }
+
+    if (allowRetry && embeddingsFiltered.isEmpty && localGraphPath.isDefined) {
+      val graphParams = GraphParams(tags, embeddingsNDims, nChars)
+      val generateGraph = new GenerateGraph(
+        ResourceHelper.getActiveSparkSession,
+        graphParams,
+        localGraphPath.get,
+        pythonLauncher=pythonForGraph,
+        pythonGraphFile="python/tensorflow/ner/ner_graph.py"
+      )
+      generateGraph.createModel()
+      return searchForSuitableGraph(tags, embeddingsNDims, nChars, localGraphPath, loadContrib, allowRetry = false, pythonForGraph = pythonForGraph)
     }
 
     require(embeddingsFiltered.exists(_.nonEmpty), s"Graph dimensions should be $embeddingsNDims: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +

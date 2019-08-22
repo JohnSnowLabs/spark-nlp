@@ -1120,6 +1120,12 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                               "Whether to use stdout in addition to Spark logs.",
                               TypeConverters.toBoolean)
 
+    pythonForGraph = Param(Params._dummy(),
+                           "pythonForGraph",
+                           "Python 3 executable to create graphs, defaults to PYSPARK_PYTHON or else python",
+                           TypeConverters.toString
+                           )
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1171,10 +1177,14 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
+    def setPythonForGraph(self, value):
+        return self._set(pythonForGraph=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
         uc = False if sys.platform == 'win32' else True
+        import os
         self._setDefault(
             minEpochs=0,
             maxEpochs=50,
@@ -1187,7 +1197,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableOutputLogs=False
+            enableOutputLogs=False,
+            pythonForGraph=os.getenv('PYSPARK_PYTHON') if os.getenv('PYSPARK_PYTHON') else 'python'
         )
 
 
