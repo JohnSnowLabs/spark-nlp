@@ -9,10 +9,13 @@ object OutputHelper {
 
   lazy private val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
 
-  private def cacheFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.annotatorLogFolder, fs.getHomeDirectory + "/annotator_logs")
+  private def logsFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.annotatorLogFolder, fs.getHomeDirectory + "/annotator_logs")
+
+  private lazy val logsFolderExists = fs.exists(new Path(logsFolder))
 
   def writeAppend(uuid: String, content: String): Unit = {
-    val targetPath = new Path(cacheFolder, uuid+".log")
+    if (!logsFolderExists) fs.mkdirs(new Path(logsFolder))
+    val targetPath = new Path(logsFolder, uuid+".log")
     if (fs.getScheme != "file") {
       val fo = fs.append(targetPath)
       val writer = new PrintWriter(fo, true)
