@@ -282,6 +282,7 @@ object ResourceDownloader {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
+
   /**
     * Loads resource to path
     *
@@ -298,9 +299,16 @@ object ResourceDownloader {
     }
     var download_finished = false
     var path: Option[String] = None
-    print("Downloading resource ")
-    print("=")
+    println(request.name + " download started this may take some time.")
+    val file_size = getDownloadSize(request.name, request.language, request.folder)
+    require(!file_size.equals("-1"), "Can not find the resource to download please check the name!")
+    println("Approximate size to download " + file_size)
+
+    val states = Array(" | ", " / ", " — ", " \\ ")
+    var nextc = 0
     while (!download_finished) {
+      // printf("[%s]", states(nextc % 4))
+      nextc += 1
       f.onComplete {
         case Success(value) => {
           download_finished = true
@@ -312,12 +320,13 @@ object ResourceDownloader {
         }
       }
       Thread.sleep(1000)
-      print("\b=>")
+
+      //print("\b\b\b\b\b")
 
     }
-    println("")
-    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
 
+    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
+    println("Download done! Loading the resource.")
     path.get
   }
 
@@ -363,13 +372,21 @@ object ResourceDownloader {
 
   def clearCache(request: ResourceRequest): Unit = {
     defaultDownloader.clearCache(request)
+    publicDownloader.clearCache(request)
     cache.remove(request)
   }
 
   def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
-    defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder)) match {
+    var size: Option[Long] = None
+    if (folder.equals(publicLoc)) {
+      size = publicDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+    } else {
+      size = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+    }
+    size match {
       case Some(downloadBytes) => return FileHelper.getHumanReadableFileSize(downloadBytes)
-      case None => "-1"
+      case None => return "-1"
+
 
     }
   }
