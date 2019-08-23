@@ -258,10 +258,13 @@
       <p class="shortcomment cmt">cleanupMode:
 * disabled: keep original.</p><div class="fullcomment"><div class="comment cmt"><p>cleanupMode:
 * disabled: keep original. Useful if need to head back to source later
-* inplace: remove new lines and tabs, but not stringified, don't shrink
-* inplace_full: remove new lines and tabs, including stringified, don't shrink
-* shrink: remove new lines and tabs, but not stringified, do shrink
-* shrink_full: remove new lines and tabs, stringified ones too, shrink all whitespaces
+* inplace: newlines and tabs into whitespaces, not stringified ones, don't trim
+* inplace_full: newlines and tabs into whitespaces, including stringified, don't trim
+* shrink: all whitespaces, newlines and tabs to a single whitespace, but not stringified, do trim
+* shrink_full: all whitespaces, newlines and tabs to a single whitespace, stringified ones too, trim all
+* each: newlines and tabs to one whitespace each
+* each_full: newlines and tabs, stringified ones too, to one whitespace each
+* delete_full: remove stringified newlines and tabs (replace with nothing)
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
