@@ -361,7 +361,7 @@ annotation.select("regex.result").show(false)
 
 ### match_chunk
 
-The pipeline uses regex <DT/>?/<JJ/>*<NN>+
+The pipeline uses regex `<DT/>?/<JJ/>*<NN>+`
 
 {% highlight scala %}
 
