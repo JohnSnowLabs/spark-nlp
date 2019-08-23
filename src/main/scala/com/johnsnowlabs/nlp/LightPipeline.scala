@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.embeddings.HasEmbeddings
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 

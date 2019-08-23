@@ -467,18 +467,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Logging.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.Logging">Logging</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer#measure" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="measure(labeled:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],log:String=&gt;Unit,extended:Boolean,batchSize:Int):Unit"></a>
-      <a id="measure(Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],(String)⇒Unit,Boolean,Int):Unit"></a>
+      <a id="measure(labeled:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],log:String=&gt;Unit,extended:Boolean,batchSize:Int,includeConfidence:Boolean):Unit"></a>
+      <a id="measure(Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],(String)⇒Unit,Boolean,Int,Boolean):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">measure</span><span class="params">(<span name="labeled">labeled: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)]</span>, <span name="log">log: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>, <span name="extended">extended: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">100</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">measure</span><span class="params">(<span name="labeled">labeled: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)]</span>, <span name="log">log: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>, <span name="extended">extended: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">100</span></span>, <span name="includeConfidence">includeConfidence: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@measure(labeled:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],log:String=&gt;Unit,extended:Boolean,batchSize:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@measure(labeled:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],log:String=&gt;Unit,extended:Boolean,batchSize:Int,includeConfidence:Boolean):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -535,18 +535,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer#predict" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="predict(dataset:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence],configProtoBytes:Option[Array[Byte]]):Array[Array[String]]"></a>
-      <a id="predict(Array[WordpieceEmbeddingsSentence],Option[Array[Byte]]):Array[Array[String]]"></a>
+      <a id="predict(dataset:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence],configProtoBytes:Option[Array[Byte]],includeConfidence:Boolean):Array[Array[(String,Option[Double])]]"></a>
+      <a id="predict(Array[WordpieceEmbeddingsSentence],Option[Array[Byte]],Boolean):Array[Array[(String,Option[Double])]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">predict</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+        <span class="name">predict</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="includeConfidence">includeConfidence: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Double">Double</span>])]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@predict(dataset:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence],configProtoBytes:Option[Array[Byte]]):Array[Array[String]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@predict(dataset:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence],configProtoBytes:Option[Array[Byte]],includeConfidence:Boolean):Array[Array[(String,Option[Double])]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -586,35 +586,35 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer#tagsForTokens" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="tagsForTokens(labels:Array[Array[String]],pieces:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]):Array[Array[String]]"></a>
-      <a id="tagsForTokens(Array[Array[String]],Array[WordpieceEmbeddingsSentence]):Array[Array[String]]"></a>
+      <a id="tagsForTokens(labels:Array[Array[(String,Option[Double])]],pieces:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]):Array[Array[(String,Option[Double])]]"></a>
+      <a id="tagsForTokens(Array[Array[(String,Option[Double])]],Array[WordpieceEmbeddingsSentence]):Array[Array[(String,Option[Double])]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">tagsForTokens</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>, <span name="pieces">pieces: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+        <span class="name">tagsForTokens</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Double">Double</span>])]]</span>, <span name="pieces">pieces: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Double">Double</span>])]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@tagsForTokens(labels:Array[Array[String]],pieces:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]):Array[Array[String]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@tagsForTokens(labels:Array[Array[(String,Option[Double])]],pieces:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]):Array[Array[(String,Option[Double])]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer#tagsForTokens" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="tagsForTokens(labels:Array[String],pieces:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Array[String]"></a>
-      <a id="tagsForTokens(Array[String],WordpieceEmbeddingsSentence):Array[String]"></a>
+      <a id="tagsForTokens(labels:Array[(String,Option[Double])],pieces:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Array[(String,Option[Double])]"></a>
+      <a id="tagsForTokens(Array[(String,Option[Double])],WordpieceEmbeddingsSentence):Array[(String,Option[Double])]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">tagsForTokens</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="pieces">pieces: <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">tagsForTokens</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Double">Double</span>])]</span>, <span name="pieces">pieces: <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Double">Double</span>])]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@tagsForTokens(labels:Array[String],pieces:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Array[String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@tagsForTokens(labels:Array[(String,Option[Double])],pieces:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Array[(String,Option[Double])]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -654,18 +654,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer#train" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="train(trainDataset:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],lr:Float,po:Float,batchSize:Int,dropout:Float,startEpoch:Int,endEpoch:Int,validation:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],configProtoBytes:Option[Array[Byte]],trainValidationProp:Float):Unit"></a>
-      <a id="train(Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],Float,Float,Int,Float,Int,Int,Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],Option[Array[Byte]],Float):Unit"></a>
+      <a id="train(trainDataset:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],lr:Float,po:Float,batchSize:Int,dropout:Float,startEpoch:Int,endEpoch:Int,graphFileName:String,test:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],configProtoBytes:Option[Array[Byte]],trainValidationProp:Float,evaluationLogExtended:Boolean,includeConfidence:Boolean):Unit"></a>
+      <a id="train(Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],Float,Float,Int,Float,Int,Int,String,Array[(TextSentenceLabels,WordpieceEmbeddingsSentence)],Option[Array[Byte]],Float,Boolean,Boolean):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">train</span><span class="params">(<span name="trainDataset">trainDataset: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)]</span>, <span name="lr">lr: <span class="extype" name="scala.Float">Float</span></span>, <span name="po">po: <span class="extype" name="scala.Float">Float</span></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="dropout">dropout: <span class="extype" name="scala.Float">Float</span></span>, <span name="startEpoch">startEpoch: <span class="extype" name="scala.Int">Int</span></span>, <span name="endEpoch">endEpoch: <span class="extype" name="scala.Int">Int</span></span>, <span name="validation">validation: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)] = <span class="symbol">Array.empty</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="trainValidationProp">trainValidationProp: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">train</span><span class="params">(<span name="trainDataset">trainDataset: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)]</span>, <span name="lr">lr: <span class="extype" name="scala.Float">Float</span></span>, <span name="po">po: <span class="extype" name="scala.Float">Float</span></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="dropout">dropout: <span class="extype" name="scala.Float">Float</span></span>, <span name="startEpoch">startEpoch: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="endEpoch">endEpoch: <span class="extype" name="scala.Int">Int</span></span>, <span name="graphFileName">graphFileName: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="test">test: <span class="extype" name="scala.Array">Array</span>[(<a href="../crf/TextSentenceLabels.html" class="extype" name="com.johnsnowlabs.ml.crf.TextSentenceLabels">TextSentenceLabels</a>, <a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>)] = <span class="symbol">Array.empty</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="trainValidationProp">trainValidationProp: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>, <span name="evaluationLogExtended">evaluationLogExtended: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="includeConfidence">includeConfidence: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@train(trainDataset:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],lr:Float,po:Float,batchSize:Int,dropout:Float,startEpoch:Int,endEpoch:Int,validation:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],configProtoBytes:Option[Array[Byte]],trainValidationProp:Float):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowNer@train(trainDataset:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],lr:Float,po:Float,batchSize:Int,dropout:Float,startEpoch:Int,endEpoch:Int,graphFileName:String,test:Array[(com.johnsnowlabs.ml.crf.TextSentenceLabels,com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence)],configProtoBytes:Option[Array[Byte]],trainValidationProp:Float,evaluationLogExtended:Boolean,includeConfidence:Boolean):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

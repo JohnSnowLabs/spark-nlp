@@ -36,8 +36,7 @@ class ExtendedJavaWrapper(JavaWrapper):
 
 class _RegexRule(ExtendedJavaWrapper):
     def __init__(self, rule, identifier):
-        super(_RegexRule, self).__init__("com.johnsnowlabs.nlp.util.regex.RegexRule")
-        self._java_obj = self._new_java_obj(self._java_obj, rule, identifier)
+        super(_RegexRule, self).__init__("com.johnsnowlabs.nlp.util.regex.RegexRule", rule, identifier)
 
 
 class _ExternalResource(ExtendedJavaWrapper):
@@ -63,6 +62,12 @@ class _DownloadPipeline(ExtendedJavaWrapper):
 class _ClearCache(ExtendedJavaWrapper):
     def __init__(self, name, language, remote_loc):
         super(_ClearCache, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.clearCache", name, language, remote_loc)
+
+
+class _GetResourceSize(ExtendedJavaWrapper):
+    def __init__(self, name, language, remote_loc):
+        super(_GetResourceSize, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize", name, language, remote_loc)
 
 
 class _ShowUnCategorizedResources(ExtendedJavaWrapper):
@@ -91,7 +96,7 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
 
 class _LightPipeline(ExtendedJavaWrapper):
     def __init__(self, pipelineModel):
-        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel)
+        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java())
 
 
 # ==================
@@ -101,7 +106,7 @@ class _LightPipeline(ExtendedJavaWrapper):
 
 class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
     def __init__(self, path, spark, embformat, ref, ndims, case):
-        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark.jsparkSession, embformat, ref, ndims, case)
+        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark._jsparkSession, embformat, ref, ndims, case)
 
 
 class _EmbeddingsHelperSave(ExtendedJavaWrapper):
@@ -120,9 +125,23 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
             pipeline = pipeline._to_java()
         if type(target) == DataFrame:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", target._jdf, pipeline, output_path)
-            self._java_obj = self._new_java_obj(self._java_obj, target._jdf, pipeline, output_path)
         else:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", spark._jsparkSession, target, pipeline, output_path)
+
+
+class _EmbeddingsOverallCoverage(ExtendedJavaWrapper):
+    def __init__(self, dataset, embeddings_col):
+        super(_EmbeddingsOverallCoverage, self).__init__("com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel.overallCoverage", dataset._jdf, embeddings_col)
+
+
+class _EmbeddingsCoverageColumn(ExtendedJavaWrapper):
+    def __init__(self, dataset, embeddings_col, output_col):
+        super(_EmbeddingsCoverageColumn, self).__init__("com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel.withCoverageColumn", dataset._jdf, embeddings_col, output_col)
+
+
+class _CoverageResult(ExtendedJavaWrapper):
+    def __init__(self, covered, total, percentage):
+        super(_CoverageResult, self).__init__("com.johnsnowlabs.nlp.embeddings.CoverageResult", covered, total, percentage)
 
 
 class _BertLoader(ExtendedJavaWrapper):
