@@ -897,7 +897,7 @@ word_embeddings = WordEmbeddings() \
 {% endhighlight %}
 
 {% highlight scala %}
-wordEmbeddings = new WordEmbeddings()
+val wordEmbeddings = new WordEmbeddings()
         .setInputCols("document", "token")
         .setOutputCol("word_embeddings")
         .setEmbeddingsSource("./embeddings.100d.test.txt",
@@ -912,6 +912,23 @@ Bert Embeddings. This annotator may only be created by a tensorflow process loca
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
 
 Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertEmbeddings) Scala docs for more
+
+How to use pretrained Bert Embeddings:
+
+{% highlight scala %}
+val bert = BertEmbeddings.load("/multi_cased_L-12_H-768_A-12")
+      .setInputCols("sentence", "token")
+      .setOutputCol("bert")
+{% endhighlight %}
+
+How to load a new Bert model created by `python/tensorlfow/bert` notebook:
+
+{% highlight scala %}
+val bert = BertEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("bert")
+      .setPoolingLayer(0) // 0, -1, and -2
+{% endhighlight %}
 
 ### NER CRF
 
