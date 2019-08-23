@@ -22,7 +22,10 @@ modify_date: "2019-07-23"
 |NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_100_en_2.1.0_2.4_1564256329924.zip)
 |NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_300_en_2.1.0_2.4_1564256072129.zip)
 |WordEmbeddings (GloVe) | `glove_100d` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_100d_en_2.0.2_2.4_1556534397055.zip)
-|WordEmbeddings (BERT)  | `bert_uncased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_uncased_en_2.0.2_2.4_1556651478920.zip)
+|BertEmbeddings (base_uncased) | `bert_base_uncased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_uncased_en_2.2.0_2.4_1566563714283.zip)
+|BertEmbeddings (base_cased) | `bert_base_cased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_cased_en_2.2.0_2.4_1566563464918.zip)
+|BertEmbeddings (large_uncased) | `bert_large_uncased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_large_uncased_en_2.2.0_2.4_1566565061818.zip)
+|BertEmbeddings (large_cased) | `bert_large_cased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_large_cased_en_2.2.0_2.4_1566564057754.zip)
 |DeepSentenceDetector| `ner_dl_sentence`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_sentence_en_2.0.2_2.4_1556666842347.zip)
 |ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_2.0.2_2.4_1556479898829.zip)
 |SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_sd_en_2.0.2_2.4_1556604489934.zip)
@@ -80,7 +83,7 @@ modify_date: "2019-07-23"
 |-------------------------------|--------------|--------------|
 |WordEmbeddings (GloVe) | `glove_840B_300` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_840B_300_xx_2.0.2_2.4_1558645003344.zip)
 |WordEmbeddings (GloVe) | `glove_6B_300` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_6B_300_xx_2.0.2_2.4_1559059806004.zip)|
-|WordEmbeddings (BERT)  | `bert_multi_cased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multi_cased_xx_2.0.3_2.4_1557923470812.zip)
+|BertEmbeddings (multi_cased)  | `bert_multi_cased` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multi_cased_xx_2.2.0_2.4_1566566059700.zip)
 
 ## How to use Pretrained Models
 
