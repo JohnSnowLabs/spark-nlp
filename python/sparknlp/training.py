@@ -15,19 +15,16 @@ class CoNLL(ExtendedJavaWrapper):
                  labelCol = 'label',
                  explodeSentences = False,
                  ):
-        super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL")
-
-        self._java_obj = self._new_java_obj(self._java_obj,
-                                            documentCol,
-                                            sentenceCol,
-                                            tokenCol,
-                                            posCol,
-                                            conllLabelIndex,
-                                            conllPosIndex,
-                                            textCol,
-                                            labelCol,
-                                            explodeSentences
-                                            )
+        super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL",
+                                    documentCol,
+                                    sentenceCol,
+                                    tokenCol,
+                                    posCol,
+                                    conllLabelIndex,
+                                    conllPosIndex,
+                                    textCol,
+                                    labelCol,
+                                    explodeSentences)
 
     def readDataset(self, spark, path, read_as=ReadAs.LINE_BY_LINE):
 
@@ -41,8 +38,6 @@ class CoNLL(ExtendedJavaWrapper):
 class POS(ExtendedJavaWrapper):
     def __init__(self):
         super(POS, self).__init__("com.johnsnowlabs.nlp.training.POS")
-
-        self._java_obj = self._new_java_obj(self._java_obj)
 
     def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="document", outputTextCol="text"):
 

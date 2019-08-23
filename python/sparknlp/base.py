@@ -100,6 +100,8 @@ class LightPipeline:
 
     def fullAnnotate(self, target):
         result = []
+        if type(target) is str:
+            target = [target]
         for row in self._lightPipeline.fullAnnotateJava(target):
             kas = {}
             for atype, annotations in row.items():
@@ -125,6 +127,13 @@ class LightPipeline:
 
     def transform(self, dataframe):
         return self.pipeline_model.transform(dataframe)
+
+    def setIgnoreUnsupported(self, value):
+        self._lightPipeline.setIgnoreUnsupported(value)
+        return self
+
+    def getIgnoreUnsupported(self):
+        return self._lightPipeline.getIgnoreUnsupported()
 
 
 class RecursivePipeline(Pipeline, JavaEstimator):
@@ -174,7 +183,7 @@ class DocumentAssembler(AnnotatorTransformer):
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
     calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
-    cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full", typeConverter=TypeConverters.toString)
+    cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full", typeConverter=TypeConverters.toString)
     name = 'DocumentAssembler'
 
     @keyword_only
@@ -203,8 +212,8 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCleanupMode(self, value):
-        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_each', 'shrink_full']:
-            raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_each, shrink_full")
+        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full', 'each', 'each_full', 'delete_full']:
+            raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
         return self._set(cleanupMode=value)
 
 

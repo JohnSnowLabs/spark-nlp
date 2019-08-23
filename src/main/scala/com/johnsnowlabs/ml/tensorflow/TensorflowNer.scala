@@ -3,13 +3,12 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import org.apache.spark.ml.util.Identifiable
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
 import scala.util.Random
-
-
 
 class TensorflowNer
 (
@@ -31,6 +30,7 @@ class TensorflowNer
   private val labelsKey = "training/labels:0"
 
   private val lossKey = "inference/Mean:0"
+  private val scoresKey = "context_repr/scores:0"
   private val trainingKey = "training_1/Adam"
   private val predictKey = "inference/cond_2/Merge:0"
 
@@ -46,21 +46,24 @@ class TensorflowNer
     doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
   }
 
-  def predict(dataset: Array[WordpieceEmbeddingsSentence], configProtoBytes: Option[Array[Byte]] = None): Array[Array[String]] = {
+  def predict(
+               dataset: Array[WordpieceEmbeddingsSentence],
+               configProtoBytes: Option[Array[Byte]] = None,
+               includeConfidence: Boolean = false): Array[Array[(String, Option[Double])]] = {
 
-    val result = ArrayBuffer[Array[String]]()
+    val result = ArrayBuffer[Array[(String, Option[Double])]]()
 
     for (batch <- dataset.grouped(batchSize); if batch.length > 0) {
       val batchInput = encoder.encodeInputData(batch)
 
       if (batchInput.sentenceLengths.length == 0)
         for (_ <- batch) {
-          result.append(Array.empty[String])
+          result.append(Array.empty[(String, Option[Double])])
         }
       else {
         val tensors = new TensorResources()
 
-        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+        val calculator = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
@@ -69,13 +72,29 @@ class TensorflowNer
 
           .feed(dropoutKey, tensors.createTensor(1.0f))
           .fetch(predictKey)
-          .run()
+
+        val calculatorInc = if (includeConfidence) calculator.fetch(scoresKey) else calculator
+
+        val calculated = calculatorInc.run()
 
         tensors.clearTensors()
 
         val tagIds = TensorResources.extractInts(calculated.get(0))
+
+        val confidence: Option[Seq[Double]] = {
+          if (includeConfidence) {
+            val scores = TensorResources.extractFloats(calculated.get(1))
+            require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
+            val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
+            val probs = exp.map(g => BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble)
+            Some(probs)
+          } else {
+            None
+          }
+        }
+
         val tags = encoder.decodeOutputData(tagIds)
-        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths)
+        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths, confidence)
 
         result.appendAll(sentenceTags)
       }
@@ -88,12 +107,8 @@ class TensorflowNer
     var i = -1
 
     sentence.tokens.map{t =>
-      //if (t.isWordStart) {
       i += 1
       tokenTags.labels(i)
-      //}
-      //else
-      //"X"
     }
   }
 
@@ -115,14 +130,22 @@ class TensorflowNer
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             trainValidationProp: Float = 0.0f,
-            evaluationLogExtended: Boolean = false
+            evaluationLogExtended: Boolean = false,
+            includeConfidence: Boolean = false,
+            enableOutputLogs: Boolean = false,
+            uuid: String  = Identifiable.randomUID("annotator")
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
+    outputLog(s"Name of the selected graph: $graphFileName", uuid, enableOutputLogs)
 
     log(s"Training started, trainExamples: ${trainDataset.length}, " +
       s"labels: ${encoder.tags.length} " +
       s"chars: ${encoder.chars.length}, ", Verbose.TrainingStat)
+
+    outputLog(s"Training started, trainExamples: ${trainDataset.length}, " +
+      s"labels: ${encoder.tags.length} " +
+      s"chars: ${encoder.chars.length}, ", uuid, enableOutputLogs)
 
     // Initialize
     if (startEpoch == 0)
@@ -136,6 +159,8 @@ class TensorflowNer
       val learningRate = lr / (1 + po * epoch)
 
       log(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", Verbose.Epochs)
+      outputLog("\n", uuid, enableOutputLogs)
+      outputLog(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs)
 
       val time = System.nanoTime()
       var batches = 0
@@ -170,6 +195,7 @@ class TensorflowNer
       }
 
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
+      outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
 
       if (trainValidationProp > 0.0) {
         val sample: Int = (trainDataset.length*trainValidationProp).toInt
@@ -177,12 +203,14 @@ class TensorflowNer
         val trainDatasetSample = trainDataset.take(sample)
 
         log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
+        outputLog(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", uuid, enableOutputLogs)
+        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
       if (test.nonEmpty) {
         log("Quality on test dataset: ", Verbose.Epochs)
-        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended)
+        outputLog("Quality on test dataset: ", uuid, enableOutputLogs)
+        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
     }
@@ -196,7 +224,7 @@ class TensorflowNer
     (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
-  def tagsForTokens(labels: Array[String], pieces: WordpieceEmbeddingsSentence): Array[String] = {
+  def tagsForTokens(labels: Array[(String, Option[Double])], pieces: WordpieceEmbeddingsSentence): Array[(String, Option[Double])] = {
     labels.zip(pieces.tokens).flatMap{
       case(l, p) =>
         if (p.isWordStart)
@@ -206,8 +234,8 @@ class TensorflowNer
     }
   }
 
-  def tagsForTokens(labels: Array[Array[String]], pieces: Array[WordpieceEmbeddingsSentence]):
-  Array[Array[String]] = {
+  def tagsForTokens(labels: Array[Array[(String, Option[Double])]], pieces: Array[WordpieceEmbeddingsSentence]):
+  Array[Array[(String, Option[Double])]] = {
 
     labels.zip(pieces)
       .map{case (l, p) => tagsForTokens(l, p)}
@@ -216,7 +244,10 @@ class TensorflowNer
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
               log: String => Unit,
               extended: Boolean = false,
-              batchSize: Int = 100
+              batchSize: Int = 100,
+              includeConfidence: Boolean = false,
+              enableOutputLogs: Boolean = false,
+              uuid: String = Identifiable.randomUID("annotator")
              ): Unit = {
 
     val started = System.nanoTime()
@@ -230,7 +261,7 @@ class TensorflowNer
 
     for (batch <- slice(labeled, batchSize)) {
 
-      val sentencePredictedTags = predict(batch.map(_._2))
+      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
@@ -243,22 +274,22 @@ class TensorflowNer
 
       (sentenceTokens, sentenceLabels, sentenceTokenTags).zipped.foreach {
         case (tokens, labels, tags) =>
-          for (i <- 0 until labels.length) {
+          for (i <- labels.indices) {
 
             val label = labels(i)
             val tag = tags(i)
             val iWord = tokens(i)
 
             correct(label) = correct.getOrElse(label, 0) + 1
-            predicted(tag) = predicted.getOrElse(tag, 0) + 1
+            predicted(tag._1) = predicted.getOrElse(tag._1, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag)) {
+            if ((label == tag._1)) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
-            } else if (label == "O" && tag != "O") {
-              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
+            } else if (label == "O" && tag._1 != "O") {
+              falsePositives(tag._1) = falsePositives.getOrElse(tag._1, 0) + 1
             } else {
-              falsePositives(tag) = falsePositives.getOrElse(tag, 0) + 1
+              falsePositives(tag._1) = falsePositives.getOrElse(tag._1, 0) + 1
               falseNegatives(label) = falseNegatives.getOrElse(label, 0) + 1
             }
 
@@ -267,6 +298,7 @@ class TensorflowNer
     }
 
     log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
+    outputLog(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}", uuid, enableOutputLogs)
 
     val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
@@ -277,8 +309,10 @@ class TensorflowNer
 
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
-    if (extended)
+    if (extended) {
       log("label\t tp\t fp\t fn\t prec\t rec\t f1")
+      outputLog("label\t tp\t fp\t fn\t prec\t rec\t f1", uuid, enableOutputLogs)
+    }
 
     var totalPercByClass, totalRecByClass = 0f
     for (label <- labels) {
@@ -288,6 +322,7 @@ class TensorflowNer
       val (prec, rec, f1) = calcStat(tp, fp, fn)
       if (extended) {
         log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
+        outputLog(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1", uuid, enableOutputLogs)
       }
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
@@ -298,10 +333,13 @@ class TensorflowNer
 
     if (extended) {
       log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
+      outputLog(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}", uuid, enableOutputLogs)
     }
     // ex: Precision = P1+P2/2
     log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
+    outputLog(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1", uuid, enableOutputLogs )
     // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
     log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
+    outputLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", uuid, enableOutputLogs)
   }
 }
