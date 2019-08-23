@@ -69,6 +69,7 @@ class _GetResourceSize(ExtendedJavaWrapper):
         super(_GetResourceSize, self).__init__(
             "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize", name, language, remote_loc)
 
+
 class _ShowUnCategorizedResources(ExtendedJavaWrapper):
     def __init__(self):
         super(_ShowUnCategorizedResources, self).__init__(
@@ -126,6 +127,21 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", target._jdf, pipeline, output_path)
         else:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", spark._jsparkSession, target, pipeline, output_path)
+
+
+class _EmbeddingsOverallCoverage(ExtendedJavaWrapper):
+    def __init__(self, dataset, embeddings_col):
+        super(_EmbeddingsOverallCoverage, self).__init__("com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel.overallCoverage", dataset._jdf, embeddings_col)
+
+
+class _EmbeddingsCoverageColumn(ExtendedJavaWrapper):
+    def __init__(self, dataset, embeddings_col, output_col):
+        super(_EmbeddingsCoverageColumn, self).__init__("com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel.withCoverageColumn", dataset._jdf, embeddings_col, output_col)
+
+
+class _CoverageResult(ExtendedJavaWrapper):
+    def __init__(self, covered, total, percentage):
+        super(_CoverageResult, self).__init__("com.johnsnowlabs.nlp.embeddings.CoverageResult", covered, total, percentage)
 
 
 class _BertLoader(ExtendedJavaWrapper):

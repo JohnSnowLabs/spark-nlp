@@ -1576,6 +1576,18 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         )
 
     @staticmethod
+    def overallCoverage(dataset, embeddings_col):
+        from sparknlp.internal import _EmbeddingsOverallCoverage
+        from sparknlp.common import CoverageResult
+        return CoverageResult(_EmbeddingsOverallCoverage(dataset, embeddings_col).apply())
+
+    @staticmethod
+    def withCoverageColumn(dataset, embeddings_col, output_col='coverage'):
+        from sparknlp.internal import _EmbeddingsCoverageColumn
+        from pyspark.sql import DataFrame
+        return DataFrame(_EmbeddingsCoverageColumn(dataset, embeddings_col, output_col).apply(), dataset.sql_ctx)
+
+    @staticmethod
     def pretrained(name="glove_100d", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)

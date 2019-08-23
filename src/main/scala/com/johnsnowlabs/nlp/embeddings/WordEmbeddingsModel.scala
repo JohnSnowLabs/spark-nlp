@@ -98,9 +98,9 @@ trait PretrainedWordEmbeddings {
 
 trait EmbeddingsCoverage {
 
-  case class CoverageResult(covered: Long, total: Long, percentage: Float) extends Serializable
+  case class CoverageResult(covered: Long, total: Long, percentage: Float)
 
-  def withCoverageColumn(dataset: DataFrame, embeddingsColumn: String, outputCol: String): DataFrame = {
+  def withCoverageColumn(dataset: DataFrame, embeddingsColumn: String, outputCol: String = "coverage"): DataFrame = {
     val coverageFn = udf((annotatorProperties: Seq[Row]) => {
       val annotations = annotatorProperties.map(Annotation(_))
       val oov = annotations.map(x => if (x.metadata.getOrElse("isOOV", "false") == "false") 1 else 0)
