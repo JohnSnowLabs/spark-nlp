@@ -44,11 +44,6 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 Spark NLP *2.2.0* has been built on top of Apache Spark 2.4.3
 
-Note that pre-build Spark NLP is not retrocompatible with older Spark 2.x.x, so models and environments might not work.
-
-If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version. Feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) for such version.
-For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
-
 | Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
 | 2.x.x       |YES                                   |YES           |
@@ -58,6 +53,12 @@ For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/
 | 1.5.0       |YES                                  |N/A           |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
+
+**Note:** that pre-build Spark NLP is not retrocompatible with older Spark 2.x.x, so models and environments might not work.
+
+If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version. Feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) for such version.
+For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
+
 
 ## Spark Packages
 
@@ -87,7 +88,7 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 ### Build from source
 
-#### Spark NLP
+#### spark-nlp
 
 * FAT-JAR for CPU
 
@@ -107,7 +108,7 @@ sbt -Dis_gpu=true assembly
 sbt package
 ```
 
-#### Spark NLP OCR
+#### spark-nlp-ocr
 
 Requires native Tesseract 4.x+ for image based OCR. Does not require Spark NLP to work but highly suggested
 
@@ -291,6 +292,7 @@ Alternatively, you can mix in using `--jars` option for pyspark + `pip install s
 If not using pyspark at all, you'll have to run the instructions pointed [here](#python-without-explicit-Pyspark-installation)
 
 ## Google Colab Notebook
+
 Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
 
 Run the following code in Google Colab notebook and start using spark-nlp right away. 
@@ -342,55 +344,65 @@ sparknlp {
 
 To include the OCR submodule in Spark NLP, you will need to add the following to your start up commands:
 
-```
+```basg
 --repositories http://repo.spring.io/plugins-release
 --packages JohnSnowLabs:spark-nlp:2.2.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
 
 This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
 
-```
-spark = SparkSession.builder \ 
-    .master('local[*]') \ 
-    .appName('Spark NLP with OCR') \ 
-    .config("spark.driver.memory", "6g") \ 
-    .config("spark.executor.memory", "6g") \ 
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \ 
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \ 
-    .getOrCreate() 
+```python
+spark = SparkSession.builder \
+    .master('local[*]') \
+    .appName('Spark NLP with OCR') \
+    .config("spark.driver.memory", "6g") \
+    .config("spark.executor.memory", "6g") \
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .getOrCreate()
 ```
 
 ## Eval Module
 
 Evaluation module uses [MLflow](https://mlflow.org/docs/latest/index.html) component to logging metrics.
 
-To configure [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html) you just need the steps below: 
+To configure [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html) you just need the steps below:
 
-- Install [MLflow](https://mlflow.org/docs/latest/quickstart.html) with Pip
+* Install [MLflow](https://mlflow.org/docs/latest/quickstart.html) with Pip
+
 ```bash
 pip install mlflow
 ```
-- Set MLFLOW_TRACKING_URI variable
+
+* Set MLFLOW_TRACKING_URI variable
+
 ```bash
 export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
+
 Now to see the results you just need the following steps:
-- Run MLflow's Tracking UI
+
+* Run MLflow's Tracking UI
+
 ```bash
 mlflow ui
 ```
-- View it at http://localhost:5000
 
+* View it at [http://localhost:5000](http://localhost:5000)
 
 ## Pipelines and Models
 
 ### Pipelines
 
-Please check our documentation for pre-trained [pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
+Spark NLP offers more than `25 pre-trained pipelines` in `4 languages`.
+
+Please check our documentation for full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
 
 ### Models
 
-Please check our documentation for pre-trained [models](https://nlp.johnsnowlabs.com/docs/en/models)
+Spark NLP offers more than `30 pre-trained models` in `4 languages`.
+
+Please check our documentation for full list of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
 
 ## Examples
 
