@@ -879,10 +879,13 @@ Word Embeddings lookup annotator that maps tokens to vectors
 **Reference:**  [WordEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala)  
 **Functions:**
 
-- setEmbeddingsSource:(path, nDims, format) - sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. path - word embeddings file nDims - number of word embeddings dimensions format - format of word embeddings files:
-  - text -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
-  - binary -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
-  - spark-nlp -> internal format for already serialized embeddings. Use this only when resaving embeddings with Spark NLP
+- setEmbeddingsSource(path, nDims, format): sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. 
+  - path: word embeddings file  
+  - nDims: number of word embeddings dimensions 
+  - format: format of word embeddings files:
+    - text -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
+    - binary -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
+    - spark-nlp -> internal format for already serialized embeddings. Use this only when resaving embeddings with Spark NLP
 - setCaseSensitive: whether to ignore case in tokens for embeddings matching
 
 **Example:**
@@ -904,6 +907,13 @@ val wordEmbeddings = new WordEmbeddings()
         100, "text")
 {% endhighlight %}
 
+There are also two convenient functions 
+to retrieve the embeddings coverage with 
+respect to the transformed dataset:  
+
+- withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
+- overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
+ 
 ### Bert Embeddings
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
