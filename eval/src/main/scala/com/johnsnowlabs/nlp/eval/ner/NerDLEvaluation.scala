@@ -35,22 +35,42 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
-                               randomSeed: Int, labelColumn: String,
+                               labelColumn: String, entities: Array[String], minEpochs: Int, maxEpochs: Int,
+                               verbose: Int, randomSeed: Int, lr: Float, po: Float, batchSize: Int, dropout: Float,
+                               graphFolder: String, configProtoBytes: Array[Int], userContrib: Boolean,
+                               trainValidationProp: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
+                               testDataSet: String, includeConfidence: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
                                embeddingsPath: String, dimension: Int, format: Int): Unit = {
 
-    val ner = new NerDLApproach()
+    val nerDLApproach = new NerDLApproach()
       .setInputCols(nerInputCols)
       .setOutputCol(nerOutputCol)
       .setLabelColumn(labelColumn)
+      .setEntities(entities)
+      .setMinEpochs(minEpochs)
+      .setMaxEpochs(maxEpochs)
+      .setVerbose(verbose)
       .setRandomSeed(randomSeed)
+      .setLr(lr)
+      .setPo(po)
+      .setBatchSize(batchSize)
+      .setDropout(dropout)
+      .setGraphFolder(graphFolder)
+      .setConfigProtoBytes(configProtoBytes)
+      .setUseContrib(userContrib)
+      .setTrainValidationProp(trainValidationProp)
+      .setEvaluationLogExtended(evaluationLogExtended)
+      .setEnableOutputLogs(enableOutputLogs)
+      .setTestDataset(testDataSet)
+      .setIncludeConfidence(includeConfidence)
 
     val wordEmbeddings = new WordEmbeddings()
         .setInputCols(embeddingsInputCols)
         .setOutputCol(embeddingsOutputCol)
         .setEmbeddingsSource(embeddingsPath, dimension, format)
 
-    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+    computeAccuracyAnnotator(trainFile, nerDLApproach, wordEmbeddings)
   }
 
   def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
