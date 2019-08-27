@@ -35,7 +35,9 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
-                               randomSeed: Int, labelColumn: String,
+                               labelColumn: String, entities: Array[String], minEpochs: Int, maxEpochs: Int,
+                               verbose: Int, randomSeed: Int, l2: Double, c0: Int, lossEps: Double,
+                               minW: Double, includeConfidence: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
                                embeddingsPath: String, dimension: Int, format: Int): Unit = {
 
@@ -43,7 +45,16 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
       .setInputCols(nerInputCols)
       .setOutputCol(nerOutputCol)
       .setLabelColumn(labelColumn)
+      .setEntities(entities)
+      .setMinEpochs(minEpochs)
+      .setMaxEpochs(maxEpochs)
+      .setVerbose(verbose)
       .setRandomSeed(randomSeed)
+      .setL2(l2)
+      .setC0(c0)
+      .setLossEps(lossEps)
+      .setMinW(minW)
+      .setIncludeConfidence(includeConfidence)
 
     val wordEmbeddings = new WordEmbeddings()
       .setInputCols(embeddingsInputCols)

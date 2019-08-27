@@ -1012,21 +1012,37 @@ class NerApproach(Params):
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
 
-    def getRandomSeed(self):
-        return self.getOrDefault(self.randomSeed)
-
     def getLabelColumn(self):
         return self.getOrDefault(self.labelColumn)
+
+    def getEntities(self):
+        return self.getOrDefault(self.entities)
+
+    def getMinEpochs(self):
+        return self.getOrDefault(self.minEpochs)
+
+    def getMaxEpochs(self):
+        return self.getOrDefault(self.maxEpochs)
+
+    def getVerbose(self):
+        return self.getOrDefault(self.verbose)
+
+    def getRandomSeed(self):
+        return self.getOrDefault(self.randomSeed)
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
+
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
+
     lossEps = Param(Params._dummy(), "lossEps", "If Epoch relative improvement less than eps then training is stopped",
                     TypeConverters.toFloat)
+
     minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered",
                  TypeConverters.toFloat)
+
     includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
                               TypeConverters.toBoolean)
 
@@ -1053,6 +1069,21 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     def setIncludeConfidence(self, b):
         return self._set(includeConfidence=b)
+
+    def getL2(self):
+        return self.getOrDefault(self.l2)
+
+    def getC0(self):
+        return self.getOrDefault(self.c0)
+
+    def getLossEps(self):
+        return self.getOrDefault(self.lossEps)
+
+    def getMinW(self):
+        return self.getOrDefault(self.minW)
+
+    def getIncludeConfidence(self):
+        return self.getOrDefault(self.includeConfidence)
 
     def _create_model(self, java_model):
         return NerCrfModel(java_model=java_model)
@@ -1095,17 +1126,23 @@ class NerCrfModel(AnnotatorModel):
 class NerDLApproach(AnnotatorApproach, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)",
                TypeConverters.toFloat)
+
     batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
-    minProba = Param(Params._dummy(), "minProba",
-                     "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
+
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
+
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
+
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
+
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1116,6 +1153,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                               "Whether to use stdout in addition to Spark logs.",
                               TypeConverters.toBoolean)
@@ -1147,13 +1185,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(dropout=v)
         return self
 
-    def setMinProbability(self, v):
-        self._set(minProba=v)
-        return self
-
-    def _create_model(self, java_model):
-        return NerDLModel(java_model=java_model)
-
     def setTrainValidationProp(self, v):
         self._set(trainValidationProp=v)
         return self
@@ -1170,6 +1201,45 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def getLr(self):
+        return self.getOrDefault(self.lr)
+
+    def getPo(self):
+        return self.getOrDefault(self.po)
+
+    def getBatchSize(self):
+        return self.getOrDefault(self.batchSize)
+
+    def getDropout(self):
+        return self.getOrDefault(self.dropout)
+
+    def getGraphFolder(self):
+        return self.getOrDefault(self.graphFolder)
+
+    def getConfigProtoBytes(self):
+        return self.getOrDefault(self.configProtoBytes)
+
+    def getUseContrib(self):
+        return self.getOrDefault(self.useContrib)
+
+    def getTranValidationProp(self):
+        return self.getOrDefault(self.trainValidationProp)
+
+    def getEvaluationLogExtended(self):
+        return self.getOrDefault(self.evaluationLogExtended)
+
+    def getEnableOutputLogs(self):
+        return self.getOrDefault(self.enableOutputLogs)
+
+    def getTestDataset(self):
+        return self.getOrDefault(self.testDataset)
+
+    def getIncludeConfidence(self):
+        return self.getOrDefault(self.includeConfidence)
+
+    def _create_model(self, java_model):
+        return NerDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
