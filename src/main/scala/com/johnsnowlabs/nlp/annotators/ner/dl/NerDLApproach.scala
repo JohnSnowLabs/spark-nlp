@@ -110,7 +110,7 @@ class NerDLApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
-    require($(trainValidationProp) < 1f | $(trainValidationProp) > 0f, "The trainValidationProp should be between 0f and 1f")
+    require($(trainValidationProp) <= 1f | $(trainValidationProp) >= 0f, "The trainValidationProp should be between 0f and 1f")
 
     val train = dataset.toDF()
 
