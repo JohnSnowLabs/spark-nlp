@@ -144,7 +144,6 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    //    val trainDatasetSeq = trainDataset.toSeq
     val sample: Int = (trainDataset.length*trainValidationProp).toInt
 
     val (trainDatasetSeq, trainDatasetSample) = if (trainValidationProp > 0f && includeValidationProp) {
