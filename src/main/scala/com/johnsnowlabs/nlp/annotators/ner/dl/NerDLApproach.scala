@@ -41,6 +41,7 @@ class NerDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  val includeValidationProp = new BooleanParam(this, "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.")
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
@@ -54,6 +55,7 @@ class NerDLApproach(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
   def getUseContrib: Boolean = $(this.useContrib)
   def getTrainValidationProp: Float = $(this.trainValidationProp)
+  def getIncludeValidationProp: Boolean = $(this.includeValidationProp)
   def getIncludeConfidence: Boolean = $(includeConfidence)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
 
@@ -65,6 +67,8 @@ class NerDLApproach(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
+
+  def setIncludeValidationProp(includeValidationProp: Boolean):NerDLApproach.this.type = set(this.includeValidationProp, includeValidationProp)
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
   def setTestDataset(path: String,
@@ -85,6 +89,7 @@ class NerDLApproach(override val uid: String)
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
     trainValidationProp -> 0.0f,
+    includeValidationProp -> false,
     evaluationLogExtended -> false,
     includeConfidence -> false,
     enableOutputLogs -> false
@@ -104,6 +109,8 @@ class NerDLApproach(override val uid: String)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
+
+    require($(trainValidationProp) > 1f | $(trainValidationProp) < 0f, "The trainValidationProp should be between 0f and 1f")
 
     val train = dataset.toDF()
 
@@ -154,6 +161,7 @@ class NerDLApproach(override val uid: String)
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
         trainValidationProp=$(trainValidationProp),
+        includeValidationProp=$(includeValidationProp),
         evaluationLogExtended=$(evaluationLogExtended),
         includeConfidence=$(includeConfidence),
         enableOutputLogs=$(enableOutputLogs),
