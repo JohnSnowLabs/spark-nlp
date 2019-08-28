@@ -22,7 +22,7 @@ class ExtendedJavaWrapper(JavaWrapper):
 
     def new_java_array(self, pylist, java_class):
         """
-        ToDo: Inspired from spark 2.2.0. Delete if we upgrade
+        ToDo: Inspired from spark 2.0. Review if spark changes
         """
         java_array = self.sc._gateway.new_array(java_class, len(pylist))
         for i in range(len(pylist)):
