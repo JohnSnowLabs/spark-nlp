@@ -5,11 +5,11 @@ import java.net.{URL, URLDecoder}
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
 
-import com.johnsnowlabs.nlp.annotators.{Tokenizer, TokenizerModel}
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
-import org.apache.hadoop.fs.{FileSystem, LocatedFileStatus, Path, RemoteIterator}
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
@@ -43,18 +43,16 @@ object ResourceHelper {
   case class SourceStream(resource: String) {
     val path = new Path(resource)
     val fs = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    val pipe: Option[Seq[InputStream]] =
-    /** Check whether it exists in file system */
-      Option {
-        val files = fs.listFiles(path, true)
-        val buffer = ArrayBuffer.empty[InputStream]
-        while (files.hasNext) buffer.append(fs.open(files.next().getPath))
-        if (buffer.nonEmpty) buffer else null
-      }
-    val openBuffers: Seq[BufferedSource] = pipe.map(p => {
-      p.map(pp => { new BufferedSource(pp)("UTF-8")
-      })
-    }).getOrElse(throw new FileNotFoundException(s"file or folder: $resource not found"))
+    if (!fs.exists(path))
+      throw new FileNotFoundException(s"file or folder: $resource not found")
+    val pipe: Seq[InputStream] = {
+      /** Check whether it exists in file system */
+      val files = fs.listFiles(path, true)
+      val buffer = ArrayBuffer.empty[InputStream]
+      while (files.hasNext) buffer.append(fs.open(files.next().getPath))
+      buffer
+    }
+    val openBuffers: Seq[BufferedSource] = pipe.map(pp => { new BufferedSource(pp)("UTF-8")})
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
     def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
@@ -69,7 +67,7 @@ object ResourceHelper {
     }
     def close(): Unit = {
       openBuffers.foreach(_.close())
-      pipe.foreach(_.foreach(_.close))
+      pipe.foreach(_.close)
     }
   }
 
