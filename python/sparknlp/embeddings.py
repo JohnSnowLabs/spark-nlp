@@ -7,6 +7,12 @@ import threading
 import time
 import sparknlp.pretrained as _pretrained
 
+
+# DONT REMOVE THIS IMPORT
+from sparknlp.annotator import WordEmbeddingsModel
+####
+
+
 class Embeddings:
     def __init__(self, embeddings):
         self.jembeddings = embeddings
