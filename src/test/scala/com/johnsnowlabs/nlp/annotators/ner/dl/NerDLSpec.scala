@@ -83,8 +83,8 @@ class NerDLSpec extends FlatSpec {
   "NerDL Approach" should "validate against part of the training dataset" ignore {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testa")
-    val test_data = conll.readDataset(ResourceHelper.spark, "python/tensorflow/ner/conll2003/eng.testb")
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
     val embeddings = WordEmbeddingsModel.pretrained().setOutputCol("embeddings")
 
@@ -103,7 +103,8 @@ class NerDLSpec extends FlatSpec {
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
-      .setTrainValidationProp(0.1f)
+      .setTrainValidationProp(1f)
+      .setIncludeValidationProp(false)
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
       .fit(trainData)
