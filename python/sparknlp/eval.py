@@ -43,13 +43,12 @@ class NerDLEvaluation(ExtendedJavaWrapper):
         ner_params = self.__getNerParams(ner)
         embeddings_params = self.__getEmbeddingsParams(embeddings)
         return self._java_obj.computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
-                                                       ner_params['label_column'], ner_params['entities'],
+                                                       ner_params['label_column'],
                                                        ner_params['min_epochs'], ner_params['max_epochs'],
                                                        ner_params['verbose'], ner_params['random_seed'],
                                                        ner_params['lr'], ner_params['po'], ner_params['batch_size'],
                                                        ner_params['dropout'], ner_params['graph_folder'],
-                                                       ner_params['config_proto_bytes'], ner_params['user_contrib'],
-                                                       ner_params['train_validation_prop'],
+                                                       ner_params['user_contrib'], ner_params['train_validation_prop'],
                                                        ner_params['evaluation_log_extended'],
                                                        ner_params['enable_output_logs'], ner_params['test_dataset'],
                                                        ner_params['include_confidence'],
@@ -60,12 +59,9 @@ class NerDLEvaluation(ExtendedJavaWrapper):
     def __getNerParams(self, ner):
         ner_params = dict()
         input_cols = ner.getInputCols()
-        entities = ner.getEntities()
-        config_proto_bytes = ner.getConfigProtoBytes()
         ner_params['input_cols'] = self.new_java_array_string(input_cols)
         ner_params['output_col'] = ner.getOutputCol()
         ner_params['label_column'] = ner.getLabelColumn()
-        ner_params['entities'] = self.new_java_array_string(entities)
         ner_params['min_epochs'] = ner.getMinEpochs()
         ner_params['max_epochs'] = ner.getMaxEpochs()
         ner_params['verbose'] = ner.getVerbose()
@@ -75,7 +71,6 @@ class NerDLEvaluation(ExtendedJavaWrapper):
         ner_params['batch_size'] = ner.getBatchSize()
         ner_params['dropout'] = ner.getDropout()
         ner_params['graph_folder'] = ner.getGraphFolder()
-        ner_params['config_proto_bytes'] = self.new_java_array_integer(config_proto_bytes)
         ner_params['user_contrib'] = ner.getUseContrib()
         ner_params['train_validation_prop'] = ner.getTranValidationProp()
         ner_params['evaluation_log_extended'] = ner.getEvaluationLogExtended()

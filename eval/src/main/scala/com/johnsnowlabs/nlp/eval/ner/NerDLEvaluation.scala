@@ -35,9 +35,9 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
-                               labelColumn: String, entities: Array[String], minEpochs: Int, maxEpochs: Int,
+                               labelColumn: String, minEpochs: Int, maxEpochs: Int,
                                verbose: Int, randomSeed: Int, lr: Float, po: Float, batchSize: Int, dropout: Float,
-                               graphFolder: String, configProtoBytes: Array[Int], userContrib: Boolean,
+                               graphFolder: String, userContrib: Boolean,
                                trainValidationProp: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
                                testDataSet: String, includeConfidence: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
@@ -47,23 +47,29 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       .setInputCols(nerInputCols)
       .setOutputCol(nerOutputCol)
       .setLabelColumn(labelColumn)
-      .setEntities(entities)
-      .setMinEpochs(minEpochs)
       .setMaxEpochs(maxEpochs)
+      .setMinEpochs(minEpochs)
       .setVerbose(verbose)
       .setRandomSeed(randomSeed)
       .setLr(lr)
       .setPo(po)
       .setBatchSize(batchSize)
       .setDropout(dropout)
-      .setGraphFolder(graphFolder)
-      .setConfigProtoBytes(configProtoBytes)
       .setUseContrib(userContrib)
       .setTrainValidationProp(trainValidationProp)
       .setEvaluationLogExtended(evaluationLogExtended)
       .setEnableOutputLogs(enableOutputLogs)
-      .setTestDataset(testDataSet)
       .setIncludeConfidence(includeConfidence)
+
+    if (testDataSet != null) {
+      nerDLApproach
+        .setTestDataset(testDataSet)
+    }
+
+    if (graphFolder != null) {
+      nerDLApproach
+      .setGraphFolder(graphFolder)
+    }
 
     val wordEmbeddings = new WordEmbeddings()
         .setInputCols(embeddingsInputCols)

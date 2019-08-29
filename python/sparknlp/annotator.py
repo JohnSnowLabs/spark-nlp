@@ -1098,7 +1098,9 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             c0=2250000,
             lossEps=float(1e-3),
             verbose=4,
-            includeConfidence=False
+            includeConfidence=False,
+            entities=[],
+            minW=float('NaN')
         )
 
 
@@ -1257,7 +1259,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             trainValidationProp=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableOutputLogs=False
+            enableOutputLogs=False,
+            configProtoBytes=[],
+            graphFolder=None,
+            testDataset=None
         )
 
 
