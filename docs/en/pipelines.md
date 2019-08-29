@@ -164,7 +164,7 @@ annotation.select("entities.result").show(false)
 
 ### onto_recognize_entities_sm
 
-Trained by **NerDLApproach** annotator with **Char CNN - BiLSTM** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
+Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
 
 {% highlight scala %}
 
@@ -214,7 +214,7 @@ annotation.select("entities.result").show(false)
 
 ### onto_recognize_entities_lg
 
-Trained by **NerDLApproach** annotator with **Char CNN - BiLSTM** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
+Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
 
 {% highlight scala %}
 
@@ -420,7 +420,7 @@ annotation.select("chunk.result").show(false)
 
 |Feature | Description|
 |---|----|
-|**NER**|Trained by **NerDLApproach** annotator with **Char CNN - BiLSTM** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
+|**NER**|Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
 |**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)
 |**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300** WordEmbeddings
