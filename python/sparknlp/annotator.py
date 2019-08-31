@@ -1177,12 +1177,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
-<<<<<<< HEAD
 
-=======
     includeValidationProp = Param(Params._dummy(), "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.",
                                   TypeConverters.toBoolean)
->>>>>>> master
+
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1280,6 +1278,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def getIncludeConfidence(self):
         return self.getOrDefault(self.includeConfidence)
+
+    def getIncludeValidationProp(self):
+        return self.getOrDefault(self.includeValidationProp)
 
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)

@@ -78,19 +78,18 @@ class NerDLEvaluation(ExtendedJavaWrapper):
     def computeAccuracyAnnotator(self, train_file, ner, embeddings):
         ner_params = self.__getNerParams(ner)
         embeddings_params = self.__getEmbeddingsParams(embeddings)
-        return self._java_obj.computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
-                                                       ner_params['label_column'],
-                                                       ner_params['min_epochs'], ner_params['max_epochs'],
-                                                       ner_params['verbose'], ner_params['random_seed'],
-                                                       ner_params['lr'], ner_params['po'], ner_params['batch_size'],
-                                                       ner_params['dropout'], ner_params['graph_folder'],
-                                                       ner_params['user_contrib'], ner_params['train_validation_prop'],
-                                                       ner_params['evaluation_log_extended'],
-                                                       ner_params['enable_output_logs'], ner_params['test_dataset'],
-                                                       ner_params['include_confidence'],
-                                                       embeddings_params['input_cols'], embeddings_params['output_col'],
-                                                       embeddings_params['path'], embeddings_params['dimension'],
-                                                       embeddings_params['format'])
+        return self._java_obj \
+            .computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
+                                      ner_params['label_column'], ner_params['min_epochs'], ner_params['max_epochs'],
+                                      ner_params['verbose'], ner_params['random_seed'], ner_params['lr'],
+                                      ner_params['po'], ner_params['batch_size'], ner_params['dropout'],
+                                      ner_params['graph_folder'], ner_params['user_contrib'],
+                                      ner_params['train_validation_prop'], ner_params['evaluation_log_extended'],
+                                      ner_params['enable_output_logs'], ner_params['test_dataset'],
+                                      ner_params['include_confidence'], ner_params['include_validation_prop'],
+                                      embeddings_params['input_cols'], embeddings_params['output_col'],
+                                      embeddings_params['path'], embeddings_params['dimension'],
+                                      embeddings_params['format'])
 
     def __getNerParams(self, ner):
         ner_params = dict()
@@ -113,6 +112,7 @@ class NerDLEvaluation(ExtendedJavaWrapper):
         ner_params['enable_output_logs'] = ner.getEnableOutputLogs()
         ner_params['test_dataset'] = ner.getTestDataset()
         ner_params['include_confidence'] = ner.getIncludeConfidence()
+        ner_params['include_validation_prop'] = ner.getIncludeConfidence()
         return ner_params
 
     def __getEmbeddingsParams(self, embeddings):
@@ -137,15 +137,15 @@ class NerCrfEvaluation(ExtendedJavaWrapper):
     def computeAccuracyAnnotator(self, train_file, ner, embeddings):
         ner_params = self.__getNerParams(ner)
         embeddings_params = self.__getEmbeddingsParams(embeddings)
-        return self._java_obj.computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
-                                                       ner_params['label_column'], ner_params['entities'],
-                                                       ner_params['min_epochs'], ner_params['max_epochs'],
-                                                       ner_params['verbose'], ner_params['random_seed'],
-                                                       ner_params['l2'], ner_params['c0'], ner_params['loss_eps'],
-                                                       ner_params['min_w'], ner_params['include_confidence'],
-                                                       embeddings_params['input_cols'], embeddings_params['output_col'],
-                                                       embeddings_params['path'], embeddings_params['dimension'],
-                                                       embeddings_params['format'])
+        return self._java_obj \
+            .computeAccuracyAnnotator(train_file, ner_params['input_cols'], ner_params['output_col'],
+                                      ner_params['label_column'], ner_params['entities'], ner_params['min_epochs'],
+                                      ner_params['max_epochs'], ner_params['verbose'], ner_params['random_seed'],
+                                      ner_params['l2'], ner_params['c0'], ner_params['loss_eps'], ner_params['min_w'],
+                                      ner_params['include_confidence'],
+                                      embeddings_params['input_cols'], embeddings_params['output_col'],
+                                      embeddings_params['path'], embeddings_params['dimension'],
+                                      embeddings_params['format'])
 
     def __getNerParams(self, ner):
         ner_params = dict()

@@ -39,9 +39,10 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
                                verbose: Int, randomSeed: Int, lr: Float, po: Float, batchSize: Int, dropout: Float,
                                graphFolder: String, userContrib: Boolean,
                                trainValidationProp: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
-                               testDataSet: String, includeConfidence: Boolean,
+                               testDataSet: String, includeConfidence: Boolean, includeValidationProp: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
-                               embeddingsPath: String, dimension: Int, format: Int): Unit = {
+                               embeddingsPath: String, dimension: Int, format: Int):
+  Unit = {
 
     val nerDLApproach = new NerDLApproach()
       .setInputCols(nerInputCols)
@@ -60,6 +61,7 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       .setEvaluationLogExtended(evaluationLogExtended)
       .setEnableOutputLogs(enableOutputLogs)
       .setIncludeConfidence(includeConfidence)
+      .setIncludeValidationProp(includeValidationProp)
 
     if (testDataSet != null) {
       nerDLApproach
