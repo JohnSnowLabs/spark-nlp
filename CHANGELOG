@@ -1,4 +1,25 @@
 ========
+2.2.1
+========
+---------------
+Overview
+---------------
+This short release is to address a few uncovered issues in the previous 2.2.0 release. Thank you all for quick feedback.
+
+---------------
+Enhancements
+---------------
+* NerDLApproach new param includeValidationProp allows partitioning the training set and exclude a fraction
+* NerDLApproach trainValidationProp now randomly samples the data as opposed to head first
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in ResourceHelper causing folder resources to fail when a folder is empty (affects various annotators)
+* Fixed a bug in python embeddings format not parsed to upper case
+* Fixed a bug in python causing an incapability to load PipelineModels after loading embeddings
+
+========
 2.2.0
 ========
 ---------------
