@@ -77,7 +77,7 @@ class NerModel:
                 # 2. Add Bidirectional LSTM
                 model = tf.keras.Sequential([
                     tf.keras.layers.Bidirectional(
-                        layer=tf.keras.layers.LSTM(hidden),
+                        layer=tf.keras.layers.LSTM(hidden, return_sequences=False),
                         merge_mode="concat"
                     )
                 ])
