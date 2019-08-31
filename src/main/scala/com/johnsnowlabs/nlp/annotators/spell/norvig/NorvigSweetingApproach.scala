@@ -1,13 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.spell.norvig
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{AnalysisException, Dataset}
-import ResourceHelper.spark.implicits._
 
 class NorvigSweetingApproach(override val uid: String)
   extends AnnotatorApproach[NorvigSweetingModel]

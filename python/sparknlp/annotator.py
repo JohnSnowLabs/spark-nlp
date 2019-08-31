@@ -879,6 +879,33 @@ class NorvigSweetingApproach(AnnotatorApproach):
     def setFrequencyPriority(self, value):
         return self._set(frequencyPriority=value)
 
+    def getCaseSensitive(self):
+        return self.getOrDefault(self.caseSensitive)
+
+    def getDoubleVariants(self):
+        return self.getOrDefault(self.doubleVariants)
+
+    def getShortCircuit(self):
+        return self.getOrDefault(self.shortCircuit)
+
+    def getFrequencyPriority(self):
+        return self.getOrDefault(self.frequencyPriority)
+
+    def getWordSizeIgnore(self):
+        return self.getOrDefault(self.wordSizeIgnore)
+
+    def getDupsLimit(self):
+        return self.getOrDefault(self.dupsLimit)
+
+    def getReductLimit(self):
+        return self.getOrDefault(self.reductLimit)
+
+    def getIntersections(self):
+        return self.getOrDefault(self.intersections)
+
+    def getVowelSwapLimit(self):
+        return self.getOrDefault(self.vowelSwapLimit)
+
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
 
@@ -938,12 +965,6 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
         self.dictionary_path = ""
 
-    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(corpus=ExternalResource(path, read_as, opts))
-
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
@@ -959,6 +980,18 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     def setDeletesThreshold(self, v):
         return self._set(deletesThreshold=v)
+
+    def getMaxEditDistance(self):
+        return self.getOrDefault(self.maxEditDistance)
+
+    def getFrequencyThreshold(self):
+        return self.getOrDefault(self.frequencyThreshold)
+
+    def getDeletesThreshold(self):
+        return self.getOrDefault(self.deletesThreshold)
+
+    def getDupsLimit(self):
+        return self.getOrDefault(self.dupsLimit)
 
     def _create_model(self, java_model):
         return SymmetricDeleteModel(java_model=java_model)
