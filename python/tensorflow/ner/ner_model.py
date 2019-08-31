@@ -10,7 +10,7 @@ from sentence_grouper import SentenceGrouper
 
 class NerModel:
     # If session is not defined than default session will be used
-    def __init__(self, session = None, dummy_tags = None, use_contrib=True):
+    def __init__(self, session=None, dummy_tags=None, use_contrib=True):
         self.word_repr = None
         self.word_embeddings = None
         self.session = session
@@ -75,15 +75,17 @@ class NerModel:
                 word_lengths_seq = tf.reshape(self.word_lengths, shape=[-1])
 
                 # 2. Add Bidirectional LSTM
-                cell_fw = tf.contrib.rnn.LSTMCell(hidden, state_is_tuple=True)
-                cell_bw = tf.contrib.rnn.LSTMCell(hidden, state_is_tuple=True)
+                model = tf.keras.Sequential([
+                    tf.keras.layers.Bidirectional(
+                        layer=tf.keras.layers.LSTM(hidden),
+                        merge_mode="concat"
+                    )
+                ])
 
-                _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw, cell_bw,
-                                                                                      char_embeddings_seq,
-                                                                                      sequence_length=word_lengths_seq,
-                                                                                      dtype=tf.float32)
+                inputs = char_embeddings_seq
+                mask = tf.expand_dims(tf.sequence_mask(word_lengths_seq, dtype=tf.float32), axis=-1)
                 # shape = (batch x sentence, 2 x hidden)
-                output = tf.concat([output_fw, output_bw], axis=-1)
+                output = model(inputs, mask=mask)
 
                 # shape = (batch, sentence, 2 x hidden)
                 char_repr = tf.reshape(output, shape=[-1, s[1], 2*hidden])
@@ -93,7 +95,7 @@ class NerModel:
                 else:
                     self.word_repr = char_repr
 
-    def add_cnn_char_repr(self, nchars = 101, dim=25, nfilters=25, pad=2):
+    def add_cnn_char_repr(self, nchars=101, dim=25, nfilters=25, pad=2):
         self._char_cnn_added = True
 
         with tf.device('/gpu:0'):
@@ -114,17 +116,16 @@ class NerModel:
                 char_embeddings = tf.reshape(char_embeddings, shape=[-1, s[-2], dim])
 
                 # batch x sentence, word_len, nfilters
-                conv1d = tf.layers.conv1d(
-                    char_embeddings,
+                conv1d = tf.keras.layers.Conv1D(
                     filters=nfilters,
                     kernel_size=[3],
                     padding='same',
                     activation=tf.nn.relu
-                )
+                )(char_embeddings)
 
                 # Max across each filter, shape = (batch x sentence, nfilters)
-                char_repr = tf.reduce_max(conv1d, axis=1, keep_dims=True)
-                char_repr = tf.squeeze(char_repr, squeeze_dims=[1])
+                char_repr = tf.reduce_max(conv1d, axis=1, keepdims=True)
+                char_repr = tf.squeeze(char_repr, axis=[1])
 
                 # (batch, sentence, nfilters)
                 char_repr = tf.reshape(char_repr, shape=[s[0], s[1], nfilters])
@@ -153,8 +154,8 @@ class NerModel:
         with tf.device('/gpu:0'):
 
             if not self.use_contrib:
-                cell_fw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
-                cell_bw = tf.contrib.rnn.LSTMCell(hidden_size, state_is_tuple=True)
+                cell_fw = tf.keras.layers.LSTMCell(hidden_size)
+                cell_bw = tf.keras.layers.LSTMCell(hidden_size)
 
                 _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw,
                                                                                       cell_bw, inputs, sequence_length=lengths,
@@ -203,7 +204,7 @@ class NerModel:
             return result
 
     # Adds Bi LSTM with size of each cell hidden_size
-    def add_context_repr(self, ntags, hidden_size=100, height = 1, residual = True):
+    def add_context_repr(self, ntags, hidden_size=100, height=1, residual=True):
         assert(self._word_embeddings_added or self._char_cnn_added or self._char_bilstm_added,
                "Add word embeddings by method add_word_embeddings " +
                "or add char representation by method add_bilstm_char_repr " +
@@ -214,17 +215,18 @@ class NerModel:
 
         with tf.device('/gpu:0'):
             context_repr = self._multiply_layer(self.word_repr, 2*hidden_size)
-            context_repr = tf.nn.dropout(context_repr, self.dropout)
+            # Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`
+            context_repr = tf.nn.dropout(x=context_repr, rate=1-self.dropout)
 
             with tf.variable_scope("context_repr") as scope:
                 for i in range(height):
                     with tf.variable_scope('lstm-{}'.format(i)):
                         new_repr = self._create_lstm_layer(context_repr, hidden_size,
-                                                           lengths = self.sentence_lengths)
+                                                           lengths=self.sentence_lengths)
 
                         context_repr = new_repr + context_repr if residual else new_repr
 
-                context_repr = tf.nn.dropout(context_repr, self.dropout)
+                context_repr = tf.nn.dropout(x=context_repr, rate=1-self.dropout)
 
                 # batch, sentence, ntags
                 self.scores = self._multiply_layer(context_repr, ntags, activation=None)
@@ -375,7 +377,7 @@ class NerModel:
               lr=0.01,
               po=0,
               dropout=0.65,
-              init_variables = False
+              init_variables=False
               ):
 
         assert(self._training_added, "Add training layer by method add_training_op before running training")
