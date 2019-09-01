@@ -84,6 +84,7 @@ class NerModel:
 
                 inputs = char_embeddings_seq
                 mask = tf.expand_dims(tf.sequence_mask(word_lengths_seq, dtype=tf.float32), axis=-1)
+
                 # shape = (batch x sentence, 2 x hidden)
                 output = model(inputs, mask=mask)
 
@@ -154,18 +155,20 @@ class NerModel:
         with tf.device('/gpu:0'):
 
             if not self.use_contrib:
-                cell_fw = tf.keras.layers.LSTMCell(hidden_size)
-                cell_bw = tf.keras.layers.LSTMCell(hidden_size)
+                model = tf.keras.Sequential([
+                    tf.keras.layers.Bidirectional(
+                        layer=tf.keras.layers.LSTM(hidden_size, return_sequences=False),
+                        merge_mode="concat"
+                    )
+                ])
 
-                _, ((_, output_fw), (_, output_bw)) = tf.nn.bidirectional_dynamic_rnn(cell_fw,
-                                                                                      cell_bw, inputs, sequence_length=lengths,
-                                                                                      dtype=tf.float32)
-
+                mask = tf.expand_dims(tf.sequence_mask(lengths, dtype=tf.float32), axis=-1)
+                # shape = (batch x sentence, 2 x hidden)
+                output = model(inputs, mask=mask)
                 # inputs shape = (batch, sentence, inp)
                 batch = tf.shape(lengths)[0]
-                # shape = (batch x sentence, 2 x hidden)
-                result = tf.concat([output_fw, output_bw], axis=-1)
-                return tf.reshape(result, shape=[batch, -1, 2*hidden_size])
+
+                return tf.reshape(output, shape=[batch, -1, 2*hidden_size])
 
             time_based = tf.transpose(inputs, [1, 0, 2])
 
