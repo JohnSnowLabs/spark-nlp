@@ -944,7 +944,7 @@ val bert = BertEmbeddings.pretrained()
 
 #### Named Entity Recognition CRF annotator
 
-This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
+This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, POS, Word_Embeddings  
@@ -999,7 +999,7 @@ val nerTagger = new NerCrfApproach()
 
 #### Named Entity Recognition Deep Learning annotator
 
-This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#TrainCoNLL) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
+This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.  
 **Output type:** Named_Entity  
 **Input types:** Document, Token, Word_Embeddings  
@@ -1014,6 +1014,9 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
 - setDropout: Dropout coefficient
 - setVerbose: Verbosity level
 - setRandomSeed: Random seed
+
+**Note:** Please check [here](graph.md) in case you get an **IllegalArgumentException** error with a description such as:
+*Graph [parameter] should be [value]: Could not find a suitable tensorflow graph for embeddings dim: [value] tags: [value] nChars: [value]. Generate graph by python code in python/tensorflow/ner/create_models before usage and use setGraphFolder Param to point to output.*
 
 **Example:**
 
