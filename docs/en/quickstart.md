@@ -158,7 +158,7 @@ val annotations = PretrainedPipeline("explain_document_ml").annotate("We are ver
 annotations("lemmas")
 annotations("pos")
 
-scala> annotations("lemmas")
+scala> annotations("lemma")
 res8: Seq[String] = List(We, be, very, happy, about, SparkNLP)
 
 scala> annotations("pos")
