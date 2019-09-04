@@ -8,9 +8,9 @@ modify_date: "2019-08-04"
 
 ## Spark NLP Evaluation
 
-This module includes tools to evaluate the accuracy of annotators. It includes specific metrics for each **annotator** and its training time.
+This module includes tools to evaluate the accuracy of annotators and visualize the parameters used on training. It includes specific metrics for each **annotator** and its training time.
 The results will display on the console or to an [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html).
-Just whit a simple import you can start using it.
+Just whit a simple import you can start using it. See [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter) on eval folder if you want to check running examples.
 
 **Example:**
 {% highlight python %}
@@ -25,6 +25,7 @@ import com.johnsnowlabs.nlp.eval._
 
 You can evaluate this spell checker either training an annotator or using a pretrained model.
 
+- spark: Spark session
 - trainFile: A corpus of documents with correctly spell words.
 - testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
@@ -36,7 +37,7 @@ spell = NorvigSweetingApproach() \
         .setOutputCol("checked") \
         .setDictionary(dictionary_file)
 
-norvigSpellEvaluation = NorvigSpellEvaluation(test_file, ground_truth_file)
+norvigSpellEvaluation = NorvigSpellEvaluation(spark, test_file, ground_truth_file)
 norvigSpellEvaluation.computeAccuracyAnnotator(train_file, spell)
 {% endhighlight %}
 
@@ -46,7 +47,7 @@ val spell = new NorvigSweetingApproach()
    .setOutputCol("checked")
    .setDictionary(dictionary_file)
 
-val norvigSpellEvaluation = new NorvigSpellEvaluation(testFile, groundTruthFile)
+val norvigSpellEvaluation = new NorvigSpellEvaluation(spark, testFile, groundTruthFile)
 norvigSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 {% endhighlight %}
 
@@ -54,13 +55,13 @@ norvigSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 {% highlight python %}
 spell = NorvigSweetingModel.pretrained()
 
-norvigSpellEvaluation = NorvigSpellEvaluation(test_file, ground_truth_file)
+norvigSpellEvaluation = NorvigSpellEvaluation(spark, test_file, ground_truth_file)
 norvigSpellEvaluation.computeAccuracyModel(spell)
 {% endhighlight %}
 
 {% highlight scala %}
 val spell = NorvigSweetingModel.pretrained()
-val norvigSpellEvaluation = new NorvigSpellEvaluation(testFile, groundTruthFile)
+val norvigSpellEvaluation = new NorvigSpellEvaluation(spark, testFile, groundTruthFile)
 norvigSpellEvaluation.computeAccuracyModel(spell)
 {% endhighlight %}
 
@@ -68,6 +69,7 @@ norvigSpellEvaluation.computeAccuracyModel(spell)
 
 You can evaluate this spell checker either training an annotator or using a pretrained model.
 
+- spark: Spark session
 - trainFile: A corpus of documents with correctly spell words.
 - testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
@@ -79,7 +81,7 @@ spell = SymmetricDeleteApproach() \
         .setOutputCol("checked") \
         .setDictionary(dictionary_file)
 
-symSpellEvaluation = SymSpellEvaluation(test_file, ground_truth_file)
+symSpellEvaluation = SymSpellEvaluation(spark, test_file, ground_truth_file)
 symSpellEvaluation.computeAccuracyAnnotator(train_file, spell)
 {% endhighlight %}
 
@@ -88,7 +90,7 @@ val spell = new SymmetricDeleteApproach()
       .setInputCols(Array("token"))
       .setOutputCol("checked")
 
-val symSpellEvaluation = new SymSpellEvaluation(testFile, groundTruthFile)
+val symSpellEvaluation = new SymSpellEvaluation(spark, testFile, groundTruthFile)
 symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 {% endhighlight %}
 
@@ -96,13 +98,13 @@ symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 {% highlight python %}
 spell = SymmetricDeleteModel.pretrained()
 
-symSpellEvaluation = NorvigSpellEvaluation(test_file, ground_truth_file)
+symSpellEvaluation = NorvigSpellEvaluation(spark, test_file, ground_truth_file)
 symSpellEvaluation.computeAccuracyModel(spell)
 {% endhighlight %}
 
 {% highlight scala %}
 val spell = SymmetricDeleteModel.pretrained()
-val symSpellEvaluation = new SymSpellEvaluation(testFile, groundTruthFile)
+val symSpellEvaluation = new SymSpellEvaluation(spark, testFile, groundTruthFile)
 symSpellEvaluation.computeAccuracyModel(spell)
 {% endhighlight %}
 
@@ -112,7 +114,6 @@ You can evaluate NER DL when training an annotator.
 
 - spark: Spark session
 - trainFile: Files with labeled NER entities for training. 
-- modelPath: Path to save the model. When the path exists it loads the model instead of training it.
 - testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - tagLevel: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
@@ -171,8 +172,8 @@ nerDlEvaluation.computeAccuracyModel(nerDl)
 
 You can evaluate NER CRF when training an annotator.
 
+- spark: Spark session
 - trainFile: Files with labeled NER entities for training. 
-- modelPath: Path to save the model. When the path exists it loads the model instead of training it.
 - testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - format: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
@@ -196,9 +197,9 @@ nerCrfEvaluation.computeAccuracyAnnotator(train_file, ner_approach, embeddings)
 {% endhighlight %}
 
 {% highlight scala %}
-val glove = new WordEmbeddings()
+val embeddings = new WordEmbeddings()
       .setInputCols("sentence", "token")
-      .setOutputCol("glove")
+      .setOutputCol("embeddings")
       .setEmbeddingsSource("./glove.6B.100d.txt ", 100, WordEmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
@@ -209,7 +210,7 @@ val nerTagger = new NerCrfApproach()
   .setMaxEpochs(10)
 
 val nerCrfEvaluation = new NerCrfEvaluation(testFile, format)
-nerCrfEvaluation.computeAccuracyAnnotator(modelPath, trainFile, nerTagger, glove)
+nerCrfEvaluation.computeAccuracyAnnotator(trainFile, nerTagger, embeddings)
 {% endhighlight %}
 
 **Example for pretrained model:**
@@ -231,6 +232,7 @@ nerCrfEvaluation.computeAccuracyModel(nerCrf)
 
 You can evaluate POS either training an annotator or using a pretrained model.
 
+- spark: Spark session
 - trainFile: A labeled POS file see and example [here](https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset).
 - testFile: A CoNLL-U format file.
 
