@@ -35,6 +35,8 @@ docs-en:
         url:    /docs/en/annotators
       - title:  Evaluation
         url:    /docs/en/evaluation
+      - title:  Tensorflow Graph
+          url:  /docs/en/graph
 
 extras:
   - title:     Extras
