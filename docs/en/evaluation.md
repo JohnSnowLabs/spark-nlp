@@ -3,7 +3,7 @@ layout: article
 title: Evaluation
 permalink: /docs/en/evaluation
 key: docs-evaluation
-modify_date: "2019-08-04"
+modify_date: "2019-09-04"
 ---
 
 ## Spark NLP Evaluation
