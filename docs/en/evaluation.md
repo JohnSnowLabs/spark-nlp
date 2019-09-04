@@ -30,6 +30,21 @@ You can evaluate this spell checker either training an annotator or using a pret
 - testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
+**Train File Example:**
+```bash
+Any document that you prefer with correctly spell words.
+```
+
+**Test File Example:**
+```bash
+My siter go to Munich.
+```
+
+**Ground Truth File Example:**
+```bash
+My sister goes to Munich.
+```
+
 **Example for annotator:**
 {% highlight python %}
 spell = NorvigSweetingApproach() \
@@ -74,6 +89,21 @@ You can evaluate this spell checker either training an annotator or using a pret
 - testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
+**Train File Example:**
+```bash
+Any document that you prefer with correctly spell words.
+```
+
+**Test File Example:**
+```bash
+My siter go to Munich.
+```
+
+**Ground Truth File Example:**
+```bash
+My sister goes to Munich.
+```
+
 **Example for annotator:**
 {% highlight python %}
 spell = SymmetricDeleteApproach() \
@@ -114,7 +144,7 @@ You can evaluate NER DL when training an annotator.
 
 - spark: Spark session.
 - trainFile: Files with labeled NER entities for training. 
-- testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
+- testFile: Files with labeled NER entities for testing. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - tagLevel: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
@@ -174,7 +204,7 @@ You can evaluate NER CRF when training an annotator.
 
 - spark: Spark session.
 - trainFile: Files with labeled NER entities for training. 
-- testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
+- testFile: Files with labeled NER entities for testing. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - format: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
