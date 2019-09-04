@@ -9,8 +9,8 @@ modify_date: "2019-09-04"
 ## Spark NLP Evaluation
 
 This module includes tools to evaluate the accuracy of annotators and visualize the parameters used on training. It includes specific metrics for each **annotator** and its training time.
-The results will display on the console or to an [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html).
-Just whit a simple import you can start using it. See [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter) on eval folder if you want to check running examples.
+The results will display on the console or to an [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html). Check how to setup MLflow UI [here](https://github.com/JohnSnowLabs/spark-nlp#eval-module)
+Just whit a simple import you can start using eval module. See [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter) on eval folder if you want to check specific running examples.
 
 **Example:**
 {% highlight python %}
