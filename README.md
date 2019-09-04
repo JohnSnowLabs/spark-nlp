@@ -380,7 +380,7 @@ pip install mlflow
 export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
-Now to see the results you just need the following steps:
+Now to see the results you just need the following steps before using any component from eval module:
 
 * Run MLflow's Tracking UI
 
