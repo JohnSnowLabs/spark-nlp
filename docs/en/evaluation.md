@@ -25,7 +25,7 @@ import com.johnsnowlabs.nlp.eval._
 
 You can evaluate this spell checker either training an annotator or using a pretrained model.
 
-- spark: Spark session
+- spark: Spark session.
 - trainFile: A corpus of documents with correctly spell words.
 - testFile: A corpus of documents with misspells words.
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
@@ -112,7 +112,7 @@ symSpellEvaluation.computeAccuracyModel(spell)
 
 You can evaluate NER DL when training an annotator.
 
-- spark: Spark session
+- spark: Spark session.
 - trainFile: Files with labeled NER entities for training. 
 - testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - tagLevel: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
@@ -172,7 +172,7 @@ nerDlEvaluation.computeAccuracyModel(nerDl)
 
 You can evaluate NER CRF when training an annotator.
 
-- spark: Spark session
+- spark: Spark session.
 - trainFile: Files with labeled NER entities for training. 
 - testFile: Files with labeled NER entities. These files are used to evaluate the model. So, it's used for prediction and the labels as ground truth.
 - format: The granularity of tagging when measuring accuracy on entities. Set "IOB" to include inside and beginning, empty to ignore it. For example
@@ -232,7 +232,7 @@ nerCrfEvaluation.computeAccuracyModel(nerCrf)
 
 You can evaluate POS either training an annotator or using a pretrained model.
 
-- spark: Spark session
+- spark: Spark session.
 - trainFile: A labeled POS file see and example [here](https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset).
 - testFile: A CoNLL-U format file.
 
