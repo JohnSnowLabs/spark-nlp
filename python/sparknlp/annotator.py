@@ -1112,6 +1112,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
+    includeValidationProp = Param(Params._dummy(), "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.",
+                                  TypeConverters.toBoolean)
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1164,6 +1166,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(trainValidationProp=v)
         return self
 
+    def setIncludeValidationProp(self, v):
+        return self._set(includeValidationProp=v)
+
     def setEvaluationLogExtended(self, v):
         self._set(evaluationLogExtended=v)
         return self
@@ -1191,6 +1196,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             verbose=2,
             useContrib=uc,
             trainValidationProp=float(0.0),
+            includeValidationProp=False,
             evaluationLogExtended=False,
             includeConfidence=False,
             enableOutputLogs=False
@@ -1546,7 +1552,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return self.getParamValue("sourceEmbeddingsPath")
 
     def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.parse_format(format))
+        return self._set(embeddingsFormat=self.parse_format(format.upper()))
 
     def getEmbeddingsFormat(self):
         value = self._getParamValue("embeddingsFormat")
