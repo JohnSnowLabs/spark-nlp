@@ -3,6 +3,7 @@
 ##
 
 import sys
+from enum import Enum
 from pyspark import keyword_only
 from sparknlp.common import *
 
@@ -99,7 +100,12 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True
+            caseSensitiveExceptions=True,
+            exceptions=[],
+            infixPatterns=[],
+            prefixPattern="\\A([^\\s\\w\$\\.]*)",
+            splitChars=[],
+            suffixPattern="([^\\s\\w]?)([^\\s\\w]*)\\z')"
         )
 
     def getInfixPatterns(self):
@@ -470,7 +476,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters)
+                       typeConverter=TypeConverters.toString)
 
     name = "DateMatcher"
 
@@ -1106,8 +1112,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
-    includeValidationProp = Param(Params._dummy(), "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.",
-                                  TypeConverters.toBoolean)
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1160,9 +1164,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(trainValidationProp=v)
         return self
 
-    def setIncludeValidationProp(self, v):
-        return self._set(includeValidationProp=v)
-
     def setEvaluationLogExtended(self, v):
         self._set(evaluationLogExtended=v)
         return self
@@ -1190,7 +1191,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             verbose=2,
             useContrib=uc,
             trainValidationProp=float(0.0),
-            includeValidationProp=False,
             evaluationLogExtended=False,
             includeConfidence=False,
             enableOutputLogs=False
@@ -1523,20 +1523,20 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             caseSensitive=False
         )
 
-    def parse_format(self, frmt):
-        if frmt == "SPARKNLP":
-            return 1
-        elif frmt == "TEXT":
-            return 2
-        elif frmt == "BINARY":
-            return 3
-        else:
-            return frmt
+    class Format(Enum):
+        SPARKNLP = 1
+        TEXT = 2
+        BINARY = 3
 
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
-        reformat = self.parse_format(format.upper())
-        self._set(embeddingsFormat=reformat)
+        try:
+            if isinstance(format, int):
+                self._set(embeddingsFormat=self.Format(format).value)
+            else:
+                self._set(embeddingsFormat=self.Format[format.upper()].value)
+        except (KeyError, ValueError):
+            raise Exception("Format parameter must be one of {}".format([item.name for item in self.Format]))
         return self._set(dimension=nDims)
 
     def setSourcePath(self, path):
@@ -1546,7 +1546,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return self.getParamValue("sourceEmbeddingsPath")
 
     def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.parse_format(format.upper()))
+        return self._set(embeddingsFormat=self.parse_format(format))
 
     def getEmbeddingsFormat(self):
         value = self._getParamValue("embeddingsFormat")
