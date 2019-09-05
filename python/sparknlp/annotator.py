@@ -3,6 +3,7 @@
 ##
 
 import sys
+from enum import Enum
 from pyspark import keyword_only
 from sparknlp.common import *
 
@@ -99,7 +100,12 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True
+            caseSensitiveExceptions=True,
+            exceptions=[],
+            infixPatterns=[],
+            prefixPattern="\\A([^\\s\\w\$\\.]*)",
+            splitChars=[],
+            suffixPattern="([^\\s\\w]?)([^\\s\\w]*)\\z')"
         )
 
     def getInfixPatterns(self):
@@ -470,7 +476,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters)
+                       typeConverter=TypeConverters.toString)
 
     name = "DateMatcher"
 
@@ -1517,20 +1523,20 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             caseSensitive=False
         )
 
-    def parse_format(self, frmt):
-        if frmt == "SPARKNLP":
-            return 1
-        elif frmt == "TEXT":
-            return 2
-        elif frmt == "BINARY":
-            return 3
-        else:
-            return frmt
+    class Format(Enum):
+        SPARKNLP = 1
+        TEXT = 2
+        BINARY = 3
 
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
-        reformat = self.parse_format(format)
-        self._set(embeddingsFormat=reformat)
+        try:
+            if isinstance(format, int):
+                self._set(embeddingsFormat=self.Format(format).value)
+            else:
+                self._set(embeddingsFormat=self.Format[format.upper()].value)
+        except (KeyError, ValueError):
+            raise Exception("Format parameter must be one of {}".format([item.name for item in self.Format]))
         return self._set(dimension=nDims)
 
     def setSourcePath(self, path):
