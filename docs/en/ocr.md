@@ -5,9 +5,11 @@ permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2019-09-06"
 ---
-Spark NLP comes with an OCR module that can read both PDF files and scanned images (requires Tesseract 4.x+).
+Spark NLP comes with an OCR module that can read both PDF files and scanned images (requires `Tesseract 4.x+`).
 
 ## Installation
+
+### Spark Packages
 
 To include the OCR submodule in Spark NLP, you will need to add the following to your start up commands:
 
@@ -16,6 +18,8 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 --packages JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 
 ```
+
+### Spark Session
 
 This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is:
 
@@ -31,7 +35,25 @@ spark = SparkSession.builder \
 
 ```
 
-As mentioned above, if you are dealing with scanned images instead of test-selectable PDF files you need to install `tesseract 4.x+` on all the nodes in your cluster.
+### Compiled JARs
+
+However, you can also compile a JAR by yourself by cloning `spark-nlp` repository and run one of these commands:
+
+* FAT-JAR
+
+```bash
+sbt ocr/assembly
+```
+
+* Packaging the project
+
+```bash
+sbt ocr/package
+```
+
+### Installing Tesseract
+
+As mentioned above, if you are dealing with scanned images instead of test-selectable PDF files you need to install `tesseract 4.x+` on all the nodes in your cluster. Here how you can install it on Ubuntu/Debian:
 
 ```bash
 apt-get install tesseract-ocr
