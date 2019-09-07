@@ -6,6 +6,8 @@ key: docs-quickstart
 modify_date: "2019-05-16"
 ---
 
+# Spark-nlp 2.2.1 Quick Start Guideline
+
 ## The very first: Join our Slack channel
 
 A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
@@ -24,7 +26,9 @@ Below, you can follow into a more theoretical and thorough quick start guide.
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** supported release. it is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. However, we try our best to make it easy for you to get started. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
+Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** supported release.
+
+It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
 
 To start using the library, execute any of the following lines depending on your desired use case:
 
@@ -36,10 +40,25 @@ spark-submit --packages JohnSnowLabs:spark-nlp:2.2.1
 
 ### **Straight forward Python on jupyter notebook**
 
-Use pip to install (after you pip installed numpy and pyspark)
+As a first step we import the required python dependences including some sparknlp components.
+
+Be sure that you have the required python libraries (pyspark 2.4.3, spark-nlp 2.2.1) by running pip list. Check that the versions are correct.
+
+If some of them is missing you can run:
 
 ```bash
-pip install spark-nlp==2.2.1
+pip install --ignore-installed pyspark==2.4.3
+pip install --ignore-installed spark-nlp==2.2.1
+```
+
+Of course you will need to have jupyter installed in your system:
+
+```bash
+pip install jupyter
+```
+Now you should be ready to create a jupyter notebook running from terminal:
+
+```bash
 jupyter notebook
 ```
 
@@ -48,6 +67,22 @@ The easiest way to get started, is to run the following code:
 ```python
 import sparknlp
 sparknlp.start()
+```
+After waiting some seconds you should see something like this in your notebook:
+
+```python
+SparkSession - in-memory
+
+SparkContext
+
+Spark UI
+
+Version
+    v2.4.3
+Master
+    local[*]
+AppName
+    Spark NLP
 ```
 
 With those lines of code, you have successfully started a Spark Session and are ready to use Spark NLP
@@ -64,6 +99,48 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
+### **Python Jupyter Notebook with PySpark**
+
+You can also run the Jupyter Notebook directly from Pyspark. In such a
+case you don't need to open a session, it will be automatically started 
+by pyspark. Just remember to setup the SPARK_HOME, PYSPARK_DRIVER_PYTHON and PYSPARK_DRIVER_PYTHON_OPTS
+
+
+```python
+export SPARK_HOME=/path/to/your/spark/folder
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+```
+
+To locate your SPARK_FOLDER you can for example run the following in a
+linux system:
+
+```bash
+sudo find -wholename */jars/spark-core_*-2.4.3.jar
+```
+The parent folder where this ./jars/spark-core*-2.4.3.jar is your
+SPARK_HOME folder.
+
+**In Microsoft Windows systems you can search for that file location in 
+the explorer.
+
+Once you have setup those environmental variables you can start a jupyter
+notebook with a Spark (including sparknlp) session directly opened by
+running in your terminal:
+
+```bash
+pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
+```
+### Spark-NLP from Scala
+
+You can start a spark REPL with Scala by running in your terminal a
+spark-shell including the JohnSnowLabs:spark-nlp:2.2.1 package:
+
+```bash
+spark-shell --packages JohnSnowLabs:spark-nlp:2.2.1
+```
+
+
 ### Databricks cloud cluster & Apache Zeppelin
 
 Add the following maven coordinates in the dependency configuration page:
@@ -78,15 +155,6 @@ For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS*
 export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.2.1"
 ```
 
-### **Python Jupyter Notebook with PySpark**
-
-```python
-export SPARK_HOME=/path/to/your/spark/folder
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS=notebook
-
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
-```
 
 ### S3 based standalone cluster (No Hadoop)
 
@@ -142,28 +210,87 @@ Both forms of annotators can be included in a Pipeline and will automatically go
 
 ## Quickly annotate some text
 
+You can run these examples using Python or Scala. 
+
+The easiest way to run the python examples is by starting a pyspark
+jupyter notebook including the spark-nlp package:
+
+```bash
+pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
+```
+
+The easiest way of running these scala examples is by starting a
+spark-shell session including the spark-nlp package:
+
+```bash
+spark-shell --packages JohnSnowLabs:spark-nlp:2.2.1
+```
+
 ### Explain Document ML
 
-Spark NLP offers a variety of pretrained pipelines that will help you get started, and get a sense of how the library works. We are constantly working on improving the available content.
+Spark NLP offers a variety of pretrained pipelines that will help you
+get started, and get a sense of how the library works. We are constantly
+working on improving the available content.
 
 ### Downloading and using a pretrained pipeline
 
-Explain Document ML, named as explain_document_ml is a pretrained pipeline that does a little bit of everything NLP related. Let's try it out in scala (note that the first time might take longer since it downloads the model from our servers!)
-
-```scala
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-
-val annotations = PretrainedPipeline("explain_document_ml").annotate("We are very happy about SparkNLP")
-
-annotations("lemmas")
-annotations("pos")
-
-scala> annotations("lemma")
-res8: Seq[String] = List(We, be, very, happy, about, SparkNLP)
-
-scala> annotations("pos")
-res9: Seq[String] = ArrayBuffer(PRP, VBP, RB, JJ, IN, NNP)
+Explain Document ML, named as explain_document_ml is a pretrained
+pipeline that does a little bit of everything NLP related. Let's try it
+out in scala. Note that the first time might take longer since it
+downloads the model from our servers!
+ 
+#### Python code
+```python
+from sparknlp.pretrained import PretrainedPipeline
+explain_document_pipeline = PretrainedPipeline("explain_document_ml")
+annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
+print(annotations)
 ```
+
+```python
+{
+  'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
+  'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
+  'lemma': ['We', 'be', 'very', 'happy', 'about', 'SparkNLP'],
+  'document': ['We are very happy about SparkNLP'],
+  'pos': ['PRP', 'VBP', 'RB', 'JJ', 'IN', 'NNP'],
+  'token': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
+  'sentence': ['We are very happy about SparkNLP']
+}
+```
+
+#### Scala code
+```scala
+scala> import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+scala> val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
+```
+```
+explain_document_ml download started this may take some time.
+Approximate size to download 9.4 MB
+Download done! Loading the resource.
+explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_ml,en,public/models)
+```
+```scala
+val annotations = explainDocumentPipeline.annotate("We are very happy about SparkNLP")
+println(annotations)
+```
+```
+Map(
+   stem -> List(we, ar, veri, happi, about, sparknlp), 
+   checked -> List(We, are, very, happy, about, SparkNLP), 
+   lemma -> List(We, be, very, happy, about, SparkNLP), 
+   document -> List(We are very happy about SparkNLP), 
+   pos -> ArrayBuffer(PRP, VBP, RB, JJ, IN, NNP), 
+   token -> List(We, are, very, happy, about, SparkNLP), 
+   sentence -> List(We are very happy about SparkNLP)
+   )
+```
+
+As you can see the explain_document_ml is able to annotate any "document"
+providing as output a list of stems, check-spelling, lemmas,
+part of speech tags, tokens and sentence boundary detection and all this
+"out-of-the-box"!.
+
 
 ### Using a pretrained pipeline with spark dataframes
 
