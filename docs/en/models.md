@@ -3,7 +3,7 @@ layout: article
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2019-07-23"
+modify_date: "2019-09-07"
 ---
 
 ## Pretrained Models
@@ -17,8 +17,7 @@ modify_date: "2019-07-23"
 |NerCRFModel (NER with GloVe)            |    `ner_crf`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_crf_en_2.0.2_2.4_1556652790378.zip)
 |NerDLModel (NER with GloVe)             |    `ner_dl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_en_2.0.2_2.4_1558802205173.zip)
 |NerDLModel (NER with GloVe)             |    `ner_dl_contrib`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_contrib_en_2.0.2_2.4_1556501490317.zip)
-|NerDLModel (NER with BERT)| `ner_dl_bert`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_bert_en_2.0.2_2.4_1558809068913.zip)
-|NerDLModel (NER with BERT)| `ner_dl_bert_contrib`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_bert_contrib_en_2.0.2_2.4_1556650375261.zip)
+|NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_dl_bert_base_cased_en_2.2.0_2.4_1567854461249.zip)
 |NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_100_en_2.1.0_2.4_1564256329924.zip)
 |NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_300_en_2.1.0_2.4_1564256072129.zip)
 |WordEmbeddings (GloVe) | `glove_100d` |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_100d_en_2.0.2_2.4_1556534397055.zip)
