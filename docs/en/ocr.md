@@ -23,16 +23,16 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 
 This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is:
 
-```python
-spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Spark NLP with OCR') \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+```scala
+val spark = SparkSession
+    .builder()
+    .master("local[*]")
+    .appName("Spark NLP with OCR")
+    .config("spark.driver.memory", "6g")
+    .config("spark.executor.memory", "6g")
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
     .getOrCreate()
-
 ```
 
 ### Compiled JARs
