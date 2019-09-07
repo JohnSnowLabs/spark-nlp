@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-07-22"
+modify_date: "2019-09-04"
 ---
 
 ## English
