@@ -14,8 +14,8 @@ modify_date: "2019-07-22"
 | Pipelines            | Name                   | en                                                                                                                  |
 | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | [Explain Document ML](#explain_document_ml)  | `explain_document_ml`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.1.0_2.4_1563203154682.zip)  |
-| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.1.0_2.4_1562946191575.zip)  |
-| Explain Document DL Win | `explain_document_dl_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_noncontrib_en_2.1.0_2.4_1562953993338.zip)  |
+| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.1.0_2.4_1564764767733.zip)  |
+| Explain Document DL Win | `explain_document_dl_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_noncontrib_en_2.1.0_2.4_1564764344071.zip)  |
 | Explain Document DL Fast | `explain_document_dl_fast`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_en_2.1.0_2.4_1562946519404.zip)  |
 | Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_noncontrib_en_2.1.0_2.4_1562954323015.zip)  |
 | [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_en_2.1.0_2.4_1562946909722.zip) |
