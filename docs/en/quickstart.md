@@ -90,6 +90,8 @@ With those lines of code, you have successfully started a Spark Session and are 
 If you need more fine tuning, you will have to start SparkSession in your python program manually, this is an example
 
 ```python
+from pyspark.sql import SparkSession
+
 spark = SparkSession.builder \
     .master('local[4]') \
     .appName('OCR Eval') \
@@ -241,7 +243,11 @@ downloads the model from our servers!
  
 #### Python code
 ```python
+import sparknlp
+sparknlp.start()
+
 from sparknlp.pretrained import PretrainedPipeline
+
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
 print(annotations)
@@ -261,8 +267,8 @@ print(annotations)
 
 #### Scala code
 ```scala
-scala> import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-scala> val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 ```
 ```
 explain_document_ml download started this may take some time.
@@ -307,6 +313,9 @@ by default within the namespace 'scala'.
 #### Python code
 
 ```python
+import sparknlp
+sparknlp.start()
+
 sentences = [
   ['Hello, this is an example sentence'],
   ['And this is a second sentence.']
@@ -579,6 +588,7 @@ Now we want to put all this together and retrieve the results, we use a
 Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
 
+#### Python code
 ```python
 pipeline = Pipeline() \
     .setStages([ 
@@ -600,6 +610,7 @@ pipeline = Pipeline() \
 +-------------------------------------------+
 ```
 
+#### Scala code
 ```scala
 
 val pipeline = new Pipeline().
@@ -638,25 +649,81 @@ string or an Array of strings instead, to be annotated. To create Light
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
 
+#### Python code
+```python
+from pyspark.sql.types import StructType
+emptyDataFrame = spark.createDataFrame([], StructType([]))
+```
+```
+explain_document_ml download started this may take some time.
+Approx size to download 9.4 MB
+[OK!]
+```
+```python
+lightPipeline = LightPipeline(explainDocumentPipeline.model)
+lightPipeline.annotate("Hello world, please annotate my text")
+```
+```
+{'stem': ['hello', 'world', ',', 'pleas', 'annot', 'my', 'text'],
+ 'checked': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
+ 'lemma': ['Hello', 'world', ',', 'please', 'annotate', 'i', 'text'],
+ 'document': ['Hello world, please annotate my text'],
+ 'pos': ['UH', 'NN', ',', 'VB', 'NN', 'PRP$', 'NN'],
+ 'token': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
+ 'sentence': ['Hello world, please annotate my text']}
+```
+#### Scala code
 ```scala
 import com.johnsnowlabs.nlp.base._
-
-val trainedModel = pipeline.fit(Seq.empty[String].toDF("text"))
-
-val lightPipeline = new LightPipeline(trainedModel)
-
+val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
+val lightPipeline = new LightPipeline(explainDocumentPipeline.model)
 lightPipeline.annotate("Hello world, please annotate my text")
+```
+
+```
+Map[String,Seq[String]] = 
+  Map(
+    stem -> List(hello, world, ,, pleas, annot, my, text), 
+    checked -> List(Hello, world, ,, please, annotate, my, text), 
+    lemma -> List(Hello, world, ,, please, annotate, i, text), 
+    document -> List(Hello world, please annotate my text), 
+    pos -> ArrayBuffer(UH, NN, ,, VB, NN, PRP$, NN), 
+    token -> List(Hello, world, ,, please, annotate, my, text), 
+    sentence -> List(Hello world, please annotate my text)
+    )
 ```
 
 ## Utilizing Spark NLP OCR Module
 
 Spark NLP OCR Module is not included within Spark NLP. It is not an
-annotator and not an extension to Spark ML. You can include it with the
-following coordinates for Maven:
+annotator and not an extension to Spark ML. You can include it by
+adding the following parameters when starting the spark session in
+your terminal:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1
+spark-shell --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+pyspark --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+spark-submit --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
+
+This is the equivalent code for python:
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .master("local[*]") \
+    .appName("Spark NLP with OCR") \
+    .config("spark.driver.memory", "6g") \
+    .config("spark.executor.memory", "6g") \
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .getOrCreate()
+```
+
+You can find more details about OCR setup (including instructions of how
+to use it over image-type PDFs without text) at 
+[https://nlp.johnsnowlabs.com/docs/en/ocr](https://nlp.johnsnowlabs.com/docs/en/ocr)
 
 ### Creating Spark datasets from PDF (To be used with Spark NLP)
 
@@ -664,19 +731,50 @@ You can use OcrHelper to directly create spark dataframes from PDF.
 This will hold entire documents in single rows, meant to be later
 processed by a SentenceDetector. This way, you won't be breaking the
 content in rows as if you were reading a standard document. Metadata
-column will include page numbers and file name information per row.
+columns are added automatically and will include page numbers, file
+name and other useful information per row.
 
+#### Python code
+```python
+from pyspark.sql import SparkSession
+from sparknlp.ocr import OcrHelper
+from sparknlp import DocumentAssembler
+
+spark = SparkSession.builder \
+    .master("local[*]") \
+    .appName("Spark NLP with OCR") \
+    .config("spark.driver.memory", "6g") \
+    .config("spark.executor.memory", "6g") \
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .getOrCreate()
+    
+data = OcrHelper().createDataset(spark = spark, input_path = "/your/example.pdf" )
+documentAssembler = DocumentAssembler().setInputCol("text")
+annotations = documentAssembler.transform(data)
+annotations.columns
+```
+```
+['text', 'pagenum', 'method', 'noiselevel', 'confidence', 'positions',
+ 'filename', 'document']
+```
+#### Scala code
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp.DocumentAssembler
 
 val myOcrHelper = new OcrHelper
-
-val data = myOcrHelper.createDataset(spark, "/pdfs/")
-
-val documentAssembler = new DocumentAssembler().setInputCol("text").setMetadataCol("metadata")
-
-documentAssembler.transform(data).show()
+val data = myOcrHelper.createDataset(spark, "/your/example.pdf")
+val documentAssembler = new DocumentAssembler().setInputCol("text")
+val annotations = documentAssembler.transform(data)
+annotations.columns
 ```
+
+```
+Array[String] = Array(text, pagenum, method, noiselevel, confidence, positions, filename, document)
+```
+... where the text column of the annotations spark dataframe includes the 
+text content of the PDF, pagenum the page number, etc...
 
 ### Creating an Array of Strings from PDF (For LightPipeline)
 
@@ -684,21 +782,38 @@ Another way, would be to simply create an array of strings. This is
 useful for example if you are parsing a small amount of pdf files and
 would like to use LightPipelines instead. See an example below.
 
+#### Scala code
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp.{DocumentAssembler,LightPipeline}
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
+scala> import org.apache.spark.ml.Pipeline
 
 val myOcrHelper = new OcrHelper
-
 val raw = myOcrHelper.createMap("/pdfs/")
-
 val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-
 val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-
 val lightPipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler, sentenceDetector)).fit(Seq.empty[String].toDF("text")))
-
-pipeline.annotate(raw.values.toArray)
+val annotations = ligthPipeline.annotate(raw.values.toArray)
 ```
+Now to get the whole first PDF content in your **/pdfs/** folder you can
+use:
+```scala
+annotations(0)("document")(0)
+``` 
+and to get the third sentence found in that first pdf:
+
+```scala
+annotations(0)("sentence")(2)
+```
+To get from the fifth pdf the second sentence:
+```scala
+annotations(4)("sentence")(1)
+```
+Similarly, the whole content of the fifth pdf can be retrieved by:
+```scala
+annotations(4)("document")(0)
+``` 
 
 ## Training annotators
 
