@@ -10,7 +10,10 @@ modify_date: "2019-07-14"
 
 ### Spark NLP Imports
 
-We attempt making necessary imports easy to reach, **base** will include general Spark NLP transformers and concepts, while **annotator** will include all annotators that we currently provide. **embeddings** include word embedding annotators. This does not include Spark imports.
+We attempt making necessary imports easy to reach, **base** will include
+general Spark NLP transformers and concepts, while **annotator** will
+include all annotators that we currently provide. **embeddings** include
+word embedding annotators. This does not include Spark imports.
 
 **Example:**
 
@@ -27,7 +30,10 @@ import com.johnsnowlabs.nlp.annotator._
 
 ### Spark ML Pipelines
 
-SparkML Pipelines are a uniform structure that helps creating and tuning practical machine learning pipelines. Spark NLP integrates with them seamlessly so it is important to have this concept handy. Once a **Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
+SparkML Pipelines are a uniform structure that helps creating and tuning
+practical machine learning pipelines. Spark NLP integrates with them
+seamlessly so it is important to have this concept handy. Once a
+**Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
 
 **Example:**
 
@@ -43,34 +49,44 @@ new Pipeline().setStages(Array(...))
 
 ### LightPipeline
 
-#### A super-fast Spark NLP pipeline for small data
+LightPipelines are Spark ML pipelines converted into a single machine
+but multithreaded task, becoming more than 10x times faster for smaller
+amounts of data (small is relative, but 50k sentences is roughly a good
+maximum). To use them, simply plug in a trained (fitted) pipeline.
 
-LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than 10x times faster for smaller amounts of data (small is relative, but 50k sentences is roughly a good maximum). To use them, simply plug in a trained (fitted) pipeline.  
 **Example:**
 
-{% highlight python %}
+***Python code*** 
+```python
 from sparknlp.base import LightPipeline
 LightPipeline(someTrainedPipeline).annotate(someStringOrArray)
-{% endhighlight %}
-
-{% highlight scala %}
+```
+***Scala code***
+```scala
 import com.johnsnowlabs.nlp.LightPipeline
 new LightPipeline(somePipelineModel).annotate(someStringOrArray))
-{% endhighlight %}
+```
 
 **Functions:**
 
-- annotate(string or string\[\]): returns dictionary list of annotation results
-- fullAnnotate(string or string\[\]): returns dictionary list of entire annotations content
+- annotate(string or string\[\]): returns dictionary list of annotation
+results
+- fullAnnotate(string or string\[\]): returns dictionary list of entire
+annotations content
 
 ### RecursivePipeline
 
-#### A smarter Spark-NLP pipeline
+Recursive pipelines are SparkNLP specific pipelines that allow a Spark
+ML Pipeline to know about itself on every Pipeline Stage task, allowing
+annotators to utilize this same pipeline against external resources to
+process them in the same way the user decides. Only some of our
+annotators take advantage of this. RecursivePipeline behaves exactly
+the same than normal Spark ML pipelines, so they can be used with the
+same intention.
 
-Recursive pipelines are SparkNLP specific pipelines that allow a Spark ML Pipeline to know about itself on every Pipeline Stage task, allowing annotators to utilize this same pipeline against external resources to process them in the same way the user decides. Only some of our annotators take advantage of this. RecursivePipeline behaves exactly the same than normal Spark ML pipelines, so they can be used with the same intention.  
 **Example:**
 
-{% highlight python %}
+```python
 from sparknlp.annotator import *
 recursivePipeline = RecursivePipeline(stages=[
         documentAssembler,
@@ -79,9 +95,9 @@ recursivePipeline = RecursivePipeline(stages=[
         lemmatizer,
         finisher
         ])
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp.RecursivePipeline
 val recursivePipeline = new RecursivePipeline()
         .setStages(Array(
@@ -91,7 +107,7 @@ val recursivePipeline = new RecursivePipeline()
         lemmatizer,
         finisher
         ))
-{% endhighlight %}
+```
 
 ### EmbeddingsHelper
 
@@ -99,10 +115,17 @@ val recursivePipeline = new RecursivePipeline()
 
 Allows loading, saving and setting word embeddings for annotators.
 
-An embeddings reference, or embeddingsRef, is a user-given name for annotators to lookup the embeddings database. Since Spark NLP 2.0, embeddings are
-annotators on its own, however, certain use cases may require multiple embedding annotators, and you might not want to duplicate the
-database on all of them. Hence, you can use reference in combination with the param `setIncludeEmbeddings(false)` to refer to the same database without loading them.
-In the future, some annotators might also need random access to the embeddings database, so they might take an embeddingsRef, apart from the pipeline annotator.
+An embeddings reference, or embeddingsRef, is a user-given name for
+annotators to lookup the embeddings database. Since Spark NLP 2.0,
+embeddings are annotators on its own, however, certain use cases may
+require multiple embedding annotators, and you might not want to
+duplicate the database on all of them. Hence, you can use reference in
+combination with the param `setIncludeEmbeddings(false)` to refer to the
+same database without loading them.
+
+In the future, some annotators might also need random access to the
+embeddings database, so they might take an embeddingsRef, apart from the
+pipeline annotator.
 
 This applies only to `WordEmbeddings` not `BertEmbeddings`.
 
@@ -113,9 +136,14 @@ This applies only to `WordEmbeddings` not `BertEmbeddings`.
 
 #### Annotator with Word Embeddings
 
-Some annotators use word embeddings. This is a common functionality within them. Since Spark NLP 2.0, embeddings as annotator means the rest annotators don't use this interface anymore,
-however, for developers reference, they still exist and might be used in annotators that require random access to word embeddings.
-These functions are included in the embedding annotators `WordEmbeddings` and `BertEmbeddings`
+Some annotators use word embeddings. This is a common functionality
+within them. Since Spark NLP 2.0, embeddings as annotator means the
+rest annotators don't use this interface anymore, however, for
+developers reference, they still exist and might be used in annotators
+that require random access to word embeddings.
+
+These functions are included in the embedding annotators 
+`WordEmbeddings` and `BertEmbeddings`
 
 **Functions (not all of them listed):**
 
@@ -126,7 +154,12 @@ These functions are included in the embedding annotators `WordEmbeddings` and `B
 
 #### Annotator parameters
 
-SparkML uses ML Params to store pipeline parameter maps. In SparkNLP, we also use Features, which are a way to store parameter maps that are larger than just a string or a boolean. These features are serialized as either Parquet or RDD objects, allowing much faster and scalable annotator information. Features are also broadcasted among executors for better performance.  
+SparkML uses ML Params to store pipeline parameter maps. In SparkNLP,
+we also use Features, which are a way to store parameter maps that are
+larger than just a string or a boolean. These features are serialized
+as either Parquet or RDD objects, allowing much faster and scalable
+annotator information. Features are also broadcasted among executors for
+better performance.  
 
 ## Transformers
 
@@ -134,26 +167,34 @@ SparkML uses ML Params to store pipeline parameter maps. In SparkNLP, we also us
 
 #### Getting data in
 
-In order to get through the NLP process, we need to get raw data annotated. There is a special transformer that does this for us: it creates the first annotation of type Document which may be used by annotators down the road. It can read either a String column or an Array\[String\]  
+In order to get through the NLP process, we need to get raw data
+annotated. There is a special transformer that does this for us: it
+creates the first annotation of type Document which may be used by
+annotators down the road. It can read either a String column or an
+Array\[String\]  
 
 **Settable parameters are:**
 
 - setInputCol()
 - setOutputCol()
 - setIdCol() -> OPTIONAL: Sring type column with id information
-- setMetadataCol() -> OPTIONAL: Map type column with metadata information
+- setMetadataCol() -> OPTIONAL: Map type column with metadata
+information
 - setCleanupMode(disabled) -> Cleaning up options, possible values: 
   - disabled: Source kept as original. 
   - inplace: removes new lines and tabs.
-  - inplace_full: removes new lines and tabs but also those which were converted to strings (i.e. \\n)
-  - shrink: removes new lines and tabs, plus merging multiple spaces and blank lines to a single space.
-  - shrink_full: removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. 
+  - inplace_full: removes new lines and tabs but also those which were
+  converted to strings (i.e. \\n)
+  - shrink: removes new lines and tabs, plus merging multiple spaces
+  and blank lines to a single space.
+  - shrink_full: removews new lines and tabs, including stringified
+  values, plus shrinking spaces and blank lines. 
 
 **Example:**
 
 Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 from sparknlp.annotator import *
 from sparknlp.common import *
 from sparknlp.base import *
@@ -162,9 +203,9 @@ documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document") \
     .setCleanupMode("shrink")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
@@ -172,7 +213,7 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
     .setCleanupMode("shrink")
-{% endhighlight %}
+```
 
 ### TokenAssembler
 
@@ -262,8 +303,6 @@ val chunk_doc = new Chunk2Doc()
 {% endhighlight %}
 
 ### Finisher
-
-#### Getting data out
 
 Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
 
@@ -382,16 +421,23 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
-## Annotators
+# Annotators
 
-### How to read this section
+## How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
-- Annotation -> `Annotation(annotatorType, begin, end, result, metadata, embeddings, sentenceEmbeddings)`
-- AnnotatorType -> some annotators share a type. This is not only figurative, but also tells about the structure of the `metadata` map in the Annotation. This is the one refered in the input and output of annotators
-- Inputs -> Represents how many and which annotator types are expected in `setInputCols`. These are column names of output of other annotators in the dataframe.
-- Output -> Represents the type of the output in the column `setOutputCol`
+- Annotation -> `Annotation(annotatorType, begin, end, result, metadata,
+embeddings, sentenceEmbeddings)`
+- AnnotatorType -> some annotators share a type. This is not only
+figurative, but also tells about the structure of the `metadata` map in
+the Annotation. This is the one refered in the input and output of
+annotators.
+- Inputs -> Represents how many and which annotator types are expected
+in `setInputCols`. These are column names of output of other annotators
+in the dataframe.
+- Output -> Represents the type of the output in the column
+`setOutputCol`.
 
 There are two types of annotators:
 
@@ -417,6 +463,40 @@ The types are:
 - NAMED_ENTITY = "named_entity"
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
+
+There are annotators freely available in the opensource version of
+Spark-NLP but some of them are only avaliable in the licensed version.
+
+
+|Annotator|version |
+|---|---|
+|Tokenizer|Opensource|
+|Normalizer|Opensource|
+|Stemmer|Opensource|
+|Lemmatizer|Opensource|
+|RegexMatcher|Opensource|
+|TextMatcher|Opensource|
+|Chunker|Opensource|
+|DateMatcher|Opensource|
+|SentenceDetector|Opensource|
+|DeepSentenceDetector|Opensource|
+|POSTagger|Opensource|
+|ViveknSentimentDetector|Opensource|
+|SentimentDetector|Opensource|
+|WordEmbeddings|Opensource|
+|BertEmbeddings|Opensource|
+|NerCrf|Opensource|
+|ContextSpellChecker|Opensource|
+|NorvigSweeting|Opensource|
+|SymmetricDelete|Opensource|
+|DependencyParser|Opensource|
+|TypedDependencyParser|Opensource|
+|AssertionLogReg|Licensed|
+|AssertionDL|Licensed|
+|EntityResolver|Licensed|
+|DeIdentification|Licensed|
+
+## Spark-NLP opensource annotators
 
 ### Tokenizer
 
@@ -1188,3 +1268,79 @@ val typedDependencyParser = new TypedDependencyParserApproach()
     .setOutputCol("labdep")
     .setConll2009("conll2009/eng.train"))
 {% endhighlight %}
+
+## Spark-NLP licensed annotators
+
+### AssertionLogReg
+
+It will classify each clinicaly relevant named entity into its assertion 
+type: "present", "absent", "hypothetical", "conditional", 
+"associated_with_other_person", etc.
+
+**Input types:** "sentence", "ner_chunk", "embeddings"
+
+**Output type:** "assertion"
+
+**Functions:**
+- setLabelCol(label)
+- setMaxIter(maxiter)
+- setReg(lamda)
+- setEnet(enet)
+- setBefore(before)
+- setAfter(after)
+- setStartCol(s)
+- setEndCol(e)
+- setNerCol(n):
+- setTargetNerLabels(v)
+
+### AssertionDL
+
+It will classify each clinicaly relevant named entity into its assertion 
+type: "present", "absent", "hypothetical", "conditional", 
+"associated_with_other_person", etc.
+
+**Input types:** "sentence", "ner_chunk", "embeddings"
+
+**Output type:** "assertion"
+
+**Functions:**
+- setGraphFolder(p)
+- setConfigProtoBytes(b)
+- setLabelCol(label)
+- setStartCol(s)
+- setEndCol(e)
+- setBatchSize(size)
+- setEpochs(number)
+- setLearningRate(lamda)
+- setDropout(rate)
+- setMaxSentLen(length):
+        
+### EntityResolver
+
+Assigns a ICD10 (International Classification of Diseases version 10) 
+code to chunks identified as "PROBLEMS" by the NER Clinical Model.
+
+**Input types:** "ner_chunk_tokenized", "embeddings"
+
+**Output type:** "resolution_cm"
+
+**Functions:**               
+- setSearchTree(s)
+- setNeighbours(k)
+- setThreshold(dist)
+- setMergeChunks(merge)
+- setMissAsEmpty(value)
+
+### DeIdentificator
+
+Identifies potential pieces of content with personal information about
+patients and remove them by replacing with semantic tags.
+
+**Input types:** "sentence", "token", "ner_chunk"
+
+**Output type:** "deidentified"
+
+**Functions:**     
+
+- setRegexPatternsDictionary(path, read_as, options):
+        
