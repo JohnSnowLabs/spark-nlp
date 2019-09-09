@@ -468,33 +468,34 @@ There are annotators freely available in the opensource version of
 Spark-NLP but some of them are only avaliable in the licensed version.
 
 
-|Annotator|version |
-|---|---|
-|Tokenizer|Opensource|
-|Normalizer|Opensource|
-|Stemmer|Opensource|
-|Lemmatizer|Opensource|
-|RegexMatcher|Opensource|
-|TextMatcher|Opensource|
-|Chunker|Opensource|
-|DateMatcher|Opensource|
-|SentenceDetector|Opensource|
-|DeepSentenceDetector|Opensource|
-|POSTagger|Opensource|
-|ViveknSentimentDetector|Opensource|
-|SentimentDetector|Opensource|
-|WordEmbeddings|Opensource|
-|BertEmbeddings|Opensource|
-|NerCrf|Opensource|
-|ContextSpellChecker|Opensource|
-|NorvigSweeting|Opensource|
-|SymmetricDelete|Opensource|
-|DependencyParser|Opensource|
-|TypedDependencyParser|Opensource|
-|AssertionLogReg|Licensed|
-|AssertionDL|Licensed|
-|EntityResolver|Licensed|
-|DeIdentification|Licensed|
+|Annotator|Description|version |
+|---|---|---|
+|Tokenizer|Identifies tokens with tokenization open standards|Opensource|
+|Normalizer|Removes all dirty characters from text|Opensource|
+|Stemmer|Returns hard-stems out of words with the objective of retrieving the meaningful part of the word|Opensource|
+|Lemmatizer|Retrieves lemmas out of words with the objective of returning a base dictionary word|Opensource|
+|RegexMatcher|Uses a reference file to match a set of regular expressions and put them inside a provided key.|Opensource|
+|TextMatcher|Annotator to match entire phrases (by token) provided in a file against a Document|Opensource|
+|Chunker|Matches a pattern of part-of-speech tags in order to return meaningful phrases from document|Opensource|
+|DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
+|SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
+|DeepSentenceDetector|Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model|Opensource|
+|POSTagger|Sets a Part-Of-Speech tag to each word within a sentence. |Opensource|
+|ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
+|SentimentDetector|Scores a sentence for a sentiment|Opensource|
+|WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
+|BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
+|NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
+|NerDL|This Named Entity recognition annotator allows to train generic NER model based on Neural Networks|Opensource| 
+|NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
+|SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
+|ContextSpellChecker|Utilizes tensorflow to do context based spell checking|Opensource|
+|DependencyParser|Unlabeled parser that finds a grammatical relation between two words in a sentence|Opensource|
+|TypedDependencyParser|Labeled parser that finds a grammatical relation between two words in a sentence|Opensource|
+|AssertionLogReg|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
+|AssertionDL|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
+|EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
+|DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
 ## Spark-NLP opensource annotators
 
@@ -879,9 +880,8 @@ val posTagger = new PerceptronApproach()
 
 ### ViveknSentimentDetector
 
-#### Sentiment analysis
-
-Scores a sentence for a sentiment  
+Scores a sentence for a sentiment
+  
 **Output type:** sentiment  
 **Input types:** Document, Token  
 **Reference:** [ViveknSentimentApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala) | [ViveknSentimentModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala)  
