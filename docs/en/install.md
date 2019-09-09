@@ -6,9 +6,72 @@ key: docs-install
 modify_date: "2019-09-09"
 ---
 
-## Spark-NLP Python
+# Spark-NLP in Python
 
-### Install OpenSource spark-nlp and pyspark pip packages
+## Setup Jupyter Notebook
+
+### Prerequisite: Python
+
+While Jupyter runs code in many programming languages, Python is a
+requirement (Python 3.3 or greater, or Python 2.7) for installing the
+Jupyter Notebook itself.
+
+### Installing Jupyter using Anaconda
+
+We **strongly recommend** installing Python and Jupyter using the
+[Anaconda Distribution](https://www.anaconda.com/downloads),
+which includes Python, the Jupyter Notebook, and other commonly used
+packages for scientific computing and data science.
+
+First, download [Anaconda](https://www.anaconda.com/downloads). We
+recommend downloading Anaconda’s latest Python 3 version.
+
+Second, install the version of Anaconda which you downloaded, following
+the instructions on the download page.
+
+Congratulations, you have installed Jupyter Notebook! To run the
+notebook, run the following command at the Terminal (Mac/Linux) or
+Command Prompt (Windows):
+
+```bash
+jupyter notebook
+```
+
+### Installing Jupyter with pip
+
+As an existing or experienced Python user, you may wish to install
+Jupyter using Python’s package manager, pip, instead of Anaconda.
+
+If you have Python 3 installed (which is recommended):
+
+```bash
+python3 -m pip install --upgrade pip
+python3 -m pip install jupyter
+```
+Congratulations, you have installed Jupyter Notebook! To run the
+notebook, run the following command at the Terminal (Mac/Linux) or
+Command Prompt (Windows):
+
+```bash
+jupyter notebook
+```
+
+## Install Spark using pyspark pip package
+
+Be sure that you have the required python library (pyspark 2.4.3)
+installed in your python environment by running: 
+
+```bash
+pip list
+```
+If not there you can install by using:
+
+If some of them is missing you can run:
+```bash
+pip install --ignore-installed pyspark==2.4.3
+```
+
+## Install spark-nlp
 
 Be sure that you have the required python libraries (pyspark 2.4.3,
 spark-nlp 2.2.1) by running 
@@ -105,9 +168,9 @@ spark = SparkSession.builder \
 
 ## Setup AWS-CLI Credentials for licensed pretrained models 
 
-In order to access private JohnSnowLabs models repository you need first
-to setup your AWS credentials. This access is done via Amazon aws
-command line interface (AWSCLI).
+From version 2.2.1 in order to access private JohnSnowLabs models
+repository you need first to setup your AWS credentials. This access is
+done via Amazon aws command line interface (AWSCLI).
 
 Instructions about how to install awscli are available at:
 
@@ -123,48 +186,8 @@ have recived. If you need your credentials contact us at
 info@johnsnowlabs.com
 
 
-## Setup Jupyter Notebook
 
-### Prerequisite: Python
-
-While Jupyter runs code in many programming languages, Python is a requirement
-(Python 3.3 or greater, or Python 2.7) for installing the Jupyter Notebook itself.
-
-### Installing Jupyter using Anaconda
-
-We **strongly recommend** installing Python and Jupyter using the [Anaconda Distribution](https://www.anaconda.com/downloads),
-which includes Python, the Jupyter Notebook, and other commonly used packages for scientific computing and data science.
-
-First, download [Anaconda](https://www.anaconda.com/downloads). We recommend downloading Anaconda’s latest Python 3 version.
-
-Second, install the version of Anaconda which you downloaded, following the instructions on the download page.
-
-Congratulations, you have installed Jupyter Notebook! To run the notebook, run the following command at the Terminal (Mac/Linux) or Command Prompt (Windows):
-
-```bash
-jupyter notebook
-```
-
-### Installing Jupyter with pip
-
-As an existing or experienced Python user, you may wish to install
-Jupyter using Python’s package manager, pip, instead of Anaconda.
-
-If you have Python 3 installed (which is recommended):
-
-```bash
-python3 -m pip install --upgrade pip
-python3 -m pip install jupyter
-```
-Congratulations, you have installed Jupyter Notebook! To run the
-notebook, run the following command at the Terminal (Mac/Linux) or
-Command Prompt (Windows):
-
-```bash
-jupyter notebook
-```
-
-## Spark-NLP Scala
+# Spark-NLP in Scala
 
 Our package is deployed to maven central. In order to add this package
 as a dependency in your application:
