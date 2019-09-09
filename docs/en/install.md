@@ -3,7 +3,7 @@ layout: article
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2019-05-16"
+modify_date: "2019-09-09"
 ---
 
 ## Spark-NLP Python
@@ -54,7 +54,11 @@ conda install -c johnsnowlabs spark-nlp
 
 Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
 
-Then you'll have to create a SparkSession manually, for example:
+## Start Spark-NLP Session from python
+
+The following will initialize the spark session in case you have run
+the jupyter notebook directly. If you have started the notebook using
+pyspark this cell is just ignored.
 
 ```bash
 spark = SparkSession.builder \
@@ -69,6 +73,35 @@ spark = SparkSession.builder \
 If using local jars, you can use `spark.jars` instead for a comma
 delimited jar files. For cluster setups, of course you'll have to put
 the jars in a reachable location for all driver and executor nodes.
+
+## Start Licensed Spark-NLP Session from python
+
+The following will initialize the spark session in case you have run
+the jupyter notebook directly. If you have started the notebook using
+pyspark this cell is just ignored.
+
+Initializing the spark session takes some seconds (usually less than 1
+minute) as the jar from the server needs to be loaded.
+
+We will be using version 2.2.1 of Spark NLP Open Source and 2.2.1 of
+Spark NLP Enterprise Edition.
+
+The #### in .config("spark.jars", "####") is a secret code, if you have
+not received it please contact us at info@johnsnowlabs.com.
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("Global DEMO - Spark NLP Enterprise 2.2.1") \
+    .master("local[*]") \
+    .config("spark.driver.memory","4G") \
+    .config("spark.driver.maxResultSize", "2G") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1") \
+    .config("spark.jars", "####") \
+    .getOrCreate()
+```
+
 
 ## Setup AWS-CLI Credentials for licensed pretrained models 
 
