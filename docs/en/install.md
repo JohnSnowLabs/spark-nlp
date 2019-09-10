@@ -6,7 +6,7 @@ key: docs-install
 modify_date: "2019-09-09"
 ---
 
-# Spark-NLP in Python
+# Spark NLP in Python
 
 ## Setup Jupyter Notebook
 
@@ -18,8 +18,7 @@ Jupyter Notebook itself.
 
 ### Installing Jupyter using Anaconda
 
-We **strongly recommend** installing Python and Jupyter using the
-[Anaconda Distribution](https://www.anaconda.com/downloads),
+You can install Python and Jupyter using the Anaconda Distribution
 which includes Python, the Jupyter Notebook, and other commonly used
 packages for scientific computing and data science.
 
@@ -37,7 +36,7 @@ Command Prompt (Windows):
 jupyter notebook
 ```
 
-### Installing Jupyter with pip
+### Installing Jupyter using pip
 
 As an existing or experienced Python user, you may wish to install
 Jupyter using Python’s package manager, pip, instead of Anaconda.
@@ -56,8 +55,9 @@ Command Prompt (Windows):
 jupyter notebook
 ```
 
-## Install Spark using pyspark pip package
+## Install Apache Spark using pyspark
 
+**Pip package**
 Be sure that you have the required python library (pyspark 2.4.3)
 installed in your python environment by running: 
 
@@ -66,58 +66,72 @@ pip list
 ```
 If not there you can install by using:
 
-If some of them is missing you can run:
 ```bash
 pip install --ignore-installed pyspark==2.4.3
 ```
+**Conda package**
 
-## Install spark-nlp
-
-Be sure that you have the required python libraries (pyspark 2.4.3,
-spark-nlp 2.2.1) by running 
+You can also install pyspark 2.4.3 using conda by running in your
+terminal:
 ```bash
-pip list
+conda install pyspark=2.4.3
 ```
 
-Check that the versions are correct:
-* pyspark 2.4.3
-* spark-nlp 2.2.1
 
-If some of them is missing you can run:
+## Install Spark NLP Opensource
+
+**Pip package**
+
+To install Spark NLP Opensource version you can just run:
+
 ```bash
-pip install --ignore-installed pyspark==2.4.3
 pip install --ignore-installed spark-nlp==2.2.1
 ```
 The --ignore-installed parameter is to overwrite your previous pip
 package version if already installed.
 
-### Install Licensed spark-nlp pip package
+**Conda package**
+
+If you are using Anaconda/Conda for managing Python packages, you can 
+install Spark NLP Opensource as follow:
+
+```bash
+conda install -c johnsnowlabs spark-nlp=2.2.1 
+```
+
+## Install Licensed Spark NLP
 
 You can also install the licensed package with extra functionalities and
-pretrained models. Check that spark-nlp-jsl 2.2.1 is installed by
-running:
-```bash 
-pip install
-```
-If it is not then you need to install it by using:
+pretrained models by using: 
+
 ```bash
 pip install spark-nlp-jsl==2.2.1 --extra-index-url #### --ignore-installed
 ```
-The #### is a secret url, if you have not received it please contact us 
-at info@johnsnowlabs.com.
+The #### is a secret url only avaliable for users with license, if you
+have not received it please contact us at info@johnsnowlabs.com.
 
-### Conda
+At the moment there is no conda package for Licensed Spark NLP version.
 
-If you are using Anaconda/Conda for managing Python packages, you can 
-install `spark-nlp` as follow:
+### Setup AWS-CLI Credentials for licensed pretrained models 
 
-```bash
-conda install -c johnsnowlabs spark-nlp
-```
+From Licensed version 2.2.1 in order to access private JohnSnowLabs
+models repository you need first to setup your AWS credentials. This
+access is done via Amazon aws command line interface (AWSCLI).
 
-Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
+Instructions about how to install awscli are available at:
 
-## Start Spark-NLP Session from python
+[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+
+Make sure you configure your credentials with aws configure following
+the instructions at:
+
+[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+
+Please substitute the ACCESS_KEY and SECRET_KEY with the credentials you
+have recived. If you need your credentials contact us at
+info@johnsnowlabs.com
+
+## Start Spark NLP Session from python
 
 The following will initialize the spark session in case you have run
 the jupyter notebook directly. If you have started the notebook using
@@ -137,7 +151,7 @@ If using local jars, you can use `spark.jars` instead for a comma
 delimited jar files. For cluster setups, of course you'll have to put
 the jars in a reachable location for all driver and executor nodes.
 
-## Start Licensed Spark-NLP Session from python
+## Start Licensed Spark NLP Session from python
 
 The following will initialize the spark session in case you have run
 the jupyter notebook directly. If you have started the notebook using
@@ -164,28 +178,6 @@ spark = SparkSession.builder \
     .config("spark.jars", "####") \
     .getOrCreate()
 ```
-
-
-## Setup AWS-CLI Credentials for licensed pretrained models 
-
-From version 2.2.1 in order to access private JohnSnowLabs models
-repository you need first to setup your AWS credentials. This access is
-done via Amazon aws command line interface (AWSCLI).
-
-Instructions about how to install awscli are available at:
-
-[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html]
-
-Make sure you configure your credentials with aws configure following
-the instructions at:
-
-[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html]
-
-Please substitute the ACCESS_KEY and SECRET_KEY with the credentials you
-have recived. If you need your credentials contact us at
-info@johnsnowlabs.com
-
-
 
 # Spark-NLP in Scala
 
