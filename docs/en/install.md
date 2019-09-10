@@ -174,12 +174,12 @@ done via Amazon aws command line interface (AWSCLI).
 
 Instructions about how to install awscli are available at:
 
-[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html]
+[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 Make sure you configure your credentials with aws configure following
 the instructions at:
 
-[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html]
+[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 
 Please substitute the ACCESS_KEY and SECRET_KEY with the credentials you
 have recived. If you need your credentials contact us at
