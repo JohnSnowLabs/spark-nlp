@@ -6,65 +6,9 @@ key: docs-annotators
 modify_date: "2019-07-14"
 ---
 
-<!-- TOC -->
-- [1. Annotators Guideline](#1-annotators-guideline)
-    - [1.1. Concepts](#11-concepts)
-        - [1.1.1. Spark NLP Imports](#111-spark-nlp-imports)
-        - [1.1.2. Spark ML Pipelines](#112-spark-ml-pipelines)
-        - [1.1.3. LightPipeline](#113-lightpipeline)
-        - [1.1.4. RecursivePipeline](#114-recursivepipeline)
-        - [1.1.5. EmbeddingsHelper](#115-embeddingshelper)
-            - [1.1.5.1. Deal with word embeddings](#1151-deal-with-word-embeddings)
-            - [1.1.5.2. Annotator with Word Embeddings](#1152-annotator-with-word-embeddings)
-        - [1.1.6. Params and Features](#116-params-and-features)
-            - [1.1.6.1. Annotator parameters](#1161-annotator-parameters)
-    - [1.2. Transformers](#12-transformers)
-        - [1.2.1. DocumentAssembler: Getting data in](#121-documentassembler)
-        - [1.2.2. TokenAssembler: Getting data reshaped](#122-tokenassembler)
-        - [1.2.3. Doc2Chunk](#123-doc2chunk)
-        - [1.2.4. Chunk2Doc](#124-chunk2doc)
-        - [1.2.5. Finisher](#125-finisher)
-    - [1.3. Training Datasets](#13-training-datasets)
-        - [1.3.1. POS Dataset](#131-pos-dataset)
-        - [1.3.2. CoNLL Dataset](#132-conll-dataset)
-        - [1.3.3. Spell Checkers Dataset](#133-spell-checkers-dataset)
-        - [1.3.4. Vivekn Sentiment Analysis Dataset](#134-vivekn-sentiment-analysis-dataset)
-- [2. Annotators](#2-annotators)
-    - [2.1. How to read this section](#21-how-to-read-this-section)
-    - [2.2. Spark-NLP opensource annotators](#22-spark-nlp-opensource-annotators)
-        - [2.2.1. Tokenizer](#221-tokenizer)
-        - [2.2.2. Normalizer: Text cleaning](#222-normalizer)
-        - [2.2.3. Stemmer](#223-stemmer)
-        - [2.2.4. Lemmatizer](#224-lemmatizer)
-        - [2.2.5. RegexMatcher](#225-regexmatcher)
-        - [2.2.6. TextMatcher: Phrase matching](#226-textmatcher)
-        - [2.2.7. Chunker: Meaningful phrase matching](#227-chunker)
-        - [2.2.8. DateMatcher: Date-time parsing](#228-datematcher)
-        - [2.2.9. SentenceDetector: Sentence Boundary Detector](#229-sentencedetector)
-        - [2.2.10. DeepSentenceDetector: Sentence Boundary Detector with Machine Learning](#2210-deepsentencedetector)
-        - [2.2.11. POSTagger: Part of speech tagger](#2211-postagger)
-        - [2.2.12. ViveknSentimentDetector](#2212-viveknsentimentdetector)
-        - [2.2.13. SentimentDetector: Sentiment analysis](#2213-sentimentdetector-sentiment-analysis)
-        - [2.2.14. Word Embeddings](#2214-word-embeddings)
-        - [2.2.15. Bert Embeddings](#2215-bert-embeddings)
-        - [2.2.16. NER CRF: Named Entity Recognition CRF annotator](#2216-ner-crf)
-        - [2.2.17. NER DL: Named Entity Recognition Deep Learning annotator](#2217-ner-dl)
-        - [2.2.18. Norvig SpellChecker](#2218-norvig-spellchecker)
-        - [2.2.19. Symmetric SpellChecker](#2219-symmetric-spellchecker)
-        - [2.2.20. Context SpellChecker](#2220-context-spellchecker)
-        - [2.2.21. Dependency Parser: Unlabeled grammatical relation](#2221-dependency-parser)
-        - [2.2.22. Typed Dependency Parser: Labeled grammatical relation](#2222-typed-dependency-parser)
-    - [2.3. Spark-NLP licensed annotators](#23-spark-nlp-licensed-annotators)
-        - [2.3.1. AssertionLogReg](#231-assertionlogreg)
-        - [2.3.2. AssertionDL](#232-assertiondl)
-        - [2.3.3. EntityResolver](#233-entityresolver)
-        - [2.3.4. DeIdentificator](#234-deidentificator)
-<!-- /TOC -->
+## 1. Annotators Guideline
 
-
-# 1. Annotators Guideline
-
-## 1.1. Concepts
+### 1.1. Concepts
 
 ### 1.1.1. Spark NLP Imports
 
@@ -114,12 +58,15 @@ maximum). To use them, simply plug in a trained (fitted) pipeline.
 
 **Example:**
 
-***Python code*** 
+***Python code***
+
 ```python
 from sparknlp.base import LightPipeline
 LightPipeline(someTrainedPipeline).annotate(someStringOrArray)
 ```
+
 ***Scala code***
+
 ```scala
 import com.johnsnowlabs.nlp.LightPipeline
 new LightPipeline(somePipelineModel).annotate(someStringOrArray))
@@ -488,9 +435,9 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
-# 2. Annotators
+## 2. Annotators
 
-## 2.1. How to read this section
+### 2.1. How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
@@ -534,7 +481,6 @@ The types are:
 There are annotators freely available in the opensource version of
 Spark-NLP but some of them are only avaliable in the licensed version.
 
-
 |Annotator|Description|version |
 |---|---|---|
 |Tokenizer|Identifies tokens with tokenization open standards|Opensource|
@@ -553,7 +499,6 @@ Spark-NLP but some of them are only avaliable in the licensed version.
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
-|NerDL|This Named Entity recognition annotator allows to train generic NER model based on Neural Networks|Opensource| 
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
 |SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
 |ContextSpellChecker|Utilizes tensorflow to do context based spell checking|Opensource|
@@ -564,7 +509,7 @@ Spark-NLP but some of them are only avaliable in the licensed version.
 |EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
 |DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
-## 2.2. Spark-NLP opensource annotators
+## 2.2. Spark-NLP Open Source
 
 ### 2.2.1. Tokenizer
 
@@ -1321,12 +1266,13 @@ val typedDependencyParser = new TypedDependencyParserApproach()
     .setConll2009("conll2009/eng.train"))
 ```
 
-## 2.3. Spark-NLP licensed annotators
+## 2.3. Spark-NLP Licensed
 
 ### 2.3.1. AssertionLogReg
 
-It will classify each clinicaly relevant named entity into its assertion 
-type: "present", "absent", "hypothetical", "conditional", 
+It will classify each clinicaly relevant named entity into its assertion:
+
+type: "present", "absent", "hypothetical", "conditional",
 "associated_with_other_person", etc.
 
 **Input types:** "sentence", "ner_chunk", "embeddings"
@@ -1334,6 +1280,7 @@ type: "present", "absent", "hypothetical", "conditional",
 **Output type:** "assertion"
 
 **Functions:**
+
 - setLabelCol(label)
 - setMaxIter(maxiter)
 - setReg(lamda)
@@ -1347,15 +1294,15 @@ type: "present", "absent", "hypothetical", "conditional",
 
 ### 2.3.2. AssertionDL
 
-It will classify each clinicaly relevant named entity into its assertion 
-type: "present", "absent", "hypothetical", "conditional", 
-"associated_with_other_person", etc.
+It will classify each clinicaly relevant named entity into its assertion
+type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** "sentence", "ner_chunk", "embeddings"
 
 **Output type:** "assertion"
 
 **Functions:**
+
 - setGraphFolder(p)
 - setConfigProtoBytes(b)
 - setLabelCol(label)
@@ -1366,17 +1313,17 @@ type: "present", "absent", "hypothetical", "conditional",
 - setLearningRate(lamda)
 - setDropout(rate)
 - setMaxSentLen(length):
-        
+
 ### 2.3.3. EntityResolver
 
-Assigns a ICD10 (International Classification of Diseases version 10) 
-code to chunks identified as "PROBLEMS" by the NER Clinical Model.
+Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model.
 
 **Input types:** "ner_chunk_tokenized", "embeddings"
 
 **Output type:** "resolution_cm"
 
-**Functions:**               
+**Functions:**
+
 - setSearchTree(s)
 - setNeighbours(k)
 - setThreshold(dist)
@@ -1392,7 +1339,6 @@ patients and remove them by replacing with semantic tags.
 
 **Output type:** "deidentified"
 
-**Functions:**     
+**Functions:**
 
-- setRegexPatternsDictionary(path, read_as, options):
-        
+- setRegexPatternsDictionary(path, read_as, options)
