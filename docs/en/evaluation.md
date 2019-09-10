@@ -91,16 +91,19 @@ You can evaluate this spell checker either training an annotator or using a pret
 - groundTruthFile: The same corpus used on *testFile* but with correctly spell words.
 
 **Train File Example:**
+
 ```bash
 Any document that you prefer with correctly spell words.
 ```
 
 **Test File Example:**
+
 ```bash
 My siter go to Munich.
 ```
 
 **Ground Truth File Example:**
+
 ```bash
 My sister goes to Munich.
 ```
