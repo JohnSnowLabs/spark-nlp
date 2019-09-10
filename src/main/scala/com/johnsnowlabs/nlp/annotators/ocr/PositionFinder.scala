@@ -57,14 +57,14 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
         pm.mapping
       }
 
-      def closeRectangle(minX: Float, maxX: Float, lastPosition: Mapping, targetBegin: Int, chunkIndex: Int): Coordinate = {
+      def closeRectangle(minX: Float, maxX: Float, lastPosition: Mapping, targetBegin: Int, chunkIndex: Int, pos: Mapping): Coordinate = {
         val x = minX
         val y = lastPosition.y
 
         val w = (maxX - minX) + lastPosition.width
         val h = lastPosition.height
 
-        Coordinate(chunkIndex, bounds.count(targetBegin > _) + lastPosition.p, x, y, w, h)
+        Coordinate(chunkIndex, pos.p, x, y, w, h)
       }
 
       chunkAnnotations.zipWithIndex.flatMap{case (target, chunkIndex) =>
@@ -93,7 +93,7 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
             if (pos != null) {
               /** check if we are one line below previous, close rectangle if so */
               if (pos.y < lastPos.y) {
-                coordinates += closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex)
+                coordinates += closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex, pos)
                 minX = -1.0f
                 maxX = -1.0f
               }
@@ -104,7 +104,7 @@ class PositionFinder(override val uid: String) extends RawAnnotator[PositionFind
           }
 
           /** close lingering rectangle */
-          coordinates += closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex)
+          coordinates += closeRectangle(minX, maxX, lastPos, target.begin, chunkIndex, lastPos)
 
           coordinates
 
