@@ -520,7 +520,7 @@ class OcrHelper extends ImageProcessing with Serializable {
       Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
         OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage),
           height_dimension = pdfDoc.getPage(startPage).getMediaBox.getHeight,
-          width_dimension = pdfDoc.getPage(endPage).getMediaBox.getWidth)
+          width_dimension = pdfDoc.getPage(startPage).getMediaBox.getWidth)
       })
   }
 
