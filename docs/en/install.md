@@ -3,14 +3,34 @@ layout: article
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2019-09-09"
+modify_date: "2019-09-10"
 ---
 
-# Spark NLP in Python
+## Spark NLP Cheat Sheet
 
-## Setup Jupyter Notebook
+```bash
+# Install Spark NLP from PyPI
+$ pip install spark-nlp==2.2.1
 
-### Prerequisite: Python
+# Install Spark NLP from Anacodna/Conda
+$ conda install -c johnsnowlabs spark-nlp
+
+# Load Spark NLP with Spark Shell
+$ spark-shell --packages JohnSnowLabs:spark-nlp:2.2.1
+
+# Load Spark NLP with PySpark
+$ pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
+
+# Load Spark NLP with Spark Submit
+$ spark-submit --packages JohnSnowLabs:spark-nlp:2.2.1
+
+# Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
+$ spark-shell --jar spark-nlp-assembly-2.2.1
+```
+
+## Python
+
+### Setup Jupyter Notebook
 
 While Jupyter runs code in many programming languages, Python is a
 requirement (Python 3.3 or greater, or Python 2.7) for installing the
@@ -47,6 +67,7 @@ If you have Python 3 installed (which is recommended):
 python3 -m pip install --upgrade pip
 python3 -m pip install jupyter
 ```
+
 Congratulations, you have installed Jupyter Notebook! To run the
 notebook, run the following command at the Terminal (Mac/Linux) or
 Command Prompt (Windows):
@@ -55,64 +76,64 @@ Command Prompt (Windows):
 jupyter notebook
 ```
 
-## Install Apache Spark using pyspark
+### Install Apache Spark using pyspark
 
 **Pip package**
 Be sure that you have the required python library (pyspark 2.4.3)
-installed in your python environment by running: 
+installed in your python environment by running:
 
 ```bash
 pip list
 ```
+
 If not there you can install by using:
 
 ```bash
 pip install --ignore-installed pyspark==2.4.3
 ```
-**Conda package**
 
+**Conda package**
 You can also install pyspark 2.4.3 using conda by running in your
 terminal:
+
 ```bash
 conda install pyspark=2.4.3
 ```
 
-
-## Install Spark NLP Opensource
+### Install Spark NLP Opensource
 
 **Pip package**
-
 To install Spark NLP Opensource version you can just run:
 
 ```bash
 pip install --ignore-installed spark-nlp==2.2.1
 ```
+
 The --ignore-installed parameter is to overwrite your previous pip
 package version if already installed.
 
 **Conda package**
-
-If you are using Anaconda/Conda for managing Python packages, you can 
-install Spark NLP Opensource as follow:
+If you are using Anaconda/Conda for managing Python packages, you can install Spark NLP Opensource as follow:
 
 ```bash
-conda install -c johnsnowlabs spark-nlp=2.2.1 
+conda install -c johnsnowlabs spark-nlp=2.2.1
 ```
 
-## Install Licensed Spark NLP
+### Install Licensed Spark NLP
 
 You can also install the licensed package with extra functionalities and
-pretrained models by using: 
+pretrained models by using:
 
 ```bash
 pip install spark-nlp-jsl==2.2.1 --extra-index-url #### --ignore-installed
 ```
+
 The #### is a secret url only avaliable for users with license, if you
 have not received it please contact us at info@johnsnowlabs.com.
 
 At the moment there is no conda package for Licensed Spark NLP version.
 
-### Setup AWS-CLI Credentials for licensed pretrained models 
+### Setup AWS-CLI Credentials for licensed pretrained models
 
 From Licensed version 2.2.1 in order to access private JohnSnowLabs
 models repository you need first to setup your AWS credentials. This
@@ -131,13 +152,13 @@ Please substitute the ACCESS_KEY and SECRET_KEY with the credentials you
 have recived. If you need your credentials contact us at
 info@johnsnowlabs.com
 
-## Start Spark NLP Session from python
+### Start Spark NLP Session from python
 
 The following will initialize the spark session in case you have run
 the jupyter notebook directly. If you have started the notebook using
 pyspark this cell is just ignored.
 
-```bash
+```python
 spark = SparkSession.builder \
     .appName("Spark NLP")\
     .master("local[*]")\
@@ -147,11 +168,12 @@ spark = SparkSession.builder \
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
+
 If using local jars, you can use `spark.jars` instead for a comma
 delimited jar files. For cluster setups, of course you'll have to put
 the jars in a reachable location for all driver and executor nodes.
 
-## Start Licensed Spark NLP Session from python
+### Start Licensed Spark NLP Session from python
 
 The following will initialize the spark session in case you have run
 the jupyter notebook directly. If you have started the notebook using
@@ -179,7 +201,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-# Spark-NLP in Scala
+## Scala
 
 Our package is deployed to maven central. In order to add this package
 as a dependency in your application:
@@ -208,14 +230,14 @@ and
 
 ### SBT
 
-```sbtshell
+```bash
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.2.1"
 ```
 
 and
 
-```sbtshell
+```bash
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.2.1"
 ```
