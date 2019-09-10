@@ -69,6 +69,8 @@ case class OcrRow(
                    noiselevel: Double = 0.0,
                    confidence: Double = 0.0,
                    positions: Seq[PageMatrix] = null,
+                   height_dimension: Double = 0.0,
+                   width_dimension: Double = 0.0,
                    filename: String = ""
 )
 
@@ -442,7 +444,7 @@ class OcrHelper extends ImageProcessing with Serializable {
       regions.flatMap(_.map { rectangle =>
         val (text, confidence) =
             tesseract.doOCR(dilatedImage, rectangle, pageIteratorLevel, useConfidence)
-        (text, computeNoiseScore(estimateNoise, scaledImage, rectangle), confidence)
+        (text, computeNoiseScore(estimateNoise, scaledImage, rectangle), confidence, image.getHeight, image.getWidth)
       })
     })
 
@@ -450,7 +452,7 @@ class OcrHelper extends ImageProcessing with Serializable {
     (splitPages, splitRegions) match {
       case (true, true) =>
         Option(imageRegions.zipWithIndex.flatMap {case (pageRegions, pagenum) =>
-          pageRegions.map{case (r, nl, conf) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf)}})
+          pageRegions.map{case (r, nl, conf, h, w) => OcrRow(r, pagenum, OCRMethod.IMAGE_LAYER, nl, conf, height_dimension = h.toDouble, width_dimension = w.toDouble)}})
       case (true, false) =>
         // this merges regions within each page, splits the pages
         Option(imageRegions.zipWithIndex.
@@ -458,7 +460,9 @@ class OcrHelper extends ImageProcessing with Serializable {
                 val noiseLevel = mean(pageRegions.map(_._2))
                 val confidence = mean(pageRegions.map(_._3))
                 val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
-                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)})
+                val minHeight = pageRegions.map(_._4).min.toDouble
+                val minWidth = pageRegions.map(_._5).min.toDouble
+                OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence, height_dimension = minHeight, width_dimension = minWidth)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
         val mergedText = imageRegions.map{pageRegions =>  pageRegions.map(_._1).
@@ -466,7 +470,9 @@ class OcrHelper extends ImageProcessing with Serializable {
         // here the noise level will be an average
         val noiseLevel = mean(imageRegions.flatten.map(_._2))
         val confidence = mean(imageRegions.flatten.map(_._3))
-        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence)))
+        val minHeight = imageRegions.flatten.map(_._4).min.toDouble
+        val minWidth = imageRegions.flatten.map(_._5).min.toDouble
+        Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence, height_dimension = minHeight, width_dimension = minWidth)))
      }
   }
 
@@ -499,7 +505,17 @@ class OcrHelper extends ImageProcessing with Serializable {
   private def pdfboxMethod(pdfDoc: PDDocument, startPage: Int, endPage: Int): Option[Seq[OcrRow]] = {
     if (splitPages)
       Some(Range(startPage, endPage + 1).flatMap(pagenum =>
-        extractText(pdfDoc, pagenum, pagenum).map(t => OcrRow(t, pagenum - 1, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, pagenum, pagenum)))))
+        extractText(pdfDoc, pagenum, pagenum).map(t =>
+          OcrRow(
+            t,
+            pagenum - 1,
+            OCRMethod.TEXT_LAYER,
+            positions = getCoordinates(pdfDoc, pagenum, pagenum),
+            height_dimension = pdfDoc.getPage(pagenum).getMediaBox.getHeight,
+            width_dimension = pdfDoc.getPage(pagenum).getMediaBox.getWidth
+          )
+        )
+      ))
     else
       Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
         OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage))
