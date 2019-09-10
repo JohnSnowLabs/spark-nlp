@@ -16,7 +16,7 @@ Spark NLP infers these values from the training dataset used in [NerDLApproach a
 Currently, Spark NLP has graphs for the most common combination of tags, embeddings, and number of chars values:
 
 | Tags | Embeddings Dimension |
-| :--- | :------------------: | 
+| :--- | :------------------: |
 |  10  |       100            |
 |  10  |       200            |
 |  10  |       300            |
