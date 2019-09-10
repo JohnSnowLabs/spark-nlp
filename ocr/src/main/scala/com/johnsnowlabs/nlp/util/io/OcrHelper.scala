@@ -460,8 +460,8 @@ class OcrHelper extends ImageProcessing with Serializable {
                 val noiseLevel = mean(pageRegions.map(_._2))
                 val confidence = mean(pageRegions.map(_._3))
                 val mergedText = pageRegions.map(_._1).mkString(System.lineSeparator())
-                val minHeight = pageRegions.map(_._4).min.toDouble
-                val minWidth = pageRegions.map(_._5).min.toDouble
+                val minHeight = pageRegions.map(_._4).max.toDouble
+                val minWidth = pageRegions.map(_._5).max.toDouble
                 OcrRow(mergedText, pagenum, OCRMethod.IMAGE_LAYER, noiseLevel, confidence, height_dimension = minHeight, width_dimension = minWidth)})
       case _ =>
         // don't split pages either regions, => everything coming from page 0
@@ -470,8 +470,8 @@ class OcrHelper extends ImageProcessing with Serializable {
         // here the noise level will be an average
         val noiseLevel = mean(imageRegions.flatten.map(_._2))
         val confidence = mean(imageRegions.flatten.map(_._3))
-        val minHeight = imageRegions.flatten.map(_._4).min.toDouble
-        val minWidth = imageRegions.flatten.map(_._5).min.toDouble
+        val minHeight = imageRegions.flatten.map(_._4).max.toDouble
+        val minWidth = imageRegions.flatten.map(_._5).max.toDouble
         Option(Seq(OcrRow(mergedText, 0, OCRMethod.IMAGE_LAYER, noiseLevel, confidence, height_dimension = minHeight, width_dimension = minWidth)))
      }
   }
@@ -518,7 +518,9 @@ class OcrHelper extends ImageProcessing with Serializable {
       ))
     else
       Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
-        OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage))
+        OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage),
+          height_dimension = pdfDoc.getPage(startPage).getMediaBox.getHeight,
+          width_dimension = pdfDoc.getPage(endPage).getMediaBox.getWidth)
       })
   }
 
