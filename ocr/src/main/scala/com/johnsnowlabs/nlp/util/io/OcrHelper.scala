@@ -511,16 +511,16 @@ class OcrHelper extends ImageProcessing with Serializable {
             pagenum - 1,
             OCRMethod.TEXT_LAYER,
             positions = getCoordinates(pdfDoc, pagenum, pagenum),
-            height_dimension = pdfDoc.getPage(pagenum).getMediaBox.getHeight,
-            width_dimension = pdfDoc.getPage(pagenum).getMediaBox.getWidth
+            height_dimension = pdfDoc.getPage(pagenum-1).getMediaBox.getHeight,
+            width_dimension = pdfDoc.getPage(pagenum-1).getMediaBox.getWidth
           )
         )
       ))
     else
       Some(extractText(pdfDoc, startPage, endPage).zipWithIndex.map{case (t, idx) =>
         OcrRow(t, idx, OCRMethod.TEXT_LAYER, positions = getCoordinates(pdfDoc, startPage, endPage),
-          height_dimension = pdfDoc.getPage(startPage).getMediaBox.getHeight,
-          width_dimension = pdfDoc.getPage(startPage).getMediaBox.getWidth)
+          height_dimension = pdfDoc.getPage(startPage-1).getMediaBox.getHeight,
+          width_dimension = pdfDoc.getPage(startPage-1).getMediaBox.getWidth)
       })
   }
 
