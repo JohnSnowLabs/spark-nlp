@@ -3,18 +3,56 @@ layout: article
 title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
-modify_date: "2019-05-16"
+modify_date: "2019-09-10"
 ---
 
-# Spark-nlp 2.2.1 Quick Start Guideline
 
-## The very first: Join our Slack channel
+
+# Spark NLP 2.2.1 Quick Start Guideline
+<!-- TOC -->
+
+- [1. The very first: Join our Slack channel](#1-the-very-first-join-our-slack-channel)
+- [2. The very second: Spark NLP Workshop](#2-the-very-second-spark-nlp-workshop)
+- [3. Requirements & Setup](#3-requirements--setup)
+    - [3.1. Straight forward Python on jupyter notebook](#31-straight-forward-python-on-jupyter-notebook)
+    - [3.2. Python Jupyter Notebook with PySpark](#32-python-jupyter-notebook-with-pyspark)
+    - [3.3. Spark NLP from Scala](#33-spark-nlp-from-scala)
+    - [3.4. Databricks cloud cluster & Apache Zeppelin](#34-databricks-cloud-cluster--apache-zeppelin)
+    - [3.5. S3 based standalone cluster (No Hadoop)](#35-s3-based-standalone-cluster-no-hadoop)
+- [4. Concepts](#4-concepts)
+- [5. Annotation](#5-annotation)
+- [6. Annotators](#6-annotators)
+    - [6.1. Common Functions](#61-common-functions)
+- [7. Quickly annotate some text](#7-quickly-annotate-some-text)
+    - [7.1. Explain Document ML](#71-explain-document-ml)
+    - [7.2. Downloading and using a pretrained pipeline](#72-downloading-and-using-a-pretrained-pipeline)
+    - [7.3. Using a pretrained pipeline with spark dataframes](#73-using-a-pretrained-pipeline-with-spark-dataframes)
+    - [7.4. Manipulating pipelines](#74-manipulating-pipelines)
+- [8. Setup your own pipeline](#8-setup-your-own-pipeline)
+    - [8.1. Annotator types](#81-annotator-types)
+    - [8.2. Necessary imports](#82-necessary-imports)
+    - [8.3. DocumentAssembler: Getting data in](#83-documentassembler-getting-data-in)
+    - [8.4. Sentence detection and tokenization](#84-sentence-detection-and-tokenization)
+- [9. Using Spark ML Pipeline](#9-using-spark-ml-pipeline)
+- [10. Using Spark NLP's LightPipeline](#10-using-spark-nlps-lightpipeline)
+- [11. Utilizing Spark NLP OCR Module](#11-utilizing-spark-nlp-ocr-module)
+    - [11.1. Creating Spark datasets from PDF (To be used with Spark NLP)](#111-creating-spark-datasets-from-pdf-to-be-used-with-spark-nlp)
+    - [11.2. Creating an Array of Strings from PDF (For LightPipeline)](#112-creating-an-array-of-strings-from-pdf-for-lightpipeline)
+- [12. Training annotators](#12-training-annotators)
+    - [12.1. Training methodology](#121-training-methodology)
+- [13. Where to go next](#13-where-to-go-next)
+    - [13.1. Documentation and reference](#131-documentation-and-reference)
+    - [13.2. More examples in Scala and Python](#132-more-examples-in-scala-and-python)
+<!-- /TOC -->
+
+
+## 1. The very first: Join our Slack channel
 
 A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
 
 [Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE){:.button.button--info.button--rounded.button--md}
 
-## The very second: Spark NLP Workshop
+## 2. The very second: Spark NLP Workshop
 
 If you are of those who prefer learning by example, check this repository!
 
@@ -24,7 +62,7 @@ It is full of fresh examples and even a docker container if you want to skip ins
 
 Below, you can follow into a more theoretical and thorough quick start guide.
 
-## Requirements & Setup
+## 3. Requirements & Setup
 
 Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** supported release.
 
@@ -38,7 +76,7 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
 spark-submit --packages JohnSnowLabs:spark-nlp:2.2.1
 ```
 
-### **Straight forward Python on jupyter notebook**
+### 3.1. Straight forward Python on jupyter notebook
 
 As a first step we import the required python dependences including some sparknlp components.
 
@@ -101,7 +139,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-### **Python Jupyter Notebook with PySpark**
+### 3.2. **Python Jupyter Notebook with PySpark**
 
 You can also run the Jupyter Notebook directly from Pyspark. In such a
 case you don't need to open a session, it will be automatically started 
@@ -133,7 +171,8 @@ running in your terminal:
 ```bash
 pyspark --packages JohnSnowLabs:spark-nlp:2.2.1
 ```
-### Spark-NLP from Scala
+
+### 3.3. Spark NLP from Scala
 
 You can start a spark REPL with Scala by running in your terminal a
 spark-shell including the JohnSnowLabs:spark-nlp:2.2.1 package:
@@ -143,7 +182,7 @@ spark-shell --packages JohnSnowLabs:spark-nlp:2.2.1
 ```
 
 
-### Databricks cloud cluster & Apache Zeppelin
+### 3.4. Databricks cloud cluster & Apache Zeppelin
 
 Add the following maven coordinates in the dependency configuration page:
 
@@ -158,7 +197,7 @@ export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.2.1"
 ```
 
 
-### S3 based standalone cluster (No Hadoop)
+### 3.5. S3 based standalone cluster (No Hadoop)
 
 If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS) You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files. First, decide where you want to put your **application.conf** file
 
@@ -179,11 +218,11 @@ sparknlp {
 
 For further alternatives and documentation check out our README page in [GitHub](https://github.com/JohnSnowLabs/spark-nlp).
 
-## Concepts
+## 4. Concepts
 
 Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spar kML](https://spark.apache.org/docs/2.3.0/ml-guide.html) library for more information.
 
-## Annotation
+## 5. Annotation
 
 An annotation is the basic form of the result of a Spark NLP operation. It's structure is made of:
 
@@ -196,7 +235,7 @@ An annotation is the basic form of the result of a Spark NLP operation. It's str
 
 This object is **automatically generated** by annotators after a transform process. No manual work is required. But it must be understood in order to use it efficiently.
 
-## Annotators
+## 6. Annotators
 
 Annotators are the spearhead of NLP functions in Spark NLP. There are two forms of annotators:
 
@@ -205,12 +244,12 @@ Annotators are the spearhead of NLP functions in Spark NLP. There are two forms 
 
 Both forms of annotators can be included in a Pipeline and will automatically go through all stages in the provided order and transform the data accordingly. A Pipeline is turned into a PipelineModel after the fit() stage. Either before or after can be saved and re-loaded to disk at any time.
 
-### Common Functions
+### 6.1. Common Functions
 
 - **setInputCols**(column_names): Takes a list of column names of annotations required by this annotator
 - **setOutputCol(**column_name): Defines the name of the column containing the result of this annotator. Use this name as an input for other annotators requiring the annotations of this one.
 
-## Quickly annotate some text
+## 7. Quickly annotate some text
 
 You can run these examples using Python or Scala. 
 
@@ -228,20 +267,20 @@ spark-shell session including the spark-nlp package:
 spark-shell --packages JohnSnowLabs:spark-nlp:2.2.1
 ```
 
-### Explain Document ML
+### 7.1. Explain Document ML
 
 Spark NLP offers a variety of pretrained pipelines that will help you
 get started, and get a sense of how the library works. We are constantly
 working on improving the available content.
 
-### Downloading and using a pretrained pipeline
+### 7.2. Downloading and using a pretrained pipeline
 
 Explain Document ML, named as explain_document_ml is a pretrained
 pipeline that does a little bit of everything NLP related. Let's try it
 out in scala. Note that the first time might take longer since it
 downloads the model from our servers!
  
-#### Python code
+***Python code***
 ```python
 import sparknlp
 sparknlp.start()
@@ -265,7 +304,7 @@ print(annotations)
 }
 ```
 
-#### Scala code
+***Scala code***
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
@@ -298,7 +337,7 @@ part of speech tags, tokens and sentence boundary detection and all this
 "out-of-the-box"!.
 
 
-### Using a pretrained pipeline with spark dataframes
+### 7.3. Using a pretrained pipeline with spark dataframes
 
 You can also use the pipeline through a spark dataframe. You just need
 to create first a spark dataframe with a column named "text" that will
@@ -310,8 +349,7 @@ Remember than when starting jupyter notebook from pyspark or when running
 the spark-shell for scala a Spark Session is started in the background
 by default within the namespace 'scala'.
 
-#### Python code
-
+***Python code***
 ```python
 import sparknlp
 sparknlp.start()
@@ -348,8 +386,7 @@ annotations_df.show()
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 ```
 
-#### Scala code
-
+***Scala code***
 ```scala
 scala> val data = Seq(
     "Hello, this is an example sentence",
@@ -380,13 +417,13 @@ scala> annotations_df.show()
 |And this is a sec...|[[document, 0, 29...|[[document, 0, 29...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, an...|[[pos, 0, 2, CC, ...|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 ```
-### Manipulating pipelines
+### 7.4. Manipulating pipelines
 
 The output of the previous DataFrame was in terms of Annotation objects.
  This output is not really confortable to deal with, as you can see by
 running the code:
 
-#### Python code
+***Python code***
 ```python
 annotations_df.select("token").show(truncate=False)
 ```
@@ -399,7 +436,7 @@ annotations_df.select("token").show(truncate=False)
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### Scala code
+***Scala code***
 ```scala
 annotations_df.select("token").show(truncate=false)
 ```
@@ -418,7 +455,7 @@ Explain Document ML pipeline, and add them together in a Spark ML
 Pipeline. Remember that pretrained pipelines expect the input column to be
 named "text".
 
-#### Python code
+***Python code***
 ```python
 from sparknlp import Finisher
 from pyspark.ml import Pipeline
@@ -455,7 +492,7 @@ annotations_finished_df.select('finished_token').show(truncate=False)
 +-------------------------------------------+
 ```
 
-#### Scala code
+***Scala code***
 ```scala
 scala> import com.johnsnowlabs.nlp.Finisher
 scala> import org.apache.spark.ml.Pipeline
@@ -489,9 +526,9 @@ scala> annotations_df.select("finished_token").show(truncate=false)
 +-------------------------------------------+
 ```
 
-## Setup your own pipeline
+## 8. Setup your own pipeline
 
-### Annotator types
+### 8.1. Annotator types
 
 Every annotator has a type. Those annotators that share a type, can be
 used interchangeably, meaning you could you use any of them when needed.
@@ -500,45 +537,47 @@ For example, when a token type annotator is required by another annotator,
 such as a sentiment analysis annotator, you can either provide a normalized
 token or a lemma, as both are of type token.
 
-### Necessary imports
+### 8.2. Necessary imports
 
 Since version 1.5.0 we are making necessary imports easy to reach,
 **base.\_** will include general Spark NLP transformers and concepts,
 while **annotator.\_** will include all annotators that we currently
 provide. We also need Spark ML pipelines.
 
+***Python code***
 ```python
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 ```
-
+***Scala code***
 ```scala
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
 ```
 
-### DocumentAssembler: Getting data in
+### 8.3. DocumentAssembler: Getting data in
 
 In order to get through the NLP process, we need to get raw data
 annotated. There is a special **transformer** that does this for us:
 the **DocumentAssembler**, it creates the first annotation of type
 **Document** which may be used by annotators down the road
 
+***Python code***
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 ```
-
+***Scala code***
 ```scala
 val documentAssembler = new DocumentAssembler().
     setInputCol("text").
     setOutputCol("document")
 ```
 
-### Sentence detection and tokenization
+### 8.4. Sentence detection and tokenization
 
 In this quick example, we now proceed to identify the sentences in each
 of our document lines. SentenceDetector requires a Document annotation,
@@ -547,6 +586,7 @@ Document type token. The Tokenizer requires a Document annotation type,
 meaning it works both with DocumentAssembler or SentenceDetector output,
 in here, we use the sentence output.
 
+***Python code***
 ```python
 sentenceDetector = SentenceDetector() \
     .setInputCols(["document"]) \
@@ -557,6 +597,7 @@ regexTokenizer = Tokenizer() \
     .setOutputCol("token")
 ```
 
+***Scala code***
 ```scala
 val sentenceDetector = new SentenceDetector().
     setInputCols(Array("document")).
@@ -570,25 +611,29 @@ val regexTokenizer = new Tokenizer().
 We also include another special transformer, called **Finisher** to show
 tokens in a human language.
 
+***Pythond code***
 ```python
 finisher = Finisher() \
     .setInputCols(["token"]) \
     .setCleanAnnotations(False)
 ```
 
+***Scala code***
 ```scala
 val finisher = new Finisher().
     setInputCols("token").
     setCleanAnnotations(false)
 ```
 
-## Using Spark ML Pipeline
+## 9. Using Spark ML Pipeline
 
 Now we want to put all this together and retrieve the results, we use a
 Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
 
-#### Python code
+#### 9.0.1. Python code
+
+***Python code***
 ```python
 pipeline = Pipeline() \
     .setStages([ 
@@ -597,10 +642,7 @@ pipeline = Pipeline() \
         regexTokenizer, 
         finisher 
     ])
-
-
 ```
-
 
 ```
 +-------------------------------------------+
@@ -610,7 +652,7 @@ pipeline = Pipeline() \
 +-------------------------------------------+
 ```
 
-#### Scala code
+***Scala code***
 ```scala
 
 val pipeline = new Pipeline().
@@ -638,7 +680,7 @@ scala> annotations.select("finished_token").show(truncate=false)
 +-------------------------------------------+
 ```
 
-## Using Spark NLP's LightPipeline
+## 10. Using Spark NLP's LightPipeline
 
 LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
 ML Pipeline. The difference is that it's execution does not hold to
@@ -649,7 +691,7 @@ string or an Array of strings instead, to be annotated. To create Light
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
 
-#### Python code
+***Python code***
 ```python
 from pyspark.sql.types import StructType
 emptyDataFrame = spark.createDataFrame([], StructType([]))
@@ -672,7 +714,8 @@ lightPipeline.annotate("Hello world, please annotate my text")
  'token': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
  'sentence': ['Hello world, please annotate my text']}
 ```
-#### Scala code
+
+***Scala code***
 ```scala
 import com.johnsnowlabs.nlp.base._
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
@@ -693,7 +736,7 @@ Map[String,Seq[String]] =
     )
 ```
 
-## Utilizing Spark NLP OCR Module
+## 11. Utilizing Spark NLP OCR Module
 
 Spark NLP OCR Module is not included within Spark NLP. It is not an
 annotator and not an extension to Spark ML. You can include it by
@@ -708,6 +751,7 @@ spark-submit --repositories http://repo.spring.io/plugins-release --packages Joh
 
 This is the equivalent code for python:
 
+***Python code***
 ```python
 from pyspark.sql import SparkSession
 
@@ -725,7 +769,7 @@ You can find more details about OCR setup (including instructions of how
 to use it over image-type PDFs without text) at 
 [https://nlp.johnsnowlabs.com/docs/en/ocr](https://nlp.johnsnowlabs.com/docs/en/ocr)
 
-### Creating Spark datasets from PDF (To be used with Spark NLP)
+### 11.1. Creating Spark datasets from PDF (To be used with Spark NLP)
 
 You can use OcrHelper to directly create spark dataframes from PDF.
 This will hold entire documents in single rows, meant to be later
@@ -734,7 +778,7 @@ content in rows as if you were reading a standard document. Metadata
 columns are added automatically and will include page numbers, file
 name and other useful information per row.
 
-#### Python code
+***Python code***
 ```python
 from pyspark.sql import SparkSession
 from sparknlp.ocr import OcrHelper
@@ -758,7 +802,8 @@ annotations.columns
 ['text', 'pagenum', 'method', 'noiselevel', 'confidence', 'positions',
  'filename', 'document']
 ```
-#### Scala code
+
+***Scala code***
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 import com.johnsnowlabs.nlp.DocumentAssembler
@@ -776,13 +821,13 @@ Array[String] = Array(text, pagenum, method, noiselevel, confidence, positions, 
 ... where the text column of the annotations spark dataframe includes the 
 text content of the PDF, pagenum the page number, etc...
 
-### Creating an Array of Strings from PDF (For LightPipeline)
+### 11.2. Creating an Array of Strings from PDF (For LightPipeline)
 
 Another way, would be to simply create an array of strings. This is
 useful for example if you are parsing a small amount of pdf files and
 would like to use LightPipelines instead. See an example below.
 
-#### Scala code
+***Scala code***
 ```scala
 import com.johnsnowlabs.nlp.util.io.OcrHelper
 import com.johnsnowlabs.nlp.{DocumentAssembler,LightPipeline}
@@ -798,6 +843,7 @@ val annotations = ligthPipeline.annotate(raw.values.toArray)
 ```
 Now to get the whole first PDF content in your **/pdfs/** folder you can
 use:
+
 ```scala
 annotations(0)("document")(0)
 ``` 
@@ -806,18 +852,20 @@ and to get the third sentence found in that first pdf:
 ```scala
 annotations(0)("sentence")(2)
 ```
+
 To get from the fifth pdf the second sentence:
 ```scala
 annotations(4)("sentence")(1)
 ```
+
 Similarly, the whole content of the fifth pdf can be retrieved by:
 ```scala
 annotations(4)("document")(0)
 ``` 
 
-## Training annotators
+## 12. Training annotators
 
-### Training methodology
+### 12.1. Training methodology
 
 Training your own annotators is the most key concept when dealing with
 real life scenarios. Any of the annotators provided above, such as
@@ -846,14 +894,14 @@ API just like any other annotator. For more advanced users, we also
 allow importing your own graphs or even training from Python and
 converting them into an AnnotatorModel.
 
-## Where to go next
+## 13. Where to go next
 
-### Documentation and reference
+### 13.1. Documentation and reference
 
 Detailed information about Spark NLP concepts, annotators and more may
 be found [HERE](annotators)
 
-### More examples in Scala and Python
+### 13.2. More examples in Scala and Python
 
 We are working on examples to show you how the library may be used in
 different scenarios, take a look at our examples repository, which also
