@@ -131,8 +131,12 @@ This applies only to `WordEmbeddings` not `BertEmbeddings`.
 
 **Functions:**
 
-- load(path, spark, format, reference, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'. Makes embeddings available for Annotators without included embeddings.
-- save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+- load(path, spark, format, reference, dims, caseSensitive) -> Loads
+embeddings from disk in any format possible: 'TEXT', 'BINARY',
+'SPARKNLP'. Makes embeddings available for Annotators without included
+embeddings.
+- save(path, embeddings, spark) -> Saves provided embeddings to path,
+using current SparkSession
 
 #### Annotator with Word Embeddings
 
@@ -147,8 +151,13 @@ These functions are included in the embedding annotators
 
 **Functions (not all of them listed):**
 
-- setIncludeEmbeddings(bool) -> Param to define whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
-- setEmbeddingsRef(ref) -> Set whether to use annotators under the provided name. This means these embeddings will be lookup from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
+- setIncludeEmbeddings(bool) -> Param to define whether or not to
+include word embeddings when saving this annotator to disk (single or
+within pipeline)
+- setEmbeddingsRef(ref) -> Set whether to use annotators under the
+provided name. This means these embeddings will be lookup from the cache
+by the ref name. This allows multiple annotators to utilize same word
+embeddings by ref name.
 
 ### Params and Features
 
@@ -192,7 +201,8 @@ information
 
 **Example:**
 
-Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler) Scala docs for more details on the API.
+Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler)
+Scala docs for more details on the API.
 
 ```python
 from sparknlp.annotator import *
@@ -219,7 +229,10 @@ val documentAssembler = new DocumentAssembler()
 
 #### Getting data reshaped
 
-This transformer reconstructs a Document type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators.
+This transformer reconstructs a Document type annotation from tokens,
+usually after these have been normalized, lemmatized, normalized, spell
+checked, etc, in order to use this document annotation in further
+annotators.
 
 **Settable parameters are:**
 
