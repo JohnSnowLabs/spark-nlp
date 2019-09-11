@@ -1,7 +1,8 @@
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.annotators
 
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk]{
 
