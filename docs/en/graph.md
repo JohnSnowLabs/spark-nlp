@@ -38,10 +38,10 @@ To overcome this exception message we have to follow these steps:
 
 3. Run python file `create_models` with number of tags, embeddings dimension and number of char values mentioned on your exception message error.
     ```bash
-    python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars]
+    python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path] 
     ```
-
-4. This will generate a graph on the same directory of `create_models`. You can move it to another local directory if you want.
+    
+4. This will generate a graph on the directory defined on `output_path argument.
 
 5. Retry training with `NerDLApproach` annotator but this time use the parameter `setGraphFolder` with the path of your graph.
 

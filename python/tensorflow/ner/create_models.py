@@ -2,9 +2,10 @@ import os
 import sys
 import tensorflow as tf
 import ner_model
+from distutils.util import strtobool
 
 
-def create_graph(use_contrib, number_of_tags, embeddings_dimension, number_of_chars, lstm_size=128):
+def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension, number_of_chars, lstm_size=128):
     if sys.version_info[0] != 3 or sys.version_info[1] >= 7:
         raise Exception('Python 3.7 or above not supported by tensorflow')
     if tf.__version__ != '1.12.0':
@@ -22,18 +23,28 @@ def create_graph(use_contrib, number_of_tags, embeddings_dimension, number_of_ch
         ner.add_training_op(5)
         ner.init_variables()
         file_name = model_name + '.pb'
-        tf.train.write_graph(ner.session.graph, './', file_name, False)
+        tf.train.write_graph(ner.session.graph, output_path, file_name, False)
         ner.close()
         session.close()
         print(f'Graph {file_name} created successfully')
 
 
 def main():
-    use_contrib = False if os.name == 'nt' else True
-    number_of_tags = int(sys.argv[1])
-    embeddings_dimension = int(sys.argv[2])
-    number_of_chars = int(sys.argv[3])
-    create_graph(use_contrib, number_of_tags, embeddings_dimension, number_of_chars)
+    if len(sys.argv) == 5:
+        use_contrib = False if os.name == 'nt' else True
+        number_of_tags = int(sys.argv[1])
+        embeddings_dimension = int(sys.argv[2])
+        number_of_chars = int(sys.argv[3])
+        output_path = sys.argv[4]
+    elif len(sys.argv) == 6:
+        use_contrib = bool(strtobool(sys.argv[1]))
+        number_of_tags = int(sys.argv[2])
+        embeddings_dimension = int(sys.argv[3])
+        number_of_chars = int(sys.argv[4])
+        output_path = sys.argv[5]
+    else:
+        raise Exception('Wrong number of arguments.')
+    create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension, number_of_chars)
 
 
 if __name__ == "__main__":
