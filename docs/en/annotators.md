@@ -1203,7 +1203,16 @@ This spell checker utilizes tensorflow to do context based spell checking. At th
 **Input types:** Tokenizer  
 **Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 
-### 2.2.21. Dependency Parser: Unlabeled grammatical relation
+### 2.2.21. Dependency Parser
+
+Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to [specific questions](https://www.megaputer.com/why-we-use-dependency-parsing/).
+The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
+
+![Dependency Parser](../assets/images/dependency_parser.png)
+
+Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure.
+
+### 2.2.21.1. Dependency Parser: Unlabeled grammatical relation
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
@@ -1235,7 +1244,7 @@ val dependencyParser = new DependencyParserApproach()
     .setNumberOfIterations(10)
 ```
 
-### 2.2.22. Typed Dependency Parser: Labeled grammatical relation
+### 2.2.21.2. Typed Dependency Parser: Labeled grammatical relation
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
