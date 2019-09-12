@@ -1353,4 +1353,5 @@ patients and remove them by replacing with semantic tags.
 - setRegexPatternsDictionary(path, read_as, options)
 
 ### References
+
 [1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
