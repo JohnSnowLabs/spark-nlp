@@ -84,9 +84,9 @@ class NerDLEvaluation(ExtendedJavaWrapper):
                                       ner_params['verbose'], ner_params['random_seed'], ner_params['lr'],
                                       ner_params['po'], ner_params['batch_size'], ner_params['dropout'],
                                       ner_params['graph_folder'], ner_params['user_contrib'],
-                                      ner_params['train_validation_prop'], ner_params['evaluation_log_extended'],
+                                      ner_params['validation_split'], ner_params['evaluation_log_extended'],
                                       ner_params['enable_output_logs'], ner_params['test_dataset'],
-                                      ner_params['include_confidence'], ner_params['include_validation_prop'],
+                                      ner_params['include_confidence'], ner_params['validation_splition_prop'],
                                       embeddings_params['input_cols'], embeddings_params['output_col'],
                                       embeddings_params['path'], embeddings_params['dimension'],
                                       embeddings_params['format'])
@@ -107,12 +107,11 @@ class NerDLEvaluation(ExtendedJavaWrapper):
         ner_params['dropout'] = ner.getDropout()
         ner_params['graph_folder'] = ner.getGraphFolder()
         ner_params['user_contrib'] = ner.getUseContrib()
-        ner_params['train_validation_prop'] = ner.getTranValidationProp()
+        ner_params['validation_split'] = ner.getValidationSplit()
         ner_params['evaluation_log_extended'] = ner.getEvaluationLogExtended()
         ner_params['enable_output_logs'] = ner.getEnableOutputLogs()
         ner_params['test_dataset'] = ner.getTestDataset()
         ner_params['include_confidence'] = ner.getIncludeConfidence()
-        ner_params['include_validation_prop'] = ner.getIncludeConfidence()
         return ner_params
 
     def __getEmbeddingsParams(self, embeddings):
