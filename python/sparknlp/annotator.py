@@ -1104,10 +1104,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
-    trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+    validationSplit = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
-    includeValidationProp = Param(Params._dummy(), "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.",
-                                  TypeConverters.toBoolean)
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1156,12 +1154,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
-    def setTrainValidationProp(self, v):
-        self._set(trainValidationProp=v)
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
         return self
-
-    def setIncludeValidationProp(self, v):
-        return self._set(includeValidationProp=v)
 
     def setEvaluationLogExtended(self, v):
         self._set(evaluationLogExtended=v)
@@ -1189,8 +1184,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             dropout=float(0.5),
             verbose=2,
             useContrib=uc,
-            trainValidationProp=float(0.0),
-            includeValidationProp=False,
+            validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
             enableOutputLogs=False
