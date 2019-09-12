@@ -22,6 +22,7 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
 
   def getMinEpochs: Int = $(minEpochs)
   def getMaxEpochs: Int = $(maxEpochs)
+  def getVerbose: Int = $(verbose)
   def getRandomSeed: Int = $(randomSeed)
 
 }

@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-07-22"
+modify_date: "2019-09-04"
 ---
 
 ## English
@@ -14,8 +14,8 @@ modify_date: "2019-07-22"
 | Pipelines            | Name                   | en                                                                                                                  |
 | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | [Explain Document ML](#explain_document_ml)  | `explain_document_ml`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.1.0_2.4_1563203154682.zip)  |
-| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.1.0_2.4_1562946191575.zip)  |
-| Explain Document DL Win | `explain_document_dl_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_noncontrib_en_2.1.0_2.4_1562953993338.zip)  |
+| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.1.0_2.4_1564764767733.zip)  |
+| Explain Document DL Win | `explain_document_dl_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_noncontrib_en_2.1.0_2.4_1564764344071.zip)  |
 | Explain Document DL Fast | `explain_document_dl_fast`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_en_2.1.0_2.4_1562946519404.zip)  |
 | Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_noncontrib_en_2.1.0_2.4_1562954323015.zip)  |
 | [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_en_2.1.0_2.4_1562946909722.zip) |
@@ -24,7 +24,7 @@ modify_date: "2019-07-22"
 | [OntoNotes Entities Large](#onto_recognize_entities_lg) | `onto_recognize_entities_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_300_en_2.1.0_2.4_1564256072129.zip)
 | [Match Datetime](#match_datetime) | `match_datetime` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_datetime_en_2.1.0_2.4_1562944300214.zip)
 | [Match Pattern](#match_pattern) | `match_pattern` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_pattern_en_2.1.0_2.4_1562944301080.zip)
-| [Match Chunk](#match_chunk) | `match_chunk` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_chunks_en_2.1.0_2.4_1564415802326.zip)
+| [Match Chunk](#match_chunks) | `match_chunks` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_chunks_en_2.2.0_2.4_1568121171238.zip)
 | Match Phrases | `match_phrases`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_phrases_en_2.1.0_2.4_1562944304428.zip)
 | Clean Stop | `clean_stop`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_stop_en_2.1.0_2.4_1562944303490.zip)
 | Clean Pattern | `clean_pattern`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_pattern_en_2.1.0_2.4_1562944302303.zip)
@@ -359,7 +359,7 @@ annotation.select("regex.result").show(false)
 
 {% endhighlight %}
 
-### match_chunk
+### match_chunks
 
 The pipeline uses regex `<DT/>?/<JJ/>*<NN>+`
 
@@ -375,7 +375,7 @@ val testData = spark.createDataFrame(Seq(
 (2, "the little yellow dog barked at the cat")
 )).toDF("id", "text")
 
-val pipeline = PretrainedPipeline("match_chunk", lang="en")
+val pipeline = PretrainedPipeline("match_chunks", lang="en")
 
 val annotation = pipeline.transform(testData)
 
@@ -386,7 +386,7 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.SparkNLP
 2.0.8
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_chunk,en,public/models)
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_chunks,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 5 more fields]
 +---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 | id|                text|            document|            sentence|               token|                 pos|               chunk|

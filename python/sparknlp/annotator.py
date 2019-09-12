@@ -100,12 +100,7 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True,
-            exceptions=[],
-            infixPatterns=[],
-            prefixPattern="\\A([^\\s\\w\$\\.]*)",
-            splitChars=[],
-            suffixPattern="([^\\s\\w]?)([^\\s\\w]*)\\z')"
+            caseSensitiveExceptions=True
         )
 
     def getInfixPatterns(self):
@@ -248,6 +243,13 @@ class ChunkTokenizerModel(TokenizerModel):
             classname=classname,
             java_model=java_model
         )
+
+
+class Token2Chunk(AnnotatorModel):
+    name = "Token2Chunk"
+
+    def __init__(self):
+        super(Token2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Token2Chunk")
 
 
 class Stemmer(AnnotatorModel):
@@ -944,12 +946,6 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
         self.dictionary_path = ""
 
-    def setCorpus(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
-        opts = options.copy()
-        if "tokenPattern" not in opts:
-            opts["tokenPattern"] = token_pattern
-        return self._set(corpus=ExternalResource(path, read_as, opts))
-
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
@@ -1018,9 +1014,6 @@ class NerApproach(Params):
     def setRandomSeed(self, seed):
         return self._set(randomSeed=seed)
 
-    def getRandomSeed(self):
-        return self.getOrDefault(self.randomSeed)
-
     def getLabelColumn(self):
         return self.getOrDefault(self.labelColumn)
 
@@ -1028,11 +1021,15 @@ class NerApproach(Params):
 class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
+
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
+
     lossEps = Param(Params._dummy(), "lossEps", "If Epoch relative improvement less than eps then training is stopped",
                     TypeConverters.toFloat)
+
     minW = Param(Params._dummy(), "minW", "Features with less weights then this param value will be filtered",
                  TypeConverters.toFloat)
+
     includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
                               TypeConverters.toBoolean)
 
@@ -1101,17 +1098,26 @@ class NerCrfModel(AnnotatorModel):
 class NerDLApproach(AnnotatorApproach, NerApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)",
                TypeConverters.toFloat)
+
     batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
-    minProba = Param(Params._dummy(), "minProba",
-                     "Minimum probability. Used only if there is no CRF on top of LSTM layer", TypeConverters.toFloat)
+
     graphFolder = Param(Params._dummy(), "graphFolder", "Folder path that contain external graph files", TypeConverters.toString)
+
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
+
     trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
+
+    includeValidationProp = Param(Params._dummy(), "includeValidationProp", "Whether or not to include trainValidationProp inside training or keep it for real sampling evaluation.",
+                                  TypeConverters.toBoolean)
+
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1122,6 +1128,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                               "Whether to use stdout in addition to Spark logs.",
                               TypeConverters.toBoolean)
@@ -1153,16 +1160,15 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(dropout=v)
         return self
 
-    def setMinProbability(self, v):
-        self._set(minProba=v)
-        return self
-
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
     def setTrainValidationProp(self, v):
         self._set(trainValidationProp=v)
         return self
+
+    def setIncludeValidationProp(self, v):
+        return self._set(includeValidationProp=v)
 
     def setEvaluationLogExtended(self, v):
         self._set(evaluationLogExtended=v)
@@ -1191,6 +1197,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             verbose=2,
             useContrib=uc,
             trainValidationProp=float(0.0),
+            includeValidationProp=False,
             evaluationLogExtended=False,
             includeConfidence=False,
             enableOutputLogs=False

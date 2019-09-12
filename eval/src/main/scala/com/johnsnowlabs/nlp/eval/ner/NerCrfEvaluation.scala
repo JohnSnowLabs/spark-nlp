@@ -35,23 +35,41 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
-                               randomSeed: Int, labelColumn: String,
+                               labelColumn: String, entities: Array[String], minEpochs: Int, maxEpochs: Int,
+                               verbose: Int, randomSeed: Int, l2: Double, c0: Int, lossEps: Double,
+                               minW: Double, includeConfidence: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
                                embeddingsPath: String, dimension: Int, format: Int): Unit = {
 
-    val ner = new NerCrfApproach()
+    val nerCrfApproach = new NerCrfApproach()
       .setInputCols(nerInputCols)
       .setOutputCol(nerOutputCol)
       .setLabelColumn(labelColumn)
+      .setMinEpochs(minEpochs)
+      .setMaxEpochs(maxEpochs)
+      .setVerbose(verbose)
       .setRandomSeed(randomSeed)
+      .setL2(l2)
+      .setC0(c0)
+      .setLossEps(lossEps)
+      .setIncludeConfidence(includeConfidence)
+
+    if (entities != null) {
+      nerCrfApproach.setEntities(entities)
+    }
+
+    if (minW.isNaN) {
+      nerCrfApproach.setMinW(minW)
+    }
 
     val wordEmbeddings = new WordEmbeddings()
       .setInputCols(embeddingsInputCols)
       .setOutputCol(embeddingsOutputCol)
       .setEmbeddingsSource(embeddingsPath, dimension, format)
 
-    computeAccuracyAnnotator(trainFile, ner, wordEmbeddings)
+    computeAccuracyAnnotator(trainFile, nerCrfApproach, wordEmbeddings)
   }
+
 
   private def computeAccuracy(nerEvalCrfConfiguration: NerEvalCrfConfiguration): Unit = {
     import sparkSession.implicits._

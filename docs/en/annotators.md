@@ -3,74 +3,95 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-07-14"
+modify_date: "2019-09-11"
 ---
 
-## Concepts
+## 1. Annotators Guideline
 
-### Spark NLP Imports
+### 1.1. Concepts
 
-We attempt making necessary imports easy to reach, **base** will include general Spark NLP transformers and concepts, while **annotator** will include all annotators that we currently provide. **embeddings** include word embedding annotators. This does not include Spark imports.
+### 1.1.1. Spark NLP Imports
+
+We attempt making necessary imports easy to reach, **base** will include
+general Spark NLP transformers and concepts, while **annotator** will
+include all annotators that we currently provide. **embeddings** include
+word embedding annotators. This does not include Spark imports.
 
 **Example:**
 
-{% highlight python %}
+```python
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.embeddings import *
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
-{% endhighlight %}
+```
 
-### Spark ML Pipelines
+### 1.1.2. Spark ML Pipelines
 
-SparkML Pipelines are a uniform structure that helps creating and tuning practical machine learning pipelines. Spark NLP integrates with them seamlessly so it is important to have this concept handy. Once a **Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
+SparkML Pipelines are a uniform structure that helps creating and tuning
+practical machine learning pipelines. Spark NLP integrates with them
+seamlessly so it is important to have this concept handy. Once a
+**Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
 
 **Example:**
 
-{% highlight python %}
+```python
 from pyspark.ml import Pipeline
 pipeline = Pipeline().setStages([...])
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import org.apache.spark.ml.Pipeline
 new Pipeline().setStages(Array(...))
-{% endhighlight %}
+```
 
-### LightPipeline
+### 1.1.3. LightPipeline
 
-#### A super-fast Spark NLP pipeline for small data
+LightPipelines are Spark ML pipelines converted into a single machine
+but multithreaded task, becoming more than 10x times faster for smaller
+amounts of data (small is relative, but 50k sentences is roughly a good
+maximum). To use them, simply plug in a trained (fitted) pipeline.
 
-LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than 10x times faster for smaller amounts of data (small is relative, but 50k sentences is roughly a good maximum). To use them, simply plug in a trained (fitted) pipeline.  
 **Example:**
 
-{% highlight python %}
+***Python code***
+
+```python
 from sparknlp.base import LightPipeline
 LightPipeline(someTrainedPipeline).annotate(someStringOrArray)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+***Scala code***
+
+```scala
 import com.johnsnowlabs.nlp.LightPipeline
 new LightPipeline(somePipelineModel).annotate(someStringOrArray))
-{% endhighlight %}
+```
 
 **Functions:**
 
-- annotate(string or string\[\]): returns dictionary list of annotation results
-- fullAnnotate(string or string\[\]): returns dictionary list of entire annotations content
+- annotate(string or string\[\]): returns dictionary list of annotation
+results
+- fullAnnotate(string or string\[\]): returns dictionary list of entire
+annotations content
 
-### RecursivePipeline
+### 1.1.4. RecursivePipeline
 
-#### A smarter Spark-NLP pipeline
+Recursive pipelines are SparkNLP specific pipelines that allow a Spark
+ML Pipeline to know about itself on every Pipeline Stage task, allowing
+annotators to utilize this same pipeline against external resources to
+process them in the same way the user decides. Only some of our
+annotators take advantage of this. RecursivePipeline behaves exactly
+the same than normal Spark ML pipelines, so they can be used with the
+same intention.
 
-Recursive pipelines are SparkNLP specific pipelines that allow a Spark ML Pipeline to know about itself on every Pipeline Stage task, allowing annotators to utilize this same pipeline against external resources to process them in the same way the user decides. Only some of our annotators take advantage of this. RecursivePipeline behaves exactly the same than normal Spark ML pipelines, so they can be used with the same intention.  
 **Example:**
 
-{% highlight python %}
+```python
 from sparknlp.annotator import *
 recursivePipeline = RecursivePipeline(stages=[
         documentAssembler,
@@ -79,9 +100,9 @@ recursivePipeline = RecursivePipeline(stages=[
         lemmatizer,
         finisher
         ])
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp.RecursivePipeline
 val recursivePipeline = new RecursivePipeline()
         .setStages(Array(
@@ -91,69 +112,102 @@ val recursivePipeline = new RecursivePipeline()
         lemmatizer,
         finisher
         ))
-{% endhighlight %}
+```
 
-### EmbeddingsHelper
+### 1.1.5. EmbeddingsHelper
 
-#### Deal with word embeddings
+#### 1.1.5.1. Deal with word embeddings
 
 Allows loading, saving and setting word embeddings for annotators.
 
-An embeddings reference, or embeddingsRef, is a user-given name for annotators to lookup the embeddings database. Since Spark NLP 2.0, embeddings are
-annotators on its own, however, certain use cases may require multiple embedding annotators, and you might not want to duplicate the
-database on all of them. Hence, you can use reference in combination with the param `setIncludeEmbeddings(false)` to refer to the same database without loading them.
-In the future, some annotators might also need random access to the embeddings database, so they might take an embeddingsRef, apart from the pipeline annotator.
+An embeddings reference, or embeddingsRef, is a user-given name for
+annotators to lookup the embeddings database. Since Spark NLP 2.0,
+embeddings are annotators on its own, however, certain use cases may
+require multiple embedding annotators, and you might not want to
+duplicate the database on all of them. Hence, you can use reference in
+combination with the param `setIncludeEmbeddings(false)` to refer to the
+same database without loading them.
+
+In the future, some annotators might also need random access to the
+embeddings database, so they might take an embeddingsRef, apart from the
+pipeline annotator.
 
 This applies only to `WordEmbeddings` not `BertEmbeddings`.
 
 **Functions:**
 
-- load(path, spark, format, reference, dims, caseSensitive) -> Loads embeddings from disk in any format possible: 'TEXT', 'BINARY', 'SPARKNLP'. Makes embeddings available for Annotators without included embeddings.
-- save(path, embeddings, spark) -> Saves provided embeddings to path, using current SparkSession
+- load(path, spark, format, reference, dims, caseSensitive) -> Loads
+embeddings from disk in any format possible: 'TEXT', 'BINARY',
+'SPARKNLP'. Makes embeddings available for Annotators without included
+embeddings.
+- save(path, embeddings, spark) -> Saves provided embeddings to path,
+using current SparkSession
 
-#### Annotator with Word Embeddings
+#### 1.1.5.2. Annotator with Word Embeddings
 
-Some annotators use word embeddings. This is a common functionality within them. Since Spark NLP 2.0, embeddings as annotator means the rest annotators don't use this interface anymore,
-however, for developers reference, they still exist and might be used in annotators that require random access to word embeddings.
-These functions are included in the embedding annotators `WordEmbeddings` and `BertEmbeddings`
+Some annotators use word embeddings. This is a common functionality
+within them. Since Spark NLP 2.0, embeddings as annotator means the
+rest annotators don't use this interface anymore, however, for
+developers reference, they still exist and might be used in annotators
+that require random access to word embeddings.
+
+These functions are included in the embedding annotators 
+`WordEmbeddings` and `BertEmbeddings`
 
 **Functions (not all of them listed):**
 
-- setIncludeEmbeddings(bool) -> Param to define whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
-- setEmbeddingsRef(ref) -> Set whether to use annotators under the provided name. This means these embeddings will be lookup from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
+- setIncludeEmbeddings(bool) -> Param to define whether or not to
+include word embeddings when saving this annotator to disk (single or
+within pipeline)
+- setEmbeddingsRef(ref) -> Set whether to use annotators under the
+provided name. This means these embeddings will be lookup from the cache
+by the ref name. This allows multiple annotators to utilize same word
+embeddings by ref name.
 
-### Params and Features
+### 1.1.6. Params and Features
 
-#### Annotator parameters
+#### 1.1.6.1. Annotator parameters
 
-SparkML uses ML Params to store pipeline parameter maps. In SparkNLP, we also use Features, which are a way to store parameter maps that are larger than just a string or a boolean. These features are serialized as either Parquet or RDD objects, allowing much faster and scalable annotator information. Features are also broadcasted among executors for better performance.  
+SparkML uses ML Params to store pipeline parameter maps. In SparkNLP,
+we also use Features, which are a way to store parameter maps that are
+larger than just a string or a boolean. These features are serialized
+as either Parquet or RDD objects, allowing much faster and scalable
+annotator information. Features are also broadcasted among executors for
+better performance.  
 
-## Transformers
+## 1.2. Transformers
 
-### DocumentAssembler
+### 1.2.1. DocumentAssembler: Getting data in
 
-#### Getting data in
-
-In order to get through the NLP process, we need to get raw data annotated. There is a special transformer that does this for us: it creates the first annotation of type Document which may be used by annotators down the road. It can read either a String column or an Array\[String\]  
+In order to get through the NLP process, we need to get raw data
+annotated. There is a special transformer that does this for us: it
+creates the first annotation of type Document which may be used by
+annotators down the road. It can read either a String column or an
+Array\[String\]  
 
 **Settable parameters are:**
 
 - setInputCol()
 - setOutputCol()
 - setIdCol() -> OPTIONAL: Sring type column with id information
-- setMetadataCol() -> OPTIONAL: Map type column with metadata information
+- setMetadataCol() -> OPTIONAL: Map type column with metadata
+information
 - setCleanupMode(disabled) -> Cleaning up options, possible values: 
   - disabled: Source kept as original. 
   - inplace: removes new lines and tabs.
-  - inplace_full: removes new lines and tabs but also those which were converted to strings (i.e. \\n)
-  - shrink: removes new lines and tabs, plus merging multiple spaces and blank lines to a single space.
-  - shrink_full: removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. 
+  - inplace_full: removes new lines and tabs but also those which were
+  converted to strings (i.e. \\n)
+  - shrink: removes new lines and tabs, plus merging multiple spaces
+  and blank lines to a single space.
+  - shrink_full: removews new lines and tabs, including stringified
+  values, plus shrinking spaces and blank lines. 
 
 **Example:**
 
-Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler) Scala docs for more details on the API.
+Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler)
+Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 from sparknlp.annotator import *
 from sparknlp.common import *
 from sparknlp.base import *
@@ -162,9 +216,9 @@ documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document") \
     .setCleanupMode("shrink")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
@@ -172,13 +226,14 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
     .setCleanupMode("shrink")
-{% endhighlight %}
+```
 
-### TokenAssembler
+### 1.2.2. TokenAssembler: Getting data reshaped
 
-#### Getting data reshaped
-
-This transformer reconstructs a Document type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators.
+This transformer reconstructs a Document type annotation from tokens,
+usually after these have been normalized, lemmatized, normalized, spell
+checked, etc, in order to use this document annotation in further
+annotators.
 
 **Settable parameters are:**
 
@@ -189,19 +244,19 @@ This transformer reconstructs a Document type annotation from tokens, usually af
 
 Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.TokenAssembler) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 token_assembler = TokenAssembler() \
     .setInputCols(["normalized"]) \
     .setOutputCol("assembled")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val token_assembler = new TokenAssembler()
     .setInputCols("normalized")
     .setOutputCol("assembled")
-{% endhighlight %}
+```
 
-### Doc2Chunk
+### 1.2.3. Doc2Chunk
 
 Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol. Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType\[StringType\] (using isArray Param) Useful for annotators that require a CHUNK type input.  
 
@@ -220,23 +275,23 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 Refer to the [Doc2Chunk](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Doc2Chunk) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 chunker = Doc2Chunk()\
     .setInputCols(["document"])\
     .setOutputCol("chunk")\
     .setIsArray(False)\
     .setChunkCol("some_column")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val chunker = new Doc2Chunk()
     .setInputCols("document")
     .setOutputCol("chunk")
     .setIsArray(false)
     .setChunkCol("some_column")
-{% endhighlight %}
+```
 
-### Chunk2Doc
+### 1.2.4. Chunk2Doc
 
 Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.  
 
@@ -249,21 +304,19 @@ Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokeni
 
 Refer to the [Chunk2Doc](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Chunk2Doc) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 chunk_doc = Chunk2Doc()\
     .setInputCols(["chunk_output"])\
     .setOutputCol("new_document")\
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val chunk_doc = new Chunk2Doc()
     .setInputCols("chunk_output")
     .setOutputCol("new_document")
-{% endhighlight %}
+```
 
-### Finisher
-
-#### Getting data out
+### 1.2.5. Finisher
 
 Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
 
@@ -281,21 +334,21 @@ Once we have our NLP pipeline ready to go, we might want to use our annotation r
 
 Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Finisher) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 finisher = Finisher() \
     .setInputCols(["sentiment"]) \
     .setIncludeMetadata(True)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val finisher = new Finisher()
     .setInputCols("token")
     .setIncludeMetadata(true)
-{% endhighlight %}
+```
 
-## Training Datasets
+## 1.3. Training Datasets
 
-### POS Dataset
+### 1.3.1. POS Dataset
 
 In order to train a Part of Speech Tagger annotator, we need to get corpus data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.  
 
@@ -316,17 +369,17 @@ A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
 
 Refer to the [POS](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.POS) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 from sparknlp.training import POS
 train_pos = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp.training.POS
 val trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
-{% endhighlight %}
+```
 
-### CoNLL Dataset
+### 1.3.2. CoNLL Dataset
 
 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
 
@@ -352,46 +405,53 @@ In order to train a Named Entity Recognition DL annotator, we need to get CoNLL 
 
 Refer to the [CoNLL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.CoNLL) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 from sparknlp.training import CoNLL
 training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 import com.johnsnowlabs.nlp.training.CoNLL
 val trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
-{% endhighlight %}
+```
 
-### Spell Checkers Dataset
+### 1.3.3. Spell Checkers Dataset
 
 In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus data as a spark dataframe. We can read a plain text file and transforms it to a spark dataset.  
 
 **Example:**
 
-{% highlight python %}
+```python
 train_corpus = spark.read.text("./sherlockholmes.txt")
                     .withColumnRenamed("value", "text")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val trainCorpus = spark.read.text("./sherlockholmes.txt")
                        .select(trainCorpus.col("value").as("text"))
-{% endhighlight %}
+```
 
-### Vivekn Sentiment Analysis Dataset
+### 1.3.4. Vivekn Sentiment Analysis Dataset
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
-## Annotators
+## 2. Annotators
 
-### How to read this section
+### 2.1. How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
-- Annotation -> `Annotation(annotatorType, begin, end, result, metadata, embeddings, sentenceEmbeddings)`
-- AnnotatorType -> some annotators share a type. This is not only figurative, but also tells about the structure of the `metadata` map in the Annotation. This is the one refered in the input and output of annotators
-- Inputs -> Represents how many and which annotator types are expected in `setInputCols`. These are column names of output of other annotators in the dataframe.
-- Output -> Represents the type of the output in the column `setOutputCol`
+- Annotation -> `Annotation(annotatorType, begin, end, result, metadata,
+embeddings, sentenceEmbeddings)`
+- AnnotatorType -> some annotators share a type. This is not only
+figurative, but also tells about the structure of the `metadata` map in
+the Annotation. This is the one refered in the input and output of
+annotators.
+- Inputs -> Represents how many and which annotator types are expected
+in `setInputCols`. These are column names of output of other annotators
+in the dataframe.
+- Output -> Represents the type of the output in the column
+`setOutputCol`.
 
 There are two types of annotators:
 
@@ -418,7 +478,40 @@ The types are:
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
 
-### Tokenizer
+There are annotators freely available in the opensource version of
+Spark-NLP but some of them are only avaliable in the licensed version.
+
+|Annotator|Description|version |
+|---|---|---|
+|Tokenizer|Identifies tokens with tokenization open standards|Opensource|
+|Normalizer|Removes all dirty characters from text|Opensource|
+|Stemmer|Returns hard-stems out of words with the objective of retrieving the meaningful part of the word|Opensource|
+|Lemmatizer|Retrieves lemmas out of words with the objective of returning a base dictionary word|Opensource|
+|RegexMatcher|Uses a reference file to match a set of regular expressions and put them inside a provided key.|Opensource|
+|TextMatcher|Annotator to match entire phrases (by token) provided in a file against a Document|Opensource|
+|Chunker|Matches a pattern of part-of-speech tags in order to return meaningful phrases from document|Opensource|
+|DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
+|SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
+|DeepSentenceDetector|Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model|Opensource|
+|POSTagger|Sets a Part-Of-Speech tag to each word within a sentence. |Opensource|
+|ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
+|SentimentDetector|Scores a sentence for a sentiment|Opensource|
+|WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
+|BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
+|NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
+|NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
+|SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
+|ContextSpellChecker|Utilizes tensorflow to do context based spell checking|Opensource|
+|DependencyParser|Unlabeled parser that finds a grammatical relation between two words in a sentence|Opensource|
+|TypedDependencyParser|Labeled parser that finds a grammatical relation between two words in a sentence|Opensource|
+|AssertionLogReg|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
+|AssertionDL|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
+|EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
+|DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
+
+## 2.2. Spark-NLP Open Source
+
+### 2.2.1. Tokenizer
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
@@ -443,7 +536,7 @@ Identifies tokens with tokenization open standards. A few rules will help custom
 
 Refer to the [Tokenizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Tokenizer) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 tokenizer = Tokenizer() \
     .setInputCols(["sentences"]) \
     .setOutputCol("token") \
@@ -451,9 +544,9 @@ tokenizer = Tokenizer() \
     .setContextChars(['(', ')', '?', '!']) \
     .addException("New York") \
     .addException("e-mail")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
@@ -461,11 +554,9 @@ val tokenizer = new Tokenizer()
     .setSplitChars(Array('-'))
     .addException("New York")
     .addException("e-mail")
-{% endhighlight %}
+```
 
-### Normalizer
-
-#### Text cleaning
+### 2.2.2. Normalizer: Text cleaning
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
 **Output type:** Token  
@@ -481,19 +572,19 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
 Refer to the [Normalizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Normalizer) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 normalizer = Normalizer() \
     .setInputCols(["token"]) \
     .setOutputCol("normalized")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val normalizer = new Normalizer()
     .setInputCols(Array("token"))
     .setOutputCol("normalized")
-{% endhighlight %}
+```
 
-### Stemmer
+### 2.2.3. Stemmer
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
 **Output type:** Token  
@@ -504,19 +595,19 @@ Returns hard-stems out of words with the objective of retrieving the meaningful 
 
 Refer to the []() Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 stemmer = Stemmer() \
     .setInputCols(["token"]) \
     .setOutputCol("stem")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val stemmer = new Stemmer()
     .setInputCols(Array("token"))
     .setOutputCol("stem")
-{% endhighlight %}
+```
 
-### Lemmatizer
+### 2.2.4. Lemmatizer
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
 **Output type:** Token  
@@ -531,21 +622,21 @@ Retrieves lemmas out of words with the objective of returning a base dictionary 
 
 Refer to the [Lemmatizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Lemmatizer) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 lemmatizer = Lemmatizer() \
     .setInputCols(["token"]) \
     .setOutputCol("lemma") \
     .setDictionary("./lemmas001.txt")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val lemmatizer = new Lemmatizer()
     .setInputCols(Array("token"))
     .setOutputCol("lemma")
     .setDictionary("./lemmas001.txt")
-{% endhighlight %}
+```
 
-### RegexMatcher
+### 2.2.5. RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
 **Output type:** Regex  
@@ -561,22 +652,20 @@ Uses a reference file to match a set of regular expressions and put them inside 
 
 Refer to the [RegexMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.RegexMatcher) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 regex_matcher = RegexMatcher() \
     .setStrategy("MATCH_ALL") \
     .setOutputCol("regex")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val regexMatcher = new RegexMatcher()
     .setStrategy(strategy)
     .setInputCols(Array("document"))
     .setOutputCol("regex")
-{% endhighlight %}
+```
 
-### TextMatcher
-
-#### Phrase matching
+### 2.2.6. TextMatcher: Phrase matching
 
 Annotator to match entire phrases (by token) provided in a file against a Document  
 **Output type:** Entity  
@@ -594,23 +683,23 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 
 Refer to the [TextMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 entity_extractor = TextMatcher() \
     .setInputCols(["inputCol"])\
     .setOutputCol("entity")\
     .setEntities("/path/to/file/myentities.txt")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val entityExtractor = new TextMatcher()
     .setInputCols("inputCol")
     .setOutputCol("entity")
     .setEntities("/path/to/file/myentities.txt")
-{% endhighlight %}
+```
 
-### Chunker
+### 2.2.7. Chunker
 
-#### Meaningful phrase matching
+#### 2.2.7.1. Meaningful phrase matching
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
@@ -626,23 +715,23 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 chunker = Chunker() \
     .setInputCols(["document", "pos"]) \
     .setOutputCol("chunk") \
     .setRegexParsers(["‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"])
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val chunker = new Chunker()
     .setInputCols(Array("document", "pos"))
     .setOutputCol("chunk")
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
-{% endhighlight %}
+```
 
-### DateMatcher
+### 2.2.8. DateMatcher
 
-#### Date-time parsing
+#### 2.2.8.1. Date-time parsing
 
 Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.  
 **Output type:** Date  
@@ -688,21 +777,19 @@ Reads from different forms of date and time expressions and converts them to a p
 
 Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.DateMatcher) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 date_matcher = DateMatcher() \
     .setOutputCol("date") \
     .setDateFormat("yyyyMM")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val dateMatcher = new DateMatcher()
     .setFormat("yyyyMM")
     .setOutputCol("date")
-{% endhighlight %}
+```
 
-### SentenceDetector
-
-#### Sentence Boundary Detector
+### 2.2.9. SentenceDetector: Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Document  
@@ -719,21 +806,19 @@ Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.
 
 Refer to the [SentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 sentence_detector = SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val sentenceDetector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentence")
-{% endhighlight %}
+```
 
-### DeepSentenceDetector
-
-#### Sentence Boundary Detector with Machine Learning
+### 2.2.10. DeepSentenceDetector: Sentence Boundary Detector with Machine Learning
 
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
 **Output type:** Document  
@@ -748,25 +833,23 @@ Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.
 
 Refer to the [DeepSentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 deep_sentence_detector = DeepSentenceDetector() \
     .setInputCols(["document", "token", "ner_con"]) \
     .setOutputCol("sentence") \
     .setIncludePragmaticSegmenter(True) \
     .setEndPunctuation([".", "?"])
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val deepSentenceDetector = new DeepSentenceDetector()
     .setInputCols(Array("document", "token", "ner_con"))
     .setOutputCol("sentence")
     .setIncludePragmaticSegmenter(true)
     .setEndPunctuation(Array(".", "?"))
-{% endhighlight %}
+```
 
-### POSTagger
-
-#### Part of speech tagger
+### 2.2.11. POSTagger: Part of speech tagger
 
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
 **Output type:** POS  
@@ -781,27 +864,26 @@ Sets a POS tag to each word within a sentence. Its train data (train_pos) is a s
 
 Refer to the [PerceptronApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 pos_tagger = PerceptronApproach() \
     .setInputCols(["token", "sentence"]) \
     .setOutputCol("pos") \
     .setNIterations(2) \
     .fit(train_pos)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val posTagger = new PerceptronApproach()
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("pos")
     .setNIterations(2)
     .fit(trainPOS)
-{% endhighlight %}
+```
 
-### ViveknSentimentDetector
+### 2.2.12. ViveknSentimentDetector
 
-#### Sentiment analysis
-
-Scores a sentence for a sentiment  
+Scores a sentence for a sentiment
+  
 **Output type:** sentiment  
 **Input types:** Document, Token  
 **Reference:** [ViveknSentimentApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala) | [ViveknSentimentModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala)  
@@ -817,22 +899,22 @@ Scores a sentence for a sentiment
 
 Refer to the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 sentiment_detector = ViveknSentimentApproach() \
     .setInputCols(["lemma", "sentence"]) \
     .setOutputCol("sentiment")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val sentimentDetector = new ViveknSentimentApproach()
         .setInputCols(Array("token", "sentence"))
         .setOutputCol("vivekn")
         .setPositiveSourcePath("./positive/1.txt")
         .setNegativeSourcePath("./negative/1.txt")
         .setCorpusPrune(false)
-{% endhighlight %}
+```
 
-### SentimentDetector: Sentiment analysis
+### 2.2.13. SentimentDetector: Sentiment analysis
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
@@ -859,19 +941,19 @@ Scores a sentence for a sentiment
 
 Refer to the [SentimentDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 sentiment_detector = SentimentDetector() \
     .setInputCols(["lemma", "sentence"]) \
     .setOutputCol("sentiment")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val sentimentDetector = new SentimentDetector
     .setInputCols(Array("token", "sentence"))
     .setOutputCol("sentiment")
-{% endhighlight %}
+```
 
-### Word Embeddings
+### 2.2.14. Word Embeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
 **Output type:** Word_Embeddings  
@@ -892,20 +974,20 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.WordEmbeddings) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 word_embeddings = WordEmbeddings() \
         .setInputCols(["document", "token"])\
         .setOutputCol("word_embeddings")
         .setEmbeddingsSource('./embeddings.100d.test.txt', 100, "text")
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val wordEmbeddings = new WordEmbeddings()
         .setInputCols("document", "token")
         .setOutputCol("word_embeddings")
         .setEmbeddingsSource("./embeddings.100d.test.txt",
         100, "text")
-{% endhighlight %}
+```
 
 There are also two convenient functions 
 to retrieve the embeddings coverage with 
@@ -914,7 +996,7 @@ respect to the transformed dataset:
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
  
-### Bert Embeddings
+### 2.2.15. Bert Embeddings
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
 **Output type:** Word_Embeddings  
@@ -925,24 +1007,22 @@ Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 
 How to use pretrained Bert Embeddings:
 
-{% highlight scala %}
+```scala
 val bert = BertEmbeddings.load("/multi_cased_L-12_H-768_A-12")
       .setInputCols("sentence", "token")
       .setOutputCol("bert")
-{% endhighlight %}
+```
 
 How to load a new Bert model created by `python/tensorlfow/bert` notebook:
 
-{% highlight scala %}
+```scala
 val bert = BertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("bert")
       .setPoolingLayer(0) // 0, -1, and -2
-{% endhighlight %}
+```
 
-### NER CRF
-
-#### Named Entity Recognition CRF annotator
+### 2.2.16. NER CRF: Named Entity Recognition CRF annotator
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
@@ -967,7 +1047,7 @@ Optionally the user can provide an entity dictionary file for better accuracy
 
 Refer to the [NerCrfApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 nerTagger = NerCrfApproach()\
     .setInputCols(["sentence", "token", "pos"])\
     .setLabelColumn("label")\
@@ -981,9 +1061,9 @@ nerTagger = NerCrfApproach()\
     .setRandomSeed(0)\
     .setVerbose(2)
     .fit(train_ner)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val nerTagger = new NerCrfApproach()
     .setInputCols("sentence", "token", "pos")
     .setLabelColumn("label")
@@ -993,11 +1073,9 @@ val nerTagger = new NerCrfApproach()
     .setL2(3.0)
     .setOutputCol("ner")
     .fit(trainNer)
-{% endhighlight %}
+```
 
-### NER DL
-
-#### Named Entity Recognition Deep Learning annotator
+### 2.2.17. NER DL: Named Entity Recognition Deep Learning annotator
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.  
@@ -1022,7 +1100,7 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
 
 Refer to the [NerDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 nerTagger = NerDLApproach()\
     .setInputCols(["sentence", "token"])\
     .setLabelColumn("label")\
@@ -1031,9 +1109,9 @@ nerTagger = NerDLApproach()\
     .setRandomSeed(0)\
     .setVerbose(2)
     .fit(train_ner)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val nerTagger = new NerDLApproach()
         .setInputCols("sentence", "token")
         .setOutputCol("ner")
@@ -1046,9 +1124,9 @@ val nerTagger = new NerDLApproach()
         .setBatchSize(9)
         .setVerbose(Verbose.Epochs)
         .fit(trainNer)
-{% endhighlight %}
+```
 
-### Norvig SpellChecker
+### 2.2.18. Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token  
@@ -1073,21 +1151,21 @@ This annotator retrieves tokens and makes corrections automatically if not found
 
 Refer to the [NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 spell_checker = NorvigSweetingApproach() \
     .setInputCols(["token"]) \
     .setOutputCol("spell") \
     .fit(train_corpus)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val spellChecker = new NorvigSweetingApproach()
     .setInputCols(Array("normalized"))
     .setOutputCol("spell")
     .fit(trainCorpus)
-{% endhighlight %}
+```
 
-### Symmetric SpellChecker
+### 2.2.19. Symmetric SpellChecker
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
@@ -1104,30 +1182,37 @@ This spell checker is inspired on Symmetric Delete algorithm. It retrieves token
 
 Refer to the [SymmetricDeleteApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 spell_checker = SymmetricDeleteApproach() \
     .setInputCols(["token"]) \
     .setOutputCol("spell") \
     .fit(train_corpus)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val spellChecker = new SymmetricDeleteApproach()
     .setInputCols(Array("normalized"))
     .setOutputCol("spell")
     .fit(trainCorpus)
-{% endhighlight %}
+```
 
-### Context SpellChecker
+### 2.2.20. Context SpellChecker
 
 This spell checker utilizes tensorflow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
 **Output type:** Token  
 **Input types:** Tokenizer  
 **Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 
-### Dependency Parser
+### 2.2.21. Dependency Parser
 
-#### Unlabeled grammatical relation
+Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
+The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
+
+![Dependency Parser](../assets/images/dependency_parser.png)
+
+Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
+
+### 2.2.21.1. Dependency Parser: Unlabeled grammatical relation
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
@@ -1143,25 +1228,23 @@ Unlabeled parser that finds a grammatical relation between two words in a senten
 
 Refer to the [DependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 dependency_parser = DependencyParserApproach() \
             .setInputCols(["sentence", "pos", "token"]) \
             .setOutputCol("dependency") \
             .setDependencyTreeBank("file://parser/dependency_treebank") \
             .setNumberOfIterations(10)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val dependencyParser = new DependencyParserApproach()
     .setInputCols(Array("sentence", "pos", "token"))
     .setOutputCol("dependency")
     .setDependencyTreeBank("parser/dependency_treebank")
     .setNumberOfIterations(10)
-{% endhighlight %}
+```
 
-### Typed Dependency Parser
-
-#### Labeled grammatical relation
+### 2.2.21.2. Typed Dependency Parser: Labeled grammatical relation
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
@@ -1177,17 +1260,97 @@ Labeled parser that finds a grammatical relation between two words in a sentence
 
 Refer to the [TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach) Scala docs for more details on the API.
 
-{% highlight python %}
+```python
 typed_dependency_parser = TypedDependencyParserApproach() \
             .setInputCols(["token", "pos", "dependency"]) \
             .setOutputCol("labdep") \
             .setConll2009("file://conll2009/eng.train") \
             .setNumberOfIterations(10)
-{% endhighlight %}
+```
 
-{% highlight scala %}
+```scala
 val typedDependencyParser = new TypedDependencyParserApproach()
     .setInputCols(Array("token", "pos", "dependency"))
     .setOutputCol("labdep")
     .setConll2009("conll2009/eng.train"))
-{% endhighlight %}
+```
+
+## 2.3. Spark-NLP Licensed
+
+### 2.3.1. AssertionLogReg
+
+It will classify each clinicaly relevant named entity into its assertion:
+
+type: "present", "absent", "hypothetical", "conditional",
+"associated_with_other_person", etc.
+
+**Input types:** "sentence", "ner_chunk", "embeddings"
+
+**Output type:** "assertion"
+
+**Functions:**
+
+- setLabelCol(label)
+- setMaxIter(maxiter)
+- setReg(lamda)
+- setEnet(enet)
+- setBefore(before)
+- setAfter(after)
+- setStartCol(s)
+- setEndCol(e)
+- setNerCol(n):
+- setTargetNerLabels(v)
+
+### 2.3.2. AssertionDL
+
+It will classify each clinicaly relevant named entity into its assertion
+type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
+
+**Input types:** "sentence", "ner_chunk", "embeddings"
+
+**Output type:** "assertion"
+
+**Functions:**
+
+- setGraphFolder(p)
+- setConfigProtoBytes(b)
+- setLabelCol(label)
+- setStartCol(s)
+- setEndCol(e)
+- setBatchSize(size)
+- setEpochs(number)
+- setLearningRate(lamda)
+- setDropout(rate)
+- setMaxSentLen(length):
+
+### 2.3.3. EntityResolver
+
+Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model.
+
+**Input types:** "ner_chunk_tokenized", "embeddings"
+
+**Output type:** "resolution_cm"
+
+**Functions:**
+
+- setSearchTree(s)
+- setNeighbours(k)
+- setThreshold(dist)
+- setMergeChunks(merge)
+- setMissAsEmpty(value)
+
+### 2.3.4. DeIdentificator
+
+Identifies potential pieces of content with personal information about
+patients and remove them by replacing with semantic tags.
+
+**Input types:** "sentence", "token", "ner_chunk"
+
+**Output type:** "deidentified"
+
+**Functions:**
+
+- setRegexPatternsDictionary(path, read_as, options)
+
+### References
+[1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
