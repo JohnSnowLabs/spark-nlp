@@ -1546,7 +1546,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return self.getParamValue("sourceEmbeddingsPath")
 
     def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.parse_format(format))
+        return self._set(embeddingsFormat=self.Format[format.upper()].value)
 
     def getEmbeddingsFormat(self):
         value = self._getParamValue("embeddingsFormat")
