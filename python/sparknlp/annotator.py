@@ -3,6 +3,7 @@
 ##
 
 import sys
+from enum import Enum
 from pyspark import keyword_only
 from sparknlp.common import *
 
@@ -244,6 +245,13 @@ class ChunkTokenizerModel(TokenizerModel):
         )
 
 
+class Token2Chunk(AnnotatorModel):
+    name = "Token2Chunk"
+
+    def __init__(self):
+        super(Token2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Token2Chunk")
+
+
 class Stemmer(AnnotatorModel):
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
@@ -470,7 +478,7 @@ class DateMatcher(AnnotatorModel):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
-                       typeConverter=TypeConverters)
+                       typeConverter=TypeConverters.toString)
 
     name = "DateMatcher"
 
@@ -879,33 +887,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
     def setFrequencyPriority(self, value):
         return self._set(frequencyPriority=value)
 
-    def getCaseSensitive(self):
-        return self.getOrDefault(self.caseSensitive)
-
-    def getDoubleVariants(self):
-        return self.getOrDefault(self.doubleVariants)
-
-    def getShortCircuit(self):
-        return self.getOrDefault(self.shortCircuit)
-
-    def getFrequencyPriority(self):
-        return self.getOrDefault(self.frequencyPriority)
-
-    def getWordSizeIgnore(self):
-        return self.getOrDefault(self.wordSizeIgnore)
-
-    def getDupsLimit(self):
-        return self.getOrDefault(self.dupsLimit)
-
-    def getReductLimit(self):
-        return self.getOrDefault(self.reductLimit)
-
-    def getIntersections(self):
-        return self.getOrDefault(self.intersections)
-
-    def getVowelSwapLimit(self):
-        return self.getOrDefault(self.vowelSwapLimit)
-
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
 
@@ -981,18 +962,6 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     def setDeletesThreshold(self, v):
         return self._set(deletesThreshold=v)
 
-    def getMaxEditDistance(self):
-        return self.getOrDefault(self.maxEditDistance)
-
-    def getFrequencyThreshold(self):
-        return self.getOrDefault(self.frequencyThreshold)
-
-    def getDeletesThreshold(self):
-        return self.getOrDefault(self.deletesThreshold)
-
-    def getDupsLimit(self):
-        return self.getOrDefault(self.dupsLimit)
-
     def _create_model(self, java_model):
         return SymmetricDeleteModel(java_model=java_model)
 
@@ -1048,21 +1017,6 @@ class NerApproach(Params):
     def getLabelColumn(self):
         return self.getOrDefault(self.labelColumn)
 
-    def getEntities(self):
-        return self.getOrDefault(self.entities)
-
-    def getMinEpochs(self):
-        return self.getOrDefault(self.minEpochs)
-
-    def getMaxEpochs(self):
-        return self.getOrDefault(self.maxEpochs)
-
-    def getVerbose(self):
-        return self.getOrDefault(self.verbose)
-
-    def getRandomSeed(self):
-        return self.getOrDefault(self.randomSeed)
-
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
 
@@ -1103,21 +1057,6 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, b):
         return self._set(includeConfidence=b)
 
-    def getL2(self):
-        return self.getOrDefault(self.l2)
-
-    def getC0(self):
-        return self.getOrDefault(self.c0)
-
-    def getLossEps(self):
-        return self.getOrDefault(self.lossEps)
-
-    def getMinW(self):
-        return self.getOrDefault(self.minW)
-
-    def getIncludeConfidence(self):
-        return self.getOrDefault(self.includeConfidence)
-
     def _create_model(self, java_model):
         return NerCrfModel(java_model=java_model)
 
@@ -1131,9 +1070,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             c0=2250000,
             lossEps=float(1e-3),
             verbose=4,
-            includeConfidence=False,
-            entities=[],
-            minW=float('NaN')
+            includeConfidence=False
         )
 
 
@@ -1177,7 +1114,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     validationSplit = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
-  
+
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
 
@@ -1220,10 +1157,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(dropout=v)
         return self
 
-    def setMinProbability(self, v):
-        self._set(minProba=v)
-        return self
-
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
@@ -1244,48 +1177,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
-    def getLr(self):
-        return self.getOrDefault(self.lr)
-
-    def getPo(self):
-        return self.getOrDefault(self.po)
-
-    def getBatchSize(self):
-        return self.getOrDefault(self.batchSize)
-
-    def getDropout(self):
-        return self.getOrDefault(self.dropout)
-
-    def getGraphFolder(self):
-        return self.getOrDefault(self.graphFolder)
-
-    def getConfigProtoBytes(self):
-        return self.getOrDefault(self.configProtoBytes)
-
-    def getUseContrib(self):
-        return self.getOrDefault(self.useContrib)
-
-    def getTranValidationProp(self):
-        return self.getOrDefault(self.trainValidationProp)
-
-    def getEvaluationLogExtended(self):
-        return self.getOrDefault(self.evaluationLogExtended)
-
-    def getEnableOutputLogs(self):
-        return self.getOrDefault(self.enableOutputLogs)
-
-    def getTestDataset(self):
-        return self.getOrDefault(self.testDataset)
-
-    def getIncludeConfidence(self):
-        return self.getOrDefault(self.includeConfidence)
-
-    def getIncludeValidationProp(self):
-        return self.getOrDefault(self.includeValidationProp)
-
-    def _create_model(self, java_model):
-        return NerDLModel(java_model=java_model)
-
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -1302,10 +1193,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableOutputLogs=False,
-            configProtoBytes=[],
-            graphFolder=None,
-            testDataset=None
+            enableOutputLogs=False
         )
 
 
@@ -1635,20 +1523,20 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             caseSensitive=False
         )
 
-    def parse_format(self, frmt):
-        if frmt == "SPARKNLP":
-            return 1
-        elif frmt == "TEXT":
-            return 2
-        elif frmt == "BINARY":
-            return 3
-        else:
-            return frmt
+    class Format(Enum):
+        SPARKNLP = 1
+        TEXT = 2
+        BINARY = 3
 
     def setEmbeddingsSource(self, path, nDims, format):
         self._set(sourceEmbeddingsPath=path)
-        reformat = self.parse_format(format.upper())
-        self._set(embeddingsFormat=reformat)
+        try:
+            if isinstance(format, int):
+                self._set(embeddingsFormat=self.Format(format).value)
+            else:
+                self._set(embeddingsFormat=self.Format[format.upper()].value)
+        except (KeyError, ValueError):
+            raise Exception("Format parameter must be one of {}".format([item.name for item in self.Format]))
         return self._set(dimension=nDims)
 
     def setSourcePath(self, path):
@@ -1658,7 +1546,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return self.getParamValue("sourceEmbeddingsPath")
 
     def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.parse_format(format.upper()))
+        return self._set(embeddingsFormat=self.parse_format(format))
 
     def getEmbeddingsFormat(self):
         value = self._getParamValue("embeddingsFormat")
