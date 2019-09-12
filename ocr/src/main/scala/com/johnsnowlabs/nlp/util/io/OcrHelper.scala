@@ -82,7 +82,7 @@ class OcrHelper extends ImageProcessing with Serializable {
 
   private var preferredMethod: String = OCRMethod.TEXT_LAYER
   private var fallbackMethod: Boolean = true
-  private var minSizeBeforeFallback: Int = 0
+  private var minSizeBeforeFallback: Int = 1
 
   /** Tesseract exclusive settings */
   private var pageSegmentationMode: Int = TessPageSegMode.PSM_AUTO
