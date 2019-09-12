@@ -38,8 +38,8 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
                                labelColumn: String, minEpochs: Int, maxEpochs: Int,
                                verbose: Int, randomSeed: Int, lr: Float, po: Float, batchSize: Int, dropout: Float,
                                graphFolder: String, userContrib: Boolean,
-                               trainValidationProp: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
-                               testDataSet: String, includeConfidence: Boolean, includeValidationProp: Boolean,
+                               validationSplit: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
+                               testDataSet: String, includeConfidence: Boolean,
                                embeddingsInputCols: Array[String], embeddingsOutputCol: String,
                                embeddingsPath: String, dimension: Int, format: Int):
   Unit = {
@@ -57,11 +57,10 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       .setBatchSize(batchSize)
       .setDropout(dropout)
       .setUseContrib(userContrib)
-      .setTrainValidationProp(trainValidationProp)
+      .setValidationSplit(validationSplit)
       .setEvaluationLogExtended(evaluationLogExtended)
       .setEnableOutputLogs(enableOutputLogs)
       .setIncludeConfidence(includeConfidence)
-      .setIncludeValidationProp(includeValidationProp)
 
     if (testDataSet != null) {
       nerDLApproach
