@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-07-14"
+modify_date: "2019-09-11"
 ---
 
 ## 1. Annotators Guideline
@@ -1210,7 +1210,7 @@ The following diagram illustrates a dependency-style analysis using the standard
 
 ![Dependency Parser](../assets/images/dependency_parser.png)
 
-Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure.
+Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
 
 ### 2.2.21.1. Dependency Parser: Unlabeled grammatical relation
 
@@ -1351,3 +1351,6 @@ patients and remove them by replacing with semantic tags.
 **Functions:**
 
 - setRegexPatternsDictionary(path, read_as, options)
+
+### References
+[1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
