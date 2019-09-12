@@ -33,6 +33,10 @@ class ExtendedJavaWrapper(JavaWrapper):
         java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.String)
         return java_array
 
+    def new_java_array_integer(self, pylist):
+        java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.Integer)
+        return java_array
+
 
 class _RegexRule(ExtendedJavaWrapper):
     def __init__(self, rule, identifier):
