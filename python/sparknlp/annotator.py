@@ -244,6 +244,13 @@ class ChunkTokenizerModel(TokenizerModel):
         )
 
 
+class Token2Chunk(AnnotatorModel):
+    name = "Token2Chunk"
+
+    def __init__(self):
+        super(Token2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Token2Chunk")
+
+
 class Stemmer(AnnotatorModel):
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
