@@ -145,7 +145,7 @@ class TensorflowNer
 
     val sample: Int = (trainDataset.length*validationSplit).toInt
 
-    val (trainDatasetSeq, trainDatasetSample) = if (validationSplit > 0f) {
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
       (trainingSet, trainingSample.toArray)
     } else {
@@ -208,9 +208,9 @@ class TensorflowNer
       outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
 
       if (validationSplit > 0.0) {
-        log(s"Quality on training dataset (${validationSplit*100}%), trainExamples = $sample", Verbose.Epochs)
-        outputLog(s"Quality on training dataset (${validationSplit*100}%), trainExamples = $sample", uuid, enableOutputLogs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
+        log(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", Verbose.Epochs)
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", uuid, enableOutputLogs)
+        measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
       if (test.nonEmpty) {
