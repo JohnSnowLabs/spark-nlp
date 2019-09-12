@@ -129,8 +129,7 @@ class TensorflowNer
             graphFileName: String = "",
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f,
-            includeValidationProp: Boolean = false,
+            validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
             includeConfidence: Boolean = false,
             enableOutputLogs: Boolean = false,
@@ -144,13 +143,9 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    val sample: Int = (trainDataset.length*trainValidationProp).toInt
+    val sample: Int = (trainDataset.length*validationSplit).toInt
 
-    val (trainDatasetSeq, trainDatasetSample) = if (trainValidationProp > 0f && includeValidationProp) {
-      // Take a sample that is also included in the training Dataset
-      (trainDataset.toSeq, Random.shuffle(trainDataset.toSeq).take(sample).toArray)
-    } else if(trainValidationProp > 0f && !includeConfidence){
-      // Take a random sample by slicing it from the training Dataset
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
       (trainingSet, trainingSample.toArray)
     } else {
@@ -212,10 +207,10 @@ class TensorflowNer
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
       outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
 
-      if (trainValidationProp > 0.0) {
-        log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        outputLog(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", uuid, enableOutputLogs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
+      if (validationSplit > 0.0) {
+        log(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", Verbose.Epochs)
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", uuid, enableOutputLogs)
+        measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
       if (test.nonEmpty) {
