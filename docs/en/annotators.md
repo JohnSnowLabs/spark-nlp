@@ -1205,7 +1205,7 @@ This spell checker utilizes tensorflow to do context based spell checking. At th
 
 ### 2.2.21. Dependency Parser
 
-Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to [specific questions](https://www.megaputer.com/why-we-use-dependency-parsing/).
+Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
 The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
 
 ![Dependency Parser](../assets/images/dependency_parser.png)
