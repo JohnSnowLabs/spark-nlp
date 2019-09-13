@@ -36,7 +36,8 @@ def start(include_ocr=False):
         .appName("Spark NLP") \
         .master("local[*]") \
         .config("spark.driver.memory", "6G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer", "600M")
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "600M")
 
 
 
