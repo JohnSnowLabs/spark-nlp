@@ -8,9 +8,9 @@ modify_date: "2019-09-11"
 
 ## 1. Annotators Guideline
 
-### 1.1. Concepts
+### Concepts
 
-### 1.1.1. Spark NLP Imports
+### Spark NLP Imports
 
 We attempt making necessary imports easy to reach, **base** will include
 general Spark NLP transformers and concepts, while **annotator** will
@@ -30,7 +30,7 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 ```
 
-### 1.1.2. Spark ML Pipelines
+### Spark ML Pipelines
 
 SparkML Pipelines are a uniform structure that helps creating and tuning
 practical machine learning pipelines. Spark NLP integrates with them
@@ -49,7 +49,7 @@ import org.apache.spark.ml.Pipeline
 new Pipeline().setStages(Array(...))
 ```
 
-### 1.1.3. LightPipeline
+### LightPipeline
 
 LightPipelines are Spark ML pipelines converted into a single machine
 but multithreaded task, becoming more than 10x times faster for smaller
@@ -79,7 +79,7 @@ results
 - fullAnnotate(string or string\[\]): returns dictionary list of entire
 annotations content
 
-### 1.1.4. RecursivePipeline
+### RecursivePipeline
 
 Recursive pipelines are SparkNLP specific pipelines that allow a Spark
 ML Pipeline to know about itself on every Pipeline Stage task, allowing
@@ -114,9 +114,9 @@ val recursivePipeline = new RecursivePipeline()
         ))
 ```
 
-### 1.1.5. EmbeddingsHelper
+### EmbeddingsHelper
 
-#### 1.1.5.1. Deal with word embeddings
+#### Deal with word embeddings
 
 Allows loading, saving and setting word embeddings for annotators.
 
@@ -143,7 +143,7 @@ embeddings.
 - save(path, embeddings, spark) -> Saves provided embeddings to path,
 using current SparkSession
 
-#### 1.1.5.2. Annotator with Word Embeddings
+#### Annotator with Word Embeddings
 
 Some annotators use word embeddings. This is a common functionality
 within them. Since Spark NLP 2.0, embeddings as annotator means the
@@ -164,9 +164,9 @@ provided name. This means these embeddings will be lookup from the cache
 by the ref name. This allows multiple annotators to utilize same word
 embeddings by ref name.
 
-### 1.1.6. Params and Features
+### Params and Features
 
-#### 1.1.6.1. Annotator parameters
+#### Annotator parameters
 
 SparkML uses ML Params to store pipeline parameter maps. In SparkNLP,
 we also use Features, which are a way to store parameter maps that are
@@ -175,9 +175,9 @@ as either Parquet or RDD objects, allowing much faster and scalable
 annotator information. Features are also broadcasted among executors for
 better performance.  
 
-## 1.2. Transformers
+## Transformers
 
-### 1.2.1. DocumentAssembler: Getting data in
+### DocumentAssembler: Getting data in
 
 In order to get through the NLP process, we need to get raw data
 annotated. There is a special transformer that does this for us: it
@@ -228,7 +228,7 @@ val documentAssembler = new DocumentAssembler()
     .setCleanupMode("shrink")
 ```
 
-### 1.2.2. TokenAssembler: Getting data reshaped
+### TokenAssembler: Getting data reshaped
 
 This transformer reconstructs a Document type annotation from tokens,
 usually after these have been normalized, lemmatized, normalized, spell
@@ -256,7 +256,7 @@ val token_assembler = new TokenAssembler()
     .setOutputCol("assembled")
 ```
 
-### 1.2.3. Doc2Chunk
+### Doc2Chunk
 
 Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol. Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType\[StringType\] (using isArray Param) Useful for annotators that require a CHUNK type input.  
 
@@ -291,7 +291,7 @@ val chunker = new Doc2Chunk()
     .setChunkCol("some_column")
 ```
 
-### 1.2.4. Chunk2Doc
+### Chunk2Doc
 
 Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.  
 
@@ -316,7 +316,7 @@ val chunk_doc = new Chunk2Doc()
     .setOutputCol("new_document")
 ```
 
-### 1.2.5. Finisher
+### Finisher
 
 Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
 
@@ -346,9 +346,9 @@ val finisher = new Finisher()
     .setIncludeMetadata(true)
 ```
 
-## 1.3. Training Datasets
+## Training Datasets
 
-### 1.3.1. POS Dataset
+### POS Dataset
 
 In order to train a Part of Speech Tagger annotator, we need to get corpus data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.  
 
@@ -379,7 +379,7 @@ import com.johnsnowlabs.nlp.training.POS
 val trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
 ```
 
-### 1.3.2. CoNLL Dataset
+### CoNLL Dataset
 
 In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
 
@@ -415,7 +415,7 @@ import com.johnsnowlabs.nlp.training.CoNLL
 val trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
 ```
 
-### 1.3.3. Spell Checkers Dataset
+### Spell Checkers Dataset
 
 In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus data as a spark dataframe. We can read a plain text file and transforms it to a spark dataset.  
 
@@ -431,13 +431,13 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
                        .select(trainCorpus.col("value").as("text"))
 ```
 
-### 1.3.4. Vivekn Sentiment Analysis Dataset
+### Vivekn Sentiment Analysis Dataset
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
 ## 2. Annotators
 
-### 2.1. How to read this section
+### How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
@@ -509,9 +509,9 @@ Spark-NLP but some of them are only avaliable in the licensed version.
 |EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
 |DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
-## 2.2. Spark-NLP Open Source
+## Spark-NLP Open Source
 
-### 2.2.1. Tokenizer
+### Tokenizer
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
@@ -556,7 +556,7 @@ val tokenizer = new Tokenizer()
     .addException("e-mail")
 ```
 
-### 2.2.2. Normalizer: Text cleaning
+### Normalizer: Text cleaning
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
 **Output type:** Token  
@@ -584,7 +584,7 @@ val normalizer = new Normalizer()
     .setOutputCol("normalized")
 ```
 
-### 2.2.3. Stemmer
+### Stemmer
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
 **Output type:** Token  
@@ -607,7 +607,7 @@ val stemmer = new Stemmer()
     .setOutputCol("stem")
 ```
 
-### 2.2.4. Lemmatizer
+### Lemmatizer
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
 **Output type:** Token  
@@ -636,7 +636,7 @@ val lemmatizer = new Lemmatizer()
     .setDictionary("./lemmas001.txt")
 ```
 
-### 2.2.5. RegexMatcher
+### RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
 **Output type:** Regex  
@@ -665,7 +665,7 @@ val regexMatcher = new RegexMatcher()
     .setOutputCol("regex")
 ```
 
-### 2.2.6. TextMatcher: Phrase matching
+### TextMatcher: Phrase matching
 
 Annotator to match entire phrases (by token) provided in a file against a Document  
 **Output type:** Entity  
@@ -697,9 +697,9 @@ val entityExtractor = new TextMatcher()
     .setEntities("/path/to/file/myentities.txt")
 ```
 
-### 2.2.7. Chunker
+### Chunker
 
-#### 2.2.7.1. Meaningful phrase matching
+#### Meaningful phrase matching
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
@@ -729,9 +729,9 @@ val chunker = new Chunker()
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
 ```
 
-### 2.2.8. DateMatcher
+### DateMatcher
 
-#### 2.2.8.1. Date-time parsing
+#### Date-time parsing
 
 Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.  
 **Output type:** Date  
@@ -789,7 +789,7 @@ val dateMatcher = new DateMatcher()
     .setOutputCol("date")
 ```
 
-### 2.2.9. SentenceDetector: Sentence Boundary Detector
+### SentenceDetector: Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Document  
@@ -818,7 +818,7 @@ val sentenceDetector = new SentenceDetector()
     .setOutputCol("sentence")
 ```
 
-### 2.2.10. DeepSentenceDetector: Sentence Boundary Detector with Machine Learning
+### DeepSentenceDetector: Sentence Boundary Detector with Machine Learning
 
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
 **Output type:** Document  
@@ -849,7 +849,7 @@ val deepSentenceDetector = new DeepSentenceDetector()
     .setEndPunctuation(Array(".", "?"))
 ```
 
-### 2.2.11. POSTagger: Part of speech tagger
+### POSTagger: Part of speech tagger
 
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
 **Output type:** POS  
@@ -880,7 +880,7 @@ val posTagger = new PerceptronApproach()
     .fit(trainPOS)
 ```
 
-### 2.2.12. ViveknSentimentDetector
+### ViveknSentimentDetector
 
 Scores a sentence for a sentiment
   
@@ -914,7 +914,7 @@ val sentimentDetector = new ViveknSentimentApproach()
         .setCorpusPrune(false)
 ```
 
-### 2.2.13. SentimentDetector: Sentiment analysis
+### SentimentDetector: Sentiment analysis
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
@@ -953,7 +953,7 @@ val sentimentDetector = new SentimentDetector
     .setOutputCol("sentiment")
 ```
 
-### 2.2.14. Word Embeddings
+### Word Embeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
 **Output type:** Word_Embeddings  
@@ -995,8 +995,8 @@ respect to the transformed dataset:
 
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
- 
-### 2.2.15. Bert Embeddings
+
+### Bert Embeddings
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
 **Output type:** Word_Embeddings  
@@ -1022,7 +1022,7 @@ val bert = BertEmbeddings.pretrained()
       .setPoolingLayer(0) // 0, -1, and -2
 ```
 
-### 2.2.16. NER CRF: Named Entity Recognition CRF annotator
+### NER CRF: Named Entity Recognition CRF annotator
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
@@ -1075,7 +1075,9 @@ val nerTagger = new NerCrfApproach()
     .fit(trainNer)
 ```
 
-### 2.2.17. NER DL: Named Entity Recognition Deep Learning annotator
+### NER DL
+
+#### Named Entity Recognition Deep Learning annotator
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.  
@@ -1126,7 +1128,7 @@ val nerTagger = new NerDLApproach()
         .fit(trainNer)
 ```
 
-### 2.2.18. Norvig SpellChecker
+### Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token  
@@ -1165,7 +1167,7 @@ val spellChecker = new NorvigSweetingApproach()
     .fit(trainCorpus)
 ```
 
-### 2.2.19. Symmetric SpellChecker
+### Symmetric SpellChecker
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
@@ -1196,14 +1198,14 @@ val spellChecker = new SymmetricDeleteApproach()
     .fit(trainCorpus)
 ```
 
-### 2.2.20. Context SpellChecker
+### Context SpellChecker
 
 This spell checker utilizes tensorflow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
 **Output type:** Token  
 **Input types:** Tokenizer  
 **Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 
-### 2.2.21. Dependency Parser
+### Dependency Parser
 
 Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
 The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
@@ -1212,7 +1214,7 @@ The following diagram illustrates a dependency-style analysis using the standard
 
 Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
 
-### 2.2.21.1. Dependency Parser: Unlabeled grammatical relation
+### Dependency Parser: Unlabeled grammatical relation
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
@@ -1244,7 +1246,7 @@ val dependencyParser = new DependencyParserApproach()
     .setNumberOfIterations(10)
 ```
 
-### 2.2.21.2. Typed Dependency Parser: Labeled grammatical relation
+### Typed Dependency Parser: Labeled grammatical relation
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
@@ -1277,7 +1279,7 @@ val typedDependencyParser = new TypedDependencyParserApproach()
 
 ## 2.3. Spark-NLP Licensed
 
-### 2.3.1. AssertionLogReg
+### AssertionLogReg
 
 It will classify each clinicaly relevant named entity into its assertion:
 
@@ -1301,7 +1303,7 @@ type: "present", "absent", "hypothetical", "conditional",
 - setNerCol(n):
 - setTargetNerLabels(v)
 
-### 2.3.2. AssertionDL
+### AssertionDL
 
 It will classify each clinicaly relevant named entity into its assertion
 type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
@@ -1323,7 +1325,7 @@ type: "present", "absent", "hypothetical", "conditional", "associated_with_other
 - setDropout(rate)
 - setMaxSentLen(length):
 
-### 2.3.3. EntityResolver
+### EntityResolver
 
 Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model.
 
@@ -1339,7 +1341,7 @@ Assigns a ICD10 (International Classification of Diseases version 10) code to ch
 - setMergeChunks(merge)
 - setMissAsEmpty(value)
 
-### 2.3.4. DeIdentificator
+### DeIdentificator
 
 Identifies potential pieces of content with personal information about
 patients and remove them by replacing with semantic tags.
