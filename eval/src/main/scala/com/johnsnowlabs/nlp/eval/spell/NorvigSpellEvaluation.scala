@@ -26,28 +26,6 @@ class NorvigSpellEvaluation(sparkSession: SparkSession, testFile: String, ground
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String,
-                              caseSensitive: Boolean, doubleVariants: Boolean, shortCircuit: Boolean,
-                               frequencyPriority: Boolean, wordSizeIgnore: Int, dupsLimit: Int, reductLimit: Int,
-                               intersections: Int, vowelSwapLimit: Int): Unit = {
-
-    val spell = new NorvigSweetingApproach()
-      .setInputCols(inputCols)
-      .setOutputCol(outputCol)
-      .setDictionary(dictionary)
-      .setCaseSensitive(caseSensitive)
-      .setDoubleVariants(doubleVariants)
-      .setShortCircuit(shortCircuit)
-      .setFrequencyPriority(frequencyPriority)
-      .setWordSizeIgnore(wordSizeIgnore)
-      .setDupsLimit(dupsLimit)
-      .setReductLimit(reductLimit)
-      .setIntersections(intersections)
-      .setVowelSwapLimit(vowelSwapLimit)
-
-    computeAccuracyAnnotator(trainFile, spell)
-  }
-
   def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
     loggingData.logNorvigParams(spell)
     val norvigSpellEvalConfig = NorvigSpellEvalConfig("", testFile, groundTruthFile, null, spell)
