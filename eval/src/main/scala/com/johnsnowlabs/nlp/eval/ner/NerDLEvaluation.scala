@@ -34,53 +34,6 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile:String, nerInputCols: Array[String], nerOutputCol: String,
-                               labelColumn: String, minEpochs: Int, maxEpochs: Int,
-                               verbose: Int, randomSeed: Int, lr: Float, po: Float, batchSize: Int, dropout: Float,
-                               graphFolder: String, userContrib: Boolean,
-                               trainValidationProp: Float, evaluationLogExtended: Boolean, enableOutputLogs: Boolean,
-                               testDataSet: String, includeConfidence: Boolean, includeValidationProp: Boolean,
-                               embeddingsInputCols: Array[String], embeddingsOutputCol: String,
-                               embeddingsPath: String, dimension: Int, format: Int):
-  Unit = {
-
-    val nerDLApproach = new NerDLApproach()
-      .setInputCols(nerInputCols)
-      .setOutputCol(nerOutputCol)
-      .setLabelColumn(labelColumn)
-      .setMaxEpochs(maxEpochs)
-      .setMinEpochs(minEpochs)
-      .setVerbose(verbose)
-      .setRandomSeed(randomSeed)
-      .setLr(lr)
-      .setPo(po)
-      .setBatchSize(batchSize)
-      .setDropout(dropout)
-      .setUseContrib(userContrib)
-      .setTrainValidationProp(trainValidationProp)
-      .setEvaluationLogExtended(evaluationLogExtended)
-      .setEnableOutputLogs(enableOutputLogs)
-      .setIncludeConfidence(includeConfidence)
-      .setIncludeValidationProp(includeValidationProp)
-
-    if (testDataSet != null) {
-      nerDLApproach
-        .setTestDataset(testDataSet)
-    }
-
-    if (graphFolder != null) {
-      nerDLApproach
-      .setGraphFolder(graphFolder)
-    }
-
-    val wordEmbeddings = new WordEmbeddings()
-        .setInputCols(embeddingsInputCols)
-        .setOutputCol(embeddingsOutputCol)
-        .setEmbeddingsSource(embeddingsPath, dimension, format)
-
-    computeAccuracyAnnotator(trainFile, nerDLApproach, wordEmbeddings)
-  }
-
   def computeAccuracy(nerEvalDLConfiguration: NerEvalDLConfiguration): Unit = {
     val entityLabels = getEntityLabels(nerEvalDLConfiguration, tagLevel)
     val evaluationDataSet = getEvaluationDataSet(nerEvalDLConfiguration, entityLabels, tagLevel)
