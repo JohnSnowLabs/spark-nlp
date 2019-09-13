@@ -6,7 +6,7 @@ key: docs-annotators
 modify_date: "2019-09-11"
 ---
 
-## 1. Annotators Guideline
+## Annotators Guideline
 
 ### Concepts
 
@@ -435,7 +435,7 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
 
-## 2. Annotators
+## Annotators
 
 ### How to read this section
 
@@ -556,7 +556,9 @@ val tokenizer = new Tokenizer()
     .addException("e-mail")
 ```
 
-### Normalizer: Text cleaning
+### Normalizer
+
+#### Text cleaning
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
 **Output type:** Token  
@@ -665,7 +667,9 @@ val regexMatcher = new RegexMatcher()
     .setOutputCol("regex")
 ```
 
-### TextMatcher: Phrase matching
+### TextMatcher
+
+#### Phrase matching
 
 Annotator to match entire phrases (by token) provided in a file against a Document  
 **Output type:** Entity  
@@ -789,7 +793,9 @@ val dateMatcher = new DateMatcher()
     .setOutputCol("date")
 ```
 
-### SentenceDetector: Sentence Boundary Detector
+### SentenceDetector
+
+#### Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Document  
@@ -818,7 +824,9 @@ val sentenceDetector = new SentenceDetector()
     .setOutputCol("sentence")
 ```
 
-### DeepSentenceDetector: Sentence Boundary Detector with Machine Learning
+### DeepSentenceDetector
+
+#### Sentence Boundary Detector with Machine Learning
 
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
 **Output type:** Document  
@@ -849,7 +857,9 @@ val deepSentenceDetector = new DeepSentenceDetector()
     .setEndPunctuation(Array(".", "?"))
 ```
 
-### POSTagger: Part of speech tagger
+### POSTagger
+
+#### Part of speech tagger
 
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
 **Output type:** POS  
@@ -914,7 +924,9 @@ val sentimentDetector = new ViveknSentimentApproach()
         .setCorpusPrune(false)
 ```
 
-### SentimentDetector: Sentiment analysis
+### SentimentDetector
+
+#### Sentiment analysis
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
@@ -1022,7 +1034,9 @@ val bert = BertEmbeddings.pretrained()
       .setPoolingLayer(0) // 0, -1, and -2
 ```
 
-### NER CRF: Named Entity Recognition CRF annotator
+### NER CRF
+
+#### Named Entity Recognition CRF annotator
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
@@ -1205,7 +1219,7 @@ This spell checker utilizes tensorflow to do context based spell checking. At th
 **Input types:** Tokenizer  
 **Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 
-### Dependency Parser
+### Dependency Parsers
 
 Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
 The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
@@ -1214,7 +1228,9 @@ The following diagram illustrates a dependency-style analysis using the standard
 
 Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
 
-### Dependency Parser: Unlabeled grammatical relation
+### Dependency Parser
+
+#### Unlabeled grammatical relation
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
@@ -1246,7 +1262,9 @@ val dependencyParser = new DependencyParserApproach()
     .setNumberOfIterations(10)
 ```
 
-### Typed Dependency Parser: Labeled grammatical relation
+### Typed Dependency Parser
+
+#### Labeled grammatical relation
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
@@ -1277,7 +1295,7 @@ val typedDependencyParser = new TypedDependencyParserApproach()
     .setConll2009("conll2009/eng.train"))
 ```
 
-## 2.3. Spark-NLP Licensed
+## Spark-NLP Licensed
 
 ### AssertionLogReg
 
