@@ -32,18 +32,6 @@ class POSEvaluation(sparkSession: SparkSession, testFile: String) {
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile: String, posInputCols: Array[String], posOutputCol: String,
-                               numberOfIterations: Int): Unit = {
-
-    val posTagger = new PerceptronApproach()
-      .setInputCols(posInputCols)
-      .setOutputCol(posOutputCol)
-      .setNIterations(numberOfIterations)
-
-    computeAccuracyAnnotator(trainFile, posTagger)
-
-  }
-
   def computeAccuracy(posEvalConfiguration: PosEvalConfiguration): Unit = {
     val posLabels = getPosLabels(posEvalConfiguration)
     val evaluationDataSet = getEvaluationDataSet(posEvalConfiguration, posLabels)

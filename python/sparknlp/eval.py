@@ -69,14 +69,5 @@ class POSEvaluation(ExtendedJavaWrapper):
         return self._java_obj.computeAccuracyModel(pos._java_obj)
 
     def computeAccuracyAnnotator(self, train_file, pos):
-        pos_params = self.__getPosParams(pos)
-        return self._java_obj.computeAccuracyAnnotator(train_file, pos_params['input_cols'], pos_params['output_col'],
-                                                       pos_params['number_iterations'])
-
-    def __getPosParams(self, pos):
-        pos_params = dict()
-        input_cols = pos.getInputCols()
-        pos_params['input_cols'] = self.new_java_array_string(input_cols)
-        pos_params['output_col'] = pos.getOutputCol()
-        pos_params['number_iterations'] = pos.getNIterations()
-        return pos_params
+        pos._to_java()
+        return self._java_obj.computeAccuracyAnnotator(train_file, pos._java_obj)
