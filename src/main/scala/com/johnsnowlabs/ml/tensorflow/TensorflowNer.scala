@@ -129,7 +129,7 @@ class TensorflowNer
             graphFileName: String = "",
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f,
+            validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
             includeConfidence: Boolean = false,
             enableOutputLogs: Boolean = false,
@@ -143,13 +143,13 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    val sample: Int = (trainDataset.length*trainValidationProp).toInt
+    val sample: Int = (trainDataset.length*validationSplit).toInt
 
-    val (trainDatasetSeq, validateDatasetSample) = if (trainValidationProp > 0f) {
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
       (trainingSet, trainingSample.toArray)
     } else {
-      // No trainValidationProp has been set so just use the entire training Dataset
+      // No validationSplit has been set so just use the entire training Dataset
       val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
       (trainDataset.toSeq, emptyValid)
     }
@@ -207,9 +207,9 @@ class TensorflowNer
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
       outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
 
-      if (trainValidationProp > 0.0) {
-        log(s"Quality on validation dataset (${trainValidationProp*100}%), valExamples = $sample", Verbose.Epochs)
-        outputLog(s"Quality on validation dataset (${trainValidationProp*100}%), valExamples = $sample", uuid, enableOutputLogs)
+      if (validationSplit > 0.0) {
+        log(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", Verbose.Epochs)
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", uuid, enableOutputLogs)
         measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
