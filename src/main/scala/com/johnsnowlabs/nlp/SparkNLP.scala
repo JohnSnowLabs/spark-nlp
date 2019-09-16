@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "2.2.1"
+  val currentVersion = "2.2.2"
 
   def start(includeOcr: Boolean = false): SparkSession = {
     val build = SparkSession.builder()
@@ -15,11 +15,11 @@ object SparkNLP {
 
     if (includeOcr) {
       build
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
         .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
     } else {
       build
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.1")
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2")
     }
 
     build.getOrCreate()
