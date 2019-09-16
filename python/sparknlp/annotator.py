@@ -1112,7 +1112,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
 
-    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+    trainValidationProp = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                 TypeConverters.toFloat)
 
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
@@ -1160,8 +1160,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
-    def setValidationSplit(self, v):
-        self._set(validationSplit=v)
+    def setTrainValidationProp(self, v):
+        self._set(trainValidationProp=v)
         return self
 
     def setEvaluationLogExtended(self, v):
@@ -1190,7 +1190,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             dropout=float(0.5),
             verbose=2,
             useContrib=uc,
-            validationSplit=float(0.0),
+            trainValidationProp=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
             enableOutputLogs=False
