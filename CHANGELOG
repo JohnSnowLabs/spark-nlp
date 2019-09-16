@@ -24,6 +24,11 @@ Bugfixes
 * Fixed a bug in PositionFinder reporting duplicate coordinate elements
 
 ----------------
+Developer API
+----------------
+* Renamed trainValidationProp to validationSplit in NerDLApproach
+
+----------------
 Documentation
 ----------------
 * Added several missing annotator documentation in docs page
