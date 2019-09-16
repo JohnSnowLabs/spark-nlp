@@ -1,4 +1,34 @@
 ========
+2.2.2
+========
+---------------
+Overview
+---------------
+Thank you again for all your feedback and questions in our Slack channel. Such feedback from users and contributors
+(thank you Stuart Lynn @sllynn) helped to find several python module bugs. We also fixed and improved OCR support
+towards extracting page coordinates and fixed NerDL evaluator from Python
+
+---------------
+Enhancements
+---------------
+* Added a create_models.py python script to generate Graphs for NerDL without the need of jupyter
+* Added a new annotator Token2Chunk to convert all tokens to chunk types (useful for extracting token coordinates from OCR)
+* Added OCR Page Dimensions
+
+---------------
+Bugfixes
+---------------
+* Fixed python support of NerDL evaluation not taking all params appropriately
+* Fixed a bug in case sensitivity matching of embeddings format in python (Thanks @sllynn)
+* Fixed a bug in python DateMatcher with dateFormat param not working (Thanks @sllynn)
+* Fixed a bug in PositionFinder reporting duplicate coordinate elements
+
+----------------
+Documentation
+----------------
+* Added several missing annotator documentation in docs page
+
+========
 2.2.1
 ========
 ---------------
