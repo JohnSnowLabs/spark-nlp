@@ -25,22 +25,6 @@ class SymSpellEvaluation(sparkSession: SparkSession, testFile: String, groundTru
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String,
-                               maxEditDistance: Int, frequencyThreshold: Int, deletesThreshold: Int, dupsLimit: Int
-                              ): Unit = {
-
-    val spell = new SymmetricDeleteApproach()
-      .setInputCols(inputCols)
-      .setOutputCol(outputCol)
-      .setDictionary(dictionary)
-      .setMaxEditDistance(maxEditDistance)
-      .setFrequencyThreshold(frequencyThreshold)
-      .setDeletesThreshold(deletesThreshold)
-      .setDupsLimit(dupsLimit)
-
-    computeAccuracyAnnotator(trainFile, spell)
-  }
-
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
     loggingData.logSymSpellParams(spell)
     val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
