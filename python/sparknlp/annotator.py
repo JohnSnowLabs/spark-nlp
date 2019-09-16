@@ -1633,13 +1633,13 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
 
     def setPoolingLayer(self, layer):
         if layer == 0:
-            return 0
+            return self._set(poolingLayer=layer)
         elif layer == -1:
-            return -1
+            return self._set(poolingLayer=layer)
         elif layer == -2:
-            return -2
+            return self._set(poolingLayer=layer)
         else:
-            return 0
+            return self._set(poolingLayer=0)
 
     def getPoolingLayer(self):
         return self.getOrDefault(self.poolingLayer)
