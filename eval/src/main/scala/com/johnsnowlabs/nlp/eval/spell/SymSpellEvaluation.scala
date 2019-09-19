@@ -19,14 +19,14 @@ class SymSpellEvaluation(sparkSession: SparkSession, testFile: String, groundTru
                                         approach: SymmetricDeleteApproach, model: SymmetricDeleteModel)
 
   def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
-    loggingData.logSymSpellParams(spell)
+    loggingData.logParameters(spell)
     val symSpellConfig = SymSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
     computeAccuracy(symSpellConfig)
     loggingData.closeLog()
   }
 
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
-    loggingData.logSymSpellParams(spell)
+    loggingData.logParameters(spell)
     val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(symSpellConfig)
     loggingData.closeLog()

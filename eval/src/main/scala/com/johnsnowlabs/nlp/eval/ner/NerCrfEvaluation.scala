@@ -21,14 +21,14 @@ class NerCrfEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: S
                                             nerCrfModel: NerCrfModel, nerCrfApproach: NerCrfApproach)
 
   def computeAccuracyModel(nerCrfModel: NerCrfModel): Unit = {
-    loggingData.logNerCrfParams(nerCrfModel)
+    loggingData.logParameters(nerCrfModel)
     val nerEvalDLConfiguration = NerEvalCrfConfiguration("", null, nerCrfModel, null)
     computeAccuracy(nerEvalDLConfiguration)
     loggingData.closeLog()
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerCrfApproach: NerCrfApproach, wordEmbeddings: WordEmbeddings): Unit = {
-    loggingData.logNerCrfParams(nerCrfApproach)
+    loggingData.logParameters(nerCrfApproach)
     val nerEvalDLConfiguration = NerEvalCrfConfiguration(trainFile, wordEmbeddings, null, nerCrfApproach)
     computeAccuracy(nerEvalDLConfiguration)
     loggingData.closeLog()
