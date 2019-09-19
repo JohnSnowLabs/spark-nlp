@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.eval.util
 
+import java.util.NoSuchElementException
+
 import com.johnsnowlabs.nlp.SparkNLP
-import com.johnsnowlabs.nlp.annotator.{NerCrfModel, NerDLModel}
+import com.johnsnowlabs.nlp.annotator.{NerCrfModel, NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.{NorvigSweetingApproach, NorvigSweetingModel}
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.{SymmetricDeleteApproach, SymmetricDeleteModel}
 import org.mlflow.api.proto.Service.{RunInfo, RunStatus}
@@ -69,156 +70,105 @@ class LoggingData(sourceType: String, sourceName: String, experimentName: String
     }
   }
 
-  def logNorvigParams(spell: NorvigSweetingApproach): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "caseSensitive", spell.getCaseSensitive.toString)
-      mlFlowClient.get.logParam(runId, "doubleVariants", spell.getDoubleVariants.toString)
-      mlFlowClient.get.logParam(runId, "shortCircuit", spell.getShortCircuit.toString)
-      mlFlowClient.get.logParam(runId, "frequencyPriority", spell.getFrequencyPriority.toString)
-      mlFlowClient.get.logParam(runId, "wordSizeIgnore", spell.getWordSizeIgnore.toString)
-      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
-      mlFlowClient.get.logParam(runId, "reductLimit", spell.getReductLimit.toString)
-      mlFlowClient.get.logParam(runId, "intersections", spell.getIntersections.toString)
-      mlFlowClient.get.logParam(runId, "vowelSwapLimit", spell.getVowelSwapLimit.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("caseSensitive: " + spell.getCaseSensitive.toString)
-      println("doubleVariants: " + spell.getDoubleVariants.toString)
-      println("shortCircuit: " + spell.getShortCircuit.toString)
-      println("frequencyPriority: " + spell.getFrequencyPriority.toString)
-      println("wordSizeIgnore: " + spell.getWordSizeIgnore.toString)
-      println("dupsLimit: " + spell.getDupsLimit.toString)
-      println("reductLimit: " + spell.getReductLimit.toString)
-      println("intersections: " + spell.getIntersections.toString)
-      println("vowelSwapLimit: " + spell.getVowelSwapLimit.toString)
+  def logParameters(annotator: Any): Unit = {
+    val params = getParams(annotator).flatten
+    params.foreach{ param =>
+      if (param._1 != "inputCols" && param._1 != "labelColumn" && param._1 != "outputCol") {
+        logParam(param._1, param._2)
+      }
     }
   }
 
-  def logNorvigParams(spell: NorvigSweetingModel): Unit = {
+  private def logParam(paramName: String, paramValue: String): Unit = {
     if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "caseSensitive", spell.getCaseSensitive.toString)
-      mlFlowClient.get.logParam(runId, "doubleVariants", spell.getDoubleVariants.toString)
-      mlFlowClient.get.logParam(runId, "shortCircuit", spell.getShortCircuit.toString)
-      mlFlowClient.get.logParam(runId, "frequencyPriority", spell.getFrequencyPriority.toString)
-      mlFlowClient.get.logParam(runId, "wordSizeIgnore", spell.getWordSizeIgnore.toString)
-      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
-      mlFlowClient.get.logParam(runId, "reductLimit", spell.getReductLimit.toString)
-      mlFlowClient.get.logParam(runId, "intersections", spell.getIntersections.toString)
-      mlFlowClient.get.logParam(runId, "vowelSwapLimit", spell.getVowelSwapLimit.toString)
+      mlFlowClient.get.logParam(runId, paramName, paramValue)
     } else {
-      println(s"Parameters for $sourceName:")
-      println("caseSensitive: " + spell.getCaseSensitive.toString)
-      println("doubleVariants: " + spell.getDoubleVariants.toString)
-      println("shortCircuit: " + spell.getShortCircuit.toString)
-      println("frequencyPriority: " + spell.getFrequencyPriority.toString)
-      println("wordSizeIgnore: " + spell.getWordSizeIgnore.toString)
-      println("dupsLimit: " + spell.getDupsLimit.toString)
-      println("reductLimit: " + spell.getReductLimit.toString)
-      println("intersections: " + spell.getIntersections.toString)
-      println("vowelSwapLimit: " + spell.getVowelSwapLimit.toString)
+      println(s"$paramName: $paramValue")
     }
   }
 
-  def logSymSpellParams(spell: SymmetricDeleteApproach): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "maxEditDistance", spell.getMaxEditDistance.toString)
-      mlFlowClient.get.logParam(runId, "frequencyThreshold", spell.getFrequencyThreshold.toString)
-      mlFlowClient.get.logParam(runId, "deletesThreshold", spell.getDeletesThreshold.toString)
-      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("maxEditDistance: " + spell.getMaxEditDistance.toString)
-      println("frequencyThreshold: " + spell.getFrequencyThreshold.toString)
-      println("deletesThreshold: " + spell.getDeletesThreshold.toString)
-      println("dupsLimit: " + spell.getDupsLimit.toString)
-    }
-  }
-
-  def logSymSpellParams(spell: SymmetricDeleteModel): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "maxEditDistance", spell.getMaxEditDistance.toString)
-      mlFlowClient.get.logParam(runId, "frequencyThreshold", spell.getFrequencyThreshold.toString)
-      mlFlowClient.get.logParam(runId, "deletesThreshold", spell.getDeletesThreshold.toString)
-      mlFlowClient.get.logParam(runId, "dupsLimit", spell.getDupsLimit.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("maxEditDistance: " + spell.getMaxEditDistance.toString)
-      println("frequencyThreshold: " + spell.getFrequencyThreshold.toString)
-      println("deletesThreshold: " + spell.getDeletesThreshold.toString)
-      println("dupsLimit: " + spell.getDupsLimit.toString)
-    }
-  }
-
-  def logNerDLParams(nerDL: NerDLApproach): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "lr", nerDL.getLr.toString)
-      mlFlowClient.get.logParam(runId, "po", nerDL.getPo.toString)
-      mlFlowClient.get.logParam(runId, "batchSize", nerDL.getBatchSize.toString)
-      mlFlowClient.get.logParam(runId, "dropout", nerDL.getDropout.toString)
-      mlFlowClient.get.logParam(runId, "useContrib", nerDL.getUseContrib.toString)
-      mlFlowClient.get.logParam(runId, "validationSplit", nerDL.getValidationSplit.toString)
-      mlFlowClient.get.logParam(runId, "minEpochs", nerDL.getMinEpochs.toString)
-      mlFlowClient.get.logParam(runId, "maxEpochs", nerDL.getMaxEpochs.toString)
-      mlFlowClient.get.logParam(runId, "randomSeed", nerDL.getRandomSeed.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("lr: " + nerDL.getLr.toString)
-      println("po: " + nerDL.getPo.toString)
-      println("batchSize: " + nerDL.getBatchSize.toString)
-      println("dropout: " + nerDL.getDropout.toString)
-      println("useContrib: " + nerDL.getUseContrib.toString)
-      println("validationSplit: " + nerDL.getValidationSplit.toString)
-      println("minEpochs: " + nerDL.getMinEpochs.toString)
-      println("maxEpochs: " + nerDL.getMaxEpochs.toString)
-      println("randomSeed: " + nerDL.getRandomSeed.toString)
-    }
-  }
-
-  def logNerDLParams(nerDL: NerDLModel): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "batchSize", nerDL.getBatchSize.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("batchSize: " + nerDL.getBatchSize.toString)
-    }
-  }
-
-  def logNerCrfParams(nerCrf: NerCrfApproach): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "l2", nerCrf.getL2.toString)
-      mlFlowClient.get.logParam(runId, "c0", nerCrf.getC0.toString)
-      mlFlowClient.get.logParam(runId, "lossEps", nerCrf.getLossEps.toString)
-      mlFlowClient.get.logParam(runId, "includeConfidence", nerCrf.getIncludeConfidence.toString)
-      mlFlowClient.get.logParam(runId, "maxEpochs", nerCrf.getMaxEpochs.toString)
-      mlFlowClient.get.logParam(runId, "minEpochs", nerCrf.getMinEpochs.toString)
-      mlFlowClient.get.logParam(runId, "randomSeed", nerCrf.getRandomSeed.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("l2: " + nerCrf.getL2.toString)
-      println("c0: " + nerCrf.getC0.toString)
-      println("lossEps: " + nerCrf.getLossEps.toString)
-      println("includeConfidence: " + nerCrf.getIncludeConfidence.toString)
-      println("minEpochs: " + nerCrf.getMinEpochs.toString)
-      println("maxEpochs: " + nerCrf.getMaxEpochs.toString)
-      println("randomSeed: " + nerCrf.getRandomSeed.toString)
-    }
-  }
-
-  def logNerCrfParams(nerCrf: NerCrfModel): Unit = {
-    if (runId != "console") {
-      mlFlowClient.get.logParam(runId, "includeConfidence", nerCrf.getIncludeConfidence.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("includeConfidence: " + nerCrf.getIncludeConfidence.toString)
-    }
-  }
-
-  def logPOSParams(pos: PerceptronApproach): Unit = {
-    if (runId != "console") {
-      getMLFlowClient.get.logParam(runId, "nIterations", pos.getNIterations.toString)
-    } else {
-      println(s"Parameters for $sourceName:")
-      println("nIterations: " + pos.getNIterations.toString)
+  def getParams(annotator: Any): Array[Option[(String, String)]] = {
+    annotator match {
+      case nerDLApproach: NerDLApproach =>
+        nerDLApproach.params.map{ param =>
+          try {
+            Some(param.name, nerDLApproach.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case nerDLModel: NerDLModel =>
+        nerDLModel.params.map{ param =>
+          try {
+            Some(param.name, nerDLModel.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case nerCrfApproach: NerCrfApproach =>
+        nerCrfApproach.params.map{ param =>
+          try {
+            Some(param.name, nerCrfApproach.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case nerCrfModel: NerCrfModel =>
+        nerCrfModel.params.map{ param =>
+          try {
+            Some(param.name, nerCrfModel.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case norvigSweetingApproach: NorvigSweetingApproach =>
+        norvigSweetingApproach.params.map{ param =>
+          try {
+            Some(param.name, norvigSweetingApproach.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case norvigSweetingModel: NorvigSweetingModel =>
+        norvigSweetingModel.params.map{ param =>
+          try {
+            Some(param.name, norvigSweetingModel.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case symmetricDeleteApproach: SymmetricDeleteApproach =>
+        symmetricDeleteApproach.params.map{ param =>
+          try {
+            Some(param.name, symmetricDeleteApproach.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case symmetricDeleteModel: SymmetricDeleteModel =>
+        symmetricDeleteModel.params.map{ param =>
+          try {
+            Some(param.name, symmetricDeleteModel.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case perceptronApproach: PerceptronApproach =>
+        perceptronApproach.params.map{ param =>
+          try {
+            Some(param.name, perceptronApproach.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
+      case perceptronModel: PerceptronModel =>
+        perceptronModel.params.map{ param =>
+          try {
+            Some(param.name, perceptronModel.getOrDefault(param).toString)
+          } catch {
+            case e: NoSuchElementException => None
+          }
+        }
     }
   }
 
