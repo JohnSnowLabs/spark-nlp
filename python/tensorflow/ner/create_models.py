@@ -39,7 +39,7 @@ if __name__ == "__main__":
         description='Generates a tensorflow graph for latter use in NERDLApproach setting setGraphFolder parameter.',
         epilog='')
     parser.add_argument('--use_contrib', action='store_true',
-                        help='Whether to use contrib LSTM Cells. Improves accuracy (Linux only)')
+                        help='Whether to use contrib LSTM Cells. Improves accuracy (Linux or Mac only)')
     parser.add_argument('n_tags', type=int, help='Number of tags')
     parser.add_argument('e_dim', type=int, help='Embeddings dimension')
     parser.add_argument('n_chars', type=int, help='Number of chars')
