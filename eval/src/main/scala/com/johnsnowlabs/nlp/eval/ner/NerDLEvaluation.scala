@@ -57,11 +57,10 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
       .setBatchSize(batchSize)
       .setDropout(dropout)
       .setUseContrib(userContrib)
-      .setTrainValidationProp(trainValidationProp)
+      .setValidationSplit(trainValidationProp)
       .setEvaluationLogExtended(evaluationLogExtended)
       .setEnableOutputLogs(enableOutputLogs)
       .setIncludeConfidence(includeConfidence)
-      .setIncludeValidationProp(includeValidationProp)
 
     if (testDataSet != null) {
       nerDLApproach
