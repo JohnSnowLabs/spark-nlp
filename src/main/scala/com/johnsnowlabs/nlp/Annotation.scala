@@ -44,8 +44,7 @@ case class JavaAnnotation(annotatorType: String,
                           end: Int,
                           result: String,
                           metadata: java.util.Map[String, String],
-                          embeddings: Array[Float] = Array.emptyFloatArray,
-                          sentenceEmbeddings: Array[Float] = Array.emptyFloatArray
+                          embeddings: Array[Float] = Array.emptyFloatArray
                          )
 
 object Annotation {
