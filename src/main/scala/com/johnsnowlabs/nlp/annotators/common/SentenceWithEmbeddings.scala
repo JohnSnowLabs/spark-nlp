@@ -7,7 +7,8 @@ import scala.collection.Map
 case class WordpieceEmbeddingsSentence
 (
   tokens: Array[TokenPieceEmbeddings],
-  sentenceId: Int
+  sentenceId: Int,
+  sentenceEmbeddings: Option[Array[Float]] = None
 )
 
 case class TokenPieceEmbeddings(wordpiece: String, token: String, pieceId: Int,
@@ -53,7 +54,7 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
       .groupBy(_.metadata("sentence").toInt)
 
     tokens.map{case (idx: Int, sentenceTokens: Seq[Annotation]) =>
-
+      val sentenceEmbeddings = sentenceTokens.map(t => t.sentence_embeddings).headOption
       val tokensWithSentence = sentenceTokens.map { token =>
         new TokenPieceEmbeddings(
           wordpiece = token.result,
@@ -67,7 +68,7 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
         )
       }.toArray
 
-      WordpieceEmbeddingsSentence(tokensWithSentence, idx)
+      WordpieceEmbeddingsSentence(tokensWithSentence, idx, sentenceEmbeddings)
     }.toSeq.sortBy(_.sentenceId)
   }
 
@@ -78,6 +79,13 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
         // Store embeddings for token
         val embeddings = token.embeddings
 
+        // Store sentence embeddings only in one token
+        val sentenceEmbeddings =
+          if (isFirstToken && sentence.sentenceEmbeddings.isDefined)
+            sentence.sentenceEmbeddings.get
+          else
+            Array.emptyFloatArray
+
         isFirstToken = false
         Annotation(annotatorType, token.begin, token.end, token.token,
           Map("sentence" -> sentenceIndex.toString,
@@ -86,7 +94,8 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
             "isWordStart" -> token.isWordStart.toString,
             "isOOV" -> token.isOOV.toString
           ),
-          embeddings
+          embeddings,
+          sentenceEmbeddings
         )
       }
     }
