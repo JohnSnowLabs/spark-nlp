@@ -22,6 +22,7 @@ def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension,
         ner.add_inference_layer(True)
         ner.add_training_op(5)
         ner.init_variables()
+        tf.train.Saver()
         file_name = model_name + '.pb'
         tf.train.write_graph(ner.session.graph, output_path, file_name, False)
         ner.close()
