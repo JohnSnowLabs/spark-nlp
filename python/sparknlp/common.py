@@ -20,10 +20,10 @@ class AnnotatorProperties(Params):
                       typeConverter=TypeConverters.toString)
 
     def setInputCols(self, *value):
-        if len(value) > 1:
-            return self._set(inputCols=list(value))
-        else:
+        if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value)
+        else:
+            return self._set(inputCols=list(value))
 
     def setOutputCol(self, value):
         return self._set(outputCol=value)
