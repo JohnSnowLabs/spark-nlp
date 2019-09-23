@@ -152,7 +152,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
           case _ => r.getString(3)
         }
       ).mkString(aSep)
@@ -164,7 +164,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS =>
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS =>
             (r.getMap[String, String](4) ++
               Map(RESULT -> r.getString(3)) ++
               Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
@@ -181,7 +181,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
         }
       )
