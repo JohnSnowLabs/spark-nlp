@@ -21,7 +21,7 @@ class AnnotatorProperties(Params):
 
     def setInputCols(self, *value):
         if len(value) == 1 and type(value[0]) == list:
-            return self._set(inputCols=value)
+            return self._set(inputCols=value[0])
         else:
             return self._set(inputCols=list(value))
 
