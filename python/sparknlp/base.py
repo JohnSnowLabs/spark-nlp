@@ -286,8 +286,10 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
 
-class Finisher(AnnotatorTransformer, AnnotatorProperties):
+class Finisher(AnnotatorTransformer):
 
+    inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
     valueSplitSymbol = Param(Params._dummy(), "valueSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
     annotationSplitSymbol = Param(Params._dummy(), "annotationSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
@@ -308,6 +310,18 @@ class Finisher(AnnotatorTransformer, AnnotatorProperties):
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
+
+    def setInputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
+
+    def setOutputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
 
     def setValueSplitSymbol(self, value):
         return self._set(valueSplitSymbol=value)
