@@ -32,7 +32,22 @@ modify_date: "2019-09-07"
 |ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_vivekn_en_2.0.2_2.4_1556663184035.zip)
 |DependencyParser (Dependency)        |    `dependency_conllu`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_2.0.8_2.4_1561435004077.zip)
 |TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_typed_conllu_en_2.0.8_2.4_1561473259215.zip)
-|NerClinical        |`ner_clinical`|Licensed|
+
+### English - Licensed
+
+| Model                                  |   Name     |   loc     |
+|----------------------------------------|---------------|---------------|
+|NerDLModel        |`ner_clinical`|Licensed|
+|AssertionLogRegModel        |`assertion_ml`|Licensed|
+|AssertionDLModel        |`assertion_dl`|Licensed|
+|NerDLModel        |`deidentify_dl`|Licensed|
+|DeIdentificationModel        |`deidentify_rb`|Licensed|
+|WordEmbeddingsModel        |`embeddings_clinical`|Licensed|
+|PerceptronModel        |`pos_clinical`|Licensed|
+|EntityResolverModel        |`resolve_icd10`|Licensed|
+|EntityResolverModel        |`resolve_icd10cm_cl_em`|Licensed|
+|EntityResolverModel        |`resolve_icd10pcs_cl_em`|Licensed|
+|ContextSpellCheckerModel        |`context_spell_med`|Licensed|
 
 ### French
 
