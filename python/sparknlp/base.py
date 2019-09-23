@@ -196,7 +196,7 @@ class DocumentAssembler(AnnotatorTransformer):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setInputCol(self, *value):
+    def setInputCol(self, value):
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
