@@ -122,4 +122,4 @@ class Finisher(override val uid: String)
   }
 
 }
-object Finisher extends DefaultParamsReadadable[Finisher]
+object Finisher extends DefaultParamsReadable[Finisher]
