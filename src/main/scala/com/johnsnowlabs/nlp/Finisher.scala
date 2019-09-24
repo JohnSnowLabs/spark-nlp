@@ -46,8 +46,7 @@ class Finisher(override val uid: String)
   setDefault(
     cleanAnnotations -> true,
     includeMetadata -> false,
-    outputAsArray -> true,
-    explodedCol -> "")
+    outputAsArray -> true)
 
   def this() = this(Identifiable.randomUID("finisher"))
 
