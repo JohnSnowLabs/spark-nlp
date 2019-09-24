@@ -319,7 +319,6 @@ class Finisher(AnnotatorTransformer):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
-    explodedCol = Param(Params._dummy(), "explodedCol", "name of the column that will be exploded")
 
     name = "Finisher"
 
@@ -329,8 +328,7 @@ class Finisher(AnnotatorTransformer):
         self._setDefault(
             cleanAnnotations=True,
             includeMetadata=False,
-            outputAsArray=True,
-            explodedCol=""
+            outputAsArray=True
         )
 
     @keyword_only
@@ -358,6 +356,3 @@ class Finisher(AnnotatorTransformer):
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
-
-    def setExplodeAnnotations(self, value):
-        return self._set(explodedCol=value)
