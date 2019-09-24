@@ -27,8 +27,6 @@ class Finisher(override val uid: String)
   protected val explodedCol:  Param[String] =
     new Param(this, "explodedCol", "name of the column that will be exploded")
 
-  explodeAnnotations
-
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
   def setOutputCols(value: Array[String]): this.type = set(outputCols, value)
@@ -132,9 +130,9 @@ class Finisher(override val uid: String)
     This will also override the previous steps and the only filds returned will be the exploded struct fields */
       flattened.withColumn(
         "tmp", explode(col($(explodedCol)))).select(col("tmp.*"))
-
+      
     else flattened.toDF()
   }
 
 }
-object Finisher extends DefaultParamsReadable[Finisher]
+object Finisher extends DefaultParamsReadadable[Finisher]
