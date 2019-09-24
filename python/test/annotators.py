@@ -533,8 +533,7 @@ class ContextSpellCheckerTestSpec(unittest.TestCase):
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
-        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach,
-                      Tokenizer]
+        annotators = [DocumentAssembler, PerceptronApproach, Lemmatizer, TokenAssembler, NorvigSweetingApproach]
         for annotator in annotators:
             a = annotator()
             for param in a.params:
