@@ -24,8 +24,6 @@ class Finisher(override val uid: String)
     new BooleanParam(this, "includeMetadata", "annotation metadata format")
   protected val outputAsArray: BooleanParam =
     new BooleanParam(this, "outputAsArray", "finisher generates an Array with the results instead of string")
-  protected val explodedCol:  Param[String] =
-    new Param(this, "explodedCol", "name of the column that will be exploded")
 
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
@@ -36,7 +34,6 @@ class Finisher(override val uid: String)
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
   def setIncludeMetadata(value: Boolean): this.type = set(includeMetadata, value)
   def setOutputAsArray(value: Boolean): this.type = set(outputAsArray, value)
-  def setExplodeAnnotations(value: String): this.type = set(explodedCol, value)
 
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
   def getInputCols: Array[String] = $(inputCols)
@@ -45,7 +42,6 @@ class Finisher(override val uid: String)
   def getCleanAnnotations: Boolean = $(cleanAnnotations)
   def getIncludeMetadata: Boolean = $(includeMetadata)
   def getOutputAsArray: Boolean = $(outputAsArray)
-  def getExplodeAnnotations: String = $(explodedCol)
 
   setDefault(
     cleanAnnotations -> true,
@@ -122,14 +118,6 @@ class Finisher(override val uid: String)
       flattened.schema.fields
         .filter(_.dataType == ArrayType(Annotation.dataType))
         .map(_.name):_*)
-
-    if flattened.schema.fieldNames.contains($(explodedCol)) 
-      /* if explodedCol is not specified, it will be empty as a default and 
-    ignored as it's already not in the filed names. 
-    So, any string that's not inside filednames will be ignored and will not trigger anything.
-    This will also override the previous steps and the only filds returned will be the exploded struct fields */
-      flattened.withColumn(
-        "tmp", explode(col($(explodedCol)))).select(col("tmp.*"))
       
     else flattened.toDF()
   }
