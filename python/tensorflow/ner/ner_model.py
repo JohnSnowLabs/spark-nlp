@@ -8,13 +8,14 @@ from sentence_grouper import SentenceGrouper
 
 class NerModel:
     # If session is not defined than default session will be used
-    def __init__(self, session=None, dummy_tags=None, use_contrib=True):
+    def __init__(self, session=None, dummy_tags=None, use_contrib=True, use_gpu_device=0):
         self.word_repr = None
         self.word_embeddings = None
         self.session = session
         self.session_created = False
         self.dummy_tags = dummy_tags or []
         self.use_contrib = use_contrib
+        self.use_gpu_device = use_gpu_device
 
         if self.session is None:
             self.session_created = True
@@ -24,7 +25,7 @@ class NerModel:
                 config=config_proto
             )
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr") as scope:
                 # shape = (batch size, sentence, word)
@@ -53,7 +54,7 @@ class NerModel:
     def add_bilstm_char_repr(self, nchars = 101, dim=25, hidden=25):
         self._char_bilstm_added = True
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr_lstm") as scope:
                 # 1. Lookup for character embeddings
@@ -99,7 +100,7 @@ class NerModel:
     def add_cnn_char_repr(self, nchars=101, dim=25, nfilters=25, pad=2):
         self._char_cnn_added = True
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr_cnn") as scope:
                 # 1. Lookup for character embeddings
@@ -140,7 +141,7 @@ class NerModel:
     def add_pretrained_word_embeddings(self, dim=100):
         self._word_embeddings_added = True
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
             with tf.compat.v1.variable_scope("word_repr") as scope:
                 # shape = (batch size, sentence, dim)
                 self.word_embeddings = tf.compat.v1.placeholder(tf.float32, shape=[None, None, dim],
@@ -153,7 +154,7 @@ class NerModel:
 
     def _create_lstm_layer(self, inputs, hidden_size, lengths):
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             if not self.use_contrib:
                 model = tf.keras.Sequential([
@@ -185,7 +186,7 @@ class NerModel:
 
     def _multiply_layer(self, source, result_size, activation=tf.nn.relu):
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             ntime_steps = tf.shape(input=source)[1]
             source_size = source.shape[2]
@@ -218,7 +219,7 @@ class NerModel:
         self._context_added = True
         self.ntags = ntags
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
             context_repr = self._multiply_layer(self.word_repr, 2*hidden_size)
             # Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`
             context_repr = tf.nn.dropout(x=context_repr, rate=1-self.dropout)
@@ -246,7 +247,7 @@ class NerModel:
                "Add context representation layer by method add_context_repr before adding inference layer")
         self._inference_added = True
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("inference", reuse=None) as scope:
 
@@ -292,7 +293,7 @@ class NerModel:
                "Add inference layer by method add_inference_layer before adding training layer")
         self._training_added = True
 
-        with tf.device('/gpu:0'):
+        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("training", reuse=None) as scope:
                 optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=self.lr)
@@ -330,13 +331,13 @@ class NerModel:
         return [len(row[idx]) for row in batch]
 
     @staticmethod
-    def get_word_lengths(batch, idx = "char_ids"):
+    def get_word_lengths(batch, idx="char_ids"):
         max_words = max([len(row[idx]) for row in batch])
         return [NerModel.fill([len(chars) for chars in row[idx]], max_words, 0)
                 for row in batch]
 
     @staticmethod
-    def get_char_ids(batch, idx = "char_ids"):
+    def get_char_ids(batch, idx="char_ids"):
         max_chars = max([max([len(char_ids) for char_ids in sentence[idx]]) for sentence in batch])
         max_words = max([len(sentence[idx]) for sentence in batch])
 
@@ -374,9 +375,7 @@ class NerModel:
     def init_variables(self):
         self.session.run(self.init_op)
 
-    # Train and validation - datasets
     def train(self, train,
-              validation=None,
               epoch_start=0,
               epoch_end=100,
               batch_size=32,
@@ -389,7 +388,7 @@ class NerModel:
         assert(self._training_added, "Add training layer by method add_training_op before running training")
 
         if init_variables:
-            with tf.device('/gpu:0'):
+            with tf.device('/gpu:{}'.format(self.use_gpu_device)):
                 self.session.run(tf.compat.v1.global_variables_initializer())
 
         print('trainig started')
@@ -416,7 +415,7 @@ class NerModel:
             print()
             sys.stdout.flush()
 
-    def measure(self, dataset, batch_size = 20, dropout = 1.0):
+    def measure(self, dataset, batch_size=20, dropout=1.0):
         predicted = {}
         correct = {}
         correct_predicted = {}
@@ -469,7 +468,7 @@ class NerModel:
         return prec, rec, f1
 
     @staticmethod
-    def get_softmax(scores, threshold = None):
+    def get_softmax(scores, threshold=None):
         exp_scores = np.exp(scores)
 
         for batch in exp_scores:
@@ -480,7 +479,7 @@ class NerModel:
 
         return exp_scores
 
-    def predict(self, sentences, batch_size=20, threshold = None):
+    def predict(self, sentences, batch_size=20, threshold=None):
         result = []
 
         for batch in NerModel.slice(sentences, batch_size):
