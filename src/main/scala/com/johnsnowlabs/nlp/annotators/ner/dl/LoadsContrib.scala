@@ -62,8 +62,12 @@ object LoadsContrib {
   def loadContribToTensorflow(): Unit = {
     if (!LoadsContrib.loadedToTensorflow && contribPaths.isDefined) {
       LoadsContrib.loadedToTensorflow = true
-      TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._1)))
-      TensorFlow.loadLibrary(SparkFiles.get(getFileName(contribPaths.get._2)))
+      val fp1 = SparkFiles.get(getFileName(contribPaths.get._1))
+      val fp2 = SparkFiles.get(getFileName(contribPaths.get._2))
+      if (new File(fp1).exists() && new File(fp2).exists()) {
+        TensorFlow.loadLibrary(fp1)
+        TensorFlow.loadLibrary(fp2)
+      }
     }
   }
 

@@ -14,6 +14,7 @@ Enhancements
 * Added a create_models.py python script to generate Graphs for NerDL without the need of jupyter
 * Added a new annotator Token2Chunk to convert all tokens to chunk types (useful for extracting token coordinates from OCR)
 * Added OCR Page Dimensions
+* Python setInputCols now accepts *args no need to input list
 
 ---------------
 Bugfixes
