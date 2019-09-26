@@ -20,36 +20,14 @@ class NorvigSpellEvaluation(sparkSession: SparkSession, testFile: String, ground
                                            approach: NorvigSweetingApproach, model: NorvigSweetingModel)
 
   def computeAccuracyAnnotator(trainFile: String, spell: NorvigSweetingApproach): Unit = {
-    loggingData.logNorvigParams(spell)
+    loggingData.logParameters(spell)
     val norvigSpellEvalConfig = NorvigSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
     computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String,
-                              caseSensitive: Boolean, doubleVariants: Boolean, shortCircuit: Boolean,
-                               frequencyPriority: Boolean, wordSizeIgnore: Int, dupsLimit: Int, reductLimit: Int,
-                               intersections: Int, vowelSwapLimit: Int): Unit = {
-
-    val spell = new NorvigSweetingApproach()
-      .setInputCols(inputCols)
-      .setOutputCol(outputCol)
-      .setDictionary(dictionary)
-      .setCaseSensitive(caseSensitive)
-      .setDoubleVariants(doubleVariants)
-      .setShortCircuit(shortCircuit)
-      .setFrequencyPriority(frequencyPriority)
-      .setWordSizeIgnore(wordSizeIgnore)
-      .setDupsLimit(dupsLimit)
-      .setReductLimit(reductLimit)
-      .setIntersections(intersections)
-      .setVowelSwapLimit(vowelSwapLimit)
-
-    computeAccuracyAnnotator(trainFile, spell)
-  }
-
   def computeAccuracyModel(spell: NorvigSweetingModel): Unit = {
-    loggingData.logNorvigParams(spell)
+    loggingData.logParameters(spell)
     val norvigSpellEvalConfig = NorvigSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(norvigSpellEvalConfig)
     loggingData.closeLog()

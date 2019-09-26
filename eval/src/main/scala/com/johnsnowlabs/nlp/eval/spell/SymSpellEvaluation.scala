@@ -19,30 +19,14 @@ class SymSpellEvaluation(sparkSession: SparkSession, testFile: String, groundTru
                                         approach: SymmetricDeleteApproach, model: SymmetricDeleteModel)
 
   def computeAccuracyAnnotator(trainFile: String, spell: SymmetricDeleteApproach): Unit = {
-    loggingData.logSymSpellParams(spell)
+    loggingData.logParameters(spell)
     val symSpellConfig = SymSpellEvalConfig(trainFile, testFile, groundTruthFile, spell, null)
     computeAccuracy(symSpellConfig)
     loggingData.closeLog()
   }
 
-  def computeAccuracyAnnotator(trainFile: String, inputCols: Array[String], outputCol: String, dictionary: String,
-                               maxEditDistance: Int, frequencyThreshold: Int, deletesThreshold: Int, dupsLimit: Int
-                              ): Unit = {
-
-    val spell = new SymmetricDeleteApproach()
-      .setInputCols(inputCols)
-      .setOutputCol(outputCol)
-      .setDictionary(dictionary)
-      .setMaxEditDistance(maxEditDistance)
-      .setFrequencyThreshold(frequencyThreshold)
-      .setDeletesThreshold(deletesThreshold)
-      .setDupsLimit(dupsLimit)
-
-    computeAccuracyAnnotator(trainFile, spell)
-  }
-
   def computeAccuracyModel(spell: SymmetricDeleteModel): Unit = {
-    loggingData.logSymSpellParams(spell)
+    loggingData.logParameters(spell)
     val symSpellConfig = SymSpellEvalConfig("", testFile, groundTruthFile, null, spell)
     computeAccuracy(symSpellConfig)
     loggingData.closeLog()
