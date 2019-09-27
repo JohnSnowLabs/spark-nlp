@@ -336,14 +336,14 @@ Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.
 
 ```python
 finisher = Finisher() \
-    .setInputCols(["sentiment"]) \
-    .setIncludeMetadata(True)
+    .setInputCols(["token"]) \
+    .setIncludeMetadata(True) # set to False to remove metadata
 ```
 
 ```scala
 val finisher = new Finisher()
     .setInputCols("token")
-    .setIncludeMetadata(true)
+    .setIncludeMetadata(true) // set to False to remove metadata
 ```
 
 ## Training Datasets
