@@ -336,29 +336,14 @@ Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.
 
 ```python
 finisher = Finisher() \
-    .setInputCols(["sentiment"]) \
-    .setIncludeMetadata(True)
+    .setInputCols(["token"]) \
+    .setIncludeMetadata(True) # set to False to remove metadata
 ```
 
 ```scala
 val finisher = new Finisher()
     .setInputCols("token")
-    .setIncludeMetadata(true)
-```
-
-As it's the case with all the other annotators, the created columns will have a nested struct type. If you need to have a flattened dataframe (each sub array in a new column) from any annotations other than struct type columns, you can use `explode` function from Spark SQL.
-
-
-```python
-import pyspark.sql.functions as F
-
-df.withColumn("tmp", F.explode("chunk")).select("tmp.*")
-```
-
-```scala
-import org.apache.spark.sql.functions._
-
-df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
+    .setIncludeMetadata(true) // set to False to remove metadata
 ```
 
 ## Training Datasets
