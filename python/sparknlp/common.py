@@ -19,8 +19,11 @@ class AnnotatorProperties(Params):
                       "output annotation column. can be left default.",
                       typeConverter=TypeConverters.toString)
 
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
+    def setInputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
 
     def setOutputCol(self, value):
         return self._set(outputCol=value)

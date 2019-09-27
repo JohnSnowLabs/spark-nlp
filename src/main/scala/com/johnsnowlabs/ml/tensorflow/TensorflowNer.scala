@@ -149,7 +149,7 @@ class TensorflowNer
       val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
       (trainingSet, trainingSample.toArray)
     } else {
-      // No trainValidationProp has been set so just use the entire training Dataset
+      // No validationSplit has been set so just use the entire training Dataset
       val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
       (trainDataset.toSeq, emptyValid)
     }
