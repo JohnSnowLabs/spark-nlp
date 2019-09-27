@@ -605,6 +605,42 @@ val finisher = new Finisher().
     setCleanAnnotations(false)
 ```
 
+### Finisher: Getting data out
+
+At the end of each pipeline or any stage that was done by Spark NLP you may want to get results out whether onto another pipeline or simply write them on disk. The `Finisher` annotator helps you to clean the metadata (if it's set to true) and output the results into array:
+
+```python
+finisher = Finisher() \
+    .setInputCols(["token"]) \
+    .setIncludeMetadata(True)
+```
+
+```scala
+val finisher = new Finisher()
+    .setInputCols("token")
+    .setIncludeMetadata(true)
+```
+
+Or, you can use Apache Spark functions (SQL) to manipulate the output DataFrame. Here we combine the tokens and NER reuslts together:
+
+```scala
+finisher.withColumn("newCol", explode(arrays_zip($"finished_token", $"finished_ner")))
+```
+
+If you need to have a flattened dataframe (each sub array in a new column) from any annotations other than struct type columns, you can use `explode` function from Spark SQL.
+
+```python
+import pyspark.sql.functions as F
+
+df.withColumn("tmp", F.explode("chunk")).select("tmp.*")
+```
+
+```scala
+import org.apache.spark.sql.functions._
+
+df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
+```
+
 ## Using Spark ML Pipeline
 
 Now we want to put all this together and retrieve the results, we use a
