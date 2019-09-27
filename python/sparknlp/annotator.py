@@ -1112,8 +1112,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
 
-    validationSplit = Param(Params._dummy(), "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                            TypeConverters.toFloat)
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                TypeConverters.toFloat)
 
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
@@ -1546,7 +1546,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return self.getParamValue("sourceEmbeddingsPath")
 
     def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.parse_format(format))
+        return self._set(embeddingsFormat=self.Format[format.upper()].value)
 
     def getEmbeddingsFormat(self):
         value = self._getParamValue("embeddingsFormat")
