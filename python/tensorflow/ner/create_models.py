@@ -2,7 +2,7 @@ import os
 import sys
 import tensorflow as tf
 import ner_model
-from distutils.util import strtobool
+import argparse
 
 
 def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension, number_of_chars, lstm_size=128):
@@ -22,6 +22,7 @@ def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension,
         ner.add_inference_layer(True)
         ner.add_training_op(5)
         ner.init_variables()
+        tf.train.Saver()
         file_name = model_name + '.pb'
         tf.train.write_graph(ner.session.graph, output_path, file_name, False)
         ner.close()
@@ -29,24 +30,21 @@ def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension,
         print(f'Graph {file_name} created successfully')
 
 
-def main():
-    if len(sys.argv) == 5:
-        use_contrib = False if os.name == 'nt' else True
-        number_of_tags = int(sys.argv[1])
-        embeddings_dimension = int(sys.argv[2])
-        number_of_chars = int(sys.argv[3])
-        output_path = sys.argv[4]
-    elif len(sys.argv) == 6:
-        use_contrib = bool(strtobool(sys.argv[1]))
-        number_of_tags = int(sys.argv[2])
-        embeddings_dimension = int(sys.argv[3])
-        number_of_chars = int(sys.argv[4])
-        output_path = sys.argv[5]
-    else:
-        raise Exception('Wrong number of arguments.')
-    create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension, number_of_chars)
+def main(arguments):
+    use_contrib = False if os.name == 'nt' else arguments.use_contrib
+    create_graph(arguments.output, use_contrib, arguments.n_tags, arguments.e_dim, arguments.n_chars)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description='Generates a tensorflow graph for latter use in NERDLApproach setting setGraphFolder parameter.',
+        epilog='')
+    parser.add_argument('--use_contrib', action='store_true',
+                        help='Whether to use contrib LSTM Cells. Improves accuracy (Linux or Mac only)')
+    parser.add_argument('n_tags', type=int, help='Number of tags')
+    parser.add_argument('e_dim', type=int, help='Embeddings dimension')
+    parser.add_argument('n_chars', type=int, help='Number of chars')
+    parser.add_argument('output', type=str, help='Output path location for the graph')
+    args = parser.parse_args()
+    main(args)
 

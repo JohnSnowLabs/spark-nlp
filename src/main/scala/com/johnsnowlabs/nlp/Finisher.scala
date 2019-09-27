@@ -117,6 +117,7 @@ class Finisher(override val uid: String)
       flattened.schema.fields
         .filter(_.dataType == ArrayType(Annotation.dataType))
         .map(_.name):_*)
+      
     else flattened.toDF()
   }
 

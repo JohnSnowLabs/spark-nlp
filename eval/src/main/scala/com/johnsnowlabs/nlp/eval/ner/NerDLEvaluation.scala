@@ -21,14 +21,14 @@ class NerDLEvaluation(sparkSession: SparkSession, testFile: String, tagLevel: St
                                             nerDLModel: NerDLModel, nerDLApproach: NerDLApproach)
 
   def computeAccuracyModel(nerDLModel: NerDLModel): Unit = {
-    loggingData.logNerDLParams(nerDLModel)
+    loggingData.logParameters(nerDLModel)
     val nerEvalDLConfiguration = NerEvalDLConfiguration("", null, nerDLModel, null)
     computeAccuracy(nerEvalDLConfiguration)
     loggingData.closeLog()
   }
 
   def computeAccuracyAnnotator(trainFile:String, nerDLApproach: NerDLApproach, wordEmbeddings: WordEmbeddings): Unit = {
-    loggingData.logNerDLParams(nerDLApproach)
+    loggingData.logParameters(nerDLApproach)
     val nerEvalDLConfiguration = NerEvalDLConfiguration(trainFile, wordEmbeddings, null, nerDLApproach)
     computeAccuracy(nerEvalDLConfiguration)
     loggingData.closeLog()
