@@ -396,13 +396,133 @@ mlflow ui
 
 Spark NLP offers more than `25 pre-trained pipelines` in `4 languages`.
 
-Please check our documentation for full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
+**English pipelines:**
+
+| Pipelines            | Name                   |
+| -------------------- | ---------------------- |
+| Explain Document ML  | `explain_document_ml`  |
+| Explain Document DL | `explain_document_dl`  |
+| Explain Document DL Win | `explain_document_dl_noncontrib`  |
+| Explain Document DL Fast | `explain_document_dl_fast`  |
+| Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  |
+| Recognize Entities DL | `recognize_entities_dl` |
+| Recognize Entities DL Win | `recognize_entities_dl_noncontrib` |
+| OntoNotes Entities Small | `onto_recognize_entities_sm` |
+| OntoNotes Entities Large | `onto_recognize_entities_lg` |
+| Match Datetime | `match_datetime` |
+| Match Pattern | `match_pattern` |
+| Match Chunk | `match_chunks` |
+| Match Phrases | `match_phrases`|
+| Clean Stop | `clean_stop`|
+| Clean Pattern | `clean_pattern`|
+| Clean Slang | `clean_slang`|
+| Check Spelling | `check_spelling`|
+| Analyze Sentiment | `analyze_sentiment` |
+| Dependency Parse | `dependency_parse` |
+
+**Quick example:**
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+
+SparkNLP.version()
+
+val testData = spark.createDataFrame(Seq(
+(1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
+(2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
+)).toDF("id", "text")
+
+val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+/*
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.SparkNLP
+2.0.8
+testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
+pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
+annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+| id|                text|            document|               token|            sentence|             checked|               lemma|                stem|                 pos|          embeddings|                 ner|            entities|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|  1|Google has announ...|[[document, 0, 10...|[[token, 0, 5, Go...|[[document, 0, 10...|[[token, 0, 5, Go...|[[token, 0, 5, Go...|[[token, 0, 5, go...|[[pos, 0, 5, NNP,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 5, Go...|
+|  2|The Paris metro w...|[[document, 0, 11...|[[token, 0, 2, Th...|[[document, 0, 11...|[[token, 0, 2, Th...|[[token, 0, 2, Th...|[[token, 0, 2, th...|[[pos, 0, 2, DT, ...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 4, 8, Pa...|
++---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+*/
+
+annotation.select("entities.result").show(false)
+
+/*
++----------------------------------+
+|result                            |
++----------------------------------+
+|[Google, TensorFlow]              |
+|[Donald John Trump, United States]|
++----------------------------------+
+*/
+```
+
+Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
 
 ### Models
 
 Spark NLP offers more than `30 pre-trained models` in `4 languages`.
 
-Please check our documentation for full list of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
+**English pipelines:**
+
+| Model                                  |   Name     |
+|----------------------------------------|------------|
+|LemmatizerModel (Lemmatizer)            |  `lemma_antbnc`      |
+|PerceptronModel (POS)                   |   `pos_anc`     |
+|NerCRFModel (NER with GloVe)            |    `ner_crf`    |
+|NerDLModel (NER with GloVe)             |    `ner_dl`    |
+|NerDLModel (NER with GloVe)             |    `ner_dl_contrib`    |
+|NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|
+|NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|
+|NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|
+|WordEmbeddings (GloVe) | `glove_100d` |
+|BertEmbeddings (base_uncased) | `bert_base_uncased` |
+|BertEmbeddings (base_cased) | `bert_base_cased` |
+|BertEmbeddings (large_uncased) | `bert_large_uncased` |
+|BertEmbeddings (large_cased) | `bert_large_cased` |
+|DeepSentenceDetector| `ner_dl_sentence`|
+|ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     |
+|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
+|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   |
+|ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    |
+|DependencyParser (Dependency)        |    `dependency_conllu`    |
+|TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    |
+
+**Quick online example:**
+
+```python
+# load NER model trained by deep learning approach and GloVe word embeddings
+ner_dl = NerDLModel.pretrained('ner_dl')
+# load NER model trained by deep learning approach and BERT word embeddings
+ner_bert = NerDLModel.pretrained('ner_dl_bert')
+```
+
+```scala
+// load French POS tagger model trained by Universal Dependencies
+val french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
+// load Italain LemmatizerModel
+val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
+````
+
+**Quick offline example:**
+
+* Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
+
+```scala
+val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
+```
+
+Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
 
 ## Examples
 
