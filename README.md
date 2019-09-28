@@ -349,7 +349,7 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 --packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
 
-This way you will download the extra dependencies needed by our Eval submodule. The Python SparkSession equivalent is
+This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
 
 ```python
 spark = SparkSession.builder \
@@ -397,7 +397,7 @@ To include the Eval submodule in Spark NLP, you will need to add the following t
 --packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2
 ```
 
-This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
+This way you will download the extra dependencies needed by our Eval submodule. The Python SparkSession equivalent is
 
 ```python
 spark = SparkSession.builder \
