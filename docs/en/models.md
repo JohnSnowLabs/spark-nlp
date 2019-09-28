@@ -8,7 +8,7 @@ modify_date: "2019-09-24"
 
 ## Pretrained Models
 
-`pretrained(name, lang)` function to use 
+`pretrained(name, lang)` function to use
 
 ### English
 
