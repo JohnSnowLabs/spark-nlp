@@ -372,7 +372,7 @@ To configure [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html) 
 
 ```bash
 pip install mlflow
-```
+``` 
 
 * Set MLFLOW_TRACKING_URI variable
 
@@ -389,6 +389,26 @@ mlflow ui
 ```
 
 * View it at [http://localhost:5000](http://localhost:5000)
+
+To include the Eval submodule in Spark NLP, you will need to add the following to your start up commands:
+
+```basg
+--repositories http://repo.spring.io/plugins-release
+--packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2
+```
+
+This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
+
+```python
+spark = SparkSession.builder \
+    .master('local[*]') \
+    .appName('Spark NLP with Eval') \
+    .config("spark.driver.memory", "6g") \
+    .config("spark.executor.memory", "6g") \
+    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2") \
+    .getOrCreate()
+```
 
 ## Pipelines and Models
 
