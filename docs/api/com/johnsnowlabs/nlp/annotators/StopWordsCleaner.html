@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>WordEmbeddingsModel - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</title>
-          <meta name="description" content="WordEmbeddingsModel - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
-          <meta name="keywords" content="WordEmbeddingsModel com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
+          <title>StopWordsCleaner - com.johnsnowlabs.nlp.annotators.StopWordsCleaner</title>
+          <meta name="description" content="StopWordsCleaner - com.johnsnowlabs.nlp.annotators.StopWordsCleaner" />
+          <meta name="keywords" content="StopWordsCleaner com.johnsnowlabs.nlp.annotators.StopWordsCleaner" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel';
+            var hash = 'com.johnsnowlabs.nlp.annotators.StopWordsCleaner';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,14 +28,14 @@
         </head>
         <body class="type">
       <div id="definition">
-        <a href="WordEmbeddingsModel$.html" title="See companion object"><img alt="Class/Object" src="../../../../lib/class_to_object_big.png" /></a>
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../package.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="package.html" class="extype" name="com.johnsnowlabs.nlp.embeddings">embeddings</a></p>
-        <h1><a href="WordEmbeddingsModel$.html" title="See companion object">WordEmbeddingsModel</a></h1><h3><span class="morelinks"><div>
+        <a href="StopWordsCleaner$.html" title="See companion object"><img alt="Class/Object" src="../../../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../package.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></p>
+        <h1><a href="StopWordsCleaner$.html" title="See companion object">StopWordsCleaner</a></h1><h3><span class="morelinks"><div>
             Related Docs:
-            <a href="WordEmbeddingsModel$.html" title="See companion object">object WordEmbeddingsModel</a>
-            | <a href="package.html" class="extype" name="com.johnsnowlabs.nlp.embeddings">package embeddings</a>
+            <a href="StopWordsCleaner$.html" title="See companion object">object StopWordsCleaner</a>
+            | <a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotators">package annotators</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -47,13 +47,13 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">WordEmbeddingsModel</span><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>] with <a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a> with <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span> with <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+        <span class="name">StopWordsCleaner</span><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span>, <a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a>, <a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a>, <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>], <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>], <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel"><span>WordEmbeddingsModel</span></li><li class="in" name="java.lang.AutoCloseable"><span>AutoCloseable</span></li><li class="in" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings"><span>HasWordEmbeddings</span></li><li class="in" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings"><span>HasEmbeddings</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner"><span>StopWordsCleaner</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -90,36 +90,36 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel"></a>
-      <a id="&lt;init&gt;:WordEmbeddingsModel"></a>
+              <ol><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;():com.johnsnowlabs.nlp.annotators.StopWordsCleaner"></a>
+      <a id="&lt;init&gt;:StopWordsCleaner"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">WordEmbeddingsModel</span><span class="params">()</span>
+        <span class="name">StopWordsCleaner</span><span class="params">()</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@&lt;init&gt;():com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@&lt;init&gt;():com.johnsnowlabs.nlp.annotators.StopWordsCleaner" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel"></a>
-      <a id="&lt;init&gt;:WordEmbeddingsModel"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.StopWordsCleaner"></a>
+      <a id="&lt;init&gt;:StopWordsCleaner"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">WordEmbeddingsModel</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+        <span class="name">StopWordsCleaner</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.StopWordsCleaner" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -141,7 +141,7 @@
         <span class="name">AnnotatorType</span><span class="result"> = <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@AnnotatorType=String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@AnnotatorType=String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -165,7 +165,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -182,7 +182,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -199,7 +199,7 @@
         <span class="name">$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.$.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@$[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@$[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -216,7 +216,7 @@
         <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -233,7 +233,7 @@
         <span class="name">$$</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -250,7 +250,7 @@
         <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -267,7 +267,7 @@
         <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -284,12 +284,12 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a>
       <a id="afterAnnotate(DataFrame):DataFrame"></a>
       <h4 class="signature">
@@ -301,12 +301,12 @@
         <span class="name">afterAnnotate</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#annotate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#annotate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
       <h4 class="signature">
@@ -318,13 +318,11 @@
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a> → <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -337,7 +335,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -354,12 +352,12 @@
         <span class="name">beforeAnnotate</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#caseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#caseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="caseSensitive:BooleanParam"></a>
       <h4 class="signature">
@@ -371,11 +369,11 @@
         <span class="name">caseSensitive</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@caseSensitive:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@caseSensitive:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -388,24 +386,24 @@
         <span class="name">checkSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>, <span name="inputAnnotatorType">inputAnnotatorType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clear(param:&lt;?&gt;):Params.this.type"></a>
-      <a id="clear(Param[_]):WordEmbeddingsModel.this.type"></a>
+      <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
+      <a id="clear(Param[_]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clear</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">clear</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -422,7 +420,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -433,36 +431,19 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#close" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="close():Unit"></a>
-      <a id="close():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">close</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@close():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → AutoCloseable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a>
-      <a id="copy(ParamMap):WordEmbeddingsModel"></a>
+      <a id="copy(ParamMap):StopWordsCleaner"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">copy</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a></span>
+        <span class="name">copy</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@copy(extra:org.apache.spark.ml.param.ParamMap):M" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@copy(extra:org.apache.spark.ml.param.ParamMap):M" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -479,7 +460,7 @@
         <span class="name">copyValues</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>]</span><span class="params">(<span name="to">to: <span class="extype" name="org.apache.spark.ml.param.Params.copyValues.T">T</span></span>, <span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.copyValues.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@copyValues[T&lt;:org.apache.spark.ml.param.Params](to:T,extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@copyValues[T&lt;:org.apache.spark.ml.param.Params](to:T,extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -496,7 +477,7 @@
         <span class="name">defaultCopy</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>]</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.defaultCopy.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -513,45 +494,11 @@
         <span class="name">dfAnnotate</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@dfAnnotate:org.apache.spark.sql.expressions.UserDefinedFunction" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@dfAnnotate:org.apache.spark.sql.expressions.UserDefinedFunction" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <a href="../AnnotatorModel.html#inputCols:org.apache.spark.ml.param.StringArrayParam" class="extmbr" name="com.johnsnowlabs.nlp.AnnotatorModel#inputCols">inputCols</a> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#dimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="dimension:org.apache.spark.ml.param.IntParam"></a>
-      <a id="dimension:IntParam"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dimension</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@dimension:org.apache.spark.ml.param.IntParam" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#embeddingsRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="embeddingsRef:org.apache.spark.ml.param.Param[String]"></a>
-      <a id="embeddingsRef:Param[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">embeddingsRef</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@embeddingsRef:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -564,7 +511,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -581,13 +528,13 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#explainParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="explainParam(param:&lt;?&gt;):String"></a>
+      <a id="explainParam(param:org.apache.spark.ml.param.Param[_]):String"></a>
       <a id="explainParam(Param[_]):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -598,7 +545,7 @@
         <span class="name">explainParam</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@explainParam(param:org.apache.spark.ml.param.Param[_]):String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@explainParam(param:org.apache.spark.ml.param.Param[_]):String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -615,7 +562,7 @@
         <span class="name">explainParams</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@explainParams():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@explainParams():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -632,7 +579,7 @@
         <span class="name">extraValidate</span><span class="params">(<span name="structType">structType: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -649,7 +596,7 @@
         <span class="name">extraValidateMsg</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@extraValidateMsg:String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@extraValidateMsg:String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -666,13 +613,13 @@
         <span class="name">extractParamMap</span><span class="params">()</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@extractParamMap():org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@extractParamMap():org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="extractParamMap(extra:&lt;?&gt;):org.apache.spark.ml.param.ParamMap"></a>
+      <a id="extractParamMap(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.param.ParamMap"></a>
       <a id="extractParamMap(ParamMap):ParamMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -683,7 +630,7 @@
         <span class="name">extractParamMap</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@extractParamMap(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@extractParamMap(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -700,7 +647,7 @@
         <span class="name">features</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<a href="../serialization/Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[_, _, _]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -717,7 +664,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -740,7 +687,7 @@
         <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -757,7 +704,7 @@
         <span class="name">get</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -774,7 +721,7 @@
         <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -791,7 +738,7 @@
         <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -808,12 +755,12 @@
         <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.param.Params.get.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getCaseSensitive:Boolean"></a>
       <a id="getCaseSensitive:Boolean"></a>
       <h4 class="signature">
@@ -825,11 +772,11 @@
         <span class="name">getCaseSensitive</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getCaseSensitive:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getCaseSensitive:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -842,28 +789,11 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#getClusterEmbeddings" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getClusterEmbeddings:com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings"></a>
-      <a id="getClusterEmbeddings:ClusterWordEmbeddings"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getClusterEmbeddings</span><span class="result">: <a href="ClusterWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings">ClusterWordEmbeddings</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getClusterEmbeddings:com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -876,79 +806,11 @@
         <span class="name">getDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getDefault.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#getDimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getDimension:Int"></a>
-      <a id="getDimension:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getDimension</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getDimension:Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#getEmbeddings" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEmbeddings:com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever"></a>
-      <a id="getEmbeddings:WordEmbeddingsRetriever"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEmbeddings</span><span class="result">: <a href="WordEmbeddingsRetriever.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever">WordEmbeddingsRetriever</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getEmbeddings:com.johnsnowlabs.nlp.embeddings.WordEmbeddingsRetriever" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#getEmbeddingsRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEmbeddingsRef:String"></a>
-      <a id="getEmbeddingsRef:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEmbeddingsRef</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getEmbeddingsRef:String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#getIncludeEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getIncludeEmbeddings:Boolean"></a>
-      <a id="getIncludeEmbeddings:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getIncludeEmbeddings</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getIncludeEmbeddings:Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -961,11 +823,28 @@
         <span class="name">getInputCols</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getInputCols:Array[String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getInputCols:Array[String]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#getLocale" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getLocale:String"></a>
+      <a id="getLocale:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLocale</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getLocale:String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -978,7 +857,7 @@
         <span class="name">getOrDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getOrDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.getOrDefault.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -995,13 +874,13 @@
         <span class="name">getOutputCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getOutputCol:String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getOutputCol:String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Gets annotation column name going to generate</p><div class="fullcomment"><div class="comment cmt"><p>Gets annotation column name going to generate</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getParam(paramName:&lt;?&gt;):org.apache.spark.ml.param.Param[Any]"></a>
+      <a id="getParam(paramName:String):org.apache.spark.ml.param.Param[Any]"></a>
       <a id="getParam(String):Param[Any]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1012,13 +891,30 @@
         <span class="name">getParam</span><span class="params">(<span name="paramName">paramName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Any">Any</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@getParam(paramName:String):org.apache.spark.ml.param.Param[Any]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getParam(paramName:String):org.apache.spark.ml.param.Param[Any]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#getStopWords" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getStopWords:Array[String]"></a>
+      <a id="getStopWords:Array[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStopWords</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@getStopWords:Array[String]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hasDefault[T&lt;:&lt;?&gt;](param:&lt;?&gt;):Boolean"></a>
+      <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1029,13 +925,13 @@
         <span class="name">hasDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.hasDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hasParam(paramName:&lt;?&gt;):Boolean"></a>
+      <a id="hasParam(paramName:String):Boolean"></a>
       <a id="hasParam(String):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1046,7 +942,7 @@
         <span class="name">hasParam</span><span class="params">(<span name="paramName">paramName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@hasParam(paramName:String):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@hasParam(paramName:String):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1063,7 +959,7 @@
         <span class="name">hasParent</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@hasParent:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@hasParent:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1080,30 +976,13 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#includeEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="includeEmbeddings:org.apache.spark.ml.param.BooleanParam"></a>
-      <a id="includeEmbeddings:BooleanParam"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">includeEmbeddings</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@includeEmbeddings:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="initializeLogIfNecessary(isInterpreter:&lt;?&gt;,silent:&lt;?&gt;):Boolean"></a>
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
       <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1114,13 +993,13 @@
         <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="silent">silent: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="initializeLogIfNecessary(isInterpreter:&lt;?&gt;):Unit"></a>
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean):Unit"></a>
       <a id="initializeLogIfNecessary(Boolean):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1131,28 +1010,28 @@
         <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@initializeLogIfNecessary(isInterpreter:Boolean):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@initializeLogIfNecessary(isInterpreter:Boolean):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="inputAnnotatorTypes:Array[String]"></a>
-      <a id="inputAnnotatorTypes:Array[String]"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="inputAnnotatorTypes:Array[StopWordsCleaner.this.AnnotatorType]"></a>
+      <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@inputAnnotatorTypes:Array[String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@inputAnnotatorTypes:Array[StopWordsCleaner.this.AnnotatorType]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1165,7 +1044,7 @@
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@inputCols:org.apache.spark.ml.param.StringArrayParam" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@inputCols:org.apache.spark.ml.param.StringArrayParam" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1186,7 +1065,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">isDefined</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1203,28 +1082,11 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#isLoaded" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="isLoaded():Boolean"></a>
-      <a id="isLoaded():Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">isLoaded</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@isLoaded():Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isSet(param:org.apache.spark.ml.param.Param[_]):Boolean"></a>
       <a id="isSet(Param[_]):Boolean"></a>
@@ -1237,7 +1099,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">isSet</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@isSet(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@isSet(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1254,11 +1116,28 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">isTraceEnabled</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@isTraceEnabled():Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@isTraceEnabled():Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#locale" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="locale:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="locale:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">locale</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@locale:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.internal.Logging#log" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="log:org.slf4j.Logger"></a>
       <a id="log:Logger"></a>
@@ -1271,13 +1150,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">log</span><span class="result">: <span class="extype" name="org.slf4j.Logger">Logger</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@log:org.slf4j.Logger" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@log:org.slf4j.Logger" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logDebug(msg:&lt;?&gt;,throwable:&lt;?&gt;):Unit"></a>
+      <a id="logDebug(msg:=&gt;String,throwable:Throwable):Unit"></a>
       <a id="logDebug(⇒String,Throwable):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1288,13 +1167,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logDebug(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logDebug(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logDebug(msg:&lt;?&gt;):Unit"></a>
+      <a id="logDebug(msg:=&gt;String):Unit"></a>
       <a id="logDebug(⇒String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1305,13 +1184,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logDebug(msg:=&gt;String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logDebug(msg:=&gt;String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logError(msg:&lt;?&gt;,throwable:&lt;?&gt;):Unit"></a>
+      <a id="logError(msg:=&gt;String,throwable:Throwable):Unit"></a>
       <a id="logError(⇒String,Throwable):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1322,13 +1201,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logError(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logError(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logError(msg:&lt;?&gt;):Unit"></a>
+      <a id="logError(msg:=&gt;String):Unit"></a>
       <a id="logError(⇒String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1339,13 +1218,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logError(msg:=&gt;String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logError(msg:=&gt;String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logInfo(msg:&lt;?&gt;,throwable:&lt;?&gt;):Unit"></a>
+      <a id="logInfo(msg:=&gt;String,throwable:Throwable):Unit"></a>
       <a id="logInfo(⇒String,Throwable):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1356,13 +1235,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logInfo(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logInfo(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logInfo(msg:&lt;?&gt;):Unit"></a>
+      <a id="logInfo(msg:=&gt;String):Unit"></a>
       <a id="logInfo(⇒String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1373,7 +1252,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logInfo(msg:=&gt;String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logInfo(msg:=&gt;String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1390,13 +1269,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logName</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logName:String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logName:String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logTrace(msg:&lt;?&gt;,throwable:&lt;?&gt;):Unit"></a>
+      <a id="logTrace(msg:=&gt;String,throwable:Throwable):Unit"></a>
       <a id="logTrace(⇒String,Throwable):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1407,13 +1286,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logTrace(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logTrace(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logTrace(msg:&lt;?&gt;):Unit"></a>
+      <a id="logTrace(msg:=&gt;String):Unit"></a>
       <a id="logTrace(⇒String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1424,7 +1303,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logTrace(msg:=&gt;String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logTrace(msg:=&gt;String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1441,7 +1320,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logWarning(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logWarning(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1458,7 +1337,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@logWarning(msg:=&gt;String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@logWarning(msg:=&gt;String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1475,7 +1354,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1492,7 +1371,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1509,12 +1388,12 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#onWrite" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#onWrite" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
       <a id="onWrite(String,SparkSession):Unit"></a>
       <h4 class="signature">
@@ -1526,13 +1405,13 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">onWrite</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="outputAnnotatorType:WordEmbeddingsModel.this.AnnotatorType"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="outputAnnotatorType:StopWordsCleaner.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1540,14 +1419,14 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel.AnnotatorType">AnnotatorType</a></span>
+        <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner.AnnotatorType">AnnotatorType</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@outputAnnotatorType:WordEmbeddingsModel.this.AnnotatorType" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@outputAnnotatorType:StopWordsCleaner.this.AnnotatorType" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1560,7 +1439,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">outputCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@outputCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@outputCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1577,47 +1456,30 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">params</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@params:Array[org.apache.spark.ml.param.Param[_]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@params:Array[org.apache.spark.ml.param.Param[_]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.Model#parent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="parent:org.apache.spark.ml.Estimator[M]"></a>
-      <a id="parent:Estimator[WordEmbeddingsModel]"></a>
+      <a id="parent:Estimator[StopWordsCleaner]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">parent</span><span class="result">: <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>]</span>
+        <span class="name">parent</span><span class="result">: <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@parent:org.apache.spark.ml.Estimator[M]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@parent:org.apache.spark.ml.Estimator[M]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#preloadedEmbeddings" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="preloadedEmbeddings:Option[com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings]"></a>
-      <a id="preloadedEmbeddings:Option[ClusterWordEmbeddings]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">preloadedEmbeddings</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="ClusterWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings">ClusterWordEmbeddings</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@preloadedEmbeddings:Option[com.johnsnowlabs.nlp.embeddings.ClusterWordEmbeddings]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="save(path:&lt;?&gt;):Unit"></a>
+      <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1628,7 +1490,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">save</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@save(path:String):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@save(path:String):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1646,378 +1508,361 @@ AnnotatorType is used both as input and output columns if not specified
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a>
-      <a id="set[T](StructFeature[T],T):WordEmbeddingsModel.this.type"></a>
+      <a id="set[T](StructFeature[T],T):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type"></a>
-      <a id="set[K,V](MapFeature[K,V],Map[K,V]):WordEmbeddingsModel.this.type"></a>
+      <a id="set[K,V](MapFeature[K,V],Map[K,V]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type"></a>
-      <a id="set[T](SetFeature[T],Set[T]):WordEmbeddingsModel.this.type"></a>
+      <a id="set[T](SetFeature[T],Set[T]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type"></a>
-      <a id="set[T](ArrayFeature[T],Array[T]):WordEmbeddingsModel.this.type"></a>
+      <a id="set[T](ArrayFeature[T],Array[T]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type"></a>
-      <a id="set(ParamPair[_]):WordEmbeddingsModel.this.type"></a>
+      <a id="set(ParamPair[_]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="params">(<span name="paramPair">paramPair: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="params">(<span name="paramPair">paramPair: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set(param:String,value:Any):Params.this.type"></a>
-      <a id="set(String,Any):WordEmbeddingsModel.this.type"></a>
+      <a id="set(String,Any):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="params">(<span name="param">param: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="params">(<span name="param">param: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set(param:String,value:Any):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set(param:String,value:Any):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type"></a>
-      <a id="set[T](Param[T],T):WordEmbeddingsModel.this.type"></a>
+      <a id="set[T](Param[T],T):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@set[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@set[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#setAsLoaded" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setAsLoaded():Unit"></a>
-      <a id="setAsLoaded():Unit"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setCaseSensitive(value:Boolean):StopWordsCleaner.this.type"></a>
+      <a id="setCaseSensitive(Boolean):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setAsLoaded</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setCaseSensitive</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setAsLoaded():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setCaseSensitive(value:Boolean):StopWordsCleaner.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setCaseSensitive(value:Boolean):HasEmbeddings.this.type"></a>
-      <a id="setCaseSensitive(Boolean):WordEmbeddingsModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setCaseSensitive</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setCaseSensitive(value:Boolean):HasEmbeddings.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
+      
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a>
-      <a id="setDefault[T](StructFeature[T],()⇒T):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault[T](StructFeature[T],()⇒T):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type"></a>
-      <a id="setDefault[K,V](MapFeature[K,V],()⇒Map[K,V]):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault[K,V](MapFeature[K,V],()⇒Map[K,V]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type"></a>
-      <a id="setDefault[T](SetFeature[T],()⇒Set[T]):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault[T](SetFeature[T],()⇒Set[T]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type"></a>
-      <a id="setDefault[T](ArrayFeature[T],()⇒Array[T]):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault[T](ArrayFeature[T],()⇒Array[T]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
-      <a id="setDefault(ParamPair[_]*):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault(ParamPair[_]*):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="params">(<span name="paramPairs">paramPairs: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="params">(<span name="paramPairs">paramPairs: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type"></a>
-      <a id="setDefault[T](Param[T],T):WordEmbeddingsModel.this.type"></a>
+      <a id="setDefault[T](Param[T],T):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDefault[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setDefault[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#setDimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setDimension(value:Int):HasEmbeddings.this.type"></a>
-      <a id="setDimension(Int):WordEmbeddingsModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setDimension</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setDimension(value:Int):HasEmbeddings.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#setEmbeddingsRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setEmbeddingsRef(value:String):HasWordEmbeddings.this.type"></a>
-      <a id="setEmbeddingsRef(String):WordEmbeddingsModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setEmbeddingsRef</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setEmbeddingsRef(value:String):HasWordEmbeddings.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings#setIncludeEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setIncludeEmbeddings(value:Boolean):HasWordEmbeddings.this.type"></a>
-      <a id="setIncludeEmbeddings(Boolean):WordEmbeddingsModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setIncludeEmbeddings</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setIncludeEmbeddings(value:Boolean):HasWordEmbeddings.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
-      <a id="setInputCols(String*):WordEmbeddingsModel.this.type"></a>
+      <a id="setInputCols(String*):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setInputCols</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setInputCols</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setInputCols(value:String*):HasInputAnnotationCols.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setInputCols(value:String*):HasInputAnnotationCols.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:Array[String]):HasInputAnnotationCols.this.type"></a>
-      <a id="setInputCols(Array[String]):WordEmbeddingsModel.this.type"></a>
+      <a id="setInputCols(Array[String]):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setInputCols</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
+        <span class="name">setInputCols</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setInputCols(value:Array[String]):HasInputAnnotationCols.this.type" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setInputCols(value:Array[String]):HasInputAnnotationCols.this.type" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
-      <a id="setOutputCol(String):WordEmbeddingsModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setOutputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setOutputCol(value:String):HasOutputAnnotationCol.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="org.apache.spark.ml.Model#setParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setParent(parent:org.apache.spark.ml.Estimator[M]):M"></a>
-      <a id="setParent(Estimator[WordEmbeddingsModel]):WordEmbeddingsModel"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#setLocale" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setLocale(value:String):StopWordsCleaner.this.type"></a>
+      <a id="setLocale(String):StopWordsCleaner.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setParent</span><span class="params">(<span name="parent">parent: <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a></span>
+        <span class="name">setLocale</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@setParent(parent:org.apache.spark.ml.Estimator[M]):M" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setLocale(value:String):StopWordsCleaner.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
+      <a id="setOutputCol(String):StopWordsCleaner.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setOutputCol(value:String):HasOutputAnnotationCol.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="org.apache.spark.ml.Model#setParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setParent(parent:org.apache.spark.ml.Estimator[M]):M"></a>
+      <a id="setParent(Estimator[StopWordsCleaner]):StopWordsCleaner"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setParent</span><span class="params">(<span name="parent">parent: <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setParent(parent:org.apache.spark.ml.Estimator[M]):M" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#setStopWords" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setStopWords(value:Array[String]):StopWordsCleaner.this.type"></a>
+      <a id="setStopWords(Array[String]):StopWordsCleaner.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStopWords</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@setStopWords(value:Array[String]):StopWordsCleaner.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#stopWords" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stopWords:org.apache.spark.ml.param.StringArrayParam"></a>
+      <a id="stopWords:StringArrayParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stopWords</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@stopWords:org.apache.spark.ml.param.StringArrayParam" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2030,7 +1875,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2047,7 +1892,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@toString():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2064,7 +1909,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2087,7 +1932,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="paramMap">paramMap: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2110,7 +1955,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="firstParamPair">firstParamPair: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]</span>, <span name="otherParamPairs">otherParamPairs: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@transform(dataset:org.apache.spark.sql.Dataset[_],firstParamPair:org.apache.spark.ml.param.ParamPair[_],otherParamPairs:org.apache.spark.ml.param.ParamPair[_]*):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@transform(dataset:org.apache.spark.sql.Dataset[_],firstParamPair:org.apache.spark.ml.param.ParamPair[_],otherParamPairs:org.apache.spark.ml.param.ParamPair[_]*):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2135,7 +1980,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">transformSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2152,7 +1997,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">transformSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>, <span name="logging">logging: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@transformSchema(schema:org.apache.spark.sql.types.StructType,logging:Boolean):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@transformSchema(schema:org.apache.spark.sql.types.StructType,logging:Boolean):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2160,7 +2005,7 @@ metadata is built at schema level to record annotations structural information o
                 <span class="name">@DeveloperApi</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#uid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner#uid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="uid:String"></a>
       <a id="uid:String"></a>
       <h4 class="signature">
@@ -2172,11 +2017,11 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">uid</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@uid:String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@uid:String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> → Identifiable</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a> → Identifiable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#validate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="validate(StructType):Boolean"></a>
@@ -2189,7 +2034,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">validate</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@validate(schema:org.apache.spark.sql.types.StructType):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@validate(schema:org.apache.spark.sql.types.StructType):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2206,7 +2051,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2229,7 +2074,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2252,7 +2097,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2275,28 +2120,11 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">wrapColumnMetadata</span><span class="params">(<span name="col">col: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@wrapColumnMetadata(col:org.apache.spark.sql.Column):org.apache.spark.sql.Column" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@wrapColumnMetadata(col:org.apache.spark.sql.Column):org.apache.spark.sql.Column" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings#wrapEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
-      <a id="wrapEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wrapEmbeddingsMetadata</span><span class="params">(<span name="col">col: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>, <span name="embeddingsDim">embeddingsDim: <span class="extype" name="scala.Int">Int</span></span>, <span name="embeddingsRef">embeddingsRef: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a>
       <a id="write:MLWriter"></a>
@@ -2309,7 +2137,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">write</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLWriter">MLWriter</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel@write:org.apache.spark.ml.util.MLWriter" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.StopWordsCleaner@write:org.apache.spark.ml.util.MLWriter" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2323,16 +2151,10 @@ metadata is built at schema level to record annotations structural information o
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="java.lang.AutoCloseable">
-              <h3>Inherited from <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span></h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">
-              <h3>Inherited from <a href="HasWordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasWordEmbeddings">HasWordEmbeddings</a></h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">
-              <h3>Inherited from <a href="HasEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddings">HasEmbeddings</a></h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
-              <h3>Inherited from <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>]</h3>
+        <div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
+              <h3>Inherited from <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.RawAnnotator">
-              <h3>Inherited from <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>]</h3>
+              <h3>Inherited from <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">
               <h3>Inherited from <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">
@@ -2348,7 +2170,7 @@ metadata is built at schema level to record annotations structural information o
             </div><div class="parent" name="org.apache.spark.ml.util.MLWritable">
               <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span></h3>
             </div><div class="parent" name="org.apache.spark.ml.Model">
-              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>]</h3>
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>]</h3>
             </div><div class="parent" name="org.apache.spark.ml.Transformer">
               <h3>Inherited from <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span></h3>
             </div><div class="parent" name="org.apache.spark.ml.PipelineStage">
