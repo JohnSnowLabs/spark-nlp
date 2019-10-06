@@ -124,6 +124,20 @@ sbt ocr/assembly
 sbt ocr/package
 ```
 
+#### spark-nlp-eval
+
+* FAT-JAR for Eval
+
+```bash
+sbt evaluation/assembly
+```
+
+* Packaging the project
+
+```bash
+sbt evaluation/package
+```
+
 ### Using the jar manually
 
 If for some reason you need to use the JAR, you can either download the Fat JARs provided here or download it from [Maven Central](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp).
@@ -142,6 +156,8 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ### Maven
 
+**spark-nlp:**
+
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
@@ -151,7 +167,18 @@ Our package is deployed to maven central. In order to add this package as a depe
 </dependency>
 ```
 
-and
+**spark-nlp-gpu:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.2.0</version>
+</dependency>
+```
+
+**spark-nlp-ocr:**
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
@@ -162,18 +189,45 @@ and
 </dependency>
 ```
 
+**spark-nlp-eval:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-eval_2.11</artifactId>
+    <version>2.2.2</version>
+</dependency>
+```
+
 ### SBT
+
+**spark-nlp:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.2.2"
 ```
 
-and
+**spark-nlp-gpu:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.2.0"
+```
+
+**spark-nlp-ocr:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.2.2"
+```
+
+**spark-nlp-eval:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.2.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -295,24 +349,31 @@ If not using pyspark at all, you'll have to run the instructions pointed [here](
 
 Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
 
-Run the following code in Google Colab notebook and start using spark-nlp right away. 
+Run the following code in Google Colab notebook and start using spark-nlp right away.
 
-```bash 
-!apt-get install openjdk-8-jdk-headless -qq > /dev/null
-!wget -q https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
-!tar xf spark-2.4.3-bin-hadoop2.7.tgz
-!pip install -q findspark
-!pip install spark-nlp
-
+```python
 import os
+
+# Install java
+! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-2.4.3-bin-hadoop2.7"
+os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
+! java -version
 
-import findspark
-findspark.init()
+# Install pyspark
+! pip install --ignore-installed pyspark==2.4.3
 
+# Install Spark NLP
+! pip install --ignore-installed spark-nlp==2.2.2
+
+# Quick SparkSession start
 import sparknlp
-spark = sparknlp.start()
+spark = sparknlp.start(include_ocr=True)
+
+print("Spark NLP version")
+sparknlp.version()
+print("Apache Spark version")
+spark.version
 ```
 
 [Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
@@ -485,7 +546,7 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
+#### Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
 
 ### Models
 
@@ -542,7 +603,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
+#### Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
 
 ## Examples
 
