@@ -134,6 +134,9 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       val extractedLabelsDF = trainingPerceptronDF.select(explode($"tags.result").as("tag")).groupBy("tag").count.orderBy($"tag".asc)
       val realLabelsDF = trueLabels.toDF("tag", "count").orderBy($"tag".asc)
 
+      extractedLabelsDF.show
+      realLabelsDF.show
+
       assert ( extractedLabelsDF.collect() sameElements realLabelsDF.collect() )
 
     }
