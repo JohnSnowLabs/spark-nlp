@@ -81,23 +81,31 @@ object ResourceDownloader {
 
   private def fetchcredentials(): Option[AWSCredentials] = {
     try {
-
-      Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+      //check if default profile name works if not try 
+      return Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
     } catch {
-      case awse: AmazonClientException => {
-        if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+      case e: Exception => {
+        try {
 
-          val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-          val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+          Some(new DefaultAWSCredentialsProviderChain().getCredentials)
+        } catch {
+          case awse: AmazonClientException => {
+            if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
 
-          Some(new BasicAWSCredentials(key, secret))
-        } else {
-          Some(new AnonymousAWSCredentials())
+              val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+              val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+
+              Some(new BasicAWSCredentials(key, secret))
+            } else {
+              Some(new AnonymousAWSCredentials())
+            }
+          }
+          case e: Exception => throw e
+
         }
       }
-      case e: Exception => throw e
-
     }
+
   }
 
   val publicLoc = "public/models"
