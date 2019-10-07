@@ -70,10 +70,10 @@ object ResourceDownloader {
       return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
     }
     if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      fetchcredentials
+      return fetchcredentials
     }
     else
-      Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
+      return Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
   }
   else {
     fetchcredentials

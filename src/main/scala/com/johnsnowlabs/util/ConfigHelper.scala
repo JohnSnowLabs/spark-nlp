@@ -35,6 +35,7 @@ object ConfigHelper {
   // Stores credentials for AWS S3 private models
   val awsCredentials = "sparknlp.settings.pretrained.credentials"
 
+
   val accessKeyId = awsCredentials + ".access_key_id"
   val secretAccessKey = awsCredentials + ".secret_access_key"
   val awsProfileName = awsCredentials + ".aws_profile_name"
