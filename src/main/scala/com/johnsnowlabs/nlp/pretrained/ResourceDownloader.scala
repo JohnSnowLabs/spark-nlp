@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.AmazonClientException
+import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
@@ -64,6 +65,10 @@ object ResourceDownloader {
   def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
     val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
     val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
+    val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
+    if (awsProfile.isDefined) {
+      Some(new ProfileCredentialsProvider(awsProfile.get))
+    }
     if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
       fetchcredentials
     }
