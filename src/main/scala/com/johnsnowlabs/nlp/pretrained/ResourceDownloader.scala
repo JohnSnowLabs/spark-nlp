@@ -67,7 +67,7 @@ object ResourceDownloader {
     val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
     val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
     if (awsProfile.isDefined) {
-      Some(new ProfileCredentialsProvider(awsProfile.get))
+      return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
     }
     if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
       fetchcredentials
