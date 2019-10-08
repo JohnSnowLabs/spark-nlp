@@ -6,7 +6,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -318,9 +317,10 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
   addReader(readLanguageModelGraph)
 }
 
-trait PretrainedSpellModel {
-  def pretrained(name: String, lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): ContextSpellCheckerModel =
-    ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedContextSpell extends ReadsLanguageModelGraph with HasPretrained[ContextSpellCheckerModel] {
+  override protected val defaultModelName: String = "_"
+  override def pretrained(name: String, lang: String, remoteLoc: String ): ContextSpellCheckerModel =
+    throw new NotImplementedError("Context Spell Checker does not have a pretrained model at the moment")
 }
 
-object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel
+object ContextSpellCheckerModel extends ReadablePretrainedContextSpell
