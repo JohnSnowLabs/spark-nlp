@@ -30,7 +30,7 @@ public class GeneralAnnotationsTest {
         Pipeline pipeline = new Pipeline();
         pipeline.setStages(new PipelineStage[] {document, tokenizer});
 
-        SparkSession spark = SparkSession.builder().master("local[*]").getOrCreate();
+        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(false);
 
         LinkedList<String> text = new java.util.LinkedList<String>();
 
