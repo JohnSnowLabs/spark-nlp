@@ -81,6 +81,10 @@ class WordEmbeddingsModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
+  def getVector(token: String): Array[Float] = {
+    this.getEmbeddings.getEmbeddingsVector(token).toList(0)
+  } : Array[Float]
+
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     getClusterEmbeddings.getLocalRetriever.close()
 
