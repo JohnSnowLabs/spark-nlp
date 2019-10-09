@@ -22,6 +22,9 @@ class WordEmbeddingsModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
+  var glossary: Option[Map[String, Array[Float]]] = None
+  def setGlossary(glossary: Option[Map[String, Array[Float]]]) {this.glossary = glossary}
+
   private def getEmbeddingsSerializedPath(path: String): Path =
     Path.mergePaths(new Path(path), new Path("/embeddings"))
 
@@ -72,7 +75,10 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
-        val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
+
+        val vectorOption = if(this.glossary == None) this.getEmbeddings.getEmbeddingsVector(token.token) else
+          this.getEmbeddings.getEmbeddingsVectorWithGlossary(token.token, this.glossary)
+
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, idx)
@@ -81,9 +87,14 @@ class WordEmbeddingsModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
-  def getVector(token: String): Array[Float] = {
-    this.getEmbeddings.getEmbeddingsVector(token).toList(0)
-  } : Array[Float]
+  def getVector(token: String) = {
+    if(this.glossary == None) {
+      this.getEmbeddings.getEmbeddingsVector(token)
+    } else {
+      this.getEmbeddings.getEmbeddingsVectorWithGlossary(token, this.glossary)
+    }
+
+  } : Option[Array[Float]]
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     getClusterEmbeddings.getLocalRetriever.close()
@@ -130,3 +141,4 @@ trait EmbeddingsCoverage {
     CoverageResult(covered, total, percentage)
   }
 }
+
