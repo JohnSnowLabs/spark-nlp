@@ -39,6 +39,8 @@ case class WordEmbeddingsRetriever(dbFile: String,
       Some(WordEmbeddingsIndexer.fromBytes(resultExact))
     else if (resultUpper != null)
       Some(WordEmbeddingsIndexer.fromBytes(resultUpper))
+    else if (glossary != None)
+      Some(glossary.get(word))
     else
       None
 
