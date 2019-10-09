@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.util.LruMap
+
 import org.rocksdb._
 
 
@@ -25,7 +26,7 @@ case class WordEmbeddingsRetriever(dbFile: String,
 
   val lru = new LruMap[String, Option[Array[Float]]](lruCacheSize)
 
-  private def getEmbeddingsFromDb(word: String): Option[Array[Float]] = {
+  private def getEmbeddingsFromDb(word: String, glossary: Option[Map[String, Array[Float]]]): Option[Array[Float]] = {
     lazy val resultLower = db.get(word.trim.toLowerCase.getBytes())
     lazy val resultUpper = db.get(word.trim.toUpperCase.getBytes())
     lazy val resultExact = db.get(word.trim.getBytes())
@@ -45,7 +46,13 @@ case class WordEmbeddingsRetriever(dbFile: String,
 
   def getEmbeddingsVector(word: String): Option[Array[Float]] = {
     synchronized {
-      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word))
+      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word, None))
+    }
+  }
+
+  def getEmbeddingsVectorWithGlossary(word: String, glossary: Option[Map[String, Array[Float]]]): Option[Array[Float]] = {
+    synchronized {
+      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word, glossary))
     }
   }
 
