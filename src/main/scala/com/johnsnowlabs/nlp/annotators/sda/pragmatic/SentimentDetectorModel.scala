@@ -35,7 +35,7 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "multiplier for increment sentiments. Defaults 2.0")
   val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
   val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
-  val enableScore = new BooleanParam(this, "enableScore", "if true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false")
+  val enableScore = new BooleanParam(this, "enableScore", "if true, score will show as a string type containing a double value, else will output string \"positive\" or \"negative\". Defaults false")
 
   def setPositiveMultipler(v: Double): this.type = set(positiveMultiplier, v)
   def setNegativeMultipler(v: Double): this.type = set(negativeMultiplier, v)
