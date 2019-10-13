@@ -75,7 +75,7 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
     .builder()
     .appName("test")
     .master("local[*]")
-    .config("spark.jars", "python/lib/sparknlp.jar,python/lib/sparknlp-jsl.jar")
+    .config("spark.jars", "/sandbox/jsl/jars/spark-nlp-internal-2.2.2/sparknlp.jar,/sandbox/jsl/jars/spark-nlp-internal-2.2.2/sparknlp-jsl.jar")
     .getOrCreate()
 
   import spark.implicits._
@@ -84,9 +84,9 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
   if(true) {
   "Training NERModel" should "train model" in {
     // PipelineModels.dummyDataset.sparkSession
-    val trainingDataset = CoNLL().readDataset(dummyDataset.sparkSession, "/sandbox/jsl/repos/spark-nlp-training/src/main/resources/de-identification/train_dataset_small.csv")
-    //val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/embeddings_clinical_en_2.0.2_2.4_1558454742956")
-    val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
+    lazy val trainingDataset = CoNLL().readDataset(dummyDataset.sparkSession, "/sandbox/jsl/repos/spark-nlp-training/src/main/resources/de-identification/train_dataset_small.csv")
+    val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/embeddings_clinical_en_2.0.2_2.4_1558454742956")
+    //val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
 
     embeddings.setInputCols(Array("sentence", "token")).setOutputCol("embeddings")
     //embeddings.setGlossary(myGlossary)
@@ -99,10 +99,11 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
       .setLabelColumn("label")
       .setMaxEpochs(1)
       .setOutputCol("ner")
+      .setGraphFolder("/sandbox/jsl/graphs/")
       .setVerbose(0)
 
     val nerModel = nerTagger.fit(readyData)
-
+    readyData.unpersist()
     println("Debug")
   }
 }
