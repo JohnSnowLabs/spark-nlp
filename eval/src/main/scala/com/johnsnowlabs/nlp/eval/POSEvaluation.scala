@@ -26,7 +26,7 @@ class POSEvaluation(sparkSession: SparkSession, testFile: String) {
   }
 
   def computeAccuracyAnnotator(trainFile: String, posApproach: PerceptronApproach): Unit = {
-    loggingData.logPOSParams(posApproach)
+    loggingData.logParameters(posApproach)
     val posEvalConfiguration = PosEvalConfiguration(trainFile, null, posApproach)
     computeAccuracy(posEvalConfiguration)
     loggingData.closeLog()
