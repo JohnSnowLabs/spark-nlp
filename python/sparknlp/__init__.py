@@ -39,13 +39,13 @@ def start(include_ocr=False, include_eval=False):
         .config("spark.driver.memory", "6G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
-    ocr_package = "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2," \
+    ocr_package = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1," \
                   "javax.media.jai:com.springsource.javax.media.jai.core:1.1.3"
 
-    eval_package = "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2"
+    eval_package = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1"
 
-    all_packages = "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2," \
-                   "com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2," \
+    all_packages = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1," \
+                   "com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1," \
                    "javax.media.jai:com.springsource.javax.media.jai.core:1.1.3"
 
     if include_ocr and not include_eval:
@@ -62,10 +62,10 @@ def start(include_ocr=False, include_eval=False):
             .config("spark.jars.packages", all_packages) \
             .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
     else:
-        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2") \
+        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1") \
 
     return builder.getOrCreate()
 
 
 def version():
-    print('2.2.2')
+    print('2.3.0.rc1')

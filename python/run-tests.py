@@ -26,6 +26,7 @@ unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserConll2009TestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
+unittest.TextTestRunner().run(SentenceEmbeddingsTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
