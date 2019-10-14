@@ -1,16 +1,16 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.{PretrainedLemmatizer, PretrainedTokenizer}
-import com.johnsnowlabs.nlp.annotators.ner.crf.PretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{PretrainedNerDL, ReadsNERGraph, WithGraphResolver}
-import com.johnsnowlabs.nlp.annotators.parser.dep.PretrainedDependencyParserModel
-import com.johnsnowlabs.nlp.annotators.parser.typdep.PretrainedTypedDependencyParserModel
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PretrainedPerceptronModel
-import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknPretrainedModel
-import com.johnsnowlabs.nlp.annotators.spell.context.{PretrainedSpellModel, ReadsLanguageModelGraph}
-import com.johnsnowlabs.nlp.annotators.spell.norvig.PretrainedNorvigSweeting
-import com.johnsnowlabs.nlp.annotators.spell.symmetric.PretrainedSymmetricDelete
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, PretrainedBertModel, PretrainedWordEmbeddings, EmbeddingsCoverage, ReadBertTensorflowModel}
+import com.johnsnowlabs.nlp.annotators.ReadablePretrainedTokenizer
+import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
+import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
+import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
+import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
+import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
+import com.johnsnowlabs.nlp.annotators.spell.context.{ReadablePretrainedContextSpell, ReadsLanguageModelGraph}
+import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
+import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings, EmbeddingsCoverage, ReadBertTensorflowModel}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -18,7 +18,7 @@ package object annotator {
   type Tokenizer = com.johnsnowlabs.nlp.annotators.Tokenizer
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
   type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
-  object TokenizerModel extends ParamsAndFeaturesReadable[TokenizerModel] with PretrainedTokenizer
+  object TokenizerModel extends ReadablePretrainedTokenizer
 
   type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
   object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
@@ -53,7 +53,7 @@ package object annotator {
   type Lemmatizer = com.johnsnowlabs.nlp.annotators.Lemmatizer
   object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
-  object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer
+  object LemmatizerModel extends ReadablePretrainedTokenizer
 
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
   object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
@@ -64,14 +64,14 @@ package object annotator {
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
-  object NerCrfModel extends ParamsAndFeaturesReadable[NerCrfModel] with PretrainedNerCrf
+  object NerCrfModel extends ReadablePretrainedNerCrf
 
   type PerceptronApproach = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
   object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]
   type PerceptronApproachDistributed = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed
   object PerceptronApproachDistributed extends DefaultParamsReadable[PerceptronApproachDistributed]
   type PerceptronModel = com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-  object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel
+  object PerceptronModel extends ReadablePretrainedPerceptron
 
   type SentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
   object SentenceDetector extends DefaultParamsReadable[SentenceDetector]
@@ -87,27 +87,27 @@ package object annotator {
   type ViveknSentimentApproach = com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
   object ViveknSentimentApproach extends DefaultParamsReadable[ViveknSentimentApproach]
   type ViveknSentimentModel = com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
-  object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel
+  object ViveknSentimentModel extends ReadablePretrainedVivekn
 
   type NorvigSweetingApproach = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
   object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingApproach]
   type NorvigSweetingModel = com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
-  object NorvigSweetingModel extends ParamsAndFeaturesReadable[NorvigSweetingModel] with PretrainedNorvigSweeting
+  object NorvigSweetingModel extends ReadablePretrainedNorvig
 
   type SymmetricDeleteApproach = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
   object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]
   type SymmetricDeleteModel = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-  object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete
+  object SymmetricDeleteModel extends ReadablePretrainedSymmetric
 
   type ContextSpellCheckerApproach = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
   object ContextSpellCheckerApproach extends DefaultParamsReadable[ContextSpellCheckerApproach]
   type ContextSpellCheckerModel = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
-  object ContextSpellCheckerModel extends ReadsLanguageModelGraph with PretrainedSpellModel
+  object ContextSpellCheckerModel extends ReadablePretrainedContextSpell
 
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
   type NerDLModel = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
-  object NerDLModel extends ParamsAndFeaturesReadable[NerDLModel] with ReadsNERGraph with PretrainedNerDL
+  object NerDLModel extends ReadablePretrainedNerDL with ReadsNERGraph
 
   type NerConverter = com.johnsnowlabs.nlp.annotators.ner.NerConverter
   object NerConverter extends ParamsAndFeaturesReadable[NerConverter]
@@ -115,20 +115,20 @@ package object annotator {
   type DependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
   object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]
   type DependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-  object DependencyParserModel extends ParamsAndFeaturesReadable[DependencyParserModel] with PretrainedDependencyParserModel
+  object DependencyParserModel extends ReadablePretrainedDependency
 
   type TypedDependencyParserApproach = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach
   object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]
   type TypedDependencyParserModel = com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
-  object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
+  object TypedDependencyParserModel extends ReadablePretrainedTypedDependency
 
   type WordEmbeddings = com.johnsnowlabs.nlp.embeddings.WordEmbeddings
   object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
   type WordEmbeddingsModel = com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-  object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings with EmbeddingsCoverage
+  object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
-  object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings] with PretrainedBertModel with ReadBertTensorflowModel
+  object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel
 
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
   object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
