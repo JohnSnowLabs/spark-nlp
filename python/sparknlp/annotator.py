@@ -1701,3 +1701,43 @@ class SentenceEmbeddings(AnnotatorModel):
         else:
             return self._set(poolingStrategy="AVERAGE")
 
+
+class StopWordsCleaner(AnnotatorModel):
+
+    name = "StopWordsCleaner"
+
+    @keyword_only
+    def __init__(self):
+        super(StopWordsCleaner, self).__init__(classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner")
+        self._setDefault(
+            stopWords=StopWordsCleaner.loadDefaultStopWords("english"),
+            caseSensitive=False,
+            locale=self._java_obj.getLocale()
+        )
+
+    stopWords = Param(Params._dummy(), "stopWords", "The words to be filtered out",
+                      typeConverter=TypeConverters.toListString)
+    caseSensitive = Param(Params._dummy(), "caseSensitive", "whether to do a case sensitive " +
+                          "comparison over the stop words", typeConverter=TypeConverters.toBoolean)
+    locale = Param(Params._dummy(), "locale", "locale of the input. ignored when case sensitive " +
+                   "is true", typeConverter=TypeConverters.toString)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def setCaseSensitive(self, value):
+        return self._set(caseSensitive=value)
+
+    def setLocale(self, value):
+        return self._set(locale=value)
+
+    def loadDefaultStopWords(language="english"):
+        from pyspark.ml.wrapper import _jvm
+
+        """
+        Loads the default stop words for the given language.
+        Supported languages: danish, dutch, english, finnish, french, german, hungarian,
+        italian, norwegian, portuguese, russian, spanish, swedish, turkish
+        """
+        stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
+        return list(stopWordsObj.loadDefaultStopWords(language))
