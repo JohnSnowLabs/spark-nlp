@@ -705,11 +705,17 @@ class SentimentDetector(AnnotatorApproach):
                               "multiplier for revert sentiments. Defaults -1.0",
                               typeConverter=TypeConverters.toFloat)
 
+    enableScore = Param(Params._dummy(),
+                        "enableScore",
+                        "if true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false",
+                        typeConverter=TypeConverters.toBoolean)
+
+
     def __init__(self):
         super(SentimentDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
         self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0,
-                         decrementMultiplier=-2.0, reverseMultiplier=-1.0)
+                         decrementMultiplier=-2.0, reverseMultiplier=-1.0, enableScore=False)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format': 'text'}):
         opts = options.copy()
