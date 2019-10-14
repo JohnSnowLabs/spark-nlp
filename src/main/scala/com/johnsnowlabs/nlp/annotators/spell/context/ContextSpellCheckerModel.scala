@@ -318,9 +318,7 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 }
 
 trait ReadablePretrainedContextSpell extends ReadsLanguageModelGraph with HasPretrained[ContextSpellCheckerModel] {
-  override protected val defaultModelName: String = "_"
-  override def pretrained(name: String, lang: String, remoteLoc: String ): ContextSpellCheckerModel =
-    throw new NotImplementedError("Context Spell Checker does not have a pretrained model at the moment")
+  override protected val defaultModelName: String = null
 }
 
 object ContextSpellCheckerModel extends ReadablePretrainedContextSpell
