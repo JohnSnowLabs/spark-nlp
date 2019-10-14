@@ -55,6 +55,9 @@ package object annotator {
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
   object LemmatizerModel extends ReadablePretrainedTokenizer
 
+  type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
+  object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
+
   type PositionFinder = com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
   object PositionFinder extends DefaultParamsReadable[PositionFinder]
 
