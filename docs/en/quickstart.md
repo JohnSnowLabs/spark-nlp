@@ -10,7 +10,7 @@ modify_date: "2019-09-24"
 
 A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
 
-[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE){:.button.button--info.button--rounded.button--md}
+[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I){:.button.button--info.button--rounded.button--md}
 
 ## The very second: Spark NLP Workshop
 
@@ -31,16 +31,16 @@ It is recommended to have basic knowledge of the framework and a working environ
 To start using the library, execute any of the following lines depending on your desired use case:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.2.2
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.2
-spark-submit --packages JohnSnowLabs:spark-nlp:2.2.2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
+spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ### Straight forward Python on jupyter notebook
 
 As a first step we import the required python dependences including some sparknlp components.
 
-Be sure that you have the required python libraries (pyspark 2.4.3, spark-nlp 2.2.2) by running pip list. Check that the versions are correct.
+Be sure that you have the required python libraries (pyspark 2.4.3, spark-nlp 2.3.0-rc1) by running pip list. Check that the versions are correct.
 
 If some of them is missing you can run:
 
@@ -91,7 +91,7 @@ spark = SparkSession.builder \
     .appName('Spark NLP') \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1") \
     .getOrCreate()
 ```
 
@@ -124,16 +124,16 @@ notebook with a Spark (including sparknlp) session directly opened by
 running in your terminal:
 
 ```bash
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ### Spark NLP from Scala
 
 You can start a spark REPL with Scala by running in your terminal a
-spark-shell including the JohnSnowLabs:spark-nlp:2.2.2 package:
+spark-shell including the JohnSnowLabs:spark-nlp:2.3.0-rc1 package:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.2.2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ### Databricks cloud cluster & Apache Zeppelin
@@ -141,13 +141,13 @@ spark-shell --packages JohnSnowLabs:spark-nlp:2.2.2
 Add the following maven coordinates in the dependency configuration page:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.2.2
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.0-rc1
 ```
 
 For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
 
 ```bash
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.2.2"
+export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.3.0-rc1"
 ```
 
 ### S3 based standalone cluster (No Hadoop)
@@ -210,14 +210,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.2.2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ### Explain Document ML
@@ -766,9 +766,9 @@ adding the following parameters when starting the spark session in
 your terminal:
 
 ```bash
-spark-shell --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-pyspark --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-spark-submit --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+spark-shell --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+pyspark --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+spark-submit --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
 
 This is the equivalent code for python:
@@ -784,7 +784,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
     .getOrCreate()
 ```
 
@@ -814,7 +814,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
     .getOrCreate()
 
 data = OcrHelper().createDataset(spark = spark, input_path = "/your/example.pdf" )

@@ -19,8 +19,7 @@ case class Annotation(annotatorType: String,
                       end: Int,
                       result: String,
                       metadata: Map[String, String],
-                      embeddings: Array[Float] = Array.emptyFloatArray,
-                      sentence_embeddings: Array[Float] = Array.emptyFloatArray
+                      embeddings: Array[Float] = Array.emptyFloatArray
                      ) {
   override def equals(obj: Any): Boolean = {
     obj match {
@@ -30,8 +29,7 @@ case class Annotation(annotatorType: String,
           this.end == annotation.end &&
           this.result == annotation.result &&
           this.metadata == annotation.metadata &&
-          this.embeddings.sameElements(annotation.embeddings) &&
-          this.sentence_embeddings.sameElements(annotation.sentence_embeddings)
+          this.embeddings.sameElements(annotation.embeddings)
       case _ => false
     }
   }
@@ -46,8 +44,7 @@ case class JavaAnnotation(annotatorType: String,
                           end: Int,
                           result: String,
                           metadata: java.util.Map[String, String],
-                          embeddings: Array[Float] = Array.emptyFloatArray,
-                          sentenceEmbeddings: Array[Float] = Array.emptyFloatArray
+                          embeddings: Array[Float] = Array.emptyFloatArray
                          )
 
 object Annotation {
@@ -78,8 +75,7 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("embeddings", ArrayType(FloatType, false), true),
-    StructField("sentence_embeddings", ArrayType(FloatType, false), true)
+    StructField("embeddings", ArrayType(FloatType, false), true)
   ))
 
 
@@ -95,8 +91,7 @@ object Annotation {
       row.getInt(2),
       row.getString(3),
       row.getMap[String, String](4),
-      row.getSeq[Float](5).toArray,
-      row.getSeq[Float](6).toArray
+      row.getSeq[Float](5).toArray
     )
   }
   def apply(rawText: String): Annotation = Annotation(
@@ -105,7 +100,6 @@ object Annotation {
     rawText.length - 1,
     rawText,
     Map.empty[String, String],
-    Array.emptyFloatArray,
     Array.emptyFloatArray
   )
 
@@ -158,7 +152,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
           case _ => r.getString(3)
         }
       ).mkString(aSep)
@@ -170,7 +164,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS =>
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS =>
             (r.getMap[String, String](4) ++
               Map(RESULT -> r.getString(3)) ++
               Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
@@ -187,7 +181,7 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
         }
       )

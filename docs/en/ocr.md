@@ -15,7 +15,7 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 
 ```bash
 --repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+--packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 
 ```
 
@@ -31,7 +31,7 @@ val spark = SparkSession
     .config("spark.driver.memory", "6g")
     .config("spark.executor.memory", "6g")
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
     .getOrCreate()
 ```
 
