@@ -152,7 +152,7 @@ class BertEmbeddings(override val uid: String) extends
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
-  override protected val defaultModelName: String = "bert_uncased"
+  override protected val defaultModelName: String = "bert_base_cased"
 }
 
 trait ReadBertTensorflowModel extends ReadTensorflowModel {
