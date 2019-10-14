@@ -127,4 +127,7 @@ package object annotator {
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
   object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings] with PretrainedBertModel with ReadBertTensorflowModel
 
+  type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
+  object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
+
 }
