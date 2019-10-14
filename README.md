@@ -200,6 +200,17 @@ Our package is deployed to maven central. In order to add this package as a depe
 </dependency>
 ```
 
+**spark-nlp-eval:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-eval_2.11</artifactId>
+    <version>2.2.2</version>
+</dependency>
+```
+
 ### SBT
 
 **spark-nlp:**
@@ -228,6 +239,13 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0-rc1"
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.3.0-rc1"
+```
+
+**spark-nlp-eval:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.2.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
