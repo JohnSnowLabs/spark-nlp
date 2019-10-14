@@ -4,7 +4,6 @@
 
 import sys
 from enum import Enum
-from pyspark import keyword_only
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -35,6 +34,7 @@ parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
 ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
+
 
 try:
     import jsl_sparknlp.annotator
@@ -1127,8 +1127,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                               TypeConverters.toBoolean)
 
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
-                              "Whether to use stdout in addition to Spark logs.",
-                              TypeConverters.toBoolean)
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1669,3 +1669,29 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
     def pretrained(name="bert_uncased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+
+
+class SentenceEmbeddings(AnnotatorModel):
+
+    name = "SentenceEmbeddings"
+
+    @keyword_only
+    def __init__(self):
+        super(SentenceEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings")
+        self._setDefault(
+            poolingStrategy="AVERAGE"
+        )
+
+    poolingStrategy = Param(Params._dummy(),
+                            "poolingStrategy",
+                            "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM",
+                            typeConverter=TypeConverters.toString)
+
+    def setPoolingStrategy(self, strategy):
+        if strategy == "AVERAGE":
+            return self._set(poolingStrategy=strategy)
+        elif strategy == "SUM":
+            return self._set(poolingStrategy=strategy)
+        else:
+            return self._set(poolingStrategy="AVERAGE")
+

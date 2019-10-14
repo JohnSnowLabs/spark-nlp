@@ -153,7 +153,7 @@ class BertEmbeddings(override val uid: String) extends
 }
 
 trait PretrainedBertModel {
-  def pretrained(name: String = "bert_uncased", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
+  def pretrained(name: String = "bert_base_cased", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
     ResourceDownloader.downloadModel(BertEmbeddings, name, Option(lang), remoteLoc)
 }
 
