@@ -1,17 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.util.regex.Pattern
-
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-
-import scala.collection.mutable.ArrayBuffer
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.util.Identifiable
 
 /**
   * Tokenizes raw text into word pieces, tokens.
@@ -118,10 +112,8 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   }
 }
 
-trait PretrainedTokenizer {
-  def pretrained(name: String = "token_rules", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): TokenizerModel = {
-    ResourceDownloader.downloadModel(TokenizerModel, name, Option(lang), remoteLoc)
-  }
+trait ReadablePretrainedTokenizer extends ParamsAndFeaturesReadable[TokenizerModel] with HasPretrained[TokenizerModel] {
+  override val defaultModelName = "token_rules"
 }
 
-object TokenizerModel extends ParamsAndFeaturesReadable[TokenizerModel] with PretrainedTokenizer
+object TokenizerModel extends ReadablePretrainedTokenizer

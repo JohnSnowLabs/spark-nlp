@@ -10,6 +10,15 @@ case class PretrainedPipeline(
                                source: String = ResourceDownloader.publicLoc
                              ) {
 
+  /** Support for java default argument interoperability */
+  def this(downloadName: String) {
+    this(downloadName, "en", ResourceDownloader.publicLoc)
+  }
+
+  def this(downloadName: String, lang: String) {
+    this(downloadName, lang, ResourceDownloader.publicLoc)
+  }
+
   val model: PipelineModel = ResourceDownloader
     .downloadPipeline(downloadName, Option(lang), source)
 
