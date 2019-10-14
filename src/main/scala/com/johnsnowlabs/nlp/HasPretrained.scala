@@ -20,6 +20,8 @@ trait HasPretrained[M <: PipelineStage] {
   /** Java default argument interoperability */
 
   def pretrained(name: String, lang: String, remoteLoc: String): M = {
+    if (Option(name).isEmpty)
+      throw new NotImplementedError(s"${this.getClass.getName} does not have a default pretrained model. Please provide a model name.")
     ResourceDownloader.downloadModel(companion, name, Option(lang), remoteLoc)
   }
 
