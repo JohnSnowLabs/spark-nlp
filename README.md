@@ -10,7 +10,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Slack community channel
 
-[Join Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE)
+[Join Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I)
 
 ## Table of contents
 
@@ -42,7 +42,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Apache Spark Support
 
-Spark NLP *2.2.2* has been built on top of Apache Spark 2.4.3
+Spark NLP *2.3.0-rc1* has been built on top of Apache Spark 2.4.3
 
 | Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
@@ -68,18 +68,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.2.2` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.0-rc1` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.2.2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.2.2
+spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -124,6 +124,20 @@ sbt ocr/assembly
 sbt ocr/package
 ```
 
+#### spark-nlp-eval
+
+* FAT-JAR for Eval
+
+```bash
+sbt evaluation/assembly
+```
+
+* Packaging the project
+
+```bash
+sbt evaluation/package
+```
+
 ### Using the jar manually
 
 If for some reason you need to use the JAR, you can either download the Fat JARs provided here or download it from [Maven Central](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp).
@@ -142,38 +156,96 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ### Maven
 
+**spark-nlp:**
+
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.2.2</version>
+    <version>2.3.0-rc1</version>
 </dependency>
 ```
 
-and
+**spark-nlp-gpu:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.2.0</version>
+</dependency>
+```
+
+**spark-nlp-ocr:**
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
+    <version>2.3.0-rc1</version>
+</dependency>
+```
+
+**spark-nlp-eval:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-eval_2.11</artifactId>
+    <version>2.3.0-rc1</version>
+</dependency>
+```
+
+**spark-nlp-eval:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-eval_2.11</artifactId>
     <version>2.2.2</version>
 </dependency>
 ```
 
 ### SBT
 
+**spark-nlp:**
+
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.2.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.0-rc1"
 ```
 
-and
+**spark-nlp-gpu:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.2.0"
+```
+
+**spark-nlp-ocr:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.2.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0-rc1"
+```
+
+**spark-nlp-eval:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.3.0-rc1"
+```
+
+**spark-nlp-eval:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.2.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -189,7 +261,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.2.2
+pip install spark-nlp==2.3.0.rc1
 ```
 
 Conda:
@@ -216,7 +288,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -249,7 +321,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.2.2
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.0-rc1
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -259,7 +331,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.2.2
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.2.2
+pip install spark-nlp==2.3.0.rc1
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -284,7 +356,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.2.2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -295,24 +367,31 @@ If not using pyspark at all, you'll have to run the instructions pointed [here](
 
 Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or set up other than having a Google account.
 
-Run the following code in Google Colab notebook and start using spark-nlp right away. 
+Run the following code in Google Colab notebook and start using spark-nlp right away.
 
-```bash 
-!apt-get install openjdk-8-jdk-headless -qq > /dev/null
-!wget -q https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
-!tar xf spark-2.4.3-bin-hadoop2.7.tgz
-!pip install -q findspark
-!pip install spark-nlp
-
+```python
 import os
+
+# Install java
+! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-2.4.3-bin-hadoop2.7"
+os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
+! java -version
 
-import findspark
-findspark.init()
+# Install pyspark
+! pip install --ignore-installed pyspark==2.4.3
 
+# Install Spark NLP
+! pip install --ignore-installed spark-nlp==2.3.0-rc1
+
+# Quick SparkSession start
 import sparknlp
-spark = sparknlp.start()
+spark = sparknlp.start(include_ocr=True)
+
+print("Spark NLP version")
+sparknlp.version()
+print("Apache Spark version")
+spark.version
 ```
 
 [Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
@@ -346,7 +425,7 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 
 ```basg
 --repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+--packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
 
 This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
@@ -358,7 +437,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.2.2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
     .getOrCreate()
 ```
 
@@ -394,7 +473,7 @@ To include the Eval submodule in Spark NLP, you will need to add the following t
 
 ```basg
 --repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2
+--packages JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1
 ```
 
 This way you will download the extra dependencies needed by our Eval submodule. The Python SparkSession equivalent is
@@ -406,7 +485,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.2.2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.2.2") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1") \
     .getOrCreate()
 ```
 
@@ -485,7 +564,7 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
+#### Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
 
 ### Models
 
@@ -542,7 +621,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
+#### Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
 
 ## Examples
 

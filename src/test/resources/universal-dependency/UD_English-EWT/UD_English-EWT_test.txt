@@ -1,0 +1,13 @@
+******************************************************************_PUNCT
+_____________________________________________________SYM
+Per_ADP my_PRON conversation_NOUN with_ADP Edmund_PROPN this_DET morning_NOUN ,_PUNCT we_PRON are_AUX moving_VERB the_DET following_VERB countries_NOUN to_ADP the_DET non-approved_ADJ list_NOUN :_PUNCT Austria_PROPN ,_PUNCT Belgium_PROPN ,_PUNCT Croatia_PROPN ,_PUNCT Czech_PROPN Republic_PROPN ,_PUNCT Denmark_PROPN ,_PUNCT Poland_PROPN ,_PUNCT Portugal_PROPN ,_PUNCT Romania_PROPN ,_PUNCT Singapore_PROPN ,_PUNCT and_CCONJ Slovenia_PROPN ._PUNCT
+Below_ADV is_AUX the_DET list_NOUN ,_PUNCT now_ADV updated_VERB to_PART reflect_VERB this_DET change_NOUN ._PUNCT
+Jurisdictions_NOUN which_PRON are_VERB are_AUX approved_VERB to_PART trade_VERB credit_NOUN derivatives_NOUN :_PUNCT Finland_PROPN ,_PUNCT Germany_PROPN ,_PUNCT Norway_PROPN ,_PUNCT Sweden_PROPN ,_PUNCT Switzerland_PROPN ,_PUNCT the_DET U.K_PROPN ,_PUNCT and_CCONJ the_DET U.S._PROPN ._PUNCT
+Jurisdictions_NOUN which_PRON are_AUX not_PART approved_VERB to_PART trade_VERB credit_NOUN derivatives_NOUN include_VERB :_PUNCT Austria_PROPN ,_PUNCT Belgium_PROPN ,_PUNCT Canada_PROPN ,_PUNCT Croatia_PROPN ,_PUNCT Czech_PROPN Republic_PROPN ,_PUNCT Denmark_PROPN ,_PUNCT France_PROPN ,_PUNCT Gibraltar_PROPN ,_PUNCT Ireland_PROPN ,_PUNCT Italy_PROPN ,_PUNCT Poland_PROPN ,_PUNCT Portugal_PROPN ,_PUNCT Romania_PROPN ,_PUNCT Scotland_PROPN ,_PUNCT Singapore_PROPN ,_PUNCT Slovenia_PROPN ,_PUNCT Spain_PROPN ,_PUNCT and_CCONJ The_DET Netherlands_PROPN ._PUNCT
+For_ADP banks_NOUN incorporated_VERB in_ADP a_DET non-approved_ADJ jurisdiction_NOUN ,_PUNCT it_PRON may_AUX be_AUX possible_ADJ for_SCONJ them_PRON to_PART trade_VERB out_ADP of_ADP a_DET branch_NOUN located_VERB in_ADP an_DET approved_VERB jurisdiction_NOUN (_PUNCT i.e._X U.S._PROPN and_CCONJ U.K._PROPN branches_NOUN )_PUNCT ._PUNCT
+This_PRON would_AUX have_VERB to_PART be_AUX determined_VERB on_ADP a_DET case_NOUN by_ADP case_NOUN basis_NOUN ._PUNCT
+Please_INTJ let_VERB me_PRON know_VERB if_SCONJ there_PRON are_VERB any_DET changes_NOUN to_ADP this_DET list_NOUN ._PUNCT
+Sent_VERB by_ADP :_PUNCT Nella_PROPN Cappelletto_PROPN
+Yes_INTJ ,_PUNCT we_PRON should_AUX add_VERB compliance_NOUN with_ADP OTC_NOUN Derivatives_NOUN and_CCONJ /_PUNCT or_CCONJ Commodity_NOUN Contracts_NOUN and_CCONJ Qualified_ADJ Party_NOUN requirements_NOUN of_ADP the_DET Securities_PROPN Act_PROPN (_PUNCT Alberta_PROPN )_PUNCT ,_PUNCT Securities_PROPN Act_PROPN (_PUNCT British_PROPN Columbia_PROPN )_PUNCT and_CCONJ Securities_PROPN Act_PROPN (_PUNCT Ontario_PROPN )_PUNCT ._PUNCT
+Thanks_NOUN ,_PUNCT
+Peter_PROPN
