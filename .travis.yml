@@ -1,6 +1,8 @@
 env:
   - DOCKER_SPARK_NLP_SCALA="${DOCKER_USERNAME}/spark-nlp-scala-${TRAVIS_BUILD_ID}" JAVA_OPTS="-XX:+UseG1GC"
 
+dist: bionic
+
 sudo: required
 
 services:
