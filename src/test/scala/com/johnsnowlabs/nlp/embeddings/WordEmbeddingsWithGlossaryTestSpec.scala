@@ -85,7 +85,7 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
   "Training NERModel" should "train model" in {
     // PipelineModels.dummyDataset.sparkSession
     lazy val trainingDataset = CoNLL().readDataset(dummyDataset.sparkSession, "/sandbox/jsl/repos/spark-nlp-training/src/main/resources/de-identification/train_dataset_small.csv")
-    val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/embeddings_clinical_en_2.0.2_2.4_1558454742956")
+    val embeddings = WordEmbeddingsModel.pretrained()
     //val embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
 
     embeddings.setInputCols(Array("sentence", "token")).setOutputCol("embeddings")
