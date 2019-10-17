@@ -32,7 +32,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val stringRepresentation = iteratorRepresentation.map(line => line.mkString)
     val expectedStringRepresentation = expectedIteratorRepresentation.map(line => line.mkString)
 
-    assert(expectedStringRepresentation == stringRepresentation)
+    assert(expectedStringRepresentation.forall(stringRepresentation contains _))
 
   }
 
