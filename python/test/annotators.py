@@ -885,3 +885,36 @@ class StopWordsCleanerTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).select("cleanTokens.result").show()
+
+
+class NGramGeneratorTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["This is my first sentence. This is my second."],
+            ["This is my third sentence. This is my forth."]]) \
+            .toDF("text").cache()
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        ngrams = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams") \
+            .setN(2)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            ngrams
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).select("ngrams.result").show()
