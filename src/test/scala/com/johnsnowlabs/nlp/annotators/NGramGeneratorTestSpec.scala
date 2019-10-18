@@ -64,7 +64,6 @@ class NGramGeneratorTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-//    pipelineDF.show()
     pipelineDF.select("token").show(false)
     pipelineDF.select("ngrams").show(false)
 
