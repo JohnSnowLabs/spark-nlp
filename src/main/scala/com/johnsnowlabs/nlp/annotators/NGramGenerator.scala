@@ -44,7 +44,7 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
 
   private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
 
-    val ngramAnnotation = documents.flatMap { case (annotation: Seq[Annotation]) =>
+    val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
 
       val ngramsAnnotation = annotation.iterator.sliding($(n)).withPartial(false).map { tokens =>
 
@@ -60,18 +60,19 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
       ngramsAnnotation
     }
 
-    ngramAnnotation
+    docAnnotation
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    val documentWithTokens = annotations
+    val documentsWithTokens = annotations
       .filter(token => token.annotatorType == TOKEN)
       .groupBy(_.metadata.head._2.toInt)
       .toSeq
       .sortBy(_._1)
 
-    generateNGrams(documentWithTokens)
+    generateNGrams(documentsWithTokens)
+
   }
 }
 
