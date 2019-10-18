@@ -58,6 +58,9 @@ package object annotator {
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
   object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
 
+  type NGramGenerator = com.johnsnowlabs.nlp.annotators.NGramGenerator
+  object NGramGenerator extends DefaultParamsReadable[NGramGenerator]
+
   type PositionFinder = com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
   object PositionFinder extends DefaultParamsReadable[PositionFinder]
 
