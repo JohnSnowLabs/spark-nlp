@@ -1119,7 +1119,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
 
     validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                                TypeConverters.toFloat)
+                            TypeConverters.toFloat)
 
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
@@ -1741,3 +1741,21 @@ class StopWordsCleaner(AnnotatorModel):
         """
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
+
+
+class NGramGenerator(AnnotatorModel):
+
+    name = "NGramGenerator"
+
+    @keyword_only
+    def __init__(self):
+        super(NGramGenerator, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NGramGenerator")
+        self._setDefault(n=2)
+
+    n = Param(Params._dummy(), "n", "number elements per n-gram (>=1)", typeConverter=TypeConverters.toInt)
+
+    def setN(self, value):
+        """
+        Sets the value of :py:attr:`n`.
+        """
+        return self._set(n=value)
