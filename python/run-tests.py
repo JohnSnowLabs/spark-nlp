@@ -28,6 +28,7 @@ unittest.TextTestRunner().run(TypedDependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
 unittest.TextTestRunner().run(SentenceEmbeddingsTestSpec())
 unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
+unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
