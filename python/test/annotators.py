@@ -495,9 +495,9 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
 class ContextSpellCheckerTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
-                     ["Yesterday I lost my blue unikorn ."],
-                     ["he is gane ."]]) \
-                     .toDF("region").cache()
+            ["Yesterday I lost my blue unikorn ."],
+            ["he is gane ."]]) \
+            .toDF("region").cache()
 
     def runTest(self):
 
@@ -632,7 +632,7 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.spark \
-                .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.conllu = os.getcwd() + "/../src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt"
         from sparknlp.training import POS
@@ -820,7 +820,7 @@ class ChunkDocSerializingTestSpec(unittest.TestCase):
 
 class SentenceEmbeddingsTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkSessionWithoutOCRForTest.spark.read.option("header", "true")\
+        self.data = SparkSessionWithoutOCRForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):
@@ -912,7 +912,7 @@ class NGramGeneratorTestSpec(unittest.TestCase):
             .setInputCols(["token"]) \
             .setOutputCol("ngrams_cum") \
             .setN(2) \
-            .setCumulative(True)
+            .setEnableCumulative(True)
 
         pipeline = Pipeline(stages=[
             document_assembler,
