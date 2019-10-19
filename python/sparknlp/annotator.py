@@ -1752,12 +1752,12 @@ class NGramGenerator(AnnotatorModel):
         super(NGramGenerator, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NGramGenerator")
         self._setDefault(
             n=2,
-            cumulative=False
+            enableCumulative=False
         )
 
     n = Param(Params._dummy(), "n", "number elements per n-gram (>=1)", typeConverter=TypeConverters.toInt)
-    cumulative = Param(Params._dummy(), "cumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean
-    )
+    enableCumulative = Param(Params._dummy(), "enableCumulative", "whether to calculate just the actual n-grams " +
+                             "or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean)
 
     def setN(self, value):
         """
@@ -1765,8 +1765,8 @@ class NGramGenerator(AnnotatorModel):
         """
         return self._set(n=value)
 
-    def setCumulative(self, value):
+    def setEnableCumulative(self, value):
         """
-        Sets the value of :py:attr:`cumulative`.
+        Sets the value of :py:attr:`enableCumulative`.
         """
-        return self._set(cumulative=value)
+        return self._set(enableCumulative=value)
