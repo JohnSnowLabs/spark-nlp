@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.{IntParam, ParamValidators}
+import org.apache.spark.ml.param.{IntParam, BooleanParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -33,16 +33,21 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val n: IntParam = new IntParam(this, "n", "number elements per n-gram (>=1)",
     ParamValidators.gtEq(1))
 
+  val cumulative: BooleanParam = new BooleanParam(this, "cumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n")
+
   def setN(value: Int): this.type = set(n, value)
+  def setCumulative(value: Boolean): this.type = set(cumulative, value)
 
   /** @group getParam */
   def getN: Int = $(n)
+  def getCumulative: Boolean = $(cumulative)
 
   setDefault(
-    n -> 2
+    n -> 2,
+    cumulative -> false
   )
 
-  private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
+  private def _generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
 
     val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
 
@@ -57,6 +62,29 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
         )
       }.toArray
 
+      ngramsAnnotation
+    }
+
+    docAnnotation
+  }
+
+  private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
+
+    val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
+
+      val range = if($(cumulative)) 1 to $(n) else $(n) to $(n)
+      val ngramsAnnotation = range.flatMap(k =>{
+        annotation.iterator.sliding(k).withPartial(false).map { tokens =>
+
+          Annotation(
+            outputAnnotatorType,
+            tokens.head.begin,
+            tokens.last.end,
+            tokens.map(_.result).mkString(" "),
+            tokens.head.metadata
+          )
+        }
+      }).toArray
       ngramsAnnotation
     }
 
