@@ -33,7 +33,8 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val n: IntParam = new IntParam(this, "n", "number elements per n-gram (>=1)",
     ParamValidators.gtEq(1))
 
-  val cumulative: BooleanParam = new BooleanParam(this, "cumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n")
+  val cumulative: BooleanParam = new BooleanParam(this, "cumulative",
+    "whether to calculate just the actual n-grams or all n-grams from 1 through n")
 
   def setN(value: Int): this.type = set(n, value)
   def setCumulative(value: Boolean): this.type = set(cumulative, value)

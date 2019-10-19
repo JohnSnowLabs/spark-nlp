@@ -34,3 +34,4 @@ unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 unittest.TextTestRunner().run(OcrTestSpec())
+

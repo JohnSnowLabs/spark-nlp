@@ -908,13 +908,27 @@ class NGramGeneratorTestSpec(unittest.TestCase):
             .setInputCols(["token"]) \
             .setOutputCol("ngrams") \
             .setN(2)
+        ngrams_cum = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams_cum") \
+            .setN(2) \
+            .setCumulative(True)
 
         pipeline = Pipeline(stages=[
             document_assembler,
             sentence_detector,
             tokenizer,
-            ngrams
+            ngrams,
+            ngrams_cum,
         ])
 
         model = pipeline.fit(self.data)
-        model.transform(self.data).select("ngrams.result").show()
+        transformed_data = model.transform(self.data)
+        transformed_data.select("ngrams.result", "ngrams_cum.result").show(2, False)
+
+        assert transformed_data.select("ngrams.result").rdd.flatMap(lambda x: x).collect() == \
+               [['This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This is', 'is my', 'my second', 'second .'], ['This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This is', 'is my', 'my forth', 'forth .']]
+
+        assert transformed_data.select("ngrams_cum.result").rdd.flatMap(lambda x: x).collect() == \
+               [['This', 'is', 'my', 'first', 'sentence', '.', 'This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This', 'is', 'my', 'second', '.', 'This is', 'is my', 'my second', 'second .'], ['This', 'is', 'my', 'third', 'sentence', '.', 'This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This', 'is', 'my', 'forth', '.', 'This is', 'is my', 'my forth', 'forth .']]
+

@@ -1756,7 +1756,8 @@ class NGramGenerator(AnnotatorModel):
         )
 
     n = Param(Params._dummy(), "n", "number elements per n-gram (>=1)", typeConverter=TypeConverters.toInt)
-    cumulative = Param(Params._dummy(), "cumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean())
+    cumulative = Param(Params._dummy(), "cumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean
+    )
 
     def setN(self, value):
         """
