@@ -33,47 +33,26 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val n: IntParam = new IntParam(this, "n", "number elements per n-gram (>=1)",
     ParamValidators.gtEq(1))
 
-  val cumulative: BooleanParam = new BooleanParam(this, "cumulative",
+  val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative",
     "whether to calculate just the actual n-grams or all n-grams from 1 through n")
 
   def setN(value: Int): this.type = set(n, value)
-  def setCumulative(value: Boolean): this.type = set(cumulative, value)
+  def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
 
   /** @group getParam */
   def getN: Int = $(n)
-  def getCumulative: Boolean = $(cumulative)
+  def getEnableCumulative: Boolean = $(enableCumulative)
 
   setDefault(
     n -> 2,
-    cumulative -> false
+    enableCumulative -> false
   )
-
-  private def _generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
-
-    val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
-
-      val ngramsAnnotation = annotation.iterator.sliding($(n)).withPartial(false).map { tokens =>
-
-        Annotation(
-          outputAnnotatorType,
-          tokens.head.begin,
-          tokens.last.end,
-          tokens.map(_.result).mkString(" "),
-          tokens.head.metadata
-        )
-      }.toArray
-
-      ngramsAnnotation
-    }
-
-    docAnnotation
-  }
 
   private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
 
     val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
 
-      val range = if($(cumulative)) 1 to $(n) else $(n) to $(n)
+      val range = if($(enableCumulative)) 1 to $(n) else $(n) to $(n)
       val ngramsAnnotation = range.flatMap(k =>{
         annotation.iterator.sliding(k).withPartial(false).map { tokens =>
 

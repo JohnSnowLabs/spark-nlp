@@ -73,7 +73,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGeneratorCumulative" should "correctly generate cumulative n-grams from tokenizer's results" in {
+  "NGramGenerator" should "correctly generate n-grams with enableCumulative" in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -139,7 +139,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
       .setInputCols("token")
       .setOutputCol("ngrams")
       .setN(2)
-      .setCumulative(true)
+      .setEnableCumulative(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(
