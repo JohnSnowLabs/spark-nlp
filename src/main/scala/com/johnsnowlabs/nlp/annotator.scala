@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
-import com.johnsnowlabs.nlp.annotators.spell.context.{ReadablePretrainedContextSpell, ReadsLanguageModelGraph}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings, EmbeddingsCoverage, ReadBertTensorflowModel}
@@ -58,9 +57,6 @@ package object annotator {
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
   object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
 
-  type PositionFinder = com.johnsnowlabs.nlp.annotators.ocr.PositionFinder
-  object PositionFinder extends DefaultParamsReadable[PositionFinder]
-
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -98,11 +94,6 @@ package object annotator {
   object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]
   type SymmetricDeleteModel = com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
   object SymmetricDeleteModel extends ReadablePretrainedSymmetric
-
-  type ContextSpellCheckerApproach = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
-  object ContextSpellCheckerApproach extends DefaultParamsReadable[ContextSpellCheckerApproach]
-  type ContextSpellCheckerModel = com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
-  object ContextSpellCheckerModel extends ReadablePretrainedContextSpell
 
   type NerDLApproach = com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
   object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver

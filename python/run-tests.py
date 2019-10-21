@@ -32,4 +32,3 @@ unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
-unittest.TextTestRunner().run(OcrTestSpec())
