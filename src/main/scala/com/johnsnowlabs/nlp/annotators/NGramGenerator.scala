@@ -5,8 +5,9 @@ import org.apache.spark.ml.param.{IntParam, BooleanParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * A feature transformer that converts the input array of strings into an array of n-grams. Null
-  * values in the input array are ignored.
+  * A feature transformer that converts the input array of strings (annotatorType TOKEN) into an
+  * array of n-grams (annotatorType CHUNK).
+  * Null values in the input array are ignored.
   * It returns an array of n-grams where each n-gram is represented by a space-separated string of
   * words.
   *
