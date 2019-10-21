@@ -795,7 +795,7 @@ Refer to the [NGramGenerator](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 ```python
 ngrams_cum = NGramGenerator() \
             .setInputCols(["token"]) \
-            .setOutputCol("ngrams_cum") \
+            .setOutputCol("ngrams") \
             .setN(2) \
             .setEnableCumulative(True)
 ```
