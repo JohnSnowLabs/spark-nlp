@@ -750,7 +750,7 @@ val entityExtractor = new TextMatcher()
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
-**Output type:** Document  
+**Output type:** Chunk  
 **Input types:** Document, POS  
 **Reference:** [Chunker](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala)  
 **Functions:**
@@ -760,7 +760,7 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 **Example:**
 
-Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
+Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Chunker) Scala docs for more details on the API.
 
 ```python
 chunker = Chunker() \
@@ -774,6 +774,38 @@ val chunker = new Chunker()
     .setInputCols(Array("document", "pos"))
     .setOutputCol("chunk")
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
+```
+
+### NGramGenerator
+
+`NGramGenerator` annotator takes as input a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Stemmer`, `Lemmatizer`, and `StopWordsCleaner`). The parameter `n` is used to determine the number of terms in each n-gram. The output will consist of a sequence of n-grams where each n-gram is represented by a space-delimited string of n consecutive words with annotatorType `CHUNK` same as the `Chunker` annotator.
+
+**Output type:** CHUNK  
+**Input types:** TOKEN  
+**Reference:** [NGramGenerator](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NGramGenerator.scala)  
+**Functions:**
+
+- setN: number elements per n-gram (>=1)
+- setEnableCumulative: whether to calculate just the actual n-grams or all n-grams from 1 through n
+
+**Example:**
+
+Refer to the [NGramGenerator](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.NGramGenerator) Scala docs for more details on the API.
+
+```python
+ngrams_cum = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams_cum") \
+            .setN(2) \
+            .setEnableCumulative(True)
+```
+
+```scala
+val nGrams = new NGramGenerator()
+      .setInputCols("token")
+      .setOutputCol("ngrams")
+      .setN(2)
+      .setEnableCumulative(true)
 ```
 
 ### DateMatcher
