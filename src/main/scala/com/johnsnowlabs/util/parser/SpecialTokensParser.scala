@@ -1,8 +1,7 @@
-package com.johnsnowlabs.nlp.annotators.spell.context.parser
+package com.johnsnowlabs.util.parser
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
-import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
 import com.navigamez.greex.GreexGenerator
 
 import scala.collection.JavaConversions._
@@ -74,29 +73,6 @@ trait VocabParser extends SpecialClassParser {
   def loadCSV(path:String, col:Option[String] = None) = {
     scala.io.Source.fromFile(path).getLines.toSet
   }
-}
-
-
-object DateToken extends RegexParser with WeightedLevenshtein with Serializable {
-
-  override val regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  override var transducer: ITransducer[Candidate] = generateTransducer
-  override val label = "_DATE_"
-  override val maxDist: Int = 2
-
-  val dateRegex = "(01|02|03|04|05|06|07|08|09|10|11|12)/[0-3][0-9]/(1|2)[0-9]{3}".r
-
-  def separate(word: String): String = {
-    val matcher = dateRegex.pattern.matcher(word)
-    if (matcher.matches) {
-      word.replace(matcher.group(0), label)
-    }
-    else
-      word
-  }
-
-  override def replaceWithLabel(tmp: String): String = separate(tmp)
-
 }
 
 object NumberToken extends RegexParser with Serializable {
