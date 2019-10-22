@@ -152,7 +152,9 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
+          case AnnotatorType.WORD_EMBEDDINGS |
+               AnnotatorType.SENTENCE_EMBEDDINGS |
+               AnnotatorType.CHUNK_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
           case _ => r.getString(3)
         }
       ).mkString(aSep)
@@ -164,11 +166,13 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS =>
+          case AnnotatorType.WORD_EMBEDDINGS |
+               AnnotatorType.SENTENCE_EMBEDDINGS |
+               AnnotatorType.CHUNK_EMBEDDINGS =>
             (r.getMap[String, String](4) ++
               Map(RESULT -> r.getString(3)) ++
               Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
-            ).mkString(vSep).replace(" -> ", "->")
+              ).mkString(vSep).replace(" -> ", "->")
           case _ => (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
         }
 
@@ -181,7 +185,9 @@ object Annotation {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
+          case AnnotatorType.WORD_EMBEDDINGS |
+               AnnotatorType.SENTENCE_EMBEDDINGS |
+               AnnotatorType.CHUNK_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
         }
       )
@@ -221,7 +227,7 @@ object Annotation {
     else if (begin > annotations(k).begin)
       searchLabel(annotations, k + 1, r, begin, end)
     else
-     getAnswers(k)
+      getAnswers(k)
   }
 
   /*
