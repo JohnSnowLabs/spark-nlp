@@ -6,6 +6,7 @@ object AnnotatorType {
   val WORDPIECE = "wordpiece"
   val WORD_EMBEDDINGS = "word_embeddings"
   val SENTENCE_EMBEDDINGS = "sentence_embeddings"
+  val CHUNK_EMBEDDINGS = "chunk_embeddings"
   val DATE = "date"
   val ENTITY = "entity"
   val SENTIMENT = "sentiment"
