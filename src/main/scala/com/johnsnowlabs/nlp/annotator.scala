@@ -57,6 +57,9 @@ package object annotator {
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
   object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
 
+  type NGramGenerator = com.johnsnowlabs.nlp.annotators.NGramGenerator
+  object NGramGenerator extends DefaultParamsReadable[NGramGenerator]
+
   type NerCrfApproach = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
   object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]
   type NerCrfModel = com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
