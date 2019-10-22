@@ -5,7 +5,6 @@ import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.parser.SpecialClassParser
 import com.johnsnowlabs.util.ConfigLoader
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
@@ -312,125 +311,6 @@ class TransducerFeature(model: HasFeatures, override val name: String)
       None
     }
   }
-}
-
-
-class TransducerSeqFeature(model: HasFeatures, override val name: String)
-  extends Feature[Seq[SpecialClassParser], Seq[SpecialClassParser], Seq[SpecialClassParser]](model, name) {
-
-  implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
-
-  override def serializeObject(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
-    import spark.implicits._
-    val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
-
-    specialClasses.foreach { case specialClass =>
-
-      // hadoop won't see files starting with '_'
-      val label = specialClass.label.replaceAll("_", "-")
-
-      val transducer = specialClass.transducer
-      specialClass.setTransducer(null)
-      // the object per se
-      spark.sparkContext.parallelize(Seq(specialClass)).
-        saveAsObjectFile(s"${dataPath.toString}/${label}")
-
-
-      // we handle the transducer separately
-      val transBytes = serializer.serialize(transducer)
-      spark.sparkContext.parallelize(transBytes.toSeq, 1).
-        saveAsObjectFile(s"${dataPath.toString}/${label}transducer")
-
-    }
-  }
-
-  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Seq[SpecialClassParser]] = {
-    import scala.collection.JavaConversions._
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
-
-    if (fs.exists(dataPath)) {
-      val elements = fs.listStatus(dataPath)
-      var result = Seq[SpecialClassParser]()
-      elements.foreach{ element =>
-          val path = element.getPath()
-          if(path.getName.contains("transducer")) {
-            // take care of transducer
-            val bytes = spark.sparkContext.objectFile[Byte](path.toString).collect()
-            val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
-            // the object
-            val sc = spark.sparkContext.objectFile[SpecialClassParser](path.toString.dropRight(10)).collect().head
-            sc.setTransducer(trans)
-            result = result :+ sc
-          }
-      }
-
-      Some(result)
-    } else {
-      None
-    }
-  }
-
-  override def serializeDataset(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
-    implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
-
-    import spark.implicits._
-    val dataPath = getFieldPath(path, field)
-    specialClasses.foreach { case specialClass =>
-      val serializer = new PlainTextSerializer
-
-      // hadoop won't see files starting with '_'
-      val label = specialClass.label.replaceAll("_", "-")
-
-      val transducer = specialClass.transducer
-      specialClass.setTransducer(null)
-      // the object per se
-      spark.createDataset(Seq(specialClass)).
-      write.mode("overwrite").
-        parquet(s"${dataPath.toString}/${label}")
-
-      // we handle the transducer separately
-      val transBytes = serializer.serialize(transducer)
-      spark.createDataset(transBytes.toSeq).
-        write.mode("overwrite").
-        parquet(s"${dataPath.toString}/${label}transducer")
-
-    }
-  }
-
-  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[Seq[SpecialClassParser]] = {
-    import spark.implicits._
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
-
-    if (fs.exists(dataPath)) {
-      val elements = fs.listFiles(dataPath, false)
-      var result = Seq[SpecialClassParser]()
-      while(elements.hasNext) {
-        val next = elements.next
-        val path = next.getPath.toString
-        if(path.contains("transducer")) {
-          // take care of transducer
-          val bytes = spark.read.parquet(path).as[Byte].collect
-          val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
-
-          // the object
-          val sc = spark.read.parquet(path.dropRight(10)).as[SpecialClassParser].collect.head
-          sc.setTransducer(trans)
-          result = result :+ sc
-        }
-      }
-      Some(result)
-    } else {
-      None
-    }
-  }
-
 
 }
 
