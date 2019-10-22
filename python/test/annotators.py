@@ -4,8 +4,6 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 from sparknlp.embeddings import *
 from test.util import SparkContextForTest
-from test.util import SparkSessionWithoutOCRForTest
-from sparknlp.ocr import OcrHelper
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -492,45 +490,6 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
         checked.show()
 
 
-class ContextSpellCheckerTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.data = SparkContextForTest.spark.createDataFrame([
-            ["Yesterday I lost my blue unikorn ."],
-            ["he is gane ."]]) \
-            .toDF("region").cache()
-
-    def runTest(self):
-
-        documentAssembler = DocumentAssembler() \
-            .setInputCol("region") \
-            .setOutputCol("text")
-
-        tokenizer = Tokenizer() \
-            .setInputCols(["text"]) \
-            .setOutputCol("token")
-
-        ocrspellModel = ContextSpellCheckerModel() \
-            .pretrained() \
-            .setInputCols(["token"]) \
-            .setOutputCol("spell_checked") \
-            .setTradeoff(10.0)
-
-        finisher = Finisher() \
-            .setInputCols(["spell_checked"]) \
-            .setValueSplitSymbol(" ")
-
-        pipeline = Pipeline(stages=[
-            documentAssembler,
-            tokenizer,
-            ocrspellModel,
-            finisher
-        ])
-
-        checked_data = pipeline.fit(self.data).transform(self.data)
-        checked_data.select("finished_spell_checked").show(truncate=False)
-        assert(len(checked_data.collect()) == 2)
-
-
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
@@ -553,33 +512,6 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
-
-
-class OcrTestSpec(unittest.TestCase):
-    @staticmethod
-    def runTest():
-        ocr = OcrHelper()
-        ocr.setPreferredMethod('text')
-        print("text layer is: " + str(ocr.getPreferredMethod()))
-        pdf_path = "file:///" + os.getcwd() + "/../ocr/src/test/resources/pdfs/"
-        data = ocr.createDataset(
-            spark=SparkContextForTest.spark,
-            input_path=pdf_path)
-        data.show()
-        ocr.setPreferredMethod('image')
-        print("Text layer disabled. set to: ", ocr.getPreferredMethod())
-        data = ocr.createDataset(
-            spark=SparkContextForTest.spark,
-            input_path=pdf_path)
-        data.show()
-        ocr.setPreferredMethod('text')
-        print("Text layer enabled. set to: ", ocr.getPreferredMethod())
-        content = ocr.createMap(input_path="../ocr/src/test/resources/pdfs")
-        print("ocr create map: ", content)
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-        document_assembler.transform(data).show()
 
 
 class DependencyParserTreeBankTestSpec(unittest.TestCase):
@@ -820,7 +752,7 @@ class ChunkDocSerializingTestSpec(unittest.TestCase):
 
 class SentenceEmbeddingsTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkSessionWithoutOCRForTest.spark.read.option("header", "true") \
+        self.data = SparkContextForTest.spark.read.option("header", "true")\
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):

@@ -27,7 +27,7 @@ def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension,
         tf.train.write_graph(ner.session.graph, output_path, file_name, False)
         ner.close()
         session.close()
-        print(f'Graph {file_name} created successfully')
+        print(f'Graph created successfully')
 
 
 def main(arguments):
