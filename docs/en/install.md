@@ -10,22 +10,22 @@ modify_date: "2019-09-10"
 
 ```bash
 # Install Spark NLP from PyPI
-$ pip install spark-nlp==2.3.0.rc1
+$ pip install spark-nlp==2.3.0.rc2
 
 # Install Spark NLP from Anacodna/Conda
 $ conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-$ spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
+$ spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
 
 # Load Spark NLP with PySpark
-$ pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
+$ pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
 
 # Load Spark NLP with Spark Submit
-$ spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0-rc1
+$ spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
 
 # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-$ spark-shell --jar spark-nlp-assembly-2.3.0-rc1
+$ spark-shell --jar spark-nlp-assembly-2.3.0-rc2
 ```
 
 ## Python
@@ -135,7 +135,7 @@ At the moment there is no conda package for Licensed Spark NLP version.
 
 ### Setup AWS-CLI Credentials for licensed pretrained models
 
-From Licensed version 2.3.0-rc1 in order to access private JohnSnowLabs
+From Licensed version 2.3.0-rc2 in order to access private JohnSnowLabs
 models repository you need first to setup your AWS credentials. This
 access is done via Amazon aws command line interface (AWSCLI).
 
@@ -164,7 +164,7 @@ spark = SparkSession.builder \
     .master("local[*]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -182,7 +182,7 @@ pyspark this cell is just ignored.
 Initializing the spark session takes some seconds (usually less than 1
 minute) as the jar from the server needs to be loaded.
 
-We will be using version 2.3.0-rc1 of Spark NLP Open Source and 2.3.0-rc1 of
+We will be using version 2.3.0-rc2 of Spark NLP Open Source and 2.3.0-rc2 of
 Spark NLP Enterprise Edition.
 
 The #### in .config("spark.jars", "####") is a secret code, if you have
@@ -192,11 +192,11 @@ not received it please contact us at info@johnsnowlabs.com.
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-    .appName("Global DEMO - Spark NLP Enterprise 2.3.0-rc1") \
+    .appName("Global DEMO - Spark NLP Enterprise 2.3.0-rc2") \
     .master("local[*]") \
     .config("spark.driver.memory","4G") \
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2") \
     .config("spark.jars", "####") \
     .getOrCreate()
 ```
@@ -213,7 +213,7 @@ as a dependency in your application:
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.3.0-rc1</version>
+    <version>2.3.0-rc2</version>
 </dependency>
 ```
 
@@ -224,7 +224,7 @@ and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.3.0-rc1</version>
+    <version>2.3.0-rc2</version>
 </dependency>
 ```
 
@@ -232,14 +232,14 @@ and
 
 ```bash
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.0-rc1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.0-rc2"
 ```
 
 and
 
 ```bash
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0-rc1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0-rc2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -267,7 +267,7 @@ Note: You can import these notebooks by using their URLs.
 4- From the Source drop-down menu, select **Maven Coordinate:**
 ![Databricks](https://databricks.com/wp-content/uploads/2015/07/select-maven-1024x711.png)
 
-5- Now, all available **Spark Packages** are at your fingertips! Just search for **JohnSnowLabs:spark-nlp:version** where **version** stands for the library version such as: `1.8.4` or `2.3.0-rc1`
+5- Now, all available **Spark Packages** are at your fingertips! Just search for **JohnSnowLabs:spark-nlp:version** where **version** stands for the library version such as: `1.8.4` or `2.3.0-rc2`
 ![Databricks](https://databricks.com/wp-content/uploads/2015/07/browser-1024x548.png)
 
 6- Select **spark-nlp** package and we are good to go!

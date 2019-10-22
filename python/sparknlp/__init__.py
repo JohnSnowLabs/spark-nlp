@@ -32,40 +32,15 @@ annotators = annotator
 embeddings = annotator
 
 
-def start(include_ocr=False, include_eval=False):
+def start():
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
         .config("spark.driver.memory", "6G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-
-    ocr_package = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1," \
-                  "javax.media.jai:com.springsource.javax.media.jai.core:1.1.3"
-
-    eval_package = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1"
-
-    all_packages = "JohnSnowLabs:spark-nlp:2.3.0-rc1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc1," \
-                   "com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc1," \
-                   "javax.media.jai:com.springsource.javax.media.jai.core:1.1.3"
-
-    if include_ocr and not include_eval:
-        builder \
-            .config("spark.jars.packages", ocr_package) \
-            .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
-
-    elif include_eval and not include_ocr:
-        builder \
-            .config("spark.jars.packages", eval_package) \
-            .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
-    elif include_eval and include_ocr:
-        builder \
-            .config("spark.jars.packages", all_packages) \
-            .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
-    else:
-        builder.config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc1") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")\
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2") \
 
     return builder.getOrCreate()
 
-
 def version():
-    print('2.3.0.rc1')
+    print('2.3.0.rc2')
