@@ -33,7 +33,6 @@ object ResourceHelper {
       .config("spark.driver.maxResultSize", "2G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "500m")
-      .config("spark.kryo.registrator", "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellRegistrator")
       .getOrCreate()
     )
 

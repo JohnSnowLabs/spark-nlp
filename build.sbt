@@ -16,7 +16,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.3.0-rc1"
+version := "2.3.0-rc2"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -88,15 +88,6 @@ developers in ThisBuild:= List(
 
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-lazy val ocrDependencies = Seq(
-  "net.sourceforge.tess4j" % "tess4j" % "4.2.1"
-    exclude("org.slf4j", "slf4j-log4j12")
-    exclude("org.apache.logging", "log4j"),
-  "org.apache.pdfbox" % "pdfbox" % "2.0.13",
-  "org.apache.pdfbox" % "jbig2-imageio" % "3.0.2",
-  "javax.media.jai" % "com.springsource.javax.media.jai.core" % "1.1.3"
-)
-
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
@@ -157,33 +148,6 @@ lazy val root = (project in file("."))
         typedDependencyParserDependencies
   )
 
-
-val ocrMergeRules: String => MergeStrategy  = {
-  case "versionchanges.txt" => MergeStrategy.discard
-  case "StaticLoggerBinder" => MergeStrategy.discard
-  case PathList("META-INF", fileName)
-    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
-  => MergeStrategy.discard
-  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
-  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
-  case PathList("org", "apache", _ @ _*)  => MergeStrategy.first
-  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
-  case _ => MergeStrategy.deduplicate
-}
-
-val evalMergeRules: String => MergeStrategy  = {
-  case "versionchanges.txt" => MergeStrategy.discard
-  case "StaticLoggerBinder" => MergeStrategy.discard
-  case PathList("META-INF", fileName)
-    if List("NOTICE", "MANIFEST.MF", "DEPENDENCIES", "INDEX.LIST").contains(fileName) || fileName.endsWith(".txt")
-  => MergeStrategy.discard
-  case PathList("META-INF", "services", _ @ _*)  => MergeStrategy.first
-  case PathList("META-INF", xs @ _*)  => MergeStrategy.first
-  case PathList("org", "apache", "spark", _ @ _*)  => MergeStrategy.discard
-  case PathList("apache", "commons", "logging", "impl",  xs @ _*)  => MergeStrategy.discard
-  case _ => MergeStrategy.deduplicate
-}
-
 assemblyMergeStrategy in assembly := {
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
@@ -195,87 +159,6 @@ assemblyMergeStrategy in assembly := {
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
 }
-
-// DO NOT CHANGE. 'eval' is a reserved sbt word. Using 'evaluation' for sbt reference
-lazy val evaluation = (project in file("eval"))
-  .settings(
-    name := "spark-nlp-eval",
-    version := "2.3.0-rc1",
-
-    assemblyMergeStrategy in assembly := evalMergeRules,
-
-    libraryDependencies ++= testDependencies ++ Seq(
-      "org.mlflow" % "mlflow-client" % "1.0.0"
-    ),
-
-    test in assembly := {},
-
-    publishTo := Some(
-      if (isSnapshot.value)
-        Opts.resolver.sonatypeSnapshots
-      else
-        Opts.resolver.sonatypeStaging
-    ),
-
-    homepage := Some(url("https://nlp.johnsnowlabs.com")),
-
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/JohnSnowLabs/spark-nlp"),
-        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
-      )
-    ),
-
-    credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials"),
-
-    ivyScala := ivyScala.value map {
-      _.copy(overrideScalaVersion = true)
-    },
-    organization := "com.johnsnowlabs.nlp",
-
-    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
-
-  )
-  .dependsOn(root)
-
-lazy val ocr = (project in file("ocr"))
-  .settings(
-    name := "spark-nlp-ocr",
-    version := "2.3.0-rc1",
-
-    test in assembly := {},
-
-    libraryDependencies ++= ocrDependencies ++
-      analyticsDependencies ++
-      testDependencies,
-    assemblyMergeStrategy in assembly := ocrMergeRules,
-    sonatypeProfileName := "com.johnsnowlabs",
-
-    publishTo := Some(
-      if (isSnapshot.value)
-        Opts.resolver.sonatypeSnapshots
-      else
-        Opts.resolver.sonatypeStaging
-    ),
-
-    homepage := Some(url("https://nlp.johnsnowlabs.com")),
-
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/JohnSnowLabs/spark-nlp"),
-        "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
-      )
-    ),
-    credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials"),
-
-    ivyScala := ivyScala.value map {
-      _.copy(overrideScalaVersion = true)
-    },
-    organization := "com.johnsnowlabs.nlp",
-
-    licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
-  )
-  .dependsOn(root % "test")
 
 parallelExecution in Test := false
 
@@ -297,8 +180,6 @@ publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
-lazy val copyAssembledOcrJar = taskKey[Unit]("Copy assembled ocr jar to pyspark/lib")
-lazy val copyAssembledEvalJar = taskKey[Unit]("Copy assembled eval jar to pyspark/lib")
 lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
 
 copyAssembledJar := {
@@ -307,22 +188,6 @@ copyAssembledJar := {
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
-
-copyAssembledOcrJar := {
-  val jarFilePath = (assemblyOutputPath in assembly in "ocr").value
-  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp-ocr.jar").value
-  IO.copyFile(jarFilePath, newJarFilePath)
-  println(s"[info] $jarFilePath copied to $newJarFilePath ")
-}
-
-// Includes spark-nlp, so use sparknlp.jar
-copyAssembledEvalJar := {
-  val jarFilePath = (assemblyOutputPath in assembly in "evaluation").value
-  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
-  IO.copyFile(jarFilePath, newJarFilePath)
-  println(s"[info] $jarFilePath copied to $newJarFilePath ")
-}
-
 
 copyAssembledJarForPyPi := {
   val jarFilePath = (assemblyOutputPath in assembly).value
