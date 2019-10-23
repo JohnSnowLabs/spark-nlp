@@ -46,7 +46,7 @@ docs-en:
       - title:  Annotators
         url:    /docs/en/licensed_annotators
       - title:  Models
-          url:    /docs/en/licensed_models
+        url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
       - title:  Spark OCR
