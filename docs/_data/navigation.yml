@@ -26,19 +26,31 @@ docs-en:
       - title:  Examples
         url:    /docs/en/examples
   - title:      Documentation
-    children:            
+    children:
+      - title:  General Concepts
+        url:    /docs/en/concepts
+      - title:  Transformers
+        url:    /docs/en/transformers
+      - title:  Annotators
+        url:    /docs/en/annotators
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
         url:    /docs/en/models
+      - title:  Training
+        url:    /docs/en/training
+      - title:  Tensorflow Graph
+        url:  /docs/en/graph
+  - title: Licensed Content
+    children:
       - title:  Annotators
-        url:    /docs/en/annotators
+        url:    /docs/en/licensed_annotators
+      - title:  Models
+          url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
       - title:  Spark OCR
-        url:  /docs/en/ocr  
-      - title:  Tensorflow Graph
-        url:  /docs/en/graph
+        url:  /docs/en/ocr
 
 extras:
   - title:     Extras
