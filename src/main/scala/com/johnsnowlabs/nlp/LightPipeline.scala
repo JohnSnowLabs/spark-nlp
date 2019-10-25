@@ -5,7 +5,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.JavaConverters._
 
-class LightPipeline(val pipelineModel: PipelineModel) {
+class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Boolean = false) {
 
   private var ignoreUnsupported = false
 
@@ -32,7 +32,7 @@ class LightPipeline(val pipelineModel: PipelineModel) {
           else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
             s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
-          new LightPipeline(pipeline).fullAnnotate(target, annotations)
+          new LightPipeline(pipeline, parseEmbeddingsVectors).fullAnnotate(target, annotations)
         case _ => annotations
       }
     })
@@ -58,9 +58,9 @@ class LightPipeline(val pipelineModel: PipelineModel) {
   def annotate(target: String): Map[String, Seq[String]] = {
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
-        case AnnotatorType.WORD_EMBEDDINGS |
+        case (AnnotatorType.WORD_EMBEDDINGS |
              AnnotatorType.SENTENCE_EMBEDDINGS |
-             AnnotatorType.CHUNK_EMBEDDINGS =>  a.embeddings.mkString(" ")
+             AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
         case _ => a.result
       }
     }))

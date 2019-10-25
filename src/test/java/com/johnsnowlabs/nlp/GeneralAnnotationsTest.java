@@ -47,7 +47,7 @@ public class GeneralAnnotationsTest {
 
         LemmatizerModel.pretrained();
 
-        LightPipeline lightPipeline = new LightPipeline(pipelineModel);
+        LightPipeline lightPipeline = new LightPipeline(pipelineModel, true);
 
         java.util.Map<String, java.util.List<String>> result = lightPipeline.annotateJava("Peter is a very good person.");
 

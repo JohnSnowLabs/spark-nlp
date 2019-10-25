@@ -1,4 +1,39 @@
 ========
+2.3.0
+========
+---------------
+Overview
+---------------
+
+---------------
+New Features
+---------------
+* New SentenceEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings
+* New ChunkEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs
+* New StopWordsCleaner integrates Spark ML StopWordsRemoval function into Spark NLP pipeline
+* New NGramGenerator annotator integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library
+
+---------------
+Enhancements
+---------------
+* Improved Java intercompatibility on Pretrained and LightPipeline APIs. Examples added.
+* Finisher and LightPipelines Parse Embeddings Vector flag allows for optional vector processing to save memory and improve performance
+* setInputCols in python can be passed as *args
+* new Param enableScore in SentimentDetector to switch output types between confidence score and results (Thanks @maxwellpaulm)
+* spark_nlp profile name by default in AWS config allows for multiple profile download compatible
+
+---------------
+Bugfixes
+---------------
+* Fixed POS training dataset creator to improve performance
+
+---------------
+Deprecations
+---------------
+* OCR Module dropped from open source support
+* Eval Module dropped from open source support
+
+========
 2.2.2
 ========
 ---------------
