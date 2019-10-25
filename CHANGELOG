@@ -4,6 +4,11 @@
 ---------------
 Overview
 ---------------
+Thanks for your contributions and feedback on Slack. This amazing release comes with many new features in the embeddings scope,
+allowing pipeline builders to retrieve embeddings for specific bodies of texts in any form given, from sentences to chunks or n-grams.
+We also worked a lot on making sure Spark NLP on Java works as intended. Finally, we improved aws profiles compatibility for frameworks
+that utilize multiple credential profiles. Unfortunately, we have deprected Eval and OCR due to internal patents in some of the latest improvements
+John Snow Labs has contributed to.
 
 ---------------
 New Features
