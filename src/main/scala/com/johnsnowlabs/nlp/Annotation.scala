@@ -181,13 +181,13 @@ object Annotation {
   }
 
   /** dataframe annotation flatmap of result values as ArrayType */
-  def flattenArray: UserDefinedFunction = {
+  def flattenArray(parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS |
+          case (AnnotatorType.WORD_EMBEDDINGS |
                AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS => r.getSeq[Float](5).mkString(" ")
+               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
         }
       )

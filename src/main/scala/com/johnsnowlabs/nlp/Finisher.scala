@@ -101,7 +101,7 @@ class Finisher(override val uid: String)
         flattened.withColumn(
           outputCol, {
             if ($(outputAsArray))
-              Annotation.flattenArray(flattened.col(inputCol))
+              Annotation.flattenArray($(parseEmbeddingsVectors))(flattened.col(inputCol))
             else if (!$(includeMetadata))
               Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol), $(parseEmbeddingsVectors))(flattened.col(inputCol))
             else
