@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Spark OCR
+title: Spark OCR (Licensed)
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2019-09-06"
@@ -8,48 +8,6 @@ modify_date: "2019-09-06"
 Spark NLP comes with an OCR module that can read both PDF files and scanned images (requires `Tesseract 4.x+`).
 
 ## Installation
-
-### Spark Packages
-
-To include the OCR submodule in Spark NLP, you will need to add the following to your start up commands:
-
-```bash
---repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-
-```
-
-### Spark Session
-
-This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is:
-
-```scala
-val spark = SparkSession
-    .builder()
-    .master("local[*]")
-    .appName("Spark NLP with OCR")
-    .config("spark.driver.memory", "6g")
-    .config("spark.executor.memory", "6g")
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release")
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3")
-    .getOrCreate()
-```
-
-### Compiled JARs
-
-However, you can also compile a JAR by yourself by cloning `spark-nlp` repository and run one of these commands:
-
-* FAT-JAR
-
-```bash
-sbt ocr/assembly
-```
-
-* Packaging the project
-
-```bash
-sbt ocr/package
-```
 
 ### Installing Tesseract
 
