@@ -79,9 +79,9 @@ class Annotation:
 
 
 class LightPipeline:
-    def __init__(self, pipelineModel):
+    def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
-        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
+        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
     @staticmethod
     def _annotation_from_java(java_annotations):
@@ -295,6 +295,7 @@ class Finisher(AnnotatorTransformer):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
+    parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
 
     name = "Finisher"
 
@@ -304,7 +305,8 @@ class Finisher(AnnotatorTransformer):
         self._setDefault(
             cleanAnnotations=True,
             includeMetadata=False,
-            outputAsArray=True
+            outputAsArray=True,
+            parseEmbeddingsVectors=False
         )
 
     @keyword_only
@@ -338,3 +340,6 @@ class Finisher(AnnotatorTransformer):
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
+
+    def setParseEmbeddingsVectors(self, value):
+        return self._set(parseEmbeddingsVectors=value)

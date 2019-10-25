@@ -26,8 +26,12 @@ unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserConll2009TestSpec())
 unittest.TextTestRunner().run(TypedDependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
+unittest.TextTestRunner().run(SentenceEmbeddingsTestSpec())
+unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
+unittest.TextTestRunner().run(NGramGeneratorTestSpec())
+unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
-unittest.TextTestRunner().run(OcrTestSpec())
+

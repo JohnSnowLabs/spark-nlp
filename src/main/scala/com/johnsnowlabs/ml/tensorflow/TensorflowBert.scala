@@ -100,8 +100,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
         originalTokenSentences.length
         val tokenLength = sentence._1.tokens.length
-        // Sentence Embeddings are at first place (token [CLS]
-        val sentenceEmbeddings = tokenVectors.headOption
 
         // All wordpiece embeddings
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
@@ -128,7 +126,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
             originalTokensWithEmbeddings
         }
 
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2, sentenceEmbeddings)
+        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
       }
     }.toSeq
   }

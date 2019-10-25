@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
@@ -33,10 +33,8 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
   }
 }
 
-trait PretrainedDependencyParserModel {
-  def pretrained(name: String = "dependency_conllu", lang: String = "en",
-                 remoteLoc: String = ResourceDownloader.publicLoc): DependencyParserModel =
-    ResourceDownloader.downloadModel(DependencyParserModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedDependency extends ParamsAndFeaturesReadable[DependencyParserModel] with HasPretrained[DependencyParserModel] {
+  override protected val defaultModelName: String = "dependency_conllu"
 }
 
-object DependencyParserModel extends ParamsAndFeaturesReadable[DependencyParserModel] with PretrainedDependencyParserModel
+object DependencyParserModel extends ReadablePretrainedDependency

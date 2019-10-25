@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
@@ -31,11 +32,15 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val embeddings = BertEmbeddings.pretrained("bert_uncased", "en")
-      .setInputCols("document")
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
+      .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
 
-    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
     val bertDDD = pipeline.fit(ddd).transform(ddd)
     val bertDF1 = pipeline.fit(data1).transform(data1)

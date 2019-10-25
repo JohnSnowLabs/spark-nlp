@@ -15,7 +15,7 @@ modify_date: "2019-10-23"
 All annotators in Spark NLP share a common interface, this is:
 
 - Annotation -> `Annotation(annotatorType, begin, end, result, metadata,
-embeddings, sentenceEmbeddings)`
+embeddings)`
 - AnnotatorType -> some annotators share a type. This is not only
 figurative, but also tells about the structure of the `metadata` map in
 the Annotation. This is the one refered in the input and output of
@@ -211,6 +211,49 @@ val lemmatizer = new Lemmatizer()
     .setDictionary("./lemmas001.txt")
 ```
 
+### StopWordsCleaner
+
+This annotator excludes from a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Lemmatizer`, and `Stemmer`) and drops all the stop words from the input sequences.
+
+**Functions:**
+
+- `setStopWords`: The words to be filtered out. `Array[String]`
+- `setCaseSensitive`: Whether to do a case sensitive comparison over the stop words.
+
+**Example:**
+
+Refer to the [StopWordsCleaner](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.StopWordsCleaner) Scala docs for more details on the API.
+
+```python
+stop_words_cleaner = StopWordsCleaner() \
+        .setInputCols(["token"]) \
+        .setOutputCol("cleanTokens") \
+        .setCaseSensitive(False) \
+        .setStopWords(["this", "is", "and"])
+```
+
+```scala
+val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(Array("this", "is", "and"))
+      .setCaseSensitive(false)
+```
+
+**NOTE:**
+If you need to `setStopWords` from a text file, you can first read and convert it into an array of string:
+
+```scala
+// your stop words text file, each line is one stop word
+val stopwords = sc.textFile("/tmp/stopwords/english.txt").collect()
+// simply use it in StopWordsCleaner
+val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(stopwords)
+      .setCaseSensitive(false)
+```
+
 ### RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
@@ -280,7 +323,7 @@ val entityExtractor = new TextMatcher()
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
-**Output type:** Document  
+**Output type:** Chunk  
 **Input types:** Document, POS  
 **Reference:** [Chunker](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala)  
 **Functions:**
@@ -290,7 +333,7 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 **Example:**
 
-Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
+Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Chunker) Scala docs for more details on the API.
 
 ```python
 chunker = Chunker() \
@@ -304,6 +347,38 @@ val chunker = new Chunker()
     .setInputCols(Array("document", "pos"))
     .setOutputCol("chunk")
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
+```
+
+### NGramGenerator
+
+`NGramGenerator` annotator takes as input a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Stemmer`, `Lemmatizer`, and `StopWordsCleaner`). The parameter `n` is used to determine the number of terms in each n-gram. The output will consist of a sequence of n-grams where each n-gram is represented by a space-delimited string of n consecutive words with annotatorType `CHUNK` same as the `Chunker` annotator.
+
+**Output type:** CHUNK  
+**Input types:** TOKEN  
+**Reference:** [NGramGenerator](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NGramGenerator.scala)  
+**Functions:**
+
+- setN: number elements per n-gram (>=1)
+- setEnableCumulative: whether to calculate just the actual n-grams or all n-grams from 1 through n
+
+**Example:**
+
+Refer to the [NGramGenerator](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.NGramGenerator) Scala docs for more details on the API.
+
+```python
+ngrams_cum = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams") \
+            .setN(2) \
+            .setEnableCumulative(True)
+```
+
+```scala
+val nGrams = new NGramGenerator()
+      .setInputCols("token")
+      .setOutputCol("ngrams")
+      .setN(2)
+      .setEnableCumulative(true)
 ```
 
 ### DateMatcher
@@ -592,9 +667,9 @@ Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 
 How to use pretrained Bert Embeddings:
 
-```scala
-val bert = BertEmbeddings.load("/multi_cased_L-12_H-768_A-12")
-      .setInputCols("sentence", "token")
+```python
+bert = BertEmbeddings.load("/multi_cased_L-12_H-768_A-12") \
+      .setInputCols("sentence", "token") \
       .setOutputCol("bert")
 ```
 
@@ -605,6 +680,51 @@ val bert = BertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("bert")
       .setPoolingLayer(0) // 0, -1, and -2
+```
+
+### SentenceEmbeddings
+
+This annotator convert the results from `WordEmbeddings` or `BertEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
+
+**Functions:**
+
+- `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+
+Refer to the [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings) Scala docs for more
+
+```python
+sentence_embeddings = SentenceEmbeddings() \
+            .setInputCols(["document", "embeddings"]) \
+            .setOutputCol("sentence_embeddings") \
+            .setPoolingStrategy("AVERAGE")
+```
+
+```scala
+val embeddingsSentence = new SentenceEmbeddings()
+      .setInputCols(Array("document", "embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+```
+
+**NOTE:**
+
+If you choose `document` as your input for `Tokenizer`, `WordEmbeddings/BertEmbeddings`, and `SentenceEmbeddings` then it averages/sums all the embeddings into one array of embeddings. However, if you choose `sentence` as `inputCols` then for each sentence `SentenceEmbeddings` generates one array of embeddings.
+
+**TIP:**
+
+How to explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions:
+
+```scala
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// Let's create a UDF to take array of embeddings and output Vectors
+val convertToVectorUDF = udf((matrix : Seq[Float]) => {
+    Vectors.dense(matrix.toArray.map(_.toDouble))
+})
+
+// Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
+pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedding"))
+.withColumn("features", convertToVectorUDF($"sentence_embedding"))
 ```
 
 ### NER CRF
@@ -758,7 +878,7 @@ val spellChecker = new NorvigSweetingApproach()
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.    
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
 **Input types:** Tokenizer  
 **Train Data:** train_corpus is a spark dataset of text content  
 **Reference:** [SymmetricDeleteApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteApproach.scala) | [SymmetricDeleteModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModel.scala)  

@@ -1,4 +1,44 @@
 ========
+2.3.0
+========
+---------------
+Overview
+---------------
+Thanks for your contributions and feedback on Slack. This amazing release comes with many new features in the embeddings scope,
+allowing pipeline builders to retrieve embeddings for specific bodies of texts in any form given, from sentences to chunks or n-grams.
+We also worked a lot on making sure Spark NLP on Java works as intended. Finally, we improved aws profiles compatibility for frameworks
+that utilize multiple credential profiles. Unfortunately, we have deprected Eval and OCR due to internal patents in some of the latest improvements
+John Snow Labs has contributed to.
+
+---------------
+New Features
+---------------
+* New SentenceEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings
+* New ChunkEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs
+* New StopWordsCleaner integrates Spark ML StopWordsRemoval function into Spark NLP pipeline
+* New NGramGenerator annotator integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library
+
+---------------
+Enhancements
+---------------
+* Improved Java intercompatibility on Pretrained and LightPipeline APIs. Examples added.
+* Finisher and LightPipelines Parse Embeddings Vector flag allows for optional vector processing to save memory and improve performance
+* setInputCols in python can be passed as *args
+* new Param enableScore in SentimentDetector to switch output types between confidence score and results (Thanks @maxwellpaulm)
+* spark_nlp profile name by default in AWS config allows for multiple profile download compatible
+
+---------------
+Bugfixes
+---------------
+* Fixed POS training dataset creator to improve performance
+
+---------------
+Deprecations
+---------------
+* OCR Module dropped from open source support
+* Eval Module dropped from open source support
+
+========
 2.2.2
 ========
 ---------------

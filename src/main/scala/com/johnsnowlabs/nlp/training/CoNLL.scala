@@ -22,7 +22,7 @@ case class CoNLL(documentCol: String = "document",
                  conllPosIndex: Int = 1,
                  conllTextCol: String = "text",
                  labelCol: String = "label",
-                 explodeSentences: Boolean = false
+                 explodeSentences: Boolean = true
                 ) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
