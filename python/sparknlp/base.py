@@ -340,3 +340,6 @@ class Finisher(AnnotatorTransformer):
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
+
+    def setParseEmbeddingsVectors(self, value):
+        return self._set(parseEmbeddingsVectors=value)
