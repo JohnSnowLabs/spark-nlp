@@ -6,7 +6,7 @@ import org.apache.spark.sql.types._
 
 import scala.reflect.runtime.universe._
 
-object functions {
+object  functions {
 
   implicit class FilterAnnotations(dataset: DataFrame) {
     def filterByAnnotations(column: String, function: Seq[Annotation] => Boolean): DataFrame = {

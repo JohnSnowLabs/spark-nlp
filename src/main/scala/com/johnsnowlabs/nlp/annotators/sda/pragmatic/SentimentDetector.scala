@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTIMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.DoubleParam
+import org.apache.spark.ml.param.{DoubleParam, BooleanParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -24,6 +24,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "multiplier for increment sentiments. Defaults 2.0")
   val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
   val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
+  val enableScore = new BooleanParam(this, "enableScore", "if true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false")
 
   val dictionary = new ExternalResourceParam(this, "dictionary", "delimited file with a list sentiment tags per word. Requires 'delimiter' in options")
 
@@ -32,7 +33,8 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
     negativeMultiplier -> -1.0,
     incrementMultiplier -> 2.0,
     decrementMultiplier -> -2.0,
-    reverseMultiplier -> -1.0
+    reverseMultiplier -> -1.0,
+    enableScore -> false
   )
 
   def setPositiveMultiplier(v: Double): this.type = set(positiveMultiplier, v)
@@ -40,6 +42,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   def setIncrementMultiplier(v: Double): this.type = set(incrementMultiplier, v)
   def setDecrementMultiplier(v: Double): this.type = set(decrementMultiplier, v)
   def setReverseMultiplier(v: Double): this.type = set(reverseMultiplier, v)
+  def setEnableScore(v: Boolean): this.type = set(enableScore, v)
 
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "dictionary needs 'delimiter' in order to separate words from sentiment tags")
@@ -59,6 +62,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
       .setPositiveMultipler($(positiveMultiplier))
       .setNegativeMultipler($(negativeMultiplier))
       .setReverseMultipler($(reverseMultiplier))
+      .setEnableScore($(enableScore))
       .setSentimentDict(ResourceHelper.parseKeyValueText($(dictionary)))
   }
 

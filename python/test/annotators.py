@@ -4,7 +4,6 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 from sparknlp.embeddings import *
 from test.util import SparkContextForTest
-from sparknlp.ocr import OcrHelper
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -491,45 +490,6 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
         checked.show()
 
 
-class ContextSpellCheckerTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.data = SparkContextForTest.spark.createDataFrame([
-                     ["Yesterday I lost my blue unikorn ."],
-                     ["he is gane ."]]) \
-                     .toDF("region").cache()
-
-    def runTest(self):
-
-        documentAssembler = DocumentAssembler() \
-            .setInputCol("region") \
-            .setOutputCol("text")
-
-        tokenizer = Tokenizer() \
-            .setInputCols(["text"]) \
-            .setOutputCol("token")
-
-        ocrspellModel = ContextSpellCheckerModel() \
-            .pretrained() \
-            .setInputCols(["token"]) \
-            .setOutputCol("spell_checked") \
-            .setTradeoff(10.0)
-
-        finisher = Finisher() \
-            .setInputCols(["spell_checked"]) \
-            .setValueSplitSymbol(" ")
-
-        pipeline = Pipeline(stages=[
-            documentAssembler,
-            tokenizer,
-            ocrspellModel,
-            finisher
-        ])
-
-        checked_data = pipeline.fit(self.data).transform(self.data)
-        checked_data.select("finished_spell_checked").show(truncate=False)
-        assert(len(checked_data.collect()) == 2)
-
-
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod
     def runTest():
@@ -552,33 +512,6 @@ class ParamsGettersTestSpec(unittest.TestCase):
         # Try a default getter
         document_assembler = DocumentAssembler()
         assert(document_assembler.getOutputCol() == "document")
-
-
-class OcrTestSpec(unittest.TestCase):
-    @staticmethod
-    def runTest():
-        ocr = OcrHelper()
-        ocr.setPreferredMethod('text')
-        print("text layer is: " + str(ocr.getPreferredMethod()))
-        pdf_path = "file:///" + os.getcwd() + "/../ocr/src/test/resources/pdfs/"
-        data = ocr.createDataset(
-            spark=SparkContextForTest.spark,
-            input_path=pdf_path)
-        data.show()
-        ocr.setPreferredMethod('image')
-        print("Text layer disabled. set to: ", ocr.getPreferredMethod())
-        data = ocr.createDataset(
-            spark=SparkContextForTest.spark,
-            input_path=pdf_path)
-        data.show()
-        ocr.setPreferredMethod('text')
-        print("Text layer enabled. set to: ", ocr.getPreferredMethod())
-        content = ocr.createMap(input_path="../ocr/src/test/resources/pdfs")
-        print("ocr create map: ", content)
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-        document_assembler.transform(data).show()
 
 
 class DependencyParserTreeBankTestSpec(unittest.TestCase):
@@ -631,7 +564,7 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.spark \
-                .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
         self.corpus = os.getcwd() + "/../src/test/resources/anc-pos-corpus-small/"
         self.conllu = os.getcwd() + "/../src/test/resources/parser/unlabeled/conll-u/train_small.conllu.txt"
         from sparknlp.training import POS
@@ -815,3 +748,162 @@ class ChunkDocSerializingTestSpec(unittest.TestCase):
         pipe_path = "file:///" + os.getcwd() + "/tmp_chunkdoc"
         model.write().overwrite().save(pipe_path)
         PipelineModel.load(pipe_path)
+
+
+class SentenceEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true")\
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        glove = WordEmbeddingsModel.pretrained() \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("embeddings")
+        sentence_embeddings = SentenceEmbeddings() \
+            .setInputCols(["sentence", "embeddings"]) \
+            .setOutputCol("sentence_embeddings") \
+            .setPoolingStrategy("AVERAGE")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            glove,
+            sentence_embeddings
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class StopWordsCleanerTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["This is my first sentence. This is my second."],
+            ["This is my third sentence. This is my forth."]]) \
+            .toDF("text").cache()
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        stop_words_cleaner = StopWordsCleaner() \
+            .setInputCols(["token"]) \
+            .setOutputCol("cleanTokens") \
+            .setCaseSensitive(False) \
+            .setStopWords(["this", "is"])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            stop_words_cleaner
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).select("cleanTokens.result").show()
+
+
+class NGramGeneratorTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["This is my first sentence. This is my second."],
+            ["This is my third sentence. This is my forth."]]) \
+            .toDF("text").cache()
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        ngrams = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams") \
+            .setN(2)
+        ngrams_cum = NGramGenerator() \
+            .setInputCols(["token"]) \
+            .setOutputCol("ngrams_cum") \
+            .setN(2) \
+            .setEnableCumulative(True)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            ngrams,
+            ngrams_cum,
+        ])
+
+        model = pipeline.fit(self.data)
+        transformed_data = model.transform(self.data)
+        transformed_data.select("ngrams.result", "ngrams_cum.result").show(2, False)
+
+        assert transformed_data.select("ngrams.result").rdd.flatMap(lambda x: x).collect() == \
+               [['This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This is', 'is my', 'my second', 'second .'], ['This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This is', 'is my', 'my forth', 'forth .']]
+
+        assert transformed_data.select("ngrams_cum.result").rdd.flatMap(lambda x: x).collect() == \
+               [['This', 'is', 'my', 'first', 'sentence', '.', 'This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This', 'is', 'my', 'second', '.', 'This is', 'is my', 'my second', 'second .'], ['This', 'is', 'my', 'third', 'sentence', '.', 'This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This', 'is', 'my', 'forth', '.', 'This is', 'is my', 'my forth', 'forth .']]
+
+
+class ChunkEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        pos_tagger = PerceptronModel.pretrained() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos")
+        chunker = Chunker() \
+            .setInputCols(["sentence", "pos"]) \
+            .setOutputCol("chunk") \
+            .setRegexParsers(["<DT>?<JJ>*<NN>+"])
+        glove = WordEmbeddingsModel.pretrained() \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("embeddings")
+        chunk_embeddings = ChunkEmbeddings() \
+            .setInputCols(["chunk", "embeddings"]) \
+            .setOutputCol("chunk_embeddings") \
+            .setPoolingStrategy("AVERAGE")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            pos_tagger,
+            chunker,
+            glove,
+            chunk_embeddings
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
