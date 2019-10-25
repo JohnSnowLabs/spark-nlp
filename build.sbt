@@ -1,6 +1,6 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.4.3"
+val sparkVer = "2.4.4"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
@@ -16,7 +16,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.3.0-rc2"
+version := "2.3.0"
 
 scalaVersion in ThisBuild := scalaVer
 

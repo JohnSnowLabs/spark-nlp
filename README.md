@@ -42,7 +42,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Apache Spark Support
 
-Spark NLP *2.3.0-rc2* has been built on top of Apache Spark 2.4.3
+Spark NLP *2.3.0* has been built on top of Apache Spark 2.4.4
 
 | Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
 |-------------|-------------------------------------|--------------|
@@ -68,18 +68,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.0-rc2` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.0` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.0
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
+spark-submit --packages JohnSnowLabs:spark-nlp:2.3.0
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -163,7 +163,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.3.0-rc2</version>
+    <version>2.3.0</version>
 </dependency>
 ```
 
@@ -185,7 +185,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.3.0-rc2</version>
+    <version>2.3.0</version>
 </dependency>
 ```
 
@@ -196,7 +196,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-eval_2.11</artifactId>
-    <version>2.3.0-rc2</version>
+    <version>2.3.0</version>
 </dependency>
 ```
 
@@ -217,7 +217,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.0-rc2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.0"
 ```
 
 **spark-nlp-gpu:**
@@ -231,14 +231,14 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.2.0"
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0-rc2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.0"
 ```
 
 **spark-nlp-eval:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.3.0-rc2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.3.0"
 ```
 
 **spark-nlp-eval:**
@@ -261,7 +261,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.3.0.rc2
+pip install spark-nlp==2.3.0
 ```
 
 Conda:
@@ -288,7 +288,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -321,7 +321,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.0-rc2
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.0
 ```
 
 * Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
@@ -331,7 +331,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.0-rc2
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.3.0.rc2
+pip install spark-nlp==2.3.0
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -356,7 +356,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.0-rc2
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.0
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -379,10 +379,10 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! java -version
 
 # Install pyspark
-! pip install --ignore-installed pyspark==2.4.3
+! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.3.0-rc2
+! pip install --ignore-installed spark-nlp==2.3.0
 
 # Quick SparkSession start
 import sparknlp
@@ -425,7 +425,7 @@ To include the OCR submodule in Spark NLP, you will need to add the following to
 
 ```basg
 --repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.3.0-rc2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
+--packages JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
 ```
 
 This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
@@ -437,7 +437,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0-rc2,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.0,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
     .getOrCreate()
 ```
 
@@ -473,7 +473,7 @@ To include the Eval submodule in Spark NLP, you will need to add the following t
 
 ```basg
 --repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.3.0-rc2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc2
+--packages JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0
 ```
 
 This way you will download the extra dependencies needed by our Eval submodule. The Python SparkSession equivalent is
@@ -485,7 +485,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
     .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0-rc2,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0-rc2") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.0,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.0") \
     .getOrCreate()
 ```
 
