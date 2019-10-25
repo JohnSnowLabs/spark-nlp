@@ -1605,3 +1605,32 @@ class NGramGenerator(AnnotatorModel):
         Sets the value of :py:attr:`enableCumulative`.
         """
         return self._set(enableCumulative=value)
+
+
+class ChunkEmbeddings(AnnotatorModel):
+
+    name = "ChunkEmbeddings"
+
+    @keyword_only
+    def __init__(self):
+        super(ChunkEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings")
+        self._setDefault(
+            poolingStrategy="AVERAGE"
+        )
+
+    poolingStrategy = Param(Params._dummy(),
+                            "poolingStrategy",
+                            "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:" +
+                            "AVERAGE or SUM",
+                            typeConverter=TypeConverters.toString)
+
+    def setPoolingStrategy(self, strategy):
+        """
+        Sets the value of :py:attr:`poolingStrategy`.
+        """
+        if strategy == "AVERAGE":
+            return self._set(poolingStrategy=strategy)
+        elif strategy == "SUM":
+            return self._set(poolingStrategy=strategy)
+        else:
+            return self._set(poolingStrategy="AVERAGE")

@@ -10,7 +10,7 @@ import org.apache.spark.sql.functions.size
 
 class SentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "Word Embeddings" should "correctly calculate sentence embeddings in WordEmbeddings" in {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -67,7 +67,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "Word Embeddings" should "correctly calculate sentence embeddings in BertEmbeddings" in {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
