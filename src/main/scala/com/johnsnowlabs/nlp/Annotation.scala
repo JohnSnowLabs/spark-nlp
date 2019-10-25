@@ -148,13 +148,13 @@ object Annotation {
   }
 
   /** dataframe annotation flatmap of results into strings*/
-  def flatten(vSep: String, aSep: String): UserDefinedFunction = {
+  def flatten(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS |
+          case (AnnotatorType.WORD_EMBEDDINGS |
                AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS => r.getSeq[Float](5).mkString(vSep)
+               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(vSep)
           case _ => r.getString(3)
         }
       ).mkString(aSep)
@@ -162,13 +162,13 @@ object Annotation {
   }
 
   /** dataframe annotation flatmap of results and metadata key values into strings */
-  def flattenDetail(vSep: String, aSep: String): UserDefinedFunction = {
+  def flattenDetail(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
-          case AnnotatorType.WORD_EMBEDDINGS |
+          case (AnnotatorType.WORD_EMBEDDINGS |
                AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS =>
+               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) =>
             (r.getMap[String, String](4) ++
               Map(RESULT -> r.getString(3)) ++
               Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))

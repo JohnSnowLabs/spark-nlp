@@ -24,6 +24,8 @@ class Finisher(override val uid: String)
     new BooleanParam(this, "includeMetadata", "annotation metadata format")
   protected val outputAsArray: BooleanParam =
     new BooleanParam(this, "outputAsArray", "finisher generates an Array with the results instead of string")
+  protected val parseEmbeddingsVectors: BooleanParam =
+    new BooleanParam(this, "parseEmbeddingsVectors", "whether to include embeddings vectors in the process")
 
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
@@ -46,7 +48,9 @@ class Finisher(override val uid: String)
   setDefault(
     cleanAnnotations -> true,
     includeMetadata -> false,
-    outputAsArray -> true)
+    outputAsArray -> true,
+    parseEmbeddingsVectors -> false
+  )
 
   def this() = this(Identifiable.randomUID("finisher"))
 
@@ -99,9 +103,9 @@ class Finisher(override val uid: String)
             if ($(outputAsArray))
               Annotation.flattenArray(flattened.col(inputCol))
             else if (!$(includeMetadata))
-              Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
+              Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol), $(parseEmbeddingsVectors))(flattened.col(inputCol))
             else
-              Annotation.flattenDetail($(valueSplitSymbol), $(annotationSplitSymbol))(flattened.col(inputCol))
+              Annotation.flattenDetail($(valueSplitSymbol), $(annotationSplitSymbol), $(parseEmbeddingsVectors))(flattened.col(inputCol))
           }
         )
       }
