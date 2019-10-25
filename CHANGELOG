@@ -17,6 +17,7 @@ New Features
 Enhancements
 ---------------
 * Improved Java intercompatibility on Pretrained and LightPipeline APIs. Examples added.
+* Finisher and LightPipelines Parse Embeddings Vector flag allows for optional vector processing to save memory and improve performance
 * setInputCols in python can be passed as *args
 * new Param enableScore in SentimentDetector to switch output types between confidence score and results (Thanks @maxwellpaulm)
 * spark_nlp profile name by default in AWS config allows for multiple profile download compatible
@@ -25,7 +26,6 @@ Enhancements
 Bugfixes
 ---------------
 * Fixed POS training dataset creator to improve performance
-*
 
 ========
 2.2.2
