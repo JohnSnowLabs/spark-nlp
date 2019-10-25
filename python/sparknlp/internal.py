@@ -99,8 +99,8 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
 
 
 class _LightPipeline(ExtendedJavaWrapper):
-    def __init__(self, pipelineModel):
-        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java())
+    def __init__(self, pipelineModel, parse_embeddings):
+        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java(), parse_embeddings)
 
 
 # ==================

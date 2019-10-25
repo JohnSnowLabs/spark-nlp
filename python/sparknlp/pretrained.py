@@ -87,9 +87,9 @@ class ResourceDownloader(object):
 
 class PretrainedPipeline:
 
-    def __init__(self, name, lang='en', remote_loc=None):
+    def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False):
         self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
-        self.light_model = LightPipeline(self.model)
+        self.light_model = LightPipeline(self.model, parse_embeddings)
 
     def annotate(self, target, column=None):
         if type(target) is DataFrame:

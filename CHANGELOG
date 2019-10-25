@@ -1,4 +1,33 @@
 ========
+2.3.0
+========
+---------------
+Overview
+---------------
+
+---------------
+New Features
+---------------
+* New SentenceEmbeddings annotator utilizes embeddings output to generate per sentence vectors
+* New ChunkEmbeddings annotator builds embeddings based on chunks
+* New StopWordsCleaner acts as stop words remover adapted to Spark NLP Pipelines
+* New NGramGenerator annotator allows of Spark NLP compatible n-grams based on Token input
+
+---------------
+Enhancements
+---------------
+* Improved Java intercompatibility on Pretrained and LightPipeline APIs. Examples added.
+* setInputCols in python can be passed as *args
+* new Param enableScore in SentimentDetector to switch output types between confidence score and results (Thanks @maxwellpaulm)
+* spark_nlp profile name by default in AWS config allows for multiple profile download compatible
+
+---------------
+Bugfixes
+---------------
+* Fixed POS training dataset creator to improve performance
+*
+
+========
 2.2.2
 ========
 ---------------
