@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, SetFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.{DoubleParam, IntParam, LongParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -99,9 +98,8 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 
 }
 
-trait ViveknPretrainedModel {
-  def pretrained(name: String = "sentiment_vivekn", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): ViveknSentimentModel =
-    ResourceDownloader.downloadModel(ViveknSentimentModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedVivekn extends ParamsAndFeaturesReadable[ViveknSentimentModel] with HasPretrained[ViveknSentimentModel] {
+  override protected val defaultModelName: String = "sentiment_vivekn"
 }
 
-object ViveknSentimentModel extends ParamsAndFeaturesReadable[ViveknSentimentModel] with ViveknPretrainedModel
+object ViveknSentimentModel extends ReadablePretrainedVivekn

@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
@@ -127,10 +127,8 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
 }
 
-trait PretrainedTypedDependencyParserModel {
-  def pretrained(name: String = "dependency_typed_conllu", lang: String = "en",
-                 remoteLoc: String = ResourceDownloader.publicLoc): TypedDependencyParserModel =
-    ResourceDownloader.downloadModel(TypedDependencyParserModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with HasPretrained[TypedDependencyParserModel] {
+  override protected val defaultModelName: String = "dependency_typed_conllu"
 }
 
-object TypedDependencyParserModel extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with PretrainedTypedDependencyParserModel
+object TypedDependencyParserModel extends ReadablePretrainedTypedDependency

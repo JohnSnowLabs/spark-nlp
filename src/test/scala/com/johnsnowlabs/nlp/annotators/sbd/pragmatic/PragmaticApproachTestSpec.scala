@@ -73,7 +73,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     /** Flatten test */
     tokenizedFromDisk
       .transform(sentencedFromMemory)
-      .withColumn("flattened", Annotation.flatten("#", "@")($"my_sbd_sentences"))
+      .withColumn("flattened", Annotation.flatten("#", "@", false)($"my_sbd_sentences"))
       .show
 
     succeed
