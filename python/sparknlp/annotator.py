@@ -4,7 +4,6 @@
 
 import sys
 from enum import Enum
-from pyspark import keyword_only
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -35,6 +34,7 @@ parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
 ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
+
 
 try:
     import jsl_sparknlp.annotator
@@ -281,48 +281,6 @@ class Chunker(AnnotatorModel):
 
     def setRegexParsers(self, value):
         return self._set(regexParsers=value)
-
-
-class PositionFinder(AnnotatorModel):
-
-    pageMatrixCol = Param(Params._dummy(),
-                          "pageMatrixCol",
-                          "Column name for Page Matrix schema",
-                          typeConverter=TypeConverters.toString
-                          )
-
-    matchingWindow = Param(Params._dummy(),
-                           "matchingWindow",
-                           "Textual range to match in context, applies in both direction",
-                           typeConverter=TypeConverters.toInt
-                           )
-
-    windowPageTolerance = Param(Params._dummy(),
-                                "windowPageTolerance",
-                                "whether or not to increase tolerance as page number grows",
-                                typeConverter=TypeConverters.toBoolean
-                                )
-
-    name = "PositionFinder"
-
-    @keyword_only
-    def __init__(self):
-        super(PositionFinder, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ocr.PositionFinder")
-        self._setDefault(
-            matchingWindow=10,
-            windowPageTolerance=True
-        )
-
-    def setPageMatrixCol(self, value):
-        return self._set(pageMatrixCol=value)
-
-    def setMatchingWindow(self, value):
-        if value < 0:
-            raise Exception("Matching window must be non-negative")
-        return self._set(matchingWindow=value)
-
-    def setWindowPageTolerance(self, value):
-        return self._set(windowPageTolerance=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -705,11 +663,17 @@ class SentimentDetector(AnnotatorApproach):
                               "multiplier for revert sentiments. Defaults -1.0",
                               typeConverter=TypeConverters.toFloat)
 
+    enableScore = Param(Params._dummy(),
+                        "enableScore",
+                        "if true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false",
+                        typeConverter=TypeConverters.toBoolean)
+
+
     def __init__(self):
         super(SentimentDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector")
         self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0,
-                         decrementMultiplier=-2.0, reverseMultiplier=-1.0)
+                         decrementMultiplier=-2.0, reverseMultiplier=-1.0, enableScore=False)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format': 'text'}):
         opts = options.copy()
@@ -1113,7 +1077,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useContrib = Param(Params._dummy(), "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.", TypeConverters.toBoolean)
 
     validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                                TypeConverters.toFloat)
+                            TypeConverters.toFloat)
 
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
                                   TypeConverters.toBoolean)
@@ -1127,8 +1091,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                               TypeConverters.toBoolean)
 
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
-                              "Whether to use stdout in addition to Spark logs.",
-                              TypeConverters.toBoolean)
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1247,129 +1211,6 @@ class NerConverter(AnnotatorModel):
     @keyword_only
     def __init__(self):
         super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
-
-
-class ContextSpellCheckerApproach(AnnotatorApproach):
-
-    trainCorpusPath = Param(Params._dummy(),
-                            "trainCorpusPath",
-                            "Path to the training corpus text file.",
-                            typeConverter=TypeConverters.toString)
-
-    languageModelClasses = Param(Params._dummy(),
-                                 "languageModelClasses",
-                                 "Number of classes to use during factorization of the softmax output in the LM.",
-                                 typeConverter=TypeConverters.toInt)
-
-    prefixes = Param(Params._dummy(),
-                     "prefixes",
-                     "Prefixes to separate during parsing of training corpus.",
-                     typeConverter=TypeConverters.identity)
-
-    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
-
-    def setConfigProtoBytes(self, b):
-        return self._set(configProtoBytes=b)
-
-    def setSuffixes(self, s):
-        return self._set(prefixes=list(reversed(sorted(s, key=len))))
-
-    suffixes = Param(Params._dummy(),
-                     "suffixes",
-                     "Suffixes to separate during parsing of training corpus.",
-                     typeConverter=TypeConverters.identity)
-
-    def setSuffixes(self, s):
-        return self._set(suffixes=list(reversed(sorted(s, key=len))))
-
-    wordMaxDistance = Param(Params._dummy(),
-                            "wordMaxDistance",
-                            "Maximum distance for the generated candidates for every word.",
-                            typeConverter=TypeConverters.toInt)
-
-    maxCandidates = Param(Params._dummy(),
-                          "maxCandidates",
-                          "Maximum number of candidates for every word.",
-                          typeConverter=TypeConverters.toInt)
-
-    minCount = Param(Params._dummy(),
-                     "minCount",
-                     "Min number of times a token should appear to be included in vocab.",
-                     typeConverter=TypeConverters.toFloat)
-
-    blacklistMinFreq = Param(Params._dummy(),
-                             "blacklistMinFreq",
-                             "Minimun number of occurrences for a word not to be blacklisted.",
-                             typeConverter=TypeConverters.toInt)
-
-    tradeoff = Param(Params._dummy(),
-                     "tradeoff",
-                     "Tradeoff between the cost of a word and a transition in the language model.",
-                     typeConverter=TypeConverters.toFloat)
-
-    weightedDistPath = Param(Params._dummy(),
-                             "weightedDistPath",
-                             "The path to the file containing the weights for the levenshtein distance.",
-                             typeConverter=TypeConverters.toString)
-
-    gamma = Param(Params._dummy(),
-                  "gamma",
-                  "Controls the influence of individual word frequency in the decision.",
-                  typeConverter=TypeConverters.toFloat)
-
-    @keyword_only
-    def __init__(self):
-        super(ContextSpellCheckerApproach, self). \
-            __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
-        self._setDefault(minCount=3.0,
-                         wordMaxDistance=3,
-                         maxCandidates=6,
-                         languageModelClasses=2000,
-                         blacklistMinFreq=5,
-                         tradeoff=18.0)
-
-    def _create_model(self, java_model):
-        return ContextSpellCheckerModel(java_model=java_model)
-
-
-class ContextSpellCheckerModel(AnnotatorModel):
-    name = "ContextSpellCheckerModel"
-
-    wordMaxDistance = Param(Params._dummy(),
-                            "wordMaxDistance",
-                            "Maximum distance for the generated candidates for every word.",
-                            typeConverter=TypeConverters.toInt)
-
-    tradeoff = Param(Params._dummy(),
-                     "tradeoff",
-                     "Tradeoff between the cost of a word and a transition in the language model.",
-                     typeConverter=TypeConverters.toFloat)
-
-    weightedDistPath = Param(Params._dummy(),
-                             "weightedDistPath",
-                             "The path to the file containing the weights for the levenshtein distance.",
-                             typeConverter=TypeConverters.toString)
-
-    gamma = Param(Params._dummy(),
-                  "gamma",
-                  "Controls the influence of individual word frequency in the decision.",
-                  typeConverter=TypeConverters.toFloat)
-
-    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
-
-    def setConfigProtoBytes(self, b):
-        return self._set(configProtoBytes=b)
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
-        super(ContextSpellCheckerModel, self).__init__(
-            classname=classname,
-            java_model=java_model
-        )
-
-    @staticmethod
-    def pretrained(name, lang="en", remote_loc=None):
-        from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 
 
 class DependencyParserApproach(AnnotatorApproach):
@@ -1669,3 +1510,127 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
     def pretrained(name="bert_uncased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+
+
+class SentenceEmbeddings(AnnotatorModel):
+
+    name = "SentenceEmbeddings"
+
+    @keyword_only
+    def __init__(self):
+        super(SentenceEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings")
+        self._setDefault(
+            poolingStrategy="AVERAGE"
+        )
+
+    poolingStrategy = Param(Params._dummy(),
+                            "poolingStrategy",
+                            "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM",
+                            typeConverter=TypeConverters.toString)
+
+    def setPoolingStrategy(self, strategy):
+        if strategy == "AVERAGE":
+            return self._set(poolingStrategy=strategy)
+        elif strategy == "SUM":
+            return self._set(poolingStrategy=strategy)
+        else:
+            return self._set(poolingStrategy="AVERAGE")
+
+
+class StopWordsCleaner(AnnotatorModel):
+
+    name = "StopWordsCleaner"
+
+    @keyword_only
+    def __init__(self):
+        super(StopWordsCleaner, self).__init__(classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner")
+        self._setDefault(
+            stopWords=StopWordsCleaner.loadDefaultStopWords("english"),
+            caseSensitive=False,
+            locale=self._java_obj.getLocale()
+        )
+
+    stopWords = Param(Params._dummy(), "stopWords", "The words to be filtered out",
+                      typeConverter=TypeConverters.toListString)
+    caseSensitive = Param(Params._dummy(), "caseSensitive", "whether to do a case sensitive " +
+                          "comparison over the stop words", typeConverter=TypeConverters.toBoolean)
+    locale = Param(Params._dummy(), "locale", "locale of the input. ignored when case sensitive " +
+                   "is true", typeConverter=TypeConverters.toString)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def setCaseSensitive(self, value):
+        return self._set(caseSensitive=value)
+
+    def setLocale(self, value):
+        return self._set(locale=value)
+
+    def loadDefaultStopWords(language="english"):
+        from pyspark.ml.wrapper import _jvm
+
+        """
+        Loads the default stop words for the given language.
+        Supported languages: danish, dutch, english, finnish, french, german, hungarian,
+        italian, norwegian, portuguese, russian, spanish, swedish, turkish
+        """
+        stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
+        return list(stopWordsObj.loadDefaultStopWords(language))
+
+
+class NGramGenerator(AnnotatorModel):
+
+    name = "NGramGenerator"
+
+    @keyword_only
+    def __init__(self):
+        super(NGramGenerator, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NGramGenerator")
+        self._setDefault(
+            n=2,
+            enableCumulative=False
+        )
+
+    n = Param(Params._dummy(), "n", "number elements per n-gram (>=1)", typeConverter=TypeConverters.toInt)
+    enableCumulative = Param(Params._dummy(), "enableCumulative", "whether to calculate just the actual n-grams " +
+                             "or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean)
+
+    def setN(self, value):
+        """
+        Sets the value of :py:attr:`n`.
+        """
+        return self._set(n=value)
+
+    def setEnableCumulative(self, value):
+        """
+        Sets the value of :py:attr:`enableCumulative`.
+        """
+        return self._set(enableCumulative=value)
+
+
+class ChunkEmbeddings(AnnotatorModel):
+
+    name = "ChunkEmbeddings"
+
+    @keyword_only
+    def __init__(self):
+        super(ChunkEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings")
+        self._setDefault(
+            poolingStrategy="AVERAGE"
+        )
+
+    poolingStrategy = Param(Params._dummy(),
+                            "poolingStrategy",
+                            "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:" +
+                            "AVERAGE or SUM",
+                            typeConverter=TypeConverters.toString)
+
+    def setPoolingStrategy(self, strategy):
+        """
+        Sets the value of :py:attr:`poolingStrategy`.
+        """
+        if strategy == "AVERAGE":
+            return self._set(poolingStrategy=strategy)
+        elif strategy == "SUM":
+            return self._set(poolingStrategy=strategy)
+        else:
+            return self._set(poolingStrategy="AVERAGE")
