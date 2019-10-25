@@ -58,7 +58,11 @@ case class POS() {
 
   private def lineToTaggedDocument(line: String, delimiter: String) = {
 
+    /*
+    TODO: improve the performance of regex group
     val splitted = line.replaceAll(s"(?:${delimiter.head}\\w+)+(\\s)", "$0##$1").split("##").map(_.trim)
+    */
+    val splitted = line.split(" ").map(_.trim)
 
     val tokenTags = splitted.flatMap(token => {
       val tokenTag = token.split(delimiter.head).map(_.trim)

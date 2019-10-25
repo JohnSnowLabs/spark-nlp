@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
@@ -152,9 +151,8 @@ class BertEmbeddings(override val uid: String) extends
   }
 }
 
-trait PretrainedBertModel {
-  def pretrained(name: String = "bert_uncased", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): BertEmbeddings =
-    ResourceDownloader.downloadModel(BertEmbeddings, name, Option(lang), remoteLoc)
+trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
+  override protected val defaultModelName: String = "bert_base_cased"
 }
 
 trait ReadBertTensorflowModel extends ReadTensorflowModel {
@@ -190,7 +188,4 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 }
 
 
-object BertEmbeddings extends ParamsAndFeaturesReadable[BertEmbeddings]
-  with PretrainedBertModel
-  with ReadBertTensorflowModel
-
+object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel

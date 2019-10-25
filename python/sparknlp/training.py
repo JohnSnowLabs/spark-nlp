@@ -13,7 +13,7 @@ class CoNLL(ExtendedJavaWrapper):
                  conllPosIndex = 1,
                  textCol = 'text',
                  labelCol = 'label',
-                 explodeSentences = False,
+                 explodeSentences = True,
                  ):
         super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL",
                                     documentCol,

@@ -28,6 +28,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
       .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setEnableScore(false)
       .fit(readyData)
       .transform(readyData)
 

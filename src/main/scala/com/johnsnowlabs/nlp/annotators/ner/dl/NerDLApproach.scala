@@ -40,7 +40,7 @@ class NerDLApproach(override val uid: String)
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
-  val trainValidationProp = new FloatParam(this, "trainValidationProp", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
@@ -53,7 +53,7 @@ class NerDLApproach(override val uid: String)
   def getDropout: Float = $(this.dropout)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
   def getUseContrib: Boolean = $(this.useContrib)
-  def getTrainValidationProp: Float = $(this.trainValidationProp)
+  def getValidationSplit: Float = $(this.validationSplit)
   def getIncludeConfidence: Boolean = $(includeConfidence)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
 
@@ -64,7 +64,8 @@ class NerDLApproach(override val uid: String)
   def setGraphFolder(path: String):NerDLApproach.this.type = set(this.graphFolder, path)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
-  def setTrainValidationProp(trainValidationProp: Float):NerDLApproach.this.type = set(this.trainValidationProp, trainValidationProp)
+  def setValidationSplit(validationSplit: Float):NerDLApproach.this.type = set(this.validationSplit, validationSplit)
+
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
   def setTestDataset(path: String,
@@ -84,7 +85,7 @@ class NerDLApproach(override val uid: String)
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
     useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
-    trainValidationProp -> 0.0f,
+    validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
     enableOutputLogs -> false
@@ -104,6 +105,8 @@ class NerDLApproach(override val uid: String)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
+
+    require($(validationSplit) <= 1f | $(validationSplit) >= 0f, "The validationSplit must be between 0f and 1f")
 
     val train = dataset.toDF()
 
@@ -153,7 +156,7 @@ class NerDLApproach(override val uid: String)
         test = test,
         endEpoch = $(maxEpochs),
         configProtoBytes=getConfigProtoBytes,
-        trainValidationProp=$(trainValidationProp),
+        validationSplit=$(validationSplit),
         evaluationLogExtended=$(evaluationLogExtended),
         includeConfidence=$(includeConfidence),
         enableOutputLogs=$(enableOutputLogs),
@@ -212,7 +215,7 @@ trait WithGraphResolver  {
     }
 
     require(embeddingsFiltered.exists(_.nonEmpty), s"Graph dimensions should be $embeddingsNDims: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
+      s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph.")
 
     // 2. Filter by labels and nChars
     val tagsFiltered = embeddingsFiltered.map {
@@ -225,7 +228,7 @@ trait WithGraphResolver  {
     }
 
     require(tagsFiltered.exists(_.nonEmpty), s"Graph tags size should be $tags: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
+      s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph.")
 
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {
@@ -238,7 +241,7 @@ trait WithGraphResolver  {
     }
 
     require(charsFiltered.exists(_.nonEmpty), s"Graph chars size should be $nChars: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-      s"Generate graph by python code in python/tensorflow/ner/create_models  before usage and use setGraphFolder Param to point to output.")
+      s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph")
 
     for (i <- files.indices) {
       if (charsFiltered(i).nonEmpty)

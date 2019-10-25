@@ -22,7 +22,7 @@ class ExtendedJavaWrapper(JavaWrapper):
 
     def new_java_array(self, pylist, java_class):
         """
-        ToDo: Inspired from spark 2.2.0. Delete if we upgrade
+        ToDo: Inspired from spark 2.0. Review if spark changes
         """
         java_array = self.sc._gateway.new_array(java_class, len(pylist))
         for i in range(len(pylist)):
@@ -31,6 +31,10 @@ class ExtendedJavaWrapper(JavaWrapper):
 
     def new_java_array_string(self, pylist):
         java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.String)
+        return java_array
+
+    def new_java_array_integer(self, pylist):
+        java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.Integer)
         return java_array
 
 
@@ -95,8 +99,8 @@ class _DownloadPredefinedPipeline(ExtendedJavaWrapper):
 
 
 class _LightPipeline(ExtendedJavaWrapper):
-    def __init__(self, pipelineModel):
-        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java())
+    def __init__(self, pipelineModel, parse_embeddings):
+        super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java(), parse_embeddings)
 
 
 # ==================

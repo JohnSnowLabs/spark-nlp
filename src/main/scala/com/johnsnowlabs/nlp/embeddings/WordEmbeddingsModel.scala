@@ -1,13 +1,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class WordEmbeddingsModel(override val uid: String)
@@ -89,18 +88,15 @@ class WordEmbeddingsModel(override val uid: String)
 
 }
 
-object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings with EmbeddingsCoverage
-
-trait PretrainedWordEmbeddings {
-  def pretrained(name: String = "glove_100d", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
-    ResourceDownloader.downloadModel(WordEmbeddingsModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedWordEmbeddings extends EmbeddingsReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
+  override protected val defaultModelName: String = "glove_100d"
 }
 
 trait EmbeddingsCoverage {
 
   case class CoverageResult(covered: Long, total: Long, percentage: Float)
 
-  def withCoverageColumn(dataset: DataFrame, embeddingsColumn: String, outputCol: String = "coverage"): DataFrame = {
+  def withCoverageColumn(dataset: DataFrame, embeddingsCol: String, outputCol: String = "coverage"): DataFrame = {
     val coverageFn = udf((annotatorProperties: Seq[Row]) => {
       val annotations = annotatorProperties.map(Annotation(_))
       val oov = annotations.map(x => if (x.metadata.getOrElse("isOOV", "false") == "false") 1 else 0)
@@ -109,12 +105,12 @@ trait EmbeddingsCoverage {
       val percentage = 1f * covered / total
       CoverageResult(covered, total, percentage)
     })
-    dataset.withColumn(outputCol, coverageFn(col(embeddingsColumn)))
+    dataset.withColumn(outputCol, coverageFn(col(embeddingsCol)))
   }
 
-  def overallCoverage(dataset: DataFrame, embeddingsColumn: String): CoverageResult = {
-    val words = dataset.select(embeddingsColumn).flatMap(row => {
-      val annotations = row.getAs[Seq[Row]](embeddingsColumn)
+  def overallCoverage(dataset: DataFrame, embeddingsCol: String): CoverageResult = {
+    val words = dataset.select(embeddingsCol).flatMap(row => {
+      val annotations = row.getAs[Seq[Row]](embeddingsCol)
       annotations.map(annotation => Tuple2(
         annotation.getAs[Map[String, String]]("metadata")("token"),
         if (annotation.getAs[Map[String, String]]("metadata").getOrElse("isOOV", "false") == "false") 1 else 0))
@@ -126,3 +122,6 @@ trait EmbeddingsCoverage {
     CoverageResult(covered, total, percentage)
   }
 }
+
+object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
+

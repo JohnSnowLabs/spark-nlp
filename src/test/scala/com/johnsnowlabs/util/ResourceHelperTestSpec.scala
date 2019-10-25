@@ -32,7 +32,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val stringRepresentation = iteratorRepresentation.map(line => line.mkString)
     val expectedStringRepresentation = expectedIteratorRepresentation.map(line => line.mkString)
 
-    assert(expectedStringRepresentation == stringRepresentation)
+    assert(expectedStringRepresentation.forall(stringRepresentation contains _))
 
   }
 
@@ -51,7 +51,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
     val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
       Map.empty[String, String])
-    val expectedMessage = "File wrong/path does not exist"
+    val expectedMessage = "file or folder: wrong/path/ not found"
 
     assertThrows[FileNotFoundException]{
       ResourceHelper.getFilesContentBuffer(externalResource)

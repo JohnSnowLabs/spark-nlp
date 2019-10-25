@@ -6,9 +6,10 @@ import os
 class SparkContextForTest:
     spark = SparkSession.builder \
         .master("local[4]") \
-        .config("spark.jars", 'lib/sparknlp.jar,lib/sparknlp-ocr.jar') \
+        .config("spark.jars", 'lib/sparknlp.jar') \
         .config("spark.driver.memory", "6500M") \
         .getOrCreate()
+    spark.sparkContext.setLogLevel("WARN")
     data = spark. \
         read \
         .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \

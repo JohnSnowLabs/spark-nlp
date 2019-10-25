@@ -2,8 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -283,10 +282,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 }
 
-trait PretrainedSymmetricDelete {
-  def pretrained(name: String = "spellcheck_sd", lang: String = "en",
-                 remoteLoc: String = ResourceDownloader.publicLoc): SymmetricDeleteModel =
-    ResourceDownloader.downloadModel(SymmetricDeleteModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with HasPretrained[SymmetricDeleteModel] {
+  override protected val defaultModelName: String = "spellcheck_sd"
 }
 
-object SymmetricDeleteModel extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with PretrainedSymmetricDelete
+object SymmetricDeleteModel extends ReadablePretrainedSymmetric

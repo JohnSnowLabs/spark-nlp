@@ -3,7 +3,7 @@ from pyspark.ml.util import JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
-from sparknlp.common import ParamsGettersSetters
+from sparknlp.common import ParamsGettersSetters, AnnotatorProperties
 from sparknlp.util import AnnotatorJavaMLReadable
 import sparknlp.internal as _internal
 
@@ -79,9 +79,9 @@ class Annotation:
 
 
 class LightPipeline:
-    def __init__(self, pipelineModel):
+    def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
-        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
+        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
     @staticmethod
     def _annotation_from_java(java_annotations):
@@ -217,10 +217,8 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(cleanupMode=value)
 
 
-class TokenAssembler(AnnotatorTransformer):
+class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
 
-    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
-    outputCol = Param(Params._dummy(), "outputCol", "output column name.", typeConverter=TypeConverters.toString)
     name = "TokenAssembler"
 
     @keyword_only
@@ -232,17 +230,9 @@ class TokenAssembler(AnnotatorTransformer):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
 
-    def setOutputCol(self, value):
-        return self._set(outputCol=value)
+class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
 
-
-class Doc2Chunk(AnnotatorTransformer):
-
-    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
-    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
     startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins", typeConverter=TypeConverters.toString)
     startColByTokenIndex = Param(Params._dummy(), "startColByTokenIndex", "whether start col is by whitespace tokens", typeConverter=TypeConverters.toBoolean)
@@ -263,12 +253,6 @@ class Doc2Chunk(AnnotatorTransformer):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
-
-    def setOutputCol(self, value):
-        return self._set(outputCol=value)
-
     def setChunkCol(self, value):
         return self._set(chunkCol=value)
 
@@ -288,10 +272,8 @@ class Doc2Chunk(AnnotatorTransformer):
         return self._set(lowerCase=value)
 
 
-class Chunk2Doc(AnnotatorTransformer):
+class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
-    inputCols = Param(Params._dummy(), "inputCols", "input token annotations", typeConverter=TypeConverters.toListString)
-    outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     name = "Chunk2Doc"
 
     @keyword_only
@@ -303,12 +285,6 @@ class Chunk2Doc(AnnotatorTransformer):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
-
-    def setOutputCol(self, value):
-        return self._set(outputCol=value)
-
 
 class Finisher(AnnotatorTransformer):
 
@@ -319,6 +295,8 @@ class Finisher(AnnotatorTransformer):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
+    parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
+
     name = "Finisher"
 
     @keyword_only
@@ -327,7 +305,8 @@ class Finisher(AnnotatorTransformer):
         self._setDefault(
             cleanAnnotations=True,
             includeMetadata=False,
-            outputAsArray=True
+            outputAsArray=True,
+            parseEmbeddingsVectors=False
         )
 
     @keyword_only
@@ -335,11 +314,17 @@ class Finisher(AnnotatorTransformer):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setInputCols(self, value):
-        return self._set(inputCols=value)
+    def setInputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
 
-    def setOutputCols(self, value):
-        return self._set(outputCols=value)
+    def setOutputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
 
     def setValueSplitSymbol(self, value):
         return self._set(valueSplitSymbol=value)
@@ -355,3 +340,6 @@ class Finisher(AnnotatorTransformer):
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
+
+    def setParseEmbeddingsVectors(self, value):
+        return self._set(parseEmbeddingsVectors=value)

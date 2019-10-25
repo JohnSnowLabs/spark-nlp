@@ -1,4 +1,101 @@
 ========
+2.3.0
+========
+---------------
+Overview
+---------------
+Thanks for your contributions and feedback on Slack. This amazing release comes with many new features in the embeddings scope,
+allowing pipeline builders to retrieve embeddings for specific bodies of texts in any form given, from sentences to chunks or n-grams.
+We also worked a lot on making sure Spark NLP on Java works as intended. Finally, we improved aws profiles compatibility for frameworks
+that utilize multiple credential profiles. Unfortunately, we have deprected Eval and OCR due to internal patents in some of the latest improvements
+John Snow Labs has contributed to.
+
+---------------
+New Features
+---------------
+* New SentenceEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings
+* New ChunkEmbeddings annotator utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs
+* New StopWordsCleaner integrates Spark ML StopWordsRemoval function into Spark NLP pipeline
+* New NGramGenerator annotator integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library
+
+---------------
+Enhancements
+---------------
+* Improved Java intercompatibility on Pretrained and LightPipeline APIs. Examples added.
+* Finisher and LightPipelines Parse Embeddings Vector flag allows for optional vector processing to save memory and improve performance
+* setInputCols in python can be passed as *args
+* new Param enableScore in SentimentDetector to switch output types between confidence score and results (Thanks @maxwellpaulm)
+* spark_nlp profile name by default in AWS config allows for multiple profile download compatible
+
+---------------
+Bugfixes
+---------------
+* Fixed POS training dataset creator to improve performance
+
+---------------
+Deprecations
+---------------
+* OCR Module dropped from open source support
+* Eval Module dropped from open source support
+
+========
+2.2.2
+========
+---------------
+Overview
+---------------
+Thank you again for all your feedback and questions in our Slack channel. Such feedback from users and contributors
+(thank you Stuart Lynn @sllynn) helped to find several python module bugs. We also fixed and improved OCR support
+towards extracting page coordinates and fixed NerDL evaluator from Python
+
+---------------
+Enhancements
+---------------
+* Added a create_models.py python script to generate Graphs for NerDL without the need of jupyter
+* Added a new annotator Token2Chunk to convert all tokens to chunk types (useful for extracting token coordinates from OCR)
+* Added OCR Page Dimensions
+* Python setInputCols now accepts *args no need to input list
+
+---------------
+Bugfixes
+---------------
+* Fixed python support of NerDL evaluation not taking all params appropriately
+* Fixed a bug in case sensitivity matching of embeddings format in python (Thanks @sllynn)
+* Fixed a bug in python DateMatcher with dateFormat param not working (Thanks @sllynn)
+* Fixed a bug in PositionFinder reporting duplicate coordinate elements
+
+----------------
+Developer API
+----------------
+* Renamed trainValidationProp to validationSplit in NerDLApproach
+
+----------------
+Documentation
+----------------
+* Added several missing annotator documentation in docs page
+
+========
+2.2.1
+========
+---------------
+Overview
+---------------
+This short release is to address a few uncovered issues in the previous 2.2.0 release. Thank you all for quick feedback.
+
+---------------
+Enhancements
+---------------
+* NerDLApproach new param includeValidationProp allows partitioning the training set and exclude a fraction
+* NerDLApproach trainValidationProp now randomly samples the data as opposed to head first
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in ResourceHelper causing folder resources to fail when a folder is empty (affects various annotators)
+* Fixed a bug in python embeddings format not parsed to upper case
+* Fixed a bug in python causing an incapability to load PipelineModels after loading embeddings
+
+========
 2.2.0
 ========
 ---------------

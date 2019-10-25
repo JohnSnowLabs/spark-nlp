@@ -129,7 +129,7 @@ class TensorflowNer
             graphFileName: String = "",
             test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
-            trainValidationProp: Float = 0.0f,
+            validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
             includeConfidence: Boolean = false,
             enableOutputLogs: Boolean = false,
@@ -139,19 +139,29 @@ class TensorflowNer
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
     outputLog(s"Name of the selected graph: $graphFileName", uuid, enableOutputLogs)
 
-    log(s"Training started, trainExamples: ${trainDataset.length}, " +
-      s"labels: ${encoder.tags.length} " +
-      s"chars: ${encoder.chars.length}, ", Verbose.TrainingStat)
-
-    outputLog(s"Training started, trainExamples: ${trainDataset.length}, " +
-      s"labels: ${encoder.tags.length} " +
-      s"chars: ${encoder.chars.length}, ", uuid, enableOutputLogs)
-
     // Initialize
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    val trainDatasetSeq = trainDataset.toSeq
+    val sample: Int = (trainDataset.length*validationSplit).toInt
+
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
+      val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
+      (trainingSet, trainingSample.toArray)
+    } else {
+      // No validationSplit has been set so just use the entire training Dataset
+      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+      (trainDataset.toSeq, emptyValid)
+    }
+
+    log(s"Training started, trainExamples: ${trainDatasetSeq.length}, " +
+      s"labels: ${encoder.tags.length} " +
+      s"chars: ${encoder.chars.length}, ", Verbose.TrainingStat)
+
+    outputLog(s"Training started, trainExamples: ${trainDatasetSeq.length}, " +
+      s"labels: ${encoder.tags.length} " +
+      s"chars: ${encoder.chars.length}, ", uuid, enableOutputLogs)
+
     // Train
     for (epoch <- startEpoch until endEpoch) {
 
@@ -197,14 +207,10 @@ class TensorflowNer
       log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
       outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
 
-      if (trainValidationProp > 0.0) {
-        val sample: Int = (trainDataset.length*trainValidationProp).toInt
-
-        val trainDatasetSample = trainDataset.take(sample)
-
-        log(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", Verbose.Epochs)
-        outputLog(s"Quality on training dataset (${trainValidationProp*100}%), trainExamples = $sample", uuid, enableOutputLogs)
-        measure(trainDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
+      if (validationSplit > 0.0) {
+        log(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", Verbose.Epochs)
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", uuid, enableOutputLogs)
+        measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
       }
 
       if (test.nonEmpty) {
