@@ -27,6 +27,12 @@ Bugfixes
 ---------------
 * Fixed POS training dataset creator to improve performance
 
+---------------
+Deprecations
+---------------
+* OCR Module dropped from open source support
+* Eval Module dropped from open source support
+
 ========
 2.2.2
 ========
