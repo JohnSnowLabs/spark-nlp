@@ -86,6 +86,10 @@ developers in ThisBuild:= List(
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy"))
 )
 
+scalacOptions in (Compile, doc) ++= Seq(
+  "-doc-title",
+  "Spark NLP " + version.value + " ScalaDoc"
+)
 target in Compile in doc := baseDirectory.value / "docs/api"
 
 lazy val analyticsDependencies = Seq(
