@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>annotators - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="annotators - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="annotators com.johnsnowlabs.nlp.annotators" />
+          <title>annotators - Spark NLP ScalaDoc 2.3.0 - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="annotators - Spark NLP ScalaDoc 2.3.0 - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="annotators Spark NLP ScalaDoc 2.3.0 com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -168,6 +168,31 @@
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.NGramGenerator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="NGramGeneratorextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.NGramGenerator]"></a>
+      <a id="NGramGenerator:NGramGenerator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="NGramGenerator.html"><span class="name">NGramGenerator</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="NGramGenerator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NGramGenerator">NGramGenerator</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@NGramGeneratorextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.NGramGenerator]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A feature transformer that converts the input array of strings (annotatorType TOKEN) into an
+array of n-grams (annotatorType CHUNK).</p><div class="fullcomment"><div class="comment cmt"><p>A feature transformer that converts the input array of strings (annotatorType TOKEN) into an
+array of n-grams (annotatorType CHUNK).
+Null values in the input array are ignored.
+It returns an array of n-grams where each n-gram is represented by a space-separated string of
+words.</p><p>When the input is empty, an empty array is returned.
+When the input array length is less than n (number of elements per n-gram), no n-grams are
+returned.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NormalizerextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.NormalizerModel]"></a>
       <a id="Normalizer:Normalizer"></a>
@@ -202,36 +227,36 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="PretrainedLemmatizerextendsAnyRef"></a>
-      <a id="PretrainedLemmatizer:PretrainedLemmatizer"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ReadablePretrainedTokenizer" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedTokenizerextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.TokenizerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.TokenizerModel]"></a>
+      <a id="ReadablePretrainedTokenizer:ReadablePretrainedTokenizer"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="PretrainedLemmatizer.html"><span class="name">PretrainedLemmatizer</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="ReadablePretrainedTokenizer.html"><span class="name">ReadablePretrainedTokenizer</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@PretrainedLemmatizerextendsAnyRef" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@ReadablePretrainedTokenizerextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.TokenizerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.TokenizerModel]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedTokenizer" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="PretrainedTokenizerextendsAnyRef"></a>
-      <a id="PretrainedTokenizer:PretrainedTokenizer"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ReadableWithPretrained" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadableWithPretrainedextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.LemmatizerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.LemmatizerModel]"></a>
+      <a id="ReadableWithPretrained:ReadableWithPretrained"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="PretrainedTokenizer.html"><span class="name">PretrainedTokenizer</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="ReadableWithPretrained.html"><span class="name">ReadableWithPretrained</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@PretrainedTokenizerextendsAnyRef" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@ReadableWithPretrainedextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.LemmatizerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.LemmatizerModel]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -525,10 +550,27 @@ Rules are provided from external source file</p>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="LemmatizerModel$.html"><span class="name">LemmatizerModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel</a>] with <a href="PretrainedLemmatizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.PretrainedLemmatizer">PretrainedLemmatizer</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="LemmatizerModel$.html"><span class="name">LemmatizerModel</span></a><span class="result"> extends <a href="ReadablePretrainedTokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ReadablePretrainedTokenizer">ReadablePretrainedTokenizer</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@LemmatizerModel" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.NGramGenerator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NGramGenerator"></a>
+      <a id="NGramGenerator:NGramGenerator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NGramGenerator$.html"><span class="name">NGramGenerator</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="NGramGenerator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NGramGenerator">NGramGenerator</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@NGramGenerator" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -712,7 +754,7 @@ Rules are provided from external source file</p>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="TokenizerModel$.html"><span class="name">TokenizerModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a>] with <a href="PretrainedTokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.PretrainedTokenizer">PretrainedTokenizer</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="TokenizerModel$.html"><span class="name">TokenizerModel</span></a><span class="result"> extends <a href="ReadablePretrainedTokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ReadablePretrainedTokenizer">ReadablePretrainedTokenizer</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@TokenizerModel" title="Permalink" target="_top">
@@ -750,23 +792,6 @@ Rules are provided from external source file</p>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@ner" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ocr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ocr"></a>
-      <a id="ocr:ocr"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a href="ocr/package.html"><span class="name">ocr</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@ocr" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
