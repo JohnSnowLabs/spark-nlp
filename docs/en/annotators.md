@@ -61,9 +61,11 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |Normalizer|Removes all dirty characters from text|Opensource|
 |Stemmer|Returns hard-stems out of words with the objective of retrieving the meaningful part of the word|Opensource|
 |Lemmatizer|Retrieves lemmas out of words with the objective of returning a base dictionary word|Opensource|
+|StopWordsCleaner|This annotator excludes from a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences|Opensource|
 |RegexMatcher|Uses a reference file to match a set of regular expressions and put them inside a provided key.|Opensource|
 |TextMatcher|Annotator to match entire phrases (by token) provided in a file against a Document|Opensource|
 |Chunker|Matches a pattern of part-of-speech tags in order to return meaningful phrases from document|Opensource|
+|NGramGenerator|integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library|Opensource|
 |DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
 |SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
 |DeepSentenceDetector|Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model|Opensource|
@@ -72,6 +74,8 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |SentimentDetector|Scores a sentence for a sentiment|Opensource|
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
+|SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
+|ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
 |SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
@@ -684,7 +688,7 @@ val bert = BertEmbeddings.pretrained()
 
 ### SentenceEmbeddings
 
-This annotator convert the results from `WordEmbeddings` or `BertEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
+This annotator converts the results from `WordEmbeddings` or `BertEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
 
 **Functions:**
 
@@ -725,6 +729,47 @@ val convertToVectorUDF = udf((matrix : Seq[Float]) => {
 // Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
 pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedding"))
 .withColumn("features", convertToVectorUDF($"sentence_embedding"))
+```
+
+### ChunkEmbeddings
+
+This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from `Chunker` or `NGramGenerator` outputs.
+
+**Functions:**
+
+- `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+
+Refer to the [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings) Scala docs for more
+
+```python
+chunk_embeddings = ChunkEmbeddings() \
+            .setInputCols(["chunk", "embeddings"]) \
+            .setOutputCol("chunk_embeddings") \
+            .setPoolingStrategy("AVERAGE")
+```
+
+```scala
+val chunkSentence = new ChunkEmbeddings()
+      .setInputCols(Array("chunk", "embeddings"))
+      .setOutputCol("chunk_embeddings")
+      .setPoolingStrategy("AVERAGE")
+```
+
+**TIP:**
+
+How to explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions:
+
+```scala
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// Let's create a UDF to take array of embeddings and output Vectors
+val convertToVectorUDF = udf((matrix : Seq[Float]) => {
+    Vectors.dense(matrix.toArray.map(_.toDouble))
+})
+
+// Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
+pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_exploded"))
+.withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
 ```
 
 ### NER CRF
