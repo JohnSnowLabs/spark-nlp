@@ -343,3 +343,44 @@ class Finisher(AnnotatorTransformer):
 
     def setParseEmbeddingsVectors(self, value):
         return self._set(parseEmbeddingsVectors=value)
+
+
+class EmbeddingsFinisher(AnnotatorTransformer):
+
+    inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(), "outputCols", "output EmbeddingsFinisher ouput cols", typeConverter=TypeConverters.toListString)
+    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove all the existing annotation columns", typeConverter=TypeConverters.toBoolean)
+    outputAsVector = Param(Params._dummy(), "outputAsVector", "if enabled it will output the embeddings as Vectors instead of arrays", typeConverter=TypeConverters.toBoolean)
+
+    name = "EmbeddingsFinisher"
+
+    @keyword_only
+    def __init__(self):
+        super(EmbeddingsFinisher, self).__init__(classname="com.johnsnowlabs.nlp.EmbeddingsFinisher")
+        self._setDefault(
+            cleanAnnotations=False,
+            outputAsVector=False
+        )
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
+
+    def setOutputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
+
+    def setCleanAnnotations(self, value):
+        return self._set(cleanAnnotations=value)
+
+    def setOutputAsVector(self, value):
+        return self._set(outputAsVector=value)

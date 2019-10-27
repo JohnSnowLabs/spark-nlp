@@ -21,7 +21,7 @@ class EmbeddingsFinisher(override val uid: String)
   protected val cleanAnnotations: BooleanParam =
     new BooleanParam(this, "cleanAnnotations", "whether to remove all the existing annotation columns")
   protected val outputAsVector: BooleanParam =
-    new BooleanParam(this, "outputAsVector", "if it is enabled it will output the embeddings as array of Vectors instead of array of arrays")
+    new BooleanParam(this, "outputAsVector", "if enabled it will output the embeddings as Vectors instead of arrays")
 
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
