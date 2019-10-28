@@ -40,12 +40,17 @@ public class GeneralAnnotationsTest {
 
         PipelineModel pipelineModel = pipeline.fit(data);
 
-        pipelineModel.transform(data).show();
+        Dataset<Row> transformed = pipelineModel.transform(data);
+        transformed.show();
 
         PretrainedPipeline pretrained = new PretrainedPipeline("explain_document_dl");
         pretrained.transform(data).show();
 
-        LemmatizerModel.pretrained();
+        LemmatizerModel lemmatizer = (LemmatizerModel) LemmatizerModel.pretrained("lemma_antbnc");
+        lemmatizer.setInputCols(new String[] {"token"});
+        lemmatizer.setOutputCol("lemma");
+
+        lemmatizer.transform(transformed).show();
 
         LightPipeline lightPipeline = new LightPipeline(pipelineModel, true);
 
