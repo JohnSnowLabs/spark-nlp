@@ -284,6 +284,11 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with HasPretrained[SymmetricDeleteModel] {
   override protected val defaultModelName: String = "spellcheck_sd"
+  /** Java compliant-overrides */
+  override def pretrained(): SymmetricDeleteModel = super.pretrained()
+  override def pretrained(name: String): SymmetricDeleteModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): SymmetricDeleteModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): SymmetricDeleteModel = super.pretrained(name, lang, remoteLoc)
 }
 
 object SymmetricDeleteModel extends ReadablePretrainedSymmetric

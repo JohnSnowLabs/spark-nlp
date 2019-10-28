@@ -114,6 +114,11 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
 trait ReadablePretrainedTokenizer extends ParamsAndFeaturesReadable[TokenizerModel] with HasPretrained[TokenizerModel] {
   override val defaultModelName = "token_rules"
+  /** Java compliant-overrides */
+  override def pretrained(): TokenizerModel = super.pretrained()
+  override def pretrained(name: String): TokenizerModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): TokenizerModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): TokenizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
 object TokenizerModel extends ReadablePretrainedTokenizer
