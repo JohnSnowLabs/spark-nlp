@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.{Params, StringArrayParam}
-import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
 
 trait HasInputAnnotationCols extends Params {

@@ -129,6 +129,11 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
 trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with HasPretrained[TypedDependencyParserModel] {
   override protected val defaultModelName: String = "dependency_typed_conllu"
+  /** Java compliant-overrides */
+  override def pretrained(): TypedDependencyParserModel = super.pretrained()
+  override def pretrained(name: String): TypedDependencyParserModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): TypedDependencyParserModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): TypedDependencyParserModel = super.pretrained(name, lang, remoteLoc)
 }
 
 object TypedDependencyParserModel extends ReadablePretrainedTypedDependency
