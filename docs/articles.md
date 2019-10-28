@@ -22,6 +22,18 @@ Browse through our collection of articles and blog posts to deepen your knowledg
 
 <div>{%- include extensions/slideshare.html id='zjf39rlmmdqJEp' -%}</div>
 
+### [Spark NLP 101: Document Assembler](https://medium.com/spark-nlp/spark-nlp-101-document-assembler-500018f5f6b5)
+
+By Veysel Kocaman | **Oct 14, 2019**
+
+### [Spark NLP: Installation on Mac and Linux (Part-II)](https://medium.com/spark-nlp/introduction-to-spark-nlp-installation-and-getting-started-part-ii-d009f7a177f3)
+
+By Veysel Kocaman | **Oct 08, 2019**
+
+### [Introduction to Spark NLP: Foundations and Basic Components (Part-I)](https://medium.com/spark-nlp/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59)
+
+By Veysel Kocaman | **Sep 29, 2019**
+
 ### [5 Reasons Why Spark NLP Is The Most Widely Used Library In Enterprises](https://www.analyticsindiamag.com/5-reasons-why-spark-nlp-is-the-most-widely-used-library-in-enterprises/)
 
 By Ambika Choudhury | **May 29, 2019**

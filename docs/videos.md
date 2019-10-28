@@ -16,6 +16,16 @@ header:
 modify_date: "2019-05-16"
 ---
 
+## John Snow Labs Channel
+
+<div>{%- include extensions/youtube.html id='fsS057SNFtg' -%}</div>
+
+<div>{%- include extensions/youtube.html id='RZYXTSqV-mQ' -%}</div>
+
+<div>{%- include extensions/youtube.html id='-ALqzSrstvo' -%}</div>
+
+<div>{%- include extensions/youtube.html id='h4rI8v6UjV0' -%}</div>
+
 ## YouTube
 
 <div>{%- include extensions/youtube.html id='ziUrLnJ_Y8A' -%}</div>
