@@ -153,12 +153,12 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     pielineDF.show()
     pielineDF.printSchema()
 
-    pielineDF.select(size(pielineDF("finished_embeddings")).as("sentence_embeddings_size")).show
-    pielineDF.select("finished_embeddings").show(2 ,false)
+    pielineDF.select(size(pielineDF("embeddings_vectors")).as("sentence_embeddings_size")).show
+    pielineDF.select("embeddings_vectors").show(2 ,false)
 
 
-    pielineDF.select(size(pielineDF("finished_sentence_embeddings")).as("sentence_embeddings_size")).show
-    pielineDF.select("finished_sentence_embeddings").show(2 ,false)
+    pielineDF.select(size(pielineDF("sentence_embeddings_vectors")).as("sentence_embeddings_size")).show
+    pielineDF.select("sentence_embeddings_vectors").show(2 ,false)
 
     pielineDF.select("features").show(2 ,false)
 
