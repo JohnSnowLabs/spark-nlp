@@ -239,7 +239,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 }
 
 trait ReadablePretrainedNorvig extends ParamsAndFeaturesReadable[NorvigSweetingModel] with HasPretrained[NorvigSweetingModel] {
-  override protected val defaultModelName: String = "spellcheck_norvig"
+  override val defaultModelName: String = "spellcheck_norvig"
   /** Java compliant-overrides */
   override def pretrained(): NorvigSweetingModel = super.pretrained()
   override def pretrained(name: String): NorvigSweetingModel = super.pretrained(name)

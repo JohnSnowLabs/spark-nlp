@@ -89,7 +89,7 @@ class WordEmbeddingsModel(override val uid: String)
 }
 
 trait ReadablePretrainedWordEmbeddings extends EmbeddingsReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
-  override protected val defaultModelName: String = "glove_100d"
+  override val defaultModelName: String = "glove_100d"
   /** Java compliant-overrides */
   override def pretrained(): WordEmbeddingsModel = super.pretrained()
   override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)
