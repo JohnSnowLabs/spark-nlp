@@ -9,11 +9,11 @@ trait HasPretrained[M <: PipelineStage] {
   /** Only MLReader types can use this interface */
   this: { def read: MLReader[M] } =>
 
-  protected val defaultModelName: String
+  val defaultModelName: String
 
-  protected val defaultLang: String = "en"
+  val defaultLang: String = "en"
 
-  protected val defaultLoc: String = ResourceDownloader.publicLoc
+  val defaultLoc: String = ResourceDownloader.publicLoc
 
   implicit private val companion = this.asInstanceOf[DefaultParamsReadable[M]]
 
