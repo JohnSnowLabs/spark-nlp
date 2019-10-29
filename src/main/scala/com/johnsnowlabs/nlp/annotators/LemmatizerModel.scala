@@ -35,8 +35,14 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
 
 }
 
-trait ReadableWithPretrained extends ParamsAndFeaturesReadable[LemmatizerModel] with HasPretrained[LemmatizerModel] {
+trait ReadablePretrainedLemmatizer extends ParamsAndFeaturesReadable[LemmatizerModel] with HasPretrained[LemmatizerModel] {
   override val defaultModelName = "lemma_antbnc"
+
+  /** Java compliant-overrides */
+  override def pretrained(): LemmatizerModel = super.pretrained()
+  override def pretrained(name: String): LemmatizerModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): LemmatizerModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LemmatizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
-object LemmatizerModel extends ReadablePretrainedTokenizer
+object LemmatizerModel extends ReadablePretrainedLemmatizer

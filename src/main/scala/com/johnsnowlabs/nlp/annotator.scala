@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.ReadablePretrainedTokenizer
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedTokenizer, ReadablePretrainedLemmatizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsReadable, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings, EmbeddingsCoverage, ReadBertTensorflowModel}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -52,7 +52,7 @@ package object annotator {
   type Lemmatizer = com.johnsnowlabs.nlp.annotators.Lemmatizer
   object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
   type LemmatizerModel = com.johnsnowlabs.nlp.annotators.LemmatizerModel
-  object LemmatizerModel extends ReadablePretrainedTokenizer
+  object LemmatizerModel extends ReadablePretrainedLemmatizer
 
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
   object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]

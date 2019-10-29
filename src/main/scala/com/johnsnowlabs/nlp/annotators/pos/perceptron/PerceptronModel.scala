@@ -68,7 +68,12 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 }
 
 trait ReadablePretrainedPerceptron extends ParamsAndFeaturesReadable[PerceptronModel] with HasPretrained[PerceptronModel] {
-  override protected val defaultModelName: String = "pos_anc"
+  override val defaultModelName: String = "pos_anc"
+  /** Java compliant-overrides */
+  override def pretrained(): PerceptronModel = super.pretrained()
+  override def pretrained(name: String): PerceptronModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): PerceptronModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): PerceptronModel = super.pretrained(name, lang, remoteLoc)
 }
 
 object PerceptronModel extends ReadablePretrainedPerceptron

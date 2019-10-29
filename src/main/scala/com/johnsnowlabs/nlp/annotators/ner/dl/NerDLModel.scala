@@ -137,6 +137,10 @@ trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with
     else name
     ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
   }
+  /** Java compliant-overrides */
+  override def pretrained(): NerDLModel = pretrained(defaultModelName, defaultLang, defaultLoc)
+  override def pretrained(name: String): NerDLModel = pretrained(name, defaultLang, defaultLoc)
+  override def pretrained(name: String, lang: String): NerDLModel = pretrained(name, lang, defaultLoc)
 }
 
 
