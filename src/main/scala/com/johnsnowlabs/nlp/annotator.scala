@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, EmbeddingsReadable, ReadBertTensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {

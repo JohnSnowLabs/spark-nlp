@@ -94,6 +94,11 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
 trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] with HasPretrained[NerCrfModel] {
   override protected val defaultModelName: String = "ner_crf"
+  /** Java compliant-overrides */
+  override def pretrained(): NerCrfModel = super.pretrained()
+  override def pretrained(name: String): NerCrfModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): NerCrfModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): NerCrfModel = super.pretrained(name, lang, remoteLoc)
 }
 
 object NerCrfModel extends ReadablePretrainedNerCrf
