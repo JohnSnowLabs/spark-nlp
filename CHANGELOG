@@ -1,4 +1,30 @@
 ========
+2.3.1
+========
+---------------
+Overview
+---------------
+This quick release addresses a bug in Lemmatizer loading/pretrained function causing it not to work in 2.3.0.
+We took the chance to include a feature which did not make it for base 2.3.0 and slightly changed protected variables for
+better Java API, also including a pretrained compatible function with Java. Thanks for the quick issue feedback again!
+
+---------------
+New Features
+---------------
+* New EmbeddingsFinisher specializes in dealing with embedding annotators output. Traditional finisher still behaves the same as 2.3.0
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in previous release causing LemmatizerModel not to be loaded or pretrained load
+* Fixed pretrained() function to return proper type in Java
+
+---------------
+Developer API
+---------------
+* defaultModelName, defaultLang and defaultLoc static pretrained properties are now public
+
+========
 2.3.0
 ========
 ---------------
