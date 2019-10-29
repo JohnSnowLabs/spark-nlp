@@ -46,7 +46,7 @@ public class GeneralAnnotationsTest {
         PretrainedPipeline pretrained = new PretrainedPipeline("explain_document_dl");
         pretrained.transform(data).show();
 
-        LemmatizerModel lemmatizer = (LemmatizerModel) LemmatizerModel.pretrained("lemma_antbnc");
+        LemmatizerModel lemmatizer = LemmatizerModel.pretrained("lemma_antbnc");
         lemmatizer.setInputCols(new String[] {"token"});
         lemmatizer.setOutputCol("lemma");
 
