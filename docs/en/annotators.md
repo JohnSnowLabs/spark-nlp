@@ -75,7 +75,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
-|ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs|Opensource|
+|ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
 |SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
@@ -733,7 +733,7 @@ pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedd
 
 ### ChunkEmbeddings
 
-This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from `Chunker` or `NGramGenerator` outputs.
+This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from either `Chunker`, `NGramGenerator`, or `NerConverter` outputs.
 
 **Functions:**
 
