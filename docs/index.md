@@ -9,13 +9,13 @@ article_header:
   actions:
     - text: Getting Started
       type: error
-      url: /docs/en/quickstart
-    - text: '<i class="fab fa-github"></i> GitHub'
-      type: outline-theme-dark
-      url: https://github.com/johnsnowlabs/spark-nlp
+      url: /docs/en/quickstart    
     - text: '<i class="fab fa-slack-hash"></i> Slack' 
       type: outline-theme-dark
       url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I
+    - text: '<iframe src="https://ghbtns.com/github-btn.html?user=johnsnowlabs&repo=spark-nlp&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>'
+      type: dark
+      url: https://github.com/johnsnowlabs/spark-nlp  
   height: 50vh
   theme: dark
   background_color: "#0296D8"
