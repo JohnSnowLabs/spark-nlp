@@ -8,7 +8,7 @@ from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
-    from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler
+    from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler
 else:
     import com.johnsnowlabs.nlp
 
