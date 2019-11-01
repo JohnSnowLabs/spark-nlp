@@ -102,7 +102,6 @@ object ClusterWordEmbeddings {
       EmbeddingsHelper.getClusterFilename(embeddingsRef)
     }
 
-    val destinationScheme = new Path(clusterFileName).getFileSystem(spark.hadoopConfiguration).getScheme
     val fileSystem = FileSystem.get(spark.hadoopConfiguration)
 
     val clusterTmpLocation = {
@@ -115,13 +114,9 @@ object ClusterWordEmbeddings {
     // 1 and 2.  Copy to local and Index Word Embeddings
     indexEmbeddings(sourceEmbeddingsPath, tmpLocalDestination.toString, format, spark)
 
-    if (destinationScheme == "file") {
-      new File(tmpLocalDestination.toString).renameTo(new File(EmbeddingsHelper.getLocalEmbeddingsPath(clusterFileName)))
-    } else {
       // 2. Copy WordEmbeddings to cluster
-      copyIndexToCluster(tmpLocalDestination.toString, clusterFilePath, spark)
-      FileHelper.delete(tmpLocalDestination.toString)
-    }
+    copyIndexToCluster(tmpLocalDestination.toString, clusterFilePath, spark)
+    FileHelper.delete(tmpLocalDestination.toString)
 
     // 3. Create Spark Embeddings
     new ClusterWordEmbeddings(clusterFileName, dim, caseSensitive)
