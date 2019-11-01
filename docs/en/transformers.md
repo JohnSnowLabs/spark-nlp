@@ -176,3 +176,33 @@ val finisher = new Finisher()
     .setInputCols("token")
     .setIncludeMetadata(true) // set to False to remove metadata
 ```
+
+### EmbeddingsFinisher
+
+This transformer is designed to deal with embedding annotators: `WordEmbeddings`, `BertEmbeddings`, `SentenceEmbeddingd`, and `ChunkEmbeddings`. By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or Vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require `featureCol`.
+
+**Settable parameters are:**
+
+- setInputCols()
+- setOutputCols()
+- setCleanAnnotations(True) -> Whether to remove and cleanup the rest of the annotators (columns)
+- setOutputAsVector(False) -> if enabled, it will output the embeddings as Vectors instead of arrays
+
+**Example:**
+
+Refer to the [EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.EmbeddingsFinisher) Scala docs for more details on the API.
+
+```python
+embeddings_finisher = EmbeddingsFinisher() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCols("sentence_embeddings_vectors") \
+            .setOutputAsVector(True)
+```
+
+```scala
+val embeddingsFinisher = new EmbeddingsFinisher()
+      .setInputCols("sentence_embeddings", "embeddings")
+      .setOutputCols("finished_sentence_embeddings", "finished_embeddings")
+      .setOutputAsVector(true)
+      .setCleanAnnotations(false)
+```
