@@ -3,7 +3,7 @@ layout: article
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2019-10-23"
+modify_date: "2019-11-01"
 ---
 
 ## Transformers Guideline
@@ -23,15 +23,15 @@ Array\[String\]
 - setIdCol() -> OPTIONAL: Sring type column with id information
 - setMetadataCol() -> OPTIONAL: Map type column with metadata
 information
-- setCleanupMode(disabled) -> Cleaning up options, possible values: 
-  - disabled: Source kept as original. 
+- setCleanupMode(disabled) -> Cleaning up options, possible values:
+  - disabled: Source kept as original.
   - inplace: removes new lines and tabs.
   - inplace_full: removes new lines and tabs but also those which were
   converted to strings (i.e. \\n)
   - shrink: removes new lines and tabs, plus merging multiple spaces
   and blank lines to a single space.
   - shrink_full: removews new lines and tabs, including stringified
-  values, plus shrinking spaces and blank lines. 
+  values, plus shrinking spaces and blank lines.
 
 **Example:**
 
