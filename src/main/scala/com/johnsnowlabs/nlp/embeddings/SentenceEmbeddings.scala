@@ -32,14 +32,16 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
 
   private def calculateSentenceEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
-    matrix(0).indices.foreach {
-      j =>
-        matrix.indices.foreach {
-          i =>
-            res(j) += matrix(i)(j)
-        }
-        if($(poolingStrategy) == "AVERAGE")
-          res(j) /= matrix.length
+    if(matrix.length > 0){
+      matrix(0).indices.foreach {
+        j =>
+          matrix.indices.foreach {
+            i =>
+              res(j) += matrix(i)(j)
+          }
+          if($(poolingStrategy) == "AVERAGE")
+            res(j) /= matrix.length
+      }
     }
     res.toArray.map(_.toFloat)
   }
@@ -56,13 +58,14 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
     sentences.zipWithIndex.map { case (sentence, idx) =>
-      val sentenceEmbeddings = embeddingsSentences.map {
-        case (tokenEmbedding) =>
-          val allEmbeddings = tokenEmbedding.tokens.map { token =>
-            token.embeddings
-          }
-          calculateSentenceEmbeddings(allEmbeddings)
-      }
+
+      val sentenceEmbeddings = embeddingsSentences.flatMap {
+          case (tokenEmbedding) =>
+            val allEmbeddings = tokenEmbedding.tokens.map { token =>
+              token.embeddings
+            }
+            calculateSentenceEmbeddings(allEmbeddings)
+        }.toArray
 
       Annotation(
         annotatorType = outputAnnotatorType,
@@ -70,11 +73,10 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
         end = sentence.end,
         result = sentence.content,
         metadata = Map.empty[String, String],
-        embeddings = sentenceEmbeddings(idx)
+        embeddings = sentenceEmbeddings
       )
     }
   }
-
 }
 
 object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
