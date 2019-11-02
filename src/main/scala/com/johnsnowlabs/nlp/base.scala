@@ -19,6 +19,9 @@ object base {
   type Finisher = com.johnsnowlabs.nlp.Finisher
   object Finisher extends DefaultParamsReadable[Finisher]
 
+  type EmbeddingsFinisher = com.johnsnowlabs.nlp.EmbeddingsFinisher
+  object EmbeddingsFinisher extends DefaultParamsReadable[EmbeddingsFinisher]
+
   type RecursivePipeline = com.johnsnowlabs.nlp.RecursivePipeline
 
   type LightPipeline = com.johnsnowlabs.nlp.LightPipeline
