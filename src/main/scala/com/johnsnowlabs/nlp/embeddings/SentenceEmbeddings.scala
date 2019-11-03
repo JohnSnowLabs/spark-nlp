@@ -41,7 +41,7 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
         if($(poolingStrategy) == "AVERAGE")
           res(j) /= matrix.length
     }
-    res.toArray.map(_.toFloat)
+    res
   }
 
   /**
