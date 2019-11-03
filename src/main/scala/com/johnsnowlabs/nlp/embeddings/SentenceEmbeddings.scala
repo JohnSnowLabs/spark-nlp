@@ -32,16 +32,14 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
 
   private def calculateSentenceEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
-    if(matrix.length > 0){
-      matrix(0).indices.foreach {
-        j =>
-          matrix.indices.foreach {
-            i =>
-              res(j) += matrix(i)(j)
-          }
-          if($(poolingStrategy) == "AVERAGE")
-            res(j) /= matrix.length
-      }
+    matrix(0).indices.foreach {
+      j =>
+        matrix.indices.foreach {
+          i =>
+            res(j) += matrix(i)(j)
+        }
+        if($(poolingStrategy) == "AVERAGE")
+          res(j) /= matrix.length
     }
     res.toArray.map(_.toFloat)
   }
@@ -60,12 +58,12 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
     sentences.zipWithIndex.map { case (sentence, idx) =>
 
       val sentenceEmbeddings = embeddingsSentences.flatMap {
-          case (tokenEmbedding) =>
-            val allEmbeddings = tokenEmbedding.tokens.map { token =>
-              token.embeddings
-            }
-            calculateSentenceEmbeddings(allEmbeddings)
-        }.toArray
+        case (tokenEmbedding) =>
+          val allEmbeddings = tokenEmbedding.tokens.map { token =>
+            token.embeddings
+          }
+          calculateSentenceEmbeddings(allEmbeddings)
+      }.toArray
 
       Annotation(
         annotatorType = outputAnnotatorType,
