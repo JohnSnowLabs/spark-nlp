@@ -60,11 +60,11 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("sentence_embeddings_size")).show
-    pipelineDF.select("finished_embeddings").show(2 ,false)
+    pipelineDF.select("finished_embeddings").show(2)
 
 
     pipelineDF.select(size(pipelineDF("finished_sentence_embeddings")).as("sentence_embeddings_size")).show
-    pipelineDF.select("finished_sentence_embeddings").show(2 ,false)
+    pipelineDF.select("finished_sentence_embeddings").show(2)
 
     val explodedVectors = pipelineDF.select($"sentence", explode($"finished_sentence_embeddings").as("features"))
 
@@ -90,7 +90,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     println("Cluster Centers: ")
     model.clusterCenters.foreach(println)
 
-    predictions.select("sentence.result", "prediction").show(false)
+    predictions.select("sentence.result", "prediction").show()
   }
 
   "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" in {
@@ -154,15 +154,15 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     pielineDF.printSchema()
 
     pielineDF.select(size(pielineDF("embeddings_vectors")).as("sentence_embeddings_size")).show
-    pielineDF.select("embeddings_vectors").show(2 ,false)
+    pielineDF.select("embeddings_vectors").show(2)
 
 
     pielineDF.select(size(pielineDF("sentence_embeddings_vectors")).as("sentence_embeddings_size")).show
-    pielineDF.select("sentence_embeddings_vectors").show(2 ,false)
+    pielineDF.select("sentence_embeddings_vectors").show(2)
 
-    pielineDF.select("features").show(2 ,false)
+    pielineDF.select("features").show(2)
 
-    pielineDF.select("normFeatures").show(2 ,false)
+    pielineDF.select("normFeatures").show(2)
 
   }
 

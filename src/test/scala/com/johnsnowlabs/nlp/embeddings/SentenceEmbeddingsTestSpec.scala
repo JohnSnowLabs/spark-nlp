@@ -27,7 +27,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       .setOutputCol("token")
 
     val embeddings = WordEmbeddingsModel.pretrained()
-      .setInputCols("document", "cleanTokens")
+      .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
 
@@ -53,15 +53,15 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.printSchema()
-    pipelineDF.select("embeddings.metadata").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.result").show(2 ,truncate = 500)
+    pipelineDF.select("embeddings.metadata").show(2)
+    pipelineDF.select("embeddings.embeddings").show(2)
+    pipelineDF.select("embeddings.result").show(2)
 
-    pipelineDF.select("sentence_embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("sentence_embeddings.embeddings").show(1 ,false)
+    pipelineDF.select("sentence_embeddings").show(2)
+    pipelineDF.select("sentence_embeddings.embeddings").show(1)
     pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
 
-    pipelineDF.select("finished_sentence_embeddings").show(1 ,false)
+    pipelineDF.select("finished_sentence_embeddings").show(1)
     pipelineDF.select(size(pipelineDF("finished_sentence_embeddings")).as("sentence_embeddings_size")).show
 
   }
@@ -108,15 +108,15 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.printSchema()
-    pipelineDF.select("embeddings.metadata").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.result").show(2 ,truncate = 500)
+    pipelineDF.select("embeddings.metadata").show(2)
+    pipelineDF.select("embeddings.embeddings").show(2)
+    pipelineDF.select("embeddings.result").show(2)
 
-    pipelineDF.select("sentence_embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("sentence_embeddings.embeddings").show(1 ,false)
+    pipelineDF.select("sentence_embeddings").show(2)
+    pipelineDF.select("sentence_embeddings.embeddings").show(1)
     pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
 
-    pipelineDF.select("finished_embeddings").show(1 ,false)
+    pipelineDF.select("finished_embeddings").show(1)
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("sentence_embeddings_size")).show
 
   }
@@ -170,18 +170,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.printSchema()
-    pipelineDF.select("embeddings.metadata").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("embeddings.result").show(2 ,truncate = 500)
-
-    pipelineDF.select("sentence_embeddings").show(2 ,truncate = 500)
-    pipelineDF.select("sentence_embeddings.embeddings").show(1 ,false)
-    pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
-
-    pipelineDF.select("finished_sentence_embeddings").show(1 ,false)
-    pipelineDF.select(size(pipelineDF("finished_sentence_embeddings")).as("sentence_embeddings_size")).show
-
+    pipelineDF.show(2)
   }
 
 }
