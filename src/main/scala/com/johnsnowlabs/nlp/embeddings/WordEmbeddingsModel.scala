@@ -76,8 +76,11 @@ class WordEmbeddingsModel(override val uid: String)
     val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
       val tokens = s.indexedTokens.map {token =>
 
-        val vectorOption = if(this.glossary == None) this.getEmbeddings.getEmbeddingsVector(token.token) else
+        val vectorOption = if(this.glossary == null) {
+          this.getEmbeddings.getEmbeddingsVector(token.token)
+        } else {
           this.getEmbeddings.getEmbeddingsVectorWithGlossary(token.token, this.glossary)
+        }
 
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
       }
@@ -88,7 +91,7 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   def getVector(token: String) = {
-    if(this.glossary == None) {
+    if(this.glossary == null) {
       this.getEmbeddings.getEmbeddingsVector(token)
     } else {
       this.getEmbeddings.getEmbeddingsVectorWithGlossary(token, this.glossary)

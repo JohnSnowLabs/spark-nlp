@@ -39,7 +39,7 @@ case class WordEmbeddingsRetriever(dbFile: String,
       Some(WordEmbeddingsIndexer.fromBytes(resultExact))
     else if (resultUpper != null)
       Some(WordEmbeddingsIndexer.fromBytes(resultUpper))
-    else if (glossary != None)
+    else if (glossary != null)
       Some(glossary.get(word))
     else
       None
@@ -48,7 +48,7 @@ case class WordEmbeddingsRetriever(dbFile: String,
 
   def getEmbeddingsVector(word: String): Option[Array[Float]] = {
     synchronized {
-      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word, None))
+      lru.getOrElseUpdate(word, getEmbeddingsFromDb(word, null))
     }
   }
 

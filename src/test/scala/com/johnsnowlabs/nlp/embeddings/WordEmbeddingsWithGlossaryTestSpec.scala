@@ -35,14 +35,16 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
    import spark.implicits._
 
    val srcDF = Seq(
-     "John Smith",
-     "Ionnidis Papaloudus")
+     "Ionnidis Papaloudus is a doctor.\n\nHe works in Alabama.",
+      "John Smith is a name.")
      .toDF("text")
 
+
    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-   val tokenizer = new Tokenizer().setInputCols(Array("document")).setOutputCol("token")
+   val sentenceDetector = new SentenceDetector().setInputCols(Array("document")).setOutputCol("sentence")
+   val tokenizer = new Tokenizer().setInputCols(Array("sentence")).setOutputCol("token")
+   /*
    // first pipeline without glossary so "Ionnidis Papaloudus will not be in the embeddings.
-   //val glove_100d_embeddings = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
    val glove_100d_embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
    glove_100d_embeddings.setInputCols(Array("document", "token")).setOutputCol("embeddings")
 
@@ -55,18 +57,20 @@ class WordEmbeddingsWithGlossaryTestSpec extends FlatSpec {
 
    val myDF: DataFrame = pipeline.fit(srcDF).transform(srcDF)
    myDF.show(false)
+  */
 
-   //val glove_100d_embeddings_with_glossary = WordEmbeddingsModel.load("/sandbox/jsl/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
-   val glove_100d_embeddings_with_glossary = WordEmbeddingsModel.pretrained("glove_100d", "en")
-   glove_100d_embeddings_with_glossary.setInputCols(Array("document", "token")).setOutputCol("embeddings")
+   //val glove_100d_embeddings_with_glossary = WordEmbeddingsModel.pretrained("glove_100d", "en")
+   val glove_100d_embeddings_with_glossary = WordEmbeddingsModel.load("/home/vagrant/cache_pretrained/glove_100d_en_2.0.2_2.4_1556534397055")
+   glove_100d_embeddings_with_glossary.setInputCols(Array("sentence", "token")).setOutputCol("embeddings")
    // Now add glossary to glove_100d
    val myVector = Array.fill(100)("1".toFloat) // lets imagine an arbitrary Vector full of 1.0
    val myGlossary: Option[Map[String, Array[Float]]] = Some(Map("Ionnidis" -> myVector, "Papaloudus"-> myVector))
-   glove_100d_embeddings_with_glossary.setGlossary(myGlossary)
+   //glove_100d_embeddings_with_glossary.setGlossary(myGlossary)
 
    val pipeline_with_glossary = new RecursivePipeline()
      .setStages(Array(
        documentAssembler,
+       sentenceDetector,
        tokenizer,
        glove_100d_embeddings_with_glossary
      ))
