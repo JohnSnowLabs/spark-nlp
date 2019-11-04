@@ -2,8 +2,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -68,9 +67,13 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   }
 }
 
-trait PretrainedPerceptronModel {
-  def pretrained(name: String = "pos_anc", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): PerceptronModel =
-    ResourceDownloader.downloadModel(PerceptronModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedPerceptron extends ParamsAndFeaturesReadable[PerceptronModel] with HasPretrained[PerceptronModel] {
+  override val defaultModelName: String = "pos_anc"
+  /** Java compliant-overrides */
+  override def pretrained(): PerceptronModel = super.pretrained()
+  override def pretrained(name: String): PerceptronModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): PerceptronModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): PerceptronModel = super.pretrained(name, lang, remoteLoc)
 }
 
-object PerceptronModel extends ParamsAndFeaturesReadable[PerceptronModel] with PretrainedPerceptronModel
+object PerceptronModel extends ReadablePretrainedPerceptron

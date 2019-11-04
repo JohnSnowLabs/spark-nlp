@@ -79,9 +79,9 @@ class Annotation:
 
 
 class LightPipeline:
-    def __init__(self, pipelineModel):
+    def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
-        self._lightPipeline = _internal._LightPipeline(pipelineModel).apply()
+        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
     @staticmethod
     def _annotation_from_java(java_annotations):
@@ -295,6 +295,7 @@ class Finisher(AnnotatorTransformer):
     cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
+    parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
 
     name = "Finisher"
 
@@ -304,7 +305,8 @@ class Finisher(AnnotatorTransformer):
         self._setDefault(
             cleanAnnotations=True,
             includeMetadata=False,
-            outputAsArray=True
+            outputAsArray=True,
+            parseEmbeddingsVectors=False
         )
 
     @keyword_only
@@ -338,3 +340,47 @@ class Finisher(AnnotatorTransformer):
 
     def setOutputAsArray(self, value):
         return self._set(outputAsArray=value)
+
+    def setParseEmbeddingsVectors(self, value):
+        return self._set(parseEmbeddingsVectors=value)
+
+
+class EmbeddingsFinisher(AnnotatorTransformer):
+
+    inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(), "outputCols", "output EmbeddingsFinisher ouput cols", typeConverter=TypeConverters.toListString)
+    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove all the existing annotation columns", typeConverter=TypeConverters.toBoolean)
+    outputAsVector = Param(Params._dummy(), "outputAsVector", "if enabled it will output the embeddings as Vectors instead of arrays", typeConverter=TypeConverters.toBoolean)
+
+    name = "EmbeddingsFinisher"
+
+    @keyword_only
+    def __init__(self):
+        super(EmbeddingsFinisher, self).__init__(classname="com.johnsnowlabs.nlp.EmbeddingsFinisher")
+        self._setDefault(
+            cleanAnnotations=False,
+            outputAsVector=False
+        )
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
+
+    def setOutputCols(self, *value):
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
+
+    def setCleanAnnotations(self, value):
+        return self._set(cleanAnnotations=value)
+
+    def setOutputAsVector(self, value):
+        return self._set(outputAsVector=value)

@@ -1,9 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.spark.ml.util.Identifiable
 
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
@@ -36,9 +35,14 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
 
 }
 
-trait PretrainedLemmatizer {
-  def pretrained(name: String = "lemma_antbnc", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): LemmatizerModel =
-    ResourceDownloader.downloadModel(LemmatizerModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedLemmatizer extends ParamsAndFeaturesReadable[LemmatizerModel] with HasPretrained[LemmatizerModel] {
+  override val defaultModelName = "lemma_antbnc"
+
+  /** Java compliant-overrides */
+  override def pretrained(): LemmatizerModel = super.pretrained()
+  override def pretrained(name: String): LemmatizerModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): LemmatizerModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LemmatizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
-object LemmatizerModel extends ParamsAndFeaturesReadable[LemmatizerModel] with PretrainedLemmatizer
+object LemmatizerModel extends ReadablePretrainedLemmatizer

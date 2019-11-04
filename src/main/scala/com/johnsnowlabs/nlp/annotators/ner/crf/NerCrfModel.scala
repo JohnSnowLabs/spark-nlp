@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
-import com.johnsnowlabs.ml.crf.{FbCalculator, LinearChainCrfModel, VectorMath}
+import com.johnsnowlabs.ml.crf.{FbCalculator, LinearChainCrfModel}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 
@@ -93,9 +92,13 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
 }
 
-trait PretrainedNerCrf {
-  def pretrained(name: String = "ner_crf", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): NerCrfModel =
-    ResourceDownloader.downloadModel(NerCrfModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] with HasPretrained[NerCrfModel] {
+  override val defaultModelName: String = "ner_crf"
+  /** Java compliant-overrides */
+  override def pretrained(): NerCrfModel = super.pretrained()
+  override def pretrained(name: String): NerCrfModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): NerCrfModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): NerCrfModel = super.pretrained(name, lang, remoteLoc)
 }
 
-object NerCrfModel extends ParamsAndFeaturesReadable[NerCrfModel] with PretrainedNerCrf
+object NerCrfModel extends ReadablePretrainedNerCrf

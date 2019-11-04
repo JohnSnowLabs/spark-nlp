@@ -1,13 +1,13 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class WordEmbeddingsModel(override val uid: String)
@@ -104,11 +104,13 @@ class WordEmbeddingsModel(override val uid: String)
 
 }
 
-object WordEmbeddingsModel extends EmbeddingsReadable[WordEmbeddingsModel] with PretrainedWordEmbeddings with EmbeddingsCoverage
-
-trait PretrainedWordEmbeddings {
-  def pretrained(name: String = "glove_100d", lang: String = "en", remoteLoc: String = ResourceDownloader.publicLoc): WordEmbeddingsModel =
-    ResourceDownloader.downloadModel(WordEmbeddingsModel, name, Option(lang), remoteLoc)
+trait ReadablePretrainedWordEmbeddings extends EmbeddingsReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
+  override val defaultModelName: String = "glove_100d"
+  /** Java compliant-overrides */
+  override def pretrained(): WordEmbeddingsModel = super.pretrained()
+  override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): WordEmbeddingsModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): WordEmbeddingsModel = super.pretrained(name, lang, remoteLoc)
 }
 
 trait EmbeddingsCoverage {
@@ -141,4 +143,6 @@ trait EmbeddingsCoverage {
     CoverageResult(covered, total, percentage)
   }
 }
+
+object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
 
