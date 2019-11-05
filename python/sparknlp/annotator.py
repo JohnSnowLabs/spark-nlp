@@ -1413,7 +1413,16 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
 
 class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
 
+
+
+
     name = "WordEmbeddingsModel"
+
+    def setGlossary(self, glossary):
+        # we need MapConverter to pass the glossary to java side
+        from py4j.java_collections import MapConverter
+        return self._set(glossary = MapConverter().convert(glossary)
+
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
