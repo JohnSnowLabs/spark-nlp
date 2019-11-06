@@ -1641,7 +1641,7 @@ class NerOverwriter(AnnotatorModel):
 
     @keyword_only
     def __init__(self):
-        super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.deid.NerOverwriter")
+        super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")
         self._setDefault(
             stopWords=[],
             newResult="I-OVERWRITE"
