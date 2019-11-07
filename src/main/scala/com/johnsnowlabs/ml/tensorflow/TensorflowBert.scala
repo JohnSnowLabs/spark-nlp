@@ -43,7 +43,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
 
     runner
-      .feed(tokenIdsKey, tensors.createBertTensor(shape, buf))
+      .feed(tokenIdsKey, tensors.createIntBufferTensor(shape, buf))
       .fetch(embeddingsKey)
 
     val outs = runner.run().asScala

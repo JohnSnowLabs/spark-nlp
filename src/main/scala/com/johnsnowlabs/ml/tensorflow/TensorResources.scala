@@ -25,7 +25,7 @@ class TensorResources {
     result
   }
 
-  def createBertTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
+  def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
 
     val result = Tensor.create(shape, buf)
 
