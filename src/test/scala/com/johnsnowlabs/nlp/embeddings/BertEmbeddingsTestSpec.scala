@@ -1,8 +1,11 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.DocumentAssembler
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
@@ -51,6 +54,47 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     bertDF3.show()
     bertDF2.show()
     bertDF1.show()
+
+  }
+
+  "Bert Embeddings" should "correctly work in a pipeline" ignore {
+
+    val conll = CoNLL()
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val embeddings = BertEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setPoolingLayer(0)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        tokenizer,
+        embeddings
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+    println(pipelineDF.count())
+    pipelineDF.show()
+    pipelineDF.select("token.result", "embeddings.embeddings").show(1)
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
+    }
 
   }
 
