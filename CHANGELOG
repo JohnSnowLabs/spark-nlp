@@ -1,4 +1,25 @@
 ========
+2.3.2
+========
+---------------
+Overview
+---------------
+This release addresses multiple bug fixes and some enhancements regarding memory consumption in BertEmbeddings annotator.
+Thanks for your feedback and reports!
+
+---------------
+Bugfixes
+---------------
+* Fix missing EmbeddingsFinisher in Scala and Python
+* Reverted embeddings move to copy due to CRC issue
+* Fix IndexOutOfBoundsException in SentenceEmbeddings
+
+---------------
+Enhancement
+---------------
+* Optimize BertEmbeddings memory consumption
+
+========
 2.3.1
 ========
 ---------------
