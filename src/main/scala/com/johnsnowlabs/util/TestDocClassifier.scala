@@ -80,16 +80,14 @@ object TestDocClassifier extends App{
 
   val docClassifier = new DocClassifierApproach()
 
-  val preparedTrainData = docClassifier.prepareData(readyTrainData)
-
-  val docClassificationModel = docClassifier.fit(preparedTrainData)
-  val trainPredictions = docClassificationModel.transform(preparedTrainData)
+  val docClassificationModel = docClassifier.fit(readyTrainData)
+  val trainPredictions = docClassificationModel.transform(readyTrainData)
 
   val preparedTestData = docClassificationModel.prepareData(readyTestData)
 
   val testPredictions = docClassificationModel.transform(preparedTestData)
 
-  trainPredictions.select("label_encoded","label_output").show(10, false)
+  trainPredictions.select("label","label_output").show(10, false)
 
   testPredictions.select("label", "label_output").show(10, false)
 }

@@ -1,19 +1,21 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{LABEL, DOCUMENT, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABEL, SENTENCE_EMBEDDINGS}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{Dataset}
-import org.apache.spark.ml.classification.RandomForestClassifier
+import org.apache.spark.sql.Dataset
+import org.apache.spark.ml.classification.SparkNLPRandomForestClassifier
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.param.shared.HasSeed
+import org.apache.spark.sql.{Dataset, functions => F}
 import org.slf4j.LoggerFactory
 
 class DocClassifierApproach(override val uid: String)
     extends AnnotatorApproach[DocClassifierModel]
-    with HasSeed
-    with DataPreparation {
+    with HasSeed {
 
   def this() = this(Identifiable.randomUID("TRF"))
 
@@ -34,30 +36,25 @@ class DocClassifierApproach(override val uid: String)
   def getFeatureCol: String = $(featureCol)
 
   val encodedLabelCol = new Param[String](this, "encodedLabelCol", "column to output the label ordinally encoded.")
-  def setEncodedLabelCol(value: String): this.type = set(featureCol, value)
-  def getEncodedLabelCol: String = $(featureCol)
-
-  val multiLabel = new BooleanParam (this, "multiLabel", "is this a multilabel or single label classification problem")
-  def setMultiLabel(value: Boolean): this.type = set(multiLabel, value)
-  def getMultiLabel: Boolean = $(multiLabel)
+  def setEncodedLabelCol(value: String): this.type = set(encodedLabelCol, value)
+  def getEncodedLabelCol: String = $(encodedLabelCol)
 
   setDefault(
     inputCols -> Array(DOCUMENT, SENTENCE_EMBEDDINGS),
     labelCol -> LABEL,
     outputCol -> LABEL.concat("_output"),
     featureCol -> SENTENCE_EMBEDDINGS.concat("_vector"),
-    encodedLabelCol -> LABEL.concat("_encoded"),
-    multiLabel -> false
+    encodedLabelCol -> LABEL.concat("_encoded")
   )
 
   val sentenceCol = $(inputCols)(0)
-  override val featuresAnnotationCol = $(inputCols)(1)
-  override val featuresVectorCol: String = $(featureCol)
-  override val labelRawCol: String = $(labelCol)
-  override val labelEncodedCol: String = $(encodedLabelCol)
+  val featuresAnnotationCol = $(inputCols)(1)
+  val featuresVectorCol: String = $(featureCol)
+  val labelRawCol: String = $(labelCol)
+  val labelEncodedCol: String = $(encodedLabelCol)
 
 
-  lazy val sparkClassifier = new RandomForestClassifier()
+  lazy val sparkClassifier = new SparkNLPRandomForestClassifier()
     .setFeaturesCol($(featureCol))
     .setLabelCol($(encodedLabelCol))
     .setSeed($(seed))
@@ -66,9 +63,9 @@ class DocClassifierApproach(override val uid: String)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocClassifierModel = {
 
-    val preparedDataset = prepareData(dataset)
+    val (labels, preparedDataset) = prepareData(dataset)
 
-    val Array(trainData, testData) = preparedDataset.randomSplit(Array(0.7, 0.3), $(seed))
+    val Array(trainData: Dataset[_], testData: Dataset[_]) = preparedDataset.randomSplit(Array(0.7, 0.3), $(seed))
     // TODO: use testData to return metrics
 
     val sparkClassificationModel = sparkClassifier.fit(trainData)
@@ -77,6 +74,25 @@ class DocClassifierApproach(override val uid: String)
       .setInputCols($(inputCols))
       .setOutputCol($(outputCol))
       .setFeatureCol($(featureCol))
+      .setLabels(labels)
+  }
+
+  protected def prepareData(dataset: Dataset[_]): (Array[String], Dataset[_]) = {
+
+    val (labels:Array[String], indexedDataset: Dataset[_]) = if(labelRawCol != "" & !dataset.columns.contains(labelEncodedCol))
+    {
+      val indexer = new StringIndexer()
+        .setInputCol(labelRawCol)
+        .setOutputCol(labelEncodedCol)
+        .fit(dataset)
+
+      (indexer.labels, indexer.transform(dataset))
+    }
+    else (Array(""), dataset)
+
+    val convertToVectorUDF = F.udf((matrix : Seq[Float]) => { Vectors.dense(matrix.toArray.map(_.toDouble)) })
+
+    (labels, indexedDataset.withColumn(featuresVectorCol, convertToVectorUDF(F.expr(s"$featuresAnnotationCol.embeddings[0]"))))
   }
 }
 

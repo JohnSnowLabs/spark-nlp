@@ -42,9 +42,9 @@ import org.json4s.{DefaultFormats, JObject}
   * features.
   */
 @Since("1.4.0")
-class RandomForestClassifier @Since("1.4.0") (
+class SparkNLPRandomForestClassifier @Since("1.4.0") (
                                                @Since("1.4.0") override val uid: String)
-  extends ProbabilisticClassifier[Vector, RandomForestClassifier, RandomForestClassificationModel]
+  extends ProbabilisticClassifier[Vector, SparkNLPRandomForestClassifier, SparkNLPRandomForestClassificationModel]
     with RandomForestClassifierParams with DefaultParamsWritable {
 
   @Since("1.4.0")
@@ -116,7 +116,7 @@ class RandomForestClassifier @Since("1.4.0") (
     set(featureSubsetStrategy, value)
 
   override protected def train(
-                                dataset: Dataset[_]): RandomForestClassificationModel = instrumented { instr =>
+                                dataset: Dataset[_]): SparkNLPRandomForestClassificationModel = instrumented { instr =>
     instr.logPipelineStage(this)
     instr.logDataset(dataset)
     val categoricalFeatures: Map[Int, Int] =
@@ -144,15 +144,15 @@ class RandomForestClassifier @Since("1.4.0") (
     val numFeatures = oldDataset.first().features.size
     instr.logNumClasses(numClasses)
     instr.logNumFeatures(numFeatures)
-    new RandomForestClassificationModel(uid, trees, numFeatures, numClasses)
+    new SparkNLPRandomForestClassificationModel(uid, trees, numFeatures, numClasses)
   }
 
   @Since("1.4.1")
-  override def copy(extra: ParamMap): RandomForestClassifier = defaultCopy(extra)
+  override def copy(extra: ParamMap): SparkNLPRandomForestClassifier = defaultCopy(extra)
 }
 
 @Since("1.4.0")
-object RandomForestClassifier extends DefaultParamsReadable[RandomForestClassifier] {
+object SparkNLPRandomForestClassifier extends DefaultParamsReadable[SparkNLPRandomForestClassifier] {
   /** Accessor for supported impurity settings: entropy, gini */
   @Since("1.4.0")
   final val supportedImpurities: Array[String] = TreeClassifierParams.supportedImpurities
@@ -163,7 +163,7 @@ object RandomForestClassifier extends DefaultParamsReadable[RandomForestClassifi
   TreeEnsembleParams.supportedFeatureSubsetStrategies
 
   @Since("2.0.0")
-  override def load(path: String): RandomForestClassifier = super.load(path)
+  override def load(path: String): SparkNLPRandomForestClassifier = super.load(path)
 }
 
 /**
@@ -175,16 +175,16 @@ object RandomForestClassifier extends DefaultParamsReadable[RandomForestClassifi
   *                Warning: These have null parents.
   */
 @Since("1.4.0")
-class RandomForestClassificationModel private[ml] (
+class SparkNLPRandomForestClassificationModel private[ml] (
                                                     @Since("1.5.0") override val uid: String,
                                                     private val _trees: Array[DecisionTreeClassificationModel],
                                                     @Since("1.6.0") override val numFeatures: Int,
                                                     @Since("1.5.0") override val numClasses: Int)
-  extends ProbabilisticClassificationModel[Vector, RandomForestClassificationModel]
+  extends ProbabilisticClassificationModel[Vector, SparkNLPRandomForestClassificationModel]
     with RandomForestClassifierParams with TreeEnsembleModel[DecisionTreeClassificationModel]
     with MLWritable with Serializable {
 
-  require(_trees.nonEmpty, "RandomForestClassificationModel requires at least 1 tree.")
+  require(_trees.nonEmpty, "SparkNLPRandomForestClassificationModel requires at least 1 tree.")
 
   /**
     * Construct a random forest classification model, with all trees weighted equally.
@@ -233,7 +233,7 @@ class RandomForestClassificationModel private[ml] (
     Vectors.dense(votes)
   }
 
-  def predictRawPublic(features: Vector): Double = {
+  def predictRawPublic(features: Vector): (Double, Map[String, String]) = {
     // TODO: When we add a generic Bagging class, handle transform there: SPARK-7128
     // Classifies using majority votes.
     // Ignore the tree weights since all are 1.0 for now.
@@ -249,7 +249,8 @@ class RandomForestClassificationModel private[ml] (
         }
       }
     }
-    raw2prediction(Vectors.dense(votes))
+    val raw = Vectors.dense(votes)
+    (raw2prediction(raw), Map("probabilities" -> raw2probability(raw).toString))
   }
 
   override protected def raw2probabilityInPlace(rawPrediction: Vector): Vector = {
@@ -258,20 +259,20 @@ class RandomForestClassificationModel private[ml] (
         ProbabilisticClassificationModel.normalizeToProbabilitiesInPlace(dv)
         dv
       case sv: SparseVector =>
-        throw new RuntimeException("Unexpected error in RandomForestClassificationModel:" +
+        throw new RuntimeException("Unexpected error in SparkNLPRandomForestClassificationModel:" +
           " raw2probabilityInPlace encountered SparseVector")
     }
   }
 
   @Since("1.4.0")
-  override def copy(extra: ParamMap): RandomForestClassificationModel = {
-    copyValues(new RandomForestClassificationModel(uid, _trees, numFeatures, numClasses), extra)
+  override def copy(extra: ParamMap): SparkNLPRandomForestClassificationModel = {
+    copyValues(new SparkNLPRandomForestClassificationModel(uid, _trees, numFeatures, numClasses), extra)
       .setParent(parent)
   }
 
   @Since("1.4.0")
   override def toString: String = {
-    s"RandomForestClassificationModel (uid=$uid) with $getNumTrees trees"
+    s"SparkNLPRandomForestClassificationModel (uid=$uid) with $getNumTrees trees"
   }
 
   /**
@@ -294,21 +295,21 @@ class RandomForestClassificationModel private[ml] (
 
   @Since("2.0.0")
   override def write: MLWriter =
-    new RandomForestClassificationModel.RandomForestClassificationModelWriter(this)
+    new SparkNLPRandomForestClassificationModel.RandomForestClassificationModelWriter(this)
 }
 
 @Since("2.0.0")
-object RandomForestClassificationModel extends MLReadable[RandomForestClassificationModel] {
+object SparkNLPRandomForestClassificationModel extends MLReadable[SparkNLPRandomForestClassificationModel] {
 
   @Since("2.0.0")
-  override def read: MLReader[RandomForestClassificationModel] =
+  override def read: MLReader[SparkNLPRandomForestClassificationModel] =
     new RandomForestClassificationModelReader
 
   @Since("2.0.0")
-  override def load(path: String): RandomForestClassificationModel = super.load(path)
+  override def load(path: String): SparkNLPRandomForestClassificationModel = super.load(path)
 
-  private[RandomForestClassificationModel]
-  class RandomForestClassificationModelWriter(instance: RandomForestClassificationModel)
+  private[SparkNLPRandomForestClassificationModel]
+  class RandomForestClassificationModelWriter(instance: SparkNLPRandomForestClassificationModel)
     extends MLWriter {
 
     override protected def saveImpl(path: String): Unit = {
@@ -322,13 +323,13 @@ object RandomForestClassificationModel extends MLReadable[RandomForestClassifica
   }
 
   private class RandomForestClassificationModelReader
-    extends MLReader[RandomForestClassificationModel] {
+    extends MLReader[SparkNLPRandomForestClassificationModel] {
 
     /** Checked against metadata when loading model */
-    private val className = classOf[RandomForestClassificationModel].getName
+    private val className = classOf[SparkNLPRandomForestClassificationModel].getName
     private val treeClassName = classOf[DecisionTreeClassificationModel].getName
 
-    override def load(path: String): RandomForestClassificationModel = {
+    override def load(path: String): SparkNLPRandomForestClassificationModel = {
       implicit val format = DefaultFormats
       val (metadata: Metadata, treesData: Array[(Metadata, Node)], _) =
         EnsembleModelReadWrite.loadImpl(path, sparkSession, className, treeClassName)
@@ -343,10 +344,10 @@ object RandomForestClassificationModel extends MLReadable[RandomForestClassifica
           treeMetadata.getAndSetParams(tree)
           tree
       }
-      require(numTrees == trees.length, s"RandomForestClassificationModel.load expected $numTrees" +
+      require(numTrees == trees.length, s"SparkNLPRandomForestClassificationModel.load expected $numTrees" +
         s" trees based on metadata but found ${trees.length} trees.")
 
-      val model = new RandomForestClassificationModel(metadata.uid, trees, numFeatures, numClasses)
+      val model = new SparkNLPRandomForestClassificationModel(metadata.uid, trees, numFeatures, numClasses)
       metadata.getAndSetParams(model)
       model
     }
@@ -355,17 +356,17 @@ object RandomForestClassificationModel extends MLReadable[RandomForestClassifica
   /** Convert a model from the old API */
   private[ml] def fromOld(
                            oldModel: OldRandomForestModel,
-                           parent: RandomForestClassifier,
+                           parent: SparkNLPRandomForestClassifier,
                            categoricalFeatures: Map[Int, Int],
                            numClasses: Int,
-                           numFeatures: Int = -1): RandomForestClassificationModel = {
+                           numFeatures: Int = -1): SparkNLPRandomForestClassificationModel = {
     require(oldModel.algo == OldAlgo.Classification, "Cannot convert RandomForestModel" +
-      s" with algo=${oldModel.algo} (old API) to RandomForestClassificationModel (new API).")
+      s" with algo=${oldModel.algo} (old API) to SparkNLPRandomForestClassificationModel (new API).")
     val newTrees = oldModel.trees.map { tree =>
       // parent for each tree is null since there is no good way to set this.
       DecisionTreeClassificationModel.fromOld(tree, null, categoricalFeatures)
     }
     val uid = if (parent != null) parent.uid else Identifiable.randomUID("rfc")
-    new RandomForestClassificationModel(uid, newTrees, numFeatures, numClasses)
+    new SparkNLPRandomForestClassificationModel(uid, newTrees, numFeatures, numClasses)
   }
 }
