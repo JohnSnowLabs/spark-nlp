@@ -1,13 +1,12 @@
-package com.johnsnowlabs.util
+package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.{DocumentRFClassifierApproach, Tokenizer}
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.{DocumentAssembler, RecursivePipeline, annotator}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object SampleDocumentClassification extends App{
+object DocumentRFClassifierTestSpec extends App{
   val spark = SparkSession.builder()
     .appName("ER New Session")
     .master("local[16]")
@@ -65,25 +64,21 @@ object SampleDocumentClassification extends App{
     .setInputCols("sentence", "embeddings")
     .setOutputCol("sentence_embeddings")
 
+  val docClassifier = new DocumentRFClassifierApproach()
+
   val pipeline = new RecursivePipeline()
     .setStages(Array(
       documentAssembler,
       sentenceDetector,
       tokenizer,
       embeddings,
-      sentenceEmbeddings
+      sentenceEmbeddings,
+      docClassifier
     ))
 
   val fitPipeline = pipeline.fit(trainData)
-  val readyTrainData = fitPipeline.transform(trainData)
-  val readyTestData = fitPipeline.transform(testData)
-
-  val docClassifier = new DocumentRFClassifierApproach()
-
-  val docClassificationModel = docClassifier.fit(readyTrainData)
-  val trainPredictions = docClassificationModel.transform(readyTrainData)
-
-  val testPredictions = docClassificationModel.transform(readyTestData)
+  val trainPredictions = fitPipeline.transform(trainData)
+  val testPredictions = fitPipeline.transform(testData)
 
   trainPredictions.select("label","label_output").show(10, false)
 

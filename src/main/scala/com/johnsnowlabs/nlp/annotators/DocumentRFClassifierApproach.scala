@@ -19,7 +19,7 @@ class DocumentRFClassifierApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("TRF"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: AnnotatorType = LABEL
 
   private val logger = LoggerFactory.getLogger("DocClassifier")
@@ -46,8 +46,7 @@ class DocumentRFClassifierApproach(override val uid: String)
     encodedLabelCol -> LABEL.concat("_encoded")
   )
 
-  val sentenceCol = $(inputCols)(0)
-  val featuresAnnotationCol = $(inputCols)(1)
+  val featuresAnnotationCol = $(inputCols)(0)
   val featuresVectorCol: String = $(featureCol)
   val labelRawCol: String = $(labelCol)
   val labelEncodedCol: String = $(encodedLabelCol)

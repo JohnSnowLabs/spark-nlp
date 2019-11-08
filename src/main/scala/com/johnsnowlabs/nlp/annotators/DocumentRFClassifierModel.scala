@@ -21,7 +21,7 @@ class DocumentRFClassifierModel(override val uid: String)
 
   private val logger = LoggerFactory.getLogger("DocClassifier")
     
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: AnnotatorType = LABEL
 
   val classificationModel = new StructFeature[SparkNLPRandomForestClassificationModel](this, "wrappedModel")
@@ -46,8 +46,7 @@ class DocumentRFClassifierModel(override val uid: String)
     featureCol -> SENTENCE_EMBEDDINGS.concat("_vector")
   )
 
-  val sentenceCol = $(inputCols)(0)
-  val featuresAnnotationCol = $(inputCols)(1)
+  val featuresAnnotationCol = $(inputCols)(0)
   val featuresVectorCol: String = $(featureCol)
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
