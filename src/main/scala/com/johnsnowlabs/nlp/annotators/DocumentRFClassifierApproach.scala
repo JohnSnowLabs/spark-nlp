@@ -5,7 +5,6 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABEL, SENTENCE_EMBEDDINGS}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.Dataset
 import org.apache.spark.ml.classification.SparkNLPRandomForestClassifier
 import org.apache.spark.ml.feature.StringIndexer
 import org.apache.spark.ml.linalg.Vectors
@@ -13,8 +12,8 @@ import org.apache.spark.ml.param.shared.HasSeed
 import org.apache.spark.sql.{Dataset, functions => F}
 import org.slf4j.LoggerFactory
 
-class DocClassifierApproach(override val uid: String)
-    extends AnnotatorApproach[DocClassifierModel]
+class DocumentRFClassifierApproach(override val uid: String)
+    extends AnnotatorApproach[DocumentRFClassifierModel]
     with HasSeed {
 
   def this() = this(Identifiable.randomUID("TRF"))
@@ -61,7 +60,7 @@ class DocClassifierApproach(override val uid: String)
 
   // TODO: accuracyMetrics, cv, etc.
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocClassifierModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentRFClassifierModel = {
 
     val (labels, preparedDataset) = prepareData(dataset)
 
@@ -70,7 +69,8 @@ class DocClassifierApproach(override val uid: String)
 
     val sparkClassificationModel = sparkClassifier.fit(trainData)
 
-    new DocClassifierModel(sparkClassificationModel)
+    new DocumentRFClassifierModel()
+      .setClassificationModel(sparkClassificationModel)
       .setInputCols($(inputCols))
       .setOutputCol($(outputCol))
       .setFeatureCol($(featureCol))

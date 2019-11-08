@@ -2,30 +2,31 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABEL, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.classification.SparkNLPRandomForestClassificationModel
-import org.apache.spark.ml.feature.{IndexToString, StringIndexer}
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.param.shared.HasSeed
-import org.apache.spark.ml.param.{Param, StringArrayParam}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.types.DoubleType
-import org.apache.spark.sql.{DataFrame, Dataset, functions => F}
+import org.apache.spark.sql.{Dataset, functions => F}
 import org.slf4j.LoggerFactory
 
-import scala.collection.Map
 
-
-class DocClassifierModel(override val uid: String, val sparkClassificationModel: SparkNLPRandomForestClassificationModel)
-  extends AnnotatorModel[DocClassifierModel]
+class DocumentRFClassifierModel(override val uid: String)
+  extends AnnotatorModel[DocumentRFClassifierModel]
   with HasSeed {
 
 
-  def this(sparkClassificationModel: SparkNLPRandomForestClassificationModel) = this(Identifiable.randomUID("TRF"), sparkClassificationModel)
+  def this() = this(Identifiable.randomUID("TRF"))
 
   private val logger = LoggerFactory.getLogger("DocClassifier")
     
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: AnnotatorType = LABEL
+
+  val classificationModel = new StructFeature[SparkNLPRandomForestClassificationModel](this, "wrappedModel")
+  def setClassificationModel(value: SparkNLPRandomForestClassificationModel): this.type = set(classificationModel, value)
+  def getClassificationModel: SparkNLPRandomForestClassificationModel = $$(classificationModel)
 
   val featureCol = new Param[String](this, "featureCol", "column to output the sentence embeddings as SparkML vector.")
   def setFeatureCol(value: String): this.type = set(featureCol, value)
@@ -57,7 +58,7 @@ class DocClassifierModel(override val uid: String, val sparkClassificationModel:
     require(labels.isValid(Array()), "the parameter labels should be set to be able to annotate")
     val labelsArray =  get(labels).getOrElse(Array("NoLabels"))
     annotations.filter(x => x.annotatorType == SENTENCE_EMBEDDINGS).map(x => {
-      val prediction = sparkClassificationModel.predictRawPublic(Vectors.dense(x.embeddings.toArray.map(_.toDouble)))
+      val prediction = $$(classificationModel).predictRawPublic(Vectors.dense(x.embeddings.toArray.map(_.toDouble)))
       val idx = Math.min(labelsArray.length-1, prediction._1).toInt
       val currentLabel = labelsArray(idx)
       Annotation(outputAnnotatorType, x.begin, x.end, currentLabel, prediction._2)

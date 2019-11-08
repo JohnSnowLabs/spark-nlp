@@ -1,13 +1,13 @@
 package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.{DocClassifierApproach, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.{DocumentRFClassifierApproach, Tokenizer}
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.{DocumentAssembler, RecursivePipeline, annotator}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object TestDocClassifier extends App{
+object SampleDocumentClassification extends App{
   val spark = SparkSession.builder()
     .appName("ER New Session")
     .master("local[16]")
@@ -78,7 +78,7 @@ object TestDocClassifier extends App{
   val readyTrainData = fitPipeline.transform(trainData)
   val readyTestData = fitPipeline.transform(testData)
 
-  val docClassifier = new DocClassifierApproach()
+  val docClassifier = new DocumentRFClassifierApproach()
 
   val docClassificationModel = docClassifier.fit(readyTrainData)
   val trainPredictions = docClassificationModel.transform(readyTrainData)
