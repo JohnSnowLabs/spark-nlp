@@ -28,14 +28,17 @@ class WordEmbeddingsModel(override val uid: String)
     if ($(includeEmbeddings)) {
       val src = getEmbeddingsSerializedPath(path)
 
-      EmbeddingsHelper.load(
-        src.toUri.toString,
-        spark,
-        WordEmbeddingsFormat.SPARKNLP.toString,
-        $(dimension),
-        $(caseSensitive),
-        $(embeddingsRef)
-      )
+      if (!isLoaded()) {
+        preloadedEmbeddings = Some(EmbeddingsHelper.load(
+          src.toUri.toString,
+          spark,
+          WordEmbeddingsFormat.SPARKNLP.toString,
+          $(dimension),
+          $(caseSensitive),
+          $(embeddingsRef)
+        ))
+        setAsLoaded()
+      }
     }
   }
 
