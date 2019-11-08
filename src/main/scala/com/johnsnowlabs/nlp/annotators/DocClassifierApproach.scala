@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.AnnotatorType.{LABEL, DOCUMENT, SENTENCE_EMBEDDINGS}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{Dataset, functions => F}
-import com.johnsnowlabs.nlp.AnnotatorType.{LABEL, TOKEN, WORD_EMBEDDINGS}
+import org.apache.spark.sql.{Dataset}
 import org.apache.spark.ml.classification.RandomForestClassifier
 import org.apache.spark.ml.param.shared.HasSeed
 import org.slf4j.LoggerFactory
@@ -19,7 +18,7 @@ class DocClassifierApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("TRF"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)// we will use sentencembeddings later on
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: AnnotatorType = LABEL
 
   private val logger = LoggerFactory.getLogger("DocClassifier")

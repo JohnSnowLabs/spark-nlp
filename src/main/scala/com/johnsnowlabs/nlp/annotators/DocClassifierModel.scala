@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
-import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.AnnotatorType.{LABEL, DOCUMENT, SENTENCE_EMBEDDINGS}
 import org.apache.spark.ml.classification.{RandomForestClassificationModel}
 import org.apache.spark.ml.feature.StringIndexer
 import org.apache.spark.ml.linalg.Vectors
@@ -10,7 +10,6 @@ import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, functions => F}
 import org.slf4j.LoggerFactory
-import spire.std.ShortIsEuclideanRing
 
 import scala.collection.Map
 
@@ -55,9 +54,6 @@ class DocClassifierModel(override val uid: String, val sparkClassificationModel:
     })
 
   }
-
-
-
 }
 
 trait DataPreparation {
