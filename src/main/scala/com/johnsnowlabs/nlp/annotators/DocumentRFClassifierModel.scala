@@ -41,7 +41,7 @@ class DocumentRFClassifierModel(override val uid: String)
   def getLabels: Array[String] = $(labels)
 
   setDefault(
-    inputCols -> Array(DOCUMENT, SENTENCE_EMBEDDINGS),
+    inputCols -> Array(SENTENCE_EMBEDDINGS),
     outputCol -> LABEL.concat("_output"),
     featureCol -> SENTENCE_EMBEDDINGS.concat("_vector")
   )

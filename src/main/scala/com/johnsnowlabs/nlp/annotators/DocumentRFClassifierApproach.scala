@@ -39,7 +39,7 @@ class DocumentRFClassifierApproach(override val uid: String)
   def getEncodedLabelCol: String = $(encodedLabelCol)
 
   setDefault(
-    inputCols -> Array(DOCUMENT, SENTENCE_EMBEDDINGS),
+    inputCols -> Array(SENTENCE_EMBEDDINGS),
     labelCol -> LABEL,
     outputCol -> LABEL.concat("_output"),
     featureCol -> SENTENCE_EMBEDDINGS.concat("_vector"),
