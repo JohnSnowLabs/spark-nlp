@@ -49,6 +49,10 @@ class DocClassifierModel(override val uid: String, val sparkClassificationModel:
   val featuresAnnotationCol = $(inputCols)(1)
   val featuresVectorCol: String = $(featureCol)
 
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    prepareData(dataset)
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     require(labels.isValid(Array()), "the parameter labels should be set to be able to annotate")
     val labelsArray =  get(labels).getOrElse(Array("NoLabels"))
@@ -60,10 +64,13 @@ class DocClassifierModel(override val uid: String, val sparkClassificationModel:
     })
   }
 
-  def prepareData(dataset: Dataset[_]): Dataset[_] = {
+  protected def prepareData(dataset: Dataset[_]): Dataset[_] = {
+    vectorizeFeatures(dataset)
+  }
 
+  protected def vectorizeFeatures(dataset: Dataset[_]): Dataset[_] = {
     val convertToVectorUDF = F.udf((matrix : Seq[Float]) => { Vectors.dense(matrix.toArray.map(_.toDouble)) })
-
     dataset.withColumn(featuresVectorCol, convertToVectorUDF(F.expr(s"$featuresAnnotationCol.embeddings[0]")))
   }
+
 }

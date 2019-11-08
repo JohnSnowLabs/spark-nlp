@@ -78,21 +78,21 @@ class DocClassifierApproach(override val uid: String)
   }
 
   protected def prepareData(dataset: Dataset[_]): (Array[String], Dataset[_]) = {
+    encodeLabel(vectorizeFeatures(dataset))
+  }
 
-    val (labels:Array[String], indexedDataset: Dataset[_]) = if(labelRawCol != "" & !dataset.columns.contains(labelEncodedCol))
-    {
-      val indexer = new StringIndexer()
-        .setInputCol(labelRawCol)
-        .setOutputCol(labelEncodedCol)
-        .fit(dataset)
-
-      (indexer.labels, indexer.transform(dataset))
-    }
-    else (Array(""), dataset)
-
+  protected def vectorizeFeatures(dataset: Dataset[_]): Dataset[_] = {
     val convertToVectorUDF = F.udf((matrix : Seq[Float]) => { Vectors.dense(matrix.toArray.map(_.toDouble)) })
+    dataset.withColumn(featuresVectorCol, convertToVectorUDF(F.expr(s"$featuresAnnotationCol.embeddings[0]")))
+  }
 
-    (labels, indexedDataset.withColumn(featuresVectorCol, convertToVectorUDF(F.expr(s"$featuresAnnotationCol.embeddings[0]"))))
+  protected def encodeLabel(dataset: Dataset[_]): (Array[String], Dataset[_]) = {
+    val indexer = new StringIndexer()
+      .setInputCol(labelRawCol)
+      .setOutputCol(labelEncodedCol)
+      .fit(dataset)
+
+    (indexer.labels, indexer.transform(dataset))
   }
 }
 

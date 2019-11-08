@@ -83,9 +83,7 @@ object TestDocClassifier extends App{
   val docClassificationModel = docClassifier.fit(readyTrainData)
   val trainPredictions = docClassificationModel.transform(readyTrainData)
 
-  val preparedTestData = docClassificationModel.prepareData(readyTestData)
-
-  val testPredictions = docClassificationModel.transform(preparedTestData)
+  val testPredictions = docClassificationModel.transform(readyTestData)
 
   trainPredictions.select("label","label_output").show(10, false)
 
