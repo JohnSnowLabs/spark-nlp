@@ -69,6 +69,7 @@ object ClusterWordEmbeddings {
       fs.copyToLocalFile(new Path(sourceEmbeddingsPath), new Path(localFile))
       val fileName = new Path(sourceEmbeddingsPath).getName
 
+      /** If we remove this deepCopy line, word embeddings will fail (needs research) - moving it instead of copy also fails*/
       FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
       FileHelper.delete(Paths.get(localFile, fileName).toString)
     }
@@ -78,12 +79,20 @@ object ClusterWordEmbeddings {
     val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
     val src = new Path(localFile)
 
+    /** This fails if working on local file system, because spark.addFile will detect simoultaneous writes on same location and fail */
     fs.copyFromLocalFile(false, true, src, dst)
     fs.deleteOnExit(dst)
 
     spark.addFile(dst.toString, true)
 
     dst.toString
+  }
+
+  private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext) = {
+    /** if we don't do a copy, and just move, it will all fail when re-saving utilized embeddings because of bad crc */
+    val fs = source.getFileSystem(context.hadoopConfiguration)
+    fs.copyFromLocalFile(false, true, source, destination)
+    fs.deleteOnExit(source)
   }
 
   def apply(spark: SparkContext,
@@ -116,7 +125,7 @@ object ClusterWordEmbeddings {
     indexEmbeddings(sourceEmbeddingsPath, tmpLocalDestination.toString, format, spark)
 
     if (destinationScheme == "file") {
-      new File(tmpLocalDestination.toString).renameTo(new File(EmbeddingsHelper.getLocalEmbeddingsPath(clusterFileName)))
+      copyIndexToLocal(new Path(tmpLocalDestination.toString), new Path(EmbeddingsHelper.getLocalEmbeddingsPath(clusterFileName)), spark)
     } else {
       // 2. Copy WordEmbeddings to cluster
       copyIndexToCluster(tmpLocalDestination.toString, clusterFilePath, spark)

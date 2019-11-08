@@ -51,14 +51,14 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
   override def beforeTraining(sparkSession: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       if (!isLoaded()) {
-        EmbeddingsHelper.load(
+        preloadedEmbeddings = Some(EmbeddingsHelper.load(
           $(sourceEmbeddingsPath),
           sparkSession,
           WordEmbeddingsFormat($(embeddingsFormat)).toString,
           $(dimension),
           $(caseSensitive),
           $(embeddingsRef)
-        )
+        ))
         setAsLoaded()
       }
     } else if (isSet(embeddingsRef)) {
