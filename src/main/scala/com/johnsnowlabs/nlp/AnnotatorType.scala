@@ -17,4 +17,5 @@ object AnnotatorType {
   val DEPENDENCY = "dependency"
   val LABELED_DEPENDENCY = "labeled_dependency"
   val DUMMY = "dummy"
+  val LABEL = "label"
 }

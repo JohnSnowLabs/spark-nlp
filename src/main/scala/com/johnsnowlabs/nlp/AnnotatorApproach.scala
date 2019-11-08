@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.{ParamMap, StringArrayParam}
+import org.apache.spark.ml.param.{ParamMap}
 import org.apache.spark.ml.{Estimator, Model, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
