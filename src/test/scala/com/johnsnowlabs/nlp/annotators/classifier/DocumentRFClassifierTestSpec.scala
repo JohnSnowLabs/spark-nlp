@@ -51,16 +51,16 @@ class DocumentRFClassifierTestSpec extends FlatSpec {
       .setOutputCol("sentence")
 
     val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
     val embeddings = WordEmbeddingsModel.pretrained()
-      .setInputCols("document", "token")
+      .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
 
     val embeddingsSentence = new SentenceEmbeddings()
-      .setInputCols(Array("document", "embeddings"))
+      .setInputCols(Array("sentence", "embeddings"))
       .setOutputCol("sentence_embeddings")
       .setPoolingStrategy("AVERAGE")
 
@@ -76,9 +76,10 @@ class DocumentRFClassifierTestSpec extends FlatSpec {
         docClassifier
       ))
 
-    val pipelineDF = pipeline.fit(trainData).transform(trainData)
+    val pipelineDF = pipeline.fit(trainData).transform(testData)
     pipelineDF.printSchema()
     pipelineDF.show()
+    pipelineDF.select("label_output").show(false)
 
   }
 }
