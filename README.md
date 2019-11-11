@@ -14,7 +14,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
-* [Quick start](#quick-start)
+* [Quick Start](#quick-start)
 * [Using Spark NLP](#usage)  
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
