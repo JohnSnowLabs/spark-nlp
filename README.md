@@ -39,7 +39,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Usage
 
-## Quick Strat
+## Quick Start
 
 This is a quick example of how to use Spark NLP pre-trained pipeline:
 
@@ -75,7 +75,7 @@ result['entities']
 Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 ```
 
-### For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
 ## Apache Spark Support
 
