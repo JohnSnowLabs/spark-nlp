@@ -75,7 +75,7 @@ result['entities']
 Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 ```
 
-For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+### For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
 ## Apache Spark Support
 
