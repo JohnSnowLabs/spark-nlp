@@ -15,6 +15,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 ## Table of contents
 
 * [Using Spark NLP](#usage)
+  * [Quick start](#quick-start)
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
   * [Compiled JARs](#compiled-jars)
@@ -37,6 +38,44 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Contributing](#contributing)
 
 ## Usage
+
+## Quick Strat
+
+This is a quick example of how to use Spark NLP pre-trained pipeline:
+
+```python
+# Import Spark NLP
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.pretrained import PretrainedPipeline
+import sparknlp
+
+# Start Spark Session with Spark NLP
+spark = sparknlp.start()
+
+# Download a pre-trained pipeline
+pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+
+# Your testing dataset
+text = """
+The Mona Lisa is a 16th century oil painting created by Leonardo. 
+It's held at the Louvre in Paris.
+"""
+
+# Annotate your testing dataset
+result = pipeline.annotate(text)
+
+# What's in the pipeline
+list(result.keys())
+Output: ['entities', 'stem', 'checked', 'lemma', 'document',
+'pos', 'token', 'ner', 'embeddings', 'sentence']
+
+# Check the results
+result['entities']
+Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+```
+
+For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
 ## Apache Spark Support
 
@@ -467,9 +506,9 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 ## Examples
 
-Need more examples? Check out our dedicated repository to showcase Spark NLP use cases!
+Need more **examples**? Check out our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
-[spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+### All examples: [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
 
