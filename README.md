@@ -14,8 +14,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
-* [Using Spark NLP](#usage)
-  * [Quick start](#quick-start)
+* [Quick start](#quick-start)
+* [Using Spark NLP](#usage)  
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
   * [Compiled JARs](#compiled-jars)
@@ -36,8 +36,6 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Troubleshooting](#troubleshooting)
 * [Aknowledgments](#aknowledgments)
 * [Contributing](#contributing)
-
-## Usage
 
 ## Quick Start
 
@@ -76,6 +74,9 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 ```
 
 For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+
+
+## Usage
 
 ## Apache Spark Support
 
