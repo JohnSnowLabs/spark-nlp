@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
+import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
@@ -91,6 +91,49 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     println(pipelineDF.count())
     pipelineDF.show()
+    pipelineDF.select("token.result", "embeddings.embeddings").show(1)
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
+    }
+
+  }
+
+  "Bert Embeddings" should "correctly work with empty tokens" ignore {
+
+    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setCaseSensitive(false)
+
+    val embeddings = BertEmbeddings.pretrained()
+      .setInputCols("document", "cleanTokens")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setPoolingLayer(0)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        stopWordsCleaner,
+        embeddings
+      ))
+
+    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    println(pipelineDF.count())
+    pipelineDF.show()
+    pipelineDF.printSchema()
     pipelineDF.select("token.result", "embeddings.embeddings").show(1)
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
