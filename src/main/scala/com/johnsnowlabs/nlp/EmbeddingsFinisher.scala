@@ -50,7 +50,6 @@ class EmbeddingsFinisher(override val uid: String)
 
     val embeddingsAnnotators = Seq(
       AnnotatorType.WORD_EMBEDDINGS,
-      AnnotatorType.CHUNK_EMBEDDINGS,
       AnnotatorType.SENTENCE_EMBEDDINGS
     )
 
