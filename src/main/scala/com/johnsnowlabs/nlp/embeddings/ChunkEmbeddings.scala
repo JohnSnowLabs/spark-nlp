@@ -8,7 +8,7 @@ import org.apache.spark.ml.param.Param
 class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
-  override val outputAnnotatorType: AnnotatorType = CHUNK_EMBEDDINGS
+  override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
 
