@@ -43,14 +43,14 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-  @tco final def collapse(rs: List[(Int,Int)], sep: List[(Int,Int)] = Nil): List[(Int,Int)] = rs match {
+  @tco final protected def collapse(rs: List[(Int,Int)], sep: List[(Int,Int)] = Nil): List[(Int,Int)] = rs match {
     case x :: y :: rest =>
       if (y._1 > x._2) collapse(y :: rest, x :: sep)
       else collapse( (x._1, x._2 max y._2) :: rest, sep)
     case _ =>
       (rs ::: sep).reverse
   }
-  def merge(rs: List[(Int,Int)]): List[(Int,Int)] = collapse(rs.sortBy(_._1))
+  protected def merge(rs: List[(Int,Int)]): List[(Int,Int)] = collapse(rs.sortBy(_._1))
 
   /**
     * Searches entities and stores them in the annotation
