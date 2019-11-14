@@ -515,6 +515,23 @@ Need more **examples**? Check out our dedicated [repository](https://github.com/
 
 [Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
 
+## Troubleshooting
+
+### ```TypeError: 'JavaPackage' object is not callable```
+
+If you get this common python error, it means that the Spark NLP was not loaded correctly in your session, take a look at the following suggestions for a solution
+(Thanks Eric Nelson for putting this together)
+
+1. Make sure you are using Apache Spark 2.4.4 (or whatever version Spark NLP was compiled with)
+2. Make sure your SPARK_HOME and PATH environment variables are pointing to such Spark and not any other installation on your system
+3. If on Windows, download Hadoop winutils.exe and add it to your PATH: https://github.com/steveloughran/winutils
+4. HADOOP_HOME should also be set in some cases, pointing to your SPARK_HOME should work if you don't have an explicit hadoop installation
+5. If you are running `pyspark` instead of just `jupyter notebook`, make sure you setup `PYSPARK_DRIVER_PYTHON`, `PYSPARK_DRIVER_PYTHON_OPTS` and `PYSPARK_PYTHON` as pointed in the documentation
+6. `pip install spark-nlp==2.4.4` even if you are using `--packages` as a safety instruction
+7. Make sure all dependencies are properly written and/or paths to any jars you are manually providing. Spark does not fail upon wrong path, it will just ignore it
+8. If you get dependency failures when starting Spark, make sure to add antivirus and firewall exceptions. Windows antivirus adversely impacts performance when resolving dependencies.
+
+
 ## Acknowledgments
 
 ### Special community aknowledgments
