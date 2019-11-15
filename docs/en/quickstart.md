@@ -589,7 +589,7 @@ val regexTokenizer = new Tokenizer().
 We also include another special transformer, called **Finisher** to show
 tokens in a human language.
 
-***Pythond code***
+***Python code***
 
 ```python
 finisher = Finisher() \
