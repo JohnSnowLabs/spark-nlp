@@ -5,10 +5,12 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.Param
 
+import scala.collection.Map
+
 class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
-  override val outputAnnotatorType: AnnotatorType = CHUNK_EMBEDDINGS
+  override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
 
@@ -80,7 +82,11 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
           begin = chunk.begin,
           end = chunk.end,
           result = chunk.result,
-          metadata = chunk.metadata,
+          metadata = Map("sentence" -> idx.toString,
+            "token" -> chunk.result.toString,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true"
+          ),
           embeddings = calculateChunkEmbeddings(allEmbeddings)
         )
 

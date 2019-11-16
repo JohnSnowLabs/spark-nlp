@@ -127,4 +127,7 @@ package object annotator {
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
   object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
 
+  type ChunkEmbeddings = com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings
+  object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]
+
 }
