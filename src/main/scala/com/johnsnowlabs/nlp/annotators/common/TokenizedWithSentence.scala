@@ -24,8 +24,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
         token.begin >= sentence.start & token.end <= sentence.end
       ).map(token => IndexedToken(token.result, token.begin, token.end))
       sentenceTokens
-    }).zipWithIndex.map{case (indexedTokens, index) => TokenizedSentence(indexedTokens, index)}
-
+    }).zipWithIndex.map{case (indexedTokens, index) => TokenizedSentence(indexedTokens, index)}.filter(_.indexedTokens.length > 0)
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {
