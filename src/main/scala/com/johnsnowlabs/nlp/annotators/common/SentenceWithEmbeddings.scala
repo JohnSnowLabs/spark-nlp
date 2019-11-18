@@ -71,15 +71,15 @@ object  WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentenc
   }
 
   override def pack(sentences: Seq[WordpieceEmbeddingsSentence]): Seq[Annotation] = {
-    sentences.zipWithIndex.flatMap{case (sentence, sentenceIndex) =>
+    sentences.flatMap{sentence =>
       var isFirstToken = true
-      sentence.tokens.map{token =>
+      sentence.tokens.map{ token =>
         // Store embeddings for token
         val embeddings = token.embeddings
 
         isFirstToken = false
         Annotation(annotatorType, token.begin, token.end, token.token,
-          Map("sentence" -> sentenceIndex.toString,
+          Map("sentence" -> sentence.sentenceId.toString,
             "token" -> token.token,
             "pieceId" -> token.pieceId.toString,
             "isWordStart" -> token.isWordStart.toString,
