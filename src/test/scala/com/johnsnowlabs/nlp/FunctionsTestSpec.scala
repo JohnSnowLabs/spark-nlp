@@ -41,25 +41,25 @@ class FunctionsTestSpec extends FlatSpec {
 
     import functions._
 
-    val mapped = data.mapAnnotations("pos", "modpos", (annotations: Seq[Annotation]) => {
+    val mapped = data.mapAnnotationsCol("pos", "modpos", (annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
     })
 
-    val modified = data.mapAnnotations("pos", "modpos", (_: Seq[Annotation]) => {
+    val modified = data.mapAnnotationsCol("pos", "modpos", (_: Seq[Annotation]) => {
       "hello world"
     })
 
-    val filtered = data.filterByAnnotations("pos", (annotations: Seq[Annotation]) => {
+    val filtered = data.filterByAnnotationsCol("pos", (annotations: Seq[Annotation]) => {
       annotations.exists(_.result == "JJ")
     })
 
     import org.apache.spark.sql.functions.col
 
-    val udfed = data.select(mapAnnotationsUdf((annotations: Seq[Annotation]) => {
+    val udfed = data.select(mapAnnotations((annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
     }, ArrayType(Annotation.dataType))(col("pos")))
 
-    val udfed2 = data.select(mapAnnotationsToAnnotationsUdf((annotations: Seq[Annotation]) => {
+    val udfed2 = data.select(mapAnnotationsStrict((annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
     })(col("pos")))
 
