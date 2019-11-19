@@ -1633,6 +1633,7 @@ class ChunkEmbeddings(AnnotatorModel):
         else:
             return self._set(poolingStrategy="AVERAGE")
 
+
 class NerOverwriter(AnnotatorModel):
 
     name = "NerOverwriter"
@@ -1641,7 +1642,6 @@ class NerOverwriter(AnnotatorModel):
     def __init__(self):
         super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")
         self._setDefault(
-            stopWords=[],
             newResult="I-OVERWRITE"
         )
 

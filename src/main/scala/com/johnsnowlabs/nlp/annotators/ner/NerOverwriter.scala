@@ -28,9 +28,6 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
   def getNewResult: String = $(newResult)
 
   setDefault(
-    inputCols -> Array(NAMED_ENTITY),
-    outputCol -> "fixed_rer",
-    stopWords -> Array(),
     newResult -> "I-OVERWRITE"
   )
 
