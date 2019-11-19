@@ -1632,3 +1632,26 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy=strategy)
         else:
             return self._set(poolingStrategy="AVERAGE")
+
+class NerOverwriter(AnnotatorModel):
+
+    name = "NerOverwriter"
+
+    @keyword_only
+    def __init__(self):
+        super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")
+        self._setDefault(
+            stopWords=[],
+            newResult="I-OVERWRITE"
+        )
+
+    stopWords = Param(Params._dummy(), "stopWords", "The words to be overwritten",
+                      typeConverter=TypeConverters.toListString)
+    newResult = Param(Params._dummy(), "newResult", "new NER class to apply to those stopwords",
+                      typeConverter=TypeConverters.toString)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def setNewResult(self, value):
+        return self._set(newResult=value)
