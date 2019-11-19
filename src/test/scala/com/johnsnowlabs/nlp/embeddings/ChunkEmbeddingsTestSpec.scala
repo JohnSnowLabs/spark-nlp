@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.Finisher
+import com.johnsnowlabs.nlp.{EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.nlp.annotator.{Chunker, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.{NGramGenerator, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -46,12 +46,16 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
       .setOutputCol("chunk_embeddings")
       .setPoolingStrategy("AVERAGE")
 
-    val finisher = new Finisher()
+    val sentenceEmbeddingsChunk = new SentenceEmbeddings()
+      .setInputCols(Array("document", "chunk_embeddings"))
+      .setOutputCol("sentence_embeddings_chunks")
+      .setPoolingStrategy("AVERAGE")
+
+    val finisher = new EmbeddingsFinisher()
       .setInputCols("chunk_embeddings")
       .setOutputCols("finished_embeddings")
-      .setOutputAsArray(true)
+      .setOutputAsVector(true)
       .setCleanAnnotations(false)
-
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(
@@ -62,6 +66,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
         chunker,
         embeddings,
         chunkEmbeddings,
+        sentenceEmbeddingsChunk,
         finisher
       ))
 
@@ -78,6 +83,9 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
     println("Chunk Embeddings")
     pipelineDF.select("chunk_embeddings.embeddings").show(2)
     pipelineDF.select(size(pipelineDF("chunk_embeddings.embeddings")).as("chunk_embeddings_size")).show
+
+    pipelineDF.select("sentence_embeddings_chunks.embeddings").show(2)
+    pipelineDF.select(size(pipelineDF("sentence_embeddings_chunks.embeddings")).as("chunk_embeddings_size")).show
 
     pipelineDF.select("finished_embeddings").show(2)
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
