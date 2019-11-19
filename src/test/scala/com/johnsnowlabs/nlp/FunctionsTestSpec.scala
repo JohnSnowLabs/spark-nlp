@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, Tokenizer}
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.types.ArrayType
 import org.scalatest._
 
 class FunctionsTestSpec extends FlatSpec {
@@ -52,9 +53,21 @@ class FunctionsTestSpec extends FlatSpec {
       annotations.exists(_.result == "JJ")
     })
 
+    import org.apache.spark.sql.functions.col
+
+    val udfed = data.select(mapAnnotationsUdf((annotations: Seq[Annotation]) => {
+      annotations.filter(_.result == "JJ")
+    }, ArrayType(Annotation.dataType))(col("pos")))
+
+    val udfed2 = data.select(mapAnnotationsToAnnotationsUdf((annotations: Seq[Annotation]) => {
+      annotations.filter(_.result == "JJ")
+    })(col("pos")))
+
     mapped.show(truncate = false)
     modified.show(truncate = false)
     filtered.show(truncate = false)
+    udfed.show(truncate = false)
+    udfed2.show(truncate = false)
   }
 
 }

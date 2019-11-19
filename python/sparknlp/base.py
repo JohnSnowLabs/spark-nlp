@@ -67,17 +67,6 @@ class JavaRecursiveEstimator(JavaEstimator):
                              "but got %s." % type(params))
 
 
-class Annotation:
-    def __init__(self, annotator_type, begin, end, result, metadata, embeddings=[], sentence_embeddings=[]):
-        self.annotator_type = annotator_type
-        self.begin = begin
-        self.end = end
-        self.result = result
-        self.metadata = metadata
-        self.embeddings = embeddings
-        self.sentence_embeddings = sentence_embeddings
-
-
 class LightPipeline:
     def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
@@ -87,14 +76,13 @@ class LightPipeline:
     def _annotation_from_java(java_annotations):
         annotations = []
         for annotation in java_annotations:
-            annotations.append(Annotation(annotation.annotatorType(),
-                                          annotation.begin(),
-                                          annotation.end(),
-                                          annotation.result(),
-                                          dict(annotation.metadata()),
-                                          annotation.embeddings,
-                                          annotation.sentence_embeddings
-                                          )
+            annotations.append(annotation.Annotation(annotation.annotatorType(),
+                                                annotation.begin(),
+                                                annotation.end(),
+                                                annotation.result(),
+                                                dict(annotation.metadata()),
+                                                annotation.embeddings
+                                                )
                                )
         return annotations
 

@@ -78,6 +78,7 @@ object Annotation {
     StructField("embeddings", ArrayType(FloatType, false), true)
   ))
 
+  val arrayType = new ArrayType(dataType, false)
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
