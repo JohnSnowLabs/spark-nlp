@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamValidators, StringArrayParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 
 class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwriter] {
@@ -61,4 +61,4 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
 
 }
 
-object NerOverwriter extends ParamsAndFeaturesReadable[NerOverwriter]
+object NerOverwriter extends DefaultParamsReadable[NerOverwriter]
