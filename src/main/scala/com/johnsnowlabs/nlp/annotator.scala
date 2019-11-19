@@ -130,4 +130,7 @@ package object annotator {
   type ChunkEmbeddings = com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings
   object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]
 
+  type NerOverwriter = com.johnsnowlabs.nlp.annotators.ner.NerOverwriter
+  object NerOverwriter extends DefaultParamsReadable[NerOverwriter]
+
 }
