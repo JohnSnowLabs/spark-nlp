@@ -15,7 +15,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
-  "An TextMatcher" should "extract entities with and without sentences" in {
+  "A TextMatcher" should "extract entities with and without sentences" in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset)
     val resultNoSentence = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false)
