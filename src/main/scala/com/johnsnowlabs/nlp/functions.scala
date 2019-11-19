@@ -1,12 +1,13 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.functions.{array, col, explode, udf}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.DataType
 
 import scala.reflect.runtime.universe._
 
-object  functions {
+object functions {
 
   implicit class FilterAnnotations(dataset: DataFrame) {
     def filterByAnnotations(column: String, function: Seq[Annotation] => Boolean): DataFrame = {
@@ -17,6 +18,16 @@ object  functions {
       }
       dataset.filter(func(col(column)).as(column, meta))
     }
+  }
+
+  def mapAnnotationsUdf[T](function: Seq[Annotation] => T, outputType: DataType): UserDefinedFunction = udf ( {
+    annotatorProperties: Seq[Row] =>
+      function(annotatorProperties.map(Annotation(_)))
+  }, outputType)
+
+  def mapAnnotationsToAnnotationsUdf(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction = udf {
+    annotatorProperties: Seq[Row] =>
+      function(annotatorProperties.map(Annotation(_)))
   }
 
   implicit class MapAnnotations(dataset: DataFrame) {
