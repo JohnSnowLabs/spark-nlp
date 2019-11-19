@@ -129,12 +129,16 @@ class BertEmbeddings(override val uid: String) extends
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = SentenceSplit.unpack(annotations)
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
-
-    val tokenized = tokenize(sentences)
-    val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(poolingLayer))
-    WordpieceEmbeddingsSentence.pack(withEmbeddings)
+    /*Return empty if the real tokens are empty*/
+    if(tokenizedSentences.nonEmpty) {
+      val sentences = SentenceSplit.unpack(annotations)
+      val tokenized = tokenize(sentences)
+      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(poolingLayer))
+      WordpieceEmbeddingsSentence.pack(withEmbeddings)
+    }else {
+      Seq.empty[Annotation]
+    }
   }
 
   override def afterAnnotate(dataset: DataFrame): DataFrame = {
