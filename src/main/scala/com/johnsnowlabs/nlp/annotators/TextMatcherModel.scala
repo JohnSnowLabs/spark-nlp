@@ -99,4 +99,12 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
 }
 
-object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel]
+trait ReadablePretrainedTextMatcher extends ParamsAndFeaturesReadable[TextMatcherModel] with HasPretrained[TextMatcherModel] {
+  override val defaultModelName: String = "textmatch_generic"
+  override def pretrained(): TextMatcherModel = super.pretrained()
+  override def pretrained(name: String): TextMatcherModel = super.pretrained(name)
+  override def pretrained(name: String, lang: String): TextMatcherModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): TextMatcherModel = super.pretrained(name, lang, remoteLoc)
+}
+
+object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel] with ReadablePretrainedTextMatcher

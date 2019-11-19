@@ -496,6 +496,11 @@ class TextMatcherModel(AnnotatorModel):
             java_model=java_model
         )
 
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
 
 class PerceptronApproach(AnnotatorApproach):
     posCol = Param(Params._dummy(),
