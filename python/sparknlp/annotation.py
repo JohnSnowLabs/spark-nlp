@@ -11,6 +11,18 @@ class Annotation:
         self.metadata = metadata
         self.embeddings = embeddings
 
+    def __str__(self):
+        return "Annotation(%s, %i, %i, %s, %s)" % (
+            self.annotator_type,
+            self.begin,
+            self.end,
+            self.result,
+            str(self.metadata)
+        )
+
+    def __repr__(self):
+        return self.__str__()
+
     @staticmethod
     def dataType():
         return StructType([

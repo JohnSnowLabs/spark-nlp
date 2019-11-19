@@ -74,15 +74,16 @@ class LightPipeline:
 
     @staticmethod
     def _annotation_from_java(java_annotations):
+        from sparknlp.annotation import Annotation
         annotations = []
         for annotation in java_annotations:
-            annotations.append(annotation.Annotation(annotation.annotatorType(),
-                                                annotation.begin(),
-                                                annotation.end(),
-                                                annotation.result(),
-                                                dict(annotation.metadata()),
-                                                annotation.embeddings
-                                                )
+            annotations.append(Annotation(annotation.annotatorType(),
+                                          annotation.begin(),
+                                          annotation.end(),
+                                          annotation.result(),
+                                          annotation.metadata(),
+                                          annotation.embeddings
+                                          )
                                )
         return annotations
 
