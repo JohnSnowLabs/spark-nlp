@@ -27,12 +27,10 @@ sda.pragmatic = sys.modules[__name__]
 sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 spell.norvig = sys.modules[__name__]
-spell.context = sys.modules[__name__]
 spell.symmetric = sys.modules[__name__]
 parser = sys.modules[__name__]
 parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
-ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
 
 

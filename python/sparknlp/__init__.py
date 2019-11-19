@@ -4,7 +4,6 @@ from sparknlp import annotator
 from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.ocr'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
@@ -21,7 +20,6 @@ sys.modules['com.johnsnowlabs.nlp.annotators.sda.pragmatic'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sda.vivekn'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.norvig'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.symmetric'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.parser'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.parser.dep'] = annotator
