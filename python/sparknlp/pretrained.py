@@ -28,7 +28,7 @@ def printProgress(stop):
 class ResourceDownloader(object):
 
     @staticmethod
-    def downloadModel(reader, name, language, remote_loc=None):
+    def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
         print(name + " download started this may take some time.")
         file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
         if file_size == "-1":
@@ -39,7 +39,7 @@ class ResourceDownloader(object):
             t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
             t1.start()
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, j_dwn).apply()
             finally:
                 stop_threads = True
                 t1.join()
