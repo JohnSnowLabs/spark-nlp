@@ -24,15 +24,15 @@ object EmbeddingsWithSentence extends Annotated[TokenizedSentence] {
         token.begin >= sentence.start & token.end <= sentence.end
       ).map(token => IndexedToken(token.result, token.begin, token.end))
       sentenceTokens
-    }).filter(_.nonEmpty).zipWithIndex.map{case (indexedTokens, index) => TokenizedSentence(indexedTokens, index)}
+    }).zipWithIndex.map{case (indexedTokens, index) => TokenizedSentence(indexedTokens, index)}.filter(_.indexedTokens.nonEmpty)
 
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {
-    sentences.zipWithIndex.flatMap{case (sentence, index) =>
+    sentences.flatMap{sentence =>
         sentence.indexedTokens.map{token =>
         Annotation(annotatorType, token.begin, token.end, token.token,
-          Map("sentence" -> index.toString))
+          Map("sentence" -> sentence.sentenceIndex.toString))
     }}
   }
 }
