@@ -461,10 +461,16 @@ class TextMatcher(AnnotatorApproach):
                           "whether to match regardless of case. Defaults true",
                           typeConverter=TypeConverters.toBoolean)
 
+    mergeOverlapping = Param(Params._dummy(),
+                          "mergeOverlapping",
+                          "whether to merge overlapping matched chunks. Defaults false",
+                          typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
         self._setDefault(caseSensitive=True)
+        self._setDefault(mergeOverlapping=False)
 
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
@@ -475,6 +481,9 @@ class TextMatcher(AnnotatorApproach):
     def setCaseSensitive(self, b):
         return self._set(caseSensitive=b)
 
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
 
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
@@ -484,6 +493,11 @@ class TextMatcherModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
 class PerceptronApproach(AnnotatorApproach):
