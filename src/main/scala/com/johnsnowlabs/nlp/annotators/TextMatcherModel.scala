@@ -107,4 +107,4 @@ trait ReadablePretrainedTextMatcher extends ParamsAndFeaturesReadable[TextMatche
   override def pretrained(name: String, lang: String, remoteLoc: String): TextMatcherModel = super.pretrained(name, lang, remoteLoc)
 }
 
-object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel] with ReadablePretrainedTextMatcher
+object TextMatcherModel extends ReadablePretrainedTextMatcher
