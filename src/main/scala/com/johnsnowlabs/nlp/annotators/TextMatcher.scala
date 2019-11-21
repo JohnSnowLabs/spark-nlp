@@ -22,9 +22,11 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
   val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
+  val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
 
   setDefault(inputCols,Array(TOKEN))
   setDefault(caseSensitive, true)
+  setDefault(mergeOverlapping, false)
 
   def setEntities(value: ExternalResource): this.type =
     set(entities, value)
@@ -37,6 +39,10 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   def getCaseSensitive: Boolean =
     $(caseSensitive)
+
+  def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
+
+  def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
   /**
     * Loads entities from a provided source.

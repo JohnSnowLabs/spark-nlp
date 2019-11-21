@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedTokenizer, ReadablePretrainedLemmatizer}
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -36,7 +36,7 @@ package object annotator {
   type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
-  object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel]
+  object TextMatcherModel extends ReadablePretrainedTextMatcher
 
   type RegexMatcher = com.johnsnowlabs.nlp.annotators.RegexMatcher
   object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
@@ -126,5 +126,11 @@ package object annotator {
 
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
   object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
+
+  type ChunkEmbeddings = com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings
+  object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]
+
+  type NerOverwriter = com.johnsnowlabs.nlp.annotators.ner.NerOverwriter
+  object NerOverwriter extends DefaultParamsReadable[NerOverwriter]
 
 }
