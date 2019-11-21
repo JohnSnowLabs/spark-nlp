@@ -72,12 +72,12 @@ class WordEmbeddingsModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
-    val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
-      val tokens = s.indexedTokens.map {token =>
+    val withEmbeddings = sentences.map{ s =>
+      val tokens = s.indexedTokens.map { token =>
         val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
       }
-      WordpieceEmbeddingsSentence(tokens, idx)
+      WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
 
     WordpieceEmbeddingsSentence.pack(withEmbeddings)

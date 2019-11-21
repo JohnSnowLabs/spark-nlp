@@ -27,12 +27,10 @@ sda.pragmatic = sys.modules[__name__]
 sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 spell.norvig = sys.modules[__name__]
-spell.context = sys.modules[__name__]
 spell.symmetric = sys.modules[__name__]
 parser = sys.modules[__name__]
 parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
-ocr = sys.modules[__name__]
 embeddings = sys.modules[__name__]
 
 
@@ -463,10 +461,16 @@ class TextMatcher(AnnotatorApproach):
                           "whether to match regardless of case. Defaults true",
                           typeConverter=TypeConverters.toBoolean)
 
+    mergeOverlapping = Param(Params._dummy(),
+                          "mergeOverlapping",
+                          "whether to merge overlapping matched chunks. Defaults false",
+                          typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
         self._setDefault(caseSensitive=True)
+        self._setDefault(mergeOverlapping=False)
 
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
@@ -477,6 +481,9 @@ class TextMatcher(AnnotatorApproach):
     def setCaseSensitive(self, b):
         return self._set(caseSensitive=b)
 
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
 
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
@@ -486,6 +493,11 @@ class TextMatcherModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -1634,3 +1646,26 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy=strategy)
         else:
             return self._set(poolingStrategy="AVERAGE")
+
+
+class NerOverwriter(AnnotatorModel):
+
+    name = "NerOverwriter"
+
+    @keyword_only
+    def __init__(self):
+        super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")
+        self._setDefault(
+            newResult="I-OVERWRITE"
+        )
+
+    stopWords = Param(Params._dummy(), "stopWords", "The words to be overwritten",
+                      typeConverter=TypeConverters.toListString)
+    newResult = Param(Params._dummy(), "newResult", "new NER class to apply to those stopwords",
+                      typeConverter=TypeConverters.toString)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def setNewResult(self, value):
+        return self._set(newResult=value)
