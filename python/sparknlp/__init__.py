@@ -36,10 +36,10 @@ def start():
         .master("local[*]") \
         .config("spark.driver.memory", "6G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")\
-        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.2") \
+        .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.3") \
 
     return builder.getOrCreate()
 
 
 def version():
-    print('2.3.2')
+    print('2.3.3')
