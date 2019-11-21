@@ -4,28 +4,27 @@
 ---------------
 Overview
 ---------------
-This release addresses multiple bug fixes and some enhancements regarding memory consumption in BertEmbeddings annotator.
+This release addresses multiple bug fixes, enhancements and new features.
 Thanks for your feedback and reports!
 
 ---------------
 Bugfixes
 ---------------
-* Fix missing EmbeddingsFinisher in Scala and Python
-* Reverted embeddings move to copy due to CRC issue
-* Fix IndexOutOfBoundsException in SentenceEmbeddings
-
+* Fix BertEmbeddings crashing on empty input
+* Keep original index for the sentence-token columns pair
+* Fixed typos in docs
+* Fixed bad deprecated OCR and spell paths
 ---------------
 Enhancement
 ---------------
-* For flexibility reasons, the inner jvm downloader may now be overriden
-
+* Make ChunkEmbeddings output to be compatible with SentenceEmbeddings
 
 ---------------
 New Features
 ---------------
 * NER overwriter annotator
 * Add `map_annotations`, `map_annotations_strict`, `map_annotations_col`, `filter_by_annotations_col` and `explode_annotations_col` to python side. 
-Renamed Scala side functions to be the same.
+Renamed Scala's side functions to be the same.
 
 ========
 2.3.2
