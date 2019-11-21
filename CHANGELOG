@@ -4,27 +4,33 @@
 ---------------
 Overview
 ---------------
-This release addresses multiple bug fixes, enhancements and new features.
-Thanks for your feedback and reports!
-
----------------
-Bugfixes
----------------
-* Fix BertEmbeddings crashing on empty input
-* Keep original index for the sentence-token columns pair
-* Fixed typos in docs
-* Fixed bad deprecated OCR and spell paths
----------------
-Enhancement
----------------
-* Make ChunkEmbeddings output to be compatible with SentenceEmbeddings
+We are very glad to announce this release, it actually ended up much bigger than we expected.
+Thanks to the community feedback, we arranged many bugfixes. We also spent some times and started building
+models for the TextMatcher, so it got various improvements and bugfixes when dealing with empty sentences or cleaned up tokens.
+We also added UDF ready functions in Python to easily deal with Annotations. Finally, we fixed a few bugs when loading models from disk.
+Thank you very much for constant feedback on Slack.
 
 ---------------
 New Features
 ---------------
-* NER overwriter annotator
-* Add `map_annotations`, `map_annotations_strict`, `map_annotations_col`, `filter_by_annotations_col` and `explode_annotations_col` to python side. 
-Renamed Scala's side functions to be the same.
+* TextMatcher new param `mergeOverlapping` allows for handling overlapping output chunks when matching entities share keywords
+* NER overwriter annotator allows for overwriting NER output with custom entities
+* Added `map_annotations`, `map_annotations_strict`, `map_annotations_col`, `filter_by_annotations_col` and `explode_annotations_col` functions to python side. Allows dealing with Annotations easily.
+
+---------------
+Enhancement
+---------------
+* Made ChunkEmbeddings output to be compatible with SentenceEmbeddings for better flexibility in pipelines
+
+---------------
+Bugfixes
+---------------
+* Fixed BertEmbeddings crashing on empty input sentences
+* Fixed missing load API and import shorcuts on the new Embeddings annotators
+* Added missing metadata fields in ChunkEmbeddings
+* Fixed wrong sentence IDs in sentences or tokens that got a cleanup during the pipeline
+* Fixed typos in docs. Thanks @marcinic
+* Fixed bad deprecated OCR and SpellChecker python classpath
 
 ========
 2.3.2
