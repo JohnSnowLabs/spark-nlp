@@ -12,7 +12,7 @@ modify_date: "2019-10-23"
 
 ### English - Licensed Enterprise
 
-It is required to specify 3rd argument to `pretrained(name, lang, loc)` function (location) to add the location of these 
+It is required to specify 3rd argument to `pretrained(name, lang, loc)` function (location) to add the location of these
 
 | Model                                  |   name     |   language     |   loc     |
 |----------------------------------------|---------------|---------------|---------------|
@@ -22,12 +22,16 @@ It is required to specify 3rd argument to `pretrained(name, lang, loc)` function
 |NerDLModel        |`deidentify_dl`|en|clinical/models|
 |DeIdentificationModel        |`deidentify_rb`|en|clinical/models|
 |WordEmbeddingsModel        |`embeddings_clinical`|en|clinical/models|
+|BertEmbeddingsModel | `biobert_pubmed_cased`|en|clinical/models|
+|BertEmbeddingsModel | `biobert_pmc_cased`|en|clinical/models|
+|BertEmbeddingsModel | `biobert_pubmed_pmc_cased`|en|clinical/models|
+|BertEmbeddingsModel | `biobert_clinical_cased`|en|clinical/models|
+|BertEmbeddingsModel | `biobert_discharge_cased`|en|clinical/models|
 |PerceptronModel        |`pos_clinical`|en|clinical/models|
 |EntityResolverModel        |`resolve_icd10`|en|clinical/models|
 |EntityResolverModel        |`resolve_icd10cm_cl_em`|en|clinical/models|
 |EntityResolverModel        |`resolve_icd10pcs_cl_em`|en|clinical/models|
 |ContextSpellCheckerModel        |`context_spell_med`|en|clinical/models|
-
 
 ## How to use Pretrained Models
 
