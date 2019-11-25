@@ -4,6 +4,8 @@ import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.Param
+import org.apache.spark.sql.types.MetadataBuilder
+import org.apache.spark.sql.DataFrame
 
 import scala.collection.Map
 
@@ -94,6 +96,12 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
       }
     }
   }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    val embeddingsCol = Annotation.getColumnByType(dataset, $(inputCols), WORD_EMBEDDINGS)
+    dataset.withColumn(getOutputCol, dataset.col(getOutputCol).as(getOutputCol, embeddingsCol.metadata))
+  }
+
 }
 
 object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]
