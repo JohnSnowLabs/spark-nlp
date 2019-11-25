@@ -70,7 +70,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
         val sentenceId = chunk.metadata("sentence")
         val tokensWithEmbeddings = embeddingsSentences(sentenceId.toInt).tokens.filter(
-          token => token.begin == chunk.begin || token.end == chunk.end
+          token => token.begin >= chunk.begin || token.end <= chunk.end
         )
 
         val allEmbeddings = tokensWithEmbeddings.map {
