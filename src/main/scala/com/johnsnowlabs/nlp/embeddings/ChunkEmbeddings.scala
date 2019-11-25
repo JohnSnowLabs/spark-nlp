@@ -4,7 +4,6 @@ import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.Param
-import org.apache.spark.sql.types.MetadataBuilder
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.Map
