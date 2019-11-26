@@ -64,10 +64,11 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
-    documentsWithChunks.zipWithIndex.flatMap { case (sentences, idx) =>
+    documentsWithChunks.flatMap { sentences =>
       sentences._2.map { chunk =>
 
-        val tokensWithEmbeddings = embeddingsSentences(idx).tokens.filter(
+        val sentenceId = chunk.metadata("sentence")
+        val tokensWithEmbeddings = embeddingsSentences(sentenceId.toInt).tokens.filter(
           token => token.begin == chunk.begin || token.end == chunk.end
         )
 
@@ -82,7 +83,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
           begin = chunk.begin,
           end = chunk.end,
           result = chunk.result,
-          metadata = Map("sentence" -> idx.toString,
+          metadata = Map("sentence" -> sentenceId.toString,
             "token" -> chunk.result.toString,
             "pieceId" -> "-1",
             "isWordStart" -> "true"
