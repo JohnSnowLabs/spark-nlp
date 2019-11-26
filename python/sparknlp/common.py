@@ -143,6 +143,9 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, 
     def setTrainingCols(self, cols):
         return self._set(trainingCols=cols)
 
+    def _create_model(self, java_model):
+        raise NotImplementedError('Please implement _create_model in %s' % self)
+
 
 def RegexRule(rule, identifier):
     return _internal._RegexRule(rule, identifier).apply()
