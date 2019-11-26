@@ -18,7 +18,6 @@ object SparkNLP {
   }
 
   def version(): String = {
-    println(currentVersion)
     currentVersion
   }
 
