@@ -5,7 +5,7 @@ import org.apache.spark.ml.param.{BooleanParam, IntParam, Params}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.MetadataBuilder
 
-trait HasEmbeddings extends Params {
+trait EmbeddingsProperties extends Params {
 
   val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
   val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to ignore case in tokens for embeddings matching")
@@ -18,11 +18,11 @@ trait HasEmbeddings extends Params {
   def getDimension: Int = $(dimension)
   def getCaseSensitive: Boolean = $(caseSensitive)
 
-  protected def wrapEmbeddingsMetadata(col: Column, embeddingsDim: Int, embeddingsRef: Option[String] = None): Column = {
+  protected def wrapEmbeddingsMetadata(col: Column, embeddingsDim: Int, embeddingsRef: String): Column = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", AnnotatorType.WORD_EMBEDDINGS)
     metadataBuilder.putLong("dimension", embeddingsDim.toLong)
-    embeddingsRef.foreach(ref => metadataBuilder.putString("ref", ref))
+    metadataBuilder.putString("ref", embeddingsRef)
     col.as(col.toString, metadataBuilder.build)
   }
 

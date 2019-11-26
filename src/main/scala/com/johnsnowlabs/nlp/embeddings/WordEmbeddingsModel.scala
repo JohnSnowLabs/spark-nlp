@@ -86,7 +86,7 @@ class WordEmbeddingsModel(override val uid: String)
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     getClusterEmbeddings.getLocalRetriever.close()
 
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some(getEmbeddingsRef)))
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), $(embeddingsRef)))
   }
 
 }

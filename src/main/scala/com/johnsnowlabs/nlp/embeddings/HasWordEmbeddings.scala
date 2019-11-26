@@ -1,22 +1,13 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import com.johnsnowlabs.nlp.HasEmbeddingsRef
+import org.apache.spark.ml.param.BooleanParam
 
-trait HasWordEmbeddings extends HasEmbeddings {
-
-  val embeddingsRef = new Param[String](this, "embeddingsRef", "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref")
+trait HasWordEmbeddings extends EmbeddingsProperties with HasEmbeddingsRef {
 
   val includeEmbeddings = new BooleanParam(this, "includeEmbeddings", "whether or not to save indexed embeddings along this annotator")
 
-  setDefault(embeddingsRef, this.uid)
   setDefault(includeEmbeddings, true)
-
-  def setEmbeddingsRef(value: String): this.type = {
-    if (this.isInstanceOf[WordEmbeddingsModel] && get(embeddingsRef).nonEmpty)
-      throw new UnsupportedOperationException(s"Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: $getEmbeddingsRef")
-    set(this.embeddingsRef, value)
-  }
-  def getEmbeddingsRef: String = $(embeddingsRef)
 
   def setIncludeEmbeddings(value: Boolean): this.type = set(includeEmbeddings, value)
   def getIncludeEmbeddings: Boolean = $(includeEmbeddings)
