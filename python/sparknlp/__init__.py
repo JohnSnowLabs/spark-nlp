@@ -42,6 +42,4 @@ def start():
 
 
 def version():
-    ver = '2.3.3'
-    print(ver)
-    return ver
+    return '2.3.3'
