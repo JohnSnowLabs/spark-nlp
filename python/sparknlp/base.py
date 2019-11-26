@@ -5,6 +5,7 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGettersSetters, AnnotatorProperties
 from sparknlp.util import AnnotatorJavaMLReadable
+from sparknlp.annotation import Annotation
 import sparknlp.internal as _internal
 
 
@@ -74,7 +75,6 @@ class LightPipeline:
 
     @staticmethod
     def _annotation_from_java(java_annotations):
-        from sparknlp.annotation import Annotation
         annotations = []
         for annotation in java_annotations:
             annotations.append(Annotation(annotation.annotatorType(),
