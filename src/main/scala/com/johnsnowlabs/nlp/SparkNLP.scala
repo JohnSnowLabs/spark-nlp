@@ -17,8 +17,9 @@ object SparkNLP {
     build.getOrCreate()
   }
 
-  def version(): Unit = {
+  def version(): String = {
     println(currentVersion)
+    currentVersion
   }
 
 }
