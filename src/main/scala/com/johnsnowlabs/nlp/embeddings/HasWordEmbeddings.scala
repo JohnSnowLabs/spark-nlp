@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.HasEmbeddingsRef
 import org.apache.spark.ml.param.BooleanParam
 
-trait HasWordEmbeddings extends EmbeddingsProperties with HasEmbeddingsRef {
+trait HasWordEmbeddings extends HasEmbeddingsProperties with HasEmbeddingsRef {
 
   val includeEmbeddings = new BooleanParam(this, "includeEmbeddings", "whether or not to save indexed embeddings along this annotator")
 

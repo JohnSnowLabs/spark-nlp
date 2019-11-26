@@ -13,13 +13,14 @@ import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with HasEmbeddingsRef {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
@@ -67,6 +68,11 @@ class NerDLModel(override val uid: String)
 
       new TaggedSentence(tokens)
     }.toArray
+  }
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateEmbeddingsRef(dataset, $(inputCols))
+    dataset
   }
 
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {

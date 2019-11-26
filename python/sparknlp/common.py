@@ -81,7 +81,7 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
             self._transfer_params_from_java()
 
 
-class HasEmbeddings(Params):
+class HasEmbeddingsProperties(Params):
     dimension = Param(Params._dummy(),
                       "dimension",
                       "Number of embedding dimensions",
@@ -99,16 +99,11 @@ class HasEmbeddings(Params):
         return self._set(caseSensitive=value)
 
 
-class HasWordEmbeddings(HasEmbeddings):
+class HasEmbeddingsRef(Params):
     embeddingsRef = Param(Params._dummy(),
                           "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
+                          "unique reference name for identification",
                           typeConverter=TypeConverters.toString)
-
-    includeEmbeddings = Param(Params._dummy(),
-                           "includeEmbeddings",
-                           "whether or not to save indexed embeddings along this annotator",
-                           typeConverter=TypeConverters.toBoolean)
 
     def setEmbeddingsRef(self, value):
         from sparknlp.annotator import WordEmbeddingsModel
@@ -118,6 +113,14 @@ class HasWordEmbeddings(HasEmbeddings):
 
     def getEmbeddingsRef(self):
         return self.getOrDefault('embeddingsRef')
+
+
+class HasWordEmbeddings(HasEmbeddingsProperties, HasEmbeddingsRef):
+
+    includeEmbeddings = Param(Params._dummy(),
+                           "includeEmbeddings",
+                           "whether or not to save indexed embeddings along this annotator",
+                           typeConverter=TypeConverters.toBoolean)
 
     def setIncludeEmbeddings(self, value):
         return self._set(includeEmbeddings=value)

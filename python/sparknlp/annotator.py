@@ -1452,7 +1452,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddings):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasEmbeddingsRef):
 
     name = "BertEmbeddings"
 
