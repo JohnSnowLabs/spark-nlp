@@ -1,4 +1,39 @@
 ========
+2.3.4
+========
+---------------
+Overview
+---------------
+Thank you, as always, for the feedback given at Slack and our repos. This release improves various internal API
+functionalities, allowing for positive side-effects across the library. As an important enhancements, we have added
+user UDFs and functions for both Scala and Python users to be able to easily manipulate annotations on DataFrames.
+Finally, we have fixed various bugs in embeddings metadata to make sure we provide accurate offsetting information
+for other annotators to consume it successfully. Stay tuned for a `spark-nlp-models` page revamp to check out all our
+new updates in terms of available models!
+
+---------------
+Enhancements
+---------------
+* Revamped functions in Scala and python to help users deal with annotations from dataframes or in UDF form, such as `map_annotations` and `filter_by_annotations`
+
+---------------
+Bugfixes
+---------------
+* Fixed bugs in ChunkEmbeddings and SentenceEmbeddings causing them to report wrong metadata and offset values
+* Fixed a nested import issue in Python causing LightPipelines not to work in some environments
+
+---------------
+Developer API
+---------------
+* downloadModel is now flexible as to which inner downloader class is being used to access AnnotatorModel reference
+* pretrained API now deals with defaultModelName as an Option to allow non default pretrained models
+
+---------------
+Other
+---------------
+* version() now returns the version string instead of just printing it
+
+========
 2.3.3
 ========
 ---------------
