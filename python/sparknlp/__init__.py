@@ -34,7 +34,7 @@ def start():
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
-        .config("spark.driver.memory", "6G") \
+        .config("spark.driver.memory", "8G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")\
         .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.3") \
 
@@ -42,4 +42,4 @@ def start():
 
 
 def version():
-    print('2.3.3')
+    return '2.3.3'
