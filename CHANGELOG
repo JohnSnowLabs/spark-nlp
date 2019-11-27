@@ -4,8 +4,10 @@
 ---------------
 Overview
 ---------------
-Thank you, as always, for the feedback given at Slack and our repos. This release improves various internal API
-functionalities, allowing for positive side-effects across the library. As an important enhancements, we have added
+Thank you, as always, for the feedback given at Slack and our repos. The most important part of this release,
+is how we internally started organizing models. We'll be deploying our model news in https://github.com/JohnSnowLabs/spark-nlp-models .
+That repo will be kept update and it is going to be constantly updated. As for this release, it improves various internal API
+functionalities, allowing for positive side-effects across the library. As an important enhancement, we have added
 user UDFs and functions for both Scala and Python users to be able to easily manipulate annotations on DataFrames.
 Finally, we have fixed various bugs in embeddings metadata to make sure we provide accurate offsetting information
 for other annotators to consume it successfully. Stay tuned for a `spark-nlp-models` page revamp to check out all our
