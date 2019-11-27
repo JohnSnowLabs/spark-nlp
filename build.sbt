@@ -5,7 +5,6 @@ val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
 val is_gpu = System.getProperty("is_gpu","false")
-
 /** Package attributes */
 if(is_gpu.equals("false")){
   name := "spark-nlp"
