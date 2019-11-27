@@ -99,7 +99,7 @@ class ViveknSentimentModel(override val uid: String) extends AnnotatorModel[Vive
 }
 
 trait ReadablePretrainedVivekn extends ParamsAndFeaturesReadable[ViveknSentimentModel] with HasPretrained[ViveknSentimentModel] {
-  override val defaultModelName: String = "sentiment_vivekn"
+  override val defaultModelName = Some("sentiment_vivekn")
   /** Java compliant-overrides */
   override def pretrained(): ViveknSentimentModel = super.pretrained()
   override def pretrained(name: String): ViveknSentimentModel = super.pretrained(name)
