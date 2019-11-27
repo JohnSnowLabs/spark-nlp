@@ -41,6 +41,7 @@ It is required to specify 3rd argument to `pretrained(name, lang, loc)` function
 |TextMatcherModel        |`textmatch_cpt_token_n2c1`|en|clinical/models|
 |ChunkEntityResolverModel        |`chunkresolve_icdo_icdoem`|en|clinical/models|
 |ChunkEntityResolverModel        |`chunkresolve_cpt_icdoem`|en|clinical/models|
+|DisambiguatorModel        |`people_disambiguator`|en|clinical/models|
 
 ## How to use Pretrained Models
 
