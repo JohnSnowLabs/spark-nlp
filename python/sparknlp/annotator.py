@@ -494,6 +494,9 @@ class TextMatcherModel(AnnotatorModel):
             java_model=java_model
         )
 
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
