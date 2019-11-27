@@ -3,35 +3,40 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2019-09-04"
+modify_date: "2019-11-27"
 ---
+
+Pretrained Pipelines moved to its own dedicated repository.
+Please follow this link for updated list:
+[https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
+{:.success}
 
 ## English
 
 **NOTE:**
 `noncontrib` pipelines are compatible with `Windows` operating systems.
 
-| Pipelines            | Name                   | en                                                                                                                  |
-| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| [Explain Document ML](#explain_document_ml)  | `explain_document_ml`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_ml_en_2.1.0_2.4_1563203154682.zip)  |
-| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_2.1.0_2.4_1564764767733.zip)  |
-| Explain Document DL Win | `explain_document_dl_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_noncontrib_en_2.1.0_2.4_1564764344071.zip)  |
-| Explain Document DL Fast | `explain_document_dl_fast`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_en_2.1.0_2.4_1562946519404.zip)  |
-| Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_fast_noncontrib_en_2.1.0_2.4_1562954323015.zip)  |
-| [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_en_2.1.0_2.4_1562946909722.zip) |
-| Recognize Entities DL Win | `recognize_entities_dl_noncontrib` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/recognize_entities_dl_noncontrib_en_2.1.0_2.4_1562954722690.zip) |
-| [OntoNotes Entities Small](#onto_recognize_entities_sm) | `onto_recognize_entities_sm` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_recognize_entities_sm_en_2.1.0_2.4_1564330931782.zip)
-| [OntoNotes Entities Large](#onto_recognize_entities_lg) | `onto_recognize_entities_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_recognize_entities_lg_en_2.1.0_2.4_1564339796549.zip)
-| [Match Datetime](#match_datetime) | `match_datetime` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_datetime_en_2.1.0_2.4_1562944300214.zip)
-| [Match Pattern](#match_pattern) | `match_pattern` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_pattern_en_2.1.0_2.4_1562944301080.zip)
-| [Match Chunk](#match_chunks) | `match_chunks` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_chunks_en_2.2.0_2.4_1568121171238.zip)
-| Match Phrases | `match_phrases`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/match_phrases_en_2.1.0_2.4_1562944304428.zip)
-| Clean Stop | `clean_stop`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_stop_en_2.1.0_2.4_1562944303490.zip)
-| Clean Pattern | `clean_pattern`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_pattern_en_2.1.0_2.4_1562944302303.zip)
-| Clean Slang | `clean_slang`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_slang_en_2.1.0_2.4_1562944852594.zip)
-| Check Spelling | `check_spelling`| [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_en_2.1.0_2.4_1562944297070.zip)
-| Analyze Sentiment | `analyze_sentiment` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_2.1.0_2.4_1563204637489.zip)
-| Dependency Parse | `dependency_parse` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_2.1.0_2.4_1563224147733.zip)
+| Pipelines            | Name                   |
+| -------------------- | ---------------------- |
+| [Explain Document ML](#explain_document_ml)  | `explain_document_ml`
+| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`
+| Explain Document DL Win | `explain_document_dl_noncontrib`
+| Explain Document DL Fast | `explain_document_dl_fast`
+| Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  |
+| [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` |
+| Recognize Entities DL Win | `recognize_entities_dl_noncontrib` |
+| [OntoNotes Entities Small](#onto_recognize_entities_sm) | `onto_recognize_entities_sm` |
+| [OntoNotes Entities Large](#onto_recognize_entities_lg) | `onto_recognize_entities_lg` |
+| [Match Datetime](#match_datetime) | `match_datetime` |
+| [Match Pattern](#match_pattern) | `match_pattern` |
+| [Match Chunk](#match_chunks) | `match_chunks` |
+| Match Phrases | `match_phrases`|
+| Clean Stop | `clean_stop`|
+| Clean Pattern | `clean_pattern`|
+| Clean Slang | `clean_slang`|
+| Check Spelling | `check_spelling`|
+| Analyze Sentiment | `analyze_sentiment` |
+| Dependency Parse | `dependency_parse` |
 
 ### explain_document_ml
 
@@ -411,12 +416,12 @@ annotation.select("chunk.result").show(false)
 
 ## French
 
-| Pipelines               | Name                  | fr                                                                                                                 |
-| ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [Explain Document Large](#french-explain_document_lg)  | `explain_document_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_fr_2.1.0_2.4_1563178528241.zip) |
-| [Explain Document Medium](#french-explain_document_md) | `explain_document_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_fr_2.1.0_2.4_1563180522434.zip) |
-| [Entity Recognizer Large](#french-entity_recognizer_lg) | `entity_recognizer_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_fr_2.1.0_2.4_1563180776696.zip) |
-| [Entity Recognizer Medium](#french-entity_recognizer_md) | `entity_recognizer_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_fr_2.1.0_2.4_1563182745366.zip) |
+| Pipelines               | Name                  |
+| ----------------------- | --------------------- |
+| [Explain Document Large](#french-explain_document_lg)  | `explain_document_lg` |
+| [Explain Document Medium](#french-explain_document_md) | `explain_document_md` |
+| [Entity Recognizer Large](#french-entity_recognizer_lg) | `entity_recognizer_lg` |
+| [Entity Recognizer Medium](#french-entity_recognizer_md) | `entity_recognizer_md` |
 
 |Feature | Description|
 |---|----|
@@ -604,12 +609,12 @@ annotation.select("entities.result").show(false)
 
 ## Italian
 
-| Pipelines               | Name                  | it                                                                                                                 |
-| ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [Explain Document Large](#italian-explain_document_lg)  | `explain_document_lg`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_it_2.1.0_2.4_1563183013508.zip)  |
-| [Explain Document Medium](#italian-explain_document_md) | `explain_document_md`  | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_it_2.1.0_2.4_1563184262421.zip)  |
-| [Entity Recognizer Large](#italian-entity_recognizer_lg) | `entity_recognizer_lg` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_it_2.1.0_2.4_1563184543759.zip) |
-| [Entity Recognizer Medium](#italian-entity_recognizer_md) | `entity_recognizer_md` | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_it_2.1.0_2.4_1563186026810.zip) |
+| Pipelines               | Name                  |
+| ----------------------- | --------------------- |
+| [Explain Document Large](#italian-explain_document_lg)  | `explain_document_lg`  |
+| [Explain Document Medium](#italian-explain_document_md) | `explain_document_md`  |
+| [Entity Recognizer Large](#italian-entity_recognizer_lg) | `entity_recognizer_lg` |
+| [Entity Recognizer Medium](#italian-entity_recognizer_md) | `entity_recognizer_md` |
 
 |Feature | Description|
 |---|----|
