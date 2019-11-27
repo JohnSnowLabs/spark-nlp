@@ -17,11 +17,13 @@ It is required to specify 3rd argument to `pretrained(name, lang, loc)` function
 | Model                                  |   name     |   language     |   loc     |
 |----------------------------------------|---------------|---------------|---------------|
 |NerDLModel        |`ner_clinical`|en|clinical/models|
+|NerDLModel        |`deidentify_dl`|en|clinical/models|
+|NerDLModel        |`ner_bionlp`|en|clinical/models|
 |AssertionLogRegModel        |`assertion_ml`|en|clinical/models|
 |AssertionDLModel        |`assertion_dl`|en|clinical/models|
-|NerDLModel        |`deidentify_dl`|en|clinical/models|
 |DeIdentificationModel        |`deidentify_rb`|en|clinical/models|
 |WordEmbeddingsModel        |`embeddings_clinical`|en|clinical/models|
+|WordEmbeddingsModel        |`embeddings_icdoem`|en|clinical/models|
 |BertEmbeddingsModel | `biobert_pubmed_cased`|en|clinical/models|
 |BertEmbeddingsModel | `biobert_pmc_cased`|en|clinical/models|
 |BertEmbeddingsModel | `biobert_pubmed_pmc_cased`|en|clinical/models|
@@ -31,7 +33,14 @@ It is required to specify 3rd argument to `pretrained(name, lang, loc)` function
 |EntityResolverModel        |`resolve_icd10`|en|clinical/models|
 |EntityResolverModel        |`resolve_icd10cm_cl_em`|en|clinical/models|
 |EntityResolverModel        |`resolve_icd10pcs_cl_em`|en|clinical/models|
-|ContextSpellCheckerModel        |`context_spell_med`|en|clinical/models|
+|EntityResolverModel        |`resolve_icd10cm_icdoem`|en|clinical/models|
+|EntityResolverModel        |`resolve_icdo_icdoem`|en|clinical/models|
+|EntityResolverModel        |`resolve_cpt_icdoem`|en|clinical/models|
+|ContextSpellCheckerModel        |`spellcheck_dl`|en|clinical/models|
+|TextMatcherModel        |`textmatch_icdo_ner_n2c4`|en|clinical/models|
+|TextMatcherModel        |`textmatch_cpt_token_n2c1`|en|clinical/models|
+|ChunkEntityResolverModel        |`chunkresolve_icdo_icdoem`|en|clinical/models|
+|ChunkEntityResolverModel        |`chunkresolve_cpt_icdoem`|en|clinical/models|
 
 ## How to use Pretrained Models
 
