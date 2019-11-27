@@ -125,10 +125,10 @@ trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with
   val WIN_MODEL_NAME = "ner_dl"
   val UNIX_MODEL_NAME = "ner_dl_contrib"
 
-  override val defaultModelName = "ner_dl_by_os"
+  override val defaultModelName = Some("ner_dl_by_os")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): NerDLModel = {
-    val finalName = if (name == defaultModelName) {
+    val finalName = if (name == defaultModelName.get) {
       if (SystemUtils.IS_OS_WINDOWS)
         WIN_MODEL_NAME
       else
@@ -138,7 +138,7 @@ trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with
     ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
   }
   /** Java compliant-overrides */
-  override def pretrained(): NerDLModel = pretrained(defaultModelName, defaultLang, defaultLoc)
+  override def pretrained(): NerDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
   override def pretrained(name: String): NerDLModel = pretrained(name, defaultLang, defaultLoc)
   override def pretrained(name: String, lang: String): NerDLModel = pretrained(name, lang, defaultLoc)
 }
