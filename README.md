@@ -14,7 +14,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
-* [Using Spark NLP](#usage)
+* [Quick Start](#quick-start)
+* [Using Spark NLP](#usage)  
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
   * [Compiled JARs](#compiled-jars)
@@ -26,9 +27,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [Google Colab Notebook](#google-colab-notebook)
-  * [S3 Cluster](#s3-cluster)
-  * [OCR Module](#ocr-module)
-  * [Eval Module](#eval-module)
+  * [S3 Cluster](#s3-cluster)  
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
   * [Models](#models)
@@ -38,15 +37,53 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Aknowledgments](#aknowledgments)
 * [Contributing](#contributing)
 
+## Quick Start
+
+This is a quick example of how to use Spark NLP pre-trained pipeline:
+
+```python
+# Import Spark NLP
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.pretrained import PretrainedPipeline
+import sparknlp
+
+# Start Spark Session with Spark NLP
+spark = sparknlp.start()
+
+# Download a pre-trained pipeline
+pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+
+# Your testing dataset
+text = """
+The Mona Lisa is a 16th century oil painting created by Leonardo. 
+It's held at the Louvre in Paris.
+"""
+
+# Annotate your testing dataset
+result = pipeline.annotate(text)
+
+# What's in the pipeline
+list(result.keys())
+Output: ['entities', 'stem', 'checked', 'lemma', 'document',
+'pos', 'token', 'ner', 'embeddings', 'sentence']
+
+# Check the results
+result['entities']
+Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+```
+
+For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+
 ## Usage
 
 ## Apache Spark Support
 
-Spark NLP *2.3.1* has been built on top of Apache Spark 2.4.4
+Spark NLP *2.3.4* has been built on top of Apache Spark 2.4.4
 
-| Spark NLP   |   Spark 2.3.x         | Spark 2.4    |
+| Spark NLP   |   Spark 2.3.x         | Spark 2.4   |
 |-------------|-------------------------------------|--------------|
-| 2.x.x       |YES                                   |YES           |
+| 2.x.x       |YES                                  |YES           |
 | 1.8.x       |Partially                            |YES           |
 | 1.7.3       |YES                                  |N/A           |
 | 1.6.3       |YES                                  |N/A           |
@@ -56,9 +93,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 **Note:** that pre-build Spark NLP is not retrocompatible with older Spark 2.x.x, so models and environments might not work.
 
-If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version. Feel free to use [this assembly jar](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-assembly-1.8.0.jar) for such version.
-For OCR module, [this](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-2.3.2-nlp-ocr-assembly-1.8.0.jar) is for spark `2.3.x`.
-
+If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version.
 
 ## Spark Packages
 
@@ -68,18 +103,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.1` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.4` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.1
+spark-shell --packages JohnSnowLabs:spark-nlp:2.3.4
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.1
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.1
+spark-submit --packages JohnSnowLabs:spark-nlp:2.3.4
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
@@ -108,36 +143,6 @@ sbt -Dis_gpu=true assembly
 sbt package
 ```
 
-#### spark-nlp-ocr
-
-Requires native Tesseract 4.x+ for image based OCR. Does not require Spark NLP to work but highly suggested
-
-* FAT-JAR
-
-```bash
-sbt ocr/assembly
-```
-
-* Packaging the project
-
-```bash
-sbt ocr/package
-```
-
-#### spark-nlp-eval
-
-* FAT-JAR for Eval
-
-```bash
-sbt evaluation/assembly
-```
-
-* Packaging the project
-
-```bash
-sbt evaluation/package
-```
-
 ### Using the jar manually
 
 If for some reason you need to use the JAR, you can either download the Fat JARs provided here or download it from [Maven Central](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp).
@@ -163,7 +168,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.3.1</version>
+    <version>2.3.4</version>
 </dependency>
 ```
 
@@ -174,40 +179,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.2.0</version>
-</dependency>
-```
-
-**spark-nlp-ocr:**
-
-```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-ocr_2.11</artifactId>
-    <version>2.3.1</version>
-</dependency>
-```
-
-**spark-nlp-eval:**
-
-```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-eval_2.11</artifactId>
-    <version>2.3.1</version>
-</dependency>
-```
-
-**spark-nlp-eval:**
-
-```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval -->
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-eval_2.11</artifactId>
-    <version>2.2.2</version>
+    <version>2.3.4</version>
 </dependency>
 ```
 
@@ -217,35 +189,14 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.4"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.2.0"
-```
-
-**spark-nlp-ocr:**
-
-```sbtshell
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-ocr" % "2.3.1"
-```
-
-**spark-nlp-eval:**
-
-```sbtshell
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.3.1"
-```
-
-**spark-nlp-eval:**
-
-```sbtshell
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-eval
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-eval" % "2.2.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.3.4"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -261,7 +212,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.3.1
+pip install spark-nlp==2.3.4
 ```
 
 Conda:
@@ -288,7 +239,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.1")\
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -321,17 +272,17 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.1
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.4
 ```
 
-* Add path to pre-built jar from [here](#pre-compiled-spark-nlp-and-spark-nlp-ocr) in the interpreter's library list making sure the jar is available to driver path
+* Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
 
 ### Python in Zeppelin
 
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.3.1
+pip install spark-nlp==2.3.4
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -356,7 +307,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.1
+pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -382,11 +333,11 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.3.1
+! pip install --ignore-installed spark-nlp==2.3.4
 
 # Quick SparkSession start
 import sparknlp
-spark = sparknlp.start(include_ocr=True)
+spark = sparknlp.start()
 
 print("Spark NLP version")
 sparknlp.version()
@@ -417,76 +368,6 @@ sparknlp {
     cluster_tmp_dir = "somewhere in s3n:// path to some folder"
   }
 }
-```
-
-## OCR Module
-
-To include the OCR submodule in Spark NLP, you will need to add the following to your start up commands:
-
-```basg
---repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.3.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-```
-
-This way you will download the extra dependencies needed by our OCR submodule. The Python SparkSession equivalent is
-
-```python
-spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Spark NLP with OCR') \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.1,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.1,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
-    .getOrCreate()
-```
-
-## Eval Module
-
-Evaluation module uses [MLflow](https://mlflow.org/docs/latest/index.html) component to logging metrics.
-
-To configure [MLflow tracking UI](https://mlflow.org/docs/latest/tracking.html) you just need the steps below:
-
-* Install [MLflow](https://mlflow.org/docs/latest/quickstart.html) with Pip
-
-```bash
-pip install mlflow
-``` 
-
-* Set MLFLOW_TRACKING_URI variable
-
-```bash
-export MLFLOW_TRACKING_URI=http://localhost:5000
-```
-
-Now to see the results you just need the following steps before using any component from eval module:
-
-* Run MLflow's Tracking UI
-
-```bash
-mlflow ui
-```
-
-* View it at [http://localhost:5000](http://localhost:5000)
-
-To include the Eval submodule in Spark NLP, you will need to add the following to your start up commands:
-
-```basg
---repositories http://repo.spring.io/plugins-release
---packages JohnSnowLabs:spark-nlp:2.3.1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.1
-```
-
-This way you will download the extra dependencies needed by our Eval submodule. The Python SparkSession equivalent is
-
-```python
-spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Spark NLP with Eval') \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.1,com.johnsnowlabs.nlp:spark-nlp-eval_2.11:2.3.1") \
-    .getOrCreate()
 ```
 
 ## Pipelines and Models
@@ -625,9 +506,9 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 ## Examples
 
-Need more examples? Check out our dedicated repository to showcase Spark NLP use cases!
+Need more **examples**? Check out our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
-[spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+### All examples: [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
 
@@ -635,13 +516,20 @@ Need more examples? Check out our dedicated repository to showcase Spark NLP use
 
 ## Troubleshooting
 
-### OCR
+### ```TypeError: 'JavaPackage' object is not callable```
 
-* Q: I am getting a Java Core Dump when running OCR transformation
-  * A: Add `LC_ALL=C` environment variable
-  
-* Q: Getting `org.apache.pdfbox.filter.MissingImageReaderException: Cannot read JPEG2000 image: Java Advanced Imaging (JAI) Image I/O Tools are not installed` when running an OCR transformation
-  * A: `--packages com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0`. This library is non-free thus we can't include it as a Spark NLP dependency by default
+If you get this common python error, it means that the Spark NLP was not loaded correctly in your session, take a look at the following suggestions for a solution
+(Thanks Eric Nelson for putting this together)
+
+1. Make sure you are using Apache Spark 2.4.4 (or whatever version Spark NLP was compiled with)
+2. Make sure your SPARK_HOME and PATH environment variables are pointing to such Spark and not any other installation on your system
+3. If on Windows, download Hadoop winutils.exe and add it to your PATH: https://github.com/steveloughran/winutils
+4. HADOOP_HOME should also be set in some cases, pointing to your SPARK_HOME should work if you don't have an explicit hadoop installation
+5. If you are running `pyspark` instead of just `jupyter notebook`, make sure you setup `PYSPARK_DRIVER_PYTHON`, `PYSPARK_DRIVER_PYTHON_OPTS` and `PYSPARK_PYTHON` as pointed in the documentation
+6. `pip install spark-nlp==2.4.4` even if you are using `--packages` as a safety instruction
+7. Make sure all dependencies are properly written and/or paths to any jars you are manually providing. Spark does not fail upon wrong path, it will just ignore it
+8. If you get dependency failures when starting Spark, make sure to add antivirus and firewall exceptions. Windows antivirus adversely impacts performance when resolving dependencies.
+
 
 ## Acknowledgments
 

@@ -59,8 +59,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
         case (AnnotatorType.WORD_EMBEDDINGS |
-             AnnotatorType.SENTENCE_EMBEDDINGS |
-             AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
+             AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
         case _ => a.result
       }
     }))

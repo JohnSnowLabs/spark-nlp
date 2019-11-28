@@ -28,14 +28,17 @@ class WordEmbeddingsModel(override val uid: String)
     if ($(includeEmbeddings)) {
       val src = getEmbeddingsSerializedPath(path)
 
-      EmbeddingsHelper.load(
-        src.toUri.toString,
-        spark,
-        WordEmbeddingsFormat.SPARKNLP.toString,
-        $(dimension),
-        $(caseSensitive),
-        $(embeddingsRef)
-      )
+      if (!isLoaded()) {
+        preloadedEmbeddings = Some(EmbeddingsHelper.load(
+          src.toUri.toString,
+          spark,
+          WordEmbeddingsFormat.SPARKNLP.toString,
+          $(dimension),
+          $(caseSensitive),
+          $(embeddingsRef)
+        ))
+        setAsLoaded()
+      }
     }
   }
 
@@ -69,12 +72,12 @@ class WordEmbeddingsModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
-    val withEmbeddings = sentences.zipWithIndex.map{case (s, idx) =>
-      val tokens = s.indexedTokens.map {token =>
+    val withEmbeddings = sentences.map{ s =>
+      val tokens = s.indexedTokens.map { token =>
         val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
       }
-      WordpieceEmbeddingsSentence(tokens, idx)
+      WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
 
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
@@ -89,7 +92,7 @@ class WordEmbeddingsModel(override val uid: String)
 }
 
 trait ReadablePretrainedWordEmbeddings extends EmbeddingsReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
-  override val defaultModelName: String = "glove_100d"
+  override val defaultModelName = Some("glove_100d")
   /** Java compliant-overrides */
   override def pretrained(): WordEmbeddingsModel = super.pretrained()
   override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)

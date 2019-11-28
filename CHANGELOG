@@ -1,4 +1,96 @@
 ========
+2.3.4
+========
+---------------
+Overview
+---------------
+Thank you, as always, for the feedback given at Slack and our repos. The most important part of this release,
+is how we internally started organizing models. We'll be deploying our model news in https://github.com/JohnSnowLabs/spark-nlp-models .
+That repo will be kept update and it is going to be constantly updated. As for this release, it improves various internal API
+functionalities, allowing for positive side-effects across the library. As an important enhancement, we have added
+user UDFs and functions for both Scala and Python users to be able to easily manipulate annotations on DataFrames.
+Finally, we have fixed various bugs in embeddings metadata to make sure we provide accurate offsetting information
+for other annotators to consume it successfully. Stay tuned for a `spark-nlp-models` page revamp to check out all our
+new updates in terms of available models!
+
+---------------
+Enhancements
+---------------
+* Revamped functions in Scala and python to help users deal with annotations from dataframes or in UDF form, such as `map_annotations` and `filter_by_annotations`
+
+---------------
+Bugfixes
+---------------
+* Fixed bugs in ChunkEmbeddings and SentenceEmbeddings causing them to report wrong metadata and offset values
+* Fixed a nested import issue in Python causing LightPipelines not to work in some environments
+
+---------------
+Developer API
+---------------
+* downloadModel is now flexible as to which inner downloader class is being used to access AnnotatorModel reference
+* pretrained API now deals with defaultModelName as an Option to allow non default pretrained models
+
+---------------
+Other
+---------------
+* version() now returns the version string instead of just printing it
+
+========
+2.3.3
+========
+---------------
+Overview
+---------------
+We are very glad to announce this release, it actually ended up much bigger than we expected.
+Thanks to the community feedback, we arranged many bugfixes. We also spent some times and started building
+models for the TextMatcher, so it got various improvements and bugfixes when dealing with empty sentences or cleaned up tokens.
+We also added UDF ready functions in Python to easily deal with Annotations. Finally, we fixed a few bugs when loading models from disk.
+Thank you very much for constant feedback on Slack.
+
+---------------
+New Features
+---------------
+* TextMatcher new param `mergeOverlapping` allows for handling overlapping output chunks when matching entities share keywords
+* NER overwriter annotator allows for overwriting NER output with custom entities
+* Added `map_annotations`, `map_annotations_strict`, `map_annotations_col`, `filter_by_annotations_col` and `explode_annotations_col` functions to python side. Allows dealing with Annotations easily.
+
+---------------
+Enhancement
+---------------
+* Made ChunkEmbeddings output to be compatible with SentenceEmbeddings for better flexibility in pipelines
+
+---------------
+Bugfixes
+---------------
+* Fixed BertEmbeddings crashing on empty input sentences
+* Fixed missing load API and import shorcuts on the new Embeddings annotators
+* Added missing metadata fields in ChunkEmbeddings
+* Fixed wrong sentence IDs in sentences or tokens that got a cleanup during the pipeline
+* Fixed typos in docs. Thanks @marcinic
+* Fixed bad deprecated OCR and SpellChecker python classpath
+
+========
+2.3.2
+========
+---------------
+Overview
+---------------
+This release addresses multiple bug fixes and some enhancements regarding memory consumption in BertEmbeddings annotator.
+Thanks for your feedback and reports!
+
+---------------
+Bugfixes
+---------------
+* Fix missing EmbeddingsFinisher in Scala and Python
+* Reverted embeddings move to copy due to CRC issue
+* Fix IndexOutOfBoundsException in SentenceEmbeddings
+
+---------------
+Enhancement
+---------------
+* Optimize BertEmbeddings memory consumption
+
+========
 2.3.1
 ========
 ---------------

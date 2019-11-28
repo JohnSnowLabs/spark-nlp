@@ -5,6 +5,7 @@ from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
 from sparknlp.common import ParamsGettersSetters, AnnotatorProperties
 from sparknlp.util import AnnotatorJavaMLReadable
+from sparknlp.annotation import Annotation
 import sparknlp.internal as _internal
 
 
@@ -67,17 +68,6 @@ class JavaRecursiveEstimator(JavaEstimator):
                              "but got %s." % type(params))
 
 
-class Annotation:
-    def __init__(self, annotator_type, begin, end, result, metadata, embeddings=[], sentence_embeddings=[]):
-        self.annotator_type = annotator_type
-        self.begin = begin
-        self.end = end
-        self.result = result
-        self.metadata = metadata
-        self.embeddings = embeddings
-        self.sentence_embeddings = sentence_embeddings
-
-
 class LightPipeline:
     def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
@@ -91,9 +81,8 @@ class LightPipeline:
                                           annotation.begin(),
                                           annotation.end(),
                                           annotation.result(),
-                                          dict(annotation.metadata()),
-                                          annotation.embeddings,
-                                          annotation.sentence_embeddings
+                                          annotation.metadata(),
+                                          annotation.embeddings
                                           )
                                )
         return annotations
