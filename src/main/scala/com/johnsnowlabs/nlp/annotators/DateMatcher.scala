@@ -320,7 +320,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         matchedDate.start,
         matchedDate.end - 1,
         simpleDateFormat.format(matchedDate.calendar.getTime),
-        Map.empty[String, String]
+        Map("sentence" -> annotation.metadata.getOrElse("sentence", "0"))
       ))
     )
   }
