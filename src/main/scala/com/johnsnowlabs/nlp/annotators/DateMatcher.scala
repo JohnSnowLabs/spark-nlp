@@ -127,28 +127,41 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")
+
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
     if (possibleDates.length > 1) {
-      val dayMatch = possibleDates.head.content
-      val day = dayMatch.matched.filter(_.isDigit).toInt
-      val monthMatch = possibleDates(1).content
-      val month = shortMonths.indexOf(monthMatch.matched.toLowerCase.take(3))
-      val yearMatch = possibleDates.last.content
-      val year = {
-        if (possibleDates.length > 2) {
-          val number = yearMatch.matched.filter(_.isDigit).toInt
-          if (number > 999) number else number + 1900
-        } else {
-          Calendar.getInstance.get(Calendar.YEAR)
-        }
+      var dayMatch = 1
+      var monthMatch = 1
+      var yearMatch = Calendar.getInstance().getWeekYear
+
+      val dayCandidate = possibleDates.find(_.identifier == "relaxed days")
+      if (dayCandidate.isDefined && dayCandidate.get.content.matched.exists(_.isDigit)) {
+        dayMatch = dayCandidate.get.content.matched.filter(_.isDigit).toInt
       }
+
+      val monthCandidate = possibleDates.find(_.identifier == "relaxed months exclusive")
+      if (monthCandidate.isDefined && monthCandidate.get.content.matched.length > 2) {
+        val month = monthCandidate.get.content.matched.toLowerCase().take(3)
+        if (shortMonths.contains(month))
+          monthMatch = shortMonths.indexOf(month)
+      }
+
+      val yearCandidate = possibleDates.find(_.identifier == "relaxed year")
+      if (yearCandidate.isDefined &&
+        yearCandidate.get.content.matched.exists(_.isDigit) &&
+        yearCandidate.get.content.matched.length > 2) {
+        val year = yearCandidate.get.content.matched.filter(_.isDigit).toInt
+        yearMatch = if (year > 999) year else year + 1900
+      }
+
       val calendar = new Calendar.Builder()
-      calendar.setDate(year, month, day)
+      calendar.setDate(yearMatch, monthMatch, dayMatch)
+      val matches = possibleDates.map(p => (p.content.start, p.content.end))
       Some(MatchedDateTime(
         calendar.build(),
-        Seq(yearMatch, monthMatch, dayMatch).map(_.start).min,
-        Seq(yearMatch, monthMatch, dayMatch).map(_.end).max
+        matches.minBy(_._1)._1,
+        matches.maxBy(_._2)._2
       ))
     } else None
   }
