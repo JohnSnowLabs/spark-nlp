@@ -124,6 +124,12 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     dateMatcher.transform(dataset)
   }
 
+  def withMultiDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
+    val dateMatcher = new MultiDateMatcher()
+      .setOutputCol("date")
+    dateMatcher.transform(dataset)
+  }
+
   def withLemmaTaggedSentences(dataset: Dataset[Row]): Dataset[Row] = {
     withFullLemmatizer(withFullPOSTagger(dataset))
   }

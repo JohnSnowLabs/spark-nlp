@@ -449,6 +449,25 @@ class DateMatcher(AnnotatorModel):
         return self._set(dateFormat=value)
 
 
+class MultiDateMatcher(AnnotatorModel):
+    dateFormat = Param(Params._dummy(),
+                       "dateFormat",
+                       "desired format for dates extracted",
+                       typeConverter=TypeConverters.toString)
+
+    name = "DateMatcher"
+
+    @keyword_only
+    def __init__(self):
+        super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
+        self._setDefault(
+            dateFormat="yyyy/MM/dd"
+        )
+
+    def setFormat(self, value):
+        return self._set(dateFormat=value)
+
+
 class TextMatcher(AnnotatorApproach):
 
     entities = Param(Params._dummy(),
