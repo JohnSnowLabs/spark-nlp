@@ -2,13 +2,10 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 
-import scala.util.matching.Regex
 import java.util.Calendar
 
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
