@@ -1,9 +1,9 @@
 ---
 layout: article
-title: Concepts
-permalink: /docs/en/concepts
-key: docs-concepts
-modify_date: "2019-10-23"
+title: Auxiliary
+permalink: /docs/en/auxiliary
+key: docs-auxiliary
+modify_date: "2019-11-28"
 ---
 
 ## Auxiliary functions and utilities
