@@ -488,6 +488,9 @@ class TextMatcher(AnnotatorApproach):
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
 
+    def setCaseSensitive(self, b):
+        return self._set(caseSensitive=b)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,

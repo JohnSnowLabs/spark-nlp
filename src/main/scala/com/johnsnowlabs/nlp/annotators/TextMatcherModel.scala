@@ -28,11 +28,9 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   def setEntities(value: Array[Array[String]]): this.type = set(parsedEntities, value)
 
-  def setCaseSensitive(v: Boolean): this.type =
-    set(caseSensitive, v)
+  def setCaseSensitive(v: Boolean): this.type = set(caseSensitive, v)
 
-  def getCaseSensitive: Boolean =
-    $(caseSensitive)
+  def getCaseSensitive: Boolean = $(caseSensitive)
 
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
