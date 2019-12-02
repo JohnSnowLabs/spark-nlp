@@ -96,6 +96,8 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
               None
         )
 
+        val finalEmbeddings = if(allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
+
         Annotation(
           annotatorType = outputAnnotatorType,
           begin = chunk.begin,
@@ -106,7 +108,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
             "pieceId" -> "-1",
             "isWordStart" -> "true"
           ),
-          embeddings = calculateChunkEmbeddings(allEmbeddings)
+          embeddings = calculateChunkEmbeddings(finalEmbeddings)
         )
 
       }
