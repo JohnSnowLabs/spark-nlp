@@ -38,14 +38,17 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
     "whether to calculate just the actual n-grams or all n-grams from 1 through n")
 
   val delimiter: Param[String] = new Param[String](this, "delimiter",
-    "String to use to join the tokens")
+    "Glue character used to join the tokens")
 
   def setN(value: Int): this.type = set(n, value)
   def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
-  def setDelimiter(value: String): this.type = set(delimiter, value)
+  def setDelimiter(value: String): this.type = {
+    require(value.length==1, "Delimiter should have length == 1")
+    set(delimiter, value)
+  }
 
   /** @group getParam */
-  def getN: Int = $(n)v
+  def getN: Int = $(n)
   def getEnableCumulative: Boolean = $(enableCumulative)
   def getDelimiter: String = $(delimiter)
 
