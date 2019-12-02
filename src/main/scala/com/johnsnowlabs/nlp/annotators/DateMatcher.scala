@@ -21,11 +21,6 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  setDefault(
-    inputCols -> Array(DOCUMENT),
-    dateFormat -> "yyyy/MM/dd"
-  )
-
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
@@ -54,8 +49,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
     if (possibleDates.length > 1) {
-      var dayMatch = 1
-      var monthMatch = 1
+      var dayMatch = $(defaultDayWhenMissing)
+      var monthMatch = 0
       var yearMatch = Calendar.getInstance().getWeekYear
 
       val dayCandidate = possibleDates.find(_.identifier == "relaxed days")

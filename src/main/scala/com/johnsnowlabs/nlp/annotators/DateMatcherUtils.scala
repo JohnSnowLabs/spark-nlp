@@ -4,7 +4,7 @@ import java.util.Calendar
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{Param, Params}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
 import scala.util.matching.Regex
 
@@ -19,15 +19,16 @@ trait DateMatcherUtils extends Params {
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
   /** Standard formal dates, e.g. 05/17/2014 or 17/05/2014 or 2014/05/17 */
-  private val formalDate = new Regex("\\b([01]{0,1}[0-9])[-/]([0-3]{0,1}[0-9])[-/](\\d{2,4})\\b", "month", "day", "year")
-  private val formalDateAlt = new Regex("\\b([0-3]{0,1}[0-9])[-/]([01]{0,1}[0-9])[-/](\\d{2,4})\\b", "day", "month", "year")
-  private val formalDateAlt2 = new Regex("\\b(\\d{2,4})[-/]([01]{0,1}[0-9])[-/]([0-3]{0,1}[0-9])\\b", "year", "month", "day")
+  private val formalDate = new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])[-/](\\d{2,4})\\b", "month", "day", "year")
+  private val formalDateAlt = new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year")
+  private val formalDateAlt2 = new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day")
+  private val formalDateShort = new Regex("\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year")
 
   private val months = Seq("january","february","march","april","may","june","july","august","september","october","november","december")
   protected val shortMonths = Seq("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec")
 
   /** Relaxed dates, e.g. March 2nd */
-  private val relaxedDayNumbered = "\\b(\\d{1,2})(?:st|rd|nd|th)*\\b".r
+  private val relaxedDayNumbered = "\\b([0-2]?[1-9]|[1-3][0-1])(?:st|rd|nd|th)*\\b".r
   private val relaxedMonths = "(?i)" + months.zip(shortMonths).map(m => m._1 + "|" + m._2).mkString("|")
   private val relaxedYear = "\\d{4}\\b|\\B'\\d{2}\\b".r
 
@@ -50,15 +51,43 @@ trait DateMatcherUtils extends Params {
 
   def setFormat(value: String): this.type = set(dateFormat, value)
 
+  val readMonthFirst: BooleanParam = new BooleanParam(this, "readMonthFirst", "Whether to parse july 07/05/2015 or as 05/07/2015")
+
+  def setReadMonthFirst(value: Boolean): this.type = set(readMonthFirst, value)
+
+  def getReadMonthFirst: Boolean = $(readMonthFirst)
+
+  val defaultDayWhenMissing: IntParam = new IntParam(this, "defaultDayWhenMissing", "which day to set when it is missing from parsed input")
+
+  def setDefaultDayWhenMissing(value: Int): this.type = set(defaultDayWhenMissing, value)
+
+  def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
+
+  setDefault(
+    dateFormat -> "yyyy/MM/dd",
+    readMonthFirst -> true,
+    defaultDayWhenMissing -> 1
+  )
+
   /**
     * Searches formal date by ordered rules
     * Matching strategy is to find first match only, ignore additional matches from then
     * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
     */
   protected val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    .addRule(formalDate, "formal date matcher with year at first")
-    .addRule(formalDateAlt, "formal date with year at end")
-    .addRule(formalDateAlt2, "formal date with day at beginning")
+
+  if ($(readMonthFirst))
+    formalFactory
+      .addRule(formalDate, "formal date with month at first")
+      .addRule(formalDateAlt, "formal date with day at first")
+      .addRule(formalDateAlt2, "formal date with year at beginning")
+      .addRule(formalDateShort, "formal date short version")
+  else
+    formalFactory
+      .addRule(formalDateAlt, "formal date with day at first")
+      .addRule(formalDate, "formal date with month at first")
+      .addRule(formalDateAlt2, "formal date with year at beginning")
+      .addRule(formalDateShort, "formal date short version")
 
   /**
     * Searches relaxed dates by ordered rules by more exhaustive to less
@@ -111,7 +140,7 @@ trait DateMatcherUtils extends Params {
         else
           formalDate.group("year").toInt + 2000,
         formalDate.group("month").toInt - 1,
-        formalDate.group("day").toInt
+        if (formalDate.groupCount == 3) formalDate.group("day").toInt else $(defaultDayWhenMissing)
       ).build(),
       formalDate.start,
       formalDate.end

@@ -430,11 +430,35 @@ class LemmatizerModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc)
 
 
-class DateMatcher(AnnotatorModel):
+class DateMatcherUtils(Params):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
                        typeConverter=TypeConverters.toString)
+
+    readMonthFirst = Param(Params._dummy(),
+                           "readMonthFirst",
+                           "Whether to parse july 07/05/2015 or as 05/07/2015",
+                           typeConverter=TypeConverters.toBoolean
+                           )
+
+    defaultDayWhenMissing = Param(Params._dummy(),
+                                  "defaultDayWhenMissing",
+                                  "which day to set when it is missing from parsed input",
+                                  typeConverter=TypeConverters.toInt
+                                  )
+
+    def setFormat(self, value):
+        return self._set(dateFormat=value)
+
+    def setReadMonthFirst(self, value):
+        return self._set(readMonthFirst=value)
+
+    def setDefaultDayWhenMissing(self, value):
+        return self._set(defaultDayWhenMissing=value)
+
+
+class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     name = "DateMatcher"
 
@@ -442,30 +466,24 @@ class DateMatcher(AnnotatorModel):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd"
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaulyDayWhenMissing=1
         )
 
-    def setFormat(self, value):
-        return self._set(dateFormat=value)
 
+class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
-class MultiDateMatcher(AnnotatorModel):
-    dateFormat = Param(Params._dummy(),
-                       "dateFormat",
-                       "desired format for dates extracted",
-                       typeConverter=TypeConverters.toString)
-
-    name = "DateMatcher"
+    name = "MultiDateMatcher"
 
     @keyword_only
     def __init__(self):
         super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd"
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaulyDayWhenMissing=1
         )
-
-    def setFormat(self, value):
-        return self._set(dateFormat=value)
 
 
 class TextMatcher(AnnotatorApproach):

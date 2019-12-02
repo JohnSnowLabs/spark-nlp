@@ -21,11 +21,6 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  setDefault(
-    inputCols -> Array(DOCUMENT),
-    dateFormat -> "yyyy/MM/dd"
-  )
-
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("MULTI_DATE"))
 
@@ -45,7 +40,7 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
 
     strategies.foldLeft(Seq.empty[MatchedDateTime])((previousResults, strategy) => {
       // Always keep earliest match of each strategy by date found
-      val newResults = strategy().zipWithIndex.groupBy(_._1.start).map{case (_, dates) => dates.minBy(_._2)._1}.toSeq
+      val newResults = strategy()
       newResults.foldLeft(previousResults)((previous, newResult) => {
         // Prioritize previous results on this index, ignore new ones if overlapping previous results
         if (previous.exists(_.start == newResult.start))
@@ -65,8 +60,8 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
 
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
-    var dayMatch = 1
-    var monthMatch = 1
+    var dayMatch = $(defaultDayWhenMissing)
+    var monthMatch = 0
     var yearMatch = Calendar.getInstance().getWeekYear
     var changes = 0
     possibleDates.foreach(possibleDate => {
