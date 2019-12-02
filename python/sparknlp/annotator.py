@@ -1638,6 +1638,7 @@ class ChunkEmbeddings(AnnotatorModel):
                             "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:" +
                             "AVERAGE or SUM",
                             typeConverter=TypeConverters.toString)
+    skipOOV = Param(Params._dummy(), "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling ", typeConverter=TypeConverters.toBoolean)
 
     def setPoolingStrategy(self, strategy):
         """
@@ -1649,6 +1650,12 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy=strategy)
         else:
             return self._set(poolingStrategy="AVERAGE")
+
+    def setSkipOOV(self, value):
+        """
+        Sets the value of :py:attr:`skipOOV`.
+        """
+        return self._set(skipOOV=value)
 
 
 class NerOverwriter(AnnotatorModel):
