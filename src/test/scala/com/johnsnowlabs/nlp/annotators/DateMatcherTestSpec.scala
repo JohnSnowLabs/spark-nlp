@@ -109,7 +109,8 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("3", None),
     ("Xgeva", None),
     ("today 4", Some(Calendar.getInstance)),
-    ("1 month", None)
+    ("1 month", None),
+    ("07/2015", Some(new Calendar.Builder().setDate(2015, 7-1, 1).build))
   )
 
   dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {

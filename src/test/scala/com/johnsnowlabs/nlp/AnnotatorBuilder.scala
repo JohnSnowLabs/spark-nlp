@@ -120,12 +120,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
     val dateMatcher = new DateMatcher()
+      .setInputCols("document")
       .setOutputCol("date")
     dateMatcher.transform(dataset)
   }
 
   def withMultiDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
     val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
       .setOutputCol("date")
     dateMatcher.transform(dataset)
   }
