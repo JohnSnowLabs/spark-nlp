@@ -19,7 +19,8 @@ trait HasEmbeddingsRef extends Params {
   def validateEmbeddingsRef(dataset: Dataset[_], inputCols: Array[String]): Unit = {
     val embeddings_col = dataset.schema.fields
       .find(f => inputCols.contains(f.name) && f.metadata.getString("annotatorType") == AnnotatorType.WORD_EMBEDDINGS)
-      .getOrElse(throw new Exception("Could not find a valid embeddings column")).name
+      .getOrElse(throw new Exception(s"Could not find a valid embeddings column, make sure the embeddings are loaded " +
+        s"and have the following ref: ${$(embeddingsRef)}")).name
 
     val embeddings_meta = dataset.select(embeddings_col).schema.fields.head.metadata
 
