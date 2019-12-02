@@ -3,10 +3,17 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.Map
+
+object PoolingStrategy {
+  object AnnotatorType {
+    val AVERAGE = "AVERAGE"
+    val SUM = "SUM"
+  }
+}
 
 class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
 
@@ -18,6 +25,9 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
   val poolingStrategy = new Param[String](this, "poolingStrategy",
     "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
 
+  val skipOOV = new BooleanParam(this, "skipOOV",
+    "Whether to discard default vectors for OOV words from the aggregation / pooling")
+
   def setPoolingStrategy(strategy: String): this.type = {
     strategy.toLowerCase() match {
       case "average" => set(poolingStrategy, "AVERAGE")
@@ -26,10 +36,16 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
     }
   }
 
+  def setSkipOOV(value: Boolean): this.type = set(skipOOV, value)
+
+  def getPoolingStrategy = $(poolingStrategy)
+  def getSkipOOV= $(skipOOV)
+
   setDefault(
     inputCols -> Array(CHUNK, WORD_EMBEDDINGS),
     outputCol -> "chunk_embeddings",
-    poolingStrategy -> "AVERAGE"
+    poolingStrategy -> "AVERAGE",
+    skipOOV -> true
   )
 
   /** Internal constructor to submit a random UID */
@@ -73,11 +89,12 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
           token => token.begin >= chunk.begin && token.end <= chunk.end
         )
 
-        val allEmbeddings = tokensWithEmbeddings.map {
-          case (tokenEmbedding) =>
-              val allEmbeddings = tokenEmbedding.embeddings
-              allEmbeddings
-        }
+        val allEmbeddings = tokensWithEmbeddings.flatMap (tokenEmbedding =>
+            if(!tokenEmbedding.isOOV || !$(skipOOV))
+              Some(tokenEmbedding.embeddings)
+            else
+              None
+        )
 
         Annotation(
           annotatorType = outputAnnotatorType,
