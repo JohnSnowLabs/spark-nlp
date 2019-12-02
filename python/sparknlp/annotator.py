@@ -468,7 +468,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
         self._setDefault(
             dateFormat="yyyy/MM/dd",
             readMonthFirst=True,
-            defaulyDayWhenMissing=1
+            defaultDayWhenMissing=1
         )
 
 
@@ -482,7 +482,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
         self._setDefault(
             dateFormat="yyyy/MM/dd",
             readMonthFirst=True,
-            defaulyDayWhenMissing=1
+            defaultDayWhenMissing=1
         )
 
 
