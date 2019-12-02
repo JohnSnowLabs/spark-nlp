@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-10-23"
+modify_date: "2019-11-01"
 ---
 
 ## Annotators Guideline
@@ -75,7 +75,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
-|ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from Chunker or NGramGenerator outputs|Opensource|
+|ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
 |SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
@@ -552,8 +552,7 @@ Scores a sentence for a sentiment
 **Functions:**
 
 - setSentimentCol(colname): Column with sentiment analysis row's result for training. If not set, external sources need to be set instead.
-- setPositiveSource(path, tokenPattern, readAs, options): Path to file or folder with positive sentiment text, with tokenPattern the regex pattern to match tokens in source. readAs either LINE_BY_LINE or as SPARK_DATASET. If latter is set, options is passed to reader
-- setNegativeSource(path, tokenPattern, readAs, options): Path to file or folder with positive sentiment text, with tokenPattern the regex pattern to match tokens in source. readAs either LINE_BY_LINE or as SPARK_DATASET. If latter is set, options is passed to reader
+- setSentimentCol(colname): column with the sentiment result of every row. Must be 'positive' or 'negative'
 - setPruneCorpus(true): when training on small data you may want to disable this to not cut off infrequent words
 
 **Input:** File or folder of text files of positive and negative data  
@@ -563,17 +562,17 @@ Refer to the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/index#co
 
 ```python
 sentiment_detector = ViveknSentimentApproach() \
-    .setInputCols(["lemma", "sentence"]) \
+    .setInputCols(["sentence", "token"]) \
     .setOutputCol("sentiment")
+    .setSentimentCol("sentiment_label")
 ```
 
 ```scala
 val sentimentDetector = new ViveknSentimentApproach()
-        .setInputCols(Array("token", "sentence"))
-        .setOutputCol("vivekn")
-        .setPositiveSourcePath("./positive/1.txt")
-        .setNegativeSourcePath("./negative/1.txt")
-        .setCorpusPrune(false)
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+      .setSentimentCol("sentiment_label")
+      .setCorpusPrune(0)
 ```
 
 ### SentimentDetector
@@ -733,7 +732,7 @@ pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedd
 
 ### ChunkEmbeddings
 
-This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from `Chunker` or `NGramGenerator` outputs.
+This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from either `Chunker`, `NGramGenerator`, or `NerConverter` outputs.
 
 **Functions:**
 
@@ -891,7 +890,6 @@ This annotator retrieves tokens and makes corrections automatically if not found
 **Functions:**
 
 - setDictionary(path, tokenPattern, readAs, options): path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.
-- setSlangDictionary(path, delimiter, readAs, options): path to custom word mapping for spell checking. e.g. gr8 -> great. Uses provided delimiter, readAs LINE_BY_LINE or SPARK_DATASET with options passed to reader if the latter.
 - setCaseSensitive(boolean): defaults to false. Might affect accuracy
 - setDoubleVariants(boolean): enables extra check for word combinations, more accuracy at performance
 - setShortCircuit(boolean): faster but less accurate mode
@@ -908,15 +906,15 @@ Refer to the [NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/index#com
 ```python
 spell_checker = NorvigSweetingApproach() \
     .setInputCols(["token"]) \
-    .setOutputCol("spell") \
-    .fit(train_corpus)
+    .setOutputCol("checked") \
+    .setDictionary("coca2017.txt", "[a-zA-Z]+")
 ```
 
 ```scala
-val spellChecker = new NorvigSweetingApproach()
-    .setInputCols(Array("normalized"))
-    .setOutputCol("spell")
-    .fit(trainCorpus)
+val symSpellChecker = new NorvigSweetingApproach()
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setDictionary("coca2017.txt", "[a-zA-Z]+")
 ```
 
 ### Symmetric SpellChecker

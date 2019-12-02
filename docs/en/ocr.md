@@ -69,3 +69,20 @@ ocrHelper.setPreferredMethod("image")
 ocrHelper.setFallbackMethod(false)
 ocrHelper.setMinSizeBeforeFallback(0)
 ```
+
+## Configuration
+
+* `setPreferredMethod(text/image = text)` either `text` or `image` will work. Defaults to `text`. Text mode works better and faster for digital or text scanned PDFs
+* `setFallbackMethod(boolean)` on true, when `text` or `image` fail, it will fallback to the alternate method
+* `setMinSizeBeforeFallback(int = 1)` number of characters to have at a minimum, before falling back.
+* `setPageSegMode(int = 3)` image mode page segmentation mode
+* `setEngineMode(int = 1)` image mode engine mode
+* `setPageIteratorLevel(int = 0)` image mode page iteratior level
+* `setScalingFactor(float)` Specifies the scaling factor to apply to images, in both axes, before OCR. It can scale up the image(factor > 1.0) or scale it down(factor < 1.0)
+* `setSplitPages(boolean = true)` Whether to split pages into different rows and documents
+* `setSplitRegions(boolean = true)` Whether to split by document regions. Works only in image mode. Enables split pages as well.
+* `setIncludeConfidence(boolean = false)`
+* `setAutomaticSkewCorrection(use: boolean, half_angle: double = 5.0, resolution: double = 1.0)`
+* `setAutomaticSizeCorrection(use: boolean, desired_size: int = 34)`
+* `setEstimateNoise(string)` image mode estimator noise level
+* `useErosion(use: boolean, kernel_size: int = 2, kernel_shape: Int = 0)` image mode erosion
