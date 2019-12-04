@@ -26,7 +26,7 @@ class WordEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setEmbeddingsSource("src/test/resources/embeddings/embeddings.1d.test.txt",
-        1, WordEmbeddingsFormat.TEXT)
+        1, EmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
 
     val pipeline = new RecursivePipeline()

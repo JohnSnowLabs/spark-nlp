@@ -1358,7 +1358,7 @@ class TypedDependencyParserModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
 
 
-class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
+class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
 
@@ -1426,7 +1426,7 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddingsModel"
 
@@ -1455,7 +1455,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddings):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties):
 
     name = "BertEmbeddings"
 

@@ -3,7 +3,7 @@ package com.johnsnowlabs.benchmarks.jvm
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, LinearChainCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.training.CoNLL2003NerReader
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 import scala.collection.mutable
@@ -31,7 +31,7 @@ object NerCrfCoNLL2003 extends App {
     embeddingsFile,
     embeddingsDims,
     normalize=false, // Not normalize might give weight to People names due to upper case, although may overfit
-    WordEmbeddingsFormat.TEXT,
+    EmbeddingsFormat.TEXT,
     Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
   )
 

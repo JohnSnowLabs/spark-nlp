@@ -6,7 +6,8 @@ import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.{ClusterWordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsHelper, WordEmbeddingsStorageConnection}
+import com.johnsnowlabs.storage.{RocksDBRetriever, StorageConnection}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -40,16 +41,15 @@ object NerDLModelPythonReader {
                               spark: SparkSession,
                               embeddingsDim: Int,
                               normalize: Boolean,
-                              format: WordEmbeddingsFormat.Format
-                            ): ClusterWordEmbeddings = {
-    ClusterWordEmbeddings(
+                              format: EmbeddingsHelper.StorageFormats.Value
+                            ): WordEmbeddingsStorageConnection = {
+    EmbeddingsHelper.apply(
       spark.sparkContext,
       Paths.get(folder, embeddingsFile).toString,
-      embeddingsDim,
       normalize,
       format,
       "python_tf_model"
-    )
+    ).asInstanceOf[WordEmbeddingsStorageConnection]
   }
 
   def readLocal(folder: String,

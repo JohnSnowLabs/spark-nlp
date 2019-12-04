@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -239,7 +239,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     new WordEmbeddings()
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, EmbeddingsFormat.TEXT)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .fit(dataset)
