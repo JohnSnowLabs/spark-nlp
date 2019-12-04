@@ -8,14 +8,14 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.SparkContext
 
-object EmbeddingsHelper extends StorageHelper[Float] {
+object EmbeddingsHelper extends StorageHelper[Float, WordEmbeddingsStorageConnection] {
 
   override val filesPrefix: String = "embd_"
 
   override val StorageFormats: EmbeddingsFormat.type = EmbeddingsFormat
 
-  override protected def createConnection(filename: String, caseSensitive: Boolean): StorageConnection[Float, RocksDBRetriever[Float]] = {
-    ???
+  override protected def createConnection(filename: String, caseSensitive: Boolean): WordEmbeddingsStorageConnection = {
+    new WordEmbeddingsStorageConnection(filename, caseSensitive)//.asInstanceOf[StorageConnection[Float, RocksDBRetriever[Float]]]
   }
 
   override protected def indexStorage(storageSourcePath: String, localFile: String, format: StorageFormats.Value, spark: SparkContext): Unit = {

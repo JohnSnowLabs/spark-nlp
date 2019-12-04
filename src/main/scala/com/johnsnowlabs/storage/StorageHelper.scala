@@ -11,13 +11,13 @@ import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.sql.SparkSession
 
 
-trait StorageHelper[A] {
+trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends Serializable {
 
   val StorageFormats: Enumeration
 
   val filesPrefix: String
 
-  protected def createConnection(filename: String, caseSensitive: Boolean): StorageConnection[A, RocksDBRetriever[A]]
+  protected def createConnection(filename: String, caseSensitive: Boolean): B
 
   protected def indexStorage(storageSourcePath: String,
                              localFile: String,
