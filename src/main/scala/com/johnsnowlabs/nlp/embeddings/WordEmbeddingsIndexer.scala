@@ -1,67 +1,34 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io._
-import java.nio.{ByteBuffer, ByteOrder}
+import java.nio.ByteBuffer
 
+import com.johnsnowlabs.storage.RocksDbIndexer
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
 
 
-object WordEmbeddingsIndexer {
+case class WordEmbeddingsIndexer(dbFile: String, autoFlashAfter: Option[Integer] = None)
+  extends RocksDbIndexer[Float](dbFile, autoFlashAfter) {
 
-  private[embeddings] def toBytes(embeddings: Array[Float]): Array[Byte] = {
-    val buffer = ByteBuffer.allocate(embeddings.length * 4)
-    buffer.order(ByteOrder.LITTLE_ENDIAN)
-    for (value <- embeddings) {
-      buffer.putFloat(value)
-    }
-    buffer.array()
+  override protected val emptyValue: Float = 0f
+
+  override protected def addToBuffer(buffer: ByteBuffer, content: Float): Unit = {
+    buffer.putFloat(content)
   }
 
-  private[embeddings] def fromBytes(source: Array[Byte]): Array[Float] = {
-    val wrapper = ByteBuffer.wrap(source)
-    wrapper.order(ByteOrder.LITTLE_ENDIAN)
-    val result = Array.fill[Float](source.length / 4)(0f)
-
-    for (i <- 0 until result.length) {
-      result(i) = wrapper.getFloat(i * 4)
-    }
-    result
+  override protected def getFromBuffer(buffer: ByteBuffer, index: Int): Float = {
+    buffer.getFloat(index)
   }
 
-  /**
-    * Indexes Word embeddings in CSV Format
-    */
-  def indexText(source: Iterator[String], dbFile: String): Unit = {
-    TextIndexer.index(source, dbFile)
-  }
-
-  /**
-    * Indexes Word embeddings in CSV Text File
-    */
-  def indexText(source: String, dbFile: String): Unit ={
-    TextIndexer.index(source, dbFile)
-  }
-
-
-  def indexBinary(source: DataInputStream, dbFile: String): Unit = {
-    BinaryIndexer.index(source, dbFile)
-  }
-
-  /**
-    * Indexes Binary formatted file
-    */
-  def indexBinary(source: String, dbFile: String): Unit = {
-    BinaryIndexer.index(source, dbFile)
-  }
 }
 
 
-private[embeddings] object TextIndexer {
+object WordEmbeddingsTextIndexer {
 
-  def index(source: Iterator[String], dbFile: String): Unit = {
-    val indexer = RocksDbIndexer(dbFile, Some(1000))
+  def index(source: Iterator[String], dbFile: String, autoFlashAfter: Option[Integer] = Some(1000)): Unit = {
+    val indexer = WordEmbeddingsIndexer(dbFile, autoFlashAfter)
 
     try {
       for (line <- source) {
@@ -76,18 +43,20 @@ private[embeddings] object TextIndexer {
   }
 
   def index(source: String, dbFile: String): Unit = {
-    val lines = Source.fromFile(source)("UTF-8").getLines()
+    val sourceFile = Source.fromFile(source)("UTF-8")
+    val lines = sourceFile.getLines()
     index(lines, dbFile)
+    sourceFile.close()
   }
 }
 
 
-private[embeddings] object BinaryIndexer {
+object WordEmbeddingsBinaryIndexer {
 
   private val logger = LoggerFactory.getLogger("WordEmbeddings")
 
-  def index(source: DataInputStream, dbFile: String): Unit = {
-    val indexer = RocksDbIndexer(dbFile, Some(1000))
+  def index(source: DataInputStream, dbFile: String, autoFlashAfter: Option[Integer] = Some(1000)): Unit = {
+    val indexer = WordEmbeddingsIndexer(dbFile, autoFlashAfter)
 
     try {
       // File Header
@@ -99,7 +68,7 @@ private[embeddings] object BinaryIndexer {
         val word = readString(source)
 
         // Unit Vector
-        val vector = readFloatVector(source, vecSize)
+        val vector = readFloatVector(source, vecSize, indexer)
         indexer.add(word, vector)
       }
 
@@ -144,12 +113,12 @@ private[embeddings] object BinaryIndexer {
   /**
     * Read a Vector - Array of Floats from the binary model:
     */
-  private def readFloatVector(ds: DataInputStream, vectorSize: Int): Array[Float] = {
+  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsIndexer): Array[Float] = {
     // Read Bytes
     val vectorBuffer = Array.fill[Byte](4 * vectorSize)(0)
     ds.read(vectorBuffer)
 
     // Convert Bytes to Floats
-    WordEmbeddingsIndexer.fromBytes(vectorBuffer)
+    indexer.fromBytes(vectorBuffer)
   }
 }

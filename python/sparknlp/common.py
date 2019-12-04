@@ -81,7 +81,7 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
             self._transfer_params_from_java()
 
 
-class HasEmbeddings(Params):
+class HasEmbeddingsProperties(Params):
     dimension = Param(Params._dummy(),
                       "dimension",
                       "Number of embedding dimensions",
@@ -99,31 +99,28 @@ class HasEmbeddings(Params):
         return self._set(caseSensitive=value)
 
 
-class HasWordEmbeddings(HasEmbeddings):
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
+class HasStorage:
 
-    includeEmbeddings = Param(Params._dummy(),
-                           "includeEmbeddings",
+    includeStorage = Param(Params._dummy(),
+                           "includeStorage",
                            "whether or not to save indexed embeddings along this annotator",
                            typeConverter=TypeConverters.toBoolean)
 
-    def setEmbeddingsRef(self, value):
-        from sparknlp.annotator import WordEmbeddingsModel
-        if type(self) == WordEmbeddingsModel and self.getParam('embeddingsRef'):
-            raise Exception("Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: %s" % self.getOrDefault('embeddingsRef'))
-        return self._set(embeddingsRef=value)
+    storageRef = Param(Params._dummy(), "storageRef",
+                       "unique reference name for identification",
+                       TypeConverters.toString)
 
-    def getEmbeddingsRef(self):
-        return self.getOrDefault('embeddingsRef')
+    def setStorageRef(self, value):
+        return self._set(storageRef=value)
 
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
+    def getStorageRef(self):
+        return self.getOrDefault("storageRef")
 
-    def getIncludeEmbeddings(self):
-        return self.getOrDefault("includeEmbeddings")
+    def setIncludeStorage(self, value):
+        return self._set(includeStorage=value)
+
+    def getIncludeStorage(self):
+        return self.getOrDefault("includeStorage")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,

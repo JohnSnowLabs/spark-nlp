@@ -1,11 +1,10 @@
-package com.johnsnowlabs.nlp.embeddings
-
-import java.io.Closeable
+package com.johnsnowlabs.storage
 
 import org.rocksdb._
+import spire.ClassTag
 
 
-private [embeddings] case class RocksDbIndexer(dbFile: String, autoFlashAfter: Option[Integer] = None) extends Closeable{
+abstract class RocksDbIndexer[A: ClassTag](dbFile: String, autoFlashAfter: Option[Integer]) extends StorageIndexer[A] with AutoCloseable {
   val options = new Options()
   options.setCreateIfMissing(true)
   options.setCompressionType(CompressionType.NO_COMPRESSION)
@@ -14,19 +13,19 @@ private [embeddings] case class RocksDbIndexer(dbFile: String, autoFlashAfter: O
   RocksDB.loadLibrary()
   val writeOptions = new WriteOptions()
 
-  val db = RocksDB.open(options, dbFile)
+  val db: RocksDB = RocksDB.open(options, dbFile)
   var batch = new WriteBatch()
   var batchSize = 0
 
-  def flush() = {
+  def flush(): Unit = {
     db.write(writeOptions, batch)
     batch.close()
     batch = new WriteBatch()
     batchSize = 0
   }
 
-  def add(word: String, vector: Array[Float]) = {
-    batch.put(word.getBytes, WordEmbeddingsIndexer.toBytes(vector))
+  def add(word: String, content: Array[A]): Unit = {
+    batch.put(word.getBytes, toBytes(content))
     batchSize += 1
 
     if (autoFlashAfter.isDefined) {
@@ -39,6 +38,6 @@ private [embeddings] case class RocksDbIndexer(dbFile: String, autoFlashAfter: O
     if (batchSize > 0)
       flush()
 
-    db.close
+    db.close()
   }
 }

@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
@@ -35,7 +35,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setInputCols("document", "token")
     .setOutputCol("glove")
     .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
-      100, WordEmbeddingsFormat.TEXT)
+      100, EmbeddingsFormat.TEXT)
     .setCaseSensitive(true)
 
   private val strongNer = new NerDLApproach()
