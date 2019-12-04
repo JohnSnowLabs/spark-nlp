@@ -11,7 +11,7 @@ trait HasStorage[A] extends Params {
   @transient private var retriever: RocksDBRetriever[A] = null
   @transient private var loaded: Boolean = false
 
-  protected val storageHelper: StorageHelper[A]
+  protected val storageHelper: StorageHelper[A, StorageConnection[A, RocksDBRetriever[A]]]
 
   protected var preloadedConnection: Option[StorageConnection[A, RocksDBRetriever[A]]] = None
 
