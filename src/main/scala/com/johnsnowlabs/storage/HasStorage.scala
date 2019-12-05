@@ -50,7 +50,7 @@ trait HasStorage[A] extends Params {
     if (Option(retriever).isDefined)
       retriever
     else {
-      retriever = getStorageConnection(caseSensitive).getLocalRetriever
+      retriever = getStorageConnection(caseSensitive).findLocalRetriever
       retriever
     }
   }
@@ -59,7 +59,7 @@ trait HasStorage[A] extends Params {
     if (preloadedConnection.isDefined && preloadedConnection.get.fileName == $(storageRef))
       return preloadedConnection.get
     else {
-      preloadedConnection.foreach(_.getLocalRetriever.close())
+      preloadedConnection.foreach(_.findLocalRetriever.close())
       preloadedConnection = Some(storageHelper.load(
         storageHelper.getClusterFilename($(storageRef)),
         caseSensitive

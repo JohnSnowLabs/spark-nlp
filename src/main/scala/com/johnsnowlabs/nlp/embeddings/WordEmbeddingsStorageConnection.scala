@@ -6,7 +6,7 @@ class WordEmbeddingsStorageConnection(override val fileName: String, override va
   extends StorageConnection[Float, WordEmbeddingsRetriever](fileName, caseSensitive) {
 
   override protected def createRetriever(localPath: String, caseSensitive: Boolean): WordEmbeddingsRetriever = {
-    new WordEmbeddingsRetriever(fileName, caseSensitive)
+    new WordEmbeddingsRetriever(localPath, caseSensitive)
   }
 
 }

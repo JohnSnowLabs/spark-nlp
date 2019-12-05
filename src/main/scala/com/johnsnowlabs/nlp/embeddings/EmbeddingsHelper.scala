@@ -15,7 +15,7 @@ object EmbeddingsHelper extends StorageHelper[Float, WordEmbeddingsStorageConnec
   override val StorageFormats: EmbeddingsFormat.type = EmbeddingsFormat
 
   override protected def createConnection(filename: String, caseSensitive: Boolean): WordEmbeddingsStorageConnection = {
-    new WordEmbeddingsStorageConnection(filename, caseSensitive)//.asInstanceOf[StorageConnection[Float, RocksDBRetriever[Float]]]
+    new WordEmbeddingsStorageConnection(filename, caseSensitive)
   }
 
   override protected def indexStorage(storageSourcePath: String, localFile: String, format: StorageFormats.Value, spark: SparkContext): Unit = {

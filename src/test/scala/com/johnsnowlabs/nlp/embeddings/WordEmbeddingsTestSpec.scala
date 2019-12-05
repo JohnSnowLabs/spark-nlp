@@ -28,6 +28,8 @@ class WordEmbeddingsTestSpec extends FlatSpec {
       .setEmbeddingsSource("src/test/resources/embeddings/embeddings.1d.test.txt",
         1, EmbeddingsFormat.TEXT)
       .setCaseSensitive(true)
+      .setStorageRef("embeddings_1d")
+      .setDimension(1)
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(

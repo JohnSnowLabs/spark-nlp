@@ -76,7 +76,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
       .setCaseSensitive($(caseSensitive))
       .setIncludeStorage($(includeStorage))
 
-    getStorageConnection($(caseSensitive)).getLocalRetriever.close()
+    getStorageConnection($(caseSensitive)).findLocalRetriever.close()
 
     model
   }

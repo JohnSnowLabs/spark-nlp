@@ -64,7 +64,7 @@ class WordEmbeddingsModel(override val uid: String)
   override protected def close(): Unit = {
     get(storageRef)
       .flatMap(_ => preloadedConnection)
-      .foreach(_.getLocalRetriever.close())
+      .foreach(_.findLocalRetriever.close())
   }
 
   @transient protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
@@ -89,7 +89,7 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    getStorageConnection($(caseSensitive)).getLocalRetriever.close()
+    getStorageConnection($(caseSensitive)).findLocalRetriever.close()
 
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
