@@ -39,7 +39,6 @@ class NerDLApproach(override val uid: String)
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
@@ -52,7 +51,6 @@ class NerDLApproach(override val uid: String)
   def getBatchSize: Int = $(this.batchSize)
   def getDropout: Float = $(this.dropout)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-  def getUseContrib: Boolean = $(this.useContrib)
   def getValidationSplit: Float = $(this.validationSplit)
   def getIncludeConfidence: Boolean = $(includeConfidence)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
@@ -63,7 +61,6 @@ class NerDLApproach(override val uid: String)
   def setDropout(dropout: Float):NerDLApproach.this.type = set(this.dropout, dropout)
   def setGraphFolder(path: String):NerDLApproach.this.type = set(this.graphFolder, path)
   def setConfigProtoBytes(bytes: Array[Int]):NerDLApproach.this.type = set(this.configProtoBytes, bytes)
-  def setUseContrib(value: Boolean):NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
   def setValidationSplit(validationSplit: Float):NerDLApproach.this.type = set(this.validationSplit, validationSplit)
 
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
@@ -84,7 +81,6 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
-    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
@@ -97,11 +93,6 @@ class NerDLApproach(override val uid: String)
     sentences.find(s => s.tokens.nonEmpty)
       .map(s => s.tokens.head.embeddings.length)
       .getOrElse(1)
-  }
-
-  override def beforeTraining(spark: SparkSession): Unit = {
-    LoadsContrib.loadContribToCluster(spark)
-    LoadsContrib.loadContribToTensorflow()
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
@@ -132,7 +123,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length + 1, get(graphFolder), getUseContrib)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length + 1, get(graphFolder))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -188,7 +179,7 @@ class NerDLApproach(override val uid: String)
 }
 
 trait WithGraphResolver  {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = false): String = {
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None): String = {
     val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
@@ -197,7 +188,7 @@ trait WithGraphResolver  {
       val file = new File(filePath)
       val name = file.getName
 
-      val graphPrefix = if (loadContrib) "blstm_" else "blstm-noncontrib_"
+      val graphPrefix = "blstm_"
 
       if (name.startsWith(graphPrefix)) {
         val clean = name.replace(graphPrefix, "").replace(".pb", "")
