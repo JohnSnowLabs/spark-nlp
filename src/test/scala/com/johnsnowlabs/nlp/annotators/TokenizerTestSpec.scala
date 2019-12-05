@@ -361,4 +361,19 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     assert(result.equals(expected))
 
   }
+
+  "a Tokenizer" should "correctly filter out tokens based on setting minimum and maximum lengths" in {
+    val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
+      .setMinLength(4)
+      .setMaxLength(5)
+      .fit(data)
+
+    val result = getTokenizerOutput[String](tokenizer, data)
+    assert(
+      result.sameElements(Seq("Hello", "York")),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}"
+    )
+  }
 }
