@@ -57,8 +57,6 @@ trait ReadTensorflowModel {
                            tags:Array[String]=Array.empty
                          ): TensorflowWrapper = {
 
-    LoadsContrib.loadContribToCluster(spark)
-
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 

@@ -44,8 +44,6 @@ class TensorflowWrapper(
       val varIdx = Paths.get(folder, "variables.index")
       Files.write(varIdx, variables.index)
 
-      LoadsContrib.loadContribToTensorflow()
-
       // import the graph
       val g = new Graph()
       g.importGraphDef(graph)
@@ -72,8 +70,6 @@ class TensorflowWrapper(
       logger.debug("Creating empty TF session")
 
       val config = configProtoBytes.getOrElse(Array[Byte](50, 2, 32, 1, 56, 1))
-
-      LoadsContrib.loadContribToTensorflow()
 
       // import the graph
       val g = new Graph()
@@ -188,9 +184,6 @@ object TensorflowWrapper {
     /** log_device_placement=True, allow_soft_placement=True, gpu_options.allow_growth=True*/
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
 
-    LoadsContrib.loadContribToTensorflow()
-
-    // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) = if (useBundle) {
       val model = SavedModelBundle.load(folder, tags: _*)
       val graph = model.graph()
