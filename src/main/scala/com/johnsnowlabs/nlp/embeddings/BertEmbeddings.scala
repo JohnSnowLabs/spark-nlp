@@ -183,8 +183,6 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $folder is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
 
-    LoadsContrib.loadContribToCluster(spark)
-
     val wrapper = TensorflowWrapper.read(folder, zipped = false)
 
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.LINE_BY_LINE, Map("format" -> "text"))
