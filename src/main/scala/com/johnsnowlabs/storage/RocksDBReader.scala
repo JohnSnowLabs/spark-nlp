@@ -13,7 +13,7 @@ import org.rocksdb.RocksDB
   4. Open RocksDb based Embeddings on local index (lazy)
  */
 abstract class RocksDBReader[A](val fileName: String, val caseSensitive: Boolean, lruCacheSize: Int = 100000)
-  extends RocksDBConnection with Serializable with AutoCloseable {
+  extends RocksDBConnection with AutoCloseable {
 
   @transient val lru = new LruMap[String, Option[Array[A]]](lruCacheSize)
 

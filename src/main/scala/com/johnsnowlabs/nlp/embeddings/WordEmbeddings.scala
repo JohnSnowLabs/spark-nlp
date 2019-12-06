@@ -48,23 +48,22 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
 
   override def beforeTraining(sparkSession: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
-      if (!isLoaded()) {
-        preloadedConnection = Some(EmbeddingsHelper.load(
+      if (!storageIsReady) {
+        setStorage(EmbeddingsHelper.load(
           $(sourceEmbeddingsPath),
           sparkSession,
           EmbeddingsFormat.apply($(embeddingsFormat)),
           $(caseSensitive),
           $(storageRef)
         ))
-        setAsLoaded()
       }
     } else if (isSet(storageRef)) {
       getStorageConnection($(caseSensitive))
     } else
       throw new IllegalArgumentException(
         s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
-          s" or not in cache by ref: ${get(storageRef).getOrElse("-embeddingsRef not set-")}. " +
-          s"Load using EmbeddingsHelper .loadEmbeddings() and .setEmbeddingsRef() to make them available."
+          s" or not in cache by ref: ${get(storageRef).getOrElse("-storageRef not set-")}. " +
+          s"Load using EmbeddingsHelper.load() and .setStorageRef() to make them available."
       )
   }
 
