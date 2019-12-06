@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf._
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.storage.RocksDBRetriever
 
 import scala.collection.mutable
 

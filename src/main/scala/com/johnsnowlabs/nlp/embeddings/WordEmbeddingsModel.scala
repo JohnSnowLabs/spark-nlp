@@ -19,7 +19,7 @@ class WordEmbeddingsModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
 
-  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageConnection] = EmbeddingsHelper
+  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageReader] = EmbeddingsHelper
 
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -64,7 +64,7 @@ class WordEmbeddingsModel(override val uid: String)
   override protected def close(): Unit = {
     get(storageRef)
       .flatMap(_ => preloadedConnection)
-      .foreach(_.findLocalRetriever.close())
+      .foreach(_.findLocalDb.close())
   }
 
   @transient protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
@@ -89,7 +89,7 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    getStorageConnection($(caseSensitive)).findLocalRetriever.close()
+    getStorageConnection($(caseSensitive)).findLocalDb.close()
 
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }

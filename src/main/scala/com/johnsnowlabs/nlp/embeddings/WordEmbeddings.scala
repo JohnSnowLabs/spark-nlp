@@ -12,7 +12,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS"))
 
-  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageConnection] = EmbeddingsHelper
+  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageReader] = EmbeddingsHelper
 
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -76,7 +76,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
       .setCaseSensitive($(caseSensitive))
       .setIncludeStorage($(includeStorage))
 
-    getStorageConnection($(caseSensitive)).findLocalRetriever.close()
+    getStorageConnection($(caseSensitive)).findLocalDb.close()
 
     model
   }

@@ -1,19 +1,17 @@
 package com.johnsnowlabs.benchmarks.jvm
 
 import java.io.File
-import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.ner.dl.{LoadsContrib, NerDLModelPythonReader}
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsStorageReader, WordEmbeddingsTextIndexer}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.storage.RocksDBRetriever
-import org.tensorflow.{Graph, Session, TensorFlow}
+import org.tensorflow.Session
 
 
 object NerDLCoNLL2003 extends App {
@@ -30,7 +28,7 @@ object NerDLCoNLL2003 extends App {
   if (!new File(wordEmbeddingsCache).exists())
     WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, wordEmbeddingsCache)
 
-  val embeddings = new WordEmbeddingsRetriever(wordEmbeddingsCache, caseSensitive=false)
+  val embeddings = new WordEmbeddingsStorageReader(wordEmbeddingsCache, caseSensitive=false)
 
   val reader = CoNLL()
   val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
@@ -80,7 +78,7 @@ object NerDLCoNLL2003 extends App {
       throw e
   }
 
-  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsRetriever):
+  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsStorageReader):
       Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
     source.flatMap{s =>

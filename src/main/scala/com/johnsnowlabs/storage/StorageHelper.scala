@@ -11,7 +11,7 @@ import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.sql.SparkSession
 
 
-trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends Serializable {
+trait StorageHelper[A, +B <: RocksDBReader[A]] extends Serializable {
 
   val StorageFormats: Enumeration
 
@@ -31,7 +31,7 @@ trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends 
             format: String,
             caseSensitiveEmbeddings: Boolean,
             embeddingsRef: String
-          ): StorageConnection[A, RocksDBRetriever[A]] = {
+          ): RocksDBReader[A] = {
     load(
       path,
       spark,
@@ -46,7 +46,7 @@ trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends 
             spark: SparkSession,
             format: StorageFormats.Value,
             caseSensitiveEmbeddings: Boolean,
-            embeddingsRef: String): StorageConnection[A, RocksDBRetriever[A]] = {
+            embeddingsRef: String): RocksDBReader[A] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     var src = new Path(path)
@@ -115,7 +115,7 @@ trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends 
             sourceEmbeddingsPath: String,
             caseSensitive: Boolean,
             format: StorageFormats.Value,
-            storageRef: String): StorageConnection[A, RocksDBRetriever[A]] = {
+            storageRef: String): RocksDBReader[A] = {
 
     val tmpLocalDestination = {
       Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
@@ -152,11 +152,11 @@ trait StorageHelper[A, +B <: StorageConnection[A, RocksDBRetriever[A]]] extends 
   def load(
             indexPath: String,
             caseSensitive: Boolean
-          ): StorageConnection[A, RocksDBRetriever[A]] = {
+          ): RocksDBReader[A] = {
     createConnection(indexPath, caseSensitive)
   }
 
-  def save(path: String, connection: StorageConnection[A, RocksDBRetriever[A]], spark: SparkSession): Unit = {
+  def save(path: String, connection: RocksDBReader[A], spark: SparkSession): Unit = {
     StorageHelper.save(path, spark, connection.fileName.toString)
   }
 

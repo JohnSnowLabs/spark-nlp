@@ -3,13 +3,11 @@ package com.johnsnowlabs.nlp.training
 import java.io.File
 
 import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, TextSentenceLabels}
-import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsFormat, WordEmbeddingsBinaryIndexer, WordEmbeddingsIndexer, WordEmbeddingsRetriever, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsFormat, WordEmbeddingsBinaryIndexer, WordEmbeddingsStorageReader, WordEmbeddingsTextIndexer}
 import com.johnsnowlabs.nlp.util.io.ExternalResource
-import com.johnsnowlabs.storage.RocksDBRetriever
 
 /**
   * Helper class for to work with CoNLL 2003 dataset for NER task
@@ -28,7 +26,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     posCol = "pos"
   )
 
-  private var wordEmbeddings: WordEmbeddingsRetriever = _
+  private var wordEmbeddings: WordEmbeddingsStorageReader = _
 
   if (wordEmbeddingsFile != null) {
     require(new File(wordEmbeddingsFile).exists())
@@ -47,7 +45,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = new WordEmbeddingsRetriever(fileDb, normalize)
+      wordEmbeddings = new WordEmbeddingsStorageReader(fileDb, normalize)
     }
   }
 
