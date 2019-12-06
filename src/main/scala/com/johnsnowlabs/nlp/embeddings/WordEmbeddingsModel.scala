@@ -14,7 +14,6 @@ class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
     with HasEmbeddingsProperties
     with HasStorage[Float]
-    with AutoCloseable
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
@@ -32,15 +31,14 @@ class WordEmbeddingsModel(override val uid: String)
     if ($(includeStorage)) {
       val src = getEmbeddingsSerializedPath(path)
 
-      if (!isLoaded()) {
-        preloadedConnection = Some(EmbeddingsHelper.load(
+      if (!storageIsReady) {
+        setStorage(EmbeddingsHelper.load(
           src.toUri.toString,
           spark,
           EmbeddingsFormat.SPARKNLP.toString,
           $(caseSensitive),
           $(storageRef)
         ))
-        setAsLoaded()
       }
     }
   }
@@ -61,13 +59,7 @@ class WordEmbeddingsModel(override val uid: String)
       serializeEmbeddings(path, spark)
   }
 
-  override protected def close(): Unit = {
-    get(storageRef)
-      .flatMap(_ => preloadedConnection)
-      .foreach(_.findLocalDb.close())
-  }
-
-  @transient protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
+  protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -79,7 +71,7 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = this.getRetriever($(caseSensitive)).lookupIndex(token.token)
+        val vectorOption = getStorageConnection($(caseSensitive)).lookupIndex(token.token)
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, zeroArray, token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)

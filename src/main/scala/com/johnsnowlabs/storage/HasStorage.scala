@@ -3,25 +3,22 @@ package com.johnsnowlabs.storage
 import org.apache.spark.ml.param.{BooleanParam, Param, Params}
 import org.apache.spark.sql.Dataset
 
-trait HasStorage[A] extends Params {
+trait HasStorage[A] extends Params with AutoCloseable{
 
   val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
   val storageRef = new Param[String](this, "storageRef", "unique reference name for identification")
 
-  @transient private var retriever: RocksDBReader[A] = _
-  @transient private var loaded: Boolean = false
+  @transient private var preloadedConnection: RocksDBReader[A] = _
 
   protected val storageHelper: StorageHelper[A, RocksDBReader[A]]
 
-  protected var preloadedConnection: Option[RocksDBReader[A]] = None
-
   setDefault(includeStorage, true)
+
+  def storageIsReady: Boolean = Option(preloadedConnection).isDefined
+  def setStorage(storage: RocksDBReader[A]): Unit = if (Option(preloadedConnection).isEmpty) preloadedConnection = storage
 
   def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
   def getIncludeStorage: Boolean = $(includeStorage)
-
-  protected def setAsLoaded(): Unit = loaded = true
-  protected def isLoaded(): Boolean = loaded
 
   def setStorageRef(value: String): this.type = {
     if (get(storageRef).nonEmpty)
@@ -46,26 +43,21 @@ trait HasStorage[A] extends Params {
         s"Make sure you are using the right storage in your pipeline, with ref: ${$(storageRef)}")
   }
 
-  protected def getRetriever(caseSensitive: Boolean): RocksDBReader[A] = {
-    if (Option(retriever).isDefined)
-      retriever
-    else {
-      retriever = getStorageConnection(caseSensitive)
-      retriever
-    }
+  protected override def close(): Unit = {
+    Option(preloadedConnection).foreach(_.findLocalDb.close())
   }
 
   protected def getStorageConnection(caseSensitive: Boolean): RocksDBReader[A] = {
-    if (preloadedConnection.isDefined && preloadedConnection.get.fileName == $(storageRef))
-      return preloadedConnection.get
+    if (Option(preloadedConnection).isDefined && preloadedConnection.fileName == $(storageRef))
+      return preloadedConnection
     else {
-      preloadedConnection.foreach(_.findLocalDb.close())
-      preloadedConnection = Some(storageHelper.load(
+      close()
+      preloadedConnection = storageHelper.load(
         storageHelper.getClusterFilename($(storageRef)),
         caseSensitive
-      ))
+      )
     }
-    preloadedConnection.get
+    preloadedConnection
   }
 
 }
