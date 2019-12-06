@@ -90,6 +90,16 @@ class Tokenizer(AnnotatorApproach):
                        "character list used to separate from the inside of tokens",
                        typeConverter=TypeConverters.toListString)
 
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
     name = 'Tokenizer'
 
     @keyword_only
@@ -98,7 +108,9 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True
+            caseSensitiveExceptions=True,
+            minLength=0,
+            maxLength=99999
         )
 
     def getInfixPatterns(self):
@@ -177,6 +189,12 @@ class Tokenizer(AnnotatorApproach):
             split_chars = []
         split_chars.append(value)
         return self._set(splitChars=split_chars)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
@@ -462,9 +480,9 @@ class TextMatcher(AnnotatorApproach):
                           typeConverter=TypeConverters.toBoolean)
 
     mergeOverlapping = Param(Params._dummy(),
-                          "mergeOverlapping",
-                          "whether to merge overlapping matched chunks. Defaults false",
-                          typeConverter=TypeConverters.toBoolean)
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
