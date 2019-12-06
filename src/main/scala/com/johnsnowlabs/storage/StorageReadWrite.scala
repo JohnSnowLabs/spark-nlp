@@ -5,7 +5,7 @@ import java.nio.{ByteBuffer, ByteOrder}
 import spire.ClassTag
 
 
-abstract class StorageIndexer[A: ClassTag] {
+abstract class StorageReadWrite[A: ClassTag] {
 
   protected val emptyValue: A
 

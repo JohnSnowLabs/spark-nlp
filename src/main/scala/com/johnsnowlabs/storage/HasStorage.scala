@@ -8,12 +8,12 @@ trait HasStorage[A] extends Params {
   val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
   val storageRef = new Param[String](this, "storageRef", "unique reference name for identification")
 
-  @transient private var retriever: RocksDBRetriever[A] = null
+  @transient private var retriever: RocksDBReader[A] = _
   @transient private var loaded: Boolean = false
 
-  protected val storageHelper: StorageHelper[A, StorageConnection[A, RocksDBRetriever[A]]]
+  protected val storageHelper: StorageHelper[A, RocksDBReader[A]]
 
-  protected var preloadedConnection: Option[StorageConnection[A, RocksDBRetriever[A]]] = None
+  protected var preloadedConnection: Option[RocksDBReader[A]] = None
 
   setDefault(includeStorage, true)
 
@@ -46,20 +46,20 @@ trait HasStorage[A] extends Params {
         s"Make sure you are using the right storage in your pipeline, with ref: ${$(storageRef)}")
   }
 
-  protected def getRetriever(caseSensitive: Boolean): RocksDBRetriever[A] = {
+  protected def getRetriever(caseSensitive: Boolean): RocksDBReader[A] = {
     if (Option(retriever).isDefined)
       retriever
     else {
-      retriever = getStorageConnection(caseSensitive).findLocalRetriever
+      retriever = getStorageConnection(caseSensitive)
       retriever
     }
   }
 
-  protected def getStorageConnection(caseSensitive: Boolean): StorageConnection[A, RocksDBRetriever[A]] = {
+  protected def getStorageConnection(caseSensitive: Boolean): RocksDBReader[A] = {
     if (preloadedConnection.isDefined && preloadedConnection.get.fileName == $(storageRef))
       return preloadedConnection.get
     else {
-      preloadedConnection.foreach(_.findLocalRetriever.close())
+      preloadedConnection.foreach(_.findLocalDb.close())
       preloadedConnection = Some(storageHelper.load(
         storageHelper.getClusterFilename($(storageRef)),
         caseSensitive

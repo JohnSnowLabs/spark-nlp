@@ -2,20 +2,20 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.storage.{RocksDBRetriever, StorageConnection, StorageHelper}
+import com.johnsnowlabs.storage.StorageHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.ivy.util.FileUtil
 import org.apache.spark.SparkContext
 
-object EmbeddingsHelper extends StorageHelper[Float, WordEmbeddingsStorageConnection] {
+object EmbeddingsHelper extends StorageHelper[Float, WordEmbeddingsStorageReader] {
 
   override val filesPrefix: String = "embd_"
 
   override val StorageFormats: EmbeddingsFormat.type = EmbeddingsFormat
 
-  override protected def createConnection(filename: String, caseSensitive: Boolean): WordEmbeddingsStorageConnection = {
-    new WordEmbeddingsStorageConnection(filename, caseSensitive)
+  override protected def createConnection(filename: String, caseSensitive: Boolean): WordEmbeddingsStorageReader = {
+    new WordEmbeddingsStorageReader(filename, caseSensitive)
   }
 
   override protected def indexStorage(storageSourcePath: String, localFile: String, format: StorageFormats.Value, spark: SparkContext): Unit = {

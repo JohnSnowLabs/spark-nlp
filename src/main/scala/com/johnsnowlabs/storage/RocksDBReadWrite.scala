@@ -4,21 +4,21 @@ import org.rocksdb._
 import spire.ClassTag
 
 
-abstract class RocksDbIndexer[A: ClassTag](dbFile: String, autoFlashAfter: Option[Integer]) extends StorageIndexer[A] with AutoCloseable {
-  val options = new Options()
-  options.setCreateIfMissing(true)
-  options.setCompressionType(CompressionType.NO_COMPRESSION)
-  options.setWriteBufferSize(20 * 1 << 20)
+abstract class RocksDBReadWrite[A: ClassTag](dbFile: String, mode: String, autoFlashAfter: Option[Integer])
+  extends StorageReadWrite[A] with RocksDBConnection with AutoCloseable {
 
-  RocksDB.loadLibrary()
-  val writeOptions = new WriteOptions()
+  mode match {
+    case "r" => openReadOnly(dbFile)
+    case "w" => open(dbFile)
+    case _ => throw new IllegalArgumentException("Invalid RocksDB open mode. Must be 'r' or 'w'")
+  }
 
-  val db: RocksDB = RocksDB.open(options, dbFile)
   var batch = new WriteBatch()
   var batchSize = 0
 
   def flush(): Unit = {
-    db.write(writeOptions, batch)
+    val writeOptions = new WriteOptions()
+    getDb.write(writeOptions, batch)
     batch.close()
     batch = new WriteBatch()
     batchSize = 0
@@ -38,6 +38,6 @@ abstract class RocksDbIndexer[A: ClassTag](dbFile: String, autoFlashAfter: Optio
     if (batchSize > 0)
       flush()
 
-    db.close()
+    super.close()
   }
 }

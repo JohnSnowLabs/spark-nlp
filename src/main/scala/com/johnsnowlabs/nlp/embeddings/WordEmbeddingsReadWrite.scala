@@ -3,14 +3,14 @@ package com.johnsnowlabs.nlp.embeddings
 import java.io._
 import java.nio.ByteBuffer
 
-import com.johnsnowlabs.storage.RocksDbIndexer
+import com.johnsnowlabs.storage.RocksDBReadWrite
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
 
 
-case class WordEmbeddingsIndexer(dbFile: String, autoFlashAfter: Option[Integer] = None)
-  extends RocksDbIndexer[Float](dbFile, autoFlashAfter) {
+class WordEmbeddingsReadWrite(dbFile: String, mode: String, autoFlashAfter: Option[Integer] = None)
+  extends RocksDBReadWrite[Float](dbFile, mode, autoFlashAfter) {
 
   override protected val emptyValue: Float = 0f
 
@@ -28,7 +28,7 @@ case class WordEmbeddingsIndexer(dbFile: String, autoFlashAfter: Option[Integer]
 object WordEmbeddingsTextIndexer {
 
   def index(source: Iterator[String], dbFile: String, autoFlashAfter: Option[Integer] = Some(1000)): Unit = {
-    val indexer = WordEmbeddingsIndexer(dbFile, autoFlashAfter)
+    val indexer = new WordEmbeddingsReadWrite(dbFile, "w", autoFlashAfter)
 
     try {
       for (line <- source) {
@@ -56,7 +56,7 @@ object WordEmbeddingsBinaryIndexer {
   private val logger = LoggerFactory.getLogger("WordEmbeddings")
 
   def index(source: DataInputStream, dbFile: String, autoFlashAfter: Option[Integer] = Some(1000)): Unit = {
-    val indexer = WordEmbeddingsIndexer(dbFile, autoFlashAfter)
+    val indexer = new WordEmbeddingsReadWrite(dbFile, "w", autoFlashAfter)
 
     try {
       // File Header
@@ -113,7 +113,7 @@ object WordEmbeddingsBinaryIndexer {
   /**
     * Read a Vector - Array of Floats from the binary model:
     */
-  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsIndexer): Array[Float] = {
+  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsReadWrite): Array[Float] = {
     // Read Bytes
     val vectorBuffer = Array.fill[Byte](4 * vectorSize)(0)
     ds.read(vectorBuffer)
