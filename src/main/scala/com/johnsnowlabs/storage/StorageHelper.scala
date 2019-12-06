@@ -132,7 +132,7 @@ trait StorageHelper[A, +B <: RocksDBReader[A]] extends Serializable {
         spark.hadoopConfiguration.get("hadoop.tmp.dir")
       )
     }
-    val clusterFilePath = Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path(clusterFileName))
+    val clusterFilePath = Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/"+clusterFileName))
 
     // 1 and 2.  Copy to local and Index Word Embeddings
     indexStorage(sourceEmbeddingsPath, tmpLocalDestination.toString, format, spark)
@@ -165,7 +165,7 @@ trait StorageHelper[A, +B <: RocksDBReader[A]] extends Serializable {
 object StorageHelper {
 
   def getLocalPath(fileName: String): String = {
-    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path(fileName)).toString
+    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/"+fileName)).toString
   }
 
   protected def save(path: String, spark: SparkSession, fileName: String): Unit = {

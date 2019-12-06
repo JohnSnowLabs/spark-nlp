@@ -27,7 +27,7 @@ abstract class RocksDBReader[A](val fileName: String, val caseSensitive: Boolean
     }
     else {
       val localFromClusterPath = SparkFiles.get(fileName)
-      require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: ${fileName.replaceAll("/storage_", "")}\n" +
+      require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $fileName\n" +
         s" This usually means:\n1. You have not loaded any storage under such ref\n2." +
         s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to Storage creation" +
         s"\n4. If you are trying to utilize Storage defined elsewhere, make sure you it's appropriate ref. ")
