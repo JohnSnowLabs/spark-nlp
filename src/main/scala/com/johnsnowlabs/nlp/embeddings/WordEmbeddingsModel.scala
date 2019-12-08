@@ -8,7 +8,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.storage.{HasStorage, StorageHelper}
+import com.johnsnowlabs.storage.{HasStorage, RocksDBConnection, StorageHelper}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
@@ -17,8 +17,6 @@ class WordEmbeddingsModel(override val uid: String)
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
-
-  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageReader] = EmbeddingsHelper
 
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -32,19 +30,19 @@ class WordEmbeddingsModel(override val uid: String)
       val src = getEmbeddingsSerializedPath(path)
 
       if (!storageIsReady) {
-        setStorage(EmbeddingsHelper.load(
+        WordEmbeddingsIndexer.indexStorage(
           src.toUri.toString,
-          spark,
-          EmbeddingsFormat.SPARKNLP.toString,
-          $(caseSensitive),
-          $(storageRef)
-        ))
+          $(storageRef),
+          EmbeddingsFormat.SPARKNLP,
+          spark.sparkContext
+        )
+        setAndGetStorageConnection
       }
     }
   }
 
   private[embeddings] def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    val index = new Path(StorageHelper.getLocalPath(getStorageConnection($(caseSensitive)).fileName))
+    val index = new Path(RocksDBConnection.getLocalPath(setAndGetStorageConnection.getFileName))
 
     val uri = new java.net.URI(path)
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -61,6 +59,8 @@ class WordEmbeddingsModel(override val uid: String)
 
   protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
 
+  private lazy val reader = new WordEmbeddingsReader(setAndGetStorageConnection, $(caseSensitive))
+
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
@@ -71,7 +71,7 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = getStorageConnection($(caseSensitive)).lookupIndex(token.token)
+        val vectorOption = reader.lookup(token.token)
         TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, zeroArray, token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
@@ -81,8 +81,6 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    getStorageConnection($(caseSensitive)).findLocalDb.close()
-
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
