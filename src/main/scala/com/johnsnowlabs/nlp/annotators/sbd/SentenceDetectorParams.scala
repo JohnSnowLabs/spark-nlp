@@ -19,8 +19,8 @@ trait SentenceDetectorParams extends Params {
   )
 
   val splitLength: IntParam = new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
-  val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each sentence")
-  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each sentence")
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
 
   setDefault(
     useAbbrevations -> true,
