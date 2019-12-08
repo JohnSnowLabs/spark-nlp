@@ -47,11 +47,11 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
   override def beforeTraining(sparkSession: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       if (!storageIsReady) {
-        WordEmbeddingsIndexer.indexStorage(
+        WordEmbeddingsLoader.load(
           $(sourceEmbeddingsPath),
-          $(storageRef),
+          sparkSession,
           EmbeddingsFormat.apply($(embeddingsFormat)),
-          sparkSession.sparkContext
+          $(storageRef)
         )
       }
       setAndGetStorageConnection

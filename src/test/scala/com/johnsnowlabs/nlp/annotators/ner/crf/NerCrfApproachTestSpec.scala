@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsIndexer
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLoader
 import org.scalatest.FlatSpec
 
 class NerCrfApproachTestSpec extends FlatSpec {
@@ -67,7 +67,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
 
   it should "correctly handle entities param" in {
 
-    WordEmbeddingsIndexer.load(
+    WordEmbeddingsLoader.load(
       "src/test/resources/random_embeddings_dim4.txt",
       spark,
       "TEXT",

@@ -30,11 +30,11 @@ class WordEmbeddingsModel(override val uid: String)
       val src = getEmbeddingsSerializedPath(path)
 
       if (!storageIsReady) {
-        WordEmbeddingsIndexer.indexStorage(
+        WordEmbeddingsLoader.load(
           src.toUri.toString,
-          $(storageRef),
+          spark,
           EmbeddingsFormat.SPARKNLP,
-          spark.sparkContext
+          $(storageRef)
         )
         setAndGetStorageConnection
       }

@@ -13,23 +13,23 @@ from sparknlp.annotator import WordEmbeddingsModel
 ####
 
 
-class Embeddings:
-    def __init__(self, embeddings):
-        self.jembeddings = embeddings
+class RocksDBConnection:
+    def __init__(self, connection):
+        self.jconnection = connection
 
 
-class EmbeddingsHelper:
+class WordEmbeddingsLoader:
     @classmethod
-    def load(cls, path, spark_session, embeddings_format, embeddings_ref, embeddings_dim, embeddings_casesens=False):
+    def load(cls, path, spark_session, embeddings_format, embeddings_ref):
         print("Loading started this may take some time")
         stop_threads = False
         t1 = threading.Thread(target=_pretrained.printProgress, args=(lambda: stop_threads,))
         t1.start()
-        jembeddings = _internal._EmbeddingsHelperLoad(path, spark_session, embeddings_format, embeddings_ref, embeddings_dim, embeddings_casesens).apply()
+        jembeddings = _internal._WordEmbeddingsLoader(path, spark_session, embeddings_format, embeddings_ref).apply()
         stop_threads = True
         t1.join()
         print("Loading done")
-        return Embeddings(jembeddings)
+        return RocksDBConnection(jembeddings)
 
     @classmethod
     def save(cls, path, embeddings, spark_session):
