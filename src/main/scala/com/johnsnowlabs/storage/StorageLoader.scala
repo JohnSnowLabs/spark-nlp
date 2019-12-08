@@ -10,11 +10,9 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
-trait StorageIndexer {
+trait StorageLoader {
 
   val StorageFormats: Enumeration
-
-  val filesPrefix: String
 
   protected def indexStorage(storageSourcePath: String,
                              localFile: String,
@@ -50,7 +48,7 @@ trait StorageIndexer {
         .toAbsolutePath
     }
 
-    val clusterFileName: String = Path.mergePaths(new Path(filesPrefix), new Path(storageRef)).toString
+    val clusterFileName: String = new Path(storageRef).toString
 
     val destinationScheme = new Path(clusterFileName).getFileSystem(sparkContext.hadoopConfiguration).getScheme
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)

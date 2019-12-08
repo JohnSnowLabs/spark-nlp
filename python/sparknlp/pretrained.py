@@ -87,9 +87,17 @@ class ResourceDownloader(object):
 
 class PretrainedPipeline:
 
-    def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False):
-        self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
+    def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False, disk_location=None):
+        if not disk_location:
+            self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
+        else:
+            from pyspark.ml import PipelineModel
+            self.model = PipelineModel.load(disk_location)
         self.light_model = LightPipeline(self.model, parse_embeddings)
+
+    @staticmethod
+    def from_disk(path, parse_embeddings=False):
+        return PretrainedPipeline(None, None, None, parse_embeddings, path)
 
     def annotate(self, target, column=None):
         if type(target) is DataFrame:
