@@ -57,11 +57,11 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val sentence = "Hello world, this is a long sentence longerThanMaxLength"
+    val sentence = "Hello world, this is a long sentence longerThanSplitLength"
 
     val df = Seq(sentence).toDF("text")
 
-    val expected = Array("Hello world,", "this is a", "long", "sentence", "longerThanMaxLength")
+    val expected = Array("Hello world,", "this is a", "long", "sentence", "longerThanSplitLength")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -70,7 +70,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     val sd = new SentenceDetector()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
-      .setMaxLength(12)
+      .setSplitLength(12)
 
     val doc = document.transform(df)
     val sentenced = sd.transform(doc)
@@ -91,6 +91,39 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
   }
 
+  "SentenceDetector" should "correctly filters out sentences less or greater than maxLength and minLength" in {
+    import ResourceHelper.spark.implicits._
+
+    val sentence = "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."
+
+    val df = Seq(sentence).toDF("text")
+
+    val expected = Array("This is a normal sentence.")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sd = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setMinLength(16)
+      .setMaxLength(26)
+
+    val doc = document.transform(df)
+    val sentenced = sd.transform(doc)
+      .select("sentence")
+      .as[Array[Annotation]].first
+
+    assert(sentenced.length == expected.length)
+    assert(sentenced.zip(expected).forall(r => {
+      println(r._1.result)
+      println(r._2)
+      r._1.result == r._2
+    }))
+    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 16, 41, "This is a normal sentence.", Map("sentence" -> "0"), Array.emptyFloatArray))
+
+  }
 
   private def checkBounds(text: String, bounds: Array[Sentence]) = {
     for (bound <- bounds) {

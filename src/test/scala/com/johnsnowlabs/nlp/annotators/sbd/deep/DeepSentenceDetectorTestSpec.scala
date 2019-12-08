@@ -249,7 +249,7 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     val dsd = new DeepSentenceDetector()
       .setInputCols(Array("document", "token", "ner_con"))
       .setOutputCol("sentence")
-      .setMaxLength(12)
+      .setSplitLength(12)
 
     val nerTagger = getNerTagger("src/test/resources/ner-corpus/sentence-detector/hello_training_right.txt")
     val purePipeline = new RecursivePipeline().setStages(
