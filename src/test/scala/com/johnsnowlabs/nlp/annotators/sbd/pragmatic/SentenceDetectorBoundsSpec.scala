@@ -87,7 +87,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1"), Array.emptyFloatArray))
     assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2"), Array.emptyFloatArray))
     assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3"), Array.emptyFloatArray))
-    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 55, "longerThanMaxLength", Map("sentence" -> "4"), Array.emptyFloatArray))
+    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 57, "longerThanSplitLength", Map("sentence" -> "4"), Array.emptyFloatArray))
 
   }
 
