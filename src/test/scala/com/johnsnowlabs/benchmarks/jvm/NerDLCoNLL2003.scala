@@ -9,8 +9,9 @@ import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEm
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsStorageReader, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsTextIndexer}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.storage.RocksDBConnection
 import org.tensorflow.Session
 
 
@@ -25,10 +26,14 @@ object NerDLCoNLL2003 extends App {
   val wordEmbeddignsFile = "glove.6B.100d.txt"
   val wordEmbeddingsCache = "glove_100_cache.db"
   val wordEmbeddingsDim = 100
-  if (!new File(wordEmbeddingsCache).exists())
-    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, wordEmbeddingsCache)
 
-  val embeddings = new WordEmbeddingsStorageReader(wordEmbeddingsCache, caseSensitive=false)
+  lazy val connection = new RocksDBConnection(wordEmbeddingsCache)
+
+  if (!new File(wordEmbeddingsCache).exists()) {
+    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, connection)
+  }
+
+  val embeddings = new WordEmbeddingsReader(connection, false)
 
   val reader = CoNLL()
   val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
@@ -78,13 +83,13 @@ object NerDLCoNLL2003 extends App {
       throw e
   }
 
-  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsStorageReader):
+  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsReader):
       Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
     source.flatMap{s =>
       s.nerTagged.zipWithIndex.map { case (sentence, idx) =>
         val tokens = sentence.indexedTaggedWords.map {t =>
-          val vectorOption = embeddings.lookupIndex(t.word)
+          val vectorOption = embeddings.lookup(t.word)
           TokenPieceEmbeddings(t.word, t.word, -1, true, vectorOption, Array.fill[Float](wordEmbeddingsDim)(0f), t.begin, t.end)
         }
         val tokenized = WordpieceEmbeddingsSentence(tokens, idx)

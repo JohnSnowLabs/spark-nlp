@@ -12,8 +12,6 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS"))
 
-  override protected val storageHelper: StorageHelper[Float, WordEmbeddingsStorageReader] = EmbeddingsHelper
-
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
@@ -49,16 +47,16 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
   override def beforeTraining(sparkSession: SparkSession): Unit = {
     if (isDefined(sourceEmbeddingsPath)) {
       if (!storageIsReady) {
-        setStorage(EmbeddingsHelper.load(
+        WordEmbeddingsIndexer.indexStorage(
           $(sourceEmbeddingsPath),
-          sparkSession,
+          $(storageRef),
           EmbeddingsFormat.apply($(embeddingsFormat)),
-          $(caseSensitive),
-          $(storageRef)
-        ))
+          sparkSession.sparkContext
+        )
       }
+      setAndGetStorageConnection
     } else if (isSet(storageRef)) {
-      getStorageConnection($(caseSensitive))
+      setAndGetStorageConnection
     } else
       throw new IllegalArgumentException(
         s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
@@ -74,8 +72,7 @@ class WordEmbeddings(override val uid: String) extends AnnotatorApproach[WordEmb
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
       .setIncludeStorage($(includeStorage))
-
-    getStorageConnection($(caseSensitive)).findLocalDb.close()
+      .setStorage(setAndGetStorageConnection)
 
     model
   }

@@ -6,8 +6,9 @@ import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, Tex
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsFormat, WordEmbeddingsBinaryIndexer, WordEmbeddingsStorageReader, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsFormat, WordEmbeddingsBinaryIndexer, WordEmbeddingsReader, WordEmbeddingsTextIndexer}
 import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.storage.RocksDBConnection
 
 /**
   * Helper class for to work with CoNLL 2003 dataset for NER task
@@ -26,26 +27,27 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     posCol = "pos"
   )
 
-  private var wordEmbeddings: WordEmbeddingsStorageReader = _
+  private var wordEmbeddings: WordEmbeddingsReader = _
 
   if (wordEmbeddingsFile != null) {
     require(new File(wordEmbeddingsFile).exists())
 
     var fileDb = wordEmbeddingsFile + ".db"
+    val connection = new RocksDBConnection(fileDb)
 
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {
         case EmbeddingsFormat.TEXT =>
-          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, fileDb)
+          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, connection)
         case EmbeddingsFormat.BINARY =>
-          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, fileDb)
+          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, connection)
         case EmbeddingsFormat.SPARKNLP =>
           fileDb = wordEmbeddingsFile
       }
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = new WordEmbeddingsStorageReader(fileDb, normalize)
+      wordEmbeddings = new WordEmbeddingsReader(connection, normalize)
     }
   }
 
@@ -56,7 +58,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
   private def resolveEmbeddings(sentences: Seq[PosTaggedSentence]): Seq[WordpieceEmbeddingsSentence] = {
     sentences.zipWithIndex.map { case (s, idx) =>
       val tokens = s.indexedTaggedWords.map{token =>
-        val vectorOption = wordEmbeddings.lookupIndex(token.word)
+        val vectorOption = wordEmbeddings.lookup(token.word)
         TokenPieceEmbeddings(token.word, token.word,
           -1, true, vectorOption, Array.fill[Float](wordEmbeddingsNDims)(0f),
           token.begin, token.end)

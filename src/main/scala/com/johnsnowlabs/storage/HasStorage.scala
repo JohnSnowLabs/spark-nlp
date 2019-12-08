@@ -8,14 +8,15 @@ trait HasStorage[A] extends Params with AutoCloseable{
   val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
   val storageRef = new Param[String](this, "storageRef", "unique reference name for identification")
 
-  @transient private var preloadedConnection: RocksDBReader[A] = _
-
-  protected val storageHelper: StorageHelper[A, RocksDBReader[A]]
+  @transient private var preloadedConnection: RocksDBConnection = _
 
   setDefault(includeStorage, true)
 
   def storageIsReady: Boolean = Option(preloadedConnection).isDefined
-  def setStorage(storage: RocksDBReader[A]): Unit = if (Option(preloadedConnection).isEmpty) preloadedConnection = storage
+  def setStorage(storage: RocksDBConnection): this.type = {
+    if (Option(preloadedConnection).isEmpty) preloadedConnection = storage
+    this
+  }
 
   def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
   def getIncludeStorage: Boolean = $(includeStorage)
@@ -44,20 +45,17 @@ trait HasStorage[A] extends Params with AutoCloseable{
   }
 
   protected override def close(): Unit = {
-    Option(preloadedConnection).foreach(_.findLocalDb.close())
+    Option(preloadedConnection).foreach(_.close())
   }
 
-  protected def getStorageConnection(caseSensitive: Boolean): RocksDBReader[A] = {
-    if (Option(preloadedConnection).isDefined && preloadedConnection.fileName == $(storageRef))
-      return preloadedConnection
+  protected def setAndGetStorageConnection: RocksDBConnection = {
+    if (Option(preloadedConnection).isDefined && preloadedConnection.getFileName == $(storageRef))
+      preloadedConnection
     else {
       close()
-      preloadedConnection = storageHelper.load(
-        storageHelper.getClusterFilename($(storageRef)),
-        caseSensitive
-      )
+      preloadedConnection = new RocksDBConnection($(storageRef))
+      preloadedConnection
     }
-    preloadedConnection
   }
 
 }
