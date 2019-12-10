@@ -25,8 +25,9 @@ class WordEmbeddingsTestSpec extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("src/test/resources/embeddings/embeddings.1d.test.txt",
-        1, EmbeddingsFormat.TEXT)
+      .setStoragePath("src/test/resources/embeddings/embeddings.1d.test.txt")
+      .setDimension(1)
+      .setStorageFormat("TEXT")
       .setCaseSensitive(true)
       .setStorageRef("embeddings_1d")
       .setDimension(1)

@@ -7,18 +7,40 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.ivy.util.FileUtil
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
-trait StorageLoader {
+import scala.language.existentials
 
-  val StorageFormats: Enumeration
+trait StorageLoader extends Serializable {
 
-  protected def indexStorage(storageSourcePath: String,
-                             localFile: String,
-                             format: StorageFormats.Value,
-                             spark: SparkContext
-                            ): Unit
+  val formats: StorageFormat
+
+  protected def index(storageSourcePath: String, format: formats.Value, fs: FileSystem, connection: RocksDBConnection)
+
+  private def indexStorage(storageSourcePath: String,
+                           localFile: String,
+                           format: formats.Value,
+                           spark: SparkContext
+                            ): Unit = {
+
+    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+
+    lazy val connection = new RocksDBConnection(localFile)
+
+    if (format == formats.withName("SPARKNLP")) {
+      fs.copyToLocalFile(new Path(storageSourcePath), new Path(localFile))
+      val fileName = new Path(storageSourcePath).getName
+
+      /** If we remove this deepCopy line, word storage will fail (needs research) - moving it instead of copy also fails */
+      FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
+      FileHelper.delete(Paths.get(localFile, fileName).toString)
+    } else {
+      index(storageSourcePath, format, fs, connection)
+    }
+  }
 
   def load(
             path: String,
@@ -29,16 +51,16 @@ trait StorageLoader {
     load(
       path,
       spark,
-      StorageFormats.withName(format.toUpperCase),
+      formats.withName(format.toUpperCase),
       embeddingsRef
     )
   }
 
   def load(
-             path: String,
-             spark: SparkSession,
-             format: StorageFormats.Value,
-             storageRef: String): RocksDBConnection = {
+            path: String,
+            spark: SparkSession,
+            format: formats.Value,
+            storageRef: String): RocksDBConnection = {
 
     val sourceEmbeddingsPath = importIfS3(path, spark).toUri.toString
     val sparkContext = spark.sparkContext
@@ -54,7 +76,7 @@ trait StorageLoader {
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
     val clusterTmpLocation = {
-      ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(new Path(_)).getOrElse(
+      ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
         sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
       )
     }

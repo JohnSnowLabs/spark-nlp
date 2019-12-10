@@ -95,8 +95,14 @@ class HasEmbeddingsProperties(Params):
     def setDimension(self, value):
         return self._set(dimension=value)
 
+    def getDimension(self):
+        return self.getOrDefault(self.dimension)
+
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
+
+    def getCaseSensitive(self):
+        return self.getOrDefault(self.caseSensitive)
 
 
 class HasStorage:
@@ -110,6 +116,16 @@ class HasStorage:
                        "unique reference name for identification",
                        TypeConverters.toString)
 
+    storagePath = Param(Params._dummy(),
+                        "storagePath",
+                        "path to file",
+                        typeConverter=TypeConverters.toString)
+
+    storageFormat = Param(Params._dummy(),
+                          "storageFormat",
+                          "file format",
+                          typeConverter=TypeConverters.toInt)
+
     def setStorageRef(self, value):
         return self._set(storageRef=value)
 
@@ -121,6 +137,18 @@ class HasStorage:
 
     def getIncludeStorage(self):
         return self.getOrDefault("includeStorage")
+
+    def setStoragePath(self, path):
+        return self._set(storagePath=path)
+
+    def getStoragePath(self):
+        return self.getOrDefault("storagePath")
+
+    def setStorageFormat(self, format):
+        return self._set(embeddingsFormat=self.Format[format.upper()].value)
+
+    def getStorageFormat(self):
+        return self.getOrDefault("storageFormat")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,

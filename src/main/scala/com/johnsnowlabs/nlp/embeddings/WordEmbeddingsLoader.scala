@@ -3,30 +3,18 @@ package com.johnsnowlabs.nlp.embeddings
 import java.io.{BufferedInputStream, ByteArrayOutputStream, DataInputStream, FileInputStream}
 import java.nio.file.{Files, Paths}
 
-import com.johnsnowlabs.storage.{RocksDBConnection, StorageLoader}
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageFormat, StorageLoader}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.ivy.util.FileUtil
-import org.apache.spark.SparkContext
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
 
 object WordEmbeddingsLoader extends StorageLoader {
 
-  override val StorageFormats: EmbeddingsFormat.type = EmbeddingsFormat
+  override val formats: StorageFormat = EmbeddingsFormat
 
-  override protected def indexStorage(
-                             storageSourcePath: String,
-                             localFile: String,
-                             format: StorageFormats.Value,
-                             spark: SparkContext): Unit = {
-
-    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
-
-    lazy val connection = new RocksDBConnection(localFile)
-
+  override protected def index(storageSourcePath: String, format: formats.Value, fs: FileSystem, connection: RocksDBConnection): Unit = {
     if (format == EmbeddingsFormat.TEXT) {
 
       val tmpFile = Files.createTempFile("sparknlp_", ".txt").toAbsolutePath.toString
@@ -40,15 +28,6 @@ object WordEmbeddingsLoader extends StorageLoader {
       fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
       WordEmbeddingsBinaryIndexer.index(tmpFile, connection)
       FileHelper.delete(tmpFile)
-    }
-    else if (format == EmbeddingsFormat.SPARKNLP) {
-
-      fs.copyToLocalFile(new Path(storageSourcePath), new Path(localFile))
-      val fileName = new Path(storageSourcePath).getName
-
-      /** If we remove this deepCopy line, word storage will fail (needs research) - moving it instead of copy also fails*/
-      FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
-      FileHelper.delete(Paths.get(localFile, fileName).toString)
     }
   }
 }

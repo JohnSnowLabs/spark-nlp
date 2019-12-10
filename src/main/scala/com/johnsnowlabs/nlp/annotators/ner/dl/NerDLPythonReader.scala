@@ -40,7 +40,7 @@ object NerDLModelPythonReader {
                               spark: SparkSession,
                               embeddingsDim: Int,
                               normalize: Boolean,
-                              format: WordEmbeddingsLoader.StorageFormats.Value
+                              format: WordEmbeddingsLoader.formats.Value
                             ): RocksDBConnection = {
     WordEmbeddingsLoader.load(
       Paths.get(folder, embeddingsFile).toString,
