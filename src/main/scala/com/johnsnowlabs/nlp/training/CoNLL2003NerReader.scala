@@ -17,7 +17,7 @@ import com.johnsnowlabs.storage.RocksDBConnection
 class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          wordEmbeddingsNDims: Int,
                          normalize: Boolean,
-                         embeddingsFormat: EmbeddingsFormat.Format,
+                         embeddingsFormat: EmbeddingsFormat.Value,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
   private val nerReader = CoNLL(

@@ -34,8 +34,9 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
   private val glove = new WordEmbeddings()
     .setInputCols("document", "token")
     .setOutputCol("glove")
-    .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt",
-      100, EmbeddingsFormat.TEXT)
+    .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt")
+    .setDimension(100)
+    .setStorageFormat("TEXT")
     .setCaseSensitive(true)
 
   private val strongNer = new NerDLApproach()

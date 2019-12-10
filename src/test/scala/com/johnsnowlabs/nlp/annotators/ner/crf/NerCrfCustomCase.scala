@@ -36,7 +36,9 @@ class NerCrfCustomCase extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("pos", "token", "sentence")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("/emb.bin", 200, EmbeddingsFormat.BINARY)
+      .setStoragePath("./emb.bin")
+      .setDimension(200)
+      .setStorageFormat("BINARY")
 
     val nerCrf = new NerCrfApproach()
       .setInputCols("pos", "token", "sentence", "embeddings")

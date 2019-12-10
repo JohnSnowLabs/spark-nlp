@@ -1,16 +1,50 @@
 package com.johnsnowlabs.storage
 
+import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.{BooleanParam, Param, Params}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{Dataset, SparkSession}
 
-trait HasStorage[A] extends Params with AutoCloseable{
+trait HasStorage[A] extends Params with AutoCloseable {
 
   val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
   val storageRef = new Param[String](this, "storageRef", "unique reference name for identification")
+  val storagePath = new Param[String](this, "storagePath", "path to file")
+  val storageFormat = new Param[String](this, "storageFormat", "file format")
+
+  protected val loader: StorageLoader
+
+  def setStoragePath(path: String): this.type = set(storagePath, path)
+
+  def getStoragePath: String = $(storagePath)
+
+  def setStorageFormat(format: String): this.type = {
+    set(storageFormat, format)
+  }
+
+  def getStorageFormat: String = {
+    $(storageFormat)
+  }
 
   @transient private var preloadedConnection: RocksDBConnection = _
 
   setDefault(includeStorage, true)
+
+  def loadStorage(spark: SparkSession): Unit = {
+    require(isDefined(storagePath) || isDefined(storageRef),
+      s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
+        s" or not in cache by ref: ${get(storageRef).getOrElse("-storageRef not set-")}. " +
+        s"Load using EmbeddingsHelper.load() and .setStorageRef() to make them available."
+    )
+    if (isDefined(storagePath) && !storageIsReady) {
+      loader.load(
+        $(storagePath),
+        spark,
+        $(storageFormat),
+        $(storageRef)
+      )
+      setStorageConnection()
+    }
+  }
 
   def storageIsReady: Boolean = Option(preloadedConnection).isDefined
   def setStorage(storage: RocksDBConnection): this.type = {
@@ -48,14 +82,24 @@ trait HasStorage[A] extends Params with AutoCloseable{
     Option(preloadedConnection).foreach(_.close())
   }
 
-  protected def setAndGetStorageConnection: RocksDBConnection = {
-    if (Option(preloadedConnection).isDefined && preloadedConnection.getFileName == $(storageRef))
-      preloadedConnection
-    else {
+  protected def getStorageSerializedPath(path: String): Path =
+    Path.mergePaths(new Path(path), new Path("/storage"))
+
+  protected def setStorageConnection(): Unit = {
+    if (Option(preloadedConnection).isEmpty)
+      preloadedConnection = new RocksDBConnection($(storageRef))
+    else if (preloadedConnection.getFileName != $(storageRef)) {
       close()
       preloadedConnection = new RocksDBConnection($(storageRef))
-      preloadedConnection
     }
+  }
+
+  protected def getStorageConnection: RocksDBConnection = {
+    if (Option(preloadedConnection).isDefined)
+      preloadedConnection
+    else
+      throw new IllegalStateException("RocksDBConnection not initialized. " +
+        "Make sure you call setStorageConnection() first.")
   }
 
 }

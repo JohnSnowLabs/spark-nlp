@@ -22,7 +22,9 @@ object NerDLPipeline extends App {
   def createPipeline() = {
 
     val glove = new WordEmbeddings()
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, EmbeddingsFormat.TEXT)
+      .setStoragePath("glove.6B.100d.txt")
+      .setDimension(100)
+      .setStorageFormat("TEXT")
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
 

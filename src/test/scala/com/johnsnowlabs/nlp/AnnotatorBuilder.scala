@@ -239,7 +239,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     new WordEmbeddings()
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, EmbeddingsFormat.TEXT)
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt")
+      .setDimension(100)
+      .setStorageFormat("TEXT")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .fit(dataset)

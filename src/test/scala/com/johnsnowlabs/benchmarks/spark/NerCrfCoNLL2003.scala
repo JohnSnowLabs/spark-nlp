@@ -30,7 +30,9 @@ object CoNLL2003PipelineTest extends App {
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setEmbeddingsSource("glove.6B.100d.txt", 100, EmbeddingsFormat.TEXT)
+      .setStoragePath("glove.6B.100d.txt")
+      .setDimension(100)
+      .setStorageFormat("TEXT")
 
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos", "glove")

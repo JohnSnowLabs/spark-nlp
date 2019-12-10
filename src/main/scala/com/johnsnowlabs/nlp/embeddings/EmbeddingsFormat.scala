@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
-object EmbeddingsFormat extends Enumeration {
-  type Format = Value
-  val SPARKNLP = Value(1)
-  val TEXT = Value(2)
-  val BINARY = Value(3)
+import com.johnsnowlabs.storage.StorageFormat
+
+object EmbeddingsFormat extends StorageFormat {
+  type EmbeddingsFormat = Value
+  val TEXT = Value
+  val BINARY = Value
 }
