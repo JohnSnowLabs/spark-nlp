@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, DocumentAssembler}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import org.apache.spark.ml.PipelineModel
@@ -59,27 +60,9 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     parsedEntities
   }
 
-  private def loadEntities(pipelineModel: PipelineModel): Array[Array[String]] = {
-    val phrases: Seq[String] = ResourceHelper.parseLines($(entities))
-    import ResourceHelper.spark.implicits._
-    val textColumn = pipelineModel.stages.find {
-      case _: DocumentAssembler => true
-      case _ => false
-    }.map(_.asInstanceOf[DocumentAssembler].getInputCol)
-      .getOrElse(throw new Exception("Could not retrieve DocumentAssembler from RecursivePipeline"))
-    val data = phrases.toDS.withColumnRenamed("value", textColumn)
-    pipelineModel.transform(data).select(getInputCols.head).as[Array[Annotation]].map(_.map(_.result)).collect
-  }
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TextMatcherModel = {
-    if (recursivePipeline.isDefined) {
-      new TextMatcherModel()
-        .setEntities(loadEntities(recursivePipeline.get))
-    } else {
-      new TextMatcherModel()
-        .setEntities(loadEntities(dataset))
-        .setCaseSensitive($(caseSensitive))
-    }
+    new TextMatcherModel()
+      .setSearchTrie(SearchTrie.apply(loadEntities(dataset), $(caseSensitive)))
   }
 
 }
