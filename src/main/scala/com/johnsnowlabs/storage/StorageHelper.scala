@@ -9,7 +9,7 @@ object StorageHelper {
   def load(
             indexPath: String
           ): RocksDBConnection = {
-    new RocksDBConnection(indexPath)
+    RocksDBConnection.getOrCreate(indexPath)
   }
 
   def save(path: String, connection: RocksDBConnection, spark: SparkSession): Unit = {

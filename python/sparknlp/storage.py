@@ -30,11 +30,3 @@ class WordEmbeddingsLoader:
         t1.join()
         print("Loading done")
         return RocksDBConnection(jembeddings)
-
-    @classmethod
-    def save(cls, path, embeddings, spark_session):
-        return _internal._EmbeddingsHelperSave(path, embeddings, spark_session).apply()
-
-    @classmethod
-    def getFromAnnotator(cls, annotator):
-        return _internal._EmbeddingsHelperFromAnnotator(annotator).apply()

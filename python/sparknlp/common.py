@@ -6,6 +6,7 @@ from pyspark.ml.param import Params
 from pyspark import keyword_only
 import sparknlp.internal as _internal
 import re
+from enum import Enum
 
 
 class AnnotatorProperties(Params):
@@ -124,7 +125,7 @@ class HasStorage:
     storageFormat = Param(Params._dummy(),
                           "storageFormat",
                           "file format",
-                          typeConverter=TypeConverters.toInt)
+                          typeConverter=TypeConverters.toString)
 
     def setStorageRef(self, value):
         return self._set(storageRef=value)
@@ -145,7 +146,7 @@ class HasStorage:
         return self.getOrDefault("storagePath")
 
     def setStorageFormat(self, format):
-        return self._set(embeddingsFormat=self.Format[format.upper()].value)
+        return self._set(storageFormat=format.upper())
 
     def getStorageFormat(self):
         return self.getOrDefault("storageFormat")
