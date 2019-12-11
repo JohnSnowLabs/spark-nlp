@@ -5,7 +5,7 @@ import java.nio.{ByteBuffer, ByteOrder}
 import com.johnsnowlabs.nlp.util.LruMap
 import spire.ClassTag
 
-abstract class RocksDBReader[A: ClassTag](
+abstract class StorageReader[A: ClassTag](
                                  connection: RocksDBConnection,
                                  caseSensitiveIndex: Boolean,
                                  lruCacheSize: Int = 100000) extends AutoCloseable {
