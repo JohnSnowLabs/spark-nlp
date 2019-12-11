@@ -21,7 +21,7 @@ abstract class StorageWriter[A](connection: RocksDBConnection,
     batchSize = 0
   }
 
-  def add(word: String, content: Array[A]): Unit = {
+  def add(word: String, content: A): Unit = {
     batch.put(word.getBytes, toBytes(content))
     batchSize += 1
 
@@ -31,16 +31,7 @@ abstract class StorageWriter[A](connection: RocksDBConnection,
     }
   }
 
-  protected def addToBuffer(buffer: ByteBuffer, content: A): Unit // buffer.putFloat(...)
-
-  def toBytes(content: Array[A]): Array[Byte] = {
-    val buffer = ByteBuffer.allocate(content.length * 4)
-    buffer.order(ByteOrder.LITTLE_ENDIAN)
-    for (value <- content) {
-      addToBuffer(buffer, value)
-    }
-    buffer.array()
-  }
+  def toBytes(content: A): Array[Byte]
 
   override def close(): Unit = {
     if (batchSize > 0)

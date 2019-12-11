@@ -12,7 +12,7 @@ import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageLoad
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
     with HasEmbeddingsProperties
-    with HasStorageModel[Float]
+    with HasStorageModel[Array[Float]]
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
@@ -22,8 +22,6 @@ class WordEmbeddingsModel(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
   override def loader: StorageLoader = WordEmbeddingsLoader
-
-  protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
 
   override def createReader: WordEmbeddingsReader = new WordEmbeddingsReader(
     RocksDBConnection.getOrCreate($(storageRef)),
@@ -44,7 +42,7 @@ class WordEmbeddingsModel(override val uid: String)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
         val vectorOption = getReader.lookup(token.token)
-        TokenPieceEmbeddings(token.token, token.token, -1, isWordStart = true, vectorOption, zeroArray, token.begin, token.end)
+        TokenPieceEmbeddings(token.token, token.token, -1, isWordStart = true, vectorOption, reader.emptyValue($(dimension)), token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
