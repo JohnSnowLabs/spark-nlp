@@ -63,6 +63,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TextMatcherModel = {
     new TextMatcherModel()
       .setSearchTrie(SearchTrie.apply(loadEntities(dataset), $(caseSensitive)))
+      .setMergeOverlapping($(mergeOverlapping))
   }
 
 }

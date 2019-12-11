@@ -488,6 +488,16 @@ class TextMatcher(AnnotatorApproach):
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
 
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    searchTrie = Param(Params._dummy(),
+                       "searchTrie",
+                       "searchTrie",
+                       typeConverter=TypeConverters.identity)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,
