@@ -38,10 +38,14 @@ trait StorageLoader {
       FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
       FileHelper.delete(Paths.get(localFile, fileName).toString)
     } else {
-      val tmpFile = Files.createTempFile("sparknlp_", "."+format.toString).toAbsolutePath.toString
-      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      index(storageSourcePath, format, connection)
-      FileHelper.delete(tmpFile)
+      if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
+        val tmpFile = Files.createTempFile("sparknlp_", "." + format.toString).toAbsolutePath.toString
+        fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
+        index(tmpFile, format, connection)
+        FileHelper.delete(tmpFile)
+      } else {
+        index(storageSourcePath, format, connection)
+      }
     }
 
   }
