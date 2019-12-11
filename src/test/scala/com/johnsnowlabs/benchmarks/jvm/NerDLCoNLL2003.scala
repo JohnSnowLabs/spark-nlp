@@ -27,7 +27,7 @@ object NerDLCoNLL2003 extends App {
   val wordEmbeddingsCache = "glove_100_cache.db"
   val wordEmbeddingsDim = 100
 
-  lazy val connection = new RocksDBConnection(wordEmbeddingsCache)
+  lazy val connection = RocksDBConnection.getOrCreate(wordEmbeddingsCache)
 
   if (!new File(wordEmbeddingsCache).exists()) {
     WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, connection)

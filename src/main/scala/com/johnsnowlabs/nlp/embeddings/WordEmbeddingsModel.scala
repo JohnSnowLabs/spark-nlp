@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.storage.{HasStorageModel, StorageLoader, StorageReadable}
+import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageLoader, StorageReadable}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
@@ -21,12 +21,12 @@ class WordEmbeddingsModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  override val loader: StorageLoader = WordEmbeddingsLoader
+  override def loader: StorageLoader = WordEmbeddingsLoader
 
   protected lazy val zeroArray: Array[Float] = Array.fill[Float]($(dimension))(0f)
 
-  override protected lazy val reader = new WordEmbeddingsReader(
-    getStorageConnection,
+  override def createReader: WordEmbeddingsReader = new WordEmbeddingsReader(
+    RocksDBConnection.getOrCreate($(storageRef)),
     $(caseSensitive),
     scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
       (100/$(dimension))*50000,
@@ -43,7 +43,7 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = reader.lookup(token.token)
+        val vectorOption = getReader.lookup(token.token)
         TokenPieceEmbeddings(token.token, token.token, -1, isWordStart = true, vectorOption, zeroArray, token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)

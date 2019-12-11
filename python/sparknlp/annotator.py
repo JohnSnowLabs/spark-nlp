@@ -3,7 +3,6 @@
 ##
 
 import sys
-from enum import Enum
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.

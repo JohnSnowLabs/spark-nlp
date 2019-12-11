@@ -33,7 +33,7 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     require(new File(wordEmbeddingsFile).exists())
 
     var fileDb = wordEmbeddingsFile + ".db"
-    val connection = new RocksDBConnection(fileDb)
+    val connection = RocksDBConnection.getOrCreate(fileDb)
 
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {

@@ -20,7 +20,7 @@ class WordEmbeddings(override val uid: String)
 
   override val description: String = "Word Embeddings lookup annotator that maps tokens to vectors"
 
-  override val loader: StorageLoader = WordEmbeddingsLoader
+  override def loader: StorageLoader = WordEmbeddingsLoader
 
   override def beforeTraining(spark: SparkSession): Unit = {
     loadStorage(spark)
@@ -33,7 +33,6 @@ class WordEmbeddings(override val uid: String)
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
       .setIncludeStorage($(includeStorage))
-      .setStorage(getStorageConnection)
 
     model
   }

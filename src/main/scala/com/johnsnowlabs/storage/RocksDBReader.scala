@@ -16,6 +16,8 @@ abstract class RocksDBReader[A: ClassTag](
 
   protected val emptyValue: A
 
+  def getConnection: RocksDBConnection = connection
+
   protected def getFromBuffer(buffer: ByteBuffer, index: Int): A // wrapper.getFloat(...)
 
   def fromBytes(source: Array[Byte]): Array[A] = {

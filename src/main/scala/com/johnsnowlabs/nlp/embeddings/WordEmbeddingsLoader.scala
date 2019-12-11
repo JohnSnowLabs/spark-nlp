@@ -1,11 +1,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.{BufferedInputStream, ByteArrayOutputStream, DataInputStream, FileInputStream}
-import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageFormat, StorageLoader}
-import com.johnsnowlabs.util.FileHelper
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
@@ -14,20 +11,12 @@ object WordEmbeddingsLoader extends StorageLoader {
 
   override val formats: StorageFormat = EmbeddingsFormat
 
-  override protected def index(storageSourcePath: String, format: formats.Value, fs: FileSystem, connection: RocksDBConnection): Unit = {
+  override protected def index(filePath: String, format: formats.Value, connection: RocksDBConnection): Unit = {
     if (format == EmbeddingsFormat.TEXT) {
-
-      val tmpFile = Files.createTempFile("sparknlp_", ".txt").toAbsolutePath.toString
-      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      WordEmbeddingsTextIndexer.index(tmpFile, connection)
-      FileHelper.delete(tmpFile)
+      WordEmbeddingsTextIndexer.index(filePath, connection)
     }
     else if (format == EmbeddingsFormat.BINARY) {
-
-      val tmpFile = Files.createTempFile("sparknlp_", ".bin").toAbsolutePath.toString
-      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      WordEmbeddingsBinaryIndexer.index(tmpFile, connection)
-      FileHelper.delete(tmpFile)
+      WordEmbeddingsBinaryIndexer.index(filePath, connection)
     }
   }
 }

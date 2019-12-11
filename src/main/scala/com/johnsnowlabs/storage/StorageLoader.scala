@@ -13,11 +13,11 @@ import org.apache.spark.sql.SparkSession
 
 import scala.language.existentials
 
-trait StorageLoader extends Serializable {
+trait StorageLoader {
 
   val formats: StorageFormat
 
-  protected def index(storageSourcePath: String, format: formats.Value, fs: FileSystem, connection: RocksDBConnection)
+  protected def index(storageSourcePath: String, format: formats.Value, connection: RocksDBConnection)
 
   private def indexStorage(storageSourcePath: String,
                            localFile: String,
@@ -28,7 +28,7 @@ trait StorageLoader extends Serializable {
     val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
-    lazy val connection = new RocksDBConnection(localFile)
+    lazy val connection = RocksDBConnection.getOrCreate(localFile)
 
     if (format == formats.withName("SPARKNLP")) {
       fs.copyToLocalFile(new Path(storageSourcePath), new Path(localFile))
@@ -38,8 +38,12 @@ trait StorageLoader extends Serializable {
       FileUtil.deepCopy(Paths.get(localFile, fileName).toFile, Paths.get(localFile).toFile, null, true)
       FileHelper.delete(Paths.get(localFile, fileName).toString)
     } else {
-      index(storageSourcePath, format, fs, connection)
+      val tmpFile = Files.createTempFile("sparknlp_", "."+format.toString).toAbsolutePath.toString
+      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
+      index(storageSourcePath, format, connection)
+      FileHelper.delete(tmpFile)
     }
+
   }
 
   def load(
@@ -94,7 +98,7 @@ trait StorageLoader extends Serializable {
     }
 
     // 3. Create Spark Embeddings
-    new RocksDBConnection(clusterFileName)
+    RocksDBConnection.getOrCreate(clusterFileName)
   }
 
   private def copyIndexToCluster(localFile: String, dst: Path, spark: SparkContext): String = {
