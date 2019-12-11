@@ -1,7 +1,5 @@
 package com.johnsnowlabs.storage
 
-import java.nio.{ByteBuffer, ByteOrder}
-
 import com.johnsnowlabs.nlp.util.LruMap
 import spire.ClassTag
 
@@ -12,26 +10,15 @@ abstract class StorageReader[A: ClassTag](
 
   connection.connectReadOnly
 
-  @transient val lru = new LruMap[String, Option[Array[A]]](lruCacheSize)
+  @transient val lru = new LruMap[String, Option[A]](lruCacheSize)
 
-  protected val emptyValue: A
+  def emptyValue(size: Int): A
 
   def getConnection: RocksDBConnection = connection
 
-  protected def getFromBuffer(buffer: ByteBuffer, index: Int): A // wrapper.getFloat(...)
+  def fromBytes(source: Array[Byte]): A
 
-  def fromBytes(source: Array[Byte]): Array[A] = {
-    val wrapper = ByteBuffer.wrap(source)
-    wrapper.order(ByteOrder.LITTLE_ENDIAN)
-    val result = Array.fill[A](source.length / 4)(emptyValue)
-
-    for (i <- result.indices) {
-      result(i) = getFromBuffer(wrapper, i * 4)
-    }
-    result
-  }
-
-  private def lookupByIndex(index: String): Option[Array[A]] = {
+  private def lookupByIndex(index: String): Option[A] = {
     lazy val resultLower = connection.getDb.get(index.trim.toLowerCase.getBytes())
     lazy val resultUpper = connection.getDb.get(index.trim.toUpperCase.getBytes())
     lazy val resultExact = connection.getDb.get(index.trim.getBytes())
@@ -48,7 +35,7 @@ abstract class StorageReader[A: ClassTag](
       None
   }
 
-  def lookup(index: String): Option[Array[A]] = {
+  def lookup(index: String): Option[A] = {
     synchronized {
       lru.getOrElseUpdate(index, lookupByIndex(index))
     }

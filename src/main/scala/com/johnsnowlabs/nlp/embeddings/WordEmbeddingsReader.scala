@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import java.nio.ByteBuffer
+import java.nio.{ByteBuffer, ByteOrder}
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader, StorageWriter}
 
@@ -9,12 +9,18 @@ class WordEmbeddingsReader(
                             caseSensitiveIndex: Boolean,
                             lruCacheSize: Int = 100000
                           )
-  extends StorageReader[Float](connection, caseSensitiveIndex, lruCacheSize) {
+  extends StorageReader[Array[Float]](connection, caseSensitiveIndex, lruCacheSize) {
 
-  override protected val emptyValue: Float = 0f
+  override def emptyValue(size: Int): Array[Float] = Array.fill[Float](size)(0f)
 
-  override protected def getFromBuffer(buffer: ByteBuffer, index: Int): Float = {
-    buffer.getFloat(index)
+  override def fromBytes(source: Array[Byte]): Array[Float] = {
+    val wrapper = ByteBuffer.wrap(source)
+    wrapper.order(ByteOrder.LITTLE_ENDIAN)
+    val result = Array.fill[Float](source.length / 4)(0f)
+
+    for (i <- result.indices) {
+      result(i) = wrapper.getFloat(i * 4)
+    }
+    result
   }
-
 }

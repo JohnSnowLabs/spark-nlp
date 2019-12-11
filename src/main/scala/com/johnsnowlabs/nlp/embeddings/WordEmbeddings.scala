@@ -9,7 +9,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 class WordEmbeddings(override val uid: String)
   extends AnnotatorApproach[WordEmbeddingsModel]
-    with HasStorage[Float]
+    with HasStorage[Array[Float]]
     with HasEmbeddingsProperties {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS"))
