@@ -4,7 +4,7 @@ import java.nio.{ByteBuffer, ByteOrder}
 
 import org.rocksdb.{WriteBatch, WriteOptions}
 
-abstract class RocksDBWriter[A](connection: RocksDBConnection,
+abstract class StorageWriter[A](connection: RocksDBConnection,
                                 autoFlushAfter: Option[Integer] = None
                                ) extends AutoCloseable {
 

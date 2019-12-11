@@ -6,11 +6,11 @@ import org.apache.spark.sql.SparkSession
 
 trait HasStorageModel[A] extends HasStorage[A] with ParamsAndFeaturesWritable {
 
-  @transient protected var reader: RocksDBReader[A] = _
+  @transient protected var reader: StorageReader[A] = _
 
-  protected def createReader: RocksDBReader[A]
+  protected def createReader: StorageReader[A]
 
-  protected def getReader: RocksDBReader[A] = {
+  protected def getReader: StorageReader[A] = {
     if (Option(reader).isEmpty) {
       reader = createReader
       reader
