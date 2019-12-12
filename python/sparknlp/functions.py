@@ -1,6 +1,7 @@
 from pyspark.sql.functions import udf
 from pyspark.sql.types import *
 from pyspark.sql import DataFrame
+from sparknlp.annotation import Annotation
 import sys
 import sparknlp
 
@@ -14,7 +15,6 @@ def map_annotations(f, output_type: DataType):
 
 
 def map_annotations_strict(f):
-    from sparknlp.annotation import Annotation
     sys.modules['sparknlp.annotation'] = sparknlp  # Makes Annotation() pickle serializable in top-level
     return udf(
         lambda content: f(content),
