@@ -7,7 +7,6 @@ import sparknlp
 
 
 def map_annotations(f, output_type: DataType):
-    sys.modules['sparknlp.annotation'] = sparknlp  # Makes Annotation() pickle serializable  in top-level
     return udf(
         lambda content: f(content),
         output_type
@@ -15,7 +14,6 @@ def map_annotations(f, output_type: DataType):
 
 
 def map_annotations_strict(f):
-    sys.modules['sparknlp.annotation'] = sparknlp  # Makes Annotation() pickle serializable in top-level
     return udf(
         lambda content: f(content),
         ArrayType(Annotation.dataType())
