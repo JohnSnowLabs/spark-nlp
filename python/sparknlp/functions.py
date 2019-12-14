@@ -2,8 +2,6 @@ from pyspark.sql.functions import udf
 from pyspark.sql.types import *
 from pyspark.sql import DataFrame
 from sparknlp.annotation import Annotation
-import sys
-import sparknlp
 
 
 def map_annotations(f, output_type: DataType):
