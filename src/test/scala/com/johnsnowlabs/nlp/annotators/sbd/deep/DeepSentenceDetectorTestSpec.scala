@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{Annotation, _}
 import com.johnsnowlabs.nlp.annotator.{NerConverter, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
