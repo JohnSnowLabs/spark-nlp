@@ -69,7 +69,7 @@ class NerDLApproach(override val uid: String)
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
   def setTestDataset(path: String,
-                     readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                     readAs: ReadAs.Format = ReadAs.SPARK,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 

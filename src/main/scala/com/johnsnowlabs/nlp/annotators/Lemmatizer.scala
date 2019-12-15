@@ -39,7 +39,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
                      path: String,
                      keyDelimiter: String,
                      valueDelimiter: String,
-                     readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                     readAs: ReadAs.Format = ReadAs.TEXT,
                      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
 

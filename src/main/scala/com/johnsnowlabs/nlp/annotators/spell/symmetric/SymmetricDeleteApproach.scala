@@ -40,7 +40,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
   def setDictionary(path: String,
                     tokenPattern: String = "\\S+",
-                    readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                    readAs: ReadAs.Format = ReadAs.TEXT,
                     options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 

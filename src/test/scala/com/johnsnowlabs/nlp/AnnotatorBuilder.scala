@@ -77,7 +77,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
-      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
       .setOutputCol("entity").
       setCaseSensitive(caseSensitive)
     val data = withTokenizer(dataset, sbd)
@@ -111,7 +111,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withRegexMatcher(dataset: Dataset[Row], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
@@ -134,7 +134,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter"->",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -239,9 +239,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     new WordEmbeddings()
-      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt")
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
       .setDimension(100)
-      .setStorageFormat("TEXT")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .fit(dataset)

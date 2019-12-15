@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLoader
+import com.johnsnowlabs.storage.StorageHelper
 import org.scalatest.FlatSpec
 
 class NerCrfApproachTestSpec extends FlatSpec {
@@ -67,10 +67,9 @@ class NerCrfApproachTestSpec extends FlatSpec {
 
   it should "correctly handle entities param" in {
 
-    WordEmbeddingsLoader.load(
+    StorageHelper.load(
       "src/test/resources/random_embeddings_dim4.txt",
       spark,
-      "TEXT",
       "random_embeddings"
     )
     val restrictedModel = new NerCrfModel()

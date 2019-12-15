@@ -7,12 +7,12 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageLoader, StorageReadable}
+import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
     with HasEmbeddingsProperties
-    with HasStorageModel[Array[Float]]
+    with HasStorageModel
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
@@ -20,16 +20,6 @@ class WordEmbeddingsModel(override val uid: String)
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
-
-  override def loader: StorageLoader = WordEmbeddingsLoader
-
-  override def createReader: WordEmbeddingsReader = new WordEmbeddingsReader(
-    RocksDBConnection.getOrCreate($(storageRef)),
-    $(caseSensitive),
-    scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
-      (100/$(dimension))*50000,
-      50000
-  ))
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -41,8 +31,17 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = getReader.lookup(token.token)
-        TokenPieceEmbeddings(token.token, token.token, -1, isWordStart = true, vectorOption, reader.emptyValue($(dimension)), token.begin, token.end)
+        val vectorOption = getReader("embeddings").lookup(token.token)
+        TokenPieceEmbeddings(
+          token.token,
+          token.token,
+          -1,
+          isWordStart = true,
+          vectorOption,
+          getReader("embeddings").emptyValue($(dimension)),
+          token.begin,
+          token.end
+        )
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
@@ -54,6 +53,17 @@ class WordEmbeddingsModel(override val uid: String)
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
+  override protected def createReader(database: String): WordEmbeddingsReader = {
+    new WordEmbeddingsReader(
+      RocksDBConnection.getOrCreate(database),
+      $(caseSensitive),
+      scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
+        (100/$(dimension))*50000,
+        50000
+      ))
+  }
+
+  override val databases: Array[String] = Array("embeddings")
 }
 
 trait ReadablePretrainedWordEmbeddings extends StorageReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {

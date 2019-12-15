@@ -26,7 +26,7 @@ class CoNLL(ExtendedJavaWrapper):
                                     labelCol,
                                     explodeSentences)
 
-    def readDataset(self, spark, path, read_as=ReadAs.LINE_BY_LINE):
+    def readDataset(self, spark, path, read_as=ReadAs.TEXT):
 
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
