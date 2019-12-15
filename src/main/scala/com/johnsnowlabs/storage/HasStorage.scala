@@ -44,26 +44,6 @@ trait HasStorage extends HasStorageProperties {
 
   }
 
-  private def copyIndexToCluster(localFile: String, dst: Path, spark: SparkContext): String = {
-    val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
-    val src = new Path(localFile)
-
-    /** This fails if working on local file system, because spark.addFile will detect simoultaneous writes on same location and fail */
-    fs.copyFromLocalFile(false, true, src, dst)
-    fs.deleteOnExit(dst)
-
-    spark.addFile(dst.toString, true)
-
-    dst.toString
-  }
-
-  private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext) = {
-    /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage because of bad crc */
-    val fs = source.getFileSystem(context.hadoopConfiguration)
-    fs.copyFromLocalFile(false, true, source, destination)
-    fs.deleteOnExit(source)
-  }
-
   private def preload(
                        resource: ExternalResource,
                        spark: SparkSession,
@@ -77,31 +57,17 @@ trait HasStorage extends HasStorageProperties {
         .toAbsolutePath
     }
 
-    val clusterFileName: String = new Path(database).toString
-
-    val destinationScheme = new Path(clusterFileName).getFileSystem(sparkContext.hadoopConfiguration).getScheme
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
-    val clusterTmpLocation = {
-      ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
-        sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
-      )
-    }
-    val clusterFilePath = Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/"+clusterFileName))
+    val locator = StorageLocator(database, spark, fileSystem)
 
     // 1 and 2.  Copy to local and Index Word Embeddings
     indexDatabase(sourceEmbeddingsPath, tmpLocalDestination.toString, sparkContext, resource)
 
-    if (destinationScheme == "file") {
-      copyIndexToLocal(new Path(tmpLocalDestination.toString), new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
-    } else {
-      // 2. Copy WordEmbeddings to cluster
-      copyIndexToCluster(tmpLocalDestination.toString, clusterFilePath, sparkContext)
-      FileHelper.delete(tmpLocalDestination.toString)
-    }
+    StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
 
     // 3. Create Spark Embeddings
-    RocksDBConnection.getOrCreate(clusterFileName)
+    RocksDBConnection.getOrCreate(locator.clusterFileName)
   }
 
 
