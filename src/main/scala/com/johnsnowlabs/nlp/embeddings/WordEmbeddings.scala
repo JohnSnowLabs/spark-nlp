@@ -31,7 +31,6 @@ class WordEmbeddings(override val uid: String)
       .setStorageRef($(storageRef))
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
-      .setIncludeStorage($(includeStorage))
 
     model
   }

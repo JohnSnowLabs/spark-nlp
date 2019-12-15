@@ -2,23 +2,8 @@ package com.johnsnowlabs.storage
 
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
-import scala.collection.mutable.{Map => MMap}
 
-trait HasStorageModel extends HasStorageProperties {
-
-  @transient protected var readers: MMap[String, StorageReader[_]] = _
-
-  protected def createReader(database: String): StorageReader[_]
-
-  protected def getReader[A](database: String): StorageReader[A] = {
-    lazy val reader = createReader(database)
-    if (Option(readers).isDefined) {
-      readers.getOrElseUpdate(database, reader).asInstanceOf[StorageReader[A]]
-    } else {
-      readers = MMap(database -> reader)
-      reader.asInstanceOf[StorageReader[A]]
-    }
-  }
+trait HasStorageModel extends HasStorageRef with HasStorageReader {
 
   def serializeStorage(path: String, spark: SparkSession): Unit = {
     databases.foreach(database => {
@@ -33,20 +18,17 @@ trait HasStorageModel extends HasStorageProperties {
   }
 
   override protected def onWrite(path: String, spark: SparkSession): Unit = {
-    if ($(includeStorage))
-      serializeStorage(path, spark)
+    serializeStorage(path, spark)
   }
 
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
-    if ($(includeStorage)) {
-      val src = StorageLocator.getStorageSerializedPath(path)
-      databases.foreach(database =>
-      StorageHelper.load(
-        src.toUri.toString,
-        spark,
-        database
-      ))
-    }
+    val src = StorageLocator.getStorageSerializedPath(path)
+    databases.foreach(database =>
+    StorageHelper.load(
+      src.toUri.toString,
+      spark,
+      database
+    ))
   }
 
 }

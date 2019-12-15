@@ -1,21 +1,14 @@
 package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
-import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.sql.Dataset
 
-trait HasStorageProperties extends ParamsAndFeaturesWritable {
+trait HasStorageRef extends ParamsAndFeaturesWritable {
 
-  val databases: Array[String]
+  protected val databases: Array[String]
 
-  val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
   val storageRef = new Param[String](this, "storageRef", "storage unique identifier")
-
-  setDefault(includeStorage, true)
-
-  def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
-  def getIncludeStorage: Boolean = $(includeStorage)
 
   def setStorageRef(value: String): this.type = {
     if (get(storageRef).nonEmpty)
