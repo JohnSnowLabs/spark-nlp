@@ -26,7 +26,7 @@ trait HasStorageModel extends HasStorageProperties {
 
       val uri = new java.net.URI(path)
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-      val dst = getStorageSerializedPath(path)
+      val dst = StorageLocator.getStorageSerializedPath(path)
 
       StorageHelper.save(fs, index, dst)
     })
@@ -39,7 +39,7 @@ trait HasStorageModel extends HasStorageProperties {
 
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
     if ($(includeStorage)) {
-      val src = getStorageSerializedPath(path)
+      val src = StorageLocator.getStorageSerializedPath(path)
       databases.foreach(database =>
       StorageHelper.load(
         src.toUri.toString,

@@ -108,9 +108,9 @@ class _LightPipeline(ExtendedJavaWrapper):
 # ==================
 
 
-class _WordEmbeddingsLoader(ExtendedJavaWrapper):
-    def __init__(self, path, spark, embformat, ref):
-        super(_WordEmbeddingsLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLoader.load", path, spark._jsparkSession, embformat, ref)
+class _StorageHelper(ExtendedJavaWrapper):
+    def __init__(self, path, spark, database):
+        super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession, database)
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):

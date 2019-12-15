@@ -40,8 +40,4 @@ trait HasStorageProperties extends ParamsAndFeaturesWritable {
         s"Make sure you are using the right storage in your pipeline, with ref: ${$(storageRef)}")
   }
 
-
-  protected def getStorageSerializedPath(path: String): Path =
-    Path.mergePaths(new Path(path), new Path("/storage"))
-
 }
