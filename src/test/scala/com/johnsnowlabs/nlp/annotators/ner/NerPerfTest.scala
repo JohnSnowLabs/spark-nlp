@@ -29,9 +29,8 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token", "pos")
       .setOutputCol("embeddings")
-      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt")
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
       .setDimension(100)
-      .setStorageFormat("TEXT")
 
     val ner = new NerCrfApproach().
       setInputCols("document", "token", "pos", "embeddings").
@@ -81,9 +80,8 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setStoragePath("./embeddings.bin")
+      .setStoragePath("./embeddings.bin", "BINARY")
       .setDimension(200)
-      .setStorageFormat("BINARY")
 
     val ner = new NerDLApproach().
       setInputCols("document", "token", "embeddings").

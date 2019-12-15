@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.nio.{ByteBuffer, ByteOrder}
 
-import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader, StorageWriter}
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
 class WordEmbeddingsReader(
                             connection: RocksDBConnection,

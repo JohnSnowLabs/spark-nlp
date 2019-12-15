@@ -55,7 +55,7 @@ class NerCrfApproach(override val uid: String)
 
   def setExternalFeatures(path: String,
                           delimiter: String,
-                          readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                          readAs: ReadAs.Format = ReadAs.TEXT,
                           options: Map[String, String] = Map("format" -> "text")): this.type =
     set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 

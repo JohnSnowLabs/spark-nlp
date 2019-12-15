@@ -1,5 +1,7 @@
 package com.johnsnowlabs.storage
 
+import java.nio.file.Files
+
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
@@ -7,9 +9,21 @@ import org.apache.spark.sql.SparkSession
 object StorageHelper {
 
   def load(
-            indexPath: String
+            storageSourcePath: String,
+            spark: SparkSession,
+            database: String
           ): RocksDBConnection = {
-    RocksDBConnection.getOrCreate(indexPath)
+
+    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+//    val tmpFile = Files.createTempFile(database+"_", ".rdb").toAbsolutePath.toString
+    val tmpDir = Files.createTempDirectory(database+"_").toAbsolutePath.toString
+
+    fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpDir))
+    val fileName = new Path(storageSourcePath).getName
+
+    RocksDBConnection.getOrCreate(fileName)
   }
 
   def save(path: String, connection: RocksDBConnection, spark: SparkSession): Unit = {
@@ -29,8 +43,6 @@ object StorageHelper {
   def save(fs: FileSystem, index: Path, dst: Path): Unit = {
     fs.copyFromLocalFile(false, true, index, dst)
   }
-
-
 
 }
 

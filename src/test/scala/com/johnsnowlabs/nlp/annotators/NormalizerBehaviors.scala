@@ -62,7 +62,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
         .setOutputCol("normalized")
         .setLowercase(true)
         .setSlangDictionary(ExternalResource("src/test/resources/spell/slangs.txt",
-                            ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+                            ReadAs.TEXT, Map("delimiter" -> ",")))
 
       val finisher = new Finisher()
         .setInputCols("normalized")

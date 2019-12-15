@@ -11,8 +11,8 @@ case class ExternalResource(
                              options: Map[String, String]
                            ) extends WritableAnnotatorComponent {
 
-  if (readAs == ReadAs.SPARK_DATASET)
-    require(options.contains("format"), "Created ExternalResource to read as SPARK_DATASET but key 'format' " +
+  if (readAs == ReadAs.SPARK)
+    require(options.contains("format"), "Created ExternalResource to read as SPARK but key 'format' " +
       "in options is not provided. Can be any spark.read.format type. e.g. 'text' or 'json' or 'parquet'")
 
   override def serialize: SerializedExternalResource = {

@@ -20,9 +20,9 @@ object CoNLL2003PipelineTest extends App {
   val spark = SparkAccessor.benchmarkSpark
   val folder = "./"
 
-  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
-  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map("delimiter" -> " "))
+  val trainFile = ExternalResource(folder + "eng.train", ReadAs.TEXT, Map("delimiter" -> " "))
+  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.TEXT, Map("delimiter" -> " "))
+  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.TEXT, Map("delimiter" -> " "))
 
   val nerReader = CoNLL()
 
@@ -30,9 +30,8 @@ object CoNLL2003PipelineTest extends App {
     val glove = new WordEmbeddings()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
-      .setStoragePath("glove.6B.100d.txt")
+      .setStoragePath("glove.6B.100d.txt", "TEXT")
       .setDimension(100)
-      .setStorageFormat("TEXT")
 
     val nerTagger = new NerCrfApproach()
       .setInputCols("sentence", "token", "pos", "glove")
