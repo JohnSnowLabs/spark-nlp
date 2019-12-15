@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._

@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}

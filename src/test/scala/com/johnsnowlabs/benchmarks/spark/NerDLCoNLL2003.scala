@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 

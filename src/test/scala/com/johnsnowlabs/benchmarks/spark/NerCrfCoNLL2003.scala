@@ -8,7 +8,6 @@ import com.johnsnowlabs.nlp.annotators.common.{NerTagged, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel, PipelineStage}
 import org.apache.spark.sql.DataFrame
