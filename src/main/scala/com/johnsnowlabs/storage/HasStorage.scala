@@ -12,7 +12,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
-trait HasStorage extends HasStorageProperties {
+trait HasStorage extends HasStorageRef {
 
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
@@ -20,7 +20,7 @@ trait HasStorage extends HasStorageProperties {
 
   def getStoragePath: ExternalResource = $(storagePath)
 
-  protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource)
+  protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit
 
   private def indexDatabase(storageSourcePath: String,
                             localFile: String,
@@ -125,7 +125,7 @@ trait HasStorage extends HasStorageProperties {
     src
   }
 
-  def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+  protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
     databases.foreach(database =>
       preload(
         resource,

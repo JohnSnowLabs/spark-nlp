@@ -106,12 +106,7 @@ class HasEmbeddingsProperties(Params):
         return self.getOrDefault(self.caseSensitive)
 
 
-class HasStorageProperties:
-
-    includeStorage = Param(Params._dummy(),
-                           "includeStorage",
-                           "whether or not to save indexed embeddings along this annotator",
-                           typeConverter=TypeConverters.toBoolean)
+class HasStorageRef:
 
     storageRef = Param(Params._dummy(), "storageRef",
                        "unique reference name for identification",
@@ -123,14 +118,8 @@ class HasStorageProperties:
     def getStorageRef(self):
         return self.getOrDefault("storageRef")
 
-    def setIncludeStorage(self, value):
-        return self._set(includeStorage=value)
 
-    def getIncludeStorage(self):
-        return self.getOrDefault("includeStorage")
-
-
-class HasStorage(HasStorageProperties):
+class HasStorage(HasStorageRef):
 
     storagePath = Param(Params._dummy(),
                         "storagePath",

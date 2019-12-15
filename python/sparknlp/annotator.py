@@ -1382,7 +1382,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageProperties):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
 
     name = "WordEmbeddingsModel"
 
