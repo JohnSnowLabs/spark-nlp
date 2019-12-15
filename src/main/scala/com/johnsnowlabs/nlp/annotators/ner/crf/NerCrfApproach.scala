@@ -6,7 +6,8 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.PipelineModel
@@ -19,11 +20,12 @@ import org.slf4j.LoggerFactory
 class NerCrfApproach(override val uid: String)
   extends AnnotatorApproach[NerCrfModel]
     with NerApproach[NerCrfApproach]
+    with HasStorageRef
 {
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  private val logger = LoggerFactory.getLogger("NerCrfApproach")
+  override val databases = Array("embeddings")
 
   override val description = "CRF based Named Entity Recognition Tagger"
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
@@ -94,6 +96,8 @@ class NerCrfApproach(override val uid: String)
       randomSeed = get(randomSeed)
     )
 
+    val embeddingsRef = getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+
     val crf = new LinearChainCrf(params)
     val crfModel = crf.trainSGD(crfDataset)
 
@@ -101,6 +105,7 @@ class NerCrfApproach(override val uid: String)
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
       .setIncludeConfidence($(includeConfidence))
+      .setStorageRef(embeddignsRef)
 
     if (isDefined(entities))
       model.setEntities($(entities))
