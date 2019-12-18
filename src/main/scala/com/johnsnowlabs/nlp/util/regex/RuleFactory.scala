@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.util.regex
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.RuleSymbols
-import org.slf4j.LoggerFactory
 
 import scala.util.matching.Regex
 
@@ -93,10 +92,10 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
       rule._1 + BREAK_INDICATOR
     }))
     case PROTECT_FROM_BREAK => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      PROTECTION_MARKER_OPEN + m.matched + PROTECTION_MARKER_CLOSE
+      PROTECTION_MARKER_OPEN + m.matched.replaceAllLiterally("$", "\\$") + PROTECTION_MARKER_CLOSE
     }))
     case BREAK_AND_PROTECT_FROM_BREAK => rules.foldLeft(text)((target, rule) => transformMatch(target, rule.regex)({ m =>
-      BREAK_INDICATOR + PROTECTION_MARKER_OPEN + m.matched + PROTECTION_MARKER_CLOSE
+      BREAK_INDICATOR + PROTECTION_MARKER_OPEN + m.matched.replaceAllLiterally("$", "\\$") + PROTECTION_MARKER_CLOSE
     }))
     case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
   }
