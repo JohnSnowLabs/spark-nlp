@@ -6,15 +6,15 @@ key: docs-quickstart
 modify_date: "2019-09-24"
 ---
 
-## The very first: Join our Slack channel
+## First: Join our Slack channel
 
-A good idea is to join our channel, to ask for help and share your feedback. Developers and users can help each other here getting started.
+Join our channel, to ask for help and share your feedback. Developers and users can help each other getting started here.
 
 [Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I){:.button.button--info.button--rounded.button--md}
 
-## The very second: Spark NLP Workshop
+## Second: Spark NLP Workshop
 
-If you are of those who prefer learning by example, check this repository!
+If you prefer learning by example, check this repository:
 
 [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--md}
 
@@ -24,7 +24,7 @@ Below, you can follow into a more theoretical and thorough quick start guide.
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 2.4.0** and such is the **only** supported release.
+Spark NLP is built on top of **Apache Spark 2.4.0**. This is the **only** supported release.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
 
@@ -68,7 +68,7 @@ import sparknlp
 sparknlp.start()
 ```
 
-After waiting some seconds you should see something like this in your notebook:
+After a few seconds you should see something like this in your notebook:
 
 ```python
 Version
@@ -81,7 +81,7 @@ AppName
 
 With those lines of code, you have successfully started a Spark Session and are ready to use Spark NLP
 
-If you need more fine tuning, you will have to start SparkSession in your python program manually, this is an example
+If you need more fine tuning, you will have to start SparkSession in your python program manually, for example
 
 ```python
 from pyspark.sql import SparkSession
@@ -97,9 +97,9 @@ spark = SparkSession.builder \
 
 ### Python Jupyter Notebook with PySpark
 
-You can also run the Jupyter Notebook directly from Pyspark. In such a
+You can also run the Jupyter Notebook directly from Pyspark. In such
 case you don't need to open a session, it will be automatically started 
-by pyspark. Just remember to setup the SPARK_HOME, PYSPARK_DRIVER_PYTHON and PYSPARK_DRIVER_PYTHON_OPTS
+by pyspark. Just remember to set the SPARK_HOME, PYSPARK_DRIVER_PYTHON and PYSPARK_DRIVER_PYTHON_OPTS environment variables.
 
 ```python
 export SPARK_HOME=/path/to/your/spark/folder
@@ -173,7 +173,7 @@ For further alternatives and documentation check out our README page in [GitHub]
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spar kML](https://spark.apache.org/docs/2.4.4/ml-guide.html) library for more information.
+Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.4/ml-guide.html) library for more information.
 
 ## Annotation
 
