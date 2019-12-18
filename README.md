@@ -34,7 +34,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Examples](#examples)  
 * [FAQ](#faq)
 * [Troubleshooting](#troubleshooting)
-* [Aknowledgments](#aknowledgments)
+* [Acknowledgments](#acknowledgments)
 * [Contributing](#contributing)
 
 ## Quick Start
@@ -533,7 +533,7 @@ If you get this common python error, it means that the Spark NLP was not loaded 
 
 ## Acknowledgments
 
-### Special community aknowledgments
+### Special community acknowledgments
 
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
 Community has been key in the last releases with feedback in various Spark based environments.
