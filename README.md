@@ -445,7 +445,7 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-#### Please check our documentation for full list and example of [pre-trained pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines)
+#### Please check our dedicated repo for a full list of [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ### Models
 
@@ -502,7 +502,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-#### Please check our documentation for full list and example of [pre-trained models](https://nlp.johnsnowlabs.com/docs/en/models)
+#### Please check our dedicated repo for a full list of [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ## Examples
 
