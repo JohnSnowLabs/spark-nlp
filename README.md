@@ -117,7 +117,13 @@ pyspark --packages JohnSnowLabs:spark-nlp:2.3.5
 spark-submit --packages JohnSnowLabs:spark-nlp:2.3.5
 ```
 
-This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala
+This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
+
+NOTE: You can also use Maven repo directly instead of Spark Packages:
+
+```sh
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
+```
 
 ## Compiled JARs
 
