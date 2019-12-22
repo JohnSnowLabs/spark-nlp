@@ -10,6 +10,9 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
                     configProtoBytes: Option[Array[Byte]] = None
                    ) extends Serializable {
 
+  private val inputKey = "input"
+  private val outPutKey = "output"
+
   def calculateEmbeddings(sentences: Seq[Sentence]): Seq[Annotation] = {
 
     val tensors = new TensorResources()
@@ -23,8 +26,8 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
     val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
 
     runner
-      .feed("input", sentenceTensors)
-      .fetch("output")
+      .feed(inputKey, sentenceTensors)
+      .fetch(outPutKey)
 
     val outs = runner.run().asScala
     val allEmbeddings = TensorResources.extractFloats(outs.head)
