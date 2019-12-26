@@ -4,8 +4,8 @@ import plyvel
 import os.path
 import sys
 sys.path.append('../')
-from contrib.bert.modeling import *
-from contrib.bert.tokenization import *
+from bert.modeling import *
+from bert.tokenization import *
 import json
 import os.path
 import numpy as np
