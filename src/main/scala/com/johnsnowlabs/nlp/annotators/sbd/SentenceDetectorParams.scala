@@ -18,13 +18,17 @@ trait SentenceDetectorParams extends Params {
     "characters used to explicitly mark sentence bounds"
   )
 
-  val maxLength: IntParam = new IntParam(this, "maxLength", "length at which sentences will be forcibly split. Defaults to 240")
+  val splitLength: IntParam = new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
 
   setDefault(
     useAbbrevations -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
-    customBounds -> Array.empty[String]
+    customBounds -> Array.empty[String],
+    minLength -> 0,
+    maxLength -> 99999
   )
 
   def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
@@ -43,9 +47,24 @@ trait SentenceDetectorParams extends Params {
 
   def getExplodeSentences: Boolean = $(explodeSentences)
 
-  def setMaxLength(value: Int): this.type = set(maxLength, value)
+  def setSplitLength(value: Int): this.type = set(splitLength, value)
 
-  def getMaxLength: Int = $(maxLength)
+  def getSplitLength: Int = $(splitLength)
+
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+  def getMinLength(value: Int): Int = $(minLength)
+
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${minLength}, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+  def getMaxLength(value: Int): Int = $(maxLength)
+
 
   def truncateSentence(sentence: String, maxLength: Int): Array[String] = {
     var currentLength = 0
