@@ -15,9 +15,9 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
 class TensorflowWrapper(
-  var variables: Variables,
-  var graph: Array[Byte]
-)  extends Serializable {
+                         var variables: Variables,
+                         var graph: Array[Byte]
+                       )  extends Serializable {
 
   /** For Deserialization */
   def this() = {
@@ -54,6 +54,47 @@ class TensorflowWrapper(
       val session = new Session(g, config)
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       session.runner.addTarget("save/restore_all")
+        .feed("save/Const", t.createTensor(variablesPath))
+        .run()
+
+      //delete variable files
+      Files.delete(varData)
+      Files.delete(varIdx)
+
+      msession = session
+    }
+    msession
+  }
+
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
+
+    if (msession == null){
+      logger.debug("Restoring TF Hub session from bytes")
+      val t = new TensorResources()
+      val config = configProtoBytes.getOrElse(Array[Byte](50, 2, 32, 1, 56, 1))
+
+      // save the binary data of variables to file - variables per se
+      val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      val folder  = path.toAbsolutePath.toString
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
+
+      // save the binary data of variables to file - variables' index
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
+
+      LoadsContrib.loadContribToTensorflow()
+
+      // import the graph
+      val g = new Graph()
+      g.importGraphDef(graph)
+
+      // create the session and load the variables
+      val session = new Session(g, config)
+      val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
+      session.runner
+        .addTarget("save/restore_all")
+        .addTarget("init_all_tables")
         .feed("save/Const", t.createTensor(variablesPath))
         .run()
 
@@ -197,6 +238,8 @@ object TensorflowWrapper {
       val session = model.session()
       val varPath = Paths.get(folder, "variables", "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables", "variables.index")
+      session.runner().addTarget("init_all_tables")
+
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)

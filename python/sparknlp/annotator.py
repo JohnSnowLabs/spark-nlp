@@ -1776,3 +1776,35 @@ class NerOverwriter(AnnotatorModel):
 
     def setNewResult(self, value):
         return self._set(newResult=value)
+
+
+class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddings):
+
+    name = "UniversalSentenceEncoder"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder", java_model=None):
+        super(UniversalSentenceEncoder, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _USELoader
+        jModel = _USELoader(folder, spark_session._jsparkSession)._java_obj
+        return UniversalSentenceEncoder(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
