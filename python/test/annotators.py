@@ -99,7 +99,9 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)")
+            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)") \
+            .setMinLength(3) \
+            .setMaxLength(6)
         finisher = Finisher() \
             .setInputCols(["token"]) \
             .setOutputCols(["token_out"]) \
@@ -108,7 +110,7 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenized = tokenizer.fit(assembled).transform(assembled)
         finished = finisher.transform(tokenized)
         print(finished.first()['token_out'])
-        self.assertEqual(len(finished.first()['token_out']), 7)
+        self.assertEqual(len(finished.first()['token_out']), 4)
 
 
 class ChunkTokenizerTestSpec(unittest.TestCase):
