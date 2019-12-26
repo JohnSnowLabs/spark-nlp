@@ -626,10 +626,20 @@ class SentenceDetectorParams:
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
-    maxLength = Param(Params._dummy(),
-                      "maxLength",
-                      "length at which sentences will be forcibly split. Defaults to 240",
+    splitLength = Param(Params._dummy(),
+                      "splitLength",
+                      "length at which sentences will be forcibly split.",
                       typeConverter=TypeConverters.toInt)
+
+    minLength = Param(Params._dummy(),
+                        "minLength",
+                        "Set the minimum allowed length for each sentence.",
+                        typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                        "maxLength",
+                        "Set the maximum allowed length for each sentence",
+                        typeConverter=TypeConverters.toInt)
 
 
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -648,6 +658,12 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
 
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
     def setMaxLength(self, value):
         return self._set(maxLength=value)
 
@@ -655,8 +671,14 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
-                         explodeSentences=False)
+        self._setDefault(
+            useAbbreviations=True,
+            useCustomBoundsOnly=False,
+            customBounds=[],
+            explodeSentences=False,
+            minLength=0,
+            maxLength=99999
+        )
 
 
 class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -691,8 +713,8 @@ class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
 
-    def setMaxLength(self, value):
-        return self._set(maxLength=value)
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
 
     @keyword_only
     def __init__(self):
