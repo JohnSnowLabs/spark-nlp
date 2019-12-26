@@ -7,24 +7,20 @@ modify_date: "2019-12-20"
 ---
 Spark OCR provie set of Spark ML transformers/estimators for build OCR pipelines.
 
-## OCR Pipelines
+# OCR Pipelines
 
 Using Spark OCR transformers possible to build pipelines for recognize text from:
  - image (png, tiff, jpeg ...)
  - selectable PDF
  - notselectable PDF
 
-Spark OCR represent image as StructType with following schema:
-```
-image: struct (nullable = true)
- |-- origin: string (nullable = true)
- |-- height: integer (nullable = false)
- |-- width: integer (nullable = false)
- |-- nChannels: integer (nullable = false)
- |-- mode: integer (nullable = false)
- |-- data: binary (nullable = true)
-```
+### OCR pipeline for image
 
+### OCR pipeline for image PDF's
+
+### OCR pipeline for text and image PDF's
+
+# OCR Transformers
 
 ## PDF processing
 
@@ -409,11 +405,15 @@ Split image to regions.
 
 - setInputCol(string)
 - setOutputCol(string)
+- setInputRegionsCol(string)
+- setExplodeCols(string)
 
 **Scala example:**
 
 ```scala
-import com.johnsnowlabs.ocr.transformers.ImageSplitRegions
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
@@ -424,12 +424,26 @@ val df = spark.read
   .load(imagePath)
   .asImage("image")
 
-val transformer = new ImageSplitRegions()
+// define transformer for detect regions
+val layoutAnalayzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("regions")
+
+val splitter = new ImageSplitRegions()
   .setInputCol("image")
   .setRegionCol("region")
   .setOutputCol("region_image")
 
-val data = transformer.transform(df)
+// define pipeline
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  layoutAnalayzer,
+  splitter
+))
+
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
+
+val data = pipeline.transform(df)
 data.show()
 ```
 
@@ -443,8 +457,36 @@ Analyze image and determine regions of text.
 
 **Settable parameters are:**
 
-- setInputCol(string)
-- setOutputCol(string)
+- setInputCol(string = "image")
+- setOutputCol(string = "region")
+- setPageSegMode(int = [PageSegmentationMode](#pagesegmentationmode).AUTO) - Page segmentation mode.
+- setPageIteratorLevel(int = [PageIteratorLevel](#pageiteratorlevel).BLOCK) - Page iteration level.
+- setOcrEngineMode(int = [EngineMode](#enginemode).LSTM_ONLY) - Ocr engine mode.
+
+**Scala example:**
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+// define transformer for detect regions
+val layoutAnalayzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("regions")
+
+val data = layoutAnalayzer.transform(df)
+data.show()
+```
 
 ### TesseractOCR
 
@@ -452,8 +494,50 @@ Run Tesseract OCR for input image.
 
 **Settable parameters are:**
 
-- setInputCol(string)
-- setOutputCol(string)
+- setInputCol(string = "image")
+- setOutputCol(string = "text")
+- setPageSegMode(int = [PageSegmentationMode](#pagesegmentationmode).AUTO) - Page segmentation mode.
+- setPageIteratorLevel(int = [PageIteratorLevel](#pageiteratorlevel).BLOCK) - Page iteration level.
+- setOcrEngineMode(int = [EngineMode](#enginemode).LSTM_ONLY) - Ocr engine mode.
+- setLanguage(string = "eng") - Language.
+
+**Scala example:**
+
+```scala
+import com.johnsnowlabs.ocr.transformers.TesseractOCR
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new TesseractOCR()
+  .setInputCol("image")
+  .setOutputCol("text")
+
+val data = transformer.transform(df)
+print(data.select("text").collect()[0].text)
+```
+
+**Image:**
+
+![image](/assets/images/ocr/corrected.png)
+
+**Output:**
+
+```
+FOREWORD
+
+Electronic design engineers are the true idea men of the electronic
+industries. They create ideas and use them in their designs, they stimu-
+late ideas in other designers, and they borrow and adapt ideas from
+others. One could almost say they feed on and grow on ideas.
+
+```
 
 ## Ocr implicits
 
@@ -470,3 +554,58 @@ Store image to tmp location.
 Ocr ransformers fill exception column in case runtime exception. This allow
 to process batch of files and do not interrupt processing when happen exception during
 processing one record.
+
+## Enums
+
+### PageSegmentationMode
+
+  * ***OSD_ONLY***: Orientation and script detection only.
+  * ***AUTO_OSD***: Automatic page segmentation with orientation and script detection.
+  * ***AUTO_ONLY***: Automatic page segmentation, but no OSD, or OCR.
+  * ***AUTO***: Fully automatic page segmentation, but no OSD.
+  * ***SINGLE_COLUMN***: Assume a single column of text of variable sizes.
+  * ***SINGLE_BLOCK_VERT_TEXT***: Assume a single uniform block of vertically aligned text.
+  * ***SINGLE_BLOCK***: Assume a single uniform block of text.
+  * ***SINGLE_LINE***: Treat the image as a single text line.
+  * ***SINGLE_WORD***: Treat the image as a single word.
+  * ***CIRCLE_WORD***: Treat the image as a single word in a circle.
+  * ***SINGLE_CHAR***: Treat the image as a single character.
+  * ***SPARSE_TEXT***: Find as much text as possible in no particular order.
+  * ***SPARSE_TEXT_OSD***: Sparse text with orientation and script detection.
+
+### EngineMode
+
+  *  ***TESSERACT_ONLY***: Legacy engine only.
+  *  ***OEM_LSTM_ONLY***: Neural nets LSTM engine only.
+  *  ***TESSERACT_LSTM_COMBINED***: Legacy + LSTM engines.
+  *  ***DEFAULT***: Default, based on what is available.
+  
+### PageIteratorLevel
+
+  * ***BLOCK***: Block of text/image/separator line.
+  * ***PARAGRAPH***: Paragraph within a block.
+  * ***TEXTLINE***: Line within a paragraph.
+  * ***WORD***: Word within a text line.
+  * ***SYMBOL***: Symbol/character within a word.
+
+### ImageType
+ 
+ * ***TYPE_BYTE_GRAY***
+ * ***TYPE_BYTE_BINARY***
+ * ***TYPE_3BYTE_BGR***
+ * ***TYPE_4BYTE_ABGR***
+
+## OCR schemas
+
+### Image
+
+Spark OCR represent image as StructType with following schema:
+```
+image: struct (nullable = true)
+ |-- origin: string (nullable = true)
+ |-- height: integer (nullable = false)
+ |-- width: integer (nullable = false)
+ |-- nChannels: integer (nullable = false)
+ |-- mode: integer (nullable = false)
+ |-- data: binary (nullable = true)
+```
