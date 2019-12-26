@@ -4,20 +4,18 @@ import com.johnsnowlabs.nlp.EmbeddingsFinisher
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, Normalizer, SQLTransformer}
-import org.apache.spark.sql.expressions.Window
 import org.scalatest._
 import org.apache.spark.sql.functions._
-import org.apache.spark.mllib.linalg.Vectors
-import org.apache.spark.mllib.linalg.distributed.{IndexedRow, IndexedRowMatrix}
 
 class UniversalSentenceEncoderTestSpec extends FlatSpec {
 
   "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" ignore {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
-      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+      .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -27,8 +25,8 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
-      .setInputCols("document")
+    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+      .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
     val pipeline = new RecursivePipeline()
@@ -39,9 +37,10 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.show()
-    pipelineDF.select("sentence_embeddings.embeddings").show()
-    pipelineDF.printSchema()
+    println(pipelineDF.count())
+    Benchmark.time("Time to save USE results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_use_embeddings")
+    }
 
   }
 
