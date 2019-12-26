@@ -2,7 +2,6 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
-
 import scala.collection.JavaConverters._
 
 
@@ -16,6 +15,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
   def calculateEmbeddings(sentences: Seq[Sentence]): Seq[Annotation] = {
 
     val tensors = new TensorResources()
+    val batchSize = sentences.length
 
     val sentencesBytes = sentences.map{ x=>
       x.content.getBytes("UTF-8")
@@ -23,7 +23,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val sentenceTensors = tensors.createTensor(sentencesBytes)
 
-    val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
 
     runner
       .feed(inputKey, sentenceTensors)
@@ -31,10 +31,12 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val outs = runner.run().asScala
     val allEmbeddings = TensorResources.extractFloats(outs.head)
+
     tensors.clearSession(outs)
     tensors.clearTensors()
+    sentenceTensors.close()
 
-    val dim = allEmbeddings.length / sentencesBytes.length
+    val dim = allEmbeddings.length / batchSize
     val embeddings = allEmbeddings.grouped(dim).toArray
 
     sentences.zip(embeddings).map { case (sentence, vectors) =>
