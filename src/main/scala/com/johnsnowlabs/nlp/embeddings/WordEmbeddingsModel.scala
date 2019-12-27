@@ -3,16 +3,16 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
+import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageLoader, StorageReadable}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
-    with HasWordEmbeddings
-    with AutoCloseable
+    with HasEmbeddingsProperties
+    with HasStorageModel[Array[Float]]
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
@@ -21,48 +21,15 @@ class WordEmbeddingsModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  private def getEmbeddingsSerializedPath(path: String): Path =
-    Path.mergePaths(new Path(path), new Path("/embeddings"))
+  override def loader: StorageLoader = WordEmbeddingsLoader
 
-  private[embeddings] def deserializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    if ($(includeEmbeddings)) {
-      val src = getEmbeddingsSerializedPath(path)
-
-      if (!isLoaded()) {
-        preloadedEmbeddings = Some(EmbeddingsHelper.load(
-          src.toUri.toString,
-          spark,
-          WordEmbeddingsFormat.SPARKNLP.toString,
-          $(dimension),
-          $(caseSensitive),
-          $(embeddingsRef)
-        ))
-        setAsLoaded()
-      }
-    }
-  }
-
-  private[embeddings] def serializeEmbeddings(path: String, spark: SparkSession): Unit = {
-    val index = new Path(EmbeddingsHelper.getLocalEmbeddingsPath(getClusterEmbeddings.fileName))
-
-    val uri = new java.net.URI(path)
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dst = getEmbeddingsSerializedPath(path)
-
-    EmbeddingsHelper.save(fs, index, dst)
-  }
-
-  override protected def onWrite(path: String, spark: SparkSession): Unit = {
-    /** Param only useful for runtime execution */
-    if ($(includeEmbeddings))
-      serializeEmbeddings(path, spark)
-  }
-
-  override protected def close(): Unit = {
-    get(embeddingsRef)
-      .flatMap(_ => preloadedEmbeddings)
-      .foreach(_.getLocalRetriever.close())
-  }
+  override def createReader: WordEmbeddingsReader = new WordEmbeddingsReader(
+    RocksDBConnection.getOrCreate($(storageRef)),
+    $(caseSensitive),
+    scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
+      (100/$(dimension))*50000,
+      50000
+  ))
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -74,8 +41,8 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = this.getEmbeddings.getEmbeddingsVector(token.token)
-        TokenPieceEmbeddings(token.token, token.token, -1, true, vectorOption, this.getEmbeddings.zeroArray, token.begin, token.end)
+        val vectorOption = getReader.lookup(token.token)
+        TokenPieceEmbeddings(token.token, token.token, -1, isWordStart = true, vectorOption, reader.emptyValue($(dimension)), token.begin, token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
@@ -84,15 +51,13 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    getClusterEmbeddings.getLocalRetriever.close()
-
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some(getEmbeddingsRef)))
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
 }
 
-trait ReadablePretrainedWordEmbeddings extends EmbeddingsReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
-  override val defaultModelName = Some("glove_100d")
+trait ReadablePretrainedWordEmbeddings extends StorageReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
+  override val defaultModelName: Option[String] = Some("glove_100d")
   /** Java compliant-overrides */
   override def pretrained(): WordEmbeddingsModel = super.pretrained()
   override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)

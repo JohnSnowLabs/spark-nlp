@@ -3,7 +3,6 @@
 ##
 
 import sys
-from enum import Enum
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -1445,19 +1444,9 @@ class TypedDependencyParserModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
 
 
-class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
+class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
-
-    sourceEmbeddingsPath = Param(Params._dummy(),
-                                 "sourceEmbeddingsPath",
-                                 "Word embeddings file",
-                                 typeConverter=TypeConverters.toString)
-
-    embeddingsFormat = Param(Params._dummy(),
-                             "embeddingsFormat",
-                             "Word vectors file format",
-                             typeConverter=TypeConverters.toInt)
 
     @keyword_only
     def __init__(self):
@@ -1466,54 +1455,11 @@ class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
             caseSensitive=False
         )
 
-    class Format(Enum):
-        SPARKNLP = 1
-        TEXT = 2
-        BINARY = 3
-
-    def setEmbeddingsSource(self, path, nDims, format):
-        self._set(sourceEmbeddingsPath=path)
-        try:
-            if isinstance(format, int):
-                self._set(embeddingsFormat=self.Format(format).value)
-            else:
-                self._set(embeddingsFormat=self.Format[format.upper()].value)
-        except (KeyError, ValueError):
-            raise Exception("Format parameter must be one of {}".format([item.name for item in self.Format]))
-        return self._set(dimension=nDims)
-
-    def setSourcePath(self, path):
-        return self._set(sourceEmbeddingsPath=path)
-
-    def getSourcePath(self):
-        return self.getParamValue("sourceEmbeddingsPath")
-
-    def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.Format[format.upper()].value)
-
-    def getEmbeddingsFormat(self):
-        value = self._getParamValue("embeddingsFormat")
-        if value == 1:
-            return "SPARKNLP"
-        elif value == 2:
-            return "TEXT"
-        else:
-            return "BINARY"
-
-    def getEmbeddingsPath(self):
-        return self.getOrDefault(self.sourceEmbeddingsPath)
-
-    def getDimension(self):
-        return self.getOrDefault(self.dimension)
-
-    def getFormat(self):
-        return self.getOrDefault(self.embeddingsFormat)
-
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddingsModel"
 
@@ -1542,7 +1488,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddings):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties):
 
     name = "BertEmbeddings"
 

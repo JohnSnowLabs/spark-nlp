@@ -5,7 +5,7 @@ import org.apache.spark.ml.param.{BooleanParam, IntParam, Params}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.MetadataBuilder
 
-trait HasEmbeddings extends Params {
+trait HasEmbeddingsProperties extends Params {
 
   val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
   val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to ignore case in tokens for embeddings matching")
