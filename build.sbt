@@ -15,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.3.4"
+version := "2.4.0-rc1"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -133,12 +133,12 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.12.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0"
+      "org.tensorflow" % "libtensorflow" % "1.13.1",
+      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.13.1"
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.12.0"
+      "org.tensorflow" % "tensorflow" % "1.13.1"
     )
 
 lazy val root = (project in file("."))

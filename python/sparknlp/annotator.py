@@ -89,6 +89,16 @@ class Tokenizer(AnnotatorApproach):
                        "character list used to separate from the inside of tokens",
                        typeConverter=TypeConverters.toListString)
 
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
     name = 'Tokenizer'
 
     @keyword_only
@@ -97,7 +107,9 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True
+            caseSensitiveExceptions=True,
+            minLength=0,
+            maxLength=99999
         )
 
     def getInfixPatterns(self):
@@ -176,6 +188,12 @@ class Tokenizer(AnnotatorApproach):
             split_chars = []
         split_chars.append(value)
         return self._set(splitChars=split_chars)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
@@ -429,11 +447,35 @@ class LemmatizerModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc)
 
 
-class DateMatcher(AnnotatorModel):
+class DateMatcherUtils(Params):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
                        typeConverter=TypeConverters.toString)
+
+    readMonthFirst = Param(Params._dummy(),
+                           "readMonthFirst",
+                           "Whether to parse july 07/05/2015 or as 05/07/2015",
+                           typeConverter=TypeConverters.toBoolean
+                           )
+
+    defaultDayWhenMissing = Param(Params._dummy(),
+                                  "defaultDayWhenMissing",
+                                  "which day to set when it is missing from parsed input",
+                                  typeConverter=TypeConverters.toInt
+                                  )
+
+    def setFormat(self, value):
+        return self._set(dateFormat=value)
+
+    def setReadMonthFirst(self, value):
+        return self._set(readMonthFirst=value)
+
+    def setDefaultDayWhenMissing(self, value):
+        return self._set(defaultDayWhenMissing=value)
+
+
+class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     name = "DateMatcher"
 
@@ -441,11 +483,24 @@ class DateMatcher(AnnotatorModel):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd"
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaultDayWhenMissing=1
         )
 
-    def setFormat(self, value):
-        return self._set(dateFormat=value)
+
+class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
+
+    name = "MultiDateMatcher"
+
+    @keyword_only
+    def __init__(self):
+        super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
+        self._setDefault(
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaultDayWhenMissing=1
+        )
 
 
 class TextMatcher(AnnotatorApproach):
@@ -461,9 +516,9 @@ class TextMatcher(AnnotatorApproach):
                           typeConverter=TypeConverters.toBoolean)
 
     mergeOverlapping = Param(Params._dummy(),
-                          "mergeOverlapping",
-                          "whether to merge overlapping matched chunks. Defaults false",
-                          typeConverter=TypeConverters.toBoolean)
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -580,10 +635,20 @@ class SentenceDetectorParams:
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
-    maxLength = Param(Params._dummy(),
-                      "maxLength",
-                      "length at which sentences will be forcibly split. Defaults to 240",
+    splitLength = Param(Params._dummy(),
+                      "splitLength",
+                      "length at which sentences will be forcibly split.",
                       typeConverter=TypeConverters.toInt)
+
+    minLength = Param(Params._dummy(),
+                        "minLength",
+                        "Set the minimum allowed length for each sentence.",
+                        typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                        "maxLength",
+                        "Set the maximum allowed length for each sentence",
+                        typeConverter=TypeConverters.toInt)
 
 
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -602,6 +667,12 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
 
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
     def setMaxLength(self, value):
         return self._set(maxLength=value)
 
@@ -609,8 +680,14 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
-                         explodeSentences=False)
+        self._setDefault(
+            useAbbreviations=True,
+            useCustomBoundsOnly=False,
+            customBounds=[],
+            explodeSentences=False,
+            minLength=0,
+            maxLength=99999
+        )
 
 
 class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -645,8 +722,8 @@ class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
 
-    def setMaxLength(self, value):
-        return self._set(maxLength=value)
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
 
     @keyword_only
     def __init__(self):
@@ -1565,6 +1642,8 @@ class NGramGenerator(AnnotatorModel):
     enableCumulative = Param(Params._dummy(), "enableCumulative", "whether to calculate just the actual n-grams " +
                              "or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean)
 
+    delimiter = Param(Params._dummy(), "delimiter", "String to use to join the tokens ", typeConverter=TypeConverters.toString)
+
     def setN(self, value):
         """
         Sets the value of :py:attr:`n`.
@@ -1576,6 +1655,14 @@ class NGramGenerator(AnnotatorModel):
         Sets the value of :py:attr:`enableCumulative`.
         """
         return self._set(enableCumulative=value)
+
+    def setDelimiter(self, value):
+        """
+        Sets the value of :py:attr:`delimiter`.
+        """
+        if len(value) > 1:
+            raise Exception("Delimiter should have length == 1")
+        return self._set(delimiter=value)
 
 
 class ChunkEmbeddings(AnnotatorModel):
@@ -1594,6 +1681,7 @@ class ChunkEmbeddings(AnnotatorModel):
                             "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:" +
                             "AVERAGE or SUM",
                             typeConverter=TypeConverters.toString)
+    skipOOV = Param(Params._dummy(), "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling ", typeConverter=TypeConverters.toBoolean)
 
     def setPoolingStrategy(self, strategy):
         """
@@ -1605,6 +1693,12 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy=strategy)
         else:
             return self._set(poolingStrategy="AVERAGE")
+
+    def setSkipOOV(self, value):
+        """
+        Sets the value of :py:attr:`skipOOV`.
+        """
+        return self._set(skipOOV=value)
 
 
 class NerOverwriter(AnnotatorModel):
@@ -1628,3 +1722,35 @@ class NerOverwriter(AnnotatorModel):
 
     def setNewResult(self, value):
         return self._set(newResult=value)
+
+
+class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddings):
+
+    name = "UniversalSentenceEncoder"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder", java_model=None):
+        super(UniversalSentenceEncoder, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _USELoader
+        jModel = _USELoader(folder, spark_session._jsparkSession)._java_obj
+        return UniversalSentenceEncoder(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
