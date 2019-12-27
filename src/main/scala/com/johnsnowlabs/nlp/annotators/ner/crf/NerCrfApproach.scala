@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.PipelineModel

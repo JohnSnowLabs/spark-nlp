@@ -6,6 +6,7 @@ from pyspark.ml.param import Params
 from pyspark import keyword_only
 import sparknlp.internal as _internal
 import re
+from enum import Enum
 
 
 class AnnotatorProperties(Params):
@@ -81,7 +82,7 @@ class AnnotatorModel(JavaModel, AnnotatorJavaMLReadable, JavaMLWritable, Annotat
             self._transfer_params_from_java()
 
 
-class HasEmbeddings(Params):
+class HasEmbeddingsProperties(Params):
     dimension = Param(Params._dummy(),
                       "dimension",
                       "Number of embedding dimensions",
@@ -95,35 +96,60 @@ class HasEmbeddings(Params):
     def setDimension(self, value):
         return self._set(dimension=value)
 
+    def getDimension(self):
+        return self.getOrDefault(self.dimension)
+
     def setCaseSensitive(self, value):
         return self._set(caseSensitive=value)
 
+    def getCaseSensitive(self):
+        return self.getOrDefault(self.caseSensitive)
 
-class HasWordEmbeddings(HasEmbeddings):
-    embeddingsRef = Param(Params._dummy(),
-                          "embeddingsRef",
-                          "if sourceEmbeddingsPath was provided, name them with this ref. Otherwise, use embeddings by this ref",
-                          typeConverter=TypeConverters.toString)
 
-    includeEmbeddings = Param(Params._dummy(),
-                           "includeEmbeddings",
+class HasStorage:
+
+    includeStorage = Param(Params._dummy(),
+                           "includeStorage",
                            "whether or not to save indexed embeddings along this annotator",
                            typeConverter=TypeConverters.toBoolean)
 
-    def setEmbeddingsRef(self, value):
-        from sparknlp.annotator import WordEmbeddingsModel
-        if type(self) == WordEmbeddingsModel and self.getParam('embeddingsRef'):
-            raise Exception("Cannot override embeddings ref on a WordEmbeddingsModel. Please re-use current ref: %s" % self.getOrDefault('embeddingsRef'))
-        return self._set(embeddingsRef=value)
+    storageRef = Param(Params._dummy(), "storageRef",
+                       "unique reference name for identification",
+                       TypeConverters.toString)
 
-    def getEmbeddingsRef(self):
-        return self.getOrDefault('embeddingsRef')
+    storagePath = Param(Params._dummy(),
+                        "storagePath",
+                        "path to file",
+                        typeConverter=TypeConverters.toString)
 
-    def setIncludeEmbeddings(self, value):
-        return self._set(includeEmbeddings=value)
+    storageFormat = Param(Params._dummy(),
+                          "storageFormat",
+                          "file format",
+                          typeConverter=TypeConverters.toString)
 
-    def getIncludeEmbeddings(self):
-        return self.getOrDefault("includeEmbeddings")
+    def setStorageRef(self, value):
+        return self._set(storageRef=value)
+
+    def getStorageRef(self):
+        return self.getOrDefault("storageRef")
+
+    def setIncludeStorage(self, value):
+        return self._set(includeStorage=value)
+
+    def getIncludeStorage(self):
+        return self.getOrDefault("includeStorage")
+
+    def setStoragePath(self, path):
+        return self._set(storagePath=path)
+
+    def getStoragePath(self):
+        return self.getOrDefault("storagePath")
+
+    def setStorageFormat(self, format):
+        return self._set(storageFormat=format.upper())
+
+    def getStorageFormat(self):
+        return self.getOrDefault("storageFormat")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,

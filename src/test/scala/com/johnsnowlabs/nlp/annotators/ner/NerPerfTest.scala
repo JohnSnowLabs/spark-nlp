@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
+import com.johnsnowlabs.nlp.embeddings.EmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
@@ -29,7 +29,9 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token", "pos")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("./glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt")
+      .setDimension(100)
+      .setStorageFormat("TEXT")
 
     val ner = new NerCrfApproach().
       setInputCols("document", "token", "pos", "embeddings").
@@ -79,7 +81,9 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("./embeddings.bin", 200, WordEmbeddingsFormat.BINARY)
+      .setStoragePath("./embeddings.bin")
+      .setDimension(200)
+      .setStorageFormat("BINARY")
 
     val ner = new NerDLApproach().
       setInputCols("document", "token", "embeddings").

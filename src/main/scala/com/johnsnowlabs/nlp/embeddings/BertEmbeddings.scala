@@ -18,7 +18,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
   with WriteTensorflowModel
-  with HasEmbeddings
+  with HasEmbeddingsProperties
 {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
@@ -139,10 +139,6 @@ class BertEmbeddings(override val uid: String) extends
     }else {
       Seq.empty[Annotation]
     }
-  }
-
-  override def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension)))
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
