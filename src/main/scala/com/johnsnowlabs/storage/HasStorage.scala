@@ -20,6 +20,8 @@ trait HasStorage extends HasStorageRef {
 
   def getStoragePath: ExternalResource = $(storagePath)
 
+  protected val missingRefMsg: String = s"Please set storageRef param in $this."
+
   protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit
 
   private def indexDatabase(storageSourcePath: String,
@@ -126,6 +128,7 @@ trait HasStorage extends HasStorageRef {
   }
 
   protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+    require(isDefined(storageRef), missingRefMsg)
     databases.foreach(database =>
       preload(
         resource,

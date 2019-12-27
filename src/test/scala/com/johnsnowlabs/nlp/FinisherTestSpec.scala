@@ -23,6 +23,7 @@ class FinisherTestSpec extends FlatSpec {
     .setInputCols("document", "token")
     .setOutputCol("embeddings")
     .setStoragePath("src/test/resources/random_embeddings_dim4.txt", "TEXT")
+    .setStorageRef("random_4")
     .setDimension(4)
 
   "A Finisher with default settings" should "return clean results" in {
