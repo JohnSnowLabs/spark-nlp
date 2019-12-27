@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.nlp.annotator.{Chunker, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -38,7 +38,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
       .setOutputCol("chunk")
       .setRegexParsers(Array("<DT>?<JJ>*<NN>+"))
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -115,7 +115,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
       .setOutputCol("chunk")
       .setN(2)
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)

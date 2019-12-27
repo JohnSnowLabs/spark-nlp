@@ -31,7 +31,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -110,7 +110,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
