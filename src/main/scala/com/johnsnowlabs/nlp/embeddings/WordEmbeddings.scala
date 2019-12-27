@@ -21,6 +21,9 @@ class WordEmbeddings(override val uid: String)
 
   override val description: String = "Word Embeddings lookup annotator that maps tokens to vectors"
 
+  override protected val missingRefMsg: String = s"Please set storageRef param in $this. This ref is useful for other annotators" +
+    " to require this particular set of embeddings. You can use any memorable name such as 'glove' or 'my_embeddings'."
+
   override def beforeTraining(spark: SparkSession): Unit = {
     indexStorage(spark, $(storagePath))
   }

@@ -251,6 +251,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setDimension(100)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+      .setStorageRef("embeddings_ner_100")
       .fit(dataset)
   }
 

@@ -32,6 +32,7 @@ trait HasStorageRef extends ParamsAndFeaturesWritable {
   }
 
   def validateStorageRef(dataset: Dataset[_], inputCols: Array[String], annotatorType: String): Unit = {
+    require(isDefined(storageRef), "This model does not have a storage reference defined. This could be an outdated model or incorrectly created one. Make sure storageRef param is defined.")
     require(getStorageRefFromInput(dataset, inputCols, annotatorType) == $(storageRef),
       s"Found storage column, but ref does not match to the ref this model was trained with. " +
         s"Make sure you are using the right storage in your pipeline, with ref: ${$(storageRef)}")
