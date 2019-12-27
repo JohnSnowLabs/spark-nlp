@@ -105,7 +105,7 @@ class NerCrfApproach(override val uid: String)
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
       .setIncludeConfidence($(includeConfidence))
-      .setStorageRef(embeddignsRef)
+      .setStorageRef(embeddingsRef)
 
     if (isDefined(entities))
       model.setEntities($(entities))
