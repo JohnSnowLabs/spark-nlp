@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
@@ -26,7 +26,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -143,7 +143,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
