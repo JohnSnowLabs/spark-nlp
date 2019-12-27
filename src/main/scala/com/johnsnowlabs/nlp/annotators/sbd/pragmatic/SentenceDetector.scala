@@ -34,13 +34,13 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
       document
     ).flatMap(sentence => {
       var currentStart = sentence.start
-      get(maxLength).map(maxLength => truncateSentence(sentence.content, maxLength)).getOrElse(Array(sentence.content))
+      get(splitLength).map(splitLength => truncateSentence(sentence.content, splitLength)).getOrElse(Array(sentence.content))
         .zipWithIndex.map{ case (truncatedSentence, index) =>
-          val currentEnd = currentStart + truncatedSentence.length - 1
-          val result = Sentence(truncatedSentence, currentStart, currentEnd, index)
-          /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
-          currentStart = currentEnd + 2
-          result
+        val currentEnd = currentStart + truncatedSentence.length - 1
+        val result = Sentence(truncatedSentence, currentStart, currentEnd, index)
+        /** +1 because of shifting to the next token begin. +1 because of a whitespace jump to next token. */
+        currentStart = currentEnd + 2
+        result
       }
     })
   }
@@ -59,7 +59,10 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val docs = annotations.map(_.result)
-    val sentences = docs.flatMap(doc => tag(doc)).filter(_.content.nonEmpty)
+    val sentences = docs.flatMap(doc => tag(doc))
+      .filter(_.content.nonEmpty)
+      .filter(t => t.content.length >= ${minLength})
+      .filter(t => t.content.length <= ${maxLength})
     SentenceSplit.pack(sentences)
   }
 

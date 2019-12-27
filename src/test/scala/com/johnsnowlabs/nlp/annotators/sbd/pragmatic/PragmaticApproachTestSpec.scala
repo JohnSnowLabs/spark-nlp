@@ -379,7 +379,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val veryLong = "This is a so long sentence that it will end up being cut off in different pieces because otherwise I don't " +
     "know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long " +
     "time although we should be almost there this part should become the second sentence, thanks."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns, maxLength = Some(240))
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns, splitLength = Some(240))
 
   /*
   //List with bullet
@@ -464,4 +464,9 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val germanAns = Array("Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung.")
   val german = "Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(german, germanAns)
+
+  // Matched content with group matching escaped (rare)
+  val escapedAns = Array("\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\"")
+  val escaped = "\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\""
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(escaped, escapedAns)
 }

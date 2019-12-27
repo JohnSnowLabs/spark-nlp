@@ -1,8 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{FloatBuffer, IntBuffer, LongBuffer}
+import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
 
-import com.fasterxml.jackson.annotation.JsonFormat.Shape
 import org.tensorflow.Tensor
 
 import scala.collection.mutable
@@ -28,6 +27,14 @@ class TensorResources {
   def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
 
     val result = Tensor.create(shape, buf)
+
+    tensors.append(result)
+    result
+  }
+
+  def createBytesBufferTensor[T](shape: Array[Long], buf: ByteBuffer): Tensor[_] = {
+
+    val result = Tensor.create(classOf[String], shape, buf)
 
     tensors.append(result)
     result
