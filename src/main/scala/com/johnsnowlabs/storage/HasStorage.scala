@@ -1,75 +1,141 @@
 package com.johnsnowlabs.storage
 
-import org.apache.hadoop.fs.Path
-import org.apache.spark.ml.param.{BooleanParam, Param, Params}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import java.nio.file.{Files, Paths, StandardCopyOption}
+import java.util.UUID
 
-trait HasStorage[A] extends Params {
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SparkSession
 
-  val includeStorage = new BooleanParam(this, "includeStorage", "whether or not to save indexed storage along this annotator")
-  val storageRef = new Param[String](this, "storageRef", "unique reference name for identification")
-  val storagePath = new Param[String](this, "storagePath", "path to file")
-  val storageFormat = new Param[String](this, "storageFormat", "file format")
+trait HasStorage extends HasStorageRef {
 
-  protected def loader: StorageLoader
+  val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
-  def setStoragePath(path: String): this.type = set(storagePath, path)
+  def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
 
-  def getStoragePath: String = $(storagePath)
+  def getStoragePath: ExternalResource = $(storagePath)
 
-  def setStorageFormat(format: String): this.type = {
-    set(storageFormat, format)
-  }
+  protected val missingRefMsg: String = s"Please set storageRef param in $this."
 
-  def getStorageFormat: String = {
-    $(storageFormat)
-  }
+  protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit
 
-  setDefault(includeStorage, true)
+  private def indexDatabase(storageSourcePath: String,
+                            localFile: String,
+                            spark: SparkContext,
+                            resource: ExternalResource
+                           ): Unit = {
 
-  def loadStorage(spark: SparkSession): Unit = {
-    require(isDefined(storagePath) || isDefined(storageRef),
-      s"Word embeddings not found. Either sourceEmbeddingsPath not set," +
-        s" or not in cache by ref: ${get(storageRef).getOrElse("-storageRef not set-")}. " +
-        s"Load using EmbeddingsHelper.load() and .setStorageRef() to make them available."
-    )
-    if (isDefined(storagePath)) {
-      loader.load(
-        $(storagePath),
-        spark,
-        $(storageFormat),
-        $(storageRef)
-      )
+    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+
+    lazy val connection = RocksDBConnection.getOrCreate(localFile)
+
+    if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
+      val tmpFile = Files.createTempFile("sparknlp_", ".str").toAbsolutePath.toString
+      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
+      index(tmpFile, connection, resource)
+      FileHelper.delete(tmpFile)
+    } else {
+      index(storageSourcePath, connection, resource)
     }
+
   }
 
-  def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
-  def getIncludeStorage: Boolean = $(includeStorage)
+  private def preload(
+                       resource: ExternalResource,
+                       spark: SparkSession,
+                       database: String): RocksDBConnection = {
 
-  def setStorageRef(value: String): this.type = {
-    if (get(storageRef).nonEmpty)
-      throw new UnsupportedOperationException(s"Cannot override storage ref on $this. " +
-        s"Please re-use current ref: $getStorageRef")
-    set(this.storageRef, value)
+    val sourceEmbeddingsPath = importIfS3(resource.path, spark).toUri.toString
+    val sparkContext = spark.sparkContext
+
+    val tmpLocalDestination = {
+      Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+        .toAbsolutePath
+    }
+
+    val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
+
+    val locator = StorageLocator(database, spark, fileSystem)
+
+    // 1 and 2.  Copy to local and Index Word Embeddings
+    indexDatabase(sourceEmbeddingsPath, tmpLocalDestination.toString, sparkContext, resource)
+
+    StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+
+    // 3. Create Spark Embeddings
+    RocksDBConnection.getOrCreate(locator.clusterFileName)
   }
-  def getStorageRef: String = $(storageRef)
 
-  def validateStorageRef(dataset: Dataset[_], inputCols: Array[String], annotatorType: String): Unit = {
-    val storageCol = dataset.schema.fields
-      .find(f => inputCols.contains(f.name) && f.metadata.getString("annotatorType") == annotatorType)
-      .getOrElse(throw new Exception(s"Could not find a valid storage column, make sure the storage is loaded " +
-        s"and has the following ref: ${$(storageRef)}")).name
 
-    val storage_meta = dataset.select(storageCol).schema.fields.head.metadata
+  private def importIfS3(path: String, spark: SparkSession): Path = {
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    var src = new Path(path)
+    //if the path contains s3a download to local cache if not present
+    if (uri.getScheme != null) {
+      if (uri.getScheme.equals("s3a")) {
+        var accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
+        var secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
+        if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
+          val defaultCred = new DefaultAWSCredentialsProviderChain().getCredentials
+          accessKeyId = Some(defaultCred.getAWSAccessKeyId)
+          secretAccessKey = Some(defaultCred.getAWSSecretKey)
+        }
+        var old_key = ""
+        var old_secret = ""
+        if (spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+          old_key = spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+          old_secret = spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+        }
+        try {
+          val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
+          if (!Files.exists(Paths.get(dst.toUri.getPath))) {
+            //download s3 resource locally using config keys
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+            val s3fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
-    require(storage_meta.contains("ref"), "Cannot find storage ref in column schema metadata")
+            val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
 
-    require(storage_meta.getString("ref") == $(storageRef),
-      s"Found storage column, but ref does not match to the ref this model was trained with. " +
-        s"Make sure you are using the right storage in your pipeline, with ref: ${$(storageRef)}")
+
+            s3fs.copyToLocalFile(src, dst_tmp)
+            // rename to original file
+            val path = Files.move(
+              Paths.get(dst_tmp.toUri.getRawPath),
+              Paths.get(dst.toUri.getRawPath),
+              StandardCopyOption.REPLACE_EXISTING
+            )
+
+          }
+          src = new Path(dst.toUri.getPath)
+        }
+        finally {
+          //reset the keys
+          if (!old_key.equals("")) {
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", old_key)
+            spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
+          }
+        }
+
+      }
+    }
+    src
   }
 
-  protected def getStorageSerializedPath(path: String): Path =
-    Path.mergePaths(new Path(path), new Path("/storage"))
+  protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+    require(isDefined(storageRef), missingRefMsg)
+    databases.foreach(database =>
+      preload(
+        resource,
+        spark,
+        database
+      )
+    )
+  }
 
 }

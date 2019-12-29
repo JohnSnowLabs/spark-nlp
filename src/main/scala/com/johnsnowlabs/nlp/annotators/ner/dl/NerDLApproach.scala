@@ -4,12 +4,13 @@ import java.io.File
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -23,6 +24,7 @@ import scala.util.Random
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
+    with HasStorageRef
     with Logging
     with ParamsAndFeaturesWritable {
 
@@ -69,7 +71,7 @@ class NerDLApproach(override val uid: String)
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
   def setTestDataset(path: String,
-                     readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                     readAs: ReadAs.Format = ReadAs.SPARK,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 
@@ -104,6 +106,8 @@ class NerDLApproach(override val uid: String)
     LoadsContrib.loadContribToTensorflow()
   }
 
+  override val databases = Array("embeddings")
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
     require($(validationSplit) <= 1f | $(validationSplit) >= 0f, "The validationSplit must be between 0f and 1f")
@@ -118,6 +122,8 @@ class NerDLApproach(override val uid: String)
       val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
       NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
     }
+
+    val embeddingsRef = getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
@@ -178,6 +184,7 @@ class NerDLApproach(override val uid: String)
       .setBatchSize($(batchSize))
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setIncludeConfidence($(includeConfidence))
+      .setStorageRef(embeddingsRef)
 
     if (get(configProtoBytes).isDefined)
       model.setConfigProtoBytes($(configProtoBytes))

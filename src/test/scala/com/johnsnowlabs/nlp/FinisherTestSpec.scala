@@ -22,9 +22,9 @@ class FinisherTestSpec extends FlatSpec {
   val embeddings = new WordEmbeddings()
     .setInputCols("document", "token")
     .setOutputCol("embeddings")
-    .setStoragePath("src/test/resources/random_embeddings_dim4.txt")
+    .setStoragePath("src/test/resources/random_embeddings_dim4.txt", "TEXT")
+    .setStorageRef("random_4")
     .setDimension(4)
-    .setStorageFormat("TEXT")
 
   "A Finisher with default settings" should "return clean results" in {
 

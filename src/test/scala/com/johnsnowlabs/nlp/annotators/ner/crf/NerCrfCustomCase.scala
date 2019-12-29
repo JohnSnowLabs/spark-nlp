@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, EmbeddingsFormat}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, LightPipeline, RecursivePipeline}
 import org.apache.spark.ml.PipelineModel
@@ -36,9 +36,8 @@ class NerCrfCustomCase extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("pos", "token", "sentence")
       .setOutputCol("embeddings")
-      .setStoragePath("./emb.bin")
+      .setStoragePath("./emb.bin", "BINARY")
       .setDimension(200)
-      .setStorageFormat("BINARY")
 
     val nerCrf = new NerCrfApproach()
       .setInputCols("pos", "token", "sentence", "embeddings")

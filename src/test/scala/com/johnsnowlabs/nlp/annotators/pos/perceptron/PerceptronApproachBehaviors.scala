@@ -17,7 +17,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
-      val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.LINE_BY_LINE, Map("delimiter" -> "|")))
+      val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.TEXT, Map("delimiter" -> "|")))
       val nIterations = 1
       val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, trainingSentencesPath, "|", "tags")
 

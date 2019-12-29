@@ -19,9 +19,9 @@ object NerDLCoNLL2003 extends App {
 
   val spark = SparkAccessor.spark
 
-  val trainFile = ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileA = ExternalResource("eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileB = ExternalResource("eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val trainFile = ExternalResource("eng.train", ReadAs.TEXT, Map.empty[String, String])
+  val testFileA = ExternalResource("eng.testa", ReadAs.TEXT, Map.empty[String, String])
+  val testFileB = ExternalResource("eng.testb", ReadAs.TEXT, Map.empty[String, String])
 
   val wordEmbeddignsFile = "glove.6B.100d.txt"
   val wordEmbeddingsCache = "glove_100_cache.db"

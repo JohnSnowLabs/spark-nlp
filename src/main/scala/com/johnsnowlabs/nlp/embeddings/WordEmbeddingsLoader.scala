@@ -2,24 +2,10 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.io.{BufferedInputStream, ByteArrayOutputStream, DataInputStream, FileInputStream}
 
-import com.johnsnowlabs.storage.{RocksDBConnection, StorageFormat, StorageLoader}
+import com.johnsnowlabs.storage.RocksDBConnection
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
-
-object WordEmbeddingsLoader extends StorageLoader {
-
-  override val formats: StorageFormat = EmbeddingsFormat
-
-  override protected def index(filePath: String, format: formats.Value, connection: RocksDBConnection): Unit = {
-    if (format == EmbeddingsFormat.TEXT) {
-      WordEmbeddingsTextIndexer.index(filePath, connection)
-    }
-    else if (format == EmbeddingsFormat.BINARY) {
-      WordEmbeddingsBinaryIndexer.index(filePath, connection)
-    }
-  }
-}
 
 object WordEmbeddingsTextIndexer {
 

@@ -333,7 +333,7 @@ class Normalizer(AnnotatorApproach):
     def setLowercase(self, value):
         return self._set(lowercase=value)
 
-    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -388,7 +388,7 @@ class RegexMatcher(AnnotatorApproach):
     def setStrategy(self, value):
         return self._set(strategy=value)
 
-    def setExternalRules(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setExternalRules(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -422,7 +422,7 @@ class Lemmatizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return LemmatizerModel(java_model=java_model)
 
-    def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE,
+    def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.TEXT,
                       options={"format": "text"}):
         opts = options.copy()
         if "keyDelimiter" not in opts:
@@ -529,7 +529,7 @@ class TextMatcher(AnnotatorApproach):
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
 
-    def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
     def setCaseSensitive(self, b):
@@ -776,7 +776,7 @@ class SentimentDetector(AnnotatorApproach):
         self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0,
                          decrementMultiplier=-2.0, reverseMultiplier=-1.0, enableScore=False)
 
-    def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format': 'text'}):
+    def setDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={'format': 'text'}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -933,7 +933,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -1011,7 +1011,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -1113,7 +1113,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     def setMinW(self, w):
         return self._set(minW=w)
 
-    def setExternalFeatures(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setExternalFeatures(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -1233,7 +1233,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(evaluationLogExtended=v)
         return self
 
-    def setTestDataset(self, path, read_as=ReadAs.SPARK_DATASET, options={"format": "parquet"}):
+    def setTestDataset(self, path, read_as=ReadAs.SPARK, options={"format": "parquet"}):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def setIncludeConfidence(self, value):
@@ -1339,11 +1339,11 @@ class DependencyParserApproach(AnnotatorApproach):
     def setNumberOfIterations(self, value):
         return self._set(numberOfIterations=value)
 
-    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setDependencyTreeBank(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
-    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conllU=ExternalResource(path, read_as, opts))
 
@@ -1392,11 +1392,11 @@ class TypedDependencyParserApproach(AnnotatorApproach):
         super(TypedDependencyParserApproach,
               self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
 
-    def setConll2009(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConll2009(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conll2009=ExternalResource(path, read_as, opts))
 
-    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conllU=ExternalResource(path, read_as, opts))
 
@@ -1459,7 +1459,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorage):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
 
     name = "WordEmbeddingsModel"
 

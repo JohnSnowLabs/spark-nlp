@@ -183,7 +183,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false)
 
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.LINE_BY_LINE, Map("format" -> "text"))
+    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     new BertEmbeddings()
