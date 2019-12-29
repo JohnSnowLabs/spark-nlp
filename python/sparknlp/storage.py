@@ -18,14 +18,14 @@ class RocksDBConnection:
         self.jconnection = connection
 
 
-class WordEmbeddingsLoader:
+class StorageHelper:
     @classmethod
-    def load(cls, path, spark_session, embeddings_format, embeddings_ref):
+    def load(cls, path, spark_session, database):
         print("Loading started this may take some time")
         stop_threads = False
         t1 = threading.Thread(target=_pretrained.printProgress, args=(lambda: stop_threads,))
         t1.start()
-        jembeddings = _internal._WordEmbeddingsLoader(path, spark_session, embeddings_format, embeddings_ref).apply()
+        jembeddings = _internal._StorageHelper(path, spark_session, database).apply()
         stop_threads = True
         t1.join()
         print("Loading done")

@@ -6,8 +6,8 @@ import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, Tex
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsFormat, WordEmbeddingsBinaryIndexer, WordEmbeddingsReader, WordEmbeddingsTextIndexer}
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsBinaryIndexer, WordEmbeddingsReader, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.RocksDBConnection
 
 /**
@@ -17,7 +17,7 @@ import com.johnsnowlabs.storage.RocksDBConnection
 class CoNLL2003NerReader(wordEmbeddingsFile: String,
                          wordEmbeddingsNDims: Int,
                          normalize: Boolean,
-                         embeddingsFormat: EmbeddingsFormat.Value,
+                         embeddingsFormat: ReadAs.Value,
                          possibleExternalDictionary: Option[ExternalResource]) {
 
   private val nerReader = CoNLL(
@@ -37,12 +37,10 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
 
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {
-        case EmbeddingsFormat.TEXT =>
+        case ReadAs.TEXT =>
           WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, connection)
-        case EmbeddingsFormat.BINARY =>
+        case ReadAs.BINARY =>
           WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, connection)
-        case EmbeddingsFormat.SPARKNLP =>
-          fileDb = wordEmbeddingsFile
       }
     }
 

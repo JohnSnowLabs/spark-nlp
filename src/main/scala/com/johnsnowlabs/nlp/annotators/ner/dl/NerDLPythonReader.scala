@@ -5,8 +5,7 @@ import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsLoader
-import com.johnsnowlabs.storage.RocksDBConnection
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageHelper}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -39,13 +38,11 @@ object NerDLModelPythonReader {
                               folder: String,
                               spark: SparkSession,
                               embeddingsDim: Int,
-                              normalize: Boolean,
-                              format: WordEmbeddingsLoader.formats.Value
+                              normalize: Boolean
                             ): RocksDBConnection = {
-    WordEmbeddingsLoader.load(
+    StorageHelper.load(
       Paths.get(folder, embeddingsFile).toString,
       spark,
-      format,
       "python_tf_model"
     )
   }

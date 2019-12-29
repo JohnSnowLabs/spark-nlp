@@ -54,7 +54,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   def getExceptions: Array[String] = $(exceptions)
 
   def setExceptionsPath(path: String,
-               readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+               readAs: ReadAs.Format = ReadAs.TEXT,
                options: Map[String, String] = Map("format" -> "text")): this.type =
     set(exceptionsPath, ExternalResource(path, readAs, options))
 

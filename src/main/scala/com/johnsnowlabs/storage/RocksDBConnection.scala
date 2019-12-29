@@ -22,10 +22,10 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
   }
 
   private def findLocalDb: String = {
-    lazy val localPath = RocksDBConnection.getLocalPath(path)
-    if (new File(path).exists())
+    lazy val localPath = RocksDBConnection.getLocalPath(path)+"/storage"
+    if (new File(path).exists()) {
       path
-    else if (new File(localPath).exists()) {
+    } else if (new File(localPath).exists()) {
       localPath
     }
     else {

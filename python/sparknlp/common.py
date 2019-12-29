@@ -106,26 +106,11 @@ class HasEmbeddingsProperties(Params):
         return self.getOrDefault(self.caseSensitive)
 
 
-class HasStorage:
-
-    includeStorage = Param(Params._dummy(),
-                           "includeStorage",
-                           "whether or not to save indexed embeddings along this annotator",
-                           typeConverter=TypeConverters.toBoolean)
+class HasStorageRef:
 
     storageRef = Param(Params._dummy(), "storageRef",
                        "unique reference name for identification",
                        TypeConverters.toString)
-
-    storagePath = Param(Params._dummy(),
-                        "storagePath",
-                        "path to file",
-                        typeConverter=TypeConverters.toString)
-
-    storageFormat = Param(Params._dummy(),
-                          "storageFormat",
-                          "file format",
-                          typeConverter=TypeConverters.toString)
 
     def setStorageRef(self, value):
         return self._set(storageRef=value)
@@ -133,23 +118,19 @@ class HasStorage:
     def getStorageRef(self):
         return self.getOrDefault("storageRef")
 
-    def setIncludeStorage(self, value):
-        return self._set(includeStorage=value)
 
-    def getIncludeStorage(self):
-        return self.getOrDefault("includeStorage")
+class HasStorage(HasStorageRef):
 
-    def setStoragePath(self, path):
-        return self._set(storagePath=path)
+    storagePath = Param(Params._dummy(),
+                        "storagePath",
+                        "path to file",
+                        typeConverter=TypeConverters.identity)
+
+    def setStoragePath(self, path, read_as):
+        return self._set(storagePath=ExternalResource(path, read_as, {}))
 
     def getStoragePath(self):
         return self.getOrDefault("storagePath")
-
-    def setStorageFormat(self, format):
-        return self._set(storageFormat=format.upper())
-
-    def getStorageFormat(self):
-        return self.getOrDefault("storageFormat")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,
@@ -178,11 +159,12 @@ def RegexRule(rule, identifier):
 
 
 class ReadAs(object):
-    LINE_BY_LINE = "LINE_BY_LINE"
-    SPARK_DATASET = "SPARK_DATASET"
+    TEXT = "TEXT"
+    SPARK = "SPARK"
+    BINARY = "BINARY"
 
 
-def ExternalResource(path, read_as=ReadAs.LINE_BY_LINE, options={}):
+def ExternalResource(path, read_as=ReadAs.TEXT, options={}):
     return _internal._ExternalResource(path, read_as, options).apply()
 
 

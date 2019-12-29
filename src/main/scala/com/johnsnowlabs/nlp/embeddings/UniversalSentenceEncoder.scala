@@ -13,8 +13,7 @@ import org.apache.spark.sql.SparkSession
 
 class UniversalSentenceEncoder(override val uid: String)
   extends AnnotatorModel[UniversalSentenceEncoder]
-    with WriteTensorflowModel
-    with HasEmbeddings {
+    with WriteTensorflowModel {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("UNIVERSAL_SENTENCE_ENCODER"))
