@@ -305,7 +305,9 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         glove = WordEmbeddings() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
-            .setEmbeddingsSource(self.embeddings, 100, 2)
+            .setStoragePath(self.embeddings, "TEXT") \
+            .setStorageRef('embeddings_100') \
+            .setDimension(100)
 
         ner_tagger = NerDLApproach() \
             .setInputCols(["document", "token", "glove"]) \
