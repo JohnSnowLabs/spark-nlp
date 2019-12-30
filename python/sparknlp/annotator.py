@@ -1724,7 +1724,7 @@ class NerOverwriter(AnnotatorModel):
         return self._set(newResult=value)
 
 
-class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddings):
+class UniversalSentenceEncoder(AnnotatorModel):
 
     name = "UniversalSentenceEncoder"
 
