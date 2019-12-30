@@ -50,8 +50,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val possibleDates = relaxedFactory.findMatch(text)
     if (possibleDates.length > 1) {
       var dayMatch = $(defaultDayWhenMissing)
-      var monthMatch = 0
-      var yearMatch = Calendar.getInstance.get(Calendar.YEAR)
+      var monthMatch = defaultMonthWhenMissing
+      var yearMatch = defaultYearWhenMissing
 
       val dayCandidate = possibleDates.find(_.identifier == "relaxed days")
       if (dayCandidate.isDefined && dayCandidate.get.content.matched.exists(_.isDigit)) {

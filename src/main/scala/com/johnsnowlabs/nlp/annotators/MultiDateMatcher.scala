@@ -61,8 +61,8 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
     var dayMatch = $(defaultDayWhenMissing)
-    var monthMatch = 0
-    var yearMatch = Calendar.getInstance().getWeekYear
+    var monthMatch = defaultMonthWhenMissing
+    var yearMatch = defaultYearWhenMissing
     var changes = 0
     possibleDates.foreach(possibleDate => {
 

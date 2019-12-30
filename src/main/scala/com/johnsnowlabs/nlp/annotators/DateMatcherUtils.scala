@@ -44,6 +44,9 @@ trait DateMatcherUtils extends Params {
   private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
   protected val amDefinition = "(?i)(a\\.?m)".r
 
+  protected val defaultMonthWhenMissing = 0
+  protected val defaultYearWhenMissing = Calendar.getInstance.get(Calendar.YEAR)
+
   /** Annotator param containing expected output format of parsed date*/
   val dateFormat: Param[String] = new Param(this, "dateFormat", "SimpleDateFormat standard criteria")
 
