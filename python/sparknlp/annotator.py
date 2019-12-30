@@ -1751,6 +1751,6 @@ class UniversalSentenceEncoder(AnnotatorModel):
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+    def pretrained(name="tfhub_use", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
