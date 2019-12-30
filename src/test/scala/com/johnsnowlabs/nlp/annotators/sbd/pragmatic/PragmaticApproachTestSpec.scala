@@ -464,4 +464,9 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   val germanAns = Array("Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung.")
   val german = "Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(german, germanAns)
+
+  // Matched content with group matching escaped (rare)
+  val escapedAns = Array("\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\"")
+  val escaped = "\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\""
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(escaped, escapedAns)
 }
