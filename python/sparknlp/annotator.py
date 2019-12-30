@@ -1724,7 +1724,7 @@ class NerOverwriter(AnnotatorModel):
         return self._set(newResult=value)
 
 
-class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddings):
+class UniversalSentenceEncoder(AnnotatorModel):
 
     name = "UniversalSentenceEncoder"
 
@@ -1751,6 +1751,6 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddings):
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+    def pretrained(name="tfhub_use", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
