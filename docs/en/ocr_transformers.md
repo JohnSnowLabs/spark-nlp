@@ -1,51 +1,304 @@
 ---
 layout: article
-title: Spark OCR Transformers
+title: Spark OCR 2.0
 permalink: /docs/en/ocr_transformers
 key: docs-ocr-transformers
 modify_date: "2019-12-20"
 ---
-Spark OCR provie set of Spark ML transformers/estimators for build OCR pipelines.
+Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines. 
+It built on top of Tesseract OCR.
 
 # OCR Pipelines
 
-Using Spark OCR transformers possible to build pipelines for recognize text from:
- - image (png, tiff, jpeg ...)
- - selectable PDF
- - notselectable PDF
+Using Spark OCR it possible to build pipelines for recognition text from:
+ - scanned image(s) (png, tiff, jpeg ...)
+ - selectable PDF (that contains text layout)
+ - not selectable PDF (that contains scanned text as an image)
+ 
+It contains set of tools for
 
-### OCR pipeline for image
+ - PDF processing transformers which extract text and images from PDF files
+ - Image pre-processing (scaling, binarization, skew correction, etc.) transformers
+ - Splitting image to regions analyzers and transformers
+ - Characters recognition using TesseractOCR estimator
 
-### OCR pipeline for image PDF's
+More details on transformers/estimators could be found in further section [OCR Pipeline Components](#ocr-pipeline-components)
 
-### OCR pipeline for text and image PDF's
+# Quickstart Examples
 
-# OCR Transformers
+## Images
+
+In the following code example we will create OCR Pipeline for processing image(s). 
+The image file(s) can contain complex layout like columns, tables, images inside.
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer, BinaryToImage}
+import com.johnsnowlabs.ocr.transformers.TesseractOcr
+
+val imagePath = "path to image files"
+
+// Read image files as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+
+// Transform binary content to image
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+// Detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("region")
+
+// Split to regions
+val splitter = new ImageSplitRegions()
+  .setInputCol("image")
+  .setRegionCol("region")
+  .setOutputCol("region_image")
+
+// OCR
+val ocr = new TesseractOcr()
+  .setInputCol("region_image")
+  .setOutputCol("text")
+
+// Define Pipeline
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  binaryToImage,
+  layoutAnalyzer,
+  splitter,
+  ocr
+))
+
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
+
+val data = pipeline.transform(df)
+
+data.show()
+```
+
+## Scanned PDF files
+
+Next sample provides an example of OCR Pipeline for processing PDF files with image data.
+In this case it needed to use [PdfToImage](#pdftoimage) transformer to convert PDF file to the set of images.
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
+import com.johnsnowlabs.ocr.transformers.{PdfToImage,  TesseractOcr}
+
+val imagePath = "path to pdf files"
+
+// Read pdf files as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+
+// Transform PDF file to the image
+val pdfToImage = new PdfToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+// Detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("region")
+
+// Split to regions
+val splitter = new ImageSplitRegions()
+  .setInputCol("image")
+  .setRegionCol("region")
+  .setOutputCol("region_image")
+
+// OCR
+val ocr = new TesseractOcr()
+  .setInputCol("region_image")
+  .setOutputCol("text")
+
+// Define pipeline
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  pdfToImage,
+  layoutAnalyzer,
+  splitter,
+  ocr
+))
+
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
+
+val data = pipeline.transform(df)
+
+data.show()
+```
+
+## PDF files (scanned or text) 
+
+In the following code example we will create OCR Pipeline for processing 
+PDF files containing text or image data.
+
+While running pipeline for each PDF file, it will:
+ * extract the text from document and save it to the `text` column
+ * if `text` contains less than 10 characters (so the document isn't PDF with text layout), 
+ process PDF file as an scanned document:
+    - convert PDF file to an image
+    - detect and split image to regions
+    - run OCR and save output to the `text` column
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
+import com.johnsnowlabs.ocr.transformers.{PdfToText, PdfToImage,  TesseractOcr}
+
+val imagePath = "path to PDF files"
+
+// Read PDF files as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+
+// Extract text from PDF text layout
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setSplitPage(false)
+
+// In case of `text` column contains less then 10 characters,
+// pipeline run PdfToImage as fallback method
+val pdfToImage = new PdfToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setFallBackCol("text")
+  .setMinSizeBeforeFallback(10)
+
+// Detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("region")
+
+// Split to regions
+val splitter = new ImageSplitRegions()
+  .setInputCol("image")
+  .setRegionCol("region")
+  .setOutputCol("region_image")
+
+// OCR
+val ocr = new TesseractOcr()
+  .setInputCol("region_image")
+  .setOutputCol("text")
+
+// Define pipeline
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  pdfToText,
+  pdfToImage,
+  layoutAnalyzer,
+  splitter,
+  ocr
+))
+
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
+
+val data = pipeline.transform(df)
+
+data.show()
+```
+
+## Images (streaming mode)
+
+Next code segments provide an example of streaming OCR pipeline.
+It processes images and stores results to memory table.
+
+```scala
+val imagePath = "path folder with images"
+
+val batchDataFrame = spark.read.format("binaryFile").load(imagePath).limit(1)
+    
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  binaryToImage,
+  binarizer,
+  layoutAnalyzer,
+  splitter,
+  ocr
+))
+
+val modelPipeline = pipeline.fit(batchDataFrame)
+
+// Read files in streaming mode
+val dataFrame = spark.readStream
+  .format("binaryFile")
+  .schema(batchDataFrame.schema)
+  .load(imagePath)
+
+// Call pipeline and store results to 'results' memory table
+val query = modelPipeline.transform(dataFrame)
+  .select("text", "exception")
+  .writeStream
+  .format("memory")
+  .queryName("results")
+  .start()
+```
+
+For getting results from memory table following code could be used:
+
+```scala
+spark.table("results").select("path", "text").show()
+```
+
+More details about Spark Structured Streaming could be found in 
+[spark documentation](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html).
+{:.info}
+
+# Pipeline components
 
 ## PDF processing
 
-Transformers for deal with PDF files.
+Next section describes the transformers for deal with PDF files: extracting text and image data from PDF
+files.
 
 ### PDFToText
 
-Extract text from selectable PDF.
+`PDFToText` extracts text from selectable PDF (with text layout).
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setPageNumCol(string)
-- setOriginCol(string)
-- setSplitPage(bool)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| splitPage | bool | true | whether it needed to split document to pages |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | extracted text |
+| pageNumCol | string | pagenum | page number or 0 when `splitPage = false` |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.PdfToText
 
 val pdfPath = "path to pdf with text layout"
 
-// read pdf file as binary file
+// Read PDF file as binary file
 val df = spark.read.format("binaryFile").load(pdfPath)
 
 val transformer = new PdfToText()
@@ -71,31 +324,44 @@ data.select("pagenum", "text").show()
 +-------+----------------------+
 ```
 
-
 ### PDFToImage
 
-Render PDF to image.
+`PDFToImage` renders PDF to an image. To be used with scanned PDF documents.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol()
-- setOutputCol()
-- setPageNumCol()
-- setOriginCol()
-- setSplitPage()
-- setMinSizeBeforeFallback()
-- setFallBackCol()
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | content | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+| fallBackCol | string | text | extracted text from previous method for detect if need to run transformer as fallBack |
+
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| splitPage | bool | true | whether it needed to split document to pages |
+| minSizeBeforeFallback | int | 10 | minimal count of characters to extract to decide, that the document is the PDF with text layout |
+| imageType | [ImageType](#imagetype) | `ImageType.TYPE_BYTE_GRAY` | type of the image |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image | extracted image struct ([Image schema](#image-schema)) |
+| pageNumCol | string | pagenum | page number or 0 when `splitPage = false` |
+
 
 **Example:**
-
-**Scala**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.PDFToImage
 
 val pdfPath = "path to pdf"
 
-// read pdf file as binary file
+// Read PDF file as binary file
 val df = spark.read.format("binaryFile").load(pdfPath)
 
 val pdfToImage = new PDFToImage()
@@ -109,25 +375,27 @@ val data =  pdfToImage.transform(df)
 data.select("pagenum", "text").show()
 ```
 
-**Python**
+## Image pre-processing
 
-```python
-pdfToImage = PDFToImage()
-```
-
-## Image processing
-
-Transformers for image preprocessing.
+Next section describes the transformers for image pre-processing: scaling, binarization, skew correction, etc.
 
 ### BinaryToImage
 
-Transform image loaded as binary file to image struct.
+`BinaryToImage` transforms image (loaded as binary file) to image struct.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setOriginCol(string)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | content | binary representation of the image |
+| originCol | string | path | path to the original file |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image | extracted image struct ([Image schema](#image-schema)) |
 
 **Scala example:**
 
@@ -136,7 +404,7 @@ import com.johnsnowlabs.ocr.transformers.BinaryToImage
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read.format("binaryFile").load(imagePath)
 
 val binaryToImage = new BinaryToImage()
@@ -148,57 +416,82 @@ val data = binaryToImage.transform(df)
 data.select("image").show()
 ```
 
-### ImageBinaryzer
+### ImageBinarizer
 
-Transform image to binary color schema by treshold.
+`ImageBinarizer` transforms image to binary color schema by threshold.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setThreshold(int) - default: 170
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| threshold | int | 170 |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | binarized_image | image struct ([Image schema](#image-schema)) |
+
+**Example:**
 
 ```scala
-import com.johnsnowlabs.ocr.transformers.ImageBinaryzer
+import com.johnsnowlabs.ocr.transformers.ImageBinarizer
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
   .asImage("image")
 
-val biniryzer = new ImageBinaryzer()
+val binirizer = new ImageBinarizer()
   .setInputCol("image")
   .setOutputCol("binary_image")
   .setThreshold(100)
 
-val data = biniryzer.transform(df)
+val data = binirizer.transform(df)
 data.storeImage("binary_image")
 ```
 **Original image:**
 
 ![original](/assets/images/ocr/text_with_noise.png)
 
-**Binarized image with 100 treshold:**
+**Binarized image with 100 threshold:**
 
 ![binarized](/assets/images/ocr/binarized.png)
 
 ### ImageErosion
 
-Erdore image.
+`ImageErosion` erodes image.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setKernelSize(int)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| kernelSize | int | 2 |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | eroded_image | image struct ([Image schema](#image-schema)) |
+
+
+**Example:**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageErosion
@@ -206,7 +499,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
@@ -223,15 +516,28 @@ data.storeImage("eroded_image")
 
 ### ImageScaler
 
-Scale image by provided scale factor.
+`ImageScaler` scales image by provided scale factor.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setScaleFactor(double)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| scaleFactor | double | 1.0 | scale factor |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | scaled_image | scaled image struct ([Image schema](#image-schema)) |
+
+
+**Example:**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageScaler
@@ -239,7 +545,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
@@ -256,15 +562,27 @@ data.storeImage("scaled_image")
 
 ### ImageAdaptiveScaler
 
-Detect font size and scale image for have desired font size.
+`ImageAdaptiveScaler` detects font size and scales image for have desired font size.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setDesiredSize(int) - desired size of font in pixels
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| desiredSize | int | 34 | desired size of font in pixels |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | scaled_image | scaled image struct ([Image schema](#image-schema)) |
+
+**Example:**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
@@ -272,7 +590,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
@@ -289,19 +607,32 @@ data.storeImage("scaled_image")
 
 ### ImageSkewCorrector
 
-Detect skew of image and rotate image.
+`ImageSkewCorrector` detects skew of the image and rotates it.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setRotationAngle(double)
-- setAutomaticSkewCorrection(boolean)
-- setHalfAngle(double)
-- setResolution(double)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| rotationAngle | double | 0.0 | rotation angle |
+| automaticSkewCorrection | boolean | true | enables/disables adaptive skew correction |
+| halfAngle | double | 5.0 | half the angle(in degrees) that will be considered for correction |
+| resolution | double | 1.0 | The step size(in degrees) that will be used for generating correction angle candidates |
 
 
-**Scala example:**
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | corrected_image | corrected image struct ([Image schema](#image-schema)) |
+
+
+**Example:**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageSkewCorrector
@@ -309,7 +640,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
@@ -334,16 +665,29 @@ data.storeImage("corrected_image")
 
 ### ImageNoiseScorer
 
-Compute noise score for each region.
+`ImageNoiseScorer` computes noise score for each region.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string)
-- setOutputCol(string)
-- setMethod(string)
-- setInputRegionsCol(string)
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+| inputRegionsCol | string | regions | regions |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| method | [NoiseMethod](#noisemethod) string | NoiseMethod.RATIO | method of computation noise score |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | noisescores | noise score for each region |
+
+
+**Example:**
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -354,28 +698,28 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
   .asImage("image")
 
-// define transformer for detect regions
-val layoutAnalayzer = new ImageLayoutAnalyzer()
+// Define transformer for detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setInputCol("image")
   .setOutputCol("regions")
 
-// define transformer for compute noise level for each region
+// Define transformer for compute noise level for each region
 val noisescorer = new ImageNoiseScorer()
   .setInputCol("image")
   .setOutputCol("noiselevel")
   .setInputRegionsCol("regions")
   .setMethod(NoiseMethod.VARIANCE)
 
-// define pipeline
+// Define pipeline
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
-  layoutAnalayzer,
+  layoutAnalyzer,
   noisescorer
 ))
 
@@ -397,18 +741,33 @@ data.select("path", "noiselevel").show()
 
 ```
 
-### ImageSplitRegions
+## Splitting image to regions
 
-Split image to regions.
+### ImageLayoutAnalyzer
 
-**Settable parameters are:**
+`ImageLayoutAnalyzer` analyzes the image and determines regions of text.
 
-- setInputCol(string)
-- setOutputCol(string)
-- setInputRegionsCol(string)
-- setExplodeCols(string)
+#### Input Columns
 
-**Scala example:**
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageSegMode | [PageSegmentationMode](#pagesegmentationmode) | AUTO | page segmentation mode |
+| pageIteratorLevel | [PageIteratorLevel](#pageiteratorlevel) | BLOCK | page iteration level |
+| ocrEngineMode | [EngineMode](#enginemode) | LSTM_ONLY | OCR engine mode |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | region | array of [Coordinaties](#coordinate-schema)|
+
+**Example:**
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -418,14 +777,63 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
   .asImage("image")
 
-// define transformer for detect regions
-val layoutAnalayzer = new ImageLayoutAnalyzer()
+// Define transformer for detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("regions")
+
+val data = layoutAnalyzer.transform(df)
+data.show()
+```
+
+### ImageSplitRegions
+
+`ImageSplitRegions` splits image to regions.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+| inputRegionsCol | string | region | array of [Coordinaties](#coordinate-schema)|
+
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| explodeCols | Array[string] | |Columns which need to explode |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | region_image | image struct ([Image schema](#image-schema)) |
+
+**Example:**
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+// Define transformer for detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setInputCol("image")
   .setOutputCol("regions")
 
@@ -434,10 +842,10 @@ val splitter = new ImageSplitRegions()
   .setRegionCol("region")
   .setOutputCol("region_image")
 
-// define pipeline
+// Define pipeline
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
-  layoutAnalayzer,
+  layoutAnalyzer,
   splitter
 ))
 
@@ -447,61 +855,36 @@ val data = pipeline.transform(df)
 data.show()
 ```
 
-## OCR
+## Characters recognition
 
-Estimators for OCR
-
-### ImageLayoutAnalyzer
-
-Analyze image and determine regions of text.
-
-**Settable parameters are:**
-
-- setInputCol(string = "image")
-- setOutputCol(string = "region")
-- setPageSegMode(int = [PageSegmentationMode](#pagesegmentationmode).AUTO) - Page segmentation mode.
-- setPageIteratorLevel(int = [PageIteratorLevel](#pageiteratorlevel).BLOCK) - Page iteration level.
-- setOcrEngineMode(int = [EngineMode](#enginemode).LSTM_ONLY) - Ocr engine mode.
-
-**Scala example:**
-
-```scala
-import org.apache.spark.ml.Pipeline
-
-import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-// define transformer for detect regions
-val layoutAnalayzer = new ImageLayoutAnalyzer()
-  .setInputCol("image")
-  .setOutputCol("regions")
-
-val data = layoutAnalayzer.transform(df)
-data.show()
-```
+Next section describes the estimators for OCR
 
 ### TesseractOCR
 
-Run Tesseract OCR for input image.
+`TesseractOCR` runs Tesseract OCR for input image.
 
-**Settable parameters are:**
+#### Input Columns
 
-- setInputCol(string = "image")
-- setOutputCol(string = "text")
-- setPageSegMode(int = [PageSegmentationMode](#pagesegmentationmode).AUTO) - Page segmentation mode.
-- setPageIteratorLevel(int = [PageIteratorLevel](#pageiteratorlevel).BLOCK) - Page iteration level.
-- setOcrEngineMode(int = [EngineMode](#enginemode).LSTM_ONLY) - Ocr engine mode.
-- setLanguage(string = "eng") - Language.
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
 
-**Scala example:**
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageSegMode | [PageSegmentationMode](#pagesegmentationmode) | AUTO | page segmentation mode |
+| pageIteratorLevel | [PageIteratorLevel](#pageiteratorlevel) | BLOCK | page iteration level |
+| ocrEngineMode | [EngineMode](#enginemode) | LSTM_ONLY| OCR engine mode |
+| language | string | eng | language |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | recognized text |
+
+**Example:**
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.TesseractOCR
@@ -509,7 +892,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 
-// read image file as binary file
+// Read image file as binary file
 val df = spark.read
   .format("binaryFile")
   .load(imagePath)
@@ -539,21 +922,65 @@ others. One could almost say they feed on and grow on ideas.
 
 ```
 
-## Ocr implicits
+# Structures and helpers
 
-### asImage
+## OCR Schemas
 
-Transform binary content to Image schema.
+### Image Schema
 
-### storeImage
+Images are loaded as a DataFrame with a single column called “image.” 
 
-Store image to tmp location.
+It is a struct-type column, that contains all information about image:
 
-## ErrorHandling
+```
+image: struct (nullable = true)
+ |    |-- origin: string (nullable = true)
+ |    |-- height: integer (nullable = false)
+ |    |-- width: integer (nullable = false)
+ |    |-- nChannels: integer (nullable = false)
+ |    |-- mode: integer (nullable = false)
+ |    |-- data: binary (nullable = true)
+```
 
-Ocr ransformers fill exception column in case runtime exception. This allow
-to process batch of files and do not interrupt processing when happen exception during
-processing one record.
+#### Fields
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| origin | string | source URI  |
+| height | integer | image height in pixels |
+| width | integer | image width in pixels |
+| nChannels | integer | number of color channels |
+| mode | [ImageType](#imagetype) | the data type and channel order the data is stored in |
+| data | binary | image data in a binary format |
+
+
+NOTE: Image `data` stored in a binary format. Image data is represented
+      as a 3-dimensional array with the dimension shape (height, width, nChannels)
+      and array values of type t specified by the mode field.
+{:.info}
+
+
+### Coordinate Schema
+
+```
+element: struct (containsNull = true)
+ |    |    |-- index: integer (nullable = false)
+ |    |    |-- page: integer (nullable = false)
+ |    |    |-- x: float (nullable = false)
+ |    |    |-- y: float (nullable = false)
+ |    |    |-- width: float (nullable = false)
+ |    |    |-- height: float (nullable = false)
+```
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| index | integer | Chunk index |
+| page | integer | Page number |
+| x | float | The lower left x coordinate |
+| y | float |  The lower left y coordinate |
+| width | float |  The width of the rectangle |
+| height | float |  The height of the rectangle |
+
 
 ## Enums
 
@@ -594,18 +1021,104 @@ processing one record.
  * ***TYPE_BYTE_BINARY***
  * ***TYPE_3BYTE_BGR***
  * ***TYPE_4BYTE_ABGR***
+ 
+### NoiseMethod
 
-## OCR schemas
+ * ***VARIANCE***
+ * ***RATIO***
+ 
+## OCR implicits
 
-### Image
+### asImage
 
-Spark OCR represent image as StructType with following schema:
+`asImage` transforms binary content to [Image schema](#image-schema).
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| outputCol | string | image | output column name |
+| contentCol | string | content | input column name with binary content |
+| pathCol | string | path | input column name with path to original file |
+
+
+**Example:**
+
+```scala
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+df.show()
 ```
-image: struct (nullable = true)
- |-- origin: string (nullable = true)
- |-- height: integer (nullable = false)
- |-- width: integer (nullable = false)
- |-- nChannels: integer (nullable = false)
- |-- mode: integer (nullable = false)
- |-- data: binary (nullable = true)
+
+### storeImage
+
+`storeImage` stores the image(s) to tmp location and return Dataset with path(s) to stored image files.
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| inputColumn | string | | input column name with image struct |
+| formatName | string | png | image format name |
+| prefix | string | sparknlp_ocr_ | prefix for output file |
+
+
+**Example:**
+
+```scala
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+df.storeImage("image")
 ```
+
+# Advanced Topics
+
+## Error Handling
+
+Pipeline execution would not be interrupted in case of the runtime exceptions 
+while processing some records. 
+
+In this case OCR transformers would fill _exception_ column that contains _transformer name_ and _exception_.
+
+NOTE: Storing runtime errors to the _exception_ field allows to process batch of files. 
+{:.info}
+
+
+#### Output
+
+Here is an output with exception when try to process js file using OCR pipeline:
+
+```scala
+result.select("path", "text", "exception").show(2, false)
+```
+
+```
++----------------------+-------------------------------------------+-----------------------------------------------------+
+|path                  |text                                       |exception                                            |
++----------------------+-------------------------------------------+-----------------------------------------------------+
+|file:jquery-1.12.3.js |                                           |BinaryToImage_c0311dc62161: Can't open file as image.|
+|file:image.png        |I prefer the morning flight through Denver |null                                                 |
++----------------------+-------------------------------------------+-----------------------------------------------------+
+```
+
+## Performance
+
+In case of big count of text PDF's in dataset
+need have manual partitioning for avoid skew in partitions and effective utilize resources. 
+For example the randomization could be used.
