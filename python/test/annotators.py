@@ -2,7 +2,7 @@ import unittest
 import os
 from sparknlp.annotator import *
 from sparknlp.base import *
-from sparknlp.embeddings import *
+# from sparknlp.embeddings import *
 from test.util import SparkContextForTest
 from pyspark.ml.feature import SQLTransformer
 from pyspark.ml.clustering import KMeans
@@ -306,6 +306,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
             .setEmbeddingsSource(self.embeddings, 100, 2)
+
         ner_tagger = NerDLApproach() \
             .setInputCols(["document", "token", "glove"]) \
             .setLabelColumn("label") \
