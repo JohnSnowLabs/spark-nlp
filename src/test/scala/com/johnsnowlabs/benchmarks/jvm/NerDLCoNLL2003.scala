@@ -33,7 +33,7 @@ object NerDLCoNLL2003 extends App {
     WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, connection)
   }
 
-  val embeddings = new WordEmbeddingsReader(connection, false)
+  val embeddings = new WordEmbeddingsReader(connection, false, wordEmbeddingsDim)
 
   val reader = CoNLL()
   val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)

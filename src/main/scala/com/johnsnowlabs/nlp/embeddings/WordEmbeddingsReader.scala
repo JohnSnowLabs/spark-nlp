@@ -7,11 +7,12 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 class WordEmbeddingsReader(
                             connection: RocksDBConnection,
                             caseSensitiveIndex: Boolean,
+                            dimension: Int,
                             lruCacheSize: Int = 100000
                           )
   extends StorageReader[Array[Float]](connection, caseSensitiveIndex, lruCacheSize) {
 
-  override def emptyValue(size: Int): Array[Float] = Array.fill[Float](size)(0f)
+  override def emptyValue: Array[Float] = Array.fill[Float](dimension)(0f)
 
   override def fromBytes(source: Array[Byte]): Array[Float] = {
     val wrapper = ByteBuffer.wrap(source)

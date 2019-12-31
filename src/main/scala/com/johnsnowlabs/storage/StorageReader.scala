@@ -12,7 +12,7 @@ abstract class StorageReader[A: ClassTag](
 
   @transient val lru = new LruMap[String, Option[A]](lruCacheSize)
 
-  def emptyValue(size: Int): A
+  def emptyValue: A
 
   def getConnection: RocksDBConnection = connection
 
