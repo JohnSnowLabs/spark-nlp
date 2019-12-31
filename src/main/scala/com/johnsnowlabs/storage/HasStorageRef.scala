@@ -10,6 +10,8 @@ trait HasStorageRef extends ParamsAndFeaturesWritable {
 
   val storageRef = new Param[String](this, "storageRef", "storage unique identifier")
 
+  setDefault(storageRef, this.uid)
+
   def setStorageRef(value: String): this.type = {
     if (get(storageRef).nonEmpty)
       throw new UnsupportedOperationException(s"Cannot override storage ref on $this. " +
