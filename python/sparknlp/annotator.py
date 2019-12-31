@@ -1262,7 +1262,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel):
+class NerDLModel(AnnotatorModel, HasStorageRef):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1489,7 +1489,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
 
     name = "BertEmbeddings"
 
