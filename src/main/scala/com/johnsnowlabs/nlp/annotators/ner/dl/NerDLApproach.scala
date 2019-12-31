@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSen
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.storage.HasStorageRef
+import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -106,7 +106,7 @@ class NerDLApproach(override val uid: String)
     LoadsContrib.loadContribToTensorflow()
   }
 
-  override val databases = Array("embeddings")
+  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 

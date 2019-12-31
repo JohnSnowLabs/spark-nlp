@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.storage.{HasStorage, RocksDBConnection}
+import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -49,7 +49,7 @@ class WordEmbeddings(override val uid: String)
       throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
   }
 
-  override val databases: Array[String] = Array("embeddings")
+  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 }
 
 object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]

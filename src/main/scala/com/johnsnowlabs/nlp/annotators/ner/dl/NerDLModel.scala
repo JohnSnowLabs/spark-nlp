@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.storage.HasStorageRef
+import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
@@ -115,7 +115,7 @@ class NerDLModel(override val uid: String)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
-  override protected val databases: Array[String] = Array("embeddings")
+  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 }
 
 trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {
