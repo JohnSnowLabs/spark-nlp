@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.storage.{HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
+import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
@@ -63,7 +63,7 @@ class WordEmbeddingsModel(override val uid: String)
       ))
   }
 
-  override val databases: Array[String] = Array("embeddings")
+  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 }
 
 trait ReadablePretrainedWordEmbeddings extends StorageReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {

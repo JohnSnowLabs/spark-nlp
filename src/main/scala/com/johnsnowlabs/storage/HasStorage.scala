@@ -133,7 +133,7 @@ trait HasStorage extends HasStorageRef {
       preload(
         resource,
         spark,
-        database
+        database.toString
       )
     )
   }

@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosT
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.storage.HasStorageRef
+import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.Dataset
@@ -20,7 +20,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  override val databases = Array("embeddings")
+  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
   val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
