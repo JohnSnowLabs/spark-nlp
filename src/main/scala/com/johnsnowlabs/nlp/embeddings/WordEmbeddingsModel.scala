@@ -31,14 +31,14 @@ class WordEmbeddingsModel(override val uid: String)
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map{ s =>
       val tokens = s.indexedTokens.map { token =>
-        val vectorOption = getReader("embeddings").lookup(token.token)
+        val vectorOption = getReader(Database.EMBEDDINGS).lookup(token.token)
         TokenPieceEmbeddings(
           token.token,
           token.token,
           -1,
           isWordStart = true,
           vectorOption,
-          getReader("embeddings").emptyValue($(dimension)),
+          getReader(Database.EMBEDDINGS).emptyValue($(dimension)),
           token.begin,
           token.end
         )
@@ -53,7 +53,7 @@ class WordEmbeddingsModel(override val uid: String)
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
-  override protected def createReader(database: String): WordEmbeddingsReader = {
+  override protected def createReader(database: Database.Name): WordEmbeddingsReader = {
     new WordEmbeddingsReader(
       RocksDBConnection.getOrCreate(database),
       $(caseSensitive),
