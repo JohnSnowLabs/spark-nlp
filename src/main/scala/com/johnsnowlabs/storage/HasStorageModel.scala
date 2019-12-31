@@ -7,7 +7,7 @@ trait HasStorageModel extends HasStorageRef with HasStorageReader {
 
   def serializeStorage(path: String, spark: SparkSession): Unit = {
     databases.foreach(database => {
-      val index = new Path(RocksDBConnection.getLocalPath(getReader(database.toString).getConnection.getFileName))
+      val index = new Path(RocksDBConnection.getLocalPath(getReader(database).getConnection.getFileName))
 
       val uri = new java.net.URI(path)
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)

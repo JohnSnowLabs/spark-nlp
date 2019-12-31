@@ -91,5 +91,6 @@ object RocksDBConnection {
   @transient private[storage] val cache: scala.collection.mutable.Map[String, RocksDBConnection] =
     scala.collection.mutable.Map.empty[String, RocksDBConnection]
   def getOrCreate(pathOrRef: String): RocksDBConnection = if (cache.contains(pathOrRef)) cache(pathOrRef) else new RocksDBConnection(pathOrRef)
+  def getOrCreate(database: Database.Name): RocksDBConnection = getOrCreate(database.toString)
   def getLocalPath(fileName: String): String = Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/"+fileName)).toString
 }
