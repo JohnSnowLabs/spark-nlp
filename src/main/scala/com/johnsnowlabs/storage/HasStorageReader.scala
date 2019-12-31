@@ -4,13 +4,13 @@ import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 
 import scala.collection.mutable.{Map => MMap}
 
-trait HasStorageReader[A, B <: StorageReader[A]] extends HasCaseSensitiveProperties {
+trait HasStorageReader[StorageType, Reader <: StorageReader[StorageType]] extends HasCaseSensitiveProperties {
 
-  @transient protected var readers: MMap[String, B] = _
+  @transient protected var readers: MMap[String, Reader] = _
 
-  protected def createReader(database: Database.Name): B
+  protected def createReader(database: Database.Name): Reader
 
-  protected def getReader(database: Database.Name): B = {
+  protected def getReader(database: Database.Name): Reader = {
     lazy val reader = createReader(database)
     if (Option(readers).isDefined) {
       readers.getOrElseUpdate(database.toString, reader)
