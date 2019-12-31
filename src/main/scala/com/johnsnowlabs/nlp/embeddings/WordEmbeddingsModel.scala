@@ -7,12 +7,12 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
+import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
 
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
     with HasEmbeddingsProperties
-    with HasStorageModel[Array[Float], WordEmbeddingsReader]
+    with HasStorageModel
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
