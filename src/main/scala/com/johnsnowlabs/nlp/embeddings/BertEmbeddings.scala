@@ -9,6 +9,8 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.Database.Name
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -19,8 +21,8 @@ class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
   with WriteTensorflowModel
   with HasEmbeddingsProperties
-  with HasCaseSensitiveProperties
-{
+  with HasStorageRef
+  with HasCaseSensitiveProperties {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
@@ -137,9 +139,14 @@ class BertEmbeddings(override val uid: String) extends
       val tokenized = tokenize(sentences)
       val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(poolingLayer))
       WordpieceEmbeddingsSentence.pack(withEmbeddings)
-    }else {
+    } else {
       Seq.empty[Annotation]
     }
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), get(storageRef))
+    dataset
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -150,6 +157,8 @@ class BertEmbeddings(override val uid: String) extends
     super.onWrite(path, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
+
+  override protected val databases: Array[Name] = Array.empty
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
