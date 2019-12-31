@@ -43,7 +43,8 @@ object NerDLModelPythonReader {
     StorageHelper.load(
       Paths.get(folder, embeddingsFile).toString,
       spark,
-      "python_tf_model"
+      "python_tf_model",
+      "python_tf_ref"
     )
   }
 

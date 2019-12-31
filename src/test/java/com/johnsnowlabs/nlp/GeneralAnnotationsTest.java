@@ -67,7 +67,9 @@ public class GeneralAnnotationsTest {
         StorageHelper.load(
                 "src/test/resources/random_embeddings_dim4.txt",
                 spark,
-                "random");
+                "random",
+                "random_ref"
+                );
 
         System.out.println("\nFinished testing Spark NLP on JAVA");
 

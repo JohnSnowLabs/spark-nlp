@@ -1,7 +1,5 @@
 package com.johnsnowlabs.storage
 
-import java.nio.{ByteBuffer, ByteOrder}
-
 import org.rocksdb.{WriteBatch, WriteOptions}
 
 abstract class StorageWriter[A](connection: RocksDBConnection,

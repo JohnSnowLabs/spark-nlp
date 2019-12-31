@@ -4,7 +4,7 @@ import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
-case class StorageLocator(database: String, sparkSession: SparkSession, fs: FileSystem) {
+case class StorageLocator(database: String, storageRef: String, sparkSession: SparkSession, fs: FileSystem) {
 
   private val clusterTmpLocation: Comparable[_] = {
     ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
@@ -13,7 +13,7 @@ case class StorageLocator(database: String, sparkSession: SparkSession, fs: File
   }
 
   val clusterFileName: String = {
-    new Path(database).toString
+    StorageHelper.resolveStorageName(database, storageRef)
   }
 
   val clusterFilePath: Path = {

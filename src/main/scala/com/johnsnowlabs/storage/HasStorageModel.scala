@@ -29,7 +29,8 @@ trait HasStorageModel[StorageType, Reader <: StorageReader[StorageType]]
     StorageHelper.load(
       src.toUri.toString,
       spark,
-      database.toString
+      database.toString,
+      $(storageRef)
     ))
   }
 
