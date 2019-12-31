@@ -38,7 +38,7 @@ class WordEmbeddingsModel(override val uid: String)
           -1,
           isWordStart = true,
           vectorOption,
-          getReader(Database.EMBEDDINGS).emptyValue($(dimension)),
+          getReader(Database.EMBEDDINGS).emptyValue,
           token.begin,
           token.end
         )
@@ -57,6 +57,7 @@ class WordEmbeddingsModel(override val uid: String)
     new WordEmbeddingsReader(
       RocksDBConnection.getOrCreate(database),
       $(caseSensitive),
+      $(dimension),
       scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
         (100/$(dimension))*50000,
         50000

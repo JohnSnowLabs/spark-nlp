@@ -51,7 +51,7 @@ object WordEmbeddingsBinaryIndexer {
              autoFlashAfter: Option[Integer],
              lruCacheSize: Int): Unit = {
     val indexer = new WordEmbeddingsWriter(connection, autoFlashAfter)
-    val reader = new WordEmbeddingsReader(connection, caseSensitiveIndex=true, lruCacheSize)
+    val reader = new WordEmbeddingsReader(connection, caseSensitiveIndex=true, 0, lruCacheSize)
 
     try {
       // File Header
