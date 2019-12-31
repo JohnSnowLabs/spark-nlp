@@ -10,10 +10,13 @@ import org.apache.spark.sql.SparkSession
 
 object StorageHelper {
 
+  def resolveStorageName(database: String, storageRef: String): String = new Path(database + "_" + storageRef).toString
+
   def load(
             storageSourcePath: String,
             spark: SparkSession,
-            database: String
+            database: String,
+            storageRef: String
           ): RocksDBConnection = {
 
     val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
@@ -23,7 +26,7 @@ object StorageHelper {
 
     fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpDir))
 
-    val locator = StorageLocator(database, spark, fs)
+    val locator = StorageLocator(database, storageRef, spark, fs)
 
     sendToCluster(tmpDir, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext)
 

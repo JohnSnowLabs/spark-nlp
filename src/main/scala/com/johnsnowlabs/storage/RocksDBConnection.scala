@@ -39,15 +39,10 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
   }
 
   def connectReadWrite: RocksDB = {
-    if (RocksDBConnection.cache.contains(path)) {
-      db = RocksDBConnection.cache(path).getDb
-      db
-    }
-    else if (Option(db).isDefined) {
+    if (Option(db).isDefined) {
       db
     } else {
       db = RocksDB.open(getOptions, findLocalDb)
-      RocksDBConnection.cache.update(path, this)
       db
     }
   }
@@ -90,7 +85,18 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
 object RocksDBConnection {
   @transient private[storage] val cache: scala.collection.mutable.Map[String, RocksDBConnection] =
     scala.collection.mutable.Map.empty[String, RocksDBConnection]
-  def getOrCreate(pathOrRef: String): RocksDBConnection = if (cache.contains(pathOrRef)) cache(pathOrRef) else new RocksDBConnection(pathOrRef)
-  def getOrCreate(database: Database.Name): RocksDBConnection = getOrCreate(database.toString)
+
+  def getOrCreate(pathOrLocator: String): RocksDBConnection = {
+    if (cache.contains(pathOrLocator)) cache(pathOrLocator) else new RocksDBConnection(pathOrLocator)
+  }
+
+  def getOrCreate(database: String, refName: String): RocksDBConnection = {
+    val combinedName = StorageHelper.resolveStorageName(database, refName)
+    getOrCreate(combinedName)
+  }
+
+  def getOrCreate(database: Database.Name, refName: String): RocksDBConnection = getOrCreate(database.toString, refName)
+
   def getLocalPath(fileName: String): String = Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/"+fileName)).toString
+
 }

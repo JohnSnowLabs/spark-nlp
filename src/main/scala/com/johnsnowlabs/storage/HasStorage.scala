@@ -50,7 +50,8 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
   private def preload(
                        resource: ExternalResource,
                        spark: SparkSession,
-                       database: String): RocksDBConnection = {
+                       database: String
+                     ): RocksDBConnection = {
 
     val sourceEmbeddingsPath = importIfS3(resource.path, spark).toUri.toString
     val sparkContext = spark.sparkContext
@@ -62,7 +63,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
-    val locator = StorageLocator(database, spark, fileSystem)
+    val locator = StorageLocator(database, $(storageRef), spark, fileSystem)
 
     // 1 and 2.  Copy to local and Index Word Embeddings
     indexDatabase(sourceEmbeddingsPath, tmpLocalDestination.toString, sparkContext, resource)
