@@ -4,15 +4,16 @@ import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.util.UUID
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.util.io.ExternalResource
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
-trait HasStorage extends HasStorageRef {
+trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
