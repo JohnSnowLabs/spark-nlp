@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSen
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.storage.{Database, HasStorageRef}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -24,7 +24,6 @@ import scala.util.Random
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
-    with HasStorageRef
     with Logging
     with ParamsAndFeaturesWritable {
 
@@ -106,8 +105,6 @@ class NerDLApproach(override val uid: String)
     LoadsContrib.loadContribToTensorflow()
   }
 
-  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerDLModel = {
 
     require($(validationSplit) <= 1f | $(validationSplit) >= 0f, "The validationSplit must be between 0f and 1f")
@@ -123,7 +120,7 @@ class NerDLApproach(override val uid: String)
       NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
     }
 
-    val embeddingsRef = getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
