@@ -19,6 +19,7 @@ class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
   with WriteTensorflowModel
   with HasEmbeddingsProperties
+  with HasCaseSensitiveProperties
 {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))

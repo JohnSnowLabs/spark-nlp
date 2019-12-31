@@ -1460,7 +1460,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
 
@@ -1489,7 +1489,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties):
 
     name = "BertEmbeddings"
 

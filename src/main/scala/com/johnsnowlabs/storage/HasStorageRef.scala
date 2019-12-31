@@ -1,7 +1,7 @@
 package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.Dataset
 
 trait HasStorageRef extends ParamsAndFeaturesWritable {

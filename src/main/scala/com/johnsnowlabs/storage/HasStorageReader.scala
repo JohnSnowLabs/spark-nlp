@@ -1,8 +1,10 @@
 package com.johnsnowlabs.storage
 
+import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
+
 import scala.collection.mutable.{Map => MMap}
 
-trait HasStorageReader {
+trait HasStorageReader extends HasCaseSensitiveProperties {
 
   @transient protected var readers: MMap[String, StorageReader[_]] = _
 

@@ -88,22 +88,11 @@ class HasEmbeddingsProperties(Params):
                       "Number of embedding dimensions",
                       typeConverter=TypeConverters.toInt)
 
-    caseSensitive = Param(Params._dummy(),
-                                "caseSensitive",
-                                "whether to ignore case in tokens for embeddings matching",
-                                typeConverter=TypeConverters.toBoolean)
-
     def setDimension(self, value):
         return self._set(dimension=value)
 
     def getDimension(self):
         return self.getOrDefault(self.dimension)
-
-    def setCaseSensitive(self, value):
-        return self._set(caseSensitive=value)
-
-    def getCaseSensitive(self):
-        return self.getOrDefault(self.caseSensitive)
 
 
 class HasStorageRef:
@@ -119,7 +108,20 @@ class HasStorageRef:
         return self.getOrDefault("storageRef")
 
 
-class HasStorage(HasStorageRef):
+class HasCaseSensitiveProperties:
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in tokens for embeddings matching",
+                          typeConverter=TypeConverters.toBoolean)
+
+    def setCaseSensitive(self, value):
+        return self._set(caseSensitive=value)
+
+    def getCaseSensitive(self):
+        return self.getOrDefault(self.caseSensitive)
+
+
+class HasStorage(HasStorageRef, HasCaseSensitiveProperties):
 
     storagePath = Param(Params._dummy(),
                         "storagePath",
@@ -131,6 +133,10 @@ class HasStorage(HasStorageRef):
 
     def getStoragePath(self):
         return self.getOrDefault("storagePath")
+
+
+class HasStorageModel(HasCaseSensitiveProperties):
+    pass
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, AnnotatorJavaMLReadable, AnnotatorProperties,
