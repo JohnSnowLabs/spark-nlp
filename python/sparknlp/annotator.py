@@ -1452,7 +1452,8 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     def __init__(self):
         super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
-            caseSensitive=False
+            caseSensitive=False,
+            storageRef=self.uid
         )
 
     def _create_model(self, java_model):
