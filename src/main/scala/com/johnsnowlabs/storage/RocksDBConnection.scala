@@ -23,18 +23,13 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
 
   private def findLocalDb: String = {
     val localPath = RocksDBConnection.getLocalPath(path)+"/storage"
-    println("==SEARCHING FOR LOCAL DB==")
     if (new File(localPath).exists()) {
-      println("==FOUND LOCAL DB AT LOCALPATH==")
       localPath
     } else if (new File(path+"/storage").exists()) {
-      println("==FOUND LOCAL DB AT SIMPLEPATH/storage==")
       path+"/storage"
     } else if (new File(path).exists()) {
-      println("==FOUND LOCAL DB AT SIMPLEPATH/==")
       path
     } else {
-      println("==LOCAL DB NOT FOUND, GOING FOR SPARKFILES==")
       val localFromClusterPath = SparkFiles.get(path)
       require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $path\n" +
         s" This usually means:\n1. You have not loaded any storage under such ref\n2." +
