@@ -1509,7 +1509,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                              TypeConverters.toListString)
 
     poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings",
+                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
                          typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
