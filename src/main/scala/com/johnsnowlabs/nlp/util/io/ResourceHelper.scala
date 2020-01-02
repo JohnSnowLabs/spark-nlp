@@ -181,6 +181,19 @@ object ResourceHelper {
     }
   }
 
+  def parseKeyListValues(externalResource: ExternalResource): Map[String, List[String]] = {
+    externalResource.readAs match {
+      case LINE_BY_LINE =>
+        val sourceStream = SourceStream(externalResource.path)
+        val res = sourceStream.content.flatMap(c => c.map (line => {
+          val keyValues = line.split (externalResource.options("delimiter"))
+          (keyValues.head.trim, keyValues.drop(1).toList)
+        })).toMap
+        sourceStream.close()
+        res
+    }
+  }
+
   /**
     * General purpose line parser from source
     * Currently read only text files
