@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.{IntParam, BooleanParam, ParamValidators}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -37,16 +37,25 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative",
     "whether to calculate just the actual n-grams or all n-grams from 1 through n")
 
+  val delimiter: Param[String] = new Param[String](this, "delimiter",
+    "Glue character used to join the tokens")
+
   def setN(value: Int): this.type = set(n, value)
   def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
+  def setDelimiter(value: String): this.type = {
+    require(value.length==1, "Delimiter should have length == 1")
+    set(delimiter, value)
+  }
 
   /** @group getParam */
   def getN: Int = $(n)
   def getEnableCumulative: Boolean = $(enableCumulative)
+  def getDelimiter: String = $(delimiter)
 
   setDefault(
     n -> 2,
-    enableCumulative -> false
+    enableCumulative -> false,
+    delimiter -> " "
   )
 
   private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
@@ -61,7 +70,7 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
             outputAnnotatorType,
             tokens.head.begin,
             tokens.last.end,
-            tokens.map(_.result).mkString(" "),
+            tokens.map(_.result).mkString($(delimiter)),
             tokens.head.metadata
           )
         }

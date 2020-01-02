@@ -47,7 +47,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         .setUseAbbreviations($(useAbbrevations))
         .setUseCustomBoundsOnly($(useCustomBoundsOnly))
         .setCustomBounds($(customBounds))
-      if (get(maxLength).isDefined) pragmaticSentenceDetector.setMaxLength($(maxLength))
+      if (get(splitLength).isDefined) pragmaticSentenceDetector.setSplitLength($(splitLength))
       val pragmaticSegmentedSentences = pragmaticSentenceDetector.annotate(document)
       val unpunctuatedSentences = getUnpunctuatedSentences(pragmaticSegmentedSentences)
 
@@ -148,8 +148,8 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
         }
       }
       var currentStart = segmentedSentence.start
-      val annotatedSentenceWithLimit = get(maxLength)
-        .map(maxLength => truncateSentence(segmentedSentence.content, maxLength))
+      val annotatedSentenceWithLimit = get(splitLength)
+        .map(splitLength => truncateSentence(segmentedSentence.content, splitLength))
         .getOrElse(Array(segmentedSentence.content))
         .map{truncatedSentence => {
           val currentEnd = currentStart + truncatedSentence.length - 1

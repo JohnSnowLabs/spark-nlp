@@ -24,18 +24,18 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
   val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
 
-  def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+  def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
-  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                 options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
   def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
 
-  setDefault(dependencyTreeBank, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
-  setDefault(conllU, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(dependencyTreeBank, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
+  setDefault(conllU, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
   def getNumberOfIterations: Int = $(numberOfIterations)

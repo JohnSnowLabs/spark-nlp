@@ -12,7 +12,7 @@ import org.scalatest._
 
 class EmbeddingsFinisherTestSpec extends FlatSpec {
 
-  "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for K-Mean in Spark ML" in {
+  "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" in {
 
     import ResourceHelper.spark.implicits._
 
@@ -31,7 +31,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -73,24 +73,6 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     pipelineDF.printSchema()
     explodedVectors.printSchema()
 
-    // Trains a k-means model.
-    val kmeans = new KMeans().setK(2).setSeed(1L).setMaxIter(1).setFeaturesCol("features")
-    val model = kmeans.fit(explodedVectors)
-
-    // Make predictions
-    val predictions = model.transform(explodedVectors)
-
-    // Evaluate clustering by computing Silhouette score
-    val evaluator = new ClusteringEvaluator()
-
-    val silhouette = evaluator.evaluate(predictions)
-    println(s"Silhouette with squared euclidean distance = $silhouette")
-
-    // Shows the result.
-    println("Cluster Centers: ")
-    model.clusterCenters.foreach(println)
-
-    predictions.select("sentence.result", "prediction").show()
   }
 
   "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" in {
@@ -110,7 +92,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)

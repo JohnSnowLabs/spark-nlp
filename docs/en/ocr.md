@@ -86,3 +86,99 @@ ocrHelper.setMinSizeBeforeFallback(0)
 * `setAutomaticSizeCorrection(use: boolean, desired_size: int = 34)`
 * `setEstimateNoise(string)` image mode estimator noise level
 * `useErosion(use: boolean, kernel_size: int = 2, kernel_shape: Int = 0)` image mode erosion
+
+## Utilizing Spark NLP OCR Module
+
+Spark NLP OCR Module is not included within Spark NLP. It is not an
+annotator and not an extension to Spark ML.
+
+You can use OcrHelper to directly create spark dataframes from PDF.
+This will hold entire documents in single rows, meant to be later
+processed by a SentenceDetector. This way, you won't be breaking the
+content in rows as if you were reading a standard document. Metadata
+columns are added automatically and will include page numbers, file
+name and other useful information per row.
+
+***Python code***
+
+```python
+from pyspark.sql import SparkSession
+from sparknlp.ocr import OcrHelper
+from sparknlp import DocumentAssembler
+
+data = OcrHelper().createDataset(spark = spark, input_path = "/your/example.pdf" )
+documentAssembler = DocumentAssembler().setInputCol("text")
+annotations = documentAssembler.transform(data)
+annotations.columns
+```
+
+```bash
+['text', 'pagenum', 'method', 'noiselevel', 'confidence', 'positions',
+ 'filename', 'document']
+```
+
+***Scala code***
+
+```scala
+import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp.DocumentAssembler
+
+val myOcrHelper = new OcrHelper
+val data = myOcrHelper.createDataset(spark, "/your/example.pdf")
+val documentAssembler = new DocumentAssembler().setInputCol("text")
+val annotations = documentAssembler.transform(data)
+annotations.columns
+```
+
+```bash
+Array[String] = Array(text, pagenum, method, noiselevel, confidence, positions, filename, document)
+```
+
+... where the text column of the annotations spark dataframe includes the text content of the PDF, pagenum the page number, etc...
+
+### Creating an Array of Strings from PDF (For LightPipeline)
+
+Another way, would be to simply create an array of strings. This is
+useful for example if you are parsing a small amount of pdf files and
+would like to use LightPipelines instead. See an example below.
+
+***Scala code***
+
+```scala
+import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp.{DocumentAssembler,LightPipeline}
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
+import org.apache.spark.ml.Pipeline
+
+val myOcrHelper = new OcrHelper
+val raw = myOcrHelper.createMap("/pdfs/")
+val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val lightPipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler, sentenceDetector)).fit(Seq.empty[String].toDF("text")))
+val annotations = ligthPipeline.annotate(raw.values.toArray)
+```
+
+Now to get the whole first PDF content in your **/pdfs/** folder you can
+use:
+
+```scala
+annotations(0)("document")(0)
+```
+
+and to get the third sentence found in that first pdf:
+
+```scala
+annotations(0)("sentence")(2)
+```
+
+To get from the fifth pdf the second sentence:
+
+```scala
+annotations(4)("sentence")(1)
+```
+
+Similarly, the whole content of the fifth pdf can be retrieved by:
+
+```scala
+annotations(4)("document")(0)
+```

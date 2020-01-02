@@ -16,13 +16,13 @@ $pip install spark-nlp==2.3.4
 conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 
 # Load Spark NLP with PySpark
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 
 # Load Spark NLP with Spark Submit
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.4
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 
 # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
 spark-shell --jar spark-nlp-assembly-2.3.4
@@ -164,7 +164,7 @@ spark = SparkSession.builder \
     .master("local[*]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -196,7 +196,7 @@ spark = SparkSession.builder \
     .master("local[*]") \
     .config("spark.driver.memory","4G") \
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5") \
     .config("spark.jars", "####") \
     .getOrCreate()
 ```
