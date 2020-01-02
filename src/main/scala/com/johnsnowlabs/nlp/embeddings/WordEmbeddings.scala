@@ -38,7 +38,10 @@ class WordEmbeddings(override val uid: String)
     model
   }
 
-  override protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit = {
+  override protected def index(storageSourcePath: String, connections: Map[Database.Value, RocksDBConnection], resource: ExternalResource): Unit = {
+    val connection = connections.values.headOption
+      .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddings connections from locators"))
+
     if (resource.readAs == ReadAs.TEXT) {
       WordEmbeddingsTextIndexer.index(storageSourcePath, connection)
     }
