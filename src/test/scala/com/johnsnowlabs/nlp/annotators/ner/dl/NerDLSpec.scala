@@ -1,26 +1,25 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotator.WordEmbeddingsModel
 import com.johnsnowlabs.util.FileHelper
 import org.scalatest.FlatSpec
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 class NerDLSpec extends FlatSpec {
-  val spark = SparkAccessor.spark
-
-  val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
-  System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
-
-  // Dataset ready for NER tagger
-  val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
-  System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
-
-  val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
 
 
   "NerDLApproach" should "correctly annotate" in {
+    val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
+    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+
+    // Dataset ready for NER tagger
+    val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
+    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+
+    val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
+
+
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten.toSeq
     val labels = Annotation.collect(tagged, "label").flatten.toSeq
@@ -36,6 +35,15 @@ class NerDLSpec extends FlatSpec {
   }
 
   "NerDLApproach" should "correctly tag sentences" in {
+    val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
+    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+
+    // Dataset ready for NER tagger
+    val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
+    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+
+    val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
+
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
@@ -44,6 +52,14 @@ class NerDLSpec extends FlatSpec {
   }
 
   "NerDLModel" should "correctly train using dataset from file" in {
+    val spark = SparkAccessor.spark
+    val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
+    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+
+    // Dataset ready for NER tagger
+    val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
+    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+
     val tagged = AnnotatorBuilder.withNerDLTagger(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
@@ -52,6 +68,17 @@ class NerDLSpec extends FlatSpec {
   }
 
   "NerDLApproach" should "be serializable and deserializable correctly" in {
+
+    val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
+    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+
+    // Dataset ready for NER tagger
+    val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
+    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+
+    val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
+
+
     nerModel.write.overwrite.save("./test_ner_dl")
     val loadedNer = NerDLModel.read.load("./test_ner_dl")
     FileHelper.delete("./test_ner_dl")
@@ -87,6 +114,7 @@ class NerDLSpec extends FlatSpec {
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
+//    val embeddings = WordEmbeddingsModel.pretrained()
 
     val trainData = embeddings.transform(training_data)
     val testData = embeddings.transform(test_data)
