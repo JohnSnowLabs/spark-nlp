@@ -103,18 +103,18 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.5` to you spark command
+To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.5
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.5
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
@@ -245,7 +245,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.5")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -313,7 +313,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`

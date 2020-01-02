@@ -86,7 +86,7 @@ class NerDLSpec extends FlatSpec {
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
-    val embeddings = WordEmbeddingsModel.pretrained().setOutputCol("embeddings")
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
 
     val trainData = embeddings.transform(training_data)
     val testData = embeddings.transform(test_data)
@@ -107,6 +107,23 @@ class NerDLSpec extends FlatSpec {
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
       .fit(trainData)
+  }
+
+  "NerDLModel" should "successfully download pretrained and predict" ignore {
+
+    val conll = CoNLL()
+    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(test_data.toDF())
+
+    val testData = embeddings.transform(test_data)
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .transform(testData)
+
+    nerModel.show()
   }
 
 }

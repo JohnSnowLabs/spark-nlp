@@ -24,14 +24,14 @@ class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
     val pos = new PerceptronApproachDistributed()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("./pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text"))
+      .setCorpus("./pos-corpus/anc/*", "|", "SPARK", Map("format" -> "text"))
       .setNIterations(5)
 
       """
     val posLegacy = new PerceptronApproach()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("./pos-corpus/anc/*", "|", "SPARK_DATASET", Map("format" -> "text", "repartition" -> "2"))
+      .setCorpus("./pos-corpus/anc/*", "|", "SPARK", Map("format" -> "text", "repartition" -> "2"))
       .setNIterations(3)
       """
 

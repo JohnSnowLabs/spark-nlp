@@ -1,35 +1,39 @@
 package com.johnsnowlabs.benchmarks.jvm
 
 import java.io.File
-import java.nio.file.{Files, Paths}
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.ner.dl.{LoadsContrib, NerDLModelPythonReader}
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsIndexer, WordEmbeddingsRetriever}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsTextIndexer}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.tensorflow.{Graph, Session, TensorFlow}
+import com.johnsnowlabs.storage.RocksDBConnection
+import org.tensorflow.Session
 
 
 object NerDLCoNLL2003 extends App {
 
   val spark = SparkAccessor.spark
 
-  val trainFile = ExternalResource("eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileA = ExternalResource("eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileB = ExternalResource("eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val trainFile = ExternalResource("eng.train", ReadAs.TEXT, Map.empty[String, String])
+  val testFileA = ExternalResource("eng.testa", ReadAs.TEXT, Map.empty[String, String])
+  val testFileB = ExternalResource("eng.testb", ReadAs.TEXT, Map.empty[String, String])
 
   val wordEmbeddignsFile = "glove.6B.100d.txt"
   val wordEmbeddingsCache = "glove_100_cache.db"
   val wordEmbeddingsDim = 100
-  if (!new File(wordEmbeddingsCache).exists())
-    WordEmbeddingsIndexer.indexText(wordEmbeddignsFile, wordEmbeddingsCache)
 
-  val embeddings = WordEmbeddingsRetriever(wordEmbeddingsCache, wordEmbeddingsDim, caseSensitive=false)
+  lazy val connection = RocksDBConnection.getOrCreate(wordEmbeddingsCache)
+
+  if (!new File(wordEmbeddingsCache).exists()) {
+    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, connection)
+  }
+
+  val embeddings = new WordEmbeddingsReader(connection, false, wordEmbeddingsDim)
 
   val reader = CoNLL()
   val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
@@ -40,7 +44,7 @@ object NerDLCoNLL2003 extends App {
   val chars = trainDataset.flatMap(s => s._2.tokens.flatMap(t => t.wordpiece.toCharArray)).distinct
 
   val settings = DatasetEncoderParams(tags.toList, chars.toList,
-    embeddings.zeroArray.toList, embeddings.nDims)
+    Array.fill[Float](wordEmbeddingsDim)(0f).toList, wordEmbeddingsDim)
   val encoder = new NerDatasetEncoder(settings)
 
   //Use CPU
@@ -79,13 +83,13 @@ object NerDLCoNLL2003 extends App {
       throw e
   }
 
-  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsRetriever):
+  def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsReader):
       Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
     source.flatMap{s =>
       s.nerTagged.zipWithIndex.map { case (sentence, idx) =>
         val tokens = sentence.indexedTaggedWords.map {t =>
-          val vectorOption = embeddings.getEmbeddingsVector(t.word)
+          val vectorOption = embeddings.lookup(t.word)
           TokenPieceEmbeddings(t.word, t.word, -1, true, vectorOption, Array.fill[Float](wordEmbeddingsDim)(0f), t.begin, t.end)
         }
         val tokenized = WordpieceEmbeddingsSentence(tokens, idx)

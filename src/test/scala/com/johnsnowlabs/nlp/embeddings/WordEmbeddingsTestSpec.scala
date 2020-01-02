@@ -22,12 +22,10 @@ class WordEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = new WordEmbeddings()
+    val embeddings = WordEmbeddingsModel.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("src/test/resources/embeddings/embeddings.1d.test.txt",
-        1, WordEmbeddingsFormat.TEXT)
-      .setCaseSensitive(true)
+      .setCaseSensitive(false)
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(

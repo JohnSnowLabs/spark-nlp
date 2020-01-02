@@ -158,7 +158,7 @@ object ResourceHelper {
                          er: ExternalResource
                        ): Map[String, String] = {
     er.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.flatMap(c => c.map (line => {
           val kv = line.split (er.options("delimiter"))
@@ -166,7 +166,7 @@ object ResourceHelper {
         })).toMap
         sourceStream.close()
         res
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format"))
           .options(er.options)
@@ -203,12 +203,12 @@ object ResourceHelper {
                   er: ExternalResource
                 ): Array[String] = {
     er.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.flatten.toArray
         sourceStream.close()
         res
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         spark.read.options(er.options).format(er.options("format")).load(er.path).as[String].collect
       case _ =>
@@ -225,7 +225,7 @@ object ResourceHelper {
                       er: ExternalResource
                     ): Array[(String, String)] = {
     er.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val sourceStream = SourceStream(er.path)
         val res = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map (line => {
           val kv = line.split (er.options("delimiter")).map (_.trim)
@@ -233,7 +233,7 @@ object ResourceHelper {
         })).toArray
         sourceStream.close()
         res
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         val lineStore = spark.sparkContext.collectionAccumulator[String]
@@ -258,7 +258,7 @@ object ResourceHelper {
                            er: ExternalResource
                          ): Array[TaggedSentence] = {
     er.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val sourceStream = SourceStream(er.path)
         val result = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map(line => {
           line.split("\\s+").filter(kv => {
@@ -271,7 +271,7 @@ object ResourceHelper {
         })).toArray
         sourceStream.close()
         result.map(TaggedSentence(_))
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         val result = dataset.as[String].filter(_.nonEmpty).map(line => {
@@ -293,7 +293,7 @@ object ResourceHelper {
                              er: ExternalResource
                            ): Dataset[TaggedSentence] = {
     er.readAs match {
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         val result = dataset.as[String].filter(_.nonEmpty).map(line => {
@@ -316,7 +316,7 @@ object ResourceHelper {
     */
   def flattenRevertValuesAsKeys(er: ExternalResource): Map[String, String] = {
     er.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(er.path)
         sourceStream.content.foreach(c => c.foreach(line => {
@@ -327,7 +327,7 @@ object ResourceHelper {
         }))
         sourceStream.close()
         m.toMap
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         val valueAsKeys = MMap.empty[String, String]
@@ -352,11 +352,11 @@ object ResourceHelper {
                            er: ExternalResource
                          ): DataFrame = {
     er.readAs match {
-      case SPARK_DATASET =>
+      case SPARK =>
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         dataset
       case _ =>
-        throw new Exception("Unsupported readAs - only accepts SPARK_DATASET")
+        throw new Exception("Unsupported readAs - only accepts SPARK")
     }
   }
 
@@ -365,7 +365,7 @@ object ResourceHelper {
                    pipeline: Option[PipelineModel] = None
                ): MMap[String, Long] = {
     externalResource.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
         val regex = externalResource.options("tokenPattern").r
         sourceStream.content.foreach(c => c.foreach{line => {
@@ -379,7 +379,7 @@ object ResourceHelper {
         if (wordCount.isEmpty)
           throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         wordCount
-      case SPARK_DATASET =>
+      case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
           .load(externalResource.path)
@@ -416,7 +416,7 @@ object ResourceHelper {
 
   def getFilesContentBuffer(externalResource: ExternalResource): Seq[Iterator[String]] = {
     externalResource.readAs match {
-      case LINE_BY_LINE =>
+      case TEXT =>
           SourceStream(externalResource.path).content
       case _ =>
         throw new Exception("Unsupported readAs")

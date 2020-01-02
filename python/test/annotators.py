@@ -2,7 +2,7 @@ import unittest
 import os
 from sparknlp.annotator import *
 from sparknlp.base import *
-from sparknlp.embeddings import *
+# from sparknlp.embeddings import *
 from test.util import SparkContextForTest
 from pyspark.ml.feature import SQLTransformer
 from pyspark.ml.clustering import KMeans
@@ -99,7 +99,9 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)")
+            .addInfixPattern("(\\p{L}+)(\\/)(\\p{L}+\\b)") \
+            .setMinLength(3) \
+            .setMaxLength(6)
         finisher = Finisher() \
             .setInputCols(["token"]) \
             .setOutputCols(["token_out"]) \
@@ -108,7 +110,7 @@ class TokenizerTestSpec(unittest.TestCase):
         tokenized = tokenizer.fit(assembled).transform(assembled)
         finished = finisher.transform(tokenized)
         print(finished.first()['token_out'])
-        self.assertEqual(len(finished.first()['token_out']), 7)
+        self.assertEqual(len(finished.first()['token_out']), 4)
 
 
 class ChunkTokenizerTestSpec(unittest.TestCase):
@@ -283,7 +285,10 @@ class PragmaticSBDTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"]) \
-            .setMaxLength(235)
+            .setSplitLength(235) \
+            .setMinLength(4) \
+            .setMaxLength(50)
+
         assembled = document_assembler.transform(self.data)
         sentence_detector.transform(assembled).show()
 
@@ -300,7 +305,10 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
         glove = WordEmbeddings() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("glove") \
-            .setEmbeddingsSource(self.embeddings, 100, 2)
+            .setStoragePath(self.embeddings, "TEXT") \
+            .setStorageRef('embeddings_100') \
+            .setDimension(100)
+
         ner_tagger = NerDLApproach() \
             .setInputCols(["document", "token", "glove"]) \
             .setLabelColumn("label") \

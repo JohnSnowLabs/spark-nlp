@@ -27,7 +27,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
       .setEnableScore(false)
       .fit(readyData)
       .transform(readyData)
@@ -76,7 +76,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
   )
 
   "A SentimentDetector" should "be readable and writable" in {
-    val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
+    val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)
