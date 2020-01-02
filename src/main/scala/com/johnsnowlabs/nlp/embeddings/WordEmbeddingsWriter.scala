@@ -6,7 +6,7 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageWriter}
 
 class WordEmbeddingsWriter(
                             connection: RocksDBConnection,
-                            autoFlushAfter: Option[Integer] = None
+                            autoFlushAfter: Option[Int] = None
                           )
   extends StorageWriter[Array[Float]](connection, autoFlushAfter) {
 

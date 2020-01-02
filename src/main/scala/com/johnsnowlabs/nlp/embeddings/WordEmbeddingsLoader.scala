@@ -12,7 +12,7 @@ object WordEmbeddingsTextIndexer {
   def index(
              source: Iterator[String],
              connection: RocksDBConnection,
-             autoFlushAfter: Option[Integer]
+             autoFlushAfter: Option[Int]
            ): Unit = {
     val indexer = new WordEmbeddingsWriter(connection,autoFlushAfter)
 
@@ -31,7 +31,7 @@ object WordEmbeddingsTextIndexer {
   def index(
              source: String,
              connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer] = Some(1000)
+             autoFlashAfter: Option[Int] = Some(1000)
            ): Unit = {
     val sourceFile = Source.fromFile(source)("UTF-8")
     val lines = sourceFile.getLines()
@@ -48,7 +48,7 @@ object WordEmbeddingsBinaryIndexer {
   def index(
              source: DataInputStream,
              connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer],
+             autoFlashAfter: Option[Int],
              lruCacheSize: Int): Unit = {
     val indexer = new WordEmbeddingsWriter(connection, autoFlashAfter)
     val reader = new WordEmbeddingsReader(connection, caseSensitiveIndex=true, 0, lruCacheSize)
@@ -76,7 +76,7 @@ object WordEmbeddingsBinaryIndexer {
   def index(
              source: String,
              connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer] = Some(1000),
+             autoFlashAfter: Option[Int] = Some(1000),
              lruCacheSize: Int = 100000): Unit = {
 
     val ds = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))

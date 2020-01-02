@@ -23,55 +23,66 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."
 
-  protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit
+  protected def index(storageSourcePath: String, connections: Map[Database.Value, RocksDBConnection], resource: ExternalResource): Unit
 
-  private def indexDatabase(storageSourcePath: String,
-                            localFile: String,
-                            spark: SparkContext,
-                            resource: ExternalResource
+  private def indexDatabases(
+                              databases: Array[Database.Value],
+                              storageSourcePath: String,
+                              localFiles: Array[String],
+                              spark: SparkContext,
+                              resource: ExternalResource
                            ): Unit = {
+
+    require(databases.length == localFiles.length, "Storage temp locations must be equal to the amount of databases")
 
     val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
-    lazy val connection = RocksDBConnection.getOrCreate(localFile)
+    lazy val connections = databases.zip(localFiles)
+      .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
+      .toMap
 
     if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
+      /** ToDo: What if the file is too large to copy to local? Index directly from hadoop? */
       val tmpFile = Files.createTempFile("sparknlp_", ".str").toAbsolutePath.toString
       fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      index(tmpFile, connection, resource)
+      index(tmpFile, connections, resource)
       FileHelper.delete(tmpFile)
     } else {
-      index(storageSourcePath, connection, resource)
+      index(storageSourcePath, connections, resource)
     }
 
+    connections.values.foreach(_.close())
   }
 
   private def preload(
                        resource: ExternalResource,
                        spark: SparkSession,
-                       database: String
-                     ): RocksDBConnection = {
+                       databases: Array[Database.Value]
+                     ): Array[RocksDBConnection] = {
 
     val sourceEmbeddingsPath = importIfS3(resource.path, spark).toUri.toString
     val sparkContext = spark.sparkContext
 
-    val tmpLocalDestination = {
-      Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-        .toAbsolutePath
+    val tmpLocalDestinations = {
+      databases.map( _ =>
+        Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+          .toAbsolutePath.toString
+      )
     }
 
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
-    val locator = StorageLocator(database, $(storageRef), spark, fileSystem)
+    indexDatabases(databases, sourceEmbeddingsPath, tmpLocalDestinations, sparkContext, resource)
 
-    // 1 and 2.  Copy to local and Index Word Embeddings
-    indexDatabase(sourceEmbeddingsPath, tmpLocalDestination.toString, sparkContext, resource)
+    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
-    StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+    locators.foreach(locator => {
+      StorageHelper.sendToCluster(tmpLocalDestinations.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+    })
 
     // 3. Create Spark Embeddings
-    RocksDBConnection.getOrCreate(locator.clusterFileName)
+    locators.map(locator => RocksDBConnection.getOrCreate(locator.clusterFileName))
   }
 
 
@@ -131,12 +142,10 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
   protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
     require(isDefined(storageRef), missingRefMsg)
-    databases.foreach(database =>
-      preload(
-        resource,
-        spark,
-        database.toString
-      )
+    preload(
+      resource,
+      spark,
+      databases
     )
   }
 

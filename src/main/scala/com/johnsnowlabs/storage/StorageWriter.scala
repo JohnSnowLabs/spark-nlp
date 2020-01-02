@@ -3,7 +3,7 @@ package com.johnsnowlabs.storage
 import org.rocksdb.{WriteBatch, WriteOptions}
 
 abstract class StorageWriter[A](connection: RocksDBConnection,
-                                autoFlushAfter: Option[Integer] = None
+                                autoFlushAfter: Option[Int]
                                ) extends AutoCloseable {
 
   connection.connectReadWrite
