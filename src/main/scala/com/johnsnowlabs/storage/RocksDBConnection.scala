@@ -22,13 +22,14 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
   }
 
   private def findLocalDb: String = {
-    lazy val localPath = RocksDBConnection.getLocalPath(path)+"/storage"
-    if (new File(path).exists()) {
-      path
-    } else if (new File(localPath).exists()) {
+    val localPath = RocksDBConnection.getLocalPath(path)+"/storage"
+    if (new File(localPath).exists()) {
       localPath
-    }
-    else {
+    } else if (new File(path+"/storage").exists()) {
+      path+"/storage"
+    } else if (new File(path).exists()) {
+      path
+    } else {
       val localFromClusterPath = SparkFiles.get(path)
       require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $path\n" +
         s" This usually means:\n1. You have not loaded any storage under such ref\n2." +
