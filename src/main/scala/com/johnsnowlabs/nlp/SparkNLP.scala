@@ -12,7 +12,7 @@ object SparkNLP {
       .master("local[*]")
       .config("spark.driver.memory", "6G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.5")
+      .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5")
 
     build.getOrCreate()
   }
