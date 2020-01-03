@@ -10,7 +10,7 @@ import org.scalatest.FlatSpec
 class ResourceHelperTestSpec extends FlatSpec {
 
   "Resource helper" should "load a file line by line as an array" in {
-    val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.LINE_BY_LINE,
+    val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.TEXT,
       Map("delimiter" -> "\t"))
     val expectedDictionary = Map("Female" -> List("lady", "women"), "Male" -> List("man", "boy", "male", "son"))
 
@@ -53,6 +53,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     val caught = intercept[Exception] {
       ResourceHelper.getFilesContentBuffer(externalResource)
     }
+
 
     assert(caught.getMessage == "Unsupported readAs")
   }
