@@ -85,14 +85,14 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
-    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
+    useContrib -> true,
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
     enableOutputLogs -> false
   )
 
-  override val verboseLevel = Verbose($(verbose))
+  override val verboseLevel: Verbose.Level = Verbose($(verbose))
 
   def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
     sentences.find(s => s.tokens.nonEmpty)
@@ -192,7 +192,7 @@ class NerDLApproach(override val uid: String)
 }
 
 trait WithGraphResolver  {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = false): String = {
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = true): String = {
     val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
@@ -200,8 +200,7 @@ trait WithGraphResolver  {
     val embeddingsFiltered = files.map { filePath =>
       val file = new File(filePath)
       val name = file.getName
-
-      val graphPrefix = if (loadContrib) "blstm_" else "blstm-noncontrib_"
+      val graphPrefix = "blstm_"
 
       if (name.startsWith(graphPrefix)) {
         val clean = name.replace(graphPrefix, "").replace(".pb", "")
