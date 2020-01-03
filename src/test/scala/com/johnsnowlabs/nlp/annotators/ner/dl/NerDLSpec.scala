@@ -96,14 +96,14 @@ class NerDLSpec extends FlatSpec {
   }
 
   "NerDLApproach" should "correct search for suitable graphs" in {
-    val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 100)
-    assert(smallGraphFile.endsWith("blstm_10_100_128_100.pb") || smallGraphFile.endsWith("blstm-noncontrib_10_100_128_100.pb"))
+    val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 120)
+    assert(smallGraphFile.endsWith("blstm_10_100_128_120.pb"))
 
-    val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 300, 100)
-    assert(bigGraphFile.endsWith("blstm_25_300_128_100.pb") || bigGraphFile.endsWith("blstm-noncontrib_25_300_128_100.pb"))
+    val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 300, 120)
+    assert(bigGraphFile.endsWith("blstm_30_300_128_600.pb"))
 
-    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(10, 101, 100))
-    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(10, 100, 101))
+    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 101, 100))
+    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(20, 768, 601))
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 100, 101))
   }
 
@@ -135,6 +135,8 @@ class NerDLSpec extends FlatSpec {
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
       .fit(trainData)
+
+    ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
   "NerDLModel" should "successfully download pretrained and predict" ignore {
@@ -146,7 +148,7 @@ class NerDLSpec extends FlatSpec {
 
     val testData = embeddings.transform(test_data)
 
-    val nerModel = NerDLModel.pretrained()
+    val nerModel = NerDLModel.load("./tmp_ner_dl_tf115")
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .transform(testData)
